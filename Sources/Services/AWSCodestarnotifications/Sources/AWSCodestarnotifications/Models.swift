@@ -225,15 +225,15 @@ extension CodestarnotificationsClientTypes {
 
 extension CodestarnotificationsClientTypes {
 
-    /// Information about the Chatbot topics or Chatbot clients associated with a notification rule.
+    /// Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients associated with a notification rule.
     public struct Target: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
+        /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.
         public var targetAddress: Swift.String?
-        /// The target type. Can be an Chatbot topic or Chatbot client.
+        /// The target type. Can be an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.
         ///
-        /// * Chatbot topics are specified as SNS.
+        /// * Amazon Q Developer in chat applications topics are specified as SNS.
         ///
-        /// * Chatbot clients are specified as AWSChatbotSlack.
+        /// * Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.
         public var targetType: Swift.String?
 
         public init(
@@ -270,7 +270,7 @@ public struct CreateNotificationRuleInput: Swift.Sendable {
     public var status: CodestarnotificationsClientTypes.NotificationRuleStatus?
     /// A list of tags to apply to this notification rule. Key names cannot start with "aws".
     public var tags: [Swift.String: Swift.String]?
-    /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Chatbot clients to associate with the notification rule.
+    /// A list of Amazon Resource Names (ARNs) of Amazon Simple Notification Service topics and Amazon Q Developer in chat applications clients to associate with the notification rule.
     /// This member is required.
     public var targets: [CodestarnotificationsClientTypes.Target]?
 
@@ -335,9 +335,9 @@ public struct DeleteNotificationRuleOutput: Swift.Sendable {
 }
 
 public struct DeleteTargetInput: Swift.Sendable {
-    /// A Boolean value that can be used to delete all associations with this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
+    /// A Boolean value that can be used to delete all associations with this Amazon Q Developer in chat applications topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
     public var forceUnsubscribeAll: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to delete.
+    /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client to delete.
     /// This member is required.
     public var targetAddress: Swift.String?
 
@@ -464,15 +464,15 @@ extension CodestarnotificationsClientTypes {
 
     /// Information about the targets specified for a notification rule.
     public struct TargetSummary: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client.
+        /// The Amazon Resource Name (ARN) of the Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client.
         public var targetAddress: Swift.String?
         /// The status of the target.
         public var targetStatus: CodestarnotificationsClientTypes.TargetStatus?
         /// The type of the target (for example, SNS).
         ///
-        /// * Chatbot topics are specified as SNS.
+        /// * Amazon Q Developer in chat applications topics are specified as SNS.
         ///
-        /// * Chatbot clients are specified as AWSChatbotSlack.
+        /// * Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.
         public var targetType: Swift.String?
 
         public init(
@@ -514,7 +514,7 @@ public struct DescribeNotificationRuleOutput: Swift.Sendable {
     public var status: CodestarnotificationsClientTypes.NotificationRuleStatus?
     /// The tags associated with the notification rule.
     public var tags: [Swift.String: Swift.String]?
-    /// A list of the Chatbot topics and Chatbot clients associated with the notification rule.
+    /// A list of the Amazon Q Developer in chat applications topics and Amazon Q Developer in chat applications clients associated with the notification rule.
     public var targets: [CodestarnotificationsClientTypes.TargetSummary]?
 
     public init(
@@ -822,7 +822,7 @@ extension CodestarnotificationsClientTypes {
 
 extension CodestarnotificationsClientTypes {
 
-    /// Information about a filter to apply to the list of returned targets. You can filter by target type, address, or status. For example, to filter results to notification rules that have active Chatbot topics as targets, you could specify a ListTargetsFilter Name as TargetType and a Value of SNS, and a Name of TARGET_STATUS and a Value of ACTIVE.
+    /// Information about a filter to apply to the list of returned targets. You can filter by target type, address, or status. For example, to filter results to notification rules that have active Amazon Q Developer in chat applications topics as targets, you could specify a ListTargetsFilter Name as TargetType and a Value of SNS, and a Name of TARGET_STATUS and a Value of ACTIVE.
     public struct ListTargetsFilter: Swift.Sendable {
         /// The name of the attribute you want to use to filter the returned targets.
         /// This member is required.
@@ -881,7 +881,7 @@ public struct SubscribeInput: Swift.Sendable {
     public var arn: Swift.String?
     /// An enumeration token that, when provided in a request, returns the next batch of the results.
     public var clientRequestToken: Swift.String?
-    /// Information about the Chatbot topics or Chatbot clients associated with a notification rule.
+    /// Information about the Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients associated with a notification rule.
     /// This member is required.
     public var target: CodestarnotificationsClientTypes.Target?
 
@@ -939,7 +939,7 @@ public struct UnsubscribeInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the notification rule.
     /// This member is required.
     public var arn: Swift.String?
-    /// The ARN of the Chatbot topic to unsubscribe from the notification rule.
+    /// The ARN of the Amazon Q Developer in chat applications topic to unsubscribe from the notification rule.
     /// This member is required.
     public var targetAddress: Swift.String?
 

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ChimeClient: ClientRuntime.Client {
+public class ChimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ChimeClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeClient.ChimeClientConfiguration
     let serviceName = "Chime"
@@ -374,9 +374,9 @@ extension ChimeClient {
     ///
     /// Associates a phone number with the specified Amazon Chime user.
     ///
-    /// - Parameter AssociatePhoneNumberWithUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePhoneNumberWithUserInput`)
     ///
-    /// - Returns: `AssociatePhoneNumberWithUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePhoneNumberWithUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +418,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePhoneNumberWithUserOutput>(AssociatePhoneNumberWithUserOutput.httpOutput(from:), AssociatePhoneNumberWithUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePhoneNumberWithUserInput, AssociatePhoneNumberWithUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePhoneNumberWithUserOutput>())
@@ -449,9 +450,9 @@ extension ChimeClient {
     ///
     /// Associates the specified sign-in delegate groups with the specified Amazon Chime account.
     ///
-    /// - Parameter AssociateSigninDelegateGroupsWithAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSigninDelegateGroupsWithAccountInput`)
     ///
-    /// - Returns: `AssociateSigninDelegateGroupsWithAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSigninDelegateGroupsWithAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -492,6 +493,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSigninDelegateGroupsWithAccountOutput>(AssociateSigninDelegateGroupsWithAccountOutput.httpOutput(from:), AssociateSigninDelegateGroupsWithAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSigninDelegateGroupsWithAccountInput, AssociateSigninDelegateGroupsWithAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSigninDelegateGroupsWithAccountOutput>())
@@ -523,9 +525,9 @@ extension ChimeClient {
     ///
     /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
-    /// - Parameter BatchCreateRoomMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateRoomMembershipInput`)
     ///
-    /// - Returns: `BatchCreateRoomMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateRoomMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,6 +568,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateRoomMembershipOutput>(BatchCreateRoomMembershipOutput.httpOutput(from:), BatchCreateRoomMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateRoomMembershipInput, BatchCreateRoomMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateRoomMembershipOutput>())
@@ -597,9 +600,9 @@ extension ChimeClient {
     ///
     /// Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
-    /// - Parameter BatchDeletePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeletePhoneNumberInput`)
     ///
-    /// - Returns: `BatchDeletePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeletePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,6 +643,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeletePhoneNumberOutput>(BatchDeletePhoneNumberOutput.httpOutput(from:), BatchDeletePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeletePhoneNumberInput, BatchDeletePhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeletePhoneNumberOutput>())
@@ -671,9 +675,9 @@ extension ChimeClient {
     ///
     /// Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account,but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the [InviteUsers] action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the [BatchUnsuspendUser] action. To sign out users without suspending them, use the [LogoutUser] action.
     ///
-    /// - Parameter BatchSuspendUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchSuspendUserInput`)
     ///
-    /// - Returns: `BatchSuspendUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchSuspendUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,6 +718,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchSuspendUserOutput>(BatchSuspendUserOutput.httpOutput(from:), BatchSuspendUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchSuspendUserInput, BatchSuspendUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchSuspendUserOutput>())
@@ -745,9 +750,9 @@ extension ChimeClient {
     ///
     /// Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see [ Managing Your Amazon Chime Accounts ](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the account types, in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
     ///
-    /// - Parameter BatchUnsuspendUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUnsuspendUserInput`)
     ///
-    /// - Returns: `BatchUnsuspendUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUnsuspendUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,6 +793,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUnsuspendUserOutput>(BatchUnsuspendUserOutput.httpOutput(from:), BatchUnsuspendUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUnsuspendUserInput, BatchUnsuspendUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUnsuspendUserOutput>())
@@ -819,9 +825,9 @@ extension ChimeClient {
     ///
     /// Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
-    /// - Parameter BatchUpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdatePhoneNumberInput`)
     ///
-    /// - Returns: `BatchUpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -862,6 +868,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdatePhoneNumberOutput>(BatchUpdatePhoneNumberOutput.httpOutput(from:), BatchUpdatePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdatePhoneNumberInput, BatchUpdatePhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdatePhoneNumberOutput>())
@@ -893,9 +900,9 @@ extension ChimeClient {
     ///
     /// Updates user details within the [UpdateUserRequestItem] object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
     ///
-    /// - Parameter BatchUpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateUserInput`)
     ///
-    /// - Returns: `BatchUpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -935,6 +942,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateUserInput, BatchUpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateUserOutput>(BatchUpdateUserOutput.httpOutput(from:), BatchUpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateUserInput, BatchUpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateUserOutput>())
@@ -966,9 +974,9 @@ extension ChimeClient {
     ///
     /// Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see [Managing Your Amazon Chime Accounts](https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter CreateAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountInput`)
     ///
-    /// - Returns: `CreateAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1008,6 +1016,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountInput, CreateAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountOutput>(CreateAccountOutput.httpOutput(from:), CreateAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountInput, CreateAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountOutput>())
@@ -1039,9 +1048,9 @@ extension ChimeClient {
     ///
     /// Creates a bot for an Amazon Chime Enterprise account.
     ///
-    /// - Parameter CreateBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBotInput`)
     ///
-    /// - Returns: `CreateBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,6 +1091,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBotInput, CreateBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBotOutput>(CreateBotOutput.httpOutput(from:), CreateBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBotInput, CreateBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBotOutput>())
@@ -1113,9 +1123,9 @@ extension ChimeClient {
     ///
     /// Uses the join token and call metadata in a meeting request (From number, To number, and so forth) to initiate an outbound call to a public switched telephone network (PSTN) and join them into a Chime meeting. Also ensures that the From number belongs to the customer. To play welcome audio or implement an interactive voice response (IVR), use the CreateSipMediaApplicationCall action with the corresponding SIP media application ID. This API is not available in a dedicated namespace.
     ///
-    /// - Parameter CreateMeetingDialOutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMeetingDialOutInput`)
     ///
-    /// - Returns: `CreateMeetingDialOutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMeetingDialOutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1156,6 +1166,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMeetingDialOutOutput>(CreateMeetingDialOutOutput.httpOutput(from:), CreateMeetingDialOutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMeetingDialOutInput, CreateMeetingDialOutOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMeetingDialOutOutput>())
@@ -1187,9 +1198,9 @@ extension ChimeClient {
     ///
     /// Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type.
     ///
-    /// - Parameter CreatePhoneNumberOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePhoneNumberOrderInput`)
     ///
-    /// - Returns: `CreatePhoneNumberOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePhoneNumberOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1230,6 +1241,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePhoneNumberOrderOutput>(CreatePhoneNumberOrderOutput.httpOutput(from:), CreatePhoneNumberOrderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePhoneNumberOrderInput, CreatePhoneNumberOrderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePhoneNumberOrderOutput>())
@@ -1261,9 +1273,9 @@ extension ChimeClient {
     ///
     /// Creates a chat room for the specified Amazon Chime Enterprise account.
     ///
-    /// - Parameter CreateRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoomInput`)
     ///
-    /// - Returns: `CreateRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,6 +1317,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRoomInput, CreateRoomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoomOutput>(CreateRoomOutput.httpOutput(from:), CreateRoomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoomInput, CreateRoomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoomOutput>())
@@ -1336,9 +1349,9 @@ extension ChimeClient {
     ///
     /// Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
     ///
-    /// - Parameter CreateRoomMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoomMembershipInput`)
     ///
-    /// - Returns: `CreateRoomMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoomMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1380,6 +1393,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoomMembershipOutput>(CreateRoomMembershipOutput.httpOutput(from:), CreateRoomMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoomMembershipInput, CreateRoomMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoomMembershipOutput>())
@@ -1411,9 +1425,9 @@ extension ChimeClient {
     ///
     /// Creates a user under the specified Amazon Chime account.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1455,6 +1469,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -1486,9 +1501,9 @@ extension ChimeClient {
     ///
     /// Deletes the specified Amazon Chime account. You must suspend all users before deleting Team account. You can use the [BatchSuspendUser] action to dodo. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
     ///
-    /// - Parameter DeleteAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountInput`)
     ///
-    /// - Returns: `DeleteAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1526,6 +1541,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountInput, DeleteAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountOutput>(DeleteAccountOutput.httpOutput(from:), DeleteAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountInput, DeleteAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountOutput>())
@@ -1557,9 +1573,9 @@ extension ChimeClient {
     ///
     /// Deletes the events configuration that allows a bot to receive outgoing events.
     ///
-    /// - Parameter DeleteEventsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventsConfigurationInput`)
     ///
-    /// - Returns: `DeleteEventsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1595,6 +1611,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventsConfigurationOutput>(DeleteEventsConfigurationOutput.httpOutput(from:), DeleteEventsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventsConfigurationInput, DeleteEventsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventsConfigurationOutput>())
@@ -1626,9 +1643,9 @@ extension ChimeClient {
     ///
     /// Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
     ///
-    /// - Parameter DeletePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePhoneNumberInput`)
     ///
-    /// - Returns: `DeletePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1665,6 +1682,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePhoneNumberOutput>(DeletePhoneNumberOutput.httpOutput(from:), DeletePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePhoneNumberInput, DeletePhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePhoneNumberOutput>())
@@ -1696,9 +1714,9 @@ extension ChimeClient {
     ///
     /// Deletes a chat room in an Amazon Chime Enterprise account.
     ///
-    /// - Parameter DeleteRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoomInput`)
     ///
-    /// - Returns: `DeleteRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1735,6 +1753,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRoomInput, DeleteRoomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoomOutput>(DeleteRoomOutput.httpOutput(from:), DeleteRoomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoomInput, DeleteRoomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoomOutput>())
@@ -1766,9 +1785,9 @@ extension ChimeClient {
     ///
     /// Removes a member from a chat room in an Amazon Chime Enterprise account.
     ///
-    /// - Parameter DeleteRoomMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoomMembershipInput`)
     ///
-    /// - Returns: `DeleteRoomMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoomMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1805,6 +1824,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRoomMembershipInput, DeleteRoomMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoomMembershipOutput>(DeleteRoomMembershipOutput.httpOutput(from:), DeleteRoomMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoomMembershipInput, DeleteRoomMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoomMembershipOutput>())
@@ -1836,9 +1856,9 @@ extension ChimeClient {
     ///
     /// Disassociates the primary provisioned phone number from the specified Amazon Chime user.
     ///
-    /// - Parameter DisassociatePhoneNumberFromUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePhoneNumberFromUserInput`)
     ///
-    /// - Returns: `DisassociatePhoneNumberFromUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePhoneNumberFromUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1876,6 +1896,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutput>(DisassociatePhoneNumberFromUserInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumberFromUserOutput>(DisassociatePhoneNumberFromUserOutput.httpOutput(from:), DisassociatePhoneNumberFromUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePhoneNumberFromUserInput, DisassociatePhoneNumberFromUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePhoneNumberFromUserOutput>())
@@ -1907,9 +1928,9 @@ extension ChimeClient {
     ///
     /// Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
     ///
-    /// - Parameter DisassociateSigninDelegateGroupsFromAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSigninDelegateGroupsFromAccountInput`)
     ///
-    /// - Returns: `DisassociateSigninDelegateGroupsFromAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSigninDelegateGroupsFromAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1950,6 +1971,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSigninDelegateGroupsFromAccountOutput>(DisassociateSigninDelegateGroupsFromAccountOutput.httpOutput(from:), DisassociateSigninDelegateGroupsFromAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSigninDelegateGroupsFromAccountInput, DisassociateSigninDelegateGroupsFromAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSigninDelegateGroupsFromAccountOutput>())
@@ -1981,9 +2003,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
     ///
-    /// - Parameter GetAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountInput`)
     ///
-    /// - Returns: `GetAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,6 +2042,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountInput, GetAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountOutput>(GetAccountOutput.httpOutput(from:), GetAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountInput, GetAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountOutput>())
@@ -2051,9 +2074,9 @@ extension ChimeClient {
     ///
     /// Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dialout settings. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2090,6 +2113,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingsOutput>())
@@ -2121,9 +2145,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
     ///
-    /// - Parameter GetBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotInput`)
     ///
-    /// - Returns: `GetBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2160,6 +2184,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBotInput, GetBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBotOutput>(GetBotOutput.httpOutput(from:), GetBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBotInput, GetBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBotOutput>())
@@ -2191,9 +2216,9 @@ extension ChimeClient {
     ///
     /// Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
     ///
-    /// - Parameter GetEventsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventsConfigurationInput`)
     ///
-    /// - Returns: `GetEventsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2230,6 +2255,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventsConfigurationInput, GetEventsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventsConfigurationOutput>(GetEventsConfigurationOutput.httpOutput(from:), GetEventsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventsConfigurationInput, GetEventsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventsConfigurationOutput>())
@@ -2261,9 +2287,9 @@ extension ChimeClient {
     ///
     /// Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
-    /// - Parameter GetGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlobalSettingsInput`)
     ///
-    /// - Returns: `GetGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2299,6 +2325,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlobalSettingsOutput>(GetGlobalSettingsOutput.httpOutput(from:), GetGlobalSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlobalSettingsOutput>())
@@ -2330,9 +2357,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
     ///
-    /// - Parameter GetPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberInput`)
     ///
-    /// - Returns: `GetPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2369,6 +2396,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPhoneNumberInput, GetPhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPhoneNumberOutput>(GetPhoneNumberOutput.httpOutput(from:), GetPhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPhoneNumberInput, GetPhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPhoneNumberOutput>())
@@ -2400,9 +2428,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified phone number order, such as the order creation timestamp, phone numbers in E.164 format, product type, and order status.
     ///
-    /// - Parameter GetPhoneNumberOrderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberOrderInput`)
     ///
-    /// - Returns: `GetPhoneNumberOrderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberOrderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2439,6 +2467,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPhoneNumberOrderOutput>(GetPhoneNumberOrderOutput.httpOutput(from:), GetPhoneNumberOrderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPhoneNumberOrderInput, GetPhoneNumberOrderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPhoneNumberOrderOutput>())
@@ -2470,9 +2499,9 @@ extension ChimeClient {
     ///
     /// Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
     ///
-    /// - Parameter GetPhoneNumberSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPhoneNumberSettingsInput`)
     ///
-    /// - Returns: `GetPhoneNumberSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPhoneNumberSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2508,6 +2537,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPhoneNumberSettingsOutput>(GetPhoneNumberSettingsOutput.httpOutput(from:), GetPhoneNumberSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPhoneNumberSettingsInput, GetPhoneNumberSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPhoneNumberSettingsOutput>())
@@ -2539,9 +2569,9 @@ extension ChimeClient {
     ///
     /// Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter GetRetentionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRetentionSettingsInput`)
     ///
-    /// - Returns: `GetRetentionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRetentionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2578,6 +2608,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRetentionSettingsInput, GetRetentionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRetentionSettingsOutput>(GetRetentionSettingsOutput.httpOutput(from:), GetRetentionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRetentionSettingsInput, GetRetentionSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRetentionSettingsOutput>())
@@ -2609,9 +2640,9 @@ extension ChimeClient {
     ///
     /// Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
-    /// - Parameter GetRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoomInput`)
     ///
-    /// - Returns: `GetRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2648,6 +2679,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRoomInput, GetRoomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoomOutput>(GetRoomOutput.httpOutput(from:), GetRoomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoomInput, GetRoomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoomOutput>())
@@ -2679,9 +2711,9 @@ extension ChimeClient {
     ///
     /// Retrieves details for the specified user ID, such as primary email address, license type,and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the [ListUsers] action, and then filter by email address.
     ///
-    /// - Parameter GetUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserInput`)
     ///
-    /// - Returns: `GetUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2718,6 +2750,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserOutput>(GetUserOutput.httpOutput(from:), GetUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserInput, GetUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserOutput>())
@@ -2749,9 +2782,9 @@ extension ChimeClient {
     ///
     /// Retrieves settings for the specified user ID, such as any associated phone number settings.
     ///
-    /// - Parameter GetUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserSettingsInput`)
     ///
-    /// - Returns: `GetUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2788,6 +2821,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUserSettingsInput, GetUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserSettingsOutput>(GetUserSettingsOutput.httpOutput(from:), GetUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserSettingsInput, GetUserSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserSettingsOutput>())
@@ -2819,9 +2853,9 @@ extension ChimeClient {
     ///
     /// Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action.
     ///
-    /// - Parameter InviteUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InviteUsersInput`)
     ///
-    /// - Returns: `InviteUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InviteUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2862,6 +2896,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InviteUsersInput, InviteUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InviteUsersOutput>(InviteUsersOutput.httpOutput(from:), InviteUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InviteUsersInput, InviteUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InviteUsersOutput>())
@@ -2893,9 +2928,9 @@ extension ChimeClient {
     ///
     /// Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
     ///
-    /// - Parameter ListAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountsInput`)
     ///
-    /// - Returns: `ListAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2933,6 +2968,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccountsInput, ListAccountsOutput>(ListAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountsOutput>(ListAccountsOutput.httpOutput(from:), ListAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsInput, ListAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsOutput>())
@@ -2964,9 +3000,9 @@ extension ChimeClient {
     ///
     /// Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
     ///
-    /// - Parameter ListBotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotsInput`)
     ///
-    /// - Returns: `ListBotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3004,6 +3040,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBotsInput, ListBotsOutput>(ListBotsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotsOutput>(ListBotsOutput.httpOutput(from:), ListBotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotsInput, ListBotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotsOutput>())
@@ -3035,9 +3072,9 @@ extension ChimeClient {
     ///
     /// Lists the phone number orders for the administrator's Amazon Chime account.
     ///
-    /// - Parameter ListPhoneNumberOrdersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumberOrdersInput`)
     ///
-    /// - Returns: `ListPhoneNumberOrdersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumberOrdersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3074,6 +3111,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(ListPhoneNumberOrdersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPhoneNumberOrdersOutput>(ListPhoneNumberOrdersOutput.httpOutput(from:), ListPhoneNumberOrdersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPhoneNumberOrdersInput, ListPhoneNumberOrdersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPhoneNumberOrdersOutput>())
@@ -3105,9 +3143,9 @@ extension ChimeClient {
     ///
     /// Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
     ///
-    /// - Parameter ListPhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumbersInput`)
     ///
-    /// - Returns: `ListPhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3145,6 +3183,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>(ListPhoneNumbersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOutput>(ListPhoneNumbersOutput.httpOutput(from:), ListPhoneNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPhoneNumbersOutput>())
@@ -3176,9 +3215,9 @@ extension ChimeClient {
     ///
     /// Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
     ///
-    /// - Parameter ListRoomMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoomMembershipsInput`)
     ///
-    /// - Returns: `ListRoomMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoomMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3216,6 +3255,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoomMembershipsInput, ListRoomMembershipsOutput>(ListRoomMembershipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoomMembershipsOutput>(ListRoomMembershipsOutput.httpOutput(from:), ListRoomMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoomMembershipsInput, ListRoomMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoomMembershipsOutput>())
@@ -3247,9 +3287,9 @@ extension ChimeClient {
     ///
     /// Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
     ///
-    /// - Parameter ListRoomsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoomsInput`)
     ///
-    /// - Returns: `ListRoomsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoomsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3287,6 +3327,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoomsInput, ListRoomsOutput>(ListRoomsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoomsOutput>(ListRoomsOutput.httpOutput(from:), ListRoomsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoomsInput, ListRoomsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoomsOutput>())
@@ -3318,9 +3359,9 @@ extension ChimeClient {
     ///
     /// Lists supported phone number countries.
     ///
-    /// - Parameter ListSupportedPhoneNumberCountriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupportedPhoneNumberCountriesInput`)
     ///
-    /// - Returns: `ListSupportedPhoneNumberCountriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupportedPhoneNumberCountriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3358,6 +3399,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput>(ListSupportedPhoneNumberCountriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSupportedPhoneNumberCountriesOutput>(ListSupportedPhoneNumberCountriesOutput.httpOutput(from:), ListSupportedPhoneNumberCountriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSupportedPhoneNumberCountriesInput, ListSupportedPhoneNumberCountriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSupportedPhoneNumberCountriesOutput>())
@@ -3389,9 +3431,9 @@ extension ChimeClient {
     ///
     /// Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3429,6 +3471,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -3460,9 +3503,9 @@ extension ChimeClient {
     ///
     /// Logs out the specified user from all of the devices they are currently logged into.
     ///
-    /// - Parameter LogoutUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `LogoutUserInput`)
     ///
-    /// - Returns: `LogoutUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `LogoutUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3500,6 +3543,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<LogoutUserInput, LogoutUserOutput>(LogoutUserInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<LogoutUserOutput>(LogoutUserOutput.httpOutput(from:), LogoutUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LogoutUserInput, LogoutUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<LogoutUserOutput>())
@@ -3531,9 +3575,9 @@ extension ChimeClient {
     ///
     /// Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see [Bot].
     ///
-    /// - Parameter PutEventsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventsConfigurationInput`)
     ///
-    /// - Returns: `PutEventsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3573,6 +3617,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventsConfigurationOutput>(PutEventsConfigurationOutput.httpOutput(from:), PutEventsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventsConfigurationInput, PutEventsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventsConfigurationOutput>())
@@ -3604,9 +3649,9 @@ extension ChimeClient {
     ///
     /// Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see [Logging Amazon Chime API Calls with AWS CloudTrail](https://docs.aws.amazon.com/chime/latest/ag/cloudtrail.html) in the Amazon Chime Administration Guide. To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see [Managing Chat Retention Policies](https://docs.aws.amazon.com/chime/latest/ag/chat-retention.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter PutRetentionSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRetentionSettingsInput`)
     ///
-    /// - Returns: `PutRetentionSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRetentionSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3647,6 +3692,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRetentionSettingsOutput>(PutRetentionSettingsOutput.httpOutput(from:), PutRetentionSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRetentionSettingsInput, PutRetentionSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRetentionSettingsOutput>())
@@ -3678,9 +3724,9 @@ extension ChimeClient {
     ///
     /// Redacts the specified message from the specified Amazon Chime conversation.
     ///
-    /// - Parameter RedactConversationMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RedactConversationMessageInput`)
     ///
-    /// - Returns: `RedactConversationMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RedactConversationMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3718,6 +3764,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RedactConversationMessageInput, RedactConversationMessageOutput>(RedactConversationMessageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RedactConversationMessageOutput>(RedactConversationMessageOutput.httpOutput(from:), RedactConversationMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RedactConversationMessageInput, RedactConversationMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RedactConversationMessageOutput>())
@@ -3749,9 +3796,9 @@ extension ChimeClient {
     ///
     /// Redacts the specified message from the specified Amazon Chime channel.
     ///
-    /// - Parameter RedactRoomMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RedactRoomMessageInput`)
     ///
-    /// - Returns: `RedactRoomMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RedactRoomMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3789,6 +3836,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RedactRoomMessageInput, RedactRoomMessageOutput>(RedactRoomMessageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RedactRoomMessageOutput>(RedactRoomMessageOutput.httpOutput(from:), RedactRoomMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RedactRoomMessageInput, RedactRoomMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RedactRoomMessageOutput>())
@@ -3820,9 +3868,9 @@ extension ChimeClient {
     ///
     /// Regenerates the security token for a bot.
     ///
-    /// - Parameter RegenerateSecurityTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegenerateSecurityTokenInput`)
     ///
-    /// - Returns: `RegenerateSecurityTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegenerateSecurityTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3860,6 +3908,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutput>(RegenerateSecurityTokenInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegenerateSecurityTokenOutput>(RegenerateSecurityTokenOutput.httpOutput(from:), RegenerateSecurityTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegenerateSecurityTokenInput, RegenerateSecurityTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegenerateSecurityTokenOutput>())
@@ -3891,9 +3940,9 @@ extension ChimeClient {
     ///
     /// Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the [User] object with the updated personal meeting PIN.
     ///
-    /// - Parameter ResetPersonalPINInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetPersonalPINInput`)
     ///
-    /// - Returns: `ResetPersonalPINOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetPersonalPINOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3931,6 +3980,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ResetPersonalPINInput, ResetPersonalPINOutput>(ResetPersonalPINInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetPersonalPINOutput>(ResetPersonalPINOutput.httpOutput(from:), ResetPersonalPINOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetPersonalPINInput, ResetPersonalPINOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetPersonalPINOutput>())
@@ -3962,9 +4012,9 @@ extension ChimeClient {
     ///
     /// Moves a phone number from the Deletion queue back into the phone number Inventory.
     ///
-    /// - Parameter RestorePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestorePhoneNumberInput`)
     ///
-    /// - Returns: `RestorePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestorePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4003,6 +4053,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutput>(RestorePhoneNumberInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestorePhoneNumberOutput>(RestorePhoneNumberOutput.httpOutput(from:), RestorePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestorePhoneNumberInput, RestorePhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestorePhoneNumberOutput>())
@@ -4034,9 +4085,9 @@ extension ChimeClient {
     ///
     /// Searches for phone numbers that can be ordered. For US numbers, provide at least one of the following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City, you must also provide State. Numbers outside the US only support the PhoneNumberType filter, which you must use.
     ///
-    /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAvailablePhoneNumbersInput`)
     ///
-    /// - Returns: `SearchAvailablePhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAvailablePhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4074,6 +4125,7 @@ extension ChimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(SearchAvailablePhoneNumbersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAvailablePhoneNumbersOutput>(SearchAvailablePhoneNumbersOutput.httpOutput(from:), SearchAvailablePhoneNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAvailablePhoneNumbersOutput>())
@@ -4105,9 +4157,9 @@ extension ChimeClient {
     ///
     /// Updates account details for the specified Amazon Chime account. Currently, only account name and default license updates are supported for this action.
     ///
-    /// - Parameter UpdateAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountInput`)
     ///
-    /// - Returns: `UpdateAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4147,6 +4199,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountInput, UpdateAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountOutput>(UpdateAccountOutput.httpOutput(from:), UpdateAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountInput, UpdateAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountOutput>())
@@ -4178,9 +4231,9 @@ extension ChimeClient {
     ///
     /// Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see [Use the Policies Page](https://docs.aws.amazon.com/chime/latest/ag/policies.html) in the Amazon Chime Administration Guide.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4221,6 +4274,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(UpdateAccountSettingsOutput.httpOutput(from:), UpdateAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountSettingsOutput>())
@@ -4252,9 +4306,9 @@ extension ChimeClient {
     ///
     /// Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
     ///
-    /// - Parameter UpdateBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBotInput`)
     ///
-    /// - Returns: `UpdateBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4294,6 +4348,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBotInput, UpdateBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBotOutput>(UpdateBotOutput.httpOutput(from:), UpdateBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBotInput, UpdateBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBotOutput>())
@@ -4325,9 +4380,9 @@ extension ChimeClient {
     ///
     /// Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
     ///
-    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalSettingsInput`)
     ///
-    /// - Returns: `UpdateGlobalSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4366,6 +4421,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlobalSettingsOutput>(UpdateGlobalSettingsOutput.httpOutput(from:), UpdateGlobalSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlobalSettingsInput, UpdateGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlobalSettingsOutput>())
@@ -4397,9 +4453,9 @@ extension ChimeClient {
     ///
     /// Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to outbound calling names can take 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
     ///
-    /// - Parameter UpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4440,6 +4496,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutput>(UpdatePhoneNumberOutput.httpOutput(from:), UpdatePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePhoneNumberOutput>())
@@ -4471,9 +4528,9 @@ extension ChimeClient {
     ///
     /// Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
     ///
-    /// - Parameter UpdatePhoneNumberSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberSettingsInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4512,6 +4569,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberSettingsOutput>(UpdatePhoneNumberSettingsOutput.httpOutput(from:), UpdatePhoneNumberSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePhoneNumberSettingsInput, UpdatePhoneNumberSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePhoneNumberSettingsOutput>())
@@ -4543,9 +4601,9 @@ extension ChimeClient {
     ///
     /// Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
     ///
-    /// - Parameter UpdateRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoomInput`)
     ///
-    /// - Returns: `UpdateRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4585,6 +4643,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoomInput, UpdateRoomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoomOutput>(UpdateRoomOutput.httpOutput(from:), UpdateRoomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoomInput, UpdateRoomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoomOutput>())
@@ -4616,9 +4675,9 @@ extension ChimeClient {
     ///
     /// Updates room membership details, such as the member role, for a room in an Amazon Chime Enterprise account. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
     ///
-    /// - Parameter UpdateRoomMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoomMembershipInput`)
     ///
-    /// - Returns: `UpdateRoomMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoomMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4658,6 +4717,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoomMembershipOutput>(UpdateRoomMembershipOutput.httpOutput(from:), UpdateRoomMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoomMembershipInput, UpdateRoomMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoomMembershipOutput>())
@@ -4689,9 +4749,9 @@ extension ChimeClient {
     ///
     /// Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4731,6 +4791,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())
@@ -4762,9 +4823,9 @@ extension ChimeClient {
     ///
     /// Updates the settings for the specified user, such as phone number settings.
     ///
-    /// - Parameter UpdateUserSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserSettingsInput`)
     ///
-    /// - Returns: `UpdateUserSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4804,6 +4865,7 @@ extension ChimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserSettingsOutput>(UpdateUserSettingsOutput.httpOutput(from:), UpdateUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserSettingsInput, UpdateUserSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserSettingsOutput>())

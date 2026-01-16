@@ -85,7 +85,7 @@ extension RedshiftServerlessClientTypes {
 
     /// An array of key-value pairs to set for advanced control over Amazon Redshift Serverless.
     public struct ConfigParameter: Swift.Sendable {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var parameterKey: Swift.String?
         /// The value of the parameter to set.
         public var parameterValue: Swift.String?
@@ -227,7 +227,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-/// The input failed to satisfy the constraints specified by an AWS service.
+/// The input failed to satisfy the constraints specified by an Amazon Web Services service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -819,6 +819,8 @@ extension RedshiftServerlessClientTypes {
         public var adminPasswordSecretKmsKeyId: Swift.String?
         /// The username of the administrator for the first database created in the namespace.
         public var adminUsername: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Glue Data Catalog associated with the namespace enabled with Amazon Redshift federated permissions.
+        public var catalogArn: Swift.String?
         /// The date of when the namespace was created.
         public var creationDate: Foundation.Date?
         /// The name of the first database created in the namespace.
@@ -829,6 +831,8 @@ extension RedshiftServerlessClientTypes {
         public var iamRoles: [Swift.String]?
         /// The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
         public var kmsKeyId: Swift.String?
+        /// The status of the lakehouse registration for the namespace. Indicates whether the namespace is successfully registered with Amazon Redshift federated permissions.
+        public var lakehouseRegistrationStatus: Swift.String?
         /// The types of logs the namespace can export. Available export types are User log, Connection log, and User activity log.
         public var logExports: [RedshiftServerlessClientTypes.LogExport]?
         /// The Amazon Resource Name (ARN) associated with a namespace.
@@ -844,11 +848,13 @@ extension RedshiftServerlessClientTypes {
             adminPasswordSecretArn: Swift.String? = nil,
             adminPasswordSecretKmsKeyId: Swift.String? = nil,
             adminUsername: Swift.String? = nil,
+            catalogArn: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             dbName: Swift.String? = nil,
             defaultIamRoleArn: Swift.String? = nil,
             iamRoles: [Swift.String]? = nil,
             kmsKeyId: Swift.String? = nil,
+            lakehouseRegistrationStatus: Swift.String? = nil,
             logExports: [RedshiftServerlessClientTypes.LogExport]? = nil,
             namespaceArn: Swift.String? = nil,
             namespaceId: Swift.String? = nil,
@@ -858,11 +864,13 @@ extension RedshiftServerlessClientTypes {
             self.adminPasswordSecretArn = adminPasswordSecretArn
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
+            self.catalogArn = catalogArn
             self.creationDate = creationDate
             self.dbName = dbName
             self.defaultIamRoleArn = defaultIamRoleArn
             self.iamRoles = iamRoles
             self.kmsKeyId = kmsKeyId
+            self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
             self.logExports = logExports
             self.namespaceArn = namespaceArn
             self.namespaceId = namespaceId
@@ -874,7 +882,7 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes.Namespace: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Namespace(adminPasswordSecretArn: \(Swift.String(describing: adminPasswordSecretArn)), adminPasswordSecretKmsKeyId: \(Swift.String(describing: adminPasswordSecretKmsKeyId)), creationDate: \(Swift.String(describing: creationDate)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), logExports: \(Swift.String(describing: logExports)), namespaceArn: \(Swift.String(describing: namespaceArn)), namespaceId: \(Swift.String(describing: namespaceId)), namespaceName: \(Swift.String(describing: namespaceName)), status: \(Swift.String(describing: status)), adminUsername: \"CONTENT_REDACTED\")"}
+        "Namespace(adminPasswordSecretArn: \(Swift.String(describing: adminPasswordSecretArn)), adminPasswordSecretKmsKeyId: \(Swift.String(describing: adminPasswordSecretKmsKeyId)), catalogArn: \(Swift.String(describing: catalogArn)), creationDate: \(Swift.String(describing: creationDate)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), iamRoles: \(Swift.String(describing: iamRoles)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), lakehouseRegistrationStatus: \(Swift.String(describing: lakehouseRegistrationStatus)), logExports: \(Swift.String(describing: logExports)), namespaceArn: \(Swift.String(describing: namespaceArn)), namespaceId: \(Swift.String(describing: namespaceId)), namespaceName: \(Swift.String(describing: namespaceName)), status: \(Swift.String(describing: status)), adminUsername: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateNamespaceOutput: Swift.Sendable {
@@ -987,7 +995,7 @@ extension RedshiftServerlessClientTypes {
         public var reservationArn: Swift.String?
         /// The identifier that uniquely identifies the serverless reservation.
         public var reservationId: Swift.String?
-        /// The start date for the serverless reservation. This is the date you specified for the reservation to start when you created the reservation.
+        /// The start date for the serverless reservation. This is the date you created the reservation.
         public var startDate: Foundation.Date?
         /// The status of the reservation. Possible values include the following:
         ///
@@ -1613,10 +1621,12 @@ extension RedshiftServerlessClientTypes {
 public struct CreateWorkgroupInput: Swift.Sendable {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
     public var enhancedVpcRouting: Swift.Bool?
+    /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+    public var extraComputeForAutomaticOptimization: Swift.Bool?
     /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     public var ipAddressType: Swift.String?
     /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -1646,6 +1656,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         baseCapacity: Swift.Int? = nil,
         configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        extraComputeForAutomaticOptimization: Swift.Bool? = nil,
         ipAddressType: Swift.String? = nil,
         maxCapacity: Swift.Int? = nil,
         namespaceName: Swift.String? = nil,
@@ -1661,6 +1672,7 @@ public struct CreateWorkgroupInput: Swift.Sendable {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
         self.ipAddressType = ipAddressType
         self.maxCapacity = maxCapacity
         self.namespaceName = namespaceName
@@ -1739,7 +1751,7 @@ extension RedshiftServerlessClientTypes {
     public struct Workgroup: Swift.Sendable {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public var baseCapacity: Swift.Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
         /// The creation date of the workgroup.
         public var creationDate: Foundation.Date?
@@ -1755,6 +1767,8 @@ extension RedshiftServerlessClientTypes {
         public var endpoint: RedshiftServerlessClientTypes.Endpoint?
         /// The value that specifies whether to enable enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public var enhancedVpcRouting: Swift.Bool?
+        /// A boolean value that, if true, indicates that the workgroup allocates additional compute resources to run automatic optimization operations. Default: false
+        public var extraComputeForAutomaticOptimization: Swift.Bool?
         /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
         public var ipAddressType: Swift.String?
         /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -1798,6 +1812,7 @@ extension RedshiftServerlessClientTypes {
             customDomainName: Swift.String? = nil,
             endpoint: RedshiftServerlessClientTypes.Endpoint? = nil,
             enhancedVpcRouting: Swift.Bool? = nil,
+            extraComputeForAutomaticOptimization: Swift.Bool? = nil,
             ipAddressType: Swift.String? = nil,
             maxCapacity: Swift.Int? = nil,
             namespaceName: Swift.String? = nil,
@@ -1824,6 +1839,7 @@ extension RedshiftServerlessClientTypes {
             self.customDomainName = customDomainName
             self.endpoint = endpoint
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.ipAddressType = ipAddressType
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
@@ -2159,6 +2175,30 @@ public struct DeleteWorkgroupOutput: Swift.Sendable {
     }
 }
 
+/// This exception is thrown when the request was successful, but dry run was enabled so no action was taken.
+public struct DryRunException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DryRunException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct GetCredentialsInput: Swift.Sendable {
     /// The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request.
     public var customDomainName: Swift.String?
@@ -2257,6 +2297,45 @@ public struct GetCustomDomainAssociationOutput: Swift.Sendable {
         self.customDomainCertificateExpiryTime = customDomainCertificateExpiryTime
         self.customDomainName = customDomainName
         self.workgroupName = workgroupName
+    }
+}
+
+public struct GetIdentityCenterAuthTokenInput: Swift.Sendable {
+    /// A list of workgroup names for which to generate the Identity Center authentication token. Constraints:
+    ///
+    /// * Must contain between 1 and 20 workgroup names.
+    ///
+    /// * Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier.
+    ///
+    /// * All specified workgroups must have Identity Center integration enabled.
+    /// This member is required.
+    public var workgroupNames: [Swift.String]?
+
+    public init(
+        workgroupNames: [Swift.String]? = nil
+    ) {
+        self.workgroupNames = workgroupNames
+    }
+}
+
+public struct GetIdentityCenterAuthTokenOutput: Swift.Sendable {
+    /// The date and time when the Identity Center authentication token expires. After this time, a new token must be requested for continued access.
+    public var expirationTime: Foundation.Date?
+    /// The Identity Center authentication token that can be used to access data in the specified workgroups. This token contains the Identity Center identity information and is encrypted for secure transmission.
+    public var token: Swift.String?
+
+    public init(
+        expirationTime: Foundation.Date? = nil,
+        token: Swift.String? = nil
+    ) {
+        self.expirationTime = expirationTime
+        self.token = token
+    }
+}
+
+extension GetIdentityCenterAuthTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -2719,6 +2798,64 @@ public struct InvalidPaginationException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
+extension RedshiftServerlessClientTypes {
+
+    public enum LakehouseIdcRegistration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associate
+        case disassociate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LakehouseIdcRegistration] {
+            return [
+                .associate,
+                .disassociate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associate: return "Associate"
+            case .disassociate: return "Disassociate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes {
+
+    public enum LakehouseRegistration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deregister
+        case register
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LakehouseRegistration] {
+            return [
+                .deregister,
+                .register
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deregister: return "Deregister"
+            case .register: return "Register"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListCustomDomainAssociationsInput: Swift.Sendable {
     /// The custom domain name’s certificate Amazon resource name (ARN).
     public var customDomainCertificateArn: Swift.String?
@@ -2762,7 +2899,7 @@ public struct ListManagedWorkgroupsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// If your initial ListManagedWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListManagedWorkgroups operations, which returns results in the next page.
     public var nextToken: Swift.String?
-    /// The Amazon Resource Name (ARN) for the managed workgroup in the AWS Glue Data Catalog.
+    /// The Amazon Resource Name (ARN) for the managed workgroup in the Glue Data Catalog.
     public var sourceArn: Swift.String?
 
     public init(
@@ -2816,7 +2953,7 @@ extension RedshiftServerlessClientTypes {
 
 extension RedshiftServerlessClientTypes {
 
-    /// A collection of Amazon Redshift compute resources managed by AWS Glue.
+    /// A collection of Amazon Redshift compute resources managed by Glue.
     public struct ManagedWorkgroupListItem: Swift.Sendable {
         /// The creation date of the managed workgroup.
         public var creationDate: Foundation.Date?
@@ -2824,7 +2961,7 @@ extension RedshiftServerlessClientTypes {
         public var managedWorkgroupId: Swift.String?
         /// The name of the managed workgroup.
         public var managedWorkgroupName: Swift.String?
-        /// The Amazon Resource Name (ARN) for the managed workgroup in the AWS Glue Data Catalog.
+        /// The Amazon Resource Name (ARN) for the managed workgroup in the Glue Data Catalog.
         public var sourceArn: Swift.String?
         /// The status of the managed workgroup.
         public var status: RedshiftServerlessClientTypes.ManagedWorkgroupStatus?
@@ -3298,6 +3435,61 @@ public struct ListWorkgroupsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.workgroups = workgroups
+    }
+}
+
+public struct UpdateLakehouseConfigurationInput: Swift.Sendable {
+    /// The name of the Glue Data Catalog that will be associated with the namespace enabled with Amazon Redshift federated permissions. Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
+    public var catalogName: Swift.String?
+    /// A boolean value that, if true, validates the request without actually updating the lakehouse configuration. Use this to check for errors before making changes.
+    public var dryRun: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Redshift federated permissions.
+    public var lakehouseIdcApplicationArn: Swift.String?
+    /// Modifies the Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate.
+    public var lakehouseIdcRegistration: RedshiftServerlessClientTypes.LakehouseIdcRegistration?
+    /// Specifies whether to register or deregister the namespace with Amazon Redshift federated permissions. Valid values are Register or Deregister.
+    public var lakehouseRegistration: RedshiftServerlessClientTypes.LakehouseRegistration?
+    /// The name of the namespace whose lakehouse configuration you want to modify.
+    /// This member is required.
+    public var namespaceName: Swift.String?
+
+    public init(
+        catalogName: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        lakehouseIdcApplicationArn: Swift.String? = nil,
+        lakehouseIdcRegistration: RedshiftServerlessClientTypes.LakehouseIdcRegistration? = nil,
+        lakehouseRegistration: RedshiftServerlessClientTypes.LakehouseRegistration? = nil,
+        namespaceName: Swift.String? = nil
+    ) {
+        self.catalogName = catalogName
+        self.dryRun = dryRun
+        self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
+        self.lakehouseIdcRegistration = lakehouseIdcRegistration
+        self.lakehouseRegistration = lakehouseRegistration
+        self.namespaceName = namespaceName
+    }
+}
+
+public struct UpdateLakehouseConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Glue Data Catalog associated with the lakehouse configuration.
+    public var catalogArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation.
+    public var lakehouseIdcApplicationArn: Swift.String?
+    /// The current status of the lakehouse registration. Indicates whether the namespace is successfully registered with Amazon Redshift federated permissions.
+    public var lakehouseRegistrationStatus: Swift.String?
+    /// The name of the namespace.
+    public var namespaceName: Swift.String?
+
+    public init(
+        catalogArn: Swift.String? = nil,
+        lakehouseIdcApplicationArn: Swift.String? = nil,
+        lakehouseRegistrationStatus: Swift.String? = nil,
+        namespaceName: Swift.String? = nil
+    ) {
+        self.catalogArn = catalogArn
+        self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
+        self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
+        self.namespaceName = namespaceName
     }
 }
 
@@ -3844,10 +4036,12 @@ public struct UpdateUsageLimitOutput: Swift.Sendable {
 public struct UpdateWorkgroupInput: Swift.Sendable {
     /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and either wlm_json_configuration or query monitoring metrics that let you define performance boundaries. You can either specify individual query monitoring metrics (such as max_scan_row_count, max_query_execution_time) or use wlm_json_configuration to define query queues with rules, but not both. If you're using wlm_json_configuration, the maximum size of parameterValue is 8000 characters. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
     public var enhancedVpcRouting: Swift.Bool?
+    /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+    public var extraComputeForAutomaticOptimization: Swift.Bool?
     /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     public var ipAddressType: Swift.String?
     /// The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
@@ -3872,6 +4066,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         baseCapacity: Swift.Int? = nil,
         configParameters: [RedshiftServerlessClientTypes.ConfigParameter]? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        extraComputeForAutomaticOptimization: Swift.Bool? = nil,
         ipAddressType: Swift.String? = nil,
         maxCapacity: Swift.Int? = nil,
         port: Swift.Int? = nil,
@@ -3885,6 +4080,7 @@ public struct UpdateWorkgroupInput: Swift.Sendable {
         self.baseCapacity = baseCapacity
         self.configParameters = configParameters
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
         self.ipAddressType = ipAddressType
         self.maxCapacity = maxCapacity
         self.port = port
@@ -4059,6 +4255,13 @@ extension GetCustomDomainAssociationInput {
 extension GetEndpointAccessInput {
 
     static func urlPathProvider(_ value: GetEndpointAccessInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIdentityCenterAuthTokenInput {
+
+    static func urlPathProvider(_ value: GetIdentityCenterAuthTokenInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4308,6 +4511,13 @@ extension UpdateEndpointAccessInput {
     }
 }
 
+extension UpdateLakehouseConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateLakehouseConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateNamespaceInput {
 
     static func urlPathProvider(_ value: UpdateNamespaceInput) -> Swift.String? {
@@ -4469,6 +4679,7 @@ extension CreateWorkgroupInput {
         try writer["baseCapacity"].write(value.baseCapacity)
         try writer["configParameters"].writeList(value.configParameters, memberWritingClosure: RedshiftServerlessClientTypes.ConfigParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["enhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["extraComputeForAutomaticOptimization"].write(value.extraComputeForAutomaticOptimization)
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["namespaceName"].write(value.namespaceName)
@@ -4583,6 +4794,14 @@ extension GetEndpointAccessInput {
     static func write(value: GetEndpointAccessInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endpointName"].write(value.endpointName)
+    }
+}
+
+extension GetIdentityCenterAuthTokenInput {
+
+    static func write(value: GetIdentityCenterAuthTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workgroupNames"].writeList(value.workgroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4936,6 +5155,19 @@ extension UpdateEndpointAccessInput {
     }
 }
 
+extension UpdateLakehouseConfigurationInput {
+
+    static func write(value: UpdateLakehouseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["catalogName"].write(value.catalogName)
+        try writer["dryRun"].write(value.dryRun)
+        try writer["lakehouseIdcApplicationArn"].write(value.lakehouseIdcApplicationArn)
+        try writer["lakehouseIdcRegistration"].write(value.lakehouseIdcRegistration)
+        try writer["lakehouseRegistration"].write(value.lakehouseRegistration)
+        try writer["namespaceName"].write(value.namespaceName)
+    }
+}
+
 extension UpdateNamespaceInput {
 
     static func write(value: UpdateNamespaceInput?, to writer: SmithyJSON.Writer) throws {
@@ -5002,6 +5234,7 @@ extension UpdateWorkgroupInput {
         try writer["baseCapacity"].write(value.baseCapacity)
         try writer["configParameters"].writeList(value.configParameters, memberWritingClosure: RedshiftServerlessClientTypes.ConfigParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["enhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["extraComputeForAutomaticOptimization"].write(value.extraComputeForAutomaticOptimization)
         try writer["ipAddressType"].write(value.ipAddressType)
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["port"].write(value.port)
@@ -5273,6 +5506,19 @@ extension GetEndpointAccessOutput {
         let reader = responseReader
         var value = GetEndpointAccessOutput()
         value.endpoint = try reader["endpoint"].readIfPresent(with: RedshiftServerlessClientTypes.EndpointAccess.read(from:))
+        return value
+    }
+}
+
+extension GetIdentityCenterAuthTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdentityCenterAuthTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIdentityCenterAuthTokenOutput()
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.token = try reader["token"].readIfPresent()
         return value
     }
 }
@@ -5703,6 +5949,21 @@ extension UpdateEndpointAccessOutput {
         let reader = responseReader
         var value = UpdateEndpointAccessOutput()
         value.endpoint = try reader["endpoint"].readIfPresent(with: RedshiftServerlessClientTypes.EndpointAccess.read(from:))
+        return value
+    }
+}
+
+extension UpdateLakehouseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLakehouseConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateLakehouseConfigurationOutput()
+        value.catalogArn = try reader["catalogArn"].readIfPresent()
+        value.lakehouseIdcApplicationArn = try reader["lakehouseIdcApplicationArn"].readIfPresent()
+        value.lakehouseRegistrationStatus = try reader["lakehouseRegistrationStatus"].readIfPresent()
+        value.namespaceName = try reader["namespaceName"].readIfPresent()
         return value
     }
 }
@@ -6172,6 +6433,26 @@ enum GetEndpointAccessOutputError {
     }
 }
 
+enum GetIdentityCenterAuthTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DryRunException": return try DryRunException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6312,6 +6593,7 @@ enum GetTrackOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DryRunException": return try DryRunException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -6760,6 +7042,24 @@ enum UpdateEndpointAccessOutputError {
     }
 }
 
+enum UpdateLakehouseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DryRunException": return try DryRunException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6999,6 +7299,19 @@ extension Ipv6CidrBlockNotFoundException {
     }
 }
 
+extension DryRunException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunException {
+        let reader = baseError.errorBodyReader
+        var value = DryRunException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidPaginationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPaginationException {
@@ -7117,6 +7430,8 @@ extension RedshiftServerlessClientTypes.Namespace {
         value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.adminPasswordSecretArn = try reader["adminPasswordSecretArn"].readIfPresent()
         value.adminPasswordSecretKmsKeyId = try reader["adminPasswordSecretKmsKeyId"].readIfPresent()
+        value.lakehouseRegistrationStatus = try reader["lakehouseRegistrationStatus"].readIfPresent()
+        value.catalogArn = try reader["catalogArn"].readIfPresent()
         return value
     }
 }
@@ -7323,6 +7638,7 @@ extension RedshiftServerlessClientTypes.Workgroup {
         value.pricePerformanceTarget = try reader["pricePerformanceTarget"].readIfPresent(with: RedshiftServerlessClientTypes.PerformanceTarget.read(from:))
         value.trackName = try reader["trackName"].readIfPresent()
         value.pendingTrackName = try reader["pendingTrackName"].readIfPresent()
+        value.extraComputeForAutomaticOptimization = try reader["extraComputeForAutomaticOptimization"].readIfPresent()
         return value
     }
 }

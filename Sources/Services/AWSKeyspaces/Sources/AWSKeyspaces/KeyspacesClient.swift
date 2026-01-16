@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KeyspacesClient: ClientRuntime.Client {
+public class KeyspacesClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KeyspacesClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: KeyspacesClient.KeyspacesClientConfiguration
     let serviceName = "Keyspaces"
@@ -373,9 +373,9 @@ extension KeyspacesClient {
     ///
     /// The CreateKeyspace operation adds a new keyspace to your account. In an Amazon Web Services account, keyspace names must be unique within each Region. CreateKeyspace is an asynchronous operation. You can monitor the creation status of the new keyspace by using the GetKeyspace operation. For more information, see [Create a keyspace](https://docs.aws.amazon.com/keyspaces/latest/devguide/getting-started.keyspaces.html) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter CreateKeyspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyspaceInput`)
     ///
-    /// - Returns: `CreateKeyspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyspaceInput, CreateKeyspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyspaceOutput>(CreateKeyspaceOutput.httpOutput(from:), CreateKeyspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyspaceInput, CreateKeyspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeyspaceOutput>())
@@ -445,9 +446,9 @@ extension KeyspacesClient {
     ///
     /// The CreateTable operation adds a new table to the specified keyspace. Within a keyspace, table names must be unique. CreateTable is an asynchronous operation. When the request is received, the status of the table is set to CREATING. You can monitor the creation status of the new table by using the GetTable operation, which returns the current status of the table. You can start using a table when the status is ACTIVE. For more information, see [Create a table](https://docs.aws.amazon.com/keyspaces/latest/devguide/getting-started.tables.html) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter CreateTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTableInput`)
     ///
-    /// - Returns: `CreateTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +485,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableInput, CreateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTableOutput>(CreateTableOutput.httpOutput(from:), CreateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableInput, CreateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
@@ -518,9 +520,9 @@ extension KeyspacesClient {
     ///
     /// The CreateType operation creates a new user-defined type in the specified keyspace. To configure the required permissions, see [Permissions to create a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-create) in the Amazon Keyspaces Developer Guide. For more information, see [User-defined types (UDTs)](https://docs.aws.amazon.com/keyspaces/latest/devguide/udts.html) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter CreateTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTypeInput`)
     ///
-    /// - Returns: `CreateTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +559,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTypeInput, CreateTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTypeOutput>(CreateTypeOutput.httpOutput(from:), CreateTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTypeInput, CreateTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTypeOutput>())
@@ -591,9 +594,9 @@ extension KeyspacesClient {
     ///
     /// The DeleteKeyspace operation deletes a keyspace and all of its tables.
     ///
-    /// - Parameter DeleteKeyspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyspaceInput`)
     ///
-    /// - Returns: `DeleteKeyspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,6 +633,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteKeyspaceInput, DeleteKeyspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyspaceOutput>(DeleteKeyspaceOutput.httpOutput(from:), DeleteKeyspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyspaceInput, DeleteKeyspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyspaceOutput>())
@@ -664,9 +668,9 @@ extension KeyspacesClient {
     ///
     /// The DeleteTable operation deletes a table and all of its data. After a DeleteTable request is received, the specified table is in the DELETING state until Amazon Keyspaces completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is either in the CREATING or UPDATING states, then Amazon Keyspaces returns a ResourceInUseException. If the specified table does not exist, Amazon Keyspaces returns a ResourceNotFoundException. If the table is already in the DELETING state, no error is returned.
     ///
-    /// - Parameter DeleteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableInput`)
     ///
-    /// - Returns: `DeleteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,6 +707,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTableInput, DeleteTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableOutput>(DeleteTableOutput.httpOutput(from:), DeleteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableInput, DeleteTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
@@ -737,9 +742,9 @@ extension KeyspacesClient {
     ///
     /// The DeleteType operation deletes a user-defined type (UDT). You can only delete a type that is not used in a table or another UDT. To configure the required permissions, see [Permissions to delete a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-drop) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter DeleteTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTypeInput`)
     ///
-    /// - Returns: `DeleteTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -776,6 +781,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTypeInput, DeleteTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTypeOutput>(DeleteTypeOutput.httpOutput(from:), DeleteTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTypeInput, DeleteTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTypeOutput>())
@@ -810,9 +816,9 @@ extension KeyspacesClient {
     ///
     /// Returns the name of the specified keyspace, the Amazon Resource Name (ARN), the replication strategy, the Amazon Web Services Regions of a multi-Region keyspace, and the status of newly added Regions after an UpdateKeyspace operation.
     ///
-    /// - Parameter GetKeyspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyspaceInput`)
     ///
-    /// - Returns: `GetKeyspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,6 +854,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKeyspaceInput, GetKeyspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyspaceOutput>(GetKeyspaceOutput.httpOutput(from:), GetKeyspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyspaceInput, GetKeyspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyspaceOutput>())
@@ -882,9 +889,9 @@ extension KeyspacesClient {
     ///
     /// Returns information about the table, including the table's name and current status, the keyspace name, configuration settings, and metadata. To read table metadata using GetTable, the IAM principal needs Select action permissions for the table and the system keyspace.
     ///
-    /// - Parameter GetTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableInput`)
     ///
-    /// - Returns: `GetTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -920,6 +927,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableInput, GetTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableOutput>(GetTableOutput.httpOutput(from:), GetTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableInput, GetTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableOutput>())
@@ -958,9 +966,9 @@ extension KeyspacesClient {
     ///
     /// * application-autoscaling:DescribeScalingPolicies
     ///
-    /// - Parameter GetTableAutoScalingSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableAutoScalingSettingsInput`)
     ///
-    /// - Returns: `GetTableAutoScalingSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableAutoScalingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,6 +1004,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableAutoScalingSettingsOutput>(GetTableAutoScalingSettingsOutput.httpOutput(from:), GetTableAutoScalingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableAutoScalingSettingsInput, GetTableAutoScalingSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableAutoScalingSettingsOutput>())
@@ -1030,9 +1039,9 @@ extension KeyspacesClient {
     ///
     /// The GetType operation returns information about the type, for example the field definitions, the timestamp when the type was last modified, the level of nesting, the status, and details about if the type is used in other types and tables. To read keyspace metadata using GetType, the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see [Permissions to view a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-view) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter GetTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTypeInput`)
     ///
-    /// - Returns: `GetTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,6 +1077,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTypeInput, GetTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTypeOutput>(GetTypeOutput.httpOutput(from:), GetTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTypeInput, GetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTypeOutput>())
@@ -1102,9 +1112,9 @@ extension KeyspacesClient {
     ///
     /// The ListKeyspaces operation returns a list of keyspaces.
     ///
-    /// - Parameter ListKeyspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyspacesInput`)
     ///
-    /// - Returns: `ListKeyspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1140,6 +1150,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListKeyspacesInput, ListKeyspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyspacesOutput>(ListKeyspacesOutput.httpOutput(from:), ListKeyspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyspacesInput, ListKeyspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeyspacesOutput>())
@@ -1174,9 +1185,9 @@ extension KeyspacesClient {
     ///
     /// The ListTables operation returns a list of tables for a specified keyspace. To read keyspace metadata using ListTables, the IAM principal needs Select action permissions for the system keyspace.
     ///
-    /// - Parameter ListTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTablesInput`)
     ///
-    /// - Returns: `ListTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,6 +1223,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTablesInput, ListTablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTablesOutput>(ListTablesOutput.httpOutput(from:), ListTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTablesInput, ListTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())
@@ -1246,9 +1258,9 @@ extension KeyspacesClient {
     ///
     /// Returns a list of all tags associated with the specified Amazon Keyspaces resource. To read keyspace metadata using ListTagsForResource, the IAM principal needs Select action permissions for the specified resource and the system keyspace.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,6 +1296,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1318,9 +1331,9 @@ extension KeyspacesClient {
     ///
     /// The ListTypes operation returns a list of types for a specified keyspace. To read keyspace metadata using ListTypes, the IAM principal needs Select action permissions for the system keyspace. To configure the required permissions, see [Permissions to view a UDT](https://docs.aws.amazon.com/keyspaces/latest/devguide/configure-udt-permissions.html#udt-permissions-view) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter ListTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypesInput`)
     ///
-    /// - Returns: `ListTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1356,6 +1369,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTypesInput, ListTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypesOutput>(ListTypesOutput.httpOutput(from:), ListTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypesInput, ListTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypesOutput>())
@@ -1407,9 +1421,9 @@ extension KeyspacesClient {
     ///
     /// * Amazon CloudWatch metrics and alarms
     ///
-    /// - Parameter RestoreTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreTableInput`)
     ///
-    /// - Returns: `RestoreTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1446,6 +1460,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreTableInput, RestoreTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreTableOutput>(RestoreTableOutput.httpOutput(from:), RestoreTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreTableInput, RestoreTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableOutput>())
@@ -1480,9 +1495,9 @@ extension KeyspacesClient {
     ///
     /// Associates a set of tags with a Amazon Keyspaces resource. You can then activate these user-defined tags so that they appear on the Cost Management Console for cost allocation tracking. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide. For IAM policy examples that show how to control access to Amazon Keyspaces resources based on tags, see [Amazon Keyspaces resource access based on tags](https://docs.aws.amazon.com/keyspaces/latest/devguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-tags) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,6 +1534,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1553,9 +1569,9 @@ extension KeyspacesClient {
     ///
     /// Removes the association of tags from a Amazon Keyspaces resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1592,6 +1608,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1667,9 +1684,9 @@ extension KeyspacesClient {
     ///
     /// For more information, see [Configure the IAM permissions required to add an Amazon Web Services Region to a keyspace](https://docs.aws.amazon.com/keyspaces/latest/devguide/howitworks_replication_permissions_addReplica.html) in the Amazon Keyspaces Developer Guide.
     ///
-    /// - Parameter UpdateKeyspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyspaceInput`)
     ///
-    /// - Returns: `UpdateKeyspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1706,6 +1723,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeyspaceInput, UpdateKeyspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeyspaceOutput>(UpdateKeyspaceOutput.httpOutput(from:), UpdateKeyspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeyspaceInput, UpdateKeyspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeyspaceOutput>())
@@ -1740,9 +1758,9 @@ extension KeyspacesClient {
     ///
     /// Adds new columns to the table or updates one of the table's settings, for example capacity mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can only update one specific table setting per update operation.
     ///
-    /// - Parameter UpdateTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableInput`)
     ///
-    /// - Returns: `UpdateTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1779,6 +1797,7 @@ extension KeyspacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableInput, UpdateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableOutput>(UpdateTableOutput.httpOutput(from:), UpdateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableInput, UpdateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableOutput>())

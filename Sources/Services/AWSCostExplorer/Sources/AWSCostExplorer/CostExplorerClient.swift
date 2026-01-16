@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CostExplorerClient: ClientRuntime.Client {
+public class CostExplorerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CostExplorerClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CostExplorerClient.CostExplorerClientConfiguration
     let serviceName = "Cost Explorer"
@@ -372,9 +372,9 @@ extension CostExplorerClient {
     ///
     /// Creates a new cost anomaly detection monitor with the requested type and monitor specification.
     ///
-    /// - Parameter CreateAnomalyMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnomalyMonitorInput`)
     ///
-    /// - Returns: `CreateAnomalyMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnomalyMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -406,6 +406,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnomalyMonitorOutput>(CreateAnomalyMonitorOutput.httpOutput(from:), CreateAnomalyMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnomalyMonitorInput, CreateAnomalyMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnomalyMonitorOutput>())
@@ -440,9 +441,9 @@ extension CostExplorerClient {
     ///
     /// Adds an alert subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set an absolute or percentage threshold and a time frequency for receiving notifications.
     ///
-    /// - Parameter CreateAnomalySubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnomalySubscriptionInput`)
     ///
-    /// - Returns: `CreateAnomalySubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnomalySubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -475,6 +476,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnomalySubscriptionOutput>(CreateAnomalySubscriptionOutput.httpOutput(from:), CreateAnomalySubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnomalySubscriptionInput, CreateAnomalySubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnomalySubscriptionOutput>())
@@ -507,11 +509,11 @@ extension CostExplorerClient {
 
     /// Performs the `CreateCostCategoryDefinition` operation on the `CostExplorer` service.
     ///
-    /// Creates a new Cost Category with the requested name and rules.
+    /// Creates a new cost category with the requested name and rules.
     ///
-    /// - Parameter CreateCostCategoryDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCostCategoryDefinitionInput`)
     ///
-    /// - Returns: `CreateCostCategoryDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCostCategoryDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -544,6 +546,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCostCategoryDefinitionOutput>(CreateCostCategoryDefinitionOutput.httpOutput(from:), CreateCostCategoryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCostCategoryDefinitionInput, CreateCostCategoryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCostCategoryDefinitionOutput>())
@@ -578,9 +581,9 @@ extension CostExplorerClient {
     ///
     /// Deletes a cost anomaly monitor.
     ///
-    /// - Parameter DeleteAnomalyMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnomalyMonitorInput`)
     ///
-    /// - Returns: `DeleteAnomalyMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnomalyMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,6 +616,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnomalyMonitorOutput>(DeleteAnomalyMonitorOutput.httpOutput(from:), DeleteAnomalyMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalyMonitorInput, DeleteAnomalyMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnomalyMonitorOutput>())
@@ -647,9 +651,9 @@ extension CostExplorerClient {
     ///
     /// Deletes a cost anomaly subscription.
     ///
-    /// - Parameter DeleteAnomalySubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnomalySubscriptionInput`)
     ///
-    /// - Returns: `DeleteAnomalySubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnomalySubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,6 +686,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnomalySubscriptionOutput>(DeleteAnomalySubscriptionOutput.httpOutput(from:), DeleteAnomalySubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalySubscriptionInput, DeleteAnomalySubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnomalySubscriptionOutput>())
@@ -714,11 +719,11 @@ extension CostExplorerClient {
 
     /// Performs the `DeleteCostCategoryDefinition` operation on the `CostExplorer` service.
     ///
-    /// Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
+    /// Deletes a cost category. Expenses from this month going forward will no longer be categorized with this cost category.
     ///
-    /// - Parameter DeleteCostCategoryDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCostCategoryDefinitionInput`)
     ///
-    /// - Returns: `DeleteCostCategoryDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCostCategoryDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -751,6 +756,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCostCategoryDefinitionOutput>(DeleteCostCategoryDefinitionOutput.httpOutput(from:), DeleteCostCategoryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCostCategoryDefinitionInput, DeleteCostCategoryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCostCategoryDefinitionOutput>())
@@ -783,11 +789,11 @@ extension CostExplorerClient {
 
     /// Performs the `DescribeCostCategoryDefinition` operation on the `CostExplorer` service.
     ///
-    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
+    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a cost category that's defined in the account. You have the option to use EffectiveOn to return a cost category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response.
     ///
-    /// - Parameter DescribeCostCategoryDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCostCategoryDefinitionInput`)
     ///
-    /// - Returns: `DescribeCostCategoryDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCostCategoryDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,6 +826,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCostCategoryDefinitionOutput>(DescribeCostCategoryDefinitionOutput.httpOutput(from:), DescribeCostCategoryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCostCategoryDefinitionInput, DescribeCostCategoryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCostCategoryDefinitionOutput>())
@@ -854,9 +861,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves all of the cost anomalies detected on your account during the time period that's specified by the DateInterval object. Anomalies are available for up to 90 days.
     ///
-    /// - Parameter GetAnomaliesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnomaliesInput`)
     ///
-    /// - Returns: `GetAnomaliesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnomaliesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -889,6 +896,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnomaliesInput, GetAnomaliesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnomaliesOutput>(GetAnomaliesOutput.httpOutput(from:), GetAnomaliesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnomaliesInput, GetAnomaliesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnomaliesOutput>())
@@ -923,9 +931,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves the cost anomaly monitor definitions for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
     ///
-    /// - Parameter GetAnomalyMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnomalyMonitorsInput`)
     ///
-    /// - Returns: `GetAnomalyMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnomalyMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -959,6 +967,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnomalyMonitorsOutput>(GetAnomalyMonitorsOutput.httpOutput(from:), GetAnomalyMonitorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnomalyMonitorsInput, GetAnomalyMonitorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnomalyMonitorsOutput>())
@@ -993,9 +1002,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves the cost anomaly subscription objects for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
     ///
-    /// - Parameter GetAnomalySubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnomalySubscriptionsInput`)
     ///
-    /// - Returns: `GetAnomalySubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnomalySubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1029,6 +1038,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnomalySubscriptionsOutput>(GetAnomalySubscriptionsOutput.httpOutput(from:), GetAnomalySubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnomalySubscriptionsInput, GetAnomalySubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnomalySubscriptionsOutput>())
@@ -1063,9 +1073,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves estimated usage records for hourly granularity or resource-level data at daily granularity.
     ///
-    /// - Parameter GetApproximateUsageRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApproximateUsageRecordsInput`)
     ///
-    /// - Returns: `GetApproximateUsageRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApproximateUsageRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1098,6 +1108,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApproximateUsageRecordsOutput>(GetApproximateUsageRecordsOutput.httpOutput(from:), GetApproximateUsageRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApproximateUsageRecordsInput, GetApproximateUsageRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApproximateUsageRecordsOutput>())
@@ -1132,9 +1143,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves a commitment purchase analysis result based on the AnalysisId.
     ///
-    /// - Parameter GetCommitmentPurchaseAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCommitmentPurchaseAnalysisInput`)
     ///
-    /// - Returns: `GetCommitmentPurchaseAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCommitmentPurchaseAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1168,6 +1179,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCommitmentPurchaseAnalysisOutput>(GetCommitmentPurchaseAnalysisOutput.httpOutput(from:), GetCommitmentPurchaseAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCommitmentPurchaseAnalysisInput, GetCommitmentPurchaseAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCommitmentPurchaseAnalysisOutput>())
@@ -1202,14 +1214,15 @@ extension CostExplorerClient {
     ///
     /// Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to return. For example, you can specify BlendedCosts or UsageQuantity. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the [GetDimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html) operation. Management account in an organization in Organizations have access to all member accounts. For information about filter limitations, see [Quotas and restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-limits.html) in the Billing and Cost Management User Guide.
     ///
-    /// - Parameter GetCostAndUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCostAndUsageInput`)
     ///
-    /// - Returns: `GetCostAndUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCostAndUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1241,6 +1254,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostAndUsageOutput>(GetCostAndUsageOutput.httpOutput(from:), GetCostAndUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostAndUsageInput, GetCostAndUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCostAndUsageOutput>())
@@ -1275,13 +1289,14 @@ extension CostExplorerClient {
     ///
     /// Retrieves cost and usage comparisons for your account between two periods within the last 13 months. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months.
     ///
-    /// - Parameter GetCostAndUsageComparisonsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCostAndUsageComparisonsInput`)
     ///
-    /// - Returns: `GetCostAndUsageComparisonsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCostAndUsageComparisonsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1312,6 +1327,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostAndUsageComparisonsOutput>(GetCostAndUsageComparisonsOutput.httpOutput(from:), GetCostAndUsageComparisonsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostAndUsageComparisonsInput, GetCostAndUsageComparisonsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCostAndUsageComparisonsOutput>())
@@ -1346,14 +1362,15 @@ extension CostExplorerClient {
     ///
     /// Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the [GetDimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html) operation. Management account in an organization in Organizations have access to all member accounts. Hourly granularity is only available for EC2-Instances (Elastic Compute Cloud) resource-level data. All other resource-level data is available at daily granularity. This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information about how to access the Settings page, see [Controlling Access for Cost Explorer](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-access.html) in the Billing and Cost Management User Guide.
     ///
-    /// - Parameter GetCostAndUsageWithResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCostAndUsageWithResourcesInput`)
     ///
-    /// - Returns: `GetCostAndUsageWithResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCostAndUsageWithResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1385,6 +1402,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostAndUsageWithResourcesOutput>(GetCostAndUsageWithResourcesOutput.httpOutput(from:), GetCostAndUsageWithResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostAndUsageWithResourcesInput, GetCostAndUsageWithResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCostAndUsageWithResourcesOutput>())
@@ -1417,16 +1435,17 @@ extension CostExplorerClient {
 
     /// Performs the `GetCostCategories` operation on the `CostExplorer` service.
     ///
-    /// Retrieves an array of Cost Category names and values incurred cost. If some Cost Category names and values are not associated with any cost, they will not be returned by this API.
+    /// Retrieves an array of cost category names and values incurred cost. If some cost category names and values are not associated with any cost, they will not be returned by this API.
     ///
-    /// - Parameter GetCostCategoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCostCategoriesInput`)
     ///
-    /// - Returns: `GetCostCategoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCostCategoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1458,6 +1477,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostCategoriesOutput>(GetCostCategoriesOutput.httpOutput(from:), GetCostCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostCategoriesInput, GetCostCategoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCostCategoriesOutput>())
@@ -1492,13 +1512,14 @@ extension CostExplorerClient {
     ///
     /// Retrieves key factors driving cost changes between two time periods within the last 13 months, such as usage changes, discount changes, and commitment-based savings. If you have enabled multi-year data at monthly granularity, you can go back up to 38 months.
     ///
-    /// - Parameter GetCostComparisonDriversInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCostComparisonDriversInput`)
     ///
-    /// - Returns: `GetCostComparisonDriversOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCostComparisonDriversOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1529,6 +1550,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostComparisonDriversOutput>(GetCostComparisonDriversOutput.httpOutput(from:), GetCostComparisonDriversOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostComparisonDriversInput, GetCostComparisonDriversOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCostComparisonDriversOutput>())
@@ -1563,13 +1585,14 @@ extension CostExplorerClient {
     ///
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will spend over the forecast time period that you select, based on your past costs.
     ///
-    /// - Parameter GetCostForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCostForecastInput`)
     ///
-    /// - Returns: `GetCostForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCostForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
@@ -1599,6 +1622,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostForecastInput, GetCostForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostForecastOutput>(GetCostForecastOutput.httpOutput(from:), GetCostForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostForecastInput, GetCostForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCostForecastOutput>())
@@ -1633,14 +1657,15 @@ extension CostExplorerClient {
     ///
     /// Retrieves all available filter values for a specified filter over a period of time. You can search the dimension values for an arbitrary string.
     ///
-    /// - Parameter GetDimensionValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDimensionValuesInput`)
     ///
-    /// - Returns: `GetDimensionValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDimensionValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -1672,6 +1697,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDimensionValuesOutput>(GetDimensionValuesOutput.httpOutput(from:), GetDimensionValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDimensionValuesInput, GetDimensionValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDimensionValuesOutput>())
@@ -1704,7 +1730,7 @@ extension CostExplorerClient {
 
     /// Performs the `GetReservationCoverage` operation on the `CostExplorer` service.
     ///
-    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:
+    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:
     ///
     /// * AZ
     ///
@@ -1733,9 +1759,9 @@ extension CostExplorerClient {
     ///
     /// To determine valid values for a dimension, use the GetDimensionValues operation.
     ///
-    /// - Parameter GetReservationCoverageInput : You can use the following request parameters to query for how much of your instance usage a reservation covered.
+    /// - Parameter input: You can use the following request parameters to query for how much of your instance usage a reservation covered. (Type: `GetReservationCoverageInput`)
     ///
-    /// - Returns: `GetReservationCoverageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReservationCoverageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1769,6 +1795,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservationCoverageOutput>(GetReservationCoverageOutput.httpOutput(from:), GetReservationCoverageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservationCoverageInput, GetReservationCoverageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReservationCoverageOutput>())
@@ -1803,9 +1830,9 @@ extension CostExplorerClient {
     ///
     /// Gets recommendations for reservation purchases. These recommendations might help you to reduce your costs. Reservations provide a discounted hourly rate (up to 75%) compared to On-Demand pricing. Amazon Web Services generates your recommendations by identifying your On-Demand usage during a specific time period and collecting your usage into categories that are eligible for a reservation. After Amazon Web Services has these categories, it simulates every combination of reservations in each category of usage to identify the best number of each type of Reserved Instance (RI) to purchase to maximize your estimated savings. For example, Amazon Web Services automatically aggregates your Amazon EC2 Linux, shared tenancy, and c4 family usage in the US West (Oregon) Region and recommends that you buy size-flexible regional reservations to apply to the c4 family usage. Amazon Web Services recommends the smallest size instance in an instance family. This makes it easier to purchase a size-flexible Reserved Instance (RI). Amazon Web Services also shows the equal number of normalized units. This way, you can purchase any instance size that you want. For this example, your RI recommendation is for c4.large because that is the smallest size instance in the c4 instance family.
     ///
-    /// - Parameter GetReservationPurchaseRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReservationPurchaseRecommendationInput`)
     ///
-    /// - Returns: `GetReservationPurchaseRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReservationPurchaseRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1839,6 +1866,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservationPurchaseRecommendationOutput>(GetReservationPurchaseRecommendationOutput.httpOutput(from:), GetReservationPurchaseRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservationPurchaseRecommendationInput, GetReservationPurchaseRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReservationPurchaseRecommendationOutput>())
@@ -1873,9 +1901,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves the reservation utilization for your account. Management account in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION_ID.
     ///
-    /// - Parameter GetReservationUtilizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReservationUtilizationInput`)
     ///
-    /// - Returns: `GetReservationUtilizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReservationUtilizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1909,6 +1937,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservationUtilizationOutput>(GetReservationUtilizationOutput.httpOutput(from:), GetReservationUtilizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservationUtilizationInput, GetReservationUtilizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReservationUtilizationOutput>())
@@ -1943,9 +1972,9 @@ extension CostExplorerClient {
     ///
     /// Creates recommendations that help you save cost by identifying idle and underutilized Amazon EC2 instances. Recommendations are generated to either downsize or terminate instances, along with providing savings detail and metrics. For more information about calculation and function, see [Optimizing Your Cost with Rightsizing Recommendations](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-rightsizing.html) in the Billing and Cost Management User Guide.
     ///
-    /// - Parameter GetRightsizingRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRightsizingRecommendationInput`)
     ///
-    /// - Returns: `GetRightsizingRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRightsizingRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1978,6 +2007,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRightsizingRecommendationOutput>(GetRightsizingRecommendationOutput.httpOutput(from:), GetRightsizingRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRightsizingRecommendationInput, GetRightsizingRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRightsizingRecommendationOutput>())
@@ -2012,9 +2042,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the cost, coverage, and utilization charts.
     ///
-    /// - Parameter GetSavingsPlanPurchaseRecommendationDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSavingsPlanPurchaseRecommendationDetailsInput`)
     ///
-    /// - Returns: `GetSavingsPlanPurchaseRecommendationDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSavingsPlanPurchaseRecommendationDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2047,6 +2077,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlanPurchaseRecommendationDetailsOutput>(GetSavingsPlanPurchaseRecommendationDetailsOutput.httpOutput(from:), GetSavingsPlanPurchaseRecommendationDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlanPurchaseRecommendationDetailsInput, GetSavingsPlanPurchaseRecommendationDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSavingsPlanPurchaseRecommendationDetailsOutput>())
@@ -2079,7 +2110,7 @@ extension CostExplorerClient {
 
     /// Performs the `GetSavingsPlansCoverage` operation on the `CostExplorer` service.
     ///
-    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:
+    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:
     ///
     /// * LINKED_ACCOUNT
     ///
@@ -2092,9 +2123,9 @@ extension CostExplorerClient {
     ///
     /// To determine valid values for a dimension, use the GetDimensionValues operation.
     ///
-    /// - Parameter GetSavingsPlansCoverageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSavingsPlansCoverageInput`)
     ///
-    /// - Returns: `GetSavingsPlansCoverageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSavingsPlansCoverageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2128,6 +2159,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlansCoverageOutput>(GetSavingsPlansCoverageOutput.httpOutput(from:), GetSavingsPlansCoverageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSavingsPlansCoverageOutput>())
@@ -2162,9 +2194,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves the Savings Plans recommendations for your account. First use StartSavingsPlansPurchaseRecommendationGeneration to generate a new set of recommendations, and then use GetSavingsPlansPurchaseRecommendation to retrieve them.
     ///
-    /// - Parameter GetSavingsPlansPurchaseRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSavingsPlansPurchaseRecommendationInput`)
     ///
-    /// - Returns: `GetSavingsPlansPurchaseRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSavingsPlansPurchaseRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2197,6 +2229,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlansPurchaseRecommendationOutput>(GetSavingsPlansPurchaseRecommendationOutput.httpOutput(from:), GetSavingsPlansPurchaseRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlansPurchaseRecommendationInput, GetSavingsPlansPurchaseRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSavingsPlansPurchaseRecommendationOutput>())
@@ -2231,9 +2264,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Management account in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values. You can't group by any dimension values for GetSavingsPlansUtilization.
     ///
-    /// - Parameter GetSavingsPlansUtilizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSavingsPlansUtilizationInput`)
     ///
-    /// - Returns: `GetSavingsPlansUtilizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSavingsPlansUtilizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2266,6 +2299,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlansUtilizationOutput>(GetSavingsPlansUtilizationOutput.httpOutput(from:), GetSavingsPlansUtilizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlansUtilizationInput, GetSavingsPlansUtilizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSavingsPlansUtilizationOutput>())
@@ -2300,9 +2334,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves attribute data along with aggregate utilization and savings data for a given time period. This doesn't support granular or grouped data (daily/monthly) in response. You can't retrieve data by dates in a single response similar to GetSavingsPlanUtilization, but you have the option to make multiple calls to GetSavingsPlanUtilizationDetails by providing individual dates. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values. GetSavingsPlanUtilizationDetails internally groups data by SavingsPlansArn.
     ///
-    /// - Parameter GetSavingsPlansUtilizationDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSavingsPlansUtilizationDetailsInput`)
     ///
-    /// - Returns: `GetSavingsPlansUtilizationDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSavingsPlansUtilizationDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2336,6 +2370,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSavingsPlansUtilizationDetailsOutput>(GetSavingsPlansUtilizationDetailsOutput.httpOutput(from:), GetSavingsPlansUtilizationDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSavingsPlansUtilizationDetailsOutput>())
@@ -2370,14 +2405,15 @@ extension CostExplorerClient {
     ///
     /// Queries for available tag keys and tag values for a specified period. You can search the tag values for an arbitrary string.
     ///
-    /// - Parameter GetTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagsInput`)
     ///
-    /// - Returns: `GetTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `BillExpirationException` : The requested report expired. Update the date interval and try again.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
@@ -2409,6 +2445,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagsInput, GetTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagsOutput>(GetTagsOutput.httpOutput(from:), GetTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagsInput, GetTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagsOutput>())
@@ -2443,13 +2480,14 @@ extension CostExplorerClient {
     ///
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will use over the forecast time period that you select, based on your past usage.
     ///
-    /// - Parameter GetUsageForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageForecastInput`)
     ///
-    /// - Returns: `GetUsageForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `DataUnavailableException` : The requested data is unavailable.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
@@ -2480,6 +2518,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUsageForecastInput, GetUsageForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageForecastOutput>(GetUsageForecastOutput.httpOutput(from:), GetUsageForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageForecastInput, GetUsageForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageForecastOutput>())
@@ -2514,9 +2553,9 @@ extension CostExplorerClient {
     ///
     /// Lists the commitment purchase analyses for your account.
     ///
-    /// - Parameter ListCommitmentPurchaseAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommitmentPurchaseAnalysesInput`)
     ///
-    /// - Returns: `ListCommitmentPurchaseAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommitmentPurchaseAnalysesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2550,6 +2589,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommitmentPurchaseAnalysesOutput>(ListCommitmentPurchaseAnalysesOutput.httpOutput(from:), ListCommitmentPurchaseAnalysesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommitmentPurchaseAnalysesInput, ListCommitmentPurchaseAnalysesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommitmentPurchaseAnalysesOutput>())
@@ -2584,9 +2624,9 @@ extension CostExplorerClient {
     ///
     /// Retrieves a list of your historical cost allocation tag backfill requests.
     ///
-    /// - Parameter ListCostAllocationTagBackfillHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCostAllocationTagBackfillHistoryInput`)
     ///
-    /// - Returns: `ListCostAllocationTagBackfillHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCostAllocationTagBackfillHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2619,6 +2659,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostAllocationTagBackfillHistoryOutput>(ListCostAllocationTagBackfillHistoryOutput.httpOutput(from:), ListCostAllocationTagBackfillHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostAllocationTagBackfillHistoryInput, ListCostAllocationTagBackfillHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCostAllocationTagBackfillHistoryOutput>())
@@ -2653,9 +2694,9 @@ extension CostExplorerClient {
     ///
     /// Get a list of cost allocation tags. All inputs in the API are optional and serve as filters. By default, all cost allocation tags are returned.
     ///
-    /// - Parameter ListCostAllocationTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCostAllocationTagsInput`)
     ///
-    /// - Returns: `ListCostAllocationTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCostAllocationTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2688,6 +2729,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostAllocationTagsOutput>(ListCostAllocationTagsOutput.httpOutput(from:), ListCostAllocationTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostAllocationTagsInput, ListCostAllocationTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCostAllocationTagsOutput>())
@@ -2720,11 +2762,11 @@ extension CostExplorerClient {
 
     /// Performs the `ListCostCategoryDefinitions` operation on the `CostExplorer` service.
     ///
-    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
+    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all cost categories defined in the account. You have the option to use EffectiveOn and SupportedResourceTypes to return a list of cost categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see cost categories that are effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
     ///
-    /// - Parameter ListCostCategoryDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCostCategoryDefinitionsInput`)
     ///
-    /// - Returns: `ListCostCategoryDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCostCategoryDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2756,6 +2798,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostCategoryDefinitionsOutput>(ListCostCategoryDefinitionsOutput.httpOutput(from:), ListCostCategoryDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCostCategoryDefinitionsOutput>())
@@ -2786,13 +2829,83 @@ extension CostExplorerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListCostCategoryResourceAssociations` operation on the `CostExplorer` service.
+    ///
+    /// Returns resource associations of all cost categories defined in the account. You have the option to use CostCategoryArn to get the association for a specific cost category. ListCostCategoryResourceAssociations supports pagination. The request can have a MaxResults range up to 100.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCostCategoryResourceAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCostCategoryResourceAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
+    public func listCostCategoryResourceAssociations(input: ListCostCategoryResourceAssociationsInput) async throws -> ListCostCategoryResourceAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCostCategoryResourceAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ce")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(ListCostCategoryResourceAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCostCategoryResourceAssociationsOutput>(ListCostCategoryResourceAssociationsOutput.httpOutput(from:), ListCostCategoryResourceAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCostCategoryResourceAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Explorer", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCostCategoryResourceAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(xAmzTarget: "AWSInsightsIndexService.ListCostCategoryResourceAssociations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCostCategoryResourceAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCostCategoryResourceAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCostCategoryResourceAssociationsInput, ListCostCategoryResourceAssociationsOutput>(serviceID: serviceName, version: CostExplorerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostExplorer")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCostCategoryResourceAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListSavingsPlansPurchaseRecommendationGeneration` operation on the `CostExplorer` service.
     ///
     /// Retrieves a list of your historical recommendation generations within the past 30 days.
     ///
-    /// - Parameter ListSavingsPlansPurchaseRecommendationGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSavingsPlansPurchaseRecommendationGenerationInput`)
     ///
-    /// - Returns: `ListSavingsPlansPurchaseRecommendationGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSavingsPlansPurchaseRecommendationGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2826,6 +2939,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSavingsPlansPurchaseRecommendationGenerationOutput>(ListSavingsPlansPurchaseRecommendationGenerationOutput.httpOutput(from:), ListSavingsPlansPurchaseRecommendationGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSavingsPlansPurchaseRecommendationGenerationInput, ListSavingsPlansPurchaseRecommendationGenerationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSavingsPlansPurchaseRecommendationGenerationOutput>())
@@ -2860,9 +2974,9 @@ extension CostExplorerClient {
     ///
     /// Returns a list of resource tags associated with the resource specified by the Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2895,6 +3009,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2929,9 +3044,9 @@ extension CostExplorerClient {
     ///
     /// Modifies the feedback property of a given cost anomaly.
     ///
-    /// - Parameter ProvideAnomalyFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvideAnomalyFeedbackInput`)
     ///
-    /// - Returns: `ProvideAnomalyFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvideAnomalyFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2963,6 +3078,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvideAnomalyFeedbackOutput>(ProvideAnomalyFeedbackOutput.httpOutput(from:), ProvideAnomalyFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvideAnomalyFeedbackInput, ProvideAnomalyFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ProvideAnomalyFeedbackOutput>())
@@ -2997,9 +3113,9 @@ extension CostExplorerClient {
     ///
     /// Specifies the parameters of a planned commitment purchase and starts the generation of the analysis. This enables you to estimate the cost, coverage, and utilization impact of your planned commitment purchases.
     ///
-    /// - Parameter StartCommitmentPurchaseAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCommitmentPurchaseAnalysisInput`)
     ///
-    /// - Returns: `StartCommitmentPurchaseAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCommitmentPurchaseAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3034,6 +3150,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCommitmentPurchaseAnalysisOutput>(StartCommitmentPurchaseAnalysisOutput.httpOutput(from:), StartCommitmentPurchaseAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCommitmentPurchaseAnalysisInput, StartCommitmentPurchaseAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCommitmentPurchaseAnalysisOutput>())
@@ -3068,9 +3185,9 @@ extension CostExplorerClient {
     ///
     /// Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours.
     ///
-    /// - Parameter StartCostAllocationTagBackfillInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCostAllocationTagBackfillInput`)
     ///
-    /// - Returns: `StartCostAllocationTagBackfillOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCostAllocationTagBackfillOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3103,6 +3220,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCostAllocationTagBackfillOutput>(StartCostAllocationTagBackfillOutput.httpOutput(from:), StartCostAllocationTagBackfillOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCostAllocationTagBackfillInput, StartCostAllocationTagBackfillOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCostAllocationTagBackfillOutput>())
@@ -3137,9 +3255,9 @@ extension CostExplorerClient {
     ///
     /// Requests a Savings Plans recommendation generation. This enables you to calculate a fresh set of Savings Plans recommendations that takes your latest usage data and current Savings Plans inventory into account. You can refresh Savings Plans recommendations up to three times daily for a consolidated billing family. StartSavingsPlansPurchaseRecommendationGeneration has no request syntax because no input parameters are needed to support this operation.
     ///
-    /// - Parameter StartSavingsPlansPurchaseRecommendationGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSavingsPlansPurchaseRecommendationGenerationInput`)
     ///
-    /// - Returns: `StartSavingsPlansPurchaseRecommendationGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSavingsPlansPurchaseRecommendationGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3174,6 +3292,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSavingsPlansPurchaseRecommendationGenerationOutput>(StartSavingsPlansPurchaseRecommendationGenerationOutput.httpOutput(from:), StartSavingsPlansPurchaseRecommendationGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSavingsPlansPurchaseRecommendationGenerationInput, StartSavingsPlansPurchaseRecommendationGenerationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSavingsPlansPurchaseRecommendationGenerationOutput>())
@@ -3208,9 +3327,9 @@ extension CostExplorerClient {
     ///
     /// An API operation for adding one or more tags (key-value pairs) to a resource. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value you specify replaces the previous value for that tag. Although the maximum number of array members is 200, user-tag maximum is 50. The remaining are reserved for Amazon Web Services use.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3244,6 +3363,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3278,9 +3398,9 @@ extension CostExplorerClient {
     ///
     /// Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3313,6 +3433,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3347,9 +3468,9 @@ extension CostExplorerClient {
     ///
     /// Updates an existing cost anomaly monitor. The changes made are applied going forward, and doesn't change anomalies detected in the past.
     ///
-    /// - Parameter UpdateAnomalyMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnomalyMonitorInput`)
     ///
-    /// - Returns: `UpdateAnomalyMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnomalyMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3382,6 +3503,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnomalyMonitorOutput>(UpdateAnomalyMonitorOutput.httpOutput(from:), UpdateAnomalyMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnomalyMonitorInput, UpdateAnomalyMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnomalyMonitorOutput>())
@@ -3416,9 +3538,9 @@ extension CostExplorerClient {
     ///
     /// Updates an existing cost anomaly subscription. Specify the fields that you want to update. Omitted fields are unchanged. The JSON below describes the generic construct for each type. See [Request Parameters](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_UpdateAnomalySubscription.html#API_UpdateAnomalySubscription_RequestParameters) for possible values as they apply to AnomalySubscription.
     ///
-    /// - Parameter UpdateAnomalySubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnomalySubscriptionInput`)
     ///
-    /// - Returns: `UpdateAnomalySubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnomalySubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3452,6 +3574,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnomalySubscriptionOutput>(UpdateAnomalySubscriptionOutput.httpOutput(from:), UpdateAnomalySubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnomalySubscriptionInput, UpdateAnomalySubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnomalySubscriptionOutput>())
@@ -3486,9 +3609,9 @@ extension CostExplorerClient {
     ///
     /// Updates status for cost allocation tags in bulk, with maximum batch size of 20. If the tag status that's updated is the same as the existing tag status, the request doesn't fail. Instead, it doesn't have any effect on the tag status (for example, activating the active tag).
     ///
-    /// - Parameter UpdateCostAllocationTagsStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCostAllocationTagsStatusInput`)
     ///
-    /// - Returns: `UpdateCostAllocationTagsStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCostAllocationTagsStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3520,6 +3643,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCostAllocationTagsStatusOutput>(UpdateCostAllocationTagsStatusOutput.httpOutput(from:), UpdateCostAllocationTagsStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCostAllocationTagsStatusInput, UpdateCostAllocationTagsStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCostAllocationTagsStatusOutput>())
@@ -3552,11 +3676,11 @@ extension CostExplorerClient {
 
     /// Performs the `UpdateCostCategoryDefinition` operation on the `CostExplorer` service.
     ///
-    /// Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
+    /// Updates an existing cost category. Changes made to the cost category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
     ///
-    /// - Parameter UpdateCostCategoryDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCostCategoryDefinitionInput`)
     ///
-    /// - Returns: `UpdateCostCategoryDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCostCategoryDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3590,6 +3714,7 @@ extension CostExplorerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCostCategoryDefinitionOutput>(UpdateCostCategoryDefinitionOutput.httpOutput(from:), UpdateCostCategoryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCostCategoryDefinitionInput, UpdateCostCategoryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCostCategoryDefinitionOutput>())

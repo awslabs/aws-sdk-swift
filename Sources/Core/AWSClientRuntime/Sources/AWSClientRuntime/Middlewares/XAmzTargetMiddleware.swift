@@ -1,8 +1,8 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0.
 
-import class Smithy.Context
 import ClientRuntime
+import class Smithy.Context
 import SmithyHTTPAPI
 
 public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput> {

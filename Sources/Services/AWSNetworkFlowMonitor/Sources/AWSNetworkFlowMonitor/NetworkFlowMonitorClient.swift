@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NetworkFlowMonitorClient: ClientRuntime.Client {
+public class NetworkFlowMonitorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NetworkFlowMonitorClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFlowMonitorClient.NetworkFlowMonitorClientConfiguration
     let serviceName = "NetworkFlowMonitor"
@@ -372,11 +372,11 @@ extension NetworkFlowMonitorClient {
 extension NetworkFlowMonitorClient {
     /// Performs the `CreateMonitor` operation on the `NetworkFlowMonitor` service.
     ///
-    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicators (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
+    /// Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
     ///
-    /// - Parameter CreateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +416,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMonitorInput, CreateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMonitorOutput>(CreateMonitorOutput.httpOutput(from:), CreateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMonitorInput, CreateMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMonitorOutput>())
@@ -445,11 +446,17 @@ extension NetworkFlowMonitorClient {
 
     /// Performs the `CreateScope` operation on the `NetworkFlowMonitor` service.
     ///
-    /// Create a scope of resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend. This call returns a scope ID to identify the scope. When you create a scope, you enable permissions for Network Flow Monitor. The scope is set to the resources for the Amazon Web Services that enables the feature.
+    /// In Network Flow Monitor, you specify a scope for the service to generate metrics for. By using the scope, Network Flow Monitor can generate a topology of all the resources to measure performance metrics for. When you create a scope, you enable permissions for Network Flow Monitor. A scope is a Region-account pair or multiple Region-account pairs. Network Flow Monitor uses your scope to determine all the resources (the topology) where Network Flow Monitor will gather network flow performance metrics for you. To provide performance metrics, Network Flow Monitor uses the data that is sent by the Network Flow Monitor agents you install on the resources. To define the Region-account pairs for your scope, the Network Flow Monitor API uses the following constucts, which allow for future flexibility in defining scopes:
     ///
-    /// - Parameter CreateScopeInput : [no documentation found]
+    /// * Targets, which are arrays of targetResources.
     ///
-    /// - Returns: `CreateScopeOutput` : [no documentation found]
+    /// * Target resources, which are Region-targetIdentifier pairs.
+    ///
+    /// * Target identifiers, made up of a targetID (currently always an account ID) and a targetType (currently always an account).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateScopeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,6 +496,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScopeInput, CreateScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScopeOutput>(CreateScopeOutput.httpOutput(from:), CreateScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScopeInput, CreateScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScopeOutput>())
@@ -520,14 +528,15 @@ extension NetworkFlowMonitorClient {
     ///
     /// Deletes a monitor in Network Flow Monitor.
     ///
-    /// - Parameter DeleteMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitorInput`)
     ///
-    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The requested resource is in use.
     /// - `InternalServerException` : An internal error occurred.
     /// - `ResourceNotFoundException` : The request specifies a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -557,6 +566,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMonitorInput, DeleteMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMonitorOutput>(DeleteMonitorOutput.httpOutput(from:), DeleteMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMonitorInput, DeleteMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMonitorOutput>())
@@ -588,9 +598,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Deletes a scope that has been defined.
     ///
-    /// - Parameter DeleteScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScopeInput`)
     ///
-    /// - Returns: `DeleteScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +637,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScopeInput, DeleteScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScopeOutput>(DeleteScopeOutput.httpOutput(from:), DeleteScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScopeInput, DeleteScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScopeOutput>())
@@ -658,9 +669,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
     ///
-    /// - Parameter GetMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMonitorInput`)
     ///
-    /// - Returns: `GetMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,6 +706,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMonitorInput, GetMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMonitorOutput>(GetMonitorOutput.httpOutput(from:), GetMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMonitorInput, GetMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMonitorOutput>())
@@ -726,9 +738,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a specific monitor. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryMonitorTopContributors. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter GetQueryResultsMonitorTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsMonitorTopContributorsInput`)
     ///
-    /// - Returns: `GetQueryResultsMonitorTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsMonitorTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,6 +777,7 @@ extension NetworkFlowMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQueryResultsMonitorTopContributorsInput, GetQueryResultsMonitorTopContributorsOutput>(GetQueryResultsMonitorTopContributorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryResultsMonitorTopContributorsOutput>(GetQueryResultsMonitorTopContributorsOutput.httpOutput(from:), GetQueryResultsMonitorTopContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryResultsMonitorTopContributorsInput, GetQueryResultsMonitorTopContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryResultsMonitorTopContributorsOutput>())
@@ -796,9 +809,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Return the data for a query with the Network Flow Monitor query interface. You specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for a scope for workload insights. Workload insights provide a high level view of network flow performance data collected by agents. To return the data for the top contributors, see GetQueryResultsWorkloadInsightsTopContributorsData. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter GetQueryResultsWorkloadInsightsTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsWorkloadInsightsTopContributorsInput`)
     ///
-    /// - Returns: `GetQueryResultsWorkloadInsightsTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsWorkloadInsightsTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -835,6 +848,7 @@ extension NetworkFlowMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQueryResultsWorkloadInsightsTopContributorsInput, GetQueryResultsWorkloadInsightsTopContributorsOutput>(GetQueryResultsWorkloadInsightsTopContributorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryResultsWorkloadInsightsTopContributorsOutput>(GetQueryResultsWorkloadInsightsTopContributorsOutput.httpOutput(from:), GetQueryResultsWorkloadInsightsTopContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryResultsWorkloadInsightsTopContributorsInput, GetQueryResultsWorkloadInsightsTopContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryResultsWorkloadInsightsTopContributorsOutput>())
@@ -866,9 +880,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a scope ID. This query returns the data for top contributors for workload insights for a specific scope. Workload insights provide a high level view of network flow performance data collected by agents for a scope. To return just the top contributors, see GetQueryResultsWorkloadInsightsTopContributors. Create a query ID for this call by calling the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Use the scope ID that was returned for your account by CreateScope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
     ///
-    /// - Parameter GetQueryResultsWorkloadInsightsTopContributorsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsWorkloadInsightsTopContributorsDataInput`)
     ///
-    /// - Returns: `GetQueryResultsWorkloadInsightsTopContributorsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsWorkloadInsightsTopContributorsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -905,6 +919,7 @@ extension NetworkFlowMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQueryResultsWorkloadInsightsTopContributorsDataInput, GetQueryResultsWorkloadInsightsTopContributorsDataOutput>(GetQueryResultsWorkloadInsightsTopContributorsDataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryResultsWorkloadInsightsTopContributorsDataOutput>(GetQueryResultsWorkloadInsightsTopContributorsDataOutput.httpOutput(from:), GetQueryResultsWorkloadInsightsTopContributorsDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryResultsWorkloadInsightsTopContributorsDataInput, GetQueryResultsWorkloadInsightsTopContributorsDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryResultsWorkloadInsightsTopContributorsDataOutput>())
@@ -936,9 +951,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors for a monitor. When you create a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start (create) the query, StartQueryMonitorTopContributors. When you run a query, use this call to check the status of the query to make sure that the query has SUCCEEDED before you review the results.
     ///
-    /// - Parameter GetQueryStatusMonitorTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatusMonitorTopContributorsInput`)
     ///
-    /// - Returns: `GetQueryStatusMonitorTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatusMonitorTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,6 +988,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueryStatusMonitorTopContributorsInput, GetQueryStatusMonitorTopContributorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryStatusMonitorTopContributorsOutput>(GetQueryStatusMonitorTopContributorsOutput.httpOutput(from:), GetQueryStatusMonitorTopContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryStatusMonitorTopContributorsInput, GetQueryStatusMonitorTopContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryStatusMonitorTopContributorsOutput>())
@@ -1004,9 +1020,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Return the data for a query with the Network Flow Monitor query interface. Specify the query that you want to return results for by providing a query ID and a monitor name. This query returns the top contributors for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributors. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter GetQueryStatusWorkloadInsightsTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatusWorkloadInsightsTopContributorsInput`)
     ///
-    /// - Returns: `GetQueryStatusWorkloadInsightsTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatusWorkloadInsightsTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,6 +1057,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueryStatusWorkloadInsightsTopContributorsInput, GetQueryStatusWorkloadInsightsTopContributorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryStatusWorkloadInsightsTopContributorsOutput>(GetQueryStatusWorkloadInsightsTopContributorsOutput.httpOutput(from:), GetQueryStatusWorkloadInsightsTopContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryStatusWorkloadInsightsTopContributorsInput, GetQueryStatusWorkloadInsightsTopContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryStatusWorkloadInsightsTopContributorsOutput>())
@@ -1072,9 +1089,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Returns the current status of a query for the Network Flow Monitor query interface, for a specified query ID and monitor. This call returns the query status for the top contributors data for workload insights. When you start a query, use this call to check the status of the query to make sure that it has has SUCCEEDED before you review the results. Use the same query ID that you used for the corresponding API call to start the query, StartQueryWorkloadInsightsTopContributorsData. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned. The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
     ///
-    /// - Parameter GetQueryStatusWorkloadInsightsTopContributorsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatusWorkloadInsightsTopContributorsDataInput`)
     ///
-    /// - Returns: `GetQueryStatusWorkloadInsightsTopContributorsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatusWorkloadInsightsTopContributorsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,6 +1126,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueryStatusWorkloadInsightsTopContributorsDataInput, GetQueryStatusWorkloadInsightsTopContributorsDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryStatusWorkloadInsightsTopContributorsDataOutput>(GetQueryStatusWorkloadInsightsTopContributorsDataOutput.httpOutput(from:), GetQueryStatusWorkloadInsightsTopContributorsDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryStatusWorkloadInsightsTopContributorsDataInput, GetQueryStatusWorkloadInsightsTopContributorsDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryStatusWorkloadInsightsTopContributorsDataOutput>())
@@ -1140,9 +1158,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account.
     ///
-    /// - Parameter GetScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetScopeInput`)
     ///
-    /// - Returns: `GetScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,6 +1196,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetScopeInput, GetScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScopeOutput>(GetScopeOutput.httpOutput(from:), GetScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScopeInput, GetScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScopeOutput>())
@@ -1209,9 +1228,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the STATUS parameter.
     ///
-    /// - Parameter ListMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1246,6 +1265,7 @@ extension NetworkFlowMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMonitorsInput, ListMonitorsOutput>(ListMonitorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitorsOutput>(ListMonitorsOutput.httpOutput(from:), ListMonitorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitorsInput, ListMonitorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitorsOutput>())
@@ -1277,9 +1297,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// List all the scopes for an account.
     ///
-    /// - Parameter ListScopesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScopesInput`)
     ///
-    /// - Returns: `ListScopesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScopesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1315,6 +1335,7 @@ extension NetworkFlowMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListScopesInput, ListScopesOutput>(ListScopesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScopesOutput>(ListScopesOutput.httpOutput(from:), ListScopesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScopesInput, ListScopesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScopesOutput>())
@@ -1346,9 +1367,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Returns all the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1384,6 +1405,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1415,9 +1437,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Create a query that you can use with the Network Flow Monitor query interface to return the top contributors for a monitor. Specify the monitor that you want to create the query for. The call returns a query ID that you can use with [ GetQueryResultsMonitorTopContributors](https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_GetQueryResultsMonitorTopContributors.html) to run the query and return the top contributors for a specific monitor. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     ///
-    /// - Parameter StartQueryMonitorTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryMonitorTopContributorsInput`)
     ///
-    /// - Returns: `StartQueryMonitorTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryMonitorTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1455,6 +1477,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryMonitorTopContributorsInput, StartQueryMonitorTopContributorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQueryMonitorTopContributorsOutput>(StartQueryMonitorTopContributorsOutput.httpOutput(from:), StartQueryMonitorTopContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryMonitorTopContributorsInput, StartQueryMonitorTopContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryMonitorTopContributorsOutput>())
@@ -1486,9 +1509,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Create a query with the Network Flow Monitor query interface that you can run to return workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with [ GetQueryResultsWorkloadInsightsTopContributors](https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_GetQueryResultsWorkloadInsightsTopContributors.html) to run the query and return the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
     ///
-    /// - Parameter StartQueryWorkloadInsightsTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryWorkloadInsightsTopContributorsInput`)
     ///
-    /// - Returns: `StartQueryWorkloadInsightsTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryWorkloadInsightsTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1526,6 +1549,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryWorkloadInsightsTopContributorsInput, StartQueryWorkloadInsightsTopContributorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQueryWorkloadInsightsTopContributorsOutput>(StartQueryWorkloadInsightsTopContributorsOutput.httpOutput(from:), StartQueryWorkloadInsightsTopContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryWorkloadInsightsTopContributorsInput, StartQueryWorkloadInsightsTopContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryWorkloadInsightsTopContributorsOutput>())
@@ -1557,9 +1581,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Create a query with the Network Flow Monitor query interface that you can run to return data for workload insights top contributors. Specify the scope that you want to create a query for. The call returns a query ID that you can use with [ GetQueryResultsWorkloadInsightsTopContributorsData](https://docs.aws.amazon.com/networkflowmonitor/2.0/APIReference/API_GetQueryResultsWorkloadInsightsTopContributorsData.html) to run the query and return the data for the top contributors for the workload insights for a scope. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter StartQueryWorkloadInsightsTopContributorsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryWorkloadInsightsTopContributorsDataInput`)
     ///
-    /// - Returns: `StartQueryWorkloadInsightsTopContributorsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryWorkloadInsightsTopContributorsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1597,6 +1621,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryWorkloadInsightsTopContributorsDataInput, StartQueryWorkloadInsightsTopContributorsDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQueryWorkloadInsightsTopContributorsDataOutput>(StartQueryWorkloadInsightsTopContributorsDataOutput.httpOutput(from:), StartQueryWorkloadInsightsTopContributorsDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryWorkloadInsightsTopContributorsDataInput, StartQueryWorkloadInsightsTopContributorsDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryWorkloadInsightsTopContributorsDataOutput>())
@@ -1628,9 +1653,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Stop a top contributors query for a monitor. Specify the query that you want to stop by providing a query ID and a monitor name. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter StopQueryMonitorTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryMonitorTopContributorsInput`)
     ///
-    /// - Returns: `StopQueryMonitorTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryMonitorTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1665,6 +1690,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopQueryMonitorTopContributorsInput, StopQueryMonitorTopContributorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopQueryMonitorTopContributorsOutput>(StopQueryMonitorTopContributorsOutput.httpOutput(from:), StopQueryMonitorTopContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopQueryMonitorTopContributorsInput, StopQueryMonitorTopContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopQueryMonitorTopContributorsOutput>())
@@ -1696,9 +1722,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Stop a top contributors query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter StopQueryWorkloadInsightsTopContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryWorkloadInsightsTopContributorsInput`)
     ///
-    /// - Returns: `StopQueryWorkloadInsightsTopContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryWorkloadInsightsTopContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1733,6 +1759,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopQueryWorkloadInsightsTopContributorsInput, StopQueryWorkloadInsightsTopContributorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopQueryWorkloadInsightsTopContributorsOutput>(StopQueryWorkloadInsightsTopContributorsOutput.httpOutput(from:), StopQueryWorkloadInsightsTopContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopQueryWorkloadInsightsTopContributorsInput, StopQueryWorkloadInsightsTopContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopQueryWorkloadInsightsTopContributorsOutput>())
@@ -1764,9 +1791,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Stop a top contributors data query for workload insights. Specify the query that you want to stop by providing a query ID and a scope ID. Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
     ///
-    /// - Parameter StopQueryWorkloadInsightsTopContributorsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryWorkloadInsightsTopContributorsDataInput`)
     ///
-    /// - Returns: `StopQueryWorkloadInsightsTopContributorsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryWorkloadInsightsTopContributorsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1801,6 +1828,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopQueryWorkloadInsightsTopContributorsDataInput, StopQueryWorkloadInsightsTopContributorsDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopQueryWorkloadInsightsTopContributorsDataOutput>(StopQueryWorkloadInsightsTopContributorsDataOutput.httpOutput(from:), StopQueryWorkloadInsightsTopContributorsDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopQueryWorkloadInsightsTopContributorsDataInput, StopQueryWorkloadInsightsTopContributorsDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopQueryWorkloadInsightsTopContributorsDataOutput>())
@@ -1832,9 +1860,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1873,6 +1901,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1904,9 +1933,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1943,6 +1972,7 @@ extension NetworkFlowMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1974,9 +2004,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Update a monitor to add or remove local or remote resources.
     ///
-    /// - Parameter UpdateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitorInput`)
     ///
-    /// - Returns: `UpdateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2015,6 +2045,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMonitorInput, UpdateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMonitorOutput>(UpdateMonitorOutput.httpOutput(from:), UpdateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMonitorInput, UpdateMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMonitorOutput>())
@@ -2046,9 +2077,9 @@ extension NetworkFlowMonitorClient {
     ///
     /// Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
     ///
-    /// - Parameter UpdateScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScopeInput`)
     ///
-    /// - Returns: `UpdateScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2088,6 +2119,7 @@ extension NetworkFlowMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScopeInput, UpdateScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScopeOutput>(UpdateScopeOutput.httpOutput(from:), UpdateScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScopeInput, UpdateScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScopeOutput>())

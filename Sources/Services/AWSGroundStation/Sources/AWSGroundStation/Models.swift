@@ -941,6 +941,202 @@ extension GroundStationClientTypes {
     }
 }
 
+extension GroundStationClientTypes {
+
+    /// Time-tagged azimuth elevation pointing data. Specifies the antenna pointing direction at a specific time offset from the segment's reference epoch.
+    public struct TimeAzEl: Swift.Sendable {
+        /// Azimuth angle at the specified time. Valid ranges by unit:
+        ///
+        /// * DEGREE_ANGLE: -180 to 360 degrees, measured clockwise from true north
+        ///
+        /// * RADIAN: -π to 2π radians, measured clockwise from true north
+        /// This member is required.
+        public var az: Swift.Double?
+        /// Time offset in atomic seconds from the segment's reference epoch. All dt values within a segment must be in ascending order with no duplicates. dt values may be:
+        ///
+        /// * negative
+        ///
+        /// * expressed as fractions of a second
+        ///
+        /// * expressed in scientific notation
+        /// This member is required.
+        public var dt: Swift.Double?
+        /// Elevation angle at the specified time. Valid ranges by unit:
+        ///
+        /// * DEGREE_ANGLE: -90 to 90 degrees, where 0 is the horizon, 90 is zenith, and negative values are below the horizon
+        ///
+        /// * RADIAN: -π/2 to π/2 radians, where 0 is the horizon, π/2 is zenith, and negative values are below the horizon
+        /// This member is required.
+        public var el: Swift.Double?
+
+        public init(
+            az: Swift.Double? = nil,
+            dt: Swift.Double? = nil,
+            el: Swift.Double? = nil
+        ) {
+            self.az = az
+            self.dt = dt
+            self.el = el
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Time range specified using ISO 8601 format timestamps.
+    public struct ISO8601TimeRange: Swift.Sendable {
+        /// End time in ISO 8601 format in Coordinated Universal Time (UTC). Example: 2024-01-15T12:00:00.000Z
+        /// This member is required.
+        public var endTime: Foundation.Date?
+        /// Start time in ISO 8601 format in Coordinated Universal Time (UTC). Example: 2026-11-15T10:28:48.000Z
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// A time segment containing azimuth elevation pointing data. Each segment defines a continuous time period with pointing angle data points. AWS Ground Station uses 4th order Lagrange interpolation between the provided points, so each segment must contain at least five data points.
+    public struct AzElSegment: Swift.Sendable {
+        /// List of time-tagged azimuth elevation data points. Must contain at least five points to support 4th order Lagrange interpolation. Points must be in chronological order with no duplicates.
+        /// This member is required.
+        public var azElList: [GroundStationClientTypes.TimeAzEl]?
+        /// The reference time for this segment in ISO 8601 format in Coordinated Universal Time (UTC). All time values within the segment's [AzElSegment$azElList] are specified as offsets in atomic seconds from this reference epoch. Example: 2024-01-15T12:00:00.000Z
+        /// This member is required.
+        public var referenceEpoch: Foundation.Date?
+        /// The valid time range for this segment. Specifies the start and end timestamps in ISO 8601 format in Coordinated Universal Time (UTC). The segment's pointing data must cover this entire time range.
+        /// This member is required.
+        public var validTimeRange: GroundStationClientTypes.ISO8601TimeRange?
+
+        public init(
+            azElList: [GroundStationClientTypes.TimeAzEl]? = nil,
+            referenceEpoch: Foundation.Date? = nil,
+            validTimeRange: GroundStationClientTypes.ISO8601TimeRange? = nil
+        ) {
+            self.azElList = azElList
+            self.referenceEpoch = referenceEpoch
+            self.validTimeRange = validTimeRange
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Azimuth elevation segment collection. Contains five or more time-ordered segments that define antenna pointing angles over the ephemeris validity period.
+    public struct AzElSegments: Swift.Sendable {
+        /// The unit of measure for azimuth and elevation angles. All angles in all segments must use the same unit.
+        /// This member is required.
+        public var angleUnit: GroundStationClientTypes.AngleUnits?
+        /// List of azimuth elevation segments. Must contain between 1 and 100 segments. Segments must be in chronological order with no overlaps.
+        /// This member is required.
+        public var azElSegmentList: [GroundStationClientTypes.AzElSegment]?
+
+        public init(
+            angleUnit: GroundStationClientTypes.AngleUnits? = nil,
+            azElSegmentList: [GroundStationClientTypes.AzElSegment]? = nil
+        ) {
+            self.angleUnit = angleUnit
+            self.azElSegmentList = azElSegmentList
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Object stored in Amazon S3 containing ephemeris data.
+    public struct S3Object: Swift.Sendable {
+        /// An Amazon S3 Bucket name.
+        public var bucket: Swift.String?
+        /// An Amazon S3 key for the ephemeris.
+        public var key: Swift.String?
+        /// For versioned Amazon S3 objects, the version to use for the ephemeris.
+        public var version: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            key: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.key = key
+            self.version = version
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Container for azimuth elevation segment data. Specify either [AzElSegmentsData$s3Object] to reference data in Amazon S3, or [AzElSegmentsData$azElData] to provide data inline.
+    public enum AzElSegmentsData: Swift.Sendable {
+        /// The Amazon S3 object containing azimuth elevation segment data. The Amazon S3 object must contain JSON-formatted azimuth elevation data matching the [AzElSegments] structure.
+        case s3object(GroundStationClientTypes.S3Object)
+        /// Azimuth elevation segment data provided directly in the request. Use this option for smaller datasets or when Amazon S3 access is not available.
+        case azeldata(GroundStationClientTypes.AzElSegments)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Azimuth elevation ephemeris data. Use this ephemeris type to provide pointing angles directly, rather than satellite orbital elements. Use this when you need precise antenna pointing but have imprecise or unknown satellite trajectory information. The azimuth elevation data specifies the antenna pointing direction at specific times relative to a ground station location. AWS Ground Station uses 4th order Lagrange interpolation to compute pointing angles between the provided data points. AWS Ground Station automatically filters interpolated pointing angles, including only those that are above the site mask elevation of the specified ground station. For more detail about providing azimuth elevation ephemerides to AWS Ground Station, see the [azimuth elevation ephemeris section](https://docs.aws.amazon.com/ground-station/latest/ug/providing-azimuth-elevation-ephemeris-data.html) of the AWS Ground Station User Guide.
+    public struct AzElEphemeris: Swift.Sendable {
+        /// Azimuth elevation segment data. You can provide data inline in the request or through an Amazon S3 object reference.
+        /// This member is required.
+        public var data: GroundStationClientTypes.AzElSegmentsData?
+        /// The ground station name for which you're providing azimuth elevation data. This ephemeris is specific to this ground station and can't be used at other locations.
+        /// This member is required.
+        public var groundStation: Swift.String?
+
+        public init(
+            data: GroundStationClientTypes.AzElSegmentsData? = nil,
+            groundStation: Swift.String? = nil
+        ) {
+            self.data = data
+            self.groundStation = groundStation
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Filter for selecting contacts that use a specific [AzElEphemeris].
+    public struct AzElEphemerisFilter: Swift.Sendable {
+        /// Unique identifier of the azimuth elevation ephemeris.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Program track settings for [AzElEphemeris].
+    public struct AzElProgramTrackSettings: Swift.Sendable {
+        /// Unique identifier of the azimuth elevation ephemeris.
+        /// This member is required.
+        public var ephemerisId: Swift.String?
+
+        public init(
+            ephemerisId: Swift.String? = nil
+        ) {
+            self.ephemerisId = ephemerisId
+        }
+    }
+}
+
 ///
 public struct CancelContactInput: Swift.Sendable {
     /// UUID of a contact.
@@ -1489,6 +1685,66 @@ public struct UpdateConfigOutput: Swift.Sendable {
 
 extension GroundStationClientTypes {
 
+    /// Connection details for Ground Station to Agent and Agent to customer
+    public struct DownlinkConnectionDetails: Swift.Sendable {
+        /// Ingress address of AgentEndpoint with a port range and an optional mtu.
+        /// This member is required.
+        public var agentIpAndPortAddress: GroundStationClientTypes.RangedConnectionDetails?
+        /// Egress address of AgentEndpoint with an optional mtu.
+        /// This member is required.
+        public var egressAddressAndPort: GroundStationClientTypes.ConnectionDetails?
+
+        public init(
+            agentIpAndPortAddress: GroundStationClientTypes.RangedConnectionDetails? = nil,
+            egressAddressAndPort: GroundStationClientTypes.ConnectionDetails? = nil
+        ) {
+            self.agentIpAndPortAddress = agentIpAndPortAddress
+            self.egressAddressAndPort = egressAddressAndPort
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Dataflow details for a downlink endpoint
+    public enum DownlinkDataflowDetails: Swift.Sendable {
+        /// Downlink connection details for customer to Agent and Agent to Ground Station
+        case agentconnectiondetails(GroundStationClientTypes.DownlinkConnectionDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Details for a downlink agent endpoint
+    public struct DownlinkAwsGroundStationAgentEndpointDetails: Swift.Sendable {
+        /// Status of the agent associated with the downlink dataflow endpoint
+        public var agentStatus: GroundStationClientTypes.AgentStatus?
+        /// Health audit results for the downlink dataflow endpoint
+        public var auditResults: GroundStationClientTypes.AuditResults?
+        /// Dataflow details for the downlink endpoint
+        /// This member is required.
+        public var dataflowDetails: GroundStationClientTypes.DownlinkDataflowDetails?
+        /// Downlink dataflow endpoint name
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            agentStatus: GroundStationClientTypes.AgentStatus? = nil,
+            auditResults: GroundStationClientTypes.AuditResults? = nil,
+            dataflowDetails: GroundStationClientTypes.DownlinkDataflowDetails? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.agentStatus = agentStatus
+            self.auditResults = auditResults
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     public enum EndpointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case creating
@@ -1580,10 +1836,72 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
+    /// Connection details for customer to Agent and Agent to Ground Station
+    public struct UplinkConnectionDetails: Swift.Sendable {
+        /// Ingress address of AgentEndpoint with a port range and an optional mtu.
+        /// This member is required.
+        public var agentIpAndPortAddress: GroundStationClientTypes.RangedConnectionDetails?
+        /// Egress address of AgentEndpoint with an optional mtu.
+        /// This member is required.
+        public var ingressAddressAndPort: GroundStationClientTypes.ConnectionDetails?
+
+        public init(
+            agentIpAndPortAddress: GroundStationClientTypes.RangedConnectionDetails? = nil,
+            ingressAddressAndPort: GroundStationClientTypes.ConnectionDetails? = nil
+        ) {
+            self.agentIpAndPortAddress = agentIpAndPortAddress
+            self.ingressAddressAndPort = ingressAddressAndPort
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Dataflow details for an uplink endpoint
+    public enum UplinkDataflowDetails: Swift.Sendable {
+        /// Uplink connection details for customer to Agent and Agent to Ground Station
+        case agentconnectiondetails(GroundStationClientTypes.UplinkConnectionDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Details for an uplink agent endpoint
+    public struct UplinkAwsGroundStationAgentEndpointDetails: Swift.Sendable {
+        /// Status of the agent associated with the uplink dataflow endpoint
+        public var agentStatus: GroundStationClientTypes.AgentStatus?
+        /// Health audit results for the uplink dataflow endpoint
+        public var auditResults: GroundStationClientTypes.AuditResults?
+        /// Dataflow details for the uplink endpoint
+        /// This member is required.
+        public var dataflowDetails: GroundStationClientTypes.UplinkDataflowDetails?
+        /// Uplink dataflow endpoint name
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            agentStatus: GroundStationClientTypes.AgentStatus? = nil,
+            auditResults: GroundStationClientTypes.AuditResults? = nil,
+            dataflowDetails: GroundStationClientTypes.UplinkDataflowDetails? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.agentStatus = agentStatus
+            self.auditResults = auditResults
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     /// Information about the endpoint details.
     public struct EndpointDetails: Swift.Sendable {
         /// An agent endpoint.
         public var awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint?
+        /// Definition for a downlink agent endpoint
+        public var downlinkAwsGroundStationAgentEndpoint: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails?
         /// A dataflow endpoint.
         public var endpoint: GroundStationClientTypes.DataflowEndpoint?
         /// Health reasons for a dataflow endpoint. This field is ignored when calling CreateDataflowEndpointGroup.
@@ -1592,19 +1910,25 @@ extension GroundStationClientTypes {
         public var healthStatus: GroundStationClientTypes.CapabilityHealth?
         /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public var securityDetails: GroundStationClientTypes.SecurityDetails?
+        /// Definition for an uplink agent endpoint
+        public var uplinkAwsGroundStationAgentEndpoint: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails?
 
         public init(
             awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint? = nil,
+            downlinkAwsGroundStationAgentEndpoint: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails? = nil,
             endpoint: GroundStationClientTypes.DataflowEndpoint? = nil,
             healthReasons: [GroundStationClientTypes.CapabilityHealthReason]? = nil,
             healthStatus: GroundStationClientTypes.CapabilityHealth? = nil,
-            securityDetails: GroundStationClientTypes.SecurityDetails? = nil
+            securityDetails: GroundStationClientTypes.SecurityDetails? = nil,
+            uplinkAwsGroundStationAgentEndpoint: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails? = nil
         ) {
             self.awsGroundStationAgentEndpoint = awsGroundStationAgentEndpoint
+            self.downlinkAwsGroundStationAgentEndpoint = downlinkAwsGroundStationAgentEndpoint
             self.endpoint = endpoint
             self.healthReasons = healthReasons
             self.healthStatus = healthStatus
             self.securityDetails = securityDetails
+            self.uplinkAwsGroundStationAgentEndpoint = uplinkAwsGroundStationAgentEndpoint
         }
     }
 }
@@ -1796,6 +2120,61 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
+    public enum EphemerisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azEl
+        case oem
+        case serviceManaged
+        case tle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EphemerisType] {
+            return [
+                .azEl,
+                .oem,
+                .serviceManaged,
+                .tle
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azEl: return "AZ_EL"
+            case .oem: return "OEM"
+            case .serviceManaged: return "SERVICE_MANAGED"
+            case .tle: return "TLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Ephemeris data for a contact.
+    public struct EphemerisResponseData: Swift.Sendable {
+        /// Unique identifier of the ephemeris. Appears only for custom ephemerides.
+        public var ephemerisId: Swift.String?
+        /// Type of ephemeris.
+        /// This member is required.
+        public var ephemerisType: GroundStationClientTypes.EphemerisType?
+
+        public init(
+            ephemerisId: Swift.String? = nil,
+            ephemerisType: GroundStationClientTypes.EphemerisType? = nil
+        ) {
+            self.ephemerisId = ephemerisId
+            self.ephemerisType = ephemerisType
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     /// Elevation angle of the satellite in the sky during a contact.
     public struct Elevation: Swift.Sendable {
         /// Elevation angle units.
@@ -1815,6 +2194,32 @@ extension GroundStationClientTypes {
     }
 }
 
+extension GroundStationClientTypes {
+
+    /// Program track settings for an antenna during a contact.
+    public enum ProgramTrackSettings: Swift.Sendable {
+        /// Program track settings for [AzElEphemeris].
+        case azel(GroundStationClientTypes.AzElProgramTrackSettings)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Overrides the default tracking configuration on an antenna during a contact.
+    public struct TrackingOverrides: Swift.Sendable {
+        /// Program track settings to override for antenna tracking during the contact.
+        /// This member is required.
+        public var programTrackSettings: GroundStationClientTypes.ProgramTrackSettings?
+
+        public init(
+            programTrackSettings: GroundStationClientTypes.ProgramTrackSettings? = nil
+        ) {
+            self.programTrackSettings = programTrackSettings
+        }
+    }
+}
+
 ///
 public struct DescribeContactOutput: Swift.Sendable {
     /// UUID of a contact.
@@ -1825,6 +2230,8 @@ public struct DescribeContactOutput: Swift.Sendable {
     public var dataflowList: [GroundStationClientTypes.DataflowDetail]?
     /// End time of a contact in UTC.
     public var endTime: Foundation.Date?
+    /// The ephemeris that determines antenna pointing directions for the contact.
+    public var ephemeris: GroundStationClientTypes.EphemerisResponseData?
     /// Error message for a contact.
     public var errorMessage: Swift.String?
     /// Ground station for a contact.
@@ -1845,6 +2252,8 @@ public struct DescribeContactOutput: Swift.Sendable {
     public var startTime: Foundation.Date?
     /// Tags assigned to a contact.
     public var tags: [Swift.String: Swift.String]?
+    /// Tracking configuration overrides specified when the contact was reserved.
+    public var trackingOverrides: GroundStationClientTypes.TrackingOverrides?
     /// Projected time in UTC your satellite will set below the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
     public var visibilityEndTime: Foundation.Date?
     /// Projected time in UTC your satellite will rise above the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
@@ -1855,6 +2264,7 @@ public struct DescribeContactOutput: Swift.Sendable {
         contactStatus: GroundStationClientTypes.ContactStatus? = nil,
         dataflowList: [GroundStationClientTypes.DataflowDetail]? = nil,
         endTime: Foundation.Date? = nil,
+        ephemeris: GroundStationClientTypes.EphemerisResponseData? = nil,
         errorMessage: Swift.String? = nil,
         groundStation: Swift.String? = nil,
         maximumElevation: GroundStationClientTypes.Elevation? = nil,
@@ -1865,6 +2275,7 @@ public struct DescribeContactOutput: Swift.Sendable {
         satelliteArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        trackingOverrides: GroundStationClientTypes.TrackingOverrides? = nil,
         visibilityEndTime: Foundation.Date? = nil,
         visibilityStartTime: Foundation.Date? = nil
     ) {
@@ -1872,6 +2283,7 @@ public struct DescribeContactOutput: Swift.Sendable {
         self.contactStatus = contactStatus
         self.dataflowList = dataflowList
         self.endTime = endTime
+        self.ephemeris = ephemeris
         self.errorMessage = errorMessage
         self.groundStation = groundStation
         self.maximumElevation = maximumElevation
@@ -1882,8 +2294,19 @@ public struct DescribeContactOutput: Swift.Sendable {
         self.satelliteArn = satelliteArn
         self.startTime = startTime
         self.tags = tags
+        self.trackingOverrides = trackingOverrides
         self.visibilityEndTime = visibilityEndTime
         self.visibilityStartTime = visibilityStartTime
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Filter for selecting contacts that use a specific ephemeris".
+    public enum EphemerisFilter: Swift.Sendable {
+        /// Filter for [AzElEphemeris].
+        case azel(GroundStationClientTypes.AzElEphemerisFilter)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -1892,6 +2315,8 @@ public struct ListContactsInput: Swift.Sendable {
     /// End time of a contact in UTC.
     /// This member is required.
     public var endTime: Foundation.Date?
+    /// Filter for selecting contacts that use a specific ephemeris".
+    public var ephemeris: GroundStationClientTypes.EphemerisFilter?
     /// Name of a ground station.
     public var groundStation: Swift.String?
     /// Maximum number of contacts returned.
@@ -1911,6 +2336,7 @@ public struct ListContactsInput: Swift.Sendable {
 
     public init(
         endTime: Foundation.Date? = nil,
+        ephemeris: GroundStationClientTypes.EphemerisFilter? = nil,
         groundStation: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         missionProfileArn: Swift.String? = nil,
@@ -1920,6 +2346,7 @@ public struct ListContactsInput: Swift.Sendable {
         statusList: [GroundStationClientTypes.ContactStatus]? = nil
     ) {
         self.endTime = endTime
+        self.ephemeris = ephemeris
         self.groundStation = groundStation
         self.maxResults = maxResults
         self.missionProfileArn = missionProfileArn
@@ -1940,6 +2367,8 @@ extension GroundStationClientTypes {
         public var contactStatus: GroundStationClientTypes.ContactStatus?
         /// End time of a contact in UTC.
         public var endTime: Foundation.Date?
+        /// The ephemeris that determines antenna pointing for the contact.
+        public var ephemeris: GroundStationClientTypes.EphemerisResponseData?
         /// Error message of a contact.
         public var errorMessage: Swift.String?
         /// Name of a ground station.
@@ -1969,6 +2398,7 @@ extension GroundStationClientTypes {
             contactId: Swift.String? = nil,
             contactStatus: GroundStationClientTypes.ContactStatus? = nil,
             endTime: Foundation.Date? = nil,
+            ephemeris: GroundStationClientTypes.EphemerisResponseData? = nil,
             errorMessage: Swift.String? = nil,
             groundStation: Swift.String? = nil,
             maximumElevation: GroundStationClientTypes.Elevation? = nil,
@@ -1985,6 +2415,7 @@ extension GroundStationClientTypes {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.endTime = endTime
+            self.ephemeris = ephemeris
             self.errorMessage = errorMessage
             self.groundStation = groundStation
             self.maximumElevation = maximumElevation
@@ -2029,13 +2460,14 @@ public struct ReserveContactInput: Swift.Sendable {
     /// This member is required.
     public var missionProfileArn: Swift.String?
     /// ARN of a satellite
-    /// This member is required.
     public var satelliteArn: Swift.String?
     /// Start time of a contact in UTC.
     /// This member is required.
     public var startTime: Foundation.Date?
     /// Tags assigned to a contact.
     public var tags: [Swift.String: Swift.String]?
+    /// Tracking configuration overrides for the contact.
+    public var trackingOverrides: GroundStationClientTypes.TrackingOverrides?
 
     public init(
         endTime: Foundation.Date? = nil,
@@ -2043,7 +2475,8 @@ public struct ReserveContactInput: Swift.Sendable {
         missionProfileArn: Swift.String? = nil,
         satelliteArn: Swift.String? = nil,
         startTime: Foundation.Date? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        trackingOverrides: GroundStationClientTypes.TrackingOverrides? = nil
     ) {
         self.endTime = endTime
         self.groundStation = groundStation
@@ -2051,6 +2484,7 @@ public struct ReserveContactInput: Swift.Sendable {
         self.satelliteArn = satelliteArn
         self.startTime = startTime
         self.tags = tags
+        self.trackingOverrides = trackingOverrides
     }
 }
 
@@ -2103,36 +2537,129 @@ public struct CreateDataflowEndpointGroupOutput: Swift.Sendable {
     }
 }
 
+/// Request would cause a service quota to be exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// Parameter name that caused the exception
+        public internal(set) var parameterName: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        parameterName: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.parameterName = parameterName
+    }
+}
+
 extension GroundStationClientTypes {
 
-    /// Object stored in S3 containing ephemeris data.
-    public struct S3Object: Swift.Sendable {
-        /// An Amazon S3 Bucket name.
-        public var bucket: Swift.String?
-        /// An Amazon S3 key for the ephemeris.
-        public var key: Swift.String?
-        /// For versioned S3 objects, the version to use for the ephemeris.
-        public var version: Swift.String?
+    /// Definition for a downlink agent endpoint
+    public struct DownlinkAwsGroundStationAgentEndpoint: Swift.Sendable {
+        /// Dataflow details for the downlink endpoint
+        /// This member is required.
+        public var dataflowDetails: GroundStationClientTypes.DownlinkDataflowDetails?
+        /// Downlink dataflow endpoint name
+        /// This member is required.
+        public var name: Swift.String?
 
         public init(
-            bucket: Swift.String? = nil,
-            key: Swift.String? = nil,
-            version: Swift.String? = nil
+            dataflowDetails: GroundStationClientTypes.DownlinkDataflowDetails? = nil,
+            name: Swift.String? = nil
         ) {
-            self.bucket = bucket
-            self.key = key
-            self.version = version
+            self.dataflowDetails = dataflowDetails
+            self.name = name
         }
     }
 }
 
 extension GroundStationClientTypes {
 
-    /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM Customer Provided Ephemerides according to the [CCSDS standard](https://public.ccsds.org/Pubs/502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
+    /// Definition for an uplink agent endpoint
+    public struct UplinkAwsGroundStationAgentEndpoint: Swift.Sendable {
+        /// Dataflow details for the uplink endpoint
+        /// This member is required.
+        public var dataflowDetails: GroundStationClientTypes.UplinkDataflowDetails?
+        /// Uplink dataflow endpoint name
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            dataflowDetails: GroundStationClientTypes.UplinkDataflowDetails? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Endpoint definition used for creating a dataflow endpoint
+    public enum CreateEndpointDetails: Swift.Sendable {
+        /// Definition for an uplink agent endpoint
+        case uplinkawsgroundstationagentendpoint(GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint)
+        /// Definition for a downlink agent endpoint
+        case downlinkawsgroundstationagentendpoint(GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateDataflowEndpointGroupV2Input: Swift.Sendable {
+    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    public var contactPostPassDurationSeconds: Swift.Int?
+    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    public var contactPrePassDurationSeconds: Swift.Int?
+    /// Dataflow endpoint group's endpoint definitions
+    /// This member is required.
+    public var endpoints: [GroundStationClientTypes.CreateEndpointDetails]?
+    /// Tags of a V2 dataflow endpoint group.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        contactPostPassDurationSeconds: Swift.Int? = nil,
+        contactPrePassDurationSeconds: Swift.Int? = nil,
+        endpoints: [GroundStationClientTypes.CreateEndpointDetails]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
+        self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
+        self.endpoints = endpoints
+        self.tags = tags
+    }
+}
+
+public struct CreateDataflowEndpointGroupV2Output: Swift.Sendable {
+    /// Dataflow endpoint group ID
+    public var dataflowEndpointGroupId: Swift.String?
+
+    public init(
+        dataflowEndpointGroupId: Swift.String? = nil
+    ) {
+        self.dataflowEndpointGroupId = dataflowEndpointGroupId
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/wp-content/uploads/gravity_forms/5-448e85c647331d9cbaf66c096458bdd5/2025/01//502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
     public struct OEMEphemeris: Swift.Sendable {
-        /// The data for an OEM ephemeris, supplied directly in the request rather than through an S3 object.
+        /// OEM data that you provide directly instead of using an Amazon S3 object.
         public var oemData: Swift.String?
-        /// Identifies the S3 object to be used as the ephemeris.
+        /// The Amazon S3 object that contains the ephemeris data.
         public var s3Object: GroundStationClientTypes.S3Object?
 
         public init(
@@ -2149,10 +2676,10 @@ extension GroundStationClientTypes {
 
     /// A time range with a start and end time.
     public struct TimeRange: Swift.Sendable {
-        /// Time in UTC at which the time range ends.
+        /// Unix epoch timestamp in UTC at which the time range ends.
         /// This member is required.
         public var endTime: Foundation.Date?
-        /// Time in UTC at which the time range starts.
+        /// Unix epoch timestamp in UTC at which the time range starts.
         /// This member is required.
         public var startTime: Foundation.Date?
 
@@ -2176,7 +2703,7 @@ extension GroundStationClientTypes {
         /// Second line of two-line element set (TLE) data.
         /// This member is required.
         public var tleLine2: Swift.String?
-        /// The valid time range for the TLE. Gaps or overlap are not permitted.
+        /// The valid time range for the TLE. Time ranges must be continuous without gaps or overlaps.
         /// This member is required.
         public var validTimeRange: GroundStationClientTypes.TimeRange?
 
@@ -2194,11 +2721,11 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
-    /// Two-line element set (TLE) ephemeris.
+    /// Two-line element set (TLE) ephemeris. For more detail about providing Two-line element sets to AWS Ground Station, see the [TLE section](https://docs.aws.amazon.com/ground-station/latest/ug/providing-tle-ephemeris-data.html) of the AWS Ground Station user guide.
     public struct TLEEphemeris: Swift.Sendable {
-        /// Identifies the S3 object to be used as the ephemeris.
+        /// The Amazon S3 object that contains the ephemeris data.
         public var s3Object: GroundStationClientTypes.S3Object?
-        /// The data for a TLE ephemeris, supplied directly in the request rather than through an S3 object.
+        /// TLE data that you provide directly instead of using an Amazon S3 object.
         public var tleData: [GroundStationClientTypes.TLEData]?
 
         public init(
@@ -2215,30 +2742,31 @@ extension GroundStationClientTypes {
 
     /// Ephemeris data.
     public enum EphemerisData: Swift.Sendable {
-        /// Two-line element set (TLE) ephemeris.
+        /// Two-line element set (TLE) ephemeris. For more detail about providing Two-line element sets to AWS Ground Station, see the [TLE section](https://docs.aws.amazon.com/ground-station/latest/ug/providing-tle-ephemeris-data.html) of the AWS Ground Station user guide.
         case tle(GroundStationClientTypes.TLEEphemeris)
-        /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM Customer Provided Ephemerides according to the [CCSDS standard](https://public.ccsds.org/Pubs/502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
+        /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/wp-content/uploads/gravity_forms/5-448e85c647331d9cbaf66c096458bdd5/2025/01//502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
         case oem(GroundStationClientTypes.OEMEphemeris)
+        /// Azimuth elevation ephemeris data. Use this ephemeris type to provide pointing angles directly, rather than satellite orbital elements. Use this when you need precise antenna pointing but have imprecise or unknown satellite trajectory information. The azimuth elevation data specifies the antenna pointing direction at specific times relative to a ground station location. AWS Ground Station uses 4th order Lagrange interpolation to compute pointing angles between the provided data points. AWS Ground Station automatically filters interpolated pointing angles, including only those that are above the site mask elevation of the specified ground station. For more detail about providing azimuth elevation ephemerides to AWS Ground Station, see the [azimuth elevation ephemeris section](https://docs.aws.amazon.com/ground-station/latest/ug/providing-azimuth-elevation-ephemeris-data.html) of the AWS Ground Station User Guide.
+        case azel(GroundStationClientTypes.AzElEphemeris)
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct CreateEphemerisInput: Swift.Sendable {
-    /// Whether to set the ephemeris status to ENABLED after validation. Setting this to false will set the ephemeris status to DISABLED after validation.
+    /// Set to true to enable the ephemeris after validation. Set to false to keep it disabled.
     public var enabled: Swift.Bool?
     /// Ephemeris data.
     public var ephemeris: GroundStationClientTypes.EphemerisData?
     /// An overall expiration time for the ephemeris in UTC, after which it will become EXPIRED.
     public var expirationTime: Foundation.Date?
-    /// The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
+    /// The ARN of the KMS key to use for encrypting the ephemeris.
     public var kmsKeyArn: Swift.String?
-    /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+    /// A name that you can use to identify the ephemeris.
     /// This member is required.
     public var name: Swift.String?
-    /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+    /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
     public var priority: Swift.Int?
-    /// AWS Ground Station satellite ID for this ephemeris.
-    /// This member is required.
+    /// The satellite ID that associates this ephemeris with a satellite in AWS Ground Station.
     public var satelliteId: Swift.String?
     /// Tags assigned to an ephemeris.
     public var tags: [Swift.String: Swift.String]?
@@ -2470,6 +2998,29 @@ public struct ListDataflowEndpointGroupsOutput: Swift.Sendable {
     }
 }
 
+/// The specified resource is in use by non-terminal state contacts and cannot be modified or deleted.
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct DeleteEphemerisInput: Swift.Sendable {
     /// The AWS Ground Station ephemeris ID.
     /// This member is required.
@@ -2527,6 +3078,164 @@ public struct DescribeEphemerisInput: Swift.Sendable {
         ephemerisId: Swift.String? = nil
     ) {
         self.ephemerisId = ephemerisId
+    }
+}
+
+extension GroundStationClientTypes {
+
+    public enum EphemerisErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azElSegmentsOutOfOrder
+        case azElSegmentEndTimeBeforeStartTime
+        case azElSegmentEndTimeInvalid
+        case azElSegmentEndTimeTooLate
+        case azElSegmentListMissing
+        case azElSegmentReferenceEpochInvalid
+        case azElSegmentStartTimeInvalid
+        case azElSegmentTimesOverlap
+        case azElSegmentValidTimeRangeInvalid
+        case azElTotalDurationExceeded
+        case centerBodyUnsupported
+        case creationDateMissing
+        case endTimeInPast
+        case expirationTimeTooEarly
+        case fileFormatInvalid
+        case insufficientKmsPermissions
+        case insufficientTimeAzEl
+        case internalError
+        case interpolationDegreeInvalid
+        case interpolationMissing
+        case meanMotionInvalid
+        case mismatchedSatcatId
+        case objectIdMissing
+        case objectNameMissing
+        case oemVersionUnsupported
+        case originatorMissing
+        case refFrameEpochUnsupported
+        case refFrameUnsupported
+        case startTimeInFuture
+        case startTimeMetadataTooEarly
+        case stopTimeMetadataTooLate
+        case timeAzElAngleUnitsInvalid
+        case timeAzElAzDegreeRangeInvalid
+        case timeAzElAzRadianRangeInvalid
+        case timeAzElElDegreeRangeInvalid
+        case timeAzElElRadianRangeInvalid
+        case timeAzElItemsOutOfOrder
+        case timeSystemUnsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EphemerisErrorCode] {
+            return [
+                .azElSegmentsOutOfOrder,
+                .azElSegmentEndTimeBeforeStartTime,
+                .azElSegmentEndTimeInvalid,
+                .azElSegmentEndTimeTooLate,
+                .azElSegmentListMissing,
+                .azElSegmentReferenceEpochInvalid,
+                .azElSegmentStartTimeInvalid,
+                .azElSegmentTimesOverlap,
+                .azElSegmentValidTimeRangeInvalid,
+                .azElTotalDurationExceeded,
+                .centerBodyUnsupported,
+                .creationDateMissing,
+                .endTimeInPast,
+                .expirationTimeTooEarly,
+                .fileFormatInvalid,
+                .insufficientKmsPermissions,
+                .insufficientTimeAzEl,
+                .internalError,
+                .interpolationDegreeInvalid,
+                .interpolationMissing,
+                .meanMotionInvalid,
+                .mismatchedSatcatId,
+                .objectIdMissing,
+                .objectNameMissing,
+                .oemVersionUnsupported,
+                .originatorMissing,
+                .refFrameEpochUnsupported,
+                .refFrameUnsupported,
+                .startTimeInFuture,
+                .startTimeMetadataTooEarly,
+                .stopTimeMetadataTooLate,
+                .timeAzElAngleUnitsInvalid,
+                .timeAzElAzDegreeRangeInvalid,
+                .timeAzElAzRadianRangeInvalid,
+                .timeAzElElDegreeRangeInvalid,
+                .timeAzElElRadianRangeInvalid,
+                .timeAzElItemsOutOfOrder,
+                .timeSystemUnsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azElSegmentsOutOfOrder: return "AZ_EL_SEGMENTS_OUT_OF_ORDER"
+            case .azElSegmentEndTimeBeforeStartTime: return "AZ_EL_SEGMENT_END_TIME_BEFORE_START_TIME"
+            case .azElSegmentEndTimeInvalid: return "AZ_EL_SEGMENT_END_TIME_INVALID"
+            case .azElSegmentEndTimeTooLate: return "AZ_EL_SEGMENT_END_TIME_TOO_LATE"
+            case .azElSegmentListMissing: return "AZ_EL_SEGMENT_LIST_MISSING"
+            case .azElSegmentReferenceEpochInvalid: return "AZ_EL_SEGMENT_REFERENCE_EPOCH_INVALID"
+            case .azElSegmentStartTimeInvalid: return "AZ_EL_SEGMENT_START_TIME_INVALID"
+            case .azElSegmentTimesOverlap: return "AZ_EL_SEGMENT_TIMES_OVERLAP"
+            case .azElSegmentValidTimeRangeInvalid: return "AZ_EL_SEGMENT_VALID_TIME_RANGE_INVALID"
+            case .azElTotalDurationExceeded: return "AZ_EL_TOTAL_DURATION_EXCEEDED"
+            case .centerBodyUnsupported: return "CENTER_BODY_UNSUPPORTED"
+            case .creationDateMissing: return "CREATION_DATE_MISSING"
+            case .endTimeInPast: return "END_TIME_IN_PAST"
+            case .expirationTimeTooEarly: return "EXPIRATION_TIME_TOO_EARLY"
+            case .fileFormatInvalid: return "FILE_FORMAT_INVALID"
+            case .insufficientKmsPermissions: return "INSUFFICIENT_KMS_PERMISSIONS"
+            case .insufficientTimeAzEl: return "INSUFFICIENT_TIME_AZ_EL"
+            case .internalError: return "INTERNAL_ERROR"
+            case .interpolationDegreeInvalid: return "INTERPOLATION_DEGREE_INVALID"
+            case .interpolationMissing: return "INTERPOLATION_MISSING"
+            case .meanMotionInvalid: return "MEAN_MOTION_INVALID"
+            case .mismatchedSatcatId: return "MISMATCHED_SATCAT_ID"
+            case .objectIdMissing: return "OBJECT_ID_MISSING"
+            case .objectNameMissing: return "OBJECT_NAME_MISSING"
+            case .oemVersionUnsupported: return "OEM_VERSION_UNSUPPORTED"
+            case .originatorMissing: return "ORIGINATOR_MISSING"
+            case .refFrameEpochUnsupported: return "REF_FRAME_EPOCH_UNSUPPORTED"
+            case .refFrameUnsupported: return "REF_FRAME_UNSUPPORTED"
+            case .startTimeInFuture: return "START_TIME_IN_FUTURE"
+            case .startTimeMetadataTooEarly: return "START_TIME_METADATA_TOO_EARLY"
+            case .stopTimeMetadataTooLate: return "STOP_TIME_METADATA_TOO_LATE"
+            case .timeAzElAngleUnitsInvalid: return "TIME_AZ_EL_ANGLE_UNITS_INVALID"
+            case .timeAzElAzDegreeRangeInvalid: return "TIME_AZ_EL_AZ_DEGREE_RANGE_INVALID"
+            case .timeAzElAzRadianRangeInvalid: return "TIME_AZ_EL_AZ_RADIAN_RANGE_INVALID"
+            case .timeAzElElDegreeRangeInvalid: return "TIME_AZ_EL_EL_DEGREE_RANGE_INVALID"
+            case .timeAzElElRadianRangeInvalid: return "TIME_AZ_EL_EL_RADIAN_RANGE_INVALID"
+            case .timeAzElItemsOutOfOrder: return "TIME_AZ_EL_ITEMS_OUT_OF_ORDER"
+            case .timeSystemUnsupported: return "TIME_SYSTEM_UNSUPPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Detailed error information for ephemeris validation failures. Provides an error code and descriptive message to help diagnose and resolve validation issues.
+    public struct EphemerisErrorReason: Swift.Sendable {
+        /// The error code identifying the type of validation failure. See the [Troubleshooting Invalid Ephemerides guide](https://docs.aws.amazon.com/ground-station/latest/ug/troubleshooting-invalid-ephemerides.html) for error code details.
+        /// This member is required.
+        public var errorCode: GroundStationClientTypes.EphemerisErrorCode?
+        /// A human-readable message describing the validation failure. Provides specific details about what failed and may include suggestions for remediation.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: GroundStationClientTypes.EphemerisErrorCode? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
     }
 }
 
@@ -2620,7 +3329,7 @@ extension GroundStationClientTypes {
     public struct EphemerisDescription: Swift.Sendable {
         /// Supplied ephemeris data.
         public var ephemerisData: Swift.String?
-        /// Source S3 object used for the ephemeris.
+        /// Source Amazon S3 object used for the ephemeris.
         public var sourceS3Object: GroundStationClientTypes.S3Object?
 
         public init(
@@ -2641,6 +3350,8 @@ extension GroundStationClientTypes {
         case tle(GroundStationClientTypes.EphemerisDescription)
         /// Description of ephemeris.
         case oem(GroundStationClientTypes.EphemerisDescription)
+        /// Description of ephemeris.
+        case azel(GroundStationClientTypes.EphemerisDescription)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2652,11 +3363,13 @@ public struct DescribeEphemerisOutput: Swift.Sendable {
     public var enabled: Swift.Bool?
     /// The AWS Ground Station ephemeris ID.
     public var ephemerisId: Swift.String?
-    /// Reason that an ephemeris failed validation. Only provided for ephemerides with INVALID status.
+    /// Detailed error information for ephemerides with INVALID status. Provides specific error codes and messages to help diagnose validation failures.
+    public var errorReasons: [GroundStationClientTypes.EphemerisErrorReason]?
+    /// Reason that an ephemeris failed validation. Appears only when the status is INVALID.
     public var invalidReason: GroundStationClientTypes.EphemerisInvalidReason?
-    /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+    /// A name that you can use to identify the ephemeris.
     public var name: Swift.String?
-    /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+    /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
     public var priority: Swift.Int?
     /// The AWS Ground Station satellite ID associated with ephemeris.
     public var satelliteId: Swift.String?
@@ -2671,6 +3384,7 @@ public struct DescribeEphemerisOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         enabled: Swift.Bool? = nil,
         ephemerisId: Swift.String? = nil,
+        errorReasons: [GroundStationClientTypes.EphemerisErrorReason]? = nil,
         invalidReason: GroundStationClientTypes.EphemerisInvalidReason? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -2682,6 +3396,7 @@ public struct DescribeEphemerisOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.enabled = enabled
         self.ephemerisId = ephemerisId
+        self.errorReasons = errorReasons
         self.invalidReason = invalidReason
         self.name = name
         self.priority = priority
@@ -2702,11 +3417,13 @@ extension GroundStationClientTypes {
         public var enabled: Swift.Bool?
         /// The AWS Ground Station ephemeris ID.
         public var ephemerisId: Swift.String?
-        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        /// The type of ephemeris.
+        public var ephemerisType: GroundStationClientTypes.EphemerisType?
+        /// A name that you can use to identify the ephemeris.
         public var name: Swift.String?
-        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
         public var priority: Swift.Int?
-        /// Source S3 object used for the ephemeris.
+        /// Source Amazon S3 object used for the ephemeris.
         public var sourceS3Object: GroundStationClientTypes.S3Object?
         /// The status of the ephemeris.
         public var status: GroundStationClientTypes.EphemerisStatus?
@@ -2715,6 +3432,7 @@ extension GroundStationClientTypes {
             creationTime: Foundation.Date? = nil,
             enabled: Swift.Bool? = nil,
             ephemerisId: Swift.String? = nil,
+            ephemerisType: GroundStationClientTypes.EphemerisType? = nil,
             name: Swift.String? = nil,
             priority: Swift.Int? = nil,
             sourceS3Object: GroundStationClientTypes.S3Object? = nil,
@@ -2723,6 +3441,7 @@ extension GroundStationClientTypes {
             self.creationTime = creationTime
             self.enabled = enabled
             self.ephemerisId = ephemerisId
+            self.ephemerisType = ephemerisType
             self.name = name
             self.priority = priority
             self.sourceS3Object = sourceS3Object
@@ -2732,17 +3451,18 @@ extension GroundStationClientTypes {
 }
 
 public struct ListEphemeridesInput: Swift.Sendable {
-    /// The end time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+    /// The end time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
     /// This member is required.
     public var endTime: Foundation.Date?
+    /// Filter ephemerides by type. If not specified, all ephemeris types will be returned.
+    public var ephemerisType: GroundStationClientTypes.EphemerisType?
     /// Maximum number of ephemerides to return.
     public var maxResults: Swift.Int?
     /// Pagination token.
     public var nextToken: Swift.String?
     /// The AWS Ground Station satellite ID to list ephemeris for.
-    /// This member is required.
     public var satelliteId: Swift.String?
-    /// The start time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+    /// The start time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
     /// This member is required.
     public var startTime: Foundation.Date?
     /// The list of ephemeris status to return.
@@ -2750,6 +3470,7 @@ public struct ListEphemeridesInput: Swift.Sendable {
 
     public init(
         endTime: Foundation.Date? = nil,
+        ephemerisType: GroundStationClientTypes.EphemerisType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         satelliteId: Swift.String? = nil,
@@ -2757,6 +3478,7 @@ public struct ListEphemeridesInput: Swift.Sendable {
         statusList: [GroundStationClientTypes.EphemerisStatus]? = nil
     ) {
         self.endTime = endTime
+        self.ephemerisType = ephemerisType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.satelliteId = satelliteId
@@ -2781,15 +3503,15 @@ public struct ListEphemeridesOutput: Swift.Sendable {
 }
 
 public struct UpdateEphemerisInput: Swift.Sendable {
-    /// Whether the ephemeris is enabled or not. Changing this value will not require the ephemeris to be re-validated.
+    /// Enable or disable the ephemeris. Changing this value doesn't require re-validation.
     /// This member is required.
     public var enabled: Swift.Bool?
     /// The AWS Ground Station ephemeris ID.
     /// This member is required.
     public var ephemerisId: Swift.String?
-    /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+    /// A name that you can use to identify the ephemeris.
     public var name: Swift.String?
-    /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+    /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
     public var priority: Swift.Int?
 
     public init(
@@ -2870,6 +3592,45 @@ extension GroundStationClientTypes {
             self.name = name
             self.source = source
         }
+    }
+}
+
+public struct GetAgentTaskResponseUrlInput: Swift.Sendable {
+    /// UUID of agent requesting the response URL.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// GUID of the agent task for which the response URL is being requested.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.taskId = taskId
+    }
+}
+
+public struct GetAgentTaskResponseUrlOutput: Swift.Sendable {
+    /// UUID of the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// Presigned URL for uploading agent task response logs.
+    /// This member is required.
+    public var presignedLogUrl: Swift.String?
+    /// GUID of the agent task.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        presignedLogUrl: Swift.String? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.presignedLogUrl = presignedLogUrl
+        self.taskId = taskId
     }
 }
 
@@ -3364,6 +4125,13 @@ extension CreateDataflowEndpointGroupInput {
     }
 }
 
+extension CreateDataflowEndpointGroupV2Input {
+
+    static func urlPathProvider(_ value: CreateDataflowEndpointGroupV2Input) -> Swift.String? {
+        return "/dataflowEndpointGroupV2"
+    }
+}
+
 extension CreateEphemerisInput {
 
     static func urlPathProvider(_ value: CreateEphemerisInput) -> Swift.String? {
@@ -3448,6 +4216,19 @@ extension GetAgentConfigurationInput {
             return nil
         }
         return "/agent/\(agentId.urlPercentEncoding())/configuration"
+    }
+}
+
+extension GetAgentTaskResponseUrlInput {
+
+    static func urlPathProvider(_ value: GetAgentTaskResponseUrlInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        guard let taskId = value.taskId else {
+            return nil
+        }
+        return "/agentResponseUrl/\(agentId.urlPercentEncoding())/\(taskId.urlPercentEncoding())"
     }
 }
 
@@ -3774,6 +4555,17 @@ extension CreateDataflowEndpointGroupInput {
     }
 }
 
+extension CreateDataflowEndpointGroupV2Input {
+
+    static func write(value: CreateDataflowEndpointGroupV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contactPostPassDurationSeconds"].write(value.contactPostPassDurationSeconds)
+        try writer["contactPrePassDurationSeconds"].write(value.contactPrePassDurationSeconds)
+        try writer["endpoints"].writeList(value.endpoints, memberWritingClosure: GroundStationClientTypes.CreateEndpointDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateEphemerisInput {
 
     static func write(value: CreateEphemerisInput?, to writer: SmithyJSON.Writer) throws {
@@ -3819,6 +4611,7 @@ extension ListContactsInput {
     static func write(value: ListContactsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ephemeris"].write(value.ephemeris, with: GroundStationClientTypes.EphemerisFilter.write(value:to:))
         try writer["groundStation"].write(value.groundStation)
         try writer["maxResults"].write(value.maxResults)
         try writer["missionProfileArn"].write(value.missionProfileArn)
@@ -3834,6 +4627,7 @@ extension ListEphemeridesInput {
     static func write(value: ListEphemeridesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ephemerisType"].write(value.ephemerisType)
         try writer["satelliteId"].write(value.satelliteId)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["statusList"].writeList(value.statusList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GroundStationClientTypes.EphemerisStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -3860,6 +4654,7 @@ extension ReserveContactInput {
         try writer["satelliteArn"].write(value.satelliteArn)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["trackingOverrides"].write(value.trackingOverrides, with: GroundStationClientTypes.TrackingOverrides.write(value:to:))
     }
 }
 
@@ -3953,6 +4748,18 @@ extension CreateDataflowEndpointGroupOutput {
     }
 }
 
+extension CreateDataflowEndpointGroupV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataflowEndpointGroupV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataflowEndpointGroupV2Output()
+        value.dataflowEndpointGroupId = try reader["dataflowEndpointGroupId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateEphemerisOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEphemerisOutput {
@@ -4038,6 +4845,7 @@ extension DescribeContactOutput {
         value.contactStatus = try reader["contactStatus"].readIfPresent()
         value.dataflowList = try reader["dataflowList"].readListIfPresent(memberReadingClosure: GroundStationClientTypes.DataflowDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ephemeris = try reader["ephemeris"].readIfPresent(with: GroundStationClientTypes.EphemerisResponseData.read(from:))
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.groundStation = try reader["groundStation"].readIfPresent()
         value.maximumElevation = try reader["maximumElevation"].readIfPresent(with: GroundStationClientTypes.Elevation.read(from:))
@@ -4048,6 +4856,7 @@ extension DescribeContactOutput {
         value.satelliteArn = try reader["satelliteArn"].readIfPresent()
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.trackingOverrides = try reader["trackingOverrides"].readIfPresent(with: GroundStationClientTypes.TrackingOverrides.read(from:))
         value.visibilityEndTime = try reader["visibilityEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.visibilityStartTime = try reader["visibilityStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -4064,6 +4873,7 @@ extension DescribeEphemerisOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.enabled = try reader["enabled"].readIfPresent()
         value.ephemerisId = try reader["ephemerisId"].readIfPresent()
+        value.errorReasons = try reader["errorReasons"].readListIfPresent(memberReadingClosure: GroundStationClientTypes.EphemerisErrorReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.invalidReason = try reader["invalidReason"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
@@ -4084,6 +4894,20 @@ extension GetAgentConfigurationOutput {
         var value = GetAgentConfigurationOutput()
         value.agentId = try reader["agentId"].readIfPresent()
         value.taskingDocument = try reader["taskingDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension GetAgentTaskResponseUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentTaskResponseUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentTaskResponseUrlOutput()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.presignedLogUrl = try reader["presignedLogUrl"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4417,6 +5241,23 @@ enum CreateDataflowEndpointGroupOutputError {
     }
 }
 
+enum CreateDataflowEndpointGroupV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEphemerisOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4491,6 +5332,7 @@ enum DeleteEphemerisOutputError {
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4546,6 +5388,22 @@ enum DescribeEphemerisOutputError {
 }
 
 enum GetAgentConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgentTaskResponseUrlOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4795,6 +5653,7 @@ enum ReserveContactOutputError {
         switch baseError.code {
             case "DependencyException": return try DependencyException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4952,6 +5811,33 @@ extension ResourceLimitExceededException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.parameterName = try reader["parameterName"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceInUseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension GroundStationClientTypes.Elevation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.Elevation {
@@ -5032,10 +5918,12 @@ extension GroundStationClientTypes.EndpointDetails {
     static func write(value: GroundStationClientTypes.EndpointDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["awsGroundStationAgentEndpoint"].write(value.awsGroundStationAgentEndpoint, with: GroundStationClientTypes.AwsGroundStationAgentEndpoint.write(value:to:))
+        try writer["downlinkAwsGroundStationAgentEndpoint"].write(value.downlinkAwsGroundStationAgentEndpoint, with: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails.write(value:to:))
         try writer["endpoint"].write(value.endpoint, with: GroundStationClientTypes.DataflowEndpoint.write(value:to:))
         try writer["healthReasons"].writeList(value.healthReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GroundStationClientTypes.CapabilityHealthReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["healthStatus"].write(value.healthStatus)
         try writer["securityDetails"].write(value.securityDetails, with: GroundStationClientTypes.SecurityDetails.write(value:to:))
+        try writer["uplinkAwsGroundStationAgentEndpoint"].write(value.uplinkAwsGroundStationAgentEndpoint, with: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EndpointDetails {
@@ -5044,31 +5932,106 @@ extension GroundStationClientTypes.EndpointDetails {
         value.securityDetails = try reader["securityDetails"].readIfPresent(with: GroundStationClientTypes.SecurityDetails.read(from:))
         value.endpoint = try reader["endpoint"].readIfPresent(with: GroundStationClientTypes.DataflowEndpoint.read(from:))
         value.awsGroundStationAgentEndpoint = try reader["awsGroundStationAgentEndpoint"].readIfPresent(with: GroundStationClientTypes.AwsGroundStationAgentEndpoint.read(from:))
+        value.uplinkAwsGroundStationAgentEndpoint = try reader["uplinkAwsGroundStationAgentEndpoint"].readIfPresent(with: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails.read(from:))
+        value.downlinkAwsGroundStationAgentEndpoint = try reader["downlinkAwsGroundStationAgentEndpoint"].readIfPresent(with: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails.read(from:))
         value.healthStatus = try reader["healthStatus"].readIfPresent()
         value.healthReasons = try reader["healthReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GroundStationClientTypes.CapabilityHealthReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+extension GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails {
 
-    static func write(value: GroundStationClientTypes.AwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentStatus"].write(value.agentStatus)
         try writer["auditResults"].write(value.auditResults)
-        try writer["egressAddress"].write(value.egressAddress, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
-        try writer["ingressAddress"].write(value.ingressAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.DownlinkDataflowDetails.write(value:to:))
         try writer["name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.AwsGroundStationAgentEndpoint()
+        var value = GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.egressAddress = try reader["egressAddress"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
-        value.ingressAddress = try reader["ingressAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        value.dataflowDetails = try reader["dataflowDetails"].readIfPresent(with: GroundStationClientTypes.DownlinkDataflowDetails.read(from:))
         value.agentStatus = try reader["agentStatus"].readIfPresent()
         value.auditResults = try reader["auditResults"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DownlinkDataflowDetails {
+
+    static func write(value: GroundStationClientTypes.DownlinkDataflowDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentconnectiondetails(agentconnectiondetails):
+                try writer["agentConnectionDetails"].write(agentconnectiondetails, with: GroundStationClientTypes.DownlinkConnectionDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkDataflowDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentConnectionDetails":
+                return .agentconnectiondetails(try reader["agentConnectionDetails"].read(with: GroundStationClientTypes.DownlinkConnectionDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.DownlinkConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.DownlinkConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentIpAndPortAddress"].write(value.agentIpAndPortAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["egressAddressAndPort"].write(value.egressAddressAndPort, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DownlinkConnectionDetails()
+        value.agentIpAndPortAddress = try reader["agentIpAndPortAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        value.egressAddressAndPort = try reader["egressAddressAndPort"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.ConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.ConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mtu"].write(value.mtu)
+        try writer["socketAddress"].write(value.socketAddress, with: GroundStationClientTypes.SocketAddress.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.ConnectionDetails()
+        value.socketAddress = try reader["socketAddress"].readIfPresent(with: GroundStationClientTypes.SocketAddress.read(from:))
+        value.mtu = try reader["mtu"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.SocketAddress {
+
+    static func write(value: GroundStationClientTypes.SocketAddress?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SocketAddress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.SocketAddress()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5124,36 +6087,87 @@ extension GroundStationClientTypes.IntegerRange {
     }
 }
 
-extension GroundStationClientTypes.ConnectionDetails {
+extension GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails {
 
-    static func write(value: GroundStationClientTypes.ConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["mtu"].write(value.mtu)
-        try writer["socketAddress"].write(value.socketAddress, with: GroundStationClientTypes.SocketAddress.write(value:to:))
+        try writer["agentStatus"].write(value.agentStatus)
+        try writer["auditResults"].write(value.auditResults)
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.UplinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConnectionDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.ConnectionDetails()
-        value.socketAddress = try reader["socketAddress"].readIfPresent(with: GroundStationClientTypes.SocketAddress.read(from:))
-        value.mtu = try reader["mtu"].readIfPresent()
+        var value = GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.dataflowDetails = try reader["dataflowDetails"].readIfPresent(with: GroundStationClientTypes.UplinkDataflowDetails.read(from:))
+        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.auditResults = try reader["auditResults"].readIfPresent()
         return value
     }
 }
 
-extension GroundStationClientTypes.SocketAddress {
+extension GroundStationClientTypes.UplinkDataflowDetails {
 
-    static func write(value: GroundStationClientTypes.SocketAddress?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.UplinkDataflowDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["port"].write(value.port)
+        switch value {
+            case let .agentconnectiondetails(agentconnectiondetails):
+                try writer["agentConnectionDetails"].write(agentconnectiondetails, with: GroundStationClientTypes.UplinkConnectionDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SocketAddress {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkDataflowDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.SocketAddress()
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentConnectionDetails":
+                return .agentconnectiondetails(try reader["agentConnectionDetails"].read(with: GroundStationClientTypes.UplinkConnectionDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.UplinkConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.UplinkConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentIpAndPortAddress"].write(value.agentIpAndPortAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["ingressAddressAndPort"].write(value.ingressAddressAndPort, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.UplinkConnectionDetails()
+        value.ingressAddressAndPort = try reader["ingressAddressAndPort"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        value.agentIpAndPortAddress = try reader["agentIpAndPortAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.AwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentStatus"].write(value.agentStatus)
+        try writer["auditResults"].write(value.auditResults)
+        try writer["egressAddress"].write(value.egressAddress, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+        try writer["ingressAddress"].write(value.ingressAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.AwsGroundStationAgentEndpoint()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.port = try reader["port"].readIfPresent() ?? 0
+        value.egressAddress = try reader["egressAddress"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        value.ingressAddress = try reader["ingressAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.auditResults = try reader["auditResults"].readIfPresent()
         return value
     }
 }
@@ -5211,6 +6225,71 @@ extension GroundStationClientTypes.Source {
     }
 }
 
+extension GroundStationClientTypes.TrackingOverrides {
+
+    static func write(value: GroundStationClientTypes.TrackingOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["programTrackSettings"].write(value.programTrackSettings, with: GroundStationClientTypes.ProgramTrackSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TrackingOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.TrackingOverrides()
+        value.programTrackSettings = try reader["programTrackSettings"].readIfPresent(with: GroundStationClientTypes.ProgramTrackSettings.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.ProgramTrackSettings {
+
+    static func write(value: GroundStationClientTypes.ProgramTrackSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azel(azel):
+                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElProgramTrackSettings.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ProgramTrackSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "azEl":
+                return .azel(try reader["azEl"].read(with: GroundStationClientTypes.AzElProgramTrackSettings.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.AzElProgramTrackSettings {
+
+    static func write(value: GroundStationClientTypes.AzElProgramTrackSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ephemerisId"].write(value.ephemerisId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AzElProgramTrackSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.AzElProgramTrackSettings()
+        value.ephemerisId = try reader["ephemerisId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GroundStationClientTypes.EphemerisResponseData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisResponseData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.EphemerisResponseData()
+        value.ephemerisId = try reader["ephemerisId"].readIfPresent()
+        value.ephemerisType = try reader["ephemerisType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GroundStationClientTypes.EphemerisTypeDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisTypeDescription {
@@ -5221,6 +6300,8 @@ extension GroundStationClientTypes.EphemerisTypeDescription {
                 return .tle(try reader["tle"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
             case "oem":
                 return .oem(try reader["oem"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
+            case "azEl":
+                return .azel(try reader["azEl"].read(with: GroundStationClientTypes.EphemerisDescription.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -5253,6 +6334,17 @@ extension GroundStationClientTypes.S3Object {
         value.bucket = try reader["bucket"].readIfPresent()
         value.key = try reader["key"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.EphemerisErrorReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EphemerisErrorReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.EphemerisErrorReason()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5621,6 +6713,7 @@ extension GroundStationClientTypes.ContactData {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.visibilityStartTime = try reader["visibilityStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.visibilityEndTime = try reader["visibilityEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ephemeris = try reader["ephemeris"].readIfPresent(with: GroundStationClientTypes.EphemerisResponseData.read(from:))
         return value
     }
 }
@@ -5642,6 +6735,7 @@ extension GroundStationClientTypes.EphemerisItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GroundStationClientTypes.EphemerisItem()
         value.ephemerisId = try reader["ephemerisId"].readIfPresent()
+        value.ephemerisType = try reader["ephemerisType"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
         value.enabled = try reader["enabled"].readIfPresent()
@@ -5691,11 +6785,46 @@ extension GroundStationClientTypes.SatelliteListItem {
     }
 }
 
+extension GroundStationClientTypes.CreateEndpointDetails {
+
+    static func write(value: GroundStationClientTypes.CreateEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .downlinkawsgroundstationagentendpoint(downlinkawsgroundstationagentendpoint):
+                try writer["downlinkAwsGroundStationAgentEndpoint"].write(downlinkawsgroundstationagentendpoint, with: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint.write(value:to:))
+            case let .uplinkawsgroundstationagentendpoint(uplinkawsgroundstationagentendpoint):
+                try writer["uplinkAwsGroundStationAgentEndpoint"].write(uplinkawsgroundstationagentendpoint, with: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.DownlinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
+extension GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.UplinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
 extension GroundStationClientTypes.EphemerisData {
 
     static func write(value: GroundStationClientTypes.EphemerisData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azel(azel):
+                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElEphemeris.write(value:to:))
             case let .oem(oem):
                 try writer["oem"].write(oem, with: GroundStationClientTypes.OEMEphemeris.write(value:to:))
             case let .tle(tle):
@@ -5703,6 +6832,68 @@ extension GroundStationClientTypes.EphemerisData {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension GroundStationClientTypes.AzElEphemeris {
+
+    static func write(value: GroundStationClientTypes.AzElEphemeris?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["data"].write(value.data, with: GroundStationClientTypes.AzElSegmentsData.write(value:to:))
+        try writer["groundStation"].write(value.groundStation)
+    }
+}
+
+extension GroundStationClientTypes.AzElSegmentsData {
+
+    static func write(value: GroundStationClientTypes.AzElSegmentsData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azeldata(azeldata):
+                try writer["azElData"].write(azeldata, with: GroundStationClientTypes.AzElSegments.write(value:to:))
+            case let .s3object(s3object):
+                try writer["s3Object"].write(s3object, with: GroundStationClientTypes.S3Object.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension GroundStationClientTypes.AzElSegments {
+
+    static func write(value: GroundStationClientTypes.AzElSegments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["angleUnit"].write(value.angleUnit)
+        try writer["azElSegmentList"].writeList(value.azElSegmentList, memberWritingClosure: GroundStationClientTypes.AzElSegment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GroundStationClientTypes.AzElSegment {
+
+    static func write(value: GroundStationClientTypes.AzElSegment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["azElList"].writeList(value.azElList, memberWritingClosure: GroundStationClientTypes.TimeAzEl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["referenceEpoch"].writeTimestamp(value.referenceEpoch, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["validTimeRange"].write(value.validTimeRange, with: GroundStationClientTypes.ISO8601TimeRange.write(value:to:))
+    }
+}
+
+extension GroundStationClientTypes.TimeAzEl {
+
+    static func write(value: GroundStationClientTypes.TimeAzEl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["az"].write(value.az)
+        try writer["dt"].write(value.dt)
+        try writer["el"].write(value.el)
+    }
+}
+
+extension GroundStationClientTypes.ISO8601TimeRange {
+
+    static func write(value: GroundStationClientTypes.ISO8601TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
 }
 
@@ -5740,6 +6931,27 @@ extension GroundStationClientTypes.TimeRange {
         guard let value else { return }
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension GroundStationClientTypes.EphemerisFilter {
+
+    static func write(value: GroundStationClientTypes.EphemerisFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .azel(azel):
+                try writer["azEl"].write(azel, with: GroundStationClientTypes.AzElEphemerisFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension GroundStationClientTypes.AzElEphemerisFilter {
+
+    static func write(value: GroundStationClientTypes.AzElEphemerisFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
     }
 }
 

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class AmpClient: ClientRuntime.Client {
+public class AmpClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AmpClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: AmpClient.AmpClientConfiguration
     let serviceName = "amp"
@@ -374,9 +374,9 @@ extension AmpClient {
     ///
     /// The CreateAlertManagerDefinition operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use PutAlertManagerDefinition.
     ///
-    /// - Parameter CreateAlertManagerDefinitionInput : Represents the input of a CreateAlertManagerDefinition operation.
+    /// - Parameter input: Represents the input of a CreateAlertManagerDefinition operation. (Type: `CreateAlertManagerDefinitionInput`)
     ///
-    /// - Returns: `CreateAlertManagerDefinitionOutput` : Represents the output of a CreateAlertManagerDefinition operation.
+    /// - Returns: Represents the output of a CreateAlertManagerDefinition operation. (Type: `CreateAlertManagerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,6 +417,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAlertManagerDefinitionInput, CreateAlertManagerDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAlertManagerDefinitionOutput>(CreateAlertManagerDefinitionOutput.httpOutput(from:), CreateAlertManagerDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAlertManagerDefinitionInput, CreateAlertManagerDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAlertManagerDefinitionOutput>())
@@ -444,13 +445,87 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateAnomalyDetector` operation on the `Amp` service.
+    ///
+    /// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAnomalyDetectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateAnomalyDetectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request would cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ServiceQuotaExceededException` : Completing the request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func createAnomalyDetector(input: CreateAnomalyDetectorInput) async throws -> CreateAnomalyDetectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAnomalyDetector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>(CreateAnomalyDetectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateAnomalyDetectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnomalyDetectorOutput>(CreateAnomalyDetectorOutput.httpOutput(from:), CreateAnomalyDetectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnomalyDetectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("amp", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAnomalyDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAnomalyDetectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateAnomalyDetectorInput, CreateAnomalyDetectorOutput>(serviceID: serviceName, version: AmpClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Amp")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateAnomalyDetector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateLoggingConfiguration` operation on the `Amp` service.
     ///
     /// The CreateLoggingConfiguration operation creates rules and alerting logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to. These logging configurations are only for rules and alerting logs.
     ///
-    /// - Parameter CreateLoggingConfigurationInput : Represents the input of a CreateLoggingConfiguration operation.
+    /// - Parameter input: Represents the input of a CreateLoggingConfiguration operation. (Type: `CreateLoggingConfigurationInput`)
     ///
-    /// - Returns: `CreateLoggingConfigurationOutput` : Represents the output of a CreateLoggingConfiguration operation.
+    /// - Returns: Represents the output of a CreateLoggingConfiguration operation. (Type: `CreateLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +563,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoggingConfigurationInput, CreateLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoggingConfigurationOutput>(CreateLoggingConfigurationOutput.httpOutput(from:), CreateLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoggingConfigurationInput, CreateLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoggingConfigurationOutput>())
@@ -519,9 +595,9 @@ extension AmpClient {
     ///
     /// Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold.
     ///
-    /// - Parameter CreateQueryLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueryLoggingConfigurationInput`)
     ///
-    /// - Returns: `CreateQueryLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueryLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,6 +635,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueryLoggingConfigurationInput, CreateQueryLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueryLoggingConfigurationOutput>(CreateQueryLoggingConfigurationOutput.httpOutput(from:), CreateQueryLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueryLoggingConfigurationInput, CreateQueryLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueryLoggingConfigurationOutput>())
@@ -588,11 +665,11 @@ extension AmpClient {
 
     /// Performs the `CreateRuleGroupsNamespace` operation on the `Amp` service.
     ///
-    /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
+    /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
     ///
-    /// - Parameter CreateRuleGroupsNamespaceInput : Represents the input of a CreateRuleGroupsNamespace operation.
+    /// - Parameter input: Represents the input of a CreateRuleGroupsNamespace operation. (Type: `CreateRuleGroupsNamespaceInput`)
     ///
-    /// - Returns: `CreateRuleGroupsNamespaceOutput` : Represents the output of a CreateRuleGroupsNamespace operation.
+    /// - Returns: Represents the output of a CreateRuleGroupsNamespace operation. (Type: `CreateRuleGroupsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +710,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleGroupsNamespaceInput, CreateRuleGroupsNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleGroupsNamespaceOutput>(CreateRuleGroupsNamespaceOutput.httpOutput(from:), CreateRuleGroupsNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleGroupsNamespaceInput, CreateRuleGroupsNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleGroupsNamespaceOutput>())
@@ -662,11 +740,11 @@ extension AmpClient {
 
     /// Performs the `CreateScraper` operation on the `Amp` service.
     ///
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to the Amazon EKS cluster within the VPC for scraping metrics. For more information about collectors, including what metrics are collected, and how to configure the scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
+    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources and sends them to your Amazon Managed Service for Prometheus workspace. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see [Configuring your Amazon EKS cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-eks-setup) in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to your source within the VPC for scraping metrics. For more information about collectors, including what metrics are collected, and how to configure the scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
     ///
-    /// - Parameter CreateScraperInput : Represents the input of a CreateScraper operation.
+    /// - Parameter input: Represents the input of a CreateScraper operation. (Type: `CreateScraperInput`)
     ///
-    /// - Returns: `CreateScraperOutput` : Represents the output of a CreateScraper operation.
+    /// - Returns: Represents the output of a CreateScraper operation. (Type: `CreateScraperOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,6 +785,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScraperInput, CreateScraperOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScraperOutput>(CreateScraperOutput.httpOutput(from:), CreateScraperOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScraperInput, CreateScraperOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScraperOutput>())
@@ -738,9 +817,9 @@ extension AmpClient {
     ///
     /// Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account.
     ///
-    /// - Parameter CreateWorkspaceInput : Represents the input of a CreateWorkspace operation.
+    /// - Parameter input: Represents the input of a CreateWorkspace operation. (Type: `CreateWorkspaceInput`)
     ///
-    /// - Returns: `CreateWorkspaceOutput` : Represents the output of a CreateWorkspace operation.
+    /// - Returns: Represents the output of a CreateWorkspace operation. (Type: `CreateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -780,6 +859,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspaceOutput>(CreateWorkspaceOutput.httpOutput(from:), CreateWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspaceOutput>())
@@ -811,9 +891,9 @@ extension AmpClient {
     ///
     /// Deletes the alert manager definition from a workspace.
     ///
-    /// - Parameter DeleteAlertManagerDefinitionInput : Represents the input of a DeleteAlertManagerDefinition operation.
+    /// - Parameter input: Represents the input of a DeleteAlertManagerDefinition operation. (Type: `DeleteAlertManagerDefinitionInput`)
     ///
-    /// - Returns: `DeleteAlertManagerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlertManagerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,6 +931,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAlertManagerDefinitionInput, DeleteAlertManagerDefinitionOutput>(DeleteAlertManagerDefinitionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlertManagerDefinitionOutput>(DeleteAlertManagerDefinitionOutput.httpOutput(from:), DeleteAlertManagerDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlertManagerDefinitionInput, DeleteAlertManagerDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlertManagerDefinitionOutput>())
@@ -878,13 +959,85 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteAnomalyDetector` operation on the `Amp` service.
+    ///
+    /// Removes an anomaly detector from a workspace. This operation is idempotent.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnomalyDetectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAnomalyDetectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request would cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resources that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAnomalyDetector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(DeleteAnomalyDetectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(DeleteAnomalyDetectorInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnomalyDetectorOutput>(DeleteAnomalyDetectorOutput.httpOutput(from:), DeleteAnomalyDetectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnomalyDetectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("amp", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAnomalyDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAnomalyDetectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(serviceID: serviceName, version: AmpClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Amp")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAnomalyDetector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteLoggingConfiguration` operation on the `Amp` service.
     ///
     /// Deletes the rules and alerting logging configuration for a workspace. These logging configurations are only for rules and alerting logs.
     ///
-    /// - Parameter DeleteLoggingConfigurationInput : Represents the input of a DeleteLoggingConfiguration operation.
+    /// - Parameter input: Represents the input of a DeleteLoggingConfiguration operation. (Type: `DeleteLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,6 +1074,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(DeleteLoggingConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoggingConfigurationOutput>(DeleteLoggingConfigurationOutput.httpOutput(from:), DeleteLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoggingConfigurationOutput>())
@@ -952,9 +1106,9 @@ extension AmpClient {
     ///
     /// Deletes the query logging configuration for the specified workspace.
     ///
-    /// - Parameter DeleteQueryLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueryLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteQueryLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueryLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,6 +1145,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteQueryLoggingConfigurationInput, DeleteQueryLoggingConfigurationOutput>(DeleteQueryLoggingConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueryLoggingConfigurationOutput>(DeleteQueryLoggingConfigurationOutput.httpOutput(from:), DeleteQueryLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueryLoggingConfigurationInput, DeleteQueryLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueryLoggingConfigurationOutput>())
@@ -1022,9 +1177,9 @@ extension AmpClient {
     ///
     /// Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,6 +1217,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1093,9 +1249,9 @@ extension AmpClient {
     ///
     /// Deletes one rule groups namespace and its associated rule groups definition.
     ///
-    /// - Parameter DeleteRuleGroupsNamespaceInput : Represents the input of a DeleteRuleGroupsNamespace operation.
+    /// - Parameter input: Represents the input of a DeleteRuleGroupsNamespace operation. (Type: `DeleteRuleGroupsNamespaceInput`)
     ///
-    /// - Returns: `DeleteRuleGroupsNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleGroupsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1133,6 +1289,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteRuleGroupsNamespaceInput, DeleteRuleGroupsNamespaceOutput>(DeleteRuleGroupsNamespaceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleGroupsNamespaceOutput>(DeleteRuleGroupsNamespaceOutput.httpOutput(from:), DeleteRuleGroupsNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleGroupsNamespaceInput, DeleteRuleGroupsNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleGroupsNamespaceOutput>())
@@ -1164,9 +1321,9 @@ extension AmpClient {
     ///
     /// The DeleteScraper operation deletes one scraper, and stops any metrics collection that the scraper performs.
     ///
-    /// - Parameter DeleteScraperInput : Represents the input of a DeleteScraper operation.
+    /// - Parameter input: Represents the input of a DeleteScraper operation. (Type: `DeleteScraperInput`)
     ///
-    /// - Returns: `DeleteScraperOutput` : Represents the output of a DeleteScraper operation.
+    /// - Returns: Represents the output of a DeleteScraper operation. (Type: `DeleteScraperOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,6 +1361,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteScraperInput, DeleteScraperOutput>(DeleteScraperInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScraperOutput>(DeleteScraperOutput.httpOutput(from:), DeleteScraperOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScraperInput, DeleteScraperOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScraperOutput>())
@@ -1231,13 +1389,84 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteScraperLoggingConfiguration` operation on the `Amp` service.
+    ///
+    /// Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteScraperLoggingConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteScraperLoggingConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request would cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resources that doesn't exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func deleteScraperLoggingConfiguration(input: DeleteScraperLoggingConfigurationInput) async throws -> DeleteScraperLoggingConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteScraperLoggingConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput>(DeleteScraperLoggingConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput>(DeleteScraperLoggingConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScraperLoggingConfigurationOutput>(DeleteScraperLoggingConfigurationOutput.httpOutput(from:), DeleteScraperLoggingConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScraperLoggingConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("amp", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteScraperLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScraperLoggingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScraperLoggingConfigurationInput, DeleteScraperLoggingConfigurationOutput>(serviceID: serviceName, version: AmpClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Amp")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteScraperLoggingConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteWorkspace` operation on the `Amp` service.
     ///
     /// Deletes an existing workspace. When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
     ///
-    /// - Parameter DeleteWorkspaceInput : Represents the input of a DeleteWorkspace operation.
+    /// - Parameter input: Represents the input of a DeleteWorkspace operation. (Type: `DeleteWorkspaceInput`)
     ///
-    /// - Returns: `DeleteWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1275,6 +1504,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>(DeleteWorkspaceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkspaceOutput>(DeleteWorkspaceOutput.httpOutput(from:), DeleteWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkspaceOutput>())
@@ -1306,9 +1536,9 @@ extension AmpClient {
     ///
     /// Retrieves the full information about the alert manager definition for a workspace.
     ///
-    /// - Parameter DescribeAlertManagerDefinitionInput : Represents the input of a DescribeAlertManagerDefinition operation.
+    /// - Parameter input: Represents the input of a DescribeAlertManagerDefinition operation. (Type: `DescribeAlertManagerDefinitionInput`)
     ///
-    /// - Returns: `DescribeAlertManagerDefinitionOutput` : Represents the output of a DescribeAlertManagerDefinition operation.
+    /// - Returns: Represents the output of a DescribeAlertManagerDefinition operation. (Type: `DescribeAlertManagerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,6 +1573,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAlertManagerDefinitionInput, DescribeAlertManagerDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlertManagerDefinitionOutput>(DescribeAlertManagerDefinitionOutput.httpOutput(from:), DescribeAlertManagerDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlertManagerDefinitionInput, DescribeAlertManagerDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlertManagerDefinitionOutput>())
@@ -1370,13 +1601,82 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeAnomalyDetector` operation on the `Amp` service.
+    ///
+    /// Retrieves detailed information about a specific anomaly detector, including its status and configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnomalyDetectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAnomalyDetectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resources that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func describeAnomalyDetector(input: DescribeAnomalyDetectorInput) async throws -> DescribeAnomalyDetectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAnomalyDetector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput>(DescribeAnomalyDetectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnomalyDetectorOutput>(DescribeAnomalyDetectorOutput.httpOutput(from:), DescribeAnomalyDetectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnomalyDetectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("amp", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAnomalyDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAnomalyDetectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAnomalyDetectorInput, DescribeAnomalyDetectorOutput>(serviceID: serviceName, version: AmpClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Amp")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAnomalyDetector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeLoggingConfiguration` operation on the `Amp` service.
     ///
     /// Returns complete information about the current rules and alerting logging configuration of the workspace. These logging configurations are only for rules and alerting logs.
     ///
-    /// - Parameter DescribeLoggingConfigurationInput : Represents the input of a DescribeLoggingConfiguration operation.
+    /// - Parameter input: Represents the input of a DescribeLoggingConfiguration operation. (Type: `DescribeLoggingConfigurationInput`)
     ///
-    /// - Returns: `DescribeLoggingConfigurationOutput` : Represents the output of a DescribeLoggingConfiguration operation.
+    /// - Returns: Represents the output of a DescribeLoggingConfiguration operation. (Type: `DescribeLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1410,6 +1710,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoggingConfigurationOutput>(DescribeLoggingConfigurationOutput.httpOutput(from:), DescribeLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoggingConfigurationOutput>())
@@ -1441,9 +1742,9 @@ extension AmpClient {
     ///
     /// Retrieves the details of the query logging configuration for the specified workspace.
     ///
-    /// - Parameter DescribeQueryLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQueryLoggingConfigurationInput`)
     ///
-    /// - Returns: `DescribeQueryLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQueryLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1477,6 +1778,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeQueryLoggingConfigurationInput, DescribeQueryLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQueryLoggingConfigurationOutput>(DescribeQueryLoggingConfigurationOutput.httpOutput(from:), DescribeQueryLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQueryLoggingConfigurationInput, DescribeQueryLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQueryLoggingConfigurationOutput>())
@@ -1508,9 +1810,9 @@ extension AmpClient {
     ///
     /// Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
     ///
-    /// - Parameter DescribeResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
-    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1545,6 +1847,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutput>(DescribeResourcePolicyOutput.httpOutput(from:), DescribeResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
@@ -1576,9 +1879,9 @@ extension AmpClient {
     ///
     /// Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use ListRuleGroupsNamespaces.
     ///
-    /// - Parameter DescribeRuleGroupsNamespaceInput : Represents the input of a DescribeRuleGroupsNamespace operation.
+    /// - Parameter input: Represents the input of a DescribeRuleGroupsNamespace operation. (Type: `DescribeRuleGroupsNamespaceInput`)
     ///
-    /// - Returns: `DescribeRuleGroupsNamespaceOutput` : Represents the output of a DescribeRuleGroupsNamespace operation.
+    /// - Returns: Represents the output of a DescribeRuleGroupsNamespace operation. (Type: `DescribeRuleGroupsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1613,6 +1916,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRuleGroupsNamespaceInput, DescribeRuleGroupsNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuleGroupsNamespaceOutput>(DescribeRuleGroupsNamespaceOutput.httpOutput(from:), DescribeRuleGroupsNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupsNamespaceInput, DescribeRuleGroupsNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupsNamespaceOutput>())
@@ -1644,9 +1948,9 @@ extension AmpClient {
     ///
     /// The DescribeScraper operation displays information about an existing scraper.
     ///
-    /// - Parameter DescribeScraperInput : Represents the input of a DescribeScraper operation.
+    /// - Parameter input: Represents the input of a DescribeScraper operation. (Type: `DescribeScraperInput`)
     ///
-    /// - Returns: `DescribeScraperOutput` : Represents the output of a DescribeScraper operation.
+    /// - Returns: Represents the output of a DescribeScraper operation. (Type: `DescribeScraperOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1681,6 +1985,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeScraperInput, DescribeScraperOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScraperOutput>(DescribeScraperOutput.httpOutput(from:), DescribeScraperOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScraperInput, DescribeScraperOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScraperOutput>())
@@ -1708,13 +2013,81 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeScraperLoggingConfiguration` operation on the `Amp` service.
+    ///
+    /// Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeScraperLoggingConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeScraperLoggingConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resources that doesn't exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func describeScraperLoggingConfiguration(input: DescribeScraperLoggingConfigurationInput) async throws -> DescribeScraperLoggingConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeScraperLoggingConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeScraperLoggingConfigurationInput, DescribeScraperLoggingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeScraperLoggingConfigurationInput, DescribeScraperLoggingConfigurationOutput>(DescribeScraperLoggingConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeScraperLoggingConfigurationInput, DescribeScraperLoggingConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScraperLoggingConfigurationOutput>(DescribeScraperLoggingConfigurationOutput.httpOutput(from:), DescribeScraperLoggingConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScraperLoggingConfigurationInput, DescribeScraperLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScraperLoggingConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("amp", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeScraperLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeScraperLoggingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeScraperLoggingConfigurationInput, DescribeScraperLoggingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeScraperLoggingConfigurationInput, DescribeScraperLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeScraperLoggingConfigurationInput, DescribeScraperLoggingConfigurationOutput>(serviceID: serviceName, version: AmpClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Amp")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeScraperLoggingConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeWorkspace` operation on the `Amp` service.
     ///
     /// Returns information about an existing workspace.
     ///
-    /// - Parameter DescribeWorkspaceInput : Represents the input of a DescribeWorkspace operation.
+    /// - Parameter input: Represents the input of a DescribeWorkspace operation. (Type: `DescribeWorkspaceInput`)
     ///
-    /// - Returns: `DescribeWorkspaceOutput` : Represents the output of a DescribeWorkspace operation.
+    /// - Returns: Represents the output of a DescribeWorkspace operation. (Type: `DescribeWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1749,6 +2122,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceOutput>(DescribeWorkspaceOutput.httpOutput(from:), DescribeWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceOutput>())
@@ -1780,9 +2154,9 @@ extension AmpClient {
     ///
     /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
     ///
-    /// - Parameter DescribeWorkspaceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceConfigurationInput`)
     ///
-    /// - Returns: `DescribeWorkspaceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1817,6 +2191,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWorkspaceConfigurationInput, DescribeWorkspaceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceConfigurationOutput>(DescribeWorkspaceConfigurationOutput.httpOutput(from:), DescribeWorkspaceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceConfigurationInput, DescribeWorkspaceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceConfigurationOutput>())
@@ -1848,9 +2223,9 @@ extension AmpClient {
     ///
     /// The GetDefaultScraperConfiguration operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
     ///
-    /// - Parameter GetDefaultScraperConfigurationInput : Represents the input of a GetDefaultScraperConfiguration operation.
+    /// - Parameter input: Represents the input of a GetDefaultScraperConfiguration operation. (Type: `GetDefaultScraperConfigurationInput`)
     ///
-    /// - Returns: `GetDefaultScraperConfigurationOutput` : Represents the output of a GetDefaultScraperConfiguration operation.
+    /// - Returns: Represents the output of a GetDefaultScraperConfiguration operation. (Type: `GetDefaultScraperConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1883,6 +2258,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDefaultScraperConfigurationInput, GetDefaultScraperConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultScraperConfigurationOutput>(GetDefaultScraperConfigurationOutput.httpOutput(from:), GetDefaultScraperConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultScraperConfigurationInput, GetDefaultScraperConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultScraperConfigurationOutput>())
@@ -1910,13 +2286,83 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAnomalyDetectors` operation on the `Amp` service.
+    ///
+    /// Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAnomalyDetectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAnomalyDetectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resources that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func listAnomalyDetectors(input: ListAnomalyDetectorsInput) async throws -> ListAnomalyDetectorsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAnomalyDetectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>(ListAnomalyDetectorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>(ListAnomalyDetectorsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnomalyDetectorsOutput>(ListAnomalyDetectorsOutput.httpOutput(from:), ListAnomalyDetectorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAnomalyDetectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("amp", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAnomalyDetectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAnomalyDetectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAnomalyDetectorsInput, ListAnomalyDetectorsOutput>(serviceID: serviceName, version: AmpClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Amp")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAnomalyDetectors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListRuleGroupsNamespaces` operation on the `Amp` service.
     ///
     /// Returns a list of rule groups namespaces in a workspace.
     ///
-    /// - Parameter ListRuleGroupsNamespacesInput : Represents the input of a ListRuleGroupsNamespaces operation.
+    /// - Parameter input: Represents the input of a ListRuleGroupsNamespaces operation. (Type: `ListRuleGroupsNamespacesInput`)
     ///
-    /// - Returns: `ListRuleGroupsNamespacesOutput` : Represents the output of a ListRuleGroupsNamespaces operation.
+    /// - Returns: Represents the output of a ListRuleGroupsNamespaces operation. (Type: `ListRuleGroupsNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,6 +2398,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRuleGroupsNamespacesInput, ListRuleGroupsNamespacesOutput>(ListRuleGroupsNamespacesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleGroupsNamespacesOutput>(ListRuleGroupsNamespacesOutput.httpOutput(from:), ListRuleGroupsNamespacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleGroupsNamespacesInput, ListRuleGroupsNamespacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleGroupsNamespacesOutput>())
@@ -1983,9 +2430,9 @@ extension AmpClient {
     ///
     /// The ListScrapers operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
     ///
-    /// - Parameter ListScrapersInput : Represents the input of a ListScrapers operation.
+    /// - Parameter input: Represents the input of a ListScrapers operation. (Type: `ListScrapersInput`)
     ///
-    /// - Returns: `ListScrapersOutput` : Represents the output of a ListScrapers operation.
+    /// - Returns: Represents the output of a ListScrapers operation. (Type: `ListScrapersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,6 +2467,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListScrapersInput, ListScrapersOutput>(ListScrapersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScrapersOutput>(ListScrapersOutput.httpOutput(from:), ListScrapersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScrapersInput, ListScrapersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScrapersOutput>())
@@ -2051,9 +2499,9 @@ extension AmpClient {
     ///
     /// The ListTagsForResource operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2088,6 +2536,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2119,9 +2568,9 @@ extension AmpClient {
     ///
     /// Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
     ///
-    /// - Parameter ListWorkspacesInput : Represents the input of a ListWorkspaces operation.
+    /// - Parameter input: Represents the input of a ListWorkspaces operation. (Type: `ListWorkspacesInput`)
     ///
-    /// - Returns: `ListWorkspacesOutput` : Represents the output of a ListWorkspaces operation.
+    /// - Returns: Represents the output of a ListWorkspaces operation. (Type: `ListWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2156,6 +2605,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkspacesInput, ListWorkspacesOutput>(ListWorkspacesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkspacesOutput>(ListWorkspacesOutput.httpOutput(from:), ListWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkspacesInput, ListWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkspacesOutput>())
@@ -2187,9 +2637,9 @@ extension AmpClient {
     ///
     /// Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use CreateAlertManagerDefinition.
     ///
-    /// - Parameter PutAlertManagerDefinitionInput : Represents the input of a PutAlertManagerDefinition operation.
+    /// - Parameter input: Represents the input of a PutAlertManagerDefinition operation. (Type: `PutAlertManagerDefinitionInput`)
     ///
-    /// - Returns: `PutAlertManagerDefinitionOutput` : Represents the output of a PutAlertManagerDefinition operation.
+    /// - Returns: Represents the output of a PutAlertManagerDefinition operation. (Type: `PutAlertManagerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2230,6 +2680,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAlertManagerDefinitionInput, PutAlertManagerDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAlertManagerDefinitionOutput>(PutAlertManagerDefinitionOutput.httpOutput(from:), PutAlertManagerDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAlertManagerDefinitionInput, PutAlertManagerDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAlertManagerDefinitionOutput>())
@@ -2257,13 +2708,87 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutAnomalyDetector` operation on the `Amp` service.
+    ///
+    /// When you call PutAnomalyDetector, the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the detector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the single method for creating, updating, and retraining anomaly detectors.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAnomalyDetectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAnomalyDetectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request would cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ServiceQuotaExceededException` : Completing the request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func putAnomalyDetector(input: PutAnomalyDetectorInput) async throws -> PutAnomalyDetectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAnomalyDetector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAnomalyDetectorInput, PutAnomalyDetectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(PutAnomalyDetectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutAnomalyDetectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAnomalyDetectorOutput>(PutAnomalyDetectorOutput.httpOutput(from:), PutAnomalyDetectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAnomalyDetectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("amp", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAnomalyDetectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAnomalyDetectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(serviceID: serviceName, version: AmpClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Amp")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAnomalyDetector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutResourcePolicy` operation on the `Amp` service.
     ///
     /// Creates or updates a resource-based policy for an Amazon Managed Service for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace. Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-Prometheus-compatible APIs to the policy, but they will be ignored. For more information, see [Prometheus-compatible APIs](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-APIReference-Prometheus-Compatible-Apis.html) in the Amazon Managed Service for Prometheus User Guide. If your workspace uses customer-managed KMS keys for encryption, you must grant the principals in your resource-based policy access to those KMS keys. You can do this by creating KMS grants. For more information, see [CreateGrant](https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateGrant.html) in the AWS Key Management Service API Reference and [Encryption at rest](https://docs.aws.amazon.com/prometheus/latest/userguide/encryption-at-rest-Amazon-Service-Prometheus.html) in the Amazon Managed Service for Prometheus User Guide. For more information about working with IAM, see [Using Amazon Managed Service for Prometheus with IAM](https://docs.aws.amazon.com/prometheus/latest/userguide/security_iam_service-with-iam.html) in the Amazon Managed Service for Prometheus User Guide.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2303,6 +2828,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -2332,11 +2858,11 @@ extension AmpClient {
 
     /// Performs the `PutRuleGroupsNamespace` operation on the `Amp` service.
     ///
-    /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
+    /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
     ///
-    /// - Parameter PutRuleGroupsNamespaceInput : Represents the input of a PutRuleGroupsNamespace operation.
+    /// - Parameter input: Represents the input of a PutRuleGroupsNamespace operation. (Type: `PutRuleGroupsNamespaceInput`)
     ///
-    /// - Returns: `PutRuleGroupsNamespaceOutput` : Represents the output of a PutRuleGroupsNamespace operation.
+    /// - Returns: Represents the output of a PutRuleGroupsNamespace operation. (Type: `PutRuleGroupsNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2377,6 +2903,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRuleGroupsNamespaceInput, PutRuleGroupsNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRuleGroupsNamespaceOutput>(PutRuleGroupsNamespaceOutput.httpOutput(from:), PutRuleGroupsNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRuleGroupsNamespaceInput, PutRuleGroupsNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRuleGroupsNamespaceOutput>())
@@ -2408,9 +2935,9 @@ extension AmpClient {
     ///
     /// The TagResource operation associates tags with an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use UntagResource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2448,6 +2975,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2479,9 +3007,9 @@ extension AmpClient {
     ///
     /// Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2517,6 +3045,7 @@ extension AmpClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2548,9 +3077,9 @@ extension AmpClient {
     ///
     /// Updates the log group ARN or the workspace ID of the current rules and alerting logging configuration. These logging configurations are only for rules and alerting logs.
     ///
-    /// - Parameter UpdateLoggingConfigurationInput : Represents the input of an UpdateLoggingConfiguration operation.
+    /// - Parameter input: Represents the input of an UpdateLoggingConfiguration operation. (Type: `UpdateLoggingConfigurationInput`)
     ///
-    /// - Returns: `UpdateLoggingConfigurationOutput` : Represents the output of an UpdateLoggingConfiguration operation.
+    /// - Returns: Represents the output of an UpdateLoggingConfiguration operation. (Type: `UpdateLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2589,6 +3118,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLoggingConfigurationOutput>(UpdateLoggingConfigurationOutput.httpOutput(from:), UpdateLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLoggingConfigurationOutput>())
@@ -2620,9 +3150,9 @@ extension AmpClient {
     ///
     /// Updates the query logging configuration for the specified workspace.
     ///
-    /// - Parameter UpdateQueryLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueryLoggingConfigurationInput`)
     ///
-    /// - Returns: `UpdateQueryLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueryLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2661,6 +3191,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueryLoggingConfigurationInput, UpdateQueryLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueryLoggingConfigurationOutput>(UpdateQueryLoggingConfigurationOutput.httpOutput(from:), UpdateQueryLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueryLoggingConfigurationInput, UpdateQueryLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueryLoggingConfigurationOutput>())
@@ -2692,9 +3223,9 @@ extension AmpClient {
     ///
     /// Updates an existing scraper. You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
     ///
-    /// - Parameter UpdateScraperInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScraperInput`)
     ///
-    /// - Returns: `UpdateScraperOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScraperOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2735,6 +3266,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScraperInput, UpdateScraperOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScraperOutput>(UpdateScraperOutput.httpOutput(from:), UpdateScraperOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScraperInput, UpdateScraperOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScraperOutput>())
@@ -2762,13 +3294,85 @@ extension AmpClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateScraperLoggingConfiguration` operation on the `Amp` service.
+    ///
+    /// Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateScraperLoggingConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateScraperLoggingConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request would cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resources that doesn't exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func updateScraperLoggingConfiguration(input: UpdateScraperLoggingConfigurationInput) async throws -> UpdateScraperLoggingConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateScraperLoggingConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aps")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput>(UpdateScraperLoggingConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateScraperLoggingConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScraperLoggingConfigurationOutput>(UpdateScraperLoggingConfigurationOutput.httpOutput(from:), UpdateScraperLoggingConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScraperLoggingConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("amp", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateScraperLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateScraperLoggingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateScraperLoggingConfigurationInput, UpdateScraperLoggingConfigurationOutput>(serviceID: serviceName, version: AmpClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Amp")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateScraperLoggingConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateWorkspaceAlias` operation on the `Amp` service.
     ///
     /// Updates the alias of an existing workspace.
     ///
-    /// - Parameter UpdateWorkspaceAliasInput : Represents the input of an UpdateWorkspaceAlias operation.
+    /// - Parameter input: Represents the input of an UpdateWorkspaceAlias operation. (Type: `UpdateWorkspaceAliasInput`)
     ///
-    /// - Returns: `UpdateWorkspaceAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2809,6 +3413,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspaceAliasInput, UpdateWorkspaceAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspaceAliasOutput>(UpdateWorkspaceAliasOutput.httpOutput(from:), UpdateWorkspaceAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspaceAliasInput, UpdateWorkspaceAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspaceAliasOutput>())
@@ -2840,9 +3445,9 @@ extension AmpClient {
     ///
     /// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid.
     ///
-    /// - Parameter UpdateWorkspaceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceConfigurationInput`)
     ///
-    /// - Returns: `UpdateWorkspaceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2883,6 +3488,7 @@ extension AmpClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspaceConfigurationInput, UpdateWorkspaceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspaceConfigurationOutput>(UpdateWorkspaceConfigurationOutput.httpOutput(from:), UpdateWorkspaceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspaceConfigurationInput, UpdateWorkspaceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspaceConfigurationOutput>())

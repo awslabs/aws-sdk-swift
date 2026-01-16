@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -33,7 +34,7 @@ import enum Smithy.ByteStream
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,15 +65,15 @@ import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct Smithy.Document
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BedrockAgentCoreClient: ClientRuntime.Client {
+public class BedrockAgentCoreClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BedrockAgentCoreClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreClient.BedrockAgentCoreClientConfiguration
     let serviceName = "Bedrock AgentCore"
@@ -374,13 +375,306 @@ extension BedrockAgentCoreClient {
 }
 
 extension BedrockAgentCoreClient {
+    /// Performs the `BatchCreateMemoryRecords` operation on the `BedrockAgentCore` service.
+    ///
+    /// Creates multiple memory records in a single batch operation for the specified memory with custom content.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateMemoryRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchCreateMemoryRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `ServiceException` : The service encountered an internal error. Try your request again later.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottledException` : The request was denied due to request throttling. Reduce the frequency of requests and try again.
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func batchCreateMemoryRecords(input: BatchCreateMemoryRecordsInput) async throws -> BatchCreateMemoryRecordsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchCreateMemoryRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>(BatchCreateMemoryRecordsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateMemoryRecordsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateMemoryRecordsOutput>(BatchCreateMemoryRecordsOutput.httpOutput(from:), BatchCreateMemoryRecordsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateMemoryRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateMemoryRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateMemoryRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateMemoryRecordsInput, BatchCreateMemoryRecordsOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateMemoryRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchDeleteMemoryRecords` operation on the `BedrockAgentCore` service.
+    ///
+    /// Deletes multiple memory records in a single batch operation from the specified memory.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteMemoryRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchDeleteMemoryRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `ServiceException` : The service encountered an internal error. Try your request again later.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottledException` : The request was denied due to request throttling. Reduce the frequency of requests and try again.
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func batchDeleteMemoryRecords(input: BatchDeleteMemoryRecordsInput) async throws -> BatchDeleteMemoryRecordsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteMemoryRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput>(BatchDeleteMemoryRecordsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteMemoryRecordsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteMemoryRecordsOutput>(BatchDeleteMemoryRecordsOutput.httpOutput(from:), BatchDeleteMemoryRecordsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteMemoryRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteMemoryRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteMemoryRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteMemoryRecordsInput, BatchDeleteMemoryRecordsOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteMemoryRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchUpdateMemoryRecords` operation on the `BedrockAgentCore` service.
+    ///
+    /// Updates multiple memory records with custom content in a single batch operation within the specified memory.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateMemoryRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchUpdateMemoryRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `ServiceException` : The service encountered an internal error. Try your request again later.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottledException` : The request was denied due to request throttling. Reduce the frequency of requests and try again.
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func batchUpdateMemoryRecords(input: BatchUpdateMemoryRecordsInput) async throws -> BatchUpdateMemoryRecordsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateMemoryRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput>(BatchUpdateMemoryRecordsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateMemoryRecordsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateMemoryRecordsOutput>(BatchUpdateMemoryRecordsOutput.httpOutput(from:), BatchUpdateMemoryRecordsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateMemoryRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateMemoryRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateMemoryRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateMemoryRecordsInput, BatchUpdateMemoryRecordsOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateMemoryRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CompleteResourceTokenAuth` operation on the `BedrockAgentCore` service.
+    ///
+    /// Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CompleteResourceTokenAuthInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CompleteResourceTokenAuthOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `InternalServerException` : The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `ThrottlingException` : The exception that occurs when the request was denied due to request throttling. This happens when you exceed the allowed request rate for an operation. Reduce the frequency of requests or implement exponential backoff retry logic in your application.
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func completeResourceTokenAuth(input: CompleteResourceTokenAuthInput) async throws -> CompleteResourceTokenAuthOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "completeResourceTokenAuth")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput>(CompleteResourceTokenAuthInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CompleteResourceTokenAuthInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteResourceTokenAuthOutput>(CompleteResourceTokenAuthOutput.httpOutput(from:), CompleteResourceTokenAuthOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CompleteResourceTokenAuthOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CompleteResourceTokenAuthOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompleteResourceTokenAuthOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CompleteResourceTokenAuthInput, CompleteResourceTokenAuthOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CompleteResourceTokenAuth")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEvent` operation on the `BedrockAgentCore` service.
     ///
     /// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting.
     ///
-    /// - Parameter CreateEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventInput`)
     ///
-    /// - Returns: `CreateEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -421,6 +715,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventInput, CreateEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventOutput>(CreateEventOutput.httpOutput(from:), CreateEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventInput, CreateEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventOutput>())
@@ -452,9 +747,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission.
     ///
-    /// - Parameter DeleteEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventInput`)
     ///
-    /// - Returns: `DeleteEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,6 +786,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventInput, DeleteEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventOutput>(DeleteEventOutput.httpOutput(from:), DeleteEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventInput, DeleteEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventOutput>())
@@ -522,9 +818,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemoryRecord permission.
     ///
-    /// - Parameter DeleteMemoryRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemoryRecordInput`)
     ///
-    /// - Returns: `DeleteMemoryRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemoryRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +857,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMemoryRecordInput, DeleteMemoryRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMemoryRecordOutput>(DeleteMemoryRecordOutput.httpOutput(from:), DeleteMemoryRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMemoryRecordInput, DeleteMemoryRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMemoryRecordOutput>())
@@ -588,19 +885,169 @@ extension BedrockAgentCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `Evaluate` operation on the `BedrockAgentCore` service.
+    ///
+    /// Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EvaluateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EvaluateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `ConflictException` : The exception that occurs when the request conflicts with the current state of the resource. This can happen when trying to modify a resource that is currently being modified by another request, or when trying to create a resource that already exists.
+    /// - `DuplicateIdException` : An exception thrown when attempting to create a resource with an identifier that already exists.
+    /// - `InternalServerException` : The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottlingException` : The exception that occurs when the request was denied due to request throttling. This happens when you exceed the allowed request rate for an operation. Reduce the frequency of requests or implement exponential backoff retry logic in your application.
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func evaluate(input: EvaluateInput) async throws -> EvaluateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "evaluate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EvaluateInput, EvaluateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EvaluateInput, EvaluateOutput>(EvaluateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EvaluateInput, EvaluateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EvaluateInput, EvaluateOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<EvaluateInput, EvaluateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EvaluateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateInput, EvaluateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateOutput>(EvaluateOutput.httpOutput(from:), EvaluateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateInput, EvaluateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EvaluateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EvaluateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EvaluateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EvaluateInput, EvaluateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EvaluateInput, EvaluateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EvaluateInput, EvaluateOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Evaluate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgentCard` operation on the `BedrockAgentCore` service.
+    ///
+    /// Retrieves the A2A agent card associated with an AgentCore Runtime agent.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentCardInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentCardOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `InternalServerException` : The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `RuntimeClientError` : The exception that occurs when there is an error in the runtime client. This can happen due to network issues, invalid configuration, or other client-side problems. Check the error message for specific details about the error.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottlingException` : The exception that occurs when the request was denied due to request throttling. This happens when you exceed the allowed request rate for an operation. Reduce the frequency of requests or implement exponential backoff retry logic in your application.
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func getAgentCard(input: GetAgentCardInput) async throws -> GetAgentCardOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentCard")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentCardInput, GetAgentCardOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<GetAgentCardInput, GetAgentCardOutput>(keyPath: \.runtimeSessionId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentCardInput, GetAgentCardOutput>(GetAgentCardInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentCardInput, GetAgentCardOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<GetAgentCardInput, GetAgentCardOutput>(GetAgentCardInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetAgentCardInput, GetAgentCardOutput>(GetAgentCardInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentCardOutput>(GetAgentCardOutput.httpOutput(from:), GetAgentCardOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentCardInput, GetAgentCardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentCardOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentCardOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentCardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentCardInput, GetAgentCardOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentCardInput, GetAgentCardOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentCardInput, GetAgentCardOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentCard")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetBrowserSession` operation on the `BedrockAgentCore` service.
     ///
     /// Retrieves detailed information about a specific browser session in Amazon Bedrock. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession:
     ///
-    /// * [StartBrowserSession](https://docs.aws.amazon.com/API_StartBrowserSession.html)
+    /// * [StartBrowserSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartBrowserSession.html)
     ///
-    /// * [ListBrowserSessions](https://docs.aws.amazon.com/API_ListBrowserSessions.html)
+    /// * [ListBrowserSessions](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_ListBrowserSessions.html)
     ///
-    /// * [StopBrowserSession](https://docs.aws.amazon.com/API_StopBrowserSession.html)
+    /// * [StopBrowserSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StopBrowserSession.html)
     ///
-    /// - Parameter GetBrowserSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBrowserSessionInput`)
     ///
-    /// - Returns: `GetBrowserSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBrowserSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,6 +1083,7 @@ extension BedrockAgentCoreClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBrowserSessionInput, GetBrowserSessionOutput>(GetBrowserSessionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBrowserSessionOutput>(GetBrowserSessionOutput.httpOutput(from:), GetBrowserSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBrowserSessionInput, GetBrowserSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBrowserSessionOutput>())
@@ -667,15 +1115,15 @@ extension BedrockAgentCoreClient {
     ///
     /// Retrieves detailed information about a specific code interpreter session in Amazon Bedrock. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession:
     ///
-    /// * [StartCodeInterpreterSession](https://docs.aws.amazon.com/API_StartCodeInterpreterSession.html)
+    /// * [StartCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html)
     ///
-    /// * [ListCodeInterpreterSessions](https://docs.aws.amazon.com/API_ListCodeInterpreterSessions.html)
+    /// * [ListCodeInterpreterSessions](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_ListCodeInterpreterSessions.html)
     ///
-    /// * [StopCodeInterpreterSession](https://docs.aws.amazon.com/API_StopCodeInterpreterSession.html)
+    /// * [StopCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StopCodeInterpreterSession.html)
     ///
-    /// - Parameter GetCodeInterpreterSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeInterpreterSessionInput`)
     ///
-    /// - Returns: `GetCodeInterpreterSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeInterpreterSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -711,6 +1159,7 @@ extension BedrockAgentCoreClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCodeInterpreterSessionInput, GetCodeInterpreterSessionOutput>(GetCodeInterpreterSessionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCodeInterpreterSessionOutput>(GetCodeInterpreterSessionOutput.httpOutput(from:), GetCodeInterpreterSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCodeInterpreterSessionInput, GetCodeInterpreterSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCodeInterpreterSessionOutput>())
@@ -742,9 +1191,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Retrieves information about a specific event in an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetEvent permission.
     ///
-    /// - Parameter GetEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventInput`)
     ///
-    /// - Returns: `GetEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,6 +1230,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventInput, GetEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventOutput>(GetEventOutput.httpOutput(from:), GetEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventInput, GetEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventOutput>())
@@ -812,9 +1262,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemoryRecord permission.
     ///
-    /// - Parameter GetMemoryRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemoryRecordInput`)
     ///
-    /// - Returns: `GetMemoryRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemoryRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,6 +1301,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMemoryRecordInput, GetMemoryRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemoryRecordOutput>(GetMemoryRecordOutput.httpOutput(from:), GetMemoryRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemoryRecordInput, GetMemoryRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMemoryRecordOutput>())
@@ -880,11 +1331,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetResourceApiKey` operation on the `BedrockAgentCore` service.
     ///
-    /// Retrieves an API Key associated with an API Key Credential Provider
+    /// Retrieves the API key associated with an API key credential provider.
     ///
-    /// - Parameter GetResourceApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceApiKeyInput`)
     ///
-    /// - Returns: `GetResourceApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,6 +1374,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceApiKeyInput, GetResourceApiKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceApiKeyOutput>(GetResourceApiKeyOutput.httpOutput(from:), GetResourceApiKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceApiKeyInput, GetResourceApiKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceApiKeyOutput>())
@@ -952,11 +1404,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetResourceOauth2Token` operation on the `BedrockAgentCore` service.
     ///
-    /// Returns the OAuth 2.0 token of the provided resource
+    /// Returns the OAuth 2.0 token of the provided resource.
     ///
-    /// - Parameter GetResourceOauth2TokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceOauth2TokenInput`)
     ///
-    /// - Returns: `GetResourceOauth2TokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceOauth2TokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -995,6 +1447,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceOauth2TokenInput, GetResourceOauth2TokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceOauth2TokenOutput>(GetResourceOauth2TokenOutput.httpOutput(from:), GetResourceOauth2TokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceOauth2TokenInput, GetResourceOauth2TokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceOauth2TokenOutput>())
@@ -1024,11 +1477,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetWorkloadAccessToken` operation on the `BedrockAgentCore` service.
     ///
-    /// Obtains an Workload access token for agentic workloads not acting on behalf of user.
+    /// Obtains a workload access token for agentic workloads not acting on behalf of a user.
     ///
-    /// - Parameter GetWorkloadAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadAccessTokenInput`)
     ///
-    /// - Returns: `GetWorkloadAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1067,6 +1520,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkloadAccessTokenInput, GetWorkloadAccessTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkloadAccessTokenOutput>(GetWorkloadAccessTokenOutput.httpOutput(from:), GetWorkloadAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkloadAccessTokenInput, GetWorkloadAccessTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkloadAccessTokenOutput>())
@@ -1096,11 +1550,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetWorkloadAccessTokenForJWT` operation on the `BedrockAgentCore` service.
     ///
-    /// Obtains an Workload access token for agentic workloads acting on behalf of user with JWT token
+    /// Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token.
     ///
-    /// - Parameter GetWorkloadAccessTokenForJWTInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadAccessTokenForJWTInput`)
     ///
-    /// - Returns: `GetWorkloadAccessTokenForJWTOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadAccessTokenForJWTOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1139,6 +1593,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkloadAccessTokenForJWTInput, GetWorkloadAccessTokenForJWTOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkloadAccessTokenForJWTOutput>(GetWorkloadAccessTokenForJWTOutput.httpOutput(from:), GetWorkloadAccessTokenForJWTOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkloadAccessTokenForJWTInput, GetWorkloadAccessTokenForJWTOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkloadAccessTokenForJWTOutput>())
@@ -1168,11 +1623,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetWorkloadAccessTokenForUserId` operation on the `BedrockAgentCore` service.
     ///
-    /// Obtains an Workload access token for agentic workloads acting on behalf of user with User Id.
+    /// Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID.
     ///
-    /// - Parameter GetWorkloadAccessTokenForUserIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadAccessTokenForUserIdInput`)
     ///
-    /// - Returns: `GetWorkloadAccessTokenForUserIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadAccessTokenForUserIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1211,6 +1666,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkloadAccessTokenForUserIdInput, GetWorkloadAccessTokenForUserIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkloadAccessTokenForUserIdOutput>(GetWorkloadAccessTokenForUserIdOutput.httpOutput(from:), GetWorkloadAccessTokenForUserIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkloadAccessTokenForUserIdInput, GetWorkloadAccessTokenForUserIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkloadAccessTokenForUserIdOutput>())
@@ -1240,11 +1696,11 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `InvokeAgentRuntime` operation on the `BedrockAgentCore` service.
     ///
-    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html). If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html). To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission.
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html). If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html). To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
     ///
-    /// - Parameter InvokeAgentRuntimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeAgentRuntimeInput`)
     ///
-    /// - Returns: `InvokeAgentRuntimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeAgentRuntimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,6 +1743,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeAgentRuntimeInput, InvokeAgentRuntimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeAgentRuntimeOutput>(InvokeAgentRuntimeOutput.httpOutput(from:), InvokeAgentRuntimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeAgentRuntimeInput, InvokeAgentRuntimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeAgentRuntimeOutput>())
@@ -1318,13 +1775,13 @@ extension BedrockAgentCoreClient {
     ///
     /// Executes code within an active code interpreter session in Amazon Bedrock. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations. To execute code, you must specify the code interpreter identifier, session ID, and the code to run in the arguments parameter. The operation returns a stream containing the execution results, which can include text output, error messages, and data visualizations. This operation is subject to request rate limiting based on your account's service quotas. The following operations are related to InvokeCodeInterpreter:
     ///
-    /// * [StartCodeInterpreterSession](https://docs.aws.amazon.com/API_StartCodeInterpreterSession.html)
+    /// * [StartCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html)
     ///
-    /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/API_GetCodeInterpreterSession.html)
+    /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetCodeInterpreterSession.html)
     ///
-    /// - Parameter InvokeCodeInterpreterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeCodeInterpreterInput`)
     ///
-    /// - Returns: `InvokeCodeInterpreterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeCodeInterpreterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1365,6 +1822,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeCodeInterpreterInput, InvokeCodeInterpreterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeCodeInterpreterOutput>(InvokeCodeInterpreterOutput.httpOutput(from:), InvokeCodeInterpreterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeCodeInterpreterInput, InvokeCodeInterpreterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeCodeInterpreterOutput>())
@@ -1396,9 +1854,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListActors permission.
     ///
-    /// - Parameter ListActorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActorsInput`)
     ///
-    /// - Returns: `ListActorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1438,6 +1896,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListActorsInput, ListActorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActorsOutput>(ListActorsOutput.httpOutput(from:), ListActorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActorsInput, ListActorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListActorsOutput>())
@@ -1469,13 +1928,13 @@ extension BedrockAgentCoreClient {
     ///
     /// Retrieves a list of browser sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListBrowserSessions:
     ///
-    /// * [StartBrowserSession](https://docs.aws.amazon.com/API_StartBrowserSession.html)
+    /// * [StartBrowserSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartBrowserSession.html)
     ///
-    /// * [GetBrowserSession](https://docs.aws.amazon.com/API_GetBrowserSession.html)
+    /// * [GetBrowserSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetBrowserSession.html)
     ///
-    /// - Parameter ListBrowserSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrowserSessionsInput`)
     ///
-    /// - Returns: `ListBrowserSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrowserSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1513,6 +1972,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBrowserSessionsInput, ListBrowserSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBrowserSessionsOutput>(ListBrowserSessionsOutput.httpOutput(from:), ListBrowserSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBrowserSessionsInput, ListBrowserSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBrowserSessionsOutput>())
@@ -1544,13 +2004,13 @@ extension BedrockAgentCoreClient {
     ///
     /// Retrieves a list of code interpreter sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListCodeInterpreterSessions:
     ///
-    /// * [StartCodeInterpreterSession](https://docs.aws.amazon.com/API_StartCodeInterpreterSession.html)
+    /// * [StartCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html)
     ///
-    /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/API_GetCodeInterpreterSession.html)
+    /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetCodeInterpreterSession.html)
     ///
-    /// - Parameter ListCodeInterpreterSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeInterpreterSessionsInput`)
     ///
-    /// - Returns: `ListCodeInterpreterSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeInterpreterSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1588,6 +2048,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCodeInterpreterSessionsInput, ListCodeInterpreterSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeInterpreterSessionsOutput>(ListCodeInterpreterSessionsOutput.httpOutput(from:), ListCodeInterpreterSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeInterpreterSessionsInput, ListCodeInterpreterSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeInterpreterSessionsOutput>())
@@ -1619,9 +2080,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission.
     ///
-    /// - Parameter ListEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventsInput`)
     ///
-    /// - Returns: `ListEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1661,6 +2122,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventsInput, ListEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventsOutput>(ListEventsOutput.httpOutput(from:), ListEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventsInput, ListEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventsOutput>())
@@ -1688,13 +2150,86 @@ extension BedrockAgentCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListMemoryExtractionJobs` operation on the `BedrockAgentCore` service.
+    ///
+    /// Lists all long-term memory extraction jobs that are eligible to be started with optional filtering. To use this operation, you must have the bedrock-agentcore:ListMemoryExtractionJobs permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListMemoryExtractionJobsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListMemoryExtractionJobsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `ServiceException` : The service encountered an internal error. Try your request again later.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottledException` : The request was denied due to request throttling. Reduce the frequency of requests and try again.
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func listMemoryExtractionJobs(input: ListMemoryExtractionJobsInput) async throws -> ListMemoryExtractionJobsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMemoryExtractionJobs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput>(ListMemoryExtractionJobsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMemoryExtractionJobsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMemoryExtractionJobsOutput>(ListMemoryExtractionJobsOutput.httpOutput(from:), ListMemoryExtractionJobsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMemoryExtractionJobsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMemoryExtractionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMemoryExtractionJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMemoryExtractionJobs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListMemoryRecords` operation on the `BedrockAgentCore` service.
     ///
     /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemoryRecords permission.
     ///
-    /// - Parameter ListMemoryRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMemoryRecordsInput`)
     ///
-    /// - Returns: `ListMemoryRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMemoryRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1734,6 +2269,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMemoryRecordsInput, ListMemoryRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMemoryRecordsOutput>(ListMemoryRecordsOutput.httpOutput(from:), ListMemoryRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMemoryRecordsInput, ListMemoryRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMemoryRecordsOutput>())
@@ -1765,9 +2301,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1807,6 +2343,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSessionsInput, ListSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionsOutput>(ListSessionsOutput.httpOutput(from:), ListSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
@@ -1838,9 +2375,9 @@ extension BedrockAgentCoreClient {
     ///
     /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission.
     ///
-    /// - Parameter RetrieveMemoryRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetrieveMemoryRecordsInput`)
     ///
-    /// - Returns: `RetrieveMemoryRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetrieveMemoryRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1880,6 +2417,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveMemoryRecordsInput, RetrieveMemoryRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveMemoryRecordsOutput>(RetrieveMemoryRecordsOutput.httpOutput(from:), RetrieveMemoryRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveMemoryRecordsInput, RetrieveMemoryRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveMemoryRecordsOutput>())
@@ -1911,15 +2449,15 @@ extension BedrockAgentCoreClient {
     ///
     /// Creates and initializes a browser session in Amazon Bedrock. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:
     ///
-    /// * [GetBrowserSession](https://docs.aws.amazon.com/API_GetBrowserSession.html)
+    /// * [GetBrowserSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetBrowserSession.html)
     ///
-    /// * [UpdateBrowserStream](https://docs.aws.amazon.com/API_UpdateBrowserStream.html)
+    /// * [UpdateBrowserStream](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_UpdateBrowserStream.html)
     ///
-    /// * [StopBrowserSession](https://docs.aws.amazon.com/API_StopBrowserSession.html)
+    /// * [StopBrowserSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StopBrowserSession.html)
     ///
-    /// - Parameter StartBrowserSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBrowserSessionInput`)
     ///
-    /// - Returns: `StartBrowserSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBrowserSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1955,11 +2493,13 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(StartBrowserSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(StartBrowserSessionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartBrowserSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBrowserSessionOutput>(StartBrowserSessionOutput.httpOutput(from:), StartBrowserSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBrowserSessionOutput>())
@@ -1991,15 +2531,15 @@ extension BedrockAgentCoreClient {
     ///
     /// Creates and initializes a code interpreter session in Amazon Bedrock. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks. To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the StopCodeInterpreterSession operation. The following operations are related to StartCodeInterpreterSession:
     ///
-    /// * [InvokeCodeInterpreter](https://docs.aws.amazon.com/API_InvokeCodeInterpreter.html)
+    /// * [InvokeCodeInterpreter](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_InvokeCodeInterpreter.html)
     ///
-    /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/API_GetCodeInterpreterSession.html)
+    /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetCodeInterpreterSession.html)
     ///
-    /// * [StopCodeInterpreterSession](https://docs.aws.amazon.com/API_StopCodeInterpreterSession.html)
+    /// * [StopCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StopCodeInterpreterSession.html)
     ///
-    /// - Parameter StartCodeInterpreterSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCodeInterpreterSessionInput`)
     ///
-    /// - Returns: `StartCodeInterpreterSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCodeInterpreterSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2035,11 +2575,13 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(StartCodeInterpreterSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(StartCodeInterpreterSessionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCodeInterpreterSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCodeInterpreterSessionOutput>(StartCodeInterpreterSessionOutput.httpOutput(from:), StartCodeInterpreterSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCodeInterpreterSessionOutput>())
@@ -2067,17 +2609,91 @@ extension BedrockAgentCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartMemoryExtractionJob` operation on the `BedrockAgentCore` service.
+    ///
+    /// Starts a memory extraction job that processes events that failed extraction previously in an AgentCore Memory resource and produces structured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well. To use this operation, you must have the bedrock-agentcore:StartMemoryExtractionJob permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartMemoryExtractionJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartMemoryExtractionJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `ServiceException` : The service encountered an internal error. Try your request again later.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottledException` : The request was denied due to request throttling. Reduce the frequency of requests and try again.
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func startMemoryExtractionJob(input: StartMemoryExtractionJobInput) async throws -> StartMemoryExtractionJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startMemoryExtractionJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>(StartMemoryExtractionJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMemoryExtractionJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMemoryExtractionJobOutput>(StartMemoryExtractionJobOutput.httpOutput(from:), StartMemoryExtractionJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartMemoryExtractionJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMemoryExtractionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMemoryExtractionJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMemoryExtractionJobInput, StartMemoryExtractionJobOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMemoryExtractionJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopBrowserSession` operation on the `BedrockAgentCore` service.
     ///
     /// Terminates an active browser session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession. The following operations are related to StopBrowserSession:
     ///
-    /// * [StartBrowserSession](https://docs.aws.amazon.com/API_StartBrowserSession.html)
+    /// * [StartBrowserSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartBrowserSession.html)
     ///
-    /// * [GetBrowserSession](https://docs.aws.amazon.com/API_GetBrowserSession.html)
+    /// * [GetBrowserSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetBrowserSession.html)
     ///
-    /// - Parameter StopBrowserSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBrowserSessionInput`)
     ///
-    /// - Returns: `StopBrowserSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBrowserSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2113,12 +2729,14 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(StopBrowserSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(StopBrowserSessionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(StopBrowserSessionInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopBrowserSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBrowserSessionOutput>(StopBrowserSessionOutput.httpOutput(from:), StopBrowserSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBrowserSessionOutput>())
@@ -2150,13 +2768,13 @@ extension BedrockAgentCoreClient {
     ///
     /// Terminates an active code interpreter session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code interpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInterpreterSession. The following operations are related to StopCodeInterpreterSession:
     ///
-    /// * [StartCodeInterpreterSession](https://docs.aws.amazon.com/API_StartCodeInterpreterSession.html)
+    /// * [StartCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_StartCodeInterpreterSession.html)
     ///
-    /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/API_GetCodeInterpreterSession.html)
+    /// * [GetCodeInterpreterSession](https://docs.aws.amazon.com/bedrock-agentcore/latest/APIReference/API_GetCodeInterpreterSession.html)
     ///
-    /// - Parameter StopCodeInterpreterSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCodeInterpreterSessionInput`)
     ///
-    /// - Returns: `StopCodeInterpreterSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCodeInterpreterSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2192,12 +2810,14 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(StopCodeInterpreterSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(StopCodeInterpreterSessionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(StopCodeInterpreterSessionInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopCodeInterpreterSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCodeInterpreterSessionOutput>(StopCodeInterpreterSessionOutput.httpOutput(from:), StopCodeInterpreterSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCodeInterpreterSessionOutput>())
@@ -2225,13 +2845,92 @@ extension BedrockAgentCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StopRuntimeSession` operation on the `BedrockAgentCore` service.
+    ///
+    /// Stops a session that is running in an running AgentCore Runtime agent.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopRuntimeSessionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopRuntimeSessionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
+    /// - `ConflictException` : The exception that occurs when the request conflicts with the current state of the resource. This can happen when trying to modify a resource that is currently being modified by another request, or when trying to create a resource that already exists.
+    /// - `InternalServerException` : The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+    /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `RuntimeClientError` : The exception that occurs when there is an error in the runtime client. This can happen due to network issues, invalid configuration, or other client-side problems. Check the error message for specific details about the error.
+    /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
+    /// - `ThrottlingException` : The exception that occurs when the request was denied due to request throttling. This happens when you exceed the allowed request rate for an operation. Reduce the frequency of requests or implement exponential backoff retry logic in your application.
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The exception that occurs when the input fails to satisfy the constraints specified by the service. Check the error message for details about which input parameter is invalid and correct your request.
+    public func stopRuntimeSession(input: StopRuntimeSessionInput) async throws -> StopRuntimeSessionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopRuntimeSession")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopRuntimeSessionInput, StopRuntimeSessionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>(StopRuntimeSessionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>(StopRuntimeSessionInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>(StopRuntimeSessionInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopRuntimeSessionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRuntimeSessionOutput>(StopRuntimeSessionOutput.httpOutput(from:), StopRuntimeSessionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopRuntimeSessionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopRuntimeSessionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopRuntimeSessionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopRuntimeSessionInput, StopRuntimeSessionOutput>(serviceID: serviceName, version: BedrockAgentCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopRuntimeSession")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateBrowserStream` operation on the `BedrockAgentCore` service.
     ///
     /// Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action.
     ///
-    /// - Parameter UpdateBrowserStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrowserStreamInput`)
     ///
-    /// - Returns: `UpdateBrowserStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrowserStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2273,6 +2972,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrowserStreamInput, UpdateBrowserStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrowserStreamOutput>(UpdateBrowserStreamOutput.httpOutput(from:), UpdateBrowserStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrowserStreamInput, UpdateBrowserStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrowserStreamOutput>())

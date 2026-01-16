@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ResourceExplorer2Client: ClientRuntime.Client {
+public class ResourceExplorer2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ResourceExplorer2Client"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceExplorer2Client.ResourceExplorer2ClientConfiguration
     let serviceName = "Resource Explorer 2"
@@ -374,9 +374,9 @@ extension ResourceExplorer2Client {
     ///
     /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a [Search] that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     ///
-    /// - Parameter AssociateDefaultViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDefaultViewInput`)
     ///
-    /// - Returns: `AssociateDefaultViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDefaultViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDefaultViewInput, AssociateDefaultViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDefaultViewOutput>(AssociateDefaultViewOutput.httpOutput(from:), AssociateDefaultViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDefaultViewInput, AssociateDefaultViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDefaultViewOutput>())
@@ -445,9 +446,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves details about a list of views.
     ///
-    /// - Parameter BatchGetViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetViewInput`)
     ///
-    /// - Returns: `BatchGetViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +486,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetViewInput, BatchGetViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetViewOutput>(BatchGetViewOutput.httpOutput(from:), BatchGetViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetViewInput, BatchGetViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetViewOutput>())
@@ -520,9 +522,9 @@ extension ResourceExplorer2Client {
     ///
     /// * Action: iam:CreateServiceLinkedRole Resource: No specific resource (*). This permission is required only the first time you create an index to turn on Resource Explorer in the account. Resource Explorer uses this to create the [service-linked role needed to index the resources in your account](https://docs.aws.amazon.com/resource-explorer/latest/userguide/security_iam_service-linked-roles.html). Resource Explorer uses the same service-linked role for all additional indexes you create afterwards.
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +563,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
@@ -588,13 +591,85 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateResourceExplorerSetup` operation on the `ResourceExplorer2` service.
+    ///
+    /// Creates a Resource Explorer setup configuration across multiple Amazon Web Services Regions. This operation sets up indexes and views in the specified Regions. This operation can also be used to set an aggregator Region for cross-Region resource search.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceExplorerSetupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateResourceExplorerSetupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `ConflictException` : If you attempted to create a view, then the request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region. If you attempted to create an index, then the request failed because either you specified parameters that didn't match the original request, or an index already exists in the current Amazon Web Services Region. If you attempted to update an index type to AGGREGATOR, then the request failed because you already have an AGGREGATOR index in a different Amazon Web Services Region.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
+    public func createResourceExplorerSetup(input: CreateResourceExplorerSetupInput) async throws -> CreateResourceExplorerSetupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createResourceExplorerSetup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "resource-explorer-2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput>(CreateResourceExplorerSetupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateResourceExplorerSetupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceExplorerSetupOutput>(CreateResourceExplorerSetupOutput.httpOutput(from:), CreateResourceExplorerSetupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceExplorerSetupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Explorer 2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResourceExplorerSetupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResourceExplorerSetupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResourceExplorerSetupInput, CreateResourceExplorerSetupOutput>(serviceID: serviceName, version: ResourceExplorer2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceExplorer2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateResourceExplorerSetup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateView` operation on the `ResourceExplorer2` service.
     ///
     /// Creates a view that users can query by using the [Search] operation. Results from queries that you make using this view include only resources that match the view's Filters. For more information about Amazon Web Services Resource Explorer views, see [Managing views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-views.html) in the Amazon Web Services Resource Explorer User Guide. Only the principals with an IAM identity-based policy that grants Allow to the Search action on a Resource with the [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of this view can [Search] using views you create with this operation.
     ///
-    /// - Parameter CreateViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateViewInput`)
     ///
-    /// - Returns: `CreateViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,6 +710,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateViewInput, CreateViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateViewOutput>(CreateViewOutput.httpOutput(from:), CreateViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateViewInput, CreateViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateViewOutput>())
@@ -666,9 +742,9 @@ extension ResourceExplorer2Client {
     ///
     /// Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the [GetIndex] operation and checking the Status response value. If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
     ///
-    /// - Parameter DeleteIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
     ///
-    /// - Returns: `DeleteIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,6 +782,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexInput, DeleteIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
@@ -733,13 +810,85 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteResourceExplorerSetup` operation on the `ResourceExplorer2` service.
+    ///
+    /// Deletes a Resource Explorer setup configuration. This operation removes indexes and views from the specified Regions or all Regions where Resource Explorer is configured.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceExplorerSetupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteResourceExplorerSetupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `ConflictException` : If you attempted to create a view, then the request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region. If you attempted to create an index, then the request failed because either you specified parameters that didn't match the original request, or an index already exists in the current Amazon Web Services Region. If you attempted to update an index type to AGGREGATOR, then the request failed because you already have an AGGREGATOR index in a different Amazon Web Services Region.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
+    public func deleteResourceExplorerSetup(input: DeleteResourceExplorerSetupInput) async throws -> DeleteResourceExplorerSetupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteResourceExplorerSetup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "resource-explorer-2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput>(DeleteResourceExplorerSetupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteResourceExplorerSetupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceExplorerSetupOutput>(DeleteResourceExplorerSetupOutput.httpOutput(from:), DeleteResourceExplorerSetupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceExplorerSetupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Explorer 2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourceExplorerSetupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourceExplorerSetupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourceExplorerSetupInput, DeleteResourceExplorerSetupOutput>(serviceID: serviceName, version: ResourceExplorer2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceExplorer2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourceExplorerSetup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteView` operation on the `ResourceExplorer2` service.
     ///
     /// Deletes the specified view. If the specified view is the default view for its Amazon Web Services Region, then all [Search] operations in that Region must explicitly specify the view to use until you configure a new default by calling the [AssociateDefaultView] operation.
     ///
-    /// - Parameter DeleteViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteViewInput`)
     ///
-    /// - Returns: `DeleteViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -778,6 +927,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteViewInput, DeleteViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteViewOutput>(DeleteViewOutput.httpOutput(from:), DeleteViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteViewInput, DeleteViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteViewOutput>())
@@ -809,9 +959,9 @@ extension ResourceExplorer2Client {
     ///
     /// After you call this operation, the affected Amazon Web Services Region no longer has a default view. All [Search] operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the [AssociateDefaultView] operation. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
     ///
-    /// - Parameter DisassociateDefaultViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDefaultViewInput`)
     ///
-    /// - Returns: `DisassociateDefaultViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDefaultViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -846,6 +996,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateDefaultViewInput, DisassociateDefaultViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDefaultViewOutput>(DisassociateDefaultViewOutput.httpOutput(from:), DisassociateDefaultViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDefaultViewInput, DisassociateDefaultViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDefaultViewOutput>())
@@ -877,9 +1028,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves the status of your account's Amazon Web Services service access, and validates the service linked role required to access the multi-account search feature. Only the management account can invoke this API call.
     ///
-    /// - Parameter GetAccountLevelServiceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountLevelServiceConfigurationInput`)
     ///
-    /// - Returns: `GetAccountLevelServiceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountLevelServiceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -913,6 +1064,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountLevelServiceConfigurationInput, GetAccountLevelServiceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountLevelServiceConfigurationOutput>(GetAccountLevelServiceConfigurationOutput.httpOutput(from:), GetAccountLevelServiceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountLevelServiceConfigurationInput, GetAccountLevelServiceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountLevelServiceConfigurationOutput>())
@@ -944,9 +1096,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call [GetView] to retrieve the details of that view.
     ///
-    /// - Parameter GetDefaultViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDefaultViewInput`)
     ///
-    /// - Returns: `GetDefaultViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDefaultViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -981,6 +1133,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDefaultViewInput, GetDefaultViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultViewOutput>(GetDefaultViewOutput.httpOutput(from:), GetDefaultViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultViewInput, GetDefaultViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultViewOutput>())
@@ -1012,9 +1165,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
     ///
-    /// - Parameter GetIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIndexInput`)
     ///
-    /// - Returns: `GetIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1049,6 +1202,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIndexInput, GetIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIndexOutput>(GetIndexOutput.httpOutput(from:), GetIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIndexInput, GetIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIndexOutput>())
@@ -1080,9 +1234,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves details of the specified [Amazon Web Services-managed view](https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html).
     ///
-    /// - Parameter GetManagedViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedViewInput`)
     ///
-    /// - Returns: `GetManagedViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,6 +1275,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetManagedViewInput, GetManagedViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedViewOutput>(GetManagedViewOutput.httpOutput(from:), GetManagedViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedViewInput, GetManagedViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedViewOutput>())
@@ -1148,13 +1303,226 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetResourceExplorerSetup` operation on the `ResourceExplorer2` service.
+    ///
+    /// Retrieves the status and details of a Resource Explorer setup operation. This operation returns information about the progress of creating or deleting Resource Explorer configurations across Regions.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetResourceExplorerSetupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetResourceExplorerSetupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
+    public func getResourceExplorerSetup(input: GetResourceExplorerSetupInput) async throws -> GetResourceExplorerSetupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getResourceExplorerSetup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "resource-explorer-2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>(GetResourceExplorerSetupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetResourceExplorerSetupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceExplorerSetupOutput>(GetResourceExplorerSetupOutput.httpOutput(from:), GetResourceExplorerSetupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceExplorerSetupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Explorer 2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourceExplorerSetupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourceExplorerSetupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetResourceExplorerSetupInput, GetResourceExplorerSetupOutput>(serviceID: serviceName, version: ResourceExplorer2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceExplorer2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetResourceExplorerSetup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetServiceIndex` operation on the `ResourceExplorer2` service.
+    ///
+    /// Retrieves information about the Resource Explorer index in the current Amazon Web Services Region. This operation returns the ARN and type of the index if one exists.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetServiceIndexInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetServiceIndexOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
+    public func getServiceIndex(input: GetServiceIndexInput) async throws -> GetServiceIndexOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getServiceIndex")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "resource-explorer-2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetServiceIndexInput, GetServiceIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceIndexInput, GetServiceIndexOutput>(GetServiceIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceIndexInput, GetServiceIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceIndexOutput>(GetServiceIndexOutput.httpOutput(from:), GetServiceIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceIndexInput, GetServiceIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceIndexOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Explorer 2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceIndexInput, GetServiceIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetServiceIndexInput, GetServiceIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetServiceIndexInput, GetServiceIndexOutput>(serviceID: serviceName, version: ResourceExplorer2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceExplorer2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetServiceIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetServiceView` operation on the `ResourceExplorer2` service.
+    ///
+    /// Retrieves details about a specific Resource Explorer service view. This operation returns the configuration and properties of the specified view.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetServiceViewInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetServiceViewOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
+    public func getServiceView(input: GetServiceViewInput) async throws -> GetServiceViewOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getServiceView")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "resource-explorer-2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetServiceViewInput, GetServiceViewOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetServiceViewInput, GetServiceViewOutput>(GetServiceViewInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceViewInput, GetServiceViewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetServiceViewInput, GetServiceViewOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetServiceViewInput, GetServiceViewOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetServiceViewInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceViewInput, GetServiceViewOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceViewOutput>(GetServiceViewOutput.httpOutput(from:), GetServiceViewOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceViewInput, GetServiceViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceViewOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Explorer 2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetServiceViewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetServiceViewOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetServiceViewInput, GetServiceViewOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetServiceViewInput, GetServiceViewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetServiceViewInput, GetServiceViewOutput>(serviceID: serviceName, version: ResourceExplorer2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceExplorer2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetServiceView")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetView` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves details of the specified view.
     ///
-    /// - Parameter GetViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetViewInput`)
     ///
-    /// - Returns: `GetViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,6 +1561,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetViewInput, GetViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetViewOutput>(GetViewOutput.httpOutput(from:), GetViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetViewInput, GetViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetViewOutput>())
@@ -1224,9 +1593,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
     ///
-    /// - Parameter ListIndexesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexesInput`)
     ///
-    /// - Returns: `ListIndexesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1263,6 +1632,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIndexesInput, ListIndexesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndexesOutput>(ListIndexesOutput.httpOutput(from:), ListIndexesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndexesInput, ListIndexesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndexesOutput>())
@@ -1294,9 +1664,9 @@ extension ResourceExplorer2Client {
     ///
     /// Retrieves a list of a member's indexes in all Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer. Only the management account or a delegated administrator with service access enabled can invoke this API call.
     ///
-    /// - Parameter ListIndexesForMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexesForMembersInput`)
     ///
-    /// - Returns: `ListIndexesForMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexesForMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1333,6 +1703,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIndexesForMembersInput, ListIndexesForMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndexesForMembersOutput>(ListIndexesForMembersOutput.httpOutput(from:), ListIndexesForMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndexesForMembersInput, ListIndexesForMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndexesForMembersOutput>())
@@ -1364,9 +1735,9 @@ extension ResourceExplorer2Client {
     ///
     /// Lists the Amazon resource names (ARNs) of the [Amazon Web Services-managed views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html) available in the Amazon Web Services Region in which you call this operation.
     ///
-    /// - Parameter ListManagedViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedViewsInput`)
     ///
-    /// - Returns: `ListManagedViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,6 +1775,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedViewsInput, ListManagedViewsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedViewsOutput>(ListManagedViewsOutput.httpOutput(from:), ListManagedViewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedViewsInput, ListManagedViewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedViewsOutput>())
@@ -1435,9 +1807,9 @@ extension ResourceExplorer2Client {
     ///
     /// Returns a list of resources and their details that match the specified criteria. This query must use a view. If you don’t explicitly specify a view, then Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation.
     ///
-    /// - Parameter ListResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
-    /// - Returns: `ListResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1476,6 +1848,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcesInput, ListResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcesOutput>(ListResourcesOutput.httpOutput(from:), ListResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcesInput, ListResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcesOutput>())
@@ -1503,13 +1876,225 @@ extension ResourceExplorer2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListServiceIndexes` operation on the `ResourceExplorer2` service.
+    ///
+    /// Lists all Resource Explorer indexes across the specified Amazon Web Services Regions. This operation returns information about indexes including their ARNs, types, and Regions.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListServiceIndexesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListServiceIndexesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
+    public func listServiceIndexes(input: ListServiceIndexesInput) async throws -> ListServiceIndexesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listServiceIndexes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "resource-explorer-2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListServiceIndexesInput, ListServiceIndexesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput>(ListServiceIndexesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceIndexesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceIndexesOutput>(ListServiceIndexesOutput.httpOutput(from:), ListServiceIndexesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceIndexesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Explorer 2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceIndexesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceIndexesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListServiceIndexesInput, ListServiceIndexesOutput>(serviceID: serviceName, version: ResourceExplorer2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceExplorer2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListServiceIndexes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListServiceViews` operation on the `ResourceExplorer2` service.
+    ///
+    /// Lists all Resource Explorer service views available in the current Amazon Web Services account. This operation returns the ARNs of available service views.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListServiceViewsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListServiceViewsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
+    public func listServiceViews(input: ListServiceViewsInput) async throws -> ListServiceViewsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listServiceViews")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "resource-explorer-2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListServiceViewsInput, ListServiceViewsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceViewsInput, ListServiceViewsOutput>(ListServiceViewsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceViewsInput, ListServiceViewsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceViewsInput, ListServiceViewsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceViewsInput, ListServiceViewsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceViewsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceViewsInput, ListServiceViewsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceViewsOutput>(ListServiceViewsOutput.httpOutput(from:), ListServiceViewsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceViewsInput, ListServiceViewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceViewsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Explorer 2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceViewsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceViewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceViewsInput, ListServiceViewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListServiceViewsInput, ListServiceViewsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListServiceViewsInput, ListServiceViewsOutput>(serviceID: serviceName, version: ResourceExplorer2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceExplorer2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListServiceViews")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListStreamingAccessForServices` operation on the `ResourceExplorer2` service.
+    ///
+    /// Returns a list of Amazon Web Services services that have been granted streaming access to your Resource Explorer data. Streaming access allows Amazon Web Services services to receive real-time updates about your resources as they are indexed by Resource Explorer.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListStreamingAccessForServicesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListStreamingAccessForServicesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
+    public func listStreamingAccessForServices(input: ListStreamingAccessForServicesInput) async throws -> ListStreamingAccessForServicesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listStreamingAccessForServices")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "resource-explorer-2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>(ListStreamingAccessForServicesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListStreamingAccessForServicesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamingAccessForServicesOutput>(ListStreamingAccessForServicesOutput.httpOutput(from:), ListStreamingAccessForServicesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamingAccessForServicesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Resource Explorer 2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListStreamingAccessForServicesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListStreamingAccessForServicesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListStreamingAccessForServicesInput, ListStreamingAccessForServicesOutput>(serviceID: serviceName, version: ResourceExplorer2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ResourceExplorer2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListStreamingAccessForServices")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListSupportedResourceTypes` operation on the `ResourceExplorer2` service.
     ///
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
     ///
-    /// - Parameter ListSupportedResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupportedResourceTypesInput`)
     ///
-    /// - Returns: `ListSupportedResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupportedResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1546,6 +2131,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSupportedResourceTypesInput, ListSupportedResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSupportedResourceTypesOutput>(ListSupportedResourceTypesOutput.httpOutput(from:), ListSupportedResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSupportedResourceTypesInput, ListSupportedResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSupportedResourceTypesOutput>())
@@ -1577,9 +2163,9 @@ extension ResourceExplorer2Client {
     ///
     /// Lists the tags that are attached to the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1615,6 +2201,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1646,9 +2233,9 @@ extension ResourceExplorer2Client {
     ///
     /// Lists the [Amazon resource names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the views available in the Amazon Web Services Region in which you call this operation. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
-    /// - Parameter ListViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListViewsInput`)
     ///
-    /// - Returns: `ListViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1685,6 +2272,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListViewsInput, ListViewsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListViewsOutput>(ListViewsOutput.httpOutput(from:), ListViewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListViewsInput, ListViewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListViewsOutput>())
@@ -1716,9 +2304,9 @@ extension ResourceExplorer2Client {
     ///
     /// Searches for resources and displays details about all resources that match the specified criteria. You must specify a query string. All search queries must use a view. If you don't explicitly specify a view, then Amazon Web Services Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation. The results are the logical intersection of the results that match both the QueryString parameter supplied to this operation and the SearchFilter parameter attached to the view. For the complete syntax supported by the QueryString parameter, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/APIReference/about-query-syntax.html). If your search results are empty, or are missing results that you think should be there, see [Troubleshooting Resource Explorer search](https://docs.aws.amazon.com/resource-explorer/latest/userguide/troubleshooting_search.html).
     ///
-    /// - Parameter SearchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchInput`)
     ///
-    /// - Returns: `SearchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1757,6 +2345,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchInput, SearchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchOutput>(SearchOutput.httpOutput(from:), SearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchInput, SearchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchOutput>())
@@ -1788,9 +2377,9 @@ extension ResourceExplorer2Client {
     ///
     /// Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1829,6 +2418,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1860,9 +2450,9 @@ extension ResourceExplorer2Client {
     ///
     /// Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1899,6 +2489,7 @@ extension ResourceExplorer2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1934,9 +2525,9 @@ extension ResourceExplorer2Client {
     ///
     /// * LOCAL index type The index contains information about resources in only the Amazon Web Services Region in which the index exists. If an aggregator index in another Region exists, then information in this local index is replicated to the aggregator index. When you change the index type to LOCAL, Resource Explorer turns off the replication of resource information from all other Amazon Web Services Regions in the Amazon Web Services account to this Region. The aggregator index remains in the UPDATING state until all replication with other Regions successfully stops. You can check the status of the asynchronous task by using the [GetIndex] operation. When Resource Explorer successfully stops all replication with other Regions, the Status response of that operation changes from UPDATING to ACTIVE. Separately, the resource information from other Regions that was previously stored in the index is deleted within 30 days by another background task. Until that asynchronous task completes, some results from other Regions can continue to appear in search results. After you demote an aggregator index to a local index, you must wait 24 hours before you can promote another index to be the new aggregator index for the account.
     ///
-    /// - Parameter UpdateIndexTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexTypeInput`)
     ///
-    /// - Returns: `UpdateIndexTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIndexTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1976,6 +2567,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIndexTypeInput, UpdateIndexTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIndexTypeOutput>(UpdateIndexTypeOutput.httpOutput(from:), UpdateIndexTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIndexTypeInput, UpdateIndexTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIndexTypeOutput>())
@@ -2007,9 +2599,9 @@ extension ResourceExplorer2Client {
     ///
     /// Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
     ///
-    /// - Parameter UpdateViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateViewInput`)
     ///
-    /// - Returns: `UpdateViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2048,6 +2640,7 @@ extension ResourceExplorer2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateViewInput, UpdateViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateViewOutput>(UpdateViewOutput.httpOutput(from:), UpdateViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateViewInput, UpdateViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateViewOutput>())

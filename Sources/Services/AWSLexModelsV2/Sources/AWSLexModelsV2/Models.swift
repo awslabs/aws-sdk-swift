@@ -2362,6 +2362,36 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
 
+    /// Defines the operational mode for Assisted Natural Language Understanding. This enum determines how the enhanced NLU capabilities integrate with standard intent recognition.
+    public enum AssistedNluMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fallback
+        case primary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssistedNluMode] {
+            return [
+                .fallback,
+                .primary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fallback: return "Fallback"
+            case .primary: return "Primary"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     /// The object containing information that associates the recommended intent/slot type with a conversation.
     public struct AssociatedTranscript: Swift.Sendable {
         /// The content of the transcript that meets the search filter criteria. For the JSON format of the transcript, see [Output transcript format](https://docs.aws.amazon.com/lexv2/latest/dg/designing-output-format.html).
@@ -3658,6 +3688,167 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
 
+    /// Determines the sensitivity level for voice activity detection (VAD) in noisy environments. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise. Valid values include:
+    ///
+    /// * Default - Standard sensitivity level suitable for most environments
+    ///
+    /// * HighNoiseTolerance - Increased tolerance for moderate background noise
+    ///
+    /// * MaximumNoiseTolerance - Maximum tolerance for high levels of background noise
+    public enum SpeechDetectionSensitivity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case highnoisetolerance
+        case maximumnoisetolerance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpeechDetectionSensitivity] {
+            return [
+                .default,
+                .highnoisetolerance,
+                .maximumnoisetolerance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "Default"
+            case .highnoisetolerance: return "HighNoiseTolerance"
+            case .maximumnoisetolerance: return "MaximumNoiseTolerance"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Configuration settings for integrating Deepgram speech-to-text models with Amazon Lex.
+    public struct DeepgramSpeechModelConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains the Deepgram API token.
+        /// This member is required.
+        public var apiTokenSecretArn: Swift.String?
+        /// The identifier of the Deepgram speech-to-text model to use for processing speech input.
+        public var modelId: Swift.String?
+
+        public init(
+            apiTokenSecretArn: Swift.String? = nil,
+            modelId: Swift.String? = nil
+        ) {
+            self.apiTokenSecretArn = apiTokenSecretArn
+            self.modelId = modelId
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Configuration settings that define which speech-to-text model to use for processing speech input.
+    public struct SpeechModelConfig: Swift.Sendable {
+        /// Configuration settings for using Deepgram as the speech-to-text provider.
+        public var deepgramConfig: LexModelsV2ClientTypes.DeepgramSpeechModelConfig?
+
+        public init(
+            deepgramConfig: LexModelsV2ClientTypes.DeepgramSpeechModelConfig? = nil
+        ) {
+            self.deepgramConfig = deepgramConfig
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    public enum SpeechModelPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deepgram
+        case neural
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SpeechModelPreference] {
+            return [
+                .deepgram,
+                .neural,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deepgram: return "Deepgram"
+            case .neural: return "Neural"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Settings that control how Amazon Lex processes and recognizes speech input from users.
+    public struct SpeechRecognitionSettings: Swift.Sendable {
+        /// Configuration settings for the selected speech-to-text model.
+        public var speechModelConfig: LexModelsV2ClientTypes.SpeechModelConfig?
+        /// The speech-to-text model to use.
+        public var speechModelPreference: LexModelsV2ClientTypes.SpeechModelPreference?
+
+        public init(
+            speechModelConfig: LexModelsV2ClientTypes.SpeechModelConfig? = nil,
+            speechModelPreference: LexModelsV2ClientTypes.SpeechModelPreference? = nil
+        ) {
+            self.speechModelConfig = speechModelConfig
+            self.speechModelPreference = speechModelPreference
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Configuration for a foundation model used for speech synthesis and recognition capabilities.
+    public struct SpeechFoundationModel: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the foundation model used for speech processing.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// The identifier of the voice to use for speech synthesis with the foundation model.
+        public var voiceId: Swift.String?
+
+        public init(
+            modelArn: Swift.String? = nil,
+            voiceId: Swift.String? = nil
+        ) {
+            self.modelArn = modelArn
+            self.voiceId = voiceId
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Unified configuration settings that combine speech recognition and synthesis capabilities.
+    public struct UnifiedSpeechSettings: Swift.Sendable {
+        /// The foundation model configuration to use for unified speech processing capabilities.
+        /// This member is required.
+        public var speechFoundationModel: LexModelsV2ClientTypes.SpeechFoundationModel?
+
+        public init(
+            speechFoundationModel: LexModelsV2ClientTypes.SpeechFoundationModel? = nil
+        ) {
+            self.speechFoundationModel = speechFoundationModel
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     public enum VoiceEngine: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case generative
         case longform
@@ -3742,6 +3933,12 @@ extension LexModelsV2ClientTypes {
         ///
         /// * IntentC
         public var nluIntentConfidenceThreshold: Swift.Double?
+        /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
+        public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+        /// Speech-to-text settings to apply when importing the bot locale configuration.
+        public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+        /// Unified speech settings to apply when importing the bot locale configuration.
+        public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
         /// Defines settings for using an Amazon Polly voice to communicate with a user. Valid values include:
         ///
         /// * standard
@@ -3758,12 +3955,18 @@ extension LexModelsV2ClientTypes {
             botVersion: Swift.String? = nil,
             localeId: Swift.String? = nil,
             nluIntentConfidenceThreshold: Swift.Double? = nil,
+            speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+            speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+            unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
             voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
         ) {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speechDetectionSensitivity = speechDetectionSensitivity
+            self.speechRecognitionSettings = speechRecognitionSettings
+            self.unifiedSpeechSettings = unifiedSpeechSettings
             self.voiceSettings = voiceSettings
         }
     }
@@ -5721,16 +5924,48 @@ public struct CreateBotAliasOutput: Swift.Sendable {
 
 extension LexModelsV2ClientTypes {
 
-    /// Specifies whether the assisted nlu feature is turned on or off.
-    public struct NluImprovementSpecification: Swift.Sendable {
-        /// Specifies whether the assisted nlu feature is enabled.
+    /// Configures the Intent Disambiguation feature that helps resolve ambiguous user inputs when multiple intents could match. When enabled, the system presents clarifying questions to users, helping them specify their exact intent for improved conversation accuracy.
+    public struct IntentDisambiguationSettings: Swift.Sendable {
+        /// Provides a custom message that will be displayed before presenting the disambiguation options to users. This message helps set the context for users and can be customized to match your bot's tone and brand. If not specified, a default message will be used.
+        public var customDisambiguationMessage: Swift.String?
+        /// Determines whether the Intent Disambiguation feature is enabled. When set to true, Amazon Lex will present disambiguation options to users when multiple intents could match their input, with the default being false.
         /// This member is required.
         public var enabled: Swift.Bool
+        /// Specifies the maximum number of intent options (2-5) to present to users when disambiguation is needed. This setting determines how many intent options will be shown to users when the system detects ambiguous input. The default value is 3.
+        public var maxDisambiguationIntents: Swift.Int?
 
         public init(
-            enabled: Swift.Bool = false
+            customDisambiguationMessage: Swift.String? = nil,
+            enabled: Swift.Bool = false,
+            maxDisambiguationIntents: Swift.Int? = nil
         ) {
+            self.customDisambiguationMessage = customDisambiguationMessage
             self.enabled = enabled
+            self.maxDisambiguationIntents = maxDisambiguationIntents
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
+    /// Configures the Assisted Natural Language Understanding (NLU) feature for your bot. This specification determines whether enhanced intent recognition and utterance understanding capabilities are active.
+    public struct NluImprovementSpecification: Swift.Sendable {
+        /// Specifies the mode for Assisted NLU operation. Use Primary to make Assisted NLU the primary intent recognition method, or Fallback to use it only when standard NLU confidence is low.
+        public var assistedNluMode: LexModelsV2ClientTypes.AssistedNluMode?
+        /// Determines whether the Assisted NLU feature is enabled for the bot. When set to true, Amazon Lex uses advanced models to improve intent recognition and slot resolution, with the default being false.
+        /// This member is required.
+        public var enabled: Swift.Bool
+        /// An object containing specifications for the Intent Disambiguation feature within the Assisted NLU settings. These settings determine how the bot handles ambiguous user inputs that could match multiple intents.
+        public var intentDisambiguationSettings: LexModelsV2ClientTypes.IntentDisambiguationSettings?
+
+        public init(
+            assistedNluMode: LexModelsV2ClientTypes.AssistedNluMode? = nil,
+            enabled: Swift.Bool = false,
+            intentDisambiguationSettings: LexModelsV2ClientTypes.IntentDisambiguationSettings? = nil
+        ) {
+            self.assistedNluMode = assistedNluMode
+            self.enabled = enabled
+            self.intentDisambiguationSettings = intentDisambiguationSettings
         }
     }
 }
@@ -5759,7 +5994,7 @@ extension LexModelsV2ClientTypes {
 
     /// Contains specifications about the Amazon Lex runtime generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
     public struct RuntimeSettings: Swift.Sendable {
-        /// An object containing specifications for the assisted nlu feature.
+        /// An object containing specifications for the Assisted NLU feature within the bot's runtime settings. These settings determine how the bot processes and interprets user utterances during conversations.
         public var nluImprovement: LexModelsV2ClientTypes.NluImprovementSpecification?
         /// An object containing specifications for the assisted slot resolution feature.
         public var slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification?
@@ -5818,6 +6053,12 @@ public struct CreateBotLocaleInput: Swift.Sendable {
     /// * IntentC
     /// This member is required.
     public var nluIntentConfidenceThreshold: Swift.Double?
+    /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
+    public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// Speech-to-text settings to configure for the new bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// Unified speech settings to configure for the new bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -5828,6 +6069,9 @@ public struct CreateBotLocaleInput: Swift.Sendable {
         generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
+        speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -5836,6 +6080,9 @@ public struct CreateBotLocaleInput: Swift.Sendable {
         self.generativeAISettings = generativeAISettings
         self.localeId = localeId
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+        self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -5859,6 +6106,12 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
     public var localeName: Swift.String?
     /// The specified confidence threshold for inserting the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents.
     public var nluIntentConfidenceThreshold: Swift.Double?
+    /// The sensitivity level for voice activity detection (VAD) that was specified for the bot locale.
+    public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// The speech-to-text settings configured for the created bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// The unified speech settings configured for the created bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -5872,6 +6125,9 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
         localeId: Swift.String? = nil,
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
+        speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -5883,6 +6139,9 @@ public struct CreateBotLocaleOutput: Swift.Sendable {
         self.localeId = localeId
         self.localeName = localeName
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+        self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -8323,6 +8582,12 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
     public var recommendedActions: [Swift.String]?
     /// The number of slot types defined for the locale.
     public var slotTypesCount: Swift.Int?
+    /// The sensitivity level for voice activity detection (VAD) configured for the bot locale.
+    public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// The speech-to-text settings configured for the bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// The unified speech settings configured for the bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The Amazon Polly voice Amazon Lex uses for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -8343,6 +8608,9 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         recommendedActions: [Swift.String]? = nil,
         slotTypesCount: Swift.Int? = nil,
+        speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -8361,6 +8629,9 @@ public struct DescribeBotLocaleOutput: Swift.Sendable {
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.recommendedActions = recommendedActions
         self.slotTypesCount = slotTypesCount
+        self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -10781,6 +11052,8 @@ extension LexModelsV2ClientTypes {
         public var description: Swift.String?
         /// The input contexts that must be active for this intent to be considered for recognition.
         public var inputContexts: [LexModelsV2ClientTypes.InputContext]?
+        /// The display name of the intent.
+        public var intentDisplayName: Swift.String?
         /// The unique identifier assigned to the intent. Use this ID to get detailed information about the intent with the DescribeIntent operation.
         public var intentId: Swift.String?
         /// The name of the intent.
@@ -10795,6 +11068,7 @@ extension LexModelsV2ClientTypes {
         public init(
             description: Swift.String? = nil,
             inputContexts: [LexModelsV2ClientTypes.InputContext]? = nil,
+            intentDisplayName: Swift.String? = nil,
             intentId: Swift.String? = nil,
             intentName: Swift.String? = nil,
             lastUpdatedDateTime: Foundation.Date? = nil,
@@ -10803,6 +11077,7 @@ extension LexModelsV2ClientTypes {
         ) {
             self.description = description
             self.inputContexts = inputContexts
+            self.intentDisplayName = intentDisplayName
             self.intentId = intentId
             self.intentName = intentName
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -14373,6 +14648,12 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
     /// The new confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
     /// This member is required.
     public var nluIntentConfidenceThreshold: Swift.Double?
+    /// The new sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
+    public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// Updated speech-to-text settings to apply to the bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// Updated unified speech settings to apply to the bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The new Amazon Polly voice Amazon Lex should use for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -14383,6 +14664,9 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
         generativeAISettings: LexModelsV2ClientTypes.GenerativeAISettings? = nil,
         localeId: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
+        speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -14391,6 +14675,9 @@ public struct UpdateBotLocaleInput: Swift.Sendable {
         self.generativeAISettings = generativeAISettings
         self.localeId = localeId
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+        self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -14420,6 +14707,12 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
     public var nluIntentConfidenceThreshold: Swift.Double?
     /// Recommended actions to take to resolve an error in the failureReasons field.
     public var recommendedActions: [Swift.String]?
+    /// The updated sensitivity level for voice activity detection (VAD) in the bot locale.
+    public var speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity?
+    /// The updated speech-to-text settings for the bot locale.
+    public var speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings?
+    /// The updated unified speech settings for the bot locale.
+    public var unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings?
     /// The updated Amazon Polly voice to use for voice interaction with the user.
     public var voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
 
@@ -14436,6 +14729,9 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
         localeName: Swift.String? = nil,
         nluIntentConfidenceThreshold: Swift.Double? = nil,
         recommendedActions: [Swift.String]? = nil,
+        speechDetectionSensitivity: LexModelsV2ClientTypes.SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: LexModelsV2ClientTypes.SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: LexModelsV2ClientTypes.UnifiedSpeechSettings? = nil,
         voiceSettings: LexModelsV2ClientTypes.VoiceSettings? = nil
     ) {
         self.botId = botId
@@ -14450,6 +14746,9 @@ public struct UpdateBotLocaleOutput: Swift.Sendable {
         self.localeName = localeName
         self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
         self.recommendedActions = recommendedActions
+        self.speechDetectionSensitivity = speechDetectionSensitivity
+        self.speechRecognitionSettings = speechRecognitionSettings
+        self.unifiedSpeechSettings = unifiedSpeechSettings
         self.voiceSettings = voiceSettings
     }
 }
@@ -16005,6 +16304,8 @@ public struct CreateIntentInput: Swift.Sendable {
     public var intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting?
     /// Provides prompts that Amazon Lex sends to the user to confirm the completion of an intent. If the user answers "no," the settings contain a statement that is sent to the user to end the intent.
     public var intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting?
+    /// A display name for the intent. If configured, This name will be shown to users during Intent Disambiguation instead of the intent name. Display names should be user-friendly, descriptive and match the intent's purpose to improve user experience during disambiguation.
+    public var intentDisplayName: Swift.String?
     /// The name of the intent. Intent names must be unique in the locale that contains the intent and cannot match the name of any built-in intent.
     /// This member is required.
     public var intentName: Swift.String?
@@ -16034,6 +16335,7 @@ public struct CreateIntentInput: Swift.Sendable {
         inputContexts: [LexModelsV2ClientTypes.InputContext]? = nil,
         intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting? = nil,
         intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting? = nil,
+        intentDisplayName: Swift.String? = nil,
         intentName: Swift.String? = nil,
         kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration? = nil,
         localeId: Swift.String? = nil,
@@ -16052,6 +16354,7 @@ public struct CreateIntentInput: Swift.Sendable {
         self.inputContexts = inputContexts
         self.intentClosingSetting = intentClosingSetting
         self.intentConfirmationSetting = intentConfirmationSetting
+        self.intentDisplayName = intentDisplayName
         self.intentName = intentName
         self.kendraConfiguration = kendraConfiguration
         self.localeId = localeId
@@ -16084,6 +16387,8 @@ public struct CreateIntentOutput: Swift.Sendable {
     public var intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting?
     /// The confirmation setting specified for the intent.
     public var intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting?
+    /// The display name specified for the intent.
+    public var intentDisplayName: Swift.String?
     /// A unique identifier for the intent.
     public var intentId: Swift.String?
     /// The name specified for the intent.
@@ -16114,6 +16419,7 @@ public struct CreateIntentOutput: Swift.Sendable {
         inputContexts: [LexModelsV2ClientTypes.InputContext]? = nil,
         intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting? = nil,
         intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting? = nil,
+        intentDisplayName: Swift.String? = nil,
         intentId: Swift.String? = nil,
         intentName: Swift.String? = nil,
         kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration? = nil,
@@ -16134,6 +16440,7 @@ public struct CreateIntentOutput: Swift.Sendable {
         self.inputContexts = inputContexts
         self.intentClosingSetting = intentClosingSetting
         self.intentConfirmationSetting = intentConfirmationSetting
+        self.intentDisplayName = intentDisplayName
         self.intentId = intentId
         self.intentName = intentName
         self.kendraConfiguration = kendraConfiguration
@@ -16167,6 +16474,8 @@ public struct DescribeIntentOutput: Swift.Sendable {
     public var intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting?
     /// Prompts that Amazon Lex sends to the user to confirm completion of an intent.
     public var intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting?
+    /// The display name specified for the intent.
+    public var intentDisplayName: Swift.String?
     /// The unique identifier assigned to the intent when it was created.
     public var intentId: Swift.String?
     /// The name specified for the intent.
@@ -16201,6 +16510,7 @@ public struct DescribeIntentOutput: Swift.Sendable {
         inputContexts: [LexModelsV2ClientTypes.InputContext]? = nil,
         intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting? = nil,
         intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting? = nil,
+        intentDisplayName: Swift.String? = nil,
         intentId: Swift.String? = nil,
         intentName: Swift.String? = nil,
         kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration? = nil,
@@ -16223,6 +16533,7 @@ public struct DescribeIntentOutput: Swift.Sendable {
         self.inputContexts = inputContexts
         self.intentClosingSetting = intentClosingSetting
         self.intentConfirmationSetting = intentConfirmationSetting
+        self.intentDisplayName = intentDisplayName
         self.intentId = intentId
         self.intentName = intentName
         self.kendraConfiguration = kendraConfiguration
@@ -16258,6 +16569,8 @@ public struct UpdateIntentInput: Swift.Sendable {
     public var intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting?
     /// New prompts that Amazon Lex sends to the user to confirm the completion of an intent.
     public var intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting?
+    /// The new display name for the intent.
+    public var intentDisplayName: Swift.String?
     /// The unique identifier of the intent to update.
     /// This member is required.
     public var intentId: Swift.String?
@@ -16292,6 +16605,7 @@ public struct UpdateIntentInput: Swift.Sendable {
         inputContexts: [LexModelsV2ClientTypes.InputContext]? = nil,
         intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting? = nil,
         intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting? = nil,
+        intentDisplayName: Swift.String? = nil,
         intentId: Swift.String? = nil,
         intentName: Swift.String? = nil,
         kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration? = nil,
@@ -16312,6 +16626,7 @@ public struct UpdateIntentInput: Swift.Sendable {
         self.inputContexts = inputContexts
         self.intentClosingSetting = intentClosingSetting
         self.intentConfirmationSetting = intentConfirmationSetting
+        self.intentDisplayName = intentDisplayName
         self.intentId = intentId
         self.intentName = intentName
         self.kendraConfiguration = kendraConfiguration
@@ -16346,6 +16661,8 @@ public struct UpdateIntentOutput: Swift.Sendable {
     public var intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting?
     /// The updated prompts that Amazon Lex sends to the user to confirm the completion of an intent.
     public var intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting?
+    /// The updated display name of the intent.
+    public var intentDisplayName: Swift.String?
     /// The identifier of the intent that was updated.
     public var intentId: Swift.String?
     /// The updated name of the intent.
@@ -16380,6 +16697,7 @@ public struct UpdateIntentOutput: Swift.Sendable {
         inputContexts: [LexModelsV2ClientTypes.InputContext]? = nil,
         intentClosingSetting: LexModelsV2ClientTypes.IntentClosingSetting? = nil,
         intentConfirmationSetting: LexModelsV2ClientTypes.IntentConfirmationSetting? = nil,
+        intentDisplayName: Swift.String? = nil,
         intentId: Swift.String? = nil,
         intentName: Swift.String? = nil,
         kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration? = nil,
@@ -16402,6 +16720,7 @@ public struct UpdateIntentOutput: Swift.Sendable {
         self.inputContexts = inputContexts
         self.intentClosingSetting = intentClosingSetting
         self.intentConfirmationSetting = intentConfirmationSetting
+        self.intentDisplayName = intentDisplayName
         self.intentId = intentId
         self.intentName = intentName
         self.kendraConfiguration = kendraConfiguration
@@ -17909,6 +18228,9 @@ extension CreateBotLocaleInput {
         try writer["generativeAISettings"].write(value.generativeAISettings, with: LexModelsV2ClientTypes.GenerativeAISettings.write(value:to:))
         try writer["localeId"].write(value.localeId)
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
+        try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
+        try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
+        try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
         try writer["voiceSettings"].write(value.voiceSettings, with: LexModelsV2ClientTypes.VoiceSettings.write(value:to:))
     }
 }
@@ -17951,6 +18273,7 @@ extension CreateIntentInput {
         try writer["inputContexts"].writeList(value.inputContexts, memberWritingClosure: LexModelsV2ClientTypes.InputContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["intentClosingSetting"].write(value.intentClosingSetting, with: LexModelsV2ClientTypes.IntentClosingSetting.write(value:to:))
         try writer["intentConfirmationSetting"].write(value.intentConfirmationSetting, with: LexModelsV2ClientTypes.IntentConfirmationSetting.write(value:to:))
+        try writer["intentDisplayName"].write(value.intentDisplayName)
         try writer["intentName"].write(value.intentName)
         try writer["kendraConfiguration"].write(value.kendraConfiguration, with: LexModelsV2ClientTypes.KendraConfiguration.write(value:to:))
         try writer["outputContexts"].writeList(value.outputContexts, memberWritingClosure: LexModelsV2ClientTypes.OutputContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -18460,6 +18783,9 @@ extension UpdateBotLocaleInput {
         try writer["description"].write(value.description)
         try writer["generativeAISettings"].write(value.generativeAISettings, with: LexModelsV2ClientTypes.GenerativeAISettings.write(value:to:))
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
+        try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
+        try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
+        try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
         try writer["voiceSettings"].write(value.voiceSettings, with: LexModelsV2ClientTypes.VoiceSettings.write(value:to:))
     }
 }
@@ -18491,6 +18817,7 @@ extension UpdateIntentInput {
         try writer["inputContexts"].writeList(value.inputContexts, memberWritingClosure: LexModelsV2ClientTypes.InputContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["intentClosingSetting"].write(value.intentClosingSetting, with: LexModelsV2ClientTypes.IntentClosingSetting.write(value:to:))
         try writer["intentConfirmationSetting"].write(value.intentConfirmationSetting, with: LexModelsV2ClientTypes.IntentConfirmationSetting.write(value:to:))
+        try writer["intentDisplayName"].write(value.intentDisplayName)
         try writer["intentName"].write(value.intentName)
         try writer["kendraConfiguration"].write(value.kendraConfiguration, with: LexModelsV2ClientTypes.KendraConfiguration.write(value:to:))
         try writer["outputContexts"].writeList(value.outputContexts, memberWritingClosure: LexModelsV2ClientTypes.OutputContext.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -18673,6 +19000,9 @@ extension CreateBotLocaleOutput {
         value.localeId = try reader["localeId"].readIfPresent()
         value.localeName = try reader["localeName"].readIfPresent()
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
+        value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
+        value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
+        value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
         return value
     }
@@ -18744,6 +19074,7 @@ extension CreateIntentOutput {
         value.inputContexts = try reader["inputContexts"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.InputContext.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.intentClosingSetting = try reader["intentClosingSetting"].readIfPresent(with: LexModelsV2ClientTypes.IntentClosingSetting.read(from:))
         value.intentConfirmationSetting = try reader["intentConfirmationSetting"].readIfPresent(with: LexModelsV2ClientTypes.IntentConfirmationSetting.read(from:))
+        value.intentDisplayName = try reader["intentDisplayName"].readIfPresent()
         value.intentId = try reader["intentId"].readIfPresent()
         value.intentName = try reader["intentName"].readIfPresent()
         value.kendraConfiguration = try reader["kendraConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.KendraConfiguration.read(from:))
@@ -19101,6 +19432,9 @@ extension DescribeBotLocaleOutput {
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.slotTypesCount = try reader["slotTypesCount"].readIfPresent()
+        value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
+        value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
+        value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
         return value
     }
@@ -19264,6 +19598,7 @@ extension DescribeIntentOutput {
         value.inputContexts = try reader["inputContexts"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.InputContext.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.intentClosingSetting = try reader["intentClosingSetting"].readIfPresent(with: LexModelsV2ClientTypes.IntentClosingSetting.read(from:))
         value.intentConfirmationSetting = try reader["intentConfirmationSetting"].readIfPresent(with: LexModelsV2ClientTypes.IntentConfirmationSetting.read(from:))
+        value.intentDisplayName = try reader["intentDisplayName"].readIfPresent()
         value.intentId = try reader["intentId"].readIfPresent()
         value.intentName = try reader["intentName"].readIfPresent()
         value.kendraConfiguration = try reader["kendraConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.KendraConfiguration.read(from:))
@@ -20114,6 +20449,9 @@ extension UpdateBotLocaleOutput {
         value.localeName = try reader["localeName"].readIfPresent()
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.recommendedActions = try reader["recommendedActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
+        value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
+        value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
         return value
     }
@@ -20173,6 +20511,7 @@ extension UpdateIntentOutput {
         value.inputContexts = try reader["inputContexts"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.InputContext.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.intentClosingSetting = try reader["intentClosingSetting"].readIfPresent(with: LexModelsV2ClientTypes.IntentClosingSetting.read(from:))
         value.intentConfirmationSetting = try reader["intentConfirmationSetting"].readIfPresent(with: LexModelsV2ClientTypes.IntentConfirmationSetting.read(from:))
+        value.intentDisplayName = try reader["intentDisplayName"].readIfPresent()
         value.intentId = try reader["intentId"].readIfPresent()
         value.intentName = try reader["intentName"].readIfPresent()
         value.kendraConfiguration = try reader["kendraConfiguration"].readIfPresent(with: LexModelsV2ClientTypes.KendraConfiguration.read(from:))
@@ -22495,8 +22834,89 @@ extension LexModelsV2ClientTypes.VoiceSettings {
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.VoiceSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.VoiceSettings()
-        value.voiceId = try reader["voiceId"].readIfPresent() ?? ""
         value.engine = try reader["engine"].readIfPresent()
+        value.voiceId = try reader["voiceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.UnifiedSpeechSettings {
+
+    static func write(value: LexModelsV2ClientTypes.UnifiedSpeechSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["speechFoundationModel"].write(value.speechFoundationModel, with: LexModelsV2ClientTypes.SpeechFoundationModel.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.UnifiedSpeechSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.UnifiedSpeechSettings()
+        value.speechFoundationModel = try reader["speechFoundationModel"].readIfPresent(with: LexModelsV2ClientTypes.SpeechFoundationModel.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.SpeechFoundationModel {
+
+    static func write(value: LexModelsV2ClientTypes.SpeechFoundationModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelArn"].write(value.modelArn)
+        try writer["voiceId"].write(value.voiceId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SpeechFoundationModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.SpeechFoundationModel()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.voiceId = try reader["voiceId"].readIfPresent()
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.SpeechRecognitionSettings {
+
+    static func write(value: LexModelsV2ClientTypes.SpeechRecognitionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["speechModelConfig"].write(value.speechModelConfig, with: LexModelsV2ClientTypes.SpeechModelConfig.write(value:to:))
+        try writer["speechModelPreference"].write(value.speechModelPreference)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SpeechRecognitionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.SpeechRecognitionSettings()
+        value.speechModelPreference = try reader["speechModelPreference"].readIfPresent()
+        value.speechModelConfig = try reader["speechModelConfig"].readIfPresent(with: LexModelsV2ClientTypes.SpeechModelConfig.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.SpeechModelConfig {
+
+    static func write(value: LexModelsV2ClientTypes.SpeechModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deepgramConfig"].write(value.deepgramConfig, with: LexModelsV2ClientTypes.DeepgramSpeechModelConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.SpeechModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.SpeechModelConfig()
+        value.deepgramConfig = try reader["deepgramConfig"].readIfPresent(with: LexModelsV2ClientTypes.DeepgramSpeechModelConfig.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.DeepgramSpeechModelConfig {
+
+    static func write(value: LexModelsV2ClientTypes.DeepgramSpeechModelConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["apiTokenSecretArn"].write(value.apiTokenSecretArn)
+        try writer["modelId"].write(value.modelId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.DeepgramSpeechModelConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.DeepgramSpeechModelConfig()
+        value.apiTokenSecretArn = try reader["apiTokenSecretArn"].readIfPresent() ?? ""
+        value.modelId = try reader["modelId"].readIfPresent()
         return value
     }
 }
@@ -22628,13 +23048,36 @@ extension LexModelsV2ClientTypes.NluImprovementSpecification {
 
     static func write(value: LexModelsV2ClientTypes.NluImprovementSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["assistedNluMode"].write(value.assistedNluMode)
         try writer["enabled"].write(value.enabled)
+        try writer["intentDisambiguationSettings"].write(value.intentDisambiguationSettings, with: LexModelsV2ClientTypes.IntentDisambiguationSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.NluImprovementSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.NluImprovementSpecification()
         value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.assistedNluMode = try reader["assistedNluMode"].readIfPresent()
+        value.intentDisambiguationSettings = try reader["intentDisambiguationSettings"].readIfPresent(with: LexModelsV2ClientTypes.IntentDisambiguationSettings.read(from:))
+        return value
+    }
+}
+
+extension LexModelsV2ClientTypes.IntentDisambiguationSettings {
+
+    static func write(value: LexModelsV2ClientTypes.IntentDisambiguationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customDisambiguationMessage"].write(value.customDisambiguationMessage)
+        try writer["enabled"].write(value.enabled)
+        try writer["maxDisambiguationIntents"].write(value.maxDisambiguationIntents)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LexModelsV2ClientTypes.IntentDisambiguationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LexModelsV2ClientTypes.IntentDisambiguationSettings()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.maxDisambiguationIntents = try reader["maxDisambiguationIntents"].readIfPresent()
+        value.customDisambiguationMessage = try reader["customDisambiguationMessage"].readIfPresent()
         return value
     }
 }
@@ -24430,6 +24873,9 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
         try writer["botVersion"].write(value.botVersion)
         try writer["localeId"].write(value.localeId)
         try writer["nluIntentConfidenceThreshold"].write(value.nluIntentConfidenceThreshold)
+        try writer["speechDetectionSensitivity"].write(value.speechDetectionSensitivity)
+        try writer["speechRecognitionSettings"].write(value.speechRecognitionSettings, with: LexModelsV2ClientTypes.SpeechRecognitionSettings.write(value:to:))
+        try writer["unifiedSpeechSettings"].write(value.unifiedSpeechSettings, with: LexModelsV2ClientTypes.UnifiedSpeechSettings.write(value:to:))
         try writer["voiceSettings"].write(value.voiceSettings, with: LexModelsV2ClientTypes.VoiceSettings.write(value:to:))
     }
 
@@ -24441,6 +24887,9 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification {
         value.localeId = try reader["localeId"].readIfPresent() ?? ""
         value.nluIntentConfidenceThreshold = try reader["nluIntentConfidenceThreshold"].readIfPresent()
         value.voiceSettings = try reader["voiceSettings"].readIfPresent(with: LexModelsV2ClientTypes.VoiceSettings.read(from:))
+        value.speechRecognitionSettings = try reader["speechRecognitionSettings"].readIfPresent(with: LexModelsV2ClientTypes.SpeechRecognitionSettings.read(from:))
+        value.speechDetectionSensitivity = try reader["speechDetectionSensitivity"].readIfPresent()
+        value.unifiedSpeechSettings = try reader["unifiedSpeechSettings"].readIfPresent(with: LexModelsV2ClientTypes.UnifiedSpeechSettings.read(from:))
         return value
     }
 }
@@ -24908,6 +25357,7 @@ extension LexModelsV2ClientTypes.IntentSummary {
         var value = LexModelsV2ClientTypes.IntentSummary()
         value.intentId = try reader["intentId"].readIfPresent()
         value.intentName = try reader["intentName"].readIfPresent()
+        value.intentDisplayName = try reader["intentDisplayName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.parentIntentSignature = try reader["parentIntentSignature"].readIfPresent()
         value.inputContexts = try reader["inputContexts"].readListIfPresent(memberReadingClosure: LexModelsV2ClientTypes.InputContext.read(from:), memberNodeInfo: "member", isFlattened: false)

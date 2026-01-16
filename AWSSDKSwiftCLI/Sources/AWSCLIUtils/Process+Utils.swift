@@ -80,7 +80,7 @@ public struct ProcessRunner {
     ///
     /// Runs the process and prints out the process's full command.
     public static let standard = ProcessRunner { process in
-        log(level: .debug, "Running process: \(process.commandString)")
+        log(level: .info, "Running process: \(process.commandString)")
         try process.run()
         process.waitUntilExit()
         let exitCode = ExitCode(process.terminationStatus)

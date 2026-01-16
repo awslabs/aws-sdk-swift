@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class AmplifyUIBuilderClient: ClientRuntime.Client {
+public class AmplifyUIBuilderClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AmplifyUIBuilderClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: AmplifyUIBuilderClient.AmplifyUIBuilderClientConfiguration
     let serviceName = "AmplifyUIBuilder"
@@ -374,9 +374,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Creates a new component for an Amplify app.
     ///
-    /// - Parameter CreateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComponentInput`)
     ///
-    /// - Returns: `CreateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +415,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComponentInput, CreateComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComponentOutput>(CreateComponentOutput.httpOutput(from:), CreateComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComponentInput, CreateComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComponentOutput>())
@@ -446,9 +447,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Creates a new form for an Amplify app.
     ///
-    /// - Parameter CreateFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFormInput`)
     ///
-    /// - Returns: `CreateFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +488,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFormInput, CreateFormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFormOutput>(CreateFormOutput.httpOutput(from:), CreateFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFormInput, CreateFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFormOutput>())
@@ -518,9 +520,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Creates a theme to apply to the components in an Amplify app.
     ///
-    /// - Parameter CreateThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThemeInput`)
     ///
-    /// - Returns: `CreateThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,6 +561,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThemeInput, CreateThemeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThemeOutput>(CreateThemeOutput.httpOutput(from:), CreateThemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThemeInput, CreateThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThemeOutput>())
@@ -590,9 +593,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Deletes a component from an Amplify app.
     ///
-    /// - Parameter DeleteComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComponentInput`)
     ///
-    /// - Returns: `DeleteComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,6 +628,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteComponentInput, DeleteComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComponentOutput>(DeleteComponentOutput.httpOutput(from:), DeleteComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComponentInput, DeleteComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComponentOutput>())
@@ -656,9 +660,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Deletes a form from an Amplify app.
     ///
-    /// - Parameter DeleteFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFormInput`)
     ///
-    /// - Returns: `DeleteFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,6 +695,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFormInput, DeleteFormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFormOutput>(DeleteFormOutput.httpOutput(from:), DeleteFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFormInput, DeleteFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFormOutput>())
@@ -722,9 +727,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Deletes a theme from an Amplify app.
     ///
-    /// - Parameter DeleteThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThemeInput`)
     ///
-    /// - Returns: `DeleteThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -757,6 +762,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteThemeInput, DeleteThemeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThemeOutput>(DeleteThemeOutput.httpOutput(from:), DeleteThemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThemeInput, DeleteThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThemeOutput>())
@@ -788,9 +794,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// This is for internal use. Amplify uses this action to exchange an access code for a token.
     ///
-    /// - Parameter ExchangeCodeForTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExchangeCodeForTokenInput`)
     ///
-    /// - Returns: `ExchangeCodeForTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExchangeCodeForTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -824,6 +830,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExchangeCodeForTokenInput, ExchangeCodeForTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExchangeCodeForTokenOutput>(ExchangeCodeForTokenOutput.httpOutput(from:), ExchangeCodeForTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExchangeCodeForTokenInput, ExchangeCodeForTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExchangeCodeForTokenOutput>())
@@ -855,9 +862,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Exports component configurations to code that is ready to integrate into an Amplify app.
     ///
-    /// - Parameter ExportComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportComponentsInput`)
     ///
-    /// - Returns: `ExportComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,6 +897,7 @@ extension AmplifyUIBuilderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ExportComponentsInput, ExportComponentsOutput>(ExportComponentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportComponentsOutput>(ExportComponentsOutput.httpOutput(from:), ExportComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportComponentsInput, ExportComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportComponentsOutput>())
@@ -921,9 +929,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Exports form configurations to code that is ready to integrate into an Amplify app.
     ///
-    /// - Parameter ExportFormsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportFormsInput`)
     ///
-    /// - Returns: `ExportFormsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportFormsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,6 +964,7 @@ extension AmplifyUIBuilderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ExportFormsInput, ExportFormsOutput>(ExportFormsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportFormsOutput>(ExportFormsOutput.httpOutput(from:), ExportFormsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportFormsInput, ExportFormsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportFormsOutput>())
@@ -987,9 +996,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Exports theme configurations to code that is ready to integrate into an Amplify app.
     ///
-    /// - Parameter ExportThemesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportThemesInput`)
     ///
-    /// - Returns: `ExportThemesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportThemesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,6 +1031,7 @@ extension AmplifyUIBuilderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ExportThemesInput, ExportThemesOutput>(ExportThemesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportThemesOutput>(ExportThemesOutput.httpOutput(from:), ExportThemesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportThemesInput, ExportThemesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportThemesOutput>())
@@ -1053,9 +1063,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Returns an existing code generation job.
     ///
-    /// - Parameter GetCodegenJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodegenJobInput`)
     ///
-    /// - Returns: `GetCodegenJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodegenJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1089,6 +1099,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCodegenJobInput, GetCodegenJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCodegenJobOutput>(GetCodegenJobOutput.httpOutput(from:), GetCodegenJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCodegenJobInput, GetCodegenJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCodegenJobOutput>())
@@ -1120,9 +1131,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Returns an existing component for an Amplify app.
     ///
-    /// - Parameter GetComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
-    /// - Returns: `GetComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1155,6 +1166,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetComponentInput, GetComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComponentOutput>(GetComponentOutput.httpOutput(from:), GetComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComponentInput, GetComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComponentOutput>())
@@ -1186,9 +1198,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Returns an existing form for an Amplify app.
     ///
-    /// - Parameter GetFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFormInput`)
     ///
-    /// - Returns: `GetFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1221,6 +1233,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFormInput, GetFormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFormOutput>(GetFormOutput.httpOutput(from:), GetFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFormInput, GetFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFormOutput>())
@@ -1252,9 +1265,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Returns existing metadata for an Amplify app.
     ///
-    /// - Parameter GetMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetadataInput`)
     ///
-    /// - Returns: `GetMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,6 +1299,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMetadataInput, GetMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetadataOutput>(GetMetadataOutput.httpOutput(from:), GetMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetadataInput, GetMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetadataOutput>())
@@ -1317,9 +1331,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Returns an existing theme for an Amplify app.
     ///
-    /// - Parameter GetThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThemeInput`)
     ///
-    /// - Returns: `GetThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1352,6 +1366,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetThemeInput, GetThemeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThemeOutput>(GetThemeOutput.httpOutput(from:), GetThemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThemeInput, GetThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetThemeOutput>())
@@ -1383,9 +1398,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
     ///
-    /// - Parameter ListCodegenJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodegenJobsInput`)
     ///
-    /// - Returns: `ListCodegenJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodegenJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,6 +1434,7 @@ extension AmplifyUIBuilderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCodegenJobsInput, ListCodegenJobsOutput>(ListCodegenJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodegenJobsOutput>(ListCodegenJobsOutput.httpOutput(from:), ListCodegenJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodegenJobsInput, ListCodegenJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodegenJobsOutput>())
@@ -1450,9 +1466,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Retrieves a list of components for a specified Amplify app and backend environment.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1485,6 +1501,7 @@ extension AmplifyUIBuilderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListComponentsInput, ListComponentsOutput>(ListComponentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentsOutput>(ListComponentsOutput.httpOutput(from:), ListComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentsInput, ListComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentsOutput>())
@@ -1516,9 +1533,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Retrieves a list of forms for a specified Amplify app and backend environment.
     ///
-    /// - Parameter ListFormsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFormsInput`)
     ///
-    /// - Returns: `ListFormsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFormsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,6 +1568,7 @@ extension AmplifyUIBuilderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFormsInput, ListFormsOutput>(ListFormsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFormsOutput>(ListFormsOutput.httpOutput(from:), ListFormsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFormsInput, ListFormsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFormsOutput>())
@@ -1582,9 +1600,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Returns a list of tags for a specified Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1619,6 +1637,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1650,9 +1669,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Retrieves a list of themes for a specified Amplify app and backend environment.
     ///
-    /// - Parameter ListThemesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThemesInput`)
     ///
-    /// - Returns: `ListThemesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThemesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1685,6 +1704,7 @@ extension AmplifyUIBuilderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThemesInput, ListThemesOutput>(ListThemesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThemesOutput>(ListThemesOutput.httpOutput(from:), ListThemesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThemesInput, ListThemesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThemesOutput>())
@@ -1716,9 +1736,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Stores the metadata information about a feature on a form.
     ///
-    /// - Parameter PutMetadataFlagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMetadataFlagInput`)
     ///
-    /// - Returns: `PutMetadataFlagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMetadataFlagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1753,6 +1773,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetadataFlagInput, PutMetadataFlagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetadataFlagOutput>(PutMetadataFlagOutput.httpOutput(from:), PutMetadataFlagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetadataFlagInput, PutMetadataFlagOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetadataFlagOutput>())
@@ -1784,9 +1805,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// This is for internal use. Amplify uses this action to refresh a previously issued access token that might have expired.
     ///
-    /// - Parameter RefreshTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RefreshTokenInput`)
     ///
-    /// - Returns: `RefreshTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RefreshTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,6 +1841,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RefreshTokenInput, RefreshTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RefreshTokenOutput>(RefreshTokenOutput.httpOutput(from:), RefreshTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RefreshTokenInput, RefreshTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RefreshTokenOutput>())
@@ -1851,9 +1873,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Starts a code generation job for a specified Amplify app and backend environment.
     ///
-    /// - Parameter StartCodegenJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCodegenJobInput`)
     ///
-    /// - Returns: `StartCodegenJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCodegenJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1891,6 +1913,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCodegenJobInput, StartCodegenJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCodegenJobOutput>(StartCodegenJobOutput.httpOutput(from:), StartCodegenJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCodegenJobInput, StartCodegenJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCodegenJobOutput>())
@@ -1922,9 +1945,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Tags the resource with a tag key and value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1962,6 +1985,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1993,9 +2017,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Untags a resource with a specified Amazon Resource Name (ARN).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2031,6 +2055,7 @@ extension AmplifyUIBuilderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2062,9 +2087,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Updates an existing component.
     ///
-    /// - Parameter UpdateComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComponentInput`)
     ///
-    /// - Returns: `UpdateComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2102,6 +2127,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComponentInput, UpdateComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComponentOutput>(UpdateComponentOutput.httpOutput(from:), UpdateComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComponentInput, UpdateComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateComponentOutput>())
@@ -2133,9 +2159,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Updates an existing form.
     ///
-    /// - Parameter UpdateFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFormInput`)
     ///
-    /// - Returns: `UpdateFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2173,6 +2199,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFormInput, UpdateFormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFormOutput>(UpdateFormOutput.httpOutput(from:), UpdateFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFormInput, UpdateFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFormOutput>())
@@ -2204,9 +2231,9 @@ extension AmplifyUIBuilderClient {
     ///
     /// Updates an existing theme.
     ///
-    /// - Parameter UpdateThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemeInput`)
     ///
-    /// - Returns: `UpdateThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2244,6 +2271,7 @@ extension AmplifyUIBuilderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThemeInput, UpdateThemeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThemeOutput>(UpdateThemeOutput.httpOutput(from:), UpdateThemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThemeInput, UpdateThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThemeOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SecurityIRClient: ClientRuntime.Client {
+public class SecurityIRClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SecurityIRClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityIRClient.SecurityIRClientConfiguration
     let serviceName = "Security IR"
@@ -374,9 +374,9 @@ extension SecurityIRClient {
     ///
     /// Provides information on whether the supplied account IDs are associated with a membership. AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
     ///
-    /// - Parameter BatchGetMemberAccountDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetMemberAccountDetailsInput`)
     ///
-    /// - Returns: `BatchGetMemberAccountDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetMemberAccountDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +418,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetMemberAccountDetailsInput, BatchGetMemberAccountDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetMemberAccountDetailsOutput>(BatchGetMemberAccountDetailsOutput.httpOutput(from:), BatchGetMemberAccountDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetMemberAccountDetailsInput, BatchGetMemberAccountDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetMemberAccountDetailsOutput>())
@@ -449,9 +450,9 @@ extension SecurityIRClient {
     ///
     /// Cancels an existing membership.
     ///
-    /// - Parameter CancelMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMembershipInput`)
     ///
-    /// - Returns: `CancelMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,6 +491,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelMembershipInput, CancelMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMembershipOutput>(CancelMembershipOutput.httpOutput(from:), CancelMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMembershipInput, CancelMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMembershipOutput>())
@@ -521,9 +523,9 @@ extension SecurityIRClient {
     ///
     /// Closes an existing case.
     ///
-    /// - Parameter CloseCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CloseCaseInput`)
     ///
-    /// - Returns: `CloseCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CloseCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +564,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CloseCaseInput, CloseCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CloseCaseOutput>(CloseCaseOutput.httpOutput(from:), CloseCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CloseCaseInput, CloseCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CloseCaseOutput>())
@@ -593,9 +596,9 @@ extension SecurityIRClient {
     ///
     /// Creates a new case.
     ///
-    /// - Parameter CreateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseInput`)
     ///
-    /// - Returns: `CreateCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,6 +641,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCaseInput, CreateCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCaseOutput>(CreateCaseOutput.httpOutput(from:), CreateCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCaseInput, CreateCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCaseOutput>())
@@ -669,9 +673,9 @@ extension SecurityIRClient {
     ///
     /// Adds a comment to an existing case.
     ///
-    /// - Parameter CreateCaseCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseCommentInput`)
     ///
-    /// - Returns: `CreateCaseCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCaseCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,6 +718,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCaseCommentInput, CreateCaseCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCaseCommentOutput>(CreateCaseCommentOutput.httpOutput(from:), CreateCaseCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCaseCommentInput, CreateCaseCommentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCaseCommentOutput>())
@@ -745,9 +750,9 @@ extension SecurityIRClient {
     ///
     /// Creates a new membership.
     ///
-    /// - Parameter CreateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembershipInput`)
     ///
-    /// - Returns: `CreateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -790,6 +795,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMembershipInput, CreateMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembershipOutput>(CreateMembershipOutput.httpOutput(from:), CreateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembershipInput, CreateMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembershipOutput>())
@@ -821,9 +827,9 @@ extension SecurityIRClient {
     ///
     /// Returns the attributes of a case.
     ///
-    /// - Parameter GetCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseInput`)
     ///
-    /// - Returns: `GetCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -862,6 +868,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCaseInput, GetCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseOutput>(GetCaseOutput.httpOutput(from:), GetCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseInput, GetCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseOutput>())
@@ -893,9 +900,9 @@ extension SecurityIRClient {
     ///
     /// Returns a Pre-Signed URL for uploading attachments into a case.
     ///
-    /// - Parameter GetCaseAttachmentDownloadUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseAttachmentDownloadUrlInput`)
     ///
-    /// - Returns: `GetCaseAttachmentDownloadUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseAttachmentDownloadUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,6 +941,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCaseAttachmentDownloadUrlInput, GetCaseAttachmentDownloadUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseAttachmentDownloadUrlOutput>(GetCaseAttachmentDownloadUrlOutput.httpOutput(from:), GetCaseAttachmentDownloadUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseAttachmentDownloadUrlInput, GetCaseAttachmentDownloadUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseAttachmentDownloadUrlOutput>())
@@ -965,9 +973,9 @@ extension SecurityIRClient {
     ///
     /// Uploads an attachment to a case.
     ///
-    /// - Parameter GetCaseAttachmentUploadUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseAttachmentUploadUrlInput`)
     ///
-    /// - Returns: `GetCaseAttachmentUploadUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseAttachmentUploadUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,6 +1018,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCaseAttachmentUploadUrlInput, GetCaseAttachmentUploadUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseAttachmentUploadUrlOutput>(GetCaseAttachmentUploadUrlOutput.httpOutput(from:), GetCaseAttachmentUploadUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseAttachmentUploadUrlInput, GetCaseAttachmentUploadUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseAttachmentUploadUrlOutput>())
@@ -1041,9 +1050,9 @@ extension SecurityIRClient {
     ///
     /// Returns the attributes of a membership.
     ///
-    /// - Parameter GetMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembershipInput`)
     ///
-    /// - Returns: `GetMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,6 +1091,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMembershipInput, GetMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMembershipOutput>(GetMembershipOutput.httpOutput(from:), GetMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMembershipInput, GetMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMembershipOutput>())
@@ -1113,9 +1123,9 @@ extension SecurityIRClient {
     ///
     /// Views the case history for edits made to a designated case.
     ///
-    /// - Parameter ListCaseEditsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCaseEditsInput`)
     ///
-    /// - Returns: `ListCaseEditsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCaseEditsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1157,6 +1167,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCaseEditsInput, ListCaseEditsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCaseEditsOutput>(ListCaseEditsOutput.httpOutput(from:), ListCaseEditsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCaseEditsInput, ListCaseEditsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCaseEditsOutput>())
@@ -1188,9 +1199,9 @@ extension SecurityIRClient {
     ///
     /// Lists all cases the requester has access to.
     ///
-    /// - Parameter ListCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCasesInput`)
     ///
-    /// - Returns: `ListCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1232,6 +1243,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCasesInput, ListCasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCasesOutput>(ListCasesOutput.httpOutput(from:), ListCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCasesInput, ListCasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCasesOutput>())
@@ -1263,9 +1275,9 @@ extension SecurityIRClient {
     ///
     /// Returns comments for a designated case.
     ///
-    /// - Parameter ListCommentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommentsInput`)
     ///
-    /// - Returns: `ListCommentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1307,6 +1319,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommentsInput, ListCommentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommentsOutput>(ListCommentsOutput.httpOutput(from:), ListCommentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommentsInput, ListCommentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommentsOutput>())
@@ -1334,13 +1347,87 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListInvestigations` operation on the `SecurityIR` service.
+    ///
+    /// Investigation performed by an agent for a security incident...
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListInvestigationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListInvestigationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `InvalidTokenException` :
+    /// - `ResourceNotFoundException` :
+    /// - `SecurityIncidentResponseNotActiveException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
+    public func listInvestigations(input: ListInvestigationsInput) async throws -> ListInvestigationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listInvestigations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "security-ir")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListInvestigationsInput, ListInvestigationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(ListInvestigationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListInvestigationsInput, ListInvestigationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(ListInvestigationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvestigationsOutput>(ListInvestigationsOutput.httpOutput(from:), ListInvestigationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListInvestigationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Security IR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInvestigationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvestigationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInvestigationsInput, ListInvestigationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInvestigationsInput, ListInvestigationsOutput>(serviceID: serviceName, version: SecurityIRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityIR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListInvestigations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListMemberships` operation on the `SecurityIR` service.
     ///
     /// Returns the memberships that the calling principal can access.
     ///
-    /// - Parameter ListMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembershipsInput`)
     ///
-    /// - Returns: `ListMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1382,6 +1469,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMembershipsInput, ListMembershipsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembershipsOutput>(ListMembershipsOutput.httpOutput(from:), ListMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembershipsInput, ListMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembershipsOutput>())
@@ -1413,9 +1501,9 @@ extension SecurityIRClient {
     ///
     /// Returns currently configured tags on a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1454,6 +1542,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1481,13 +1570,89 @@ extension SecurityIRClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SendFeedback` operation on the `SecurityIR` service.
+    ///
+    /// Send feedback based on response investigation action
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendFeedbackInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendFeedbackOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `InvalidTokenException` :
+    /// - `ResourceNotFoundException` :
+    /// - `SecurityIncidentResponseNotActiveException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
+    public func sendFeedback(input: SendFeedbackInput) async throws -> SendFeedbackOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendFeedback")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "security-ir")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendFeedbackInput, SendFeedbackOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendFeedbackInput, SendFeedbackOutput>(SendFeedbackInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendFeedbackInput, SendFeedbackOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendFeedbackInput, SendFeedbackOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SendFeedbackInput, SendFeedbackOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendFeedbackInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendFeedbackInput, SendFeedbackOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendFeedbackOutput>(SendFeedbackOutput.httpOutput(from:), SendFeedbackOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendFeedbackInput, SendFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendFeedbackOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Security IR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendFeedbackOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendFeedbackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendFeedbackInput, SendFeedbackOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendFeedbackInput, SendFeedbackOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendFeedbackInput, SendFeedbackOutput>(serviceID: serviceName, version: SecurityIRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityIR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendFeedback")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `SecurityIR` service.
     ///
     /// Adds a tag(s) to a designated resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1529,6 +1694,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1560,9 +1726,9 @@ extension SecurityIRClient {
     ///
     /// Removes a tag(s) from a designate resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1602,6 +1768,7 @@ extension SecurityIRClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1633,9 +1800,9 @@ extension SecurityIRClient {
     ///
     /// Updates an existing case.
     ///
-    /// - Parameter UpdateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseInput`)
     ///
-    /// - Returns: `UpdateCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1677,6 +1844,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCaseInput, UpdateCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCaseOutput>(UpdateCaseOutput.httpOutput(from:), UpdateCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCaseInput, UpdateCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCaseOutput>())
@@ -1708,9 +1876,9 @@ extension SecurityIRClient {
     ///
     /// Updates an existing case comment.
     ///
-    /// - Parameter UpdateCaseCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseCommentInput`)
     ///
-    /// - Returns: `UpdateCaseCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,6 +1920,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCaseCommentInput, UpdateCaseCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCaseCommentOutput>(UpdateCaseCommentOutput.httpOutput(from:), UpdateCaseCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCaseCommentInput, UpdateCaseCommentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCaseCommentOutput>())
@@ -1802,9 +1971,9 @@ extension SecurityIRClient {
     ///
     /// AWS supported: You must use the CloseCase API to close.
     ///
-    /// - Parameter UpdateCaseStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseStatusInput`)
     ///
-    /// - Returns: `UpdateCaseStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1846,6 +2015,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCaseStatusInput, UpdateCaseStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCaseStatusOutput>(UpdateCaseStatusOutput.httpOutput(from:), UpdateCaseStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCaseStatusInput, UpdateCaseStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCaseStatusOutput>())
@@ -1877,9 +2047,9 @@ extension SecurityIRClient {
     ///
     /// Updates membership configuration.
     ///
-    /// - Parameter UpdateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMembershipInput`)
     ///
-    /// - Returns: `UpdateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1921,6 +2091,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMembershipInput, UpdateMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMembershipOutput>(UpdateMembershipOutput.httpOutput(from:), UpdateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMembershipInput, UpdateMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMembershipOutput>())
@@ -1952,9 +2123,9 @@ extension SecurityIRClient {
     ///
     /// Updates the resolver type for a case. This is a one-way action and cannot be reversed.
     ///
-    /// - Parameter UpdateResolverTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResolverTypeInput`)
     ///
-    /// - Returns: `UpdateResolverTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResolverTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1996,6 +2167,7 @@ extension SecurityIRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverTypeInput, UpdateResolverTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResolverTypeOutput>(UpdateResolverTypeOutput.httpOutput(from:), UpdateResolverTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverTypeInput, UpdateResolverTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResolverTypeOutput>())

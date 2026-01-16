@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class EMRClient: ClientRuntime.Client {
+public class EMRClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EMRClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRClient.EMRClientConfiguration
     let serviceName = "EMR"
@@ -373,9 +373,9 @@ extension EMRClient {
     ///
     /// Adds an instance fleet to a running cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x.
     ///
-    /// - Parameter AddInstanceFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddInstanceFleetInput`)
     ///
-    /// - Returns: `AddInstanceFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddInstanceFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +408,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddInstanceFleetInput, AddInstanceFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddInstanceFleetOutput>(AddInstanceFleetOutput.httpOutput(from:), AddInstanceFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddInstanceFleetInput, AddInstanceFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddInstanceFleetOutput>())
@@ -442,9 +443,9 @@ extension EMRClient {
     ///
     /// Adds one or more instance groups to a running cluster.
     ///
-    /// - Parameter AddInstanceGroupsInput : Input to an AddInstanceGroups call.
+    /// - Parameter input: Input to an AddInstanceGroups call. (Type: `AddInstanceGroupsInput`)
     ///
-    /// - Returns: `AddInstanceGroupsOutput` : Output from an AddInstanceGroups call.
+    /// - Returns: Output from an AddInstanceGroups call. (Type: `AddInstanceGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,6 +477,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddInstanceGroupsOutput>(AddInstanceGroupsOutput.httpOutput(from:), AddInstanceGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddInstanceGroupsInput, AddInstanceGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddInstanceGroupsOutput>())
@@ -510,9 +512,9 @@ extension EMRClient {
     ///
     /// AddJobFlowSteps adds new steps to a running cluster. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using SSH to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. A step specifies the location of a JAR file stored either on the master node of the cluster or in Amazon S3. Each step is performed by the main function of the main class of the JAR file. The main class can be specified either in the manifest of the JAR or by using the MainFunction parameter of the step. Amazon EMR executes each step in the order listed. For a step to be considered complete, the main function must exit with a zero exit code and all Hadoop jobs started while the step was running must have completed and run successfully. You can only add steps to a cluster that is in one of the following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING. The string values passed into HadoopJarStep object cannot exceed a total of 10240 characters.
     ///
-    /// - Parameter AddJobFlowStepsInput : The input argument to the [AddJobFlowSteps] operation.
+    /// - Parameter input: The input argument to the [AddJobFlowSteps] operation. (Type: `AddJobFlowStepsInput`)
     ///
-    /// - Returns: `AddJobFlowStepsOutput` : The output for the [AddJobFlowSteps] operation.
+    /// - Returns: The output for the [AddJobFlowSteps] operation. (Type: `AddJobFlowStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -544,6 +546,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddJobFlowStepsOutput>(AddJobFlowStepsOutput.httpOutput(from:), AddJobFlowStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddJobFlowStepsInput, AddJobFlowStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddJobFlowStepsOutput>())
@@ -578,9 +581,9 @@ extension EMRClient {
     ///
     /// Adds tags to an Amazon EMR resource, such as a cluster or an Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see [Tag Clusters](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html).
     ///
-    /// - Parameter AddTagsInput : This input identifies an Amazon EMR resource and a list of tags to attach.
+    /// - Parameter input: This input identifies an Amazon EMR resource and a list of tags to attach. (Type: `AddTagsInput`)
     ///
-    /// - Returns: `AddTagsOutput` : This output indicates the result of adding tags to a resource.
+    /// - Returns: This output indicates the result of adding tags to a resource. (Type: `AddTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,6 +616,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsOutput>())
@@ -647,9 +651,9 @@ extension EMRClient {
     ///
     /// Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that a step will be canceled, even if the request is successfully submitted. When you use Amazon EMR releases 5.28.0 and later, you can cancel steps that are in a PENDING or RUNNING state. In earlier versions of Amazon EMR, you can only cancel steps that are in a PENDING state.
     ///
-    /// - Parameter CancelStepsInput : The input argument to the [CancelSteps] operation.
+    /// - Parameter input: The input argument to the [CancelSteps] operation. (Type: `CancelStepsInput`)
     ///
-    /// - Returns: `CancelStepsOutput` : The output for the [CancelSteps] operation.
+    /// - Returns: The output for the [CancelSteps] operation. (Type: `CancelStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,6 +686,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelStepsInput, CancelStepsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelStepsOutput>(CancelStepsOutput.httpOutput(from:), CancelStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelStepsInput, CancelStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelStepsOutput>())
@@ -716,9 +721,9 @@ extension EMRClient {
     ///
     /// Creates a persistent application user interface.
     ///
-    /// - Parameter CreatePersistentAppUIInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePersistentAppUIInput`)
     ///
-    /// - Returns: `CreatePersistentAppUIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePersistentAppUIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -751,6 +756,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePersistentAppUIInput, CreatePersistentAppUIOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePersistentAppUIOutput>(CreatePersistentAppUIOutput.httpOutput(from:), CreatePersistentAppUIOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePersistentAppUIInput, CreatePersistentAppUIOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePersistentAppUIOutput>())
@@ -785,9 +791,9 @@ extension EMRClient {
     ///
     /// Creates a security configuration, which is stored in the service and can be specified when a cluster is created.
     ///
-    /// - Parameter CreateSecurityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityConfigurationInput`)
     ///
-    /// - Returns: `CreateSecurityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSecurityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,6 +826,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityConfigurationOutput>(CreateSecurityConfigurationOutput.httpOutput(from:), CreateSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityConfigurationOutput>())
@@ -854,9 +861,9 @@ extension EMRClient {
     ///
     /// Creates a new Amazon EMR Studio.
     ///
-    /// - Parameter CreateStudioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStudioInput`)
     ///
-    /// - Returns: `CreateStudioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStudioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -889,6 +896,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStudioInput, CreateStudioOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStudioOutput>(CreateStudioOutput.httpOutput(from:), CreateStudioOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStudioInput, CreateStudioOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStudioOutput>())
@@ -923,9 +931,9 @@ extension EMRClient {
     ///
     /// Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session policy to refine Studio permissions for that user or group. Use CreateStudioSessionMapping to assign users to a Studio when you use IAM Identity Center authentication. For instructions on how to assign users to a Studio when you use IAM authentication, see [Assign a user or group to your EMR Studio](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-studio-manage-users.html#emr-studio-assign-users-groups).
     ///
-    /// - Parameter CreateStudioSessionMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStudioSessionMappingInput`)
     ///
-    /// - Returns: `CreateStudioSessionMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStudioSessionMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -958,6 +966,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStudioSessionMappingOutput>(CreateStudioSessionMappingOutput.httpOutput(from:), CreateStudioSessionMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStudioSessionMappingInput, CreateStudioSessionMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStudioSessionMappingOutput>())
@@ -992,9 +1001,9 @@ extension EMRClient {
     ///
     /// Deletes a security configuration.
     ///
-    /// - Parameter DeleteSecurityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSecurityConfigurationInput`)
     ///
-    /// - Returns: `DeleteSecurityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSecurityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1027,6 +1036,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecurityConfigurationOutput>(DeleteSecurityConfigurationOutput.httpOutput(from:), DeleteSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityConfigurationInput, DeleteSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityConfigurationOutput>())
@@ -1061,9 +1071,9 @@ extension EMRClient {
     ///
     /// Removes an Amazon EMR Studio from the Studio metadata store.
     ///
-    /// - Parameter DeleteStudioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStudioInput`)
     ///
-    /// - Returns: `DeleteStudioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStudioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1096,6 +1106,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStudioInput, DeleteStudioOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStudioOutput>(DeleteStudioOutput.httpOutput(from:), DeleteStudioOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStudioInput, DeleteStudioOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStudioOutput>())
@@ -1130,9 +1141,9 @@ extension EMRClient {
     ///
     /// Removes a user or group from an Amazon EMR Studio.
     ///
-    /// - Parameter DeleteStudioSessionMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStudioSessionMappingInput`)
     ///
-    /// - Returns: `DeleteStudioSessionMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStudioSessionMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1165,6 +1176,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStudioSessionMappingOutput>(DeleteStudioSessionMappingOutput.httpOutput(from:), DeleteStudioSessionMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStudioSessionMappingInput, DeleteStudioSessionMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStudioSessionMappingOutput>())
@@ -1199,9 +1211,9 @@ extension EMRClient {
     ///
     /// Provides cluster-level details including status, hardware and software configuration, VPC settings, and so on.
     ///
-    /// - Parameter DescribeClusterInput : This input determines which cluster to describe.
+    /// - Parameter input: This input determines which cluster to describe. (Type: `DescribeClusterInput`)
     ///
-    /// - Returns: `DescribeClusterOutput` : This output contains the description of the cluster.
+    /// - Returns: This output contains the description of the cluster. (Type: `DescribeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1234,6 +1246,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOutput>(DescribeClusterOutput.httpOutput(from:), DescribeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterInput, DescribeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterOutput>())
@@ -1276,9 +1289,9 @@ extension EMRClient {
     /// Amazon EMR can return a maximum of 512 job flow descriptions.
     @available(*, deprecated)
     ///
-    /// - Parameter DescribeJobFlowsInput : The input for the [DescribeJobFlows] operation.
+    /// - Parameter input: The input for the [DescribeJobFlows] operation. (Type: `DescribeJobFlowsInput`)
     ///
-    /// - Returns: `DescribeJobFlowsOutput` : The output for the [DescribeJobFlows] operation.
+    /// - Returns: The output for the [DescribeJobFlows] operation. (Type: `DescribeJobFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,6 +1323,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobFlowsOutput>(DescribeJobFlowsOutput.httpOutput(from:), DescribeJobFlowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobFlowsInput, DescribeJobFlowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobFlowsOutput>())
@@ -1344,9 +1358,9 @@ extension EMRClient {
     ///
     /// Provides details of a notebook execution.
     ///
-    /// - Parameter DescribeNotebookExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNotebookExecutionInput`)
     ///
-    /// - Returns: `DescribeNotebookExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNotebookExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,6 +1393,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotebookExecutionOutput>(DescribeNotebookExecutionOutput.httpOutput(from:), DescribeNotebookExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotebookExecutionInput, DescribeNotebookExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNotebookExecutionOutput>())
@@ -1413,9 +1428,9 @@ extension EMRClient {
     ///
     /// Describes a persistent application user interface.
     ///
-    /// - Parameter DescribePersistentAppUIInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePersistentAppUIInput`)
     ///
-    /// - Returns: `DescribePersistentAppUIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePersistentAppUIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,6 +1463,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePersistentAppUIInput, DescribePersistentAppUIOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePersistentAppUIOutput>(DescribePersistentAppUIOutput.httpOutput(from:), DescribePersistentAppUIOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePersistentAppUIInput, DescribePersistentAppUIOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePersistentAppUIOutput>())
@@ -1482,9 +1498,9 @@ extension EMRClient {
     ///
     /// Provides Amazon EMR release label details, such as the releases available the Region where the API request is run, and the available applications for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a specified version of Spark.
     ///
-    /// - Parameter DescribeReleaseLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReleaseLabelInput`)
     ///
-    /// - Returns: `DescribeReleaseLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReleaseLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1517,6 +1533,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReleaseLabelOutput>(DescribeReleaseLabelOutput.httpOutput(from:), DescribeReleaseLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReleaseLabelInput, DescribeReleaseLabelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReleaseLabelOutput>())
@@ -1551,9 +1568,9 @@ extension EMRClient {
     ///
     /// Provides the details of a security configuration by returning the configuration JSON.
     ///
-    /// - Parameter DescribeSecurityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityConfigurationInput`)
     ///
-    /// - Returns: `DescribeSecurityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,6 +1603,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityConfigurationOutput>(DescribeSecurityConfigurationOutput.httpOutput(from:), DescribeSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityConfigurationOutput>())
@@ -1620,9 +1638,9 @@ extension EMRClient {
     ///
     /// Provides more detail about the cluster step.
     ///
-    /// - Parameter DescribeStepInput : This input determines which step to describe.
+    /// - Parameter input: This input determines which step to describe. (Type: `DescribeStepInput`)
     ///
-    /// - Returns: `DescribeStepOutput` : This output contains the description of the cluster step.
+    /// - Returns: This output contains the description of the cluster step. (Type: `DescribeStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1655,6 +1673,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStepInput, DescribeStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStepOutput>(DescribeStepOutput.httpOutput(from:), DescribeStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStepInput, DescribeStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStepOutput>())
@@ -1689,9 +1708,9 @@ extension EMRClient {
     ///
     /// Returns details for the specified Amazon EMR Studio including ID, Name, VPC, Studio access URL, and so on.
     ///
-    /// - Parameter DescribeStudioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStudioInput`)
     ///
-    /// - Returns: `DescribeStudioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStudioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1724,6 +1743,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStudioInput, DescribeStudioOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStudioOutput>(DescribeStudioOutput.httpOutput(from:), DescribeStudioOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStudioInput, DescribeStudioOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStudioOutput>())
@@ -1758,9 +1778,9 @@ extension EMRClient {
     ///
     /// Returns the auto-termination policy for an Amazon EMR cluster.
     ///
-    /// - Parameter GetAutoTerminationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutoTerminationPolicyInput`)
     ///
-    /// - Returns: `GetAutoTerminationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutoTerminationPolicyOutput`)
     public func getAutoTerminationPolicy(input: GetAutoTerminationPolicyInput) async throws -> GetAutoTerminationPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1787,6 +1807,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutoTerminationPolicyOutput>(GetAutoTerminationPolicyOutput.httpOutput(from:), GetAutoTerminationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutoTerminationPolicyInput, GetAutoTerminationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutoTerminationPolicyOutput>())
@@ -1821,9 +1842,9 @@ extension EMRClient {
     ///
     /// Returns the Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more information see [Configure Block Public Access for Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/configure-block-public-access.html) in the Amazon EMR Management Guide.
     ///
-    /// - Parameter GetBlockPublicAccessConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBlockPublicAccessConfigurationInput`)
     ///
-    /// - Returns: `GetBlockPublicAccessConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBlockPublicAccessConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1856,6 +1877,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBlockPublicAccessConfigurationOutput>(GetBlockPublicAccessConfigurationOutput.httpOutput(from:), GetBlockPublicAccessConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlockPublicAccessConfigurationInput, GetBlockPublicAccessConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlockPublicAccessConfigurationOutput>())
@@ -1890,9 +1912,9 @@ extension EMRClient {
     ///
     /// Provides temporary, HTTP basic credentials that are associated with a given runtime IAM role and used by a cluster with fine-grained access control activated. You can use these credentials to connect to cluster endpoints that support username and password authentication.
     ///
-    /// - Parameter GetClusterSessionCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterSessionCredentialsInput`)
     ///
-    /// - Returns: `GetClusterSessionCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterSessionCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1925,6 +1947,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterSessionCredentialsOutput>(GetClusterSessionCredentialsOutput.httpOutput(from:), GetClusterSessionCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterSessionCredentialsInput, GetClusterSessionCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterSessionCredentialsOutput>())
@@ -1959,9 +1982,9 @@ extension EMRClient {
     ///
     /// Fetches the attached managed scaling policy for an Amazon EMR cluster.
     ///
-    /// - Parameter GetManagedScalingPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedScalingPolicyInput`)
     ///
-    /// - Returns: `GetManagedScalingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedScalingPolicyOutput`)
     public func getManagedScalingPolicy(input: GetManagedScalingPolicyInput) async throws -> GetManagedScalingPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1988,6 +2011,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedScalingPolicyOutput>(GetManagedScalingPolicyOutput.httpOutput(from:), GetManagedScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedScalingPolicyInput, GetManagedScalingPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedScalingPolicyOutput>())
@@ -2022,9 +2046,9 @@ extension EMRClient {
     ///
     /// The presigned URL properties for the cluster's application user interface.
     ///
-    /// - Parameter GetOnClusterAppUIPresignedURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOnClusterAppUIPresignedURLInput`)
     ///
-    /// - Returns: `GetOnClusterAppUIPresignedURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOnClusterAppUIPresignedURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2057,6 +2081,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOnClusterAppUIPresignedURLInput, GetOnClusterAppUIPresignedURLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOnClusterAppUIPresignedURLOutput>(GetOnClusterAppUIPresignedURLOutput.httpOutput(from:), GetOnClusterAppUIPresignedURLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOnClusterAppUIPresignedURLInput, GetOnClusterAppUIPresignedURLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOnClusterAppUIPresignedURLOutput>())
@@ -2091,9 +2116,9 @@ extension EMRClient {
     ///
     /// The presigned URL properties for the cluster's application user interface.
     ///
-    /// - Parameter GetPersistentAppUIPresignedURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPersistentAppUIPresignedURLInput`)
     ///
-    /// - Returns: `GetPersistentAppUIPresignedURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPersistentAppUIPresignedURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2126,6 +2151,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPersistentAppUIPresignedURLInput, GetPersistentAppUIPresignedURLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPersistentAppUIPresignedURLOutput>(GetPersistentAppUIPresignedURLOutput.httpOutput(from:), GetPersistentAppUIPresignedURLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPersistentAppUIPresignedURLInput, GetPersistentAppUIPresignedURLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPersistentAppUIPresignedURLOutput>())
@@ -2160,9 +2186,9 @@ extension EMRClient {
     ///
     /// Fetches mapping details for the specified Amazon EMR Studio and identity (user or group).
     ///
-    /// - Parameter GetStudioSessionMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStudioSessionMappingInput`)
     ///
-    /// - Returns: `GetStudioSessionMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStudioSessionMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2195,6 +2221,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStudioSessionMappingOutput>(GetStudioSessionMappingOutput.httpOutput(from:), GetStudioSessionMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStudioSessionMappingInput, GetStudioSessionMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStudioSessionMappingOutput>())
@@ -2229,9 +2256,9 @@ extension EMRClient {
     ///
     /// Provides information about the bootstrap actions associated with a cluster.
     ///
-    /// - Parameter ListBootstrapActionsInput : This input determines which bootstrap actions to retrieve.
+    /// - Parameter input: This input determines which bootstrap actions to retrieve. (Type: `ListBootstrapActionsInput`)
     ///
-    /// - Returns: `ListBootstrapActionsOutput` : This output contains the bootstrap actions detail.
+    /// - Returns: This output contains the bootstrap actions detail. (Type: `ListBootstrapActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2264,6 +2291,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBootstrapActionsOutput>(ListBootstrapActionsOutput.httpOutput(from:), ListBootstrapActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBootstrapActionsInput, ListBootstrapActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBootstrapActionsOutput>())
@@ -2298,9 +2326,9 @@ extension EMRClient {
     ///
     /// Provides the status of all clusters visible to this Amazon Web Services account. Allows you to filter the list of clusters based on certain criteria; for example, filtering by cluster creation date and time or by status. This call returns a maximum of 50 clusters in unsorted order per call, but returns a marker to track the paging of the cluster list across multiple ListClusters calls.
     ///
-    /// - Parameter ListClustersInput : This input determines how the ListClusters action filters the list of clusters that it returns.
+    /// - Parameter input: This input determines how the ListClusters action filters the list of clusters that it returns. (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : This contains a ClusterSummaryList with the cluster details; for example, the cluster IDs, names, and status.
+    /// - Returns: This contains a ClusterSummaryList with the cluster details; for example, the cluster IDs, names, and status. (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2333,6 +2361,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClustersInput, ListClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -2367,9 +2396,9 @@ extension EMRClient {
     ///
     /// Lists all available details about the instance fleets in a cluster. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
     ///
-    /// - Parameter ListInstanceFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstanceFleetsInput`)
     ///
-    /// - Returns: `ListInstanceFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstanceFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,6 +2431,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceFleetsOutput>(ListInstanceFleetsOutput.httpOutput(from:), ListInstanceFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceFleetsInput, ListInstanceFleetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceFleetsOutput>())
@@ -2436,9 +2466,9 @@ extension EMRClient {
     ///
     /// Provides all available details about the instance groups in a cluster.
     ///
-    /// - Parameter ListInstanceGroupsInput : This input determines which instance groups to retrieve.
+    /// - Parameter input: This input determines which instance groups to retrieve. (Type: `ListInstanceGroupsInput`)
     ///
-    /// - Returns: `ListInstanceGroupsOutput` : This input determines which instance groups to retrieve.
+    /// - Returns: This input determines which instance groups to retrieve. (Type: `ListInstanceGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2471,6 +2501,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceGroupsOutput>(ListInstanceGroupsOutput.httpOutput(from:), ListInstanceGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceGroupsInput, ListInstanceGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceGroupsOutput>())
@@ -2505,9 +2536,9 @@ extension EMRClient {
     ///
     /// Provides information for all active Amazon EC2 instances and Amazon EC2 instances terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
     ///
-    /// - Parameter ListInstancesInput : This input determines which instances to list.
+    /// - Parameter input: This input determines which instances to list. (Type: `ListInstancesInput`)
     ///
-    /// - Returns: `ListInstancesOutput` : This output contains the list of instances.
+    /// - Returns: This output contains the list of instances. (Type: `ListInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2540,6 +2571,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstancesInput, ListInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstancesOutput>(ListInstancesOutput.httpOutput(from:), ListInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstancesInput, ListInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstancesOutput>())
@@ -2574,9 +2606,9 @@ extension EMRClient {
     ///
     /// Provides summaries of all notebook executions. You can filter the list based on multiple criteria such as status, time range, and editor id. Returns a maximum of 50 notebook executions and a marker to track the paging of a longer notebook execution list across multiple ListNotebookExecutions calls.
     ///
-    /// - Parameter ListNotebookExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotebookExecutionsInput`)
     ///
-    /// - Returns: `ListNotebookExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotebookExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2609,6 +2641,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotebookExecutionsOutput>(ListNotebookExecutionsOutput.httpOutput(from:), ListNotebookExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotebookExecutionsInput, ListNotebookExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotebookExecutionsOutput>())
@@ -2643,9 +2676,9 @@ extension EMRClient {
     ///
     /// Retrieves release labels of Amazon EMR services in the Region where the API is called.
     ///
-    /// - Parameter ListReleaseLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReleaseLabelsInput`)
     ///
-    /// - Returns: `ListReleaseLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReleaseLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2678,6 +2711,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReleaseLabelsOutput>(ListReleaseLabelsOutput.httpOutput(from:), ListReleaseLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReleaseLabelsInput, ListReleaseLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReleaseLabelsOutput>())
@@ -2712,9 +2746,9 @@ extension EMRClient {
     ///
     /// Lists all the security configurations visible to this account, providing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls.
     ///
-    /// - Parameter ListSecurityConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityConfigurationsInput`)
     ///
-    /// - Returns: `ListSecurityConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2747,6 +2781,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityConfigurationsOutput>(ListSecurityConfigurationsOutput.httpOutput(from:), ListSecurityConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityConfigurationsOutput>())
@@ -2781,9 +2816,9 @@ extension EMRClient {
     ///
     /// Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request or filter by StepStates. You can specify a maximum of 10 stepIDs. The CLI automatically paginates results to return a list greater than 50 steps. To return more than 50 steps using the CLI, specify a Marker, which is a pagination token that indicates the next set of steps to retrieve.
     ///
-    /// - Parameter ListStepsInput : This input determines which steps to list.
+    /// - Parameter input: This input determines which steps to list. (Type: `ListStepsInput`)
     ///
-    /// - Returns: `ListStepsOutput` : This output contains the list of steps returned in reverse order. This means that the last step is the first element in the list.
+    /// - Returns: This output contains the list of steps returned in reverse order. This means that the last step is the first element in the list. (Type: `ListStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2816,6 +2851,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStepsInput, ListStepsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStepsOutput>(ListStepsOutput.httpOutput(from:), ListStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStepsInput, ListStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStepsOutput>())
@@ -2850,9 +2886,9 @@ extension EMRClient {
     ///
     /// Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId.
     ///
-    /// - Parameter ListStudioSessionMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStudioSessionMappingsInput`)
     ///
-    /// - Returns: `ListStudioSessionMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStudioSessionMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2885,6 +2921,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStudioSessionMappingsOutput>(ListStudioSessionMappingsOutput.httpOutput(from:), ListStudioSessionMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStudioSessionMappingsInput, ListStudioSessionMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStudioSessionMappingsOutput>())
@@ -2919,9 +2956,9 @@ extension EMRClient {
     ///
     /// Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.
     ///
-    /// - Parameter ListStudiosInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStudiosInput`)
     ///
-    /// - Returns: `ListStudiosOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStudiosOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2954,6 +2991,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStudiosInput, ListStudiosOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStudiosOutput>(ListStudiosOutput.httpOutput(from:), ListStudiosOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStudiosInput, ListStudiosOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStudiosOutput>())
@@ -2988,9 +3026,9 @@ extension EMRClient {
     ///
     /// A list of the instance types that Amazon EMR supports. You can filter the list by Amazon Web Services Region and Amazon EMR release.
     ///
-    /// - Parameter ListSupportedInstanceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupportedInstanceTypesInput`)
     ///
-    /// - Returns: `ListSupportedInstanceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupportedInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3023,6 +3061,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSupportedInstanceTypesOutput>(ListSupportedInstanceTypesOutput.httpOutput(from:), ListSupportedInstanceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSupportedInstanceTypesInput, ListSupportedInstanceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSupportedInstanceTypesOutput>())
@@ -3057,9 +3096,9 @@ extension EMRClient {
     ///
     /// Modifies the number of steps that can be executed concurrently for the cluster specified using ClusterID.
     ///
-    /// - Parameter ModifyClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyClusterInput`)
     ///
-    /// - Returns: `ModifyClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3092,6 +3131,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterInput, ModifyClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterOutput>(ModifyClusterOutput.httpOutput(from:), ModifyClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterInput, ModifyClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterOutput>())
@@ -3126,9 +3166,9 @@ extension EMRClient {
     ///
     /// Modifies the target On-Demand and target Spot capacities for the instance fleet with the specified InstanceFleetID within the cluster specified using ClusterID. The call either succeeds or fails atomically. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
     ///
-    /// - Parameter ModifyInstanceFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyInstanceFleetInput`)
     ///
-    /// - Returns: `ModifyInstanceFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3161,6 +3201,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceFleetOutput>(ModifyInstanceFleetOutput.httpOutput(from:), ModifyInstanceFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceFleetInput, ModifyInstanceFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceFleetOutput>())
@@ -3195,9 +3236,9 @@ extension EMRClient {
     ///
     /// ModifyInstanceGroups modifies the number of nodes and configuration settings of an instance group. The input parameters include the new target instance count for the group and the instance group ID. The call will either succeed or fail atomically.
     ///
-    /// - Parameter ModifyInstanceGroupsInput : Change the size of some instance groups.
+    /// - Parameter input: Change the size of some instance groups. (Type: `ModifyInstanceGroupsInput`)
     ///
-    /// - Returns: `ModifyInstanceGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyInstanceGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3229,6 +3270,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceGroupsOutput>(ModifyInstanceGroupsOutput.httpOutput(from:), ModifyInstanceGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceGroupsInput, ModifyInstanceGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceGroupsOutput>())
@@ -3263,9 +3305,9 @@ extension EMRClient {
     ///
     /// Creates or updates an automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates Amazon EC2 instances in response to the value of a CloudWatch metric.
     ///
-    /// - Parameter PutAutoScalingPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAutoScalingPolicyInput`)
     ///
-    /// - Returns: `PutAutoScalingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAutoScalingPolicyOutput`)
     public func putAutoScalingPolicy(input: PutAutoScalingPolicyInput) async throws -> PutAutoScalingPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3292,6 +3334,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAutoScalingPolicyOutput>(PutAutoScalingPolicyOutput.httpOutput(from:), PutAutoScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAutoScalingPolicyInput, PutAutoScalingPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAutoScalingPolicyOutput>())
@@ -3326,9 +3369,9 @@ extension EMRClient {
     ///
     /// Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more information, see [Using an auto-termination policy](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-auto-termination-policy.html). Creates or updates an auto-termination policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle time in seconds after which a cluster automatically terminates. For alternative cluster termination options, see [Control cluster termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html).
     ///
-    /// - Parameter PutAutoTerminationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAutoTerminationPolicyInput`)
     ///
-    /// - Returns: `PutAutoTerminationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAutoTerminationPolicyOutput`)
     public func putAutoTerminationPolicy(input: PutAutoTerminationPolicyInput) async throws -> PutAutoTerminationPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3355,6 +3398,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAutoTerminationPolicyOutput>(PutAutoTerminationPolicyOutput.httpOutput(from:), PutAutoTerminationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAutoTerminationPolicyInput, PutAutoTerminationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAutoTerminationPolicyOutput>())
@@ -3389,9 +3433,9 @@ extension EMRClient {
     ///
     /// Creates or updates an Amazon EMR block public access configuration for your Amazon Web Services account in the current Region. For more information see [Configure Block Public Access for Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/configure-block-public-access.html) in the Amazon EMR Management Guide.
     ///
-    /// - Parameter PutBlockPublicAccessConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBlockPublicAccessConfigurationInput`)
     ///
-    /// - Returns: `PutBlockPublicAccessConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBlockPublicAccessConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3424,6 +3468,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBlockPublicAccessConfigurationOutput>(PutBlockPublicAccessConfigurationOutput.httpOutput(from:), PutBlockPublicAccessConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBlockPublicAccessConfigurationInput, PutBlockPublicAccessConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBlockPublicAccessConfigurationOutput>())
@@ -3458,9 +3503,9 @@ extension EMRClient {
     ///
     /// Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling policy defines the limits for resources, such as Amazon EC2 instances that can be added or terminated from a cluster. The policy only applies to the core and task nodes. The master node cannot be scaled after initial configuration.
     ///
-    /// - Parameter PutManagedScalingPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutManagedScalingPolicyInput`)
     ///
-    /// - Returns: `PutManagedScalingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutManagedScalingPolicyOutput`)
     public func putManagedScalingPolicy(input: PutManagedScalingPolicyInput) async throws -> PutManagedScalingPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3487,6 +3532,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutManagedScalingPolicyOutput>(PutManagedScalingPolicyOutput.httpOutput(from:), PutManagedScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutManagedScalingPolicyInput, PutManagedScalingPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutManagedScalingPolicyOutput>())
@@ -3521,9 +3567,9 @@ extension EMRClient {
     ///
     /// Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster.
     ///
-    /// - Parameter RemoveAutoScalingPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveAutoScalingPolicyInput`)
     ///
-    /// - Returns: `RemoveAutoScalingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAutoScalingPolicyOutput`)
     public func removeAutoScalingPolicy(input: RemoveAutoScalingPolicyInput) async throws -> RemoveAutoScalingPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3550,6 +3596,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveAutoScalingPolicyOutput>(RemoveAutoScalingPolicyOutput.httpOutput(from:), RemoveAutoScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveAutoScalingPolicyInput, RemoveAutoScalingPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveAutoScalingPolicyOutput>())
@@ -3584,9 +3631,9 @@ extension EMRClient {
     ///
     /// Removes an auto-termination policy from an Amazon EMR cluster.
     ///
-    /// - Parameter RemoveAutoTerminationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveAutoTerminationPolicyInput`)
     ///
-    /// - Returns: `RemoveAutoTerminationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAutoTerminationPolicyOutput`)
     public func removeAutoTerminationPolicy(input: RemoveAutoTerminationPolicyInput) async throws -> RemoveAutoTerminationPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3613,6 +3660,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveAutoTerminationPolicyOutput>(RemoveAutoTerminationPolicyOutput.httpOutput(from:), RemoveAutoTerminationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveAutoTerminationPolicyInput, RemoveAutoTerminationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveAutoTerminationPolicyOutput>())
@@ -3647,9 +3695,9 @@ extension EMRClient {
     ///
     /// Removes a managed scaling policy from a specified Amazon EMR cluster.
     ///
-    /// - Parameter RemoveManagedScalingPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveManagedScalingPolicyInput`)
     ///
-    /// - Returns: `RemoveManagedScalingPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveManagedScalingPolicyOutput`)
     public func removeManagedScalingPolicy(input: RemoveManagedScalingPolicyInput) async throws -> RemoveManagedScalingPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3676,6 +3724,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveManagedScalingPolicyOutput>(RemoveManagedScalingPolicyOutput.httpOutput(from:), RemoveManagedScalingPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveManagedScalingPolicyInput, RemoveManagedScalingPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveManagedScalingPolicyOutput>())
@@ -3710,9 +3759,9 @@ extension EMRClient {
     ///
     /// Removes tags from an Amazon EMR resource, such as a cluster or Amazon EMR Studio. Tags make it easier to associate resources in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see [Tag Clusters](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html). The following example removes the stack tag with value Prod from a cluster:
     ///
-    /// - Parameter RemoveTagsInput : This input identifies an Amazon EMR resource and a list of tags to remove.
+    /// - Parameter input: This input identifies an Amazon EMR resource and a list of tags to remove. (Type: `RemoveTagsInput`)
     ///
-    /// - Returns: `RemoveTagsOutput` : This output indicates the result of removing tags from the resource.
+    /// - Returns: This output indicates the result of removing tags from the resource. (Type: `RemoveTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3745,6 +3794,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(RemoveTagsOutput.httpOutput(from:), RemoveTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsInput, RemoveTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsOutput>())
@@ -3779,9 +3829,9 @@ extension EMRClient {
     ///
     /// RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps specified. After the steps complete, the cluster stops and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the [JobFlowInstancesConfig]KeepJobFlowAliveWhenNoSteps parameter is set to TRUE, the cluster transitions to the WAITING state rather than shutting down after the steps have completed. For additional protection, you can set the [JobFlowInstancesConfig]TerminationProtected parameter to TRUE to lock the cluster and prevent it from being terminated by API call, user intervention, or in the event of a job flow error. A maximum of 256 steps are allowed in each job flow. If your cluster is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For long-running clusters, we recommend that you periodically store your results. The instance fleets configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but not both.
     ///
-    /// - Parameter RunJobFlowInput : Input to the [RunJobFlow] operation.
+    /// - Parameter input: Input to the [RunJobFlow] operation. (Type: `RunJobFlowInput`)
     ///
-    /// - Returns: `RunJobFlowOutput` : The result of the [RunJobFlow] operation.
+    /// - Returns: The result of the [RunJobFlow] operation. (Type: `RunJobFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3813,6 +3863,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RunJobFlowInput, RunJobFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RunJobFlowOutput>(RunJobFlowOutput.httpOutput(from:), RunJobFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RunJobFlowInput, RunJobFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RunJobFlowOutput>())
@@ -3847,9 +3898,9 @@ extension EMRClient {
     ///
     /// You can use the SetKeepJobFlowAliveWhenNoSteps to configure a cluster (job flow) to terminate after the step execution, i.e., all your steps are executed. If you want a transient cluster that shuts down after the last of the current executing steps are completed, you can configure SetKeepJobFlowAliveWhenNoSteps to false. If you want a long running cluster, configure SetKeepJobFlowAliveWhenNoSteps to true. For more information, see [Managing Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html) in the Amazon EMR Management Guide.
     ///
-    /// - Parameter SetKeepJobFlowAliveWhenNoStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetKeepJobFlowAliveWhenNoStepsInput`)
     ///
-    /// - Returns: `SetKeepJobFlowAliveWhenNoStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetKeepJobFlowAliveWhenNoStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3881,6 +3932,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetKeepJobFlowAliveWhenNoStepsOutput>(SetKeepJobFlowAliveWhenNoStepsOutput.httpOutput(from:), SetKeepJobFlowAliveWhenNoStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetKeepJobFlowAliveWhenNoStepsInput, SetKeepJobFlowAliveWhenNoStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetKeepJobFlowAliveWhenNoStepsOutput>())
@@ -3915,9 +3967,9 @@ extension EMRClient {
     ///
     /// SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all Amazon EC2 instances in a cluster. SetTerminationProtection is used to prevent accidental termination of a cluster and to ensure that in the event of an error, the instances persist so that you can recover any data stored in their ephemeral instance storage. To terminate a cluster that has been locked by setting SetTerminationProtection to true, you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false. For more information, see [Managing Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html) in the Amazon EMR Management Guide.
     ///
-    /// - Parameter SetTerminationProtectionInput : The input argument to the [TerminationProtection] operation.
+    /// - Parameter input: The input argument to the [TerminationProtection] operation. (Type: `SetTerminationProtectionInput`)
     ///
-    /// - Returns: `SetTerminationProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetTerminationProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3949,6 +4001,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetTerminationProtectionOutput>(SetTerminationProtectionOutput.httpOutput(from:), SetTerminationProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetTerminationProtectionInput, SetTerminationProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetTerminationProtectionOutput>())
@@ -3983,9 +4036,9 @@ extension EMRClient {
     ///
     /// Specify whether to enable unhealthy node replacement, which lets Amazon EMR gracefully replace core nodes on a cluster if any nodes become unhealthy. For example, a node becomes unhealthy if disk usage is above 90%. If unhealthy node replacement is on and TerminationProtected are off, Amazon EMR immediately terminates the unhealthy core nodes. To use unhealthy node replacement and retain unhealthy core nodes, use to turn on termination protection. In such cases, Amazon EMR adds the unhealthy nodes to a denylist, reducing job interruptions and failures. If unhealthy node replacement is on, Amazon EMR notifies YARN and other applications on the cluster to stop scheduling tasks with these nodes, moves the data, and then terminates the nodes. For more information, see [graceful node replacement](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-node-replacement.html) in the Amazon EMR Management Guide.
     ///
-    /// - Parameter SetUnhealthyNodeReplacementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetUnhealthyNodeReplacementInput`)
     ///
-    /// - Returns: `SetUnhealthyNodeReplacementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetUnhealthyNodeReplacementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4017,6 +4070,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUnhealthyNodeReplacementInput, SetUnhealthyNodeReplacementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetUnhealthyNodeReplacementOutput>(SetUnhealthyNodeReplacementOutput.httpOutput(from:), SetUnhealthyNodeReplacementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUnhealthyNodeReplacementInput, SetUnhealthyNodeReplacementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUnhealthyNodeReplacementOutput>())
@@ -4051,9 +4105,9 @@ extension EMRClient {
     ///
     /// The SetVisibleToAllUsers parameter is no longer supported. Your cluster may be visible to all users in your account. To restrict cluster access using an IAM policy, see [Identity and Access Management for Amazon EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-access-IAM.html). Sets the [Cluster$VisibleToAllUsers] value for an Amazon EMR cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions on the cluster, regardless of IAM permissions policies attached to other IAM principals. This action works on running clusters. When you create a cluster, use the [RunJobFlowInput$VisibleToAllUsers] parameter. For more information, see [Understanding the Amazon EMR Cluster VisibleToAllUsers Setting](https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_IAM_emr-with-IAM.html#security_set_visible_to_all_users) in the Amazon EMR Management Guide.
     ///
-    /// - Parameter SetVisibleToAllUsersInput : The input to the SetVisibleToAllUsers action.
+    /// - Parameter input: The input to the SetVisibleToAllUsers action. (Type: `SetVisibleToAllUsersInput`)
     ///
-    /// - Returns: `SetVisibleToAllUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetVisibleToAllUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4085,6 +4139,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetVisibleToAllUsersOutput>(SetVisibleToAllUsersOutput.httpOutput(from:), SetVisibleToAllUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetVisibleToAllUsersInput, SetVisibleToAllUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetVisibleToAllUsersOutput>())
@@ -4119,9 +4174,9 @@ extension EMRClient {
     ///
     /// Starts a notebook execution.
     ///
-    /// - Parameter StartNotebookExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartNotebookExecutionInput`)
     ///
-    /// - Returns: `StartNotebookExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartNotebookExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4154,6 +4209,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartNotebookExecutionOutput>(StartNotebookExecutionOutput.httpOutput(from:), StartNotebookExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartNotebookExecutionInput, StartNotebookExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartNotebookExecutionOutput>())
@@ -4188,9 +4244,9 @@ extension EMRClient {
     ///
     /// Stops a notebook execution.
     ///
-    /// - Parameter StopNotebookExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopNotebookExecutionInput`)
     ///
-    /// - Returns: `StopNotebookExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopNotebookExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4223,6 +4279,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopNotebookExecutionOutput>(StopNotebookExecutionOutput.httpOutput(from:), StopNotebookExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopNotebookExecutionInput, StopNotebookExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopNotebookExecutionOutput>())
@@ -4257,9 +4314,9 @@ extension EMRClient {
     ///
     /// TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut down, any step not yet completed is canceled and the Amazon EC2 instances on which the cluster is running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri was specified when the cluster was created. The maximum number of clusters allowed is 10. The call to TerminateJobFlows is asynchronous. Depending on the configuration of the cluster, it may take up to 1-5 minutes for the cluster to completely terminate and release allocated resources, such as Amazon EC2 instances.
     ///
-    /// - Parameter TerminateJobFlowsInput : Input to the [TerminateJobFlows] operation.
+    /// - Parameter input: Input to the [TerminateJobFlows] operation. (Type: `TerminateJobFlowsInput`)
     ///
-    /// - Returns: `TerminateJobFlowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateJobFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4291,6 +4348,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateJobFlowsOutput>(TerminateJobFlowsOutput.httpOutput(from:), TerminateJobFlowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateJobFlowsInput, TerminateJobFlowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateJobFlowsOutput>())
@@ -4325,9 +4383,9 @@ extension EMRClient {
     ///
     /// Updates an Amazon EMR Studio configuration, including attributes such as name, description, and subnets.
     ///
-    /// - Parameter UpdateStudioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStudioInput`)
     ///
-    /// - Returns: `UpdateStudioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStudioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4360,6 +4418,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStudioInput, UpdateStudioOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStudioOutput>(UpdateStudioOutput.httpOutput(from:), UpdateStudioOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStudioInput, UpdateStudioOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStudioOutput>())
@@ -4394,9 +4453,9 @@ extension EMRClient {
     ///
     /// Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
     ///
-    /// - Parameter UpdateStudioSessionMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStudioSessionMappingInput`)
     ///
-    /// - Returns: `UpdateStudioSessionMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStudioSessionMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4429,6 +4488,7 @@ extension EMRClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStudioSessionMappingOutput>(UpdateStudioSessionMappingOutput.httpOutput(from:), UpdateStudioSessionMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStudioSessionMappingInput, UpdateStudioSessionMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStudioSessionMappingOutput>())

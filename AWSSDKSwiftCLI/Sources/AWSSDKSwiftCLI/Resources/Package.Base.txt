@@ -11,7 +11,7 @@ extension Target.Dependency {
     static var AWSSDKIdentity: Self { "AWSSDKIdentity" }
     static var AWSSDKIdentityAPI: Self { "AWSSDKIdentityAPI" }
     static var AWSSDKChecksums: Self { "AWSSDKChecksums" }
-    static var AWSSDKPartitions: Self { "AWSSDKPartitions" }
+    static var AWSSDKDynamic: Self { "AWSSDKDynamic" }
 
     // CRT module
     static var CRT: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
@@ -54,14 +54,14 @@ let package = Package(
     ],
     products:
         runtimeProducts +
-        serviceTargets.map(productForService(_:_:)),
+        serviceProducts,
     dependencies:
-        [smithySwiftDependency, crtDependency, doccDependencyOrNil].compactMap { $0 },
+        dependencies,
     targets:
         runtimeTargets +
         runtimeTestTargets +
-        serviceTargets.map(target(_:_:)) +
-        serviceTargets.map(unitTestTarget(_:_:))
+        serviceTargets +
+        serviceTestTargets
 )
 
 // MARK: Products
@@ -78,11 +78,19 @@ private var runtimeProducts: [Product] {
     ].map { .library(name: $0, targets: [$0]) }
 }
 
-private func productForService(_ service: String, _ dependencies: [Target.Dependency]) -> Product {
-    .library(name: service, targets: [service])
+private var serviceProducts: [Product] {
+    serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(productForService(_:))
+}
+
+private func productForService(_ service: ServiceClientData) -> Product {
+    .library(name: service.name, targets: [service.name])
 }
 
 // MARK: Dependencies
+
+private var dependencies: [Package.Dependency] {
+    [smithySwiftDependency, crtDependency, doccDependencyOrNil].compactMap { $0 }
+}
 
 private var smithySwiftDependency: Package.Dependency {
     let previewPath = "./smithy-swift"
@@ -117,6 +125,11 @@ private var runtimeTargets: [Target] {
             exclude: ["Documentation.docc/AWSSDKForSwift.md"]
         ),
         .target(
+            name: "SDKForSwift",
+            path: "Sources/Core/SDKForSwift",
+            exclude: ["Documentation.docc/SDKForSwift.md"]
+        ),
+        .target(
             name: "AWSClientRuntime",
             dependencies: [
                 .CRT,
@@ -125,10 +138,11 @@ private var runtimeTargets: [Target] {
                 .SmithyIdentity,
                 .SmithyRetriesAPI,
                 .SmithyRetries,
+                .SmithyTimestamps,
                 .AWSSDKCommon,
                 .AWSSDKHTTPAuth,
                 .AWSSDKChecksums,
-                .AWSSDKPartitions,
+                .AWSSDKDynamic,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
@@ -182,26 +196,8 @@ private var runtimeTargets: [Target] {
                 .SmithyIdentityAPI,
                 .SmithyHTTPAPI,
                 .AWSSDKCommon,
-                "InternalAWSSTS",
-                "InternalAWSSSO",
-                "InternalAWSSSOOIDC",
-            ],
+            ] + internalClientDependencies,
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
-        ),
-        .target(
-            name: "InternalAWSSTS",
-            dependencies: internalAWSSTSDependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSTS/Sources/InternalAWSSTS"
-        ),
-        .target(
-            name: "InternalAWSSSO",
-            dependencies: internalAWSSSODependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSO/Sources/InternalAWSSSO"
-        ),
-        .target(
-            name: "InternalAWSSSOOIDC",
-            dependencies: internalAWSSSOOIDCDependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSOOIDC/Sources/InternalAWSSSOOIDC"
         ),
         .target(
             name: "AWSSDKChecksums",
@@ -211,13 +207,21 @@ private var runtimeTargets: [Target] {
                 .SmithyChecksums,
                 .SmithyHTTPAPI,
             ],
-            path: "Sources/Core/AWSSDKChecksums/Sources"
+            path: "Sources/Core/AWSSDKChecksums/Sources/AWSSDKChecksums"
         ),
         .target(
-            name: "AWSSDKPartitions",
-            path: "Sources/Core/AWSSDKPartitions/Sources"
+            name: "AWSSDKDynamic",
+            path: "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic"
         ),
-    ]
+    ] + internalServiceTargets
+}
+
+private var internalClientDependencies: [Target.Dependency] {
+    serviceClientData.filter { $0.serviceType == .internalUse }.map { .byNameItem(name: $0.name, condition: nil) }
+}
+
+private var internalServiceTargets: [Target] {
+    serviceClientData.filter { $0.serviceType == .internalUse }.map(target(_:))
 }
 
 private var runtimeTestTargets: [Target] {
@@ -270,24 +274,60 @@ private var runtimeTestTargets: [Target] {
     ]
 }
 
-private func target(_ service: String, _ dependencies: [Target.Dependency]) -> Target {
-    .target(
-        name: service,
-        dependencies: dependencies,
-        path: "Sources/Services/\(service)/Sources/\(service)"
-    )
+private var serviceTargets: [Target] {
+    serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(target(_:))
 }
 
-private func unitTestTarget(_ service: String, _ dependencies: [Target.Dependency]) -> Target {
-    let testName = "\(service)Tests"
+private func target(_ service: ServiceClientData) -> Target {
+    .target(name: service.name, dependencies: service.dependencies, path: service.sourcePath)
+}
+
+private var serviceTestTargets: [Target] {
+    guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS"] != nil else { return [] }
+    return serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(unitTestTarget(_:))
+}
+
+private func unitTestTarget(_ service: ServiceClientData) -> Target {
+    let testName = "\(service.name)Tests"
+    let modelName = URL(fileURLWithPath: service.modelPath).lastPathComponent
     return .testTarget(
         name: "\(testName)",
         dependencies: [
-            .byName(name: service),
+            .byName(name: service.name),
             .ClientRuntime,
             .AWSClientRuntime,
             .SmithyTestUtil,
         ],
-        path: "Sources/Services/\(service)/Tests/\(testName)"
+        path: "codegen/sdk-codegen/build/smithyprojections/sdk-codegen/\(modelName)/swift-codegen/Tests/\(testName)"
     )
+}
+
+// As of Swift 6.2, @unchecked is not needed, but for Swift 6.0 it is
+private struct ServiceClientData: @unchecked Sendable {
+
+    enum ServiceType {
+        case awsServiceClient
+        case internalUse
+    }
+
+    let name: String
+    let modelPath: String
+    let dependencies: [Target.Dependency]
+    let serviceType: ServiceType
+
+    init(_ name: String, _ modelPath: String, _ dependencies: [Target.Dependency], _ serviceType: ServiceType = .awsServiceClient) {
+        self.name = name
+        self.modelPath = modelPath
+        self.dependencies = dependencies
+        self.serviceType = serviceType
+    }
+
+    var sourcePath: String {
+        switch serviceType {
+        case .awsServiceClient:
+            return "Sources/Services/\(name)/Sources/\(name)"
+        case .internalUse:
+            return "Sources/Core/AWSSDKIdentity/InternalClients/\(name)/Sources/\(name)"
+        }
+    }
 }

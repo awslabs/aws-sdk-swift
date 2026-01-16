@@ -1,4 +1,6 @@
-[
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/finspace.json",
+  "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
@@ -12,6 +14,6 @@
     "SmithyReadWrite",
     "SmithyRetries",
     "SmithyRetriesAPI",
-    "SmithyTestUtil",
     "SmithyTimestamps"
-]
+  ]
+}

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ConnectClient: ClientRuntime.Client {
+public class ConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ConnectClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -374,9 +374,9 @@ extension ConnectClient {
     ///
     /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
     ///
-    /// - Parameter ActivateEvaluationFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateEvaluationFormInput`)
     ///
-    /// - Returns: `ActivateEvaluationFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateEvaluationFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivateEvaluationFormInput, ActivateEvaluationFormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateEvaluationFormOutput>(ActivateEvaluationFormOutput.httpOutput(from:), ActivateEvaluationFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateEvaluationFormInput, ActivateEvaluationFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateEvaluationFormOutput>())
@@ -445,9 +446,9 @@ extension ConnectClient {
     ///
     /// Associates the specified dataset for a Amazon Connect instance with the target account. You can associate only one dataset in a single call.
     ///
-    /// - Parameter AssociateAnalyticsDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAnalyticsDataSetInput`)
     ///
-    /// - Returns: `AssociateAnalyticsDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAnalyticsDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +486,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAnalyticsDataSetInput, AssociateAnalyticsDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAnalyticsDataSetOutput>(AssociateAnalyticsDataSetOutput.httpOutput(from:), AssociateAnalyticsDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAnalyticsDataSetInput, AssociateAnalyticsDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAnalyticsDataSetOutput>())
@@ -516,9 +518,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
     ///
-    /// - Parameter AssociateApprovedOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApprovedOriginInput`)
     ///
-    /// - Returns: `AssociateApprovedOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApprovedOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,6 +561,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApprovedOriginInput, AssociateApprovedOriginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateApprovedOriginOutput>(AssociateApprovedOriginOutput.httpOutput(from:), AssociateApprovedOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApprovedOriginInput, AssociateApprovedOriginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApprovedOriginOutput>())
@@ -590,9 +593,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     ///
-    /// - Parameter AssociateBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateBotInput`)
     ///
-    /// - Returns: `AssociateBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +636,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateBotInput, AssociateBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateBotOutput>(AssociateBotOutput.httpOutput(from:), AssociateBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateBotInput, AssociateBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateBotOutput>())
@@ -660,13 +664,106 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateContactWithUser` operation on the `Connect` service.
+    ///
+    /// Associates a queued contact with an agent. Use cases Following are common uses cases for this API:
+    ///
+    /// * Programmatically assign queued contacts to available users.
+    ///
+    /// * Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * Use this API with chat, email, and task contacts. It does not support voice contacts.
+    ///
+    /// * Use it to associate contacts with users regardless of their current state, including custom states. Ensure your application logic accounts for user availability before making associations.
+    ///
+    /// * It honors the IAM context key connect:PreferredUserArn to prevent unauthorized contact associations.
+    ///
+    /// * It respects the IAM context key connect:PreferredUserArn to enforce authorization controls and prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your intended use cases.
+    ///
+    /// * The service quota Queues per routing profile per instance applies to manually assigned queues, too. For more information about this quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas) in the Amazon Connect Administrator Guide.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateContactWithUserInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateContactWithUserOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func associateContactWithUser(input: AssociateContactWithUserInput) async throws -> AssociateContactWithUserOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateContactWithUser")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateContactWithUserInput, AssociateContactWithUserOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput>(AssociateContactWithUserInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateContactWithUserInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateContactWithUserOutput>(AssociateContactWithUserOutput.httpOutput(from:), AssociateContactWithUserOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateContactWithUserOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateContactWithUserOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateContactWithUserOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateContactWithUserInput, AssociateContactWithUserOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateContactWithUser")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateDefaultVocabulary` operation on the `Connect` service.
     ///
     /// Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time analysis sessions for the given language.
     ///
-    /// - Parameter AssociateDefaultVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDefaultVocabularyInput`)
     ///
-    /// - Returns: `AssociateDefaultVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDefaultVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,6 +801,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDefaultVocabularyInput, AssociateDefaultVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDefaultVocabularyOutput>(AssociateDefaultVocabularyOutput.httpOutput(from:), AssociateDefaultVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDefaultVocabularyInput, AssociateDefaultVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDefaultVocabularyOutput>())
@@ -731,13 +829,128 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateEmailAddressAlias` operation on the `Connect` service.
+    ///
+    /// Associates an email address alias with an existing email address in an Amazon Connect instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address. Use cases Following are common uses cases for this API:
+    ///
+    /// * Unified customer support: Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management.
+    ///
+    /// * Department consolidation: Forward emails from legacy department addresses (for example, sales@example.com, info@example.com) to a centralized customer service email during organizational restructuring.
+    ///
+    /// * Brand management: Enable you to use familiar brand-specific email addresses that forward to the appropriate Amazon Connect instance email address.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * Each email address can have a maximum of one alias. You cannot create multiple aliases for the same email address.
+    ///
+    /// * If the alias email address already receives direct emails, it continues to receive direct emails plus forwarded emails.
+    ///
+    /// * You cannot chain email aliases together (that is, create an alias of an alias).
+    ///
+    ///
+    /// AssociateEmailAddressAlias does not return the following information:
+    ///
+    /// * A confirmation of the alias relationship details (you must call [DescribeEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeEmailAddress.html) to verify).
+    ///
+    /// * The timestamp of when the association occurred.
+    ///
+    /// * The status of the forwarding configuration.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html). Related operations
+    ///
+    /// * [DisassociateEmailAddressAlias](https://docs.aws.amazon.com/connect/latest/APIReference/API_DisassociateEmailAddressAlias.html): Removes the alias association between two email addresses in an Amazon Connect instance.
+    ///
+    /// * [DescribeEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeEmailAddress.html): View current alias configurations for an email address.
+    ///
+    /// * [SearchEmailAddresses](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchEmailAddresses.html): Find email addresses and their alias relationships across an instance.
+    ///
+    /// * [CreateEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateEmailAddress.html): Create new email addresses that can participate in alias relationships.
+    ///
+    /// * [DeleteEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteEmailAddress.html): Remove email addresses (automatically removes any alias relationships).
+    ///
+    /// * [UpdateEmailAddressMetadata](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateEmailAddressMetadata.html): Modify email address properties (does not affect alias relationships).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateEmailAddressAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateEmailAddressAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func associateEmailAddressAlias(input: AssociateEmailAddressAliasInput) async throws -> AssociateEmailAddressAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateEmailAddressAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(AssociateEmailAddressAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEmailAddressAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEmailAddressAliasOutput>(AssociateEmailAddressAliasOutput.httpOutput(from:), AssociateEmailAddressAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEmailAddressAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateEmailAddressAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateEmailAddressAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateEmailAddressAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateFlow` operation on the `Connect` service.
     ///
     /// Associates a connect resource to a flow.
     ///
-    /// - Parameter AssociateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateFlowInput`)
     ///
-    /// - Returns: `AssociateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -776,6 +989,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFlowInput, AssociateFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFlowOutput>(AssociateFlowOutput.httpOutput(from:), AssociateFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFlowInput, AssociateFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFlowOutput>())
@@ -803,13 +1017,87 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateHoursOfOperations` operation on the `Connect` service.
+    ///
+    /// Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide [ here ](https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html) for more information on inheriting overrides from parent hours of operation(s).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateHoursOfOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateHoursOfOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionalOperationFailedException` : Request processing failed because dependent condition failed.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func associateHoursOfOperations(input: AssociateHoursOfOperationsInput) async throws -> AssociateHoursOfOperationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateHoursOfOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(AssociateHoursOfOperationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateHoursOfOperationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateHoursOfOperationsOutput>(AssociateHoursOfOperationsOutput.httpOutput(from:), AssociateHoursOfOperationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateHoursOfOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateHoursOfOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateHoursOfOperationsInput, AssociateHoursOfOperationsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateHoursOfOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateInstanceStorageConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
     ///
-    /// - Parameter AssociateInstanceStorageConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateInstanceStorageConfigInput`)
     ///
-    /// - Returns: `AssociateInstanceStorageConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateInstanceStorageConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -849,6 +1137,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateInstanceStorageConfigInput, AssociateInstanceStorageConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateInstanceStorageConfigOutput>(AssociateInstanceStorageConfigOutput.httpOutput(from:), AssociateInstanceStorageConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateInstanceStorageConfigInput, AssociateInstanceStorageConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateInstanceStorageConfigOutput>())
@@ -880,9 +1169,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Lambda function.
     ///
-    /// - Parameter AssociateLambdaFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateLambdaFunctionInput`)
     ///
-    /// - Returns: `AssociateLambdaFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateLambdaFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,6 +1212,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateLambdaFunctionInput, AssociateLambdaFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateLambdaFunctionOutput>(AssociateLambdaFunctionOutput.httpOutput(from:), AssociateLambdaFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateLambdaFunctionInput, AssociateLambdaFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateLambdaFunctionOutput>())
@@ -954,9 +1244,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots.
     ///
-    /// - Parameter AssociateLexBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateLexBotInput`)
     ///
-    /// - Returns: `AssociateLexBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateLexBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,6 +1287,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateLexBotInput, AssociateLexBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateLexBotOutput>(AssociateLexBotOutput.httpOutput(from:), AssociateLexBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateLexBotInput, AssociateLexBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateLexBotOutput>())
@@ -1028,9 +1319,9 @@ extension ConnectClient {
     ///
     /// Associates a flow with a phone number claimed to your Amazon Connect instance. If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     ///
-    /// - Parameter AssociatePhoneNumberContactFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePhoneNumberContactFlowInput`)
     ///
-    /// - Returns: `AssociatePhoneNumberContactFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePhoneNumberContactFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,6 +1359,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePhoneNumberContactFlowInput, AssociatePhoneNumberContactFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePhoneNumberContactFlowOutput>(AssociatePhoneNumberContactFlowOutput.httpOutput(from:), AssociatePhoneNumberContactFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePhoneNumberContactFlowInput, AssociatePhoneNumberContactFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePhoneNumberContactFlowOutput>())
@@ -1099,9 +1391,9 @@ extension ConnectClient {
     ///
     /// Associates a set of quick connects with a queue.
     ///
-    /// - Parameter AssociateQueueQuickConnectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateQueueQuickConnectsInput`)
     ///
-    /// - Returns: `AssociateQueueQuickConnectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateQueueQuickConnectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1140,6 +1432,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateQueueQuickConnectsInput, AssociateQueueQuickConnectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateQueueQuickConnectsOutput>(AssociateQueueQuickConnectsOutput.httpOutput(from:), AssociateQueueQuickConnectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateQueueQuickConnectsInput, AssociateQueueQuickConnectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateQueueQuickConnectsOutput>())
@@ -1171,9 +1464,9 @@ extension ConnectClient {
     ///
     /// Associates a set of queues with a routing profile.
     ///
-    /// - Parameter AssociateRoutingProfileQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateRoutingProfileQueuesInput`)
     ///
-    /// - Returns: `AssociateRoutingProfileQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateRoutingProfileQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1211,6 +1504,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateRoutingProfileQueuesInput, AssociateRoutingProfileQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateRoutingProfileQueuesOutput>(AssociateRoutingProfileQueuesOutput.httpOutput(from:), AssociateRoutingProfileQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateRoutingProfileQueuesInput, AssociateRoutingProfileQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateRoutingProfileQueuesOutput>())
@@ -1242,9 +1536,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a security key to the instance.
     ///
-    /// - Parameter AssociateSecurityKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSecurityKeyInput`)
     ///
-    /// - Returns: `AssociateSecurityKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSecurityKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1285,6 +1579,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSecurityKeyInput, AssociateSecurityKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSecurityKeyOutput>(AssociateSecurityKeyOutput.httpOutput(from:), AssociateSecurityKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSecurityKeyInput, AssociateSecurityKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSecurityKeyOutput>())
@@ -1312,13 +1607,87 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateSecurityProfiles` operation on the `Connect` service.
+    ///
+    /// Associate security profiles with an Entity in an Amazon Connect instance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateSecurityProfilesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateSecurityProfilesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConditionalOperationFailedException` : Request processing failed because dependent condition failed.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func associateSecurityProfiles(input: AssociateSecurityProfilesInput) async throws -> AssociateSecurityProfilesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateSecurityProfiles")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput>(AssociateSecurityProfilesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateSecurityProfilesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSecurityProfilesOutput>(AssociateSecurityProfilesOutput.httpOutput(from:), AssociateSecurityProfilesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSecurityProfilesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateSecurityProfilesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSecurityProfilesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSecurityProfilesInput, AssociateSecurityProfilesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateSecurityProfiles")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateTrafficDistributionGroupUser` operation on the `Connect` service.
     ///
     /// Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
     ///
-    /// - Parameter AssociateTrafficDistributionGroupUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTrafficDistributionGroupUserInput`)
     ///
-    /// - Returns: `AssociateTrafficDistributionGroupUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTrafficDistributionGroupUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1357,6 +1726,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateTrafficDistributionGroupUserInput, AssociateTrafficDistributionGroupUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTrafficDistributionGroupUserOutput>(AssociateTrafficDistributionGroupUserOutput.httpOutput(from:), AssociateTrafficDistributionGroupUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTrafficDistributionGroupUserInput, AssociateTrafficDistributionGroupUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTrafficDistributionGroupUserOutput>())
@@ -1388,9 +1758,9 @@ extension ConnectClient {
     ///
     /// Associates a set of proficiencies with a user.
     ///
-    /// - Parameter AssociateUserProficienciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateUserProficienciesInput`)
     ///
-    /// - Returns: `AssociateUserProficienciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateUserProficienciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1428,6 +1798,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateUserProficienciesInput, AssociateUserProficienciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateUserProficienciesOutput>(AssociateUserProficienciesOutput.httpOutput(from:), AssociateUserProficienciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateUserProficienciesInput, AssociateUserProficienciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateUserProficienciesOutput>())
@@ -1455,13 +1826,87 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateWorkspace` operation on the `Connect` service.
+    ///
+    /// Associates a workspace with one or more users or routing profiles, allowing them to access the workspace's configured views and pages.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateWorkspaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateWorkspaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func associateWorkspace(input: AssociateWorkspaceInput) async throws -> AssociateWorkspaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateWorkspace")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateWorkspaceInput, AssociateWorkspaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput>(AssociateWorkspaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateWorkspaceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWorkspaceOutput>(AssociateWorkspaceOutput.httpOutput(from:), AssociateWorkspaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWorkspaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateWorkspaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateWorkspaceInput, AssociateWorkspaceOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateWorkspace")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchAssociateAnalyticsDataSet` operation on the `Connect` service.
     ///
     /// Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
     ///
-    /// - Parameter BatchAssociateAnalyticsDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateAnalyticsDataSetInput`)
     ///
-    /// - Returns: `BatchAssociateAnalyticsDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateAnalyticsDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1499,6 +1944,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAssociateAnalyticsDataSetInput, BatchAssociateAnalyticsDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAssociateAnalyticsDataSetOutput>(BatchAssociateAnalyticsDataSetOutput.httpOutput(from:), BatchAssociateAnalyticsDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAssociateAnalyticsDataSetInput, BatchAssociateAnalyticsDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAssociateAnalyticsDataSetOutput>())
@@ -1526,13 +1972,236 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchCreateDataTableValue` operation on the `Connect` service.
+    ///
+    /// Creates values for attributes in a data table. The value may be a default or it may be associated with a primary value. The value must pass all customer defined validation as well as the default validation for the value type. The operation must conform to Batch Operation API Standards. Although the standard specifies that successful and failed entities are listed separately in the response, authorization fails if any primary values or attributes are unauthorized. The combination of primary values and the attribute name serve as the identifier for the individual item request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateDataTableValueInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchCreateDataTableValueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func batchCreateDataTableValue(input: BatchCreateDataTableValueInput) async throws -> BatchCreateDataTableValueOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchCreateDataTableValue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput>(BatchCreateDataTableValueInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateDataTableValueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateDataTableValueOutput>(BatchCreateDataTableValueOutput.httpOutput(from:), BatchCreateDataTableValueOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateDataTableValueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateDataTableValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateDataTableValueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateDataTableValueInput, BatchCreateDataTableValueOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateDataTableValue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchDeleteDataTableValue` operation on the `Connect` service.
+    ///
+    /// Deletes multiple values from a data table. API users may delete values at any time. When deletion is requested from the admin website, a warning is shown alerting the user of the most recent time the attribute and its values were accessed. System managed values are not deletable by customers.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteDataTableValueInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchDeleteDataTableValueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func batchDeleteDataTableValue(input: BatchDeleteDataTableValueInput) async throws -> BatchDeleteDataTableValueOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDeleteDataTableValue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput>(BatchDeleteDataTableValueInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDeleteDataTableValueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteDataTableValueOutput>(BatchDeleteDataTableValueOutput.httpOutput(from:), BatchDeleteDataTableValueOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteDataTableValueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteDataTableValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteDataTableValueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDeleteDataTableValueInput, BatchDeleteDataTableValueOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDeleteDataTableValue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchDescribeDataTableValue` operation on the `Connect` service.
+    ///
+    /// Retrieves multiple values from a data table without evaluating expressions. Returns the raw stored values along with metadata such as lock versions and modification timestamps. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchDescribeDataTableValueInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchDescribeDataTableValueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func batchDescribeDataTableValue(input: BatchDescribeDataTableValueInput) async throws -> BatchDescribeDataTableValueOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDescribeDataTableValue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput>(BatchDescribeDataTableValueInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDescribeDataTableValueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDescribeDataTableValueOutput>(BatchDescribeDataTableValueOutput.httpOutput(from:), BatchDescribeDataTableValueOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDescribeDataTableValueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDescribeDataTableValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDescribeDataTableValueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDescribeDataTableValueInput, BatchDescribeDataTableValueOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDescribeDataTableValue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchDisassociateAnalyticsDataSet` operation on the `Connect` service.
     ///
     /// Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate multiple datasets in a single call.
     ///
-    /// - Parameter BatchDisassociateAnalyticsDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateAnalyticsDataSetInput`)
     ///
-    /// - Returns: `BatchDisassociateAnalyticsDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateAnalyticsDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1570,6 +2239,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateAnalyticsDataSetInput, BatchDisassociateAnalyticsDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisassociateAnalyticsDataSetOutput>(BatchDisassociateAnalyticsDataSetOutput.httpOutput(from:), BatchDisassociateAnalyticsDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateAnalyticsDataSetInput, BatchDisassociateAnalyticsDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateAnalyticsDataSetOutput>())
@@ -1601,9 +2271,9 @@ extension ConnectClient {
     ///
     /// Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn.
     ///
-    /// - Parameter BatchGetAttachedFileMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetAttachedFileMetadataInput`)
     ///
-    /// - Returns: `BatchGetAttachedFileMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetAttachedFileMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1642,6 +2312,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetAttachedFileMetadataInput, BatchGetAttachedFileMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAttachedFileMetadataOutput>(BatchGetAttachedFileMetadataOutput.httpOutput(from:), BatchGetAttachedFileMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAttachedFileMetadataInput, BatchGetAttachedFileMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAttachedFileMetadataOutput>())
@@ -1673,9 +2344,9 @@ extension ConnectClient {
     ///
     /// Retrieve the flow associations for the given resources.
     ///
-    /// - Parameter BatchGetFlowAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetFlowAssociationInput`)
     ///
-    /// - Returns: `BatchGetFlowAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetFlowAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1714,6 +2385,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetFlowAssociationInput, BatchGetFlowAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFlowAssociationOutput>(BatchGetFlowAssociationOutput.httpOutput(from:), BatchGetFlowAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFlowAssociationInput, BatchGetFlowAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFlowAssociationOutput>())
@@ -1745,9 +2417,9 @@ extension ConnectClient {
     ///
     /// Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API. Allows you to create a batch of contacts in Amazon Connect. The outbound campaigns capability ingests dial requests via the [PutDialRequestBatch](https://docs.aws.amazon.com/connect-outbound/latest/APIReference/API_PutDialRequestBatch.html) API. It then uses BatchPutContact to create contacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the same contactId that was created by BatchPutContact.
     ///
-    /// - Parameter BatchPutContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutContactInput`)
     ///
-    /// - Returns: `BatchPutContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1787,6 +2459,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutContactInput, BatchPutContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutContactOutput>(BatchPutContactOutput.httpOutput(from:), BatchPutContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutContactInput, BatchPutContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutContactOutput>())
@@ -1814,13 +2487,87 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchUpdateDataTableValue` operation on the `Connect` service.
+    ///
+    /// Updates multiple data table values using all properties from BatchCreateDataTableValue. System managed values are not modifiable by customers. The operation requires proper lock versions to prevent concurrent modification conflicts.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateDataTableValueInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchUpdateDataTableValueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func batchUpdateDataTableValue(input: BatchUpdateDataTableValueInput) async throws -> BatchUpdateDataTableValueOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateDataTableValue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput>(BatchUpdateDataTableValueInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateDataTableValueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateDataTableValueOutput>(BatchUpdateDataTableValueOutput.httpOutput(from:), BatchUpdateDataTableValueOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateDataTableValueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateDataTableValueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateDataTableValueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateDataTableValueInput, BatchUpdateDataTableValueOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateDataTableValue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ClaimPhoneNumber` operation on the `Connect` service.
     ///
     /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see [Claim a phone number in your country](https://docs.aws.amazon.com/connect/latest/adminguide/claim-phone-number.html) and [Claim phone numbers to traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/claim-phone-numbers-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide. You can call the [SearchAvailablePhoneNumbers](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchAvailablePhoneNumbers.html) API for available phone numbers that you can claim. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [ClaimPhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_ClaimPhoneNumber.html) operation. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
-    /// - Parameter ClaimPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ClaimPhoneNumberInput`)
     ///
-    /// - Returns: `ClaimPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ClaimPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,6 +2607,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ClaimPhoneNumberInput, ClaimPhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ClaimPhoneNumberOutput>(ClaimPhoneNumberOutput.httpOutput(from:), ClaimPhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ClaimPhoneNumberInput, ClaimPhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ClaimPhoneNumberOutput>())
@@ -1891,9 +2639,9 @@ extension ConnectClient {
     ///
     /// Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the StartAttachedFileUpload API.
     ///
-    /// - Parameter CompleteAttachedFileUploadInput : Request to CompleteAttachedFileUpload API
+    /// - Parameter input: Request to CompleteAttachedFileUpload API (Type: `CompleteAttachedFileUploadInput`)
     ///
-    /// - Returns: `CompleteAttachedFileUploadOutput` : Response from CompleteAttachedFileUpload API
+    /// - Returns: Response from CompleteAttachedFileUpload API (Type: `CompleteAttachedFileUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1929,6 +2677,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CompleteAttachedFileUploadInput, CompleteAttachedFileUploadOutput>(CompleteAttachedFileUploadInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteAttachedFileUploadOutput>(CompleteAttachedFileUploadOutput.httpOutput(from:), CompleteAttachedFileUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteAttachedFileUploadInput, CompleteAttachedFileUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteAttachedFileUploadOutput>())
@@ -1960,9 +2709,9 @@ extension ConnectClient {
     ///
     /// Creates an agent status for the specified Amazon Connect instance.
     ///
-    /// - Parameter CreateAgentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAgentStatusInput`)
     ///
-    /// - Returns: `CreateAgentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAgentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2002,6 +2751,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgentStatusInput, CreateAgentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAgentStatusOutput>(CreateAgentStatusOutput.httpOutput(from:), CreateAgentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgentStatusInput, CreateAgentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgentStatusOutput>())
@@ -2042,9 +2792,9 @@ extension ConnectClient {
     ///
     /// Creates a new VOICE, EMAIL, or TASK contact. After a contact is created, you can move it to the desired state by using the InitiateAs parameter. While you can use API to create task contacts that are in the COMPLETED state, you must contact Amazon Web Services Support before using it for bulk import use cases. Bulk import causes your requests to be throttled or fail if your CreateContact limits aren't high enough.
     ///
-    /// - Parameter CreateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactInput`)
     ///
-    /// - Returns: `CreateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,6 +2837,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactInput, CreateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactOutput>(CreateContactOutput.httpOutput(from:), CreateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactInput, CreateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactOutput>())
@@ -2118,9 +2869,9 @@ extension ConnectClient {
     ///
     /// Creates a flow for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     ///
-    /// - Parameter CreateContactFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactFlowInput`)
     ///
-    /// - Returns: `CreateContactFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2161,6 +2912,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactFlowInput, CreateContactFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactFlowOutput>(CreateContactFlowOutput.httpOutput(from:), CreateContactFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactFlowInput, CreateContactFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactFlowOutput>())
@@ -2192,9 +2944,9 @@ extension ConnectClient {
     ///
     /// Creates a flow module for the specified Amazon Connect instance.
     ///
-    /// - Parameter CreateContactFlowModuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactFlowModuleInput`)
     ///
-    /// - Returns: `CreateContactFlowModuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactFlowModuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2238,6 +2990,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactFlowModuleInput, CreateContactFlowModuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactFlowModuleOutput>(CreateContactFlowModuleOutput.httpOutput(from:), CreateContactFlowModuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactFlowModuleInput, CreateContactFlowModuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactFlowModuleOutput>())
@@ -2265,13 +3018,162 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateContactFlowModuleAlias` operation on the `Connect` service.
+    ///
+    /// Creates a named alias that points to a specific version of a contact flow module.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateContactFlowModuleAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateContactFlowModuleAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func createContactFlowModuleAlias(input: CreateContactFlowModuleAliasInput) async throws -> CreateContactFlowModuleAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createContactFlowModuleAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput>(CreateContactFlowModuleAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContactFlowModuleAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactFlowModuleAliasOutput>(CreateContactFlowModuleAliasOutput.httpOutput(from:), CreateContactFlowModuleAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactFlowModuleAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContactFlowModuleAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContactFlowModuleAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateContactFlowModuleAliasInput, CreateContactFlowModuleAliasOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateContactFlowModuleAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateContactFlowModuleVersion` operation on the `Connect` service.
+    ///
+    /// Creates an immutable snapshot of a contact flow module, preserving its content and settings at a specific point in time for version control and rollback capabilities.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateContactFlowModuleVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateContactFlowModuleVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func createContactFlowModuleVersion(input: CreateContactFlowModuleVersionInput) async throws -> CreateContactFlowModuleVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createContactFlowModuleVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput>(CreateContactFlowModuleVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateContactFlowModuleVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactFlowModuleVersionOutput>(CreateContactFlowModuleVersionOutput.httpOutput(from:), CreateContactFlowModuleVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactFlowModuleVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContactFlowModuleVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContactFlowModuleVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateContactFlowModuleVersionInput, CreateContactFlowModuleVersionOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateContactFlowModuleVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateContactFlowVersion` operation on the `Connect` service.
     ///
     /// Publishes a new version of the flow provided. Versions are immutable and monotonically increasing. If the FlowContentSha256 provided is different from the FlowContentSha256 of the $LATEST published flow content, then an error is returned. This API only supports creating versions for flows of type Campaign.
     ///
-    /// - Parameter CreateContactFlowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactFlowVersionInput`)
     ///
-    /// - Returns: `CreateContactFlowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactFlowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2311,6 +3213,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactFlowVersionInput, CreateContactFlowVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactFlowVersionOutput>(CreateContactFlowVersionOutput.httpOutput(from:), CreateContactFlowVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactFlowVersionInput, CreateContactFlowVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactFlowVersionOutput>())
@@ -2338,13 +3241,165 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateDataTable` operation on the `Connect` service.
+    ///
+    /// Creates a new data table with the specified properties. Supports the creation of all table properties except for attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateDataTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateDataTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func createDataTable(input: CreateDataTableInput) async throws -> CreateDataTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDataTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDataTableInput, CreateDataTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDataTableInput, CreateDataTableOutput>(CreateDataTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataTableInput, CreateDataTableOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataTableInput, CreateDataTableOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDataTableInput, CreateDataTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataTableInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataTableInput, CreateDataTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataTableOutput>(CreateDataTableOutput.httpOutput(from:), CreateDataTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataTableInput, CreateDataTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataTableInput, CreateDataTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataTableInput, CreateDataTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataTableInput, CreateDataTableOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDataTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateDataTableAttribute` operation on the `Connect` service.
+    ///
+    /// Adds an attribute to an existing data table. Creating a new primary attribute uses the empty value for the specified value type for all existing records. This should not affect uniqueness of published data tables since the existing primary values will already be unique. Creating attributes does not create any values. System managed tables may not allow customers to create new attributes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateDataTableAttributeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateDataTableAttributeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func createDataTableAttribute(input: CreateDataTableAttributeInput) async throws -> CreateDataTableAttributeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDataTableAttribute")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDataTableAttributeInput, CreateDataTableAttributeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput>(CreateDataTableAttributeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataTableAttributeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataTableAttributeOutput>(CreateDataTableAttributeOutput.httpOutput(from:), CreateDataTableAttributeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataTableAttributeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataTableAttributeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataTableAttributeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataTableAttributeInput, CreateDataTableAttributeOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDataTableAttribute")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEmailAddress` operation on the `Connect` service.
     ///
     /// Create new email address in the specified Amazon Connect instance. For more information about email addresses, see [Create email addresses](https://docs.aws.amazon.com/connect/latest/adminguide/create-email-address1.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter CreateEmailAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEmailAddressInput`)
     ///
-    /// - Returns: `CreateEmailAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEmailAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2387,6 +3442,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEmailAddressInput, CreateEmailAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEmailAddressOutput>(CreateEmailAddressOutput.httpOutput(from:), CreateEmailAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEmailAddressInput, CreateEmailAddressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEmailAddressOutput>())
@@ -2418,9 +3474,9 @@ extension ConnectClient {
     ///
     /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
     ///
-    /// - Parameter CreateEvaluationFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEvaluationFormInput`)
     ///
-    /// - Returns: `CreateEvaluationFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEvaluationFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2460,6 +3516,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEvaluationFormInput, CreateEvaluationFormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEvaluationFormOutput>(CreateEvaluationFormOutput.httpOutput(from:), CreateEvaluationFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEvaluationFormInput, CreateEvaluationFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEvaluationFormOutput>())
@@ -2491,9 +3548,9 @@ extension ConnectClient {
     ///
     /// Creates hours of operation.
     ///
-    /// - Parameter CreateHoursOfOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHoursOfOperationInput`)
     ///
-    /// - Returns: `CreateHoursOfOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHoursOfOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2504,6 +3561,7 @@ extension ConnectClient {
     /// - `InvalidRequestException` : The request is not valid.
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func createHoursOfOperation(input: CreateHoursOfOperationInput) async throws -> CreateHoursOfOperationOutput {
         let context = Smithy.ContextBuilder()
@@ -2533,6 +3591,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHoursOfOperationInput, CreateHoursOfOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHoursOfOperationOutput>(CreateHoursOfOperationOutput.httpOutput(from:), CreateHoursOfOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHoursOfOperationInput, CreateHoursOfOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHoursOfOperationOutput>())
@@ -2564,9 +3623,9 @@ extension ConnectClient {
     ///
     /// Creates an hours of operation override in an Amazon Connect hours of operation resource.
     ///
-    /// - Parameter CreateHoursOfOperationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHoursOfOperationOverrideInput`)
     ///
-    /// - Returns: `CreateHoursOfOperationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHoursOfOperationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2606,6 +3665,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHoursOfOperationOverrideInput, CreateHoursOfOperationOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHoursOfOperationOverrideOutput>(CreateHoursOfOperationOverrideOutput.httpOutput(from:), CreateHoursOfOperationOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHoursOfOperationOverrideInput, CreateHoursOfOperationOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHoursOfOperationOverrideOutput>())
@@ -2637,9 +3697,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect. For more information, see [Create an Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instances.html) in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     ///
-    /// - Parameter CreateInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceInput`)
     ///
-    /// - Returns: `CreateInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2678,6 +3738,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceInput, CreateInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceOutput>(CreateInstanceOutput.httpOutput(from:), CreateInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceInput, CreateInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceOutput>())
@@ -2709,9 +3770,9 @@ extension ConnectClient {
     ///
     /// Creates an Amazon Web Services resource association with an Amazon Connect instance.
     ///
-    /// - Parameter CreateIntegrationAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntegrationAssociationInput`)
     ///
-    /// - Returns: `CreateIntegrationAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2749,6 +3810,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationAssociationInput, CreateIntegrationAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationAssociationOutput>(CreateIntegrationAssociationOutput.httpOutput(from:), CreateIntegrationAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationAssociationInput, CreateIntegrationAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationAssociationOutput>())
@@ -2780,9 +3842,9 @@ extension ConnectClient {
     ///
     /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see [Customize chat flow experiences by integrating custom participants](https://docs.aws.amazon.com/connect/latest/adminguide/chat-customize-flow.html) or [Enable multi-user web, in-app, and video calling](https://docs.aws.amazon.com/connect/latest/adminguide/enable-multiuser-inapp.html).
     ///
-    /// - Parameter CreateParticipantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateParticipantInput`)
     ///
-    /// - Returns: `CreateParticipantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateParticipantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2822,6 +3884,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateParticipantInput, CreateParticipantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateParticipantOutput>(CreateParticipantOutput.httpOutput(from:), CreateParticipantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateParticipantInput, CreateParticipantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateParticipantOutput>())
@@ -2853,9 +3916,9 @@ extension ConnectClient {
     ///
     /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter CreatePersistentContactAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePersistentContactAssociationInput`)
     ///
-    /// - Returns: `CreatePersistentContactAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePersistentContactAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2894,6 +3957,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePersistentContactAssociationInput, CreatePersistentContactAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePersistentContactAssociationOutput>(CreatePersistentContactAssociationOutput.httpOutput(from:), CreatePersistentContactAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePersistentContactAssociationInput, CreatePersistentContactAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePersistentContactAssociationOutput>())
@@ -2923,11 +3987,18 @@ extension ConnectClient {
 
     /// Performs the `CreatePredefinedAttribute` operation on the `Connect` service.
     ///
-    /// Creates a new predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Creates a new predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Use cases Following are common uses cases for this API:
     ///
-    /// - Parameter CreatePredefinedAttributeInput : [no documentation found]
+    /// * Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
-    /// - Returns: `CreatePredefinedAttributeOutput` : [no documentation found]
+    /// * Create an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreatePredefinedAttributeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePredefinedAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2967,6 +4038,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePredefinedAttributeInput, CreatePredefinedAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePredefinedAttributeOutput>(CreatePredefinedAttributeOutput.httpOutput(from:), CreatePredefinedAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePredefinedAttributeInput, CreatePredefinedAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePredefinedAttributeOutput>())
@@ -2998,9 +4070,9 @@ extension ConnectClient {
     ///
     /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see [Create prompts](https://docs.aws.amazon.com/connect/latest/adminguide/prompts.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter CreatePromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePromptInput`)
     ///
-    /// - Returns: `CreatePromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3039,6 +4111,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePromptInput, CreatePromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePromptOutput>(CreatePromptOutput.httpOutput(from:), CreatePromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePromptInput, CreatePromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePromptOutput>())
@@ -3070,9 +4143,9 @@ extension ConnectClient {
     ///
     /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see [Set up push notifications in Amazon Connect for mobile chat](https://docs.aws.amazon.com/connect/latest/adminguide/enable-push-notifications-for-mobile-chat.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter CreatePushNotificationRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePushNotificationRegistrationInput`)
     ///
-    /// - Returns: `CreatePushNotificationRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePushNotificationRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3112,6 +4185,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePushNotificationRegistrationInput, CreatePushNotificationRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePushNotificationRegistrationOutput>(CreatePushNotificationRegistrationOutput.httpOutput(from:), CreatePushNotificationRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePushNotificationRegistrationInput, CreatePushNotificationRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePushNotificationRegistrationOutput>())
@@ -3149,9 +4223,9 @@ extension ConnectClient {
     ///
     /// * If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see [Allow or Deny queue API actions for phone numbers in a replica Region](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_resource-level-policy-examples.html#allow-deny-queue-actions-replica-region).
     ///
-    /// - Parameter CreateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
     ///
-    /// - Returns: `CreateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3191,6 +4265,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
@@ -3222,9 +4297,9 @@ extension ConnectClient {
     ///
     /// Creates a quick connect for the specified Amazon Connect instance.
     ///
-    /// - Parameter CreateQuickConnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuickConnectInput`)
     ///
-    /// - Returns: `CreateQuickConnectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuickConnectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3264,6 +4339,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQuickConnectInput, CreateQuickConnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQuickConnectOutput>(CreateQuickConnectOutput.httpOutput(from:), CreateQuickConnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQuickConnectInput, CreateQuickConnectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQuickConnectOutput>())
@@ -3295,9 +4371,9 @@ extension ConnectClient {
     ///
     /// Creates a new routing profile.
     ///
-    /// - Parameter CreateRoutingProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoutingProfileInput`)
     ///
-    /// - Returns: `CreateRoutingProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoutingProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3337,6 +4413,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRoutingProfileInput, CreateRoutingProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoutingProfileOutput>(CreateRoutingProfileOutput.httpOutput(from:), CreateRoutingProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoutingProfileInput, CreateRoutingProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoutingProfileOutput>())
@@ -3368,9 +4445,9 @@ extension ConnectClient {
     ///
     /// Creates a rule for the specified Amazon Connect instance. Use the [Rules Function language](https://docs.aws.amazon.com/connect/latest/APIReference/connect-rules-language.html) to code conditions for the rule.
     ///
-    /// - Parameter CreateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleInput`)
     ///
-    /// - Returns: `CreateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3411,6 +4488,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleInput, CreateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleOutput>(CreateRuleOutput.httpOutput(from:), CreateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleInput, CreateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleOutput>())
@@ -3442,9 +4520,9 @@ extension ConnectClient {
     ///
     /// Creates a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
-    /// - Parameter CreateSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityProfileInput`)
     ///
-    /// - Returns: `CreateSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3484,6 +4562,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityProfileInput, CreateSecurityProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityProfileOutput>(CreateSecurityProfileOutput.httpOutput(from:), CreateSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityProfileInput, CreateSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityProfileOutput>())
@@ -3515,9 +4594,9 @@ extension ConnectClient {
     ///
     /// Creates a new task template in the specified Amazon Connect instance.
     ///
-    /// - Parameter CreateTaskTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTaskTemplateInput`)
     ///
-    /// - Returns: `CreateTaskTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTaskTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3557,6 +4636,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTaskTemplateInput, CreateTaskTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTaskTemplateOutput>(CreateTaskTemplateOutput.httpOutput(from:), CreateTaskTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTaskTemplateInput, CreateTaskTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTaskTemplateOutput>())
@@ -3588,9 +4668,9 @@ extension ConnectClient {
     ///
     /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated. The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned. For more information about creating traffic distribution groups, see [Set up traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter CreateTrafficDistributionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrafficDistributionGroupInput`)
     ///
-    /// - Returns: `CreateTrafficDistributionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrafficDistributionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3632,6 +4712,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficDistributionGroupInput, CreateTrafficDistributionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficDistributionGroupOutput>(CreateTrafficDistributionGroupOutput.httpOutput(from:), CreateTrafficDistributionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficDistributionGroupInput, CreateTrafficDistributionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficDistributionGroupOutput>())
@@ -3663,9 +4744,9 @@ extension ConnectClient {
     ///
     /// Creates a use case for an integration association.
     ///
-    /// - Parameter CreateUseCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUseCaseInput`)
     ///
-    /// - Returns: `CreateUseCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUseCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3703,6 +4784,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUseCaseInput, CreateUseCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUseCaseOutput>(CreateUseCaseOutput.httpOutput(from:), CreateUseCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUseCaseInput, CreateUseCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUseCaseOutput>())
@@ -3734,9 +4816,9 @@ extension ConnectClient {
     ///
     /// Creates a user account for the specified Amazon Connect instance. Certain [UserIdentityInfo](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html) parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management. For information about how to create users using the Amazon Connect admin website, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3776,6 +4858,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -3807,9 +4890,9 @@ extension ConnectClient {
     ///
     /// Creates a new user hierarchy group.
     ///
-    /// - Parameter CreateUserHierarchyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserHierarchyGroupInput`)
     ///
-    /// - Returns: `CreateUserHierarchyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserHierarchyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3849,6 +4932,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserHierarchyGroupInput, CreateUserHierarchyGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserHierarchyGroupOutput>(CreateUserHierarchyGroupOutput.httpOutput(from:), CreateUserHierarchyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserHierarchyGroupInput, CreateUserHierarchyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserHierarchyGroupOutput>())
@@ -3880,9 +4964,9 @@ extension ConnectClient {
     ///
     /// Creates a new view with the possible status of SAVED or PUBLISHED. The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED. An error is returned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided.
     ///
-    /// - Parameter CreateViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateViewInput`)
     ///
-    /// - Returns: `CreateViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3924,6 +5008,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateViewInput, CreateViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateViewOutput>(CreateViewOutput.httpOutput(from:), CreateViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateViewInput, CreateViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateViewOutput>())
@@ -3955,9 +5040,9 @@ extension ConnectClient {
     ///
     /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias.
     ///
-    /// - Parameter CreateViewVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateViewVersionInput`)
     ///
-    /// - Returns: `CreateViewVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateViewVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3998,6 +5083,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateViewVersionInput, CreateViewVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateViewVersionOutput>(CreateViewVersionOutput.httpOutput(from:), CreateViewVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateViewVersionInput, CreateViewVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateViewVersionOutput>())
@@ -4029,9 +5115,9 @@ extension ConnectClient {
     ///
     /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
     ///
-    /// - Parameter CreateVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVocabularyInput`)
     ///
-    /// - Returns: `CreateVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4072,6 +5158,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVocabularyOutput>(CreateVocabularyOutput.httpOutput(from:), CreateVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVocabularyOutput>())
@@ -4099,13 +5186,166 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateWorkspace` operation on the `Connect` service.
+    ///
+    /// Creates a workspace that defines the user experience by mapping views to pages. Workspaces can be assigned to users or routing profiles.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createWorkspace")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateWorkspaceInput, CreateWorkspaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>(CreateWorkspaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkspaceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspaceOutput>(CreateWorkspaceOutput.httpOutput(from:), CreateWorkspaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkspaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateWorkspace")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateWorkspacePage` operation on the `Connect` service.
+    ///
+    /// Associates a view with a page in a workspace, defining what users see when they navigate to that page.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspacePageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateWorkspacePageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func createWorkspacePage(input: CreateWorkspacePageInput) async throws -> CreateWorkspacePageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createWorkspacePage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateWorkspacePageInput, CreateWorkspacePageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput>(CreateWorkspacePageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWorkspacePageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspacePageOutput>(CreateWorkspacePageOutput.httpOutput(from:), CreateWorkspacePageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspacePageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWorkspacePageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWorkspacePageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWorkspacePageInput, CreateWorkspacePageOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateWorkspacePage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeactivateEvaluationForm` operation on the `Connect` service.
     ///
     /// Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
     ///
-    /// - Parameter DeactivateEvaluationFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateEvaluationFormInput`)
     ///
-    /// - Returns: `DeactivateEvaluationFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateEvaluationFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4143,6 +5383,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivateEvaluationFormInput, DeactivateEvaluationFormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateEvaluationFormOutput>(DeactivateEvaluationFormOutput.httpOutput(from:), DeactivateEvaluationFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateEvaluationFormInput, DeactivateEvaluationFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateEvaluationFormOutput>())
@@ -4174,9 +5415,9 @@ extension ConnectClient {
     ///
     /// Deletes an attached file along with the underlying S3 Object. The attached file is permanently deleted if S3 bucket versioning is not enabled.
     ///
-    /// - Parameter DeleteAttachedFileInput : Request to DeleteAttachedFile API
+    /// - Parameter input: Request to DeleteAttachedFile API (Type: `DeleteAttachedFileInput`)
     ///
-    /// - Returns: `DeleteAttachedFileOutput` : Response from DeleteAttachedFile API
+    /// - Returns: Response from DeleteAttachedFile API (Type: `DeleteAttachedFileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4212,6 +5453,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAttachedFileInput, DeleteAttachedFileOutput>(DeleteAttachedFileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttachedFileOutput>(DeleteAttachedFileOutput.httpOutput(from:), DeleteAttachedFileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttachedFileInput, DeleteAttachedFileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttachedFileOutput>())
@@ -4243,9 +5485,9 @@ extension ConnectClient {
     ///
     /// Deletes a contact evaluation in the specified Amazon Connect instance.
     ///
-    /// - Parameter DeleteContactEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactEvaluationInput`)
     ///
-    /// - Returns: `DeleteContactEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4280,6 +5522,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContactEvaluationInput, DeleteContactEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactEvaluationOutput>(DeleteContactEvaluationOutput.httpOutput(from:), DeleteContactEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactEvaluationInput, DeleteContactEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactEvaluationOutput>())
@@ -4311,9 +5554,9 @@ extension ConnectClient {
     ///
     /// Deletes a flow for the specified Amazon Connect instance.
     ///
-    /// - Parameter DeleteContactFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactFlowInput`)
     ///
-    /// - Returns: `DeleteContactFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4349,6 +5592,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContactFlowInput, DeleteContactFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactFlowOutput>(DeleteContactFlowOutput.httpOutput(from:), DeleteContactFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactFlowInput, DeleteContactFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactFlowOutput>())
@@ -4380,9 +5624,9 @@ extension ConnectClient {
     ///
     /// Deletes the specified flow module.
     ///
-    /// - Parameter DeleteContactFlowModuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactFlowModuleInput`)
     ///
-    /// - Returns: `DeleteContactFlowModuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactFlowModuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4418,6 +5662,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContactFlowModuleInput, DeleteContactFlowModuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactFlowModuleOutput>(DeleteContactFlowModuleOutput.httpOutput(from:), DeleteContactFlowModuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactFlowModuleInput, DeleteContactFlowModuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactFlowModuleOutput>())
@@ -4445,13 +5690,153 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteContactFlowModuleAlias` operation on the `Connect` service.
+    ///
+    /// Removes an alias reference, breaking the named connection to the underlying module version without affecting the version itself.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactFlowModuleAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteContactFlowModuleAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteContactFlowModuleAlias(input: DeleteContactFlowModuleAliasInput) async throws -> DeleteContactFlowModuleAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteContactFlowModuleAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteContactFlowModuleAliasInput, DeleteContactFlowModuleAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteContactFlowModuleAliasInput, DeleteContactFlowModuleAliasOutput>(DeleteContactFlowModuleAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContactFlowModuleAliasInput, DeleteContactFlowModuleAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactFlowModuleAliasOutput>(DeleteContactFlowModuleAliasOutput.httpOutput(from:), DeleteContactFlowModuleAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactFlowModuleAliasInput, DeleteContactFlowModuleAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactFlowModuleAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContactFlowModuleAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContactFlowModuleAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContactFlowModuleAliasInput, DeleteContactFlowModuleAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContactFlowModuleAliasInput, DeleteContactFlowModuleAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContactFlowModuleAliasInput, DeleteContactFlowModuleAliasOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteContactFlowModuleAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteContactFlowModuleVersion` operation on the `Connect` service.
+    ///
+    /// Removes a specific version of a contact flow module.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactFlowModuleVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteContactFlowModuleVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteContactFlowModuleVersion(input: DeleteContactFlowModuleVersionInput) async throws -> DeleteContactFlowModuleVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteContactFlowModuleVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteContactFlowModuleVersionInput, DeleteContactFlowModuleVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteContactFlowModuleVersionInput, DeleteContactFlowModuleVersionOutput>(DeleteContactFlowModuleVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContactFlowModuleVersionInput, DeleteContactFlowModuleVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactFlowModuleVersionOutput>(DeleteContactFlowModuleVersionOutput.httpOutput(from:), DeleteContactFlowModuleVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactFlowModuleVersionInput, DeleteContactFlowModuleVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactFlowModuleVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContactFlowModuleVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContactFlowModuleVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContactFlowModuleVersionInput, DeleteContactFlowModuleVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContactFlowModuleVersionInput, DeleteContactFlowModuleVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteContactFlowModuleVersionInput, DeleteContactFlowModuleVersionOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteContactFlowModuleVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteContactFlowVersion` operation on the `Connect` service.
     ///
     /// Deletes the particular version specified in flow version identifier.
     ///
-    /// - Parameter DeleteContactFlowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactFlowVersionInput`)
     ///
-    /// - Returns: `DeleteContactFlowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactFlowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4487,6 +5872,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactFlowVersionOutput>(DeleteContactFlowVersionOutput.httpOutput(from:), DeleteContactFlowVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactFlowVersionInput, DeleteContactFlowVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactFlowVersionOutput>())
@@ -4514,13 +5900,155 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteDataTable` operation on the `Connect` service.
+    ///
+    /// Deletes a data table and all associated attributes, versions, audits, and values. Does not update any references to the data table, even from other data tables. This includes dynamic values and conditional validations. System managed data tables are not deletable by customers. API users may delete the table at any time. When deletion is requested from the admin website, a warning is shown alerting the user of the most recent time the table and its values were accessed.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteDataTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteDataTable(input: DeleteDataTableInput) async throws -> DeleteDataTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteDataTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteDataTableInput, DeleteDataTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDataTableInput, DeleteDataTableOutput>(DeleteDataTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataTableInput, DeleteDataTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataTableOutput>(DeleteDataTableOutput.httpOutput(from:), DeleteDataTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataTableInput, DeleteDataTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDataTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataTableInput, DeleteDataTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDataTableInput, DeleteDataTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataTableInput, DeleteDataTableOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDataTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteDataTableAttribute` operation on the `Connect` service.
+    ///
+    /// Deletes an attribute and all its values from a data table.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataTableAttributeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteDataTableAttributeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteDataTableAttribute(input: DeleteDataTableAttributeInput) async throws -> DeleteDataTableAttributeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteDataTableAttribute")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteDataTableAttributeInput, DeleteDataTableAttributeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteDataTableAttributeInput, DeleteDataTableAttributeOutput>(DeleteDataTableAttributeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataTableAttributeInput, DeleteDataTableAttributeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataTableAttributeOutput>(DeleteDataTableAttributeOutput.httpOutput(from:), DeleteDataTableAttributeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataTableAttributeInput, DeleteDataTableAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataTableAttributeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDataTableAttributeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDataTableAttributeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDataTableAttributeInput, DeleteDataTableAttributeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDataTableAttributeInput, DeleteDataTableAttributeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteDataTableAttributeInput, DeleteDataTableAttributeOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDataTableAttribute")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteEmailAddress` operation on the `Connect` service.
     ///
     /// Deletes email address from the specified Amazon Connect instance.
     ///
-    /// - Parameter DeleteEmailAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEmailAddressInput`)
     ///
-    /// - Returns: `DeleteEmailAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEmailAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4557,6 +6085,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEmailAddressInput, DeleteEmailAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEmailAddressOutput>(DeleteEmailAddressOutput.httpOutput(from:), DeleteEmailAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEmailAddressInput, DeleteEmailAddressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEmailAddressOutput>())
@@ -4592,9 +6121,9 @@ extension ConnectClient {
     ///
     /// * If no version is provided, then the full form (all versions) is deleted.
     ///
-    /// - Parameter DeleteEvaluationFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEvaluationFormInput`)
     ///
-    /// - Returns: `DeleteEvaluationFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEvaluationFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4630,6 +6159,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteEvaluationFormInput, DeleteEvaluationFormOutput>(DeleteEvaluationFormInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEvaluationFormOutput>(DeleteEvaluationFormOutput.httpOutput(from:), DeleteEvaluationFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEvaluationFormInput, DeleteEvaluationFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEvaluationFormOutput>())
@@ -4661,9 +6191,9 @@ extension ConnectClient {
     ///
     /// Deletes an hours of operation.
     ///
-    /// - Parameter DeleteHoursOfOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHoursOfOperationInput`)
     ///
-    /// - Returns: `DeleteHoursOfOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHoursOfOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4698,6 +6228,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHoursOfOperationInput, DeleteHoursOfOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHoursOfOperationOutput>(DeleteHoursOfOperationOutput.httpOutput(from:), DeleteHoursOfOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHoursOfOperationInput, DeleteHoursOfOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHoursOfOperationOutput>())
@@ -4729,9 +6260,9 @@ extension ConnectClient {
     ///
     /// Deletes an hours of operation override in an Amazon Connect hours of operation resource.
     ///
-    /// - Parameter DeleteHoursOfOperationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHoursOfOperationOverrideInput`)
     ///
-    /// - Returns: `DeleteHoursOfOperationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHoursOfOperationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4766,6 +6297,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHoursOfOperationOverrideInput, DeleteHoursOfOperationOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHoursOfOperationOverrideOutput>(DeleteHoursOfOperationOverrideOutput.httpOutput(from:), DeleteHoursOfOperationOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHoursOfOperationOverrideInput, DeleteHoursOfOperationOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHoursOfOperationOverrideOutput>())
@@ -4797,9 +6329,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. For more information, see [Delete your Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/delete-connect-instance.html) in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days. If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances. You must wait 30 days before you can restart creating and deleting instances in your account.
     ///
-    /// - Parameter DeleteInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceInput`)
     ///
-    /// - Returns: `DeleteInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4834,6 +6366,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(DeleteInstanceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceOutput>(DeleteInstanceOutput.httpOutput(from:), DeleteInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceOutput>())
@@ -4865,9 +6398,9 @@ extension ConnectClient {
     ///
     /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
     ///
-    /// - Parameter DeleteIntegrationAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationAssociationInput`)
     ///
-    /// - Returns: `DeleteIntegrationAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4901,6 +6434,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntegrationAssociationInput, DeleteIntegrationAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationAssociationOutput>(DeleteIntegrationAssociationOutput.httpOutput(from:), DeleteIntegrationAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationAssociationInput, DeleteIntegrationAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationAssociationOutput>())
@@ -4932,9 +6466,9 @@ extension ConnectClient {
     ///
     /// Deletes a predefined attribute from the specified Amazon Connect instance.
     ///
-    /// - Parameter DeletePredefinedAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePredefinedAttributeInput`)
     ///
-    /// - Returns: `DeletePredefinedAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePredefinedAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4970,6 +6504,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePredefinedAttributeInput, DeletePredefinedAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePredefinedAttributeOutput>(DeletePredefinedAttributeOutput.httpOutput(from:), DeletePredefinedAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePredefinedAttributeInput, DeletePredefinedAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePredefinedAttributeOutput>())
@@ -5001,9 +6536,9 @@ extension ConnectClient {
     ///
     /// Deletes a prompt.
     ///
-    /// - Parameter DeletePromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePromptInput`)
     ///
-    /// - Returns: `DeletePromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5038,6 +6573,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePromptInput, DeletePromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePromptOutput>(DeletePromptOutput.httpOutput(from:), DeletePromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePromptInput, DeletePromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePromptOutput>())
@@ -5069,9 +6605,9 @@ extension ConnectClient {
     ///
     /// Deletes registration for a device token and a chat contact.
     ///
-    /// - Parameter DeletePushNotificationRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePushNotificationRegistrationInput`)
     ///
-    /// - Returns: `DeletePushNotificationRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePushNotificationRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5107,6 +6643,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePushNotificationRegistrationInput, DeletePushNotificationRegistrationOutput>(DeletePushNotificationRegistrationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePushNotificationRegistrationOutput>(DeletePushNotificationRegistrationOutput.httpOutput(from:), DeletePushNotificationRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePushNotificationRegistrationInput, DeletePushNotificationRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePushNotificationRegistrationOutput>())
@@ -5138,9 +6675,9 @@ extension ConnectClient {
     ///
     /// Deletes a queue.
     ///
-    /// - Parameter DeleteQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueInput`)
     ///
-    /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5176,6 +6713,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
@@ -5213,9 +6751,9 @@ extension ConnectClient {
     ///
     /// * Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using [Amazon Connect Global Resiliency](https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html).
     ///
-    /// - Parameter DeleteQuickConnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQuickConnectInput`)
     ///
-    /// - Returns: `DeleteQuickConnectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQuickConnectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5250,6 +6788,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQuickConnectInput, DeleteQuickConnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQuickConnectOutput>(DeleteQuickConnectOutput.httpOutput(from:), DeleteQuickConnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQuickConnectInput, DeleteQuickConnectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQuickConnectOutput>())
@@ -5281,9 +6820,9 @@ extension ConnectClient {
     ///
     /// Deletes a routing profile.
     ///
-    /// - Parameter DeleteRoutingProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoutingProfileInput`)
     ///
-    /// - Returns: `DeleteRoutingProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoutingProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5319,6 +6858,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRoutingProfileInput, DeleteRoutingProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoutingProfileOutput>(DeleteRoutingProfileOutput.httpOutput(from:), DeleteRoutingProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoutingProfileInput, DeleteRoutingProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoutingProfileOutput>())
@@ -5350,9 +6890,9 @@ extension ConnectClient {
     ///
     /// Deletes a rule for the specified Amazon Connect instance.
     ///
-    /// - Parameter DeleteRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleInput`)
     ///
-    /// - Returns: `DeleteRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5387,6 +6927,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleInput, DeleteRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleOutput>())
@@ -5418,9 +6959,9 @@ extension ConnectClient {
     ///
     /// Deletes a security profile.
     ///
-    /// - Parameter DeleteSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSecurityProfileInput`)
     ///
-    /// - Returns: `DeleteSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5457,6 +6998,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSecurityProfileInput, DeleteSecurityProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecurityProfileOutput>(DeleteSecurityProfileOutput.httpOutput(from:), DeleteSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityProfileInput, DeleteSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityProfileOutput>())
@@ -5488,9 +7030,9 @@ extension ConnectClient {
     ///
     /// Deletes the task template.
     ///
-    /// - Parameter DeleteTaskTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTaskTemplateInput`)
     ///
-    /// - Returns: `DeleteTaskTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTaskTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5525,6 +7067,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTaskTemplateInput, DeleteTaskTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaskTemplateOutput>(DeleteTaskTemplateOutput.httpOutput(from:), DeleteTaskTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaskTemplateInput, DeleteTaskTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaskTemplateOutput>())
@@ -5556,9 +7099,9 @@ extension ConnectClient {
     ///
     /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see [Delete traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/delete-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter DeleteTrafficDistributionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrafficDistributionGroupInput`)
     ///
-    /// - Returns: `DeleteTrafficDistributionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrafficDistributionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5593,6 +7136,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrafficDistributionGroupInput, DeleteTrafficDistributionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficDistributionGroupOutput>(DeleteTrafficDistributionGroupOutput.httpOutput(from:), DeleteTrafficDistributionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficDistributionGroupInput, DeleteTrafficDistributionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficDistributionGroupOutput>())
@@ -5624,9 +7168,9 @@ extension ConnectClient {
     ///
     /// Deletes a use case from an integration association.
     ///
-    /// - Parameter DeleteUseCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUseCaseInput`)
     ///
-    /// - Returns: `DeleteUseCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUseCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5660,6 +7204,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUseCaseInput, DeleteUseCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUseCaseOutput>(DeleteUseCaseOutput.httpOutput(from:), DeleteUseCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUseCaseInput, DeleteUseCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUseCaseOutput>())
@@ -5697,9 +7242,9 @@ extension ConnectClient {
     ///
     /// * Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using [Amazon Connect Global Resiliency](https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html).
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5734,6 +7279,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -5765,9 +7311,9 @@ extension ConnectClient {
     ///
     /// Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups.
     ///
-    /// - Parameter DeleteUserHierarchyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserHierarchyGroupInput`)
     ///
-    /// - Returns: `DeleteUserHierarchyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserHierarchyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5803,6 +7349,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserHierarchyGroupInput, DeleteUserHierarchyGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserHierarchyGroupOutput>(DeleteUserHierarchyGroupOutput.httpOutput(from:), DeleteUserHierarchyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserHierarchyGroupInput, DeleteUserHierarchyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserHierarchyGroupOutput>())
@@ -5834,9 +7381,9 @@ extension ConnectClient {
     ///
     /// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
     ///
-    /// - Parameter DeleteViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteViewInput`)
     ///
-    /// - Returns: `DeleteViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5873,6 +7420,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteViewInput, DeleteViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteViewOutput>(DeleteViewOutput.httpOutput(from:), DeleteViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteViewInput, DeleteViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteViewOutput>())
@@ -5904,9 +7452,9 @@ extension ConnectClient {
     ///
     /// Deletes the particular version specified in ViewVersion identifier.
     ///
-    /// - Parameter DeleteViewVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteViewVersionInput`)
     ///
-    /// - Returns: `DeleteViewVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteViewVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5943,6 +7491,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteViewVersionInput, DeleteViewVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteViewVersionOutput>(DeleteViewVersionOutput.httpOutput(from:), DeleteViewVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteViewVersionInput, DeleteViewVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteViewVersionOutput>())
@@ -5974,9 +7523,9 @@ extension ConnectClient {
     ///
     /// Deletes the vocabulary that has the given identifier.
     ///
-    /// - Parameter DeleteVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVocabularyInput`)
     ///
-    /// - Returns: `DeleteVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6012,6 +7561,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVocabularyOutput>(DeleteVocabularyOutput.httpOutput(from:), DeleteVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVocabularyOutput>())
@@ -6039,13 +7589,224 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteWorkspace` operation on the `Connect` service.
+    ///
+    /// Deletes a workspace and removes all associated view and resource assignments.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteWorkspace")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteWorkspaceInput, DeleteWorkspaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>(DeleteWorkspaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkspaceOutput>(DeleteWorkspaceOutput.httpOutput(from:), DeleteWorkspaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkspaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkspaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteWorkspace")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteWorkspaceMedia` operation on the `Connect` service.
+    ///
+    /// Deletes a media asset (such as a logo) from a workspace.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceMediaInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceMediaOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteWorkspaceMedia(input: DeleteWorkspaceMediaInput) async throws -> DeleteWorkspaceMediaOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteWorkspaceMedia")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteWorkspaceMediaInput, DeleteWorkspaceMediaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWorkspaceMediaInput, DeleteWorkspaceMediaOutput>(DeleteWorkspaceMediaInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkspaceMediaInput, DeleteWorkspaceMediaOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWorkspaceMediaInput, DeleteWorkspaceMediaOutput>(DeleteWorkspaceMediaInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkspaceMediaOutput>(DeleteWorkspaceMediaOutput.httpOutput(from:), DeleteWorkspaceMediaOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkspaceMediaInput, DeleteWorkspaceMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkspaceMediaOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkspaceMediaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkspaceMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWorkspaceMediaInput, DeleteWorkspaceMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWorkspaceMediaInput, DeleteWorkspaceMediaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWorkspaceMediaInput, DeleteWorkspaceMediaOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteWorkspaceMedia")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteWorkspacePage` operation on the `Connect` service.
+    ///
+    /// Removes the association between a view and a page in a workspace. The page will display the default view after deletion.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspacePageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspacePageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func deleteWorkspacePage(input: DeleteWorkspacePageInput) async throws -> DeleteWorkspacePageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteWorkspacePage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteWorkspacePageInput, DeleteWorkspacePageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWorkspacePageInput, DeleteWorkspacePageOutput>(DeleteWorkspacePageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkspacePageInput, DeleteWorkspacePageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkspacePageOutput>(DeleteWorkspacePageOutput.httpOutput(from:), DeleteWorkspacePageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkspacePageInput, DeleteWorkspacePageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkspacePageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWorkspacePageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWorkspacePageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWorkspacePageInput, DeleteWorkspacePageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWorkspacePageInput, DeleteWorkspacePageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWorkspacePageInput, DeleteWorkspacePageOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteWorkspacePage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeAgentStatus` operation on the `Connect` service.
     ///
     /// Describes an agent status.
     ///
-    /// - Parameter DescribeAgentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAgentStatusInput`)
     ///
-    /// - Returns: `DescribeAgentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAgentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6080,6 +7841,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAgentStatusInput, DescribeAgentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAgentStatusOutput>(DescribeAgentStatusOutput.httpOutput(from:), DescribeAgentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgentStatusInput, DescribeAgentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAgentStatusOutput>())
@@ -6109,11 +7871,11 @@ extension ConnectClient {
 
     /// Performs the `DescribeAuthenticationProfile` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Describes the target authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Describes the target authentication profile.
     ///
-    /// - Parameter DescribeAuthenticationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAuthenticationProfileInput`)
     ///
-    /// - Returns: `DescribeAuthenticationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAuthenticationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6148,6 +7910,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAuthenticationProfileInput, DescribeAuthenticationProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAuthenticationProfileOutput>(DescribeAuthenticationProfileOutput.httpOutput(from:), DescribeAuthenticationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAuthenticationProfileInput, DescribeAuthenticationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAuthenticationProfileOutput>())
@@ -6177,15 +7940,27 @@ extension ConnectClient {
 
     /// Performs the `DescribeContact` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.
+    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact. Use cases Following are common uses cases for this API:
+    ///
+    /// * Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom monitoring or custom agent experience solutions.
+    ///
+    /// * Detect when a customer chat session disconnects due to a network issue on the agent's end. Use the DisconnectReason field in the [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) to detect this event and then re-queue the chat for followup.
+    ///
+    /// * Identify after contact work (ACW) duration and call recordings information when a COMPLETED event is received by using the [contact event stream](https://docs.aws.amazon.com/connect/latest/adminguide/contact-events.html).
+    ///
+    ///
+    /// Important things to know
     ///
     /// * SystemEndpoint is not populated for contacts with initiation method of MONITOR, QUEUE_TRANSFER, or CALLBACK
     ///
     /// * Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API.
     ///
-    /// - Parameter DescribeContactInput : [no documentation found]
     ///
-    /// - Returns: `DescribeContactOutput` : [no documentation found]
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeContactInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6220,6 +7995,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContactInput, DescribeContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContactOutput>(DescribeContactOutput.httpOutput(from:), DescribeContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContactInput, DescribeContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContactOutput>())
@@ -6251,9 +8027,9 @@ extension ConnectClient {
     ///
     /// Describes a contact evaluation in the specified Amazon Connect instance.
     ///
-    /// - Parameter DescribeContactEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContactEvaluationInput`)
     ///
-    /// - Returns: `DescribeContactEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContactEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6287,6 +8063,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContactEvaluationInput, DescribeContactEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContactEvaluationOutput>(DescribeContactEvaluationOutput.httpOutput(from:), DescribeContactEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContactEvaluationInput, DescribeContactEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContactEvaluationOutput>())
@@ -6318,9 +8095,9 @@ extension ConnectClient {
     ///
     /// Describes the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. Use arn:aws:.../contact-flow/{id}:{version} to retrieve the content of a specific flow version. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
     ///
-    /// - Parameter DescribeContactFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContactFlowInput`)
     ///
-    /// - Returns: `DescribeContactFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContactFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6356,6 +8133,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContactFlowInput, DescribeContactFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContactFlowOutput>(DescribeContactFlowOutput.httpOutput(from:), DescribeContactFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContactFlowInput, DescribeContactFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContactFlowOutput>())
@@ -6387,9 +8165,9 @@ extension ConnectClient {
     ///
     /// Describes the specified flow module. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
-    /// - Parameter DescribeContactFlowModuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContactFlowModuleInput`)
     ///
-    /// - Returns: `DescribeContactFlowModuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContactFlowModuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6425,6 +8203,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContactFlowModuleInput, DescribeContactFlowModuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContactFlowModuleOutput>(DescribeContactFlowModuleOutput.httpOutput(from:), DescribeContactFlowModuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContactFlowModuleInput, DescribeContactFlowModuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContactFlowModuleOutput>())
@@ -6452,13 +8231,223 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeContactFlowModuleAlias` operation on the `Connect` service.
+    ///
+    /// Retrieves detailed information about a specific alias, including which version it currently points to and its metadata.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeContactFlowModuleAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeContactFlowModuleAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func describeContactFlowModuleAlias(input: DescribeContactFlowModuleAliasInput) async throws -> DescribeContactFlowModuleAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeContactFlowModuleAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeContactFlowModuleAliasInput, DescribeContactFlowModuleAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeContactFlowModuleAliasInput, DescribeContactFlowModuleAliasOutput>(DescribeContactFlowModuleAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContactFlowModuleAliasInput, DescribeContactFlowModuleAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContactFlowModuleAliasOutput>(DescribeContactFlowModuleAliasOutput.httpOutput(from:), DescribeContactFlowModuleAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContactFlowModuleAliasInput, DescribeContactFlowModuleAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContactFlowModuleAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContactFlowModuleAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContactFlowModuleAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContactFlowModuleAliasInput, DescribeContactFlowModuleAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContactFlowModuleAliasInput, DescribeContactFlowModuleAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeContactFlowModuleAliasInput, DescribeContactFlowModuleAliasOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeContactFlowModuleAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeDataTable` operation on the `Connect` service.
+    ///
+    /// Returns all properties for a data table except for attributes and values. All properties from CreateDataTable are returned as well as properties for region replication, versioning, and system tables. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataTableInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeDataTableOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func describeDataTable(input: DescribeDataTableInput) async throws -> DescribeDataTableOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeDataTable")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeDataTableInput, DescribeDataTableOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDataTableInput, DescribeDataTableOutput>(DescribeDataTableInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataTableInput, DescribeDataTableOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataTableOutput>(DescribeDataTableOutput.httpOutput(from:), DescribeDataTableOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataTableInput, DescribeDataTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataTableOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataTableOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDataTableInput, DescribeDataTableOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDataTableInput, DescribeDataTableOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDataTableInput, DescribeDataTableOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDataTable")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeDataTableAttribute` operation on the `Connect` service.
+    ///
+    /// Returns detailed information for a specific data table attribute including its configuration, validation rules, and metadata. "Describe" is a deprecated term but is allowed to maintain consistency with existing operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataTableAttributeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeDataTableAttributeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func describeDataTableAttribute(input: DescribeDataTableAttributeInput) async throws -> DescribeDataTableAttributeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeDataTableAttribute")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeDataTableAttributeInput, DescribeDataTableAttributeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDataTableAttributeInput, DescribeDataTableAttributeOutput>(DescribeDataTableAttributeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataTableAttributeInput, DescribeDataTableAttributeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataTableAttributeOutput>(DescribeDataTableAttributeOutput.httpOutput(from:), DescribeDataTableAttributeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataTableAttributeInput, DescribeDataTableAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataTableAttributeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDataTableAttributeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDataTableAttributeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDataTableAttributeInput, DescribeDataTableAttributeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDataTableAttributeInput, DescribeDataTableAttributeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDataTableAttributeInput, DescribeDataTableAttributeOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDataTableAttribute")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeEmailAddress` operation on the `Connect` service.
     ///
     /// Describe email address form the specified Amazon Connect instance.
     ///
-    /// - Parameter DescribeEmailAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEmailAddressInput`)
     ///
-    /// - Returns: `DescribeEmailAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEmailAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6494,6 +8483,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEmailAddressInput, DescribeEmailAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEmailAddressOutput>(DescribeEmailAddressOutput.httpOutput(from:), DescribeEmailAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEmailAddressInput, DescribeEmailAddressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEmailAddressOutput>())
@@ -6525,9 +8515,9 @@ extension ConnectClient {
     ///
     /// Describes an evaluation form in the specified Amazon Connect instance. If the version property is not provided, the latest version of the evaluation form is described.
     ///
-    /// - Parameter DescribeEvaluationFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEvaluationFormInput`)
     ///
-    /// - Returns: `DescribeEvaluationFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEvaluationFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6562,6 +8552,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeEvaluationFormInput, DescribeEvaluationFormOutput>(DescribeEvaluationFormInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEvaluationFormOutput>(DescribeEvaluationFormOutput.httpOutput(from:), DescribeEvaluationFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEvaluationFormInput, DescribeEvaluationFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEvaluationFormOutput>())
@@ -6593,9 +8584,9 @@ extension ConnectClient {
     ///
     /// Describes the hours of operation.
     ///
-    /// - Parameter DescribeHoursOfOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHoursOfOperationInput`)
     ///
-    /// - Returns: `DescribeHoursOfOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHoursOfOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6630,6 +8621,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeHoursOfOperationInput, DescribeHoursOfOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHoursOfOperationOutput>(DescribeHoursOfOperationOutput.httpOutput(from:), DescribeHoursOfOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHoursOfOperationInput, DescribeHoursOfOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHoursOfOperationOutput>())
@@ -6661,9 +8653,9 @@ extension ConnectClient {
     ///
     /// Describes the hours of operation override.
     ///
-    /// - Parameter DescribeHoursOfOperationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHoursOfOperationOverrideInput`)
     ///
-    /// - Returns: `DescribeHoursOfOperationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHoursOfOperationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6698,6 +8690,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeHoursOfOperationOverrideInput, DescribeHoursOfOperationOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHoursOfOperationOverrideOutput>(DescribeHoursOfOperationOverrideOutput.httpOutput(from:), DescribeHoursOfOperationOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHoursOfOperationOverrideInput, DescribeHoursOfOperationOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHoursOfOperationOverrideOutput>())
@@ -6729,9 +8722,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable. If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
     ///
-    /// - Parameter DescribeInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceInput`)
     ///
-    /// - Returns: `DescribeInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6764,6 +8757,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInstanceInput, DescribeInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceOutput>(DescribeInstanceOutput.httpOutput(from:), DescribeInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceInput, DescribeInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceOutput>())
@@ -6795,9 +8789,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified instance attribute.
     ///
-    /// - Parameter DescribeInstanceAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceAttributeInput`)
     ///
-    /// - Returns: `DescribeInstanceAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6832,6 +8826,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInstanceAttributeInput, DescribeInstanceAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceAttributeOutput>(DescribeInstanceAttributeOutput.httpOutput(from:), DescribeInstanceAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceAttributeInput, DescribeInstanceAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceAttributeOutput>())
@@ -6863,9 +8858,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
     ///
-    /// - Parameter DescribeInstanceStorageConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceStorageConfigInput`)
     ///
-    /// - Returns: `DescribeInstanceStorageConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceStorageConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6901,6 +8896,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeInstanceStorageConfigInput, DescribeInstanceStorageConfigOutput>(DescribeInstanceStorageConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceStorageConfigOutput>(DescribeInstanceStorageConfigOutput.httpOutput(from:), DescribeInstanceStorageConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceStorageConfigInput, DescribeInstanceStorageConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceStorageConfigOutput>())
@@ -6932,9 +8928,9 @@ extension ConnectClient {
     ///
     /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group. If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you receive a ResourceNotFoundException.
     ///
-    /// - Parameter DescribePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePhoneNumberInput`)
     ///
-    /// - Returns: `DescribePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6969,6 +8965,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePhoneNumberInput, DescribePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePhoneNumberOutput>(DescribePhoneNumberOutput.httpOutput(from:), DescribePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePhoneNumberInput, DescribePhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePhoneNumberOutput>())
@@ -6998,11 +8995,18 @@ extension ConnectClient {
 
     /// Performs the `DescribePredefinedAttribute` operation on the `Connect` service.
     ///
-    /// Describes a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Describes a predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:
     ///
-    /// - Parameter DescribePredefinedAttributeInput : [no documentation found]
+    /// * Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
-    /// - Returns: `DescribePredefinedAttributeOutput` : [no documentation found]
+    /// * Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribePredefinedAttributeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribePredefinedAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7037,6 +9041,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePredefinedAttributeInput, DescribePredefinedAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePredefinedAttributeOutput>(DescribePredefinedAttributeOutput.httpOutput(from:), DescribePredefinedAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePredefinedAttributeInput, DescribePredefinedAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePredefinedAttributeOutput>())
@@ -7068,9 +9073,9 @@ extension ConnectClient {
     ///
     /// Describes the prompt.
     ///
-    /// - Parameter DescribePromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePromptInput`)
     ///
-    /// - Returns: `DescribePromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7105,6 +9110,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePromptInput, DescribePromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePromptOutput>(DescribePromptOutput.httpOutput(from:), DescribePromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePromptInput, DescribePromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePromptOutput>())
@@ -7136,9 +9142,9 @@ extension ConnectClient {
     ///
     /// Describes the specified queue.
     ///
-    /// - Parameter DescribeQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQueueInput`)
     ///
-    /// - Returns: `DescribeQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7173,6 +9179,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeQueueInput, DescribeQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQueueOutput>(DescribeQueueOutput.httpOutput(from:), DescribeQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQueueInput, DescribeQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQueueOutput>())
@@ -7204,9 +9211,9 @@ extension ConnectClient {
     ///
     /// Describes the quick connect.
     ///
-    /// - Parameter DescribeQuickConnectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQuickConnectInput`)
     ///
-    /// - Returns: `DescribeQuickConnectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQuickConnectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7241,6 +9248,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeQuickConnectInput, DescribeQuickConnectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQuickConnectOutput>(DescribeQuickConnectOutput.httpOutput(from:), DescribeQuickConnectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQuickConnectInput, DescribeQuickConnectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQuickConnectOutput>())
@@ -7272,9 +9280,9 @@ extension ConnectClient {
     ///
     /// Describes the specified routing profile. DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incorrect; we are working to update it. [SearchRoutingProfiles](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchRoutingProfiles.html) does include AssociatedQueueIds.
     ///
-    /// - Parameter DescribeRoutingProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRoutingProfileInput`)
     ///
-    /// - Returns: `DescribeRoutingProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRoutingProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7309,6 +9317,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRoutingProfileInput, DescribeRoutingProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRoutingProfileOutput>(DescribeRoutingProfileOutput.httpOutput(from:), DescribeRoutingProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRoutingProfileInput, DescribeRoutingProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRoutingProfileOutput>())
@@ -7340,9 +9349,9 @@ extension ConnectClient {
     ///
     /// Describes a rule for the specified Amazon Connect instance.
     ///
-    /// - Parameter DescribeRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRuleInput`)
     ///
-    /// - Returns: `DescribeRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7377,6 +9386,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRuleInput, DescribeRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuleOutput>(DescribeRuleOutput.httpOutput(from:), DescribeRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleInput, DescribeRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleOutput>())
@@ -7408,9 +9418,9 @@ extension ConnectClient {
     ///
     /// Gets basic information about the security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
-    /// - Parameter DescribeSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityProfileInput`)
     ///
-    /// - Returns: `DescribeSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7445,6 +9455,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecurityProfileInput, DescribeSecurityProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityProfileOutput>(DescribeSecurityProfileOutput.httpOutput(from:), DescribeSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityProfileInput, DescribeSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityProfileOutput>())
@@ -7476,9 +9487,9 @@ extension ConnectClient {
     ///
     /// Gets details and status of a traffic distribution group.
     ///
-    /// - Parameter DescribeTrafficDistributionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrafficDistributionGroupInput`)
     ///
-    /// - Returns: `DescribeTrafficDistributionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrafficDistributionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7513,6 +9524,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTrafficDistributionGroupInput, DescribeTrafficDistributionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrafficDistributionGroupOutput>(DescribeTrafficDistributionGroupOutput.httpOutput(from:), DescribeTrafficDistributionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrafficDistributionGroupInput, DescribeTrafficDistributionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrafficDistributionGroupOutput>())
@@ -7544,9 +9556,9 @@ extension ConnectClient {
     ///
     /// Describes the specified user. You can [find the instance ID in the Amazon Connect console](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7581,6 +9593,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUserInput, DescribeUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(DescribeUserOutput.httpOutput(from:), DescribeUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserInput, DescribeUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserOutput>())
@@ -7612,9 +9625,9 @@ extension ConnectClient {
     ///
     /// Describes the specified hierarchy group.
     ///
-    /// - Parameter DescribeUserHierarchyGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserHierarchyGroupInput`)
     ///
-    /// - Returns: `DescribeUserHierarchyGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserHierarchyGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7649,6 +9662,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUserHierarchyGroupInput, DescribeUserHierarchyGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserHierarchyGroupOutput>(DescribeUserHierarchyGroupOutput.httpOutput(from:), DescribeUserHierarchyGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserHierarchyGroupInput, DescribeUserHierarchyGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserHierarchyGroupOutput>())
@@ -7680,9 +9694,9 @@ extension ConnectClient {
     ///
     /// Describes the hierarchy structure of the specified Amazon Connect instance.
     ///
-    /// - Parameter DescribeUserHierarchyStructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserHierarchyStructureInput`)
     ///
-    /// - Returns: `DescribeUserHierarchyStructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserHierarchyStructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7717,6 +9731,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUserHierarchyStructureInput, DescribeUserHierarchyStructureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserHierarchyStructureOutput>(DescribeUserHierarchyStructureOutput.httpOutput(from:), DescribeUserHierarchyStructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserHierarchyStructureInput, DescribeUserHierarchyStructureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserHierarchyStructureOutput>())
@@ -7748,9 +9763,9 @@ extension ConnectClient {
     ///
     /// Retrieves the view for the specified Amazon Connect instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Amazon Connect managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
     ///
-    /// - Parameter DescribeViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeViewInput`)
     ///
-    /// - Returns: `DescribeViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7786,6 +9801,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeViewInput, DescribeViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeViewOutput>(DescribeViewOutput.httpOutput(from:), DescribeViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeViewInput, DescribeViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeViewOutput>())
@@ -7817,9 +9833,9 @@ extension ConnectClient {
     ///
     /// Describes the specified vocabulary.
     ///
-    /// - Parameter DescribeVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVocabularyInput`)
     ///
-    /// - Returns: `DescribeVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7854,6 +9870,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVocabularyInput, DescribeVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVocabularyOutput>(DescribeVocabularyOutput.httpOutput(from:), DescribeVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVocabularyInput, DescribeVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVocabularyOutput>())
@@ -7881,13 +9898,83 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeWorkspace` operation on the `Connect` service.
+    ///
+    /// Retrieves details about a workspace, including its configuration and metadata.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func describeWorkspace(input: DescribeWorkspaceInput) async throws -> DescribeWorkspaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeWorkspace")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeWorkspaceInput, DescribeWorkspaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutput>(DescribeWorkspaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceOutput>(DescribeWorkspaceOutput.httpOutput(from:), DescribeWorkspaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeWorkspaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeWorkspaceInput, DescribeWorkspaceOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeWorkspace")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateAnalyticsDataSet` operation on the `Connect` service.
     ///
     /// Removes the dataset ID associated with a given Amazon Connect instance.
     ///
-    /// - Parameter DisassociateAnalyticsDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAnalyticsDataSetInput`)
     ///
-    /// - Returns: `DisassociateAnalyticsDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAnalyticsDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7925,6 +10012,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAnalyticsDataSetInput, DisassociateAnalyticsDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAnalyticsDataSetOutput>(DisassociateAnalyticsDataSetOutput.httpOutput(from:), DisassociateAnalyticsDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAnalyticsDataSetInput, DisassociateAnalyticsDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAnalyticsDataSetOutput>())
@@ -7956,9 +10044,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
     ///
-    /// - Parameter DisassociateApprovedOriginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApprovedOriginInput`)
     ///
-    /// - Returns: `DisassociateApprovedOriginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApprovedOriginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7995,6 +10083,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateApprovedOriginInput, DisassociateApprovedOriginOutput>(DisassociateApprovedOriginInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateApprovedOriginOutput>(DisassociateApprovedOriginOutput.httpOutput(from:), DisassociateApprovedOriginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApprovedOriginInput, DisassociateApprovedOriginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApprovedOriginOutput>())
@@ -8026,9 +10115,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     ///
-    /// - Parameter DisassociateBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateBotInput`)
     ///
-    /// - Returns: `DisassociateBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8066,6 +10155,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateBotInput, DisassociateBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateBotOutput>(DisassociateBotOutput.httpOutput(from:), DisassociateBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateBotInput, DisassociateBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateBotOutput>())
@@ -8093,13 +10183,129 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateEmailAddressAlias` operation on the `Connect` service.
+    ///
+    /// Removes the alias association between two email addresses in an Amazon Connect instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly. Use cases Following are common uses cases for this API:
+    ///
+    /// * Department separation: Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues.
+    ///
+    /// * Email address retirement: Cleanly remove forwarding relationships before decommissioning old email addresses.
+    ///
+    /// * Organizational restructuring: Reconfigure email routing when business processes change and aliases are no longer needed.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * Concurrent operations: This API uses distributed locking, so concurrent operations on the same email addresses may be temporarily blocked.
+    ///
+    /// * Emails sent to the former alias address are still delivered directly to that address if it exists.
+    ///
+    /// * You do not need to delete the email addresses after disassociation. Both addresses remain active independently.
+    ///
+    /// * After a successful disassociation, you can immediately create a new alias relationship with the same addresses.
+    ///
+    /// * 200 status means alias was successfully disassociated.
+    ///
+    ///
+    /// DisassociateEmailAddressAlias does not return the following information:
+    ///
+    /// * Details in the response about the email that was disassociated. The response returns an empty body.
+    ///
+    /// * The timestamp of when the disassociation occurred.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html). Related operations
+    ///
+    /// * [AssociateEmailAddressAlias](https://docs.aws.amazon.com/connect/latest/APIReference/API_AssociateEmailAddressAlias.html): Associates an email address alias with an existing email address in an Amazon Connect instance.
+    ///
+    /// * [DescribeEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeEmailAddress.html): View current alias configurations for an email address.
+    ///
+    /// * [SearchEmailAddresses](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchEmailAddresses.html): Find email addresses and their alias relationships across an instance.
+    ///
+    /// * [CreateEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateEmailAddress.html): Create new email addresses that can participate in alias relationships.
+    ///
+    /// * [DeleteEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteEmailAddress.html): Remove email addresses (automatically removes any alias relationships).
+    ///
+    /// * [UpdateEmailAddressMetadata](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateEmailAddressMetadata.html): Modify email address properties (does not affect alias relationships).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateEmailAddressAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateEmailAddressAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func disassociateEmailAddressAlias(input: DisassociateEmailAddressAliasInput) async throws -> DisassociateEmailAddressAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateEmailAddressAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(DisassociateEmailAddressAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEmailAddressAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEmailAddressAliasOutput>(DisassociateEmailAddressAliasOutput.httpOutput(from:), DisassociateEmailAddressAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEmailAddressAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateEmailAddressAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateEmailAddressAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateEmailAddressAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateFlow` operation on the `Connect` service.
     ///
     /// Disassociates a connect resource from a flow.
     ///
-    /// - Parameter DisassociateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFlowInput`)
     ///
-    /// - Returns: `DisassociateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8135,6 +10341,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFlowInput, DisassociateFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFlowOutput>(DisassociateFlowOutput.httpOutput(from:), DisassociateFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFlowInput, DisassociateFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFlowOutput>())
@@ -8162,13 +10369,86 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateHoursOfOperations` operation on the `Connect` service.
+    ///
+    /// Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide [ here ](https://docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html) for more information on inheriting overrides from parent hours of operation(s).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateHoursOfOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateHoursOfOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionalOperationFailedException` : Request processing failed because dependent condition failed.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func disassociateHoursOfOperations(input: DisassociateHoursOfOperationsInput) async throws -> DisassociateHoursOfOperationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateHoursOfOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(DisassociateHoursOfOperationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateHoursOfOperationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateHoursOfOperationsOutput>(DisassociateHoursOfOperationsOutput.httpOutput(from:), DisassociateHoursOfOperationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateHoursOfOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateHoursOfOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateHoursOfOperationsInput, DisassociateHoursOfOperationsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateHoursOfOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateInstanceStorageConfig` operation on the `Connect` service.
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
     ///
-    /// - Parameter DisassociateInstanceStorageConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateInstanceStorageConfigInput`)
     ///
-    /// - Returns: `DisassociateInstanceStorageConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateInstanceStorageConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8205,6 +10485,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateInstanceStorageConfigInput, DisassociateInstanceStorageConfigOutput>(DisassociateInstanceStorageConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateInstanceStorageConfigOutput>(DisassociateInstanceStorageConfigOutput.httpOutput(from:), DisassociateInstanceStorageConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateInstanceStorageConfigInput, DisassociateInstanceStorageConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateInstanceStorageConfigOutput>())
@@ -8236,9 +10517,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks.
     ///
-    /// - Parameter DisassociateLambdaFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateLambdaFunctionInput`)
     ///
-    /// - Returns: `DisassociateLambdaFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateLambdaFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8275,6 +10556,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateLambdaFunctionInput, DisassociateLambdaFunctionOutput>(DisassociateLambdaFunctionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateLambdaFunctionOutput>(DisassociateLambdaFunctionOutput.httpOutput(from:), DisassociateLambdaFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateLambdaFunctionInput, DisassociateLambdaFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateLambdaFunctionOutput>())
@@ -8306,9 +10588,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
     ///
-    /// - Parameter DisassociateLexBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateLexBotInput`)
     ///
-    /// - Returns: `DisassociateLexBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateLexBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8345,6 +10627,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateLexBotInput, DisassociateLexBotOutput>(DisassociateLexBotInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateLexBotOutput>(DisassociateLexBotOutput.httpOutput(from:), DisassociateLexBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateLexBotInput, DisassociateLexBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateLexBotOutput>())
@@ -8376,9 +10659,9 @@ extension ConnectClient {
     ///
     /// Removes the flow association from a phone number claimed to your Amazon Connect instance. If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     ///
-    /// - Parameter DisassociatePhoneNumberContactFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePhoneNumberContactFlowInput`)
     ///
-    /// - Returns: `DisassociatePhoneNumberContactFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePhoneNumberContactFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8414,6 +10697,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociatePhoneNumberContactFlowInput, DisassociatePhoneNumberContactFlowOutput>(DisassociatePhoneNumberContactFlowInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePhoneNumberContactFlowOutput>(DisassociatePhoneNumberContactFlowOutput.httpOutput(from:), DisassociatePhoneNumberContactFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePhoneNumberContactFlowInput, DisassociatePhoneNumberContactFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePhoneNumberContactFlowOutput>())
@@ -8445,9 +10729,9 @@ extension ConnectClient {
     ///
     /// Disassociates a set of quick connects from a queue.
     ///
-    /// - Parameter DisassociateQueueQuickConnectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateQueueQuickConnectsInput`)
     ///
-    /// - Returns: `DisassociateQueueQuickConnectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateQueueQuickConnectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8485,6 +10769,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateQueueQuickConnectsInput, DisassociateQueueQuickConnectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateQueueQuickConnectsOutput>(DisassociateQueueQuickConnectsOutput.httpOutput(from:), DisassociateQueueQuickConnectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateQueueQuickConnectsInput, DisassociateQueueQuickConnectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateQueueQuickConnectsOutput>())
@@ -8514,11 +10799,11 @@ extension ConnectClient {
 
     /// Performs the `DisassociateRoutingProfileQueues` operation on the `Connect` service.
     ///
-    /// Disassociates a set of queues from a routing profile.
+    /// Disassociates a set of queues from a routing profile. Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a single call results in an InvalidParameterException.
     ///
-    /// - Parameter DisassociateRoutingProfileQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateRoutingProfileQueuesInput`)
     ///
-    /// - Returns: `DisassociateRoutingProfileQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateRoutingProfileQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8556,6 +10841,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateRoutingProfileQueuesInput, DisassociateRoutingProfileQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateRoutingProfileQueuesOutput>(DisassociateRoutingProfileQueuesOutput.httpOutput(from:), DisassociateRoutingProfileQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateRoutingProfileQueuesInput, DisassociateRoutingProfileQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateRoutingProfileQueuesOutput>())
@@ -8587,9 +10873,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Deletes the specified security key.
     ///
-    /// - Parameter DisassociateSecurityKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSecurityKeyInput`)
     ///
-    /// - Returns: `DisassociateSecurityKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSecurityKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8626,6 +10912,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateSecurityKeyInput, DisassociateSecurityKeyOutput>(DisassociateSecurityKeyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSecurityKeyOutput>(DisassociateSecurityKeyOutput.httpOutput(from:), DisassociateSecurityKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSecurityKeyInput, DisassociateSecurityKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSecurityKeyOutput>())
@@ -8653,13 +10940,87 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateSecurityProfiles` operation on the `Connect` service.
+    ///
+    /// Disassociates a security profile attached to a Q in Connect AI Agent Entity in an Amazon Connect instance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSecurityProfilesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateSecurityProfilesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConditionalOperationFailedException` : Request processing failed because dependent condition failed.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func disassociateSecurityProfiles(input: DisassociateSecurityProfilesInput) async throws -> DisassociateSecurityProfilesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateSecurityProfiles")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput>(DisassociateSecurityProfilesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateSecurityProfilesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSecurityProfilesOutput>(DisassociateSecurityProfilesOutput.httpOutput(from:), DisassociateSecurityProfilesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSecurityProfilesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateSecurityProfilesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSecurityProfilesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSecurityProfilesInput, DisassociateSecurityProfilesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateSecurityProfiles")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateTrafficDistributionGroupUser` operation on the `Connect` service.
     ///
     /// Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
     ///
-    /// - Parameter DisassociateTrafficDistributionGroupUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTrafficDistributionGroupUserInput`)
     ///
-    /// - Returns: `DisassociateTrafficDistributionGroupUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTrafficDistributionGroupUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8696,6 +11057,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateTrafficDistributionGroupUserInput, DisassociateTrafficDistributionGroupUserOutput>(DisassociateTrafficDistributionGroupUserInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTrafficDistributionGroupUserOutput>(DisassociateTrafficDistributionGroupUserOutput.httpOutput(from:), DisassociateTrafficDistributionGroupUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTrafficDistributionGroupUserInput, DisassociateTrafficDistributionGroupUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTrafficDistributionGroupUserOutput>())
@@ -8727,9 +11089,9 @@ extension ConnectClient {
     ///
     /// Disassociates a set of proficiencies from a user.
     ///
-    /// - Parameter DisassociateUserProficienciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateUserProficienciesInput`)
     ///
-    /// - Returns: `DisassociateUserProficienciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateUserProficienciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8767,6 +11129,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateUserProficienciesInput, DisassociateUserProficienciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateUserProficienciesOutput>(DisassociateUserProficienciesOutput.httpOutput(from:), DisassociateUserProficienciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateUserProficienciesInput, DisassociateUserProficienciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateUserProficienciesOutput>())
@@ -8794,13 +11157,86 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateWorkspace` operation on the `Connect` service.
+    ///
+    /// Removes the association between a workspace and one or more users or routing profiles.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWorkspaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateWorkspaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func disassociateWorkspace(input: DisassociateWorkspaceInput) async throws -> DisassociateWorkspaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateWorkspace")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateWorkspaceInput, DisassociateWorkspaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput>(DisassociateWorkspaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateWorkspaceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWorkspaceOutput>(DisassociateWorkspaceOutput.httpOutput(from:), DisassociateWorkspaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWorkspaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateWorkspaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateWorkspaceInput, DisassociateWorkspaceOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateWorkspace")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DismissUserContact` operation on the `Connect` service.
     ///
     /// Dismisses contacts from an agent’s CCP and returns the agent to an available state, which allows the agent to receive a new routed contact. Contacts can only be dismissed if they are in a MISSED, ERROR, ENDED, or REJECTED state in the [Agent Event Stream](https://docs.aws.amazon.com/connect/latest/adminguide/about-contact-states.html).
     ///
-    /// - Parameter DismissUserContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DismissUserContactInput`)
     ///
-    /// - Returns: `DismissUserContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DismissUserContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8839,6 +11275,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DismissUserContactInput, DismissUserContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DismissUserContactOutput>(DismissUserContactOutput.httpOutput(from:), DismissUserContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DismissUserContactInput, DismissUserContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DismissUserContactOutput>())
@@ -8866,13 +11303,87 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `EvaluateDataTableValues` operation on the `Connect` service.
+    ///
+    /// Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Services API Standards.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EvaluateDataTableValuesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EvaluateDataTableValuesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func evaluateDataTableValues(input: EvaluateDataTableValuesInput) async throws -> EvaluateDataTableValuesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "evaluateDataTableValues")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>(EvaluateDataTableValuesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>(EvaluateDataTableValuesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: EvaluateDataTableValuesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateDataTableValuesOutput>(EvaluateDataTableValuesOutput.httpOutput(from:), EvaluateDataTableValuesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EvaluateDataTableValuesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EvaluateDataTableValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EvaluateDataTableValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EvaluateDataTableValuesInput, EvaluateDataTableValuesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EvaluateDataTableValues")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetAttachedFile` operation on the `Connect` service.
     ///
     /// Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the attached file. It will only return a downloadURL if the status of the attached file is APPROVED.
     ///
-    /// - Parameter GetAttachedFileInput : Request to GetAttachedFile API.
+    /// - Parameter input: Request to GetAttachedFile API. (Type: `GetAttachedFileInput`)
     ///
-    /// - Returns: `GetAttachedFileOutput` : Response from GetAttachedFile API.
+    /// - Returns: Response from GetAttachedFile API. (Type: `GetAttachedFileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8908,6 +11419,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAttachedFileInput, GetAttachedFileOutput>(GetAttachedFileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAttachedFileOutput>(GetAttachedFileOutput.httpOutput(from:), GetAttachedFileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAttachedFileInput, GetAttachedFileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAttachedFileOutput>())
@@ -8939,9 +11451,9 @@ extension ConnectClient {
     ///
     /// Retrieves the contact attributes for the specified contact.
     ///
-    /// - Parameter GetContactAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactAttributesInput`)
     ///
-    /// - Returns: `GetContactAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8974,6 +11486,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContactAttributesInput, GetContactAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactAttributesOutput>(GetContactAttributesOutput.httpOutput(from:), GetContactAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactAttributesInput, GetContactAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactAttributesOutput>())
@@ -9003,16 +11516,29 @@ extension ConnectClient {
 
     /// Performs the `GetContactMetrics` operation on the `Connect` service.
     ///
-    /// Gets the real-time metrics of the specified contact. Use cases Following are common uses cases for this API:
+    /// Retrieves the position of the contact in the queue. Use cases Following are common uses cases for position in queue:
     ///
-    /// * You can use this API to retrieve the position of the contact in the queue.
+    /// * Understand the expected wait experience of a contact.
+    ///
+    /// * Inform customers of their position in queue and potentially offer a callback.
+    ///
+    /// * Make data-driven routing decisions between primary and alternative queues.
+    ///
+    /// * Enhance queue visibility and leverage agent proficiencies to streamline contact routing.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * The only way to retrieve the position of the contact in queue is by using this API. You can't retrieve the position by using flows and attributes.
+    ///
+    /// * For more information, see the [Position in queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) metric in the Amazon Connect Administrator Guide.
     ///
     ///
     /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
-    /// - Parameter GetContactMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactMetricsInput`)
     ///
-    /// - Returns: `GetContactMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9051,6 +11577,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactMetricsInput, GetContactMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactMetricsOutput>(GetContactMetricsOutput.httpOutput(from:), GetContactMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactMetricsOutput>())
@@ -9099,9 +11626,9 @@ extension ConnectClient {
     ///
     /// * Add filters to reduce the amount of data returned
     ///
-    /// - Parameter GetCurrentMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCurrentMetricDataInput`)
     ///
-    /// - Returns: `GetCurrentMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCurrentMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9139,6 +11666,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCurrentMetricDataInput, GetCurrentMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCurrentMetricDataOutput>(GetCurrentMetricDataOutput.httpOutput(from:), GetCurrentMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCurrentMetricDataInput, GetCurrentMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCurrentMetricDataOutput>())
@@ -9170,9 +11698,9 @@ extension ConnectClient {
     ///
     /// Gets the real-time active user data from the specified Amazon Connect instance.
     ///
-    /// - Parameter GetCurrentUserDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCurrentUserDataInput`)
     ///
-    /// - Returns: `GetCurrentUserDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCurrentUserDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9210,6 +11738,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCurrentUserDataInput, GetCurrentUserDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCurrentUserDataOutput>(GetCurrentUserDataOutput.httpOutput(from:), GetCurrentUserDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCurrentUserDataInput, GetCurrentUserDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCurrentUserDataOutput>())
@@ -9241,9 +11770,9 @@ extension ConnectClient {
     ///
     /// Get the hours of operations with the effective override applied.
     ///
-    /// - Parameter GetEffectiveHoursOfOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEffectiveHoursOfOperationsInput`)
     ///
-    /// - Returns: `GetEffectiveHoursOfOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEffectiveHoursOfOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9279,6 +11808,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetEffectiveHoursOfOperationsInput, GetEffectiveHoursOfOperationsOutput>(GetEffectiveHoursOfOperationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEffectiveHoursOfOperationsOutput>(GetEffectiveHoursOfOperationsOutput.httpOutput(from:), GetEffectiveHoursOfOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEffectiveHoursOfOperationsInput, GetEffectiveHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEffectiveHoursOfOperationsOutput>())
@@ -9310,9 +11840,9 @@ extension ConnectClient {
     ///
     /// Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action. For more information about how SAML sign-in works in Amazon Connect, see [Configure SAML with IAM for Amazon Connect in the Amazon Connect Administrator Guide.](https://docs.aws.amazon.com/connect/latest/adminguide/configure-saml.html) This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears: Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
     ///
-    /// - Parameter GetFederationTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFederationTokenInput`)
     ///
-    /// - Returns: `GetFederationTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFederationTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9348,6 +11878,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFederationTokenInput, GetFederationTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFederationTokenOutput>(GetFederationTokenOutput.httpOutput(from:), GetFederationTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFederationTokenInput, GetFederationTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFederationTokenOutput>())
@@ -9379,9 +11910,9 @@ extension ConnectClient {
     ///
     /// Retrieves the flow associated for a given resource.
     ///
-    /// - Parameter GetFlowAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFlowAssociationInput`)
     ///
-    /// - Returns: `GetFlowAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFlowAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9417,6 +11948,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFlowAssociationInput, GetFlowAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowAssociationOutput>(GetFlowAssociationOutput.httpOutput(from:), GetFlowAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowAssociationInput, GetFlowAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFlowAssociationOutput>())
@@ -9448,9 +11980,9 @@ extension ConnectClient {
     ///
     /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. We recommend using the [GetMetricDataV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricDataV2.html) API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
     ///
-    /// - Parameter GetMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricDataInput`)
     ///
-    /// - Returns: `GetMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9488,6 +12020,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricDataInput, GetMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricDataOutput>(GetMetricDataOutput.httpOutput(from:), GetMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricDataInput, GetMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricDataOutput>())
@@ -9538,9 +12071,9 @@ extension ConnectClient {
     ///
     /// * Add filters to reduce the amount of data returned
     ///
-    /// - Parameter GetMetricDataV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricDataV2Input`)
     ///
-    /// - Returns: `GetMetricDataV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricDataV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9578,6 +12111,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricDataV2Input, GetMetricDataV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricDataV2Output>(GetMetricDataV2Output.httpOutput(from:), GetMetricDataV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricDataV2Input, GetMetricDataV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricDataV2Output>())
@@ -9609,9 +12143,9 @@ extension ConnectClient {
     ///
     /// Gets the prompt file.
     ///
-    /// - Parameter GetPromptFileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPromptFileInput`)
     ///
-    /// - Returns: `GetPromptFileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPromptFileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9646,6 +12180,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPromptFileInput, GetPromptFileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPromptFileOutput>(GetPromptFileOutput.httpOutput(from:), GetPromptFileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPromptFileInput, GetPromptFileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPromptFileOutput>())
@@ -9677,9 +12212,9 @@ extension ConnectClient {
     ///
     /// Gets details about a specific task template in the specified Amazon Connect instance.
     ///
-    /// - Parameter GetTaskTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaskTemplateInput`)
     ///
-    /// - Returns: `GetTaskTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaskTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9715,6 +12250,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTaskTemplateInput, GetTaskTemplateOutput>(GetTaskTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaskTemplateOutput>(GetTaskTemplateOutput.httpOutput(from:), GetTaskTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaskTemplateInput, GetTaskTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaskTemplateOutput>())
@@ -9746,9 +12282,9 @@ extension ConnectClient {
     ///
     /// Retrieves the current traffic distribution for a given traffic distribution group.
     ///
-    /// - Parameter GetTrafficDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrafficDistributionInput`)
     ///
-    /// - Returns: `GetTrafficDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrafficDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9783,6 +12319,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficDistributionInput, GetTrafficDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficDistributionOutput>(GetTrafficDistributionOutput.httpOutput(from:), GetTrafficDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficDistributionInput, GetTrafficDistributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficDistributionOutput>())
@@ -9812,11 +12349,11 @@ extension ConnectClient {
 
     /// Performs the `ImportPhoneNumber` operation on the `Connect` service.
     ///
-    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web ServicesSupport ticket.
+    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
     ///
-    /// - Parameter ImportPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportPhoneNumberInput`)
     ///
-    /// - Returns: `ImportPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9856,6 +12393,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportPhoneNumberInput, ImportPhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportPhoneNumberOutput>(ImportPhoneNumberOutput.httpOutput(from:), ImportPhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportPhoneNumberInput, ImportPhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportPhoneNumberOutput>())
@@ -9883,13 +12421,85 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ImportWorkspaceMedia` operation on the `Connect` service.
+    ///
+    /// Imports a media asset (such as a logo) for use in a workspace.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ImportWorkspaceMediaInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ImportWorkspaceMediaOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func importWorkspaceMedia(input: ImportWorkspaceMediaInput) async throws -> ImportWorkspaceMediaOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "importWorkspaceMedia")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput>(ImportWorkspaceMediaInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportWorkspaceMediaInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportWorkspaceMediaOutput>(ImportWorkspaceMediaOutput.httpOutput(from:), ImportWorkspaceMediaOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ImportWorkspaceMediaOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportWorkspaceMediaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportWorkspaceMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportWorkspaceMediaInput, ImportWorkspaceMediaOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportWorkspaceMedia")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAgentStatuses` operation on the `Connect` service.
     ///
     /// Lists agent statuses.
     ///
-    /// - Parameter ListAgentStatusesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAgentStatusesInput`)
     ///
-    /// - Returns: `ListAgentStatusesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAgentStatusesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9925,6 +12535,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAgentStatusesInput, ListAgentStatusesOutput>(ListAgentStatusesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAgentStatusesOutput>(ListAgentStatusesOutput.httpOutput(from:), ListAgentStatusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgentStatusesInput, ListAgentStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgentStatusesOutput>())
@@ -9956,9 +12567,9 @@ extension ConnectClient {
     ///
     /// Lists the association status of requested dataset ID for a given Amazon Connect instance.
     ///
-    /// - Parameter ListAnalyticsDataAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnalyticsDataAssociationsInput`)
     ///
-    /// - Returns: `ListAnalyticsDataAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnalyticsDataAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9994,6 +12605,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnalyticsDataAssociationsInput, ListAnalyticsDataAssociationsOutput>(ListAnalyticsDataAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalyticsDataAssociationsOutput>(ListAnalyticsDataAssociationsOutput.httpOutput(from:), ListAnalyticsDataAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalyticsDataAssociationsInput, ListAnalyticsDataAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalyticsDataAssociationsOutput>())
@@ -10025,9 +12637,9 @@ extension ConnectClient {
     ///
     /// Lists the data lake datasets available to associate with for a given Amazon Connect instance.
     ///
-    /// - Parameter ListAnalyticsDataLakeDataSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnalyticsDataLakeDataSetsInput`)
     ///
-    /// - Returns: `ListAnalyticsDataLakeDataSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnalyticsDataLakeDataSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10063,6 +12675,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>(ListAnalyticsDataLakeDataSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalyticsDataLakeDataSetsOutput>(ListAnalyticsDataLakeDataSetsOutput.httpOutput(from:), ListAnalyticsDataLakeDataSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalyticsDataLakeDataSetsInput, ListAnalyticsDataLakeDataSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalyticsDataLakeDataSetsOutput>())
@@ -10094,9 +12707,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
     ///
-    /// - Parameter ListApprovedOriginsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApprovedOriginsInput`)
     ///
-    /// - Returns: `ListApprovedOriginsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApprovedOriginsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10132,6 +12745,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApprovedOriginsInput, ListApprovedOriginsOutput>(ListApprovedOriginsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApprovedOriginsOutput>(ListApprovedOriginsOutput.httpOutput(from:), ListApprovedOriginsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApprovedOriginsInput, ListApprovedOriginsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApprovedOriginsOutput>())
@@ -10163,9 +12777,9 @@ extension ConnectClient {
     ///
     /// Provides information about contact tree, a list of associated contacts with a unique identifier.
     ///
-    /// - Parameter ListAssociatedContactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedContactsInput`)
     ///
-    /// - Returns: `ListAssociatedContactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10201,6 +12815,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssociatedContactsInput, ListAssociatedContactsOutput>(ListAssociatedContactsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociatedContactsOutput>(ListAssociatedContactsOutput.httpOutput(from:), ListAssociatedContactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedContactsInput, ListAssociatedContactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedContactsOutput>())
@@ -10230,11 +12845,11 @@ extension ConnectClient {
 
     /// Performs the `ListAuthenticationProfiles` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
     ///
-    /// - Parameter ListAuthenticationProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAuthenticationProfilesInput`)
     ///
-    /// - Returns: `ListAuthenticationProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAuthenticationProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10270,6 +12885,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAuthenticationProfilesInput, ListAuthenticationProfilesOutput>(ListAuthenticationProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAuthenticationProfilesOutput>(ListAuthenticationProfilesOutput.httpOutput(from:), ListAuthenticationProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAuthenticationProfilesInput, ListAuthenticationProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAuthenticationProfilesOutput>())
@@ -10301,9 +12917,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots.
     ///
-    /// - Parameter ListBotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotsInput`)
     ///
-    /// - Returns: `ListBotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10338,6 +12954,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBotsInput, ListBotsOutput>(ListBotsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotsOutput>(ListBotsOutput.httpOutput(from:), ListBotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotsInput, ListBotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotsOutput>())
@@ -10365,13 +12982,83 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListChildHoursOfOperations` operation on the `Connect` service.
+    ///
+    /// Provides information about the child hours of operations for the specified parent hours of operation. For more information about child hours of operations, see [Link overrides from different hours of operation](https://docs.aws.amazon.com/connect/latest/adminguide/) in the Administrator Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListChildHoursOfOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListChildHoursOfOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listChildHoursOfOperations(input: ListChildHoursOfOperationsInput) async throws -> ListChildHoursOfOperationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listChildHoursOfOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(ListChildHoursOfOperationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(ListChildHoursOfOperationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChildHoursOfOperationsOutput>(ListChildHoursOfOperationsOutput.httpOutput(from:), ListChildHoursOfOperationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListChildHoursOfOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListChildHoursOfOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListChildHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListChildHoursOfOperationsInput, ListChildHoursOfOperationsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListChildHoursOfOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListContactEvaluations` operation on the `Connect` service.
     ///
     /// Lists contact evaluations in the specified Amazon Connect instance.
     ///
-    /// - Parameter ListContactEvaluationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactEvaluationsInput`)
     ///
-    /// - Returns: `ListContactEvaluationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactEvaluationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10406,6 +13093,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContactEvaluationsInput, ListContactEvaluationsOutput>(ListContactEvaluationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactEvaluationsOutput>(ListContactEvaluationsOutput.httpOutput(from:), ListContactEvaluationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactEvaluationsInput, ListContactEvaluationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContactEvaluationsOutput>())
@@ -10433,13 +13121,155 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListContactFlowModuleAliases` operation on the `Connect` service.
+    ///
+    /// Lists all aliases associated with a contact flow module, showing their current version mappings and metadata.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListContactFlowModuleAliasesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListContactFlowModuleAliasesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listContactFlowModuleAliases(input: ListContactFlowModuleAliasesInput) async throws -> ListContactFlowModuleAliasesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listContactFlowModuleAliases")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput>(ListContactFlowModuleAliasesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput>(ListContactFlowModuleAliasesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactFlowModuleAliasesOutput>(ListContactFlowModuleAliasesOutput.httpOutput(from:), ListContactFlowModuleAliasesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListContactFlowModuleAliasesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContactFlowModuleAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContactFlowModuleAliasesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContactFlowModuleAliasesInput, ListContactFlowModuleAliasesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContactFlowModuleAliases")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListContactFlowModuleVersions` operation on the `Connect` service.
+    ///
+    /// Retrieves a paginated list of all versions for a specific contact flow module.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListContactFlowModuleVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListContactFlowModuleVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listContactFlowModuleVersions(input: ListContactFlowModuleVersionsInput) async throws -> ListContactFlowModuleVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listContactFlowModuleVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput>(ListContactFlowModuleVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput>(ListContactFlowModuleVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactFlowModuleVersionsOutput>(ListContactFlowModuleVersionsOutput.httpOutput(from:), ListContactFlowModuleVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListContactFlowModuleVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContactFlowModuleVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContactFlowModuleVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListContactFlowModuleVersionsInput, ListContactFlowModuleVersionsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListContactFlowModuleVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListContactFlowModules` operation on the `Connect` service.
     ///
     /// Provides information about the flow modules for the specified Amazon Connect instance.
     ///
-    /// - Parameter ListContactFlowModulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactFlowModulesInput`)
     ///
-    /// - Returns: `ListContactFlowModulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactFlowModulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10476,6 +13306,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContactFlowModulesInput, ListContactFlowModulesOutput>(ListContactFlowModulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactFlowModulesOutput>(ListContactFlowModulesOutput.httpOutput(from:), ListContactFlowModulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactFlowModulesInput, ListContactFlowModulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContactFlowModulesOutput>())
@@ -10507,9 +13338,9 @@ extension ConnectClient {
     ///
     /// Returns all the available versions for the specified Amazon Connect instance and flow identifier.
     ///
-    /// - Parameter ListContactFlowVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactFlowVersionsInput`)
     ///
-    /// - Returns: `ListContactFlowVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactFlowVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10546,6 +13377,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContactFlowVersionsInput, ListContactFlowVersionsOutput>(ListContactFlowVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactFlowVersionsOutput>(ListContactFlowVersionsOutput.httpOutput(from:), ListContactFlowVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactFlowVersionsInput, ListContactFlowVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContactFlowVersionsOutput>())
@@ -10577,9 +13409,9 @@ extension ConnectClient {
     ///
     /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). For more information about flows, see [Flows](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-contact-flows.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ListContactFlowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactFlowsInput`)
     ///
-    /// - Returns: `ListContactFlowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10615,6 +13447,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContactFlowsInput, ListContactFlowsOutput>(ListContactFlowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactFlowsOutput>(ListContactFlowsOutput.httpOutput(from:), ListContactFlowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactFlowsInput, ListContactFlowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContactFlowsOutput>())
@@ -10646,9 +13479,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
     ///
-    /// - Parameter ListContactReferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactReferencesInput`)
     ///
-    /// - Returns: `ListContactReferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactReferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10684,6 +13517,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContactReferencesInput, ListContactReferencesOutput>(ListContactReferencesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactReferencesOutput>(ListContactReferencesOutput.httpOutput(from:), ListContactReferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactReferencesInput, ListContactReferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContactReferencesOutput>())
@@ -10711,13 +13545,306 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListDataTableAttributes` operation on the `Connect` service.
+    ///
+    /// Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed. Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs for CloudFormation integration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListDataTableAttributesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListDataTableAttributesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listDataTableAttributes(input: ListDataTableAttributesInput) async throws -> ListDataTableAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataTableAttributes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDataTableAttributesInput, ListDataTableAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>(ListDataTableAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>(ListDataTableAttributesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataTableAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataTableAttributesOutput>(ListDataTableAttributesOutput.httpOutput(from:), ListDataTableAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataTableAttributesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataTableAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataTableAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataTableAttributesInput, ListDataTableAttributesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataTableAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDataTablePrimaryValues` operation on the `Connect` service.
+    ///
+    /// Lists all primary value combinations for a given data table. Returns the unique combinations of primary attribute values that identify records in the table. Up to 100 records are returned per request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListDataTablePrimaryValuesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListDataTablePrimaryValuesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listDataTablePrimaryValues(input: ListDataTablePrimaryValuesInput) async throws -> ListDataTablePrimaryValuesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataTablePrimaryValues")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>(ListDataTablePrimaryValuesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>(ListDataTablePrimaryValuesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataTablePrimaryValuesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataTablePrimaryValuesOutput>(ListDataTablePrimaryValuesOutput.httpOutput(from:), ListDataTablePrimaryValuesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataTablePrimaryValuesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataTablePrimaryValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataTablePrimaryValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataTablePrimaryValuesInput, ListDataTablePrimaryValuesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataTablePrimaryValues")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDataTableValues` operation on the `Connect` service.
+    ///
+    /// Lists values stored in a data table with optional filtering by record IDs or primary attribute values. Returns the raw stored values along with metadata such as lock versions and modification timestamps.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListDataTableValuesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListDataTableValuesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listDataTableValues(input: ListDataTableValuesInput) async throws -> ListDataTableValuesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataTableValues")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDataTableValuesInput, ListDataTableValuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>(ListDataTableValuesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>(ListDataTableValuesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListDataTableValuesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataTableValuesOutput>(ListDataTableValuesOutput.httpOutput(from:), ListDataTableValuesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataTableValuesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataTableValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataTableValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataTableValuesInput, ListDataTableValuesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataTableValues")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListDataTables` operation on the `Connect` service.
+    ///
+    /// Lists all data tables for the specified Amazon Connect instance. Returns summary information for each table including basic metadata and modification details.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListDataTablesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListDataTablesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listDataTables(input: ListDataTablesInput) async throws -> ListDataTablesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listDataTables")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListDataTablesInput, ListDataTablesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListDataTablesInput, ListDataTablesOutput>(ListDataTablesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataTablesInput, ListDataTablesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataTablesInput, ListDataTablesOutput>(ListDataTablesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataTablesOutput>(ListDataTablesOutput.httpOutput(from:), ListDataTablesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataTablesInput, ListDataTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListDataTablesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDataTablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDataTablesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDataTablesInput, ListDataTablesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDataTablesInput, ListDataTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListDataTablesInput, ListDataTablesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListDataTables")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListDefaultVocabularies` operation on the `Connect` service.
     ///
     /// Lists the default vocabularies for the specified Amazon Connect instance.
     ///
-    /// - Parameter ListDefaultVocabulariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDefaultVocabulariesInput`)
     ///
-    /// - Returns: `ListDefaultVocabulariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDefaultVocabulariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10754,6 +13881,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDefaultVocabulariesInput, ListDefaultVocabulariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDefaultVocabulariesOutput>(ListDefaultVocabulariesOutput.httpOutput(from:), ListDefaultVocabulariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDefaultVocabulariesInput, ListDefaultVocabulariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDefaultVocabulariesOutput>())
@@ -10781,13 +13909,85 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListEntitySecurityProfiles` operation on the `Connect` service.
+    ///
+    /// Lists all security profiles attached to a Q in Connect AIAgent Entity in an Amazon Connect instance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEntitySecurityProfilesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEntitySecurityProfilesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listEntitySecurityProfiles(input: ListEntitySecurityProfilesInput) async throws -> ListEntitySecurityProfilesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEntitySecurityProfiles")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput>(ListEntitySecurityProfilesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntitySecurityProfilesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitySecurityProfilesOutput>(ListEntitySecurityProfilesOutput.httpOutput(from:), ListEntitySecurityProfilesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitySecurityProfilesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntitySecurityProfilesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntitySecurityProfilesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEntitySecurityProfilesInput, ListEntitySecurityProfilesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEntitySecurityProfiles")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEvaluationFormVersions` operation on the `Connect` service.
     ///
     /// Lists versions of an evaluation form in the specified Amazon Connect instance.
     ///
-    /// - Parameter ListEvaluationFormVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEvaluationFormVersionsInput`)
     ///
-    /// - Returns: `ListEvaluationFormVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEvaluationFormVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10822,6 +14022,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEvaluationFormVersionsInput, ListEvaluationFormVersionsOutput>(ListEvaluationFormVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEvaluationFormVersionsOutput>(ListEvaluationFormVersionsOutput.httpOutput(from:), ListEvaluationFormVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEvaluationFormVersionsInput, ListEvaluationFormVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEvaluationFormVersionsOutput>())
@@ -10853,9 +14054,9 @@ extension ConnectClient {
     ///
     /// Lists evaluation forms in the specified Amazon Connect instance.
     ///
-    /// - Parameter ListEvaluationFormsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEvaluationFormsInput`)
     ///
-    /// - Returns: `ListEvaluationFormsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEvaluationFormsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10890,6 +14091,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEvaluationFormsInput, ListEvaluationFormsOutput>(ListEvaluationFormsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEvaluationFormsOutput>(ListEvaluationFormsOutput.httpOutput(from:), ListEvaluationFormsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEvaluationFormsInput, ListEvaluationFormsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEvaluationFormsOutput>())
@@ -10921,9 +14123,9 @@ extension ConnectClient {
     ///
     /// List the flow association based on the filters.
     ///
-    /// - Parameter ListFlowAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowAssociationsInput`)
     ///
-    /// - Returns: `ListFlowAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10960,6 +14162,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFlowAssociationsInput, ListFlowAssociationsOutput>(ListFlowAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowAssociationsOutput>(ListFlowAssociationsOutput.httpOutput(from:), ListFlowAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowAssociationsInput, ListFlowAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowAssociationsOutput>())
@@ -10991,9 +14194,9 @@ extension ConnectClient {
     ///
     /// List the hours of operation overrides.
     ///
-    /// - Parameter ListHoursOfOperationOverridesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHoursOfOperationOverridesInput`)
     ///
-    /// - Returns: `ListHoursOfOperationOverridesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHoursOfOperationOverridesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11029,6 +14232,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHoursOfOperationOverridesInput, ListHoursOfOperationOverridesOutput>(ListHoursOfOperationOverridesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHoursOfOperationOverridesOutput>(ListHoursOfOperationOverridesOutput.httpOutput(from:), ListHoursOfOperationOverridesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHoursOfOperationOverridesInput, ListHoursOfOperationOverridesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHoursOfOperationOverridesOutput>())
@@ -11060,9 +14264,9 @@ extension ConnectClient {
     ///
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see [Set the Hours of Operation for a Queue](https://docs.aws.amazon.com/connect/latest/adminguide/set-hours-operation.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ListHoursOfOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHoursOfOperationsInput`)
     ///
-    /// - Returns: `ListHoursOfOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHoursOfOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11098,6 +14302,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHoursOfOperationsInput, ListHoursOfOperationsOutput>(ListHoursOfOperationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHoursOfOperationsOutput>(ListHoursOfOperationsOutput.httpOutput(from:), ListHoursOfOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHoursOfOperationsInput, ListHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHoursOfOperationsOutput>())
@@ -11129,9 +14334,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
     ///
-    /// - Parameter ListInstanceAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstanceAttributesInput`)
     ///
-    /// - Returns: `ListInstanceAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstanceAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11167,6 +14372,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInstanceAttributesInput, ListInstanceAttributesOutput>(ListInstanceAttributesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceAttributesOutput>(ListInstanceAttributesOutput.httpOutput(from:), ListInstanceAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceAttributesInput, ListInstanceAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceAttributesOutput>())
@@ -11198,9 +14404,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
     ///
-    /// - Parameter ListInstanceStorageConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstanceStorageConfigsInput`)
     ///
-    /// - Returns: `ListInstanceStorageConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstanceStorageConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11236,6 +14442,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInstanceStorageConfigsInput, ListInstanceStorageConfigsOutput>(ListInstanceStorageConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceStorageConfigsOutput>(ListInstanceStorageConfigsOutput.httpOutput(from:), ListInstanceStorageConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceStorageConfigsInput, ListInstanceStorageConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceStorageConfigsOutput>())
@@ -11267,9 +14474,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
     ///
-    /// - Parameter ListInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstancesInput`)
     ///
-    /// - Returns: `ListInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11302,6 +14509,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInstancesInput, ListInstancesOutput>(ListInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstancesOutput>(ListInstancesOutput.httpOutput(from:), ListInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstancesInput, ListInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstancesOutput>())
@@ -11333,9 +14541,9 @@ extension ConnectClient {
     ///
     /// Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
     ///
-    /// - Parameter ListIntegrationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIntegrationAssociationsInput`)
     ///
-    /// - Returns: `ListIntegrationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIntegrationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11370,6 +14578,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIntegrationAssociationsInput, ListIntegrationAssociationsOutput>(ListIntegrationAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntegrationAssociationsOutput>(ListIntegrationAssociationsOutput.httpOutput(from:), ListIntegrationAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegrationAssociationsInput, ListIntegrationAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegrationAssociationsOutput>())
@@ -11401,9 +14610,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
     ///
-    /// - Parameter ListLambdaFunctionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLambdaFunctionsInput`)
     ///
-    /// - Returns: `ListLambdaFunctionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLambdaFunctionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11439,6 +14648,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLambdaFunctionsInput, ListLambdaFunctionsOutput>(ListLambdaFunctionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLambdaFunctionsOutput>(ListLambdaFunctionsOutput.httpOutput(from:), ListLambdaFunctionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLambdaFunctionsInput, ListLambdaFunctionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLambdaFunctionsOutput>())
@@ -11470,9 +14680,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the [ListBots](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListBots.html) API.
     ///
-    /// - Parameter ListLexBotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLexBotsInput`)
     ///
-    /// - Returns: `ListLexBotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLexBotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11508,6 +14718,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLexBotsInput, ListLexBotsOutput>(ListLexBotsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLexBotsOutput>(ListLexBotsOutput.httpOutput(from:), ListLexBotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLexBotsInput, ListLexBotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLexBotsOutput>())
@@ -11543,9 +14754,9 @@ extension ConnectClient {
     ///
     /// * The phone number Arn value that is returned from each of the items in the [PhoneNumberSummaryList](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbers.html#connect-ListPhoneNumbers-response-PhoneNumberSummaryList) cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API. It returns the new phone number ARN that can be used to tag phone number resources.
     ///
-    /// - Parameter ListPhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumbersInput`)
     ///
-    /// - Returns: `ListPhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11581,6 +14792,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>(ListPhoneNumbersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPhoneNumbersOutput>(ListPhoneNumbersOutput.httpOutput(from:), ListPhoneNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPhoneNumbersInput, ListPhoneNumbersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPhoneNumbersOutput>())
@@ -11616,9 +14828,9 @@ extension ConnectClient {
     ///
     /// * When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
     ///
-    /// - Parameter ListPhoneNumbersV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPhoneNumbersV2Input`)
     ///
-    /// - Returns: `ListPhoneNumbersV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPhoneNumbersV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11656,6 +14868,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPhoneNumbersV2Input, ListPhoneNumbersV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPhoneNumbersV2Output>(ListPhoneNumbersV2Output.httpOutput(from:), ListPhoneNumbersV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPhoneNumbersV2Input, ListPhoneNumbersV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPhoneNumbersV2Output>())
@@ -11685,11 +14898,18 @@ extension ConnectClient {
 
     /// Performs the `ListPredefinedAttributes` operation on the `Connect` service.
     ///
-    /// Lists predefined attributes for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Lists predefined attributes for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:
     ///
-    /// - Parameter ListPredefinedAttributesInput : [no documentation found]
+    /// * Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
-    /// - Returns: `ListPredefinedAttributesOutput` : [no documentation found]
+    /// * Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPredefinedAttributesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPredefinedAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11725,6 +14945,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPredefinedAttributesInput, ListPredefinedAttributesOutput>(ListPredefinedAttributesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPredefinedAttributesOutput>(ListPredefinedAttributesOutput.httpOutput(from:), ListPredefinedAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPredefinedAttributesInput, ListPredefinedAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPredefinedAttributesOutput>())
@@ -11756,9 +14977,9 @@ extension ConnectClient {
     ///
     /// Provides information about the prompts for the specified Amazon Connect instance.
     ///
-    /// - Parameter ListPromptsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPromptsInput`)
     ///
-    /// - Returns: `ListPromptsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPromptsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11794,6 +15015,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPromptsInput, ListPromptsOutput>(ListPromptsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPromptsOutput>(ListPromptsOutput.httpOutput(from:), ListPromptsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPromptsInput, ListPromptsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPromptsOutput>())
@@ -11825,9 +15047,9 @@ extension ConnectClient {
     ///
     /// Lists the quick connects associated with a queue.
     ///
-    /// - Parameter ListQueueQuickConnectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueueQuickConnectsInput`)
     ///
-    /// - Returns: `ListQueueQuickConnectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueueQuickConnectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11863,6 +15085,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueueQuickConnectsInput, ListQueueQuickConnectsOutput>(ListQueueQuickConnectsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueueQuickConnectsOutput>(ListQueueQuickConnectsOutput.httpOutput(from:), ListQueueQuickConnectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueueQuickConnectsInput, ListQueueQuickConnectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueQuickConnectsOutput>())
@@ -11894,9 +15117,9 @@ extension ConnectClient {
     ///
     /// Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see [Queues: Standard and Agent](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-queues-standard-and-agent.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ListQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
     ///
-    /// - Returns: `ListQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11932,6 +15155,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueuesInput, ListQueuesOutput>(ListQueuesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
@@ -11963,9 +15187,9 @@ extension ConnectClient {
     ///
     /// Provides information about the quick connects for the specified Amazon Connect instance.
     ///
-    /// - Parameter ListQuickConnectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQuickConnectsInput`)
     ///
-    /// - Returns: `ListQuickConnectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQuickConnectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12001,6 +15225,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQuickConnectsInput, ListQuickConnectsOutput>(ListQuickConnectsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQuickConnectsOutput>(ListQuickConnectsOutput.httpOutput(from:), ListQuickConnectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQuickConnectsInput, ListQuickConnectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQuickConnectsOutput>())
@@ -12032,9 +15257,9 @@ extension ConnectClient {
     ///
     /// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only. This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs.
     ///
-    /// - Parameter ListRealtimeContactAnalysisSegmentsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRealtimeContactAnalysisSegmentsV2Input`)
     ///
-    /// - Returns: `ListRealtimeContactAnalysisSegmentsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRealtimeContactAnalysisSegmentsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12073,6 +15298,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRealtimeContactAnalysisSegmentsV2Input, ListRealtimeContactAnalysisSegmentsV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRealtimeContactAnalysisSegmentsV2Output>(ListRealtimeContactAnalysisSegmentsV2Output.httpOutput(from:), ListRealtimeContactAnalysisSegmentsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRealtimeContactAnalysisSegmentsV2Input, ListRealtimeContactAnalysisSegmentsV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRealtimeContactAnalysisSegmentsV2Output>())
@@ -12100,13 +15326,93 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRoutingProfileManualAssignmentQueues` operation on the `Connect` service.
+    ///
+    /// Lists the manual assignment queues associated with a routing profile. Use cases Following are common uses cases for this API:
+    ///
+    /// * This API returns list of queues where contacts can be manually assigned or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the [Access the Worklist app in the Amazon Connect agent workspace](https://docs.aws.amazon.com/connect/latest/adminguide/worklist-app.html) in the Amazon Connect Administrator Guide.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * This API only returns the manual assignment queues associated with a routing profile. Use the ListRoutingProfileQueues API to list the auto assignment queues for the routing profile.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRoutingProfileManualAssignmentQueuesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRoutingProfileManualAssignmentQueuesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listRoutingProfileManualAssignmentQueues(input: ListRoutingProfileManualAssignmentQueuesInput) async throws -> ListRoutingProfileManualAssignmentQueuesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRoutingProfileManualAssignmentQueues")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput>(ListRoutingProfileManualAssignmentQueuesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput>(ListRoutingProfileManualAssignmentQueuesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoutingProfileManualAssignmentQueuesOutput>(ListRoutingProfileManualAssignmentQueuesOutput.httpOutput(from:), ListRoutingProfileManualAssignmentQueuesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutingProfileManualAssignmentQueuesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRoutingProfileManualAssignmentQueuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRoutingProfileManualAssignmentQueuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRoutingProfileManualAssignmentQueuesInput, ListRoutingProfileManualAssignmentQueuesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRoutingProfileManualAssignmentQueues")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListRoutingProfileQueues` operation on the `Connect` service.
     ///
     /// Lists the queues associated with a routing profile.
     ///
-    /// - Parameter ListRoutingProfileQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoutingProfileQueuesInput`)
     ///
-    /// - Returns: `ListRoutingProfileQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoutingProfileQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12142,6 +15448,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoutingProfileQueuesInput, ListRoutingProfileQueuesOutput>(ListRoutingProfileQueuesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoutingProfileQueuesOutput>(ListRoutingProfileQueuesOutput.httpOutput(from:), ListRoutingProfileQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoutingProfileQueuesInput, ListRoutingProfileQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutingProfileQueuesOutput>())
@@ -12173,9 +15480,9 @@ extension ConnectClient {
     ///
     /// Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see [Routing Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing.html) and [Create a Routing Profile](https://docs.aws.amazon.com/connect/latest/adminguide/routing-profiles.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ListRoutingProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoutingProfilesInput`)
     ///
-    /// - Returns: `ListRoutingProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoutingProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12211,6 +15518,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoutingProfilesInput, ListRoutingProfilesOutput>(ListRoutingProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoutingProfilesOutput>(ListRoutingProfilesOutput.httpOutput(from:), ListRoutingProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoutingProfilesInput, ListRoutingProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutingProfilesOutput>())
@@ -12242,9 +15550,9 @@ extension ConnectClient {
     ///
     /// List all rules for the specified Amazon Connect instance.
     ///
-    /// - Parameter ListRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesInput`)
     ///
-    /// - Returns: `ListRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12280,6 +15588,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRulesInput, ListRulesOutput>(ListRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesOutput>(ListRulesOutput.httpOutput(from:), ListRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesInput, ListRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRulesOutput>())
@@ -12311,9 +15620,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
     ///
-    /// - Parameter ListSecurityKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityKeysInput`)
     ///
-    /// - Returns: `ListSecurityKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12349,6 +15658,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityKeysInput, ListSecurityKeysOutput>(ListSecurityKeysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityKeysOutput>(ListSecurityKeysOutput.httpOutput(from:), ListSecurityKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityKeysInput, ListSecurityKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityKeysOutput>())
@@ -12378,11 +15688,11 @@ extension ConnectClient {
 
     /// Performs the `ListSecurityProfileApplications` operation on the `Connect` service.
     ///
-    /// Returns a list of third-party applications in a specific security profile.
+    /// Returns a list of third-party applications or MCP Servers in a specific security profile.
     ///
-    /// - Parameter ListSecurityProfileApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityProfileApplicationsInput`)
     ///
-    /// - Returns: `ListSecurityProfileApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityProfileApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12418,6 +15728,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutput>(ListSecurityProfileApplicationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityProfileApplicationsOutput>(ListSecurityProfileApplicationsOutput.httpOutput(from:), ListSecurityProfileApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityProfileApplicationsOutput>())
@@ -12445,13 +15756,83 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListSecurityProfileFlowModules` operation on the `Connect` service.
+    ///
+    /// A list of Flow Modules an AI Agent can invoke as a tool
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityProfileFlowModulesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSecurityProfileFlowModulesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listSecurityProfileFlowModules(input: ListSecurityProfileFlowModulesInput) async throws -> ListSecurityProfileFlowModulesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSecurityProfileFlowModules")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSecurityProfileFlowModulesInput, ListSecurityProfileFlowModulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSecurityProfileFlowModulesInput, ListSecurityProfileFlowModulesOutput>(ListSecurityProfileFlowModulesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSecurityProfileFlowModulesInput, ListSecurityProfileFlowModulesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityProfileFlowModulesInput, ListSecurityProfileFlowModulesOutput>(ListSecurityProfileFlowModulesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityProfileFlowModulesOutput>(ListSecurityProfileFlowModulesOutput.httpOutput(from:), ListSecurityProfileFlowModulesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityProfileFlowModulesInput, ListSecurityProfileFlowModulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityProfileFlowModulesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSecurityProfileFlowModulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSecurityProfileFlowModulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSecurityProfileFlowModulesInput, ListSecurityProfileFlowModulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSecurityProfileFlowModulesInput, ListSecurityProfileFlowModulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSecurityProfileFlowModulesInput, ListSecurityProfileFlowModulesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSecurityProfileFlowModules")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListSecurityProfilePermissions` operation on the `Connect` service.
     ///
     /// Lists the permissions granted to a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
-    /// - Parameter ListSecurityProfilePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityProfilePermissionsInput`)
     ///
-    /// - Returns: `ListSecurityProfilePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityProfilePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12487,6 +15868,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityProfilePermissionsInput, ListSecurityProfilePermissionsOutput>(ListSecurityProfilePermissionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityProfilePermissionsOutput>(ListSecurityProfilePermissionsOutput.httpOutput(from:), ListSecurityProfilePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityProfilePermissionsInput, ListSecurityProfilePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityProfilePermissionsOutput>())
@@ -12518,9 +15900,9 @@ extension ConnectClient {
     ///
     /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
-    /// - Parameter ListSecurityProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityProfilesInput`)
     ///
-    /// - Returns: `ListSecurityProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12556,6 +15938,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityProfilesInput, ListSecurityProfilesOutput>(ListSecurityProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityProfilesOutput>(ListSecurityProfilesOutput.httpOutput(from:), ListSecurityProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityProfilesInput, ListSecurityProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityProfilesOutput>())
@@ -12587,9 +15970,9 @@ extension ConnectClient {
     ///
     /// Lists the tags for the specified resource. For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12624,6 +16007,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -12655,9 +16039,9 @@ extension ConnectClient {
     ///
     /// Lists task templates for the specified Amazon Connect instance.
     ///
-    /// - Parameter ListTaskTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTaskTemplatesInput`)
     ///
-    /// - Returns: `ListTaskTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTaskTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12693,6 +16077,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTaskTemplatesInput, ListTaskTemplatesOutput>(ListTaskTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaskTemplatesOutput>(ListTaskTemplatesOutput.httpOutput(from:), ListTaskTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaskTemplatesInput, ListTaskTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaskTemplatesOutput>())
@@ -12724,9 +16109,9 @@ extension ConnectClient {
     ///
     /// Lists traffic distribution group users.
     ///
-    /// - Parameter ListTrafficDistributionGroupUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrafficDistributionGroupUsersInput`)
     ///
-    /// - Returns: `ListTrafficDistributionGroupUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrafficDistributionGroupUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12762,6 +16147,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutput>(ListTrafficDistributionGroupUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficDistributionGroupUsersOutput>(ListTrafficDistributionGroupUsersOutput.httpOutput(from:), ListTrafficDistributionGroupUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficDistributionGroupUsersOutput>())
@@ -12793,9 +16179,9 @@ extension ConnectClient {
     ///
     /// Lists traffic distribution groups.
     ///
-    /// - Parameter ListTrafficDistributionGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrafficDistributionGroupsInput`)
     ///
-    /// - Returns: `ListTrafficDistributionGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrafficDistributionGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12830,6 +16216,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficDistributionGroupsInput, ListTrafficDistributionGroupsOutput>(ListTrafficDistributionGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficDistributionGroupsOutput>(ListTrafficDistributionGroupsOutput.httpOutput(from:), ListTrafficDistributionGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficDistributionGroupsInput, ListTrafficDistributionGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficDistributionGroupsOutput>())
@@ -12861,9 +16248,9 @@ extension ConnectClient {
     ///
     /// Lists the use cases for the integration association.
     ///
-    /// - Parameter ListUseCasesInput : Provides summary information about the use cases for the specified integration association.
+    /// - Parameter input: Provides summary information about the use cases for the specified integration association. (Type: `ListUseCasesInput`)
     ///
-    /// - Returns: `ListUseCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUseCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12898,6 +16285,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUseCasesInput, ListUseCasesOutput>(ListUseCasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUseCasesOutput>(ListUseCasesOutput.httpOutput(from:), ListUseCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUseCasesInput, ListUseCasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUseCasesOutput>())
@@ -12929,9 +16317,9 @@ extension ConnectClient {
     ///
     /// Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see [Set Up Agent Hierarchies](https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ListUserHierarchyGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserHierarchyGroupsInput`)
     ///
-    /// - Returns: `ListUserHierarchyGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserHierarchyGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12967,6 +16355,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUserHierarchyGroupsInput, ListUserHierarchyGroupsOutput>(ListUserHierarchyGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserHierarchyGroupsOutput>(ListUserHierarchyGroupsOutput.httpOutput(from:), ListUserHierarchyGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserHierarchyGroupsInput, ListUserHierarchyGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserHierarchyGroupsOutput>())
@@ -12998,9 +16387,9 @@ extension ConnectClient {
     ///
     /// Lists proficiencies associated with a user.
     ///
-    /// - Parameter ListUserProficienciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserProficienciesInput`)
     ///
-    /// - Returns: `ListUserProficienciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserProficienciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13036,6 +16425,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUserProficienciesInput, ListUserProficienciesOutput>(ListUserProficienciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserProficienciesOutput>(ListUserProficienciesOutput.httpOutput(from:), ListUserProficienciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserProficienciesInput, ListUserProficienciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserProficienciesOutput>())
@@ -13067,9 +16457,9 @@ extension ConnectClient {
     ///
     /// Provides summary information about the users for the specified Amazon Connect instance.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13105,6 +16495,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -13136,9 +16527,9 @@ extension ConnectClient {
     ///
     /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
     ///
-    /// - Parameter ListViewVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListViewVersionsInput`)
     ///
-    /// - Returns: `ListViewVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListViewVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13175,6 +16566,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListViewVersionsInput, ListViewVersionsOutput>(ListViewVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListViewVersionsOutput>(ListViewVersionsOutput.httpOutput(from:), ListViewVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListViewVersionsInput, ListViewVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListViewVersionsOutput>())
@@ -13206,9 +16598,9 @@ extension ConnectClient {
     ///
     /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name.
     ///
-    /// - Parameter ListViewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListViewsInput`)
     ///
-    /// - Returns: `ListViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13245,6 +16637,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListViewsInput, ListViewsOutput>(ListViewsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListViewsOutput>(ListViewsOutput.httpOutput(from:), ListViewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListViewsInput, ListViewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListViewsOutput>())
@@ -13272,13 +16665,225 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListWorkspaceMedia` operation on the `Connect` service.
+    ///
+    /// Lists media assets (such as logos) associated with a workspace.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListWorkspaceMediaInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListWorkspaceMediaOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listWorkspaceMedia(input: ListWorkspaceMediaInput) async throws -> ListWorkspaceMediaOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listWorkspaceMedia")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListWorkspaceMediaInput, ListWorkspaceMediaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWorkspaceMediaInput, ListWorkspaceMediaOutput>(ListWorkspaceMediaInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWorkspaceMediaInput, ListWorkspaceMediaOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkspaceMediaOutput>(ListWorkspaceMediaOutput.httpOutput(from:), ListWorkspaceMediaOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkspaceMediaInput, ListWorkspaceMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkspaceMediaOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkspaceMediaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkspaceMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkspaceMediaInput, ListWorkspaceMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWorkspaceMediaInput, ListWorkspaceMediaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWorkspaceMediaInput, ListWorkspaceMediaOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListWorkspaceMedia")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListWorkspacePages` operation on the `Connect` service.
+    ///
+    /// Lists the page configurations in a workspace, including the views assigned to each page.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListWorkspacePagesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListWorkspacePagesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listWorkspacePages(input: ListWorkspacePagesInput) async throws -> ListWorkspacePagesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listWorkspacePages")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListWorkspacePagesInput, ListWorkspacePagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWorkspacePagesInput, ListWorkspacePagesOutput>(ListWorkspacePagesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWorkspacePagesInput, ListWorkspacePagesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkspacePagesInput, ListWorkspacePagesOutput>(ListWorkspacePagesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkspacePagesOutput>(ListWorkspacePagesOutput.httpOutput(from:), ListWorkspacePagesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkspacePagesInput, ListWorkspacePagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkspacePagesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkspacePagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkspacePagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkspacePagesInput, ListWorkspacePagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWorkspacePagesInput, ListWorkspacePagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWorkspacePagesInput, ListWorkspacePagesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListWorkspacePages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListWorkspaces` operation on the `Connect` service.
+    ///
+    /// Lists the workspaces in an Amazon Connect instance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListWorkspacesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListWorkspacesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listWorkspaces")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListWorkspacesInput, ListWorkspacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWorkspacesInput, ListWorkspacesOutput>(ListWorkspacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWorkspacesInput, ListWorkspacesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkspacesInput, ListWorkspacesOutput>(ListWorkspacesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkspacesOutput>(ListWorkspacesOutput.httpOutput(from:), ListWorkspacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkspacesInput, ListWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkspacesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWorkspacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWorkspacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWorkspacesInput, ListWorkspacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWorkspacesInput, ListWorkspacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWorkspacesInput, ListWorkspacesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListWorkspaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `MonitorContact` operation on the `Connect` service.
     ///
     /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact.
     ///
-    /// - Parameter MonitorContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MonitorContactInput`)
     ///
-    /// - Returns: `MonitorContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MonitorContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13319,6 +16924,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MonitorContactInput, MonitorContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MonitorContactOutput>(MonitorContactOutput.httpOutput(from:), MonitorContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MonitorContactInput, MonitorContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MonitorContactOutput>())
@@ -13350,9 +16956,9 @@ extension ConnectClient {
     ///
     /// Allows pausing an ongoing task contact.
     ///
-    /// - Parameter PauseContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PauseContactInput`)
     ///
-    /// - Returns: `PauseContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PauseContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13393,6 +16999,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PauseContactInput, PauseContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PauseContactOutput>(PauseContactOutput.httpOutput(from:), PauseContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PauseContactInput, PauseContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PauseContactOutput>())
@@ -13424,9 +17031,9 @@ extension ConnectClient {
     ///
     /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see [Agent status](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-agent-status.html) and [Set your next status](https://docs.aws.amazon.com/connect/latest/adminguide/set-next-status.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter PutUserStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutUserStatusInput`)
     ///
-    /// - Returns: `PutUserStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutUserStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13465,6 +17072,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutUserStatusInput, PutUserStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutUserStatusOutput>(PutUserStatusOutput.httpOutput(from:), PutUserStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutUserStatusInput, PutUserStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutUserStatusOutput>())
@@ -13494,11 +17102,11 @@ extension ConnectClient {
 
     /// Performs the `ReleasePhoneNumber` operation on the `Connect` service.
     ///
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web ServicesSupport. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
-    /// - Parameter ReleasePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReleasePhoneNumberInput`)
     ///
-    /// - Returns: `ReleasePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReleasePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13537,6 +17145,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(ReleasePhoneNumberInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReleasePhoneNumberOutput>(ReleasePhoneNumberOutput.httpOutput(from:), ReleasePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReleasePhoneNumberInput, ReleasePhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReleasePhoneNumberOutput>())
@@ -13568,9 +17177,9 @@ extension ConnectClient {
     ///
     /// Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies configuration information for Amazon Connect resources across Amazon Web Services Regions. For more information about replicating an Amazon Connect instance, see [Create a replica of your existing Amazon Connect instance](https://docs.aws.amazon.com/connect/latest/adminguide/create-replica-connect-instance.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ReplicateInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplicateInstanceInput`)
     ///
-    /// - Returns: `ReplicateInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplicateInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13612,6 +17221,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplicateInstanceInput, ReplicateInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplicateInstanceOutput>(ReplicateInstanceOutput.httpOutput(from:), ReplicateInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplicateInstanceInput, ReplicateInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplicateInstanceOutput>())
@@ -13643,9 +17253,9 @@ extension ConnectClient {
     ///
     /// Allows resuming a task contact in a paused state.
     ///
-    /// - Parameter ResumeContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResumeContactInput`)
     ///
-    /// - Returns: `ResumeContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13685,6 +17295,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeContactInput, ResumeContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeContactOutput>(ResumeContactOutput.httpOutput(from:), ResumeContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeContactInput, ResumeContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeContactOutput>())
@@ -13716,14 +17327,15 @@ extension ConnectClient {
     ///
     /// When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording whatever recording is selected in the flow configuration: call, screen, or both. If only call recording or only screen recording is enabled, then it would resume. Voice and screen recordings are supported.
     ///
-    /// - Parameter ResumeContactRecordingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResumeContactRecordingInput`)
     ///
-    /// - Returns: `ResumeContactRecordingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeContactRecordingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func resumeContactRecording(input: ResumeContactRecordingInput) async throws -> ResumeContactRecordingOutput {
@@ -13754,6 +17366,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeContactRecordingInput, ResumeContactRecordingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeContactRecordingOutput>(ResumeContactRecordingOutput.httpOutput(from:), ResumeContactRecordingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeContactRecordingInput, ResumeContactRecordingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeContactRecordingOutput>())
@@ -13785,9 +17398,9 @@ extension ConnectClient {
     ///
     /// Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
     ///
-    /// - Parameter SearchAgentStatusesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAgentStatusesInput`)
     ///
-    /// - Returns: `SearchAgentStatusesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAgentStatusesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13825,6 +17438,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAgentStatusesOutput>(SearchAgentStatusesOutput.httpOutput(from:), SearchAgentStatusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAgentStatusesInput, SearchAgentStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAgentStatusesOutput>())
@@ -13856,9 +17470,9 @@ extension ConnectClient {
     ///
     /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     ///
-    /// - Parameter SearchAvailablePhoneNumbersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAvailablePhoneNumbersInput`)
     ///
-    /// - Returns: `SearchAvailablePhoneNumbersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAvailablePhoneNumbersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13895,6 +17509,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAvailablePhoneNumbersOutput>(SearchAvailablePhoneNumbersOutput.httpOutput(from:), SearchAvailablePhoneNumbersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAvailablePhoneNumbersInput, SearchAvailablePhoneNumbersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAvailablePhoneNumbersOutput>())
@@ -13922,13 +17537,97 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchContactEvaluations` operation on the `Connect` service.
+    ///
+    /// Searches contact evaluations in an Amazon Connect instance, with optional filtering. Use cases Following are common uses cases for this API:
+    ///
+    /// * Find contact evaluations by using specific search criteria.
+    ///
+    /// * Find contact evaluations that are tagged with a specific set of tags.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds. Contact Evaluations may not be fully backfilled with historical data in all regions yet, however all recently created Contact Evaluations should be available for search.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchContactEvaluationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchContactEvaluationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchContactEvaluations(input: SearchContactEvaluationsInput) async throws -> SearchContactEvaluationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchContactEvaluations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchContactEvaluationsInput, SearchContactEvaluationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput>(SearchContactEvaluationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchContactEvaluationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchContactEvaluationsOutput>(SearchContactEvaluationsOutput.httpOutput(from:), SearchContactEvaluationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchContactEvaluationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchContactEvaluationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchContactEvaluationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchContactEvaluationsInput, SearchContactEvaluationsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchContactEvaluations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchContactFlowModules` operation on the `Connect` service.
     ///
     /// Searches the flow modules in an Amazon Connect instance, with optional filtering.
     ///
-    /// - Parameter SearchContactFlowModulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchContactFlowModulesInput`)
     ///
-    /// - Returns: `SearchContactFlowModulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchContactFlowModulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13966,6 +17665,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchContactFlowModulesInput, SearchContactFlowModulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchContactFlowModulesOutput>(SearchContactFlowModulesOutput.httpOutput(from:), SearchContactFlowModulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchContactFlowModulesInput, SearchContactFlowModulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchContactFlowModulesOutput>())
@@ -13997,9 +17697,9 @@ extension ConnectClient {
     ///
     /// Searches the flows in an Amazon Connect instance, with optional filtering.
     ///
-    /// - Parameter SearchContactFlowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchContactFlowsInput`)
     ///
-    /// - Returns: `SearchContactFlowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchContactFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14037,6 +17737,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchContactFlowsInput, SearchContactFlowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchContactFlowsOutput>(SearchContactFlowsOutput.httpOutput(from:), SearchContactFlowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchContactFlowsInput, SearchContactFlowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchContactFlowsOutput>())
@@ -14068,9 +17769,9 @@ extension ConnectClient {
     ///
     /// Searches contacts in an Amazon Connect instance.
     ///
-    /// - Parameter SearchContactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchContactsInput`)
     ///
-    /// - Returns: `SearchContactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14108,6 +17809,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchContactsInput, SearchContactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchContactsOutput>(SearchContactsOutput.httpOutput(from:), SearchContactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchContactsInput, SearchContactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchContactsOutput>())
@@ -14135,13 +17837,85 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchDataTables` operation on the `Connect` service.
+    ///
+    /// Searches for data tables based on the table's ID, name, and description. In the future, this operation can support searching on attribute names and possibly primary values. Follows other search operations closely and supports both search criteria and filters.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchDataTablesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchDataTablesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchDataTables(input: SearchDataTablesInput) async throws -> SearchDataTablesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchDataTables")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchDataTablesInput, SearchDataTablesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchDataTablesInput, SearchDataTablesOutput>(SearchDataTablesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchDataTablesInput, SearchDataTablesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchDataTablesInput, SearchDataTablesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchDataTablesInput, SearchDataTablesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchDataTablesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchDataTablesInput, SearchDataTablesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchDataTablesOutput>(SearchDataTablesOutput.httpOutput(from:), SearchDataTablesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchDataTablesInput, SearchDataTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchDataTablesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchDataTablesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchDataTablesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchDataTablesInput, SearchDataTablesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchDataTablesInput, SearchDataTablesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchDataTablesInput, SearchDataTablesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchDataTables")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchEmailAddresses` operation on the `Connect` service.
     ///
     /// Searches email address in an instance, with optional filtering.
     ///
-    /// - Parameter SearchEmailAddressesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchEmailAddressesInput`)
     ///
-    /// - Returns: `SearchEmailAddressesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchEmailAddressesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14180,6 +17954,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchEmailAddressesInput, SearchEmailAddressesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchEmailAddressesOutput>(SearchEmailAddressesOutput.httpOutput(from:), SearchEmailAddressesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchEmailAddressesInput, SearchEmailAddressesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchEmailAddressesOutput>())
@@ -14207,13 +17982,99 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchEvaluationForms` operation on the `Connect` service.
+    ///
+    /// Searches evaluation forms in an Amazon Connect instance, with optional filtering. Use cases Following are common uses cases for this API:
+    ///
+    /// * List all evaluation forms in an instance.
+    ///
+    /// * Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more.
+    ///
+    /// * Find all evaluation forms that are tagged with a specific set of tags.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchEvaluationFormsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchEvaluationFormsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchEvaluationForms(input: SearchEvaluationFormsInput) async throws -> SearchEvaluationFormsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchEvaluationForms")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchEvaluationFormsInput, SearchEvaluationFormsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput>(SearchEvaluationFormsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchEvaluationFormsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchEvaluationFormsOutput>(SearchEvaluationFormsOutput.httpOutput(from:), SearchEvaluationFormsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchEvaluationFormsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchEvaluationFormsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchEvaluationFormsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchEvaluationFormsInput, SearchEvaluationFormsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchEvaluationForms")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchHoursOfOperationOverrides` operation on the `Connect` service.
     ///
     /// Searches the hours of operation overrides.
     ///
-    /// - Parameter SearchHoursOfOperationOverridesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchHoursOfOperationOverridesInput`)
     ///
-    /// - Returns: `SearchHoursOfOperationOverridesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchHoursOfOperationOverridesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14251,6 +18112,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchHoursOfOperationOverridesInput, SearchHoursOfOperationOverridesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchHoursOfOperationOverridesOutput>(SearchHoursOfOperationOverridesOutput.httpOutput(from:), SearchHoursOfOperationOverridesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchHoursOfOperationOverridesInput, SearchHoursOfOperationOverridesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchHoursOfOperationOverridesOutput>())
@@ -14282,9 +18144,9 @@ extension ConnectClient {
     ///
     /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
     ///
-    /// - Parameter SearchHoursOfOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchHoursOfOperationsInput`)
     ///
-    /// - Returns: `SearchHoursOfOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchHoursOfOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14322,6 +18184,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchHoursOfOperationsInput, SearchHoursOfOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchHoursOfOperationsOutput>(SearchHoursOfOperationsOutput.httpOutput(from:), SearchHoursOfOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchHoursOfOperationsInput, SearchHoursOfOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchHoursOfOperationsOutput>())
@@ -14351,11 +18214,18 @@ extension ConnectClient {
 
     /// Performs the `SearchPredefinedAttributes` operation on the `Connect` service.
     ///
-    /// Searches predefined attributes that meet certain criteria. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for:
     ///
-    /// - Parameter SearchPredefinedAttributesInput : [no documentation found]
+    /// * Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
-    /// - Returns: `SearchPredefinedAttributesOutput` : [no documentation found]
+    /// * Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchPredefinedAttributesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchPredefinedAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14393,6 +18263,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchPredefinedAttributesInput, SearchPredefinedAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchPredefinedAttributesOutput>(SearchPredefinedAttributesOutput.httpOutput(from:), SearchPredefinedAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchPredefinedAttributesInput, SearchPredefinedAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchPredefinedAttributesOutput>())
@@ -14424,9 +18295,9 @@ extension ConnectClient {
     ///
     /// Searches prompts in an Amazon Connect instance, with optional filtering.
     ///
-    /// - Parameter SearchPromptsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchPromptsInput`)
     ///
-    /// - Returns: `SearchPromptsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchPromptsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14464,6 +18335,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchPromptsInput, SearchPromptsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchPromptsOutput>(SearchPromptsOutput.httpOutput(from:), SearchPromptsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchPromptsInput, SearchPromptsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchPromptsOutput>())
@@ -14495,9 +18367,9 @@ extension ConnectClient {
     ///
     /// Searches queues in an Amazon Connect instance, with optional filtering.
     ///
-    /// - Parameter SearchQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQueuesInput`)
     ///
-    /// - Returns: `SearchQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14535,6 +18407,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchQueuesInput, SearchQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchQueuesOutput>(SearchQueuesOutput.httpOutput(from:), SearchQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchQueuesInput, SearchQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchQueuesOutput>())
@@ -14566,9 +18439,9 @@ extension ConnectClient {
     ///
     /// Searches quick connects in an Amazon Connect instance, with optional filtering.
     ///
-    /// - Parameter SearchQuickConnectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQuickConnectsInput`)
     ///
-    /// - Returns: `SearchQuickConnectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQuickConnectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14606,6 +18479,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchQuickConnectsInput, SearchQuickConnectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchQuickConnectsOutput>(SearchQuickConnectsOutput.httpOutput(from:), SearchQuickConnectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchQuickConnectsInput, SearchQuickConnectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchQuickConnectsOutput>())
@@ -14637,9 +18511,9 @@ extension ConnectClient {
     ///
     /// Searches tags used in an Amazon Connect instance using optional search criteria.
     ///
-    /// - Parameter SearchResourceTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchResourceTagsInput`)
     ///
-    /// - Returns: `SearchResourceTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchResourceTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14678,6 +18552,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchResourceTagsInput, SearchResourceTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchResourceTagsOutput>(SearchResourceTagsOutput.httpOutput(from:), SearchResourceTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchResourceTagsInput, SearchResourceTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchResourceTagsOutput>())
@@ -14709,9 +18584,9 @@ extension ConnectClient {
     ///
     /// Searches routing profiles in an Amazon Connect instance, with optional filtering. SearchRoutingProfiles does not populate LastModifiedRegion, LastModifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but [DescribeRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeRoutingProfile.html) does.
     ///
-    /// - Parameter SearchRoutingProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchRoutingProfilesInput`)
     ///
-    /// - Returns: `SearchRoutingProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchRoutingProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14749,6 +18624,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchRoutingProfilesInput, SearchRoutingProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchRoutingProfilesOutput>(SearchRoutingProfilesOutput.httpOutput(from:), SearchRoutingProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchRoutingProfilesInput, SearchRoutingProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchRoutingProfilesOutput>())
@@ -14780,9 +18656,9 @@ extension ConnectClient {
     ///
     /// Searches security profiles in an Amazon Connect instance, with optional filtering. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
-    /// - Parameter SearchSecurityProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSecurityProfilesInput`)
     ///
-    /// - Returns: `SearchSecurityProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSecurityProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14820,6 +18696,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchSecurityProfilesInput, SearchSecurityProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchSecurityProfilesOutput>(SearchSecurityProfilesOutput.httpOutput(from:), SearchSecurityProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchSecurityProfilesInput, SearchSecurityProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchSecurityProfilesOutput>())
@@ -14851,9 +18728,9 @@ extension ConnectClient {
     ///
     /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering. The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
     ///
-    /// - Parameter SearchUserHierarchyGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchUserHierarchyGroupsInput`)
     ///
-    /// - Returns: `SearchUserHierarchyGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchUserHierarchyGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14891,6 +18768,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUserHierarchyGroupsOutput>(SearchUserHierarchyGroupsOutput.httpOutput(from:), SearchUserHierarchyGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUserHierarchyGroupsInput, SearchUserHierarchyGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchUserHierarchyGroupsOutput>())
@@ -14922,9 +18800,9 @@ extension ConnectClient {
     ///
     /// Searches users in an Amazon Connect instance, with optional filtering. AfterContactWorkTimeLimit is returned in milliseconds.
     ///
-    /// - Parameter SearchUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchUsersInput`)
     ///
-    /// - Returns: `SearchUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14962,6 +18840,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUsersInput, SearchUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUsersOutput>(SearchUsersOutput.httpOutput(from:), SearchUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUsersInput, SearchUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchUsersOutput>())
@@ -14989,13 +18868,86 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchViews` operation on the `Connect` service.
+    ///
+    /// Searches views based on name, description, or tags.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchViewsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchViewsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchViews(input: SearchViewsInput) async throws -> SearchViewsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchViews")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchViewsInput, SearchViewsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchViewsInput, SearchViewsOutput>(SearchViewsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchViewsInput, SearchViewsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchViewsInput, SearchViewsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchViewsInput, SearchViewsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchViewsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchViewsInput, SearchViewsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchViewsOutput>(SearchViewsOutput.httpOutput(from:), SearchViewsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchViewsInput, SearchViewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchViewsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchViewsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchViewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchViewsInput, SearchViewsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchViewsInput, SearchViewsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchViewsInput, SearchViewsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchViews")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchVocabularies` operation on the `Connect` service.
     ///
     /// Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
     ///
-    /// - Parameter SearchVocabulariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchVocabulariesInput`)
     ///
-    /// - Returns: `SearchVocabulariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchVocabulariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15032,6 +18984,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchVocabulariesInput, SearchVocabulariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchVocabulariesOutput>(SearchVocabulariesOutput.httpOutput(from:), SearchVocabulariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchVocabulariesInput, SearchVocabulariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchVocabulariesOutput>())
@@ -15059,6 +19012,152 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchWorkspaceAssociations` operation on the `Connect` service.
+    ///
+    /// Searches for workspace associations with users or routing profiles based on various criteria.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchWorkspaceAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchWorkspaceAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchWorkspaceAssociations(input: SearchWorkspaceAssociationsInput) async throws -> SearchWorkspaceAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchWorkspaceAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput>(SearchWorkspaceAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchWorkspaceAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchWorkspaceAssociationsOutput>(SearchWorkspaceAssociationsOutput.httpOutput(from:), SearchWorkspaceAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchWorkspaceAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchWorkspaceAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchWorkspaceAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchWorkspaceAssociationsInput, SearchWorkspaceAssociationsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchWorkspaceAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SearchWorkspaces` operation on the `Connect` service.
+    ///
+    /// Searches workspaces based on name, description, visibility, or tags.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchWorkspacesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchWorkspacesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func searchWorkspaces(input: SearchWorkspacesInput) async throws -> SearchWorkspacesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchWorkspaces")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchWorkspacesInput, SearchWorkspacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput>(SearchWorkspacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchWorkspacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchWorkspacesOutput>(SearchWorkspacesOutput.httpOutput(from:), SearchWorkspacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchWorkspacesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchWorkspacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchWorkspacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchWorkspacesInput, SearchWorkspacesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchWorkspaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SendChatIntegrationEvent` operation on the `Connect` service.
     ///
     /// Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect. A chat integration event includes:
@@ -15070,9 +19169,9 @@ extension ConnectClient {
     ///
     /// When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action. Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS integration.
     ///
-    /// - Parameter SendChatIntegrationEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendChatIntegrationEventInput`)
     ///
-    /// - Returns: `SendChatIntegrationEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendChatIntegrationEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15110,6 +19209,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendChatIntegrationEventInput, SendChatIntegrationEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendChatIntegrationEventOutput>(SendChatIntegrationEventOutput.httpOutput(from:), SendChatIntegrationEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendChatIntegrationEventInput, SendChatIntegrationEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendChatIntegrationEventOutput>())
@@ -15141,9 +19241,9 @@ extension ConnectClient {
     ///
     /// Send outbound email for outbound campaigns. For more information about outbound campaigns, see [Set up Amazon Connect outbound campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/enable-outbound-campaigns.html). Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API.
     ///
-    /// - Parameter SendOutboundEmailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendOutboundEmailInput`)
     ///
-    /// - Returns: `SendOutboundEmailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendOutboundEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15184,6 +19284,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendOutboundEmailInput, SendOutboundEmailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendOutboundEmailOutput>(SendOutboundEmailOutput.httpOutput(from:), SendOutboundEmailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendOutboundEmailInput, SendOutboundEmailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendOutboundEmailOutput>())
@@ -15215,9 +19316,9 @@ extension ConnectClient {
     ///
     /// Provides a pre-signed Amazon S3 URL in response for uploading your content. You may only use this API to upload attachments to an [Amazon Connect Case](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateCase.html) or [Amazon Connect Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html).
     ///
-    /// - Parameter StartAttachedFileUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAttachedFileUploadInput`)
     ///
-    /// - Returns: `StartAttachedFileUploadOutput` : Response from StartAttachedFileUpload API.
+    /// - Returns: Response from StartAttachedFileUpload API. (Type: `StartAttachedFileUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15258,6 +19359,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAttachedFileUploadInput, StartAttachedFileUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAttachedFileUploadOutput>(StartAttachedFileUploadOutput.httpOutput(from:), StartAttachedFileUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAttachedFileUploadInput, StartAttachedFileUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAttachedFileUploadOutput>())
@@ -15294,15 +19396,15 @@ extension ConnectClient {
     /// * The [quota for concurrent active chats](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) is exceeded. Active chat throttling returns a LimitExceededException.
     ///
     ///
-    /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web ServicesSupport. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
+    /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
     ///
     /// * [Concepts: Web and mobile messaging capabilities in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/web-and-mobile-chat.html)
     ///
     /// * [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat)
     ///
-    /// - Parameter StartChatContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartChatContactInput`)
     ///
-    /// - Returns: `StartChatContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartChatContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15341,6 +19443,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartChatContactInput, StartChatContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartChatContactOutput>(StartChatContactOutput.httpOutput(from:), StartChatContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartChatContactInput, StartChatContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartChatContactOutput>())
@@ -15372,9 +19475,9 @@ extension ConnectClient {
     ///
     /// Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started. Evaluations created through the public API do not contain answer values suggested from automation.
     ///
-    /// - Parameter StartContactEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContactEvaluationInput`)
     ///
-    /// - Returns: `StartContactEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContactEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15414,6 +19517,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContactEvaluationInput, StartContactEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContactEvaluationOutput>(StartContactEvaluationOutput.httpOutput(from:), StartContactEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContactEvaluationInput, StartContactEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartContactEvaluationOutput>())
@@ -15441,6 +19545,80 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartContactMediaProcessing` operation on the `Connect` service.
+    ///
+    /// Enables in-flight message processing for an ongoing chat session. Message processing will stay active for the rest of the chat, even if an individual contact segment ends.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartContactMediaProcessingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartContactMediaProcessingOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    public func startContactMediaProcessing(input: StartContactMediaProcessingInput) async throws -> StartContactMediaProcessingOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startContactMediaProcessing")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartContactMediaProcessingInput, StartContactMediaProcessingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput>(StartContactMediaProcessingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartContactMediaProcessingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContactMediaProcessingOutput>(StartContactMediaProcessingOutput.httpOutput(from:), StartContactMediaProcessingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartContactMediaProcessingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartContactMediaProcessingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartContactMediaProcessingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartContactMediaProcessingInput, StartContactMediaProcessingOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartContactMediaProcessing")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartContactRecording` operation on the `Connect` service.
     ///
     /// Starts recording the contact:
@@ -15452,14 +19630,15 @@ extension ConnectClient {
     ///
     /// StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording. You can use this API to override the recording behavior configured in the [Set recording behavior](https://docs.aws.amazon.com/connect/latest/adminguide/set-recording-behavior.html) block. Only voice recordings are supported at this time.
     ///
-    /// - Parameter StartContactRecordingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContactRecordingInput`)
     ///
-    /// - Returns: `StartContactRecordingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContactRecordingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -15491,6 +19670,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContactRecordingInput, StartContactRecordingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContactRecordingOutput>(StartContactRecordingOutput.httpOutput(from:), StartContactRecordingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContactRecordingInput, StartContactRecordingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartContactRecordingOutput>())
@@ -15526,9 +19706,9 @@ extension ConnectClient {
     ///
     /// * [Amazon Connect Chat security best practices](https://docs.aws.amazon.com/connect/latest/adminguide/security-best-practices.html#bp-security-chat)
     ///
-    /// - Parameter StartContactStreamingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContactStreamingInput`)
     ///
-    /// - Returns: `StartContactStreamingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContactStreamingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15567,6 +19747,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContactStreamingInput, StartContactStreamingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContactStreamingOutput>(StartContactStreamingOutput.httpOutput(from:), StartContactStreamingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContactStreamingInput, StartContactStreamingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartContactStreamingOutput>())
@@ -15598,9 +19779,9 @@ extension ConnectClient {
     ///
     /// Creates an inbound email contact and initiates a flow to start the email contact for the customer. Response of this API provides the ContactId of the email contact created.
     ///
-    /// - Parameter StartEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEmailContactInput`)
     ///
-    /// - Returns: `StartEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15641,6 +19822,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEmailContactInput, StartEmailContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEmailContactOutput>(StartEmailContactOutput.httpOutput(from:), StartEmailContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEmailContactInput, StartEmailContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEmailContactOutput>())
@@ -15670,15 +19852,17 @@ extension ConnectClient {
 
     /// Performs the `StartOutboundChatContact` operation on the `Connect` service.
     ///
-    /// Initiates a new outbound SMS contact to a customer. Response of this API provides the ContactId of the outbound SMS contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new SMS contact created. This API can be used to initiate outbound SMS contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS contact by using the [StartOutboundChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html) Flow Action. For more information about using SMS in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:
+    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the ContactId of the outbound SMS or WhatsApp contact created. SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS or WhatsApp contact by using the [StartOutboundChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html) Flow Action. For more information about using SMS or WhatsApp in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:
     ///
     /// * [Set up SMS messaging](https://docs.aws.amazon.com/connect/latest/adminguide/setup-sms-messaging.html)
     ///
-    /// * [Request an SMS-enabled phone number through AWS End User Messaging SMS](https://docs.aws.amazon.com/connect/latest/adminguide/sms-number.html)
+    /// * [Request an SMS-enabled phone number through Amazon Web Services End User Messaging SMS](https://docs.aws.amazon.com/connect/latest/adminguide/sms-number.html)
     ///
-    /// - Parameter StartOutboundChatContactInput : [no documentation found]
+    /// * [Set up WhatsApp Business messaging](https://docs.aws.amazon.com/connect/latest/adminguide/whatsapp-integration.html)
     ///
-    /// - Returns: `StartOutboundChatContactOutput` : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartOutboundChatContactInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartOutboundChatContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15719,6 +19903,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOutboundChatContactInput, StartOutboundChatContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartOutboundChatContactOutput>(StartOutboundChatContactOutput.httpOutput(from:), StartOutboundChatContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOutboundChatContactInput, StartOutboundChatContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartOutboundChatContactOutput>())
@@ -15750,9 +19935,9 @@ extension ConnectClient {
     ///
     /// Initiates a flow to send an agent reply or outbound email contact (created from the CreateContact API) to a customer.
     ///
-    /// - Parameter StartOutboundEmailContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartOutboundEmailContactInput`)
     ///
-    /// - Returns: `StartOutboundEmailContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartOutboundEmailContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15793,6 +19978,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOutboundEmailContactInput, StartOutboundEmailContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartOutboundEmailContactOutput>(StartOutboundEmailContactOutput.httpOutput(from:), StartOutboundEmailContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOutboundEmailContactInput, StartOutboundEmailContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartOutboundEmailContactOutput>())
@@ -15822,11 +20008,11 @@ extension ConnectClient {
 
     /// Performs the `StartOutboundVoiceContact` operation on the `Connect` service.
     ///
-    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails. UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide. Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota [Amazon Connect campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#outbound-communications-quotas).
+    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the “RingTimeoutInSeconds” parameter. If not specified, the default dialing timeout will be 60 seconds which means if the call is not connected within 60 seconds, it fails. UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide. Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota [Amazon Connect campaigns](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#outbound-communications-quotas). For Preview dialing mode, only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API with OutboundStrategy.
     ///
-    /// - Parameter StartOutboundVoiceContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartOutboundVoiceContactInput`)
     ///
-    /// - Returns: `StartOutboundVoiceContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartOutboundVoiceContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15867,6 +20053,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOutboundVoiceContactInput, StartOutboundVoiceContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartOutboundVoiceContactOutput>(StartOutboundVoiceContactOutput.httpOutput(from:), StartOutboundVoiceContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOutboundVoiceContactInput, StartOutboundVoiceContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartOutboundVoiceContactOutput>())
@@ -15898,9 +20085,9 @@ extension ConnectClient {
     ///
     /// Starts screen sharing for a contact. For more information about screen sharing, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter StartScreenSharingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartScreenSharingInput`)
     ///
-    /// - Returns: `StartScreenSharingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartScreenSharingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15940,6 +20127,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartScreenSharingInput, StartScreenSharingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartScreenSharingOutput>(StartScreenSharingOutput.httpOutput(from:), StartScreenSharingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartScreenSharingInput, StartScreenSharingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartScreenSharingOutput>())
@@ -15994,9 +20182,9 @@ extension ConnectClient {
     ///
     /// In addition, when calling StartTaskContact include only one of these parameters: ContactFlowID, QuickConnectID, or TaskTemplateID. Only one parameter is required as long as the task template has a flow configured to run it. If more than one parameter is specified, or only the TaskTemplateID is specified but it does not have a flow configured, the request returns an error because Amazon Connect cannot identify the unique flow to run when the task is created. A ServiceQuotaExceededException occurs when the number of open tasks exceeds the active tasks quota or there are already 12 tasks referencing the same PreviousContactId. For more information about service quotas for task contacts, see [Amazon Connect service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter StartTaskContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTaskContactInput`)
     ///
-    /// - Returns: `StartTaskContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTaskContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16036,6 +20224,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTaskContactInput, StartTaskContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTaskContactOutput>(StartTaskContactOutput.httpOutput(from:), StartTaskContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTaskContactInput, StartTaskContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTaskContactOutput>())
@@ -16067,9 +20256,9 @@ extension ConnectClient {
     ///
     /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as InstanceId).
     ///
-    /// - Parameter StartWebRTCContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWebRTCContactInput`)
     ///
-    /// - Returns: `StartWebRTCContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWebRTCContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16108,6 +20297,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWebRTCContactInput, StartWebRTCContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWebRTCContactOutput>(StartWebRTCContactOutput.httpOutput(from:), StartWebRTCContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWebRTCContactInput, StartWebRTCContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWebRTCContactOutput>())
@@ -16152,15 +20342,16 @@ extension ConnectClient {
     ///
     /// Chat and task contacts can be terminated in any state, regardless of initiation method.
     ///
-    /// - Parameter StopContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopContactInput`)
     ///
-    /// - Returns: `StopContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ContactNotFoundException` : The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat or Task contacts.
+    /// - `ContactNotFoundException` : The contact with the specified ID does not exist.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -16192,6 +20383,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopContactInput, StopContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopContactOutput>(StopContactOutput.httpOutput(from:), StopContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopContactInput, StopContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopContactOutput>())
@@ -16219,18 +20411,92 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StopContactMediaProcessing` operation on the `Connect` service.
+    ///
+    /// Stops in-flight message processing for an ongoing chat session.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopContactMediaProcessingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopContactMediaProcessingOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func stopContactMediaProcessing(input: StopContactMediaProcessingInput) async throws -> StopContactMediaProcessingOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopContactMediaProcessing")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopContactMediaProcessingInput, StopContactMediaProcessingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput>(StopContactMediaProcessingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopContactMediaProcessingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopContactMediaProcessingOutput>(StopContactMediaProcessingOutput.httpOutput(from:), StopContactMediaProcessingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopContactMediaProcessingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopContactMediaProcessingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopContactMediaProcessingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopContactMediaProcessingInput, StopContactMediaProcessingOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopContactMediaProcessing")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopContactRecording` operation on the `Connect` service.
     ///
     /// Stops recording a call when a contact is being recorded. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time.
     ///
-    /// - Parameter StopContactRecordingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopContactRecordingInput`)
     ///
-    /// - Returns: `StopContactRecordingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopContactRecordingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func stopContactRecording(input: StopContactRecordingInput) async throws -> StopContactRecordingOutput {
@@ -16261,6 +20527,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopContactRecordingInput, StopContactRecordingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopContactRecordingOutput>(StopContactRecordingOutput.httpOutput(from:), StopContactRecordingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopContactRecordingInput, StopContactRecordingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopContactRecordingOutput>())
@@ -16292,9 +20559,9 @@ extension ConnectClient {
     ///
     /// Ends message streaming on a specified contact. To restart message streaming on that contact, call the [StartContactStreaming](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartContactStreaming.html) API.
     ///
-    /// - Parameter StopContactStreamingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopContactStreamingInput`)
     ///
-    /// - Returns: `StopContactStreamingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopContactStreamingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16331,6 +20598,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopContactStreamingInput, StopContactStreamingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopContactStreamingOutput>(StopContactStreamingOutput.httpOutput(from:), StopContactStreamingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopContactStreamingInput, StopContactStreamingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopContactStreamingOutput>())
@@ -16362,9 +20630,9 @@ extension ConnectClient {
     ///
     /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier. If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
     ///
-    /// - Parameter SubmitContactEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitContactEvaluationInput`)
     ///
-    /// - Returns: `SubmitContactEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitContactEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16402,6 +20670,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitContactEvaluationInput, SubmitContactEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitContactEvaluationOutput>(SubmitContactEvaluationOutput.httpOutput(from:), SubmitContactEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitContactEvaluationInput, SubmitContactEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitContactEvaluationOutput>())
@@ -16433,14 +20702,15 @@ extension ConnectClient {
     ///
     /// When a contact is being recorded, this API suspends recording whatever is selected in the flow configuration: call (IVR or agent), screen, or both. If only call recording or only screen recording is enabled, then it would be suspended. For example, you might suspend the screen recording while collecting sensitive information, such as a credit card number. Then use [ResumeContactRecording](https://docs.aws.amazon.com/connect/latest/APIReference/API_ResumeContactRecording.html) to restart recording the screen. The period of time that the recording is suspended is filled with silence in the final recording. Voice (IVR, agent) and screen recordings are supported.
     ///
-    /// - Parameter SuspendContactRecordingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SuspendContactRecordingInput`)
     ///
-    /// - Returns: `SuspendContactRecordingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SuspendContactRecordingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func suspendContactRecording(input: SuspendContactRecordingInput) async throws -> SuspendContactRecordingOutput {
@@ -16471,6 +20741,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SuspendContactRecordingInput, SuspendContactRecordingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SuspendContactRecordingOutput>(SuspendContactRecordingOutput.httpOutput(from:), SuspendContactRecordingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SuspendContactRecordingInput, SuspendContactRecordingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SuspendContactRecordingOutput>())
@@ -16502,14 +20773,15 @@ extension ConnectClient {
     ///
     /// Adds the specified tags to the contact resource. For more information about this API is used, see [Set up granular billing for a detailed view of your Amazon Connect usage](https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html).
     ///
-    /// - Parameter TagContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagContactInput`)
     ///
-    /// - Returns: `TagContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -16542,6 +20814,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagContactInput, TagContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagContactOutput>(TagContactOutput.httpOutput(from:), TagContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagContactInput, TagContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagContactOutput>())
@@ -16573,9 +20846,9 @@ extension ConnectClient {
     ///
     /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see [Tagging resources in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/tagging.html). For sample policies that use tags, see [Amazon Connect Identity-Based Policy Examples](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16613,6 +20886,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -16654,9 +20928,9 @@ extension ConnectClient {
     ///
     /// * A contact cannot be transferred more than 11 times.
     ///
-    /// - Parameter TransferContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TransferContactInput`)
     ///
-    /// - Returns: `TransferContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TransferContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16697,6 +20971,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransferContactInput, TransferContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TransferContactOutput>(TransferContactOutput.httpOutput(from:), TransferContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TransferContactInput, TransferContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TransferContactOutput>())
@@ -16728,14 +21003,15 @@ extension ConnectClient {
     ///
     /// Removes the specified tags from the contact resource. For more information about this API is used, see [Set up granular billing for a detailed view of your Amazon Connect usage](https://docs.aws.amazon.com/connect/latest/adminguide/granular-billing.html).
     ///
-    /// - Parameter UntagContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagContactInput`)
     ///
-    /// - Returns: `UntagContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -16766,6 +21042,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagContactInput, UntagContactOutput>(UntagContactInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagContactOutput>(UntagContactOutput.httpOutput(from:), UntagContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagContactInput, UntagContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagContactOutput>())
@@ -16797,9 +21074,9 @@ extension ConnectClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16835,6 +21112,7 @@ extension ConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -16866,9 +21144,9 @@ extension ConnectClient {
     ///
     /// Updates agent status.
     ///
-    /// - Parameter UpdateAgentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentStatusInput`)
     ///
-    /// - Returns: `UpdateAgentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16908,6 +21186,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgentStatusInput, UpdateAgentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgentStatusOutput>(UpdateAgentStatusOutput.httpOutput(from:), UpdateAgentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgentStatusInput, UpdateAgentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAgentStatusOutput>())
@@ -16937,11 +21216,11 @@ extension ConnectClient {
 
     /// Performs the `UpdateAuthenticationProfile` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Updates the selected authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile.
     ///
-    /// - Parameter UpdateAuthenticationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAuthenticationProfileInput`)
     ///
-    /// - Returns: `UpdateAuthenticationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAuthenticationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16979,6 +21258,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAuthenticationProfileInput, UpdateAuthenticationProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAuthenticationProfileOutput>(UpdateAuthenticationProfileOutput.httpOutput(from:), UpdateAuthenticationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAuthenticationProfileInput, UpdateAuthenticationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAuthenticationProfileOutput>())
@@ -17010,9 +21290,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request. You can add or update user-defined contact information for both ongoing and completed contacts.
     ///
-    /// - Parameter UpdateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactInput`)
     ///
-    /// - Returns: `UpdateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17020,6 +21300,7 @@ extension ConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -17052,6 +21333,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactInput, UpdateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactOutput>(UpdateContactOutput.httpOutput(from:), UpdateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactInput, UpdateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactOutput>())
@@ -17083,14 +21365,15 @@ extension ConnectClient {
     ///
     /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see [Feature specifications](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter UpdateContactAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactAttributesInput`)
     ///
-    /// - Returns: `UpdateContactAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -17122,6 +21405,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactAttributesInput, UpdateContactAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactAttributesOutput>(UpdateContactAttributesOutput.httpOutput(from:), UpdateContactAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactAttributesInput, UpdateContactAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactAttributesOutput>())
@@ -17153,9 +21437,9 @@ extension ConnectClient {
     ///
     /// Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
     ///
-    /// - Parameter UpdateContactEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactEvaluationInput`)
     ///
-    /// - Returns: `UpdateContactEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17193,6 +21477,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactEvaluationInput, UpdateContactEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactEvaluationOutput>(UpdateContactEvaluationOutput.httpOutput(from:), UpdateContactEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactEvaluationInput, UpdateContactEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactEvaluationOutput>())
@@ -17224,9 +21509,9 @@ extension ConnectClient {
     ///
     /// Updates the specified flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html). Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
-    /// - Parameter UpdateContactFlowContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactFlowContentInput`)
     ///
-    /// - Returns: `UpdateContactFlowContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactFlowContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17265,6 +21550,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactFlowContentInput, UpdateContactFlowContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactFlowContentOutput>(UpdateContactFlowContentOutput.httpOutput(from:), UpdateContactFlowContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactFlowContentInput, UpdateContactFlowContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactFlowContentOutput>())
@@ -17296,9 +21582,9 @@ extension ConnectClient {
     ///
     /// Updates metadata about specified flow.
     ///
-    /// - Parameter UpdateContactFlowMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactFlowMetadataInput`)
     ///
-    /// - Returns: `UpdateContactFlowMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactFlowMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17337,6 +21623,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactFlowMetadataInput, UpdateContactFlowMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactFlowMetadataOutput>(UpdateContactFlowMetadataOutput.httpOutput(from:), UpdateContactFlowMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactFlowMetadataInput, UpdateContactFlowMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactFlowMetadataOutput>())
@@ -17364,13 +21651,88 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateContactFlowModuleAlias` operation on the `Connect` service.
+    ///
+    /// Updates a specific Aliases metadata, including the version it’s tied to, it’s name, and description.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactFlowModuleAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateContactFlowModuleAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConditionalOperationFailedException` : Request processing failed because dependent condition failed.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateContactFlowModuleAlias(input: UpdateContactFlowModuleAliasInput) async throws -> UpdateContactFlowModuleAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateContactFlowModuleAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput>(UpdateContactFlowModuleAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateContactFlowModuleAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactFlowModuleAliasOutput>(UpdateContactFlowModuleAliasOutput.httpOutput(from:), UpdateContactFlowModuleAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactFlowModuleAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContactFlowModuleAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContactFlowModuleAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateContactFlowModuleAliasInput, UpdateContactFlowModuleAliasOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateContactFlowModuleAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateContactFlowModuleContent` operation on the `Connect` service.
     ///
     /// Updates specified flow module for the specified Amazon Connect instance. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
-    /// - Parameter UpdateContactFlowModuleContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactFlowModuleContentInput`)
     ///
-    /// - Returns: `UpdateContactFlowModuleContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactFlowModuleContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17409,6 +21771,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactFlowModuleContentInput, UpdateContactFlowModuleContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactFlowModuleContentOutput>(UpdateContactFlowModuleContentOutput.httpOutput(from:), UpdateContactFlowModuleContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactFlowModuleContentInput, UpdateContactFlowModuleContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactFlowModuleContentOutput>())
@@ -17440,9 +21803,9 @@ extension ConnectClient {
     ///
     /// Updates metadata about specified flow module.
     ///
-    /// - Parameter UpdateContactFlowModuleMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactFlowModuleMetadataInput`)
     ///
-    /// - Returns: `UpdateContactFlowModuleMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactFlowModuleMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17482,6 +21845,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactFlowModuleMetadataInput, UpdateContactFlowModuleMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactFlowModuleMetadataOutput>(UpdateContactFlowModuleMetadataOutput.httpOutput(from:), UpdateContactFlowModuleMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactFlowModuleMetadataInput, UpdateContactFlowModuleMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactFlowModuleMetadataOutput>())
@@ -17513,9 +21877,9 @@ extension ConnectClient {
     ///
     /// The name of the flow. You can also create and update flows using the [Amazon Connect Flow language](https://docs.aws.amazon.com/connect/latest/APIReference/flow-language.html).
     ///
-    /// - Parameter UpdateContactFlowNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactFlowNameInput`)
     ///
-    /// - Returns: `UpdateContactFlowNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactFlowNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17554,6 +21918,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactFlowNameInput, UpdateContactFlowNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactFlowNameOutput>(UpdateContactFlowNameOutput.httpOutput(from:), UpdateContactFlowNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactFlowNameInput, UpdateContactFlowNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactFlowNameOutput>())
@@ -17585,15 +21950,16 @@ extension ConnectClient {
     ///
     /// Updates routing priority and age on the contact (QueuePriority and QueueTimeAdjustmentInSeconds). These properties can be used to change a customer's position in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority relative to other contacts in queue; or you can move a contact to the front of the queue by increasing the routing age which will make the contact look artificially older and therefore higher up in the first-in-first-out routing order. Note that adjusting the routing age of a contact affects only its position in queue, and not its actual queue wait time as reported through metrics. These properties can also be updated by using [the Set routing priority / age flow block](https://docs.aws.amazon.com/connect/latest/adminguide/change-routing-priority.html). Either QueuePriority or QueueTimeAdjustmentInSeconds should be provided within the request body, but not both.
     ///
-    /// - Parameter UpdateContactRoutingDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactRoutingDataInput`)
     ///
-    /// - Returns: `UpdateContactRoutingDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactRoutingDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidActiveRegionException` : This exception occurs when an API request is made to a non-active region in an Amazon Connect instance configured with Amazon Connect Global Resiliency. For example, if the active region is US West (Oregon) and a request is made to US East (N. Virginia), the exception will be returned.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `ResourceConflictException` : A resource already has that name.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -17626,6 +21992,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactRoutingDataInput, UpdateContactRoutingDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactRoutingDataOutput>(UpdateContactRoutingDataOutput.httpOutput(from:), UpdateContactRoutingDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactRoutingDataInput, UpdateContactRoutingDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactRoutingDataOutput>())
@@ -17657,9 +22024,9 @@ extension ConnectClient {
     ///
     /// Updates the scheduled time of a task contact that is already scheduled.
     ///
-    /// - Parameter UpdateContactScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactScheduleInput`)
     ///
-    /// - Returns: `UpdateContactScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17698,6 +22065,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactScheduleInput, UpdateContactScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactScheduleOutput>(UpdateContactScheduleOutput.httpOutput(from:), UpdateContactScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactScheduleInput, UpdateContactScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactScheduleOutput>())
@@ -17725,13 +22093,238 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateDataTableAttribute` operation on the `Connect` service.
+    ///
+    /// Updates all properties for an attribute using all properties from CreateDataTableAttribute. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since validation only runs when values are created or updated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataTableAttributeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateDataTableAttributeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateDataTableAttribute(input: UpdateDataTableAttributeInput) async throws -> UpdateDataTableAttributeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateDataTableAttribute")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput>(UpdateDataTableAttributeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataTableAttributeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataTableAttributeOutput>(UpdateDataTableAttributeOutput.httpOutput(from:), UpdateDataTableAttributeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataTableAttributeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDataTableAttributeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataTableAttributeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataTableAttributeInput, UpdateDataTableAttributeOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDataTableAttribute")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateDataTableMetadata` operation on the `Connect` service.
+    ///
+    /// Updates the metadata properties of a data table. Accepts all fields similar to CreateDataTable, except for fields and tags. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided or defaults will be used. Fields follow the same requirements as CreateDataTable.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataTableMetadataInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateDataTableMetadataOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateDataTableMetadata(input: UpdateDataTableMetadataInput) async throws -> UpdateDataTableMetadataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateDataTableMetadata")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput>(UpdateDataTableMetadataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataTableMetadataInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataTableMetadataOutput>(UpdateDataTableMetadataOutput.httpOutput(from:), UpdateDataTableMetadataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataTableMetadataOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDataTableMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataTableMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataTableMetadataInput, UpdateDataTableMetadataOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDataTableMetadata")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateDataTablePrimaryValues` operation on the `Connect` service.
+    ///
+    /// Updates the primary values for a record. This operation affects all existing values that are currently associated to the record and its primary values. Users that have restrictions on attributes and/or primary values are not authorized to use this endpoint. The combination of new primary values must be unique within the table.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataTablePrimaryValuesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateDataTablePrimaryValuesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateDataTablePrimaryValues(input: UpdateDataTablePrimaryValuesInput) async throws -> UpdateDataTablePrimaryValuesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateDataTablePrimaryValues")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput>(UpdateDataTablePrimaryValuesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateDataTablePrimaryValuesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataTablePrimaryValuesOutput>(UpdateDataTablePrimaryValuesOutput.httpOutput(from:), UpdateDataTablePrimaryValuesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataTablePrimaryValuesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDataTablePrimaryValuesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDataTablePrimaryValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateDataTablePrimaryValuesInput, UpdateDataTablePrimaryValuesOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDataTablePrimaryValues")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateEmailAddressMetadata` operation on the `Connect` service.
     ///
     /// Updates an email address metadata. For more information about email addresses, see [Create email addresses](https://docs.aws.amazon.com/connect/latest/adminguide/create-email-address1.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter UpdateEmailAddressMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEmailAddressMetadataInput`)
     ///
-    /// - Returns: `UpdateEmailAddressMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEmailAddressMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17771,6 +22364,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEmailAddressMetadataInput, UpdateEmailAddressMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEmailAddressMetadataOutput>(UpdateEmailAddressMetadataOutput.httpOutput(from:), UpdateEmailAddressMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEmailAddressMetadataInput, UpdateEmailAddressMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEmailAddressMetadataOutput>())
@@ -17802,9 +22396,9 @@ extension ConnectClient {
     ///
     /// Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
     ///
-    /// - Parameter UpdateEvaluationFormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEvaluationFormInput`)
     ///
-    /// - Returns: `UpdateEvaluationFormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEvaluationFormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17844,6 +22438,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEvaluationFormInput, UpdateEvaluationFormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEvaluationFormOutput>(UpdateEvaluationFormOutput.httpOutput(from:), UpdateEvaluationFormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEvaluationFormInput, UpdateEvaluationFormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEvaluationFormOutput>())
@@ -17875,9 +22470,9 @@ extension ConnectClient {
     ///
     /// Updates the hours of operation.
     ///
-    /// - Parameter UpdateHoursOfOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHoursOfOperationInput`)
     ///
-    /// - Returns: `UpdateHoursOfOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHoursOfOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17916,6 +22511,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHoursOfOperationInput, UpdateHoursOfOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHoursOfOperationOutput>(UpdateHoursOfOperationOutput.httpOutput(from:), UpdateHoursOfOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHoursOfOperationInput, UpdateHoursOfOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHoursOfOperationOutput>())
@@ -17947,9 +22543,9 @@ extension ConnectClient {
     ///
     /// Update the hours of operation override.
     ///
-    /// - Parameter UpdateHoursOfOperationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHoursOfOperationOverrideInput`)
     ///
-    /// - Returns: `UpdateHoursOfOperationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHoursOfOperationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17989,6 +22585,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHoursOfOperationOverrideInput, UpdateHoursOfOperationOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHoursOfOperationOverrideOutput>(UpdateHoursOfOperationOverrideOutput.httpOutput(from:), UpdateHoursOfOperationOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHoursOfOperationOverrideInput, UpdateHoursOfOperationOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHoursOfOperationOverrideOutput>())
@@ -18020,9 +22617,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
     ///
-    /// - Parameter UpdateInstanceAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceAttributeInput`)
     ///
-    /// - Returns: `UpdateInstanceAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18061,6 +22658,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInstanceAttributeInput, UpdateInstanceAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInstanceAttributeOutput>(UpdateInstanceAttributeOutput.httpOutput(from:), UpdateInstanceAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInstanceAttributeInput, UpdateInstanceAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceAttributeOutput>())
@@ -18092,9 +22690,9 @@ extension ConnectClient {
     ///
     /// This API is in preview release for Amazon Connect and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
     ///
-    /// - Parameter UpdateInstanceStorageConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceStorageConfigInput`)
     ///
-    /// - Returns: `UpdateInstanceStorageConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceStorageConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18134,6 +22732,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInstanceStorageConfigInput, UpdateInstanceStorageConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInstanceStorageConfigOutput>(UpdateInstanceStorageConfigOutput.httpOutput(from:), UpdateInstanceStorageConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInstanceStorageConfigInput, UpdateInstanceStorageConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceStorageConfigOutput>())
@@ -18172,9 +22771,9 @@ extension ConnectClient {
     ///
     /// The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchronously after the response is returned.
     ///
-    /// - Parameter UpdateParticipantAuthenticationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateParticipantAuthenticationInput`)
     ///
-    /// - Returns: `UpdateParticipantAuthenticationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateParticipantAuthenticationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18213,6 +22812,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateParticipantAuthenticationOutput>(UpdateParticipantAuthenticationOutput.httpOutput(from:), UpdateParticipantAuthenticationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateParticipantAuthenticationInput, UpdateParticipantAuthenticationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateParticipantAuthenticationOutput>())
@@ -18255,9 +22855,9 @@ extension ConnectClient {
     ///
     /// For more information about how chat timeouts work, see [Set up chat timeouts for human participants](https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html).
     ///
-    /// - Parameter UpdateParticipantRoleConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateParticipantRoleConfigInput`)
     ///
-    /// - Returns: `UpdateParticipantRoleConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateParticipantRoleConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18296,6 +22896,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateParticipantRoleConfigInput, UpdateParticipantRoleConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateParticipantRoleConfigOutput>(UpdateParticipantRoleConfigOutput.httpOutput(from:), UpdateParticipantRoleConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateParticipantRoleConfigInput, UpdateParticipantRoleConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateParticipantRoleConfigOutput>())
@@ -18327,9 +22928,9 @@ extension ConnectClient {
     ///
     /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region. After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation.
     ///
-    /// - Parameter UpdatePhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18370,6 +22971,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberOutput>(UpdatePhoneNumberOutput.httpOutput(from:), UpdatePhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePhoneNumberInput, UpdatePhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePhoneNumberOutput>())
@@ -18401,9 +23003,9 @@ extension ConnectClient {
     ///
     /// Updates a phone number’s metadata. To verify the status of a previous UpdatePhoneNumberMetadata operation, call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API.
     ///
-    /// - Parameter UpdatePhoneNumberMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePhoneNumberMetadataInput`)
     ///
-    /// - Returns: `UpdatePhoneNumberMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePhoneNumberMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18445,6 +23047,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePhoneNumberMetadataInput, UpdatePhoneNumberMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePhoneNumberMetadataOutput>(UpdatePhoneNumberMetadataOutput.httpOutput(from:), UpdatePhoneNumberMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePhoneNumberMetadataInput, UpdatePhoneNumberMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePhoneNumberMetadataOutput>())
@@ -18474,11 +23077,18 @@ extension ConnectClient {
 
     /// Performs the `UpdatePredefinedAttribute` operation on the `Connect` service.
     ///
-    /// Updates a predefined attribute for the specified Amazon Connect instance. Predefined attributes are attributes in an Amazon Connect instance that can be used to route contacts to an agent or pools of agents within a queue. For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
+    /// Updates a predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas). Use cases Following are common uses cases for this API:
     ///
-    /// - Parameter UpdatePredefinedAttributeInput : [no documentation found]
+    /// * Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see [Create predefined attributes for routing contacts to agents](https://docs.aws.amazon.com/connect/latest/adminguide/predefined-attributes.html).
     ///
-    /// - Returns: `UpdatePredefinedAttributeOutput` : [no documentation found]
+    /// * Update an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see [Use contact segment attributes](https://docs.aws.amazon.com/connect/latest/adminguide/use-contact-segment-attributes.html).
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdatePredefinedAttributeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePredefinedAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18516,6 +23126,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePredefinedAttributeInput, UpdatePredefinedAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePredefinedAttributeOutput>(UpdatePredefinedAttributeOutput.httpOutput(from:), UpdatePredefinedAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePredefinedAttributeInput, UpdatePredefinedAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePredefinedAttributeOutput>())
@@ -18547,9 +23158,9 @@ extension ConnectClient {
     ///
     /// Updates a prompt.
     ///
-    /// - Parameter UpdatePromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePromptInput`)
     ///
-    /// - Returns: `UpdatePromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18587,6 +23198,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePromptInput, UpdatePromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePromptOutput>(UpdatePromptOutput.httpOutput(from:), UpdatePromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePromptInput, UpdatePromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePromptOutput>())
@@ -18618,9 +23230,9 @@ extension ConnectClient {
     ///
     /// Updates the hours of operation for the specified queue.
     ///
-    /// - Parameter UpdateQueueHoursOfOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueHoursOfOperationInput`)
     ///
-    /// - Returns: `UpdateQueueHoursOfOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueHoursOfOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18658,6 +23270,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueHoursOfOperationInput, UpdateQueueHoursOfOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueHoursOfOperationOutput>(UpdateQueueHoursOfOperationOutput.httpOutput(from:), UpdateQueueHoursOfOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueHoursOfOperationInput, UpdateQueueHoursOfOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueHoursOfOperationOutput>())
@@ -18689,9 +23302,9 @@ extension ConnectClient {
     ///
     /// Updates the maximum number of contacts allowed in a queue before it is considered full.
     ///
-    /// - Parameter UpdateQueueMaxContactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueMaxContactsInput`)
     ///
-    /// - Returns: `UpdateQueueMaxContactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueMaxContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18729,6 +23342,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueMaxContactsInput, UpdateQueueMaxContactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueMaxContactsOutput>(UpdateQueueMaxContactsOutput.httpOutput(from:), UpdateQueueMaxContactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueMaxContactsInput, UpdateQueueMaxContactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueMaxContactsOutput>())
@@ -18760,9 +23374,9 @@ extension ConnectClient {
     ///
     /// Updates the name and description of a queue. At least Name or Description must be provided.
     ///
-    /// - Parameter UpdateQueueNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueNameInput`)
     ///
-    /// - Returns: `UpdateQueueNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18801,6 +23415,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueNameInput, UpdateQueueNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueNameOutput>(UpdateQueueNameOutput.httpOutput(from:), UpdateQueueNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueNameInput, UpdateQueueNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueNameOutput>())
@@ -18838,9 +23453,9 @@ extension ConnectClient {
     ///
     /// * If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see [Allow or Deny queue API actions for phone numbers in a replica Region](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_resource-level-policy-examples.html#allow-deny-queue-actions-replica-region).
     ///
-    /// - Parameter UpdateQueueOutboundCallerConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueOutboundCallerConfigInput`)
     ///
-    /// - Returns: `UpdateQueueOutboundCallerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutboundCallerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18878,6 +23493,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueOutboundCallerConfigInput, UpdateQueueOutboundCallerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueOutboundCallerConfigOutput>(UpdateQueueOutboundCallerConfigOutput.httpOutput(from:), UpdateQueueOutboundCallerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueOutboundCallerConfigInput, UpdateQueueOutboundCallerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueOutboundCallerConfigOutput>())
@@ -18909,9 +23525,9 @@ extension ConnectClient {
     ///
     /// Updates the outbound email address Id for a specified queue.
     ///
-    /// - Parameter UpdateQueueOutboundEmailConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueOutboundEmailConfigInput`)
     ///
-    /// - Returns: `UpdateQueueOutboundEmailConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutboundEmailConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18951,6 +23567,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueOutboundEmailConfigInput, UpdateQueueOutboundEmailConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueOutboundEmailConfigOutput>(UpdateQueueOutboundEmailConfigOutput.httpOutput(from:), UpdateQueueOutboundEmailConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueOutboundEmailConfigInput, UpdateQueueOutboundEmailConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueOutboundEmailConfigOutput>())
@@ -18982,9 +23599,9 @@ extension ConnectClient {
     ///
     /// Updates the status of the queue.
     ///
-    /// - Parameter UpdateQueueStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueStatusInput`)
     ///
-    /// - Returns: `UpdateQueueStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19022,6 +23639,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueStatusInput, UpdateQueueStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueStatusOutput>(UpdateQueueStatusOutput.httpOutput(from:), UpdateQueueStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueStatusInput, UpdateQueueStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueStatusOutput>())
@@ -19053,9 +23671,9 @@ extension ConnectClient {
     ///
     /// Updates the configuration settings for the specified quick connect.
     ///
-    /// - Parameter UpdateQuickConnectConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuickConnectConfigInput`)
     ///
-    /// - Returns: `UpdateQuickConnectConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuickConnectConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19093,6 +23711,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuickConnectConfigInput, UpdateQuickConnectConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuickConnectConfigOutput>(UpdateQuickConnectConfigOutput.httpOutput(from:), UpdateQuickConnectConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuickConnectConfigInput, UpdateQuickConnectConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuickConnectConfigOutput>())
@@ -19124,9 +23743,9 @@ extension ConnectClient {
     ///
     /// Updates the name and description of a quick connect. The request accepts the following data in JSON format. At least Name or Description must be provided.
     ///
-    /// - Parameter UpdateQuickConnectNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuickConnectNameInput`)
     ///
-    /// - Returns: `UpdateQuickConnectNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuickConnectNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19164,6 +23783,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuickConnectNameInput, UpdateQuickConnectNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuickConnectNameOutput>(UpdateQuickConnectNameOutput.httpOutput(from:), UpdateQuickConnectNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuickConnectNameInput, UpdateQuickConnectNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuickConnectNameOutput>())
@@ -19195,9 +23815,9 @@ extension ConnectClient {
     ///
     /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
     ///
-    /// - Parameter UpdateRoutingProfileAgentAvailabilityTimerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingProfileAgentAvailabilityTimerInput`)
     ///
-    /// - Returns: `UpdateRoutingProfileAgentAvailabilityTimerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingProfileAgentAvailabilityTimerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19235,6 +23855,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingProfileAgentAvailabilityTimerInput, UpdateRoutingProfileAgentAvailabilityTimerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoutingProfileAgentAvailabilityTimerOutput>(UpdateRoutingProfileAgentAvailabilityTimerOutput.httpOutput(from:), UpdateRoutingProfileAgentAvailabilityTimerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingProfileAgentAvailabilityTimerInput, UpdateRoutingProfileAgentAvailabilityTimerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingProfileAgentAvailabilityTimerOutput>())
@@ -19266,9 +23887,9 @@ extension ConnectClient {
     ///
     /// Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
     ///
-    /// - Parameter UpdateRoutingProfileConcurrencyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingProfileConcurrencyInput`)
     ///
-    /// - Returns: `UpdateRoutingProfileConcurrencyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingProfileConcurrencyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19306,6 +23927,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingProfileConcurrencyInput, UpdateRoutingProfileConcurrencyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoutingProfileConcurrencyOutput>(UpdateRoutingProfileConcurrencyOutput.httpOutput(from:), UpdateRoutingProfileConcurrencyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingProfileConcurrencyInput, UpdateRoutingProfileConcurrencyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingProfileConcurrencyOutput>())
@@ -19337,9 +23959,9 @@ extension ConnectClient {
     ///
     /// Updates the default outbound queue of a routing profile.
     ///
-    /// - Parameter UpdateRoutingProfileDefaultOutboundQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingProfileDefaultOutboundQueueInput`)
     ///
-    /// - Returns: `UpdateRoutingProfileDefaultOutboundQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingProfileDefaultOutboundQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19377,6 +23999,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingProfileDefaultOutboundQueueInput, UpdateRoutingProfileDefaultOutboundQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoutingProfileDefaultOutboundQueueOutput>(UpdateRoutingProfileDefaultOutboundQueueOutput.httpOutput(from:), UpdateRoutingProfileDefaultOutboundQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingProfileDefaultOutboundQueueInput, UpdateRoutingProfileDefaultOutboundQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingProfileDefaultOutboundQueueOutput>())
@@ -19408,9 +24031,9 @@ extension ConnectClient {
     ///
     /// Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided.
     ///
-    /// - Parameter UpdateRoutingProfileNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingProfileNameInput`)
     ///
-    /// - Returns: `UpdateRoutingProfileNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingProfileNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19449,6 +24072,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingProfileNameInput, UpdateRoutingProfileNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoutingProfileNameOutput>(UpdateRoutingProfileNameOutput.httpOutput(from:), UpdateRoutingProfileNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingProfileNameInput, UpdateRoutingProfileNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingProfileNameOutput>())
@@ -19480,9 +24104,9 @@ extension ConnectClient {
     ///
     /// Updates the properties associated with a set of queues for a routing profile.
     ///
-    /// - Parameter UpdateRoutingProfileQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoutingProfileQueuesInput`)
     ///
-    /// - Returns: `UpdateRoutingProfileQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingProfileQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19520,6 +24144,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingProfileQueuesInput, UpdateRoutingProfileQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoutingProfileQueuesOutput>(UpdateRoutingProfileQueuesOutput.httpOutput(from:), UpdateRoutingProfileQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingProfileQueuesInput, UpdateRoutingProfileQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingProfileQueuesOutput>())
@@ -19551,9 +24176,9 @@ extension ConnectClient {
     ///
     /// Updates a rule for the specified Amazon Connect instance. Use the [Rules Function language](https://docs.aws.amazon.com/connect/latest/APIReference/connect-rules-language.html) to code conditions for the rule.
     ///
-    /// - Parameter UpdateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleInput`)
     ///
-    /// - Returns: `UpdateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19592,6 +24217,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleInput, UpdateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleOutput>(UpdateRuleOutput.httpOutput(from:), UpdateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleInput, UpdateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleOutput>())
@@ -19623,9 +24249,9 @@ extension ConnectClient {
     ///
     /// Updates a security profile. For information about security profiles, see [Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html) in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
     ///
-    /// - Parameter UpdateSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityProfileInput`)
     ///
-    /// - Returns: `UpdateSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19663,6 +24289,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecurityProfileInput, UpdateSecurityProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityProfileOutput>(UpdateSecurityProfileOutput.httpOutput(from:), UpdateSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityProfileInput, UpdateSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityProfileOutput>())
@@ -19694,9 +24321,9 @@ extension ConnectClient {
     ///
     /// Updates details about a specific task template in the specified Amazon Connect instance. This operation does not support partial updates. Instead it does a full update of template content.
     ///
-    /// - Parameter UpdateTaskTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTaskTemplateInput`)
     ///
-    /// - Returns: `UpdateTaskTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTaskTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19735,6 +24362,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTaskTemplateInput, UpdateTaskTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskTemplateOutput>(UpdateTaskTemplateOutput.httpOutput(from:), UpdateTaskTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskTemplateInput, UpdateTaskTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTaskTemplateOutput>())
@@ -19766,9 +24394,9 @@ extension ConnectClient {
     ///
     /// Updates the traffic distribution for a given traffic distribution group. When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Region but there won't be any agents available to receive the calls. The SignInConfig distribution is available only on a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned. For more information about updating a traffic distribution group, see [Update telephony traffic distribution across Amazon Web Services Regions ](https://docs.aws.amazon.com/connect/latest/adminguide/update-telephony-traffic-distribution.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter UpdateTrafficDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrafficDistributionInput`)
     ///
-    /// - Returns: `UpdateTrafficDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrafficDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19807,6 +24435,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrafficDistributionInput, UpdateTrafficDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrafficDistributionOutput>(UpdateTrafficDistributionOutput.httpOutput(from:), UpdateTrafficDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficDistributionInput, UpdateTrafficDistributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrafficDistributionOutput>())
@@ -19838,9 +24467,9 @@ extension ConnectClient {
     ///
     /// Assigns the specified hierarchy group to the specified user.
     ///
-    /// - Parameter UpdateUserHierarchyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserHierarchyInput`)
     ///
-    /// - Returns: `UpdateUserHierarchyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserHierarchyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19878,6 +24507,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserHierarchyInput, UpdateUserHierarchyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserHierarchyOutput>(UpdateUserHierarchyOutput.httpOutput(from:), UpdateUserHierarchyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserHierarchyInput, UpdateUserHierarchyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserHierarchyOutput>())
@@ -19909,9 +24539,9 @@ extension ConnectClient {
     ///
     /// Updates the name of the user hierarchy group.
     ///
-    /// - Parameter UpdateUserHierarchyGroupNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserHierarchyGroupNameInput`)
     ///
-    /// - Returns: `UpdateUserHierarchyGroupNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserHierarchyGroupNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19950,6 +24580,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserHierarchyGroupNameInput, UpdateUserHierarchyGroupNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserHierarchyGroupNameOutput>(UpdateUserHierarchyGroupNameOutput.httpOutput(from:), UpdateUserHierarchyGroupNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserHierarchyGroupNameInput, UpdateUserHierarchyGroupNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserHierarchyGroupNameOutput>())
@@ -19981,9 +24612,9 @@ extension ConnectClient {
     ///
     /// Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
     ///
-    /// - Parameter UpdateUserHierarchyStructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserHierarchyStructureInput`)
     ///
-    /// - Returns: `UpdateUserHierarchyStructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserHierarchyStructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20022,6 +24653,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserHierarchyStructureInput, UpdateUserHierarchyStructureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserHierarchyStructureOutput>(UpdateUserHierarchyStructureOutput.httpOutput(from:), UpdateUserHierarchyStructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserHierarchyStructureInput, UpdateUserHierarchyStructureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserHierarchyStructureOutput>())
@@ -20053,9 +24685,9 @@ extension ConnectClient {
     ///
     /// Updates the identity information for the specified user. We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see [Best Practices for Security Profiles](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-best-practices.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter UpdateUserIdentityInfoInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserIdentityInfoInput`)
     ///
-    /// - Returns: `UpdateUserIdentityInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserIdentityInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20093,6 +24725,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserIdentityInfoInput, UpdateUserIdentityInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserIdentityInfoOutput>(UpdateUserIdentityInfoOutput.httpOutput(from:), UpdateUserIdentityInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserIdentityInfoInput, UpdateUserIdentityInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserIdentityInfoOutput>())
@@ -20124,9 +24757,9 @@ extension ConnectClient {
     ///
     /// Updates the phone configuration settings for the specified user.
     ///
-    /// - Parameter UpdateUserPhoneConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserPhoneConfigInput`)
     ///
-    /// - Returns: `UpdateUserPhoneConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserPhoneConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20164,6 +24797,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserPhoneConfigInput, UpdateUserPhoneConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserPhoneConfigOutput>(UpdateUserPhoneConfigOutput.httpOutput(from:), UpdateUserPhoneConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserPhoneConfigInput, UpdateUserPhoneConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserPhoneConfigOutput>())
@@ -20195,9 +24829,9 @@ extension ConnectClient {
     ///
     /// Updates the properties associated with the proficiencies of a user.
     ///
-    /// - Parameter UpdateUserProficienciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserProficienciesInput`)
     ///
-    /// - Returns: `UpdateUserProficienciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserProficienciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20235,6 +24869,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserProficienciesInput, UpdateUserProficienciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserProficienciesOutput>(UpdateUserProficienciesOutput.httpOutput(from:), UpdateUserProficienciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserProficienciesInput, UpdateUserProficienciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserProficienciesOutput>())
@@ -20266,9 +24901,9 @@ extension ConnectClient {
     ///
     /// Assigns the specified routing profile to the specified user.
     ///
-    /// - Parameter UpdateUserRoutingProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserRoutingProfileInput`)
     ///
-    /// - Returns: `UpdateUserRoutingProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserRoutingProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20306,6 +24941,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserRoutingProfileInput, UpdateUserRoutingProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserRoutingProfileOutput>(UpdateUserRoutingProfileOutput.httpOutput(from:), UpdateUserRoutingProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserRoutingProfileInput, UpdateUserRoutingProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserRoutingProfileOutput>())
@@ -20337,9 +24973,9 @@ extension ConnectClient {
     ///
     /// Assigns the specified security profiles to the specified user.
     ///
-    /// - Parameter UpdateUserSecurityProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserSecurityProfilesInput`)
     ///
-    /// - Returns: `UpdateUserSecurityProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserSecurityProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20377,6 +25013,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserSecurityProfilesInput, UpdateUserSecurityProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserSecurityProfilesOutput>(UpdateUserSecurityProfilesOutput.httpOutput(from:), UpdateUserSecurityProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserSecurityProfilesInput, UpdateUserSecurityProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserSecurityProfilesOutput>())
@@ -20408,9 +25045,9 @@ extension ConnectClient {
     ///
     /// Updates the view content of the given view identifier in the specified Amazon Connect instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
     ///
-    /// - Parameter UpdateViewContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateViewContentInput`)
     ///
-    /// - Returns: `UpdateViewContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateViewContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20450,6 +25087,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateViewContentInput, UpdateViewContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateViewContentOutput>(UpdateViewContentOutput.httpOutput(from:), UpdateViewContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateViewContentInput, UpdateViewContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateViewContentOutput>())
@@ -20481,9 +25119,9 @@ extension ConnectClient {
     ///
     /// Updates the view metadata. Note that either Name or Description must be provided.
     ///
-    /// - Parameter UpdateViewMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateViewMetadataInput`)
     ///
-    /// - Returns: `UpdateViewMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateViewMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20524,6 +25162,7 @@ extension ConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateViewMetadataInput, UpdateViewMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateViewMetadataOutput>(UpdateViewMetadataOutput.httpOutput(from:), UpdateViewMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateViewMetadataInput, UpdateViewMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateViewMetadataOutput>())
@@ -20539,6 +25178,301 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateViewMetadata")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateWorkspaceMetadata` operation on the `Connect` service.
+    ///
+    /// Updates the metadata of a workspace, such as its name and description.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceMetadataInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceMetadataOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateWorkspaceMetadata(input: UpdateWorkspaceMetadataInput) async throws -> UpdateWorkspaceMetadataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateWorkspaceMetadata")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput>(UpdateWorkspaceMetadataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkspaceMetadataInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspaceMetadataOutput>(UpdateWorkspaceMetadataOutput.httpOutput(from:), UpdateWorkspaceMetadataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspaceMetadataOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkspaceMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkspaceMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWorkspaceMetadataInput, UpdateWorkspaceMetadataOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateWorkspaceMetadata")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateWorkspacePage` operation on the `Connect` service.
+    ///
+    /// Updates the configuration of a page in a workspace, including the associated view and input data.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspacePageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspacePageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateWorkspacePage(input: UpdateWorkspacePageInput) async throws -> UpdateWorkspacePageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateWorkspacePage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateWorkspacePageInput, UpdateWorkspacePageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput>(UpdateWorkspacePageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkspacePageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspacePageOutput>(UpdateWorkspacePageOutput.httpOutput(from:), UpdateWorkspacePageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspacePageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkspacePageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkspacePageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWorkspacePageInput, UpdateWorkspacePageOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateWorkspacePage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateWorkspaceTheme` operation on the `Connect` service.
+    ///
+    /// Updates the theme configuration for a workspace, including colors and styling.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceThemeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceThemeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateWorkspaceTheme(input: UpdateWorkspaceThemeInput) async throws -> UpdateWorkspaceThemeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateWorkspaceTheme")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput>(UpdateWorkspaceThemeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkspaceThemeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspaceThemeOutput>(UpdateWorkspaceThemeOutput.httpOutput(from:), UpdateWorkspaceThemeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspaceThemeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkspaceThemeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkspaceThemeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWorkspaceThemeInput, UpdateWorkspaceThemeOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateWorkspaceTheme")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateWorkspaceVisibility` operation on the `Connect` service.
+    ///
+    /// Updates the visibility setting of a workspace, controlling whether it is available to all users, assigned users only, or none.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceVisibilityInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceVisibilityOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateWorkspaceVisibility(input: UpdateWorkspaceVisibilityInput) async throws -> UpdateWorkspaceVisibilityOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateWorkspaceVisibility")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput>(UpdateWorkspaceVisibilityInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWorkspaceVisibilityInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspaceVisibilityOutput>(UpdateWorkspaceVisibilityOutput.httpOutput(from:), UpdateWorkspaceVisibilityOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspaceVisibilityOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWorkspaceVisibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWorkspaceVisibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWorkspaceVisibilityInput, UpdateWorkspaceVisibilityOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateWorkspaceVisibility")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

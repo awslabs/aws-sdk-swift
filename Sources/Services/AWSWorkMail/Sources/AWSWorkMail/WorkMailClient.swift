@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WorkMailClient: ClientRuntime.Client {
+public class WorkMailClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WorkMailClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkMailClient.WorkMailClientConfiguration
     let serviceName = "WorkMail"
@@ -374,9 +374,9 @@ extension WorkMailClient {
     ///
     /// Adds a member (user or group) to the resource's set of delegates.
     ///
-    /// - Parameter AssociateDelegateToResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDelegateToResourceInput`)
     ///
-    /// - Returns: `AssociateDelegateToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDelegateToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDelegateToResourceInput, AssociateDelegateToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDelegateToResourceOutput>(AssociateDelegateToResourceOutput.httpOutput(from:), AssociateDelegateToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDelegateToResourceInput, AssociateDelegateToResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDelegateToResourceOutput>())
@@ -447,9 +448,9 @@ extension WorkMailClient {
     ///
     /// Adds a member (user or group) to the group's set.
     ///
-    /// - Parameter AssociateMemberToGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToGroupInput`)
     ///
-    /// - Returns: `AssociateMemberToGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMemberToGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +489,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMemberToGroupInput, AssociateMemberToGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMemberToGroupOutput>(AssociateMemberToGroupOutput.httpOutput(from:), AssociateMemberToGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMemberToGroupInput, AssociateMemberToGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMemberToGroupOutput>())
@@ -522,9 +524,9 @@ extension WorkMailClient {
     ///
     /// Assumes an impersonation role for the given WorkMail organization. This method returns an authentication token you can use to make impersonated calls.
     ///
-    /// - Parameter AssumeImpersonationRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeImpersonationRoleInput`)
     ///
-    /// - Returns: `AssumeImpersonationRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeImpersonationRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,6 +561,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeImpersonationRoleInput, AssumeImpersonationRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeImpersonationRoleOutput>(AssumeImpersonationRoleOutput.httpOutput(from:), AssumeImpersonationRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeImpersonationRoleInput, AssumeImpersonationRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeImpersonationRoleOutput>())
@@ -593,9 +596,9 @@ extension WorkMailClient {
     ///
     /// Cancels a mailbox export job. If the mailbox export job is near completion, it might not be possible to cancel it.
     ///
-    /// - Parameter CancelMailboxExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMailboxExportJobInput`)
     ///
-    /// - Returns: `CancelMailboxExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMailboxExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,6 +634,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMailboxExportJobInput, CancelMailboxExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMailboxExportJobOutput>(CancelMailboxExportJobOutput.httpOutput(from:), CancelMailboxExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMailboxExportJobInput, CancelMailboxExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMailboxExportJobOutput>())
@@ -665,9 +669,9 @@ extension WorkMailClient {
     ///
     /// Adds an alias to the set of a given member (user or group) of WorkMail.
     ///
-    /// - Parameter CreateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAliasInput`)
     ///
-    /// - Returns: `CreateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,6 +711,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAliasOutput>(CreateAliasOutput.httpOutput(from:), CreateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAliasInput, CreateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAliasOutput>())
@@ -741,9 +746,9 @@ extension WorkMailClient {
     ///
     /// Creates an AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
-    /// - Parameter CreateAvailabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAvailabilityConfigurationInput`)
     ///
-    /// - Returns: `CreateAvailabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAvailabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -780,6 +785,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAvailabilityConfigurationInput, CreateAvailabilityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAvailabilityConfigurationOutput>(CreateAvailabilityConfigurationOutput.httpOutput(from:), CreateAvailabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAvailabilityConfigurationInput, CreateAvailabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAvailabilityConfigurationOutput>())
@@ -814,9 +820,9 @@ extension WorkMailClient {
     ///
     /// Creates a group that can be used in WorkMail by calling the [RegisterToWorkMail] operation.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,6 +861,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -889,9 +896,9 @@ extension WorkMailClient {
     ///
     /// Creates the WorkMail application in IAM Identity Center that can be used later in the WorkMail - IdC integration. For more information, see PutIdentityProviderConfiguration. This action does not affect the authentication settings for any WorkMail organizations.
     ///
-    /// - Parameter CreateIdentityCenterApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdentityCenterApplicationInput`)
     ///
-    /// - Returns: `CreateIdentityCenterApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdentityCenterApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -924,6 +931,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdentityCenterApplicationInput, CreateIdentityCenterApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdentityCenterApplicationOutput>(CreateIdentityCenterApplicationOutput.httpOutput(from:), CreateIdentityCenterApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdentityCenterApplicationInput, CreateIdentityCenterApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdentityCenterApplicationOutput>())
@@ -958,9 +966,9 @@ extension WorkMailClient {
     ///
     /// Creates an impersonation role for the given WorkMail organization. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries also complete successfully without performing any further actions.
     ///
-    /// - Parameter CreateImpersonationRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImpersonationRoleInput`)
     ///
-    /// - Returns: `CreateImpersonationRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImpersonationRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -998,6 +1006,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImpersonationRoleInput, CreateImpersonationRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImpersonationRoleOutput>(CreateImpersonationRoleOutput.httpOutput(from:), CreateImpersonationRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImpersonationRoleInput, CreateImpersonationRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImpersonationRoleOutput>())
@@ -1032,9 +1041,9 @@ extension WorkMailClient {
     ///
     /// Creates a new mobile device access rule for the specified WorkMail organization.
     ///
-    /// - Parameter CreateMobileDeviceAccessRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMobileDeviceAccessRuleInput`)
     ///
-    /// - Returns: `CreateMobileDeviceAccessRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMobileDeviceAccessRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1070,6 +1079,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMobileDeviceAccessRuleInput, CreateMobileDeviceAccessRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMobileDeviceAccessRuleOutput>(CreateMobileDeviceAccessRuleOutput.httpOutput(from:), CreateMobileDeviceAccessRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMobileDeviceAccessRuleInput, CreateMobileDeviceAccessRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMobileDeviceAccessRuleOutput>())
@@ -1104,9 +1114,9 @@ extension WorkMailClient {
     ///
     /// Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see [Adding an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/add_new_organization.html) in the WorkMail Administrator Guide. You can associate multiple email domains with an organization, then choose your default email domain from the WorkMail console. You can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For more information, see [Adding a domain](https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html) and [Choosing the default domain](https://docs.aws.amazon.com/workmail/latest/adminguide/default_domain.html) in the WorkMail Administrator Guide. Optionally, you can use a customer managed key from AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail creates a default, AWS managed key for you.
     ///
-    /// - Parameter CreateOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOrganizationInput`)
     ///
-    /// - Returns: `CreateOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,6 +1153,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOrganizationInput, CreateOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOrganizationOutput>(CreateOrganizationOutput.httpOutput(from:), CreateOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOrganizationInput, CreateOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOrganizationOutput>())
@@ -1177,9 +1188,9 @@ extension WorkMailClient {
     ///
     /// Creates a new WorkMail resource.
     ///
-    /// - Parameter CreateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceInput`)
     ///
-    /// - Returns: `CreateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1218,6 +1229,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceInput, CreateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceOutput>(CreateResourceOutput.httpOutput(from:), CreateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceInput, CreateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceOutput>())
@@ -1252,9 +1264,9 @@ extension WorkMailClient {
     ///
     /// Creates a user who can be used in WorkMail by calling the [RegisterToWorkMail] operation.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,6 +1306,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -1328,9 +1341,9 @@ extension WorkMailClient {
     ///
     /// Deletes an access control rule for the specified WorkMail organization. Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
-    /// - Parameter DeleteAccessControlRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessControlRuleInput`)
     ///
-    /// - Returns: `DeleteAccessControlRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessControlRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1363,6 +1376,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccessControlRuleInput, DeleteAccessControlRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessControlRuleOutput>(DeleteAccessControlRuleOutput.httpOutput(from:), DeleteAccessControlRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessControlRuleInput, DeleteAccessControlRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessControlRuleOutput>())
@@ -1397,9 +1411,9 @@ extension WorkMailClient {
     ///
     /// Remove one or more specified aliases from a set of aliases for a given user.
     ///
-    /// - Parameter DeleteAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAliasInput`)
     ///
-    /// - Returns: `DeleteAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1435,6 +1449,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAliasOutput>(DeleteAliasOutput.httpOutput(from:), DeleteAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAliasInput, DeleteAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAliasOutput>())
@@ -1469,9 +1484,9 @@ extension WorkMailClient {
     ///
     /// Deletes the AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
-    /// - Parameter DeleteAvailabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAvailabilityConfigurationInput`)
     ///
-    /// - Returns: `DeleteAvailabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAvailabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,6 +1519,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAvailabilityConfigurationInput, DeleteAvailabilityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAvailabilityConfigurationOutput>(DeleteAvailabilityConfigurationOutput.httpOutput(from:), DeleteAvailabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAvailabilityConfigurationInput, DeleteAvailabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAvailabilityConfigurationOutput>())
@@ -1538,9 +1554,9 @@ extension WorkMailClient {
     ///
     /// Deletes the email monitoring configuration for a specified organization.
     ///
-    /// - Parameter DeleteEmailMonitoringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEmailMonitoringConfigurationInput`)
     ///
-    /// - Returns: `DeleteEmailMonitoringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEmailMonitoringConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1574,6 +1590,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEmailMonitoringConfigurationInput, DeleteEmailMonitoringConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEmailMonitoringConfigurationOutput>(DeleteEmailMonitoringConfigurationOutput.httpOutput(from:), DeleteEmailMonitoringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEmailMonitoringConfigurationInput, DeleteEmailMonitoringConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEmailMonitoringConfigurationOutput>())
@@ -1608,9 +1625,9 @@ extension WorkMailClient {
     ///
     /// Deletes a group from WorkMail.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1648,6 +1665,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -1682,9 +1700,9 @@ extension WorkMailClient {
     ///
     /// Deletes the IAM Identity Center application from WorkMail. This action does not affect the authentication settings for any WorkMail organizations.
     ///
-    /// - Parameter DeleteIdentityCenterApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentityCenterApplicationInput`)
     ///
-    /// - Returns: `DeleteIdentityCenterApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentityCenterApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,6 +1735,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIdentityCenterApplicationInput, DeleteIdentityCenterApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdentityCenterApplicationOutput>(DeleteIdentityCenterApplicationOutput.httpOutput(from:), DeleteIdentityCenterApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentityCenterApplicationInput, DeleteIdentityCenterApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentityCenterApplicationOutput>())
@@ -1751,9 +1770,9 @@ extension WorkMailClient {
     ///
     /// Disables the integration between IdC and WorkMail. Authentication will continue with the directory as it was before the IdC integration. You might have to reset your directory passwords and reconfigure your desktop and mobile email clients.
     ///
-    /// - Parameter DeleteIdentityProviderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentityProviderConfigurationInput`)
     ///
-    /// - Returns: `DeleteIdentityProviderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentityProviderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1787,6 +1806,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIdentityProviderConfigurationInput, DeleteIdentityProviderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderConfigurationOutput>(DeleteIdentityProviderConfigurationOutput.httpOutput(from:), DeleteIdentityProviderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentityProviderConfigurationInput, DeleteIdentityProviderConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentityProviderConfigurationOutput>())
@@ -1821,9 +1841,9 @@ extension WorkMailClient {
     ///
     /// Deletes an impersonation role for the given WorkMail organization.
     ///
-    /// - Parameter DeleteImpersonationRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImpersonationRoleInput`)
     ///
-    /// - Returns: `DeleteImpersonationRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImpersonationRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1857,6 +1877,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImpersonationRoleInput, DeleteImpersonationRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImpersonationRoleOutput>(DeleteImpersonationRoleOutput.httpOutput(from:), DeleteImpersonationRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImpersonationRoleInput, DeleteImpersonationRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImpersonationRoleOutput>())
@@ -1891,9 +1912,9 @@ extension WorkMailClient {
     ///
     /// Deletes permissions granted to a member (user or group).
     ///
-    /// - Parameter DeleteMailboxPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMailboxPermissionsInput`)
     ///
-    /// - Returns: `DeleteMailboxPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMailboxPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1929,6 +1950,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMailboxPermissionsInput, DeleteMailboxPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMailboxPermissionsOutput>(DeleteMailboxPermissionsOutput.httpOutput(from:), DeleteMailboxPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMailboxPermissionsInput, DeleteMailboxPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMailboxPermissionsOutput>())
@@ -1963,9 +1985,9 @@ extension WorkMailClient {
     ///
     /// Deletes the mobile device access override for the given WorkMail organization, user, and device. Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
-    /// - Parameter DeleteMobileDeviceAccessOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMobileDeviceAccessOverrideInput`)
     ///
-    /// - Returns: `DeleteMobileDeviceAccessOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMobileDeviceAccessOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2000,6 +2022,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMobileDeviceAccessOverrideInput, DeleteMobileDeviceAccessOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMobileDeviceAccessOverrideOutput>(DeleteMobileDeviceAccessOverrideOutput.httpOutput(from:), DeleteMobileDeviceAccessOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMobileDeviceAccessOverrideInput, DeleteMobileDeviceAccessOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMobileDeviceAccessOverrideOutput>())
@@ -2034,9 +2057,9 @@ extension WorkMailClient {
     ///
     /// Deletes a mobile device access rule for the specified WorkMail organization. Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
-    /// - Parameter DeleteMobileDeviceAccessRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMobileDeviceAccessRuleInput`)
     ///
-    /// - Returns: `DeleteMobileDeviceAccessRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMobileDeviceAccessRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2070,6 +2093,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMobileDeviceAccessRuleInput, DeleteMobileDeviceAccessRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMobileDeviceAccessRuleOutput>(DeleteMobileDeviceAccessRuleOutput.httpOutput(from:), DeleteMobileDeviceAccessRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMobileDeviceAccessRuleInput, DeleteMobileDeviceAccessRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMobileDeviceAccessRuleOutput>())
@@ -2104,9 +2128,9 @@ extension WorkMailClient {
     ///
     /// Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see [Removing an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/remove_organization.html) in the WorkMail Administrator Guide.
     ///
-    /// - Parameter DeleteOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOrganizationInput`)
     ///
-    /// - Returns: `DeleteOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2141,6 +2165,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOrganizationOutput>(DeleteOrganizationOutput.httpOutput(from:), DeleteOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOrganizationInput, DeleteOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationOutput>())
@@ -2175,9 +2200,9 @@ extension WorkMailClient {
     ///
     /// Deletes the Personal Access Token from the provided WorkMail Organization.
     ///
-    /// - Parameter DeletePersonalAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePersonalAccessTokenInput`)
     ///
-    /// - Returns: `DeletePersonalAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePersonalAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2211,6 +2236,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePersonalAccessTokenInput, DeletePersonalAccessTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePersonalAccessTokenOutput>(DeletePersonalAccessTokenOutput.httpOutput(from:), DeletePersonalAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePersonalAccessTokenInput, DeletePersonalAccessTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePersonalAccessTokenOutput>())
@@ -2245,9 +2271,9 @@ extension WorkMailClient {
     ///
     /// Deletes the specified resource.
     ///
-    /// - Parameter DeleteResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceInput`)
     ///
-    /// - Returns: `DeleteResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2283,6 +2309,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceInput, DeleteResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceOutput>(DeleteResourceOutput.httpOutput(from:), DeleteResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceInput, DeleteResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceOutput>())
@@ -2317,9 +2344,9 @@ extension WorkMailClient {
     ///
     /// Deletes the specified retention policy from the specified organization.
     ///
-    /// - Parameter DeleteRetentionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRetentionPolicyInput`)
     ///
-    /// - Returns: `DeleteRetentionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRetentionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2353,6 +2380,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRetentionPolicyOutput>(DeleteRetentionPolicyOutput.httpOutput(from:), DeleteRetentionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetentionPolicyOutput>())
@@ -2387,9 +2415,9 @@ extension WorkMailClient {
     ///
     /// Deletes a user from WorkMail and all subsequent systems. Before you can delete a user, the user state must be DISABLED. Use the [DescribeUser] action to confirm the user state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30 days before they are permanently removed.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2427,6 +2455,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -2461,9 +2490,9 @@ extension WorkMailClient {
     ///
     /// Mark a user, group, or resource as no longer used in WorkMail. This action disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
     ///
-    /// - Parameter DeregisterFromWorkMailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterFromWorkMailInput`)
     ///
-    /// - Returns: `DeregisterFromWorkMailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterFromWorkMailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2499,6 +2528,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterFromWorkMailInput, DeregisterFromWorkMailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterFromWorkMailOutput>(DeregisterFromWorkMailOutput.httpOutput(from:), DeregisterFromWorkMailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterFromWorkMailInput, DeregisterFromWorkMailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterFromWorkMailOutput>())
@@ -2533,9 +2563,9 @@ extension WorkMailClient {
     ///
     /// Removes a domain from WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first remove any email address used by WorkMail entities before you remove the domain.
     ///
-    /// - Parameter DeregisterMailDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterMailDomainInput`)
     ///
-    /// - Returns: `DeregisterMailDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterMailDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2571,6 +2601,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterMailDomainInput, DeregisterMailDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterMailDomainOutput>(DeregisterMailDomainOutput.httpOutput(from:), DeregisterMailDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterMailDomainInput, DeregisterMailDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterMailDomainOutput>())
@@ -2605,9 +2636,9 @@ extension WorkMailClient {
     ///
     /// Describes the current email monitoring configuration for a specified organization.
     ///
-    /// - Parameter DescribeEmailMonitoringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEmailMonitoringConfigurationInput`)
     ///
-    /// - Returns: `DescribeEmailMonitoringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEmailMonitoringConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,6 +2673,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEmailMonitoringConfigurationInput, DescribeEmailMonitoringConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEmailMonitoringConfigurationOutput>(DescribeEmailMonitoringConfigurationOutput.httpOutput(from:), DescribeEmailMonitoringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEmailMonitoringConfigurationInput, DescribeEmailMonitoringConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEmailMonitoringConfigurationOutput>())
@@ -2676,9 +2708,9 @@ extension WorkMailClient {
     ///
     /// Returns basic details about an entity in WorkMail.
     ///
-    /// - Parameter DescribeEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntityInput`)
     ///
-    /// - Returns: `DescribeEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2713,6 +2745,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntityInput, DescribeEntityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntityOutput>(DescribeEntityOutput.httpOutput(from:), DescribeEntityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntityInput, DescribeEntityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntityOutput>())
@@ -2747,9 +2780,9 @@ extension WorkMailClient {
     ///
     /// Returns the data available for the group.
     ///
-    /// - Parameter DescribeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupInput`)
     ///
-    /// - Returns: `DescribeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2784,6 +2817,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGroupInput, DescribeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGroupOutput>(DescribeGroupOutput.httpOutput(from:), DescribeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGroupInput, DescribeGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGroupOutput>())
@@ -2818,9 +2852,9 @@ extension WorkMailClient {
     ///
     /// Returns detailed information on the current IdC setup for the WorkMail organization.
     ///
-    /// - Parameter DescribeIdentityProviderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIdentityProviderConfigurationInput`)
     ///
-    /// - Returns: `DescribeIdentityProviderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIdentityProviderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2855,6 +2889,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIdentityProviderConfigurationInput, DescribeIdentityProviderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdentityProviderConfigurationOutput>(DescribeIdentityProviderConfigurationOutput.httpOutput(from:), DescribeIdentityProviderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityProviderConfigurationInput, DescribeIdentityProviderConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityProviderConfigurationOutput>())
@@ -2889,9 +2924,9 @@ extension WorkMailClient {
     ///
     /// Lists the settings in a DMARC policy for a specified organization.
     ///
-    /// - Parameter DescribeInboundDmarcSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInboundDmarcSettingsInput`)
     ///
-    /// - Returns: `DescribeInboundDmarcSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInboundDmarcSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2924,6 +2959,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInboundDmarcSettingsInput, DescribeInboundDmarcSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInboundDmarcSettingsOutput>(DescribeInboundDmarcSettingsOutput.httpOutput(from:), DescribeInboundDmarcSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInboundDmarcSettingsInput, DescribeInboundDmarcSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInboundDmarcSettingsOutput>())
@@ -2958,9 +2994,9 @@ extension WorkMailClient {
     ///
     /// Describes the current status of a mailbox export job.
     ///
-    /// - Parameter DescribeMailboxExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMailboxExportJobInput`)
     ///
-    /// - Returns: `DescribeMailboxExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMailboxExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2995,6 +3031,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMailboxExportJobInput, DescribeMailboxExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMailboxExportJobOutput>(DescribeMailboxExportJobOutput.httpOutput(from:), DescribeMailboxExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMailboxExportJobInput, DescribeMailboxExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMailboxExportJobOutput>())
@@ -3029,9 +3066,9 @@ extension WorkMailClient {
     ///
     /// Provides more information regarding a given organization based on its identifier.
     ///
-    /// - Parameter DescribeOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationInput`)
     ///
-    /// - Returns: `DescribeOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3064,6 +3101,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationOutput>(DescribeOrganizationOutput.httpOutput(from:), DescribeOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationInput, DescribeOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationOutput>())
@@ -3098,9 +3136,9 @@ extension WorkMailClient {
     ///
     /// Returns the data available for the resource.
     ///
-    /// - Parameter DescribeResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourceInput`)
     ///
-    /// - Returns: `DescribeResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3136,6 +3174,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourceInput, DescribeResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourceOutput>(DescribeResourceOutput.httpOutput(from:), DescribeResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourceInput, DescribeResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourceOutput>())
@@ -3170,9 +3209,9 @@ extension WorkMailClient {
     ///
     /// Provides information regarding the user.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3209,6 +3248,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserInput, DescribeUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(DescribeUserOutput.httpOutput(from:), DescribeUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserInput, DescribeUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserOutput>())
@@ -3243,9 +3283,9 @@ extension WorkMailClient {
     ///
     /// Removes a member from the resource's set of delegates.
     ///
-    /// - Parameter DisassociateDelegateFromResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDelegateFromResourceInput`)
     ///
-    /// - Returns: `DisassociateDelegateFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDelegateFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3282,6 +3322,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDelegateFromResourceInput, DisassociateDelegateFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDelegateFromResourceOutput>(DisassociateDelegateFromResourceOutput.httpOutput(from:), DisassociateDelegateFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDelegateFromResourceInput, DisassociateDelegateFromResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDelegateFromResourceOutput>())
@@ -3316,9 +3357,9 @@ extension WorkMailClient {
     ///
     /// Removes a member from a group.
     ///
-    /// - Parameter DisassociateMemberFromGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMemberFromGroupInput`)
     ///
-    /// - Returns: `DisassociateMemberFromGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMemberFromGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3357,6 +3398,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateMemberFromGroupInput, DisassociateMemberFromGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMemberFromGroupOutput>(DisassociateMemberFromGroupOutput.httpOutput(from:), DisassociateMemberFromGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMemberFromGroupInput, DisassociateMemberFromGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMemberFromGroupOutput>())
@@ -3391,9 +3433,9 @@ extension WorkMailClient {
     ///
     /// Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
     ///
-    /// - Parameter GetAccessControlEffectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessControlEffectInput`)
     ///
-    /// - Returns: `GetAccessControlEffectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessControlEffectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3429,6 +3471,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccessControlEffectInput, GetAccessControlEffectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessControlEffectOutput>(GetAccessControlEffectOutput.httpOutput(from:), GetAccessControlEffectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessControlEffectInput, GetAccessControlEffectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessControlEffectOutput>())
@@ -3463,9 +3506,9 @@ extension WorkMailClient {
     ///
     /// Gets the default retention policy details for the specified organization.
     ///
-    /// - Parameter GetDefaultRetentionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDefaultRetentionPolicyInput`)
     ///
-    /// - Returns: `GetDefaultRetentionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDefaultRetentionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3500,6 +3543,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDefaultRetentionPolicyInput, GetDefaultRetentionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultRetentionPolicyOutput>(GetDefaultRetentionPolicyOutput.httpOutput(from:), GetDefaultRetentionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultRetentionPolicyInput, GetDefaultRetentionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultRetentionPolicyOutput>())
@@ -3534,9 +3578,9 @@ extension WorkMailClient {
     ///
     /// Gets the impersonation role details for the given WorkMail organization.
     ///
-    /// - Parameter GetImpersonationRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImpersonationRoleInput`)
     ///
-    /// - Returns: `GetImpersonationRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImpersonationRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3571,6 +3615,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetImpersonationRoleInput, GetImpersonationRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImpersonationRoleOutput>(GetImpersonationRoleOutput.httpOutput(from:), GetImpersonationRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImpersonationRoleInput, GetImpersonationRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImpersonationRoleOutput>())
@@ -3605,9 +3650,9 @@ extension WorkMailClient {
     ///
     /// Tests whether the given impersonation role can impersonate a target user.
     ///
-    /// - Parameter GetImpersonationRoleEffectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImpersonationRoleEffectInput`)
     ///
-    /// - Returns: `GetImpersonationRoleEffectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImpersonationRoleEffectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3644,6 +3689,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetImpersonationRoleEffectInput, GetImpersonationRoleEffectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImpersonationRoleEffectOutput>(GetImpersonationRoleEffectOutput.httpOutput(from:), GetImpersonationRoleEffectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImpersonationRoleEffectInput, GetImpersonationRoleEffectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImpersonationRoleEffectOutput>())
@@ -3678,9 +3724,9 @@ extension WorkMailClient {
     ///
     /// Gets details for a mail domain, including domain records required to configure your domain with recommended security.
     ///
-    /// - Parameter GetMailDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMailDomainInput`)
     ///
-    /// - Returns: `GetMailDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMailDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3715,6 +3761,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMailDomainInput, GetMailDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMailDomainOutput>(GetMailDomainOutput.httpOutput(from:), GetMailDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMailDomainInput, GetMailDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMailDomainOutput>())
@@ -3749,9 +3796,9 @@ extension WorkMailClient {
     ///
     /// Requests a user's mailbox details for a specified organization and user.
     ///
-    /// - Parameter GetMailboxDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMailboxDetailsInput`)
     ///
-    /// - Returns: `GetMailboxDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMailboxDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3786,6 +3833,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMailboxDetailsInput, GetMailboxDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMailboxDetailsOutput>(GetMailboxDetailsOutput.httpOutput(from:), GetMailboxDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMailboxDetailsInput, GetMailboxDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMailboxDetailsOutput>())
@@ -3820,9 +3868,9 @@ extension WorkMailClient {
     ///
     /// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access rules for the WorkMail organization for a particular user's attributes.
     ///
-    /// - Parameter GetMobileDeviceAccessEffectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMobileDeviceAccessEffectInput`)
     ///
-    /// - Returns: `GetMobileDeviceAccessEffectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMobileDeviceAccessEffectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3856,6 +3904,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMobileDeviceAccessEffectInput, GetMobileDeviceAccessEffectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMobileDeviceAccessEffectOutput>(GetMobileDeviceAccessEffectOutput.httpOutput(from:), GetMobileDeviceAccessEffectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMobileDeviceAccessEffectInput, GetMobileDeviceAccessEffectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMobileDeviceAccessEffectOutput>())
@@ -3890,9 +3939,9 @@ extension WorkMailClient {
     ///
     /// Gets the mobile device access override for the given WorkMail organization, user, and device.
     ///
-    /// - Parameter GetMobileDeviceAccessOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMobileDeviceAccessOverrideInput`)
     ///
-    /// - Returns: `GetMobileDeviceAccessOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMobileDeviceAccessOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3928,6 +3977,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMobileDeviceAccessOverrideInput, GetMobileDeviceAccessOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMobileDeviceAccessOverrideOutput>(GetMobileDeviceAccessOverrideOutput.httpOutput(from:), GetMobileDeviceAccessOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMobileDeviceAccessOverrideInput, GetMobileDeviceAccessOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMobileDeviceAccessOverrideOutput>())
@@ -3962,9 +4012,9 @@ extension WorkMailClient {
     ///
     /// Requests details of a specific Personal Access Token within the WorkMail organization.
     ///
-    /// - Parameter GetPersonalAccessTokenMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPersonalAccessTokenMetadataInput`)
     ///
-    /// - Returns: `GetPersonalAccessTokenMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPersonalAccessTokenMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3999,6 +4049,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPersonalAccessTokenMetadataInput, GetPersonalAccessTokenMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPersonalAccessTokenMetadataOutput>(GetPersonalAccessTokenMetadataOutput.httpOutput(from:), GetPersonalAccessTokenMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPersonalAccessTokenMetadataInput, GetPersonalAccessTokenMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPersonalAccessTokenMetadataOutput>())
@@ -4033,9 +4084,9 @@ extension WorkMailClient {
     ///
     /// Lists the access control rules for the specified organization.
     ///
-    /// - Parameter ListAccessControlRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessControlRulesInput`)
     ///
-    /// - Returns: `ListAccessControlRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessControlRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4068,6 +4119,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessControlRulesInput, ListAccessControlRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessControlRulesOutput>(ListAccessControlRulesOutput.httpOutput(from:), ListAccessControlRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessControlRulesInput, ListAccessControlRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessControlRulesOutput>())
@@ -4102,9 +4154,9 @@ extension WorkMailClient {
     ///
     /// Creates a paginated call to list the aliases associated with a given entity.
     ///
-    /// - Parameter ListAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAliasesInput`)
     ///
-    /// - Returns: `ListAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4140,6 +4192,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAliasesInput, ListAliasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAliasesOutput>(ListAliasesOutput.httpOutput(from:), ListAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAliasesInput, ListAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAliasesOutput>())
@@ -4174,9 +4227,9 @@ extension WorkMailClient {
     ///
     /// List all the AvailabilityConfiguration's for the given WorkMail organization.
     ///
-    /// - Parameter ListAvailabilityConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailabilityConfigurationsInput`)
     ///
-    /// - Returns: `ListAvailabilityConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailabilityConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4210,6 +4263,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailabilityConfigurationsInput, ListAvailabilityConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailabilityConfigurationsOutput>(ListAvailabilityConfigurationsOutput.httpOutput(from:), ListAvailabilityConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailabilityConfigurationsInput, ListAvailabilityConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailabilityConfigurationsOutput>())
@@ -4244,9 +4298,9 @@ extension WorkMailClient {
     ///
     /// Returns an overview of the members of a group. Users and groups can be members of a group.
     ///
-    /// - Parameter ListGroupMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupMembersInput`)
     ///
-    /// - Returns: `ListGroupMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4282,6 +4336,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupMembersInput, ListGroupMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupMembersOutput>(ListGroupMembersOutput.httpOutput(from:), ListGroupMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupMembersInput, ListGroupMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupMembersOutput>())
@@ -4316,9 +4371,9 @@ extension WorkMailClient {
     ///
     /// Returns summaries of the organization's groups.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4353,6 +4408,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -4387,9 +4443,9 @@ extension WorkMailClient {
     ///
     /// Returns all the groups to which an entity belongs.
     ///
-    /// - Parameter ListGroupsForEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsForEntityInput`)
     ///
-    /// - Returns: `ListGroupsForEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsForEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4425,6 +4481,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsForEntityInput, ListGroupsForEntityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsForEntityOutput>(ListGroupsForEntityOutput.httpOutput(from:), ListGroupsForEntityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsForEntityInput, ListGroupsForEntityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsForEntityOutput>())
@@ -4459,9 +4516,9 @@ extension WorkMailClient {
     ///
     /// Lists all the impersonation roles for the given WorkMail organization.
     ///
-    /// - Parameter ListImpersonationRolesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImpersonationRolesInput`)
     ///
-    /// - Returns: `ListImpersonationRolesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImpersonationRolesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4495,6 +4552,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImpersonationRolesInput, ListImpersonationRolesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImpersonationRolesOutput>(ListImpersonationRolesOutput.httpOutput(from:), ListImpersonationRolesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImpersonationRolesInput, ListImpersonationRolesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImpersonationRolesOutput>())
@@ -4529,9 +4587,9 @@ extension WorkMailClient {
     ///
     /// Lists the mail domains in a given WorkMail organization.
     ///
-    /// - Parameter ListMailDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMailDomainsInput`)
     ///
-    /// - Returns: `ListMailDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMailDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4565,6 +4623,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMailDomainsInput, ListMailDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMailDomainsOutput>(ListMailDomainsOutput.httpOutput(from:), ListMailDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMailDomainsInput, ListMailDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMailDomainsOutput>())
@@ -4599,9 +4658,9 @@ extension WorkMailClient {
     ///
     /// Lists the mailbox export jobs started for the specified organization within the last seven days.
     ///
-    /// - Parameter ListMailboxExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMailboxExportJobsInput`)
     ///
-    /// - Returns: `ListMailboxExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMailboxExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4635,6 +4694,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMailboxExportJobsInput, ListMailboxExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMailboxExportJobsOutput>(ListMailboxExportJobsOutput.httpOutput(from:), ListMailboxExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMailboxExportJobsInput, ListMailboxExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMailboxExportJobsOutput>())
@@ -4669,9 +4729,9 @@ extension WorkMailClient {
     ///
     /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
     ///
-    /// - Parameter ListMailboxPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMailboxPermissionsInput`)
     ///
-    /// - Returns: `ListMailboxPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMailboxPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4706,6 +4766,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMailboxPermissionsInput, ListMailboxPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMailboxPermissionsOutput>(ListMailboxPermissionsOutput.httpOutput(from:), ListMailboxPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMailboxPermissionsInput, ListMailboxPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMailboxPermissionsOutput>())
@@ -4740,9 +4801,9 @@ extension WorkMailClient {
     ///
     /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
     ///
-    /// - Parameter ListMobileDeviceAccessOverridesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMobileDeviceAccessOverridesInput`)
     ///
-    /// - Returns: `ListMobileDeviceAccessOverridesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMobileDeviceAccessOverridesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4777,6 +4838,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMobileDeviceAccessOverridesInput, ListMobileDeviceAccessOverridesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMobileDeviceAccessOverridesOutput>(ListMobileDeviceAccessOverridesOutput.httpOutput(from:), ListMobileDeviceAccessOverridesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMobileDeviceAccessOverridesInput, ListMobileDeviceAccessOverridesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMobileDeviceAccessOverridesOutput>())
@@ -4811,9 +4873,9 @@ extension WorkMailClient {
     ///
     /// Lists the mobile device access rules for the specified WorkMail organization.
     ///
-    /// - Parameter ListMobileDeviceAccessRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMobileDeviceAccessRulesInput`)
     ///
-    /// - Returns: `ListMobileDeviceAccessRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMobileDeviceAccessRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4847,6 +4909,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMobileDeviceAccessRulesInput, ListMobileDeviceAccessRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMobileDeviceAccessRulesOutput>(ListMobileDeviceAccessRulesOutput.httpOutput(from:), ListMobileDeviceAccessRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMobileDeviceAccessRulesInput, ListMobileDeviceAccessRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMobileDeviceAccessRulesOutput>())
@@ -4881,9 +4944,9 @@ extension WorkMailClient {
     ///
     /// Returns summaries of the customer's organizations.
     ///
-    /// - Parameter ListOrganizationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationsInput`)
     ///
-    /// - Returns: `ListOrganizationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4915,6 +4978,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOrganizationsInput, ListOrganizationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationsOutput>(ListOrganizationsOutput.httpOutput(from:), ListOrganizationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationsInput, ListOrganizationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationsOutput>())
@@ -4949,9 +5013,9 @@ extension WorkMailClient {
     ///
     /// Returns a summary of your Personal Access Tokens.
     ///
-    /// - Parameter ListPersonalAccessTokensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPersonalAccessTokensInput`)
     ///
-    /// - Returns: `ListPersonalAccessTokensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPersonalAccessTokensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4987,6 +5051,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPersonalAccessTokensInput, ListPersonalAccessTokensOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPersonalAccessTokensOutput>(ListPersonalAccessTokensOutput.httpOutput(from:), ListPersonalAccessTokensOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPersonalAccessTokensInput, ListPersonalAccessTokensOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPersonalAccessTokensOutput>())
@@ -5021,9 +5086,9 @@ extension WorkMailClient {
     ///
     /// Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
     ///
-    /// - Parameter ListResourceDelegatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceDelegatesInput`)
     ///
-    /// - Returns: `ListResourceDelegatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceDelegatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5060,6 +5125,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceDelegatesInput, ListResourceDelegatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceDelegatesOutput>(ListResourceDelegatesOutput.httpOutput(from:), ListResourceDelegatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceDelegatesInput, ListResourceDelegatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceDelegatesOutput>())
@@ -5094,9 +5160,9 @@ extension WorkMailClient {
     ///
     /// Returns summaries of the organization's resources.
     ///
-    /// - Parameter ListResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
-    /// - Returns: `ListResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5131,6 +5197,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcesInput, ListResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcesOutput>(ListResourcesOutput.httpOutput(from:), ListResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcesInput, ListResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcesOutput>())
@@ -5165,9 +5232,9 @@ extension WorkMailClient {
     ///
     /// Lists the tags applied to an WorkMail organization resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5199,6 +5266,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5233,9 +5301,9 @@ extension WorkMailClient {
     ///
     /// Returns summaries of the organization's users.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5269,6 +5337,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -5303,9 +5372,9 @@ extension WorkMailClient {
     ///
     /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
     ///
-    /// - Parameter PutAccessControlRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccessControlRuleInput`)
     ///
-    /// - Returns: `PutAccessControlRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessControlRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5342,6 +5411,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessControlRuleInput, PutAccessControlRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessControlRuleOutput>(PutAccessControlRuleOutput.httpOutput(from:), PutAccessControlRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessControlRuleInput, PutAccessControlRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccessControlRuleOutput>())
@@ -5376,9 +5446,9 @@ extension WorkMailClient {
     ///
     /// Creates or updates the email monitoring configuration for a specified organization.
     ///
-    /// - Parameter PutEmailMonitoringConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEmailMonitoringConfigurationInput`)
     ///
-    /// - Returns: `PutEmailMonitoringConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEmailMonitoringConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5413,6 +5483,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEmailMonitoringConfigurationInput, PutEmailMonitoringConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEmailMonitoringConfigurationOutput>(PutEmailMonitoringConfigurationOutput.httpOutput(from:), PutEmailMonitoringConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEmailMonitoringConfigurationInput, PutEmailMonitoringConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEmailMonitoringConfigurationOutput>())
@@ -5447,9 +5518,9 @@ extension WorkMailClient {
     ///
     /// Enables integration between IAM Identity Center (IdC) and WorkMail to proxy authentication requests for mailbox users. You can connect your IdC directory or your external directory to WorkMail through IdC and manage access to WorkMail mailboxes in a single place. For enhanced protection, you could enable Multifactor Authentication (MFA) and Personal Access Tokens.
     ///
-    /// - Parameter PutIdentityProviderConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutIdentityProviderConfigurationInput`)
     ///
-    /// - Returns: `PutIdentityProviderConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutIdentityProviderConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5484,6 +5555,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIdentityProviderConfigurationInput, PutIdentityProviderConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutIdentityProviderConfigurationOutput>(PutIdentityProviderConfigurationOutput.httpOutput(from:), PutIdentityProviderConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIdentityProviderConfigurationInput, PutIdentityProviderConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIdentityProviderConfigurationOutput>())
@@ -5518,9 +5590,9 @@ extension WorkMailClient {
     ///
     /// Enables or disables a DMARC policy for a given organization.
     ///
-    /// - Parameter PutInboundDmarcSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInboundDmarcSettingsInput`)
     ///
-    /// - Returns: `PutInboundDmarcSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInboundDmarcSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5553,6 +5625,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInboundDmarcSettingsInput, PutInboundDmarcSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInboundDmarcSettingsOutput>(PutInboundDmarcSettingsOutput.httpOutput(from:), PutInboundDmarcSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInboundDmarcSettingsInput, PutInboundDmarcSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInboundDmarcSettingsOutput>())
@@ -5587,9 +5660,9 @@ extension WorkMailClient {
     ///
     /// Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
     ///
-    /// - Parameter PutMailboxPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMailboxPermissionsInput`)
     ///
-    /// - Returns: `PutMailboxPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMailboxPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5625,6 +5698,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMailboxPermissionsInput, PutMailboxPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMailboxPermissionsOutput>(PutMailboxPermissionsOutput.httpOutput(from:), PutMailboxPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMailboxPermissionsInput, PutMailboxPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMailboxPermissionsOutput>())
@@ -5659,9 +5733,9 @@ extension WorkMailClient {
     ///
     /// Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
     ///
-    /// - Parameter PutMobileDeviceAccessOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMobileDeviceAccessOverrideInput`)
     ///
-    /// - Returns: `PutMobileDeviceAccessOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMobileDeviceAccessOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5697,6 +5771,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMobileDeviceAccessOverrideInput, PutMobileDeviceAccessOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMobileDeviceAccessOverrideOutput>(PutMobileDeviceAccessOverrideOutput.httpOutput(from:), PutMobileDeviceAccessOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMobileDeviceAccessOverrideInput, PutMobileDeviceAccessOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMobileDeviceAccessOverrideOutput>())
@@ -5731,9 +5806,9 @@ extension WorkMailClient {
     ///
     /// Puts a retention policy to the specified organization.
     ///
-    /// - Parameter PutRetentionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRetentionPolicyInput`)
     ///
-    /// - Returns: `PutRetentionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRetentionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5768,6 +5843,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRetentionPolicyOutput>(PutRetentionPolicyOutput.httpOutput(from:), PutRetentionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRetentionPolicyOutput>())
@@ -5802,9 +5878,9 @@ extension WorkMailClient {
     ///
     /// Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has permanent permission to use the specified domain for sending your users' emails.
     ///
-    /// - Parameter RegisterMailDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterMailDomainInput`)
     ///
-    /// - Returns: `RegisterMailDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterMailDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5841,6 +5917,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterMailDomainInput, RegisterMailDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterMailDomainOutput>(RegisterMailDomainOutput.httpOutput(from:), RegisterMailDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterMailDomainInput, RegisterMailDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterMailDomainOutput>())
@@ -5875,9 +5952,9 @@ extension WorkMailClient {
     ///
     /// Registers an existing and disabled user, group, or resource for WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the user, group, or resource is enabled and fails if the user, group, or resource is deleted. This operation results in the accumulation of costs. For more information, see [Pricing](https://aws.amazon.com/workmail/pricing). The equivalent console functionality for this operation is Enable. Users can either be created by calling the [CreateUser] API operation or they can be synchronized from your directory. For more information, see [DeregisterFromWorkMail].
     ///
-    /// - Parameter RegisterToWorkMailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterToWorkMailInput`)
     ///
-    /// - Returns: `RegisterToWorkMailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterToWorkMailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5893,6 +5970,7 @@ extension WorkMailClient {
     /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func registerToWorkMail(input: RegisterToWorkMailInput) async throws -> RegisterToWorkMailOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5919,6 +5997,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterToWorkMailInput, RegisterToWorkMailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterToWorkMailOutput>(RegisterToWorkMailOutput.httpOutput(from:), RegisterToWorkMailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterToWorkMailInput, RegisterToWorkMailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterToWorkMailOutput>())
@@ -5953,9 +6032,9 @@ extension WorkMailClient {
     ///
     /// Allows the administrator to reset the password for a user.
     ///
-    /// - Parameter ResetPasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetPasswordInput`)
     ///
-    /// - Returns: `ResetPasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5995,6 +6074,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetPasswordInput, ResetPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetPasswordOutput>(ResetPasswordOutput.httpOutput(from:), ResetPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetPasswordInput, ResetPasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetPasswordOutput>())
@@ -6029,9 +6109,9 @@ extension WorkMailClient {
     ///
     /// Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For more information, see [Exporting mailbox content](https://docs.aws.amazon.com/workmail/latest/adminguide/mail-export.html) in the WorkMail Administrator Guide.
     ///
-    /// - Parameter StartMailboxExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMailboxExportJobInput`)
     ///
-    /// - Returns: `StartMailboxExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMailboxExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6068,6 +6148,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMailboxExportJobInput, StartMailboxExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMailboxExportJobOutput>(StartMailboxExportJobOutput.httpOutput(from:), StartMailboxExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMailboxExportJobInput, StartMailboxExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMailboxExportJobOutput>())
@@ -6102,9 +6183,9 @@ extension WorkMailClient {
     ///
     /// Applies the specified tags to the specified WorkMailorganization resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6139,6 +6220,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6173,9 +6255,9 @@ extension WorkMailClient {
     ///
     /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header. The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
     ///
-    /// - Parameter TestAvailabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestAvailabilityConfigurationInput`)
     ///
-    /// - Returns: `TestAvailabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestAvailabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6210,6 +6292,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestAvailabilityConfigurationInput, TestAvailabilityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestAvailabilityConfigurationOutput>(TestAvailabilityConfigurationOutput.httpOutput(from:), TestAvailabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestAvailabilityConfigurationInput, TestAvailabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestAvailabilityConfigurationOutput>())
@@ -6244,9 +6327,9 @@ extension WorkMailClient {
     ///
     /// Untags the specified tags from the specified WorkMail organization resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6278,6 +6361,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6312,9 +6396,9 @@ extension WorkMailClient {
     ///
     /// Updates an existing AvailabilityConfiguration for the given WorkMail organization and domain.
     ///
-    /// - Parameter UpdateAvailabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAvailabilityConfigurationInput`)
     ///
-    /// - Returns: `UpdateAvailabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAvailabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6349,6 +6433,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAvailabilityConfigurationInput, UpdateAvailabilityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAvailabilityConfigurationOutput>(UpdateAvailabilityConfigurationOutput.httpOutput(from:), UpdateAvailabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAvailabilityConfigurationInput, UpdateAvailabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAvailabilityConfigurationOutput>())
@@ -6383,9 +6468,9 @@ extension WorkMailClient {
     ///
     /// Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
     ///
-    /// - Parameter UpdateDefaultMailDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDefaultMailDomainInput`)
     ///
-    /// - Returns: `UpdateDefaultMailDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDefaultMailDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6421,6 +6506,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDefaultMailDomainInput, UpdateDefaultMailDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDefaultMailDomainOutput>(UpdateDefaultMailDomainOutput.httpOutput(from:), UpdateDefaultMailDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDefaultMailDomainInput, UpdateDefaultMailDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDefaultMailDomainOutput>())
@@ -6455,9 +6541,9 @@ extension WorkMailClient {
     ///
     /// Updates attributes in a group.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6494,6 +6580,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(UpdateGroupOutput.httpOutput(from:), UpdateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
@@ -6528,9 +6615,9 @@ extension WorkMailClient {
     ///
     /// Updates an impersonation role for the given WorkMail organization.
     ///
-    /// - Parameter UpdateImpersonationRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImpersonationRoleInput`)
     ///
-    /// - Returns: `UpdateImpersonationRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImpersonationRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6568,6 +6655,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImpersonationRoleInput, UpdateImpersonationRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateImpersonationRoleOutput>(UpdateImpersonationRoleOutput.httpOutput(from:), UpdateImpersonationRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateImpersonationRoleInput, UpdateImpersonationRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateImpersonationRoleOutput>())
@@ -6602,9 +6690,9 @@ extension WorkMailClient {
     ///
     /// Updates a user's current mailbox quota for a specified organization and user.
     ///
-    /// - Parameter UpdateMailboxQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMailboxQuotaInput`)
     ///
-    /// - Returns: `UpdateMailboxQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMailboxQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6640,6 +6728,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMailboxQuotaInput, UpdateMailboxQuotaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMailboxQuotaOutput>(UpdateMailboxQuotaOutput.httpOutput(from:), UpdateMailboxQuotaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMailboxQuotaInput, UpdateMailboxQuotaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMailboxQuotaOutput>())
@@ -6674,9 +6763,9 @@ extension WorkMailClient {
     ///
     /// Updates a mobile device access rule for the specified WorkMail organization.
     ///
-    /// - Parameter UpdateMobileDeviceAccessRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMobileDeviceAccessRuleInput`)
     ///
-    /// - Returns: `UpdateMobileDeviceAccessRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMobileDeviceAccessRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6711,6 +6800,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMobileDeviceAccessRuleInput, UpdateMobileDeviceAccessRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMobileDeviceAccessRuleOutput>(UpdateMobileDeviceAccessRuleOutput.httpOutput(from:), UpdateMobileDeviceAccessRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMobileDeviceAccessRuleInput, UpdateMobileDeviceAccessRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMobileDeviceAccessRuleOutput>())
@@ -6745,9 +6835,9 @@ extension WorkMailClient {
     ///
     /// Updates the primary email for a user, group, or resource. The current email is moved into the list of aliases (or swapped between an existing alias and the current primary email), and the email provided in the input is promoted as the primary.
     ///
-    /// - Parameter UpdatePrimaryEmailAddressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePrimaryEmailAddressInput`)
     ///
-    /// - Returns: `UpdatePrimaryEmailAddressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePrimaryEmailAddressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6789,6 +6879,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePrimaryEmailAddressInput, UpdatePrimaryEmailAddressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePrimaryEmailAddressOutput>(UpdatePrimaryEmailAddressOutput.httpOutput(from:), UpdatePrimaryEmailAddressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePrimaryEmailAddressInput, UpdatePrimaryEmailAddressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePrimaryEmailAddressOutput>())
@@ -6823,9 +6914,9 @@ extension WorkMailClient {
     ///
     /// Updates data for the resource. To have the latest information, it must be preceded by a [DescribeResource] call. The dataset in the request should be the one expected when performing another DescribeResource call.
     ///
-    /// - Parameter UpdateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceInput`)
     ///
-    /// - Returns: `UpdateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6868,6 +6959,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceInput, UpdateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceOutput>(UpdateResourceOutput.httpOutput(from:), UpdateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceInput, UpdateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceOutput>())
@@ -6902,9 +6994,9 @@ extension WorkMailClient {
     ///
     /// Updates data for the user. To have the latest information, it must be preceded by a [DescribeUser] call. The dataset in the request should be the one expected when performing another DescribeUser call.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6943,6 +7035,7 @@ extension WorkMailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())

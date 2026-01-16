@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CodeGuruSecurityClient: ClientRuntime.Client {
+public class CodeGuruSecurityClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CodeGuruSecurityClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeGuruSecurityClient.CodeGuruSecurityClientConfiguration
     let serviceName = "CodeGuru Security"
@@ -374,9 +374,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Returns a list of requested findings from standard scans.
     ///
-    /// - Parameter BatchGetFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetFindingsInput`)
     ///
-    /// - Returns: `BatchGetFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetFindingsInput, BatchGetFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFindingsOutput>(BatchGetFindingsOutput.httpOutput(from:), BatchGetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFindingsInput, BatchGetFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFindingsOutput>())
@@ -444,9 +445,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Use to create a scan using code uploaded to an Amazon S3 bucket.
     ///
-    /// - Parameter CreateScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScanInput`)
     ///
-    /// - Returns: `CreateScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,6 +487,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScanInput, CreateScanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScanOutput>(CreateScanOutput.httpOutput(from:), CreateScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScanInput, CreateScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScanOutput>())
@@ -517,9 +519,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Generates a pre-signed URL, request headers used to upload a code resource, and code artifact identifier for the uploaded resource. You can upload your code resource to the URL with the request headers using any HTTP client.
     ///
-    /// - Parameter CreateUploadUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUploadUrlInput`)
     ///
-    /// - Returns: `CreateUploadUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUploadUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,6 +558,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUploadUrlInput, CreateUploadUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUploadUrlOutput>(CreateUploadUrlOutput.httpOutput(from:), CreateUploadUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUploadUrlInput, CreateUploadUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUploadUrlOutput>())
@@ -587,9 +590,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Use to get the encryption configuration for an account.
     ///
-    /// - Parameter GetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountConfigurationInput`)
     ///
-    /// - Returns: `GetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +626,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountConfigurationOutput>(GetAccountConfigurationOutput.httpOutput(from:), GetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountConfigurationOutput>())
@@ -654,9 +658,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Returns a list of all findings generated by a particular scan.
     ///
-    /// - Parameter GetFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsInput`)
     ///
-    /// - Returns: `GetFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,6 +697,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFindingsInput, GetFindingsOutput>(GetFindingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsOutput>(GetFindingsOutput.httpOutput(from:), GetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsInput, GetFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsOutput>())
@@ -724,9 +729,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Returns a summary of metrics for an account from a specified date, including number of open findings, the categories with most findings, the scans with most open findings, and scans with most open critical findings.
     ///
-    /// - Parameter GetMetricsSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricsSummaryInput`)
     ///
-    /// - Returns: `GetMetricsSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricsSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,6 +766,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMetricsSummaryInput, GetMetricsSummaryOutput>(GetMetricsSummaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricsSummaryOutput>(GetMetricsSummaryOutput.httpOutput(from:), GetMetricsSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricsSummaryInput, GetMetricsSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricsSummaryOutput>())
@@ -792,9 +798,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Returns details about a scan, including whether or not a scan has completed.
     ///
-    /// - Parameter GetScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetScanInput`)
     ///
-    /// - Returns: `GetScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,6 +836,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetScanInput, GetScanOutput>(GetScanInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScanOutput>(GetScanOutput.httpOutput(from:), GetScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScanInput, GetScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScanOutput>())
@@ -861,9 +868,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Returns metrics about all findings in an account within a specified time range.
     ///
-    /// - Parameter ListFindingsMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsMetricsInput`)
     ///
-    /// - Returns: `ListFindingsMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,6 +905,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFindingsMetricsInput, ListFindingsMetricsOutput>(ListFindingsMetricsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsMetricsOutput>(ListFindingsMetricsOutput.httpOutput(from:), ListFindingsMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsMetricsInput, ListFindingsMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsMetricsOutput>())
@@ -929,9 +937,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Returns a list of all scans in an account. Does not return EXPRESS scans.
     ///
-    /// - Parameter ListScansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScansInput`)
     ///
-    /// - Returns: `ListScansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -966,6 +974,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListScansInput, ListScansOutput>(ListScansInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScansOutput>(ListScansOutput.httpOutput(from:), ListScansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScansInput, ListScansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScansOutput>())
@@ -997,9 +1006,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Returns a list of all tags associated with a scan.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,6 +1044,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1066,9 +1076,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Use to add one or more tags to an existing scan.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1107,6 +1117,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1138,9 +1149,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Use to remove one or more tags from an existing scan.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1177,6 +1188,7 @@ extension CodeGuruSecurityClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1208,9 +1220,9 @@ extension CodeGuruSecurityClient {
     ///
     /// Use to update the encryption configuration for an account.
     ///
-    /// - Parameter UpdateAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountConfigurationInput`)
     ///
-    /// - Returns: `UpdateAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,6 +1260,7 @@ extension CodeGuruSecurityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountConfigurationOutput>(UpdateAccountConfigurationOutput.httpOutput(from:), UpdateAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountConfigurationOutput>())

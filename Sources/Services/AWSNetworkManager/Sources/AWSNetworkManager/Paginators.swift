@@ -543,6 +543,38 @@ extension PaginatorSequence where OperationStackInput == GetTransitGatewayRegist
     }
 }
 extension NetworkManagerClient {
+    /// Paginate over `[ListAttachmentRoutingPolicyAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAttachmentRoutingPolicyAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttachmentRoutingPolicyAssociationsOutput`
+    public func listAttachmentRoutingPolicyAssociationsPaginated(input: ListAttachmentRoutingPolicyAssociationsInput) -> ClientRuntime.PaginatorSequence<ListAttachmentRoutingPolicyAssociationsInput, ListAttachmentRoutingPolicyAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAttachmentRoutingPolicyAssociationsInput, ListAttachmentRoutingPolicyAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAttachmentRoutingPolicyAssociations(input:))
+    }
+}
+
+extension ListAttachmentRoutingPolicyAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAttachmentRoutingPolicyAssociationsInput {
+        return ListAttachmentRoutingPolicyAssociationsInput(
+            attachmentId: self.attachmentId,
+            coreNetworkId: self.coreNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAttachmentRoutingPolicyAssociationsInput, OperationStackOutput == ListAttachmentRoutingPolicyAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAttachmentRoutingPolicyAssociationsPaginated`
+    /// to access the nested member `[NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary]`
+    /// - Returns: `[NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary]`
+    public func attachmentRoutingPolicyAssociations() async throws -> [NetworkManagerClientTypes.AttachmentRoutingPolicyAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.attachmentRoutingPolicyAssociations }
+    }
+}
+extension NetworkManagerClient {
     /// Paginate over `[ListAttachmentsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -637,6 +669,76 @@ extension PaginatorSequence where OperationStackInput == ListCoreNetworkPolicyVe
     /// - Returns: `[NetworkManagerClientTypes.CoreNetworkPolicyVersion]`
     public func coreNetworkPolicyVersions() async throws -> [NetworkManagerClientTypes.CoreNetworkPolicyVersion] {
         return try await self.asyncCompactMap { item in item.coreNetworkPolicyVersions }
+    }
+}
+extension NetworkManagerClient {
+    /// Paginate over `[ListCoreNetworkPrefixListAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCoreNetworkPrefixListAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCoreNetworkPrefixListAssociationsOutput`
+    public func listCoreNetworkPrefixListAssociationsPaginated(input: ListCoreNetworkPrefixListAssociationsInput) -> ClientRuntime.PaginatorSequence<ListCoreNetworkPrefixListAssociationsInput, ListCoreNetworkPrefixListAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCoreNetworkPrefixListAssociationsInput, ListCoreNetworkPrefixListAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCoreNetworkPrefixListAssociations(input:))
+    }
+}
+
+extension ListCoreNetworkPrefixListAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCoreNetworkPrefixListAssociationsInput {
+        return ListCoreNetworkPrefixListAssociationsInput(
+            coreNetworkId: self.coreNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefixListArn: self.prefixListArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCoreNetworkPrefixListAssociationsInput, OperationStackOutput == ListCoreNetworkPrefixListAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCoreNetworkPrefixListAssociationsPaginated`
+    /// to access the nested member `[NetworkManagerClientTypes.PrefixListAssociation]`
+    /// - Returns: `[NetworkManagerClientTypes.PrefixListAssociation]`
+    public func prefixListAssociations() async throws -> [NetworkManagerClientTypes.PrefixListAssociation] {
+        return try await self.asyncCompactMap { item in item.prefixListAssociations }
+    }
+}
+extension NetworkManagerClient {
+    /// Paginate over `[ListCoreNetworkRoutingInformationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCoreNetworkRoutingInformationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCoreNetworkRoutingInformationOutput`
+    public func listCoreNetworkRoutingInformationPaginated(input: ListCoreNetworkRoutingInformationInput) -> ClientRuntime.PaginatorSequence<ListCoreNetworkRoutingInformationInput, ListCoreNetworkRoutingInformationOutput> {
+        return ClientRuntime.PaginatorSequence<ListCoreNetworkRoutingInformationInput, ListCoreNetworkRoutingInformationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCoreNetworkRoutingInformation(input:))
+    }
+}
+
+extension ListCoreNetworkRoutingInformationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCoreNetworkRoutingInformationInput {
+        return ListCoreNetworkRoutingInformationInput(
+            communityMatches: self.communityMatches,
+            coreNetworkId: self.coreNetworkId,
+            edgeLocation: self.edgeLocation,
+            exactAsPathMatches: self.exactAsPathMatches,
+            localPreferenceMatches: self.localPreferenceMatches,
+            maxResults: self.maxResults,
+            medMatches: self.medMatches,
+            nextHopFilters: self.nextHopFilters,
+            nextToken: token,
+            segmentName: self.segmentName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCoreNetworkRoutingInformationInput, OperationStackOutput == ListCoreNetworkRoutingInformationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCoreNetworkRoutingInformationPaginated`
+    /// to access the nested member `[NetworkManagerClientTypes.CoreNetworkRoutingInformation]`
+    /// - Returns: `[NetworkManagerClientTypes.CoreNetworkRoutingInformation]`
+    public func coreNetworkRoutingInformation() async throws -> [NetworkManagerClientTypes.CoreNetworkRoutingInformation] {
+        return try await self.asyncCompactMap { item in item.coreNetworkRoutingInformation }
     }
 }
 extension NetworkManagerClient {

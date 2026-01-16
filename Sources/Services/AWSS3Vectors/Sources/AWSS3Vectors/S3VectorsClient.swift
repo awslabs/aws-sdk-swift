@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -53,6 +54,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -64,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class S3VectorsClient: ClientRuntime.Client {
+public class S3VectorsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3VectorsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: S3VectorsClient.S3VectorsClientConfiguration
     let serviceName = "S3Vectors"
@@ -370,11 +371,11 @@ extension S3VectorsClient {
 extension S3VectorsClient {
     /// Performs the `CreateIndex` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:CreateIndex permission to use this operation.
+    /// Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:CreateIndex permission to use this operation. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags.
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -383,6 +384,7 @@ extension S3VectorsClient {
     /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
@@ -415,6 +417,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
@@ -444,11 +447,11 @@ extension S3VectorsClient {
 
     /// Performs the `CreateVectorBucket` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in. Permissions You must have the s3vectors:CreateVectorBucket permission to use this operation.
+    /// Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in. Permissions You must have the s3vectors:CreateVectorBucket permission to use this operation. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags.
     ///
-    /// - Parameter CreateVectorBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVectorBucketInput`)
     ///
-    /// - Returns: `CreateVectorBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVectorBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -456,6 +459,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
     /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
@@ -488,6 +492,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVectorBucketInput, CreateVectorBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVectorBucketOutput>(CreateVectorBucketOutput.httpOutput(from:), CreateVectorBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVectorBucketInput, CreateVectorBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVectorBucketOutput>())
@@ -517,18 +522,19 @@ extension S3VectorsClient {
 
     /// Performs the `DeleteIndex` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteIndex permission to use this operation.
+    /// Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteIndex permission to use this operation.
     ///
-    /// - Parameter DeleteIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
     ///
-    /// - Returns: `DeleteIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -560,6 +566,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexInput, DeleteIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
@@ -589,11 +596,11 @@ extension S3VectorsClient {
 
     /// Performs the `DeleteVectorBucket` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucket permission to use this operation.
+    /// Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucket permission to use this operation.
     ///
-    /// - Parameter DeleteVectorBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVectorBucketInput`)
     ///
-    /// - Returns: `DeleteVectorBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVectorBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -601,7 +608,8 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
     /// - `InternalServerException` : The request failed due to an internal server error.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -633,6 +641,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVectorBucketInput, DeleteVectorBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVectorBucketOutput>(DeleteVectorBucketOutput.httpOutput(from:), DeleteVectorBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVectorBucketInput, DeleteVectorBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVectorBucketOutput>())
@@ -662,11 +671,11 @@ extension S3VectorsClient {
 
     /// Performs the `DeleteVectorBucketPolicy` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
+    /// Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
     ///
-    /// - Parameter DeleteVectorBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVectorBucketPolicyInput`)
     ///
-    /// - Returns: `DeleteVectorBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVectorBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -674,7 +683,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -706,6 +715,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVectorBucketPolicyInput, DeleteVectorBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVectorBucketPolicyOutput>(DeleteVectorBucketPolicyOutput.httpOutput(from:), DeleteVectorBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVectorBucketPolicyInput, DeleteVectorBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVectorBucketPolicyOutput>())
@@ -735,11 +745,11 @@ extension S3VectorsClient {
 
     /// Performs the `DeleteVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this operation.
+    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:DeleteVectors permission to use this operation.
     ///
-    /// - Parameter DeleteVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVectorsInput`)
     ///
-    /// - Returns: `DeleteVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -758,7 +768,7 @@ extension S3VectorsClient {
     /// - `KmsInvalidStateException` : The key state of the KMS key isn't compatible with the operation. For more information, see [KMSInvalidStateException](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html#API_Encrypt_Errors) in the Amazon Web Services Key Management Service API Reference.
     /// - `KmsNotFoundException` : The KMS key can't be found.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -790,6 +800,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVectorsInput, DeleteVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVectorsOutput>(DeleteVectorsOutput.httpOutput(from:), DeleteVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVectorsInput, DeleteVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVectorsOutput>())
@@ -819,11 +830,11 @@ extension S3VectorsClient {
 
     /// Performs the `GetIndex` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetIndex permission to use this operation.
+    /// Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetIndex permission to use this operation.
     ///
-    /// - Parameter GetIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIndexInput`)
     ///
-    /// - Returns: `GetIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -831,7 +842,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -863,6 +874,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIndexInput, GetIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIndexOutput>(GetIndexOutput.httpOutput(from:), GetIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIndexInput, GetIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIndexOutput>())
@@ -892,11 +904,11 @@ extension S3VectorsClient {
 
     /// Performs the `GetVectorBucket` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucket permission to use this operation.
+    /// Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucket permission to use this operation.
     ///
-    /// - Parameter GetVectorBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVectorBucketInput`)
     ///
-    /// - Returns: `GetVectorBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVectorBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,7 +916,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -936,6 +948,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVectorBucketInput, GetVectorBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVectorBucketOutput>(GetVectorBucketOutput.httpOutput(from:), GetVectorBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVectorBucketInput, GetVectorBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVectorBucketOutput>())
@@ -965,11 +978,11 @@ extension S3VectorsClient {
 
     /// Performs the `GetVectorBucketPolicy` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
+    /// Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
     ///
-    /// - Parameter GetVectorBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVectorBucketPolicyInput`)
     ///
-    /// - Returns: `GetVectorBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVectorBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,7 +990,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1009,6 +1022,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVectorBucketPolicyInput, GetVectorBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVectorBucketPolicyOutput>(GetVectorBucketPolicyOutput.httpOutput(from:), GetVectorBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVectorBucketPolicyInput, GetVectorBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVectorBucketPolicyOutput>())
@@ -1038,11 +1052,11 @@ extension S3VectorsClient {
 
     /// Performs the `GetVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectors permission to use this operation.
+    /// Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:GetVectors permission to use this operation.
     ///
-    /// - Parameter GetVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVectorsInput`)
     ///
-    /// - Returns: `GetVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1061,7 +1075,7 @@ extension S3VectorsClient {
     /// - `KmsInvalidStateException` : The key state of the KMS key isn't compatible with the operation. For more information, see [KMSInvalidStateException](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html#API_Encrypt_Errors) in the Amazon Web Services Key Management Service API Reference.
     /// - `KmsNotFoundException` : The KMS key can't be found.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1093,6 +1107,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVectorsInput, GetVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVectorsOutput>(GetVectorsOutput.httpOutput(from:), GetVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVectorsInput, GetVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVectorsOutput>())
@@ -1122,11 +1137,11 @@ extension S3VectorsClient {
 
     /// Performs the `ListIndexes` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:ListIndexes permission to use this operation.
+    /// Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:ListIndexes permission to use this operation.
     ///
-    /// - Parameter ListIndexesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexesInput`)
     ///
-    /// - Returns: `ListIndexesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,7 +1149,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1166,6 +1181,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIndexesInput, ListIndexesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndexesOutput>(ListIndexesOutput.httpOutput(from:), ListIndexesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndexesInput, ListIndexesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndexesOutput>())
@@ -1193,20 +1209,91 @@ extension S3VectorsClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListVectorBuckets` operation on the `S3Vectors` service.
+    /// Performs the `ListTagsForResource` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Returns a list of all the vector buckets that are owned by the authenticated sender of the request. Permissions You must have the s3vectors:ListVectorBuckets permission to use this operation.
+    /// Lists all of the tags applied to a specified Amazon S3 Vectors resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources. For a list of S3 resources that support tagging, see [Managing tags for Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#manage-tags). Permissions For vector buckets and vector indexes, you must have the s3vectors:ListTagsForResource permission to use this operation.
     ///
-    /// - Parameter ListVectorBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListVectorBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTagsForResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForResourceInput, ListTagsForResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListVectorBuckets` operation on the `S3Vectors` service.
+    ///
+    /// Returns a list of all the vector buckets that are owned by the authenticated sender of the request. Permissions You must have the s3vectors:ListVectorBuckets permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListVectorBucketsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListVectorBucketsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1238,6 +1325,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVectorBucketsInput, ListVectorBucketsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVectorBucketsOutput>(ListVectorBucketsOutput.httpOutput(from:), ListVectorBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVectorBucketsInput, ListVectorBucketsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVectorBucketsOutput>())
@@ -1267,15 +1355,15 @@ extension S3VectorsClient {
 
     /// Performs the `ListVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters. Permissions You must have the s3vectors:ListVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
+    /// List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters. Permissions You must have the s3vectors:ListVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
     ///
     /// * With only s3vectors:ListVectors permission, you can list vector keys when returnData and returnMetadata are both set to false or not specified..
     ///
     /// * If you set returnData or returnMetadata to true, you must have both s3vectors:ListVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request vector data or metadata without the s3vectors:GetVectors permission.
     ///
-    /// - Parameter ListVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVectorsInput`)
     ///
-    /// - Returns: `ListVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1283,7 +1371,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1315,6 +1403,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVectorsInput, ListVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVectorsOutput>(ListVectorsOutput.httpOutput(from:), ListVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVectorsInput, ListVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVectorsOutput>())
@@ -1344,11 +1433,11 @@ extension S3VectorsClient {
 
     /// Performs the `PutVectorBucketPolicy` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
+    /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN). Permissions You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
     ///
-    /// - Parameter PutVectorBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVectorBucketPolicyInput`)
     ///
-    /// - Returns: `PutVectorBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVectorBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1356,7 +1445,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1388,6 +1477,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVectorBucketPolicyInput, PutVectorBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVectorBucketPolicyOutput>(PutVectorBucketPolicyOutput.httpOutput(from:), PutVectorBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVectorBucketPolicyInput, PutVectorBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVectorBucketPolicyOutput>())
@@ -1417,11 +1507,11 @@ extension S3VectorsClient {
 
     /// Performs the `PutVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). For more information about limits, see [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide. When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values. Permissions You must have the s3vectors:PutVectors permission to use this operation.
+    /// Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). For more information about limits, see [Limitations and restrictions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-limitations.html) in the Amazon S3 User Guide. When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values. Permissions You must have the s3vectors:PutVectors permission to use this operation.
     ///
-    /// - Parameter PutVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVectorsInput`)
     ///
-    /// - Returns: `PutVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1440,6 +1530,7 @@ extension S3VectorsClient {
     /// - `KmsInvalidStateException` : The key state of the KMS key isn't compatible with the operation. For more information, see [KMSInvalidStateException](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html#API_Encrypt_Errors) in the Amazon Web Services Key Management Service API Reference.
     /// - `KmsNotFoundException` : The KMS key can't be found.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
@@ -1472,6 +1563,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVectorsInput, PutVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVectorsOutput>(PutVectorsOutput.httpOutput(from:), PutVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVectorsInput, PutVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVectorsOutput>())
@@ -1501,15 +1593,15 @@ extension S3VectorsClient {
 
     /// Performs the `QueryVectors` operation on the `S3Vectors` service.
     ///
-    /// Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change. Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
+    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
     ///
     /// * With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request vector data or metadata (by keeping the returnMetadata parameter set to false or not specified).
     ///
     /// * If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering, vector data, or metadata without the s3vectors:GetVectors permission.
     ///
-    /// - Parameter QueryVectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryVectorsInput`)
     ///
-    /// - Returns: `QueryVectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryVectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1528,7 +1620,7 @@ extension S3VectorsClient {
     /// - `KmsInvalidStateException` : The key state of the KMS key isn't compatible with the operation. For more information, see [KMSInvalidStateException](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html#API_Encrypt_Errors) in the Amazon Web Services Key Management Service API Reference.
     /// - `KmsNotFoundException` : The KMS key can't be found.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1560,6 +1652,7 @@ extension S3VectorsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryVectorsInput, QueryVectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryVectorsOutput>(QueryVectorsOutput.httpOutput(from:), QueryVectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryVectorsInput, QueryVectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryVectorsOutput>())
@@ -1575,6 +1668,154 @@ extension S3VectorsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "QueryVectors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `TagResource` operation on the `S3Vectors` service.
+    ///
+    /// Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource. For a list of S3 resources that support tagging, see [Managing tags for Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#manage-tags). Permissions For vector buckets and vector indexes, you must have the s3vectors:TagResource permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "tagResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TagResourceInput, TagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutput>(TagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagResourceInput, TagResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagResourceInput, TagResourceOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UntagResource` operation on the `S3Vectors` service.
+    ///
+    /// Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys. For a list of S3 resources that support tagging, see [Managing tags for Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#manage-tags). Permissions For vector buckets and vector indexes, you must have the s3vectors:UntagResource permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "untagResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UntagResourceInput, UntagResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagResourceInput, UntagResourceOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

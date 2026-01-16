@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ApplicationSignalsClient: ClientRuntime.Client {
+public class ApplicationSignalsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApplicationSignalsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationSignalsClient.ApplicationSignalsClientConfiguration
     let serviceName = "Application Signals"
@@ -373,9 +373,9 @@ extension ApplicationSignalsClient {
     ///
     /// Use this operation to retrieve one or more service level objective (SLO) budget reports. An error budget is the amount of time or requests in an unhealthy state that your service can accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of downtime in a 30-day month. Budget reports include a health indicator, the attainment value, and remaining budget. For more information about SLO error budgets, see [ SLO concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-concepts).
     ///
-    /// - Parameter BatchGetServiceLevelObjectiveBudgetReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetServiceLevelObjectiveBudgetReportInput`)
     ///
-    /// - Returns: `BatchGetServiceLevelObjectiveBudgetReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetServiceLevelObjectiveBudgetReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +410,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetServiceLevelObjectiveBudgetReportInput, BatchGetServiceLevelObjectiveBudgetReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetServiceLevelObjectiveBudgetReportOutput>(BatchGetServiceLevelObjectiveBudgetReportOutput.httpOutput(from:), BatchGetServiceLevelObjectiveBudgetReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetServiceLevelObjectiveBudgetReportInput, BatchGetServiceLevelObjectiveBudgetReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetServiceLevelObjectiveBudgetReportOutput>())
@@ -441,9 +442,9 @@ extension ApplicationSignalsClient {
     ///
     /// Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
     ///
-    /// - Parameter BatchUpdateExclusionWindowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateExclusionWindowsInput`)
     ///
-    /// - Returns: `BatchUpdateExclusionWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateExclusionWindowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,6 +480,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateExclusionWindowsInput, BatchUpdateExclusionWindowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateExclusionWindowsOutput>(BatchUpdateExclusionWindowsOutput.httpOutput(from:), BatchUpdateExclusionWindowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateExclusionWindowsInput, BatchUpdateExclusionWindowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateExclusionWindowsOutput>())
@@ -538,9 +540,9 @@ extension ApplicationSignalsClient {
     ///
     /// * autoscaling:DescribeAutoScalingGroups
     ///
-    /// - Parameter CreateServiceLevelObjectiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceLevelObjectiveInput`)
     ///
-    /// - Returns: `CreateServiceLevelObjectiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceLevelObjectiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -578,6 +580,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceLevelObjectiveInput, CreateServiceLevelObjectiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceLevelObjectiveOutput>(CreateServiceLevelObjectiveOutput.httpOutput(from:), CreateServiceLevelObjectiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceLevelObjectiveInput, CreateServiceLevelObjectiveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceLevelObjectiveOutput>())
@@ -605,13 +608,80 @@ extension ApplicationSignalsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteGroupingConfiguration` operation on the `ApplicationSignals` service.
+    ///
+    /// Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupingConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteGroupingConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : The resource is not valid.
+    public func deleteGroupingConfiguration(input: DeleteGroupingConfigurationInput) async throws -> DeleteGroupingConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteGroupingConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "application-signals")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteGroupingConfigurationInput, DeleteGroupingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteGroupingConfigurationInput, DeleteGroupingConfigurationOutput>(DeleteGroupingConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGroupingConfigurationInput, DeleteGroupingConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupingConfigurationOutput>(DeleteGroupingConfigurationOutput.httpOutput(from:), DeleteGroupingConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupingConfigurationInput, DeleteGroupingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupingConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Signals", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGroupingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGroupingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGroupingConfigurationInput, DeleteGroupingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGroupingConfigurationInput, DeleteGroupingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGroupingConfigurationInput, DeleteGroupingConfigurationOutput>(serviceID: serviceName, version: ApplicationSignalsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationSignals")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteGroupingConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteServiceLevelObjective` operation on the `ApplicationSignals` service.
     ///
     /// Deletes the specified service level objective.
     ///
-    /// - Parameter DeleteServiceLevelObjectiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceLevelObjectiveInput`)
     ///
-    /// - Returns: `DeleteServiceLevelObjectiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceLevelObjectiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -644,6 +714,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceLevelObjectiveInput, DeleteServiceLevelObjectiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceLevelObjectiveOutput>(DeleteServiceLevelObjectiveOutput.httpOutput(from:), DeleteServiceLevelObjectiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceLevelObjectiveInput, DeleteServiceLevelObjectiveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceLevelObjectiveOutput>())
@@ -675,9 +746,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns information about a service discovered by Application Signals.
     ///
-    /// - Parameter GetServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInput`)
     ///
-    /// - Returns: `GetServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,6 +784,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceInput, GetServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceOutput>(GetServiceOutput.httpOutput(from:), GetServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceInput, GetServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceOutput>())
@@ -744,9 +816,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns information about one SLO created in the account.
     ///
-    /// - Parameter GetServiceLevelObjectiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceLevelObjectiveInput`)
     ///
-    /// - Returns: `GetServiceLevelObjectiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceLevelObjectiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -779,6 +851,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceLevelObjectiveInput, GetServiceLevelObjectiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceLevelObjectiveOutput>(GetServiceLevelObjectiveOutput.httpOutput(from:), GetServiceLevelObjectiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceLevelObjectiveInput, GetServiceLevelObjectiveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceLevelObjectiveOutput>())
@@ -806,13 +879,221 @@ extension ApplicationSignalsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAuditFindings` operation on the `ApplicationSignals` service.
+    ///
+    /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAuditFindingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAuditFindingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : The resource is not valid.
+    public func listAuditFindings(input: ListAuditFindingsInput) async throws -> ListAuditFindingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAuditFindings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "application-signals")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAuditFindingsInput, ListAuditFindingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>(ListAuditFindingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>(ListAuditFindingsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAuditFindingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAuditFindingsOutput>(ListAuditFindingsOutput.httpOutput(from:), ListAuditFindingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAuditFindingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Signals", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAuditFindingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAuditFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>(serviceID: serviceName, version: ApplicationSignalsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationSignals")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAuditFindings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListEntityEvents` operation on the `ApplicationSignals` service.
+    ///
+    /// Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEntityEventsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEntityEventsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : The resource is not valid.
+    public func listEntityEvents(input: ListEntityEventsInput) async throws -> ListEntityEventsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEntityEvents")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "application-signals")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEntityEventsInput, ListEntityEventsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(ListEntityEventsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEntityEventsInput, ListEntityEventsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(ListEntityEventsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEntityEventsInput, ListEntityEventsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEntityEventsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntityEventsInput, ListEntityEventsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntityEventsOutput>(ListEntityEventsOutput.httpOutput(from:), ListEntityEventsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEntityEventsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Signals", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEntityEventsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEntityEventsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEntityEventsInput, ListEntityEventsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEntityEventsInput, ListEntityEventsOutput>(serviceID: serviceName, version: ApplicationSignalsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationSignals")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEntityEvents")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListGroupingAttributeDefinitions` operation on the `ApplicationSignals` service.
+    ///
+    /// Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListGroupingAttributeDefinitionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListGroupingAttributeDefinitionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : The resource is not valid.
+    public func listGroupingAttributeDefinitions(input: ListGroupingAttributeDefinitionsInput) async throws -> ListGroupingAttributeDefinitionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listGroupingAttributeDefinitions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "application-signals")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListGroupingAttributeDefinitionsInput, ListGroupingAttributeDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListGroupingAttributeDefinitionsInput, ListGroupingAttributeDefinitionsOutput>(ListGroupingAttributeDefinitionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGroupingAttributeDefinitionsInput, ListGroupingAttributeDefinitionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListGroupingAttributeDefinitionsInput, ListGroupingAttributeDefinitionsOutput>(ListGroupingAttributeDefinitionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupingAttributeDefinitionsOutput>(ListGroupingAttributeDefinitionsOutput.httpOutput(from:), ListGroupingAttributeDefinitionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupingAttributeDefinitionsInput, ListGroupingAttributeDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupingAttributeDefinitionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Signals", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGroupingAttributeDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGroupingAttributeDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGroupingAttributeDefinitionsInput, ListGroupingAttributeDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGroupingAttributeDefinitionsInput, ListGroupingAttributeDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListGroupingAttributeDefinitionsInput, ListGroupingAttributeDefinitionsOutput>(serviceID: serviceName, version: ApplicationSignalsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationSignals")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGroupingAttributeDefinitions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListServiceDependencies` operation on the `ApplicationSignals` service.
     ///
     /// Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
     ///
-    /// - Parameter ListServiceDependenciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceDependenciesInput`)
     ///
-    /// - Returns: `ListServiceDependenciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,6 +1129,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceDependenciesInput, ListServiceDependenciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceDependenciesOutput>(ListServiceDependenciesOutput.httpOutput(from:), ListServiceDependenciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceDependenciesInput, ListServiceDependenciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceDependenciesOutput>())
@@ -879,9 +1161,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
     ///
-    /// - Parameter ListServiceDependentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceDependentsInput`)
     ///
-    /// - Returns: `ListServiceDependentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceDependentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -917,6 +1199,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceDependentsInput, ListServiceDependentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceDependentsOutput>(ListServiceDependentsOutput.httpOutput(from:), ListServiceDependentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceDependentsInput, ListServiceDependentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceDependentsOutput>())
@@ -948,9 +1231,9 @@ extension ApplicationSignalsClient {
     ///
     /// Retrieves all exclusion windows configured for a specific SLO.
     ///
-    /// - Parameter ListServiceLevelObjectiveExclusionWindowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceLevelObjectiveExclusionWindowsInput`)
     ///
-    /// - Returns: `ListServiceLevelObjectiveExclusionWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceLevelObjectiveExclusionWindowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,6 +1267,7 @@ extension ApplicationSignalsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServiceLevelObjectiveExclusionWindowsInput, ListServiceLevelObjectiveExclusionWindowsOutput>(ListServiceLevelObjectiveExclusionWindowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceLevelObjectiveExclusionWindowsOutput>(ListServiceLevelObjectiveExclusionWindowsOutput.httpOutput(from:), ListServiceLevelObjectiveExclusionWindowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceLevelObjectiveExclusionWindowsInput, ListServiceLevelObjectiveExclusionWindowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceLevelObjectiveExclusionWindowsOutput>())
@@ -1015,9 +1299,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns a list of SLOs created in this account.
     ///
-    /// - Parameter ListServiceLevelObjectivesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceLevelObjectivesInput`)
     ///
-    /// - Returns: `ListServiceLevelObjectivesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceLevelObjectivesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1053,6 +1337,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceLevelObjectivesInput, ListServiceLevelObjectivesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceLevelObjectivesOutput>(ListServiceLevelObjectivesOutput.httpOutput(from:), ListServiceLevelObjectivesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceLevelObjectivesInput, ListServiceLevelObjectivesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceLevelObjectivesOutput>())
@@ -1084,9 +1369,9 @@ extension ApplicationSignalsClient {
     ///
     /// Returns a list of the operations of this service that have been discovered by Application Signals. Only the operations that were invoked during the specified time range are returned.
     ///
-    /// - Parameter ListServiceOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceOperationsInput`)
     ///
-    /// - Returns: `ListServiceOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1122,6 +1407,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceOperationsInput, ListServiceOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceOperationsOutput>(ListServiceOperationsOutput.httpOutput(from:), ListServiceOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceOperationsInput, ListServiceOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceOperationsOutput>())
@@ -1149,13 +1435,82 @@ extension ApplicationSignalsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListServiceStates` operation on the `ApplicationSignals` service.
+    ///
+    /// Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListServiceStatesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListServiceStatesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : The resource is not valid.
+    public func listServiceStates(input: ListServiceStatesInput) async throws -> ListServiceStatesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listServiceStates")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "application-signals")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListServiceStatesInput, ListServiceStatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListServiceStatesInput, ListServiceStatesOutput>(ListServiceStatesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListServiceStatesInput, ListServiceStatesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListServiceStatesInput, ListServiceStatesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListServiceStatesInput, ListServiceStatesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListServiceStatesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceStatesInput, ListServiceStatesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceStatesOutput>(ListServiceStatesOutput.httpOutput(from:), ListServiceStatesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceStatesInput, ListServiceStatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceStatesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Signals", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListServiceStatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListServiceStatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListServiceStatesInput, ListServiceStatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListServiceStatesInput, ListServiceStatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListServiceStatesInput, ListServiceStatesOutput>(serviceID: serviceName, version: ApplicationSignalsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationSignals")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListServiceStates")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListServices` operation on the `ApplicationSignals` service.
     ///
     /// Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,6 +1543,7 @@ extension ApplicationSignalsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServicesInput, ListServicesOutput>(ListServicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesOutput>())
@@ -1219,9 +1575,9 @@ extension ApplicationSignalsClient {
     ///
     /// Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1254,6 +1610,7 @@ extension ApplicationSignalsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1269,6 +1626,76 @@ extension ApplicationSignalsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationSignals")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutGroupingConfiguration` operation on the `ApplicationSignals` service.
+    ///
+    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutGroupingConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutGroupingConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : The resource is not valid.
+    public func putGroupingConfiguration(input: PutGroupingConfigurationInput) async throws -> PutGroupingConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putGroupingConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "application-signals")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutGroupingConfigurationInput, PutGroupingConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput>(PutGroupingConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutGroupingConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutGroupingConfigurationOutput>(PutGroupingConfigurationOutput.httpOutput(from:), PutGroupingConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutGroupingConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Application Signals", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutGroupingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutGroupingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutGroupingConfigurationInput, PutGroupingConfigurationOutput>(serviceID: serviceName, version: ApplicationSignalsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApplicationSignals")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutGroupingConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1300,11 +1727,11 @@ extension ApplicationSignalsClient {
     /// * autoscaling:DescribeAutoScalingGroups
     ///
     ///
-    /// After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see [ Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
+    /// A service-linked CloudTrail event channel is created to process CloudTrail events and return change event information. This includes last deployment time, userName, eventName, and other event metadata. After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see [ Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
     ///
-    /// - Parameter StartDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDiscoveryInput`)
     ///
-    /// - Returns: `StartDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDiscoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1337,6 +1764,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDiscoveryInput, StartDiscoveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDiscoveryOutput>(StartDiscoveryOutput.httpOutput(from:), StartDiscoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDiscoveryInput, StartDiscoveryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDiscoveryOutput>())
@@ -1368,9 +1796,9 @@ extension ApplicationSignalsClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource, such as a service level objective. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,6 +1834,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1437,9 +1866,9 @@ extension ApplicationSignalsClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1474,6 +1903,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1505,9 +1935,9 @@ extension ApplicationSignalsClient {
     ///
     /// Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained. You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
     ///
-    /// - Parameter UpdateServiceLevelObjectiveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceLevelObjectiveInput`)
     ///
-    /// - Returns: `UpdateServiceLevelObjectiveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceLevelObjectiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1543,6 +1973,7 @@ extension ApplicationSignalsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceLevelObjectiveInput, UpdateServiceLevelObjectiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceLevelObjectiveOutput>(UpdateServiceLevelObjectiveOutput.httpOutput(from:), UpdateServiceLevelObjectiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceLevelObjectiveInput, UpdateServiceLevelObjectiveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceLevelObjectiveOutput>())

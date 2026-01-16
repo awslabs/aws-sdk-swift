@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -32,7 +33,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LakeFormationClient: ClientRuntime.Client {
+public class LakeFormationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LakeFormationClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: LakeFormationClient.LakeFormationClientConfiguration
     let serviceName = "LakeFormation"
@@ -373,9 +373,9 @@ extension LakeFormationClient {
     ///
     /// Attaches one or more LF-tags to an existing resource.
     ///
-    /// - Parameter AddLFTagsToResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddLFTagsToResourceInput`)
     ///
-    /// - Returns: `AddLFTagsToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddLFTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddLFTagsToResourceInput, AddLFTagsToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddLFTagsToResourceOutput>(AddLFTagsToResourceOutput.httpOutput(from:), AddLFTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddLFTagsToResourceInput, AddLFTagsToResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddLFTagsToResourceOutput>())
@@ -443,11 +444,21 @@ extension LakeFormationClient {
 
     /// Performs the `AssumeDecoratedRoleWithSAML` operation on the `LakeFormation` service.
     ///
-    /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session. This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a role would look as follows:
+    /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups. This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role. All permissions attached to the role via the SAML federation setup will be included in the role session. This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a role would include the following actions:
     ///
-    /// - Parameter AssumeDecoratedRoleWithSAMLInput : [no documentation found]
+    /// * glue:*Database*
     ///
-    /// - Returns: `AssumeDecoratedRoleWithSAMLOutput` : [no documentation found]
+    /// * glue:*Table*
+    ///
+    /// * glue:*Partition*
+    ///
+    /// * glue:*UserDefinedFunction*
+    ///
+    /// * lakeformation:GetDataAccess
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssumeDecoratedRoleWithSAMLInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssumeDecoratedRoleWithSAMLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +496,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeDecoratedRoleWithSAMLInput, AssumeDecoratedRoleWithSAMLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeDecoratedRoleWithSAMLOutput>(AssumeDecoratedRoleWithSAMLOutput.httpOutput(from:), AssumeDecoratedRoleWithSAMLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeDecoratedRoleWithSAMLInput, AssumeDecoratedRoleWithSAMLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeDecoratedRoleWithSAMLOutput>())
@@ -516,9 +528,9 @@ extension LakeFormationClient {
     ///
     /// Batch operation to grant permissions to the principal.
     ///
-    /// - Parameter BatchGrantPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGrantPermissionsInput`)
     ///
-    /// - Returns: `BatchGrantPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGrantPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,6 +565,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGrantPermissionsInput, BatchGrantPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGrantPermissionsOutput>(BatchGrantPermissionsOutput.httpOutput(from:), BatchGrantPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGrantPermissionsInput, BatchGrantPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGrantPermissionsOutput>())
@@ -584,9 +597,9 @@ extension LakeFormationClient {
     ///
     /// Batch operation to revoke permissions from the principal.
     ///
-    /// - Parameter BatchRevokePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchRevokePermissionsInput`)
     ///
-    /// - Returns: `BatchRevokePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchRevokePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -621,6 +634,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchRevokePermissionsInput, BatchRevokePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchRevokePermissionsOutput>(BatchRevokePermissionsOutput.httpOutput(from:), BatchRevokePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchRevokePermissionsInput, BatchRevokePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchRevokePermissionsOutput>())
@@ -652,9 +666,9 @@ extension LakeFormationClient {
     ///
     /// Attempts to cancel the specified transaction. Returns an exception if the transaction was previously committed.
     ///
-    /// - Parameter CancelTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTransactionInput`)
     ///
-    /// - Returns: `CancelTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,6 +708,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelTransactionInput, CancelTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelTransactionOutput>(CancelTransactionOutput.httpOutput(from:), CancelTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelTransactionInput, CancelTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelTransactionOutput>())
@@ -725,9 +740,9 @@ extension LakeFormationClient {
     ///
     /// Attempts to commit the specified transaction. Returns an exception if the transaction was previously aborted. This API action is idempotent if called multiple times for the same transaction.
     ///
-    /// - Parameter CommitTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CommitTransactionInput`)
     ///
-    /// - Returns: `CommitTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CommitTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,6 +781,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CommitTransactionInput, CommitTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CommitTransactionOutput>(CommitTransactionOutput.httpOutput(from:), CommitTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CommitTransactionInput, CommitTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CommitTransactionOutput>())
@@ -797,9 +813,9 @@ extension LakeFormationClient {
     ///
     /// Creates a data cell filter to allow one to grant access to certain columns on certain rows.
     ///
-    /// - Parameter CreateDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataCellsFilterInput`)
     ///
-    /// - Returns: `CreateDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,6 +855,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataCellsFilterInput, CreateDataCellsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataCellsFilterOutput>(CreateDataCellsFilterOutput.httpOutput(from:), CreateDataCellsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataCellsFilterInput, CreateDataCellsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataCellsFilterOutput>())
@@ -870,9 +887,9 @@ extension LakeFormationClient {
     ///
     /// Creates an LF-tag with the specified name and values.
     ///
-    /// - Parameter CreateLFTagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLFTagInput`)
     ///
-    /// - Returns: `CreateLFTagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLFTagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,6 +928,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLFTagInput, CreateLFTagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLFTagOutput>(CreateLFTagOutput.httpOutput(from:), CreateLFTagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLFTagInput, CreateLFTagOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLFTagOutput>())
@@ -942,9 +960,9 @@ extension LakeFormationClient {
     ///
     /// Creates a new LF-Tag expression with the provided name, description, catalog ID, and expression body. This call fails if a LF-Tag expression with the same name already exists in the caller’s account or if the underlying LF-Tags don't exist. To call this API operation, caller needs the following Lake Formation permissions: CREATE_LF_TAG_EXPRESSION on the root catalog resource. GRANT_WITH_LF_TAG_EXPRESSION on all underlying LF-Tag key:value pairs included in the expression.
     ///
-    /// - Parameter CreateLFTagExpressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLFTagExpressionInput`)
     ///
-    /// - Returns: `CreateLFTagExpressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLFTagExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,6 +1001,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLFTagExpressionInput, CreateLFTagExpressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLFTagExpressionOutput>(CreateLFTagExpressionOutput.httpOutput(from:), CreateLFTagExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLFTagExpressionInput, CreateLFTagExpressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLFTagExpressionOutput>())
@@ -1014,9 +1033,9 @@ extension LakeFormationClient {
     ///
     /// Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center users and groups to access Data Catalog resources.
     ///
-    /// - Parameter CreateLakeFormationIdentityCenterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLakeFormationIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `CreateLakeFormationIdentityCenterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLakeFormationIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1055,6 +1074,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLakeFormationIdentityCenterConfigurationInput, CreateLakeFormationIdentityCenterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLakeFormationIdentityCenterConfigurationOutput>(CreateLakeFormationIdentityCenterConfigurationOutput.httpOutput(from:), CreateLakeFormationIdentityCenterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLakeFormationIdentityCenterConfigurationInput, CreateLakeFormationIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLakeFormationIdentityCenterConfigurationOutput>())
@@ -1086,9 +1106,9 @@ extension LakeFormationClient {
     ///
     /// Enforce Lake Formation permissions for the given databases, tables, and principals.
     ///
-    /// - Parameter CreateLakeFormationOptInInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLakeFormationOptInInput`)
     ///
-    /// - Returns: `CreateLakeFormationOptInOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLakeFormationOptInOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1128,6 +1148,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLakeFormationOptInInput, CreateLakeFormationOptInOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLakeFormationOptInOutput>(CreateLakeFormationOptInOutput.httpOutput(from:), CreateLakeFormationOptInOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLakeFormationOptInInput, CreateLakeFormationOptInOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLakeFormationOptInOutput>())
@@ -1159,9 +1180,9 @@ extension LakeFormationClient {
     ///
     /// Deletes a data cell filter.
     ///
-    /// - Parameter DeleteDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataCellsFilterInput`)
     ///
-    /// - Returns: `DeleteDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1199,6 +1220,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataCellsFilterInput, DeleteDataCellsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataCellsFilterOutput>(DeleteDataCellsFilterOutput.httpOutput(from:), DeleteDataCellsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataCellsFilterInput, DeleteDataCellsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataCellsFilterOutput>())
@@ -1228,11 +1250,15 @@ extension LakeFormationClient {
 
     /// Performs the `DeleteLFTag` operation on the `LakeFormation` service.
     ///
-    /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
+    /// Deletes an LF-tag by its key name. The operation fails if the specified tag key doesn't exist. When you delete an LF-Tag:
     ///
-    /// - Parameter DeleteLFTagInput : [no documentation found]
+    /// * The associated LF-Tag policy becomes invalid.
     ///
-    /// - Returns: `DeleteLFTagOutput` : [no documentation found]
+    /// * Resources that had this tag assigned will no longer have the tag policy applied to them.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteLFTagInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteLFTagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1270,6 +1296,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLFTagInput, DeleteLFTagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLFTagOutput>(DeleteLFTagOutput.httpOutput(from:), DeleteLFTagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLFTagInput, DeleteLFTagOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLFTagOutput>())
@@ -1301,9 +1328,9 @@ extension LakeFormationClient {
     ///
     /// Deletes the LF-Tag expression. The caller must be a data lake admin or have DROP permissions on the LF-Tag expression. Deleting a LF-Tag expression will also delete all LFTagPolicy permissions referencing the LF-Tag expression.
     ///
-    /// - Parameter DeleteLFTagExpressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLFTagExpressionInput`)
     ///
-    /// - Returns: `DeleteLFTagExpressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLFTagExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,6 +1368,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLFTagExpressionInput, DeleteLFTagExpressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLFTagExpressionOutput>(DeleteLFTagExpressionOutput.httpOutput(from:), DeleteLFTagExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLFTagExpressionInput, DeleteLFTagExpressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLFTagExpressionOutput>())
@@ -1372,9 +1400,9 @@ extension LakeFormationClient {
     ///
     /// Deletes an IAM Identity Center connection with Lake Formation.
     ///
-    /// - Parameter DeleteLakeFormationIdentityCenterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLakeFormationIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `DeleteLakeFormationIdentityCenterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLakeFormationIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,6 +1441,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLakeFormationIdentityCenterConfigurationInput, DeleteLakeFormationIdentityCenterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLakeFormationIdentityCenterConfigurationOutput>(DeleteLakeFormationIdentityCenterConfigurationOutput.httpOutput(from:), DeleteLakeFormationIdentityCenterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLakeFormationIdentityCenterConfigurationInput, DeleteLakeFormationIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLakeFormationIdentityCenterConfigurationOutput>())
@@ -1444,9 +1473,9 @@ extension LakeFormationClient {
     ///
     /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
     ///
-    /// - Parameter DeleteLakeFormationOptInInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLakeFormationOptInInput`)
     ///
-    /// - Returns: `DeleteLakeFormationOptInOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLakeFormationOptInOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1485,6 +1514,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLakeFormationOptInInput, DeleteLakeFormationOptInOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLakeFormationOptInOutput>(DeleteLakeFormationOptInOutput.httpOutput(from:), DeleteLakeFormationOptInOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLakeFormationOptInInput, DeleteLakeFormationOptInOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLakeFormationOptInOutput>())
@@ -1516,9 +1546,9 @@ extension LakeFormationClient {
     ///
     /// For a specific governed table, provides a list of Amazon S3 objects that will be written during the current transaction and that can be automatically deleted if the transaction is canceled. Without this call, no Amazon S3 objects are automatically deleted when a transaction cancels. The Glue ETL library function write_dynamic_frame.from_catalog() includes an option to automatically call DeleteObjectsOnCancel before writes. For more information, see [Rolling Back Amazon S3 Writes](https://docs.aws.amazon.com/lake-formation/latest/dg/transactions-data-operations.html#rolling-back-writes).
     ///
-    /// - Parameter DeleteObjectsOnCancelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectsOnCancelInput`)
     ///
-    /// - Returns: `DeleteObjectsOnCancelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectsOnCancelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1559,6 +1589,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteObjectsOnCancelInput, DeleteObjectsOnCancelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectsOnCancelOutput>(DeleteObjectsOnCancelOutput.httpOutput(from:), DeleteObjectsOnCancelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectsOnCancelInput, DeleteObjectsOnCancelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteObjectsOnCancelOutput>())
@@ -1590,9 +1621,9 @@ extension LakeFormationClient {
     ///
     /// Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
     ///
-    /// - Parameter DeregisterResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterResourceInput`)
     ///
-    /// - Returns: `DeregisterResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1629,6 +1660,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterResourceInput, DeregisterResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterResourceOutput>(DeregisterResourceOutput.httpOutput(from:), DeregisterResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterResourceInput, DeregisterResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterResourceOutput>())
@@ -1660,9 +1692,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves the instance ARN and application ARN for the connection.
     ///
-    /// - Parameter DescribeLakeFormationIdentityCenterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLakeFormationIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `DescribeLakeFormationIdentityCenterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLakeFormationIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1700,6 +1732,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLakeFormationIdentityCenterConfigurationInput, DescribeLakeFormationIdentityCenterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLakeFormationIdentityCenterConfigurationOutput>(DescribeLakeFormationIdentityCenterConfigurationOutput.httpOutput(from:), DescribeLakeFormationIdentityCenterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLakeFormationIdentityCenterConfigurationInput, DescribeLakeFormationIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLakeFormationIdentityCenterConfigurationOutput>())
@@ -1731,9 +1764,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves the current data access role for the given resource registered in Lake Formation.
     ///
-    /// - Parameter DescribeResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourceInput`)
     ///
-    /// - Returns: `DescribeResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1770,6 +1803,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourceInput, DescribeResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourceOutput>(DescribeResourceOutput.httpOutput(from:), DescribeResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourceInput, DescribeResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourceOutput>())
@@ -1801,9 +1835,9 @@ extension LakeFormationClient {
     ///
     /// Returns the details of a single transaction.
     ///
-    /// - Parameter DescribeTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransactionInput`)
     ///
-    /// - Returns: `DescribeTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1840,6 +1874,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTransactionInput, DescribeTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransactionOutput>(DescribeTransactionOutput.httpOutput(from:), DescribeTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransactionInput, DescribeTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransactionOutput>())
@@ -1871,9 +1906,9 @@ extension LakeFormationClient {
     ///
     /// Indicates to the service that the specified transaction is still active and should not be treated as idle and aborted. Write transactions that remain idle for a long period are automatically aborted unless explicitly extended.
     ///
-    /// - Parameter ExtendTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExtendTransactionInput`)
     ///
-    /// - Returns: `ExtendTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExtendTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1913,6 +1948,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExtendTransactionInput, ExtendTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExtendTransactionOutput>(ExtendTransactionOutput.httpOutput(from:), ExtendTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExtendTransactionInput, ExtendTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExtendTransactionOutput>())
@@ -1944,9 +1980,9 @@ extension LakeFormationClient {
     ///
     /// Returns a data cells filter.
     ///
-    /// - Parameter GetDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataCellsFilterInput`)
     ///
-    /// - Returns: `GetDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1984,6 +2020,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataCellsFilterInput, GetDataCellsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataCellsFilterOutput>(GetDataCellsFilterOutput.httpOutput(from:), GetDataCellsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataCellsFilterInput, GetDataCellsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataCellsFilterOutput>())
@@ -2015,9 +2052,9 @@ extension LakeFormationClient {
     ///
     /// Returns the identity of the invoking principal.
     ///
-    /// - Parameter GetDataLakePrincipalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataLakePrincipalInput`)
     ///
-    /// - Returns: `GetDataLakePrincipalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataLakePrincipalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2050,6 +2087,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataLakePrincipalInput, GetDataLakePrincipalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataLakePrincipalOutput>(GetDataLakePrincipalOutput.httpOutput(from:), GetDataLakePrincipalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataLakePrincipalInput, GetDataLakePrincipalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataLakePrincipalOutput>())
@@ -2081,9 +2119,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves the list of the data lake administrators of a Lake Formation-managed data lake.
     ///
-    /// - Parameter GetDataLakeSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataLakeSettingsInput`)
     ///
-    /// - Returns: `GetDataLakeSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataLakeSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2119,6 +2157,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataLakeSettingsInput, GetDataLakeSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataLakeSettingsOutput>(GetDataLakeSettingsOutput.httpOutput(from:), GetDataLakeSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataLakeSettingsInput, GetDataLakeSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataLakeSettingsOutput>())
@@ -2150,9 +2189,9 @@ extension LakeFormationClient {
     ///
     /// Returns the Lake Formation permissions for a specified table or database resource located at a path in Amazon S3. GetEffectivePermissionsForPath will not return databases and tables if the catalog is encrypted.
     ///
-    /// - Parameter GetEffectivePermissionsForPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEffectivePermissionsForPathInput`)
     ///
-    /// - Returns: `GetEffectivePermissionsForPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEffectivePermissionsForPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,6 +2228,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEffectivePermissionsForPathOutput>(GetEffectivePermissionsForPathOutput.httpOutput(from:), GetEffectivePermissionsForPathOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEffectivePermissionsForPathInput, GetEffectivePermissionsForPathOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEffectivePermissionsForPathOutput>())
@@ -2220,9 +2260,9 @@ extension LakeFormationClient {
     ///
     /// Returns an LF-tag definition.
     ///
-    /// - Parameter GetLFTagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLFTagInput`)
     ///
-    /// - Returns: `GetLFTagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLFTagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2260,6 +2300,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLFTagInput, GetLFTagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLFTagOutput>(GetLFTagOutput.httpOutput(from:), GetLFTagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLFTagInput, GetLFTagOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLFTagOutput>())
@@ -2291,9 +2332,9 @@ extension LakeFormationClient {
     ///
     /// Returns the details about the LF-Tag expression. The caller must be a data lake admin or must have DESCRIBE permission on the LF-Tag expression resource.
     ///
-    /// - Parameter GetLFTagExpressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLFTagExpressionInput`)
     ///
-    /// - Returns: `GetLFTagExpressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLFTagExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2331,6 +2372,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLFTagExpressionInput, GetLFTagExpressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLFTagExpressionOutput>(GetLFTagExpressionOutput.httpOutput(from:), GetLFTagExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLFTagExpressionInput, GetLFTagExpressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLFTagExpressionOutput>())
@@ -2362,9 +2404,9 @@ extension LakeFormationClient {
     ///
     /// Returns the state of a query previously submitted. Clients are expected to poll GetQueryState to monitor the current state of the planning before retrieving the work units. A query state is only visible to the principal that made the initial call to StartQueryPlanning.
     ///
-    /// - Parameter GetQueryStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStateInput`)
     ///
-    /// - Returns: `GetQueryStateOutput` : A structure for the output.
+    /// - Returns: A structure for the output. (Type: `GetQueryStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2400,6 +2442,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueryStateInput, GetQueryStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryStateOutput>(GetQueryStateOutput.httpOutput(from:), GetQueryStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryStateInput, GetQueryStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryStateOutput>())
@@ -2431,9 +2474,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves statistics on the planning and execution of a query.
     ///
-    /// - Parameter GetQueryStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryStatisticsInput`)
     ///
-    /// - Returns: `GetQueryStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2472,6 +2515,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueryStatisticsInput, GetQueryStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryStatisticsOutput>(GetQueryStatisticsOutput.httpOutput(from:), GetQueryStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryStatisticsInput, GetQueryStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryStatisticsOutput>())
@@ -2503,9 +2547,9 @@ extension LakeFormationClient {
     ///
     /// Returns the LF-tags applied to a resource.
     ///
-    /// - Parameter GetResourceLFTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceLFTagsInput`)
     ///
-    /// - Returns: `GetResourceLFTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceLFTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2544,6 +2588,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceLFTagsInput, GetResourceLFTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceLFTagsOutput>(GetResourceLFTagsOutput.httpOutput(from:), GetResourceLFTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceLFTagsInput, GetResourceLFTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceLFTagsOutput>())
@@ -2575,9 +2620,9 @@ extension LakeFormationClient {
     ///
     /// Returns the set of Amazon S3 objects that make up the specified governed table. A transaction ID or timestamp can be specified for time-travel queries.
     ///
-    /// - Parameter GetTableObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableObjectsInput`)
     ///
-    /// - Returns: `GetTableObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2617,6 +2662,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableObjectsInput, GetTableObjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableObjectsOutput>(GetTableObjectsOutput.httpOutput(from:), GetTableObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableObjectsInput, GetTableObjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableObjectsOutput>())
@@ -2644,13 +2690,95 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetTemporaryDataLocationCredentials` operation on the `LakeFormation` service.
+    ///
+    /// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by providing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. The API operation returns an error in the following scenarios:
+    ///
+    /// * The data location is not registered with Lake Formation.
+    ///
+    /// * No Glue table is associated with the data location.
+    ///
+    /// * The caller doesn't have required permissions on the associated table. The caller must have SELECT or SUPER permissions on the associated table, and credential vending for full table access must be enabled in the data lake settings. For more information, see [Application integration for full table access](https://docs.aws.amazon.com/lake-formation/latest/dg/full-table-credential-vending.html).
+    ///
+    /// * The data location is in a different Amazon Web Services Region. Lake Formation doesn't support cross-Region access when vending credentials for a data location. Lake Formation only supports Amazon S3 paths registered within the same Region as the API call.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTemporaryDataLocationCredentialsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTemporaryDataLocationCredentialsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConflictException` : Multiple resources exist with the same Amazon S3 location
+    /// - `EntityNotFoundException` : A specified entity does not exist.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getTemporaryDataLocationCredentials(input: GetTemporaryDataLocationCredentialsInput) async throws -> GetTemporaryDataLocationCredentialsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTemporaryDataLocationCredentials")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lakeformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(GetTemporaryDataLocationCredentialsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTemporaryDataLocationCredentialsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemporaryDataLocationCredentialsOutput>(GetTemporaryDataLocationCredentialsOutput.httpOutput(from:), GetTemporaryDataLocationCredentialsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTemporaryDataLocationCredentialsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("LakeFormation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTemporaryDataLocationCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTemporaryDataLocationCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(serviceID: serviceName, version: LakeFormationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LakeFormation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTemporaryDataLocationCredentials")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTemporaryGluePartitionCredentials` operation on the `LakeFormation` service.
     ///
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
     ///
-    /// - Parameter GetTemporaryGluePartitionCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemporaryGluePartitionCredentialsInput`)
     ///
-    /// - Returns: `GetTemporaryGluePartitionCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemporaryGluePartitionCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2689,6 +2817,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemporaryGluePartitionCredentialsInput, GetTemporaryGluePartitionCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemporaryGluePartitionCredentialsOutput>(GetTemporaryGluePartitionCredentialsOutput.httpOutput(from:), GetTemporaryGluePartitionCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemporaryGluePartitionCredentialsInput, GetTemporaryGluePartitionCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemporaryGluePartitionCredentialsOutput>())
@@ -2720,9 +2849,9 @@ extension LakeFormationClient {
     ///
     /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix. To call this API, the role that the service assumes must have lakeformation:GetDataAccess permission on the resource.
     ///
-    /// - Parameter GetTemporaryGlueTableCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemporaryGlueTableCredentialsInput`)
     ///
-    /// - Returns: `GetTemporaryGlueTableCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemporaryGlueTableCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2761,6 +2890,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemporaryGlueTableCredentialsInput, GetTemporaryGlueTableCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemporaryGlueTableCredentialsOutput>(GetTemporaryGlueTableCredentialsOutput.httpOutput(from:), GetTemporaryGlueTableCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemporaryGlueTableCredentialsInput, GetTemporaryGlueTableCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemporaryGlueTableCredentialsOutput>())
@@ -2792,9 +2922,9 @@ extension LakeFormationClient {
     ///
     /// Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
     ///
-    /// - Parameter GetWorkUnitResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkUnitResultsInput`)
     ///
-    /// - Returns: `GetWorkUnitResultsOutput` : A structure for the output.
+    /// - Returns: A structure for the output. (Type: `GetWorkUnitResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2832,6 +2962,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkUnitResultsInput, GetWorkUnitResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkUnitResultsOutput>(GetWorkUnitResultsOutput.httpOutput(from:), GetWorkUnitResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkUnitResultsInput, GetWorkUnitResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkUnitResultsOutput>())
@@ -2863,9 +2994,9 @@ extension LakeFormationClient {
     ///
     /// Retrieves the work units generated by the StartQueryPlanning operation.
     ///
-    /// - Parameter GetWorkUnitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkUnitsInput`)
     ///
-    /// - Returns: `GetWorkUnitsOutput` : A structure for the output.
+    /// - Returns: A structure for the output. (Type: `GetWorkUnitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2903,6 +3034,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkUnitsInput, GetWorkUnitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkUnitsOutput>(GetWorkUnitsOutput.httpOutput(from:), GetWorkUnitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkUnitsInput, GetWorkUnitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkUnitsOutput>())
@@ -2934,9 +3066,9 @@ extension LakeFormationClient {
     ///
     /// Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
-    /// - Parameter GrantPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GrantPermissionsInput`)
     ///
-    /// - Returns: `GrantPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GrantPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2972,6 +3104,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GrantPermissionsInput, GrantPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GrantPermissionsOutput>(GrantPermissionsOutput.httpOutput(from:), GrantPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GrantPermissionsInput, GrantPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GrantPermissionsOutput>())
@@ -3003,9 +3136,9 @@ extension LakeFormationClient {
     ///
     /// Lists all the data cell filters on a table.
     ///
-    /// - Parameter ListDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataCellsFilterInput`)
     ///
-    /// - Returns: `ListDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3042,6 +3175,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataCellsFilterInput, ListDataCellsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataCellsFilterOutput>(ListDataCellsFilterOutput.httpOutput(from:), ListDataCellsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataCellsFilterInput, ListDataCellsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataCellsFilterOutput>())
@@ -3073,9 +3207,9 @@ extension LakeFormationClient {
     ///
     /// Returns the LF-Tag expressions in caller’s account filtered based on caller's permissions. Data Lake and read only admins implicitly can see all tag expressions in their account, else caller needs DESCRIBE permissions on tag expression.
     ///
-    /// - Parameter ListLFTagExpressionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLFTagExpressionsInput`)
     ///
-    /// - Returns: `ListLFTagExpressionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLFTagExpressionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3113,6 +3247,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLFTagExpressionsInput, ListLFTagExpressionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLFTagExpressionsOutput>(ListLFTagExpressionsOutput.httpOutput(from:), ListLFTagExpressionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLFTagExpressionsInput, ListLFTagExpressionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLFTagExpressionsOutput>())
@@ -3144,9 +3279,9 @@ extension LakeFormationClient {
     ///
     /// Lists LF-tags that the requester has permission to view.
     ///
-    /// - Parameter ListLFTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLFTagsInput`)
     ///
-    /// - Returns: `ListLFTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLFTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3184,6 +3319,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLFTagsInput, ListLFTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLFTagsOutput>(ListLFTagsOutput.httpOutput(from:), ListLFTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLFTagsInput, ListLFTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLFTagsOutput>())
@@ -3215,9 +3351,9 @@ extension LakeFormationClient {
     ///
     /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
     ///
-    /// - Parameter ListLakeFormationOptInsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLakeFormationOptInsInput`)
     ///
-    /// - Returns: `ListLakeFormationOptInsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLakeFormationOptInsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3254,6 +3390,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLakeFormationOptInsOutput>(ListLakeFormationOptInsOutput.httpOutput(from:), ListLakeFormationOptInsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLakeFormationOptInsOutput>())
@@ -3283,11 +3420,11 @@ extension LakeFormationClient {
 
     /// Performs the `ListPermissions` operation on the `LakeFormation` service.
     ///
-    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
+    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. If both Principal and Resource parameters are provided, the response returns effective permissions rather than the explicitly granted permissions. For information about permissions, see [Security and Access Control to Metadata and Data](https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html).
     ///
-    /// - Parameter ListPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionsInput`)
     ///
-    /// - Returns: `ListPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3323,6 +3460,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionsInput, ListPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionsOutput>(ListPermissionsOutput.httpOutput(from:), ListPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionsInput, ListPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionsOutput>())
@@ -3354,9 +3492,9 @@ extension LakeFormationClient {
     ///
     /// Lists the resources registered to be managed by the Data Catalog.
     ///
-    /// - Parameter ListResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
-    /// - Returns: `ListResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3392,6 +3530,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcesInput, ListResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcesOutput>(ListResourcesOutput.httpOutput(from:), ListResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcesInput, ListResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcesOutput>())
@@ -3423,9 +3562,9 @@ extension LakeFormationClient {
     ///
     /// Returns the configuration of all storage optimizers associated with a specified table.
     ///
-    /// - Parameter ListTableStorageOptimizersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTableStorageOptimizersInput`)
     ///
-    /// - Returns: `ListTableStorageOptimizersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTableStorageOptimizersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3462,6 +3601,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTableStorageOptimizersOutput>(ListTableStorageOptimizersOutput.httpOutput(from:), ListTableStorageOptimizersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTableStorageOptimizersInput, ListTableStorageOptimizersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTableStorageOptimizersOutput>())
@@ -3493,9 +3633,9 @@ extension LakeFormationClient {
     ///
     /// Returns metadata about transactions and their status. To prevent the response from growing indefinitely, only uncommitted transactions and those available for time-travel queries are returned. This operation can help you identify uncommitted transactions or to get information about transactions.
     ///
-    /// - Parameter ListTransactionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTransactionsInput`)
     ///
-    /// - Returns: `ListTransactionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTransactionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3531,6 +3671,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTransactionsInput, ListTransactionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTransactionsOutput>(ListTransactionsOutput.httpOutput(from:), ListTransactionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTransactionsInput, ListTransactionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTransactionsOutput>())
@@ -3562,9 +3703,9 @@ extension LakeFormationClient {
     ///
     /// Sets the list of data lake administrators who have admin privileges on all resources managed by Lake Formation. For more information on admin privileges, see [Granting Lake Formation Permissions](https://docs.aws.amazon.com/lake-formation/latest/dg/lake-formation-permissions.html). This API replaces the current list of data lake admins with the new list being passed. To add an admin, fetch the current list and add the new admin to that list and pass that list in this API.
     ///
-    /// - Parameter PutDataLakeSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDataLakeSettingsInput`)
     ///
-    /// - Returns: `PutDataLakeSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDataLakeSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3599,6 +3740,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataLakeSettingsInput, PutDataLakeSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDataLakeSettingsOutput>(PutDataLakeSettingsOutput.httpOutput(from:), PutDataLakeSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataLakeSettingsInput, PutDataLakeSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDataLakeSettingsOutput>())
@@ -3630,9 +3772,9 @@ extension LakeFormationClient {
     ///
     /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location. ResourceArn = arn:aws:s3:::my-bucket/ UseServiceLinkedRole = true If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn: arn:aws:iam::12345:role/my-data-access-role
     ///
-    /// - Parameter RegisterResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterResourceInput`)
     ///
-    /// - Returns: `RegisterResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3672,6 +3814,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterResourceInput, RegisterResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterResourceOutput>(RegisterResourceOutput.httpOutput(from:), RegisterResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterResourceInput, RegisterResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterResourceOutput>())
@@ -3703,9 +3846,9 @@ extension LakeFormationClient {
     ///
     /// Removes an LF-tag from the resource. Only database, table, or tableWithColumns resource are allowed. To tag columns, use the column inclusion list in tableWithColumns to specify column input.
     ///
-    /// - Parameter RemoveLFTagsFromResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveLFTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveLFTagsFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveLFTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3745,6 +3888,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveLFTagsFromResourceInput, RemoveLFTagsFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveLFTagsFromResourceOutput>(RemoveLFTagsFromResourceOutput.httpOutput(from:), RemoveLFTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveLFTagsFromResourceInput, RemoveLFTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveLFTagsFromResourceOutput>())
@@ -3776,9 +3920,9 @@ extension LakeFormationClient {
     ///
     /// Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
     ///
-    /// - Parameter RevokePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokePermissionsInput`)
     ///
-    /// - Returns: `RevokePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3814,6 +3958,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokePermissionsInput, RevokePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokePermissionsOutput>(RevokePermissionsOutput.httpOutput(from:), RevokePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokePermissionsInput, RevokePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokePermissionsOutput>())
@@ -3845,9 +3990,9 @@ extension LakeFormationClient {
     ///
     /// This operation allows a search on DATABASE resources by TagCondition. This operation is used by admins who want to grant user permissions on certain TagConditions. Before making a grant, the admin can use SearchDatabasesByTags to find all resources where the given TagConditions are valid to verify whether the returned resources can be shared.
     ///
-    /// - Parameter SearchDatabasesByLFTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDatabasesByLFTagsInput`)
     ///
-    /// - Returns: `SearchDatabasesByLFTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDatabasesByLFTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3886,6 +4031,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchDatabasesByLFTagsOutput>(SearchDatabasesByLFTagsOutput.httpOutput(from:), SearchDatabasesByLFTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchDatabasesByLFTagsInput, SearchDatabasesByLFTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchDatabasesByLFTagsOutput>())
@@ -3917,9 +4063,9 @@ extension LakeFormationClient {
     ///
     /// This operation allows a search on TABLE resources by LFTags. This will be used by admins who want to grant user permissions on certain LF-tags. Before making a grant, the admin can use SearchTablesByLFTags to find all resources where the given LFTags are valid to verify whether the returned resources can be shared.
     ///
-    /// - Parameter SearchTablesByLFTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTablesByLFTagsInput`)
     ///
-    /// - Returns: `SearchTablesByLFTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTablesByLFTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3958,6 +4104,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTablesByLFTagsOutput>(SearchTablesByLFTagsOutput.httpOutput(from:), SearchTablesByLFTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTablesByLFTagsInput, SearchTablesByLFTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTablesByLFTagsOutput>())
@@ -3989,9 +4136,9 @@ extension LakeFormationClient {
     ///
     /// Submits a request to process a query statement. This operation generates work units that can be retrieved with the GetWorkUnits operation as soon as the query state is WORKUNITS_AVAILABLE or FINISHED.
     ///
-    /// - Parameter StartQueryPlanningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryPlanningInput`)
     ///
-    /// - Returns: `StartQueryPlanningOutput` : A structure for the output.
+    /// - Returns: A structure for the output. (Type: `StartQueryPlanningOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4028,6 +4175,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryPlanningInput, StartQueryPlanningOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQueryPlanningOutput>(StartQueryPlanningOutput.httpOutput(from:), StartQueryPlanningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryPlanningInput, StartQueryPlanningOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryPlanningOutput>())
@@ -4059,9 +4207,9 @@ extension LakeFormationClient {
     ///
     /// Starts a new transaction and returns its transaction ID. Transaction IDs are opaque objects that you can use to identify a transaction.
     ///
-    /// - Parameter StartTransactionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTransactionInput`)
     ///
-    /// - Returns: `StartTransactionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4096,6 +4244,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTransactionInput, StartTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTransactionOutput>(StartTransactionOutput.httpOutput(from:), StartTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTransactionInput, StartTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTransactionOutput>())
@@ -4127,9 +4276,9 @@ extension LakeFormationClient {
     ///
     /// Updates a data cell filter.
     ///
-    /// - Parameter UpdateDataCellsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataCellsFilterInput`)
     ///
-    /// - Returns: `UpdateDataCellsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataCellsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4168,6 +4317,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataCellsFilterInput, UpdateDataCellsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataCellsFilterOutput>(UpdateDataCellsFilterOutput.httpOutput(from:), UpdateDataCellsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataCellsFilterInput, UpdateDataCellsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataCellsFilterOutput>())
@@ -4199,9 +4349,9 @@ extension LakeFormationClient {
     ///
     /// Updates the list of possible values for the specified LF-tag key. If the LF-tag does not exist, the operation throws an EntityNotFoundException. The values in the delete key values will be deleted from list of possible values. If any value in the delete key values is attached to a resource, then API errors out with a 400 Exception - "Update not allowed". Untag the attribute before deleting the LF-tag key's value.
     ///
-    /// - Parameter UpdateLFTagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLFTagInput`)
     ///
-    /// - Returns: `UpdateLFTagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLFTagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4240,6 +4390,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLFTagInput, UpdateLFTagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLFTagOutput>(UpdateLFTagOutput.httpOutput(from:), UpdateLFTagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLFTagInput, UpdateLFTagOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLFTagOutput>())
@@ -4271,9 +4422,9 @@ extension LakeFormationClient {
     ///
     /// Updates the name of the LF-Tag expression to the new description and expression body provided. Updating a LF-Tag expression immediately changes the permission boundaries of all existing LFTagPolicy permission grants that reference the given LF-Tag expression.
     ///
-    /// - Parameter UpdateLFTagExpressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLFTagExpressionInput`)
     ///
-    /// - Returns: `UpdateLFTagExpressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLFTagExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4312,6 +4463,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLFTagExpressionInput, UpdateLFTagExpressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLFTagExpressionOutput>(UpdateLFTagExpressionOutput.httpOutput(from:), UpdateLFTagExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLFTagExpressionInput, UpdateLFTagExpressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLFTagExpressionOutput>())
@@ -4343,9 +4495,9 @@ extension LakeFormationClient {
     ///
     /// Updates the IAM Identity Center connection parameters.
     ///
-    /// - Parameter UpdateLakeFormationIdentityCenterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLakeFormationIdentityCenterConfigurationInput`)
     ///
-    /// - Returns: `UpdateLakeFormationIdentityCenterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLakeFormationIdentityCenterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4384,6 +4536,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLakeFormationIdentityCenterConfigurationInput, UpdateLakeFormationIdentityCenterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLakeFormationIdentityCenterConfigurationOutput>(UpdateLakeFormationIdentityCenterConfigurationOutput.httpOutput(from:), UpdateLakeFormationIdentityCenterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLakeFormationIdentityCenterConfigurationInput, UpdateLakeFormationIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLakeFormationIdentityCenterConfigurationOutput>())
@@ -4415,9 +4568,9 @@ extension LakeFormationClient {
     ///
     /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
     ///
-    /// - Parameter UpdateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceInput`)
     ///
-    /// - Returns: `UpdateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4454,6 +4607,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceInput, UpdateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceOutput>(UpdateResourceOutput.httpOutput(from:), UpdateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceInput, UpdateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceOutput>())
@@ -4485,9 +4639,9 @@ extension LakeFormationClient {
     ///
     /// Updates the manifest of Amazon S3 objects that make up the specified governed table.
     ///
-    /// - Parameter UpdateTableObjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableObjectsInput`)
     ///
-    /// - Returns: `UpdateTableObjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableObjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4529,6 +4683,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableObjectsInput, UpdateTableObjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableObjectsOutput>(UpdateTableObjectsOutput.httpOutput(from:), UpdateTableObjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableObjectsInput, UpdateTableObjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableObjectsOutput>())
@@ -4560,9 +4715,9 @@ extension LakeFormationClient {
     ///
     /// Updates the configuration of the storage optimizers for a table.
     ///
-    /// - Parameter UpdateTableStorageOptimizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableStorageOptimizerInput`)
     ///
-    /// - Returns: `UpdateTableStorageOptimizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableStorageOptimizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4599,6 +4754,7 @@ extension LakeFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableStorageOptimizerInput, UpdateTableStorageOptimizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableStorageOptimizerOutput>(UpdateTableStorageOptimizerOutput.httpOutput(from:), UpdateTableStorageOptimizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableStorageOptimizerInput, UpdateTableStorageOptimizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableStorageOptimizerOutput>())

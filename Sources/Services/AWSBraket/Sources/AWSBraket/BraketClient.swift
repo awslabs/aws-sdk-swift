@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BraketClient: ClientRuntime.Client {
+public class BraketClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BraketClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: BraketClient.BraketClientConfiguration
     let serviceName = "Braket"
@@ -374,9 +374,9 @@ extension BraketClient {
     ///
     /// Cancels an Amazon Braket hybrid job.
     ///
-    /// - Parameter CancelJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobOutput>())
@@ -443,9 +444,9 @@ extension BraketClient {
     ///
     /// Cancels the specified task.
     ///
-    /// - Parameter CancelQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelQuantumTaskInput`)
     ///
-    /// - Returns: `CancelQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +486,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelQuantumTaskInput, CancelQuantumTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelQuantumTaskOutput>(CancelQuantumTaskOutput.httpOutput(from:), CancelQuantumTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelQuantumTaskInput, CancelQuantumTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelQuantumTaskOutput>())
@@ -516,9 +518,9 @@ extension BraketClient {
     ///
     /// Creates an Amazon Braket hybrid job.
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +562,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -591,9 +594,9 @@ extension BraketClient {
     ///
     /// Creates a quantum task.
     ///
-    /// - Parameter CreateQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuantumTaskInput`)
     ///
-    /// - Returns: `CreateQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +637,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQuantumTaskInput, CreateQuantumTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQuantumTaskOutput>(CreateQuantumTaskOutput.httpOutput(from:), CreateQuantumTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQuantumTaskInput, CreateQuantumTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQuantumTaskOutput>())
@@ -661,13 +665,155 @@ extension BraketClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateSpendingLimit` operation on the `Braket` service.
+    ///
+    /// Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateSpendingLimitInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateSpendingLimitOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DeviceRetiredException` : The specified device has been retired.
+    /// - `InternalServiceException` : The request failed because of an unknown error.
+    /// - `ThrottlingException` : The API throttling rate limit is exceeded.
+    /// - `ValidationException` : The input request failed to satisfy constraints expected by Amazon Braket.
+    public func createSpendingLimit(input: CreateSpendingLimitInput) async throws -> CreateSpendingLimitOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSpendingLimit")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "braket")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateSpendingLimitInput, CreateSpendingLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>(CreateSpendingLimitInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateSpendingLimitInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSpendingLimitOutput>(CreateSpendingLimitOutput.httpOutput(from:), CreateSpendingLimitOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSpendingLimitOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Braket", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSpendingLimitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSpendingLimitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSpendingLimitInput, CreateSpendingLimitOutput>(serviceID: serviceName, version: BraketClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Braket")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSpendingLimit")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteSpendingLimit` operation on the `Braket` service.
+    ///
+    /// Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSpendingLimitInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSpendingLimitOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : The request failed because of an unknown error.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The API throttling rate limit is exceeded.
+    /// - `ValidationException` : The input request failed to satisfy constraints expected by Amazon Braket.
+    public func deleteSpendingLimit(input: DeleteSpendingLimitInput) async throws -> DeleteSpendingLimitOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSpendingLimit")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "braket")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteSpendingLimitInput, DeleteSpendingLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteSpendingLimitInput, DeleteSpendingLimitOutput>(DeleteSpendingLimitInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSpendingLimitInput, DeleteSpendingLimitOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSpendingLimitOutput>(DeleteSpendingLimitOutput.httpOutput(from:), DeleteSpendingLimitOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSpendingLimitInput, DeleteSpendingLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSpendingLimitOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Braket", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSpendingLimitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSpendingLimitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSpendingLimitInput, DeleteSpendingLimitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSpendingLimitInput, DeleteSpendingLimitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSpendingLimitInput, DeleteSpendingLimitOutput>(serviceID: serviceName, version: BraketClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Braket")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSpendingLimit")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDevice` operation on the `Braket` service.
     ///
     /// Retrieves the devices available in Amazon Braket. For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
     ///
-    /// - Parameter GetDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceInput`)
     ///
-    /// - Returns: `GetDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -702,6 +848,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceOutput>(GetDeviceOutput.httpOutput(from:), GetDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceInput, GetDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceOutput>())
@@ -733,9 +880,9 @@ extension BraketClient {
     ///
     /// Retrieves the specified Amazon Braket hybrid job.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,6 +918,7 @@ extension BraketClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJobInput, GetJobOutput>(GetJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -802,9 +950,9 @@ extension BraketClient {
     ///
     /// Retrieves the specified quantum task.
     ///
-    /// - Parameter GetQuantumTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQuantumTaskInput`)
     ///
-    /// - Returns: `GetQuantumTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQuantumTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +988,7 @@ extension BraketClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQuantumTaskInput, GetQuantumTaskOutput>(GetQuantumTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQuantumTaskOutput>(GetQuantumTaskOutput.httpOutput(from:), GetQuantumTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQuantumTaskInput, GetQuantumTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQuantumTaskOutput>())
@@ -871,9 +1020,9 @@ extension BraketClient {
     ///
     /// Shows the tags associated with this resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,6 +1055,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -937,9 +1087,9 @@ extension BraketClient {
     ///
     /// Searches for devices using the specified filters.
     ///
-    /// - Parameter SearchDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDevicesInput`)
     ///
-    /// - Returns: `SearchDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -976,6 +1126,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchDevicesInput, SearchDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchDevicesOutput>(SearchDevicesOutput.httpOutput(from:), SearchDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchDevicesInput, SearchDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchDevicesOutput>())
@@ -1007,9 +1158,9 @@ extension BraketClient {
     ///
     /// Searches for Amazon Braket hybrid jobs that match the specified filter values.
     ///
-    /// - Parameter SearchJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
     ///
-    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1046,6 +1197,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchJobsInput, SearchJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchJobsOutput>(SearchJobsOutput.httpOutput(from:), SearchJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchJobsInput, SearchJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchJobsOutput>())
@@ -1077,9 +1229,9 @@ extension BraketClient {
     ///
     /// Searches for tasks that match the specified filter values.
     ///
-    /// - Parameter SearchQuantumTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQuantumTasksInput`)
     ///
-    /// - Returns: `SearchQuantumTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQuantumTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,6 +1268,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchQuantumTasksInput, SearchQuantumTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchQuantumTasksOutput>(SearchQuantumTasksOutput.httpOutput(from:), SearchQuantumTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchQuantumTasksInput, SearchQuantumTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchQuantumTasksOutput>())
@@ -1143,13 +1296,84 @@ extension BraketClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchSpendingLimits` operation on the `Braket` service.
+    ///
+    /// Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchSpendingLimitsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchSpendingLimitsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : The request failed because of an unknown error.
+    /// - `ThrottlingException` : The API throttling rate limit is exceeded.
+    /// - `ValidationException` : The input request failed to satisfy constraints expected by Amazon Braket.
+    public func searchSpendingLimits(input: SearchSpendingLimitsInput) async throws -> SearchSpendingLimitsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchSpendingLimits")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "braket")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchSpendingLimitsInput, SearchSpendingLimitsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput>(SearchSpendingLimitsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchSpendingLimitsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchSpendingLimitsOutput>(SearchSpendingLimitsOutput.httpOutput(from:), SearchSpendingLimitsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchSpendingLimitsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Braket", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchSpendingLimitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchSpendingLimitsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchSpendingLimitsInput, SearchSpendingLimitsOutput>(serviceID: serviceName, version: BraketClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Braket")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchSpendingLimits")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `Braket` service.
     ///
     /// Add a tag to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1185,6 +1409,7 @@ extension BraketClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1216,9 +1441,9 @@ extension BraketClient {
     ///
     /// Remove tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1252,6 +1477,7 @@ extension BraketClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1267,6 +1493,79 @@ extension BraketClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Braket")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateSpendingLimit` operation on the `Braket` service.
+    ///
+    /// Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSpendingLimitInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSpendingLimitOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : The request failed because of an unknown error.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The API throttling rate limit is exceeded.
+    /// - `ValidationException` : The input request failed to satisfy constraints expected by Amazon Braket.
+    public func updateSpendingLimit(input: UpdateSpendingLimitInput) async throws -> UpdateSpendingLimitOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSpendingLimit")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "braket")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateSpendingLimitInput, UpdateSpendingLimitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>(UpdateSpendingLimitInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSpendingLimitInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSpendingLimitOutput>(UpdateSpendingLimitOutput.httpOutput(from:), UpdateSpendingLimitOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSpendingLimitOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Braket", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSpendingLimitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSpendingLimitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSpendingLimitInput, UpdateSpendingLimitOutput>(serviceID: serviceName, version: BraketClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Braket")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSpendingLimit")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

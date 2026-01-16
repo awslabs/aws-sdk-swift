@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RbinClient: ClientRuntime.Client {
+public class RbinClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RbinClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: RbinClient.RbinClientConfiguration
     let serviceName = "rbin"
@@ -380,9 +380,9 @@ extension RbinClient {
     ///
     /// For more information, see [ Create Recycle Bin retention rules](https://docs.aws.amazon.com/ebs/latest/userguide/recycle-bin.html) in the Amazon EBS User Guide.
     ///
-    /// - Parameter CreateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleInput`)
     ///
-    /// - Returns: `CreateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +418,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleInput, CreateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleOutput>(CreateRuleOutput.httpOutput(from:), CreateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleInput, CreateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleOutput>())
@@ -449,9 +450,9 @@ extension RbinClient {
     ///
     /// Deletes a Recycle Bin retention rule. For more information, see [ Delete Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-delete-rule) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter DeleteRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleInput`)
     ///
-    /// - Returns: `DeleteRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +486,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleInput, DeleteRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleOutput>())
@@ -516,9 +518,9 @@ extension RbinClient {
     ///
     /// Gets information about a Recycle Bin retention rule.
     ///
-    /// - Parameter GetRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleInput`)
     ///
-    /// - Returns: `GetRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -551,6 +553,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuleInput, GetRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuleOutput>(GetRuleOutput.httpOutput(from:), GetRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleInput, GetRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuleOutput>())
@@ -582,9 +585,9 @@ extension RbinClient {
     ///
     /// Lists the Recycle Bin retention rules in the Region.
     ///
-    /// - Parameter ListRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesInput`)
     ///
-    /// - Returns: `ListRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -619,6 +622,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRulesInput, ListRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesOutput>(ListRulesOutput.httpOutput(from:), ListRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesInput, ListRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRulesOutput>())
@@ -650,9 +654,9 @@ extension RbinClient {
     ///
     /// Lists the tags assigned to a retention rule.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,6 +689,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -716,9 +721,9 @@ extension RbinClient {
     ///
     /// Locks a Region-level retention rule. A locked retention rule can't be modified or deleted. You can't lock tag-level retention rules, or Region-level retention rules that have exclusion tags.
     ///
-    /// - Parameter LockRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `LockRuleInput`)
     ///
-    /// - Returns: `LockRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `LockRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -755,6 +760,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<LockRuleInput, LockRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<LockRuleOutput>(LockRuleOutput.httpOutput(from:), LockRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LockRuleInput, LockRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<LockRuleOutput>())
@@ -786,9 +792,9 @@ extension RbinClient {
     ///
     /// Assigns tags to the specified retention rule.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,6 +831,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -856,9 +863,9 @@ extension RbinClient {
     ///
     /// Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted only after the unlock delay period expires.
     ///
-    /// - Parameter UnlockRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnlockRuleInput`)
     ///
-    /// - Returns: `UnlockRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnlockRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -892,6 +899,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UnlockRuleInput, UnlockRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnlockRuleOutput>(UnlockRuleOutput.httpOutput(from:), UnlockRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnlockRuleInput, UnlockRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnlockRuleOutput>())
@@ -923,9 +931,9 @@ extension RbinClient {
     ///
     /// Unassigns a tag from a retention rule.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -959,6 +967,7 @@ extension RbinClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -990,9 +999,9 @@ extension RbinClient {
     ///
     /// Updates an existing Recycle Bin retention rule. You can update a retention rule's description, resource tags, and retention period at any time after creation. You can't update a retention rule's resource type after creation. For more information, see [ Update Recycle Bin retention rules](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recycle-bin-working-with-rules.html#recycle-bin-update-rule) in the Amazon Elastic Compute Cloud User Guide.
     ///
-    /// - Parameter UpdateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleInput`)
     ///
-    /// - Returns: `UpdateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1030,6 +1039,7 @@ extension RbinClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleInput, UpdateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleOutput>(UpdateRuleOutput.httpOutput(from:), UpdateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleInput, UpdateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleOutput>())

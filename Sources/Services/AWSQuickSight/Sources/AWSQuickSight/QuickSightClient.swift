@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class QuickSightClient: ClientRuntime.Client {
+public class QuickSightClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "QuickSightClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: QuickSightClient.QuickSightClientConfiguration
     let serviceName = "QuickSight"
@@ -373,14 +373,14 @@ extension QuickSightClient {
     ///
     /// Creates new reviewed answers for a Q Topic.
     ///
-    /// - Parameter BatchCreateTopicReviewedAnswerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateTopicReviewedAnswerInput`)
     ///
-    /// - Returns: `BatchCreateTopicReviewedAnswerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateTopicReviewedAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -413,6 +413,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateTopicReviewedAnswerOutput>(BatchCreateTopicReviewedAnswerOutput.httpOutput(from:), BatchCreateTopicReviewedAnswerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateTopicReviewedAnswerInput, BatchCreateTopicReviewedAnswerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateTopicReviewedAnswerOutput>())
@@ -444,14 +445,14 @@ extension QuickSightClient {
     ///
     /// Deletes reviewed answers for Q Topic.
     ///
-    /// - Parameter BatchDeleteTopicReviewedAnswerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteTopicReviewedAnswerInput`)
     ///
-    /// - Returns: `BatchDeleteTopicReviewedAnswerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteTopicReviewedAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -485,6 +486,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteTopicReviewedAnswerOutput>(BatchDeleteTopicReviewedAnswerOutput.httpOutput(from:), BatchDeleteTopicReviewedAnswerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteTopicReviewedAnswerInput, BatchDeleteTopicReviewedAnswerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteTopicReviewedAnswerOutput>())
@@ -516,14 +518,14 @@ extension QuickSightClient {
     ///
     /// Cancels an ongoing ingestion of data into SPICE.
     ///
-    /// - Parameter CancelIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelIngestionInput`)
     ///
-    /// - Returns: `CancelIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceExistsException` : The resource specified already exists.
@@ -554,6 +556,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelIngestionInput, CancelIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelIngestionOutput>(CancelIngestionOutput.httpOutput(from:), CancelIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelIngestionInput, CancelIngestionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelIngestionOutput>())
@@ -583,16 +586,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Creates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see [Customizing Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon QuickSight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
+    /// Creates Amazon Quick Sight customizations. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon Quick Sight by removing Amazon Quick Sight sample assets and videos for all new users, see [Customizing Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html) in the Amazon Quick Sight User Guide. You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the [DescribeThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeThemePermissions.html) API operation. To share the theme, grant permissions by using the [UpdateThemePermissions](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateThemePermissions.html) API operation.
     ///
-    /// - Parameter CreateAccountCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountCustomizationInput`)
     ///
-    /// - Returns: `CreateAccountCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -629,6 +632,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountCustomizationInput, CreateAccountCustomizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountCustomizationOutput>(CreateAccountCustomizationOutput.httpOutput(from:), CreateAccountCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountCustomizationInput, CreateAccountCustomizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountCustomizationOutput>())
@@ -658,16 +662,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateAccountSubscription` operation on the `QuickSight` service.
     ///
-    /// Creates an Amazon QuickSight account, or subscribes to Amazon QuickSight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see [Sign up for Amazon Web Services](https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html) in the Amazon QuickSight User Guide. The person who signs up for Amazon QuickSight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see [IAM Policy Examples for Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html) in the Amazon QuickSight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon QuickSight, see [Passing IAM roles to Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role) in the Amazon QuickSight User Guide. You can't set default resource access on the new account from the Amazon QuickSight API. Instead, add default resource access from the Amazon QuickSight console. For more information about setting default resource access to Amazon Web Services services, see [Setting default resource access to Amazon Web Services services](https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html) in the Amazon QuickSight User Guide.
+    /// Creates an Amazon Quick Sight account, or subscribes to Amazon Quick Sight Q. The Amazon Web Services Region for the account is derived from what is configured in the CLI or SDK. Before you use this operation, make sure that you can connect to an existing Amazon Web Services account. If you don't have an Amazon Web Services account, see [Sign up for Amazon Web Services](https://docs.aws.amazon.com/quicksight/latest/user/setting-up-aws-sign-up.html) in the Amazon Quick Sight User Guide. The person who signs up for Amazon Quick Sight needs to have the correct Identity and Access Management (IAM) permissions. For more information, see [IAM Policy Examples for Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/iam-policy-examples.html) in the Amazon Quick Sight User Guide. If your IAM policy includes both the Subscribe and CreateAccountSubscription actions, make sure that both actions are set to Allow. If either action is set to Deny, the Deny action prevails and your API call fails. You can't pass an existing IAM role to access other Amazon Web Services services using this API operation. To pass your existing IAM role to Amazon Quick Sight, see [Passing IAM roles to Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role) in the Amazon Quick Sight User Guide. You can't set default resource access on the new account from the Amazon Quick Sight API. Instead, add default resource access from the Amazon Quick Sight console. For more information about setting default resource access to Amazon Web Services services, see [Setting default resource access to Amazon Web Services services](https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html) in the Amazon Quick Sight User Guide.
     ///
-    /// - Parameter CreateAccountSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountSubscriptionInput`)
     ///
-    /// - Returns: `CreateAccountSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -704,6 +708,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountSubscriptionInput, CreateAccountSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountSubscriptionOutput>(CreateAccountSubscriptionOutput.httpOutput(from:), CreateAccountSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountSubscriptionInput, CreateAccountSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountSubscriptionOutput>())
@@ -731,13 +736,86 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateActionConnector` operation on the `QuickSight` service.
+    ///
+    /// Creates an action connector that enables Amazon Quick Sight to connect to external services and perform actions. Action connectors support various authentication methods and can be configured with specific actions from supported connector types like Amazon S3, Salesforce, JIRA.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateActionConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateActionConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceExistsException` : The resource specified already exists.
+    /// - `ThrottlingException` : Access is throttled.
+    public func createActionConnector(input: CreateActionConnectorInput) async throws -> CreateActionConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createActionConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateActionConnectorInput, CreateActionConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput>(CreateActionConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateActionConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateActionConnectorOutput>(CreateActionConnectorOutput.httpOutput(from:), CreateActionConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateActionConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateActionConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateActionConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateActionConnectorInput, CreateActionConnectorOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateActionConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateAnalysis` operation on the `QuickSight` service.
     ///
-    /// Creates an analysis in Amazon QuickSight. Analyses can be created either from a template or from an AnalysisDefinition.
+    /// Creates an analysis in Amazon Quick Sight. Analyses can be created either from a template or from an AnalysisDefinition.
     ///
-    /// - Parameter CreateAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnalysisInput`)
     ///
-    /// - Returns: `CreateAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,7 +827,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createAnalysis(input: CreateAnalysisInput) async throws -> CreateAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -778,6 +856,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnalysisInput, CreateAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnalysisOutput>(CreateAnalysisOutput.httpOutput(from:), CreateAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnalysisInput, CreateAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnalysisOutput>())
@@ -807,16 +886,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateBrand` operation on the `QuickSight` service.
     ///
-    /// Creates an Amazon QuickSight brand.
+    /// Creates an Quick Sight brand.
     ///
-    /// - Parameter CreateBrandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBrandInput`)
     ///
-    /// - Returns: `CreateBrandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBrandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -850,6 +929,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBrandInput, CreateBrandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBrandOutput>(CreateBrandOutput.httpOutput(from:), CreateBrandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBrandInput, CreateBrandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBrandOutput>())
@@ -881,14 +961,14 @@ extension QuickSightClient {
     ///
     /// Creates a custom permissions profile.
     ///
-    /// - Parameter CreateCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomPermissionsInput`)
     ///
-    /// - Returns: `CreateCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -926,6 +1006,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomPermissionsInput, CreateCustomPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomPermissionsOutput>(CreateCustomPermissionsOutput.httpOutput(from:), CreateCustomPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomPermissionsInput, CreateCustomPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomPermissionsOutput>())
@@ -955,11 +1036,11 @@ extension QuickSightClient {
 
     /// Performs the `CreateDashboard` operation on the `QuickSight` service.
     ///
-    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
+    /// Creates a dashboard from either a template or directly with a DashboardDefinition. To first create a template, see the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. A dashboard is an entity in Amazon Quick Sight that identifies Amazon Quick Sight reports, created from analyses. You can share Amazon Quick Sight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     ///
-    /// - Parameter CreateDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDashboardInput`)
     ///
-    /// - Returns: `CreateDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -971,7 +1052,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createDashboard(input: CreateDashboardInput) async throws -> CreateDashboardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1000,6 +1081,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDashboardInput, CreateDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDashboardOutput>(CreateDashboardOutput.httpOutput(from:), CreateDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDashboardInput, CreateDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDashboardOutput>())
@@ -1031,22 +1113,23 @@ extension QuickSightClient {
     ///
     /// Creates a dataset. This operation doesn't support datasets that include uploaded files as a source.
     ///
-    /// - Parameter CreateDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSetInput`)
     ///
-    /// - Returns: `CreateDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidDataSetParameterValueException` : An exception thrown when an invalid parameter value is provided for dataset operations.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1075,6 +1158,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataSetInput, CreateDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataSetOutput>(CreateDataSetOutput.httpOutput(from:), CreateDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataSetInput, CreateDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataSetOutput>())
@@ -1106,16 +1190,16 @@ extension QuickSightClient {
     ///
     /// Creates a data source.
     ///
-    /// - Parameter CreateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSourceInput`)
     ///
-    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
-    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your Amazon QuickSight account is unavailable.
+    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your Amazon Quick Sight account is unavailable.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -1150,6 +1234,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataSourceOutput>(CreateDataSourceOutput.httpOutput(from:), CreateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataSourceOutput>())
@@ -1181,14 +1266,14 @@ extension QuickSightClient {
     ///
     /// Creates an empty shared folder.
     ///
-    /// - Parameter CreateFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFolderInput`)
     ///
-    /// - Returns: `CreateFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -1196,7 +1281,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createFolder(input: CreateFolderInput) async throws -> CreateFolderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1225,6 +1310,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFolderInput, CreateFolderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFolderOutput>(CreateFolderOutput.httpOutput(from:), CreateFolderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFolderInput, CreateFolderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFolderOutput>())
@@ -1256,21 +1342,21 @@ extension QuickSightClient {
     ///
     /// Adds an asset, such as a dashboard, analysis, or dataset into a folder.
     ///
-    /// - Parameter CreateFolderMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFolderMembershipInput`)
     ///
-    /// - Returns: `CreateFolderMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFolderMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createFolderMembership(input: CreateFolderMembershipInput) async throws -> CreateFolderMembershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -1296,6 +1382,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFolderMembershipInput, CreateFolderMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFolderMembershipOutput>(CreateFolderMembershipOutput.httpOutput(from:), CreateFolderMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFolderMembershipInput, CreateFolderMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFolderMembershipOutput>())
@@ -1325,16 +1412,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateGroup` operation on the `QuickSight` service.
     ///
-    /// Use the CreateGroup operation to create a group in Amazon QuickSight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is arn:aws:quicksight:::group/default/ . The response is a group object.
+    /// Use the CreateGroup operation to create a group in Quick Sight. You can create up to 10,000 groups in a namespace. If you want to create more than 10,000 groups in a namespace, contact Amazon Web Services Support. The permissions resource is arn:aws:quicksight:::group/default/ . The response is a group object.
     ///
-    /// - Parameter CreateGroupInput : The request object for this operation.
+    /// - Parameter input: The request object for this operation. (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : The response object for this operation.
+    /// - Returns: The response object for this operation. (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -1371,6 +1458,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -1400,16 +1488,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateGroupMembership` operation on the `QuickSight` service.
     ///
-    /// Adds an Amazon QuickSight user to an Amazon QuickSight group.
+    /// Adds an Amazon Quick Sight user to an Amazon Quick Sight group.
     ///
-    /// - Parameter CreateGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupMembershipInput`)
     ///
-    /// - Returns: `CreateGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -1441,6 +1529,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupMembershipOutput>(CreateGroupMembershipOutput.httpOutput(from:), CreateGroupMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupMembershipInput, CreateGroupMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupMembershipOutput>())
@@ -1470,16 +1559,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateIAMPolicyAssignment` operation on the `QuickSight` service.
     ///
-    /// Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight. Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces, use assignment names that are unique.
+    /// Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name (ARN). This policy assignment is attached to the specified groups or users of Amazon Quick Sight. Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces, use assignment names that are unique.
     ///
-    /// - Parameter CreateIAMPolicyAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIAMPolicyAssignmentInput`)
     ///
-    /// - Returns: `CreateIAMPolicyAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIAMPolicyAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConcurrentUpdatingException` : A resource is already in a state that indicates an operation is happening that must complete before a new update can be applied.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -1514,6 +1603,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIAMPolicyAssignmentInput, CreateIAMPolicyAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIAMPolicyAssignmentOutput>(CreateIAMPolicyAssignmentOutput.httpOutput(from:), CreateIAMPolicyAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIAMPolicyAssignmentInput, CreateIAMPolicyAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIAMPolicyAssignmentOutput>())
@@ -1545,14 +1635,14 @@ extension QuickSightClient {
     ///
     /// Creates and starts a new SPICE ingestion for a dataset. You can manually refresh datasets in an Enterprise edition account 32 times in a 24-hour period. You can manually refresh datasets in a Standard edition account 8 times in a 24-hour period. Each 24-hour period is measured starting 24 hours before the current date and time. Any ingestions operating on tagged datasets inherit the same tags automatically for use in access control. For an example, see [How do I create an IAM policy to control access to Amazon EC2 resources using tags?](http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/) in the Amazon Web Services Knowledge Center. Tags are visible on the tagged dataset, but not on the ingestion resource.
     ///
-    /// - Parameter CreateIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngestionInput`)
     ///
-    /// - Returns: `CreateIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -1587,6 +1677,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIngestionInput, CreateIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIngestionOutput>(CreateIngestionOutput.httpOutput(from:), CreateIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIngestionInput, CreateIngestionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIngestionOutput>())
@@ -1616,16 +1707,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateNamespace` operation on the `QuickSight` service.
     ///
-    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web ServicesSupport.
+    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon Quick Sight. A namespace allows you to isolate the Quick Sight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Quick Sight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
     ///
-    /// - Parameter CreateNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNamespaceInput`)
     ///
-    /// - Returns: `CreateNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -1663,6 +1754,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNamespaceInput, CreateNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNamespaceOutput>(CreateNamespaceOutput.httpOutput(from:), CreateNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNamespaceInput, CreateNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNamespaceOutput>())
@@ -1694,14 +1786,14 @@ extension QuickSightClient {
     ///
     /// Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a single dataset.
     ///
-    /// - Parameter CreateRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRefreshScheduleInput`)
     ///
-    /// - Returns: `CreateRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -1737,6 +1829,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRefreshScheduleInput, CreateRefreshScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRefreshScheduleOutput>(CreateRefreshScheduleOutput.httpOutput(from:), CreateRefreshScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRefreshScheduleInput, CreateRefreshScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRefreshScheduleOutput>())
@@ -1766,16 +1859,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateRoleMembership` operation on the `QuickSight` service.
     ///
-    /// Use CreateRoleMembership to add an existing Amazon QuickSight group to an existing role.
+    /// Use CreateRoleMembership to add an existing Quick Sight group to an existing role.
     ///
-    /// - Parameter CreateRoleMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoleMembershipInput`)
     ///
-    /// - Returns: `CreateRoleMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoleMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -1807,6 +1900,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRoleMembershipInput, CreateRoleMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoleMembershipOutput>(CreateRoleMembershipOutput.httpOutput(from:), CreateRoleMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoleMembershipInput, CreateRoleMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoleMembershipOutput>())
@@ -1836,16 +1930,16 @@ extension QuickSightClient {
 
     /// Performs the `CreateTemplate` operation on the `QuickSight` service.
     ///
-    /// Creates a template either from a TemplateDefinition or from an existing Amazon QuickSight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in Amazon QuickSight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
+    /// Creates a template either from a TemplateDefinition or from an existing Quick Sight analysis or template. You can use the resulting template to create additional dashboards, templates, or analyses. A template is an entity in Quick Sight that encapsulates the metadata required to create an analysis and that you can use to create s dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with the analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template.
     ///
-    /// - Parameter CreateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -1853,7 +1947,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1882,6 +1976,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTemplateInput, CreateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTemplateOutput>(CreateTemplateOutput.httpOutput(from:), CreateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTemplateInput, CreateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTemplateOutput>())
@@ -1913,9 +2008,9 @@ extension QuickSightClient {
     ///
     /// Creates a template alias for a template.
     ///
-    /// - Parameter CreateTemplateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateAliasInput`)
     ///
-    /// - Returns: `CreateTemplateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1926,7 +2021,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createTemplateAlias(input: CreateTemplateAliasInput) async throws -> CreateTemplateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1955,6 +2050,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTemplateAliasInput, CreateTemplateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTemplateAliasOutput>(CreateTemplateAliasOutput.httpOutput(from:), CreateTemplateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTemplateAliasInput, CreateTemplateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTemplateAliasOutput>())
@@ -1984,23 +2080,23 @@ extension QuickSightClient {
 
     /// Performs the `CreateTheme` operation on the `QuickSight` service.
     ///
-    /// Creates a theme. A theme is set of configuration options for color and layout. Themes apply to analyses and dashboards. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Amazon QuickSight User Guide.
+    /// Creates a theme. A theme is set of configuration options for color and layout. Themes apply to analyses and dashboards. For more information, see [Using Themes in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Amazon Quick Sight User Guide.
     ///
-    /// - Parameter CreateThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThemeInput`)
     ///
-    /// - Returns: `CreateThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createTheme(input: CreateThemeInput) async throws -> CreateThemeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2029,6 +2125,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThemeInput, CreateThemeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThemeOutput>(CreateThemeOutput.httpOutput(from:), CreateThemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThemeInput, CreateThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThemeOutput>())
@@ -2060,9 +2157,9 @@ extension QuickSightClient {
     ///
     /// Creates a theme alias for a theme.
     ///
-    /// - Parameter CreateThemeAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThemeAliasInput`)
     ///
-    /// - Returns: `CreateThemeAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThemeAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2074,7 +2171,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createThemeAlias(input: CreateThemeAliasInput) async throws -> CreateThemeAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2103,6 +2200,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThemeAliasInput, CreateThemeAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThemeAliasOutput>(CreateThemeAliasOutput.httpOutput(from:), CreateThemeAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThemeAliasInput, CreateThemeAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThemeAliasOutput>())
@@ -2134,14 +2232,14 @@ extension QuickSightClient {
     ///
     /// Creates a new Q topic.
     ///
-    /// - Parameter CreateTopicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTopicInput`)
     ///
-    /// - Returns: `CreateTopicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -2177,6 +2275,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTopicInput, CreateTopicOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTopicOutput>(CreateTopicOutput.httpOutput(from:), CreateTopicOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTopicInput, CreateTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTopicOutput>())
@@ -2208,14 +2307,14 @@ extension QuickSightClient {
     ///
     /// Creates a topic refresh schedule.
     ///
-    /// - Parameter CreateTopicRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTopicRefreshScheduleInput`)
     ///
-    /// - Returns: `CreateTopicRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTopicRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -2251,6 +2350,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTopicRefreshScheduleInput, CreateTopicRefreshScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTopicRefreshScheduleOutput>(CreateTopicRefreshScheduleOutput.httpOutput(from:), CreateTopicRefreshScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTopicRefreshScheduleInput, CreateTopicRefreshScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTopicRefreshScheduleOutput>())
@@ -2282,21 +2382,21 @@ extension QuickSightClient {
     ///
     /// Creates a new VPC connection.
     ///
-    /// - Parameter CreateVPCConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVPCConnectionInput`)
     ///
-    /// - Returns: `CreateVPCConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVPCConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func createVPCConnection(input: CreateVPCConnectionInput) async throws -> CreateVPCConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2325,6 +2425,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVPCConnectionInput, CreateVPCConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVPCConnectionOutput>(CreateVPCConnectionOutput.httpOutput(from:), CreateVPCConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVPCConnectionInput, CreateVPCConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVPCConnectionOutput>())
@@ -2352,18 +2453,96 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteAccountCustomization` operation on the `QuickSight` service.
+    /// Performs the `DeleteAccountCustomPermission` operation on the `QuickSight` service.
     ///
-    /// Deletes all Amazon QuickSight customizations in this Amazon Web Services Region for the specified Amazon Web Services account and Amazon QuickSight namespace.
+    /// Unapplies a custom permissions profile from an account.
     ///
-    /// - Parameter DeleteAccountCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountCustomPermissionInput`)
     ///
-    /// - Returns: `DeleteAccountCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func deleteAccountCustomPermission(input: DeleteAccountCustomPermissionInput) async throws -> DeleteAccountCustomPermissionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAccountCustomPermission")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>(DeleteAccountCustomPermissionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountCustomPermissionOutput>(DeleteAccountCustomPermissionOutput.httpOutput(from:), DeleteAccountCustomPermissionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountCustomPermissionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteAccountCustomPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteAccountCustomPermissionInput, DeleteAccountCustomPermissionOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteAccountCustomPermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteAccountCustomization` operation on the `QuickSight` service.
+    ///
+    /// This API permanently deletes all Quick Sight customizations for the specified Amazon Web Services account and namespace. When you delete account customizations:
+    ///
+    /// * All customizations are removed including themes, branding, and visual settings
+    ///
+    /// * This action cannot be undone through the API
+    ///
+    /// * Users will see default Quick Sight styling after customizations are deleted
+    ///
+    ///
+    /// Before proceeding: Ensure you have backups of any custom themes or branding elements you may want to recreate. Deletes all Amazon Quick Sight customizations for the specified Amazon Web Services account and Quick Sight namespace.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountCustomizationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAccountCustomizationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -2398,6 +2577,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAccountCustomizationInput, DeleteAccountCustomizationOutput>(DeleteAccountCustomizationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountCustomizationOutput>(DeleteAccountCustomizationOutput.httpOutput(from:), DeleteAccountCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountCustomizationInput, DeleteAccountCustomizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountCustomizationOutput>())
@@ -2427,16 +2607,31 @@ extension QuickSightClient {
 
     /// Performs the `DeleteAccountSubscription` operation on the `QuickSight` service.
     ///
-    /// Use the DeleteAccountSubscription operation to delete an Amazon QuickSight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
+    /// Deleting your Quick Sight account subscription has permanent, irreversible consequences across all Amazon Web Services regions:
     ///
-    /// - Parameter DeleteAccountSubscriptionInput : [no documentation found]
+    /// * Global deletion – Running this operation from any single region will delete your Quick Sight account and all data in every Amazon Web Services region where you have Quick Sight resources.
     ///
-    /// - Returns: `DeleteAccountSubscriptionOutput` : [no documentation found]
+    /// * Complete data loss – All dashboards, analyses, datasets, data sources, and custom visuals will be permanently deleted across all regions.
+    ///
+    /// * Embedded content failure – All embedded dashboards and visuals in your applications will immediately stop working and display errors to end users.
+    ///
+    /// * Shared resources removed – All shared dashboards, folders, and resources will become inaccessible to other users and external recipients.
+    ///
+    /// * User access terminated – All Quick Sight users in your account will lose access immediately, including authors, readers, and administrators.
+    ///
+    /// * No recovery possible – Once deleted, your Quick Sight account and all associated data cannot be restored.
+    ///
+    ///
+    /// Consider exporting critical dashboards and data before proceeding with account deletion. Use the DeleteAccountSubscription operation to delete an Quick Sight account. This operation will result in an error message if you have configured your account termination protection settings to True. To change this setting and delete your account, call the UpdateAccountSettings API and set the value of the TerminationProtectionEnabled parameter to False, then make another call to the DeleteAccountSubscription API.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountSubscriptionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteAccountSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -2468,6 +2663,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountSubscriptionInput, DeleteAccountSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountSubscriptionOutput>(DeleteAccountSubscriptionOutput.httpOutput(from:), DeleteAccountSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountSubscriptionInput, DeleteAccountSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountSubscriptionOutput>())
@@ -2495,13 +2691,82 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteActionConnector` operation on the `QuickSight` service.
+    ///
+    /// Hard deletes an action connector, making it unrecoverable. This operation removes the connector and all its associated configurations. Any resources currently using this action connector will no longer be able to perform actions through it.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteActionConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteActionConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func deleteActionConnector(input: DeleteActionConnectorInput) async throws -> DeleteActionConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteActionConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteActionConnectorInput, DeleteActionConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteActionConnectorInput, DeleteActionConnectorOutput>(DeleteActionConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteActionConnectorInput, DeleteActionConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteActionConnectorOutput>(DeleteActionConnectorOutput.httpOutput(from:), DeleteActionConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteActionConnectorInput, DeleteActionConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteActionConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteActionConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteActionConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteActionConnectorInput, DeleteActionConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteActionConnectorInput, DeleteActionConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteActionConnectorInput, DeleteActionConnectorOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteActionConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAnalysis` operation on the `QuickSight` service.
     ///
-    /// Deletes an analysis from Amazon QuickSight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon QuickSight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon QuickSight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon QuickSight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
+    /// Deletes an analysis from Amazon Quick Sight. You can optionally include a recovery window during which you can restore the analysis. If you don't specify a recovery window value, the operation defaults to 30 days. Amazon Quick Sight attaches a DeletionTime stamp to the response that specifies the end of the recovery window. At the end of the recovery window, Amazon Quick Sight deletes the analysis permanently. At any time before recovery window ends, you can use the RestoreAnalysis API operation to remove the DeletionTime stamp and cancel the deletion of the analysis. The analysis remains visible in the API until it's deleted, so you can describe it but you can't make a template from it. An analysis that's scheduled for deletion isn't accessible in the Amazon Quick Sight console. To access it in the console, restore it. Deleting an analysis doesn't delete the dashboards that you publish from it.
     ///
-    /// - Parameter DeleteAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnalysisInput`)
     ///
-    /// - Returns: `DeleteAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2511,7 +2776,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteAnalysis(input: DeleteAnalysisInput) async throws -> DeleteAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2538,6 +2803,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAnalysisInput, DeleteAnalysisOutput>(DeleteAnalysisInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnalysisOutput>(DeleteAnalysisOutput.httpOutput(from:), DeleteAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnalysisInput, DeleteAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnalysisOutput>())
@@ -2567,16 +2833,25 @@ extension QuickSightClient {
 
     /// Performs the `DeleteBrand` operation on the `QuickSight` service.
     ///
-    /// Deletes an Amazon QuickSight brand.
+    /// This API permanently deletes the specified Quick Sight brand. When you delete a brand:
     ///
-    /// - Parameter DeleteBrandInput : [no documentation found]
+    /// * The brand and all its associated branding elements are permanently removed
     ///
-    /// - Returns: `DeleteBrandOutput` : [no documentation found]
+    /// * Any applications or dashboards using this brand will revert to default styling
+    ///
+    /// * This action cannot be undone through the API
+    ///
+    ///
+    /// Before proceeding: Verify that the brand is no longer needed and consider the impact on any applications currently using this brand. Deletes an Quick Sight brand.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrandInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteBrandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -2607,6 +2882,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBrandInput, DeleteBrandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBrandOutput>(DeleteBrandOutput.httpOutput(from:), DeleteBrandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBrandInput, DeleteBrandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBrandOutput>())
@@ -2638,14 +2914,14 @@ extension QuickSightClient {
     ///
     /// Deletes a brand assignment.
     ///
-    /// - Parameter DeleteBrandAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrandAssignmentInput`)
     ///
-    /// - Returns: `DeleteBrandAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrandAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -2676,6 +2952,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBrandAssignmentInput, DeleteBrandAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBrandAssignmentOutput>(DeleteBrandAssignmentOutput.httpOutput(from:), DeleteBrandAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBrandAssignmentInput, DeleteBrandAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBrandAssignmentOutput>())
@@ -2707,14 +2984,14 @@ extension QuickSightClient {
     ///
     /// Deletes a custom permissions profile.
     ///
-    /// - Parameter DeleteCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomPermissionsInput`)
     ///
-    /// - Returns: `DeleteCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -2748,6 +3025,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomPermissionsInput, DeleteCustomPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomPermissionsOutput>(DeleteCustomPermissionsOutput.httpOutput(from:), DeleteCustomPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomPermissionsInput, DeleteCustomPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomPermissionsOutput>())
@@ -2779,9 +3057,9 @@ extension QuickSightClient {
     ///
     /// Deletes a dashboard.
     ///
-    /// - Parameter DeleteDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDashboardInput`)
     ///
-    /// - Returns: `DeleteDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2791,7 +3069,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteDashboard(input: DeleteDashboardInput) async throws -> DeleteDashboardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2818,6 +3096,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(DeleteDashboardInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDashboardOutput>(DeleteDashboardOutput.httpOutput(from:), DeleteDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDashboardOutput>())
@@ -2849,14 +3128,14 @@ extension QuickSightClient {
     ///
     /// Deletes a dataset.
     ///
-    /// - Parameter DeleteDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSetInput`)
     ///
-    /// - Returns: `DeleteDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -2886,6 +3165,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataSetInput, DeleteDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSetOutput>(DeleteDataSetOutput.httpOutput(from:), DeleteDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSetInput, DeleteDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSetOutput>())
@@ -2917,14 +3197,14 @@ extension QuickSightClient {
     ///
     /// Deletes the dataset refresh properties of the dataset.
     ///
-    /// - Parameter DeleteDataSetRefreshPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSetRefreshPropertiesInput`)
     ///
-    /// - Returns: `DeleteDataSetRefreshPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSetRefreshPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -2956,6 +3236,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataSetRefreshPropertiesInput, DeleteDataSetRefreshPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSetRefreshPropertiesOutput>(DeleteDataSetRefreshPropertiesOutput.httpOutput(from:), DeleteDataSetRefreshPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSetRefreshPropertiesInput, DeleteDataSetRefreshPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSetRefreshPropertiesOutput>())
@@ -2987,14 +3268,14 @@ extension QuickSightClient {
     ///
     /// Deletes the data source permanently. This operation breaks all the datasets that reference the deleted data source.
     ///
-    /// - Parameter DeleteDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSourceInput`)
     ///
-    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -3024,6 +3305,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutput>(DeleteDataSourceOutput.httpOutput(from:), DeleteDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSourceOutput>())
@@ -3053,16 +3335,16 @@ extension QuickSightClient {
 
     /// Performs the `DeleteDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
-    /// Deletes a linked Amazon Q Business application from an Amazon QuickSight account
+    /// Deletes a linked Amazon Q Business application from an Quick Sight account
     ///
-    /// - Parameter DeleteDefaultQBusinessApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDefaultQBusinessApplicationInput`)
     ///
-    /// - Returns: `DeleteDefaultQBusinessApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDefaultQBusinessApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -3093,6 +3375,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDefaultQBusinessApplicationInput, DeleteDefaultQBusinessApplicationOutput>(DeleteDefaultQBusinessApplicationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDefaultQBusinessApplicationOutput>(DeleteDefaultQBusinessApplicationOutput.httpOutput(from:), DeleteDefaultQBusinessApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDefaultQBusinessApplicationInput, DeleteDefaultQBusinessApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDefaultQBusinessApplicationOutput>())
@@ -3124,21 +3407,21 @@ extension QuickSightClient {
     ///
     /// Deletes an empty folder.
     ///
-    /// - Parameter DeleteFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFolderInput`)
     ///
-    /// - Returns: `DeleteFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3164,6 +3447,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFolderInput, DeleteFolderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFolderOutput>(DeleteFolderOutput.httpOutput(from:), DeleteFolderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFolderInput, DeleteFolderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFolderOutput>())
@@ -3195,19 +3479,19 @@ extension QuickSightClient {
     ///
     /// Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
     ///
-    /// - Parameter DeleteFolderMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFolderMembershipInput`)
     ///
-    /// - Returns: `DeleteFolderMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFolderMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteFolderMembership(input: DeleteFolderMembershipInput) async throws -> DeleteFolderMembershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3233,6 +3517,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFolderMembershipInput, DeleteFolderMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFolderMembershipOutput>(DeleteFolderMembershipOutput.httpOutput(from:), DeleteFolderMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFolderMembershipInput, DeleteFolderMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFolderMembershipOutput>())
@@ -3262,16 +3547,16 @@ extension QuickSightClient {
 
     /// Performs the `DeleteGroup` operation on the `QuickSight` service.
     ///
-    /// Removes a user group from Amazon QuickSight.
+    /// Removes a user group from Amazon Quick Sight.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -3303,6 +3588,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -3334,14 +3620,14 @@ extension QuickSightClient {
     ///
     /// Removes a user from a group so that the user is no longer a member of the group.
     ///
-    /// - Parameter DeleteGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupMembershipInput`)
     ///
-    /// - Returns: `DeleteGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -3373,6 +3659,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupMembershipOutput>(DeleteGroupMembershipOutput.httpOutput(from:), DeleteGroupMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupMembershipInput, DeleteGroupMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupMembershipOutput>())
@@ -3404,14 +3691,14 @@ extension QuickSightClient {
     ///
     /// Deletes an existing IAM policy assignment.
     ///
-    /// - Parameter DeleteIAMPolicyAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIAMPolicyAssignmentInput`)
     ///
-    /// - Returns: `DeleteIAMPolicyAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIAMPolicyAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConcurrentUpdatingException` : A resource is already in a state that indicates an operation is happening that must complete before a new update can be applied.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -3443,6 +3730,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIAMPolicyAssignmentInput, DeleteIAMPolicyAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIAMPolicyAssignmentOutput>(DeleteIAMPolicyAssignmentOutput.httpOutput(from:), DeleteIAMPolicyAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIAMPolicyAssignmentInput, DeleteIAMPolicyAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIAMPolicyAssignmentOutput>())
@@ -3472,16 +3760,16 @@ extension QuickSightClient {
 
     /// Performs the `DeleteIdentityPropagationConfig` operation on the `QuickSight` service.
     ///
-    /// Deletes all access scopes and authorized targets that are associated with a service from the Amazon QuickSight IAM Identity Center application. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
+    /// Deletes all access scopes and authorized targets that are associated with a service from the Quick Sight IAM Identity Center application. This operation is only supported for Quick Sight accounts that use IAM Identity Center.
     ///
-    /// - Parameter DeleteIdentityPropagationConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentityPropagationConfigInput`)
     ///
-    /// - Returns: `DeleteIdentityPropagationConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentityPropagationConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -3511,6 +3799,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIdentityPropagationConfigInput, DeleteIdentityPropagationConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdentityPropagationConfigOutput>(DeleteIdentityPropagationConfigOutput.httpOutput(from:), DeleteIdentityPropagationConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentityPropagationConfigInput, DeleteIdentityPropagationConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentityPropagationConfigOutput>())
@@ -3542,14 +3831,14 @@ extension QuickSightClient {
     ///
     /// Deletes a namespace and the users and groups that are associated with the namespace. This is an asynchronous process. Assets including dashboards, analyses, datasets and data sources are not deleted. To delete these assets, you use the API operations for the relevant asset.
     ///
-    /// - Parameter DeleteNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNamespaceInput`)
     ///
-    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -3581,6 +3870,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNamespaceInput, DeleteNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNamespaceOutput>(DeleteNamespaceOutput.httpOutput(from:), DeleteNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNamespaceInput, DeleteNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNamespaceOutput>())
@@ -3612,14 +3902,14 @@ extension QuickSightClient {
     ///
     /// Deletes a refresh schedule from a dataset.
     ///
-    /// - Parameter DeleteRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRefreshScheduleInput`)
     ///
-    /// - Returns: `DeleteRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -3650,6 +3940,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRefreshScheduleInput, DeleteRefreshScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRefreshScheduleOutput>(DeleteRefreshScheduleOutput.httpOutput(from:), DeleteRefreshScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRefreshScheduleInput, DeleteRefreshScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRefreshScheduleOutput>())
@@ -3681,14 +3972,14 @@ extension QuickSightClient {
     ///
     /// Removes custom permissions from the role.
     ///
-    /// - Parameter DeleteRoleCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoleCustomPermissionInput`)
     ///
-    /// - Returns: `DeleteRoleCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoleCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -3720,6 +4011,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRoleCustomPermissionInput, DeleteRoleCustomPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoleCustomPermissionOutput>(DeleteRoleCustomPermissionOutput.httpOutput(from:), DeleteRoleCustomPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoleCustomPermissionInput, DeleteRoleCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoleCustomPermissionOutput>())
@@ -3751,14 +4043,14 @@ extension QuickSightClient {
     ///
     /// Removes a group from a role.
     ///
-    /// - Parameter DeleteRoleMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoleMembershipInput`)
     ///
-    /// - Returns: `DeleteRoleMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoleMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -3790,6 +4082,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRoleMembershipInput, DeleteRoleMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoleMembershipOutput>(DeleteRoleMembershipOutput.httpOutput(from:), DeleteRoleMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoleMembershipInput, DeleteRoleMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoleMembershipOutput>())
@@ -3821,9 +4114,9 @@ extension QuickSightClient {
     ///
     /// Deletes a template.
     ///
-    /// - Parameter DeleteTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3834,7 +4127,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteTemplate(input: DeleteTemplateInput) async throws -> DeleteTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3861,6 +4154,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTemplateInput, DeleteTemplateOutput>(DeleteTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTemplateOutput>(DeleteTemplateOutput.httpOutput(from:), DeleteTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTemplateInput, DeleteTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTemplateOutput>())
@@ -3892,9 +4186,9 @@ extension QuickSightClient {
     ///
     /// Deletes the item that the specified template alias points to. If you provide a specific alias, you delete the version of the template that the alias points to.
     ///
-    /// - Parameter DeleteTemplateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateAliasInput`)
     ///
-    /// - Returns: `DeleteTemplateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3903,7 +4197,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteTemplateAlias(input: DeleteTemplateAliasInput) async throws -> DeleteTemplateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -3929,6 +4223,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTemplateAliasInput, DeleteTemplateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTemplateAliasOutput>(DeleteTemplateAliasOutput.httpOutput(from:), DeleteTemplateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTemplateAliasInput, DeleteTemplateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTemplateAliasOutput>())
@@ -3960,20 +4255,20 @@ extension QuickSightClient {
     ///
     /// Deletes a theme.
     ///
-    /// - Parameter DeleteThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThemeInput`)
     ///
-    /// - Returns: `DeleteThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -4000,6 +4295,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteThemeInput, DeleteThemeOutput>(DeleteThemeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThemeOutput>(DeleteThemeOutput.httpOutput(from:), DeleteThemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThemeInput, DeleteThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThemeOutput>())
@@ -4031,9 +4327,9 @@ extension QuickSightClient {
     ///
     /// Deletes the version of the theme that the specified theme alias points to. If you provide a specific alias, you delete the version of the theme that the alias points to.
     ///
-    /// - Parameter DeleteThemeAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThemeAliasInput`)
     ///
-    /// - Returns: `DeleteThemeAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThemeAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4043,7 +4339,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteThemeAlias(input: DeleteThemeAliasInput) async throws -> DeleteThemeAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -4069,6 +4365,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteThemeAliasInput, DeleteThemeAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThemeAliasOutput>(DeleteThemeAliasOutput.httpOutput(from:), DeleteThemeAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThemeAliasInput, DeleteThemeAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThemeAliasOutput>())
@@ -4100,14 +4397,14 @@ extension QuickSightClient {
     ///
     /// Deletes a topic.
     ///
-    /// - Parameter DeleteTopicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTopicInput`)
     ///
-    /// - Returns: `DeleteTopicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -4138,6 +4435,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTopicInput, DeleteTopicOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTopicOutput>(DeleteTopicOutput.httpOutput(from:), DeleteTopicOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTopicInput, DeleteTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTopicOutput>())
@@ -4169,14 +4467,14 @@ extension QuickSightClient {
     ///
     /// Deletes a topic refresh schedule.
     ///
-    /// - Parameter DeleteTopicRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTopicRefreshScheduleInput`)
     ///
-    /// - Returns: `DeleteTopicRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTopicRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -4209,6 +4507,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTopicRefreshScheduleInput, DeleteTopicRefreshScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTopicRefreshScheduleOutput>(DeleteTopicRefreshScheduleOutput.httpOutput(from:), DeleteTopicRefreshScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTopicRefreshScheduleInput, DeleteTopicRefreshScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTopicRefreshScheduleOutput>())
@@ -4238,16 +4537,16 @@ extension QuickSightClient {
 
     /// Performs the `DeleteUser` operation on the `QuickSight` service.
     ///
-    /// Deletes the Amazon QuickSight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call.
+    /// Deletes the Amazon Quick Sight user that is associated with the identity of the IAM user or role that's making the call. The IAM user isn't deleted as a result of this call.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -4279,6 +4578,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -4310,14 +4610,14 @@ extension QuickSightClient {
     ///
     /// Deletes a user identified by its principal ID.
     ///
-    /// - Parameter DeleteUserByPrincipalIdInput :
+    /// - Parameter input: (Type: `DeleteUserByPrincipalIdInput`)
     ///
-    /// - Returns: `DeleteUserByPrincipalIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserByPrincipalIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -4349,6 +4649,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserByPrincipalIdInput, DeleteUserByPrincipalIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserByPrincipalIdOutput>(DeleteUserByPrincipalIdOutput.httpOutput(from:), DeleteUserByPrincipalIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserByPrincipalIdInput, DeleteUserByPrincipalIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserByPrincipalIdOutput>())
@@ -4380,14 +4681,14 @@ extension QuickSightClient {
     ///
     /// Deletes a custom permissions profile from a user.
     ///
-    /// - Parameter DeleteUserCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserCustomPermissionInput`)
     ///
-    /// - Returns: `DeleteUserCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -4420,6 +4721,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserCustomPermissionInput, DeleteUserCustomPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserCustomPermissionOutput>(DeleteUserCustomPermissionOutput.httpOutput(from:), DeleteUserCustomPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserCustomPermissionInput, DeleteUserCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserCustomPermissionOutput>())
@@ -4451,20 +4753,20 @@ extension QuickSightClient {
     ///
     /// Deletes a VPC connection.
     ///
-    /// - Parameter DeleteVPCConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVPCConnectionInput`)
     ///
-    /// - Returns: `DeleteVPCConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVPCConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func deleteVPCConnection(input: DeleteVPCConnectionInput) async throws -> DeleteVPCConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -4490,6 +4792,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVPCConnectionInput, DeleteVPCConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVPCConnectionOutput>(DeleteVPCConnectionOutput.httpOutput(from:), DeleteVPCConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVPCConnectionInput, DeleteVPCConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVPCConnectionOutput>())
@@ -4517,13 +4820,82 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeAccountCustomPermission` operation on the `QuickSight` service.
+    ///
+    /// Describes the custom permissions profile that is applied to an account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountCustomPermissionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAccountCustomPermissionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func describeAccountCustomPermission(input: DescribeAccountCustomPermissionInput) async throws -> DescribeAccountCustomPermissionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAccountCustomPermission")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>(DescribeAccountCustomPermissionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountCustomPermissionOutput>(DescribeAccountCustomPermissionOutput.httpOutput(from:), DescribeAccountCustomPermissionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountCustomPermissionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountCustomPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountCustomPermissionInput, DescribeAccountCustomPermissionOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountCustomPermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeAccountCustomization` operation on the `QuickSight` service.
     ///
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Quick Sight namespace. The Quick Sight console evaluates which customizations to apply by running this API operation with the Resolved flag included. To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.
     ///
-    /// * Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.
+    /// * Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Quick Sight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Quick Sight in any supported Amazon Web Services Region.
     ///
-    /// * Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace. To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:
+    /// * Amazon Web Services Region - You can sign in to Quick Sight in any Amazon Web Services Region. If you have a user directory, it resides in us-east-1, which is US East (N. Virginia). Generally speaking, these users have access to Quick Sight in any Amazon Web Services Region, unless they are constrained to a namespace. To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:
     ///
     /// * Use [command line options](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-options.html).
     ///
@@ -4534,18 +4906,18 @@ extension QuickSightClient {
     ///
     ///
     ///
-    /// * Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.
+    /// * Namespace - A Quick Sight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// * Applied customizations - Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
+    /// * Applied customizations - Quick Sight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account.
     ///
-    /// - Parameter DescribeAccountCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountCustomizationInput`)
     ///
-    /// - Returns: `DescribeAccountCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountCustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -4577,6 +4949,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeAccountCustomizationInput, DescribeAccountCustomizationOutput>(DescribeAccountCustomizationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountCustomizationOutput>(DescribeAccountCustomizationOutput.httpOutput(from:), DescribeAccountCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountCustomizationInput, DescribeAccountCustomizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountCustomizationOutput>())
@@ -4606,16 +4979,16 @@ extension QuickSightClient {
 
     /// Performs the `DescribeAccountSettings` operation on the `QuickSight` service.
     ///
-    /// Describes the settings that were used when your Amazon QuickSight subscription was first created in this Amazon Web Services account.
+    /// Describes the settings that were used when your Quick Sight subscription was first created in this Amazon Web Services account.
     ///
-    /// - Parameter DescribeAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountSettingsInput`)
     ///
-    /// - Returns: `DescribeAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -4646,6 +5019,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountSettingsOutput>(DescribeAccountSettingsOutput.httpOutput(from:), DescribeAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountSettingsOutput>())
@@ -4675,16 +5049,16 @@ extension QuickSightClient {
 
     /// Performs the `DescribeAccountSubscription` operation on the `QuickSight` service.
     ///
-    /// Use the DescribeAccountSubscription operation to receive a description of an Amazon QuickSight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
+    /// Use the DescribeAccountSubscription operation to receive a description of an Quick Sight account's subscription. A successful API call returns an AccountInfo object that includes an account's name, subscription status, authentication type, edition, and notification email address.
     ///
-    /// - Parameter DescribeAccountSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountSubscriptionInput`)
     ///
-    /// - Returns: `DescribeAccountSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -4715,6 +5089,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountSubscriptionInput, DescribeAccountSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountSubscriptionOutput>(DescribeAccountSubscriptionOutput.httpOutput(from:), DescribeAccountSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountSubscriptionInput, DescribeAccountSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountSubscriptionOutput>())
@@ -4742,23 +5117,161 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeAnalysis` operation on the `QuickSight` service.
+    /// Performs the `DescribeActionConnector` operation on the `QuickSight` service.
     ///
-    /// Provides a summary of the metadata for an analysis.
+    /// Retrieves detailed information about an action connector, including its configuration, authentication settings, enabled actions, and current status.
     ///
-    /// - Parameter DescribeAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActionConnectorInput`)
     ///
-    /// - Returns: `DescribeAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActionConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    public func describeActionConnector(input: DescribeActionConnectorInput) async throws -> DescribeActionConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeActionConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeActionConnectorInput, DescribeActionConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeActionConnectorInput, DescribeActionConnectorOutput>(DescribeActionConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeActionConnectorInput, DescribeActionConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActionConnectorOutput>(DescribeActionConnectorOutput.httpOutput(from:), DescribeActionConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActionConnectorInput, DescribeActionConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActionConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeActionConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeActionConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeActionConnectorInput, DescribeActionConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeActionConnectorInput, DescribeActionConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeActionConnectorInput, DescribeActionConnectorOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeActionConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeActionConnectorPermissions` operation on the `QuickSight` service.
+    ///
+    /// Retrieves the permissions configuration for an action connector, showing which users, groups, and namespaces have access and what operations they can perform.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeActionConnectorPermissionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeActionConnectorPermissionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func describeActionConnectorPermissions(input: DescribeActionConnectorPermissionsInput) async throws -> DescribeActionConnectorPermissionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeActionConnectorPermissions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeActionConnectorPermissionsInput, DescribeActionConnectorPermissionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeActionConnectorPermissionsInput, DescribeActionConnectorPermissionsOutput>(DescribeActionConnectorPermissionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeActionConnectorPermissionsInput, DescribeActionConnectorPermissionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActionConnectorPermissionsOutput>(DescribeActionConnectorPermissionsOutput.httpOutput(from:), DescribeActionConnectorPermissionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActionConnectorPermissionsInput, DescribeActionConnectorPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActionConnectorPermissionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeActionConnectorPermissionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeActionConnectorPermissionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeActionConnectorPermissionsInput, DescribeActionConnectorPermissionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeActionConnectorPermissionsInput, DescribeActionConnectorPermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeActionConnectorPermissionsInput, DescribeActionConnectorPermissionsOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeActionConnectorPermissions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeAnalysis` operation on the `QuickSight` service.
+    ///
+    /// Provides a summary of the metadata for an analysis.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnalysisInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAnalysisOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAnalysis(input: DescribeAnalysisInput) async throws -> DescribeAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4784,6 +5297,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAnalysisInput, DescribeAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnalysisOutput>(DescribeAnalysisOutput.httpOutput(from:), DescribeAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnalysisInput, DescribeAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnalysisOutput>())
@@ -4815,21 +5329,21 @@ extension QuickSightClient {
     ///
     /// Provides a detailed description of the definition of an analysis. If you do not need to know details about the content of an Analysis, for instance if you are trying to check the status of a recently created or updated Analysis, use the [DescribeAnalysis](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeAnalysis.html) instead.
     ///
-    /// - Parameter DescribeAnalysisDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnalysisDefinitionInput`)
     ///
-    /// - Returns: `DescribeAnalysisDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnalysisDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAnalysisDefinition(input: DescribeAnalysisDefinitionInput) async throws -> DescribeAnalysisDefinitionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4855,6 +5369,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAnalysisDefinitionInput, DescribeAnalysisDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnalysisDefinitionOutput>(DescribeAnalysisDefinitionOutput.httpOutput(from:), DescribeAnalysisDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnalysisDefinitionInput, DescribeAnalysisDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnalysisDefinitionOutput>())
@@ -4886,9 +5401,9 @@ extension QuickSightClient {
     ///
     /// Provides the read and write permissions for an analysis.
     ///
-    /// - Parameter DescribeAnalysisPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnalysisPermissionsInput`)
     ///
-    /// - Returns: `DescribeAnalysisPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnalysisPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4897,7 +5412,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAnalysisPermissions(input: DescribeAnalysisPermissionsInput) async throws -> DescribeAnalysisPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4923,6 +5438,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAnalysisPermissionsInput, DescribeAnalysisPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnalysisPermissionsOutput>(DescribeAnalysisPermissionsOutput.httpOutput(from:), DescribeAnalysisPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnalysisPermissionsInput, DescribeAnalysisPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnalysisPermissionsOutput>())
@@ -4954,16 +5470,16 @@ extension QuickSightClient {
     ///
     /// Describes an existing export job. Poll job descriptions after a job starts to know the status of the job. When a job succeeds, a URL is provided to download the exported assets' data from. Download URLs are valid for five minutes after they are generated. You can call the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are available for 14 days after the job starts.
     ///
-    /// - Parameter DescribeAssetBundleExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetBundleExportJobInput`)
     ///
-    /// - Returns: `DescribeAssetBundleExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetBundleExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAssetBundleExportJob(input: DescribeAssetBundleExportJobInput) async throws -> DescribeAssetBundleExportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4989,6 +5505,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAssetBundleExportJobInput, DescribeAssetBundleExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetBundleExportJobOutput>(DescribeAssetBundleExportJobOutput.httpOutput(from:), DescribeAssetBundleExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetBundleExportJobInput, DescribeAssetBundleExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetBundleExportJobOutput>())
@@ -5020,16 +5537,16 @@ extension QuickSightClient {
     ///
     /// Describes an existing import job. Poll job descriptions after starting a job to know when it has succeeded or failed. Job descriptions are available for 14 days after job starts.
     ///
-    /// - Parameter DescribeAssetBundleImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetBundleImportJobInput`)
     ///
-    /// - Returns: `DescribeAssetBundleImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetBundleImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeAssetBundleImportJob(input: DescribeAssetBundleImportJobInput) async throws -> DescribeAssetBundleImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5055,6 +5572,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAssetBundleImportJobInput, DescribeAssetBundleImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetBundleImportJobOutput>(DescribeAssetBundleImportJobOutput.httpOutput(from:), DescribeAssetBundleImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetBundleImportJobInput, DescribeAssetBundleImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetBundleImportJobOutput>())
@@ -5086,14 +5604,14 @@ extension QuickSightClient {
     ///
     /// Describes a brand.
     ///
-    /// - Parameter DescribeBrandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrandInput`)
     ///
-    /// - Returns: `DescribeBrandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -5125,6 +5643,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeBrandInput, DescribeBrandOutput>(DescribeBrandInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBrandOutput>(DescribeBrandOutput.httpOutput(from:), DescribeBrandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBrandInput, DescribeBrandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBrandOutput>())
@@ -5156,14 +5675,14 @@ extension QuickSightClient {
     ///
     /// Describes a brand assignment.
     ///
-    /// - Parameter DescribeBrandAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrandAssignmentInput`)
     ///
-    /// - Returns: `DescribeBrandAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrandAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -5194,6 +5713,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBrandAssignmentInput, DescribeBrandAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBrandAssignmentOutput>(DescribeBrandAssignmentOutput.httpOutput(from:), DescribeBrandAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBrandAssignmentInput, DescribeBrandAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBrandAssignmentOutput>())
@@ -5225,14 +5745,14 @@ extension QuickSightClient {
     ///
     /// Describes the published version of the brand.
     ///
-    /// - Parameter DescribeBrandPublishedVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrandPublishedVersionInput`)
     ///
-    /// - Returns: `DescribeBrandPublishedVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrandPublishedVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -5263,6 +5783,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBrandPublishedVersionInput, DescribeBrandPublishedVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBrandPublishedVersionOutput>(DescribeBrandPublishedVersionOutput.httpOutput(from:), DescribeBrandPublishedVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBrandPublishedVersionInput, DescribeBrandPublishedVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBrandPublishedVersionOutput>())
@@ -5294,14 +5815,14 @@ extension QuickSightClient {
     ///
     /// Describes a custom permissions profile.
     ///
-    /// - Parameter DescribeCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomPermissionsInput`)
     ///
-    /// - Returns: `DescribeCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -5333,6 +5854,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCustomPermissionsInput, DescribeCustomPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomPermissionsOutput>(DescribeCustomPermissionsOutput.httpOutput(from:), DescribeCustomPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomPermissionsInput, DescribeCustomPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomPermissionsOutput>())
@@ -5364,19 +5886,19 @@ extension QuickSightClient {
     ///
     /// Provides a summary for a dashboard.
     ///
-    /// - Parameter DescribeDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardInput`)
     ///
-    /// - Returns: `DescribeDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboard(input: DescribeDashboardInput) async throws -> DescribeDashboardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5403,6 +5925,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDashboardInput, DescribeDashboardOutput>(DescribeDashboardInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDashboardOutput>(DescribeDashboardOutput.httpOutput(from:), DescribeDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDashboardInput, DescribeDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDashboardOutput>())
@@ -5434,21 +5957,21 @@ extension QuickSightClient {
     ///
     /// Provides a detailed description of the definition of a dashboard. If you do not need to know details about the content of a dashboard, for instance if you are trying to check the status of a recently created or updated dashboard, use the [DescribeDashboard](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboard.html) instead.
     ///
-    /// - Parameter DescribeDashboardDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardDefinitionInput`)
     ///
-    /// - Returns: `DescribeDashboardDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboardDefinition(input: DescribeDashboardDefinitionInput) async throws -> DescribeDashboardDefinitionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5475,6 +5998,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDashboardDefinitionInput, DescribeDashboardDefinitionOutput>(DescribeDashboardDefinitionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDashboardDefinitionOutput>(DescribeDashboardDefinitionOutput.httpOutput(from:), DescribeDashboardDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDashboardDefinitionInput, DescribeDashboardDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDashboardDefinitionOutput>())
@@ -5506,9 +6030,9 @@ extension QuickSightClient {
     ///
     /// Describes read and write permissions for a dashboard.
     ///
-    /// - Parameter DescribeDashboardPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardPermissionsInput`)
     ///
-    /// - Returns: `DescribeDashboardPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5517,7 +6041,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboardPermissions(input: DescribeDashboardPermissionsInput) async throws -> DescribeDashboardPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5543,6 +6067,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDashboardPermissionsInput, DescribeDashboardPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDashboardPermissionsOutput>(DescribeDashboardPermissionsOutput.httpOutput(from:), DescribeDashboardPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDashboardPermissionsInput, DescribeDashboardPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDashboardPermissionsOutput>())
@@ -5572,20 +6097,26 @@ extension QuickSightClient {
 
     /// Performs the `DescribeDashboardSnapshotJob` operation on the `QuickSight` service.
     ///
-    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus.
+    /// Describes an existing snapshot job. Poll job descriptions after a job starts to know the status of the job. For information on available status codes, see JobStatus. Registered user support This API can be called as before to get status of a job started by the same Quick Sight user. Possible error scenarios Request will fail with an Access Denied error in the following scenarios:
     ///
-    /// - Parameter DescribeDashboardSnapshotJobInput : [no documentation found]
+    /// * The credentials have expired.
     ///
-    /// - Returns: `DescribeDashboardSnapshotJobOutput` : [no documentation found]
+    /// * Job has been started by a different user.
+    ///
+    /// * Impersonated Quick Sight user doesn't have access to the specified dashboard in the job.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardSnapshotJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboardSnapshotJob(input: DescribeDashboardSnapshotJobInput) async throws -> DescribeDashboardSnapshotJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5611,6 +6142,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDashboardSnapshotJobInput, DescribeDashboardSnapshotJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDashboardSnapshotJobOutput>(DescribeDashboardSnapshotJobOutput.httpOutput(from:), DescribeDashboardSnapshotJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDashboardSnapshotJobInput, DescribeDashboardSnapshotJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDashboardSnapshotJobOutput>())
@@ -5640,22 +6172,46 @@ extension QuickSightClient {
 
     /// Performs the `DescribeDashboardSnapshotJobResult` operation on the `QuickSight` service.
     ///
-    /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id has not reached a terminal state..
+    /// Describes the result of an existing snapshot job that has finished running. A finished snapshot job will return a COMPLETED or FAILED status when you poll the job with a DescribeDashboardSnapshotJob API call. If the job has not finished running, this operation returns a message that says Dashboard Snapshot Job with id has not reached a terminal state.. Registered user support This API can be called as before to get the result of a job started by the same Quick Sight user. The result for the user will be returned in RegisteredUsers response attribute. The attribute will contain a list with at most one object in it. Possible error scenarios The request fails with an Access Denied error in the following scenarios:
     ///
-    /// - Parameter DescribeDashboardSnapshotJobResultInput : [no documentation found]
+    /// * The credentials have expired.
     ///
-    /// - Returns: `DescribeDashboardSnapshotJobResultOutput` : [no documentation found]
+    /// * The job was started by a different user.
+    ///
+    /// * The registered user doesn't have access to the specified dashboard.
+    ///
+    ///
+    /// The request succeeds but the job fails in the following scenarios:
+    ///
+    /// * DASHBOARD_ACCESS_DENIED - The registered user lost access to the dashboard.
+    ///
+    /// * CAPABILITY_RESTRICTED - The registered user is restricted from exporting data in all selected formats.
+    ///
+    ///
+    /// The request succeeds but the response contains an error code in the following scenarios:
+    ///
+    /// * CAPABILITY_RESTRICTED - The registered user is restricted from exporting data in some selected formats.
+    ///
+    /// * RLS_CHANGED - Row-level security settings have changed. Re-run the job with current settings.
+    ///
+    /// * CLS_CHANGED - Column-level security settings have changed. Re-run the job with current settings.
+    ///
+    /// * DATASET_DELETED - The dataset has been deleted. Verify the dataset exists before re-running the job.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardSnapshotJobResultInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardSnapshotJobResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeDashboardSnapshotJobResult(input: DescribeDashboardSnapshotJobResultInput) async throws -> DescribeDashboardSnapshotJobResultOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5681,6 +6237,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDashboardSnapshotJobResultInput, DescribeDashboardSnapshotJobResultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDashboardSnapshotJobResultOutput>(DescribeDashboardSnapshotJobResultOutput.httpOutput(from:), DescribeDashboardSnapshotJobResultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDashboardSnapshotJobResultInput, DescribeDashboardSnapshotJobResultOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDashboardSnapshotJobResultOutput>())
@@ -5712,14 +6269,14 @@ extension QuickSightClient {
     ///
     /// Describes an existing dashboard QA configuration.
     ///
-    /// - Parameter DescribeDashboardsQAConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardsQAConfigurationInput`)
     ///
-    /// - Returns: `DescribeDashboardsQAConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardsQAConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -5750,6 +6307,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDashboardsQAConfigurationInput, DescribeDashboardsQAConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDashboardsQAConfigurationOutput>(DescribeDashboardsQAConfigurationOutput.httpOutput(from:), DescribeDashboardsQAConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDashboardsQAConfigurationInput, DescribeDashboardsQAConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDashboardsQAConfigurationOutput>())
@@ -5781,14 +6339,14 @@ extension QuickSightClient {
     ///
     /// Describes a dataset. This operation doesn't support datasets that include uploaded files as a source.
     ///
-    /// - Parameter DescribeDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSetInput`)
     ///
-    /// - Returns: `DescribeDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -5818,6 +6376,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataSetInput, DescribeDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSetOutput>(DescribeDataSetOutput.httpOutput(from:), DescribeDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSetInput, DescribeDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSetOutput>())
@@ -5849,14 +6408,14 @@ extension QuickSightClient {
     ///
     /// Describes the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
-    /// - Parameter DescribeDataSetPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSetPermissionsInput`)
     ///
-    /// - Returns: `DescribeDataSetPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSetPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -5886,6 +6445,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataSetPermissionsInput, DescribeDataSetPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSetPermissionsOutput>(DescribeDataSetPermissionsOutput.httpOutput(from:), DescribeDataSetPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSetPermissionsInput, DescribeDataSetPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSetPermissionsOutput>())
@@ -5917,14 +6477,14 @@ extension QuickSightClient {
     ///
     /// Describes the refresh properties of a dataset.
     ///
-    /// - Parameter DescribeDataSetRefreshPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSetRefreshPropertiesInput`)
     ///
-    /// - Returns: `DescribeDataSetRefreshPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSetRefreshPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -5956,6 +6516,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataSetRefreshPropertiesInput, DescribeDataSetRefreshPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSetRefreshPropertiesOutput>(DescribeDataSetRefreshPropertiesOutput.httpOutput(from:), DescribeDataSetRefreshPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSetRefreshPropertiesInput, DescribeDataSetRefreshPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSetRefreshPropertiesOutput>())
@@ -5987,14 +6548,14 @@ extension QuickSightClient {
     ///
     /// Describes a data source.
     ///
-    /// - Parameter DescribeDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSourceInput`)
     ///
-    /// - Returns: `DescribeDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -6024,6 +6585,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSourceOutput>(DescribeDataSourceOutput.httpOutput(from:), DescribeDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSourceInput, DescribeDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSourceOutput>())
@@ -6055,14 +6617,14 @@ extension QuickSightClient {
     ///
     /// Describes the resource permissions for a data source.
     ///
-    /// - Parameter DescribeDataSourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSourcePermissionsInput`)
     ///
-    /// - Returns: `DescribeDataSourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -6092,6 +6654,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDataSourcePermissionsInput, DescribeDataSourcePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSourcePermissionsOutput>(DescribeDataSourcePermissionsOutput.httpOutput(from:), DescribeDataSourcePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSourcePermissionsInput, DescribeDataSourcePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSourcePermissionsOutput>())
@@ -6121,16 +6684,16 @@ extension QuickSightClient {
 
     /// Performs the `DescribeDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
-    /// Describes a Amazon Q Business application that is linked to an Amazon QuickSight account.
+    /// Describes a Amazon Q Business application that is linked to an Quick Sight account.
     ///
-    /// - Parameter DescribeDefaultQBusinessApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDefaultQBusinessApplicationInput`)
     ///
-    /// - Returns: `DescribeDefaultQBusinessApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDefaultQBusinessApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -6161,6 +6724,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDefaultQBusinessApplicationInput, DescribeDefaultQBusinessApplicationOutput>(DescribeDefaultQBusinessApplicationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDefaultQBusinessApplicationOutput>(DescribeDefaultQBusinessApplicationOutput.httpOutput(from:), DescribeDefaultQBusinessApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDefaultQBusinessApplicationInput, DescribeDefaultQBusinessApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDefaultQBusinessApplicationOutput>())
@@ -6192,19 +6756,19 @@ extension QuickSightClient {
     ///
     /// Describes a folder.
     ///
-    /// - Parameter DescribeFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFolderInput`)
     ///
-    /// - Returns: `DescribeFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeFolder(input: DescribeFolderInput) async throws -> DescribeFolderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6230,6 +6794,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFolderInput, DescribeFolderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFolderOutput>(DescribeFolderOutput.httpOutput(from:), DescribeFolderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFolderInput, DescribeFolderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFolderOutput>())
@@ -6261,20 +6826,20 @@ extension QuickSightClient {
     ///
     /// Describes permissions for a folder.
     ///
-    /// - Parameter DescribeFolderPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFolderPermissionsInput`)
     ///
-    /// - Returns: `DescribeFolderPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFolderPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeFolderPermissions(input: DescribeFolderPermissionsInput) async throws -> DescribeFolderPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6301,6 +6866,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutput>(DescribeFolderPermissionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFolderPermissionsOutput>(DescribeFolderPermissionsOutput.httpOutput(from:), DescribeFolderPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFolderPermissionsOutput>())
@@ -6332,20 +6898,20 @@ extension QuickSightClient {
     ///
     /// Describes the folder resolved permissions. Permissions consists of both folder direct permissions and the inherited permissions from the ancestor folders.
     ///
-    /// - Parameter DescribeFolderResolvedPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFolderResolvedPermissionsInput`)
     ///
-    /// - Returns: `DescribeFolderResolvedPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFolderResolvedPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeFolderResolvedPermissions(input: DescribeFolderResolvedPermissionsInput) async throws -> DescribeFolderResolvedPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -6372,6 +6938,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutput>(DescribeFolderResolvedPermissionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFolderResolvedPermissionsOutput>(DescribeFolderResolvedPermissionsOutput.httpOutput(from:), DescribeFolderResolvedPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFolderResolvedPermissionsOutput>())
@@ -6401,16 +6968,16 @@ extension QuickSightClient {
 
     /// Performs the `DescribeGroup` operation on the `QuickSight` service.
     ///
-    /// Returns an Amazon QuickSight group's description and Amazon Resource Name (ARN).
+    /// Returns an Amazon Quick Sight group's description and Amazon Resource Name (ARN).
     ///
-    /// - Parameter DescribeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupInput`)
     ///
-    /// - Returns: `DescribeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -6442,6 +7009,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGroupInput, DescribeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGroupOutput>(DescribeGroupOutput.httpOutput(from:), DescribeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGroupInput, DescribeGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGroupOutput>())
@@ -6473,14 +7041,14 @@ extension QuickSightClient {
     ///
     /// Use the DescribeGroupMembership operation to determine if a user is a member of the specified group. If the user exists and is a member of the specified group, an associated GroupMember object is returned.
     ///
-    /// - Parameter DescribeGroupMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupMembershipInput`)
     ///
-    /// - Returns: `DescribeGroupMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -6512,6 +7080,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGroupMembershipOutput>(DescribeGroupMembershipOutput.httpOutput(from:), DescribeGroupMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGroupMembershipInput, DescribeGroupMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGroupMembershipOutput>())
@@ -6543,14 +7112,14 @@ extension QuickSightClient {
     ///
     /// Describes an existing IAM policy assignment, as specified by the assignment name.
     ///
-    /// - Parameter DescribeIAMPolicyAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIAMPolicyAssignmentInput`)
     ///
-    /// - Returns: `DescribeIAMPolicyAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIAMPolicyAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -6581,6 +7150,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIAMPolicyAssignmentInput, DescribeIAMPolicyAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIAMPolicyAssignmentOutput>(DescribeIAMPolicyAssignmentOutput.httpOutput(from:), DescribeIAMPolicyAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIAMPolicyAssignmentInput, DescribeIAMPolicyAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIAMPolicyAssignmentOutput>())
@@ -6612,14 +7182,14 @@ extension QuickSightClient {
     ///
     /// Describes a SPICE ingestion.
     ///
-    /// - Parameter DescribeIngestionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIngestionInput`)
     ///
-    /// - Returns: `DescribeIngestionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIngestionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceExistsException` : The resource specified already exists.
@@ -6650,6 +7220,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIngestionInput, DescribeIngestionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIngestionOutput>(DescribeIngestionOutput.httpOutput(from:), DescribeIngestionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIngestionInput, DescribeIngestionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIngestionOutput>())
@@ -6681,14 +7252,14 @@ extension QuickSightClient {
     ///
     /// Provides a summary and status of IP rules.
     ///
-    /// - Parameter DescribeIpRestrictionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpRestrictionInput`)
     ///
-    /// - Returns: `DescribeIpRestrictionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpRestrictionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -6718,6 +7289,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIpRestrictionInput, DescribeIpRestrictionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpRestrictionOutput>(DescribeIpRestrictionOutput.httpOutput(from:), DescribeIpRestrictionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpRestrictionInput, DescribeIpRestrictionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpRestrictionOutput>())
@@ -6747,16 +7319,16 @@ extension QuickSightClient {
 
     /// Performs the `DescribeKeyRegistration` operation on the `QuickSight` service.
     ///
-    /// Describes all customer managed key registrations in a Amazon QuickSight account.
+    /// Describes all customer managed key registrations in a Quick Sight account.
     ///
-    /// - Parameter DescribeKeyRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyRegistrationInput`)
     ///
-    /// - Returns: `DescribeKeyRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
@@ -6786,6 +7358,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput>(DescribeKeyRegistrationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyRegistrationOutput>(DescribeKeyRegistrationOutput.httpOutput(from:), DescribeKeyRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeyRegistrationInput, DescribeKeyRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeyRegistrationOutput>())
@@ -6817,14 +7390,14 @@ extension QuickSightClient {
     ///
     /// Describes the current namespace.
     ///
-    /// - Parameter DescribeNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNamespaceInput`)
     ///
-    /// - Returns: `DescribeNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -6855,6 +7428,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNamespaceInput, DescribeNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNamespaceOutput>(DescribeNamespaceOutput.httpOutput(from:), DescribeNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNamespaceInput, DescribeNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNamespaceOutput>())
@@ -6886,14 +7460,14 @@ extension QuickSightClient {
     ///
     /// Describes a personalization configuration.
     ///
-    /// - Parameter DescribeQPersonalizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQPersonalizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeQPersonalizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQPersonalizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -6924,6 +7498,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeQPersonalizationConfigurationInput, DescribeQPersonalizationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQPersonalizationConfigurationOutput>(DescribeQPersonalizationConfigurationOutput.httpOutput(from:), DescribeQPersonalizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQPersonalizationConfigurationInput, DescribeQPersonalizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQPersonalizationConfigurationOutput>())
@@ -6953,16 +7528,16 @@ extension QuickSightClient {
 
     /// Performs the `DescribeQuickSightQSearchConfiguration` operation on the `QuickSight` service.
     ///
-    /// Describes the state of a Amazon QuickSight Q Search configuration.
+    /// Describes the state of a Quick Sight Q Search configuration.
     ///
-    /// - Parameter DescribeQuickSightQSearchConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQuickSightQSearchConfigurationInput`)
     ///
-    /// - Returns: `DescribeQuickSightQSearchConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQuickSightQSearchConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -6993,6 +7568,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeQuickSightQSearchConfigurationInput, DescribeQuickSightQSearchConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQuickSightQSearchConfigurationOutput>(DescribeQuickSightQSearchConfigurationOutput.httpOutput(from:), DescribeQuickSightQSearchConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQuickSightQSearchConfigurationInput, DescribeQuickSightQSearchConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQuickSightQSearchConfigurationOutput>())
@@ -7024,14 +7600,14 @@ extension QuickSightClient {
     ///
     /// Provides a summary of a refresh schedule.
     ///
-    /// - Parameter DescribeRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRefreshScheduleInput`)
     ///
-    /// - Returns: `DescribeRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -7062,6 +7638,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRefreshScheduleInput, DescribeRefreshScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRefreshScheduleOutput>(DescribeRefreshScheduleOutput.httpOutput(from:), DescribeRefreshScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRefreshScheduleInput, DescribeRefreshScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRefreshScheduleOutput>())
@@ -7093,14 +7670,14 @@ extension QuickSightClient {
     ///
     /// Describes all custom permissions that are mapped to a role.
     ///
-    /// - Parameter DescribeRoleCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRoleCustomPermissionInput`)
     ///
-    /// - Returns: `DescribeRoleCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRoleCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -7132,6 +7709,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRoleCustomPermissionInput, DescribeRoleCustomPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRoleCustomPermissionOutput>(DescribeRoleCustomPermissionOutput.httpOutput(from:), DescribeRoleCustomPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRoleCustomPermissionInput, DescribeRoleCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRoleCustomPermissionOutput>())
@@ -7159,25 +7737,97 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DescribeTemplate` operation on the `QuickSight` service.
+    /// Performs the `DescribeSelfUpgradeConfiguration` operation on the `QuickSight` service.
     ///
-    /// Describes a template's metadata.
+    /// Describes the self-upgrade configuration for a Quick Suite account.
     ///
-    /// - Parameter DescribeTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSelfUpgradeConfigurationInput`)
     ///
-    /// - Returns: `DescribeTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSelfUpgradeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterException` : One or more parameter has a value that isn't valid.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `PreconditionNotMetException` : One or more preconditions aren't met.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ResourceUnavailableException` : This resource is currently unavailable.
+    /// - `ThrottlingException` : Access is throttled.
+    public func describeSelfUpgradeConfiguration(input: DescribeSelfUpgradeConfigurationInput) async throws -> DescribeSelfUpgradeConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeSelfUpgradeConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeSelfUpgradeConfigurationInput, DescribeSelfUpgradeConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSelfUpgradeConfigurationInput, DescribeSelfUpgradeConfigurationOutput>(DescribeSelfUpgradeConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSelfUpgradeConfigurationInput, DescribeSelfUpgradeConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSelfUpgradeConfigurationOutput>(DescribeSelfUpgradeConfigurationOutput.httpOutput(from:), DescribeSelfUpgradeConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSelfUpgradeConfigurationInput, DescribeSelfUpgradeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSelfUpgradeConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSelfUpgradeConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSelfUpgradeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSelfUpgradeConfigurationInput, DescribeSelfUpgradeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSelfUpgradeConfigurationInput, DescribeSelfUpgradeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSelfUpgradeConfigurationInput, DescribeSelfUpgradeConfigurationOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSelfUpgradeConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeTemplate` operation on the `QuickSight` service.
+    ///
+    /// Describes a template's metadata.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeTemplateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeTemplateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTemplate(input: DescribeTemplateInput) async throws -> DescribeTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7204,6 +7854,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeTemplateInput, DescribeTemplateOutput>(DescribeTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTemplateOutput>(DescribeTemplateOutput.httpOutput(from:), DescribeTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTemplateInput, DescribeTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTemplateOutput>())
@@ -7235,9 +7886,9 @@ extension QuickSightClient {
     ///
     /// Describes the template alias for a template.
     ///
-    /// - Parameter DescribeTemplateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTemplateAliasInput`)
     ///
-    /// - Returns: `DescribeTemplateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTemplateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7245,7 +7896,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTemplateAlias(input: DescribeTemplateAliasInput) async throws -> DescribeTemplateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7271,6 +7922,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTemplateAliasInput, DescribeTemplateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTemplateAliasOutput>(DescribeTemplateAliasOutput.httpOutput(from:), DescribeTemplateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTemplateAliasInput, DescribeTemplateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTemplateAliasOutput>())
@@ -7302,21 +7954,21 @@ extension QuickSightClient {
     ///
     /// Provides a detailed description of the definition of a template. If you do not need to know details about the content of a template, for instance if you are trying to check the status of a recently created or updated template, use the [DescribeTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeTemplate.html) instead.
     ///
-    /// - Parameter DescribeTemplateDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTemplateDefinitionInput`)
     ///
-    /// - Returns: `DescribeTemplateDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTemplateDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTemplateDefinition(input: DescribeTemplateDefinitionInput) async throws -> DescribeTemplateDefinitionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7343,6 +7995,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeTemplateDefinitionInput, DescribeTemplateDefinitionOutput>(DescribeTemplateDefinitionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTemplateDefinitionOutput>(DescribeTemplateDefinitionOutput.httpOutput(from:), DescribeTemplateDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTemplateDefinitionInput, DescribeTemplateDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTemplateDefinitionOutput>())
@@ -7374,9 +8027,9 @@ extension QuickSightClient {
     ///
     /// Describes read and write permissions on a template.
     ///
-    /// - Parameter DescribeTemplatePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTemplatePermissionsInput`)
     ///
-    /// - Returns: `DescribeTemplatePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTemplatePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7386,7 +8039,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTemplatePermissions(input: DescribeTemplatePermissionsInput) async throws -> DescribeTemplatePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7412,6 +8065,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTemplatePermissionsInput, DescribeTemplatePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTemplatePermissionsOutput>(DescribeTemplatePermissionsOutput.httpOutput(from:), DescribeTemplatePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTemplatePermissionsInput, DescribeTemplatePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTemplatePermissionsOutput>())
@@ -7443,20 +8097,20 @@ extension QuickSightClient {
     ///
     /// Describes a theme.
     ///
-    /// - Parameter DescribeThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThemeInput`)
     ///
-    /// - Returns: `DescribeThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeTheme(input: DescribeThemeInput) async throws -> DescribeThemeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7483,6 +8137,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeThemeInput, DescribeThemeOutput>(DescribeThemeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThemeOutput>(DescribeThemeOutput.httpOutput(from:), DescribeThemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThemeInput, DescribeThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThemeOutput>())
@@ -7514,9 +8169,9 @@ extension QuickSightClient {
     ///
     /// Describes the alias for a theme.
     ///
-    /// - Parameter DescribeThemeAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThemeAliasInput`)
     ///
-    /// - Returns: `DescribeThemeAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThemeAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7526,7 +8181,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeThemeAlias(input: DescribeThemeAliasInput) async throws -> DescribeThemeAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7552,6 +8207,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeThemeAliasInput, DescribeThemeAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThemeAliasOutput>(DescribeThemeAliasOutput.httpOutput(from:), DescribeThemeAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThemeAliasInput, DescribeThemeAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThemeAliasOutput>())
@@ -7583,19 +8239,19 @@ extension QuickSightClient {
     ///
     /// Describes the read and write permissions for a theme.
     ///
-    /// - Parameter DescribeThemePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThemePermissionsInput`)
     ///
-    /// - Returns: `DescribeThemePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThemePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeThemePermissions(input: DescribeThemePermissionsInput) async throws -> DescribeThemePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -7621,6 +8277,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeThemePermissionsInput, DescribeThemePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThemePermissionsOutput>(DescribeThemePermissionsOutput.httpOutput(from:), DescribeThemePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThemePermissionsInput, DescribeThemePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThemePermissionsOutput>())
@@ -7652,14 +8309,14 @@ extension QuickSightClient {
     ///
     /// Describes a topic.
     ///
-    /// - Parameter DescribeTopicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicInput`)
     ///
-    /// - Returns: `DescribeTopicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -7689,6 +8346,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTopicInput, DescribeTopicOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTopicOutput>(DescribeTopicOutput.httpOutput(from:), DescribeTopicOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTopicInput, DescribeTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTopicOutput>())
@@ -7720,14 +8378,14 @@ extension QuickSightClient {
     ///
     /// Describes the permissions of a topic.
     ///
-    /// - Parameter DescribeTopicPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicPermissionsInput`)
     ///
-    /// - Returns: `DescribeTopicPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -7757,6 +8415,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTopicPermissionsInput, DescribeTopicPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTopicPermissionsOutput>(DescribeTopicPermissionsOutput.httpOutput(from:), DescribeTopicPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTopicPermissionsInput, DescribeTopicPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTopicPermissionsOutput>())
@@ -7788,14 +8447,14 @@ extension QuickSightClient {
     ///
     /// Describes the status of a topic refresh.
     ///
-    /// - Parameter DescribeTopicRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicRefreshInput`)
     ///
-    /// - Returns: `DescribeTopicRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -7825,6 +8484,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTopicRefreshInput, DescribeTopicRefreshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTopicRefreshOutput>(DescribeTopicRefreshOutput.httpOutput(from:), DescribeTopicRefreshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTopicRefreshInput, DescribeTopicRefreshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTopicRefreshOutput>())
@@ -7856,14 +8516,14 @@ extension QuickSightClient {
     ///
     /// Deletes a topic refresh schedule.
     ///
-    /// - Parameter DescribeTopicRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicRefreshScheduleInput`)
     ///
-    /// - Returns: `DescribeTopicRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -7896,6 +8556,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTopicRefreshScheduleInput, DescribeTopicRefreshScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTopicRefreshScheduleOutput>(DescribeTopicRefreshScheduleOutput.httpOutput(from:), DescribeTopicRefreshScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTopicRefreshScheduleInput, DescribeTopicRefreshScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTopicRefreshScheduleOutput>())
@@ -7927,14 +8588,14 @@ extension QuickSightClient {
     ///
     /// Returns information about a user, given the user name.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -7966,6 +8627,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUserInput, DescribeUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(DescribeUserOutput.httpOutput(from:), DescribeUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserInput, DescribeUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserOutput>())
@@ -7997,19 +8659,19 @@ extension QuickSightClient {
     ///
     /// Describes a VPC connection.
     ///
-    /// - Parameter DescribeVPCConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVPCConnectionInput`)
     ///
-    /// - Returns: `DescribeVPCConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVPCConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func describeVPCConnection(input: DescribeVPCConnectionInput) async throws -> DescribeVPCConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8035,6 +8697,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVPCConnectionInput, DescribeVPCConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVPCConnectionOutput>(DescribeVPCConnectionOutput.httpOutput(from:), DescribeVPCConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVPCConnectionInput, DescribeVPCConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVPCConnectionOutput>())
@@ -8064,32 +8727,32 @@ extension QuickSightClient {
 
     /// Performs the `GenerateEmbedUrlForAnonymousUser` operation on the `QuickSight` service.
     ///
-    /// Generates an embed URL that you can use to embed an Amazon QuickSight dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:
+    /// Generates an embed URL that you can use to embed an Amazon Quick Suite dashboard or visual in your website, without having to register any reader users. Before you use this action, make sure that you have configured the dashboards and permissions. The following rules apply to the generated URL:
     ///
     /// * It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
     ///
     /// * The URL validity period should not be confused with the actual session lifetime that can be customized using the [SessionLifetimeInMinutes](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForAnonymousUser.html#QS-GenerateEmbedUrlForAnonymousUser-request-SessionLifetimeInMinutes) parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.
     ///
-    /// * You are charged only when the URL is used or there is interaction with Amazon QuickSight.
+    /// * You are charged only when the URL is used or there is interaction with Amazon Quick Suite.
     ///
     ///
-    /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+    /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Suite Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
-    /// - Parameter GenerateEmbedUrlForAnonymousUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateEmbedUrlForAnonymousUserInput`)
     ///
-    /// - Returns: `GenerateEmbedUrlForAnonymousUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateEmbedUrlForAnonymousUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon Quick Sight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a Quick Suite administrator needs to add capacity pricing to Quick Sight. You can do this on the Manage Quick Suite page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func generateEmbedUrlForAnonymousUser(input: GenerateEmbedUrlForAnonymousUserInput) async throws -> GenerateEmbedUrlForAnonymousUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8118,6 +8781,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateEmbedUrlForAnonymousUserInput, GenerateEmbedUrlForAnonymousUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateEmbedUrlForAnonymousUserOutput>(GenerateEmbedUrlForAnonymousUserOutput.httpOutput(from:), GenerateEmbedUrlForAnonymousUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateEmbedUrlForAnonymousUserInput, GenerateEmbedUrlForAnonymousUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateEmbedUrlForAnonymousUserOutput>())
@@ -8147,33 +8811,33 @@ extension QuickSightClient {
 
     /// Performs the `GenerateEmbedUrlForRegisteredUser` operation on the `QuickSight` service.
     ///
-    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user registered in an Amazon QuickSight account. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. The following rules apply to the generated URL:
+    /// Generates an embed URL that you can use to embed an Amazon Quick Suite experience in your website. This action can be used for any type of user registered in an Amazon Quick Suite account. Before you use this action, make sure that you have configured the relevant Amazon Quick Suite resource and permissions. The following rules apply to the generated URL:
     ///
     /// * It contains a temporary bearer token. It is valid for 5 minutes after it is generated. Once redeemed within this period, it cannot be re-used again.
     ///
     /// * The URL validity period should not be confused with the actual session lifetime that can be customized using the [SessionLifetimeInMinutes](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html#QS-GenerateEmbedUrlForRegisteredUser-request-SessionLifetimeInMinutes) parameter. The resulting user session is valid for 15 minutes (minimum) to 10 hours (maximum). The default session duration is 10 hours.
     ///
-    /// * You are charged only when the URL is used or there is interaction with Amazon QuickSight.
+    /// * You are charged only when the URL is used or there is interaction with Amazon Quick Suite.
     ///
     ///
-    /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+    /// For more information, see [Embedded Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html) in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Suite Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
-    /// - Parameter GenerateEmbedUrlForRegisteredUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserInput`)
     ///
-    /// - Returns: `GenerateEmbedUrlForRegisteredUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `QuickSightUserNotFoundException` : The user with the provided name isn't found. This error can happen in any operation that requires finding a user based on a provided user name, such as DeleteUser, DescribeUser, and so on.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon Quick Sight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a Quick Suite administrator needs to add capacity pricing to Quick Sight. You can do this on the Manage Quick Suite page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func generateEmbedUrlForRegisteredUser(input: GenerateEmbedUrlForRegisteredUserInput) async throws -> GenerateEmbedUrlForRegisteredUserOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8202,6 +8866,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateEmbedUrlForRegisteredUserInput, GenerateEmbedUrlForRegisteredUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateEmbedUrlForRegisteredUserOutput>(GenerateEmbedUrlForRegisteredUserOutput.httpOutput(from:), GenerateEmbedUrlForRegisteredUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateEmbedUrlForRegisteredUserInput, GenerateEmbedUrlForRegisteredUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateEmbedUrlForRegisteredUserOutput>())
@@ -8231,24 +8896,24 @@ extension QuickSightClient {
 
     /// Performs the `GenerateEmbedUrlForRegisteredUserWithIdentity` operation on the `QuickSight` service.
     ///
-    /// Generates an embed URL that you can use to embed an Amazon QuickSight experience in your website. This action can be used for any type of user that is registered in an Amazon QuickSight account that uses IAM Identity Center for authentication. This API requires [identity-enhanced IAM Role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html#types-identity-enhanced-iam-role-sessions) for the authenticated user that the API call is being made for. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Amazon QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions.
+    /// Generates an embed URL that you can use to embed an Amazon Quick Sight experience in your website. This action can be used for any type of user that is registered in an Amazon Quick Sight account that uses IAM Identity Center for authentication. This API requires [identity-enhanced IAM Role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html#types-identity-enhanced-iam-role-sessions) for the authenticated user that the API call is being made for. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Amazon Quick Sight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon Quick Sight resource and permissions.
     ///
-    /// - Parameter GenerateEmbedUrlForRegisteredUserWithIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserWithIdentityInput`)
     ///
-    /// - Returns: `GenerateEmbedUrlForRegisteredUserWithIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateEmbedUrlForRegisteredUserWithIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `QuickSightUserNotFoundException` : The user with the provided name isn't found. This error can happen in any operation that requires finding a user based on a provided user name, such as DeleteUser, DescribeUser, and so on.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon Quick Sight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a Quick Suite administrator needs to add capacity pricing to Quick Sight. You can do this on the Manage Quick Suite page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func generateEmbedUrlForRegisteredUserWithIdentity(input: GenerateEmbedUrlForRegisteredUserWithIdentityInput) async throws -> GenerateEmbedUrlForRegisteredUserWithIdentityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8277,6 +8942,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateEmbedUrlForRegisteredUserWithIdentityInput, GenerateEmbedUrlForRegisteredUserWithIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateEmbedUrlForRegisteredUserWithIdentityOutput>(GenerateEmbedUrlForRegisteredUserWithIdentityOutput.httpOutput(from:), GenerateEmbedUrlForRegisteredUserWithIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateEmbedUrlForRegisteredUserWithIdentityInput, GenerateEmbedUrlForRegisteredUserWithIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateEmbedUrlForRegisteredUserWithIdentityOutput>())
@@ -8306,7 +8972,7 @@ extension QuickSightClient {
 
     /// Performs the `GetDashboardEmbedUrl` operation on the `QuickSight` service.
     ///
-    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon QuickSight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:
+    /// Generates a temporary session URL and authorization code(bearer token) that you can use to embed an Amazon Quick Sight read-only dashboard in your website or application. Before you use this command, make sure that you have configured the dashboards and permissions. Currently, you can use GetDashboardEmbedURL only from the server, not from the user's browser. The following rules apply to the generated URL:
     ///
     /// * They must be used together.
     ///
@@ -8314,22 +8980,22 @@ extension QuickSightClient {
     ///
     /// * They are valid for 5 minutes after you run this command.
     ///
-    /// * You are charged only when the URL is used or there is interaction with Amazon QuickSight.
+    /// * You are charged only when the URL is used or there is interaction with Quick Suite.
     ///
     /// * The resulting user session is valid for 15 minutes (default) up to 10 hours (maximum). You can use the optional SessionLifetimeInMinutes parameter to customize session duration.
     ///
     ///
-    /// For more information, see [Embedding Analytics Using GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html) in the Amazon QuickSight User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+    /// For more information, see [Embedding Analytics Using GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-deprecated.html) in the Amazon Quick Suite User Guide. For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Suite Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
     ///
-    /// - Parameter GetDashboardEmbedUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDashboardEmbedUrlInput`)
     ///
-    /// - Returns: `GetDashboardEmbedUrlOutput` : Output returned from the GetDashboardEmbedUrl operation.
+    /// - Returns: Output returned from the GetDashboardEmbedUrl operation. (Type: `GetDashboardEmbedUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
-    /// - `DomainNotWhitelistedException` : The domain specified isn't on the allow list. All domains for embedded dashboards must be added to the approved list by an Amazon QuickSight admin.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `DomainNotWhitelistedException` : The domain specified isn't on the allow list. All domains for embedded dashboards must be added to the approved list by an Amazon Quick Suite admin.
     /// - `IdentityTypeNotSupportedException` : The identity type specified isn't supported. Supported identity types include IAM and QUICKSIGHT.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -8338,8 +9004,8 @@ extension QuickSightClient {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon Quick Sight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a Quick Suite administrator needs to add capacity pricing to Quick Sight. You can do this on the Manage Quick Suite page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func getDashboardEmbedUrl(input: GetDashboardEmbedUrlInput) async throws -> GetDashboardEmbedUrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8366,6 +9032,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDashboardEmbedUrlInput, GetDashboardEmbedUrlOutput>(GetDashboardEmbedUrlInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDashboardEmbedUrlOutput>(GetDashboardEmbedUrlOutput.httpOutput(from:), GetDashboardEmbedUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDashboardEmbedUrlInput, GetDashboardEmbedUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDashboardEmbedUrlOutput>())
@@ -8393,22 +9060,247 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetSessionEmbedUrl` operation on the `QuickSight` service.
+    /// Performs the `GetFlowMetadata` operation on the `QuickSight` service.
     ///
-    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:
+    /// Retrieves the metadata of a flow, not including its definition specifying the steps.
     ///
-    /// * [Embedding Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html)
+    /// - Parameter input: [no documentation found] (Type: `GetFlowMetadataInput`)
     ///
-    /// * [Customizing Access to the Amazon QuickSight Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html)
-    ///
-    /// - Parameter GetSessionEmbedUrlInput : [no documentation found]
-    ///
-    /// - Returns: `GetSessionEmbedUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFlowMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func getFlowMetadata(input: GetFlowMetadataInput) async throws -> GetFlowMetadataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getFlowMetadata")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetFlowMetadataInput, GetFlowMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFlowMetadataInput, GetFlowMetadataOutput>(GetFlowMetadataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFlowMetadataInput, GetFlowMetadataOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowMetadataOutput>(GetFlowMetadataOutput.httpOutput(from:), GetFlowMetadataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowMetadataInput, GetFlowMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFlowMetadataOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFlowMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFlowMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFlowMetadataInput, GetFlowMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFlowMetadataInput, GetFlowMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFlowMetadataInput, GetFlowMetadataOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFlowMetadata")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetFlowPermissions` operation on the `QuickSight` service.
+    ///
+    /// Get permissions for a flow.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetFlowPermissionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetFlowPermissionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func getFlowPermissions(input: GetFlowPermissionsInput) async throws -> GetFlowPermissionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getFlowPermissions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetFlowPermissionsInput, GetFlowPermissionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetFlowPermissionsInput, GetFlowPermissionsOutput>(GetFlowPermissionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFlowPermissionsInput, GetFlowPermissionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowPermissionsOutput>(GetFlowPermissionsOutput.httpOutput(from:), GetFlowPermissionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowPermissionsInput, GetFlowPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetFlowPermissionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFlowPermissionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFlowPermissionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetFlowPermissionsInput, GetFlowPermissionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetFlowPermissionsInput, GetFlowPermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFlowPermissionsInput, GetFlowPermissionsOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetFlowPermissions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIdentityContext` operation on the `QuickSight` service.
+    ///
+    /// Retrieves the identity context for a Quick Sight user in a specified namespace, allowing you to obtain identity tokens that can be used with identity-enhanced IAM role sessions to call identity-aware APIs. Currently, you can call the following APIs with identity-enhanced Credentials
+    ///
+    /// * [StartDashboardSnapshotJob](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_StartDashboardSnapshotJob.html)
+    ///
+    /// * [DescribeDashboardSnapshotJob](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboardSnapshotJob.html)
+    ///
+    /// * [DescribeDashboardSnapshotJobResult](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboardSnapshotJobResult.html)
+    ///
+    ///
+    /// Supported Authentication Methods This API supports Quick Sight native users, IAM federated users, and Active Directory users. For Quick Sight users authenticated by Amazon Web Services Identity Center, see [Identity Center documentation on identity-enhanced IAM role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-identity-enhanced-iam-role-sessions.html). Getting Identity-Enhanced Credentials To obtain identity-enhanced credentials, follow these steps:
+    ///
+    /// * Call the GetIdentityContext API to retrieve an identity token for the specified user.
+    ///
+    /// * Use the identity token with the [STS AssumeRole API](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) to obtain identity-enhanced IAM role session credentials.
+    ///
+    ///
+    /// Usage with STS AssumeRole The identity token returned by this API should be used with the STS AssumeRole API to obtain credentials for an identity-enhanced IAM role session. When calling AssumeRole, include the identity token in the ProvidedContexts parameter with ProviderArn set to arn:aws:iam::aws:contextProvider/QuickSight and ContextAssertion set to the identity token received from this API. The assumed role must allow the sts:SetContext action in addition to sts:AssumeRole in its trust relationship policy. The trust policy should include both actions for the principal that will be assuming the role.
+    ///
+    /// - Parameter input: ///////////////////////// ///////////////////////// (Type: `GetIdentityContextInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIdentityContextOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `PreconditionNotMetException` : One or more preconditions aren't met.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func getIdentityContext(input: GetIdentityContextInput) async throws -> GetIdentityContextOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIdentityContext")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIdentityContextInput, GetIdentityContextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(GetIdentityContextInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityContextInput, GetIdentityContextOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIdentityContextInput, GetIdentityContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdentityContextInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityContextInput, GetIdentityContextOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityContextOutput>(GetIdentityContextOutput.httpOutput(from:), GetIdentityContextOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityContextOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIdentityContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdentityContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdentityContextInput, GetIdentityContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdentityContextInput, GetIdentityContextOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIdentityContext")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetSessionEmbedUrl` operation on the `QuickSight` service.
+    ///
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon Quick Sight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon Quick Sight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick Suite User Guide:
+    ///
+    /// * [Embedding Analytics](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html)
+    ///
+    /// * [Customizing Access to the Amazon Quick Suite Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetSessionEmbedUrlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetSessionEmbedUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `QuickSightUserNotFoundException` : The user with the provided name isn't found. This error can happen in any operation that requires finding a user based on a provided user name, such as DeleteUser, DescribeUser, and so on.
@@ -8416,7 +9308,7 @@ extension QuickSightClient {
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `SessionLifetimeInMinutesInvalidException` : The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func getSessionEmbedUrl(input: GetSessionEmbedUrlInput) async throws -> GetSessionEmbedUrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8443,6 +9335,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSessionEmbedUrlInput, GetSessionEmbedUrlOutput>(GetSessionEmbedUrlInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionEmbedUrlOutput>(GetSessionEmbedUrlOutput.httpOutput(from:), GetSessionEmbedUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionEmbedUrlInput, GetSessionEmbedUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionEmbedUrlOutput>())
@@ -8470,13 +9363,83 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListActionConnectors` operation on the `QuickSight` service.
+    ///
+    /// Lists all action connectors in the specified Amazon Web Services account. Returns summary information for each connector including its name, type, creation time, and status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListActionConnectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListActionConnectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidNextTokenException` : The NextToken value isn't valid.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func listActionConnectors(input: ListActionConnectorsInput) async throws -> ListActionConnectorsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listActionConnectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListActionConnectorsInput, ListActionConnectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListActionConnectorsInput, ListActionConnectorsOutput>(ListActionConnectorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListActionConnectorsInput, ListActionConnectorsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListActionConnectorsInput, ListActionConnectorsOutput>(ListActionConnectorsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActionConnectorsOutput>(ListActionConnectorsOutput.httpOutput(from:), ListActionConnectorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActionConnectorsInput, ListActionConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListActionConnectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListActionConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListActionConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListActionConnectorsInput, ListActionConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListActionConnectorsInput, ListActionConnectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListActionConnectorsInput, ListActionConnectorsOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListActionConnectors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAnalyses` operation on the `QuickSight` service.
     ///
-    /// Lists Amazon QuickSight analyses that exist in the specified Amazon Web Services account.
+    /// Lists Amazon Quick Sight analyses that exist in the specified Amazon Web Services account.
     ///
-    /// - Parameter ListAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnalysesInput`)
     ///
-    /// - Returns: `ListAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnalysesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8484,7 +9447,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listAnalyses(input: ListAnalysesInput) async throws -> ListAnalysesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8511,6 +9474,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnalysesInput, ListAnalysesOutput>(ListAnalysesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalysesOutput>(ListAnalysesOutput.httpOutput(from:), ListAnalysesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalysesInput, ListAnalysesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalysesOutput>())
@@ -8542,18 +9506,18 @@ extension QuickSightClient {
     ///
     /// Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent job that uses the repeated job ID.
     ///
-    /// - Parameter ListAssetBundleExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetBundleExportJobsInput`)
     ///
-    /// - Returns: `ListAssetBundleExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetBundleExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listAssetBundleExportJobs(input: ListAssetBundleExportJobsInput) async throws -> ListAssetBundleExportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8580,6 +9544,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutput>(ListAssetBundleExportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetBundleExportJobsOutput>(ListAssetBundleExportJobsOutput.httpOutput(from:), ListAssetBundleExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetBundleExportJobsInput, ListAssetBundleExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetBundleExportJobsOutput>())
@@ -8611,18 +9576,18 @@ extension QuickSightClient {
     ///
     /// Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created more than 14 days ago are deleted forever and are not returned. If you are using the same job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that uses the repeated job ID.
     ///
-    /// - Parameter ListAssetBundleImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetBundleImportJobsInput`)
     ///
-    /// - Returns: `ListAssetBundleImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetBundleImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listAssetBundleImportJobs(input: ListAssetBundleImportJobsInput) async throws -> ListAssetBundleImportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8649,6 +9614,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutput>(ListAssetBundleImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetBundleImportJobsOutput>(ListAssetBundleImportJobsOutput.httpOutput(from:), ListAssetBundleImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetBundleImportJobsInput, ListAssetBundleImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetBundleImportJobsOutput>())
@@ -8678,16 +9644,16 @@ extension QuickSightClient {
 
     /// Performs the `ListBrands` operation on the `QuickSight` service.
     ///
-    /// Lists all brands in an Amazon QuickSight account.
+    /// Lists all brands in an Quick Sight account.
     ///
-    /// - Parameter ListBrandsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrandsInput`)
     ///
-    /// - Returns: `ListBrandsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrandsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
     /// - `ThrottlingException` : Access is throttled.
@@ -8717,6 +9683,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBrandsInput, ListBrandsOutput>(ListBrandsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBrandsOutput>(ListBrandsOutput.httpOutput(from:), ListBrandsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBrandsInput, ListBrandsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBrandsOutput>())
@@ -8748,14 +9715,14 @@ extension QuickSightClient {
     ///
     /// Returns a list of all the custom permissions profiles.
     ///
-    /// - Parameter ListCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomPermissionsInput`)
     ///
-    /// - Returns: `ListCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -8788,6 +9755,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCustomPermissionsInput, ListCustomPermissionsOutput>(ListCustomPermissionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomPermissionsOutput>(ListCustomPermissionsOutput.httpOutput(from:), ListCustomPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomPermissionsInput, ListCustomPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomPermissionsOutput>())
@@ -8817,11 +9785,11 @@ extension QuickSightClient {
 
     /// Performs the `ListDashboardVersions` operation on the `QuickSight` service.
     ///
-    /// Lists all the versions of the dashboards in the Amazon QuickSight subscription.
+    /// Lists all the versions of the dashboards in the Amazon Quick Sight subscription.
     ///
-    /// - Parameter ListDashboardVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDashboardVersionsInput`)
     ///
-    /// - Returns: `ListDashboardVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDashboardVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8831,7 +9799,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listDashboardVersions(input: ListDashboardVersionsInput) async throws -> ListDashboardVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8858,6 +9826,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDashboardVersionsInput, ListDashboardVersionsOutput>(ListDashboardVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDashboardVersionsOutput>(ListDashboardVersionsOutput.httpOutput(from:), ListDashboardVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDashboardVersionsInput, ListDashboardVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDashboardVersionsOutput>())
@@ -8889,9 +9858,9 @@ extension QuickSightClient {
     ///
     /// Lists dashboards in an Amazon Web Services account.
     ///
-    /// - Parameter ListDashboardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDashboardsInput`)
     ///
-    /// - Returns: `ListDashboardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDashboardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8899,7 +9868,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -8926,6 +9895,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDashboardsInput, ListDashboardsOutput>(ListDashboardsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDashboardsOutput>(ListDashboardsOutput.httpOutput(from:), ListDashboardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDashboardsInput, ListDashboardsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDashboardsOutput>())
@@ -8957,14 +9927,14 @@ extension QuickSightClient {
     ///
     /// Lists all of the datasets belonging to the current Amazon Web Services account in an Amazon Web Services Region. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/*.
     ///
-    /// - Parameter ListDataSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSetsInput`)
     ///
-    /// - Returns: `ListDataSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -8995,6 +9965,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSetsInput, ListDataSetsOutput>(ListDataSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSetsOutput>(ListDataSetsOutput.httpOutput(from:), ListDataSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSetsInput, ListDataSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSetsOutput>())
@@ -9026,14 +9997,14 @@ extension QuickSightClient {
     ///
     /// Lists data sources in current Amazon Web Services Region that belong to this Amazon Web Services account.
     ///
-    /// - Parameter ListDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourcesInput`)
     ///
-    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -9064,6 +10035,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(ListDataSourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourcesOutput>(ListDataSourcesOutput.httpOutput(from:), ListDataSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourcesOutput>())
@@ -9091,24 +10063,93 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListFolderMembers` operation on the `QuickSight` service.
+    /// Performs the `ListFlows` operation on the `QuickSight` service.
     ///
-    /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
+    /// Lists flows in an Amazon Web Services account.
     ///
-    /// - Parameter ListFolderMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowsInput`)
     ///
-    /// - Returns: `ListFolderMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listFlows")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListFlowsInput, ListFlowsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListFlowsInput, ListFlowsOutput>(ListFlowsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFlowsInput, ListFlowsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListFlowsInput, ListFlowsOutput>(ListFlowsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowsOutput>(ListFlowsOutput.httpOutput(from:), ListFlowsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowsInput, ListFlowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFlowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlowsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFlowsInput, ListFlowsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFlowsInput, ListFlowsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListFlowsInput, ListFlowsOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListFlows")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListFolderMembers` operation on the `QuickSight` service.
+    ///
+    /// List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListFolderMembersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListFolderMembersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listFolderMembers(input: ListFolderMembersInput) async throws -> ListFolderMembersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -9135,6 +10176,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFolderMembersInput, ListFolderMembersOutput>(ListFolderMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFolderMembersOutput>(ListFolderMembersOutput.httpOutput(from:), ListFolderMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFolderMembersInput, ListFolderMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFolderMembersOutput>())
@@ -9166,20 +10208,20 @@ extension QuickSightClient {
     ///
     /// Lists all folders in an account.
     ///
-    /// - Parameter ListFoldersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFoldersInput`)
     ///
-    /// - Returns: `ListFoldersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFoldersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listFolders(input: ListFoldersInput) async throws -> ListFoldersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -9206,6 +10248,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFoldersInput, ListFoldersOutput>(ListFoldersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFoldersOutput>(ListFoldersOutput.httpOutput(from:), ListFoldersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFoldersInput, ListFoldersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFoldersOutput>())
@@ -9237,20 +10280,20 @@ extension QuickSightClient {
     ///
     /// List all folders that a resource is a member of.
     ///
-    /// - Parameter ListFoldersForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFoldersForResourceInput`)
     ///
-    /// - Returns: `ListFoldersForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFoldersForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listFoldersForResource(input: ListFoldersForResourceInput) async throws -> ListFoldersForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -9277,6 +10320,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFoldersForResourceInput, ListFoldersForResourceOutput>(ListFoldersForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFoldersForResourceOutput>(ListFoldersForResourceOutput.httpOutput(from:), ListFoldersForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFoldersForResourceInput, ListFoldersForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFoldersForResourceOutput>())
@@ -9308,14 +10352,14 @@ extension QuickSightClient {
     ///
     /// Lists member users in a group.
     ///
-    /// - Parameter ListGroupMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupMembershipsInput`)
     ///
-    /// - Returns: `ListGroupMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -9349,6 +10393,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>(ListGroupMembershipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupMembershipsOutput>(ListGroupMembershipsOutput.httpOutput(from:), ListGroupMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupMembershipsInput, ListGroupMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupMembershipsOutput>())
@@ -9378,16 +10423,16 @@ extension QuickSightClient {
 
     /// Performs the `ListGroups` operation on the `QuickSight` service.
     ///
-    /// Lists all user groups in Amazon QuickSight.
+    /// Lists all user groups in Amazon Quick Sight.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -9421,6 +10466,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGroupsInput, ListGroupsOutput>(ListGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -9450,16 +10496,16 @@ extension QuickSightClient {
 
     /// Performs the `ListIAMPolicyAssignments` operation on the `QuickSight` service.
     ///
-    /// Lists the IAM policy assignments in the current Amazon QuickSight account.
+    /// Lists the IAM policy assignments in the current Amazon Quick Sight account.
     ///
-    /// - Parameter ListIAMPolicyAssignmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIAMPolicyAssignmentsInput`)
     ///
-    /// - Returns: `ListIAMPolicyAssignmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIAMPolicyAssignmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -9491,6 +10537,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutput>(ListIAMPolicyAssignmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIAMPolicyAssignmentsOutput>(ListIAMPolicyAssignmentsOutput.httpOutput(from:), ListIAMPolicyAssignmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIAMPolicyAssignmentsInput, ListIAMPolicyAssignmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIAMPolicyAssignmentsOutput>())
@@ -9522,14 +10569,14 @@ extension QuickSightClient {
     ///
     /// Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for the IAM policies assigned to the specified user and group, or groups that the user belongs to.
     ///
-    /// - Parameter ListIAMPolicyAssignmentsForUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIAMPolicyAssignmentsForUserInput`)
     ///
-    /// - Returns: `ListIAMPolicyAssignmentsForUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIAMPolicyAssignmentsForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConcurrentUpdatingException` : A resource is already in a state that indicates an operation is happening that must complete before a new update can be applied.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -9562,6 +10609,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutput>(ListIAMPolicyAssignmentsForUserInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIAMPolicyAssignmentsForUserOutput>(ListIAMPolicyAssignmentsForUserOutput.httpOutput(from:), ListIAMPolicyAssignmentsForUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIAMPolicyAssignmentsForUserInput, ListIAMPolicyAssignmentsForUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIAMPolicyAssignmentsForUserOutput>())
@@ -9591,16 +10639,16 @@ extension QuickSightClient {
 
     /// Performs the `ListIdentityPropagationConfigs` operation on the `QuickSight` service.
     ///
-    /// Lists all services and authorized targets that the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts that use IAM Identity Center.
+    /// Lists all services and authorized targets that the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts that use IAM Identity Center.
     ///
-    /// - Parameter ListIdentityPropagationConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityPropagationConfigsInput`)
     ///
-    /// - Returns: `ListIdentityPropagationConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityPropagationConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -9631,6 +10679,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdentityPropagationConfigsInput, ListIdentityPropagationConfigsOutput>(ListIdentityPropagationConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityPropagationConfigsOutput>(ListIdentityPropagationConfigsOutput.httpOutput(from:), ListIdentityPropagationConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityPropagationConfigsInput, ListIdentityPropagationConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityPropagationConfigsOutput>())
@@ -9662,14 +10711,14 @@ extension QuickSightClient {
     ///
     /// Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.
     ///
-    /// - Parameter ListIngestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngestionsInput`)
     ///
-    /// - Returns: `ListIngestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngestionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -9702,6 +10751,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIngestionsInput, ListIngestionsOutput>(ListIngestionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIngestionsOutput>(ListIngestionsOutput.httpOutput(from:), ListIngestionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIngestionsInput, ListIngestionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIngestionsOutput>())
@@ -9733,14 +10783,14 @@ extension QuickSightClient {
     ///
     /// Lists the namespaces for the specified Amazon Web Services account. This operation doesn't list deleted namespaces.
     ///
-    /// - Parameter ListNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNamespacesInput`)
     ///
-    /// - Returns: `ListNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -9774,6 +10824,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNamespacesInput, ListNamespacesOutput>(ListNamespacesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNamespacesOutput>(ListNamespacesOutput.httpOutput(from:), ListNamespacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNamespacesInput, ListNamespacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNamespacesOutput>())
@@ -9805,14 +10856,14 @@ extension QuickSightClient {
     ///
     /// Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
     ///
-    /// - Parameter ListRefreshSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRefreshSchedulesInput`)
     ///
-    /// - Returns: `ListRefreshSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRefreshSchedulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -9843,6 +10894,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRefreshSchedulesInput, ListRefreshSchedulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRefreshSchedulesOutput>(ListRefreshSchedulesOutput.httpOutput(from:), ListRefreshSchedulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRefreshSchedulesInput, ListRefreshSchedulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRefreshSchedulesOutput>())
@@ -9874,14 +10926,14 @@ extension QuickSightClient {
     ///
     /// Lists all groups that are associated with a role.
     ///
-    /// - Parameter ListRoleMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoleMembershipsInput`)
     ///
-    /// - Returns: `ListRoleMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoleMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -9916,6 +10968,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoleMembershipsInput, ListRoleMembershipsOutput>(ListRoleMembershipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoleMembershipsOutput>(ListRoleMembershipsOutput.httpOutput(from:), ListRoleMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoleMembershipsInput, ListRoleMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoleMembershipsOutput>())
@@ -9943,18 +10996,92 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListTagsForResource` operation on the `QuickSight` service.
+    /// Performs the `ListSelfUpgrades` operation on the `QuickSight` service.
     ///
-    /// Lists the tags assigned to a resource.
+    /// Lists all self-upgrade requests for a Quick Suite account.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSelfUpgradesInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSelfUpgradesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidNextTokenException` : The NextToken value isn't valid.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `LimitExceededException` : A limit is exceeded.
+    /// - `PreconditionNotMetException` : One or more preconditions aren't met.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ResourceUnavailableException` : This resource is currently unavailable.
+    /// - `ThrottlingException` : Access is throttled.
+    public func listSelfUpgrades(input: ListSelfUpgradesInput) async throws -> ListSelfUpgradesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSelfUpgrades")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSelfUpgradesInput, ListSelfUpgradesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSelfUpgradesInput, ListSelfUpgradesOutput>(ListSelfUpgradesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSelfUpgradesInput, ListSelfUpgradesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListSelfUpgradesInput, ListSelfUpgradesOutput>(ListSelfUpgradesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSelfUpgradesOutput>(ListSelfUpgradesOutput.httpOutput(from:), ListSelfUpgradesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSelfUpgradesInput, ListSelfUpgradesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSelfUpgradesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSelfUpgradesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSelfUpgradesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSelfUpgradesInput, ListSelfUpgradesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSelfUpgradesInput, ListSelfUpgradesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSelfUpgradesInput, ListSelfUpgradesOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSelfUpgrades")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListTagsForResource` operation on the `QuickSight` service.
+    ///
+    /// Lists the tags assigned to a resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -9984,6 +11111,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -10015,9 +11143,9 @@ extension QuickSightClient {
     ///
     /// Lists all the aliases of a template.
     ///
-    /// - Parameter ListTemplateAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateAliasesInput`)
     ///
-    /// - Returns: `ListTemplateAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10026,7 +11154,7 @@ extension QuickSightClient {
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listTemplateAliases(input: ListTemplateAliasesInput) async throws -> ListTemplateAliasesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10053,6 +11181,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplateAliasesInput, ListTemplateAliasesOutput>(ListTemplateAliasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplateAliasesOutput>(ListTemplateAliasesOutput.httpOutput(from:), ListTemplateAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplateAliasesInput, ListTemplateAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplateAliasesOutput>())
@@ -10082,11 +11211,11 @@ extension QuickSightClient {
 
     /// Performs the `ListTemplateVersions` operation on the `QuickSight` service.
     ///
-    /// Lists all the versions of the templates in the current Amazon QuickSight account.
+    /// Lists all the versions of the templates in the current Amazon Quick Sight account.
     ///
-    /// - Parameter ListTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateVersionsInput`)
     ///
-    /// - Returns: `ListTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10096,7 +11225,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listTemplateVersions(input: ListTemplateVersionsInput) async throws -> ListTemplateVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10123,6 +11252,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplateVersionsInput, ListTemplateVersionsOutput>(ListTemplateVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplateVersionsOutput>(ListTemplateVersionsOutput.httpOutput(from:), ListTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplateVersionsInput, ListTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplateVersionsOutput>())
@@ -10152,11 +11282,11 @@ extension QuickSightClient {
 
     /// Performs the `ListTemplates` operation on the `QuickSight` service.
     ///
-    /// Lists all the templates in the current Amazon QuickSight account.
+    /// Lists all the templates in the current Amazon Quick Sight account.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10166,7 +11296,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10193,6 +11323,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplatesInput, ListTemplatesOutput>(ListTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplatesOutput>(ListTemplatesOutput.httpOutput(from:), ListTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplatesInput, ListTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplatesOutput>())
@@ -10224,9 +11355,9 @@ extension QuickSightClient {
     ///
     /// Lists all the aliases of a theme.
     ///
-    /// - Parameter ListThemeAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThemeAliasesInput`)
     ///
-    /// - Returns: `ListThemeAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThemeAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10237,7 +11368,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listThemeAliases(input: ListThemeAliasesInput) async throws -> ListThemeAliasesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10264,6 +11395,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThemeAliasesInput, ListThemeAliasesOutput>(ListThemeAliasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThemeAliasesOutput>(ListThemeAliasesOutput.httpOutput(from:), ListThemeAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThemeAliasesInput, ListThemeAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThemeAliasesOutput>())
@@ -10295,20 +11427,20 @@ extension QuickSightClient {
     ///
     /// Lists all the versions of the themes in the current Amazon Web Services account.
     ///
-    /// - Parameter ListThemeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThemeVersionsInput`)
     ///
-    /// - Returns: `ListThemeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThemeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listThemeVersions(input: ListThemeVersionsInput) async throws -> ListThemeVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10335,6 +11467,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThemeVersionsInput, ListThemeVersionsOutput>(ListThemeVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThemeVersionsOutput>(ListThemeVersionsOutput.httpOutput(from:), ListThemeVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThemeVersionsInput, ListThemeVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThemeVersionsOutput>())
@@ -10366,20 +11499,20 @@ extension QuickSightClient {
     ///
     /// Lists all the themes in the current Amazon Web Services account.
     ///
-    /// - Parameter ListThemesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThemesInput`)
     ///
-    /// - Returns: `ListThemesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThemesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listThemes(input: ListThemesInput) async throws -> ListThemesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10406,6 +11539,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThemesInput, ListThemesOutput>(ListThemesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThemesOutput>(ListThemesOutput.httpOutput(from:), ListThemesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThemesInput, ListThemesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThemesOutput>())
@@ -10437,14 +11571,14 @@ extension QuickSightClient {
     ///
     /// Lists all of the refresh schedules for a topic.
     ///
-    /// - Parameter ListTopicRefreshSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTopicRefreshSchedulesInput`)
     ///
-    /// - Returns: `ListTopicRefreshSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTopicRefreshSchedulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -10477,6 +11611,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTopicRefreshSchedulesInput, ListTopicRefreshSchedulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTopicRefreshSchedulesOutput>(ListTopicRefreshSchedulesOutput.httpOutput(from:), ListTopicRefreshSchedulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTopicRefreshSchedulesInput, ListTopicRefreshSchedulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTopicRefreshSchedulesOutput>())
@@ -10508,14 +11643,14 @@ extension QuickSightClient {
     ///
     /// Lists all reviewed answers for a Q Topic.
     ///
-    /// - Parameter ListTopicReviewedAnswersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTopicReviewedAnswersInput`)
     ///
-    /// - Returns: `ListTopicReviewedAnswersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTopicReviewedAnswersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -10545,6 +11680,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTopicReviewedAnswersInput, ListTopicReviewedAnswersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTopicReviewedAnswersOutput>(ListTopicReviewedAnswersOutput.httpOutput(from:), ListTopicReviewedAnswersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTopicReviewedAnswersInput, ListTopicReviewedAnswersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTopicReviewedAnswersOutput>())
@@ -10576,14 +11712,14 @@ extension QuickSightClient {
     ///
     /// Lists all of the topics within an account.
     ///
-    /// - Parameter ListTopicsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTopicsInput`)
     ///
-    /// - Returns: `ListTopicsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTopicsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -10614,6 +11750,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTopicsInput, ListTopicsOutput>(ListTopicsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTopicsOutput>(ListTopicsOutput.httpOutput(from:), ListTopicsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTopicsInput, ListTopicsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTopicsOutput>())
@@ -10643,16 +11780,16 @@ extension QuickSightClient {
 
     /// Performs the `ListUserGroups` operation on the `QuickSight` service.
     ///
-    /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a member of.
+    /// Lists the Amazon Quick Sight groups that an Amazon Quick Sight user is a member of.
     ///
-    /// - Parameter ListUserGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserGroupsInput`)
     ///
-    /// - Returns: `ListUserGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -10685,6 +11822,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUserGroupsInput, ListUserGroupsOutput>(ListUserGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserGroupsOutput>(ListUserGroupsOutput.httpOutput(from:), ListUserGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserGroupsInput, ListUserGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserGroupsOutput>())
@@ -10714,16 +11852,16 @@ extension QuickSightClient {
 
     /// Performs the `ListUsers` operation on the `QuickSight` service.
     ///
-    /// Returns a list of all of the Amazon QuickSight users belonging to this account.
+    /// Returns a list of all of the Amazon Quick Sight users belonging to this account.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -10757,6 +11895,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -10788,19 +11927,19 @@ extension QuickSightClient {
     ///
     /// Lists all of the VPC connections in the current set Amazon Web Services Region of an Amazon Web Services account.
     ///
-    /// - Parameter ListVPCConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVPCConnectionsInput`)
     ///
-    /// - Returns: `ListVPCConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVPCConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func listVPCConnections(input: ListVPCConnectionsInput) async throws -> ListVPCConnectionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -10827,6 +11966,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVPCConnectionsInput, ListVPCConnectionsOutput>(ListVPCConnectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVPCConnectionsOutput>(ListVPCConnectionsOutput.httpOutput(from:), ListVPCConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVPCConnectionsInput, ListVPCConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVPCConnectionsOutput>())
@@ -10856,16 +11996,16 @@ extension QuickSightClient {
 
     /// Performs the `PredictQAResults` operation on the `QuickSight` service.
     ///
-    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Amazon QuickSight](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see [UpdateQuickSightQSearchConfiguration](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateQuickSightQSearchConfiguration.html).
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses [trusted identity propagation](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html) to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have [trusted Identity Propagation enabled for Quick Suite](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html) with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Quick Suite resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see [UpdateQuickSightQSearchConfiguration](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateQuickSightQSearchConfiguration.html).
     ///
-    /// - Parameter PredictQAResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PredictQAResultsInput`)
     ///
-    /// - Returns: `PredictQAResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PredictQAResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
@@ -10897,6 +12037,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PredictQAResultsInput, PredictQAResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PredictQAResultsOutput>(PredictQAResultsOutput.httpOutput(from:), PredictQAResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PredictQAResultsInput, PredictQAResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PredictQAResultsOutput>())
@@ -10928,14 +12069,14 @@ extension QuickSightClient {
     ///
     /// Creates or updates the dataset refresh properties for the dataset.
     ///
-    /// - Parameter PutDataSetRefreshPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDataSetRefreshPropertiesInput`)
     ///
-    /// - Returns: `PutDataSetRefreshPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDataSetRefreshPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -10971,6 +12112,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataSetRefreshPropertiesInput, PutDataSetRefreshPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDataSetRefreshPropertiesOutput>(PutDataSetRefreshPropertiesOutput.httpOutput(from:), PutDataSetRefreshPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataSetRefreshPropertiesInput, PutDataSetRefreshPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDataSetRefreshPropertiesOutput>())
@@ -11000,16 +12142,16 @@ extension QuickSightClient {
 
     /// Performs the `RegisterUser` operation on the `QuickSight` service.
     ///
-    /// Creates an Amazon QuickSight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Amazon QuickSight API, Amazon QuickSight generates a registration URL. The user accesses this registration URL to create their account. Amazon QuickSight doesn't send a registration email to users who are registered from the Amazon QuickSight API. If you want new users to receive a registration email, then add those users in the Amazon QuickSight console. For more information on registering a new user in the Amazon QuickSight console, see [ Inviting users to access Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users).
+    /// Creates an Amazon Quick Sight user whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request. When you register a new user from the Quick Sight API, Quick Sight generates a registration URL. The user accesses this registration URL to create their account. Quick Sight doesn't send a registration email to users who are registered from the Quick Sight API. If you want new users to receive a registration email, then add those users in the Quick Sight console. For more information on registering a new user in the Quick Sight console, see [ Inviting users to access Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users).
     ///
-    /// - Parameter RegisterUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterUserInput`)
     ///
-    /// - Returns: `RegisterUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -11046,6 +12188,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterUserInput, RegisterUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterUserOutput>(RegisterUserOutput.httpOutput(from:), RegisterUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterUserInput, RegisterUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterUserOutput>())
@@ -11077,9 +12220,9 @@ extension QuickSightClient {
     ///
     /// Restores an analysis.
     ///
-    /// - Parameter RestoreAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreAnalysisInput`)
     ///
-    /// - Returns: `RestoreAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11091,7 +12234,7 @@ extension QuickSightClient {
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func restoreAnalysis(input: RestoreAnalysisInput) async throws -> RestoreAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11118,6 +12261,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RestoreAnalysisInput, RestoreAnalysisOutput>(RestoreAnalysisInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreAnalysisOutput>(RestoreAnalysisOutput.httpOutput(from:), RestoreAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreAnalysisInput, RestoreAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreAnalysisOutput>())
@@ -11145,13 +12289,85 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchActionConnectors` operation on the `QuickSight` service.
+    ///
+    /// Searches for action connectors in the specified Amazon Web Services account using filters. You can search by connector name, type, or user permissions.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchActionConnectorsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchActionConnectorsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InvalidNextTokenException` : The NextToken value isn't valid.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func searchActionConnectors(input: SearchActionConnectorsInput) async throws -> SearchActionConnectorsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchActionConnectors")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchActionConnectorsInput, SearchActionConnectorsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>(SearchActionConnectorsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>(SearchActionConnectorsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchActionConnectorsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchActionConnectorsOutput>(SearchActionConnectorsOutput.httpOutput(from:), SearchActionConnectorsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchActionConnectorsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchActionConnectorsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchActionConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchActionConnectorsInput, SearchActionConnectorsOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchActionConnectors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchAnalyses` operation on the `QuickSight` service.
     ///
     /// Searches for analyses that belong to the user specified in the filter. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
-    /// - Parameter SearchAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAnalysesInput`)
     ///
-    /// - Returns: `SearchAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAnalysesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11161,7 +12377,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func searchAnalyses(input: SearchAnalysesInput) async throws -> SearchAnalysesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11190,6 +12406,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAnalysesInput, SearchAnalysesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAnalysesOutput>(SearchAnalysesOutput.httpOutput(from:), SearchAnalysesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAnalysesInput, SearchAnalysesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAnalysesOutput>())
@@ -11221,9 +12438,9 @@ extension QuickSightClient {
     ///
     /// Searches for dashboards that belong to a user. This operation is eventually consistent. The results are best effort and may not reflect very recent updates and changes.
     ///
-    /// - Parameter SearchDashboardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDashboardsInput`)
     ///
-    /// - Returns: `SearchDashboardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDashboardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11233,7 +12450,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func searchDashboards(input: SearchDashboardsInput) async throws -> SearchDashboardsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11262,6 +12479,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchDashboardsInput, SearchDashboardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchDashboardsOutput>(SearchDashboardsOutput.httpOutput(from:), SearchDashboardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchDashboardsInput, SearchDashboardsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchDashboardsOutput>())
@@ -11293,14 +12511,14 @@ extension QuickSightClient {
     ///
     /// Use the SearchDataSets operation to search for datasets that belong to an account.
     ///
-    /// - Parameter SearchDataSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDataSetsInput`)
     ///
-    /// - Returns: `SearchDataSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDataSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -11334,6 +12552,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchDataSetsInput, SearchDataSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchDataSetsOutput>(SearchDataSetsOutput.httpOutput(from:), SearchDataSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchDataSetsInput, SearchDataSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchDataSetsOutput>())
@@ -11365,14 +12584,14 @@ extension QuickSightClient {
     ///
     /// Use the SearchDataSources operation to search for data sources that belong to an account.
     ///
-    /// - Parameter SearchDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchDataSourcesInput`)
     ///
-    /// - Returns: `SearchDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -11406,6 +12625,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchDataSourcesInput, SearchDataSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchDataSourcesOutput>(SearchDataSourcesOutput.httpOutput(from:), SearchDataSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchDataSourcesInput, SearchDataSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchDataSourcesOutput>())
@@ -11433,25 +12653,96 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `SearchFolders` operation on the `QuickSight` service.
+    /// Performs the `SearchFlows` operation on the `QuickSight` service.
     ///
-    /// Searches the subfolders in a folder.
+    /// Search for the flows in an Amazon Web Services account.
     ///
-    /// - Parameter SearchFoldersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchFlowsInput`)
     ///
-    /// - Returns: `SearchFoldersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func searchFlows(input: SearchFlowsInput) async throws -> SearchFlowsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchFlows")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchFlowsInput, SearchFlowsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchFlowsInput, SearchFlowsOutput>(SearchFlowsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchFlowsInput, SearchFlowsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchFlowsInput, SearchFlowsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchFlowsInput, SearchFlowsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchFlowsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFlowsInput, SearchFlowsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFlowsOutput>(SearchFlowsOutput.httpOutput(from:), SearchFlowsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFlowsInput, SearchFlowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchFlowsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchFlowsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchFlowsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchFlowsInput, SearchFlowsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchFlowsInput, SearchFlowsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchFlowsInput, SearchFlowsOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchFlows")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SearchFolders` operation on the `QuickSight` service.
+    ///
+    /// Searches the subfolders in a folder.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchFoldersInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchFoldersOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func searchFolders(input: SearchFoldersInput) async throws -> SearchFoldersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11480,6 +12771,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFoldersInput, SearchFoldersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFoldersOutput>(SearchFoldersOutput.httpOutput(from:), SearchFoldersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFoldersInput, SearchFoldersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchFoldersOutput>())
@@ -11509,16 +12801,16 @@ extension QuickSightClient {
 
     /// Performs the `SearchGroups` operation on the `QuickSight` service.
     ///
-    /// Use the SearchGroups operation to search groups in a specified Amazon QuickSight namespace using the supplied filters.
+    /// Use the SearchGroups operation to search groups in a specified Quick Sight namespace using the supplied filters.
     ///
-    /// - Parameter SearchGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchGroupsInput`)
     ///
-    /// - Returns: `SearchGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -11555,6 +12847,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchGroupsInput, SearchGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchGroupsOutput>(SearchGroupsOutput.httpOutput(from:), SearchGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchGroupsInput, SearchGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchGroupsOutput>())
@@ -11584,11 +12877,11 @@ extension QuickSightClient {
 
     /// Performs the `SearchTopics` operation on the `QuickSight` service.
     ///
-    /// Searches for any Q topic that exists in an Amazon QuickSight account.
+    /// Searches for any Q topic that exists in an Quick Suite account.
     ///
-    /// - Parameter SearchTopicsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTopicsInput`)
     ///
-    /// - Returns: `SearchTopicsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTopicsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11598,7 +12891,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func searchTopics(input: SearchTopicsInput) async throws -> SearchTopicsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11627,6 +12920,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchTopicsInput, SearchTopicsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTopicsOutput>(SearchTopicsOutput.httpOutput(from:), SearchTopicsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTopicsInput, SearchTopicsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTopicsOutput>())
@@ -11656,22 +12950,22 @@ extension QuickSightClient {
 
     /// Performs the `StartAssetBundleExportJob` operation on the `QuickSight` service.
     ///
-    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon QuickSight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
+    /// Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon Quick Sight assets. You can also choose to export any asset dependencies in the same job. Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API call. When a job is successfully completed, a download URL that contains the exported assets is returned. The URL is valid for 5 minutes and can be refreshed with a DescribeAssetBundleExportJob API call. Each Amazon Quick Sight account can run up to 5 export jobs concurrently. The API caller must have the necessary permissions in their IAM role to access each resource before the resources can be exported.
     ///
-    /// - Parameter StartAssetBundleExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAssetBundleExportJobInput`)
     ///
-    /// - Returns: `StartAssetBundleExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAssetBundleExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func startAssetBundleExportJob(input: StartAssetBundleExportJobInput) async throws -> StartAssetBundleExportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11700,6 +12994,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAssetBundleExportJobInput, StartAssetBundleExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAssetBundleExportJobOutput>(StartAssetBundleExportJobOutput.httpOutput(from:), StartAssetBundleExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAssetBundleExportJobInput, StartAssetBundleExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAssetBundleExportJobOutput>())
@@ -11729,22 +13024,22 @@ extension QuickSightClient {
 
     /// Performs the `StartAssetBundleImportJob` operation on the `QuickSight` service.
     ///
-    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon QuickSight account. Each Amazon QuickSight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
+    /// Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon Quick Sight assets into an Amazon Quick Sight account. You can also choose to import a naming prefix and specified configuration overrides. The assets that are contained in the bundle file that you provide are used to create or update a new or existing asset in your Amazon Quick Sight account. Each Amazon Quick Sight account can run up to 5 import jobs concurrently. The API caller must have the necessary "create", "describe", and "update" permissions in their IAM role to access each resource type that is contained in the bundle file before the resources can be imported.
     ///
-    /// - Parameter StartAssetBundleImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAssetBundleImportJobInput`)
     ///
-    /// - Returns: `StartAssetBundleImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAssetBundleImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func startAssetBundleImportJob(input: StartAssetBundleImportJobInput) async throws -> StartAssetBundleImportJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11773,6 +13068,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAssetBundleImportJobInput, StartAssetBundleImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAssetBundleImportJobOutput>(StartAssetBundleImportJobOutput.httpOutput(from:), StartAssetBundleImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAssetBundleImportJobInput, StartAssetBundleImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAssetBundleImportJobOutput>())
@@ -11811,14 +13107,14 @@ extension QuickSightClient {
     /// * 5 CSVs from table or pivot table visuals
     ///
     ///
-    /// The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred. StartDashboardSnapshotJob API throttling Amazon QuickSight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, Amazon QuickSight throttles the API calls to maintin an optimal experience and reliability for all Amazon QuickSight users. Common throttling scenarios The following list provides information about the most commin throttling scenarios that can occur.
+    /// The status of a submitted job can be polled with the DescribeDashboardSnapshotJob API. When you call the DescribeDashboardSnapshotJob API, check the JobStatus field in the response. Once the job reaches a COMPLETED or FAILED status, use the DescribeDashboardSnapshotJobResult API to obtain the URLs for the generated files. If the job fails, the DescribeDashboardSnapshotJobResult API returns detailed information about the error that occurred. StartDashboardSnapshotJob API throttling Quick Sight utilizes API throttling to create a more consistent user experience within a time span for customers when they call the StartDashboardSnapshotJob. By default, 12 jobs can run simlutaneously in one Amazon Web Services account and users can submit up 10 API requests per second before an account is throttled. If an overwhelming number of API requests are made by the same user in a short period of time, Quick Sight throttles the API calls to maintin an optimal experience and reliability for all Quick Sight users. Common throttling scenarios The following list provides information about the most commin throttling scenarios that can occur.
     ///
     /// * A large number of SnapshotExport API jobs are running simultaneously on an Amazon Web Services account. When a new StartDashboardSnapshotJob is created and there are already 12 jobs with the RUNNING status, the new job request fails and returns a LimitExceededException error. Wait for a current job to comlpete before you resubmit the new job.
     ///
-    /// * A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the Amazon QuickSight API in one second, a ThrottlingException is returned.
+    /// * A large number of API requests are submitted on an Amazon Web Services account. When a user makes more than 10 API calls to the Quick Sight API in one second, a ThrottlingException is returned.
     ///
     ///
-    /// If your use case requires a higher throttling limit, contact your account admin or [Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/) to explore options to tailor a more optimal expereince for your account. Best practices to handle throttling If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the Amazon QuickSight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:
+    /// If your use case requires a higher throttling limit, contact your account admin or [Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/) to explore options to tailor a more optimal expereince for your account. Best practices to handle throttling If your use case projects high levels of API traffic, try to reduce the degree of frequency and parallelism of API calls as much as you can to avoid throttling. You can also perform a timing test to calculate an estimate for the total processing time of your projected load that stays within the throttling limits of the Quick Sight APIs. For example, if your projected traffic is 100 snapshot jobs before 12:00 PM per day, start 12 jobs in parallel and measure the amount of time it takes to proccess all 12 jobs. Once you obtain the result, multiply the duration by 9, for example (12 minutes * 9 = 108 minutes). Use the new result to determine the latest time at which the jobs need to be started to meet your target deadline. The time that it takes to process a job can be impacted by the following factors:
     ///
     /// * The dataset type (Direct Query or SPICE).
     ///
@@ -11834,22 +13130,54 @@ extension QuickSightClient {
     ///
     /// * The size of the generated snapshots.
     ///
-    /// - Parameter StartDashboardSnapshotJobInput : [no documentation found]
     ///
-    /// - Returns: `StartDashboardSnapshotJobOutput` : [no documentation found]
+    /// Registered user support You can generate snapshots for registered Quick Sight users by using the Snapshot Job APIs with [identity-enhanced IAM role session credentials](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-identity-enhanced-iam-role-sessions.html). This approach allows you to create snapshots on behalf of specific Quick Sight users while respecting their row-level security (RLS), column-level security (CLS), dynamic default parameters and dashboard parameter/filter settings. To generate snapshots for registered Quick Sight users, you need to:
+    ///
+    /// * Obtain identity-enhanced IAM role session credentials from Amazon Web Services Security Token Service (STS).
+    ///
+    /// * Use these credentials to call the Snapshot Job APIs.
+    ///
+    ///
+    /// Identity-enhanced credentials are credentials that contain information about the end user (e.g., registered Quick Sight user). If your Quick Sight users are backed by [Amazon Web Services Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html), then you need to set up a [trusted token issuer](https://docs.aws.amazon.com/singlesignon/latest/userguide/setuptrustedtokenissuer.html). Then, getting identity-enhanced IAM credentials for a Quick Sight user will look like the following:
+    ///
+    /// * Authenticate user with your OIDC compliant Identity Provider. You should get auth tokens back.
+    ///
+    /// * Use the OIDC API, [CreateTokenWithIAM](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateTokenWithIAM.html), to exchange auth tokens to IAM tokens. One of the resulted tokens will be identity token.
+    ///
+    /// * Call STS AssumeRole API as you normally would, but provide an extra ProvidedContexts parameter in the API request. The list of contexts must have a single trusted context assertion. The ProviderArn should be arn:aws:iam::aws:contextProvider/IdentityCenter while ContextAssertion will be the identity token you received in response from CreateTokenWithIAM
+    ///
+    ///
+    /// For more details, see [IdC documentation on Identity-enhanced IAM role sessions](https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-identity-enhanced-iam-role-sessions.html). To obtain Identity-enhanced credentials for Quick Sight native users, IAM federated users, or Active Directory users, follow the steps below:
+    ///
+    /// * Call Quick Sight [GetIdentityContext API](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetIdentityContext.html) to get identity token.
+    ///
+    /// * Call STS AssumeRole API as you normally would, but provide extra ProvidedContexts parameter in the API request. The list of contexts must have a single trusted context assertion. The ProviderArn should be arn:aws:iam::aws:contextProvider/QuickSight while ContextAssertion will be the identity token you received in response from GetIdentityContext
+    ///
+    ///
+    /// After obtaining the identity-enhanced IAM role session credentials, you can use them to start a job, describe the job and describe job result. You can use the same credentials as long as they haven't expired. All API requests made with these credentials are considered to be made by the impersonated Quick Sight user. When using identity-enhanced session credentials, set the UserConfiguration request attribute to null. Otherwise, the request will be invalid. Possible error scenarios The request fails with an Access Denied error in the following scenarios:
+    ///
+    /// * The credentials have expired.
+    ///
+    /// * The impersonated Quick Sight user doesn't have access to the specified dashboard.
+    ///
+    /// * The impersonated Quick Sight user is restricted from exporting data in the selected formats. For more information about export restrictions, see [Customizing access to Amazon Quick Sight capabilities](https://docs.aws.amazon.com/quicksuite/latest/userguide/create-custom-permisions-profile.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartDashboardSnapshotJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartDashboardSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon Quick Sight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a Quick Suite administrator needs to add capacity pricing to Quick Sight. You can do this on the Manage Quick Suite page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func startDashboardSnapshotJob(input: StartDashboardSnapshotJobInput) async throws -> StartDashboardSnapshotJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11878,6 +13206,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDashboardSnapshotJobInput, StartDashboardSnapshotJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDashboardSnapshotJobOutput>(StartDashboardSnapshotJobOutput.httpOutput(from:), StartDashboardSnapshotJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDashboardSnapshotJobInput, StartDashboardSnapshotJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDashboardSnapshotJobOutput>())
@@ -11907,22 +13236,22 @@ extension QuickSightClient {
 
     /// Performs the `StartDashboardSnapshotJobSchedule` operation on the `QuickSight` service.
     ///
-    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see [Scheduling and sending Amazon QuickSight reports by email](https://docs.aws.amazon.com/quicksight/latest/user/sending-reports.html) and [Configuring email report settings for a Amazon QuickSight dashboard](https://docs.aws.amazon.com/quicksight/latest/user/email-reports-from-dashboard.html) in the Amazon QuickSight User Guide.
+    /// Starts an asynchronous job that runs an existing dashboard schedule and sends the dashboard snapshot through email. Only one job can run simultaneously in a given schedule. Repeated requests are skipped with a 202 HTTP status code. For more information, see [Scheduling and sending Amazon Quick Sight reports by email](https://docs.aws.amazon.com/quicksight/latest/user/sending-reports.html) and [Configuring email report settings for a Amazon Quick Sight dashboard](https://docs.aws.amazon.com/quicksight/latest/user/email-reports-from-dashboard.html) in the Amazon Quick Sight User Guide.
     ///
-    /// - Parameter StartDashboardSnapshotJobScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDashboardSnapshotJobScheduleInput`)
     ///
-    /// - Returns: `StartDashboardSnapshotJobScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDashboardSnapshotJobScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func startDashboardSnapshotJobSchedule(input: StartDashboardSnapshotJobScheduleInput) async throws -> StartDashboardSnapshotJobScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11948,6 +13277,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDashboardSnapshotJobScheduleInput, StartDashboardSnapshotJobScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDashboardSnapshotJobScheduleOutput>(StartDashboardSnapshotJobScheduleOutput.httpOutput(from:), StartDashboardSnapshotJobScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDashboardSnapshotJobScheduleInput, StartDashboardSnapshotJobScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDashboardSnapshotJobScheduleOutput>())
@@ -11977,20 +13307,20 @@ extension QuickSightClient {
 
     /// Performs the `TagResource` operation on the `QuickSight` service.
     ///
-    /// Assigns one or more tags (key-value pairs) to the specified Amazon QuickSight resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data set, data source, dashboard, template, topic, and user. Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for the following:
+    /// Assigns one or more tags (key-value pairs) to the specified Amazon Quick Sight resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Amazon Quick Sight supports tagging on data set, data source, dashboard, template, topic, and user. Tagging for Amazon Quick Sight works in a similar way to tagging for other Amazon Web Services services, except for the following:
     ///
-    /// * Tags are used to track costs for users in Amazon QuickSight. You can't tag other resources that Amazon QuickSight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.
+    /// * Tags are used to track costs for users in Amazon Quick Sight. You can't tag other resources that Amazon Quick Sight costs are based on, such as storage capacoty (SPICE), session usage, alert consumption, or reporting units.
     ///
-    /// * Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
+    /// * Amazon Quick Sight doesn't currently support the tag editor for Resource Groups.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -12024,6 +13354,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -12055,14 +13386,14 @@ extension QuickSightClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -12093,6 +13424,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -12120,18 +13452,90 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateAccountCustomization` operation on the `QuickSight` service.
+    /// Performs the `UpdateAccountCustomPermission` operation on the `QuickSight` service.
     ///
-    /// Updates Amazon QuickSight customizations for the current Amazon Web Services Region. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
+    /// Applies a custom permissions profile to an account.
     ///
-    /// - Parameter UpdateAccountCustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountCustomPermissionInput`)
     ///
-    /// - Returns: `UpdateAccountCustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func updateAccountCustomPermission(input: UpdateAccountCustomPermissionInput) async throws -> UpdateAccountCustomPermissionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAccountCustomPermission")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(UpdateAccountCustomPermissionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAccountCustomPermissionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountCustomPermissionOutput>(UpdateAccountCustomPermissionOutput.httpOutput(from:), UpdateAccountCustomPermissionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountCustomPermissionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAccountCustomPermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAccountCustomPermissionInput, UpdateAccountCustomPermissionOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAccountCustomPermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateAccountCustomization` operation on the `QuickSight` service.
+    ///
+    /// Updates Amazon Quick Sight customizations. Currently, the only customization that you can use is a theme. You can use customizations for your Amazon Web Services account or, if you specify a namespace, for a Quick Sight namespace instead. Customizations that apply to a namespace override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountCustomizationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAccountCustomizationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -12167,6 +13571,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountCustomizationInput, UpdateAccountCustomizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountCustomizationOutput>(UpdateAccountCustomizationOutput.httpOutput(from:), UpdateAccountCustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountCustomizationInput, UpdateAccountCustomizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountCustomizationOutput>())
@@ -12196,16 +13601,16 @@ extension QuickSightClient {
 
     /// Performs the `UpdateAccountSettings` operation on the `QuickSight` service.
     ///
-    /// Updates the Amazon QuickSight settings in your Amazon Web Services account.
+    /// Updates the Amazon Quick Sight settings in your Amazon Web Services account.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -12239,6 +13644,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(UpdateAccountSettingsOutput.httpOutput(from:), UpdateAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountSettingsOutput>())
@@ -12266,13 +13672,161 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateActionConnector` operation on the `QuickSight` service.
+    ///
+    /// Updates an existing action connector with new configuration details, authentication settings, or enabled actions. You can modify the connector's name, description, authentication configuration, and which actions are enabled. For more information, [https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html](https://docs.aws.amazon.com/quicksuite/latest/userguide/quick-action-auth.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateActionConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateActionConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    public func updateActionConnector(input: UpdateActionConnectorInput) async throws -> UpdateActionConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateActionConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateActionConnectorInput, UpdateActionConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput>(UpdateActionConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateActionConnectorInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateActionConnectorOutput>(UpdateActionConnectorOutput.httpOutput(from:), UpdateActionConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateActionConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateActionConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateActionConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateActionConnectorInput, UpdateActionConnectorOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateActionConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateActionConnectorPermissions` operation on the `QuickSight` service.
+    ///
+    /// Updates the permissions for an action connector by granting or revoking access for specific users and groups. You can control who can view, use, or manage the action connector.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateActionConnectorPermissionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateActionConnectorPermissionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `LimitExceededException` : A limit is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : Access is throttled.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    public func updateActionConnectorPermissions(input: UpdateActionConnectorPermissionsInput) async throws -> UpdateActionConnectorPermissionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateActionConnectorPermissions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput>(UpdateActionConnectorPermissionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateActionConnectorPermissionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateActionConnectorPermissionsOutput>(UpdateActionConnectorPermissionsOutput.httpOutput(from:), UpdateActionConnectorPermissionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateActionConnectorPermissionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateActionConnectorPermissionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateActionConnectorPermissionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateActionConnectorPermissionsInput, UpdateActionConnectorPermissionsOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateActionConnectorPermissions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateAnalysis` operation on the `QuickSight` service.
     ///
-    /// Updates an analysis in Amazon QuickSight
+    /// Updates an analysis in Amazon Quick Sight
     ///
-    /// - Parameter UpdateAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnalysisInput`)
     ///
-    /// - Returns: `UpdateAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12283,7 +13837,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateAnalysis(input: UpdateAnalysisInput) async throws -> UpdateAnalysisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12312,6 +13866,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnalysisInput, UpdateAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnalysisOutput>(UpdateAnalysisOutput.httpOutput(from:), UpdateAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnalysisInput, UpdateAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnalysisOutput>())
@@ -12343,9 +13898,9 @@ extension QuickSightClient {
     ///
     /// Updates the read and write permissions for an analysis.
     ///
-    /// - Parameter UpdateAnalysisPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnalysisPermissionsInput`)
     ///
-    /// - Returns: `UpdateAnalysisPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnalysisPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12356,7 +13911,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateAnalysisPermissions(input: UpdateAnalysisPermissionsInput) async throws -> UpdateAnalysisPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12385,6 +13940,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnalysisPermissionsInput, UpdateAnalysisPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnalysisPermissionsOutput>(UpdateAnalysisPermissionsOutput.httpOutput(from:), UpdateAnalysisPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnalysisPermissionsInput, UpdateAnalysisPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnalysisPermissionsOutput>())
@@ -12414,16 +13970,16 @@ extension QuickSightClient {
 
     /// Performs the `UpdateApplicationWithTokenExchangeGrant` operation on the `QuickSight` service.
     ///
-    /// Updates an Amazon QuickSight application with a token exchange grant. This operation only supports Amazon QuickSight applications that are registered with IAM Identity Center.
+    /// Updates an Quick Suite application with a token exchange grant. This operation only supports Quick Suite applications that are registered with IAM Identity Center.
     ///
-    /// - Parameter UpdateApplicationWithTokenExchangeGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationWithTokenExchangeGrantInput`)
     ///
-    /// - Returns: `UpdateApplicationWithTokenExchangeGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationWithTokenExchangeGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -12456,6 +14012,7 @@ extension QuickSightClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateApplicationWithTokenExchangeGrantInput, UpdateApplicationWithTokenExchangeGrantOutput>(UpdateApplicationWithTokenExchangeGrantInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationWithTokenExchangeGrantOutput>(UpdateApplicationWithTokenExchangeGrantOutput.httpOutput(from:), UpdateApplicationWithTokenExchangeGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationWithTokenExchangeGrantInput, UpdateApplicationWithTokenExchangeGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationWithTokenExchangeGrantOutput>())
@@ -12487,14 +14044,14 @@ extension QuickSightClient {
     ///
     /// Updates a brand.
     ///
-    /// - Parameter UpdateBrandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrandInput`)
     ///
-    /// - Returns: `UpdateBrandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -12528,6 +14085,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrandInput, UpdateBrandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrandOutput>(UpdateBrandOutput.httpOutput(from:), UpdateBrandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrandInput, UpdateBrandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrandOutput>())
@@ -12559,14 +14117,14 @@ extension QuickSightClient {
     ///
     /// Updates a brand assignment.
     ///
-    /// - Parameter UpdateBrandAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrandAssignmentInput`)
     ///
-    /// - Returns: `UpdateBrandAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrandAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -12600,6 +14158,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrandAssignmentInput, UpdateBrandAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrandAssignmentOutput>(UpdateBrandAssignmentOutput.httpOutput(from:), UpdateBrandAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrandAssignmentInput, UpdateBrandAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrandAssignmentOutput>())
@@ -12631,14 +14190,14 @@ extension QuickSightClient {
     ///
     /// Updates the published version of a brand.
     ///
-    /// - Parameter UpdateBrandPublishedVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrandPublishedVersionInput`)
     ///
-    /// - Returns: `UpdateBrandPublishedVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrandPublishedVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An internal service exception.
     /// - `InvalidRequestException` : You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -12672,6 +14231,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrandPublishedVersionInput, UpdateBrandPublishedVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrandPublishedVersionOutput>(UpdateBrandPublishedVersionOutput.httpOutput(from:), UpdateBrandPublishedVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrandPublishedVersionInput, UpdateBrandPublishedVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrandPublishedVersionOutput>())
@@ -12703,14 +14263,14 @@ extension QuickSightClient {
     ///
     /// Updates a custom permissions profile.
     ///
-    /// - Parameter UpdateCustomPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomPermissionsInput`)
     ///
-    /// - Returns: `UpdateCustomPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -12746,6 +14306,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomPermissionsInput, UpdateCustomPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomPermissionsOutput>(UpdateCustomPermissionsOutput.httpOutput(from:), UpdateCustomPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomPermissionsInput, UpdateCustomPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomPermissionsOutput>())
@@ -12777,9 +14338,9 @@ extension QuickSightClient {
     ///
     /// Updates a dashboard in an Amazon Web Services account. Updating a Dashboard creates a new dashboard version but does not immediately publish the new version. You can update the published version of a dashboard by using the [UpdateDashboardPublishedVersion](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateDashboardPublishedVersion.html) API operation.
     ///
-    /// - Parameter UpdateDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardInput`)
     ///
-    /// - Returns: `UpdateDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12790,7 +14351,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboard(input: UpdateDashboardInput) async throws -> UpdateDashboardOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12819,6 +14380,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDashboardInput, UpdateDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDashboardOutput>(UpdateDashboardOutput.httpOutput(from:), UpdateDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDashboardOutput>())
@@ -12850,20 +14412,20 @@ extension QuickSightClient {
     ///
     /// Updates the linked analyses on a dashboard.
     ///
-    /// - Parameter UpdateDashboardLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardLinksInput`)
     ///
-    /// - Returns: `UpdateDashboardLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboardLinks(input: UpdateDashboardLinksInput) async throws -> UpdateDashboardLinksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12892,6 +14454,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDashboardLinksInput, UpdateDashboardLinksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDashboardLinksOutput>(UpdateDashboardLinksOutput.httpOutput(from:), UpdateDashboardLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDashboardLinksInput, UpdateDashboardLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDashboardLinksOutput>())
@@ -12923,9 +14486,9 @@ extension QuickSightClient {
     ///
     /// Updates read and write permissions on a dashboard.
     ///
-    /// - Parameter UpdateDashboardPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardPermissionsInput`)
     ///
-    /// - Returns: `UpdateDashboardPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12936,7 +14499,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboardPermissions(input: UpdateDashboardPermissionsInput) async throws -> UpdateDashboardPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -12965,6 +14528,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDashboardPermissionsInput, UpdateDashboardPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDashboardPermissionsOutput>(UpdateDashboardPermissionsOutput.httpOutput(from:), UpdateDashboardPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDashboardPermissionsInput, UpdateDashboardPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDashboardPermissionsOutput>())
@@ -12996,9 +14560,9 @@ extension QuickSightClient {
     ///
     /// Updates the published version of a dashboard.
     ///
-    /// - Parameter UpdateDashboardPublishedVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardPublishedVersionInput`)
     ///
-    /// - Returns: `UpdateDashboardPublishedVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardPublishedVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13008,7 +14572,7 @@ extension QuickSightClient {
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDashboardPublishedVersion(input: UpdateDashboardPublishedVersionInput) async throws -> UpdateDashboardPublishedVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13034,6 +14598,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDashboardPublishedVersionInput, UpdateDashboardPublishedVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDashboardPublishedVersionOutput>(UpdateDashboardPublishedVersionOutput.httpOutput(from:), UpdateDashboardPublishedVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDashboardPublishedVersionInput, UpdateDashboardPublishedVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDashboardPublishedVersionOutput>())
@@ -13065,14 +14630,14 @@ extension QuickSightClient {
     ///
     /// Updates a Dashboard QA configuration.
     ///
-    /// - Parameter UpdateDashboardsQAConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardsQAConfigurationInput`)
     ///
-    /// - Returns: `UpdateDashboardsQAConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardsQAConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -13106,6 +14671,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDashboardsQAConfigurationInput, UpdateDashboardsQAConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDashboardsQAConfigurationOutput>(UpdateDashboardsQAConfigurationOutput.httpOutput(from:), UpdateDashboardsQAConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDashboardsQAConfigurationInput, UpdateDashboardsQAConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDashboardsQAConfigurationOutput>())
@@ -13137,21 +14703,22 @@ extension QuickSightClient {
     ///
     /// Updates a dataset. This operation doesn't support datasets that include uploaded files as a source. Partial updates are not supported by this operation.
     ///
-    /// - Parameter UpdateDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSetInput`)
     ///
-    /// - Returns: `UpdateDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidDataSetParameterValueException` : An exception thrown when an invalid parameter value is provided for dataset operations.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13180,6 +14747,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSetInput, UpdateDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSetOutput>(UpdateDataSetOutput.httpOutput(from:), UpdateDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSetInput, UpdateDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSetOutput>())
@@ -13211,14 +14779,14 @@ extension QuickSightClient {
     ///
     /// Updates the permissions on a dataset. The permissions resource is arn:aws:quicksight:region:aws-account-id:dataset/data-set-id.
     ///
-    /// - Parameter UpdateDataSetPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSetPermissionsInput`)
     ///
-    /// - Returns: `UpdateDataSetPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSetPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -13252,6 +14820,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSetPermissionsInput, UpdateDataSetPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSetPermissionsOutput>(UpdateDataSetPermissionsOutput.httpOutput(from:), UpdateDataSetPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSetPermissionsInput, UpdateDataSetPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSetPermissionsOutput>())
@@ -13283,16 +14852,16 @@ extension QuickSightClient {
     ///
     /// Updates a data source.
     ///
-    /// - Parameter UpdateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourceInput`)
     ///
-    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
-    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your Amazon QuickSight account is unavailable.
+    /// - `CustomerManagedKeyUnavailableException` : The customer managed key that is registered to your Amazon Quick Sight account is unavailable.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -13325,6 +14894,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutput>(UpdateDataSourceOutput.httpOutput(from:), UpdateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSourceOutput>())
@@ -13356,14 +14926,14 @@ extension QuickSightClient {
     ///
     /// Updates the permissions to a data source.
     ///
-    /// - Parameter UpdateDataSourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourcePermissionsInput`)
     ///
-    /// - Returns: `UpdateDataSourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -13397,6 +14967,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSourcePermissionsInput, UpdateDataSourcePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSourcePermissionsOutput>(UpdateDataSourcePermissionsOutput.httpOutput(from:), UpdateDataSourcePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSourcePermissionsInput, UpdateDataSourcePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSourcePermissionsOutput>())
@@ -13426,16 +14997,16 @@ extension QuickSightClient {
 
     /// Performs the `UpdateDefaultQBusinessApplication` operation on the `QuickSight` service.
     ///
-    /// Updates a Amazon Q Business application that is linked to a Amazon QuickSight account.
+    /// Updates a Amazon Q Business application that is linked to a Quick Sight account.
     ///
-    /// - Parameter UpdateDefaultQBusinessApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDefaultQBusinessApplicationInput`)
     ///
-    /// - Returns: `UpdateDefaultQBusinessApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDefaultQBusinessApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -13470,6 +15041,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDefaultQBusinessApplicationInput, UpdateDefaultQBusinessApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDefaultQBusinessApplicationOutput>(UpdateDefaultQBusinessApplicationOutput.httpOutput(from:), UpdateDefaultQBusinessApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDefaultQBusinessApplicationInput, UpdateDefaultQBusinessApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDefaultQBusinessApplicationOutput>())
@@ -13497,25 +15069,96 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateFolder` operation on the `QuickSight` service.
+    /// Performs the `UpdateFlowPermissions` operation on the `QuickSight` service.
     ///
-    /// Updates the name of a folder.
+    /// Updates permissions against principals on a flow.
     ///
-    /// - Parameter UpdateFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowPermissionsInput`)
     ///
-    /// - Returns: `UpdateFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `ThrottlingException` : Access is throttled.
+    public func updateFlowPermissions(input: UpdateFlowPermissionsInput) async throws -> UpdateFlowPermissionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateFlowPermissions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput>(UpdateFlowPermissionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateFlowPermissionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowPermissionsOutput>(UpdateFlowPermissionsOutput.httpOutput(from:), UpdateFlowPermissionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowPermissionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFlowPermissionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFlowPermissionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateFlowPermissionsInput, UpdateFlowPermissionsOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateFlowPermissions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateFolder` operation on the `QuickSight` service.
+    ///
+    /// Updates the name of a folder.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateFolderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateFolderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateFolder(input: UpdateFolderInput) async throws -> UpdateFolderOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13544,6 +15187,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFolderInput, UpdateFolderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFolderOutput>(UpdateFolderOutput.httpOutput(from:), UpdateFolderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFolderInput, UpdateFolderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFolderOutput>())
@@ -13575,20 +15219,20 @@ extension QuickSightClient {
     ///
     /// Updates permissions of a folder.
     ///
-    /// - Parameter UpdateFolderPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFolderPermissionsInput`)
     ///
-    /// - Returns: `UpdateFolderPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFolderPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateFolderPermissions(input: UpdateFolderPermissionsInput) async throws -> UpdateFolderPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -13617,6 +15261,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFolderPermissionsInput, UpdateFolderPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFolderPermissionsOutput>(UpdateFolderPermissionsOutput.httpOutput(from:), UpdateFolderPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFolderPermissionsInput, UpdateFolderPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFolderPermissionsOutput>())
@@ -13648,14 +15293,14 @@ extension QuickSightClient {
     ///
     /// Changes a group description.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -13690,6 +15335,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(UpdateGroupOutput.httpOutput(from:), UpdateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
@@ -13721,14 +15367,14 @@ extension QuickSightClient {
     ///
     /// Updates an existing IAM policy assignment. This operation updates only the optional parameter or parameters that are specified in the request. This overwrites all of the users included in Identities.
     ///
-    /// - Parameter UpdateIAMPolicyAssignmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIAMPolicyAssignmentInput`)
     ///
-    /// - Returns: `UpdateIAMPolicyAssignmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIAMPolicyAssignmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConcurrentUpdatingException` : A resource is already in a state that indicates an operation is happening that must complete before a new update can be applied.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -13763,6 +15409,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIAMPolicyAssignmentInput, UpdateIAMPolicyAssignmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIAMPolicyAssignmentOutput>(UpdateIAMPolicyAssignmentOutput.httpOutput(from:), UpdateIAMPolicyAssignmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIAMPolicyAssignmentInput, UpdateIAMPolicyAssignmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIAMPolicyAssignmentOutput>())
@@ -13792,16 +15439,16 @@ extension QuickSightClient {
 
     /// Performs the `UpdateIdentityPropagationConfig` operation on the `QuickSight` service.
     ///
-    /// Adds or updates services and authorized targets to configure what the Amazon QuickSight IAM Identity Center application can access. This operation is only supported for Amazon QuickSight accounts using IAM Identity Center
+    /// Adds or updates services and authorized targets to configure what the Quick Sight IAM Identity Center application can access. This operation is only supported for Quick Sight accounts using IAM Identity Center
     ///
-    /// - Parameter UpdateIdentityPropagationConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdentityPropagationConfigInput`)
     ///
-    /// - Returns: `UpdateIdentityPropagationConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdentityPropagationConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -13834,6 +15481,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdentityPropagationConfigInput, UpdateIdentityPropagationConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdentityPropagationConfigOutput>(UpdateIdentityPropagationConfigOutput.httpOutput(from:), UpdateIdentityPropagationConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdentityPropagationConfigInput, UpdateIdentityPropagationConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdentityPropagationConfigOutput>())
@@ -13865,14 +15513,14 @@ extension QuickSightClient {
     ///
     /// Updates the content and status of IP rules. Traffic from a source is allowed when the source satisfies either the IpRestrictionRule, VpcIdRestrictionRule, or VpcEndpointIdRestrictionRule. To use this operation, you must provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map.
     ///
-    /// - Parameter UpdateIpRestrictionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIpRestrictionInput`)
     ///
-    /// - Returns: `UpdateIpRestrictionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIpRestrictionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -13906,6 +15554,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIpRestrictionInput, UpdateIpRestrictionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIpRestrictionOutput>(UpdateIpRestrictionOutput.httpOutput(from:), UpdateIpRestrictionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIpRestrictionInput, UpdateIpRestrictionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIpRestrictionOutput>())
@@ -13935,16 +15584,16 @@ extension QuickSightClient {
 
     /// Performs the `UpdateKeyRegistration` operation on the `QuickSight` service.
     ///
-    /// Updates a customer managed key in a Amazon QuickSight account.
+    /// Updates a customer managed key in a Quick Sight account.
     ///
-    /// - Parameter UpdateKeyRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyRegistrationInput`)
     ///
-    /// - Returns: `UpdateKeyRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ThrottlingException` : Access is throttled.
@@ -13976,6 +15625,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeyRegistrationOutput>(UpdateKeyRegistrationOutput.httpOutput(from:), UpdateKeyRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeyRegistrationInput, UpdateKeyRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeyRegistrationOutput>())
@@ -14005,21 +15655,28 @@ extension QuickSightClient {
 
     /// Performs the `UpdatePublicSharingSettings` operation on the `QuickSight` service.
     ///
-    /// Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon QuickSight dashboard. To use this operation, turn on session capacity pricing for your Amazon QuickSight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon QuickSight, see [Using Amazon QuickSight with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the Amazon QuickSight User Guide.
+    /// This API controls public sharing settings for your entire Quick Sight account, affecting data security and access. When you enable public sharing:
     ///
-    /// - Parameter UpdatePublicSharingSettingsInput : [no documentation found]
+    /// * Dashboards can be shared publicly
     ///
-    /// - Returns: `UpdatePublicSharingSettingsOutput` : [no documentation found]
+    /// * This setting affects your entire Amazon Web Services account and all Quick Sight users
+    ///
+    ///
+    /// Before proceeding: Ensure you understand the security implications and have proper IAM permissions configured. Use the UpdatePublicSharingSettings operation to turn on or turn off the public sharing settings of an Amazon Quick Sight dashboard. To use this operation, turn on session capacity pricing for your Amazon Quick Sight account. Before you can turn on public sharing on your account, make sure to give public sharing permissions to an administrative user in the Identity and Access Management (IAM) console. For more information on using IAM with Amazon Quick Sight, see [Using Quick Suite with IAM](https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html) in the Amazon Quick Sight User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdatePublicSharingSettingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePublicSharingSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+    /// - `UnsupportedPricingPlanException` : This error indicates that you are calling an embedding operation in Amazon Quick Sight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a Quick Suite administrator needs to add capacity pricing to Quick Sight. You can do this on the Manage Quick Suite page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
     public func updatePublicSharingSettings(input: UpdatePublicSharingSettingsInput) async throws -> UpdatePublicSharingSettingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14048,6 +15705,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePublicSharingSettingsInput, UpdatePublicSharingSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePublicSharingSettingsOutput>(UpdatePublicSharingSettingsOutput.httpOutput(from:), UpdatePublicSharingSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePublicSharingSettingsInput, UpdatePublicSharingSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePublicSharingSettingsOutput>())
@@ -14079,14 +15737,14 @@ extension QuickSightClient {
     ///
     /// Updates a personalization configuration.
     ///
-    /// - Parameter UpdateQPersonalizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQPersonalizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateQPersonalizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQPersonalizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -14121,6 +15779,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQPersonalizationConfigurationInput, UpdateQPersonalizationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQPersonalizationConfigurationOutput>(UpdateQPersonalizationConfigurationOutput.httpOutput(from:), UpdateQPersonalizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQPersonalizationConfigurationInput, UpdateQPersonalizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQPersonalizationConfigurationOutput>())
@@ -14150,16 +15809,16 @@ extension QuickSightClient {
 
     /// Performs the `UpdateQuickSightQSearchConfiguration` operation on the `QuickSight` service.
     ///
-    /// Updates the state of a Amazon QuickSight Q Search configuration.
+    /// Updates the state of a Quick Sight Q Search configuration.
     ///
-    /// - Parameter UpdateQuickSightQSearchConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuickSightQSearchConfigurationInput`)
     ///
-    /// - Returns: `UpdateQuickSightQSearchConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuickSightQSearchConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -14193,6 +15852,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuickSightQSearchConfigurationInput, UpdateQuickSightQSearchConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuickSightQSearchConfigurationOutput>(UpdateQuickSightQSearchConfigurationOutput.httpOutput(from:), UpdateQuickSightQSearchConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuickSightQSearchConfigurationInput, UpdateQuickSightQSearchConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuickSightQSearchConfigurationOutput>())
@@ -14224,14 +15884,14 @@ extension QuickSightClient {
     ///
     /// Updates a refresh schedule for a dataset.
     ///
-    /// - Parameter UpdateRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRefreshScheduleInput`)
     ///
-    /// - Returns: `UpdateRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
@@ -14266,6 +15926,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRefreshScheduleInput, UpdateRefreshScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRefreshScheduleOutput>(UpdateRefreshScheduleOutput.httpOutput(from:), UpdateRefreshScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRefreshScheduleInput, UpdateRefreshScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRefreshScheduleOutput>())
@@ -14297,14 +15958,14 @@ extension QuickSightClient {
     ///
     /// Updates the custom permissions that are associated with a role.
     ///
-    /// - Parameter UpdateRoleCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoleCustomPermissionInput`)
     ///
-    /// - Returns: `UpdateRoleCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoleCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -14339,6 +16000,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoleCustomPermissionInput, UpdateRoleCustomPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoleCustomPermissionOutput>(UpdateRoleCustomPermissionOutput.httpOutput(from:), UpdateRoleCustomPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoleCustomPermissionInput, UpdateRoleCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoleCustomPermissionOutput>())
@@ -14368,16 +16030,16 @@ extension QuickSightClient {
 
     /// Performs the `UpdateSPICECapacityConfiguration` operation on the `QuickSight` service.
     ///
-    /// Updates the SPICE capacity configuration for a Amazon QuickSight account.
+    /// Updates the SPICE capacity configuration for a Quick Sight account.
     ///
-    /// - Parameter UpdateSPICECapacityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSPICECapacityConfigurationInput`)
     ///
-    /// - Returns: `UpdateSPICECapacityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSPICECapacityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
@@ -14410,6 +16072,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSPICECapacityConfigurationInput, UpdateSPICECapacityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSPICECapacityConfigurationOutput>(UpdateSPICECapacityConfigurationOutput.httpOutput(from:), UpdateSPICECapacityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSPICECapacityConfigurationInput, UpdateSPICECapacityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSPICECapacityConfigurationOutput>())
@@ -14437,13 +16100,164 @@ extension QuickSightClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateSelfUpgrade` operation on the `QuickSight` service.
+    ///
+    /// Updates a self-upgrade request for a Quick Suite user by approving, denying, or verifying the request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSelfUpgradeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSelfUpgradeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidNextTokenException` : The NextToken value isn't valid.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `LimitExceededException` : A limit is exceeded.
+    /// - `PreconditionNotMetException` : One or more preconditions aren't met.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ResourceUnavailableException` : This resource is currently unavailable.
+    /// - `ThrottlingException` : Access is throttled.
+    public func updateSelfUpgrade(input: UpdateSelfUpgradeInput) async throws -> UpdateSelfUpgradeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSelfUpgrade")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput>(UpdateSelfUpgradeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSelfUpgradeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSelfUpgradeOutput>(UpdateSelfUpgradeOutput.httpOutput(from:), UpdateSelfUpgradeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSelfUpgradeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSelfUpgradeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSelfUpgradeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSelfUpgradeInput, UpdateSelfUpgradeOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSelfUpgrade")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateSelfUpgradeConfiguration` operation on the `QuickSight` service.
+    ///
+    /// Updates the self-upgrade configuration for a Quick Suite account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSelfUpgradeConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSelfUpgradeConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidParameterException` : One or more parameter has a value that isn't valid.
+    /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
+    /// - `PreconditionNotMetException` : One or more preconditions aren't met.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ResourceUnavailableException` : This resource is currently unavailable.
+    /// - `ThrottlingException` : Access is throttled.
+    public func updateSelfUpgradeConfiguration(input: UpdateSelfUpgradeConfigurationInput) async throws -> UpdateSelfUpgradeConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSelfUpgradeConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "quicksight")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput>(UpdateSelfUpgradeConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateSelfUpgradeConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSelfUpgradeConfigurationOutput>(UpdateSelfUpgradeConfigurationOutput.httpOutput(from:), UpdateSelfUpgradeConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSelfUpgradeConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QuickSight", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSelfUpgradeConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSelfUpgradeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSelfUpgradeConfigurationInput, UpdateSelfUpgradeConfigurationOutput>(serviceID: serviceName, version: QuickSightClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QuickSight")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSelfUpgradeConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateTemplate` operation on the `QuickSight` service.
     ///
-    /// Updates a template from an existing Amazon QuickSight analysis or another template.
+    /// Updates a template from an existing Amazon Quick Sight analysis or another template.
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14455,7 +16269,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14484,6 +16298,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateInput, UpdateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateOutput>(UpdateTemplateOutput.httpOutput(from:), UpdateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateInput, UpdateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplateOutput>())
@@ -14515,9 +16330,9 @@ extension QuickSightClient {
     ///
     /// Updates the template alias of a template.
     ///
-    /// - Parameter UpdateTemplateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateAliasInput`)
     ///
-    /// - Returns: `UpdateTemplateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14526,7 +16341,7 @@ extension QuickSightClient {
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTemplateAlias(input: UpdateTemplateAliasInput) async throws -> UpdateTemplateAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14555,6 +16370,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateAliasInput, UpdateTemplateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateAliasOutput>(UpdateTemplateAliasOutput.httpOutput(from:), UpdateTemplateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateAliasInput, UpdateTemplateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplateAliasOutput>())
@@ -14586,9 +16402,9 @@ extension QuickSightClient {
     ///
     /// Updates the resource permissions for a template.
     ///
-    /// - Parameter UpdateTemplatePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplatePermissionsInput`)
     ///
-    /// - Returns: `UpdateTemplatePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplatePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14599,7 +16415,7 @@ extension QuickSightClient {
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTemplatePermissions(input: UpdateTemplatePermissionsInput) async throws -> UpdateTemplatePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14628,6 +16444,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplatePermissionsInput, UpdateTemplatePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplatePermissionsOutput>(UpdateTemplatePermissionsOutput.httpOutput(from:), UpdateTemplatePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplatePermissionsInput, UpdateTemplatePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplatePermissionsOutput>())
@@ -14659,21 +16476,21 @@ extension QuickSightClient {
     ///
     /// Updates a theme.
     ///
-    /// - Parameter UpdateThemeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemeInput`)
     ///
-    /// - Returns: `UpdateThemeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTheme(input: UpdateThemeInput) async throws -> UpdateThemeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14702,6 +16519,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThemeInput, UpdateThemeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThemeOutput>(UpdateThemeOutput.httpOutput(from:), UpdateThemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThemeInput, UpdateThemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThemeOutput>())
@@ -14733,9 +16551,9 @@ extension QuickSightClient {
     ///
     /// Updates an alias of a theme.
     ///
-    /// - Parameter UpdateThemeAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemeAliasInput`)
     ///
-    /// - Returns: `UpdateThemeAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemeAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14746,7 +16564,7 @@ extension QuickSightClient {
     /// - `ResourceExistsException` : The resource specified already exists.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateThemeAlias(input: UpdateThemeAliasInput) async throws -> UpdateThemeAliasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14775,6 +16593,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThemeAliasInput, UpdateThemeAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThemeAliasOutput>(UpdateThemeAliasOutput.httpOutput(from:), UpdateThemeAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThemeAliasInput, UpdateThemeAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThemeAliasOutput>())
@@ -14848,20 +16667,20 @@ extension QuickSightClient {
     ///
     /// * To specify no permissions, omit the permissions list.
     ///
-    /// - Parameter UpdateThemePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemePermissionsInput`)
     ///
-    /// - Returns: `UpdateThemePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateThemePermissions(input: UpdateThemePermissionsInput) async throws -> UpdateThemePermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -14890,6 +16709,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThemePermissionsInput, UpdateThemePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThemePermissionsOutput>(UpdateThemePermissionsOutput.httpOutput(from:), UpdateThemePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThemePermissionsInput, UpdateThemePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThemePermissionsOutput>())
@@ -14921,14 +16741,14 @@ extension QuickSightClient {
     ///
     /// Updates a topic.
     ///
-    /// - Parameter UpdateTopicInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTopicInput`)
     ///
-    /// - Returns: `UpdateTopicOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -14964,6 +16784,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTopicInput, UpdateTopicOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTopicOutput>(UpdateTopicOutput.httpOutput(from:), UpdateTopicOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTopicInput, UpdateTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTopicOutput>())
@@ -14995,21 +16816,21 @@ extension QuickSightClient {
     ///
     /// Updates the permissions of a topic.
     ///
-    /// - Parameter UpdateTopicPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTopicPermissionsInput`)
     ///
-    /// - Returns: `UpdateTopicPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTopicPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateTopicPermissions(input: UpdateTopicPermissionsInput) async throws -> UpdateTopicPermissionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -15038,6 +16859,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTopicPermissionsInput, UpdateTopicPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTopicPermissionsOutput>(UpdateTopicPermissionsOutput.httpOutput(from:), UpdateTopicPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTopicPermissionsInput, UpdateTopicPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTopicPermissionsOutput>())
@@ -15069,14 +16891,14 @@ extension QuickSightClient {
     ///
     /// Updates a topic refresh schedule.
     ///
-    /// - Parameter UpdateTopicRefreshScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTopicRefreshScheduleInput`)
     ///
-    /// - Returns: `UpdateTopicRefreshScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTopicRefreshScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -15112,6 +16934,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTopicRefreshScheduleInput, UpdateTopicRefreshScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTopicRefreshScheduleOutput>(UpdateTopicRefreshScheduleOutput.httpOutput(from:), UpdateTopicRefreshScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTopicRefreshScheduleInput, UpdateTopicRefreshScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTopicRefreshScheduleOutput>())
@@ -15141,16 +16964,16 @@ extension QuickSightClient {
 
     /// Performs the `UpdateUser` operation on the `QuickSight` service.
     ///
-    /// Updates an Amazon QuickSight user.
+    /// Updates an Amazon Quick Sight user.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `PreconditionNotMetException` : One or more preconditions aren't met.
@@ -15185,6 +17008,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())
@@ -15216,14 +17040,14 @@ extension QuickSightClient {
     ///
     /// Updates a custom permissions profile for a user.
     ///
-    /// - Parameter UpdateUserCustomPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserCustomPermissionInput`)
     ///
-    /// - Returns: `UpdateUserCustomPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserCustomPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
@@ -15259,6 +17083,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserCustomPermissionInput, UpdateUserCustomPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserCustomPermissionOutput>(UpdateUserCustomPermissionOutput.httpOutput(from:), UpdateUserCustomPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserCustomPermissionInput, UpdateUserCustomPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserCustomPermissionOutput>())
@@ -15290,21 +17115,21 @@ extension QuickSightClient {
     ///
     /// Updates a VPC connection.
     ///
-    /// - Parameter UpdateVPCConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVPCConnectionInput`)
     ///
-    /// - Returns: `UpdateVPCConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVPCConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+    /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalFailureException` : An internal failure occurred.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `LimitExceededException` : A limit is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
-    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+    /// - `UnsupportedUserEditionException` : This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public func updateVPCConnection(input: UpdateVPCConnectionInput) async throws -> UpdateVPCConnectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -15333,6 +17158,7 @@ extension QuickSightClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVPCConnectionInput, UpdateVPCConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVPCConnectionOutput>(UpdateVPCConnectionOutput.httpOutput(from:), UpdateVPCConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVPCConnectionInput, UpdateVPCConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVPCConnectionOutput>())

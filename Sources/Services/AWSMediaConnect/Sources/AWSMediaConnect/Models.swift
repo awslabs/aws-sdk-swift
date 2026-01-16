@@ -26,9 +26,21 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
+
+public struct TagGlobalResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
 
 public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagGlobalResourceOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -531,6 +543,8 @@ extension MediaConnectClientTypes {
         /// A name that helps you distinguish one media stream from another.
         /// This member is required.
         public var mediaStreamName: Swift.String?
+        /// The key-value pairs that can be used to tag and organize the media stream.
+        public var mediaStreamTags: [Swift.String: Swift.String]?
         /// The type of media stream.
         /// This member is required.
         public var mediaStreamType: MediaConnectClientTypes.MediaStreamType?
@@ -543,6 +557,7 @@ extension MediaConnectClientTypes {
             description: Swift.String? = nil,
             mediaStreamId: Swift.Int? = nil,
             mediaStreamName: Swift.String? = nil,
+            mediaStreamTags: [Swift.String: Swift.String]? = nil,
             mediaStreamType: MediaConnectClientTypes.MediaStreamType? = nil,
             videoFormat: Swift.String? = nil
         ) {
@@ -551,6 +566,7 @@ extension MediaConnectClientTypes {
             self.description = description
             self.mediaStreamId = mediaStreamId
             self.mediaStreamName = mediaStreamName
+            self.mediaStreamTags = mediaStreamTags
             self.mediaStreamType = mediaStreamType
             self.videoFormat = videoFormat
         }
@@ -856,6 +872,126 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [State] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
+    public struct AutomaticEncryptionKeyConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+    public struct SecretsManagerEncryptionKeyConfiguration: Swift.Sendable {
+        /// The ARN of the IAM role assumed by MediaConnect to access the AWS Secrets Manager secret.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The ARN of the AWS Secrets Manager secret used for transit encryption.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for flow transit encryption keys.
+    public enum FlowTransitEncryptionKeyConfiguration: Swift.Sendable {
+        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
+        /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
+        case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum FlowTransitEncryptionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowTransitEncryptionKeyType] {
+            return [
+                .automatic,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration that defines how content is encrypted during transit between the MediaConnect router and a MediaConnect flow.
+    public struct FlowTransitEncryption: Swift.Sendable {
+        /// The configuration details for the encryption key.
+        /// This member is required.
+        public var encryptionKeyConfiguration: MediaConnectClientTypes.FlowTransitEncryptionKeyConfiguration?
+        /// The type of encryption key to use for flow transit encryption.
+        public var encryptionKeyType: MediaConnectClientTypes.FlowTransitEncryptionKeyType?
+
+        public init(
+            encryptionKeyConfiguration: MediaConnectClientTypes.FlowTransitEncryptionKeyConfiguration? = nil,
+            encryptionKeyType: MediaConnectClientTypes.FlowTransitEncryptionKeyType? = nil
+        ) {
+            self.encryptionKeyConfiguration = encryptionKeyConfiguration
+            self.encryptionKeyType = encryptionKeyType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// A request to add an output to a flow.
     public struct AddOutputRequest: Swift.Sendable {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
@@ -880,13 +1016,18 @@ extension MediaConnectClientTypes {
         public var ndiSpeedHqQuality: Swift.Int?
         /// An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED.
         public var outputStatus: MediaConnectClientTypes.OutputStatus?
+        /// The key-value pairs that can be used to tag and organize the output.
+        public var outputTags: [Swift.String: Swift.String]?
         /// The port to use when content is distributed to this output.
         public var port: Swift.Int?
         /// The protocol to use for the output. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
-        /// This member is required.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// The remote ID for the Zixi-pull output stream.
         public var remoteId: Swift.String?
+        /// Indicates whether to enable or disable router integration when creating a new flow output.
+        public var routerIntegrationState: MediaConnectClientTypes.State?
+        /// The configuration that defines how content is encrypted during transit between the MediaConnect router and a MediaConnect flow.
+        public var routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public var senderControlPort: Swift.Int?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
@@ -908,9 +1049,12 @@ extension MediaConnectClientTypes {
             ndiProgramName: Swift.String? = nil,
             ndiSpeedHqQuality: Swift.Int? = nil,
             outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
+            outputTags: [Swift.String: Swift.String]? = nil,
             port: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             remoteId: Swift.String? = nil,
+            routerIntegrationState: MediaConnectClientTypes.State? = nil,
+            routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
             senderControlPort: Swift.Int? = nil,
             smoothingLatency: Swift.Int? = nil,
             streamId: Swift.String? = nil,
@@ -927,42 +1071,16 @@ extension MediaConnectClientTypes {
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputStatus = outputStatus
+            self.outputTags = outputTags
             self.port = port
             self.`protocol` = `protocol`
             self.remoteId = remoteId
+            self.routerIntegrationState = routerIntegrationState
+            self.routerIntegrationTransitEncryption = routerIntegrationTransitEncryption
             self.senderControlPort = senderControlPort
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [State] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -1326,6 +1444,8 @@ extension MediaConnectClientTypes {
         public var encryption: MediaConnectClientTypes.Encryption?
         /// An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
         public var entitlementStatus: MediaConnectClientTypes.EntitlementStatus?
+        /// The key-value pairs that can be used to tag and organize the entitlement.
+        public var entitlementTags: [Swift.String: Swift.String]?
         /// The name of the entitlement. This value must be unique within the current flow.
         public var name: Swift.String?
         /// The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
@@ -1337,6 +1457,7 @@ extension MediaConnectClientTypes {
             description: Swift.String? = nil,
             encryption: MediaConnectClientTypes.Encryption? = nil,
             entitlementStatus: MediaConnectClientTypes.EntitlementStatus? = nil,
+            entitlementTags: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             subscribers: [Swift.String]? = nil
         ) {
@@ -1344,6 +1465,7 @@ extension MediaConnectClientTypes {
             self.description = description
             self.encryption = encryption
             self.entitlementStatus = entitlementStatus
+            self.entitlementTags = entitlementTags
             self.name = name
             self.subscribers = subscribers
         }
@@ -2329,6 +2451,8 @@ extension MediaConnectClientTypes {
         public var bridgeArn: Swift.String?
         /// The bridge output ports currently in use.
         public var bridgePorts: [Swift.Int]?
+        /// The ARN of the router input that's connected to this flow output.
+        public var connectedRouterInputArn: Swift.String?
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public var dataTransferSubscriberFeePercent: Swift.Int?
         /// A description of the output.
@@ -2365,6 +2489,10 @@ extension MediaConnectClientTypes {
         public var peerIpAddress: Swift.String?
         /// The port to use when content is distributed to this output.
         public var port: Swift.Int?
+        /// Indicates if router integration is enabled or disabled on the flow output.
+        public var routerIntegrationState: MediaConnectClientTypes.State?
+        /// The encryption configuration for the output when router integration is enabled.
+        public var routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption?
         /// Attributes related to the transport stream that are used in the output.
         public var transport: MediaConnectClientTypes.Transport?
         /// The name of the VPC interface attachment to use for this output.
@@ -2373,6 +2501,7 @@ extension MediaConnectClientTypes {
         public init(
             bridgeArn: Swift.String? = nil,
             bridgePorts: [Swift.Int]? = nil,
+            connectedRouterInputArn: Swift.String? = nil,
             dataTransferSubscriberFeePercent: Swift.Int? = nil,
             description: Swift.String? = nil,
             destination: Swift.String? = nil,
@@ -2386,11 +2515,14 @@ extension MediaConnectClientTypes {
             outputStatus: MediaConnectClientTypes.OutputStatus? = nil,
             peerIpAddress: Swift.String? = nil,
             port: Swift.Int? = nil,
+            routerIntegrationState: MediaConnectClientTypes.State? = nil,
+            routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
             transport: MediaConnectClientTypes.Transport? = nil,
             vpcInterfaceAttachment: MediaConnectClientTypes.VpcInterfaceAttachment? = nil
         ) {
             self.bridgeArn = bridgeArn
             self.bridgePorts = bridgePorts
+            self.connectedRouterInputArn = connectedRouterInputArn
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.description = description
             self.destination = destination
@@ -2404,6 +2536,8 @@ extension MediaConnectClientTypes {
             self.outputStatus = outputStatus
             self.peerIpAddress = peerIpAddress
             self.port = port
+            self.routerIntegrationState = routerIntegrationState
+            self.routerIntegrationTransitEncryption = routerIntegrationTransitEncryption
             self.transport = transport
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
         }
@@ -2569,6 +2703,10 @@ extension MediaConnectClientTypes {
         public var name: Swift.String?
         /// The protocol that is used by the source. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+        /// Indicates whether to enable or disable router integration when setting a flow source.
+        public var routerIntegrationState: MediaConnectClientTypes.State?
+        /// The decryption configuration for the flow source when router integration is enabled. Specifies how the source content should be decrypted when router integration is used.
+        public var routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public var senderControlPort: Swift.Int?
         /// The IP address that the flow communicates with to initiate connection with the sender.
@@ -2577,6 +2715,8 @@ extension MediaConnectClientTypes {
         public var sourceListenerAddress: Swift.String?
         /// Source port for SRT-caller protocol.
         public var sourceListenerPort: Swift.Int?
+        /// The key-value pairs that can be used to tag and organize the source.
+        public var sourceTags: [Swift.String: Swift.String]?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public var streamId: Swift.String?
         /// The name of the VPC interface to use for this source.
@@ -2597,10 +2737,13 @@ extension MediaConnectClientTypes {
             minLatency: Swift.Int? = nil,
             name: Swift.String? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
+            routerIntegrationState: MediaConnectClientTypes.State? = nil,
+            routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
             senderControlPort: Swift.Int? = nil,
             senderIpAddress: Swift.String? = nil,
             sourceListenerAddress: Swift.String? = nil,
             sourceListenerPort: Swift.Int? = nil,
+            sourceTags: [Swift.String: Swift.String]? = nil,
             streamId: Swift.String? = nil,
             vpcInterfaceName: Swift.String? = nil,
             whitelistCidr: Swift.String? = nil
@@ -2617,10 +2760,13 @@ extension MediaConnectClientTypes {
             self.minLatency = minLatency
             self.name = name
             self.`protocol` = `protocol`
+            self.routerIntegrationState = routerIntegrationState
+            self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.sourceListenerAddress = sourceListenerAddress
             self.sourceListenerPort = sourceListenerPort
+            self.sourceTags = sourceTags
             self.streamId = streamId
             self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
@@ -2652,6 +2798,8 @@ extension MediaConnectClientTypes {
 
     /// The settings for the source of the flow.
     public struct Source: Swift.Sendable {
+        /// The ARN of the router output that's currently connected to this source.
+        public var connectedRouterOutputArn: Swift.String?
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public var dataTransferSubscriberFeePercent: Swift.Int?
         /// The type of encryption that is used on the content ingested from this source.
@@ -2681,6 +2829,10 @@ extension MediaConnectClientTypes {
         ///
         /// * The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
         public var peerIpAddress: Swift.String?
+        /// Indicates if router integration is enabled or disabled on the flow source.
+        public var routerIntegrationState: MediaConnectClientTypes.State?
+        /// The decryption configuration for the flow source when router integration is enabled.
+        public var routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption?
         /// The IP address that the flow communicates with to initiate connection with the sender.
         public var senderControlPort: Swift.Int?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
@@ -2696,6 +2848,7 @@ extension MediaConnectClientTypes {
         public var whitelistCidr: Swift.String?
 
         public init(
+            connectedRouterOutputArn: Swift.String? = nil,
             dataTransferSubscriberFeePercent: Swift.Int? = nil,
             decryption: MediaConnectClientTypes.Encryption? = nil,
             description: Swift.String? = nil,
@@ -2706,6 +2859,8 @@ extension MediaConnectClientTypes {
             mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfiguration]? = nil,
             name: Swift.String? = nil,
             peerIpAddress: Swift.String? = nil,
+            routerIntegrationState: MediaConnectClientTypes.State? = nil,
+            routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
             senderControlPort: Swift.Int? = nil,
             senderIpAddress: Swift.String? = nil,
             sourceArn: Swift.String? = nil,
@@ -2713,6 +2868,7 @@ extension MediaConnectClientTypes {
             vpcInterfaceName: Swift.String? = nil,
             whitelistCidr: Swift.String? = nil
         ) {
+            self.connectedRouterOutputArn = connectedRouterOutputArn
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
@@ -2723,6 +2879,8 @@ extension MediaConnectClientTypes {
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.name = name
             self.peerIpAddress = peerIpAddress
+            self.routerIntegrationState = routerIntegrationState
+            self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
             self.senderControlPort = senderControlPort
             self.senderIpAddress = senderIpAddress
             self.sourceArn = sourceArn
@@ -2979,19 +3137,23 @@ extension MediaConnectClientTypes {
         /// The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow.
         /// This member is required.
         public var subnetId: Swift.String?
+        /// The key-value pairs that can be used to tag and organize the VPC network interface.
+        public var vpcInterfaceTags: [Swift.String: Swift.String]?
 
         public init(
             name: Swift.String? = nil,
             networkInterfaceType: MediaConnectClientTypes.NetworkInterfaceType? = nil,
             roleArn: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
-            subnetId: Swift.String? = nil
+            subnetId: Swift.String? = nil,
+            vpcInterfaceTags: [Swift.String: Swift.String]? = nil
         ) {
             self.name = name
             self.networkInterfaceType = networkInterfaceType
             self.roleArn = roleArn
             self.securityGroupIds = securityGroupIds
             self.subnetId = subnetId
+            self.vpcInterfaceTags = vpcInterfaceTags
         }
     }
 }
@@ -3435,6 +3597,2096 @@ extension MediaConnectClientTypes {
             self.maintenanceDay = maintenanceDay
             self.maintenanceStartHour = maintenanceStartHour
         }
+    }
+}
+
+public struct BatchGetRouterInputInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of the router inputs you want to retrieve information about.
+    /// This member is required.
+    public var arns: [Swift.String]?
+
+    public init(
+        arns: [Swift.String]? = nil
+    ) {
+        self.arns = arns
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// An error that occurred when retrieving multiple router inputs in the BatchGetRouterInput operation, including the ARN, error code, and error message.
+    public struct BatchGetRouterInputError: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router input for which the error occurred.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The error code associated with the error.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A message describing the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router input using the RIST (Reliable Internet Stream Transport) protocol, including the port and recovery latency.
+    public struct RistRouterInputConfiguration: Swift.Sendable {
+        /// The port number used for the RIST protocol in the router input configuration.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The recovery latency in milliseconds for the RIST protocol in the router input configuration.
+        /// This member is required.
+        public var recoveryLatencyMilliseconds: Swift.Int?
+
+        public init(
+            port: Swift.Int? = nil,
+            recoveryLatencyMilliseconds: Swift.Int? = nil
+        ) {
+            self.port = port
+            self.recoveryLatencyMilliseconds = recoveryLatencyMilliseconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum ForwardErrorCorrectionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ForwardErrorCorrectionState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
+    public struct RtpRouterInputConfiguration: Swift.Sendable {
+        /// The state of forward error correction for the RTP protocol in the router input configuration.
+        public var forwardErrorCorrection: MediaConnectClientTypes.ForwardErrorCorrectionState?
+        /// The port number used for the RTP protocol in the router input configuration.
+        /// This member is required.
+        public var port: Swift.Int?
+
+        public init(
+            forwardErrorCorrection: MediaConnectClientTypes.ForwardErrorCorrectionState? = nil,
+            port: Swift.Int? = nil
+        ) {
+            self.forwardErrorCorrection = forwardErrorCorrection
+            self.port = port
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Contains the configuration settings for decrypting SRT streams, including the encryption key details and decryption parameters.
+    public struct SrtDecryptionConfiguration: Swift.Sendable {
+        /// Specifies the encryption key configuration used for decrypting SRT streams, including the key source and associated credentials.
+        /// This member is required.
+        public var encryptionKey: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration?
+
+        public init(
+            encryptionKey: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration? = nil
+        ) {
+            self.encryptionKey = encryptionKey
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in caller mode, including the source address and port, minimum latency, stream ID, and decryption key configuration.
+    public struct SrtCallerRouterInputConfiguration: Swift.Sendable {
+        /// Specifies the decryption settings for an SRT caller input, including the encryption key configuration and associated parameters.
+        public var decryptionConfiguration: MediaConnectClientTypes.SrtDecryptionConfiguration?
+        /// The minimum latency in milliseconds for the SRT protocol in caller mode.
+        /// This member is required.
+        public var minimumLatencyMilliseconds: Swift.Int?
+        /// The source IP address for the SRT protocol in caller mode.
+        /// This member is required.
+        public var sourceAddress: Swift.String?
+        /// The source port number for the SRT protocol in caller mode.
+        /// This member is required.
+        public var sourcePort: Swift.Int?
+        /// The stream ID for the SRT protocol in caller mode.
+        public var streamId: Swift.String?
+
+        public init(
+            decryptionConfiguration: MediaConnectClientTypes.SrtDecryptionConfiguration? = nil,
+            minimumLatencyMilliseconds: Swift.Int? = nil,
+            sourceAddress: Swift.String? = nil,
+            sourcePort: Swift.Int? = nil,
+            streamId: Swift.String? = nil
+        ) {
+            self.decryptionConfiguration = decryptionConfiguration
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.sourceAddress = sourceAddress
+            self.sourcePort = sourcePort
+            self.streamId = streamId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and decryption key configuration.
+    public struct SrtListenerRouterInputConfiguration: Swift.Sendable {
+        /// Specifies the decryption settings for an SRT listener input, including the encryption key configuration and associated parameters.
+        public var decryptionConfiguration: MediaConnectClientTypes.SrtDecryptionConfiguration?
+        /// The minimum latency in milliseconds for the SRT protocol in listener mode.
+        /// This member is required.
+        public var minimumLatencyMilliseconds: Swift.Int?
+        /// The port number for the SRT protocol in listener mode.
+        /// This member is required.
+        public var port: Swift.Int?
+
+        public init(
+            decryptionConfiguration: MediaConnectClientTypes.SrtDecryptionConfiguration? = nil,
+            minimumLatencyMilliseconds: Swift.Int? = nil,
+            port: Swift.Int? = nil
+        ) {
+            self.decryptionConfiguration = decryptionConfiguration
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.port = port
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Protocol configuration settings for failover router inputs.
+    public enum FailoverRouterInputProtocolConfiguration: Swift.Sendable {
+        /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
+        case rtp(MediaConnectClientTypes.RtpRouterInputConfiguration)
+        /// The configuration settings for a router input using the RIST (Reliable Internet Stream Transport) protocol, including the port and recovery latency.
+        case rist(MediaConnectClientTypes.RistRouterInputConfiguration)
+        /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and decryption key configuration.
+        case srtlistener(MediaConnectClientTypes.SrtListenerRouterInputConfiguration)
+        /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in caller mode, including the source address and port, minimum latency, stream ID, and decryption key configuration.
+        case srtcaller(MediaConnectClientTypes.SrtCallerRouterInputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum FailoverInputSourcePriorityMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noPriority
+        case primarySecondary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailoverInputSourcePriorityMode] {
+            return [
+                .noPriority,
+                .primarySecondary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noPriority: return "NO_PRIORITY"
+            case .primarySecondary: return "PRIMARY_SECONDARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for a failover router input that allows switching between two input sources.
+    public struct FailoverRouterInputConfiguration: Swift.Sendable {
+        /// The ARN of the network interface to use for this failover router input.
+        /// This member is required.
+        public var networkInterfaceArn: Swift.String?
+        /// The index (0 or 1) that specifies which source in the protocol configurations list is currently active. Used to control which of the two failover sources is currently selected. This field is ignored when sourcePriorityMode is set to NO_PRIORITY
+        public var primarySourceIndex: Swift.Int?
+        /// A list of exactly two protocol configurations for the failover input sources. Both must use the same protocol type.
+        /// This member is required.
+        public var protocolConfigurations: [MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration]?
+        /// The mode for determining source priority in failover configurations.
+        /// This member is required.
+        public var sourcePriorityMode: MediaConnectClientTypes.FailoverInputSourcePriorityMode?
+
+        public init(
+            networkInterfaceArn: Swift.String? = nil,
+            primarySourceIndex: Swift.Int? = nil,
+            protocolConfigurations: [MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration]? = nil,
+            sourcePriorityMode: MediaConnectClientTypes.FailoverInputSourcePriorityMode? = nil
+        ) {
+            self.networkInterfaceArn = networkInterfaceArn
+            self.primarySourceIndex = primarySourceIndex
+            self.protocolConfigurations = protocolConfigurations
+            self.sourcePriorityMode = sourcePriorityMode
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for connecting a router input to a flow output.
+    public struct MediaConnectFlowRouterInputConfiguration: Swift.Sendable {
+        /// The ARN of the flow to connect to.
+        public var flowArn: Swift.String?
+        /// The ARN of the flow output to connect to this router input.
+        public var flowOutputArn: Swift.String?
+        /// The decryption configuration for the flow source when connected to this router input.
+        /// This member is required.
+        public var sourceTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption?
+
+        public init(
+            flowArn: Swift.String? = nil,
+            flowOutputArn: Swift.String? = nil,
+            sourceTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil
+        ) {
+            self.flowArn = flowArn
+            self.flowOutputArn = flowOutputArn
+            self.sourceTransitDecryption = sourceTransitDecryption
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Protocol configuration settings for merge router inputs.
+    public enum MergeRouterInputProtocolConfiguration: Swift.Sendable {
+        /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
+        case rtp(MediaConnectClientTypes.RtpRouterInputConfiguration)
+        /// The configuration settings for a router input using the RIST (Reliable Internet Stream Transport) protocol, including the port and recovery latency.
+        case rist(MediaConnectClientTypes.RistRouterInputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for a merge router input that combines two input sources.
+    public struct MergeRouterInputConfiguration: Swift.Sendable {
+        /// The time window in milliseconds for merging the two input sources.
+        /// This member is required.
+        public var mergeRecoveryWindowMilliseconds: Swift.Int?
+        /// The ARN of the network interface to use for this merge router input.
+        /// This member is required.
+        public var networkInterfaceArn: Swift.String?
+        /// A list of exactly two protocol configurations for the merge input sources. Both must use the same protocol type.
+        /// This member is required.
+        public var protocolConfigurations: [MediaConnectClientTypes.MergeRouterInputProtocolConfiguration]?
+
+        public init(
+            mergeRecoveryWindowMilliseconds: Swift.Int? = nil,
+            networkInterfaceArn: Swift.String? = nil,
+            protocolConfigurations: [MediaConnectClientTypes.MergeRouterInputProtocolConfiguration]? = nil
+        ) {
+            self.mergeRecoveryWindowMilliseconds = mergeRecoveryWindowMilliseconds
+            self.networkInterfaceArn = networkInterfaceArn
+            self.protocolConfigurations = protocolConfigurations
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterInputProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rist
+        case rtp
+        case srtCaller
+        case srtListener
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterInputProtocol] {
+            return [
+                .rist,
+                .rtp,
+                .srtCaller,
+                .srtListener
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rist: return "RIST"
+            case .rtp: return "RTP"
+            case .srtCaller: return "SRT_CALLER"
+            case .srtListener: return "SRT_LISTENER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The protocol configuration settings for a router input.
+    public enum RouterInputProtocolConfiguration: Swift.Sendable {
+        /// The configuration settings for a Router Input using the RTP (Real-Time Transport Protocol) protocol, including the port and forward error correction state.
+        case rtp(MediaConnectClientTypes.RtpRouterInputConfiguration)
+        /// The configuration settings for a router input using the RIST (Reliable Internet Stream Transport) protocol, including the port and recovery latency.
+        case rist(MediaConnectClientTypes.RistRouterInputConfiguration)
+        /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and decryption key configuration.
+        case srtlistener(MediaConnectClientTypes.SrtListenerRouterInputConfiguration)
+        /// The configuration settings for a router input using the SRT (Secure Reliable Transport) protocol in caller mode, including the source address and port, minimum latency, stream ID, and decryption key configuration.
+        case srtcaller(MediaConnectClientTypes.SrtCallerRouterInputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a standard router input, including the protocol, protocol-specific configuration, network interface, and availability zone.
+    public struct StandardRouterInputConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the network interface associated with the standard router input.
+        /// This member is required.
+        public var networkInterfaceArn: Swift.String?
+        /// The protocol used by the standard router input.
+        public var `protocol`: MediaConnectClientTypes.RouterInputProtocol?
+        /// The configuration settings for the protocol used by the standard router input.
+        /// This member is required.
+        public var protocolConfiguration: MediaConnectClientTypes.RouterInputProtocolConfiguration?
+
+        public init(
+            networkInterfaceArn: Swift.String? = nil,
+            `protocol`: MediaConnectClientTypes.RouterInputProtocol? = nil,
+            protocolConfiguration: MediaConnectClientTypes.RouterInputProtocolConfiguration? = nil
+        ) {
+            self.networkInterfaceArn = networkInterfaceArn
+            self.`protocol` = `protocol`
+            self.protocolConfiguration = protocolConfiguration
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router input.
+    public enum RouterInputConfiguration: Swift.Sendable {
+        /// The configuration settings for a standard router input, including the protocol, protocol-specific configuration, network interface, and availability zone.
+        case standard(MediaConnectClientTypes.StandardRouterInputConfiguration)
+        /// Configuration settings for a failover router input that allows switching between two input sources.
+        case failover(MediaConnectClientTypes.FailoverRouterInputConfiguration)
+        /// Configuration settings for a merge router input that combines two input sources.
+        case merge(MediaConnectClientTypes.MergeRouterInputConfiguration)
+        /// Configuration settings for connecting a router input to a flow output.
+        case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterInputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failover
+        case mediaconnectFlow
+        case merge
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterInputType] {
+            return [
+                .failover,
+                .mediaconnectFlow,
+                .merge,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failover: return "FAILOVER"
+            case .mediaconnectFlow: return "MEDIACONNECT_FLOW"
+            case .merge: return "MERGE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for default maintenance scheduling.
+    public struct DefaultMaintenanceConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum Day: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Day] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration for preferred day and time maintenance settings.
+    public struct PreferredDayTimeMaintenanceConfiguration: Swift.Sendable {
+        /// The preferred day for maintenance operations.
+        /// This member is required.
+        public var day: MediaConnectClientTypes.Day?
+        /// The preferred time for maintenance operations.
+        /// This member is required.
+        public var time: Swift.String?
+
+        public init(
+            day: MediaConnectClientTypes.Day? = nil,
+            time: Swift.String? = nil
+        ) {
+            self.day = day
+            self.time = time
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for maintenance operations, including preferred maintenance windows and schedules.
+    public enum MaintenanceConfiguration: Swift.Sendable {
+        /// Preferred day and time maintenance configuration settings.
+        case preferreddaytime(MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration)
+        /// Default maintenance configuration settings.
+        case `default`(MediaConnectClientTypes.DefaultMaintenanceConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Defines a specific time window for maintenance operations.
+    public struct WindowMaintenanceSchedule: Swift.Sendable {
+        /// The end time of the maintenance window.
+        /// This member is required.
+        public var end: Foundation.Date?
+        /// The date and time when the maintenance window is scheduled to occur.
+        /// This member is required.
+        public var scheduledTime: Foundation.Date?
+        /// The start time of the maintenance window.
+        /// This member is required.
+        public var start: Foundation.Date?
+
+        public init(
+            end: Foundation.Date? = nil,
+            scheduledTime: Foundation.Date? = nil,
+            start: Foundation.Date? = nil
+        ) {
+            self.end = end
+            self.scheduledTime = scheduledTime
+            self.start = start
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The details of the maintenance schedule.
+    public enum MaintenanceSchedule: Swift.Sendable {
+        /// Defines a specific time window for maintenance operations.
+        case window(MediaConnectClientTypes.WindowMaintenanceSchedule)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum MaintenanceScheduleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case window
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaintenanceScheduleType] {
+            return [
+                .window
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .window: return "WINDOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum MaintenanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case preferredDayTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaintenanceType] {
+            return [
+                .default,
+                .preferredDayTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .preferredDayTime: return "PREFERRED_DAY_TIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A message associated with a router input, including a code and a message.
+    public struct RouterInputMessage: Swift.Sendable {
+        /// The code associated with the router input message.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The message text associated with the router input message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RoutingScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case global
+        case regional
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutingScope] {
+            return [
+                .global,
+                .regional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .global: return "GLOBAL"
+            case .regional: return "REGIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterInputState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case error
+        case migrating
+        case recovering
+        case standby
+        case starting
+        case stopping
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterInputState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .error,
+                .migrating,
+                .recovering,
+                .standby,
+                .starting,
+                .stopping,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .migrating: return "MIGRATING"
+            case .recovering: return "RECOVERING"
+            case .standby: return "STANDBY"
+            case .starting: return "STARTING"
+            case .stopping: return "STOPPING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for an indexed stream in a failover router input setup.
+    public struct FailoverRouterInputIndexedStreamDetails: Swift.Sendable {
+        /// The index number (0 or 1) assigned to this source in the failover configuration.
+        /// This member is required.
+        public var sourceIndex: Swift.Int?
+        /// The IP address of the source for this indexed stream.
+        public var sourceIpAddress: Swift.String?
+
+        public init(
+            sourceIndex: Swift.Int? = nil,
+            sourceIpAddress: Swift.String? = nil
+        ) {
+            self.sourceIndex = sourceIndex
+            self.sourceIpAddress = sourceIpAddress
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for a failover router input that can automatically switch between two sources.
+    public struct FailoverRouterInputStreamDetails: Swift.Sendable {
+        /// Configuration details for the secondary source (index 1) in the failover setup.
+        /// This member is required.
+        public var sourceIndexOneStreamDetails: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails?
+        /// Configuration details for the primary source (index 0) in the failover setup.
+        /// This member is required.
+        public var sourceIndexZeroStreamDetails: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails?
+
+        public init(
+            sourceIndexOneStreamDetails: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails? = nil,
+            sourceIndexZeroStreamDetails: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails? = nil
+        ) {
+            self.sourceIndexOneStreamDetails = sourceIndexOneStreamDetails
+            self.sourceIndexZeroStreamDetails = sourceIndexZeroStreamDetails
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for a MediaConnect flow when used as a router input source.
+    public struct MediaConnectFlowRouterInputStreamDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for an indexed stream in a merge router input setup.
+    public struct MergeRouterInputIndexedStreamDetails: Swift.Sendable {
+        /// The index number (0 or 1) assigned to this source in the merge configuration.
+        /// This member is required.
+        public var sourceIndex: Swift.Int?
+        /// The IP address of the source for this indexed stream in the merge setup.
+        public var sourceIpAddress: Swift.String?
+
+        public init(
+            sourceIndex: Swift.Int? = nil,
+            sourceIpAddress: Swift.String? = nil
+        ) {
+            self.sourceIndex = sourceIndex
+            self.sourceIpAddress = sourceIpAddress
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for a merge router input that combines two input sources.
+    public struct MergeRouterInputStreamDetails: Swift.Sendable {
+        /// Configuration details for the second source (index 1) in the merge setup.
+        /// This member is required.
+        public var sourceIndexOneStreamDetails: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails?
+        /// Configuration details for the first source (index 0) in the merge setup.
+        /// This member is required.
+        public var sourceIndexZeroStreamDetails: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails?
+
+        public init(
+            sourceIndexOneStreamDetails: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails? = nil,
+            sourceIndexZeroStreamDetails: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails? = nil
+        ) {
+            self.sourceIndexOneStreamDetails = sourceIndexOneStreamDetails
+            self.sourceIndexZeroStreamDetails = sourceIndexZeroStreamDetails
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for a standard router input stream type.
+    public struct StandardRouterInputStreamDetails: Swift.Sendable {
+        /// The source IP address for the standard router input stream.
+        public var sourceIpAddress: Swift.String?
+
+        public init(
+            sourceIpAddress: Swift.String? = nil
+        ) {
+            self.sourceIpAddress = sourceIpAddress
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for the router input stream.
+    public enum RouterInputStreamDetails: Swift.Sendable {
+        /// Configuration details for a standard router input stream type.
+        case standard(MediaConnectClientTypes.StandardRouterInputStreamDetails)
+        /// Configuration details for a failover router input that can automatically switch between two sources.
+        case failover(MediaConnectClientTypes.FailoverRouterInputStreamDetails)
+        /// Configuration details for a merge router input that combines two input sources.
+        case merge(MediaConnectClientTypes.MergeRouterInputStreamDetails)
+        /// Configuration details for a MediaConnect flow when used as a router input source.
+        case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterInputTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case input100
+        case input20
+        case input50
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterInputTier] {
+            return [
+                .input100,
+                .input20,
+                .input50
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .input100: return "INPUT_100"
+            case .input20: return "INPUT_20"
+            case .input50: return "INPUT_50"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Defines the configuration settings for transit encryption keys.
+    public enum RouterInputTransitEncryptionKeyConfiguration: Swift.Sendable {
+        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
+        /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
+        case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterInputTransitEncryptionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterInputTransitEncryptionKeyType] {
+            return [
+                .automatic,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The transit encryption settings for a router input.
+    public struct RouterInputTransitEncryption: Swift.Sendable {
+        /// Contains the configuration details for the encryption key used in transit encryption, including the key source and associated parameters.
+        /// This member is required.
+        public var encryptionKeyConfiguration: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration?
+        /// Specifies the type of encryption key to use for transit encryption.
+        public var encryptionKeyType: MediaConnectClientTypes.RouterInputTransitEncryptionKeyType?
+
+        public init(
+            encryptionKeyConfiguration: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration? = nil,
+            encryptionKeyType: MediaConnectClientTypes.RouterInputTransitEncryptionKeyType? = nil
+        ) {
+            self.encryptionKeyConfiguration = encryptionKeyConfiguration
+            self.encryptionKeyType = encryptionKeyType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A router input in AWS Elemental MediaConnect. A router input is a source of media content that can be routed to one or more router outputs.
+    public struct RouterInput: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router input.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Availability Zone of the router input.
+        /// This member is required.
+        public var availabilityZone: Swift.String?
+        /// The configuration settings for a router input.
+        /// This member is required.
+        public var configuration: MediaConnectClientTypes.RouterInputConfiguration?
+        /// The timestamp when the router input was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the router input.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The type of the router input.
+        /// This member is required.
+        public var inputType: MediaConnectClientTypes.RouterInputType?
+        /// The IP address of the router input.
+        public var ipAddress: Swift.String?
+        /// The maintenance configuration settings applied to this router input.
+        /// This member is required.
+        public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
+        /// The current maintenance schedule details for this router input.
+        public var maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule?
+        /// The type of maintenance schedule currently in effect for this router input.
+        public var maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType?
+        /// The type of maintenance configuration applied to this router input.
+        /// This member is required.
+        public var maintenanceType: MediaConnectClientTypes.MaintenanceType?
+        /// The maximum bitrate for the router input.
+        /// This member is required.
+        public var maximumBitrate: Swift.Int?
+        /// The maximum number of outputs that can be simultaneously routed to this input.
+        public var maximumRoutedOutputs: Swift.Int?
+        /// The messages associated with the router input.
+        /// This member is required.
+        public var messages: [MediaConnectClientTypes.RouterInputMessage]?
+        /// The name of the router input.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The AWS Region where the router input is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The number of router outputs associated with the router input.
+        /// This member is required.
+        public var routedOutputs: Swift.Int?
+        /// Indicates whether the router input is configured for Regional or global routing.
+        /// This member is required.
+        public var routingScope: MediaConnectClientTypes.RoutingScope?
+        /// The current state of the router input.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.RouterInputState?
+        /// Configuration details for the router input stream.
+        /// This member is required.
+        public var streamDetails: MediaConnectClientTypes.RouterInputStreamDetails?
+        /// Key-value pairs that can be used to tag and organize this router input.
+        /// This member is required.
+        public var tags: [Swift.String: Swift.String]?
+        /// The tier level of the router input.
+        /// This member is required.
+        public var tier: MediaConnectClientTypes.RouterInputTier?
+        /// The transit encryption settings for a router input.
+        /// This member is required.
+        public var transitEncryption: MediaConnectClientTypes.RouterInputTransitEncryption?
+        /// The timestamp when the router input was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            configuration: MediaConnectClientTypes.RouterInputConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            inputType: MediaConnectClientTypes.RouterInputType? = nil,
+            ipAddress: Swift.String? = nil,
+            maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
+            maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule? = nil,
+            maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType? = nil,
+            maintenanceType: MediaConnectClientTypes.MaintenanceType? = nil,
+            maximumBitrate: Swift.Int? = nil,
+            maximumRoutedOutputs: Swift.Int? = nil,
+            messages: [MediaConnectClientTypes.RouterInputMessage]? = nil,
+            name: Swift.String? = nil,
+            regionName: Swift.String? = nil,
+            routedOutputs: Swift.Int? = nil,
+            routingScope: MediaConnectClientTypes.RoutingScope? = nil,
+            state: MediaConnectClientTypes.RouterInputState? = nil,
+            streamDetails: MediaConnectClientTypes.RouterInputStreamDetails? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            tier: MediaConnectClientTypes.RouterInputTier? = nil,
+            transitEncryption: MediaConnectClientTypes.RouterInputTransitEncryption? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.availabilityZone = availabilityZone
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.id = id
+            self.inputType = inputType
+            self.ipAddress = ipAddress
+            self.maintenanceConfiguration = maintenanceConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.maintenanceScheduleType = maintenanceScheduleType
+            self.maintenanceType = maintenanceType
+            self.maximumBitrate = maximumBitrate
+            self.maximumRoutedOutputs = maximumRoutedOutputs
+            self.messages = messages
+            self.name = name
+            self.regionName = regionName
+            self.routedOutputs = routedOutputs
+            self.routingScope = routingScope
+            self.state = state
+            self.streamDetails = streamDetails
+            self.tags = tags
+            self.tier = tier
+            self.transitEncryption = transitEncryption
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct BatchGetRouterInputOutput: Swift.Sendable {
+    /// An array of errors that occurred when retrieving the requested router inputs.
+    /// This member is required.
+    public var errors: [MediaConnectClientTypes.BatchGetRouterInputError]?
+    /// An array of router inputs that were successfully retrieved.
+    /// This member is required.
+    public var routerInputs: [MediaConnectClientTypes.RouterInput]?
+
+    public init(
+        errors: [MediaConnectClientTypes.BatchGetRouterInputError]? = nil,
+        routerInputs: [MediaConnectClientTypes.RouterInput]? = nil
+    ) {
+        self.errors = errors
+        self.routerInputs = routerInputs
+    }
+}
+
+public struct BatchGetRouterNetworkInterfaceInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of the router network interfaces you want to retrieve information about.
+    /// This member is required.
+    public var arns: [Swift.String]?
+
+    public init(
+        arns: [Swift.String]? = nil
+    ) {
+        self.arns = arns
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// An error that occurred when retrieving multiple router network interfaces in the BatchGetRouterNetworkInterface operation, including the ARN, error code, and error message.
+    public struct BatchGetRouterNetworkInterfaceError: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router network interface for which the error occurred.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The error code associated with the error.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A message describing the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A rule that allows a specific CIDR block to access the public router network interface.
+    public struct PublicRouterNetworkInterfaceRule: Swift.Sendable {
+        /// The CIDR block that is allowed to access the public router network interface.
+        /// This member is required.
+        public var cidr: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil
+        ) {
+            self.cidr = cidr
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a public router network interface, including the list of allowed CIDR blocks.
+    public struct PublicRouterNetworkInterfaceConfiguration: Swift.Sendable {
+        /// The list of allowed CIDR blocks for the public router network interface.
+        /// This member is required.
+        public var allowRules: [MediaConnectClientTypes.PublicRouterNetworkInterfaceRule]?
+
+        public init(
+            allowRules: [MediaConnectClientTypes.PublicRouterNetworkInterfaceRule]? = nil
+        ) {
+            self.allowRules = allowRules
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID.
+    public struct VpcRouterNetworkInterfaceConfiguration: Swift.Sendable {
+        /// The IDs of the security groups to associate with the router network interface within the VPC.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// The ID of the subnet within the VPC to associate the router network interface with.
+        /// This member is required.
+        public var subnetId: Swift.String?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router network interface.
+    public enum RouterNetworkInterfaceConfiguration: Swift.Sendable {
+        /// The configuration settings for a public router network interface, including the list of allowed CIDR blocks.
+        case `public`(MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration)
+        /// The configuration settings for a router network interface within a VPC, including the security group IDs and subnet ID.
+        case vpc(MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterNetworkInterfaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterNetworkInterfaceType] {
+            return [
+                .public,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "PUBLIC"
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterNetworkInterfaceState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case error
+        case recovering
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterNetworkInterfaceState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .error,
+                .recovering,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .recovering: return "RECOVERING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A router network interface in AWS Elemental MediaConnect. A router network interface is a network interface that can be associated with one or more router inputs and outputs.
+    public struct RouterNetworkInterface: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router network interface.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The number of router inputs associated with the network interface.
+        /// This member is required.
+        public var associatedInputCount: Swift.Int?
+        /// The number of router outputs associated with the network interface.
+        /// This member is required.
+        public var associatedOutputCount: Swift.Int?
+        /// The configuration settings for a router network interface.
+        /// This member is required.
+        public var configuration: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration?
+        /// The timestamp when the router network interface was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the router network interface.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the router network interface.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of the router network interface.
+        /// This member is required.
+        public var networkInterfaceType: MediaConnectClientTypes.RouterNetworkInterfaceType?
+        /// The AWS Region where the router network interface is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The current state of the router network interface.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.RouterNetworkInterfaceState?
+        /// Key-value pairs that can be used to tag and organize this router network interface.
+        /// This member is required.
+        public var tags: [Swift.String: Swift.String]?
+        /// The timestamp when the router network interface was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            associatedInputCount: Swift.Int? = nil,
+            associatedOutputCount: Swift.Int? = nil,
+            configuration: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkInterfaceType: MediaConnectClientTypes.RouterNetworkInterfaceType? = nil,
+            regionName: Swift.String? = nil,
+            state: MediaConnectClientTypes.RouterNetworkInterfaceState? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.associatedInputCount = associatedInputCount
+            self.associatedOutputCount = associatedOutputCount
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.id = id
+            self.name = name
+            self.networkInterfaceType = networkInterfaceType
+            self.regionName = regionName
+            self.state = state
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct BatchGetRouterNetworkInterfaceOutput: Swift.Sendable {
+    /// An array of errors that occurred when retrieving the requested router network interfaces.
+    /// This member is required.
+    public var errors: [MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError]?
+    /// An array of router network interfaces that were successfully retrieved.
+    /// This member is required.
+    public var routerNetworkInterfaces: [MediaConnectClientTypes.RouterNetworkInterface]?
+
+    public init(
+        errors: [MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError]? = nil,
+        routerNetworkInterfaces: [MediaConnectClientTypes.RouterNetworkInterface]? = nil
+    ) {
+        self.errors = errors
+        self.routerNetworkInterfaces = routerNetworkInterfaces
+    }
+}
+
+public struct BatchGetRouterOutputInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of the router outputs you want to retrieve information about.
+    /// This member is required.
+    public var arns: [Swift.String]?
+
+    public init(
+        arns: [Swift.String]? = nil
+    ) {
+        self.arns = arns
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// An error that occurred when retrieving multiple router outputs in the BatchGetRouterOutput operation, including the ARN, error code, and error message.
+    public struct BatchGetRouterOutputError: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router output for which the error occurred.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The error code associated with the error.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A message describing the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for connecting a router output to a MediaConnect flow source.
+    public struct MediaConnectFlowRouterOutputConfiguration: Swift.Sendable {
+        /// The encryption configuration for the flow destination when connected to this router output.
+        /// This member is required.
+        public var destinationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption?
+        /// The ARN of the flow to connect to this router output.
+        public var flowArn: Swift.String?
+        /// The ARN of the flow source to connect to this router output.
+        public var flowSourceArn: Swift.String?
+
+        public init(
+            destinationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
+            flowArn: Swift.String? = nil,
+            flowSourceArn: Swift.String? = nil
+        ) {
+            self.destinationTransitEncryption = destinationTransitEncryption
+            self.flowArn = flowArn
+            self.flowSourceArn = flowSourceArn
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for the MediaLive transit encryption key.
+    public enum MediaLiveTransitEncryptionKeyConfiguration: Swift.Sendable {
+        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
+        /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
+        case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum MediaLiveTransitEncryptionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaLiveTransitEncryptionKeyType] {
+            return [
+                .automatic,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The encryption configuration that defines how content is encrypted during transit between MediaConnect Router and MediaLive. This configuration determines whether encryption keys are automatically managed by the service or manually managed through AWS Secrets Manager.
+    public struct MediaLiveTransitEncryption: Swift.Sendable {
+        /// The configuration details for the MediaLive encryption key.
+        /// This member is required.
+        public var encryptionKeyConfiguration: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration?
+        /// The type of encryption key to use for MediaLive transit encryption.
+        public var encryptionKeyType: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyType?
+
+        public init(
+            encryptionKeyConfiguration: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration? = nil,
+            encryptionKeyType: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyType? = nil
+        ) {
+            self.encryptionKeyConfiguration = encryptionKeyConfiguration
+            self.encryptionKeyType = encryptionKeyType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum MediaLiveInputPipelineId: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pipeline0
+        case pipeline1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaLiveInputPipelineId] {
+            return [
+                .pipeline0,
+                .pipeline1
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pipeline0: return "PIPELINE_0"
+            case .pipeline1: return "PIPELINE_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration settings for connecting a router output to a MediaLive input.
+    public struct MediaLiveInputRouterOutputConfiguration: Swift.Sendable {
+        /// The encryption configuration for the MediaLive input when connected to this router output.
+        /// This member is required.
+        public var destinationTransitEncryption: MediaConnectClientTypes.MediaLiveTransitEncryption?
+        /// The ARN of the MediaLive input to connect to this router output.
+        public var mediaLiveInputArn: Swift.String?
+        /// The index of the MediaLive pipeline to connect to this router output.
+        public var mediaLivePipelineId: MediaConnectClientTypes.MediaLiveInputPipelineId?
+
+        public init(
+            destinationTransitEncryption: MediaConnectClientTypes.MediaLiveTransitEncryption? = nil,
+            mediaLiveInputArn: Swift.String? = nil,
+            mediaLivePipelineId: MediaConnectClientTypes.MediaLiveInputPipelineId? = nil
+        ) {
+            self.destinationTransitEncryption = destinationTransitEncryption
+            self.mediaLiveInputArn = mediaLiveInputArn
+            self.mediaLivePipelineId = mediaLivePipelineId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterOutputProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rist
+        case rtp
+        case srtCaller
+        case srtListener
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterOutputProtocol] {
+            return [
+                .rist,
+                .rtp,
+                .srtCaller,
+                .srtListener
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rist: return "RIST"
+            case .rtp: return "RTP"
+            case .srtCaller: return "SRT_CALLER"
+            case .srtListener: return "SRT_LISTENER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router output using the RIST (Reliable Internet Stream Transport) protocol, including the destination address and port.
+    public struct RistRouterOutputConfiguration: Swift.Sendable {
+        /// The destination IP address for the RIST protocol in the router output configuration.
+        /// This member is required.
+        public var destinationAddress: Swift.String?
+        /// The destination port number for the RIST protocol in the router output configuration.
+        /// This member is required.
+        public var destinationPort: Swift.Int?
+
+        public init(
+            destinationAddress: Swift.String? = nil,
+            destinationPort: Swift.Int? = nil
+        ) {
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router output using the RTP (Real-Time Transport Protocol) protocol, including the destination address and port, and forward error correction state.
+    public struct RtpRouterOutputConfiguration: Swift.Sendable {
+        /// The destination IP address for the RTP protocol in the router output configuration.
+        /// This member is required.
+        public var destinationAddress: Swift.String?
+        /// The destination port number for the RTP protocol in the router output configuration.
+        /// This member is required.
+        public var destinationPort: Swift.Int?
+        /// The state of forward error correction for the RTP protocol in the router output configuration.
+        public var forwardErrorCorrection: MediaConnectClientTypes.ForwardErrorCorrectionState?
+
+        public init(
+            destinationAddress: Swift.String? = nil,
+            destinationPort: Swift.Int? = nil,
+            forwardErrorCorrection: MediaConnectClientTypes.ForwardErrorCorrectionState? = nil
+        ) {
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.forwardErrorCorrection = forwardErrorCorrection
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Contains the configuration settings for encrypting SRT streams, including the encryption key details and encryption parameters.
+    public struct SrtEncryptionConfiguration: Swift.Sendable {
+        /// Specifies the encryption key configuration used for encrypting SRT streams, including the key source and associated credentials.
+        /// This member is required.
+        public var encryptionKey: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration?
+
+        public init(
+            encryptionKey: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration? = nil
+        ) {
+            self.encryptionKey = encryptionKey
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router output using the SRT (Secure Reliable Transport) protocol in caller mode, including the destination address and port, minimum latency, stream ID, and encryption key configuration.
+    public struct SrtCallerRouterOutputConfiguration: Swift.Sendable {
+        /// The destination IP address for the SRT protocol in caller mode.
+        /// This member is required.
+        public var destinationAddress: Swift.String?
+        /// The destination port number for the SRT protocol in caller mode.
+        /// This member is required.
+        public var destinationPort: Swift.Int?
+        /// Defines the encryption settings for an SRT caller output, including the encryption key configuration and associated parameters.
+        public var encryptionConfiguration: MediaConnectClientTypes.SrtEncryptionConfiguration?
+        /// The minimum latency in milliseconds for the SRT protocol in caller mode.
+        /// This member is required.
+        public var minimumLatencyMilliseconds: Swift.Int?
+        /// The stream ID for the SRT protocol in caller mode.
+        public var streamId: Swift.String?
+
+        public init(
+            destinationAddress: Swift.String? = nil,
+            destinationPort: Swift.Int? = nil,
+            encryptionConfiguration: MediaConnectClientTypes.SrtEncryptionConfiguration? = nil,
+            minimumLatencyMilliseconds: Swift.Int? = nil,
+            streamId: Swift.String? = nil
+        ) {
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.encryptionConfiguration = encryptionConfiguration
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.streamId = streamId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router output using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and encryption key configuration.
+    public struct SrtListenerRouterOutputConfiguration: Swift.Sendable {
+        /// Defines the encryption settings for an SRT listener output, including the encryption key configuration and associated parameters.
+        public var encryptionConfiguration: MediaConnectClientTypes.SrtEncryptionConfiguration?
+        /// The minimum latency in milliseconds for the SRT protocol in listener mode.
+        /// This member is required.
+        public var minimumLatencyMilliseconds: Swift.Int?
+        /// The port number for the SRT protocol in listener mode.
+        /// This member is required.
+        public var port: Swift.Int?
+
+        public init(
+            encryptionConfiguration: MediaConnectClientTypes.SrtEncryptionConfiguration? = nil,
+            minimumLatencyMilliseconds: Swift.Int? = nil,
+            port: Swift.Int? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.port = port
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The protocol configuration settings for a router output.
+    public enum RouterOutputProtocolConfiguration: Swift.Sendable {
+        /// The configuration settings for a router output using the RTP (Real-Time Transport Protocol) protocol, including the destination address and port, and forward error correction state.
+        case rtp(MediaConnectClientTypes.RtpRouterOutputConfiguration)
+        /// The configuration settings for a router output using the RIST (Reliable Internet Stream Transport) protocol, including the destination address and port.
+        case rist(MediaConnectClientTypes.RistRouterOutputConfiguration)
+        /// The configuration settings for a router output using the SRT (Secure Reliable Transport) protocol in listener mode, including the port, minimum latency, and encryption key configuration.
+        case srtlistener(MediaConnectClientTypes.SrtListenerRouterOutputConfiguration)
+        /// The configuration settings for a router output using the SRT (Secure Reliable Transport) protocol in caller mode, including the destination address and port, minimum latency, stream ID, and encryption key configuration.
+        case srtcaller(MediaConnectClientTypes.SrtCallerRouterOutputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a standard router output, including the protocol, protocol-specific configuration, network interface, and availability zone.
+    public struct StandardRouterOutputConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the network interface associated with the standard router output.
+        /// This member is required.
+        public var networkInterfaceArn: Swift.String?
+        /// The protocol used by the standard router output.
+        public var `protocol`: MediaConnectClientTypes.RouterOutputProtocol?
+        /// The configuration settings for the protocol used by the standard router output.
+        /// This member is required.
+        public var protocolConfiguration: MediaConnectClientTypes.RouterOutputProtocolConfiguration?
+
+        public init(
+            networkInterfaceArn: Swift.String? = nil,
+            `protocol`: MediaConnectClientTypes.RouterOutputProtocol? = nil,
+            protocolConfiguration: MediaConnectClientTypes.RouterOutputProtocolConfiguration? = nil
+        ) {
+            self.networkInterfaceArn = networkInterfaceArn
+            self.`protocol` = `protocol`
+            self.protocolConfiguration = protocolConfiguration
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a router output.
+    public enum RouterOutputConfiguration: Swift.Sendable {
+        /// The configuration settings for a standard router output, including the protocol, protocol-specific configuration, network interface, and availability zone.
+        case standard(MediaConnectClientTypes.StandardRouterOutputConfiguration)
+        /// Configuration settings for connecting a router output to a MediaConnect flow source.
+        case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration)
+        /// Configuration settings for connecting a router output to a MediaLive input.
+        case medialiveinput(MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A message associated with a router output.
+    public struct RouterOutputMessage: Swift.Sendable {
+        /// The code associated with the router output message.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The message text associated with the router output message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterOutputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mediaconnectFlow
+        case medialiveInput
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterOutputType] {
+            return [
+                .mediaconnectFlow,
+                .medialiveInput,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mediaconnectFlow: return "MEDIACONNECT_FLOW"
+            case .medialiveInput: return "MEDIALIVE_INPUT"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterOutputRoutedState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case routed
+        case routing
+        case unrouted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterOutputRoutedState] {
+            return [
+                .routed,
+                .routing,
+                .unrouted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .routed: return "ROUTED"
+            case .routing: return "ROUTING"
+            case .unrouted: return "UNROUTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterOutputState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case error
+        case migrating
+        case recovering
+        case standby
+        case starting
+        case stopping
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterOutputState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .error,
+                .migrating,
+                .recovering,
+                .standby,
+                .starting,
+                .stopping,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .migrating: return "MIGRATING"
+            case .recovering: return "RECOVERING"
+            case .standby: return "STANDBY"
+            case .starting: return "STARTING"
+            case .stopping: return "STOPPING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for a MediaConnect flow when used as a router output destination.
+    public struct MediaConnectFlowRouterOutputStreamDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for a MediaLive input when used as a router output destination.
+    public struct MediaLiveInputRouterOutputStreamDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Configuration details for a standard router output stream type. Contains information about the destination IP address and connection state for basic output routing.
+    public struct StandardRouterOutputStreamDetails: Swift.Sendable {
+        /// The IP address where the output stream will be sent. This is the destination address that will receive the routed media content.
+        public var destinationIpAddress: Swift.String?
+
+        public init(
+            destinationIpAddress: Swift.String? = nil
+        ) {
+            self.destinationIpAddress = destinationIpAddress
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Information about the router output's stream, including connection state and destination details. The specific details provided vary based on the router output type.
+    public enum RouterOutputStreamDetails: Swift.Sendable {
+        /// Configuration details for a standard router output stream type. Contains information about the destination IP address and connection state for basic output routing.
+        case standard(MediaConnectClientTypes.StandardRouterOutputStreamDetails)
+        /// Configuration details for a MediaConnect flow when used as a router output destination.
+        case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails)
+        /// Configuration details for a MediaLive input when used as a router output destination.
+        case medialiveinput(MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterOutputTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case output100
+        case output20
+        case output50
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterOutputTier] {
+            return [
+                .output100,
+                .output20,
+                .output50
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .output100: return "OUTPUT_100"
+            case .output20: return "OUTPUT_20"
+            case .output50: return "OUTPUT_50"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A router output in AWS Elemental MediaConnect. A router output is a destination for media content that can receive input from one or more router inputs.
+    public struct RouterOutput: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router output.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Availability Zone of the router output.
+        /// This member is required.
+        public var availabilityZone: Swift.String?
+        /// The configuration settings for a router output.
+        /// This member is required.
+        public var configuration: MediaConnectClientTypes.RouterOutputConfiguration?
+        /// The timestamp when the router output was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the router output.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The IP address of the router output.
+        public var ipAddress: Swift.String?
+        /// The maintenance configuration settings applied to this router output.
+        /// This member is required.
+        public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
+        /// The current maintenance schedule details for this router output.
+        public var maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule?
+        /// The type of maintenance schedule currently in effect for this router output.
+        public var maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType?
+        /// The type of maintenance configuration applied to this router output.
+        /// This member is required.
+        public var maintenanceType: MediaConnectClientTypes.MaintenanceType?
+        /// The maximum bitrate for the router output.
+        /// This member is required.
+        public var maximumBitrate: Swift.Int?
+        /// The messages associated with the router output.
+        /// This member is required.
+        public var messages: [MediaConnectClientTypes.RouterOutputMessage]?
+        /// The name of the router output.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of the router output.
+        /// This member is required.
+        public var outputType: MediaConnectClientTypes.RouterOutputType?
+        /// The AWS Region where the router output is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the router input associated with the output.
+        public var routedInputArn: Swift.String?
+        /// The current state of the association between the router output and its input.
+        /// This member is required.
+        public var routedState: MediaConnectClientTypes.RouterOutputRoutedState?
+        /// Indicates whether the router output is configured for Regional or global routing.
+        /// This member is required.
+        public var routingScope: MediaConnectClientTypes.RoutingScope?
+        /// The overall state of the router output.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.RouterOutputState?
+        /// Information about the router output's stream, including connection state and destination details. The specific details provided vary based on the router output type.
+        /// This member is required.
+        public var streamDetails: MediaConnectClientTypes.RouterOutputStreamDetails?
+        /// Key-value pairs that can be used to tag and organize this router output.
+        /// This member is required.
+        public var tags: [Swift.String: Swift.String]?
+        /// The tier level of the router output.
+        /// This member is required.
+        public var tier: MediaConnectClientTypes.RouterOutputTier?
+        /// The timestamp when the router output was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            configuration: MediaConnectClientTypes.RouterOutputConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            ipAddress: Swift.String? = nil,
+            maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
+            maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule? = nil,
+            maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType? = nil,
+            maintenanceType: MediaConnectClientTypes.MaintenanceType? = nil,
+            maximumBitrate: Swift.Int? = nil,
+            messages: [MediaConnectClientTypes.RouterOutputMessage]? = nil,
+            name: Swift.String? = nil,
+            outputType: MediaConnectClientTypes.RouterOutputType? = nil,
+            regionName: Swift.String? = nil,
+            routedInputArn: Swift.String? = nil,
+            routedState: MediaConnectClientTypes.RouterOutputRoutedState? = nil,
+            routingScope: MediaConnectClientTypes.RoutingScope? = nil,
+            state: MediaConnectClientTypes.RouterOutputState? = nil,
+            streamDetails: MediaConnectClientTypes.RouterOutputStreamDetails? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            tier: MediaConnectClientTypes.RouterOutputTier? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.availabilityZone = availabilityZone
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.id = id
+            self.ipAddress = ipAddress
+            self.maintenanceConfiguration = maintenanceConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
+            self.maintenanceScheduleType = maintenanceScheduleType
+            self.maintenanceType = maintenanceType
+            self.maximumBitrate = maximumBitrate
+            self.messages = messages
+            self.name = name
+            self.outputType = outputType
+            self.regionName = regionName
+            self.routedInputArn = routedInputArn
+            self.routedState = routedState
+            self.routingScope = routingScope
+            self.state = state
+            self.streamDetails = streamDetails
+            self.tags = tags
+            self.tier = tier
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct BatchGetRouterOutputOutput: Swift.Sendable {
+    /// An array of errors that occurred when retrieving the requested router outputs.
+    /// This member is required.
+    public var errors: [MediaConnectClientTypes.BatchGetRouterOutputError]?
+    /// An array of router outputs that were successfully retrieved.
+    /// This member is required.
+    public var routerOutputs: [MediaConnectClientTypes.RouterOutput]?
+
+    public init(
+        errors: [MediaConnectClientTypes.BatchGetRouterOutputError]? = nil,
+        routerOutputs: [MediaConnectClientTypes.RouterOutput]? = nil
+    ) {
+        self.errors = errors
+        self.routerOutputs = routerOutputs
     }
 }
 
@@ -4398,6 +6650,8 @@ public struct CreateFlowInput: Swift.Sendable {
     public var entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]?
     /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
     public var flowSize: MediaConnectClientTypes.FlowSize?
+    /// The key-value pairs that can be used to tag and organize the flow.
+    public var flowTags: [Swift.String: Swift.String]?
     /// The maintenance settings you want to use for the flow.
     public var maintenance: MediaConnectClientTypes.AddMaintenance?
     /// The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
@@ -4424,6 +6678,7 @@ public struct CreateFlowInput: Swift.Sendable {
         availabilityZone: Swift.String? = nil,
         entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]? = nil,
         flowSize: MediaConnectClientTypes.FlowSize? = nil,
+        flowTags: [Swift.String: Swift.String]? = nil,
         maintenance: MediaConnectClientTypes.AddMaintenance? = nil,
         mediaStreams: [MediaConnectClientTypes.AddMediaStreamRequest]? = nil,
         name: Swift.String? = nil,
@@ -4438,6 +6693,7 @@ public struct CreateFlowInput: Swift.Sendable {
         self.availabilityZone = availabilityZone
         self.entitlements = entitlements
         self.flowSize = flowSize
+        self.flowTags = flowTags
         self.maintenance = maintenance
         self.mediaStreams = mediaStreams
         self.name = name
@@ -4644,6 +6900,251 @@ public struct CreateGatewayOutput: Swift.Sendable {
     }
 }
 
+/// The request to create a new router input would exceed the service quotas for the account.
+public struct RouterInputServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RouterInputServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateRouterInputInput: Swift.Sendable {
+    /// The Availability Zone where you want to create the router input. This must be a valid Availability Zone for the region specified by regionName, or the current region if no regionName is provided.
+    public var availabilityZone: Swift.String?
+    /// A unique identifier for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The configuration settings for the router input, which can include the protocol, network interface, and other details.
+    /// This member is required.
+    public var configuration: MediaConnectClientTypes.RouterInputConfiguration?
+    /// The maintenance configuration settings for the router input, including preferred maintenance windows and schedules.
+    public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
+    /// The maximum bitrate for the router input.
+    /// This member is required.
+    public var maximumBitrate: Swift.Int?
+    /// The name of the router input.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The AWS Region for the router input. Defaults to the current region if not specified.
+    public var regionName: Swift.String?
+    /// Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL - connects to outputs in any Region.
+    /// This member is required.
+    public var routingScope: MediaConnectClientTypes.RoutingScope?
+    /// Key-value pairs that can be used to tag and organize this router input.
+    public var tags: [Swift.String: Swift.String]?
+    /// The tier level for the router input.
+    /// This member is required.
+    public var tier: MediaConnectClientTypes.RouterInputTier?
+    /// The transit encryption settings for the router input.
+    public var transitEncryption: MediaConnectClientTypes.RouterInputTransitEncryption?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.RouterInputConfiguration? = nil,
+        maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
+        maximumBitrate: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        regionName: Swift.String? = nil,
+        routingScope: MediaConnectClientTypes.RoutingScope? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        tier: MediaConnectClientTypes.RouterInputTier? = nil,
+        transitEncryption: MediaConnectClientTypes.RouterInputTransitEncryption? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.maintenanceConfiguration = maintenanceConfiguration
+        self.maximumBitrate = maximumBitrate
+        self.name = name
+        self.regionName = regionName
+        self.routingScope = routingScope
+        self.tags = tags
+        self.tier = tier
+        self.transitEncryption = transitEncryption
+    }
+}
+
+public struct CreateRouterInputOutput: Swift.Sendable {
+    /// The newly-created router input.
+    /// This member is required.
+    public var routerInput: MediaConnectClientTypes.RouterInput?
+
+    public init(
+        routerInput: MediaConnectClientTypes.RouterInput? = nil
+    ) {
+        self.routerInput = routerInput
+    }
+}
+
+/// The request to create a new router network interface would exceed the service quotas (limits) set for the account.
+public struct RouterNetworkInterfaceServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RouterNetworkInterfaceServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateRouterNetworkInterfaceInput: Swift.Sendable {
+    /// A unique identifier for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The configuration settings for the router network interface.
+    /// This member is required.
+    public var configuration: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration?
+    /// The name of the router network interface.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The AWS Region for the router network interface. Defaults to the current region if not specified.
+    public var regionName: Swift.String?
+    /// Key-value pairs that can be used to tag and organize this router network interface.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration? = nil,
+        name: Swift.String? = nil,
+        regionName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.name = name
+        self.regionName = regionName
+        self.tags = tags
+    }
+}
+
+public struct CreateRouterNetworkInterfaceOutput: Swift.Sendable {
+    /// The newly-created router network interface.
+    /// This member is required.
+    public var routerNetworkInterface: MediaConnectClientTypes.RouterNetworkInterface?
+
+    public init(
+        routerNetworkInterface: MediaConnectClientTypes.RouterNetworkInterface? = nil
+    ) {
+        self.routerNetworkInterface = routerNetworkInterface
+    }
+}
+
+/// The request to create a new router output would exceed the service quotas (limits) set for the account.
+public struct RouterOutputServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RouterOutputServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateRouterOutputInput: Swift.Sendable {
+    /// The Availability Zone where you want to create the router output. This must be a valid Availability Zone for the region specified by regionName, or the current region if no regionName is provided.
+    public var availabilityZone: Swift.String?
+    /// A unique identifier for the request to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The configuration settings for the router output.
+    /// This member is required.
+    public var configuration: MediaConnectClientTypes.RouterOutputConfiguration?
+    /// The maintenance configuration settings for the router output, including preferred maintenance windows and schedules.
+    public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
+    /// The maximum bitrate for the router output.
+    /// This member is required.
+    public var maximumBitrate: Swift.Int?
+    /// The name of the router output.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The AWS Region for the router output. Defaults to the current region if not specified.
+    public var regionName: Swift.String?
+    /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
+    /// This member is required.
+    public var routingScope: MediaConnectClientTypes.RoutingScope?
+    /// Key-value pairs that can be used to tag this router output.
+    public var tags: [Swift.String: Swift.String]?
+    /// The tier level for the router output.
+    /// This member is required.
+    public var tier: MediaConnectClientTypes.RouterOutputTier?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.RouterOutputConfiguration? = nil,
+        maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
+        maximumBitrate: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        regionName: Swift.String? = nil,
+        routingScope: MediaConnectClientTypes.RoutingScope? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        tier: MediaConnectClientTypes.RouterOutputTier? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.maintenanceConfiguration = maintenanceConfiguration
+        self.maximumBitrate = maximumBitrate
+        self.name = name
+        self.regionName = regionName
+        self.routingScope = routingScope
+        self.tags = tags
+        self.tier = tier
+    }
+}
+
+public struct CreateRouterOutputOutput: Swift.Sendable {
+    /// The newly-created router output.
+    /// This member is required.
+    public var routerOutput: MediaConnectClientTypes.RouterOutput?
+
+    public init(
+        routerOutput: MediaConnectClientTypes.RouterOutput? = nil
+    ) {
+        self.routerOutput = routerOutput
+    }
+}
+
 public struct DeleteFlowInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the flow that you want to delete.
     /// This member is required.
@@ -4691,6 +7192,108 @@ public struct DeleteGatewayOutput: Swift.Sendable {
         gatewayArn: Swift.String? = nil
     ) {
         self.gatewayArn = gatewayArn
+    }
+}
+
+public struct DeleteRouterInputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input that you want to delete.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct DeleteRouterInputOutput: Swift.Sendable {
+    /// The ARN of the deleted router input.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the deleted router input.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the deleted router input, indicating where it is in the deletion process.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterInputState?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterInputState? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.state = state
+    }
+}
+
+public struct DeleteRouterNetworkInterfaceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router network interface that you want to delete.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct DeleteRouterNetworkInterfaceOutput: Swift.Sendable {
+    /// The ARN of the deleted router network interface.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the deleted router network interface.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the deleted router network interface, indicating where it is in the deletion process.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterNetworkInterfaceState?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterNetworkInterfaceState? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.state = state
+    }
+}
+
+public struct DeleteRouterOutputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router output that you want to delete.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct DeleteRouterOutputOutput: Swift.Sendable {
+    /// The ARN of the deleted router output.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the deleted router output.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the deleted router output, indicating where it is in the deletion process.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterOutputState?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterOutputState? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.state = state
     }
 }
 
@@ -5348,6 +7951,8 @@ public struct UpdateFlowInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
+    /// Determines the processing capacity and feature set of the flow.
+    public var flowSize: MediaConnectClientTypes.FlowSize?
     /// The maintenance setting of the flow.
     public var maintenance: MediaConnectClientTypes.UpdateMaintenance?
     /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
@@ -5359,12 +7964,14 @@ public struct UpdateFlowInput: Swift.Sendable {
 
     public init(
         flowArn: Swift.String? = nil,
+        flowSize: MediaConnectClientTypes.FlowSize? = nil,
         maintenance: MediaConnectClientTypes.UpdateMaintenance? = nil,
         ndiConfig: MediaConnectClientTypes.NdiConfig? = nil,
         sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil,
         sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil
     ) {
         self.flowArn = flowArn
+        self.flowSize = flowSize
         self.maintenance = maintenance
         self.ndiConfig = ndiConfig
         self.sourceFailoverConfig = sourceFailoverConfig
@@ -5563,6 +8170,10 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
     public var `protocol`: MediaConnectClientTypes.ModelProtocol?
     /// The remote ID for the Zixi-pull stream.
     public var remoteId: Swift.String?
+    /// Indicates whether to enable or disable router integration for this flow output.
+    public var routerIntegrationState: MediaConnectClientTypes.State?
+    /// The configuration that defines how content is encrypted during transit between the MediaConnect router and a MediaConnect flow.
+    public var routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption?
     /// The port that the flow uses to send outbound requests to initiate connection with the sender.
     public var senderControlPort: Swift.Int?
     /// The IP address that the flow communicates with to initiate connection with the sender.
@@ -5590,6 +8201,8 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         port: Swift.Int? = nil,
         `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
         remoteId: Swift.String? = nil,
+        routerIntegrationState: MediaConnectClientTypes.State? = nil,
+        routerIntegrationTransitEncryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
         senderControlPort: Swift.Int? = nil,
         senderIpAddress: Swift.String? = nil,
         smoothingLatency: Swift.Int? = nil,
@@ -5611,6 +8224,8 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         self.port = port
         self.`protocol` = `protocol`
         self.remoteId = remoteId
+        self.routerIntegrationState = routerIntegrationState
+        self.routerIntegrationTransitEncryption = routerIntegrationTransitEncryption
         self.senderControlPort = senderControlPort
         self.senderIpAddress = senderIpAddress
         self.smoothingLatency = smoothingLatency
@@ -5679,6 +8294,10 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
     public var minLatency: Swift.Int?
     /// The protocol that the source uses to deliver the content to MediaConnect. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
     public var `protocol`: MediaConnectClientTypes.ModelProtocol?
+    /// Indicates whether to enable or disable router integration for this flow source.
+    public var routerIntegrationState: MediaConnectClientTypes.State?
+    /// The encryption configuration for the flow source when router integration is enabled.
+    public var routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption?
     /// The port that the flow uses to send outbound requests to initiate connection with the sender.
     public var senderControlPort: Swift.Int?
     /// The IP address that the flow communicates with to initiate connection with the sender.
@@ -5710,6 +8329,8 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfigurationRequest]? = nil,
         minLatency: Swift.Int? = nil,
         `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
+        routerIntegrationState: MediaConnectClientTypes.State? = nil,
+        routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
         senderControlPort: Swift.Int? = nil,
         senderIpAddress: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
@@ -5731,6 +8352,8 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
         self.minLatency = minLatency
         self.`protocol` = `protocol`
+        self.routerIntegrationState = routerIntegrationState
+        self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
         self.senderControlPort = senderControlPort
         self.senderIpAddress = senderIpAddress
         self.sourceArn = sourceArn
@@ -5852,6 +8475,450 @@ public struct ListGatewaysOutput: Swift.Sendable {
     }
 }
 
+public struct GetRouterInputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input to retrieve information about.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct GetRouterInputOutput: Swift.Sendable {
+    /// The details of the requested router input, including its configuration, state, and other attributes.
+    /// This member is required.
+    public var routerInput: MediaConnectClientTypes.RouterInput?
+
+    public init(
+        routerInput: MediaConnectClientTypes.RouterInput? = nil
+    ) {
+        self.routerInput = routerInput
+    }
+}
+
+public struct GetRouterInputSourceMetadataInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input to retrieve metadata for.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Metadata information associated with the router input, including stream details and connection state.
+    public enum RouterInputMetadata: Swift.Sendable {
+        /// The metadata of the transport stream in the current flow's source.
+        case transportstreammediainfo(MediaConnectClientTypes.TransportMediaInfo)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Detailed metadata information about a router input source.
+    public struct RouterInputSourceMetadataDetails: Swift.Sendable {
+        /// Metadata information specific to the router input configuration and state.
+        public var routerInputMetadata: MediaConnectClientTypes.RouterInputMetadata?
+        /// Collection of metadata messages associated with the router input source.
+        /// This member is required.
+        public var sourceMetadataMessages: [MediaConnectClientTypes.RouterInputMessage]?
+        /// The timestamp when the metadata was last updated.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            routerInputMetadata: MediaConnectClientTypes.RouterInputMetadata? = nil,
+            sourceMetadataMessages: [MediaConnectClientTypes.RouterInputMessage]? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.routerInputMetadata = routerInputMetadata
+            self.sourceMetadataMessages = sourceMetadataMessages
+            self.timestamp = timestamp
+        }
+    }
+}
+
+public struct GetRouterInputSourceMetadataOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the router input.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Detailed metadata information about the router input source, including connection state, timestamps, and stream configuration.
+    /// This member is required.
+    public var sourceMetadataDetails: MediaConnectClientTypes.RouterInputSourceMetadataDetails?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        sourceMetadataDetails: MediaConnectClientTypes.RouterInputSourceMetadataDetails? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.sourceMetadataDetails = sourceMetadataDetails
+    }
+}
+
+public struct GetRouterInputThumbnailInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input that you want to see a thumbnail of.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The details of a thumbnail associated with a router input, including the thumbnail messages, the thumbnail image, the timecode, and the timestamp.
+    public struct RouterInputThumbnailDetails: Swift.Sendable {
+        /// The thumbnail image, encoded as a Base64-encoded binary data object.
+        public var thumbnail: Foundation.Data?
+        /// The messages associated with the router input thumbnail.
+        /// This member is required.
+        public var thumbnailMessages: [MediaConnectClientTypes.RouterInputMessage]?
+        /// The timecode associated with the thumbnail.
+        public var timecode: Swift.String?
+        /// The timestamp associated with the thumbnail.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            thumbnail: Foundation.Data? = nil,
+            thumbnailMessages: [MediaConnectClientTypes.RouterInputMessage]? = nil,
+            timecode: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.thumbnail = thumbnail
+            self.thumbnailMessages = thumbnailMessages
+            self.timecode = timecode
+            self.timestamp = timestamp
+        }
+    }
+}
+
+public struct GetRouterInputThumbnailOutput: Swift.Sendable {
+    /// The ARN of the router input.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the router input.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The details of the thumbnail associated with the router input, including the thumbnail image, timecode, timestamp, and any associated error messages.
+    /// This member is required.
+    public var thumbnailDetails: MediaConnectClientTypes.RouterInputThumbnailDetails?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        thumbnailDetails: MediaConnectClientTypes.RouterInputThumbnailDetails? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.thumbnailDetails = thumbnailDetails
+    }
+}
+
+public struct GetRouterNetworkInterfaceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router network interface that you want to retrieve information about.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct GetRouterNetworkInterfaceOutput: Swift.Sendable {
+    /// The details of the requested router network interface, including its configuration and other attributes.
+    /// This member is required.
+    public var routerNetworkInterface: MediaConnectClientTypes.RouterNetworkInterface?
+
+    public init(
+        routerNetworkInterface: MediaConnectClientTypes.RouterNetworkInterface? = nil
+    ) {
+        self.routerNetworkInterface = routerNetworkInterface
+    }
+}
+
+public struct GetRouterOutputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router output that you want to retrieve information about.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct GetRouterOutputOutput: Swift.Sendable {
+    /// The details of the requested router output, including its configuration, state, and other attributes.
+    /// This member is required.
+    public var routerOutput: MediaConnectClientTypes.RouterOutput?
+
+    public init(
+        routerOutput: MediaConnectClientTypes.RouterOutput? = nil
+    ) {
+        self.routerOutput = routerOutput
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A summary of a router input, including its name, type, ARN, ID, state, and other key details. This structure is used in the response of the ListRouterInputs operation.
+    public struct ListedRouterInput: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router input.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Availability Zone of the router input.
+        /// This member is required.
+        public var availabilityZone: Swift.String?
+        /// The timestamp when the router input was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the router input.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The type of the router input.
+        /// This member is required.
+        public var inputType: MediaConnectClientTypes.RouterInputType?
+        /// The details of the maintenance schedule for the listed router input.
+        public var maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule?
+        /// The type of maintenance schedule currently associated with the listed router input.
+        public var maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType?
+        /// The maximum bitrate of the router input.
+        /// This member is required.
+        public var maximumBitrate: Swift.Int?
+        /// The number of messages associated with the router input.
+        /// This member is required.
+        public var messageCount: Swift.Int?
+        /// The name of the router input.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ARN of the network interface associated with the router input.
+        public var networkInterfaceArn: Swift.String?
+        /// The AWS Region where the router input is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The number of router outputs that are associated with this router input.
+        /// This member is required.
+        public var routedOutputs: Swift.Int?
+        /// Indicates whether the router input is configured for Regional or global routing.
+        /// This member is required.
+        public var routingScope: MediaConnectClientTypes.RoutingScope?
+        /// The overall state of the router input.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.RouterInputState?
+        /// The timestamp when the router input was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            inputType: MediaConnectClientTypes.RouterInputType? = nil,
+            maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule? = nil,
+            maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType? = nil,
+            maximumBitrate: Swift.Int? = nil,
+            messageCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            networkInterfaceArn: Swift.String? = nil,
+            regionName: Swift.String? = nil,
+            routedOutputs: Swift.Int? = nil,
+            routingScope: MediaConnectClientTypes.RoutingScope? = nil,
+            state: MediaConnectClientTypes.RouterInputState? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.availabilityZone = availabilityZone
+            self.createdAt = createdAt
+            self.id = id
+            self.inputType = inputType
+            self.maintenanceSchedule = maintenanceSchedule
+            self.maintenanceScheduleType = maintenanceScheduleType
+            self.maximumBitrate = maximumBitrate
+            self.messageCount = messageCount
+            self.name = name
+            self.networkInterfaceArn = networkInterfaceArn
+            self.regionName = regionName
+            self.routedOutputs = routedOutputs
+            self.routingScope = routingScope
+            self.state = state
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A summary of a router network interface, including its name, type, ARN, ID, associated input/output counts, state, and other key details. This structure is used in the response of the ListRouterNetworkInterfaces operation.
+    public struct ListedRouterNetworkInterface: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router network interface.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The number of router inputs associated with the network interface.
+        /// This member is required.
+        public var associatedInputCount: Swift.Int?
+        /// The number of router outputs associated with the network interface.
+        /// This member is required.
+        public var associatedOutputCount: Swift.Int?
+        /// The timestamp when the network interface was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the router network interface.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the router network interface.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of the router network interface.
+        /// This member is required.
+        public var networkInterfaceType: MediaConnectClientTypes.RouterNetworkInterfaceType?
+        /// The AWS Region where the router network interface is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The current state of the router network interface.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.RouterNetworkInterfaceState?
+        /// The timestamp when the router network interface was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            associatedInputCount: Swift.Int? = nil,
+            associatedOutputCount: Swift.Int? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkInterfaceType: MediaConnectClientTypes.RouterNetworkInterfaceType? = nil,
+            regionName: Swift.String? = nil,
+            state: MediaConnectClientTypes.RouterNetworkInterfaceState? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.associatedInputCount = associatedInputCount
+            self.associatedOutputCount = associatedOutputCount
+            self.createdAt = createdAt
+            self.id = id
+            self.name = name
+            self.networkInterfaceType = networkInterfaceType
+            self.regionName = regionName
+            self.state = state
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A summary of a router output, including its name, type, ARN, ID, state, routed state, and other key details. This structure is used in the response of the ListRouterOutputs operation.
+    public struct ListedRouterOutput: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router output.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Availability Zone of the router output.
+        /// This member is required.
+        public var availabilityZone: Swift.String?
+        /// The timestamp when the router output was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the router output.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The details of the maintenance schedule for the listed router output.
+        public var maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule?
+        /// The type of maintenance schedule currently associated with the listed router output.
+        public var maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType?
+        /// The maximum bitrate of the router output.
+        /// This member is required.
+        public var maximumBitrate: Swift.Int?
+        /// The number of messages associated with the router output.
+        /// This member is required.
+        public var messageCount: Swift.Int?
+        /// The name of the router output.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ARN of the network interface associated with the router output.
+        public var networkInterfaceArn: Swift.String?
+        /// The type of the router output.
+        /// This member is required.
+        public var outputType: MediaConnectClientTypes.RouterOutputType?
+        /// The AWS Region where the router output is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The ARN of the router input associated with the output.
+        public var routedInputArn: Swift.String?
+        /// The current state of the association between the router output and its input.
+        /// This member is required.
+        public var routedState: MediaConnectClientTypes.RouterOutputRoutedState?
+        /// Indicates whether the router output is configured for Regional or global routing.
+        /// This member is required.
+        public var routingScope: MediaConnectClientTypes.RoutingScope?
+        /// The overall state of the router output.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.RouterOutputState?
+        /// The timestamp when the router output was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule? = nil,
+            maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType? = nil,
+            maximumBitrate: Swift.Int? = nil,
+            messageCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            networkInterfaceArn: Swift.String? = nil,
+            outputType: MediaConnectClientTypes.RouterOutputType? = nil,
+            regionName: Swift.String? = nil,
+            routedInputArn: Swift.String? = nil,
+            routedState: MediaConnectClientTypes.RouterOutputRoutedState? = nil,
+            routingScope: MediaConnectClientTypes.RoutingScope? = nil,
+            state: MediaConnectClientTypes.RouterOutputState? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.availabilityZone = availabilityZone
+            self.createdAt = createdAt
+            self.id = id
+            self.maintenanceSchedule = maintenanceSchedule
+            self.maintenanceScheduleType = maintenanceScheduleType
+            self.maximumBitrate = maximumBitrate
+            self.messageCount = messageCount
+            self.name = name
+            self.networkInterfaceArn = networkInterfaceArn
+            self.outputType = outputType
+            self.regionName = regionName
+            self.routedInputArn = routedInputArn
+            self.routedState = routedState
+            self.routingScope = routingScope
+            self.state = state
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
 public struct ListEntitlementsInput: Swift.Sendable {
     /// The maximum number of results to return per API request. For example, you submit a ListEntitlements request with set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
     public var maxResults: Swift.Int?
@@ -5942,6 +9009,186 @@ public struct ListReservationsOutput: Swift.Sendable {
     }
 }
 
+extension MediaConnectClientTypes {
+
+    /// A filter that can be used to retrieve a list of router inputs.
+    public enum RouterInputFilter: Swift.Sendable {
+        /// The AWS Regions of the router inputs to include in the filter.
+        case regionnames([Swift.String])
+        /// The types of router inputs to include in the filter.
+        case inputtypes([MediaConnectClientTypes.RouterInputType])
+        /// The names of the router inputs to include in the filter.
+        case namecontains([Swift.String])
+        /// The Amazon Resource Names (ARNs) of the network interfaces associated with the router inputs to include in the filter.
+        case networkinterfacearns([Swift.String])
+        /// Filter criteria to list router inputs based on their routing scope (REGIONAL or GLOBAL).
+        case routingscopes([MediaConnectClientTypes.RoutingScope])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ListRouterInputsInput: Swift.Sendable {
+    /// The filters to apply when retrieving the list of router inputs.
+    public var filters: [MediaConnectClientTypes.RouterInputFilter]?
+    /// The maximum number of router inputs to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [MediaConnectClientTypes.RouterInputFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListRouterInputsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The summary information for the retrieved router inputs.
+    /// This member is required.
+    public var routerInputs: [MediaConnectClientTypes.ListedRouterInput]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        routerInputs: [MediaConnectClientTypes.ListedRouterInput]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.routerInputs = routerInputs
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A filter that can be used to retrieve a list of router network interfaces.
+    public enum RouterNetworkInterfaceFilter: Swift.Sendable {
+        /// The AWS Regions of the router network interfaces to include in the filter.
+        case regionnames([Swift.String])
+        /// The types of router network interfaces to include in the filter.
+        case networkinterfacetypes([MediaConnectClientTypes.RouterNetworkInterfaceType])
+        /// The names of the router network interfaces to include in the filter.
+        case namecontains([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ListRouterNetworkInterfacesInput: Swift.Sendable {
+    /// The filters to apply when retrieving the list of router network interfaces.
+    public var filters: [MediaConnectClientTypes.RouterNetworkInterfaceFilter]?
+    /// The maximum number of router network interfaces to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [MediaConnectClientTypes.RouterNetworkInterfaceFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListRouterNetworkInterfacesOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The summary information for the retrieved router network interfaces.
+    /// This member is required.
+    public var routerNetworkInterfaces: [MediaConnectClientTypes.ListedRouterNetworkInterface]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        routerNetworkInterfaces: [MediaConnectClientTypes.ListedRouterNetworkInterface]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.routerNetworkInterfaces = routerNetworkInterfaces
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A filter that can be used to retrieve a list of router outputs.
+    public enum RouterOutputFilter: Swift.Sendable {
+        /// The AWS Regions of the router outputs to include in the filter.
+        case regionnames([Swift.String])
+        /// The types of router outputs to include in the filter.
+        case outputtypes([MediaConnectClientTypes.RouterOutputType])
+        /// The names of the router outputs to include in the filter.
+        case namecontains([Swift.String])
+        /// The Amazon Resource Names (ARNs) of the network interfaces associated with the router outputs to include in the filter.
+        case networkinterfacearns([Swift.String])
+        /// The ARNs of the router inputs associated with the router outputs to include in the filter.
+        case routedinputarns([Swift.String])
+        /// Filter criteria to list router outputs based on their routing scope.
+        case routingscopes([MediaConnectClientTypes.RoutingScope])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ListRouterOutputsInput: Swift.Sendable {
+    /// The filters to apply when retrieving the list of router outputs.
+    public var filters: [MediaConnectClientTypes.RouterOutputFilter]?
+    /// The maximum number of router outputs to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token used to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [MediaConnectClientTypes.RouterOutputFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListRouterOutputsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The summary information for the retrieved router outputs.
+    /// This member is required.
+    public var routerOutputs: [MediaConnectClientTypes.ListedRouterOutput]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        routerOutputs: [MediaConnectClientTypes.ListedRouterOutput]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.routerOutputs = routerOutputs
+    }
+}
+
+public struct ListTagsForGlobalResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the global resource whose tags you want to list.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct ListTagsForGlobalResourceOutput: Swift.Sendable {
+    /// A map of tag keys and values associated with the global resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that identifies the MediaConnect resource for which to list the tags.
     /// This member is required.
@@ -5998,6 +9245,425 @@ public struct PurchaseOfferingOutput: Swift.Sendable {
     }
 }
 
+public struct RestartRouterInputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input that you want to restart.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct RestartRouterInputOutput: Swift.Sendable {
+    /// The ARN of the router input that was restarted.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the router input that was restarted.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the router input after the restart operation.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterInputState?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterInputState? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.state = state
+    }
+}
+
+public struct StartRouterInputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input that you want to start.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct StartRouterInputOutput: Swift.Sendable {
+    /// The ARN of the router input that was started.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The details of the maintenance schedule for the router input.
+    /// This member is required.
+    public var maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule?
+    /// The type of maintenance schedule associated with the router input.
+    /// This member is required.
+    public var maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType?
+    /// The name of the router input that was started.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the router input after being started.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterInputState?
+
+    public init(
+        arn: Swift.String? = nil,
+        maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule? = nil,
+        maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterInputState? = nil
+    ) {
+        self.arn = arn
+        self.maintenanceSchedule = maintenanceSchedule
+        self.maintenanceScheduleType = maintenanceScheduleType
+        self.name = name
+        self.state = state
+    }
+}
+
+public struct StopRouterInputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input that you want to stop.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct StopRouterInputOutput: Swift.Sendable {
+    /// The ARN of the router input that was stopped.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the router input that was stopped.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the router input after being stopped.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterInputState?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterInputState? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.state = state
+    }
+}
+
+public struct UpdateRouterInputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input that you want to update.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The updated configuration settings for the router input. Changing the type of the configuration is not supported.
+    public var configuration: MediaConnectClientTypes.RouterInputConfiguration?
+    /// The updated maintenance configuration settings for the router input, including any changes to preferred maintenance windows and schedules.
+    public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
+    /// The updated maximum bitrate for the router input.
+    public var maximumBitrate: Swift.Int?
+    /// The updated name for the router input.
+    public var name: Swift.String?
+    /// Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - can be assigned only to outputs in the same Region. GLOBAL - can be assigned to outputs in any Region.
+    public var routingScope: MediaConnectClientTypes.RoutingScope?
+    /// The updated tier level for the router input.
+    public var tier: MediaConnectClientTypes.RouterInputTier?
+    /// The updated transit encryption settings for the router input.
+    public var transitEncryption: MediaConnectClientTypes.RouterInputTransitEncryption?
+
+    public init(
+        arn: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.RouterInputConfiguration? = nil,
+        maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
+        maximumBitrate: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        routingScope: MediaConnectClientTypes.RoutingScope? = nil,
+        tier: MediaConnectClientTypes.RouterInputTier? = nil,
+        transitEncryption: MediaConnectClientTypes.RouterInputTransitEncryption? = nil
+    ) {
+        self.arn = arn
+        self.configuration = configuration
+        self.maintenanceConfiguration = maintenanceConfiguration
+        self.maximumBitrate = maximumBitrate
+        self.name = name
+        self.routingScope = routingScope
+        self.tier = tier
+        self.transitEncryption = transitEncryption
+    }
+}
+
+public struct UpdateRouterInputOutput: Swift.Sendable {
+    /// The updated router input.
+    /// This member is required.
+    public var routerInput: MediaConnectClientTypes.RouterInput?
+
+    public init(
+        routerInput: MediaConnectClientTypes.RouterInput? = nil
+    ) {
+        self.routerInput = routerInput
+    }
+}
+
+public struct UpdateRouterNetworkInterfaceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router network interface that you want to update.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The updated configuration settings for the router network interface. Changing the type of the configuration is not supported.
+    public var configuration: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration?
+    /// The updated name for the router network interface.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.configuration = configuration
+        self.name = name
+    }
+}
+
+public struct UpdateRouterNetworkInterfaceOutput: Swift.Sendable {
+    /// The updated router network interface.
+    /// This member is required.
+    public var routerNetworkInterface: MediaConnectClientTypes.RouterNetworkInterface?
+
+    public init(
+        routerNetworkInterface: MediaConnectClientTypes.RouterNetworkInterface? = nil
+    ) {
+        self.routerNetworkInterface = routerNetworkInterface
+    }
+}
+
+public struct RestartRouterOutputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router output that you want to restart.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct RestartRouterOutputOutput: Swift.Sendable {
+    /// The ARN of the router output that was restarted.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the router output that was restarted.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the router output after the restart operation.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterOutputState?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterOutputState? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.state = state
+    }
+}
+
+public struct StartRouterOutputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router output that you want to start.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct StartRouterOutputOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router output that was started.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The details of the maintenance schedule for the router output.
+    /// This member is required.
+    public var maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule?
+    /// The type of maintenance schedule associated with the router output.
+    /// This member is required.
+    public var maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType?
+    /// The name of the router output that was started.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the router output after being started.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterOutputState?
+
+    public init(
+        arn: Swift.String? = nil,
+        maintenanceSchedule: MediaConnectClientTypes.MaintenanceSchedule? = nil,
+        maintenanceScheduleType: MediaConnectClientTypes.MaintenanceScheduleType? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterOutputState? = nil
+    ) {
+        self.arn = arn
+        self.maintenanceSchedule = maintenanceSchedule
+        self.maintenanceScheduleType = maintenanceScheduleType
+        self.name = name
+        self.state = state
+    }
+}
+
+public struct StopRouterOutputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router output that you want to stop.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct StopRouterOutputOutput: Swift.Sendable {
+    /// The ARN of the router output that was stopped.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the router output that was stopped.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current state of the router output after being stopped.
+    /// This member is required.
+    public var state: MediaConnectClientTypes.RouterOutputState?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        state: MediaConnectClientTypes.RouterOutputState? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+        self.state = state
+    }
+}
+
+public struct TakeRouterInputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router input that you want to associate with a router output.
+    public var routerInputArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the router output that you want to associate with a router input.
+    /// This member is required.
+    public var routerOutputArn: Swift.String?
+
+    public init(
+        routerInputArn: Swift.String? = nil,
+        routerOutputArn: Swift.String? = nil
+    ) {
+        self.routerInputArn = routerInputArn
+        self.routerOutputArn = routerOutputArn
+    }
+}
+
+public struct TakeRouterInputOutput: Swift.Sendable {
+    /// The state of the association between the router input and output.
+    /// This member is required.
+    public var routedState: MediaConnectClientTypes.RouterOutputRoutedState?
+    /// The ARN of the associated router input.
+    public var routerInputArn: Swift.String?
+    /// The name of the associated router input.
+    public var routerInputName: Swift.String?
+    /// The ARN of the associated router output.
+    /// This member is required.
+    public var routerOutputArn: Swift.String?
+    /// The name of the associated router output.
+    /// This member is required.
+    public var routerOutputName: Swift.String?
+
+    public init(
+        routedState: MediaConnectClientTypes.RouterOutputRoutedState? = nil,
+        routerInputArn: Swift.String? = nil,
+        routerInputName: Swift.String? = nil,
+        routerOutputArn: Swift.String? = nil,
+        routerOutputName: Swift.String? = nil
+    ) {
+        self.routedState = routedState
+        self.routerInputArn = routerInputArn
+        self.routerInputName = routerInputName
+        self.routerOutputArn = routerOutputArn
+        self.routerOutputName = routerOutputName
+    }
+}
+
+public struct UpdateRouterOutputInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the router output that you want to update.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The updated configuration settings for the router output. Changing the type of the configuration is not supported.
+    public var configuration: MediaConnectClientTypes.RouterOutputConfiguration?
+    /// The updated maintenance configuration settings for the router output, including any changes to preferred maintenance windows and schedules.
+    public var maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration?
+    /// The updated maximum bitrate for the router output.
+    public var maximumBitrate: Swift.Int?
+    /// The updated name for the router output.
+    public var name: Swift.String?
+    /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
+    public var routingScope: MediaConnectClientTypes.RoutingScope?
+    /// The updated tier level for the router output.
+    public var tier: MediaConnectClientTypes.RouterOutputTier?
+
+    public init(
+        arn: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.RouterOutputConfiguration? = nil,
+        maintenanceConfiguration: MediaConnectClientTypes.MaintenanceConfiguration? = nil,
+        maximumBitrate: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        routingScope: MediaConnectClientTypes.RoutingScope? = nil,
+        tier: MediaConnectClientTypes.RouterOutputTier? = nil
+    ) {
+        self.arn = arn
+        self.configuration = configuration
+        self.maintenanceConfiguration = maintenanceConfiguration
+        self.maximumBitrate = maximumBitrate
+        self.name = name
+        self.routingScope = routingScope
+        self.tier = tier
+    }
+}
+
+public struct UpdateRouterOutputOutput: Swift.Sendable {
+    /// The updated router output.
+    /// This member is required.
+    public var routerOutput: MediaConnectClientTypes.RouterOutput?
+
+    public init(
+        routerOutput: MediaConnectClientTypes.RouterOutput? = nil
+    ) {
+        self.routerOutput = routerOutput
+    }
+}
+
+public struct TagGlobalResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the global resource to tag.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A map of tag keys and values to add to the global resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that identifies the MediaConnect resource to which to add tags.
     /// This member is required.
@@ -6012,6 +9678,23 @@ public struct TagResourceInput: Swift.Sendable {
     ) {
         self.resourceArn = resourceArn
         self.tags = tags
+    }
+}
+
+public struct UntagGlobalResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the global resource to remove tags from.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The keys of the tags to remove from the global resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
     }
 }
 
@@ -6092,6 +9775,75 @@ extension AddFlowVpcInterfacesInput {
     }
 }
 
+extension BatchGetRouterInputInput {
+
+    static func urlPathProvider(_ value: BatchGetRouterInputInput) -> Swift.String? {
+        return "/v1/routerInputs"
+    }
+}
+
+extension BatchGetRouterInputInput {
+
+    static func queryItemProvider(_ value: BatchGetRouterInputInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let arns = value.arns else {
+            let message = "Creating a URL Query Item failed. arns is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        arns.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "arns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension BatchGetRouterNetworkInterfaceInput {
+
+    static func urlPathProvider(_ value: BatchGetRouterNetworkInterfaceInput) -> Swift.String? {
+        return "/v1/routerNetworkInterfaces"
+    }
+}
+
+extension BatchGetRouterNetworkInterfaceInput {
+
+    static func queryItemProvider(_ value: BatchGetRouterNetworkInterfaceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let arns = value.arns else {
+            let message = "Creating a URL Query Item failed. arns is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        arns.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "arns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension BatchGetRouterOutputInput {
+
+    static func urlPathProvider(_ value: BatchGetRouterOutputInput) -> Swift.String? {
+        return "/v1/routerOutputs"
+    }
+}
+
+extension BatchGetRouterOutputInput {
+
+    static func queryItemProvider(_ value: BatchGetRouterOutputInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let arns = value.arns else {
+            let message = "Creating a URL Query Item failed. arns is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        arns.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "arns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
 extension CreateBridgeInput {
 
     static func urlPathProvider(_ value: CreateBridgeInput) -> Swift.String? {
@@ -6110,6 +9862,27 @@ extension CreateGatewayInput {
 
     static func urlPathProvider(_ value: CreateGatewayInput) -> Swift.String? {
         return "/v1/gateways"
+    }
+}
+
+extension CreateRouterInputInput {
+
+    static func urlPathProvider(_ value: CreateRouterInputInput) -> Swift.String? {
+        return "/v1/routerInput"
+    }
+}
+
+extension CreateRouterNetworkInterfaceInput {
+
+    static func urlPathProvider(_ value: CreateRouterNetworkInterfaceInput) -> Swift.String? {
+        return "/v1/routerNetworkInterface"
+    }
+}
+
+extension CreateRouterOutputInput {
+
+    static func urlPathProvider(_ value: CreateRouterOutputInput) -> Swift.String? {
+        return "/v1/routerOutput"
     }
 }
 
@@ -6140,6 +9913,36 @@ extension DeleteGatewayInput {
             return nil
         }
         return "/v1/gateways/\(gatewayArn.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRouterInputInput {
+
+    static func urlPathProvider(_ value: DeleteRouterInputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerInput/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRouterNetworkInterfaceInput {
+
+    static func urlPathProvider(_ value: DeleteRouterNetworkInterfaceInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerNetworkInterface/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRouterOutputInput {
+
+    static func urlPathProvider(_ value: DeleteRouterOutputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerOutput/\(arn.urlPercentEncoding())"
     }
 }
 
@@ -6242,6 +10045,56 @@ extension DescribeReservationInput {
             return nil
         }
         return "/v1/reservations/\(reservationArn.urlPercentEncoding())"
+    }
+}
+
+extension GetRouterInputInput {
+
+    static func urlPathProvider(_ value: GetRouterInputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerInput/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension GetRouterInputSourceMetadataInput {
+
+    static func urlPathProvider(_ value: GetRouterInputSourceMetadataInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerInput/\(arn.urlPercentEncoding())/source-metadata"
+    }
+}
+
+extension GetRouterInputThumbnailInput {
+
+    static func urlPathProvider(_ value: GetRouterInputThumbnailInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerInput/\(arn.urlPercentEncoding())/thumbnail"
+    }
+}
+
+extension GetRouterNetworkInterfaceInput {
+
+    static func urlPathProvider(_ value: GetRouterNetworkInterfaceInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerNetworkInterface/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension GetRouterOutputInput {
+
+    static func urlPathProvider(_ value: GetRouterOutputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerOutput/\(arn.urlPercentEncoding())"
     }
 }
 
@@ -6424,6 +10277,85 @@ extension ListReservationsInput {
     }
 }
 
+extension ListRouterInputsInput {
+
+    static func urlPathProvider(_ value: ListRouterInputsInput) -> Swift.String? {
+        return "/v1/routerInputs"
+    }
+}
+
+extension ListRouterInputsInput {
+
+    static func queryItemProvider(_ value: ListRouterInputsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRouterNetworkInterfacesInput {
+
+    static func urlPathProvider(_ value: ListRouterNetworkInterfacesInput) -> Swift.String? {
+        return "/v1/routerNetworkInterfaces"
+    }
+}
+
+extension ListRouterNetworkInterfacesInput {
+
+    static func queryItemProvider(_ value: ListRouterNetworkInterfacesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRouterOutputsInput {
+
+    static func urlPathProvider(_ value: ListRouterOutputsInput) -> Swift.String? {
+        return "/v1/routerOutputs"
+    }
+}
+
+extension ListRouterOutputsInput {
+
+    static func queryItemProvider(_ value: ListRouterOutputsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTagsForGlobalResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForGlobalResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/global/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -6522,6 +10454,26 @@ extension RemoveFlowVpcInterfaceInput {
     }
 }
 
+extension RestartRouterInputInput {
+
+    static func urlPathProvider(_ value: RestartRouterInputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerInput/restart/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension RestartRouterOutputInput {
+
+    static func urlPathProvider(_ value: RestartRouterOutputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerOutput/restart/\(arn.urlPercentEncoding())"
+    }
+}
+
 extension RevokeFlowEntitlementInput {
 
     static func urlPathProvider(_ value: RevokeFlowEntitlementInput) -> Swift.String? {
@@ -6545,6 +10497,26 @@ extension StartFlowInput {
     }
 }
 
+extension StartRouterInputInput {
+
+    static func urlPathProvider(_ value: StartRouterInputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerInput/start/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension StartRouterOutputInput {
+
+    static func urlPathProvider(_ value: StartRouterOutputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerOutput/start/\(arn.urlPercentEncoding())"
+    }
+}
+
 extension StopFlowInput {
 
     static func urlPathProvider(_ value: StopFlowInput) -> Swift.String? {
@@ -6555,6 +10527,36 @@ extension StopFlowInput {
     }
 }
 
+extension StopRouterInputInput {
+
+    static func urlPathProvider(_ value: StopRouterInputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerInput/stop/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension StopRouterOutputInput {
+
+    static func urlPathProvider(_ value: StopRouterOutputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerOutput/stop/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension TagGlobalResourceInput {
+
+    static func urlPathProvider(_ value: TagGlobalResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/global/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -6562,6 +10564,42 @@ extension TagResourceInput {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension TakeRouterInputInput {
+
+    static func urlPathProvider(_ value: TakeRouterInputInput) -> Swift.String? {
+        guard let routerOutputArn = value.routerOutputArn else {
+            return nil
+        }
+        return "/v1/routerOutput/takeRouterInput/\(routerOutputArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagGlobalResourceInput {
+
+    static func urlPathProvider(_ value: UntagGlobalResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/global/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension UntagGlobalResourceInput {
+
+    static func queryItemProvider(_ value: UntagGlobalResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
     }
 }
 
@@ -6709,6 +10747,36 @@ extension UpdateGatewayInstanceInput {
     }
 }
 
+extension UpdateRouterInputInput {
+
+    static func urlPathProvider(_ value: UpdateRouterInputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerInput/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension UpdateRouterNetworkInterfaceInput {
+
+    static func urlPathProvider(_ value: UpdateRouterNetworkInterfaceInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerNetworkInterface/\(arn.urlPercentEncoding())"
+    }
+}
+
+extension UpdateRouterOutputInput {
+
+    static func urlPathProvider(_ value: UpdateRouterOutputInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/routerOutput/\(arn.urlPercentEncoding())"
+    }
+}
+
 extension AddBridgeOutputsInput {
 
     static func write(value: AddBridgeOutputsInput?, to writer: SmithyJSON.Writer) throws {
@@ -6778,6 +10846,7 @@ extension CreateFlowInput {
         try writer["availabilityZone"].write(value.availabilityZone)
         try writer["entitlements"].writeList(value.entitlements, memberWritingClosure: MediaConnectClientTypes.GrantEntitlementRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["flowSize"].write(value.flowSize)
+        try writer["flowTags"].writeMap(value.flowTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.AddMaintenance.write(value:to:))
         try writer["mediaStreams"].writeList(value.mediaStreams, memberWritingClosure: MediaConnectClientTypes.AddMediaStreamRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -6801,11 +10870,82 @@ extension CreateGatewayInput {
     }
 }
 
+extension CreateRouterInputInput {
+
+    static func write(value: CreateRouterInputInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterInputConfiguration.write(value:to:))
+        try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
+        try writer["maximumBitrate"].write(value.maximumBitrate)
+        try writer["name"].write(value.name)
+        try writer["regionName"].write(value.regionName)
+        try writer["routingScope"].write(value.routingScope)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["tier"].write(value.tier)
+        try writer["transitEncryption"].write(value.transitEncryption, with: MediaConnectClientTypes.RouterInputTransitEncryption.write(value:to:))
+    }
+}
+
+extension CreateRouterNetworkInterfaceInput {
+
+    static func write(value: CreateRouterNetworkInterfaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["regionName"].write(value.regionName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateRouterOutputInput {
+
+    static func write(value: CreateRouterOutputInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterOutputConfiguration.write(value:to:))
+        try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
+        try writer["maximumBitrate"].write(value.maximumBitrate)
+        try writer["name"].write(value.name)
+        try writer["regionName"].write(value.regionName)
+        try writer["routingScope"].write(value.routingScope)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["tier"].write(value.tier)
+    }
+}
+
 extension GrantFlowEntitlementsInput {
 
     static func write(value: GrantFlowEntitlementsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["entitlements"].writeList(value.entitlements, memberWritingClosure: MediaConnectClientTypes.GrantEntitlementRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListRouterInputsInput {
+
+    static func write(value: ListRouterInputsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: MediaConnectClientTypes.RouterInputFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListRouterNetworkInterfacesInput {
+
+    static func write(value: ListRouterNetworkInterfacesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: MediaConnectClientTypes.RouterNetworkInterfaceFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListRouterOutputsInput {
+
+    static func write(value: ListRouterOutputsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: MediaConnectClientTypes.RouterOutputFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6818,11 +10958,27 @@ extension PurchaseOfferingInput {
     }
 }
 
+extension TagGlobalResourceInput {
+
+    static func write(value: TagGlobalResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension TakeRouterInputInput {
+
+    static func write(value: TakeRouterInputInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["routerInputArn"].write(value.routerInputArn)
     }
 }
 
@@ -6865,6 +11021,7 @@ extension UpdateFlowInput {
 
     static func write(value: UpdateFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["flowSize"].write(value.flowSize)
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.UpdateMaintenance.write(value:to:))
         try writer["ndiConfig"].write(value.ndiConfig, with: MediaConnectClientTypes.NdiConfig.write(value:to:))
         try writer["sourceFailoverConfig"].write(value.sourceFailoverConfig, with: MediaConnectClientTypes.UpdateFailoverConfig.write(value:to:))
@@ -6912,6 +11069,8 @@ extension UpdateFlowOutputInput {
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
         try writer["remoteId"].write(value.remoteId)
+        try writer["routerIntegrationState"].write(value.routerIntegrationState)
+        try writer["routerIntegrationTransitEncryption"].write(value.routerIntegrationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
         try writer["senderControlPort"].write(value.senderControlPort)
         try writer["senderIpAddress"].write(value.senderIpAddress)
         try writer["smoothingLatency"].write(value.smoothingLatency)
@@ -6935,6 +11094,8 @@ extension UpdateFlowSourceInput {
         try writer["mediaStreamSourceConfigurations"].writeList(value.mediaStreamSourceConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamSourceConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
         try writer["protocol"].write(value.`protocol`)
+        try writer["routerIntegrationState"].write(value.routerIntegrationState)
+        try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
         try writer["senderControlPort"].write(value.senderControlPort)
         try writer["senderIpAddress"].write(value.senderIpAddress)
         try writer["sourceListenerAddress"].write(value.sourceListenerAddress)
@@ -6950,6 +11111,42 @@ extension UpdateGatewayInstanceInput {
     static func write(value: UpdateGatewayInstanceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["bridgePlacement"].write(value.bridgePlacement)
+    }
+}
+
+extension UpdateRouterInputInput {
+
+    static func write(value: UpdateRouterInputInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterInputConfiguration.write(value:to:))
+        try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
+        try writer["maximumBitrate"].write(value.maximumBitrate)
+        try writer["name"].write(value.name)
+        try writer["routingScope"].write(value.routingScope)
+        try writer["tier"].write(value.tier)
+        try writer["transitEncryption"].write(value.transitEncryption, with: MediaConnectClientTypes.RouterInputTransitEncryption.write(value:to:))
+    }
+}
+
+extension UpdateRouterNetworkInterfaceInput {
+
+    static func write(value: UpdateRouterNetworkInterfaceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateRouterOutputInput {
+
+    static func write(value: UpdateRouterOutputInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.RouterOutputConfiguration.write(value:to:))
+        try writer["maintenanceConfiguration"].write(value.maintenanceConfiguration, with: MediaConnectClientTypes.MaintenanceConfiguration.write(value:to:))
+        try writer["maximumBitrate"].write(value.maximumBitrate)
+        try writer["name"].write(value.name)
+        try writer["routingScope"].write(value.routingScope)
+        try writer["tier"].write(value.tier)
     }
 }
 
@@ -7031,6 +11228,45 @@ extension AddFlowVpcInterfacesOutput {
     }
 }
 
+extension BatchGetRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetRouterInputOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BatchGetRouterInputError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.routerInputs = try reader["routerInputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetRouterNetworkInterfaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetRouterNetworkInterfaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetRouterNetworkInterfaceOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.routerNetworkInterfaces = try reader["routerNetworkInterfaces"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterNetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetRouterOutputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetRouterOutputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetRouterOutputOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BatchGetRouterOutputError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.routerOutputs = try reader["routerOutputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension CreateBridgeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBridgeOutput {
@@ -7063,6 +11299,42 @@ extension CreateGatewayOutput {
         let reader = responseReader
         var value = CreateGatewayOutput()
         value.gateway = try reader["gateway"].readIfPresent(with: MediaConnectClientTypes.Gateway.read(from:))
+        return value
+    }
+}
+
+extension CreateRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRouterInputOutput()
+        value.routerInput = try reader["routerInput"].readIfPresent(with: MediaConnectClientTypes.RouterInput.read(from:))
+        return value
+    }
+}
+
+extension CreateRouterNetworkInterfaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRouterNetworkInterfaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRouterNetworkInterfaceOutput()
+        value.routerNetworkInterface = try reader["routerNetworkInterface"].readIfPresent(with: MediaConnectClientTypes.RouterNetworkInterface.read(from:))
+        return value
+    }
+}
+
+extension CreateRouterOutputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRouterOutputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRouterOutputOutput()
+        value.routerOutput = try reader["routerOutput"].readIfPresent(with: MediaConnectClientTypes.RouterOutput.read(from:))
         return value
     }
 }
@@ -7100,6 +11372,48 @@ extension DeleteGatewayOutput {
         let reader = responseReader
         var value = DeleteGatewayOutput()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRouterInputOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteRouterNetworkInterfaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRouterNetworkInterfaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRouterNetworkInterfaceOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteRouterOutputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRouterOutputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRouterOutputOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7217,6 +11531,70 @@ extension DescribeReservationOutput {
     }
 }
 
+extension GetRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRouterInputOutput()
+        value.routerInput = try reader["routerInput"].readIfPresent(with: MediaConnectClientTypes.RouterInput.read(from:))
+        return value
+    }
+}
+
+extension GetRouterInputSourceMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRouterInputSourceMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRouterInputSourceMetadataOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.sourceMetadataDetails = try reader["sourceMetadataDetails"].readIfPresent(with: MediaConnectClientTypes.RouterInputSourceMetadataDetails.read(from:))
+        return value
+    }
+}
+
+extension GetRouterInputThumbnailOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRouterInputThumbnailOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRouterInputThumbnailOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.thumbnailDetails = try reader["thumbnailDetails"].readIfPresent(with: MediaConnectClientTypes.RouterInputThumbnailDetails.read(from:))
+        return value
+    }
+}
+
+extension GetRouterNetworkInterfaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRouterNetworkInterfaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRouterNetworkInterfaceOutput()
+        value.routerNetworkInterface = try reader["routerNetworkInterface"].readIfPresent(with: MediaConnectClientTypes.RouterNetworkInterface.read(from:))
+        return value
+    }
+}
+
+extension GetRouterOutputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRouterOutputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRouterOutputOutput()
+        value.routerOutput = try reader["routerOutput"].readIfPresent(with: MediaConnectClientTypes.RouterOutput.read(from:))
+        return value
+    }
+}
+
 extension GrantFlowEntitlementsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GrantFlowEntitlementsOutput {
@@ -7317,6 +11695,57 @@ extension ListReservationsOutput {
         var value = ListReservationsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.reservations = try reader["reservations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.Reservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListRouterInputsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRouterInputsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRouterInputsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.routerInputs = try reader["routerInputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.ListedRouterInput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRouterNetworkInterfacesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRouterNetworkInterfacesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRouterNetworkInterfacesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.routerNetworkInterfaces = try reader["routerNetworkInterfaces"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.ListedRouterNetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRouterOutputsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRouterOutputsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRouterOutputsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.routerOutputs = try reader["routerOutputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.ListedRouterOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListTagsForGlobalResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForGlobalResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForGlobalResourceOutput()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -7424,6 +11853,34 @@ extension RemoveFlowVpcInterfaceOutput {
     }
 }
 
+extension RestartRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RestartRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RestartRouterInputOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension RestartRouterOutputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RestartRouterOutputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RestartRouterOutputOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension RevokeFlowEntitlementOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeFlowEntitlementOutput {
@@ -7450,6 +11907,38 @@ extension StartFlowOutput {
     }
 }
 
+extension StartRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartRouterInputOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension StartRouterOutputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartRouterOutputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartRouterOutputOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension StopFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopFlowOutput {
@@ -7463,10 +11952,68 @@ extension StopFlowOutput {
     }
 }
 
+extension StopRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopRouterInputOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension StopRouterOutputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopRouterOutputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopRouterOutputOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension TagGlobalResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagGlobalResourceOutput {
+        return TagGlobalResourceOutput()
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
+    }
+}
+
+extension TakeRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TakeRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = TakeRouterInputOutput()
+        value.routedState = try reader["routedState"].readIfPresent() ?? .sdkUnknown("")
+        value.routerInputArn = try reader["routerInputArn"].readIfPresent()
+        value.routerInputName = try reader["routerInputName"].readIfPresent()
+        value.routerOutputArn = try reader["routerOutputArn"].readIfPresent() ?? ""
+        value.routerOutputName = try reader["routerOutputName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UntagGlobalResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagGlobalResourceOutput {
+        return UntagGlobalResourceOutput()
     }
 }
 
@@ -7605,6 +12152,42 @@ extension UpdateGatewayInstanceOutput {
     }
 }
 
+extension UpdateRouterInputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRouterInputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRouterInputOutput()
+        value.routerInput = try reader["routerInput"].readIfPresent(with: MediaConnectClientTypes.RouterInput.read(from:))
+        return value
+    }
+}
+
+extension UpdateRouterNetworkInterfaceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRouterNetworkInterfaceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRouterNetworkInterfaceOutput()
+        value.routerNetworkInterface = try reader["routerNetworkInterface"].readIfPresent(with: MediaConnectClientTypes.RouterNetworkInterface.read(from:))
+        return value
+    }
+}
+
+extension UpdateRouterOutputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRouterOutputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRouterOutputOutput()
+        value.routerOutput = try reader["routerOutput"].readIfPresent(with: MediaConnectClientTypes.RouterOutput.read(from:))
+        return value
+    }
+}
+
 enum AddBridgeOutputsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7722,6 +12305,60 @@ enum AddFlowVpcInterfacesOutputError {
     }
 }
 
+enum BatchGetRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetRouterNetworkInterfaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetRouterOutputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateBridgeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7781,6 +12418,66 @@ enum CreateGatewayOutputError {
     }
 }
 
+enum CreateRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "RouterInputServiceQuotaExceededException": return try RouterInputServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRouterNetworkInterfaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "RouterNetworkInterfaceServiceQuotaExceededException": return try RouterNetworkInterfaceServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRouterOutputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "RouterOutputServiceQuotaExceededException": return try RouterOutputServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteBridgeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7821,6 +12518,66 @@ enum DeleteFlowOutputError {
 }
 
 enum DeleteGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRouterNetworkInterfaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRouterOutputOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8013,6 +12770,104 @@ enum DescribeReservationOutputError {
     }
 }
 
+enum GetRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRouterInputSourceMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRouterInputThumbnailOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRouterNetworkInterfaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRouterOutputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GrantFlowEntitlementsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8150,6 +13005,76 @@ enum ListReservationsOutputError {
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRouterInputsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRouterNetworkInterfacesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRouterOutputsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTagsForGlobalResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8306,6 +13231,46 @@ enum RemoveFlowVpcInterfaceOutputError {
     }
 }
 
+enum RestartRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RestartRouterOutputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RevokeFlowEntitlementOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8344,6 +13309,46 @@ enum StartFlowOutputError {
     }
 }
 
+enum StartRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartRouterOutputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopFlowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8363,7 +13368,99 @@ enum StopFlowOutputError {
     }
 }
 
+enum StopRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopRouterOutputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TagGlobalResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TakeRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagGlobalResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8590,6 +13687,65 @@ enum UpdateGatewayInstanceOutputError {
     }
 }
 
+enum UpdateRouterInputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRouterNetworkInterfaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRouterOutputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension BadRequestException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
@@ -8725,6 +13881,45 @@ extension CreateGateway420Exception {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CreateGateway420Exception {
         let reader = baseError.errorBodyReader
         var value = CreateGateway420Exception()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RouterInputServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RouterInputServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = RouterInputServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RouterNetworkInterfaceServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RouterNetworkInterfaceServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = RouterNetworkInterfaceServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RouterOutputServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RouterOutputServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = RouterOutputServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8919,6 +14114,84 @@ extension MediaConnectClientTypes.Output {
         value.bridgePorts = try reader["bridgePorts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.outputStatus = try reader["outputStatus"].readIfPresent()
         value.peerIpAddress = try reader["peerIpAddress"].readIfPresent()
+        value.routerIntegrationState = try reader["routerIntegrationState"].readIfPresent()
+        value.routerIntegrationTransitEncryption = try reader["routerIntegrationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
+        value.connectedRouterInputArn = try reader["connectedRouterInputArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FlowTransitEncryption {
+
+    static func write(value: MediaConnectClientTypes.FlowTransitEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKeyConfiguration"].write(value.encryptionKeyConfiguration, with: MediaConnectClientTypes.FlowTransitEncryptionKeyConfiguration.write(value:to:))
+        try writer["encryptionKeyType"].write(value.encryptionKeyType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FlowTransitEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FlowTransitEncryption()
+        value.encryptionKeyType = try reader["encryptionKeyType"].readIfPresent()
+        value.encryptionKeyConfiguration = try reader["encryptionKeyConfiguration"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FlowTransitEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.FlowTransitEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .automatic(automatic):
+                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.write(value:to:))
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FlowTransitEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:)))
+            case "automatic":
+                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration()
+    }
+}
+
+extension MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["roleArn"].write(value.roleArn)
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9046,6 +14319,9 @@ extension MediaConnectClientTypes.Source {
         value.whitelistCidr = try reader["whitelistCidr"].readIfPresent()
         value.gatewayBridgeSource = try reader["gatewayBridgeSource"].readIfPresent(with: MediaConnectClientTypes.GatewayBridgeSource.read(from:))
         value.peerIpAddress = try reader["peerIpAddress"].readIfPresent()
+        value.routerIntegrationState = try reader["routerIntegrationState"].readIfPresent()
+        value.routerIntegrationTransitDecryption = try reader["routerIntegrationTransitDecryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
+        value.connectedRouterOutputArn = try reader["connectedRouterOutputArn"].readIfPresent()
         return value
     }
 }
@@ -9096,6 +14372,1048 @@ extension MediaConnectClientTypes.VpcInterface {
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInput()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.inputType = try reader["inputType"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterInputConfiguration.read(from:))
+        value.routedOutputs = try reader["routedOutputs"].readIfPresent() ?? 0
+        value.maximumRoutedOutputs = try reader["maximumRoutedOutputs"].readIfPresent()
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
+        value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
+        value.routingScope = try reader["routingScope"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.transitEncryption = try reader["transitEncryption"].readIfPresent(with: MediaConnectClientTypes.RouterInputTransitEncryption.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.streamDetails = try reader["streamDetails"].readIfPresent(with: MediaConnectClientTypes.RouterInputStreamDetails.read(from:))
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.maintenanceType = try reader["maintenanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.maintenanceConfiguration = try reader["maintenanceConfiguration"].readIfPresent(with: MediaConnectClientTypes.MaintenanceConfiguration.read(from:))
+        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
+        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MaintenanceSchedule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MaintenanceSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "window":
+                return .window(try reader["window"].read(with: MediaConnectClientTypes.WindowMaintenanceSchedule.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.WindowMaintenanceSchedule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.WindowMaintenanceSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.WindowMaintenanceSchedule()
+        value.start = try reader["start"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.end = try reader["end"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.scheduledTime = try reader["scheduledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MaintenanceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`default`(`default`):
+                try writer["default"].write(`default`, with: MediaConnectClientTypes.DefaultMaintenanceConfiguration.write(value:to:))
+            case let .preferreddaytime(preferreddaytime):
+                try writer["preferredDayTime"].write(preferreddaytime, with: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MaintenanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "preferredDayTime":
+                return .preferreddaytime(try reader["preferredDayTime"].read(with: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration.read(from:)))
+            case "default":
+                return .`default`(try reader["default"].read(with: MediaConnectClientTypes.DefaultMaintenanceConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.DefaultMaintenanceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.DefaultMaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DefaultMaintenanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.DefaultMaintenanceConfiguration()
+    }
+}
+
+extension MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["day"].write(value.day)
+        try writer["time"].write(value.time)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration()
+        value.day = try reader["day"].readIfPresent() ?? .sdkUnknown("")
+        value.time = try reader["time"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputStreamDetails.read(from:)))
+            case "failover":
+                return .failover(try reader["failover"].read(with: MediaConnectClientTypes.FailoverRouterInputStreamDetails.read(from:)))
+            case "merge":
+                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputStreamDetails.read(from:)))
+            case "mediaConnectFlow":
+                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.MediaConnectFlowRouterInputStreamDetails()
+    }
+}
+
+extension MediaConnectClientTypes.MergeRouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MergeRouterInputStreamDetails()
+        value.sourceIndexZeroStreamDetails = try reader["sourceIndexZeroStreamDetails"].readIfPresent(with: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails.read(from:))
+        value.sourceIndexOneStreamDetails = try reader["sourceIndexOneStreamDetails"].readIfPresent(with: MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MergeRouterInputIndexedStreamDetails()
+        value.sourceIndex = try reader["sourceIndex"].readIfPresent() ?? 0
+        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FailoverRouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FailoverRouterInputStreamDetails()
+        value.sourceIndexZeroStreamDetails = try reader["sourceIndexZeroStreamDetails"].readIfPresent(with: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails.read(from:))
+        value.sourceIndexOneStreamDetails = try reader["sourceIndexOneStreamDetails"].readIfPresent(with: MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FailoverRouterInputIndexedStreamDetails()
+        value.sourceIndex = try reader["sourceIndex"].readIfPresent() ?? 0
+        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardRouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardRouterInputStreamDetails()
+        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputTransitEncryption {
+
+    static func write(value: MediaConnectClientTypes.RouterInputTransitEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKeyConfiguration"].write(value.encryptionKeyConfiguration, with: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration.write(value:to:))
+        try writer["encryptionKeyType"].write(value.encryptionKeyType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputTransitEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputTransitEncryption()
+        value.encryptionKeyType = try reader["encryptionKeyType"].readIfPresent()
+        value.encryptionKeyConfiguration = try reader["encryptionKeyConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .automatic(automatic):
+                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.write(value:to:))
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputTransitEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:)))
+            case "automatic":
+                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputMessage()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .failover(failover):
+                try writer["failover"].write(failover, with: MediaConnectClientTypes.FailoverRouterInputConfiguration.write(value:to:))
+            case let .mediaconnectflow(mediaconnectflow):
+                try writer["mediaConnectFlow"].write(mediaconnectflow, with: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration.write(value:to:))
+            case let .merge(merge):
+                try writer["merge"].write(merge, with: MediaConnectClientTypes.MergeRouterInputConfiguration.write(value:to:))
+            case let .standard(standard):
+                try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardRouterInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputConfiguration.read(from:)))
+            case "failover":
+                return .failover(try reader["failover"].read(with: MediaConnectClientTypes.FailoverRouterInputConfiguration.read(from:)))
+            case "merge":
+                return .merge(try reader["merge"].read(with: MediaConnectClientTypes.MergeRouterInputConfiguration.read(from:)))
+            case "mediaConnectFlow":
+                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["flowArn"].write(value.flowArn)
+        try writer["flowOutputArn"].write(value.flowOutputArn)
+        try writer["sourceTransitDecryption"].write(value.sourceTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration()
+        value.flowArn = try reader["flowArn"].readIfPresent()
+        value.flowOutputArn = try reader["flowOutputArn"].readIfPresent()
+        value.sourceTransitDecryption = try reader["sourceTransitDecryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MergeRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MergeRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mergeRecoveryWindowMilliseconds"].write(value.mergeRecoveryWindowMilliseconds)
+        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
+        try writer["protocolConfigurations"].writeList(value.protocolConfigurations, memberWritingClosure: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MergeRouterInputConfiguration()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
+        value.protocolConfigurations = try reader["protocolConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mergeRecoveryWindowMilliseconds = try reader["mergeRecoveryWindowMilliseconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MergeRouterInputProtocolConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MergeRouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MergeRouterInputProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RistRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RistRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["port"].write(value.port)
+        try writer["recoveryLatencyMilliseconds"].write(value.recoveryLatencyMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RistRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RistRouterInputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.recoveryLatencyMilliseconds = try reader["recoveryLatencyMilliseconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtpRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtpRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["forwardErrorCorrection"].write(value.forwardErrorCorrection)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtpRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtpRouterInputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.forwardErrorCorrection = try reader["forwardErrorCorrection"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FailoverRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.FailoverRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
+        try writer["primarySourceIndex"].write(value.primarySourceIndex)
+        try writer["protocolConfigurations"].writeList(value.protocolConfigurations, memberWritingClosure: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourcePriorityMode"].write(value.sourcePriorityMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.FailoverRouterInputConfiguration()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
+        value.protocolConfigurations = try reader["protocolConfigurations"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourcePriorityMode = try reader["sourcePriorityMode"].readIfPresent() ?? .sdkUnknown("")
+        value.primarySourceIndex = try reader["primarySourceIndex"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
+
+    static func write(value: MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.FailoverRouterInputProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.SrtCallerRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtCallerRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decryptionConfiguration"].write(value.decryptionConfiguration, with: MediaConnectClientTypes.SrtDecryptionConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["sourceAddress"].write(value.sourceAddress)
+        try writer["sourcePort"].write(value.sourcePort)
+        try writer["streamId"].write(value.streamId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtCallerRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtCallerRouterInputConfiguration()
+        value.sourceAddress = try reader["sourceAddress"].readIfPresent() ?? ""
+        value.sourcePort = try reader["sourcePort"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.streamId = try reader["streamId"].readIfPresent()
+        value.decryptionConfiguration = try reader["decryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtDecryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtDecryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtDecryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKey"].write(value.encryptionKey, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtDecryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtDecryptionConfiguration()
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtListenerRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtListenerRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decryptionConfiguration"].write(value.decryptionConfiguration, with: MediaConnectClientTypes.SrtDecryptionConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtListenerRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtListenerRouterInputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.decryptionConfiguration = try reader["decryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtDecryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: MediaConnectClientTypes.RouterInputProtocolConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardRouterInputConfiguration()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
+        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterInputProtocolConfiguration.read(from:))
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputProtocolConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterInputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterInputConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterInputConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterInputConfiguration.read(from:)))
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterInputConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterInputConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterInputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.BatchGetRouterInputError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterInputError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BatchGetRouterInputError()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterNetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterNetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterNetworkInterface()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.networkInterfaceType = try reader["networkInterfaceType"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration.read(from:))
+        value.associatedOutputCount = try reader["associatedOutputCount"].readIfPresent() ?? 0
+        value.associatedInputCount = try reader["associatedInputCount"].readIfPresent() ?? 0
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterNetworkInterfaceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`public`(`public`):
+                try writer["public"].write(`public`, with: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration.write(value:to:))
+            case let .vpc(vpc):
+                try writer["vpc"].write(vpc, with: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterNetworkInterfaceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "public":
+                return .`public`(try reader["public"].read(with: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration.read(from:)))
+            case "vpc":
+                return .vpc(try reader["vpc"].read(with: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetId"].write(value.subnetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration {
+
+    static func write(value: MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowRules"].writeList(value.allowRules, memberWritingClosure: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PublicRouterNetworkInterfaceConfiguration()
+        value.allowRules = try reader["allowRules"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
+
+    static func write(value: MediaConnectClientTypes.PublicRouterNetworkInterfaceRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PublicRouterNetworkInterfaceRule()
+        value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BatchGetRouterNetworkInterfaceError()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterOutput()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.outputType = try reader["outputType"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.RouterOutputConfiguration.read(from:))
+        value.routedState = try reader["routedState"].readIfPresent() ?? .sdkUnknown("")
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
+        value.routingScope = try reader["routingScope"].readIfPresent() ?? .sdkUnknown("")
+        value.tier = try reader["tier"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterOutputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.streamDetails = try reader["streamDetails"].readIfPresent(with: MediaConnectClientTypes.RouterOutputStreamDetails.read(from:))
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.routedInputArn = try reader["routedInputArn"].readIfPresent()
+        value.maintenanceType = try reader["maintenanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.maintenanceConfiguration = try reader["maintenanceConfiguration"].readIfPresent(with: MediaConnectClientTypes.MaintenanceConfiguration.read(from:))
+        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
+        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterOutputStreamDetails.read(from:)))
+            case "mediaConnectFlow":
+                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails.read(from:)))
+            case "mediaLiveInput":
+                return .medialiveinput(try reader["mediaLiveInput"].read(with: MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails()
+    }
+}
+
+extension MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails()
+    }
+}
+
+extension MediaConnectClientTypes.StandardRouterOutputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardRouterOutputStreamDetails()
+        value.destinationIpAddress = try reader["destinationIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterOutputMessage()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .mediaconnectflow(mediaconnectflow):
+                try writer["mediaConnectFlow"].write(mediaconnectflow, with: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration.write(value:to:))
+            case let .medialiveinput(medialiveinput):
+                try writer["mediaLiveInput"].write(medialiveinput, with: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration.write(value:to:))
+            case let .standard(standard):
+                try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardRouterOutputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterOutputConfiguration.read(from:)))
+            case "mediaConnectFlow":
+                return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration.read(from:)))
+            case "mediaLiveInput":
+                return .medialiveinput(try reader["mediaLiveInput"].read(with: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationTransitEncryption"].write(value.destinationTransitEncryption, with: MediaConnectClientTypes.MediaLiveTransitEncryption.write(value:to:))
+        try writer["mediaLiveInputArn"].write(value.mediaLiveInputArn)
+        try writer["mediaLivePipelineId"].write(value.mediaLivePipelineId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration()
+        value.mediaLiveInputArn = try reader["mediaLiveInputArn"].readIfPresent()
+        value.mediaLivePipelineId = try reader["mediaLivePipelineId"].readIfPresent()
+        value.destinationTransitEncryption = try reader["destinationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.MediaLiveTransitEncryption.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveTransitEncryption {
+
+    static func write(value: MediaConnectClientTypes.MediaLiveTransitEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKeyConfiguration"].write(value.encryptionKeyConfiguration, with: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration.write(value:to:))
+        try writer["encryptionKeyType"].write(value.encryptionKeyType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveTransitEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaLiveTransitEncryption()
+        value.encryptionKeyType = try reader["encryptionKeyType"].readIfPresent()
+        value.encryptionKeyConfiguration = try reader["encryptionKeyConfiguration"].readIfPresent(with: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .automatic(automatic):
+                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.write(value:to:))
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaLiveTransitEncryptionKeyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:)))
+            case "automatic":
+                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationTransitEncryption"].write(value.destinationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
+        try writer["flowArn"].write(value.flowArn)
+        try writer["flowSourceArn"].write(value.flowSourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration()
+        value.flowArn = try reader["flowArn"].readIfPresent()
+        value.flowSourceArn = try reader["flowSourceArn"].readIfPresent()
+        value.destinationTransitEncryption = try reader["destinationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.FlowTransitEncryption.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkInterfaceArn"].write(value.networkInterfaceArn)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: MediaConnectClientTypes.RouterOutputProtocolConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardRouterOutputConfiguration()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent() ?? ""
+        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterOutputProtocolConfiguration.read(from:))
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputProtocolConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterOutputProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistRouterOutputConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpRouterOutputConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpRouterOutputConfiguration.read(from:)))
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistRouterOutputConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.SrtCallerRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtCallerRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationPort"].write(value.destinationPort)
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: MediaConnectClientTypes.SrtEncryptionConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["streamId"].write(value.streamId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtCallerRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtCallerRouterOutputConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.streamId = try reader["streamId"].readIfPresent()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtEncryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionKey"].write(value.encryptionKey, with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtEncryptionConfiguration()
+        value.encryptionKey = try reader["encryptionKey"].readIfPresent(with: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtListenerRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtListenerRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: MediaConnectClientTypes.SrtEncryptionConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtListenerRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtListenerRouterOutputConfiguration()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RistRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RistRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationPort"].write(value.destinationPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RistRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RistRouterOutputConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtpRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtpRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationPort"].write(value.destinationPort)
+        try writer["forwardErrorCorrection"].write(value.forwardErrorCorrection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtpRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtpRouterOutputConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        value.forwardErrorCorrection = try reader["forwardErrorCorrection"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BatchGetRouterOutputError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterOutputError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BatchGetRouterOutputError()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9562,6 +15880,45 @@ extension MediaConnectClientTypes.Reservation {
     }
 }
 
+extension MediaConnectClientTypes.RouterInputSourceMetadataDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputSourceMetadataDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputSourceMetadataDetails()
+        value.sourceMetadataMessages = try reader["sourceMetadataMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.routerInputMetadata = try reader["routerInputMetadata"].readIfPresent(with: MediaConnectClientTypes.RouterInputMetadata.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "transportStreamMediaInfo":
+                return .transportstreammediainfo(try reader["transportStreamMediaInfo"].read(with: MediaConnectClientTypes.TransportMediaInfo.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputThumbnailDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputThumbnailDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputThumbnailDetails()
+        value.thumbnailMessages = try reader["thumbnailMessages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.thumbnail = try reader["thumbnail"].readIfPresent()
+        value.timecode = try reader["timecode"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.ListedBridge {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedBridge {
@@ -9629,6 +15986,76 @@ extension MediaConnectClientTypes.ListedGateway {
     }
 }
 
+extension MediaConnectClientTypes.ListedRouterInput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedRouterInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ListedRouterInput()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.inputType = try reader["inputType"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.routedOutputs = try reader["routedOutputs"].readIfPresent() ?? 0
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
+        value.routingScope = try reader["routingScope"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.messageCount = try reader["messageCount"].readIfPresent() ?? 0
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent()
+        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
+        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.ListedRouterNetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedRouterNetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ListedRouterNetworkInterface()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.networkInterfaceType = try reader["networkInterfaceType"].readIfPresent() ?? .sdkUnknown("")
+        value.associatedOutputCount = try reader["associatedOutputCount"].readIfPresent() ?? 0
+        value.associatedInputCount = try reader["associatedInputCount"].readIfPresent() ?? 0
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.ListedRouterOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedRouterOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ListedRouterOutput()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.outputType = try reader["outputType"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.routedState = try reader["routedState"].readIfPresent() ?? .sdkUnknown("")
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent() ?? ""
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
+        value.routingScope = try reader["routingScope"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.messageCount = try reader["messageCount"].readIfPresent() ?? 0
+        value.routedInputArn = try reader["routedInputArn"].readIfPresent()
+        value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent()
+        value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
+        value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.AddBridgeOutputRequest {
 
     static func write(value: MediaConnectClientTypes.AddBridgeOutputRequest?, to writer: SmithyJSON.Writer) throws {
@@ -9691,6 +16118,7 @@ extension MediaConnectClientTypes.AddMediaStreamRequest {
         try writer["description"].write(value.description)
         try writer["mediaStreamId"].write(value.mediaStreamId)
         try writer["mediaStreamName"].write(value.mediaStreamName)
+        try writer["mediaStreamTags"].writeMap(value.mediaStreamTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["mediaStreamType"].write(value.mediaStreamType)
         try writer["videoFormat"].write(value.videoFormat)
     }
@@ -9734,9 +16162,12 @@ extension MediaConnectClientTypes.AddOutputRequest {
         try writer["ndiProgramName"].write(value.ndiProgramName)
         try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
         try writer["outputStatus"].write(value.outputStatus)
+        try writer["outputTags"].writeMap(value.outputTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["port"].write(value.port)
         try writer["protocol"].write(value.`protocol`)
         try writer["remoteId"].write(value.remoteId)
+        try writer["routerIntegrationState"].write(value.routerIntegrationState)
+        try writer["routerIntegrationTransitEncryption"].write(value.routerIntegrationTransitEncryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
         try writer["senderControlPort"].write(value.senderControlPort)
         try writer["smoothingLatency"].write(value.smoothingLatency)
         try writer["streamId"].write(value.streamId)
@@ -9798,10 +16229,13 @@ extension MediaConnectClientTypes.SetSourceRequest {
         try writer["minLatency"].write(value.minLatency)
         try writer["name"].write(value.name)
         try writer["protocol"].write(value.`protocol`)
+        try writer["routerIntegrationState"].write(value.routerIntegrationState)
+        try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
         try writer["senderControlPort"].write(value.senderControlPort)
         try writer["senderIpAddress"].write(value.senderIpAddress)
         try writer["sourceListenerAddress"].write(value.sourceListenerAddress)
         try writer["sourceListenerPort"].write(value.sourceListenerPort)
+        try writer["sourceTags"].writeMap(value.sourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["streamId"].write(value.streamId)
         try writer["vpcInterfaceName"].write(value.vpcInterfaceName)
         try writer["whitelistCidr"].write(value.whitelistCidr)
@@ -9845,6 +16279,7 @@ extension MediaConnectClientTypes.VpcInterfaceRequest {
         try writer["roleArn"].write(value.roleArn)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetId"].write(value.subnetId)
+        try writer["vpcInterfaceTags"].writeMap(value.vpcInterfaceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9873,6 +16308,7 @@ extension MediaConnectClientTypes.GrantEntitlementRequest {
         try writer["description"].write(value.description)
         try writer["encryption"].write(value.encryption, with: MediaConnectClientTypes.Encryption.write(value:to:))
         try writer["entitlementStatus"].write(value.entitlementStatus)
+        try writer["entitlementTags"].writeMap(value.entitlementTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["subscribers"].writeList(value.subscribers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -9884,6 +16320,67 @@ extension MediaConnectClientTypes.AddMaintenance {
         guard let value else { return }
         try writer["maintenanceDay"].write(value.maintenanceDay)
         try writer["maintenanceStartHour"].write(value.maintenanceStartHour)
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputFilter {
+
+    static func write(value: MediaConnectClientTypes.RouterInputFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .inputtypes(inputtypes):
+                try writer["inputTypes"].writeList(inputtypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConnectClientTypes.RouterInputType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .namecontains(namecontains):
+                try writer["nameContains"].writeList(namecontains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .networkinterfacearns(networkinterfacearns):
+                try writer["networkInterfaceArns"].writeList(networkinterfacearns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .regionnames(regionnames):
+                try writer["regionNames"].writeList(regionnames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .routingscopes(routingscopes):
+                try writer["routingScopes"].writeList(routingscopes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConnectClientTypes.RoutingScope>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterNetworkInterfaceFilter {
+
+    static func write(value: MediaConnectClientTypes.RouterNetworkInterfaceFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .namecontains(namecontains):
+                try writer["nameContains"].writeList(namecontains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .networkinterfacetypes(networkinterfacetypes):
+                try writer["networkInterfaceTypes"].writeList(networkinterfacetypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConnectClientTypes.RouterNetworkInterfaceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .regionnames(regionnames):
+                try writer["regionNames"].writeList(regionnames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputFilter {
+
+    static func write(value: MediaConnectClientTypes.RouterOutputFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .namecontains(namecontains):
+                try writer["nameContains"].writeList(namecontains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .networkinterfacearns(networkinterfacearns):
+                try writer["networkInterfaceArns"].writeList(networkinterfacearns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .outputtypes(outputtypes):
+                try writer["outputTypes"].writeList(outputtypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConnectClientTypes.RouterOutputType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .regionnames(regionnames):
+                try writer["regionNames"].writeList(regionnames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .routedinputarns(routedinputarns):
+                try writer["routedInputArns"].writeList(routedinputarns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .routingscopes(routingscopes):
+                try writer["routingScopes"].writeList(routingscopes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConnectClientTypes.RoutingScope>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 

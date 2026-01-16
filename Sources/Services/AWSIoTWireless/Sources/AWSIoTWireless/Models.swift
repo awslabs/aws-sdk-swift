@@ -2314,15 +2314,38 @@ extension IoTWirelessClientTypes {
 
 extension IoTWirelessClientTypes {
 
+    /// The Positioning object of the Sidewalk device.
+    public struct SidewalkPositioning: Swift.Sendable {
+        /// The location destination name of the Sidewalk device.
+        public var destinationName: Swift.String?
+
+        public init(
+            destinationName: Swift.String? = nil
+        ) {
+            self.destinationName = destinationName
+        }
+    }
+}
+
+extension IoTWirelessClientTypes {
+
     /// Sidewalk object for creating a wireless device.
     public struct SidewalkCreateWirelessDevice: Swift.Sendable {
         /// The ID of the Sidewalk device profile.
         public var deviceProfileId: Swift.String?
+        /// The Positioning object of the Sidewalk device.
+        public var positioning: IoTWirelessClientTypes.SidewalkPositioning?
+        /// The Sidewalk manufacturing serial number.
+        public var sidewalkManufacturingSn: Swift.String?
 
         public init(
-            deviceProfileId: Swift.String? = nil
+            deviceProfileId: Swift.String? = nil,
+            positioning: IoTWirelessClientTypes.SidewalkPositioning? = nil,
+            sidewalkManufacturingSn: Swift.String? = nil
         ) {
             self.deviceProfileId = deviceProfileId
+            self.positioning = positioning
+            self.sidewalkManufacturingSn = sidewalkManufacturingSn
         }
     }
 }
@@ -2368,7 +2391,7 @@ public struct CreateWirelessDeviceInput: Swift.Sendable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
     /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
-    /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+    /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
     /// The device configuration information to use to create the Sidewalk device.
     public var sidewalk: IoTWirelessClientTypes.SidewalkCreateWirelessDevice?
@@ -5843,6 +5866,8 @@ extension IoTWirelessClientTypes {
         public var deviceCertificates: [IoTWirelessClientTypes.CertificateList]?
         /// The ID of the Sidewalk device profile.
         public var deviceProfileId: Swift.String?
+        /// The Positioning object of the Sidewalk device.
+        public var positioning: IoTWirelessClientTypes.SidewalkPositioning?
         /// The Sidewalk device private keys that will be used for onboarding the device.
         public var privateKeys: [IoTWirelessClientTypes.CertificateList]?
         /// The sidewalk device identification.
@@ -5857,6 +5882,7 @@ extension IoTWirelessClientTypes {
             certificateId: Swift.String? = nil,
             deviceCertificates: [IoTWirelessClientTypes.CertificateList]? = nil,
             deviceProfileId: Swift.String? = nil,
+            positioning: IoTWirelessClientTypes.SidewalkPositioning? = nil,
             privateKeys: [IoTWirelessClientTypes.CertificateList]? = nil,
             sidewalkId: Swift.String? = nil,
             sidewalkManufacturingSn: Swift.String? = nil,
@@ -5866,6 +5892,7 @@ extension IoTWirelessClientTypes {
             self.certificateId = certificateId
             self.deviceCertificates = deviceCertificates
             self.deviceProfileId = deviceProfileId
+            self.positioning = positioning
             self.privateKeys = privateKeys
             self.sidewalkId = sidewalkId
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
@@ -5887,7 +5914,7 @@ public struct GetWirelessDeviceOutput: Swift.Sendable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
     /// The name of the resource.
     public var name: Swift.String?
-    /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+    /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
     /// Sidewalk device object.
     public var sidewalk: IoTWirelessClientTypes.SidewalkDevice?
@@ -5943,14 +5970,18 @@ extension IoTWirelessClientTypes {
     public struct SidewalkGetStartImportInfo: Swift.Sendable {
         /// List of Sidewalk devices that are added to the import task.
         public var deviceCreationFileList: [Swift.String]?
+        /// The Positioning object of the Sidewalk device.
+        public var positioning: IoTWirelessClientTypes.SidewalkPositioning?
         /// The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket.
         public var role: Swift.String?
 
         public init(
             deviceCreationFileList: [Swift.String]? = nil,
+            positioning: IoTWirelessClientTypes.SidewalkPositioning? = nil,
             role: Swift.String? = nil
         ) {
             self.deviceCreationFileList = deviceCreationFileList
+            self.positioning = positioning
             self.role = role
         }
     }
@@ -6014,6 +6045,8 @@ public struct GetWirelessDeviceImportTaskOutput: Swift.Sendable {
     public var onboardedImportedDeviceCount: Swift.Int?
     /// The number of devices in the import task that are waiting in the import task queue to be onboarded.
     public var pendingImportedDeviceCount: Swift.Int?
+    /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices.
+    public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
     /// The Sidewalk-related information about an import task.
     public var sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo?
     /// The import task status.
@@ -6030,6 +6063,7 @@ public struct GetWirelessDeviceImportTaskOutput: Swift.Sendable {
         initializedImportedDeviceCount: Swift.Int? = nil,
         onboardedImportedDeviceCount: Swift.Int? = nil,
         pendingImportedDeviceCount: Swift.Int? = nil,
+        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo? = nil,
         status: IoTWirelessClientTypes.ImportTaskStatus? = nil,
         statusReason: Swift.String? = nil
@@ -6042,6 +6076,7 @@ public struct GetWirelessDeviceImportTaskOutput: Swift.Sendable {
         self.initializedImportedDeviceCount = initializedImportedDeviceCount
         self.onboardedImportedDeviceCount = onboardedImportedDeviceCount
         self.pendingImportedDeviceCount = pendingImportedDeviceCount
+        self.positioning = positioning
         self.sidewalk = sidewalk
         self.status = status
         self.statusReason = statusReason
@@ -6626,6 +6661,21 @@ public struct ListDevicesForWirelessDeviceImportTaskInput: Swift.Sendable {
     }
 }
 
+extension IoTWirelessClientTypes {
+
+    /// The Sidewalk-related object containing positioning information used to configure Sidewalk devices during import.
+    public struct SidewalkListDevicesForImportInfo: Swift.Sendable {
+        /// The Positioning object of the Sidewalk device.
+        public var positioning: IoTWirelessClientTypes.SidewalkPositioning?
+
+        public init(
+            positioning: IoTWirelessClientTypes.SidewalkPositioning? = nil
+        ) {
+            self.positioning = positioning
+        }
+    }
+}
+
 public struct ListDevicesForWirelessDeviceImportTaskOutput: Swift.Sendable {
     /// The name of the Sidewalk destination that describes the IoT rule to route messages received from devices in an import task that are onboarded to AWS IoT Wireless.
     public var destinationName: Swift.String?
@@ -6633,15 +6683,23 @@ public struct ListDevicesForWirelessDeviceImportTaskOutput: Swift.Sendable {
     public var importedWirelessDeviceList: [IoTWirelessClientTypes.ImportedWirelessDevice]?
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
+    /// The integration status of the Device Location feature for Sidewalk devices.
+    public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
+    /// The Sidewalk object containing Sidewalk-related device information.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkListDevicesForImportInfo?
 
     public init(
         destinationName: Swift.String? = nil,
         importedWirelessDeviceList: [IoTWirelessClientTypes.ImportedWirelessDevice]? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkListDevicesForImportInfo? = nil
     ) {
         self.destinationName = destinationName
         self.importedWirelessDeviceList = importedWirelessDeviceList
         self.nextToken = nextToken
+        self.positioning = positioning
+        self.sidewalk = sidewalk
     }
 }
 
@@ -7105,6 +7163,8 @@ extension IoTWirelessClientTypes {
         public var onboardedImportedDeviceCount: Swift.Int?
         /// The summary information of count of wireless devices in an import task that are waiting in the queue to be onboarded.
         public var pendingImportedDeviceCount: Swift.Int?
+        /// The integration status of the Device Location feature for Sidewalk devices.
+        public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
         /// The Sidewalk-related information of the wireless device import task.
         public var sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo?
         /// The status information of the wireless device import task.
@@ -7121,6 +7181,7 @@ extension IoTWirelessClientTypes {
             initializedImportedDeviceCount: Swift.Int? = nil,
             onboardedImportedDeviceCount: Swift.Int? = nil,
             pendingImportedDeviceCount: Swift.Int? = nil,
+            positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
             sidewalk: IoTWirelessClientTypes.SidewalkGetStartImportInfo? = nil,
             status: IoTWirelessClientTypes.ImportTaskStatus? = nil,
             statusReason: Swift.String? = nil
@@ -7133,6 +7194,7 @@ extension IoTWirelessClientTypes {
             self.initializedImportedDeviceCount = initializedImportedDeviceCount
             self.onboardedImportedDeviceCount = onboardedImportedDeviceCount
             self.pendingImportedDeviceCount = pendingImportedDeviceCount
+            self.positioning = positioning
             self.sidewalk = sidewalk
             self.status = status
             self.statusReason = statusReason
@@ -7156,7 +7218,7 @@ public struct ListWirelessDeviceImportTasksOutput: Swift.Sendable {
 }
 
 public struct ListWirelessDevicesInput: Swift.Sendable {
-    /// A filter to list only the wireless devices that use this destination.
+    /// A filter to list only the wireless devices that use as uplink destination.
     public var destinationName: Swift.String?
     /// A filter to list only the wireless devices that use this device profile.
     public var deviceProfileId: Swift.String?
@@ -7219,6 +7281,8 @@ extension IoTWirelessClientTypes {
         public var deviceCertificates: [IoTWirelessClientTypes.CertificateList]?
         /// Sidewalk object used by list functions.
         public var deviceProfileId: Swift.String?
+        /// The Positioning object of the Sidewalk device.
+        public var positioning: IoTWirelessClientTypes.SidewalkPositioning?
         /// The sidewalk device identification.
         public var sidewalkId: Swift.String?
         /// The Sidewalk manufacturing series number.
@@ -7230,6 +7294,7 @@ extension IoTWirelessClientTypes {
             amazonId: Swift.String? = nil,
             deviceCertificates: [IoTWirelessClientTypes.CertificateList]? = nil,
             deviceProfileId: Swift.String? = nil,
+            positioning: IoTWirelessClientTypes.SidewalkPositioning? = nil,
             sidewalkId: Swift.String? = nil,
             sidewalkManufacturingSn: Swift.String? = nil,
             status: IoTWirelessClientTypes.WirelessDeviceSidewalkStatus? = nil
@@ -7237,6 +7302,7 @@ extension IoTWirelessClientTypes {
             self.amazonId = amazonId
             self.deviceCertificates = deviceCertificates
             self.deviceProfileId = deviceProfileId
+            self.positioning = positioning
             self.sidewalkId = sidewalkId
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
             self.status = status
@@ -7266,6 +7332,8 @@ extension IoTWirelessClientTypes {
         public var multicastDeviceStatus: Swift.String?
         /// The name of the resource.
         public var name: Swift.String?
+        /// The integration status of the Device Location feature for LoRaWAN and Amazon Sidewalk enabled devices.
+        public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
         /// The Sidewalk account credentials.
         public var sidewalk: IoTWirelessClientTypes.SidewalkListDevice?
         /// The wireless device type.
@@ -7281,6 +7349,7 @@ extension IoTWirelessClientTypes {
             mcGroupId: Swift.Int? = nil,
             multicastDeviceStatus: Swift.String? = nil,
             name: Swift.String? = nil,
+            positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
             sidewalk: IoTWirelessClientTypes.SidewalkListDevice? = nil,
             type: IoTWirelessClientTypes.WirelessDeviceType? = nil
         ) {
@@ -7293,6 +7362,7 @@ extension IoTWirelessClientTypes {
             self.mcGroupId = mcGroupId
             self.multicastDeviceStatus = multicastDeviceStatus
             self.name = name
+            self.positioning = positioning
             self.sidewalk = sidewalk
             self.type = type
         }
@@ -7898,12 +7968,16 @@ extension IoTWirelessClientTypes {
 
     /// Information about an import task created for an individual Sidewalk device.
     public struct SidewalkSingleStartImportInfo: Swift.Sendable {
+        /// The Positioning object of the Sidewalk device.
+        public var positioning: IoTWirelessClientTypes.SidewalkPositioning?
         /// The Sidewalk manufacturing serial number (SMSN) of the device added to the import task.
         public var sidewalkManufacturingSn: Swift.String?
 
         public init(
+            positioning: IoTWirelessClientTypes.SidewalkPositioning? = nil,
             sidewalkManufacturingSn: Swift.String? = nil
         ) {
+            self.positioning = positioning
             self.sidewalkManufacturingSn = sidewalkManufacturingSn
         }
     }
@@ -7917,6 +7991,8 @@ public struct StartSingleWirelessDeviceImportTaskInput: Swift.Sendable {
     public var destinationName: Swift.String?
     /// The name of the wireless device for which an import task is being started.
     public var deviceName: Swift.String?
+    /// The integration status of the Device Location feature for Sidewalk devices.
+    public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
     /// The Sidewalk-related parameters for importing a single wireless device.
     /// This member is required.
     public var sidewalk: IoTWirelessClientTypes.SidewalkSingleStartImportInfo?
@@ -7927,12 +8003,14 @@ public struct StartSingleWirelessDeviceImportTaskInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         destinationName: Swift.String? = nil,
         deviceName: Swift.String? = nil,
+        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkSingleStartImportInfo? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.destinationName = destinationName
         self.deviceName = deviceName
+        self.positioning = positioning
         self.sidewalk = sidewalk
         self.tags = tags
     }
@@ -7959,14 +8037,18 @@ extension IoTWirelessClientTypes {
     public struct SidewalkStartImportInfo: Swift.Sendable {
         /// The CSV file contained in an S3 bucket that's used for adding devices to an import task.
         public var deviceCreationFile: Swift.String?
+        /// The Positioning object of the Sidewalk device.
+        public var positioning: IoTWirelessClientTypes.SidewalkPositioning?
         /// The IAM role that allows AWS IoT Wireless to access the CSV file in the S3 bucket.
         public var role: Swift.String?
 
         public init(
             deviceCreationFile: Swift.String? = nil,
+            positioning: IoTWirelessClientTypes.SidewalkPositioning? = nil,
             role: Swift.String? = nil
         ) {
             self.deviceCreationFile = deviceCreationFile
+            self.positioning = positioning
             self.role = role
         }
     }
@@ -7978,6 +8060,8 @@ public struct StartWirelessDeviceImportTaskInput: Swift.Sendable {
     /// The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
     /// This member is required.
     public var destinationName: Swift.String?
+    /// The integration status of the Device Location feature for Sidewalk devices.
+    public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
     /// The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk.
     /// This member is required.
     public var sidewalk: IoTWirelessClientTypes.SidewalkStartImportInfo?
@@ -7987,11 +8071,13 @@ public struct StartWirelessDeviceImportTaskInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         destinationName: Swift.String? = nil,
+        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
         sidewalk: IoTWirelessClientTypes.SidewalkStartImportInfo? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.destinationName = destinationName
+        self.positioning = positioning
         self.sidewalk = sidewalk
         self.tags = tags
     }
@@ -8574,6 +8660,21 @@ extension IoTWirelessClientTypes {
     }
 }
 
+extension IoTWirelessClientTypes {
+
+    /// Sidewalk object for updating a wireless device.
+    public struct SidewalkUpdateWirelessDevice: Swift.Sendable {
+        /// The Positioning object of the Sidewalk device.
+        public var positioning: IoTWirelessClientTypes.SidewalkPositioning?
+
+        public init(
+            positioning: IoTWirelessClientTypes.SidewalkPositioning? = nil
+        ) {
+            self.positioning = positioning
+        }
+    }
+}
+
 public struct UpdateWirelessDeviceInput: Swift.Sendable {
     /// A new description of the resource.
     public var description: Swift.String?
@@ -8586,8 +8687,10 @@ public struct UpdateWirelessDeviceInput: Swift.Sendable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice?
     /// The new name of the resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
-    /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+    /// The integration status of the Device Location feature for LoRaWAN and Sidewalk devices.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
+    /// The updated sidewalk properties.
+    public var sidewalk: IoTWirelessClientTypes.SidewalkUpdateWirelessDevice?
 
     public init(
         description: Swift.String? = nil,
@@ -8595,7 +8698,8 @@ public struct UpdateWirelessDeviceInput: Swift.Sendable {
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice? = nil,
         name: Swift.String? = nil,
-        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil
+        positioning: IoTWirelessClientTypes.PositioningConfigStatus? = nil,
+        sidewalk: IoTWirelessClientTypes.SidewalkUpdateWirelessDevice? = nil
     ) {
         self.description = description
         self.destinationName = destinationName
@@ -8603,6 +8707,7 @@ public struct UpdateWirelessDeviceInput: Swift.Sendable {
         self.loRaWAN = loRaWAN
         self.name = name
         self.positioning = positioning
+        self.sidewalk = sidewalk
     }
 }
 
@@ -10618,6 +10723,7 @@ extension StartSingleWirelessDeviceImportTaskInput {
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["DestinationName"].write(value.destinationName)
         try writer["DeviceName"].write(value.deviceName)
+        try writer["Positioning"].write(value.positioning)
         try writer["Sidewalk"].write(value.sidewalk, with: IoTWirelessClientTypes.SidewalkSingleStartImportInfo.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: IoTWirelessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -10629,6 +10735,7 @@ extension StartWirelessDeviceImportTaskInput {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["DestinationName"].write(value.destinationName)
+        try writer["Positioning"].write(value.positioning)
         try writer["Sidewalk"].write(value.sidewalk, with: IoTWirelessClientTypes.SidewalkStartImportInfo.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: IoTWirelessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -10770,6 +10877,7 @@ extension UpdateWirelessDeviceInput {
         try writer["LoRaWAN"].write(value.loRaWAN, with: IoTWirelessClientTypes.LoRaWANUpdateDevice.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Positioning"].write(value.positioning)
+        try writer["Sidewalk"].write(value.sidewalk, with: IoTWirelessClientTypes.SidewalkUpdateWirelessDevice.write(value:to:))
     }
 }
 
@@ -11459,6 +11567,7 @@ extension GetWirelessDeviceImportTaskOutput {
         value.initializedImportedDeviceCount = try reader["InitializedImportedDeviceCount"].readIfPresent()
         value.onboardedImportedDeviceCount = try reader["OnboardedImportedDeviceCount"].readIfPresent()
         value.pendingImportedDeviceCount = try reader["PendingImportedDeviceCount"].readIfPresent()
+        value.positioning = try reader["Positioning"].readIfPresent()
         value.sidewalk = try reader["Sidewalk"].readIfPresent(with: IoTWirelessClientTypes.SidewalkGetStartImportInfo.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
@@ -11605,6 +11714,8 @@ extension ListDevicesForWirelessDeviceImportTaskOutput {
         value.destinationName = try reader["DestinationName"].readIfPresent()
         value.importedWirelessDeviceList = try reader["ImportedWirelessDeviceList"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.ImportedWirelessDevice.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        value.positioning = try reader["Positioning"].readIfPresent()
+        value.sidewalk = try reader["Sidewalk"].readIfPresent(with: IoTWirelessClientTypes.SidewalkListDevicesForImportInfo.read(from:))
         return value
     }
 }
@@ -15051,6 +15162,22 @@ extension IoTWirelessClientTypes.SidewalkDevice {
         value.deviceProfileId = try reader["DeviceProfileId"].readIfPresent()
         value.certificateId = try reader["CertificateId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.positioning = try reader["Positioning"].readIfPresent(with: IoTWirelessClientTypes.SidewalkPositioning.read(from:))
+        return value
+    }
+}
+
+extension IoTWirelessClientTypes.SidewalkPositioning {
+
+    static func write(value: IoTWirelessClientTypes.SidewalkPositioning?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationName"].write(value.destinationName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkPositioning {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTWirelessClientTypes.SidewalkPositioning()
+        value.destinationName = try reader["DestinationName"].readIfPresent()
         return value
     }
 }
@@ -15073,6 +15200,7 @@ extension IoTWirelessClientTypes.SidewalkGetStartImportInfo {
         var value = IoTWirelessClientTypes.SidewalkGetStartImportInfo()
         value.deviceCreationFileList = try reader["DeviceCreationFileList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.role = try reader["Role"].readIfPresent()
+        value.positioning = try reader["Positioning"].readIfPresent(with: IoTWirelessClientTypes.SidewalkPositioning.read(from:))
         return value
     }
 }
@@ -15269,6 +15397,16 @@ extension IoTWirelessClientTypes.DeviceProfile {
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTWirelessClientTypes.SidewalkListDevicesForImportInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTWirelessClientTypes.SidewalkListDevicesForImportInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTWirelessClientTypes.SidewalkListDevicesForImportInfo()
+        value.positioning = try reader["Positioning"].readIfPresent(with: IoTWirelessClientTypes.SidewalkPositioning.read(from:))
         return value
     }
 }
@@ -15484,6 +15622,7 @@ extension IoTWirelessClientTypes.WirelessDeviceImportTask {
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.destinationName = try reader["DestinationName"].readIfPresent()
+        value.positioning = try reader["Positioning"].readIfPresent()
         value.sidewalk = try reader["Sidewalk"].readIfPresent(with: IoTWirelessClientTypes.SidewalkGetStartImportInfo.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.status = try reader["Status"].readIfPresent()
@@ -15512,6 +15651,7 @@ extension IoTWirelessClientTypes.WirelessDeviceStatistics {
         value.fuotaDeviceStatus = try reader["FuotaDeviceStatus"].readIfPresent()
         value.multicastDeviceStatus = try reader["MulticastDeviceStatus"].readIfPresent()
         value.mcGroupId = try reader["McGroupId"].readIfPresent()
+        value.positioning = try reader["Positioning"].readIfPresent()
         return value
     }
 }
@@ -15527,6 +15667,7 @@ extension IoTWirelessClientTypes.SidewalkListDevice {
         value.deviceCertificates = try reader["DeviceCertificates"].readListIfPresent(memberReadingClosure: IoTWirelessClientTypes.CertificateList.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.deviceProfileId = try reader["DeviceProfileId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.positioning = try reader["Positioning"].readIfPresent(with: IoTWirelessClientTypes.SidewalkPositioning.read(from:))
         return value
     }
 }
@@ -15626,6 +15767,8 @@ extension IoTWirelessClientTypes.SidewalkCreateWirelessDevice {
     static func write(value: IoTWirelessClientTypes.SidewalkCreateWirelessDevice?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeviceProfileId"].write(value.deviceProfileId)
+        try writer["Positioning"].write(value.positioning, with: IoTWirelessClientTypes.SidewalkPositioning.write(value:to:))
+        try writer["SidewalkManufacturingSn"].write(value.sidewalkManufacturingSn)
     }
 }
 
@@ -15939,6 +16082,7 @@ extension IoTWirelessClientTypes.SidewalkSingleStartImportInfo {
 
     static func write(value: IoTWirelessClientTypes.SidewalkSingleStartImportInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Positioning"].write(value.positioning, with: IoTWirelessClientTypes.SidewalkPositioning.write(value:to:))
         try writer["SidewalkManufacturingSn"].write(value.sidewalkManufacturingSn)
     }
 }
@@ -15948,6 +16092,7 @@ extension IoTWirelessClientTypes.SidewalkStartImportInfo {
     static func write(value: IoTWirelessClientTypes.SidewalkStartImportInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeviceCreationFile"].write(value.deviceCreationFile)
+        try writer["Positioning"].write(value.positioning, with: IoTWirelessClientTypes.SidewalkPositioning.write(value:to:))
         try writer["Role"].write(value.role)
     }
 }
@@ -15994,6 +16139,14 @@ extension IoTWirelessClientTypes.UpdateAbpV1_1 {
     static func write(value: IoTWirelessClientTypes.UpdateAbpV1_1?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FCntStart"].write(value.fCntStart)
+    }
+}
+
+extension IoTWirelessClientTypes.SidewalkUpdateWirelessDevice {
+
+    static func write(value: IoTWirelessClientTypes.SidewalkUpdateWirelessDevice?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Positioning"].write(value.positioning, with: IoTWirelessClientTypes.SidewalkPositioning.write(value:to:))
     }
 }
 

@@ -193,6 +193,126 @@ extension PaymentCryptographyDataClientTypes.AmexCardSecurityCodeVersion2: Swift
 
 extension PaymentCryptographyDataClientTypes {
 
+    public enum SymmetricKeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes128
+        case aes192
+        case aes256
+        case hmacSha224
+        case hmacSha256
+        case hmacSha384
+        case hmacSha512
+        case tdes2key
+        case tdes3key
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SymmetricKeyAlgorithm] {
+            return [
+                .aes128,
+                .aes192,
+                .aes256,
+                .hmacSha224,
+                .hmacSha256,
+                .hmacSha384,
+                .hmacSha512,
+                .tdes2key,
+                .tdes3key
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes128: return "AES_128"
+            case .aes192: return "AES_192"
+            case .aes256: return "AES_256"
+            case .hmacSha224: return "HMAC_SHA224"
+            case .hmacSha256: return "HMAC_SHA256"
+            case .hmacSha384: return "HMAC_SHA384"
+            case .hmacSha512: return "HMAC_SHA512"
+            case .tdes2key: return "TDES_2KEY"
+            case .tdes3key: return "TDES_3KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information for generating a KEK validation request during node-to-node initialization.
+    public struct KekValidationRequest: Swift.Sendable {
+        /// The key derivation algorithm to use for generating a KEK validation request.
+        /// This member is required.
+        public var deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm?
+
+        public init(
+            deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm? = nil
+        ) {
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information for generating a KEK validation response during node-to-node initialization.
+    public struct KekValidationResponse: Swift.Sendable {
+        /// The random key for generating a KEK validation response.
+        /// This member is required.
+        public var randomKeySend: Swift.String?
+
+        public init(
+            randomKeySend: Swift.String? = nil
+        ) {
+            self.randomKeySend = randomKeySend
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.KekValidationResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KekValidationResponse(randomKeySend: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information for generating a random key for KEK validation to perform node-to-node initialization.
+    public enum As2805KekValidationType: Swift.Sendable {
+        /// Parameter information for generating a KEK validation request during node-to-node initialization.
+        case kekvalidationrequest(PaymentCryptographyDataClientTypes.KekValidationRequest)
+        /// Parameter information for generating a KEK validation response during node-to-node initialization.
+        case kekvalidationresponse(PaymentCryptographyDataClientTypes.KekValidationResponse)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information to use a PEK derived using AS2805.
+    public struct As2805PekDerivationAttributes: Swift.Sendable {
+        /// The system trace audit number for the transaction.
+        /// This member is required.
+        public var systemTraceAuditNumber: Swift.String?
+        /// The transaction amount for the transaction.
+        /// This member is required.
+        public var transactionAmount: Swift.String?
+
+        public init(
+            systemTraceAuditNumber: Swift.String? = nil,
+            transactionAmount: Swift.String? = nil
+        ) {
+            self.systemTraceAuditNumber = systemTraceAuditNumber
+            self.transactionAmount = transactionAmount
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
     public enum PaddingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case oaepSha1
         case oaepSha256
@@ -1002,56 +1122,6 @@ extension PaymentCryptographyDataClientTypes {
 
 extension PaymentCryptographyDataClientTypes {
 
-    public enum SymmetricKeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case aes128
-        case aes192
-        case aes256
-        case hmacSha224
-        case hmacSha256
-        case hmacSha384
-        case hmacSha512
-        case tdes2key
-        case tdes3key
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SymmetricKeyAlgorithm] {
-            return [
-                .aes128,
-                .aes192,
-                .aes256,
-                .hmacSha224,
-                .hmacSha256,
-                .hmacSha384,
-                .hmacSha512,
-                .tdes2key,
-                .tdes3key
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .aes128: return "AES_128"
-            case .aes192: return "AES_192"
-            case .aes256: return "AES_256"
-            case .hmacSha224: return "HMAC_SHA224"
-            case .hmacSha256: return "HMAC_SHA256"
-            case .hmacSha384: return "HMAC_SHA384"
-            case .hmacSha512: return "HMAC_SHA512"
-            case .tdes2key: return "TDES_2KEY"
-            case .tdes3key: return "TDES_3KEY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PaymentCryptographyDataClientTypes {
-
     public enum KeyDerivationFunction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ansiX963
         case nistSp800
@@ -1150,11 +1220,6 @@ extension PaymentCryptographyDataClientTypes {
             self.sharedInformation = sharedInformation
         }
     }
-}
-
-extension PaymentCryptographyDataClientTypes.EcdhDerivationAttributes: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "EcdhDerivationAttributes(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), keyAlgorithm: \(Swift.String(describing: keyAlgorithm)), keyDerivationFunction: \(Swift.String(describing: keyDerivationFunction)), keyDerivationHashAlgorithm: \(Swift.String(describing: keyDerivationHashAlgorithm)), sharedInformation: \(Swift.String(describing: sharedInformation)), publicKeyCertificate: \"CONTENT_REDACTED\")"}
 }
 
 extension PaymentCryptographyDataClientTypes {
@@ -1493,6 +1558,16 @@ extension PaymentCryptographyDataClientTypes {
 
 extension PaymentCryptographyDataClientTypes {
 
+    /// The shared information used when deriving a key using ECDH.
+    public enum DiffieHellmanDerivationData: Swift.Sendable {
+        /// A string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes. It is not recommended to reuse shared information for multiple ECDH key derivations, as it could result in derived key material being the same across different derivations.
+        case sharedinformation(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
     /// Parameters that are used for Derived Unique Key Per Transaction (DUKPT) derivation algorithm.
     public struct DukptAttributes: Swift.Sendable {
         /// The key type derived using DUKPT from a Base Derivation Key (BDK) and Key Serial Number (KSN). This must be less than or equal to the strength of the BDK. For example, you can't use AES_128 as a derivation type for a BDK of AES_128 or TDES_2KEY.
@@ -1593,6 +1668,89 @@ extension EncryptDataOutput: Swift.CustomDebugStringConvertible {
         "EncryptDataOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), cipherText: \"CONTENT_REDACTED\")"}
 }
 
+extension PaymentCryptographyDataClientTypes {
+
+    public enum RandomKeySendVariantMask: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case variantMask82
+        case variantMask82c0
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RandomKeySendVariantMask] {
+            return [
+                .variantMask82,
+                .variantMask82c0
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .variantMask82: return "VARIANT_MASK_82"
+            case .variantMask82c0: return "VARIANT_MASK_82C0"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GenerateAs2805KekValidationInput: Swift.Sendable {
+    /// Parameter information for generating a random key for KEK validation to perform node-to-node initialization.
+    /// This member is required.
+    public var kekValidationType: PaymentCryptographyDataClientTypes.As2805KekValidationType?
+    /// The keyARN of sending KEK that Amazon Web Services Payment Cryptography uses for node-to-node initialization
+    /// This member is required.
+    public var keyIdentifier: Swift.String?
+    /// The key variant to use for generating a random key for KEK validation during node-to-node initialization.
+    /// This member is required.
+    public var randomKeySendVariantMask: PaymentCryptographyDataClientTypes.RandomKeySendVariantMask?
+
+    public init(
+        kekValidationType: PaymentCryptographyDataClientTypes.As2805KekValidationType? = nil,
+        keyIdentifier: Swift.String? = nil,
+        randomKeySendVariantMask: PaymentCryptographyDataClientTypes.RandomKeySendVariantMask? = nil
+    ) {
+        self.kekValidationType = kekValidationType
+        self.keyIdentifier = keyIdentifier
+        self.randomKeySendVariantMask = randomKeySendVariantMask
+    }
+}
+
+public struct GenerateAs2805KekValidationOutput: Swift.Sendable {
+    /// The keyARN of sending KEK that Amazon Web Services Payment Cryptography validates for node-to-node initialization
+    /// This member is required.
+    public var keyArn: Swift.String?
+    /// The key check value (KCV) of the sending KEK that Amazon Web Services Payment Cryptography validates for node-to-node initialization.
+    /// This member is required.
+    public var keyCheckValue: Swift.String?
+    /// The random key generated for receiving KEK validation. The initiating node sends this key to its partner node for validation.
+    /// This member is required.
+    public var randomKeyReceive: Swift.String?
+    /// The random key generated for sending KEK validation.
+    /// This member is required.
+    public var randomKeySend: Swift.String?
+
+    public init(
+        keyArn: Swift.String? = nil,
+        keyCheckValue: Swift.String? = nil,
+        randomKeyReceive: Swift.String? = nil,
+        randomKeySend: Swift.String? = nil
+    ) {
+        self.keyArn = keyArn
+        self.keyCheckValue = keyCheckValue
+        self.randomKeyReceive = randomKeyReceive
+        self.randomKeySend = randomKeySend
+    }
+}
+
+extension GenerateAs2805KekValidationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateAs2805KekValidationOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), randomKeyReceive: \"CONTENT_REDACTED\", randomKeySend: \"CONTENT_REDACTED\")"}
+}
+
 public struct GenerateCardValidationDataInput: Swift.Sendable {
     /// The algorithm for generating CVV or CSC values for the card within Amazon Web Services Payment Cryptography.
     /// This member is required.
@@ -1654,6 +1812,7 @@ extension GenerateCardValidationDataOutput: Swift.CustomDebugStringConvertible {
 extension PaymentCryptographyDataClientTypes {
 
     public enum MacAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case as280541
         case cmac
         case hmac
         case hmacSha224
@@ -1666,6 +1825,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public static var allCases: [MacAlgorithm] {
             return [
+                .as280541,
                 .cmac,
                 .hmac,
                 .hmacSha224,
@@ -1684,6 +1844,7 @@ extension PaymentCryptographyDataClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .as280541: return "AS2805_4_1"
             case .cmac: return "CMAC"
             case .hmac: return "HMAC"
             case .hmacSha224: return "HMAC_SHA224"
@@ -2254,6 +2415,7 @@ extension PaymentCryptographyDataClientTypes {
 
     public enum PinBlockFormatForPinData: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case isoFormat0
+        case isoFormat1
         case isoFormat3
         case isoFormat4
         case sdkUnknown(Swift.String)
@@ -2261,6 +2423,7 @@ extension PaymentCryptographyDataClientTypes {
         public static var allCases: [PinBlockFormatForPinData] {
             return [
                 .isoFormat0,
+                .isoFormat1,
                 .isoFormat3,
                 .isoFormat4
             ]
@@ -2274,6 +2437,7 @@ extension PaymentCryptographyDataClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .isoFormat0: return "ISO_FORMAT_0"
+            case .isoFormat1: return "ISO_FORMAT_1"
             case .isoFormat3: return "ISO_FORMAT_3"
             case .isoFormat4: return "ISO_FORMAT_4"
             case let .sdkUnknown(s): return s
@@ -2294,13 +2458,12 @@ public struct GeneratePinDataInput: Swift.Sendable {
     /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for pin data generation.
     /// This member is required.
     public var generationKeyIdentifier: Swift.String?
-    /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0 and ISO_Format_3. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15.
+    /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0, ISO_Format_3 and ISO_Format_4. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES encryption.
     /// This member is required.
     public var pinBlockFormat: PaymentCryptographyDataClientTypes.PinBlockFormatForPinData?
     /// The length of PIN under generation.
     public var pinDataLength: Swift.Int?
     /// The Primary Account Number (PAN), a unique identifier for a payment credit or debit card that associates the card with a specific account holder.
-    /// This member is required.
     public var primaryAccountNumber: Swift.String?
 
     public init(
@@ -2419,6 +2582,98 @@ extension PaymentCryptographyDataClientTypes.Ibm3624PinVerification: Swift.Custo
 
 extension PaymentCryptographyDataClientTypes {
 
+    /// Parameter information of a TR31KeyBlock wrapped using an ECDH derived key.
+    public struct IncomingDiffieHellmanTr31KeyBlock: Swift.Sendable {
+        /// The keyArn of the certificate that signed the client's PublicKeyCertificate.
+        /// This member is required.
+        public var certificateAuthorityPublicKeyIdentifier: Swift.String?
+        /// The shared information used when deriving a key using ECDH.
+        /// This member is required.
+        public var derivationData: PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData?
+        /// The key algorithm of the derived ECDH key.
+        /// This member is required.
+        public var deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm?
+        /// The key derivation function to use for deriving a key using ECDH.
+        /// This member is required.
+        public var keyDerivationFunction: PaymentCryptographyDataClientTypes.KeyDerivationFunction?
+        /// The hash type to use for deriving a key using ECDH.
+        /// This member is required.
+        public var keyDerivationHashAlgorithm: PaymentCryptographyDataClientTypes.KeyDerivationHashAlgorithm?
+        /// The keyARN of the asymmetric ECC key pair.
+        /// This member is required.
+        public var privateKeyIdentifier: Swift.String?
+        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        /// This member is required.
+        public var publicKeyCertificate: Swift.String?
+        /// The WrappedKeyBlock containing the transaction key wrapped using an ECDH dervied key.
+        /// This member is required.
+        public var wrappedKeyBlock: Swift.String?
+
+        public init(
+            certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
+            derivationData: PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData? = nil,
+            deriveKeyAlgorithm: PaymentCryptographyDataClientTypes.SymmetricKeyAlgorithm? = nil,
+            keyDerivationFunction: PaymentCryptographyDataClientTypes.KeyDerivationFunction? = nil,
+            keyDerivationHashAlgorithm: PaymentCryptographyDataClientTypes.KeyDerivationHashAlgorithm? = nil,
+            privateKeyIdentifier: Swift.String? = nil,
+            publicKeyCertificate: Swift.String? = nil,
+            wrappedKeyBlock: Swift.String? = nil
+        ) {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.derivationData = derivationData
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+            self.keyDerivationFunction = keyDerivationFunction
+            self.keyDerivationHashAlgorithm = keyDerivationHashAlgorithm
+            self.privateKeyIdentifier = privateKeyIdentifier
+            self.publicKeyCertificate = publicKeyCertificate
+            self.wrappedKeyBlock = wrappedKeyBlock
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IncomingDiffieHellmanTr31KeyBlock(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), derivationData: \(Swift.String(describing: derivationData)), deriveKeyAlgorithm: \(Swift.String(describing: deriveKeyAlgorithm)), keyDerivationFunction: \(Swift.String(describing: keyDerivationFunction)), keyDerivationHashAlgorithm: \(Swift.String(describing: keyDerivationHashAlgorithm)), privateKeyIdentifier: \(Swift.String(describing: privateKeyIdentifier)), publicKeyCertificate: \(Swift.String(describing: publicKeyCertificate)), wrappedKeyBlock: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information of the incoming WrappedKeyBlock containing the transaction key.
+    public enum IncomingKeyMaterial: Swift.Sendable {
+        /// Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using an ECDH dervied key.
+        case diffiehellmantr31keyblock(PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using a KEK.
+    public struct OutgoingTr31KeyBlock: Swift.Sendable {
+        /// The keyARN of the KEK used to wrap the transaction key.
+        /// This member is required.
+        public var wrappingKeyIdentifier: Swift.String?
+
+        public init(
+            wrappingKeyIdentifier: Swift.String? = nil
+        ) {
+            self.wrappingKeyIdentifier = wrappingKeyIdentifier
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameter information of the outgoing TR31WrappedKeyBlock containing the transaction key.
+    public enum OutgoingKeyMaterial: Swift.Sendable {
+        /// Parameter information of the TR31WrappedKeyBlock containing the transaction key wrapped using a KEK.
+        case tr31keyblock(PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
     /// Parameters that are required to perform reencryption operation.
     public enum ReEncryptionAttributes: Swift.Sendable {
         /// Parameters that are required to encrypt data using symmetric keys.
@@ -2501,9 +2756,126 @@ extension ReEncryptDataOutput: Swift.CustomDebugStringConvertible {
         "ReEncryptDataOutput(keyArn: \(Swift.String(describing: keyArn)), keyCheckValue: \(Swift.String(describing: keyCheckValue)), cipherText: \"CONTENT_REDACTED\")"}
 }
 
+public struct TranslateKeyMaterialInput: Swift.Sendable {
+    /// Parameter information of the TR31WrappedKeyBlock containing the transaction key.
+    /// This member is required.
+    public var incomingKeyMaterial: PaymentCryptographyDataClientTypes.IncomingKeyMaterial?
+    /// The key check value (KCV) algorithm used for calculating the KCV of the derived key.
+    public var keyCheckValueAlgorithm: PaymentCryptographyDataClientTypes.KeyCheckValueAlgorithm?
+    /// Parameter information of the wrapping key used to wrap the transaction key in the outgoing TR31WrappedKeyBlock.
+    /// This member is required.
+    public var outgoingKeyMaterial: PaymentCryptographyDataClientTypes.OutgoingKeyMaterial?
+
+    public init(
+        incomingKeyMaterial: PaymentCryptographyDataClientTypes.IncomingKeyMaterial? = nil,
+        keyCheckValueAlgorithm: PaymentCryptographyDataClientTypes.KeyCheckValueAlgorithm? = nil,
+        outgoingKeyMaterial: PaymentCryptographyDataClientTypes.OutgoingKeyMaterial? = nil
+    ) {
+        self.incomingKeyMaterial = incomingKeyMaterial
+        self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
+        self.outgoingKeyMaterial = outgoingKeyMaterial
+    }
+}
+
 extension PaymentCryptographyDataClientTypes {
 
-    /// Parameters that are required for tranlation between ISO9564 PIN format 0,3,4 tranlation.
+    public enum WrappedKeyMaterialFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case keyCryptogram
+        case tr31KeyBlock
+        case tr34KeyBlock
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WrappedKeyMaterialFormat] {
+            return [
+                .keyCryptogram,
+                .tr31KeyBlock,
+                .tr34KeyBlock
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .keyCryptogram: return "KEY_CRYPTOGRAM"
+            case .tr31KeyBlock: return "TR31_KEY_BLOCK"
+            case .tr34KeyBlock: return "TR34_KEY_BLOCK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// The parameter information of the outgoing wrapped key block.
+    public struct WrappedWorkingKey: Swift.Sendable {
+        /// The key check value (KCV) of the key contained within the outgoing TR31WrappedKeyBlock. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. For more information on KCV, see [KCV](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/terminology.html#terms.kcv) in the Amazon Web Services Payment Cryptography User Guide.
+        /// This member is required.
+        public var keyCheckValue: Swift.String?
+        /// The wrapped key block of the outgoing transaction key.
+        /// This member is required.
+        public var wrappedKeyMaterial: Swift.String?
+        /// The key block format of the wrapped key.
+        /// This member is required.
+        public var wrappedKeyMaterialFormat: PaymentCryptographyDataClientTypes.WrappedKeyMaterialFormat?
+
+        public init(
+            keyCheckValue: Swift.String? = nil,
+            wrappedKeyMaterial: Swift.String? = nil,
+            wrappedKeyMaterialFormat: PaymentCryptographyDataClientTypes.WrappedKeyMaterialFormat? = nil
+        ) {
+            self.keyCheckValue = keyCheckValue
+            self.wrappedKeyMaterial = wrappedKeyMaterial
+            self.wrappedKeyMaterialFormat = wrappedKeyMaterialFormat
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.WrappedWorkingKey: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WrappedWorkingKey(keyCheckValue: \(Swift.String(describing: keyCheckValue)), wrappedKeyMaterialFormat: \(Swift.String(describing: wrappedKeyMaterialFormat)), wrappedKeyMaterial: \"CONTENT_REDACTED\")"}
+}
+
+public struct TranslateKeyMaterialOutput: Swift.Sendable {
+    /// The outgoing KEK wrapped TR31WrappedKeyBlock.
+    /// This member is required.
+    public var wrappedKey: PaymentCryptographyDataClientTypes.WrappedWorkingKey?
+
+    public init(
+        wrappedKey: PaymentCryptographyDataClientTypes.WrappedWorkingKey? = nil
+    ) {
+        self.wrappedKey = wrappedKey
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters that are required for translation between AS2805 PIN format 0 translation.
+    public struct TranslationPinDataAs2805Format0: Swift.Sendable {
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+
+        public init(
+            primaryAccountNumber: Swift.String? = nil
+        ) {
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TranslationPinDataAs2805Format0(primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+
+    /// Parameters that are required for translation between ISO9564 PIN format 0,3,4 translation.
     public struct TranslationPinDataIsoFormat034: Swift.Sendable {
         /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
         /// This member is required.
@@ -2524,7 +2896,7 @@ extension PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034: Swi
 
 extension PaymentCryptographyDataClientTypes {
 
-    /// Parameters that are required for ISO9564 PIN format 1 tranlation.
+    /// Parameters that are required for ISO9564 PIN format 1 translation.
     public struct TranslationPinDataIsoFormat1: Swift.Sendable {
 
         public init() { }
@@ -2535,14 +2907,16 @@ extension PaymentCryptographyDataClientTypes {
 
     /// Parameters that are required for translation between ISO9564 PIN block formats 0,1,3,4.
     public enum TranslationIsoFormats: Swift.Sendable {
-        /// Parameters that are required for ISO9564 PIN format 0 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 0 translation.
         case isoformat0(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034)
-        /// Parameters that are required for ISO9564 PIN format 1 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 1 translation.
         case isoformat1(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat1)
-        /// Parameters that are required for ISO9564 PIN format 3 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 3 translation.
         case isoformat3(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034)
-        /// Parameters that are required for ISO9564 PIN format 4 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 4 translation.
         case isoformat4(PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034)
+        /// Parameters that are required for AS2805 PIN format 0 translation.
+        case as2805format0(PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2551,6 +2925,8 @@ public struct TranslatePinDataInput: Swift.Sendable {
     /// The encrypted PIN block data that Amazon Web Services Payment Cryptography translates.
     /// This member is required.
     public var encryptedPinBlock: Swift.String?
+    /// The attributes and values to use for incoming AS2805 encryption key for PIN block translation.
+    public var incomingAs2805Attributes: PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes?
     /// The attributes and values to use for incoming DUKPT encryption key for PIN block translation.
     public var incomingDukptAttributes: PaymentCryptographyDataClientTypes.DukptDerivationAttributes?
     /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. For dynamic keys, it is the keyARN of KEK of the TR-31 wrapped PEK. For ECDH, it is the keyARN of the asymmetric ECC key.
@@ -2574,6 +2950,7 @@ public struct TranslatePinDataInput: Swift.Sendable {
 
     public init(
         encryptedPinBlock: Swift.String? = nil,
+        incomingAs2805Attributes: PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes? = nil,
         incomingDukptAttributes: PaymentCryptographyDataClientTypes.DukptDerivationAttributes? = nil,
         incomingKeyIdentifier: Swift.String? = nil,
         incomingTranslationAttributes: PaymentCryptographyDataClientTypes.TranslationIsoFormats? = nil,
@@ -2584,6 +2961,7 @@ public struct TranslatePinDataInput: Swift.Sendable {
         outgoingWrappedKey: PaymentCryptographyDataClientTypes.WrappedKey? = nil
     ) {
         self.encryptedPinBlock = encryptedPinBlock
+        self.incomingAs2805Attributes = incomingAs2805Attributes
         self.incomingDukptAttributes = incomingDukptAttributes
         self.incomingKeyIdentifier = incomingKeyIdentifier
         self.incomingTranslationAttributes = incomingTranslationAttributes
@@ -2597,7 +2975,7 @@ public struct TranslatePinDataInput: Swift.Sendable {
 
 extension TranslatePinDataInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TranslatePinDataInput(incomingDukptAttributes: \(Swift.String(describing: incomingDukptAttributes)), incomingKeyIdentifier: \(Swift.String(describing: incomingKeyIdentifier)), incomingTranslationAttributes: \(Swift.String(describing: incomingTranslationAttributes)), incomingWrappedKey: \(Swift.String(describing: incomingWrappedKey)), outgoingDukptAttributes: \(Swift.String(describing: outgoingDukptAttributes)), outgoingKeyIdentifier: \(Swift.String(describing: outgoingKeyIdentifier)), outgoingTranslationAttributes: \(Swift.String(describing: outgoingTranslationAttributes)), outgoingWrappedKey: \(Swift.String(describing: outgoingWrappedKey)), encryptedPinBlock: \"CONTENT_REDACTED\")"}
+        "TranslatePinDataInput(incomingAs2805Attributes: \(Swift.String(describing: incomingAs2805Attributes)), incomingDukptAttributes: \(Swift.String(describing: incomingDukptAttributes)), incomingKeyIdentifier: \(Swift.String(describing: incomingKeyIdentifier)), incomingTranslationAttributes: \(Swift.String(describing: incomingTranslationAttributes)), incomingWrappedKey: \(Swift.String(describing: incomingWrappedKey)), outgoingDukptAttributes: \(Swift.String(describing: outgoingDukptAttributes)), outgoingKeyIdentifier: \(Swift.String(describing: outgoingKeyIdentifier)), outgoingTranslationAttributes: \(Swift.String(describing: outgoingTranslationAttributes)), outgoingWrappedKey: \(Swift.String(describing: outgoingWrappedKey)), encryptedPinBlock: \"CONTENT_REDACTED\")"}
 }
 
 public struct TranslatePinDataOutput: Swift.Sendable {
@@ -3083,7 +3461,6 @@ public struct VerifyPinDataInput: Swift.Sendable {
     /// The length of PIN being verified.
     public var pinDataLength: Swift.Int?
     /// The Primary Account Number (PAN), a unique identifier for a payment credit or debit card that associates the card with a specific account holder.
-    /// This member is required.
     public var primaryAccountNumber: Swift.String?
     /// The attributes and values for PIN data verification.
     /// This member is required.
@@ -3167,6 +3544,13 @@ extension EncryptDataInput {
     }
 }
 
+extension GenerateAs2805KekValidationInput {
+
+    static func urlPathProvider(_ value: GenerateAs2805KekValidationInput) -> Swift.String? {
+        return "/as2805kekvalidation/generate"
+    }
+}
+
 extension GenerateCardValidationDataInput {
 
     static func urlPathProvider(_ value: GenerateCardValidationDataInput) -> Swift.String? {
@@ -3202,6 +3586,13 @@ extension ReEncryptDataInput {
             return nil
         }
         return "/keys/\(incomingKeyIdentifier.urlPercentEncoding())/reencrypt"
+    }
+}
+
+extension TranslateKeyMaterialInput {
+
+    static func urlPathProvider(_ value: TranslateKeyMaterialInput) -> Swift.String? {
+        return "/keymaterial/translate"
     }
 }
 
@@ -3257,6 +3648,16 @@ extension EncryptDataInput {
         try writer["EncryptionAttributes"].write(value.encryptionAttributes, with: PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes.write(value:to:))
         try writer["PlainText"].write(value.plainText)
         try writer["WrappedKey"].write(value.wrappedKey, with: PaymentCryptographyDataClientTypes.WrappedKey.write(value:to:))
+    }
+}
+
+extension GenerateAs2805KekValidationInput {
+
+    static func write(value: GenerateAs2805KekValidationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KekValidationType"].write(value.kekValidationType, with: PaymentCryptographyDataClientTypes.As2805KekValidationType.write(value:to:))
+        try writer["KeyIdentifier"].write(value.keyIdentifier)
+        try writer["RandomKeySendVariantMask"].write(value.randomKeySendVariantMask)
     }
 }
 
@@ -3323,11 +3724,22 @@ extension ReEncryptDataInput {
     }
 }
 
+extension TranslateKeyMaterialInput {
+
+    static func write(value: TranslateKeyMaterialInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncomingKeyMaterial"].write(value.incomingKeyMaterial, with: PaymentCryptographyDataClientTypes.IncomingKeyMaterial.write(value:to:))
+        try writer["KeyCheckValueAlgorithm"].write(value.keyCheckValueAlgorithm)
+        try writer["OutgoingKeyMaterial"].write(value.outgoingKeyMaterial, with: PaymentCryptographyDataClientTypes.OutgoingKeyMaterial.write(value:to:))
+    }
+}
+
 extension TranslatePinDataInput {
 
     static func write(value: TranslatePinDataInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EncryptedPinBlock"].write(value.encryptedPinBlock)
+        try writer["IncomingAs2805Attributes"].write(value.incomingAs2805Attributes, with: PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes.write(value:to:))
         try writer["IncomingDukptAttributes"].write(value.incomingDukptAttributes, with: PaymentCryptographyDataClientTypes.DukptDerivationAttributes.write(value:to:))
         try writer["IncomingKeyIdentifier"].write(value.incomingKeyIdentifier)
         try writer["IncomingTranslationAttributes"].write(value.incomingTranslationAttributes, with: PaymentCryptographyDataClientTypes.TranslationIsoFormats.write(value:to:))
@@ -3419,6 +3831,21 @@ extension EncryptDataOutput {
     }
 }
 
+extension GenerateAs2805KekValidationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateAs2805KekValidationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GenerateAs2805KekValidationOutput()
+        value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
+        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
+        value.randomKeyReceive = try reader["RandomKeyReceive"].readIfPresent() ?? ""
+        value.randomKeySend = try reader["RandomKeySend"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GenerateCardValidationDataOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GenerateCardValidationDataOutput {
@@ -3494,6 +3921,18 @@ extension ReEncryptDataOutput {
         value.cipherText = try reader["CipherText"].readIfPresent() ?? ""
         value.keyArn = try reader["KeyArn"].readIfPresent() ?? ""
         value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TranslateKeyMaterialOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TranslateKeyMaterialOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = TranslateKeyMaterialOutput()
+        value.wrappedKey = try reader["WrappedKey"].readIfPresent(with: PaymentCryptographyDataClientTypes.WrappedWorkingKey.read(from:))
         return value
     }
 }
@@ -3603,6 +4042,24 @@ enum EncryptDataOutputError {
     }
 }
 
+enum GenerateAs2805KekValidationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GenerateCardValidationDataOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3676,6 +4133,24 @@ enum GeneratePinDataOutputError {
 }
 
 enum ReEncryptDataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TranslateKeyMaterialOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3896,6 +4371,18 @@ extension PaymentCryptographyDataClientTypes.PinData {
     }
 }
 
+extension PaymentCryptographyDataClientTypes.WrappedWorkingKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.WrappedWorkingKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PaymentCryptographyDataClientTypes.WrappedWorkingKey()
+        value.wrappedKeyMaterial = try reader["WrappedKeyMaterial"].readIfPresent() ?? ""
+        value.keyCheckValue = try reader["KeyCheckValue"].readIfPresent() ?? ""
+        value.wrappedKeyMaterialFormat = try reader["WrappedKeyMaterialFormat"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension PaymentCryptographyDataClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PaymentCryptographyDataClientTypes.ValidationExceptionField {
@@ -4003,6 +4490,37 @@ extension PaymentCryptographyDataClientTypes.EcdhDerivationAttributes {
         try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
         try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
         try writer["SharedInformation"].write(value.sharedInformation)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.As2805KekValidationType {
+
+    static func write(value: PaymentCryptographyDataClientTypes.As2805KekValidationType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .kekvalidationrequest(kekvalidationrequest):
+                try writer["KekValidationRequest"].write(kekvalidationrequest, with: PaymentCryptographyDataClientTypes.KekValidationRequest.write(value:to:))
+            case let .kekvalidationresponse(kekvalidationresponse):
+                try writer["KekValidationResponse"].write(kekvalidationresponse, with: PaymentCryptographyDataClientTypes.KekValidationResponse.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.KekValidationResponse {
+
+    static func write(value: PaymentCryptographyDataClientTypes.KekValidationResponse?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RandomKeySend"].write(value.randomKeySend)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.KekValidationRequest {
+
+    static func write(value: PaymentCryptographyDataClientTypes.KekValidationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
     }
 }
 
@@ -4344,11 +4862,75 @@ extension PaymentCryptographyDataClientTypes.ReEncryptionAttributes {
     }
 }
 
+extension PaymentCryptographyDataClientTypes.IncomingKeyMaterial {
+
+    static func write(value: PaymentCryptographyDataClientTypes.IncomingKeyMaterial?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .diffiehellmantr31keyblock(diffiehellmantr31keyblock):
+                try writer["DiffieHellmanTr31KeyBlock"].write(diffiehellmantr31keyblock, with: PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyDataClientTypes.IncomingDiffieHellmanTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateAuthorityPublicKeyIdentifier"].write(value.certificateAuthorityPublicKeyIdentifier)
+        try writer["DerivationData"].write(value.derivationData, with: PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData.write(value:to:))
+        try writer["DeriveKeyAlgorithm"].write(value.deriveKeyAlgorithm)
+        try writer["KeyDerivationFunction"].write(value.keyDerivationFunction)
+        try writer["KeyDerivationHashAlgorithm"].write(value.keyDerivationHashAlgorithm)
+        try writer["PrivateKeyIdentifier"].write(value.privateKeyIdentifier)
+        try writer["PublicKeyCertificate"].write(value.publicKeyCertificate)
+        try writer["WrappedKeyBlock"].write(value.wrappedKeyBlock)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData {
+
+    static func write(value: PaymentCryptographyDataClientTypes.DiffieHellmanDerivationData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .sharedinformation(sharedinformation):
+                try writer["SharedInformation"].write(sharedinformation)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.OutgoingKeyMaterial {
+
+    static func write(value: PaymentCryptographyDataClientTypes.OutgoingKeyMaterial?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .tr31keyblock(tr31keyblock):
+                try writer["Tr31KeyBlock"].write(tr31keyblock, with: PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock {
+
+    static func write(value: PaymentCryptographyDataClientTypes.OutgoingTr31KeyBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WrappingKeyIdentifier"].write(value.wrappingKeyIdentifier)
+    }
+}
+
 extension PaymentCryptographyDataClientTypes.TranslationIsoFormats {
 
     static func write(value: PaymentCryptographyDataClientTypes.TranslationIsoFormats?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .as2805format0(as2805format0):
+                try writer["As2805Format0"].write(as2805format0, with: PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0.write(value:to:))
             case let .isoformat0(isoformat0):
                 try writer["IsoFormat0"].write(isoformat0, with: PaymentCryptographyDataClientTypes.TranslationPinDataIsoFormat034.write(value:to:))
             case let .isoformat1(isoformat1):
@@ -4360,6 +4942,14 @@ extension PaymentCryptographyDataClientTypes.TranslationIsoFormats {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0 {
+
+    static func write(value: PaymentCryptographyDataClientTypes.TranslationPinDataAs2805Format0?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrimaryAccountNumber"].write(value.primaryAccountNumber)
     }
 }
 
@@ -4386,6 +4976,15 @@ extension PaymentCryptographyDataClientTypes.DukptDerivationAttributes {
         try writer["DukptKeyDerivationType"].write(value.dukptKeyDerivationType)
         try writer["DukptKeyVariant"].write(value.dukptKeyVariant)
         try writer["KeySerialNumber"].write(value.keySerialNumber)
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes {
+
+    static func write(value: PaymentCryptographyDataClientTypes.As2805PekDerivationAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SystemTraceAuditNumber"].write(value.systemTraceAuditNumber)
+        try writer["TransactionAmount"].write(value.transactionAmount)
     }
 }
 

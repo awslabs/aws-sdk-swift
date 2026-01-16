@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -32,7 +33,7 @@ import enum Smithy.ByteStream
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -68,9 +69,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LexRuntimeClient: ClientRuntime.Client {
+public class LexRuntimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LexRuntimeClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: LexRuntimeClient.LexRuntimeClientConfiguration
     let serviceName = "Lex Runtime"
@@ -376,9 +376,9 @@ extension LexRuntimeClient {
     ///
     /// Removes session information for a specified bot, alias, and user ID.
     ///
-    /// - Parameter DeleteSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSessionInput`)
     ///
-    /// - Returns: `DeleteSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension LexRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSessionInput, DeleteSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSessionOutput>(DeleteSessionOutput.httpOutput(from:), DeleteSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSessionInput, DeleteSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSessionOutput>())
@@ -444,9 +445,9 @@ extension LexRuntimeClient {
     ///
     /// Returns session information for a specified bot, alias, and user ID.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +482,7 @@ extension LexRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSessionInput, GetSessionOutput>(GetSessionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -541,9 +543,9 @@ extension LexRuntimeClient {
     ///
     /// In addition, Amazon Lex also returns your application-specific sessionAttributes. For more information, see [Managing Conversation Context](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html).
     ///
-    /// - Parameter PostContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostContentInput`)
     ///
-    /// - Returns: `PostContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -594,6 +596,7 @@ extension LexRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PostContentInput, PostContentOutput>(requiresLength: false, unsignedPayload: true))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PostContentOutput>(PostContentOutput.httpOutput(from:), PostContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PostContentInput, PostContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostContentOutput>())
@@ -654,9 +657,9 @@ extension LexRuntimeClient {
     ///
     /// In addition, Amazon Lex also returns your application-specific sessionAttributes. For more information, see [Managing Conversation Context](https://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html).
     ///
-    /// - Parameter PostTextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostTextInput`)
     ///
-    /// - Returns: `PostTextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostTextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,6 +706,7 @@ extension LexRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PostTextInput, PostTextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PostTextOutput>(PostTextOutput.httpOutput(from:), PostTextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PostTextInput, PostTextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostTextOutput>())
@@ -734,9 +738,9 @@ extension LexRuntimeClient {
     ///
     /// Creates a new session or modifies an existing session with an Amazon Lex bot. Use this operation to enable your application to set the state of the bot. For more information, see [Managing Sessions](https://docs.aws.amazon.com/lex/latest/dg/how-session-api.html).
     ///
-    /// - Parameter PutSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSessionInput`)
     ///
-    /// - Returns: `PutSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,6 +788,7 @@ extension LexRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSessionInput, PutSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSessionOutput>(PutSessionOutput.httpOutput(from:), PutSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSessionInput, PutSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSessionOutput>())

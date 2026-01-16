@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ApplicationDiscoveryClient: ClientRuntime.Client {
+public class ApplicationDiscoveryClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApplicationDiscoveryClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationDiscoveryClient.ApplicationDiscoveryClientConfiguration
     let serviceName = "Application Discovery"
@@ -374,9 +374,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Associates one or more configuration items with an application.
     ///
-    /// - Parameter AssociateConfigurationItemsToApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateConfigurationItemsToApplicationInput`)
     ///
-    /// - Returns: `AssociateConfigurationItemsToApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateConfigurationItemsToApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateConfigurationItemsToApplicationInput, AssociateConfigurationItemsToApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateConfigurationItemsToApplicationOutput>(AssociateConfigurationItemsToApplicationOutput.httpOutput(from:), AssociateConfigurationItemsToApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateConfigurationItemsToApplicationInput, AssociateConfigurationItemsToApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateConfigurationItemsToApplicationOutput>())
@@ -446,9 +447,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Deletes one or more agents or collectors as specified by ID. Deleting an agent or collector does not delete the previously discovered data. To delete the data collected, use StartBatchDeleteConfigurationTask.
     ///
-    /// - Parameter BatchDeleteAgentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteAgentsInput`)
     ///
-    /// - Returns: `BatchDeleteAgentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteAgentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteAgentsOutput>(BatchDeleteAgentsOutput.httpOutput(from:), BatchDeleteAgentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteAgentsInput, BatchDeleteAgentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteAgentsOutput>())
@@ -517,9 +519,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Deletes one or more import tasks, each identified by their import ID. Each import task has a number of records that can identify servers or applications. Amazon Web Services Application Discovery Service has built-in matching logic that will identify when discovered servers match existing entries that you've previously discovered, the information for the already-existing discovered server is updated. When you delete an import task that contains records that were used to match, the information in those matched records that comes from the deleted records will also be deleted.
     ///
-    /// - Parameter BatchDeleteImportDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteImportDataInput`)
     ///
-    /// - Returns: `BatchDeleteImportDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteImportDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +557,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteImportDataInput, BatchDeleteImportDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteImportDataOutput>(BatchDeleteImportDataOutput.httpOutput(from:), BatchDeleteImportDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteImportDataInput, BatchDeleteImportDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteImportDataOutput>())
@@ -589,9 +592,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Creates an application with the given name and description.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +630,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -661,9 +665,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Creates one or more tags for configuration items. Tags are metadata that help you categorize IT assets. This API accepts a list of multiple configuration items. Do not store sensitive information (like personal data) in tags.
     ///
-    /// - Parameter CreateTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTagsInput`)
     ///
-    /// - Returns: `CreateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,6 +704,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTagsInput, CreateTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTagsOutput>(CreateTagsOutput.httpOutput(from:), CreateTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTagsInput, CreateTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTagsOutput>())
@@ -734,9 +739,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Deletes a list of applications and their associations with configuration items.
     ///
-    /// - Parameter DeleteApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationsInput`)
     ///
-    /// - Returns: `DeleteApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,6 +777,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationsInput, DeleteApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationsOutput>(DeleteApplicationsOutput.httpOutput(from:), DeleteApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationsInput, DeleteApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationsOutput>())
@@ -806,9 +812,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Deletes the association between configuration items and one or more tags. This API accepts a list of multiple configuration items.
     ///
-    /// - Parameter DeleteTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -845,6 +851,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTagsInput, DeleteTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTagsOutput>(DeleteTagsOutput.httpOutput(from:), DeleteTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTagsInput, DeleteTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTagsOutput>())
@@ -879,9 +886,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Lists agents or collectors as specified by ID or other filters. All agents/collectors associated with your user can be listed if you call DescribeAgents as is without passing any parameters.
     ///
-    /// - Parameter DescribeAgentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAgentsInput`)
     ///
-    /// - Returns: `DescribeAgentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAgentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -917,6 +924,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgentsInput, DescribeAgentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAgentsOutput>(DescribeAgentsOutput.httpOutput(from:), DescribeAgentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgentsInput, DescribeAgentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAgentsOutput>())
@@ -951,9 +959,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
     ///
-    /// - Parameter DescribeBatchDeleteConfigurationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBatchDeleteConfigurationTaskInput`)
     ///
-    /// - Returns: `DescribeBatchDeleteConfigurationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBatchDeleteConfigurationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -988,6 +996,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBatchDeleteConfigurationTaskOutput>(DescribeBatchDeleteConfigurationTaskOutput.httpOutput(from:), DescribeBatchDeleteConfigurationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBatchDeleteConfigurationTaskInput, DescribeBatchDeleteConfigurationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBatchDeleteConfigurationTaskOutput>())
@@ -1033,9 +1042,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Output fields are specific to the asset type specified. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, number of network cards, etc. For a complete list of outputs for each asset type, see [Using the DescribeConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#DescribeConfigurations) in the Amazon Web Services Application Discovery Service User Guide.
     ///
-    /// - Parameter DescribeConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationsInput`)
     ///
-    /// - Returns: `DescribeConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1071,6 +1080,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationsInput, DescribeConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationsOutput>(DescribeConfigurationsOutput.httpOutput(from:), DescribeConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationsInput, DescribeConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationsOutput>())
@@ -1105,9 +1115,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Lists exports as specified by ID. All continuous exports associated with your user can be listed if you call DescribeContinuousExports as is without passing any parameters.
     ///
-    /// - Parameter DescribeContinuousExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContinuousExportsInput`)
     ///
-    /// - Returns: `DescribeContinuousExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContinuousExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,6 +1155,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContinuousExportsInput, DescribeContinuousExportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContinuousExportsOutput>(DescribeContinuousExportsOutput.httpOutput(from:), DescribeContinuousExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContinuousExportsInput, DescribeContinuousExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContinuousExportsOutput>())
@@ -1180,9 +1191,9 @@ extension ApplicationDiscoveryClient {
     /// DescribeExportConfigurations is deprecated. Use [DescribeExportTasks](https://docs.aws.amazon.com/application-discovery/latest/APIReference/API_DescribeExportTasks.html), instead.
     @available(*, deprecated)
     ///
-    /// - Parameter DescribeExportConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportConfigurationsInput`)
     ///
-    /// - Returns: `DescribeExportConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,6 +1230,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExportConfigurationsOutput>(DescribeExportConfigurationsOutput.httpOutput(from:), DescribeExportConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportConfigurationsInput, DescribeExportConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportConfigurationsOutput>())
@@ -1253,9 +1265,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
     ///
-    /// - Parameter DescribeExportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportTasksInput`)
     ///
-    /// - Returns: `DescribeExportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1291,6 +1303,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExportTasksOutput>(DescribeExportTasksOutput.httpOutput(from:), DescribeExportTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportTasksOutput>())
@@ -1325,9 +1338,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Returns an array of import tasks for your account, including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
     ///
-    /// - Parameter DescribeImportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImportTasksInput`)
     ///
-    /// - Returns: `DescribeImportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1363,6 +1376,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImportTasksOutput>(DescribeImportTasksOutput.httpOutput(from:), DescribeImportTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportTasksOutput>())
@@ -1406,9 +1420,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Also, all configuration items associated with your user that have tags can be listed if you call DescribeTags as is without passing any parameters.
     ///
-    /// - Parameter DescribeTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTagsInput`)
     ///
-    /// - Returns: `DescribeTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1445,6 +1459,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(DescribeTagsOutput.httpOutput(from:), DescribeTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTagsInput, DescribeTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTagsOutput>())
@@ -1479,9 +1494,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Disassociates one or more configuration items from an application.
     ///
-    /// - Parameter DisassociateConfigurationItemsFromApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateConfigurationItemsFromApplicationInput`)
     ///
-    /// - Returns: `DisassociateConfigurationItemsFromApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateConfigurationItemsFromApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1517,6 +1532,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateConfigurationItemsFromApplicationInput, DisassociateConfigurationItemsFromApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateConfigurationItemsFromApplicationOutput>(DisassociateConfigurationItemsFromApplicationOutput.httpOutput(from:), DisassociateConfigurationItemsFromApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateConfigurationItemsFromApplicationInput, DisassociateConfigurationItemsFromApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateConfigurationItemsFromApplicationOutput>())
@@ -1552,9 +1568,9 @@ extension ApplicationDiscoveryClient {
     /// Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
     @available(*, deprecated)
     ///
-    /// - Parameter ExportConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportConfigurationsInput`)
     ///
-    /// - Returns: `ExportConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1591,6 +1607,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportConfigurationsInput, ExportConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportConfigurationsOutput>(ExportConfigurationsOutput.httpOutput(from:), ExportConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportConfigurationsInput, ExportConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportConfigurationsOutput>())
@@ -1625,9 +1642,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Retrieves a short summary of discovered assets. This API operation takes no request parameters and is called as is at the command prompt as shown in the example.
     ///
-    /// - Parameter GetDiscoverySummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDiscoverySummaryInput`)
     ///
-    /// - Returns: `GetDiscoverySummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDiscoverySummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1663,6 +1680,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDiscoverySummaryInput, GetDiscoverySummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDiscoverySummaryOutput>(GetDiscoverySummaryOutput.httpOutput(from:), GetDiscoverySummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDiscoverySummaryInput, GetDiscoverySummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDiscoverySummaryOutput>())
@@ -1697,9 +1715,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Retrieves a list of configuration items as specified by the value passed to the required parameter configurationType. Optional filtering may be applied to refine search results.
     ///
-    /// - Parameter ListConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
     ///
-    /// - Returns: `ListConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1736,6 +1754,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationsInput, ListConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationsOutput>(ListConfigurationsOutput.httpOutput(from:), ListConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationsOutput>())
@@ -1770,9 +1789,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Retrieves a list of servers that are one network hop away from a specified server.
     ///
-    /// - Parameter ListServerNeighborsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServerNeighborsInput`)
     ///
-    /// - Returns: `ListServerNeighborsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServerNeighborsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1808,6 +1827,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServerNeighborsInput, ListServerNeighborsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServerNeighborsOutput>(ListServerNeighborsOutput.httpOutput(from:), ListServerNeighborsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServerNeighborsInput, ListServerNeighborsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServerNeighborsOutput>())
@@ -1842,9 +1862,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Takes a list of configurationId as input and starts an asynchronous deletion task to remove the configurationItems. Returns a unique deletion task identifier.
     ///
-    /// - Parameter StartBatchDeleteConfigurationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBatchDeleteConfigurationTaskInput`)
     ///
-    /// - Returns: `StartBatchDeleteConfigurationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBatchDeleteConfigurationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1882,6 +1902,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBatchDeleteConfigurationTaskOutput>(StartBatchDeleteConfigurationTaskOutput.httpOutput(from:), StartBatchDeleteConfigurationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBatchDeleteConfigurationTaskInput, StartBatchDeleteConfigurationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBatchDeleteConfigurationTaskOutput>())
@@ -1916,9 +1937,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Start the continuous flow of agent's discovered data into Amazon Athena.
     ///
-    /// - Parameter StartContinuousExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContinuousExportInput`)
     ///
-    /// - Returns: `StartContinuousExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContinuousExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1957,6 +1978,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContinuousExportInput, StartContinuousExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContinuousExportOutput>(StartContinuousExportOutput.httpOutput(from:), StartContinuousExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContinuousExportInput, StartContinuousExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartContinuousExportOutput>())
@@ -1991,9 +2013,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Instructs the specified agents to start collecting data.
     ///
-    /// - Parameter StartDataCollectionByAgentIdsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataCollectionByAgentIdsInput`)
     ///
-    /// - Returns: `StartDataCollectionByAgentIdsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataCollectionByAgentIdsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2029,6 +2051,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataCollectionByAgentIdsInput, StartDataCollectionByAgentIdsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataCollectionByAgentIdsOutput>(StartDataCollectionByAgentIdsOutput.httpOutput(from:), StartDataCollectionByAgentIdsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataCollectionByAgentIdsInput, StartDataCollectionByAgentIdsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataCollectionByAgentIdsOutput>())
@@ -2063,9 +2086,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web Services. Exports might provide an estimate of fees and savings based on certain information that you provide. Fee estimates do not include any taxes that might apply. Your actual fees and savings depend on a variety of factors, including your actual usage of Amazon Web Services services, which might vary from the estimates provided in this report. If you do not specify preferences or agentIds in the filter, a summary of all servers, applications, tags, and performance is generated. This data is an aggregation of all server data collected through on-premises tooling, file import, application grouping and applying tags. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime. Export of detailed agent data is limited to five concurrently running exports. Export of detailed agent data is limited to two exports per day. If you enable ec2RecommendationsPreferences in preferences , an Amazon EC2 instance matching the characteristics of each server in Application Discovery Service is generated. Changing the attributes of the ec2RecommendationsPreferences changes the criteria of the recommendation.
     ///
-    /// - Parameter StartExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExportTaskInput`)
     ///
-    /// - Returns: `StartExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2102,6 +2125,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExportTaskInput, StartExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExportTaskOutput>(StartExportTaskOutput.httpOutput(from:), StartExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExportTaskInput, StartExportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExportTaskOutput>())
@@ -2147,9 +2171,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// For more information, including step-by-step procedures, see [Migration Hub Import](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-import.html) in the Amazon Web Services Application Discovery Service User Guide. There are limits to the number of import tasks you can create (and delete) in an Amazon Web Services account. For more information, see [Amazon Web Services Application Discovery Service Limits](https://docs.aws.amazon.com/application-discovery/latest/userguide/ads_service_limits.html) in the Amazon Web Services Application Discovery Service User Guide.
     ///
-    /// - Parameter StartImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportTaskInput`)
     ///
-    /// - Returns: `StartImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2187,6 +2211,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportTaskInput, StartImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportTaskOutput>(StartImportTaskOutput.httpOutput(from:), StartImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportTaskInput, StartImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportTaskOutput>())
@@ -2221,9 +2246,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Stop the continuous flow of agent's discovered data into Amazon Athena.
     ///
-    /// - Parameter StopContinuousExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopContinuousExportInput`)
     ///
-    /// - Returns: `StopContinuousExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopContinuousExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,6 +2287,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopContinuousExportInput, StopContinuousExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopContinuousExportOutput>(StopContinuousExportOutput.httpOutput(from:), StopContinuousExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopContinuousExportInput, StopContinuousExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopContinuousExportOutput>())
@@ -2296,9 +2322,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Instructs the specified agents to stop collecting data.
     ///
-    /// - Parameter StopDataCollectionByAgentIdsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDataCollectionByAgentIdsInput`)
     ///
-    /// - Returns: `StopDataCollectionByAgentIdsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDataCollectionByAgentIdsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2334,6 +2360,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDataCollectionByAgentIdsInput, StopDataCollectionByAgentIdsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDataCollectionByAgentIdsOutput>(StopDataCollectionByAgentIdsOutput.httpOutput(from:), StopDataCollectionByAgentIdsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDataCollectionByAgentIdsInput, StopDataCollectionByAgentIdsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDataCollectionByAgentIdsOutput>())
@@ -2368,9 +2395,9 @@ extension ApplicationDiscoveryClient {
     ///
     /// Updates metadata about an application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2406,6 +2433,7 @@ extension ApplicationDiscoveryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())

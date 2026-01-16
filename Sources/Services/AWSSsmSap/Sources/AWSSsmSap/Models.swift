@@ -27,6 +27,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 extension SsmSapClientTypes {
 
@@ -935,6 +937,208 @@ extension SsmSapClientTypes {
     }
 }
 
+extension SsmSapClientTypes {
+
+    public enum ConfigurationCheckType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sapCheck01
+        case sapCheck02
+        case sapCheck03
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationCheckType] {
+            return [
+                .sapCheck01,
+                .sapCheck02,
+                .sapCheck03
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sapCheck01: return "SAP_CHECK_01"
+            case .sapCheck02: return "SAP_CHECK_02"
+            case .sapCheck03: return "SAP_CHECK_03"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SsmSapClientTypes {
+
+    /// Represents a configuration check definition supported by AWS Systems Manager for SAP.
+    public struct ConfigurationCheckDefinition: Swift.Sendable {
+        /// The list of SSMSAP application types that this configuration check can be evaluated against.
+        public var applicableApplicationTypes: [SsmSapClientTypes.ApplicationType]?
+        /// A description of what the configuration check validates.
+        public var description: Swift.String?
+        /// The unique identifier of the configuration check.
+        public var id: SsmSapClientTypes.ConfigurationCheckType?
+        /// The name of the configuration check.
+        public var name: Swift.String?
+
+        public init(
+            applicableApplicationTypes: [SsmSapClientTypes.ApplicationType]? = nil,
+            description: Swift.String? = nil,
+            id: SsmSapClientTypes.ConfigurationCheckType? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.applicableApplicationTypes = applicableApplicationTypes
+            self.description = description
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+extension SsmSapClientTypes {
+
+    /// A summary of rule results, providing counts for each status type.
+    public struct RuleStatusCounts: Swift.Sendable {
+        /// The number of rules that failed.
+        public var failed: Swift.Int?
+        /// The number of rules that returned informational results.
+        public var info: Swift.Int?
+        /// The number of rules that passed.
+        public var passed: Swift.Int?
+        /// The number of rules with unknown status.
+        public var unknown: Swift.Int?
+        /// The number of rules that returned warnings.
+        public var warning: Swift.Int?
+
+        public init(
+            failed: Swift.Int? = nil,
+            info: Swift.Int? = nil,
+            passed: Swift.Int? = nil,
+            unknown: Swift.Int? = nil,
+            warning: Swift.Int? = nil
+        ) {
+            self.failed = failed
+            self.info = info
+            self.passed = passed
+            self.unknown = unknown
+            self.warning = warning
+        }
+    }
+}
+
+extension SsmSapClientTypes {
+
+    public enum OperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case inprogress
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationStatus] {
+            return [
+                .error,
+                .inprogress,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .inprogress: return "INPROGRESS"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SsmSapClientTypes {
+
+    /// Represents a configuration check operation that has been executed against an application.
+    public struct ConfigurationCheckOperation: Swift.Sendable {
+        /// The ID of the application against which the configuration check was performed.
+        public var applicationId: Swift.String?
+        /// A description of the configuration check that was performed.
+        public var configurationCheckDescription: Swift.String?
+        /// The unique identifier of the configuration check that was performed.
+        public var configurationCheckId: SsmSapClientTypes.ConfigurationCheckType?
+        /// The name of the configuration check that was performed.
+        public var configurationCheckName: Swift.String?
+        /// The time at which the configuration check operation completed.
+        public var endTime: Foundation.Date?
+        /// The unique identifier of the configuration check operation.
+        public var id: Swift.String?
+        /// A summary of all the rule results, showing counts for each status type.
+        public var ruleStatusCounts: SsmSapClientTypes.RuleStatusCounts?
+        /// The time at which the configuration check operation started.
+        public var startTime: Foundation.Date?
+        /// The current status of the configuration check operation.
+        public var status: SsmSapClientTypes.OperationStatus?
+        /// A message providing additional details about the status of the configuration check operation.
+        public var statusMessage: Swift.String?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            configurationCheckDescription: Swift.String? = nil,
+            configurationCheckId: SsmSapClientTypes.ConfigurationCheckType? = nil,
+            configurationCheckName: Swift.String? = nil,
+            endTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            ruleStatusCounts: SsmSapClientTypes.RuleStatusCounts? = nil,
+            startTime: Foundation.Date? = nil,
+            status: SsmSapClientTypes.OperationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.applicationId = applicationId
+            self.configurationCheckDescription = configurationCheckDescription
+            self.configurationCheckId = configurationCheckId
+            self.configurationCheckName = configurationCheckName
+            self.endTime = endTime
+            self.id = id
+            self.ruleStatusCounts = ruleStatusCounts
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension SsmSapClientTypes {
+
+    public enum ConfigurationCheckOperationListingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allOperations
+        case latestPerCheck
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationCheckOperationListingMode] {
+            return [
+                .allOperations,
+                .latestPerCheck
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allOperations: return "ALL_OPERATIONS"
+            case .latestPerCheck: return "LATEST_PER_CHECK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// A conflict has occurred.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1020,6 +1224,7 @@ extension SsmSapClientTypes {
         case running
         case starting
         case stopped
+        case stopping
         case unknown
         case warning
         case sdkUnknown(Swift.String)
@@ -1030,6 +1235,7 @@ extension SsmSapClientTypes {
                 .running,
                 .starting,
                 .stopped,
+                .stopping,
                 .unknown,
                 .warning
             ]
@@ -1046,6 +1252,7 @@ extension SsmSapClientTypes {
             case .running: return "RUNNING"
             case .starting: return "STARTING"
             case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
             case .unknown: return "UNKNOWN"
             case .warning: return "WARNING"
             case let .sdkUnknown(s): return s
@@ -1438,6 +1645,29 @@ public struct GetComponentOutput: Swift.Sendable {
     }
 }
 
+public struct GetConfigurationCheckOperationInput: Swift.Sendable {
+    /// The ID of the configuration check operation.
+    /// This member is required.
+    public var operationId: Swift.String?
+
+    public init(
+        operationId: Swift.String? = nil
+    ) {
+        self.operationId = operationId
+    }
+}
+
+public struct GetConfigurationCheckOperationOutput: Swift.Sendable {
+    /// Returns the details of a configuration check operation.
+    public var configurationCheckOperation: SsmSapClientTypes.ConfigurationCheckOperation?
+
+    public init(
+        configurationCheckOperation: SsmSapClientTypes.ConfigurationCheckOperation? = nil
+    ) {
+        self.configurationCheckOperation = configurationCheckOperation
+    }
+}
+
 public struct GetDatabaseInput: Swift.Sendable {
     /// The ID of the application.
     public var applicationId: Swift.String?
@@ -1485,38 +1715,6 @@ public struct GetOperationInput: Swift.Sendable {
         operationId: Swift.String? = nil
     ) {
         self.operationId = operationId
-    }
-}
-
-extension SsmSapClientTypes {
-
-    public enum OperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case error
-        case inprogress
-        case success
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [OperationStatus] {
-            return [
-                .error,
-                .inprogress,
-                .success
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .error: return "ERROR"
-            case .inprogress: return "INPROGRESS"
-            case .success: return "SUCCESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -1677,6 +1875,83 @@ public struct ListComponentsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.components = components
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConfigurationCheckDefinitionsInput: Swift.Sendable {
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 50,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConfigurationCheckDefinitionsOutput: Swift.Sendable {
+    /// The configuration check types supported by AWS Systems Manager for SAP.
+    public var configurationChecks: [SsmSapClientTypes.ConfigurationCheckDefinition]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        configurationChecks: [SsmSapClientTypes.ConfigurationCheckDefinition]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.configurationChecks = configurationChecks
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConfigurationCheckOperationsInput: Swift.Sendable {
+    /// The ID of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The filters of an operation.
+    public var filters: [SsmSapClientTypes.Filter]?
+    /// The mode for listing configuration check operations. Defaults to "LATEST_PER_CHECK".
+    ///
+    /// * LATEST_PER_CHECK - Will list the latest configuration check operation per check type.
+    ///
+    /// * ALL_OPERATIONS - Will list all configuration check operations performed on the application.
+    public var listMode: SsmSapClientTypes.ConfigurationCheckOperationListingMode?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        filters: [SsmSapClientTypes.Filter]? = nil,
+        listMode: SsmSapClientTypes.ConfigurationCheckOperationListingMode? = nil,
+        maxResults: Swift.Int? = 50,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.filters = filters
+        self.listMode = listMode
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConfigurationCheckOperationsOutput: Swift.Sendable {
+    /// The configuration check operations performed by AWS Systems Manager for SAP.
+    public var configurationCheckOperations: [SsmSapClientTypes.ConfigurationCheckOperation]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        configurationCheckOperations: [SsmSapClientTypes.ConfigurationCheckOperation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.configurationCheckOperations = configurationCheckOperations
         self.nextToken = nextToken
     }
 }
@@ -1892,6 +2167,172 @@ public struct ListOperationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListSubCheckResultsInput: Swift.Sendable {
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the configuration check operation.
+    /// This member is required.
+    public var operationId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 50,
+        nextToken: Swift.String? = nil,
+        operationId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.operationId = operationId
+    }
+}
+
+extension SsmSapClientTypes {
+
+    /// Represents the result of a sub-check within a configuration check operation.
+    public struct SubCheckResult: Swift.Sendable {
+        /// A description of what the sub-check validates.
+        public var description: Swift.String?
+        /// The unique identifier of the sub-check result.
+        public var id: Swift.String?
+        /// The name of the sub-check.
+        public var name: Swift.String?
+        /// A list of references or documentation links related to the sub-check.
+        public var references: [Swift.String]?
+
+        public init(
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            references: [Swift.String]? = nil
+        ) {
+            self.description = description
+            self.id = id
+            self.name = name
+            self.references = references
+        }
+    }
+}
+
+public struct ListSubCheckResultsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The sub-check results of a configuration check operation.
+    public var subCheckResults: [SsmSapClientTypes.SubCheckResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        subCheckResults: [SsmSapClientTypes.SubCheckResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.subCheckResults = subCheckResults
+    }
+}
+
+public struct ListSubCheckRuleResultsInput: Swift.Sendable {
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The ID of the sub check result.
+    /// This member is required.
+    public var subCheckResultId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 50,
+        nextToken: Swift.String? = nil,
+        subCheckResultId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.subCheckResultId = subCheckResultId
+    }
+}
+
+extension SsmSapClientTypes {
+
+    public enum RuleResultStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case info
+        case passed
+        case unknown
+        case warning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleResultStatus] {
+            return [
+                .failed,
+                .info,
+                .passed,
+                .unknown,
+                .warning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .info: return "INFO"
+            case .passed: return "PASSED"
+            case .unknown: return "UNKNOWN"
+            case .warning: return "WARNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SsmSapClientTypes {
+
+    /// Represents the result of a single rule within a configuration check.
+    public struct RuleResult: Swift.Sendable {
+        /// A description of what the rule validates.
+        public var description: Swift.String?
+        /// The unique identifier of the rule result.
+        public var id: Swift.String?
+        /// A message providing details about the rule result.
+        public var message: Swift.String?
+        /// Additional metadata associated with the rule result.
+        public var metadata: [Swift.String: Swift.String]?
+        /// The status of the rule result.
+        public var status: SsmSapClientTypes.RuleResultStatus?
+
+        public init(
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil,
+            metadata: [Swift.String: Swift.String]? = nil,
+            status: SsmSapClientTypes.RuleResultStatus? = nil
+        ) {
+            self.description = description
+            self.id = id
+            self.message = message
+            self.metadata = metadata
+            self.status = status
+        }
+    }
+}
+
+public struct ListSubCheckRuleResultsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The rule results of a sub-check belonging to a configuration check operation.
+    public var ruleResults: [SsmSapClientTypes.RuleResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        ruleResults: [SsmSapClientTypes.RuleResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.ruleResults = ruleResults
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -2055,6 +2496,33 @@ public struct StartApplicationRefreshOutput: Swift.Sendable {
     }
 }
 
+public struct StartConfigurationChecksInput: Swift.Sendable {
+    /// The ID of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The list of configuration checks to perform.
+    public var configurationCheckIds: [SsmSapClientTypes.ConfigurationCheckType]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        configurationCheckIds: [SsmSapClientTypes.ConfigurationCheckType]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.configurationCheckIds = configurationCheckIds
+    }
+}
+
+public struct StartConfigurationChecksOutput: Swift.Sendable {
+    /// The configuration check operations that were started.
+    public var configurationCheckOperations: [SsmSapClientTypes.ConfigurationCheckOperation]?
+
+    public init(
+        configurationCheckOperations: [SsmSapClientTypes.ConfigurationCheckOperation]? = nil
+    ) {
+        self.configurationCheckOperations = configurationCheckOperations
+    }
+}
+
 public struct StopApplicationInput: Swift.Sendable {
     /// The ID of the application.
     /// This member is required.
@@ -2201,6 +2669,13 @@ extension GetComponentInput {
     }
 }
 
+extension GetConfigurationCheckOperationInput {
+
+    static func urlPathProvider(_ value: GetConfigurationCheckOperationInput) -> Swift.String? {
+        return "/get-configuration-check-operation"
+    }
+}
+
 extension GetDatabaseInput {
 
     static func urlPathProvider(_ value: GetDatabaseInput) -> Swift.String? {
@@ -2236,6 +2711,20 @@ extension ListComponentsInput {
     }
 }
 
+extension ListConfigurationCheckDefinitionsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationCheckDefinitionsInput) -> Swift.String? {
+        return "/list-configuration-check-definitions"
+    }
+}
+
+extension ListConfigurationCheckOperationsInput {
+
+    static func urlPathProvider(_ value: ListConfigurationCheckOperationsInput) -> Swift.String? {
+        return "/list-configuration-check-operations"
+    }
+}
+
 extension ListDatabasesInput {
 
     static func urlPathProvider(_ value: ListDatabasesInput) -> Swift.String? {
@@ -2254,6 +2743,20 @@ extension ListOperationsInput {
 
     static func urlPathProvider(_ value: ListOperationsInput) -> Swift.String? {
         return "/list-operations"
+    }
+}
+
+extension ListSubCheckResultsInput {
+
+    static func urlPathProvider(_ value: ListSubCheckResultsInput) -> Swift.String? {
+        return "/list-sub-check-results"
+    }
+}
+
+extension ListSubCheckRuleResultsInput {
+
+    static func urlPathProvider(_ value: ListSubCheckRuleResultsInput) -> Swift.String? {
+        return "/list-sub-check-rule-results"
     }
 }
 
@@ -2292,6 +2795,13 @@ extension StartApplicationRefreshInput {
 
     static func urlPathProvider(_ value: StartApplicationRefreshInput) -> Swift.String? {
         return "/start-application-refresh"
+    }
+}
+
+extension StartConfigurationChecksInput {
+
+    static func urlPathProvider(_ value: StartConfigurationChecksInput) -> Swift.String? {
+        return "/start-configuration-checks"
     }
 }
 
@@ -2382,6 +2892,14 @@ extension GetComponentInput {
     }
 }
 
+extension GetConfigurationCheckOperationInput {
+
+    static func write(value: GetConfigurationCheckOperationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OperationId"].write(value.operationId)
+    }
+}
+
 extension GetDatabaseInput {
 
     static func write(value: GetDatabaseInput?, to writer: SmithyJSON.Writer) throws {
@@ -2430,6 +2948,27 @@ extension ListComponentsInput {
     }
 }
 
+extension ListConfigurationCheckDefinitionsInput {
+
+    static func write(value: ListConfigurationCheckDefinitionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListConfigurationCheckOperationsInput {
+
+    static func write(value: ListConfigurationCheckOperationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationId"].write(value.applicationId)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: SsmSapClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ListMode"].write(value.listMode)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListDatabasesInput {
 
     static func write(value: ListDatabasesInput?, to writer: SmithyJSON.Writer) throws {
@@ -2460,6 +2999,26 @@ extension ListOperationsInput {
         try writer["Filters"].writeList(value.filters, memberWritingClosure: SsmSapClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListSubCheckResultsInput {
+
+    static func write(value: ListSubCheckResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OperationId"].write(value.operationId)
+    }
+}
+
+extension ListSubCheckRuleResultsInput {
+
+    static func write(value: ListSubCheckRuleResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SubCheckResultId"].write(value.subCheckResultId)
     }
 }
 
@@ -2502,6 +3061,15 @@ extension StartApplicationRefreshInput {
     static func write(value: StartApplicationRefreshInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ApplicationId"].write(value.applicationId)
+    }
+}
+
+extension StartConfigurationChecksInput {
+
+    static func write(value: StartConfigurationChecksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationId"].write(value.applicationId)
+        try writer["ConfigurationCheckIds"].writeList(value.configurationCheckIds, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SsmSapClientTypes.ConfigurationCheckType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2580,6 +3148,18 @@ extension GetComponentOutput {
     }
 }
 
+extension GetConfigurationCheckOperationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConfigurationCheckOperationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConfigurationCheckOperationOutput()
+        value.configurationCheckOperation = try reader["ConfigurationCheckOperation"].readIfPresent(with: SsmSapClientTypes.ConfigurationCheckOperation.read(from:))
+        return value
+    }
+}
+
 extension GetDatabaseOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDatabaseOutput {
@@ -2643,6 +3223,32 @@ extension ListComponentsOutput {
     }
 }
 
+extension ListConfigurationCheckDefinitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConfigurationCheckDefinitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConfigurationCheckDefinitionsOutput()
+        value.configurationChecks = try reader["ConfigurationChecks"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.ConfigurationCheckDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConfigurationCheckOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConfigurationCheckOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConfigurationCheckOperationsOutput()
+        value.configurationCheckOperations = try reader["ConfigurationCheckOperations"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.ConfigurationCheckOperation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDatabasesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatabasesOutput {
@@ -2678,6 +3284,32 @@ extension ListOperationsOutput {
         var value = ListOperationsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.Operation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSubCheckResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSubCheckResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSubCheckResultsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.subCheckResults = try reader["SubCheckResults"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.SubCheckResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSubCheckRuleResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSubCheckRuleResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSubCheckRuleResultsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.ruleResults = try reader["RuleResults"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.RuleResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2739,6 +3371,18 @@ extension StartApplicationRefreshOutput {
         let reader = responseReader
         var value = StartApplicationRefreshOutput()
         value.operationId = try reader["OperationId"].readIfPresent()
+        return value
+    }
+}
+
+extension StartConfigurationChecksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartConfigurationChecksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartConfigurationChecksOutput()
+        value.configurationCheckOperations = try reader["ConfigurationCheckOperations"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.ConfigurationCheckOperation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2845,6 +3489,21 @@ enum GetComponentOutputError {
     }
 }
 
+enum GetConfigurationCheckOperationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDatabaseOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2924,6 +3583,37 @@ enum ListComponentsOutputError {
     }
 }
 
+enum ListConfigurationCheckDefinitionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConfigurationCheckOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDatabasesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2956,6 +3646,36 @@ enum ListOperationEventsOutputError {
 }
 
 enum ListOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSubCheckResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSubCheckRuleResultsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3048,6 +3768,23 @@ enum StartApplicationRefreshOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartConfigurationChecksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3300,6 +4037,39 @@ extension SsmSapClientTypes.Resilience {
     }
 }
 
+extension SsmSapClientTypes.ConfigurationCheckOperation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ConfigurationCheckOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.ConfigurationCheckOperation()
+        value.id = try reader["Id"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.configurationCheckId = try reader["ConfigurationCheckId"].readIfPresent()
+        value.configurationCheckName = try reader["ConfigurationCheckName"].readIfPresent()
+        value.configurationCheckDescription = try reader["ConfigurationCheckDescription"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ruleStatusCounts = try reader["RuleStatusCounts"].readIfPresent(with: SsmSapClientTypes.RuleStatusCounts.read(from:))
+        return value
+    }
+}
+
+extension SsmSapClientTypes.RuleStatusCounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.RuleStatusCounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.RuleStatusCounts()
+        value.failed = try reader["Failed"].readIfPresent()
+        value.warning = try reader["Warning"].readIfPresent()
+        value.info = try reader["Info"].readIfPresent()
+        value.passed = try reader["Passed"].readIfPresent()
+        value.unknown = try reader["Unknown"].readIfPresent()
+        return value
+    }
+}
+
 extension SsmSapClientTypes.Database {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Database {
@@ -3388,6 +4158,19 @@ extension SsmSapClientTypes.ComponentSummary {
     }
 }
 
+extension SsmSapClientTypes.ConfigurationCheckDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ConfigurationCheckDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.ConfigurationCheckDefinition()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.applicableApplicationTypes = try reader["ApplicableApplicationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SsmSapClientTypes.ApplicationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension SsmSapClientTypes.DatabaseSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.DatabaseSummary {
@@ -3424,6 +4207,33 @@ extension SsmSapClientTypes.Resource {
         var value = SsmSapClientTypes.Resource()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension SsmSapClientTypes.SubCheckResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.SubCheckResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.SubCheckResult()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.references = try reader["References"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SsmSapClientTypes.RuleResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.RuleResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.RuleResult()
+        value.id = try reader["Id"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.metadata = try reader["Metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

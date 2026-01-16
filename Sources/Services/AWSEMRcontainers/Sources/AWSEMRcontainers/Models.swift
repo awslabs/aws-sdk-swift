@@ -659,98 +659,19 @@ public struct CreateManagedEndpointOutput: Swift.Sendable {
 
 extension EMRcontainersClientTypes {
 
-    /// Configurations related to the security configuration for the request.
-    public struct SecurityConfigurationData: Swift.Sendable {
-        /// Authorization-related configuration input for the security configuration.
-        public var authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration?
-
-        public init(
-            authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration? = nil
-        ) {
-            self.authorizationConfiguration = authorizationConfiguration
-        }
-    }
-}
-
-public struct CreateSecurityConfigurationInput: Swift.Sendable {
-    /// The client idempotency token to use when creating the security configuration.
-    /// This member is required.
-    public var clientToken: Swift.String?
-    /// The name of the security configuration.
-    /// This member is required.
-    public var name: Swift.String?
-    /// Security configuration input for the request.
-    /// This member is required.
-    public var securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData?
-    /// The tags to add to the security configuration.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        name: Swift.String? = nil,
-        securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.name = name
-        self.securityConfigurationData = securityConfigurationData
-        self.tags = tags
-    }
-}
-
-public struct CreateSecurityConfigurationOutput: Swift.Sendable {
-    /// The ARN (Amazon Resource Name) of the security configuration.
-    public var arn: Swift.String?
-    /// The ID of the security configuration.
-    public var id: Swift.String?
-    /// The name of the security configuration.
-    public var name: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil,
-        id: Swift.String? = nil,
-        name: Swift.String? = nil
-    ) {
-        self.arn = arn
-        self.id = id
-        self.name = name
-    }
-}
-
-/// The request exceeded the Amazon EKS API operation limits.
-public struct EKSRequestThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EKSRequestThrottledException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-extension EMRcontainersClientTypes {
-
     /// The information about the Amazon EKS cluster.
     public struct EksInfo: Swift.Sendable {
         /// The namespaces of the Amazon EKS cluster.
         public var namespace: Swift.String?
+        /// The nodeLabel of the nodes where the resources of this virtual cluster can get scheduled. It requires relevant scaling and policy engine addons.
+        public var nodeLabel: Swift.String?
 
         public init(
-            namespace: Swift.String? = nil
+            namespace: Swift.String? = nil,
+            nodeLabel: Swift.String? = nil
         ) {
             self.namespace = namespace
+            self.nodeLabel = nodeLabel
         }
     }
 }
@@ -813,6 +734,93 @@ extension EMRcontainersClientTypes {
             self.info = info
             self.type = type
         }
+    }
+}
+
+extension EMRcontainersClientTypes {
+
+    /// Configurations related to the security configuration for the request.
+    public struct SecurityConfigurationData: Swift.Sendable {
+        /// Authorization-related configuration input for the security configuration.
+        public var authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration?
+
+        public init(
+            authorizationConfiguration: EMRcontainersClientTypes.AuthorizationConfiguration? = nil
+        ) {
+            self.authorizationConfiguration = authorizationConfiguration
+        }
+    }
+}
+
+public struct CreateSecurityConfigurationInput: Swift.Sendable {
+    /// The client idempotency token to use when creating the security configuration.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The container provider associated with the security configuration.
+    public var containerProvider: EMRcontainersClientTypes.ContainerProvider?
+    /// The name of the security configuration.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Security configuration input for the request.
+    /// This member is required.
+    public var securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData?
+    /// The tags to add to the security configuration.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        containerProvider: EMRcontainersClientTypes.ContainerProvider? = nil,
+        name: Swift.String? = nil,
+        securityConfigurationData: EMRcontainersClientTypes.SecurityConfigurationData? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.containerProvider = containerProvider
+        self.name = name
+        self.securityConfigurationData = securityConfigurationData
+        self.tags = tags
+    }
+}
+
+public struct CreateSecurityConfigurationOutput: Swift.Sendable {
+    /// The ARN (Amazon Resource Name) of the security configuration.
+    public var arn: Swift.String?
+    /// The ID of the security configuration.
+    public var id: Swift.String?
+    /// The name of the security configuration.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.id = id
+        self.name = name
+    }
+}
+
+/// The request exceeded the Amazon EKS API operation limits.
+public struct EKSRequestThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EKSRequestThrottledException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -2654,6 +2662,7 @@ extension CreateSecurityConfigurationInput {
     static func write(value: CreateSecurityConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["containerProvider"].write(value.containerProvider, with: EMRcontainersClientTypes.ContainerProvider.write(value:to:))
         try writer["name"].write(value.name)
         try writer["securityConfigurationData"].write(value.securityConfigurationData, with: EMRcontainersClientTypes.SecurityConfigurationData.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4016,12 +4025,14 @@ extension EMRcontainersClientTypes.EksInfo {
     static func write(value: EMRcontainersClientTypes.EksInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["namespace"].write(value.namespace)
+        try writer["nodeLabel"].write(value.nodeLabel)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRcontainersClientTypes.EksInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EMRcontainersClientTypes.EksInfo()
         value.namespace = try reader["namespace"].readIfPresent()
+        value.nodeLabel = try reader["nodeLabel"].readIfPresent()
         return value
     }
 }

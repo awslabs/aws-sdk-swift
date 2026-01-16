@@ -52,7 +52,6 @@ private var integrationTestTargets: [Target] {
         "AWSEC2",
         "AWSECS",
         "AWSEventBridge",
-        "AWSGlacier",
         "AWSKinesis",
         "AWSMediaConvert",
         "AWSRoute53",
@@ -83,8 +82,6 @@ private func integrationTestTarget(_ name: String) -> Target {
             "README.md",
             "Resources/ECSIntegTestApp/"
         ]
-    case "AWSGlacier":
-        additionalDependencies = ["AWSSTS"]
     case "AWSS3":
         additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
     case "AWSEventBridge":
@@ -94,7 +91,7 @@ private func integrationTestTarget(_ name: String) -> Target {
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
     case "AWSCognitoIdentity":
-        additionalDependencies = ["AWSSTS"]
+        additionalDependencies = ["AWSSTS", "AWSIAM"]
     default:
         break
     }

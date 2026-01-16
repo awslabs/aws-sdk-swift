@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -63,9 +64,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ObservabilityAdminClient: ClientRuntime.Client {
+public class ObservabilityAdminClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ObservabilityAdminClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ObservabilityAdminClient.ObservabilityAdminClientConfiguration
     let serviceName = "ObservabilityAdmin"
@@ -367,13 +367,232 @@ extension ObservabilityAdminClient {
 }
 
 extension ObservabilityAdminClient {
+    /// Performs the `CreateCentralizationRuleForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCentralizationRuleForOrganizationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCentralizationRuleForOrganizationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `ConflictException` : The requested operation conflicts with the current state of the specified resource or with another request.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The requested operation would exceed the allowed quota for the specified resource type.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func createCentralizationRuleForOrganization(input: CreateCentralizationRuleForOrganizationInput) async throws -> CreateCentralizationRuleForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCentralizationRuleForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(CreateCentralizationRuleForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCentralizationRuleForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCentralizationRuleForOrganizationOutput>(CreateCentralizationRuleForOrganizationOutput.httpOutput(from:), CreateCentralizationRuleForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCentralizationRuleForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCentralizationRuleForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCentralizationRuleForOrganizationInput, CreateCentralizationRuleForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCentralizationRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateS3TableIntegration` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `ConflictException` : The requested operation conflicts with the current state of the specified resource or with another request.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The requested operation would exceed the allowed quota for the specified resource type.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func createS3TableIntegration(input: CreateS3TableIntegrationInput) async throws -> CreateS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput>(CreateS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateS3TableIntegrationOutput>(CreateS3TableIntegrationOutput.httpOutput(from:), CreateS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateS3TableIntegrationInput, CreateS3TableIntegrationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateS3TableIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateTelemetryPipeline` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateTelemetryPipelineInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateTelemetryPipelineOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `ConflictException` : The requested operation conflicts with the current state of the specified resource or with another request.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The requested operation would exceed the allowed quota for the specified resource type.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func createTelemetryPipeline(input: CreateTelemetryPipelineInput) async throws -> CreateTelemetryPipelineOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createTelemetryPipeline")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput>(CreateTelemetryPipelineInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTelemetryPipelineInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTelemetryPipelineOutput>(CreateTelemetryPipelineOutput.httpOutput(from:), CreateTelemetryPipelineOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateTelemetryPipelineOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTelemetryPipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTelemetryPipelineInput, CreateTelemetryPipelineOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTelemetryPipeline")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateTelemetryRule` operation on the `ObservabilityAdmin` service.
     ///
     /// Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
     ///
-    /// - Parameter CreateTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTelemetryRuleInput`)
     ///
-    /// - Returns: `CreateTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +631,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTelemetryRuleInput, CreateTelemetryRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTelemetryRuleOutput>(CreateTelemetryRuleOutput.httpOutput(from:), CreateTelemetryRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTelemetryRuleInput, CreateTelemetryRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTelemetryRuleOutput>())
@@ -443,9 +663,9 @@ extension ObservabilityAdminClient {
     ///
     /// Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter CreateTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `CreateTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +704,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTelemetryRuleForOrganizationInput, CreateTelemetryRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTelemetryRuleForOrganizationOutput>(CreateTelemetryRuleForOrganizationOutput.httpOutput(from:), CreateTelemetryRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTelemetryRuleForOrganizationInput, CreateTelemetryRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTelemetryRuleForOrganizationOutput>())
@@ -511,13 +732,231 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteCentralizationRuleForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteCentralizationRuleForOrganizationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteCentralizationRuleForOrganizationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func deleteCentralizationRuleForOrganization(input: DeleteCentralizationRuleForOrganizationInput) async throws -> DeleteCentralizationRuleForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCentralizationRuleForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(DeleteCentralizationRuleForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCentralizationRuleForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCentralizationRuleForOrganizationOutput>(DeleteCentralizationRuleForOrganizationOutput.httpOutput(from:), DeleteCentralizationRuleForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCentralizationRuleForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCentralizationRuleForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCentralizationRuleForOrganizationInput, DeleteCentralizationRuleForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCentralizationRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteS3TableIntegration` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `InvalidStateException` : The requested operation cannot be completed on the specified resource in the current state.
+    /// - `ServiceQuotaExceededException` : The requested operation would exceed the allowed quota for the specified resource type.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func deleteS3TableIntegration(input: DeleteS3TableIntegrationInput) async throws -> DeleteS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput>(DeleteS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteS3TableIntegrationOutput>(DeleteS3TableIntegrationOutput.httpOutput(from:), DeleteS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteS3TableIntegrationInput, DeleteS3TableIntegrationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteS3TableIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteTelemetryPipeline` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteTelemetryPipelineInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteTelemetryPipelineOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `ConflictException` : The requested operation conflicts with the current state of the specified resource or with another request.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func deleteTelemetryPipeline(input: DeleteTelemetryPipelineInput) async throws -> DeleteTelemetryPipelineOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteTelemetryPipeline")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput>(DeleteTelemetryPipelineInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTelemetryPipelineInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTelemetryPipelineOutput>(DeleteTelemetryPipelineOutput.httpOutput(from:), DeleteTelemetryPipelineOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTelemetryPipelineOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTelemetryPipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTelemetryPipelineInput, DeleteTelemetryPipelineOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTelemetryPipeline")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteTelemetryRule` operation on the `ObservabilityAdmin` service.
     ///
     /// Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
     ///
-    /// - Parameter DeleteTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTelemetryRuleInput`)
     ///
-    /// - Returns: `DeleteTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +994,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTelemetryRuleInput, DeleteTelemetryRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTelemetryRuleOutput>(DeleteTelemetryRuleOutput.httpOutput(from:), DeleteTelemetryRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTelemetryRuleInput, DeleteTelemetryRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTelemetryRuleOutput>())
@@ -586,9 +1026,9 @@ extension ObservabilityAdminClient {
     ///
     /// Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter DeleteTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `DeleteTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,6 +1066,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTelemetryRuleForOrganizationInput, DeleteTelemetryRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTelemetryRuleForOrganizationOutput>(DeleteTelemetryRuleForOrganizationOutput.httpOutput(from:), DeleteTelemetryRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTelemetryRuleForOrganizationInput, DeleteTelemetryRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTelemetryRuleForOrganizationOutput>())
@@ -653,13 +1094,225 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetCentralizationRuleForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCentralizationRuleForOrganizationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCentralizationRuleForOrganizationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func getCentralizationRuleForOrganization(input: GetCentralizationRuleForOrganizationInput) async throws -> GetCentralizationRuleForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCentralizationRuleForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(GetCentralizationRuleForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetCentralizationRuleForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCentralizationRuleForOrganizationOutput>(GetCentralizationRuleForOrganizationOutput.httpOutput(from:), GetCentralizationRuleForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCentralizationRuleForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCentralizationRuleForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCentralizationRuleForOrganizationInput, GetCentralizationRuleForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCentralizationRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetS3TableIntegration` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func getS3TableIntegration(input: GetS3TableIntegrationInput) async throws -> GetS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetS3TableIntegrationInput, GetS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput>(GetS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetS3TableIntegrationOutput>(GetS3TableIntegrationOutput.httpOutput(from:), GetS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetS3TableIntegrationInput, GetS3TableIntegrationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetS3TableIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTelemetryEnrichmentStatus` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryEnrichmentStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTelemetryEnrichmentStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    public func getTelemetryEnrichmentStatus(input: GetTelemetryEnrichmentStatusInput) async throws -> GetTelemetryEnrichmentStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTelemetryEnrichmentStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTelemetryEnrichmentStatusInput, GetTelemetryEnrichmentStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTelemetryEnrichmentStatusInput, GetTelemetryEnrichmentStatusOutput>(GetTelemetryEnrichmentStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTelemetryEnrichmentStatusInput, GetTelemetryEnrichmentStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryEnrichmentStatusOutput>(GetTelemetryEnrichmentStatusOutput.httpOutput(from:), GetTelemetryEnrichmentStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryEnrichmentStatusInput, GetTelemetryEnrichmentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryEnrichmentStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTelemetryEnrichmentStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTelemetryEnrichmentStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTelemetryEnrichmentStatusInput, GetTelemetryEnrichmentStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTelemetryEnrichmentStatusInput, GetTelemetryEnrichmentStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTelemetryEnrichmentStatusInput, GetTelemetryEnrichmentStatusOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTelemetryEnrichmentStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTelemetryEvaluationStatus` operation on the `ObservabilityAdmin` service.
     ///
     /// Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
     ///
-    /// - Parameter GetTelemetryEvaluationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryEvaluationStatusInput`)
     ///
-    /// - Returns: `GetTelemetryEvaluationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryEvaluationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -692,6 +1345,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTelemetryEvaluationStatusInput, GetTelemetryEvaluationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryEvaluationStatusOutput>(GetTelemetryEvaluationStatusOutput.httpOutput(from:), GetTelemetryEvaluationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryEvaluationStatusInput, GetTelemetryEvaluationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryEvaluationStatusOutput>())
@@ -723,9 +1377,9 @@ extension ObservabilityAdminClient {
     ///
     /// This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
     ///
-    /// - Parameter GetTelemetryEvaluationStatusForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryEvaluationStatusForOrganizationInput`)
     ///
-    /// - Returns: `GetTelemetryEvaluationStatusForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryEvaluationStatusForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,6 +1413,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTelemetryEvaluationStatusForOrganizationInput, GetTelemetryEvaluationStatusForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryEvaluationStatusForOrganizationOutput>(GetTelemetryEvaluationStatusForOrganizationOutput.httpOutput(from:), GetTelemetryEvaluationStatusForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryEvaluationStatusForOrganizationInput, GetTelemetryEvaluationStatusForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryEvaluationStatusForOrganizationOutput>())
@@ -786,13 +1441,85 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetTelemetryPipeline` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryPipelineInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTelemetryPipelineOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func getTelemetryPipeline(input: GetTelemetryPipelineInput) async throws -> GetTelemetryPipelineOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTelemetryPipeline")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTelemetryPipelineInput, GetTelemetryPipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput>(GetTelemetryPipelineInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTelemetryPipelineInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryPipelineOutput>(GetTelemetryPipelineOutput.httpOutput(from:), GetTelemetryPipelineOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryPipelineOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTelemetryPipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTelemetryPipelineInput, GetTelemetryPipelineOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTelemetryPipeline")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTelemetryRule` operation on the `ObservabilityAdmin` service.
     ///
     /// Retrieves the details of a specific telemetry rule in your account.
     ///
-    /// - Parameter GetTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryRuleInput`)
     ///
-    /// - Returns: `GetTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,6 +1557,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTelemetryRuleInput, GetTelemetryRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryRuleOutput>(GetTelemetryRuleOutput.httpOutput(from:), GetTelemetryRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryRuleInput, GetTelemetryRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryRuleOutput>())
@@ -861,9 +1589,9 @@ extension ObservabilityAdminClient {
     ///
     /// Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter GetTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `GetTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -901,6 +1629,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTelemetryRuleForOrganizationInput, GetTelemetryRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTelemetryRuleForOrganizationOutput>(GetTelemetryRuleForOrganizationOutput.httpOutput(from:), GetTelemetryRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTelemetryRuleForOrganizationInput, GetTelemetryRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTelemetryRuleForOrganizationOutput>())
@@ -928,13 +1657,84 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListCentralizationRulesForOrganization` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCentralizationRulesForOrganizationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCentralizationRulesForOrganizationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func listCentralizationRulesForOrganization(input: ListCentralizationRulesForOrganizationInput) async throws -> ListCentralizationRulesForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCentralizationRulesForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(ListCentralizationRulesForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCentralizationRulesForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCentralizationRulesForOrganizationOutput>(ListCentralizationRulesForOrganizationOutput.httpOutput(from:), ListCentralizationRulesForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCentralizationRulesForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCentralizationRulesForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCentralizationRulesForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCentralizationRulesForOrganizationInput, ListCentralizationRulesForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCentralizationRulesForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListResourceTelemetry` operation on the `ObservabilityAdmin` service.
     ///
     /// Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see [Auditing CloudWatch telemetry configurations](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/telemetry-config-cloudwatch.html).
     ///
-    /// - Parameter ListResourceTelemetryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTelemetryInput`)
     ///
-    /// - Returns: `ListResourceTelemetryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTelemetryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -971,6 +1771,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceTelemetryInput, ListResourceTelemetryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceTelemetryOutput>(ListResourceTelemetryOutput.httpOutput(from:), ListResourceTelemetryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceTelemetryInput, ListResourceTelemetryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceTelemetryOutput>())
@@ -1002,9 +1803,9 @@ extension ObservabilityAdminClient {
     ///
     /// Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
     ///
-    /// - Parameter ListResourceTelemetryForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTelemetryForOrganizationInput`)
     ///
-    /// - Returns: `ListResourceTelemetryForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTelemetryForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,6 +1842,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceTelemetryForOrganizationInput, ListResourceTelemetryForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceTelemetryForOrganizationOutput>(ListResourceTelemetryForOrganizationOutput.httpOutput(from:), ListResourceTelemetryForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceTelemetryForOrganizationInput, ListResourceTelemetryForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceTelemetryForOrganizationOutput>())
@@ -1068,13 +1870,84 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListS3TableIntegrations` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListS3TableIntegrationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListS3TableIntegrationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func listS3TableIntegrations(input: ListS3TableIntegrationsInput) async throws -> ListS3TableIntegrationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listS3TableIntegrations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>(ListS3TableIntegrationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListS3TableIntegrationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListS3TableIntegrationsOutput>(ListS3TableIntegrationsOutput.httpOutput(from:), ListS3TableIntegrationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListS3TableIntegrationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListS3TableIntegrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListS3TableIntegrationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListS3TableIntegrations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `ObservabilityAdmin` service.
     ///
-    /// Lists all tags attached to the specified telemetry rule resource.
+    /// Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,6 +1985,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1139,13 +2013,84 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListTelemetryPipelines` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the NextToken value from the response to retrieve the next set of results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListTelemetryPipelinesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListTelemetryPipelinesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func listTelemetryPipelines(input: ListTelemetryPipelinesInput) async throws -> ListTelemetryPipelinesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTelemetryPipelines")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput>(ListTelemetryPipelinesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListTelemetryPipelinesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTelemetryPipelinesOutput>(ListTelemetryPipelinesOutput.httpOutput(from:), ListTelemetryPipelinesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTelemetryPipelinesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTelemetryPipelinesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTelemetryPipelinesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTelemetryPipelines")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTelemetryRules` operation on the `ObservabilityAdmin` service.
     ///
     /// Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
     ///
-    /// - Parameter ListTelemetryRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTelemetryRulesInput`)
     ///
-    /// - Returns: `ListTelemetryRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTelemetryRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1182,6 +2127,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTelemetryRulesInput, ListTelemetryRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTelemetryRulesOutput>(ListTelemetryRulesOutput.httpOutput(from:), ListTelemetryRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTelemetryRulesInput, ListTelemetryRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTelemetryRulesOutput>())
@@ -1213,9 +2159,9 @@ extension ObservabilityAdminClient {
     ///
     /// Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter ListTelemetryRulesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTelemetryRulesForOrganizationInput`)
     ///
-    /// - Returns: `ListTelemetryRulesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTelemetryRulesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1252,6 +2198,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTelemetryRulesForOrganizationInput, ListTelemetryRulesForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTelemetryRulesForOrganizationOutput>(ListTelemetryRulesForOrganizationOutput.httpOutput(from:), ListTelemetryRulesForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTelemetryRulesForOrganizationInput, ListTelemetryRulesForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTelemetryRulesForOrganizationOutput>())
@@ -1279,13 +2226,81 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartTelemetryEnrichment` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartTelemetryEnrichmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartTelemetryEnrichmentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `ConflictException` : The requested operation conflicts with the current state of the specified resource or with another request.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    public func startTelemetryEnrichment(input: StartTelemetryEnrichmentInput) async throws -> StartTelemetryEnrichmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startTelemetryEnrichment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartTelemetryEnrichmentInput, StartTelemetryEnrichmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTelemetryEnrichmentInput, StartTelemetryEnrichmentOutput>(StartTelemetryEnrichmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTelemetryEnrichmentInput, StartTelemetryEnrichmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTelemetryEnrichmentOutput>(StartTelemetryEnrichmentOutput.httpOutput(from:), StartTelemetryEnrichmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTelemetryEnrichmentInput, StartTelemetryEnrichmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartTelemetryEnrichmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTelemetryEnrichmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTelemetryEnrichmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartTelemetryEnrichmentInput, StartTelemetryEnrichmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartTelemetryEnrichmentInput, StartTelemetryEnrichmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartTelemetryEnrichmentInput, StartTelemetryEnrichmentOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartTelemetryEnrichment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartTelemetryEvaluation` operation on the `ObservabilityAdmin` service.
     ///
     /// This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
     ///
-    /// - Parameter StartTelemetryEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTelemetryEvaluationInput`)
     ///
-    /// - Returns: `StartTelemetryEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTelemetryEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1319,6 +2334,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTelemetryEvaluationOutput>(StartTelemetryEvaluationOutput.httpOutput(from:), StartTelemetryEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTelemetryEvaluationInput, StartTelemetryEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTelemetryEvaluationOutput>())
@@ -1350,9 +2366,9 @@ extension ObservabilityAdminClient {
     ///
     /// This actions begins onboarding the organization and all member accounts to the telemetry config feature.
     ///
-    /// - Parameter StartTelemetryEvaluationForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTelemetryEvaluationForOrganizationInput`)
     ///
-    /// - Returns: `StartTelemetryEvaluationForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTelemetryEvaluationForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1386,6 +2402,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTelemetryEvaluationForOrganizationOutput>(StartTelemetryEvaluationForOrganizationOutput.httpOutput(from:), StartTelemetryEvaluationForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTelemetryEvaluationForOrganizationInput, StartTelemetryEvaluationForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTelemetryEvaluationForOrganizationOutput>())
@@ -1413,13 +2430,81 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StopTelemetryEnrichment` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopTelemetryEnrichmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopTelemetryEnrichmentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `ConflictException` : The requested operation conflicts with the current state of the specified resource or with another request.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    public func stopTelemetryEnrichment(input: StopTelemetryEnrichmentInput) async throws -> StopTelemetryEnrichmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopTelemetryEnrichment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopTelemetryEnrichmentInput, StopTelemetryEnrichmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopTelemetryEnrichmentInput, StopTelemetryEnrichmentOutput>(StopTelemetryEnrichmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopTelemetryEnrichmentInput, StopTelemetryEnrichmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTelemetryEnrichmentOutput>(StopTelemetryEnrichmentOutput.httpOutput(from:), StopTelemetryEnrichmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTelemetryEnrichmentInput, StopTelemetryEnrichmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopTelemetryEnrichmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopTelemetryEnrichmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopTelemetryEnrichmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopTelemetryEnrichmentInput, StopTelemetryEnrichmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopTelemetryEnrichmentInput, StopTelemetryEnrichmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopTelemetryEnrichmentInput, StopTelemetryEnrichmentOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopTelemetryEnrichment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopTelemetryEvaluation` operation on the `ObservabilityAdmin` service.
     ///
     /// This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
     ///
-    /// - Parameter StopTelemetryEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTelemetryEvaluationInput`)
     ///
-    /// - Returns: `StopTelemetryEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTelemetryEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1453,6 +2538,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopTelemetryEvaluationInput, StopTelemetryEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTelemetryEvaluationOutput>(StopTelemetryEvaluationOutput.httpOutput(from:), StopTelemetryEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTelemetryEvaluationInput, StopTelemetryEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTelemetryEvaluationOutput>())
@@ -1484,9 +2570,9 @@ extension ObservabilityAdminClient {
     ///
     /// This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
     ///
-    /// - Parameter StopTelemetryEvaluationForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTelemetryEvaluationForOrganizationInput`)
     ///
-    /// - Returns: `StopTelemetryEvaluationForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTelemetryEvaluationForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1520,6 +2606,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopTelemetryEvaluationForOrganizationInput, StopTelemetryEvaluationForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTelemetryEvaluationForOrganizationOutput>(StopTelemetryEvaluationForOrganizationOutput.httpOutput(from:), StopTelemetryEvaluationForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTelemetryEvaluationForOrganizationInput, StopTelemetryEvaluationForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTelemetryEvaluationForOrganizationOutput>())
@@ -1549,11 +2636,11 @@ extension ObservabilityAdminClient {
 
     /// Performs the `TagResource` operation on the `ObservabilityAdmin` service.
     ///
-    /// Adds or updates tags for a telemetry rule resource.
+    /// Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1592,6 +2679,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1619,13 +2707,84 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `TestTelemetryPipeline` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TestTelemetryPipelineInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TestTelemetryPipelineOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func testTelemetryPipeline(input: TestTelemetryPipelineInput) async throws -> TestTelemetryPipelineOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "testTelemetryPipeline")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TestTelemetryPipelineInput, TestTelemetryPipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput>(TestTelemetryPipelineInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TestTelemetryPipelineInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TestTelemetryPipelineOutput>(TestTelemetryPipelineOutput.httpOutput(from:), TestTelemetryPipelineOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TestTelemetryPipelineOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TestTelemetryPipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TestTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TestTelemetryPipelineInput, TestTelemetryPipelineOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TestTelemetryPipeline")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UntagResource` operation on the `ObservabilityAdmin` service.
     ///
-    /// Removes tags from a telemetry rule resource.
+    /// Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1663,6 +2822,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1690,18 +2850,173 @@ extension ObservabilityAdminClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateTelemetryRule` operation on the `ObservabilityAdmin` service.
+    /// Performs the `UpdateCentralizationRuleForOrganization` operation on the `ObservabilityAdmin` service.
     ///
-    /// Updates an existing telemetry rule in your account.
+    /// Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter UpdateTelemetryRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCentralizationRuleForOrganizationInput`)
     ///
-    /// - Returns: `UpdateTelemetryRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCentralizationRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `ServiceQuotaExceededException` : The requested operation would exceed the allowed quota for the specified resource type.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func updateCentralizationRuleForOrganization(input: UpdateCentralizationRuleForOrganizationInput) async throws -> UpdateCentralizationRuleForOrganizationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCentralizationRuleForOrganization")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(UpdateCentralizationRuleForOrganizationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCentralizationRuleForOrganizationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCentralizationRuleForOrganizationOutput>(UpdateCentralizationRuleForOrganizationOutput.httpOutput(from:), UpdateCentralizationRuleForOrganizationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCentralizationRuleForOrganizationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCentralizationRuleForOrganizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCentralizationRuleForOrganizationInput, UpdateCentralizationRuleForOrganizationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCentralizationRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateTelemetryPipeline` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Updates the configuration of an existing telemetry pipeline. The following attributes cannot be updated after pipeline creation:
+    ///
+    /// * Pipeline name - The pipeline name is immutable
+    ///
+    /// * Pipeline ARN - The ARN is automatically generated and cannot be changed
+    ///
+    /// * Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type
+    ///
+    ///
+    /// Processors can be added, removed, or modified. However, some processors are not supported for third-party pipelines and cannot be added through updates. Source-Specific Update Rules CloudWatch Logs Sources (Vended and Custom) Updatable: sts_role_arn Fixed: data_source_name, data_source_type, sink (must remain @original) S3 Sources (Crowdstrike, Zscaler, SentinelOne, Custom) Updatable: All SQS configuration parameters, sts_role_arn, codec settings, compression type, bucket ownership settings, sink log group Fixed: notification_type, aws.region GitHub Audit Logs Updatable: All Amazon Web Services Secrets Manager attributes, scope (can switch between ORGANIZATION/ENTERPRISE), organization or enterprise name, range, authentication credentials (PAT or GitHub App) Microsoft Sources (Entra ID, Office365, Windows) Updatable: All Amazon Web Services Secrets Manager attributes, tenant_id, workspace_id (Windows only), OAuth2 credentials (client_id, client_secret) Okta Sources (SSO, Auth0) Updatable: All Amazon Web Services Secrets Manager attributes, domain, range (SSO only), OAuth2 credentials (client_id, client_secret) Palo Alto Networks Updatable: All Amazon Web Services Secrets Manager attributes, hostname, basic authentication credentials (username, password) ServiceNow CMDB Updatable: All Amazon Web Services Secrets Manager attributes, instance_url, range, OAuth2 credentials (client_id, client_secret) Wiz CNAPP Updatable: All Amazon Web Services Secrets Manager attributes, region, range, OAuth2 credentials (client_id, client_secret)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateTelemetryPipelineInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateTelemetryPipelineOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func updateTelemetryPipeline(input: UpdateTelemetryPipelineInput) async throws -> UpdateTelemetryPipelineOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateTelemetryPipeline")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput>(UpdateTelemetryPipelineInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTelemetryPipelineInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTelemetryPipelineOutput>(UpdateTelemetryPipelineOutput.httpOutput(from:), UpdateTelemetryPipelineOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTelemetryPipelineOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTelemetryPipelineOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTelemetryPipelineInput, UpdateTelemetryPipelineOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTelemetryPipeline")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateTelemetryRule` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateTelemetryRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateTelemetryRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `ConflictException` : The requested operation conflicts with the current state of the specified resource or with another request.
     /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
     /// - `ResourceNotFoundException` : The specified resource (such as a telemetry rule) could not be found.
     /// - `ServiceQuotaExceededException` : The requested operation would exceed the allowed quota for the specified resource type.
@@ -1735,6 +3050,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTelemetryRuleInput, UpdateTelemetryRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTelemetryRuleOutput>(UpdateTelemetryRuleOutput.httpOutput(from:), UpdateTelemetryRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTelemetryRuleInput, UpdateTelemetryRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTelemetryRuleOutput>())
@@ -1766,9 +3082,9 @@ extension ObservabilityAdminClient {
     ///
     /// Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
     ///
-    /// - Parameter UpdateTelemetryRuleForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTelemetryRuleForOrganizationInput`)
     ///
-    /// - Returns: `UpdateTelemetryRuleForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTelemetryRuleForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1807,6 +3123,7 @@ extension ObservabilityAdminClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTelemetryRuleForOrganizationInput, UpdateTelemetryRuleForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTelemetryRuleForOrganizationOutput>(UpdateTelemetryRuleForOrganizationOutput.httpOutput(from:), UpdateTelemetryRuleForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTelemetryRuleForOrganizationInput, UpdateTelemetryRuleForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTelemetryRuleForOrganizationOutput>())
@@ -1822,6 +3139,77 @@ extension ObservabilityAdminClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTelemetryRuleForOrganization")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ValidateTelemetryPipelineConfiguration` operation on the `ObservabilityAdmin` service.
+    ///
+    /// Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ValidateTelemetryPipelineConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ValidateTelemetryPipelineConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+    /// - `InternalServerException` : Indicates the request has failed to process because of an unknown server error, exception, or failure.
+    /// - `TooManyRequestsException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : Indicates input validation failed. Check your request parameters and retry the request.
+    public func validateTelemetryPipelineConfiguration(input: ValidateTelemetryPipelineConfigurationInput) async throws -> ValidateTelemetryPipelineConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "validateTelemetryPipelineConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "observabilityadmin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput>(ValidateTelemetryPipelineConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ValidateTelemetryPipelineConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateTelemetryPipelineConfigurationOutput>(ValidateTelemetryPipelineConfigurationOutput.httpOutput(from:), ValidateTelemetryPipelineConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ValidateTelemetryPipelineConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ObservabilityAdmin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ValidateTelemetryPipelineConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ValidateTelemetryPipelineConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ValidateTelemetryPipelineConfigurationInput, ValidateTelemetryPipelineConfigurationOutput>(serviceID: serviceName, version: ObservabilityAdminClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ObservabilityAdmin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ValidateTelemetryPipelineConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

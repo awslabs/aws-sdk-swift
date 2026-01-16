@@ -1546,6 +1546,65 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension TransferClientTypes {
 
+    /// VPC_LATTICE egress configuration that specifies the Resource Configuration ARN and port for connecting to SFTP servers through customer VPCs. Requires a valid Resource Configuration with appropriate network access.
+    public struct ConnectorVpcLatticeEgressConfig: Swift.Sendable {
+        /// Port number for connecting to the SFTP server through VPC_LATTICE. Defaults to 22 if not specified. Must match the port on which the target SFTP server is listening.
+        public var portNumber: Swift.Int?
+        /// ARN of the VPC_LATTICE Resource Configuration that defines the target SFTP server location. Must point to a valid Resource Configuration in the customer's VPC with appropriate network connectivity to the SFTP server.
+        /// This member is required.
+        public var resourceConfigurationArn: Swift.String?
+
+        public init(
+            portNumber: Swift.Int? = nil,
+            resourceConfigurationArn: Swift.String? = nil
+        ) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Configuration structure that defines how traffic is routed from the connector to the SFTP server. Contains VPC Lattice settings when using VPC_LATTICE egress type for private connectivity through customer VPCs.
+    public enum ConnectorEgressConfig: Swift.Sendable {
+        /// VPC_LATTICE configuration for routing connector traffic through customer VPCs. Enables private connectivity to SFTP servers without requiring public internet access or complex network configurations.
+        case vpclattice(TransferClientTypes.ConnectorVpcLatticeEgressConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum ConnectorEgressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case serviceManaged
+        case vpcLattice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorEgressType] {
+            return [
+                .serviceManaged,
+                .vpcLattice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .serviceManaged: return "SERVICE_MANAGED"
+            case .vpcLattice: return "VPC_LATTICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum TransferTableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
@@ -1612,16 +1671,16 @@ extension TransferClientTypes {
 
     /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
     public struct SftpConnectorConfig: Swift.Sendable {
-        /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 5 (this is also the maximum value allowed). This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
+        /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1. The maximum values is 5. If you are using the Amazon Web Services Management Console, the default value is 5. This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
         public var maxConcurrentConnections: Swift.Int?
-        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
+        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. When creating connectors with egress config (VPC_LATTICE type connectors), since host name is not something we can verify, the only accepted trusted host key format is key-type key-body without the host name. For example: ssh-rsa AAAAB3Nza...<long-string-for-public-key> The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
         /// * For RSA keys, the <key type> string is ssh-rsa.
         ///
         /// * For ECDSA keys, the <key type> string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
         ///
         ///
-        /// Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com. ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...<long-string-for-public-key Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console.
+        /// Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com. ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...<long-string-for-public-key> Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console. For VPC Lattice type connectors (VPC_LATTICE), remove the hostname from the key and use only the key-type key-body format. In this example, it should be: ssh-rsa AAAAB3Nza...<long-string-for-public-key>
         public var trustedHostKeys: [Swift.String]?
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.
         ///
@@ -1648,6 +1707,8 @@ public struct CreateConnectorInput: Swift.Sendable {
     public var accessRole: Swift.String?
     /// A structure that contains the parameters for an AS2 connector object.
     public var as2Config: TransferClientTypes.As2ConnectorConfig?
+    /// Specifies the egress configuration for the connector, which determines how traffic is routed from the connector to the SFTP server. When set to VPC, enables routing through customer VPCs using VPC_LATTICE for private connectivity.
+    public var egressConfig: TransferClientTypes.ConnectorEgressConfig?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies the name of the security policy for the connector.
@@ -1656,13 +1717,13 @@ public struct CreateConnectorInput: Swift.Sendable {
     public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
     /// Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.
     public var tags: [TransferClientTypes.Tag]?
-    /// The URL of the partner's AS2 or SFTP endpoint.
-    /// This member is required.
+    /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
     public var url: Swift.String?
 
     public init(
         accessRole: Swift.String? = nil,
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
+        egressConfig: TransferClientTypes.ConnectorEgressConfig? = nil,
         loggingRole: Swift.String? = nil,
         securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
@@ -1671,6 +1732,7 @@ public struct CreateConnectorInput: Swift.Sendable {
     ) {
         self.accessRole = accessRole
         self.as2Config = as2Config
+        self.egressConfig = egressConfig
         self.loggingRole = loggingRole
         self.securityPolicyName = securityPolicyName
         self.sftpConfig = sftpConfig
@@ -1717,6 +1779,68 @@ public struct DescribeConnectorInput: Swift.Sendable {
 
 extension TransferClientTypes {
 
+    /// VPC_LATTICE egress configuration details in the response, containing the Resource Configuration ARN and port number currently configured for the connector.
+    public struct DescribedConnectorVpcLatticeEgressConfig: Swift.Sendable {
+        /// Port number currently configured for SFTP connections through VPC_LATTICE. Shows the port on which the connector attempts to connect to the target SFTP server.
+        public var portNumber: Swift.Int?
+        /// ARN of the VPC_LATTICE Resource Configuration currently used by the connector. This Resource Configuration defines the network path to the SFTP server through the customer's VPC.
+        /// This member is required.
+        public var resourceConfigurationArn: Swift.String?
+
+        public init(
+            portNumber: Swift.Int? = nil,
+            resourceConfigurationArn: Swift.String? = nil
+        ) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Response structure containing the current egress configuration details for the connector. Shows how traffic is currently routed from the connector to the SFTP server.
+    public enum DescribedConnectorEgressConfig: Swift.Sendable {
+        /// VPC_LATTICE configuration details in the response, showing the current Resource Configuration ARN and port settings for VPC-based connectivity.
+        case vpclattice(TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum ConnectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case errored
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorStatus] {
+            return [
+                .active,
+                .errored,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .errored: return "ERRORED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// Describes the parameters for the connector, as identified by the ConnectorId.
     public struct DescribedConnector: Swift.Sendable {
         /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
@@ -1728,6 +1852,13 @@ extension TransferClientTypes {
         public var as2Config: TransferClientTypes.As2ConnectorConfig?
         /// The unique identifier for the connector.
         public var connectorId: Swift.String?
+        /// Current egress configuration of the connector, showing how traffic is routed to the SFTP server. Contains VPC Lattice settings when using VPC_LATTICE egress type. When using the VPC_LATTICE egress type, Transfer Family uses a managed Service Network to simplify the resource sharing process.
+        public var egressConfig: TransferClientTypes.DescribedConnectorEgressConfig?
+        /// Type of egress configuration for the connector. SERVICE_MANAGED uses Transfer Family managed NAT gateways, while VPC_LATTICE routes traffic through customer VPCs using VPC Lattice.
+        /// This member is required.
+        public var egressType: TransferClientTypes.ConnectorEgressType?
+        /// Error message providing details when the connector is in ERRORED status. Contains information to help troubleshoot connector creation or operation failures.
+        public var errorMessage: Swift.String?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
         /// The text name of the security policy for the specified connector.
@@ -1736,9 +1867,12 @@ extension TransferClientTypes {
         public var serviceManagedEgressIpAddresses: [Swift.String]?
         /// A structure that contains the parameters for an SFTP connector object.
         public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
+        /// Current status of the connector. PENDING indicates creation/update in progress, ACTIVE means ready for operations, and ERRORED indicates a failure requiring attention.
+        /// This member is required.
+        public var status: TransferClientTypes.ConnectorStatus?
         /// Key-value pairs that can be used to group and search for connectors.
         public var tags: [TransferClientTypes.Tag]?
-        /// The URL of the partner's AS2 or SFTP endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
         public var url: Swift.String?
 
         public init(
@@ -1746,10 +1880,14 @@ extension TransferClientTypes {
             arn: Swift.String? = nil,
             as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
             connectorId: Swift.String? = nil,
+            egressConfig: TransferClientTypes.DescribedConnectorEgressConfig? = nil,
+            egressType: TransferClientTypes.ConnectorEgressType? = .serviceManaged,
+            errorMessage: Swift.String? = nil,
             loggingRole: Swift.String? = nil,
             securityPolicyName: Swift.String? = nil,
             serviceManagedEgressIpAddresses: [Swift.String]? = nil,
             sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
+            status: TransferClientTypes.ConnectorStatus? = .active,
             tags: [TransferClientTypes.Tag]? = nil,
             url: Swift.String? = nil
         ) {
@@ -1757,10 +1895,14 @@ extension TransferClientTypes {
             self.arn = arn
             self.as2Config = as2Config
             self.connectorId = connectorId
+            self.egressConfig = egressConfig
+            self.egressType = egressType
+            self.errorMessage = errorMessage
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses
             self.sftpConfig = sftpConfig
+            self.status = status
             self.tags = tags
             self.url = url
         }
@@ -1802,7 +1944,7 @@ extension TransferClientTypes {
         public var arn: Swift.String?
         /// The unique identifier for the connector.
         public var connectorId: Swift.String?
-        /// The URL of the partner's AS2 or SFTP endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
         public var url: Swift.String?
 
         public init(
@@ -1833,6 +1975,35 @@ public struct ListConnectorsOutput: Swift.Sendable {
     }
 }
 
+extension TransferClientTypes {
+
+    /// VPC_LATTICE egress configuration updates for modifying how the connector routes traffic through customer VPCs. Changes to these settings may require connector restart to take effect.
+    public struct UpdateConnectorVpcLatticeEgressConfig: Swift.Sendable {
+        /// Updated port number for SFTP connections through VPC_LATTICE. Change this if the target SFTP server port has been modified or if connecting to a different server endpoint.
+        public var portNumber: Swift.Int?
+        /// Updated ARN of the VPC_LATTICE Resource Configuration. Use this to change the target SFTP server location or modify the network path through the customer's VPC infrastructure.
+        public var resourceConfigurationArn: Swift.String?
+
+        public init(
+            portNumber: Swift.Int? = nil,
+            resourceConfigurationArn: Swift.String? = nil
+        ) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Structure for updating the egress configuration of an existing connector. Allows modification of how traffic is routed from the connector to the SFTP server, including VPC_LATTICE settings.
+    public enum UpdateConnectorEgressConfig: Swift.Sendable {
+        /// VPC_LATTICE configuration updates for the connector. Use this to modify the Resource Configuration ARN or port number for VPC-based connectivity.
+        case vpclattice(TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct UpdateConnectorInput: Swift.Sendable {
     /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     public var accessRole: Swift.String?
@@ -1841,19 +2012,22 @@ public struct UpdateConnectorInput: Swift.Sendable {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
+    /// Updates the egress configuration for the connector, allowing you to modify how traffic is routed from the connector to the SFTP server. Changes to VPC configuration may require connector restart.
+    public var egressConfig: TransferClientTypes.UpdateConnectorEgressConfig?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies the name of the security policy for the connector.
     public var securityPolicyName: Swift.String?
     /// A structure that contains the parameters for an SFTP connector object.
     public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
-    /// The URL of the partner's AS2 or SFTP endpoint.
+    /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
     public var url: Swift.String?
 
     public init(
         accessRole: Swift.String? = nil,
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
         connectorId: Swift.String? = nil,
+        egressConfig: TransferClientTypes.UpdateConnectorEgressConfig? = nil,
         loggingRole: Swift.String? = nil,
         securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
@@ -1862,6 +2036,7 @@ public struct UpdateConnectorInput: Swift.Sendable {
         self.accessRole = accessRole
         self.as2Config = as2Config
         self.connectorId = connectorId
+        self.egressConfig = egressConfig
         self.loggingRole = loggingRole
         self.securityPolicyName = securityPolicyName
         self.sftpConfig = sftpConfig
@@ -2292,7 +2467,7 @@ extension TransferClientTypes {
         ///
         /// * You can't set address allocation IDs for servers that have an IpAddressType set to DUALSTACK You can only set this property if IpAddressType is set to IPV4.
         public var addressAllocationIds: [Swift.String]?
-        /// A list of security groups IDs that are available to attach to your server's endpoint. This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the [UpdateServer](https://docs.aws.amazon.com/transfer/latest/userguide/API_UpdateServer.html) API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 [ModifyVpcEndpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyVpcEndpoint.html) API.
+        /// A list of security groups IDs that are available to attach to your server's endpoint. While SecurityGroupIds appears in the response syntax for consistency with CreateServer and UpdateServer operations, this field is not populated in DescribeServer responses. Security groups are managed at the VPC endpoint level and can be modified outside of the Transfer Family service. To retrieve current security group information, use the EC2 DescribeVpcEndpoints API with the VpcEndpointId returned in the response. This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the [UpdateServer](https://docs.aws.amazon.com/transfer/latest/userguide/API_UpdateServer.html) API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 [ModifyVpcEndpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyVpcEndpoint.html) API.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs that are required to host your server endpoint in your VPC. This property can only be set when EndpointType is set to VPC.
         public var subnetIds: [Swift.String]?
@@ -2555,7 +2730,7 @@ extension TransferClientTypes {
     public struct ProtocolDetails: Swift.Sendable {
         /// Indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public var as2Transports: [TransferClientTypes.As2Transport]?
-        /// Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example: aws transfer update-server --protocol-details PassiveIp=0.0.0.0 Replace 0.0.0.0 in the example above with the actual IP address you want to use. If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see [Configuring your FTPS server behind a firewall or NAT with Transfer Family](http://aws.amazon.com/blogs/storage/configuring-your-ftps-server-behind-a-firewall-or-nat-with-aws-transfer-family/). Special values The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
+        /// Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example: aws transfer update-server --protocol-details PassiveIp=0.0.0.0 Replace 0.0.0.0 in the example above with the actual IP address you want to use. If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see [Configuring your FTPS server behind a firewall or NAT with Transfer Family](http://aws.amazon.com/blogs/storage/configuring-your-ftps-server-behind-a-firewall-or-nat-with-aws-transfer-family/). Additionally, avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers. This configuration increases costs and can cause performance issues. When NLBs or NATs are in the communication path, Transfer Family cannot accurately recognize client IP addresses, which impacts connection sharding and limits FTPS servers to only 300 simultaneous connections instead of 10,000. If you must use an NLB, use port 21 for health checks and enable TLS session resumption by setting TlsSessionResumptionMode = ENFORCED. For optimal performance, migrate to VPC endpoints with Elastic IP addresses instead of using NLBs. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations). Special values The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
         public var passiveIp: Swift.String?
         /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOptionENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call. If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public var setStatOption: TransferClientTypes.SetStatOption?
@@ -2651,7 +2826,14 @@ extension TransferClientTypes {
 
     /// The Amazon S3 storage options that are configured for your server.
     public struct S3StorageOptions: Swift.Sendable {
-        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized.
+        ///
+        /// * If using the console, this is enabled by default.
+        ///
+        /// * If using the API or CLI, this is disabled by default.
+        ///
+        ///
+        /// By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
         public var directoryListingOptimization: TransferClientTypes.DirectoryListingOptimization?
 
         public init(
@@ -2745,7 +2927,7 @@ public struct CreateServerInput: Swift.Sendable {
     public var postAuthenticationLoginBanner: Swift.String?
     /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system: This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
     public var preAuthenticationLoginBanner: Swift.String?
-    /// The protocol settings that are configured for your server.
+    /// The protocol settings that are configured for your server. Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations).
     ///
     /// * To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
     ///
@@ -2778,7 +2960,14 @@ public struct CreateServerInput: Swift.Sendable {
     ///
     /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     public var protocols: [TransferClientTypes.ModelProtocol]?
-    /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+    /// Specifies whether or not performance for your Amazon S3 directories is optimized.
+    ///
+    /// * If using the console, this is enabled by default.
+    ///
+    /// * If using the API or CLI, this is disabled by default.
+    ///
+    ///
+    /// By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
     public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
     /// Specifies the name of the security policy for the server.
     public var securityPolicyName: Swift.String?
@@ -2922,6 +3111,39 @@ public struct CreateUserOutput: Swift.Sendable {
 
 extension TransferClientTypes {
 
+    /// Contains the VPC configuration settings for hosting a web app endpoint, including the VPC ID, subnet IDs, and security group IDs for access control.
+    public struct WebAppVpcConfig: Swift.Sendable {
+        /// The list of security group IDs that control access to the web app endpoint. These security groups determine which sources can access the endpoint based on IP addresses and port configurations.
+        public var securityGroupIds: [Swift.String]?
+        /// The list of subnet IDs within the VPC where the web app endpoint will be deployed. These subnets must be in the same VPC specified in the VpcId parameter.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC where the web app endpoint will be hosted.
+        public var vpcId: Swift.String?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains the endpoint configuration for a web app, including VPC settings when the endpoint is hosted within a VPC.
+    public enum WebAppEndpointDetails: Swift.Sendable {
+        /// The VPC configuration for hosting the web app endpoint within a VPC.
+        case vpc(TransferClientTypes.WebAppVpcConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
     /// A structure that describes the values to use for the IAM Identity Center settings when you create or update a web app.
     public struct IdentityCenterConfig: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the IAM Identity Center used for the web app.
@@ -2991,6 +3213,8 @@ extension TransferClientTypes {
 public struct CreateWebAppInput: Swift.Sendable {
     /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in [Update your access endpoint with a custom URL](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-customize.html).
     public var accessEndpoint: Swift.String?
+    /// The endpoint configuration for the web app. You can specify whether the web app endpoint is publicly accessible or hosted within a VPC.
+    public var endpointDetails: TransferClientTypes.WebAppEndpointDetails?
     /// You can provide a structure that contains the details for the identity provider to use with your web app. For more details about this parameter, see [Configure your identity provider for Transfer Family web apps](https://docs.aws.amazon.com/transfer/latest/userguide/webapp-identity-center.html).
     /// This member is required.
     public var identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails?
@@ -3003,12 +3227,14 @@ public struct CreateWebAppInput: Swift.Sendable {
 
     public init(
         accessEndpoint: Swift.String? = nil,
+        endpointDetails: TransferClientTypes.WebAppEndpointDetails? = nil,
         identityProviderDetails: TransferClientTypes.WebAppIdentityProviderDetails? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy? = nil,
         webAppUnits: TransferClientTypes.WebAppUnits? = nil
     ) {
         self.accessEndpoint = accessEndpoint
+        self.endpointDetails = endpointDetails
         self.identityProviderDetails = identityProviderDetails
         self.tags = tags
         self.webAppEndpointPolicy = webAppEndpointPolicy
@@ -4199,7 +4425,7 @@ extension TransferClientTypes {
         public var postAuthenticationLoginBanner: Swift.String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system: This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public var preAuthenticationLoginBanner: Swift.String?
-        /// The protocol settings that are configured for your server.
+        /// The protocol settings that are configured for your server. Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations).
         ///
         /// * To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
         ///
@@ -4232,7 +4458,14 @@ extension TransferClientTypes {
         ///
         /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public var protocols: [TransferClientTypes.ModelProtocol]?
-        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized.
+        ///
+        /// * If using the console, this is enabled by default.
+        ///
+        /// * If using the API or CLI, this is disabled by default.
+        ///
+        ///
+        /// By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
         public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
         /// Specifies the name of the security policy for the server.
         public var securityPolicyName: Swift.String?
@@ -4381,11 +4614,73 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    /// Contains the VPC configuration details for a web app endpoint, including the VPC identifier, subnet IDs, and VPC endpoint ID used for hosting the endpoint.
+    public struct DescribedWebAppVpcConfig: Swift.Sendable {
+        /// The list of subnet IDs within the VPC where the web app endpoint is deployed. These subnets must be in the same VPC and provide network connectivity for the endpoint.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the VPC endpoint created for the web app.
+        public var vpcEndpointId: Swift.String?
+        /// The identifier of the VPC where the web app endpoint is hosted.
+        public var vpcId: Swift.String?
+
+        public init(
+            subnetIds: [Swift.String]? = nil,
+            vpcEndpointId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.subnetIds = subnetIds
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains the endpoint configuration details for a web app, including VPC configuration when the endpoint is hosted within a VPC.
+    public enum DescribedWebAppEndpointDetails: Swift.Sendable {
+        /// The VPC configuration details when the web app endpoint is hosted within a VPC. This includes the VPC ID, subnet IDs, and VPC endpoint ID.
+        case vpc(TransferClientTypes.DescribedWebAppVpcConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
     /// Returns a structure that contains the identity provider details for your web app.
     public enum DescribedWebAppIdentityProviderDetails: Swift.Sendable {
         /// Returns a structure for your identity provider details. This structure contains the instance ARN and role being used for the web app.
         case identitycenterconfig(TransferClientTypes.DescribedIdentityCenterConfig)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum WebAppEndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebAppEndpointType] {
+            return [
+                .public,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "PUBLIC"
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -4398,8 +4693,12 @@ extension TransferClientTypes {
         /// The Amazon Resource Name (ARN) of the web app.
         /// This member is required.
         public var arn: Swift.String?
+        /// The endpoint configuration details for the web app, including VPC settings if the endpoint is hosted within a VPC.
+        public var describedEndpointDetails: TransferClientTypes.DescribedWebAppEndpointDetails?
         /// A structure that contains the details for the identity provider used by the web app.
         public var describedIdentityProviderDetails: TransferClientTypes.DescribedWebAppIdentityProviderDetails?
+        /// The type of endpoint hosting the web app. Valid values are PUBLIC for publicly accessible endpoints and VPC for VPC-hosted endpoints that provide network isolation.
+        public var endpointType: TransferClientTypes.WebAppEndpointType?
         /// Key-value pairs that can be used to group and search for web apps. Tags are metadata attached to web apps for any purpose.
         public var tags: [TransferClientTypes.Tag]?
         /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
@@ -4415,7 +4714,9 @@ extension TransferClientTypes {
         public init(
             accessEndpoint: Swift.String? = nil,
             arn: Swift.String? = nil,
+            describedEndpointDetails: TransferClientTypes.DescribedWebAppEndpointDetails? = nil,
             describedIdentityProviderDetails: TransferClientTypes.DescribedWebAppIdentityProviderDetails? = nil,
+            endpointType: TransferClientTypes.WebAppEndpointType? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             webAppEndpoint: Swift.String? = nil,
             webAppEndpointPolicy: TransferClientTypes.WebAppEndpointPolicy? = nil,
@@ -4424,7 +4725,9 @@ extension TransferClientTypes {
         ) {
             self.accessEndpoint = accessEndpoint
             self.arn = arn
+            self.describedEndpointDetails = describedEndpointDetails
             self.describedIdentityProviderDetails = describedIdentityProviderDetails
+            self.endpointType = endpointType
             self.tags = tags
             self.webAppEndpoint = webAppEndpoint
             self.webAppEndpointPolicy = webAppEndpointPolicy
@@ -5098,6 +5401,8 @@ extension TransferClientTypes {
         /// The Amazon Resource Name (ARN) for the web app.
         /// This member is required.
         public var arn: Swift.String?
+        /// The type of endpoint hosting the web app. Valid values are PUBLIC for publicly accessible endpoints and VPC for VPC-hosted endpoints.
+        public var endpointType: TransferClientTypes.WebAppEndpointType?
         /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
         public var webAppEndpoint: Swift.String?
         /// The unique identifier for the web app.
@@ -5107,11 +5412,13 @@ extension TransferClientTypes {
         public init(
             accessEndpoint: Swift.String? = nil,
             arn: Swift.String? = nil,
+            endpointType: TransferClientTypes.WebAppEndpointType? = nil,
             webAppEndpoint: Swift.String? = nil,
             webAppId: Swift.String? = nil
         ) {
             self.accessEndpoint = accessEndpoint
             self.arn = arn
+            self.endpointType = endpointType
             self.webAppEndpoint = webAppEndpoint
             self.webAppId = webAppId
         }
@@ -5595,6 +5902,8 @@ public struct UpdateServerInput: Swift.Sendable {
     public var hostKey: Swift.String?
     /// An array containing all of the information required to call a customer's authentication API method.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
+    /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
+    public var identityProviderType: TransferClientTypes.IdentityProviderType?
     /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4. The IpAddressType parameter has the following limitations:
     ///
     /// * It cannot be changed while the server is online. You must stop the server before modifying this parameter.
@@ -5610,7 +5919,7 @@ public struct UpdateServerInput: Swift.Sendable {
     public var postAuthenticationLoginBanner: Swift.String?
     /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system: This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
     public var preAuthenticationLoginBanner: Swift.String?
-    /// The protocol settings that are configured for your server.
+    /// The protocol settings that are configured for your server. Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations).
     ///
     /// * To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
     ///
@@ -5643,7 +5952,14 @@ public struct UpdateServerInput: Swift.Sendable {
     ///
     /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     public var protocols: [TransferClientTypes.ModelProtocol]?
-    /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+    /// Specifies whether or not performance for your Amazon S3 directories is optimized.
+    ///
+    /// * If using the console, this is enabled by default.
+    ///
+    /// * If using the API or CLI, this is disabled by default.
+    ///
+    ///
+    /// By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
     public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
     /// Specifies the name of the security policy for the server.
     public var securityPolicyName: Swift.String?
@@ -5661,6 +5977,7 @@ public struct UpdateServerInput: Swift.Sendable {
         endpointType: TransferClientTypes.EndpointType? = nil,
         hostKey: Swift.String? = nil,
         identityProviderDetails: TransferClientTypes.IdentityProviderDetails? = nil,
+        identityProviderType: TransferClientTypes.IdentityProviderType? = nil,
         ipAddressType: TransferClientTypes.IpAddressType? = nil,
         loggingRole: Swift.String? = nil,
         postAuthenticationLoginBanner: Swift.String? = nil,
@@ -5678,6 +5995,7 @@ public struct UpdateServerInput: Swift.Sendable {
         self.endpointType = endpointType
         self.hostKey = hostKey
         self.identityProviderDetails = identityProviderDetails
+        self.identityProviderType = identityProviderType
         self.ipAddressType = ipAddressType
         self.loggingRole = loggingRole
         self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
@@ -5694,7 +6012,7 @@ public struct UpdateServerInput: Swift.Sendable {
 
 extension UpdateServerInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateServerInput(certificate: \(Swift.String(describing: certificate)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), ipAddressType: \(Swift.String(describing: ipAddressType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), serverId: \(Swift.String(describing: serverId)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
+        "UpdateServerInput(certificate: \(Swift.String(describing: certificate)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), identityProviderType: \(Swift.String(describing: identityProviderType)), ipAddressType: \(Swift.String(describing: ipAddressType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), serverId: \(Swift.String(describing: serverId)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateServerOutput: Swift.Sendable {
@@ -6237,6 +6555,31 @@ public struct UpdateWebAppCustomizationOutput: Swift.Sendable {
 
 extension TransferClientTypes {
 
+    /// Contains the VPC configuration settings for updating a web app endpoint, including the subnet IDs where the endpoint should be deployed.
+    public struct UpdateWebAppVpcConfig: Swift.Sendable {
+        /// The list of subnet IDs within the VPC where the web app endpoint should be deployed during the update operation.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            subnetIds: [Swift.String]? = nil
+        ) {
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Contains the endpoint configuration details for updating a web app, including VPC settings for endpoints hosted within a VPC.
+    public enum UpdateWebAppEndpointDetails: Swift.Sendable {
+        /// The VPC configuration details for updating a web app endpoint hosted within a VPC. This includes the subnet IDs for endpoint deployment.
+        case vpc(TransferClientTypes.UpdateWebAppVpcConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
     /// A structure that describes the values to use for the IAM Identity Center settings when you update a web app.
     public struct UpdateWebAppIdentityCenterConfig: Swift.Sendable {
         /// The IAM role used to access IAM Identity Center.
@@ -6263,6 +6606,8 @@ extension TransferClientTypes {
 public struct UpdateWebAppInput: Swift.Sendable {
     /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
     public var accessEndpoint: Swift.String?
+    /// The updated endpoint configuration for the web app. You can modify the endpoint type and VPC configuration settings.
+    public var endpointDetails: TransferClientTypes.UpdateWebAppEndpointDetails?
     /// Provide updated identity provider values in a WebAppIdentityProviderDetails object.
     public var identityProviderDetails: TransferClientTypes.UpdateWebAppIdentityProviderDetails?
     /// Provide the identifier of the web app that you are updating.
@@ -6273,11 +6618,13 @@ public struct UpdateWebAppInput: Swift.Sendable {
 
     public init(
         accessEndpoint: Swift.String? = nil,
+        endpointDetails: TransferClientTypes.UpdateWebAppEndpointDetails? = nil,
         identityProviderDetails: TransferClientTypes.UpdateWebAppIdentityProviderDetails? = nil,
         webAppId: Swift.String? = nil,
         webAppUnits: TransferClientTypes.WebAppUnits? = nil
     ) {
         self.accessEndpoint = accessEndpoint
+        self.endpointDetails = endpointDetails
         self.identityProviderDetails = identityProviderDetails
         self.webAppId = webAppId
         self.webAppUnits = webAppUnits
@@ -6832,6 +7179,7 @@ extension CreateConnectorInput {
         guard let value else { return }
         try writer["AccessRole"].write(value.accessRole)
         try writer["As2Config"].write(value.as2Config, with: TransferClientTypes.As2ConnectorConfig.write(value:to:))
+        try writer["EgressConfig"].write(value.egressConfig, with: TransferClientTypes.ConnectorEgressConfig.write(value:to:))
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["SecurityPolicyName"].write(value.securityPolicyName)
         try writer["SftpConfig"].write(value.sftpConfig, with: TransferClientTypes.SftpConnectorConfig.write(value:to:))
@@ -6898,6 +7246,7 @@ extension CreateWebAppInput {
     static func write(value: CreateWebAppInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccessEndpoint"].write(value.accessEndpoint)
+        try writer["EndpointDetails"].write(value.endpointDetails, with: TransferClientTypes.WebAppEndpointDetails.write(value:to:))
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.WebAppIdentityProviderDetails.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WebAppEndpointPolicy"].write(value.webAppEndpointPolicy)
@@ -7456,6 +7805,7 @@ extension UpdateConnectorInput {
         try writer["AccessRole"].write(value.accessRole)
         try writer["As2Config"].write(value.as2Config, with: TransferClientTypes.As2ConnectorConfig.write(value:to:))
         try writer["ConnectorId"].write(value.connectorId)
+        try writer["EgressConfig"].write(value.egressConfig, with: TransferClientTypes.UpdateConnectorEgressConfig.write(value:to:))
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["SecurityPolicyName"].write(value.securityPolicyName)
         try writer["SftpConfig"].write(value.sftpConfig, with: TransferClientTypes.SftpConnectorConfig.write(value:to:))
@@ -7491,6 +7841,7 @@ extension UpdateServerInput {
         try writer["EndpointType"].write(value.endpointType)
         try writer["HostKey"].write(value.hostKey)
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.IdentityProviderDetails.write(value:to:))
+        try writer["IdentityProviderType"].write(value.identityProviderType)
         try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["PostAuthenticationLoginBanner"].write(value.postAuthenticationLoginBanner)
@@ -7525,6 +7876,7 @@ extension UpdateWebAppInput {
     static func write(value: UpdateWebAppInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccessEndpoint"].write(value.accessEndpoint)
+        try writer["EndpointDetails"].write(value.endpointDetails, with: TransferClientTypes.UpdateWebAppEndpointDetails.write(value:to:))
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.UpdateWebAppIdentityProviderDetails.write(value:to:))
         try writer["WebAppId"].write(value.webAppId)
         try writer["WebAppUnits"].write(value.webAppUnits, with: TransferClientTypes.WebAppUnits.write(value:to:))
@@ -9890,6 +10242,35 @@ extension TransferClientTypes.DescribedConnector {
         value.sftpConfig = try reader["SftpConfig"].readIfPresent(with: TransferClientTypes.SftpConnectorConfig.read(from:))
         value.serviceManagedEgressIpAddresses = try reader["ServiceManagedEgressIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityPolicyName = try reader["SecurityPolicyName"].readIfPresent()
+        value.egressConfig = try reader["EgressConfig"].readIfPresent(with: TransferClientTypes.DescribedConnectorEgressConfig.read(from:))
+        value.egressType = try reader["EgressType"].readIfPresent() ?? TransferClientTypes.ConnectorEgressType.serviceManaged
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? TransferClientTypes.ConnectorStatus.active
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedConnectorEgressConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedConnectorEgressConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "VpcLattice":
+                return .vpclattice(try reader["VpcLattice"].read(with: TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig()
+        value.resourceConfigurationArn = try reader["ResourceConfigurationArn"].readIfPresent() ?? ""
+        value.portNumber = try reader["PortNumber"].readIfPresent()
         return value
     }
 }
@@ -10312,6 +10693,34 @@ extension TransferClientTypes.DescribedWebApp {
         value.webAppUnits = try reader["WebAppUnits"].readIfPresent(with: TransferClientTypes.WebAppUnits.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.webAppEndpointPolicy = try reader["WebAppEndpointPolicy"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.describedEndpointDetails = try reader["DescribedEndpointDetails"].readIfPresent(with: TransferClientTypes.DescribedWebAppEndpointDetails.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppEndpointDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppEndpointDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Vpc":
+                return .vpc(try reader["Vpc"].read(with: TransferClientTypes.DescribedWebAppVpcConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppVpcConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppVpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedWebAppVpcConfig()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
         return value
     }
 }
@@ -10725,6 +11134,7 @@ extension TransferClientTypes.ListedWebApp {
         value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
         value.accessEndpoint = try reader["AccessEndpoint"].readIfPresent()
         value.webAppEndpoint = try reader["WebAppEndpoint"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
         return value
     }
 }
@@ -10751,6 +11161,28 @@ extension TransferClientTypes.SftpConnectorConnectionDetails {
     }
 }
 
+extension TransferClientTypes.ConnectorEgressConfig {
+
+    static func write(value: TransferClientTypes.ConnectorEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpclattice(vpclattice):
+                try writer["VpcLattice"].write(vpclattice, with: TransferClientTypes.ConnectorVpcLatticeEgressConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.ConnectorVpcLatticeEgressConfig {
+
+    static func write(value: TransferClientTypes.ConnectorVpcLatticeEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PortNumber"].write(value.portNumber)
+        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
+    }
+}
+
 extension TransferClientTypes.WebAppIdentityProviderDetails {
 
     static func write(value: TransferClientTypes.WebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
@@ -10773,6 +11205,51 @@ extension TransferClientTypes.IdentityCenterConfig {
     }
 }
 
+extension TransferClientTypes.WebAppEndpointDetails {
+
+    static func write(value: TransferClientTypes.WebAppEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpc(vpc):
+                try writer["Vpc"].write(vpc, with: TransferClientTypes.WebAppVpcConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.WebAppVpcConfig {
+
+    static func write(value: TransferClientTypes.WebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+}
+
+extension TransferClientTypes.UpdateConnectorEgressConfig {
+
+    static func write(value: TransferClientTypes.UpdateConnectorEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpclattice(vpclattice):
+                try writer["VpcLattice"].write(vpclattice, with: TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig {
+
+    static func write(value: TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PortNumber"].write(value.portNumber)
+        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
+    }
+}
+
 extension TransferClientTypes.UpdateWebAppIdentityProviderDetails {
 
     static func write(value: TransferClientTypes.UpdateWebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
@@ -10791,6 +11268,27 @@ extension TransferClientTypes.UpdateWebAppIdentityCenterConfig {
     static func write(value: TransferClientTypes.UpdateWebAppIdentityCenterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Role"].write(value.role)
+    }
+}
+
+extension TransferClientTypes.UpdateWebAppEndpointDetails {
+
+    static func write(value: TransferClientTypes.UpdateWebAppEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpc(vpc):
+                try writer["Vpc"].write(vpc, with: TransferClientTypes.UpdateWebAppVpcConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.UpdateWebAppVpcConfig {
+
+    static func write(value: TransferClientTypes.UpdateWebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

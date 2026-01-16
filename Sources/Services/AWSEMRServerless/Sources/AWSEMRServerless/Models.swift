@@ -95,19 +95,42 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes {
 
-    /// The IAM Identity Center Configuration that includes the Identify Center instance and application ARNs that provide trusted-identity propagation.
+    /// The configuration object that allows encrypting local disks.
+    public struct DiskEncryptionConfiguration: Swift.Sendable {
+        /// Specifies the optional encryption context that will be used when encrypting the data. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
+        public var encryptionContext: [Swift.String: Swift.String]?
+        /// The KMS key ARN to encrypt local disks.
+        public var encryptionKeyArn: Swift.String?
+
+        public init(
+            encryptionContext: [Swift.String: Swift.String]? = nil,
+            encryptionKeyArn: Swift.String? = nil
+        ) {
+            self.encryptionContext = encryptionContext
+            self.encryptionKeyArn = encryptionKeyArn
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     public struct IdentityCenterConfiguration: Swift.Sendable {
         /// The ARN of the EMR Serverless created IAM Identity Center Application that provides trusted-identity propagation.
         public var identityCenterApplicationArn: Swift.String?
         /// The ARN of the IAM Identity Center instance.
         public var identityCenterInstanceArn: Swift.String?
+        /// Enables user background sessions for this application so Livy sessions can continue running after users log out of their interactive notebook or their Identity Center sessions expire.
+        public var userBackgroundSessionsEnabled: Swift.Bool?
 
         public init(
             identityCenterApplicationArn: Swift.String? = nil,
-            identityCenterInstanceArn: Swift.String? = nil
+            identityCenterInstanceArn: Swift.String? = nil,
+            userBackgroundSessionsEnabled: Swift.Bool? = nil
         ) {
             self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
     }
 }
@@ -196,6 +219,21 @@ extension EMRServerlessClientTypes {
         ) {
             self.livyEndpointEnabled = livyEndpointEnabled
             self.studioEnabled = studioEnabled
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    /// The configuration object that enables job level cost allocation.
+    public struct JobLevelCostAllocationConfiguration: Swift.Sendable {
+        /// Enables job level cost allocation for the application.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
         }
     }
 }
@@ -594,15 +632,19 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension EMRServerlessClientTypes {
 
-    /// Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
+    /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     public struct IdentityCenterConfigurationInput: Swift.Sendable {
         /// The ARN of the IAM Identity Center instance.
         public var identityCenterInstanceArn: Swift.String?
+        /// Enables user background sessions for this application so Livy sessions can continue running after users log out of their interactive notebook or their Identity Center sessions expire.
+        public var userBackgroundSessionsEnabled: Swift.Bool?
 
         public init(
-            identityCenterInstanceArn: Swift.String? = nil
+            identityCenterInstanceArn: Swift.String? = nil,
+            userBackgroundSessionsEnabled: Swift.Bool? = nil
         ) {
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
     }
 }
@@ -1505,6 +1547,8 @@ extension EMRServerlessClientTypes {
         /// The date and time when the application run was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The configuration object that allows encrypting local disks.
+        public var diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration?
         /// The IAM Identity Center configuration applied to enable trusted identity propagation.
         public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfiguration?
         /// The image configuration applied to all worker types.
@@ -1513,6 +1557,8 @@ extension EMRServerlessClientTypes {
         public var initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]?
         /// The interactive configuration object that enables the interactive use cases for an application.
         public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
+        /// The configuration object that enables job level cost allocation.
+        public var jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
         public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -1551,10 +1597,12 @@ extension EMRServerlessClientTypes {
             autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
             autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
             createdAt: Foundation.Date? = nil,
+            diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration? = nil,
             identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfiguration? = nil,
             imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
             interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
+            jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration? = nil,
             maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
             monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
             name: Swift.String? = nil,
@@ -1575,10 +1623,12 @@ extension EMRServerlessClientTypes {
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.createdAt = createdAt
+            self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
+            self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -1602,14 +1652,18 @@ extension EMRServerlessClientTypes {
     public struct ConfigurationOverrides: Swift.Sendable {
         /// The override configurations for the application.
         public var applicationConfiguration: [EMRServerlessClientTypes.Configuration]?
+        /// The override configuration to encrypt local disks.
+        public var diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration?
         /// The override configurations for monitoring.
         public var monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration?
 
         public init(
             applicationConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
+            diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration? = nil,
             monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil
         ) {
             self.applicationConfiguration = applicationConfiguration
+            self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.monitoringConfiguration = monitoringConfiguration
         }
     }
@@ -1625,6 +1679,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// The client idempotency token of the application to create. Its value must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// The configuration object that allows encrypting local disks.
+    public var diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration?
     /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput?
     /// The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
@@ -1633,6 +1689,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]?
     /// The interactive configuration object that enables the interactive use cases to use when running an application.
     public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
+    /// The configuration object that enables job level cost allocation.
+    public var jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?
     /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
     /// The configuration setting for monitoring.
@@ -1661,10 +1719,12 @@ public struct CreateApplicationInput: Swift.Sendable {
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
+        diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration? = nil,
         identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput? = nil,
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
+        jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
         monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
         name: Swift.String? = nil,
@@ -1680,10 +1740,12 @@ public struct CreateApplicationInput: Swift.Sendable {
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
+        self.diskEncryptionConfiguration = diskEncryptionConfiguration
         self.identityCenterConfiguration = identityCenterConfiguration
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.interactiveConfiguration = interactiveConfiguration
+        self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
         self.maximumCapacity = maximumCapacity
         self.monitoringConfiguration = monitoringConfiguration
         self.name = name
@@ -1710,6 +1772,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     /// The client idempotency token of the application to update. Its value must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// The configuration object that allows encrypting local disks.
+    public var diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration?
     /// Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
     public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput?
     /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
@@ -1718,6 +1782,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]?
     /// The interactive configuration object that contains new interactive use cases when the application is updated.
     public var interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration?
+    /// The configuration object that enables job level cost allocation.
+    public var jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?
     /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
     /// The configuration setting for monitoring.
@@ -1739,10 +1805,12 @@ public struct UpdateApplicationInput: Swift.Sendable {
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
+        diskEncryptionConfiguration: EMRServerlessClientTypes.DiskEncryptionConfiguration? = nil,
         identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput? = nil,
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
+        jobLevelCostAllocationConfiguration: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
         monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
@@ -1756,10 +1824,12 @@ public struct UpdateApplicationInput: Swift.Sendable {
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
+        self.diskEncryptionConfiguration = diskEncryptionConfiguration
         self.identityCenterConfiguration = identityCenterConfiguration
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.interactiveConfiguration = interactiveConfiguration
+        self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
         self.maximumCapacity = maximumCapacity
         self.monitoringConfiguration = monitoringConfiguration
         self.networkConfiguration = networkConfiguration
@@ -2296,10 +2366,12 @@ extension CreateApplicationInput {
         try writer["autoStartConfiguration"].write(value.autoStartConfiguration, with: EMRServerlessClientTypes.AutoStartConfig.write(value:to:))
         try writer["autoStopConfiguration"].write(value.autoStopConfiguration, with: EMRServerlessClientTypes.AutoStopConfig.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["diskEncryptionConfiguration"].write(value.diskEncryptionConfiguration, with: EMRServerlessClientTypes.DiskEncryptionConfiguration.write(value:to:))
         try writer["identityCenterConfiguration"].write(value.identityCenterConfiguration, with: EMRServerlessClientTypes.IdentityCenterConfigurationInput.write(value:to:))
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["interactiveConfiguration"].write(value.interactiveConfiguration, with: EMRServerlessClientTypes.InteractiveConfiguration.write(value:to:))
+        try writer["jobLevelCostAllocationConfiguration"].write(value.jobLevelCostAllocationConfiguration, with: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration.write(value:to:))
         try writer["maximumCapacity"].write(value.maximumCapacity, with: EMRServerlessClientTypes.MaximumAllowedResources.write(value:to:))
         try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["name"].write(value.name)
@@ -2346,10 +2418,12 @@ extension UpdateApplicationInput {
         try writer["autoStartConfiguration"].write(value.autoStartConfiguration, with: EMRServerlessClientTypes.AutoStartConfig.write(value:to:))
         try writer["autoStopConfiguration"].write(value.autoStopConfiguration, with: EMRServerlessClientTypes.AutoStopConfig.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["diskEncryptionConfiguration"].write(value.diskEncryptionConfiguration, with: EMRServerlessClientTypes.DiskEncryptionConfiguration.write(value:to:))
         try writer["identityCenterConfiguration"].write(value.identityCenterConfiguration, with: EMRServerlessClientTypes.IdentityCenterConfigurationInput.write(value:to:))
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["interactiveConfiguration"].write(value.interactiveConfiguration, with: EMRServerlessClientTypes.InteractiveConfiguration.write(value:to:))
+        try writer["jobLevelCostAllocationConfiguration"].write(value.jobLevelCostAllocationConfiguration, with: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration.write(value:to:))
         try writer["maximumCapacity"].write(value.maximumCapacity, with: EMRServerlessClientTypes.MaximumAllowedResources.write(value:to:))
         try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: EMRServerlessClientTypes.NetworkConfiguration.write(value:to:))
@@ -2882,9 +2956,26 @@ extension EMRServerlessClientTypes.Application {
         value.workerTypeSpecifications = try reader["workerTypeSpecifications"].readMapIfPresent(valueReadingClosure: EMRServerlessClientTypes.WorkerTypeSpecification.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.runtimeConfiguration = try reader["runtimeConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
+        value.diskEncryptionConfiguration = try reader["diskEncryptionConfiguration"].readIfPresent(with: EMRServerlessClientTypes.DiskEncryptionConfiguration.read(from:))
         value.interactiveConfiguration = try reader["interactiveConfiguration"].readIfPresent(with: EMRServerlessClientTypes.InteractiveConfiguration.read(from:))
         value.schedulerConfiguration = try reader["schedulerConfiguration"].readIfPresent(with: EMRServerlessClientTypes.SchedulerConfiguration.read(from:))
         value.identityCenterConfiguration = try reader["identityCenterConfiguration"].readIfPresent(with: EMRServerlessClientTypes.IdentityCenterConfiguration.read(from:))
+        value.jobLevelCostAllocationConfiguration = try reader["jobLevelCostAllocationConfiguration"].readIfPresent(with: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.JobLevelCostAllocationConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.JobLevelCostAllocationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobLevelCostAllocationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.JobLevelCostAllocationConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -2896,6 +2987,7 @@ extension EMRServerlessClientTypes.IdentityCenterConfiguration {
         var value = EMRServerlessClientTypes.IdentityCenterConfiguration()
         value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent()
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent()
+        value.userBackgroundSessionsEnabled = try reader["userBackgroundSessionsEnabled"].readIfPresent()
         return value
     }
 }
@@ -2930,6 +3022,23 @@ extension EMRServerlessClientTypes.InteractiveConfiguration {
         var value = EMRServerlessClientTypes.InteractiveConfiguration()
         value.studioEnabled = try reader["studioEnabled"].readIfPresent()
         value.livyEndpointEnabled = try reader["livyEndpointEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.DiskEncryptionConfiguration {
+
+    static func write(value: EMRServerlessClientTypes.DiskEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionContext"].writeMap(value.encryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["encryptionKeyArn"].write(value.encryptionKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.DiskEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.DiskEncryptionConfiguration()
+        value.encryptionContext = try reader["encryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
         return value
     }
 }
@@ -3322,6 +3431,7 @@ extension EMRServerlessClientTypes.ConfigurationOverrides {
     static func write(value: EMRServerlessClientTypes.ConfigurationOverrides?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["applicationConfiguration"].writeList(value.applicationConfiguration, memberWritingClosure: EMRServerlessClientTypes.Configuration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["diskEncryptionConfiguration"].write(value.diskEncryptionConfiguration, with: EMRServerlessClientTypes.DiskEncryptionConfiguration.write(value:to:))
         try writer["monitoringConfiguration"].write(value.monitoringConfiguration, with: EMRServerlessClientTypes.MonitoringConfiguration.write(value:to:))
     }
 
@@ -3330,6 +3440,7 @@ extension EMRServerlessClientTypes.ConfigurationOverrides {
         var value = EMRServerlessClientTypes.ConfigurationOverrides()
         value.applicationConfiguration = try reader["applicationConfiguration"].readListIfPresent(memberReadingClosure: EMRServerlessClientTypes.Configuration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
+        value.diskEncryptionConfiguration = try reader["diskEncryptionConfiguration"].readIfPresent(with: EMRServerlessClientTypes.DiskEncryptionConfiguration.read(from:))
         return value
     }
 }
@@ -3440,6 +3551,7 @@ extension EMRServerlessClientTypes.IdentityCenterConfigurationInput {
     static func write(value: EMRServerlessClientTypes.IdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["userBackgroundSessionsEnabled"].write(value.userBackgroundSessionsEnabled)
     }
 }
 

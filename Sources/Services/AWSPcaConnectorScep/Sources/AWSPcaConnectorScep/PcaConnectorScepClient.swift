@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PcaConnectorScepClient: ClientRuntime.Client {
+public class PcaConnectorScepClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PcaConnectorScepClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: PcaConnectorScepClient.PcaConnectorScepClientConfiguration
     let serviceName = "Pca Connector Scep"
@@ -373,9 +373,9 @@ extension PcaConnectorScepClient {
     ///
     /// For general-purpose connectors. Creates a challenge password for the specified connector. The SCEP protocol uses a challenge password to authenticate a request before issuing a certificate from a certificate authority (CA). Your SCEP clients include the challenge password as part of their certificate request to Connector for SCEP. To retrieve the connector Amazon Resource Names (ARNs) for the connectors in your account, call [ListConnectors](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_ListConnectors.html). To create additional challenge passwords for the connector, call CreateChallenge again. We recommend frequently rotating your challenge passwords.
     ///
-    /// - Parameter CreateChallengeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChallengeInput`)
     ///
-    /// - Returns: `CreateChallengeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChallengeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,6 +417,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChallengeInput, CreateChallengeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChallengeOutput>(CreateChallengeOutput.httpOutput(from:), CreateChallengeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChallengeInput, CreateChallengeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChallengeOutput>())
@@ -448,9 +449,9 @@ extension PcaConnectorScepClient {
     ///
     /// Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see [Connector for SCEP prerequisites](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-prerequisites.html).
     ///
-    /// - Parameter CreateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
-    /// - Returns: `CreateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,6 +492,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorOutput>())
@@ -522,9 +524,9 @@ extension PcaConnectorScepClient {
     ///
     /// Deletes the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
-    /// - Parameter DeleteChallengeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChallengeInput`)
     ///
-    /// - Returns: `DeleteChallengeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChallengeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +562,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChallengeInput, DeleteChallengeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChallengeOutput>(DeleteChallengeOutput.httpOutput(from:), DeleteChallengeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChallengeInput, DeleteChallengeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChallengeOutput>())
@@ -591,9 +594,9 @@ extension PcaConnectorScepClient {
     ///
     /// Deletes the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html). This operation also deletes any challenges associated with the connector.
     ///
-    /// - Parameter DeleteConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
-    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,6 +632,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
@@ -660,9 +664,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves the metadata for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
-    /// - Parameter GetChallengeMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChallengeMetadataInput`)
     ///
-    /// - Returns: `GetChallengeMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChallengeMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -697,6 +701,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChallengeMetadataInput, GetChallengeMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChallengeMetadataOutput>(GetChallengeMetadataOutput.httpOutput(from:), GetChallengeMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChallengeMetadataInput, GetChallengeMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChallengeMetadataOutput>())
@@ -728,9 +733,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves the challenge password for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
     ///
-    /// - Parameter GetChallengePasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChallengePasswordInput`)
     ///
-    /// - Returns: `GetChallengePasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChallengePasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,6 +770,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChallengePasswordInput, GetChallengePasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChallengePasswordOutput>(GetChallengePasswordOutput.httpOutput(from:), GetChallengePasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChallengePasswordInput, GetChallengePasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChallengePasswordOutput>())
@@ -796,9 +802,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves details about the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html). Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
     ///
-    /// - Parameter GetConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorInput`)
     ///
-    /// - Returns: `GetConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -833,6 +839,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectorInput, GetConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorOutput>(GetConnectorOutput.httpOutput(from:), GetConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorInput, GetConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorOutput>())
@@ -864,9 +871,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves the challenge metadata for the specified ARN.
     ///
-    /// - Parameter ListChallengeMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChallengeMetadataInput`)
     ///
-    /// - Returns: `ListChallengeMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChallengeMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -902,6 +909,7 @@ extension PcaConnectorScepClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChallengeMetadataInput, ListChallengeMetadataOutput>(ListChallengeMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChallengeMetadataOutput>(ListChallengeMetadataOutput.httpOutput(from:), ListChallengeMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChallengeMetadataInput, ListChallengeMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChallengeMetadataOutput>())
@@ -933,9 +941,9 @@ extension PcaConnectorScepClient {
     ///
     /// Lists the connectors belonging to your Amazon Web Services account.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -970,6 +978,7 @@ extension PcaConnectorScepClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorsInput, ListConnectorsOutput>(ListConnectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
@@ -1001,9 +1010,9 @@ extension PcaConnectorScepClient {
     ///
     /// Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1038,6 +1047,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1069,9 +1079,9 @@ extension PcaConnectorScepClient {
     ///
     /// Adds one or more tags to your resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,6 +1119,7 @@ extension PcaConnectorScepClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1140,9 +1151,9 @@ extension PcaConnectorScepClient {
     ///
     /// Removes one or more tags from your resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,6 +1189,7 @@ extension PcaConnectorScepClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

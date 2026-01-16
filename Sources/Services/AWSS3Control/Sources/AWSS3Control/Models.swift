@@ -616,6 +616,21 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// The container element for S3 Storage Lens advanced performance metrics. Advanced performance metrics provide insights into application performance, such as request efficiency and access patterns. These metrics help you optimize your S3 storage for both cost and performance by providing detailed analytics on how your applications interact with S3 resources. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
+    public struct AdvancedPerformanceMetrics: Swift.Sendable {
+        /// A container that indicates whether S3 Storage Lens advanced performance metrics are enabled.
+        public var isEnabled: Swift.Bool
+
+        public init(
+            isEnabled: Swift.Bool = false
+        ) {
+            self.isEnabled = isEnabled
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     /// The container element for Amazon S3 Storage Lens detailed status code metrics. Detailed status code metrics generate metrics for HTTP status codes, such as 200 OK, 403 Forbidden, 503 Service Unavailable and others. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
     public struct DetailedStatusCodesMetrics: Swift.Sendable {
         /// A container that indicates whether detailed status code metrics are enabled.
@@ -697,6 +712,8 @@ extension S3ControlClientTypes {
         public var advancedCostOptimizationMetrics: S3ControlClientTypes.AdvancedCostOptimizationMetrics?
         /// A container for bucket-level advanced data-protection metrics for S3 Storage Lens.
         public var advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics?
+        /// A container for bucket-level advanced performance metrics for S3 Storage Lens.
+        public var advancedPerformanceMetrics: S3ControlClientTypes.AdvancedPerformanceMetrics?
         /// A container for bucket-level detailed status code metrics for S3 Storage Lens.
         public var detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics?
         /// A container for the prefix-level metrics for S3 Storage Lens.
@@ -706,12 +723,14 @@ extension S3ControlClientTypes {
             activityMetrics: S3ControlClientTypes.ActivityMetrics? = nil,
             advancedCostOptimizationMetrics: S3ControlClientTypes.AdvancedCostOptimizationMetrics? = nil,
             advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics? = nil,
+            advancedPerformanceMetrics: S3ControlClientTypes.AdvancedPerformanceMetrics? = nil,
             detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics? = nil,
             prefixLevel: S3ControlClientTypes.PrefixLevel? = nil
         ) {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
             self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
+            self.advancedPerformanceMetrics = advancedPerformanceMetrics
             self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
             self.prefixLevel = prefixLevel
         }
@@ -754,7 +773,7 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
-    /// A container element for the account-level Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
+    /// A container element for the account-level Amazon S3 Storage Lens configuration. You must enable Storage Lens metrics consistently at both the account level and bucket level, or your request will fail. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide.
     public struct AccountLevel: Swift.Sendable {
         /// A container element for S3 Storage Lens activity metrics.
         public var activityMetrics: S3ControlClientTypes.ActivityMetrics?
@@ -762,6 +781,8 @@ extension S3ControlClientTypes {
         public var advancedCostOptimizationMetrics: S3ControlClientTypes.AdvancedCostOptimizationMetrics?
         /// A container element for S3 Storage Lens advanced data-protection metrics.
         public var advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics?
+        /// A container element for S3 Storage Lens advanced performance metrics.
+        public var advancedPerformanceMetrics: S3ControlClientTypes.AdvancedPerformanceMetrics?
         /// A container element for the S3 Storage Lens bucket-level configuration.
         /// This member is required.
         public var bucketLevel: S3ControlClientTypes.BucketLevel?
@@ -774,6 +795,7 @@ extension S3ControlClientTypes {
             activityMetrics: S3ControlClientTypes.ActivityMetrics? = nil,
             advancedCostOptimizationMetrics: S3ControlClientTypes.AdvancedCostOptimizationMetrics? = nil,
             advancedDataProtectionMetrics: S3ControlClientTypes.AdvancedDataProtectionMetrics? = nil,
+            advancedPerformanceMetrics: S3ControlClientTypes.AdvancedPerformanceMetrics? = nil,
             bucketLevel: S3ControlClientTypes.BucketLevel? = nil,
             detailedStatusCodesMetrics: S3ControlClientTypes.DetailedStatusCodesMetrics? = nil,
             storageLensGroupLevel: S3ControlClientTypes.StorageLensGroupLevel? = nil
@@ -781,6 +803,7 @@ extension S3ControlClientTypes {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
             self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
+            self.advancedPerformanceMetrics = advancedPerformanceMetrics
             self.bucketLevel = bucketLevel
             self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
             self.storageLensGroupLevel = storageLensGroupLevel
@@ -1446,10 +1469,6 @@ public struct CreateAccessPointInput: Swift.Sendable {
     /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide. Scope is only supported for access points attached to directory buckets.
     public var scope: S3ControlClientTypes.Scope?
     /// An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see [Using tags with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). For information about tagging access points, see [Using tags for attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#using-tags-for-abac).
-    ///
-    /// * You must have the s3:TagResource permission to create an access point with tags for a general purpose bucket.
-    ///
-    /// * You must have the s3express:TagResource permission to create an access point with tags for a directory bucket.
     public var tags: [S3ControlClientTypes.Tag]?
     /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC). This is required for creating an access point for Amazon S3 on Outposts buckets.
     public var vpcConfiguration: S3ControlClientTypes.VpcConfiguration?
@@ -2147,6 +2166,85 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// A filter that returns objects that are encrypted by dual-layer server-side encryption with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS). You can further refine your filtering by optionally providing a KMS Key ARN to filter objects encrypted by a specific key.
+    public struct DSSEKMSFilter: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter to return objects that are encrypted by the specified key. For best performance, use keys in the same Region as the S3 Batch Operations job.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that aren't server-side encrypted.
+    public struct NotSSEFilter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with customer-provided keys (SSE-C).
+    public struct SSECFilter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with Amazon Web Services KMS (SSE-KMS).
+    public struct SSEKMSFilter: Swift.Sendable {
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services Key Management Service (Amazon Web Services KMS) keys (SSE-KMS). If specified, will filter SSE-KMS encrypted objects by S3 Bucket Key status.
+        public var bucketKeyEnabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter to return objects that are encrypted by the specified key. For best performance, use keys in the same Region as the S3 Batch Operations job.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            bucketKeyEnabled: Swift.Bool? = false,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.bucketKeyEnabled = bucketKeyEnabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A filter that returns objects that are encrypted by server-side encryption with Amazon S3 managed keys (SSE-S3).
+    public struct SSES3Filter: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// An optional filter for the S3JobManifestGenerator that identifies the subset of objects by encryption type.
+    public enum ObjectEncryptionFilter: Swift.Sendable {
+        /// Filters for objects that are encrypted by server-side encryption with Amazon S3 managed keys (SSE-S3).
+        case sses3(S3ControlClientTypes.SSES3Filter)
+        /// Filters for objects that are encrypted by server-side encryption with Amazon Web Services Key Management Service (KMS) keys (SSE-KMS).
+        case ssekms(S3ControlClientTypes.SSEKMSFilter)
+        /// Filters for objects that are encrypted by dual-layer server-side encryption with Amazon Web Services Key Management Service (KMS) keys (DSSE-KMS).
+        case dssekms(S3ControlClientTypes.DSSEKMSFilter)
+        /// Filters for objects that are encrypted by server-side encryption with customer-provided keys (SSE-C).
+        case ssec(S3ControlClientTypes.SSECFilter)
+        /// Filters for objects that are not encrypted by server-side encryption.
+        case notsse(S3ControlClientTypes.NotSSEFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension S3ControlClientTypes {
+
     public enum S3StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case glacier
@@ -2236,6 +2334,8 @@ extension S3ControlClientTypes {
         public var eligibleForReplication: Swift.Bool?
         /// If provided, the generated manifest includes only source bucket objects whose object keys match the string constraints specified for MatchAnyPrefix, MatchAnySuffix, and MatchAnySubstring.
         public var keyNameConstraint: S3ControlClientTypes.KeyNameConstraint?
+        /// If provided, the generated object list includes only source bucket objects with the indicated server-side encryption type (SSE-S3, SSE-KMS, DSSE-KMS, SSE-C, or NOT-SSE).
+        public var matchAnyObjectEncryption: [S3ControlClientTypes.ObjectEncryptionFilter]?
         /// If provided, the generated manifest includes only source bucket objects that are stored with the specified storage class.
         public var matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]?
         /// If provided, the generated manifest includes only source bucket objects that have one of the specified Replication statuses.
@@ -2250,6 +2350,7 @@ extension S3ControlClientTypes {
             createdBefore: Foundation.Date? = nil,
             eligibleForReplication: Swift.Bool? = false,
             keyNameConstraint: S3ControlClientTypes.KeyNameConstraint? = nil,
+            matchAnyObjectEncryption: [S3ControlClientTypes.ObjectEncryptionFilter]? = nil,
             matchAnyStorageClass: [S3ControlClientTypes.S3StorageClass]? = nil,
             objectReplicationStatuses: [S3ControlClientTypes.ReplicationStatus]? = nil,
             objectSizeGreaterThanBytes: Swift.Int? = 0,
@@ -2259,6 +2360,7 @@ extension S3ControlClientTypes {
             self.createdBefore = createdBefore
             self.eligibleForReplication = eligibleForReplication
             self.keyNameConstraint = keyNameConstraint
+            self.matchAnyObjectEncryption = matchAnyObjectEncryption
             self.matchAnyStorageClass = matchAnyStorageClass
             self.objectReplicationStatuses = objectReplicationStatuses
             self.objectSizeGreaterThanBytes = objectSizeGreaterThanBytes
@@ -2512,7 +2614,7 @@ extension S3ControlClientTypes {
     public struct S3ComputeObjectChecksumOperation: Swift.Sendable {
         /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumAlgorithm: S3ControlClientTypes.ComputeObjectChecksumAlgorithm?
-        /// Indicates the checksum type that you want Amazon S3 to use to calculate the object’s checksum value. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// Indicates the checksum type that you want Amazon S3 to use to calculate the object's checksum value. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumType: S3ControlClientTypes.ComputeObjectChecksumType?
 
         public init(
@@ -3518,9 +3620,9 @@ extension S3ControlClientTypes {
 
     /// A filter condition that specifies the object size range of included objects in bytes. Only integers are supported.
     public struct MatchObjectSize: Swift.Sendable {
-        /// Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 5 TB.
+        /// Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 50 TB.
         public var bytesGreaterThan: Swift.Int
-        /// Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 5 TB.
+        /// Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 50 TB.
         public var bytesLessThan: Swift.Int
 
         public init(
@@ -6609,19 +6711,43 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// A container for configuring your S3 Storage Lens reports to export to read-only S3 table buckets. This parameter enables you to store your Storage Lens metrics in a structured, queryable table format in Apache Iceberg. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens.html) in the Amazon S3 User Guide.
+    public struct StorageLensTableDestination: Swift.Sendable {
+        /// A container for the encryption of the S3 Storage Lens metrics exports.
+        public var encryption: S3ControlClientTypes.StorageLensDataExportEncryption?
+        /// A container that indicates whether the export to read-only S3 table buckets is enabled for your S3 Storage Lens configuration. When set to true, Storage Lens reports are automatically exported to tables in addition to other configured destinations.
+        /// This member is required.
+        public var isEnabled: Swift.Bool
+
+        public init(
+            encryption: S3ControlClientTypes.StorageLensDataExportEncryption? = nil,
+            isEnabled: Swift.Bool = false
+        ) {
+            self.encryption = encryption
+            self.isEnabled = isEnabled
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     /// A container to specify the properties of your S3 Storage Lens metrics export, including the destination, schema, and format.
     public struct StorageLensDataExport: Swift.Sendable {
         /// A container for enabling Amazon CloudWatch publishing for S3 Storage Lens metrics.
         public var cloudWatchMetrics: S3ControlClientTypes.CloudWatchMetrics?
         /// A container for the bucket where the S3 Storage Lens metrics export will be located. This bucket must be located in the same Region as the storage lens configuration.
         public var s3BucketDestination: S3ControlClientTypes.S3BucketDestination?
+        /// A container for configuring S3 Storage Lens data exports to read-only S3 table buckets.
+        public var storageLensTableDestination: S3ControlClientTypes.StorageLensTableDestination?
 
         public init(
             cloudWatchMetrics: S3ControlClientTypes.CloudWatchMetrics? = nil,
-            s3BucketDestination: S3ControlClientTypes.S3BucketDestination? = nil
+            s3BucketDestination: S3ControlClientTypes.S3BucketDestination? = nil,
+            storageLensTableDestination: S3ControlClientTypes.StorageLensTableDestination? = nil
         ) {
             self.cloudWatchMetrics = cloudWatchMetrics
             self.s3BucketDestination = s3BucketDestination
+            self.storageLensTableDestination = storageLensTableDestination
         }
     }
 }
@@ -6641,6 +6767,25 @@ extension S3ControlClientTypes {
         ) {
             self.buckets = buckets
             self.regions = regions
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// A container for your S3 Storage Lens expanded prefix metrics report configuration. Unlike the default Storage Lens metrics report, the enhanced prefix metrics report includes all S3 Storage Lens storage and activity data related to the full list of prefixes in your Storage Lens configuration.
+    public struct StorageLensExpandedPrefixesDataExport: Swift.Sendable {
+        /// A container for the bucket where the Amazon S3 Storage Lens metrics export files are located.
+        public var s3BucketDestination: S3ControlClientTypes.S3BucketDestination?
+        /// A container for the bucket where the S3 Storage Lens metric export files are located. At least one export destination must be specified.
+        public var storageLensTableDestination: S3ControlClientTypes.StorageLensTableDestination?
+
+        public init(
+            s3BucketDestination: S3ControlClientTypes.S3BucketDestination? = nil,
+            storageLensTableDestination: S3ControlClientTypes.StorageLensTableDestination? = nil
+        ) {
+            self.s3BucketDestination = s3BucketDestination
+            self.storageLensTableDestination = storageLensTableDestination
         }
     }
 }
@@ -6677,6 +6822,8 @@ extension S3ControlClientTypes {
         public var dataExport: S3ControlClientTypes.StorageLensDataExport?
         /// A container for what is excluded in this configuration. This container can only be valid if there is no Include container submitted, and it's not empty.
         public var exclude: S3ControlClientTypes.Exclude?
+        /// A container that configures your S3 Storage Lens expanded prefixes metrics report.
+        public var expandedPrefixesDataExport: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport?
         /// A container for the Amazon S3 Storage Lens configuration ID.
         /// This member is required.
         public var id: Swift.String?
@@ -6685,6 +6832,14 @@ extension S3ControlClientTypes {
         /// A container for whether the S3 Storage Lens configuration is enabled.
         /// This member is required.
         public var isEnabled: Swift.Bool
+        /// A container for all prefix delimiters that are used for object keys in this S3 Storage Lens configuration. The prefix delimiters determine how S3 Storage Lens counts prefix depth, by separating the hierarchical levels in object keys.
+        ///
+        /// * If either a prefix delimiter or existing delimiter is undefined, Amazon S3 uses the delimiter that’s defined.
+        ///
+        /// * If both the prefix delimiter and existing delimiter are undefined, S3 uses / as the default delimiter.
+        ///
+        /// * When custom delimiters are used, both the prefix delimiter and existing delimiter must specify the same special character. Otherwise, your request results in an error.
+        public var prefixDelimiter: Swift.String?
         /// The Amazon Resource Name (ARN) of the S3 Storage Lens configuration. This property is read-only and follows the following format:  arn:aws:s3:us-east-1:example-account-id:storage-lens/your-dashboard-name
         public var storageLensArn: Swift.String?
 
@@ -6693,18 +6848,22 @@ extension S3ControlClientTypes {
             awsOrg: S3ControlClientTypes.StorageLensAwsOrg? = nil,
             dataExport: S3ControlClientTypes.StorageLensDataExport? = nil,
             exclude: S3ControlClientTypes.Exclude? = nil,
+            expandedPrefixesDataExport: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport? = nil,
             id: Swift.String? = nil,
             include: S3ControlClientTypes.Include? = nil,
             isEnabled: Swift.Bool = false,
+            prefixDelimiter: Swift.String? = nil,
             storageLensArn: Swift.String? = nil
         ) {
             self.accountLevel = accountLevel
             self.awsOrg = awsOrg
             self.dataExport = dataExport
             self.exclude = exclude
+            self.expandedPrefixesDataExport = expandedPrefixesDataExport
             self.id = id
             self.include = include
             self.isEnabled = isEnabled
+            self.prefixDelimiter = prefixDelimiter
             self.storageLensArn = storageLensArn
         }
     }
@@ -13582,6 +13741,7 @@ extension S3ControlClientTypes.JobManifestGeneratorFilter {
         try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["EligibleForReplication"].write(value.eligibleForReplication)
         try writer["KeyNameConstraint"].write(value.keyNameConstraint, with: S3ControlClientTypes.KeyNameConstraint.write(value:to:))
+        try writer["MatchAnyObjectEncryption"].writeList(value.matchAnyObjectEncryption, memberWritingClosure: S3ControlClientTypes.ObjectEncryptionFilter.write(value:to:), memberNodeInfo: "ObjectEncryption", isFlattened: false)
         try writer["MatchAnyStorageClass"].writeList(value.matchAnyStorageClass, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ControlClientTypes.S3StorageClass>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ObjectReplicationStatuses"].writeList(value.objectReplicationStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ControlClientTypes.ReplicationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ObjectSizeGreaterThanBytes"].write(value.objectSizeGreaterThanBytes)
@@ -13599,7 +13759,119 @@ extension S3ControlClientTypes.JobManifestGeneratorFilter {
         value.objectSizeGreaterThanBytes = try reader["ObjectSizeGreaterThanBytes"].readIfPresent()
         value.objectSizeLessThanBytes = try reader["ObjectSizeLessThanBytes"].readIfPresent()
         value.matchAnyStorageClass = try reader["MatchAnyStorageClass"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.S3StorageClass>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchAnyObjectEncryption = try reader["MatchAnyObjectEncryption"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.ObjectEncryptionFilter.read(from:), memberNodeInfo: "ObjectEncryption", isFlattened: false)
         return value
+    }
+}
+
+extension S3ControlClientTypes.ObjectEncryptionFilter {
+
+    static func write(value: S3ControlClientTypes.ObjectEncryptionFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .dssekms(dssekms):
+                try writer["DSSE-KMS"].write(dssekms, with: S3ControlClientTypes.DSSEKMSFilter.write(value:to:))
+            case let .notsse(notsse):
+                try writer["NOT-SSE"].write(notsse, with: S3ControlClientTypes.NotSSEFilter.write(value:to:))
+            case let .ssec(ssec):
+                try writer["SSE-C"].write(ssec, with: S3ControlClientTypes.SSECFilter.write(value:to:))
+            case let .ssekms(ssekms):
+                try writer["SSE-KMS"].write(ssekms, with: S3ControlClientTypes.SSEKMSFilter.write(value:to:))
+            case let .sses3(sses3):
+                try writer["SSE-S3"].write(sses3, with: S3ControlClientTypes.SSES3Filter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectEncryptionFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "SSES3":
+                return .sses3(try reader["SSE-S3"].read(with: S3ControlClientTypes.SSES3Filter.read(from:)))
+            case "SSEKMS":
+                return .ssekms(try reader["SSE-KMS"].read(with: S3ControlClientTypes.SSEKMSFilter.read(from:)))
+            case "DSSEKMS":
+                return .dssekms(try reader["DSSE-KMS"].read(with: S3ControlClientTypes.DSSEKMSFilter.read(from:)))
+            case "SSEC":
+                return .ssec(try reader["SSE-C"].read(with: S3ControlClientTypes.SSECFilter.read(from:)))
+            case "NOTSSE":
+                return .notsse(try reader["NOT-SSE"].read(with: S3ControlClientTypes.NotSSEFilter.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension S3ControlClientTypes.NotSSEFilter {
+
+    static func write(value: S3ControlClientTypes.NotSSEFilter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.NotSSEFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.NotSSEFilter()
+    }
+}
+
+extension S3ControlClientTypes.SSECFilter {
+
+    static func write(value: S3ControlClientTypes.SSECFilter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSECFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.SSECFilter()
+    }
+}
+
+extension S3ControlClientTypes.DSSEKMSFilter {
+
+    static func write(value: S3ControlClientTypes.DSSEKMSFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.DSSEKMSFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.DSSEKMSFilter()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ControlClientTypes.SSEKMSFilter {
+
+    static func write(value: S3ControlClientTypes.SSEKMSFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSEKMSFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.SSEKMSFilter()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ControlClientTypes.SSES3Filter {
+
+    static func write(value: S3ControlClientTypes.SSES3Filter?, to writer: SmithyXML.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.SSES3Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return S3ControlClientTypes.SSES3Filter()
     }
 }
 
@@ -14986,9 +15258,11 @@ extension S3ControlClientTypes.StorageLensConfiguration {
         try writer["AwsOrg"].write(value.awsOrg, with: S3ControlClientTypes.StorageLensAwsOrg.write(value:to:))
         try writer["DataExport"].write(value.dataExport, with: S3ControlClientTypes.StorageLensDataExport.write(value:to:))
         try writer["Exclude"].write(value.exclude, with: S3ControlClientTypes.Exclude.write(value:to:))
+        try writer["ExpandedPrefixesDataExport"].write(value.expandedPrefixesDataExport, with: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport.write(value:to:))
         try writer["Id"].write(value.id)
         try writer["Include"].write(value.include, with: S3ControlClientTypes.Include.write(value:to:))
         try writer["IsEnabled"].write(value.isEnabled)
+        try writer["PrefixDelimiter"].write(value.prefixDelimiter)
         try writer["StorageLensArn"].write(value.storageLensArn)
     }
 
@@ -15000,9 +15274,11 @@ extension S3ControlClientTypes.StorageLensConfiguration {
         value.include = try reader["Include"].readIfPresent(with: S3ControlClientTypes.Include.read(from:))
         value.exclude = try reader["Exclude"].readIfPresent(with: S3ControlClientTypes.Exclude.read(from:))
         value.dataExport = try reader["DataExport"].readIfPresent(with: S3ControlClientTypes.StorageLensDataExport.read(from:))
+        value.expandedPrefixesDataExport = try reader["ExpandedPrefixesDataExport"].readIfPresent(with: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport.read(from:))
         value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
         value.awsOrg = try reader["AwsOrg"].readIfPresent(with: S3ControlClientTypes.StorageLensAwsOrg.read(from:))
         value.storageLensArn = try reader["StorageLensArn"].readIfPresent()
+        value.prefixDelimiter = try reader["PrefixDelimiter"].readIfPresent()
         return value
     }
 }
@@ -15022,58 +15298,35 @@ extension S3ControlClientTypes.StorageLensAwsOrg {
     }
 }
 
-extension S3ControlClientTypes.StorageLensDataExport {
+extension S3ControlClientTypes.StorageLensExpandedPrefixesDataExport {
 
-    static func write(value: S3ControlClientTypes.StorageLensDataExport?, to writer: SmithyXML.Writer) throws {
+    static func write(value: S3ControlClientTypes.StorageLensExpandedPrefixesDataExport?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["CloudWatchMetrics"].write(value.cloudWatchMetrics, with: S3ControlClientTypes.CloudWatchMetrics.write(value:to:))
         try writer["S3BucketDestination"].write(value.s3BucketDestination, with: S3ControlClientTypes.S3BucketDestination.write(value:to:))
+        try writer["StorageLensTableDestination"].write(value.storageLensTableDestination, with: S3ControlClientTypes.StorageLensTableDestination.write(value:to:))
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensDataExport {
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensExpandedPrefixesDataExport {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3ControlClientTypes.StorageLensDataExport()
+        var value = S3ControlClientTypes.StorageLensExpandedPrefixesDataExport()
         value.s3BucketDestination = try reader["S3BucketDestination"].readIfPresent(with: S3ControlClientTypes.S3BucketDestination.read(from:))
-        value.cloudWatchMetrics = try reader["CloudWatchMetrics"].readIfPresent(with: S3ControlClientTypes.CloudWatchMetrics.read(from:))
+        value.storageLensTableDestination = try reader["StorageLensTableDestination"].readIfPresent(with: S3ControlClientTypes.StorageLensTableDestination.read(from:))
         return value
     }
 }
 
-extension S3ControlClientTypes.CloudWatchMetrics {
+extension S3ControlClientTypes.StorageLensTableDestination {
 
-    static func write(value: S3ControlClientTypes.CloudWatchMetrics?, to writer: SmithyXML.Writer) throws {
+    static func write(value: S3ControlClientTypes.StorageLensTableDestination?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["Encryption"].write(value.encryption, with: S3ControlClientTypes.StorageLensDataExportEncryption.write(value:to:))
         try writer["IsEnabled"].write(value.isEnabled)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.CloudWatchMetrics {
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensTableDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3ControlClientTypes.CloudWatchMetrics()
+        var value = S3ControlClientTypes.StorageLensTableDestination()
         value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension S3ControlClientTypes.S3BucketDestination {
-
-    static func write(value: S3ControlClientTypes.S3BucketDestination?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Arn"].write(value.arn)
-        try writer["Encryption"].write(value.encryption, with: S3ControlClientTypes.StorageLensDataExportEncryption.write(value:to:))
-        try writer["Format"].write(value.format)
-        try writer["OutputSchemaVersion"].write(value.outputSchemaVersion)
-        try writer["Prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3BucketDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3ControlClientTypes.S3BucketDestination()
-        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
-        value.outputSchemaVersion = try reader["OutputSchemaVersion"].readIfPresent() ?? .sdkUnknown("")
-        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.`prefix` = try reader["Prefix"].readIfPresent()
         value.encryption = try reader["Encryption"].readIfPresent(with: S3ControlClientTypes.StorageLensDataExportEncryption.read(from:))
         return value
     }
@@ -15124,6 +15377,65 @@ extension S3ControlClientTypes.SSES3 {
     }
 }
 
+extension S3ControlClientTypes.S3BucketDestination {
+
+    static func write(value: S3ControlClientTypes.S3BucketDestination?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Arn"].write(value.arn)
+        try writer["Encryption"].write(value.encryption, with: S3ControlClientTypes.StorageLensDataExportEncryption.write(value:to:))
+        try writer["Format"].write(value.format)
+        try writer["OutputSchemaVersion"].write(value.outputSchemaVersion)
+        try writer["Prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3BucketDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3BucketDestination()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.outputSchemaVersion = try reader["OutputSchemaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.`prefix` = try reader["Prefix"].readIfPresent()
+        value.encryption = try reader["Encryption"].readIfPresent(with: S3ControlClientTypes.StorageLensDataExportEncryption.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.StorageLensDataExport {
+
+    static func write(value: S3ControlClientTypes.StorageLensDataExport?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchMetrics"].write(value.cloudWatchMetrics, with: S3ControlClientTypes.CloudWatchMetrics.write(value:to:))
+        try writer["S3BucketDestination"].write(value.s3BucketDestination, with: S3ControlClientTypes.S3BucketDestination.write(value:to:))
+        try writer["StorageLensTableDestination"].write(value.storageLensTableDestination, with: S3ControlClientTypes.StorageLensTableDestination.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.StorageLensDataExport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.StorageLensDataExport()
+        value.s3BucketDestination = try reader["S3BucketDestination"].readIfPresent(with: S3ControlClientTypes.S3BucketDestination.read(from:))
+        value.cloudWatchMetrics = try reader["CloudWatchMetrics"].readIfPresent(with: S3ControlClientTypes.CloudWatchMetrics.read(from:))
+        value.storageLensTableDestination = try reader["StorageLensTableDestination"].readIfPresent(with: S3ControlClientTypes.StorageLensTableDestination.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.CloudWatchMetrics {
+
+    static func write(value: S3ControlClientTypes.CloudWatchMetrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IsEnabled"].write(value.isEnabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.CloudWatchMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.CloudWatchMetrics()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension S3ControlClientTypes.Exclude {
 
     static func write(value: S3ControlClientTypes.Exclude?, to writer: SmithyXML.Writer) throws {
@@ -15165,6 +15477,7 @@ extension S3ControlClientTypes.AccountLevel {
         try writer["ActivityMetrics"].write(value.activityMetrics, with: S3ControlClientTypes.ActivityMetrics.write(value:to:))
         try writer["AdvancedCostOptimizationMetrics"].write(value.advancedCostOptimizationMetrics, with: S3ControlClientTypes.AdvancedCostOptimizationMetrics.write(value:to:))
         try writer["AdvancedDataProtectionMetrics"].write(value.advancedDataProtectionMetrics, with: S3ControlClientTypes.AdvancedDataProtectionMetrics.write(value:to:))
+        try writer["AdvancedPerformanceMetrics"].write(value.advancedPerformanceMetrics, with: S3ControlClientTypes.AdvancedPerformanceMetrics.write(value:to:))
         try writer["BucketLevel"].write(value.bucketLevel, with: S3ControlClientTypes.BucketLevel.write(value:to:))
         try writer["DetailedStatusCodesMetrics"].write(value.detailedStatusCodesMetrics, with: S3ControlClientTypes.DetailedStatusCodesMetrics.write(value:to:))
         try writer["StorageLensGroupLevel"].write(value.storageLensGroupLevel, with: S3ControlClientTypes.StorageLensGroupLevel.write(value:to:))
@@ -15178,6 +15491,7 @@ extension S3ControlClientTypes.AccountLevel {
         value.advancedCostOptimizationMetrics = try reader["AdvancedCostOptimizationMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedCostOptimizationMetrics.read(from:))
         value.advancedDataProtectionMetrics = try reader["AdvancedDataProtectionMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedDataProtectionMetrics.read(from:))
         value.detailedStatusCodesMetrics = try reader["DetailedStatusCodesMetrics"].readIfPresent(with: S3ControlClientTypes.DetailedStatusCodesMetrics.read(from:))
+        value.advancedPerformanceMetrics = try reader["AdvancedPerformanceMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedPerformanceMetrics.read(from:))
         value.storageLensGroupLevel = try reader["StorageLensGroupLevel"].readIfPresent(with: S3ControlClientTypes.StorageLensGroupLevel.read(from:))
         return value
     }
@@ -15211,6 +15525,21 @@ extension S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria {
         var value = S3ControlClientTypes.StorageLensGroupLevelSelectionCriteria()
         value.include = try reader["Include"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Arn", isFlattened: false)
         value.exclude = try reader["Exclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Arn", isFlattened: false)
+        return value
+    }
+}
+
+extension S3ControlClientTypes.AdvancedPerformanceMetrics {
+
+    static func write(value: S3ControlClientTypes.AdvancedPerformanceMetrics?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IsEnabled"].write(value.isEnabled)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.AdvancedPerformanceMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.AdvancedPerformanceMetrics()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -15267,6 +15596,7 @@ extension S3ControlClientTypes.BucketLevel {
         try writer["ActivityMetrics"].write(value.activityMetrics, with: S3ControlClientTypes.ActivityMetrics.write(value:to:))
         try writer["AdvancedCostOptimizationMetrics"].write(value.advancedCostOptimizationMetrics, with: S3ControlClientTypes.AdvancedCostOptimizationMetrics.write(value:to:))
         try writer["AdvancedDataProtectionMetrics"].write(value.advancedDataProtectionMetrics, with: S3ControlClientTypes.AdvancedDataProtectionMetrics.write(value:to:))
+        try writer["AdvancedPerformanceMetrics"].write(value.advancedPerformanceMetrics, with: S3ControlClientTypes.AdvancedPerformanceMetrics.write(value:to:))
         try writer["DetailedStatusCodesMetrics"].write(value.detailedStatusCodesMetrics, with: S3ControlClientTypes.DetailedStatusCodesMetrics.write(value:to:))
         try writer["PrefixLevel"].write(value.prefixLevel, with: S3ControlClientTypes.PrefixLevel.write(value:to:))
     }
@@ -15279,6 +15609,7 @@ extension S3ControlClientTypes.BucketLevel {
         value.advancedCostOptimizationMetrics = try reader["AdvancedCostOptimizationMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedCostOptimizationMetrics.read(from:))
         value.advancedDataProtectionMetrics = try reader["AdvancedDataProtectionMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedDataProtectionMetrics.read(from:))
         value.detailedStatusCodesMetrics = try reader["DetailedStatusCodesMetrics"].readIfPresent(with: S3ControlClientTypes.DetailedStatusCodesMetrics.read(from:))
+        value.advancedPerformanceMetrics = try reader["AdvancedPerformanceMetrics"].readIfPresent(with: S3ControlClientTypes.AdvancedPerformanceMetrics.read(from:))
         return value
     }
 }

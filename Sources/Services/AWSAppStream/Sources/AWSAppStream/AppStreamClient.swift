@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class AppStreamClient: ClientRuntime.Client {
+public class AppStreamClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AppStreamClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: AppStreamClient.AppStreamClientConfiguration
     let serviceName = "AppStream"
@@ -373,9 +373,9 @@ extension AppStreamClient {
     ///
     /// Associates the specified app block builder with the specified app block.
     ///
-    /// - Parameter AssociateAppBlockBuilderAppBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAppBlockBuilderAppBlockInput`)
     ///
-    /// - Returns: `AssociateAppBlockBuilderAppBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAppBlockBuilderAppBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAppBlockBuilderAppBlockOutput>(AssociateAppBlockBuilderAppBlockOutput.httpOutput(from:), AssociateAppBlockBuilderAppBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAppBlockBuilderAppBlockInput, AssociateAppBlockBuilderAppBlockOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAppBlockBuilderAppBlockOutput>())
@@ -445,9 +446,9 @@ extension AppStreamClient {
     ///
     /// Associates the specified application with the specified fleet. This is only supported for Elastic fleets.
     ///
-    /// - Parameter AssociateApplicationFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApplicationFleetInput`)
     ///
-    /// - Returns: `AssociateApplicationFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApplicationFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateApplicationFleetOutput>(AssociateApplicationFleetOutput.httpOutput(from:), AssociateApplicationFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApplicationFleetInput, AssociateApplicationFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApplicationFleetOutput>())
@@ -517,9 +519,9 @@ extension AppStreamClient {
     ///
     /// Associates an application to entitle.
     ///
-    /// - Parameter AssociateApplicationToEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApplicationToEntitlementInput`)
     ///
-    /// - Returns: `AssociateApplicationToEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApplicationToEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,6 +556,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateApplicationToEntitlementOutput>(AssociateApplicationToEntitlementOutput.httpOutput(from:), AssociateApplicationToEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApplicationToEntitlementInput, AssociateApplicationToEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApplicationToEntitlementOutput>())
@@ -588,9 +591,9 @@ extension AppStreamClient {
     ///
     /// Associates the specified fleet with the specified stack.
     ///
-    /// - Parameter AssociateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateFleetInput`)
     ///
-    /// - Returns: `AssociateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +630,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFleetInput, AssociateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFleetOutput>(AssociateFleetOutput.httpOutput(from:), AssociateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFleetInput, AssociateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFleetOutput>())
@@ -657,13 +661,86 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateSoftwareToImageBuilder` operation on the `AppStream` service.
+    ///
+    /// Associates license included application(s) with an existing image builder instance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateSoftwareToImageBuilderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateSoftwareToImageBuilderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
+    /// - `IncompatibleImageException` : The image can't be updated because it's not compatible for updates.
+    /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func associateSoftwareToImageBuilder(input: AssociateSoftwareToImageBuilderInput) async throws -> AssociateSoftwareToImageBuilderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateSoftwareToImageBuilder")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(AssociateSoftwareToImageBuilderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSoftwareToImageBuilderOutput>(AssociateSoftwareToImageBuilderOutput.httpOutput(from:), AssociateSoftwareToImageBuilderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSoftwareToImageBuilderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateSoftwareToImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(xAmzTarget: "PhotonAdminProxyService.AssociateSoftwareToImageBuilder"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateSoftwareToImageBuilderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSoftwareToImageBuilderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSoftwareToImageBuilderInput, AssociateSoftwareToImageBuilderOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateSoftwareToImageBuilder")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchAssociateUserStack` operation on the `AppStream` service.
     ///
     /// Associates the specified users with the specified stacks. Users in a user pool cannot be assigned to stacks with fleets that are joined to an Active Directory domain.
     ///
-    /// - Parameter BatchAssociateUserStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateUserStackInput`)
     ///
-    /// - Returns: `BatchAssociateUserStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateUserStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,6 +773,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAssociateUserStackOutput>(BatchAssociateUserStackOutput.httpOutput(from:), BatchAssociateUserStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAssociateUserStackInput, BatchAssociateUserStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAssociateUserStackOutput>())
@@ -730,9 +808,9 @@ extension AppStreamClient {
     ///
     /// Disassociates the specified users from the specified stacks.
     ///
-    /// - Parameter BatchDisassociateUserStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateUserStackInput`)
     ///
-    /// - Returns: `BatchDisassociateUserStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateUserStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,6 +843,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisassociateUserStackOutput>(BatchDisassociateUserStackOutput.httpOutput(from:), BatchDisassociateUserStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateUserStackInput, BatchDisassociateUserStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateUserStackOutput>())
@@ -799,9 +878,9 @@ extension AppStreamClient {
     ///
     /// Copies the image within the same region or to a new region within the same AWS account. Note that any tags you added to the image will not be copied.
     ///
-    /// - Parameter CopyImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyImageInput`)
     ///
-    /// - Returns: `CopyImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,6 +917,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyImageInput, CopyImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyImageOutput>(CopyImageOutput.httpOutput(from:), CopyImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyImageInput, CopyImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyImageOutput>())
@@ -870,11 +950,11 @@ extension AppStreamClient {
 
     /// Performs the `CreateAppBlock` operation on the `AppStream` service.
     ///
-    /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
+    /// Creates an app block. App blocks are a WorkSpaces Applications resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     ///
-    /// - Parameter CreateAppBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppBlockInput`)
     ///
-    /// - Returns: `CreateAppBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,6 +989,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockInput, CreateAppBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppBlockOutput>(CreateAppBlockOutput.httpOutput(from:), CreateAppBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppBlockInput, CreateAppBlockOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppBlockOutput>())
@@ -943,9 +1024,9 @@ extension AppStreamClient {
     ///
     /// Creates an app block builder.
     ///
-    /// - Parameter CreateAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppBlockBuilderInput`)
     ///
-    /// - Returns: `CreateAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,7 +1037,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -986,6 +1067,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppBlockBuilderOutput>(CreateAppBlockBuilderOutput.httpOutput(from:), CreateAppBlockBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppBlockBuilderInput, CreateAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppBlockBuilderOutput>())
@@ -1020,9 +1102,9 @@ extension AppStreamClient {
     ///
     /// Creates a URL to start a create app block builder streaming session.
     ///
-    /// - Parameter CreateAppBlockBuilderStreamingURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppBlockBuilderStreamingURLInput`)
     ///
-    /// - Returns: `CreateAppBlockBuilderStreamingURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppBlockBuilderStreamingURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1055,6 +1137,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppBlockBuilderStreamingURLOutput>(CreateAppBlockBuilderStreamingURLOutput.httpOutput(from:), CreateAppBlockBuilderStreamingURLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppBlockBuilderStreamingURLInput, CreateAppBlockBuilderStreamingURLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppBlockBuilderStreamingURLOutput>())
@@ -1087,11 +1170,11 @@ extension AppStreamClient {
 
     /// Performs the `CreateApplication` operation on the `AppStream` service.
     ///
-    /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
+    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch. This is only supported for Elastic fleets.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,6 +1210,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -1159,11 +1243,11 @@ extension AppStreamClient {
 
     /// Performs the `CreateDirectoryConfig` operation on the `AppStream` service.
     ///
-    /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+    /// Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
-    /// - Parameter CreateDirectoryConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectoryConfigInput`)
     ///
-    /// - Returns: `CreateDirectoryConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectoryConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1200,6 +1284,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDirectoryConfigOutput>(CreateDirectoryConfigOutput.httpOutput(from:), CreateDirectoryConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectoryConfigInput, CreateDirectoryConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectoryConfigOutput>())
@@ -1232,11 +1317,11 @@ extension AppStreamClient {
 
     /// Performs the `CreateEntitlement` operation on the `AppStream` service.
     ///
-    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
+    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. WorkSpaces Applications user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     ///
-    /// - Parameter CreateEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEntitlementInput`)
     ///
-    /// - Returns: `CreateEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1271,6 +1356,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEntitlementInput, CreateEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEntitlementOutput>(CreateEntitlementOutput.httpOutput(from:), CreateEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEntitlementInput, CreateEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEntitlementOutput>())
@@ -1301,13 +1387,88 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateExportImageTask` operation on the `AppStream` service.
+    ///
+    /// Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateExportImageTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateExportImageTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
+    /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
+    /// - `InvalidRoleException` : The specified role is invalid.
+    /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func createExportImageTask(input: CreateExportImageTaskInput) async throws -> CreateExportImageTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createExportImageTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateExportImageTaskInput, CreateExportImageTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(CreateExportImageTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExportImageTaskOutput>(CreateExportImageTaskOutput.httpOutput(from:), CreateExportImageTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateExportImageTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateExportImageTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(xAmzTarget: "PhotonAdminProxyService.CreateExportImageTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateExportImageTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateExportImageTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateExportImageTaskInput, CreateExportImageTaskOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateExportImageTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateFleet` operation on the `AppStream` service.
     ///
     /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1319,7 +1480,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -1349,6 +1510,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetOutput>(CreateFleetOutput.httpOutput(from:), CreateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
@@ -1383,9 +1545,9 @@ extension AppStreamClient {
     ///
     /// Creates an image builder. An image builder is a virtual machine that is used to create an image. The initial state of the builder is PENDING. When it is ready, the state is RUNNING.
     ///
-    /// - Parameter CreateImageBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageBuilderInput`)
     ///
-    /// - Returns: `CreateImageBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1397,7 +1559,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceAlreadyExistsException` : The specified resource already exists.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -1427,6 +1589,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImageBuilderOutput>(CreateImageBuilderOutput.httpOutput(from:), CreateImageBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImageBuilderInput, CreateImageBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImageBuilderOutput>())
@@ -1461,9 +1624,9 @@ extension AppStreamClient {
     ///
     /// Creates a URL to start an image builder streaming session.
     ///
-    /// - Parameter CreateImageBuilderStreamingURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageBuilderStreamingURLInput`)
     ///
-    /// - Returns: `CreateImageBuilderStreamingURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageBuilderStreamingURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1496,6 +1659,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImageBuilderStreamingURLOutput>(CreateImageBuilderStreamingURLOutput.httpOutput(from:), CreateImageBuilderStreamingURLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImageBuilderStreamingURLInput, CreateImageBuilderStreamingURLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImageBuilderStreamingURLOutput>())
@@ -1526,13 +1690,89 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateImportedImage` operation on the `AppStream` service.
+    ///
+    /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateImportedImageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateImportedImageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The exception that is thrown when a dry run operation is requested. This indicates that the validation checks have been performed successfully, but no actual resources were created or modified.
+    /// - `IncompatibleImageException` : The image can't be updated because it's not compatible for updates.
+    /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
+    /// - `InvalidRoleException` : The specified role is invalid.
+    /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func createImportedImage(input: CreateImportedImageInput) async throws -> CreateImportedImageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createImportedImage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateImportedImageInput, CreateImportedImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(CreateImportedImageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImportedImageOutput>(CreateImportedImageOutput.httpOutput(from:), CreateImportedImageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateImportedImageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImportedImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(xAmzTarget: "PhotonAdminProxyService.CreateImportedImage"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateImportedImageInput, CreateImportedImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateImportedImageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImportedImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateImportedImageInput, CreateImportedImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateImportedImageInput, CreateImportedImageOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateImportedImage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateStack` operation on the `AppStream` service.
     ///
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
     ///
-    /// - Parameter CreateStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStackInput`)
     ///
-    /// - Returns: `CreateStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1571,6 +1811,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStackInput, CreateStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStackOutput>(CreateStackOutput.httpOutput(from:), CreateStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStackInput, CreateStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStackOutput>())
@@ -1603,11 +1844,11 @@ extension AppStreamClient {
 
     /// Performs the `CreateStreamingURL` operation on the `AppStream` service.
     ///
-    /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
+    /// Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     ///
-    /// - Parameter CreateStreamingURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamingURLInput`)
     ///
-    /// - Returns: `CreateStreamingURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamingURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1642,6 +1883,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamingURLOutput>(CreateStreamingURLOutput.httpOutput(from:), CreateStreamingURLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamingURLInput, CreateStreamingURLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamingURLOutput>())
@@ -1676,9 +1918,9 @@ extension AppStreamClient {
     ///
     /// Creates custom branding that customizes the appearance of the streaming application catalog page.
     ///
-    /// - Parameter CreateThemeForStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThemeForStackInput`)
     ///
-    /// - Returns: `CreateThemeForStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThemeForStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1715,6 +1957,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThemeForStackOutput>(CreateThemeForStackOutput.httpOutput(from:), CreateThemeForStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThemeForStackInput, CreateThemeForStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThemeForStackOutput>())
@@ -1747,11 +1990,11 @@ extension AppStreamClient {
 
     /// Performs the `CreateUpdatedImage` operation on the `AppStream` service.
     ///
-    /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in [Administer Your AppStream 2.0 Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon AppStream 2.0 Administration Guide.
+    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed WorkSpaces Applications Image Updates" section in [Administer Your WorkSpaces Applications Images](https://docs.aws.amazon.com/appstream2/latest/developerguide/administer-images.html), in the Amazon WorkSpaces Applications Administration Guide.
     ///
-    /// - Parameter CreateUpdatedImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUpdatedImageInput`)
     ///
-    /// - Returns: `CreateUpdatedImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUpdatedImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1789,6 +2032,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUpdatedImageOutput>(CreateUpdatedImageOutput.httpOutput(from:), CreateUpdatedImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUpdatedImageInput, CreateUpdatedImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUpdatedImageOutput>())
@@ -1823,9 +2067,9 @@ extension AppStreamClient {
     ///
     /// Creates a usage report subscription. Usage reports are generated daily.
     ///
-    /// - Parameter CreateUsageReportSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUsageReportSubscriptionInput`)
     ///
-    /// - Returns: `CreateUsageReportSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUsageReportSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,6 +2103,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUsageReportSubscriptionOutput>(CreateUsageReportSubscriptionOutput.httpOutput(from:), CreateUsageReportSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUsageReportSubscriptionInput, CreateUsageReportSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUsageReportSubscriptionOutput>())
@@ -1893,9 +2138,9 @@ extension AppStreamClient {
     ///
     /// Creates a new user in the user pool.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1931,6 +2176,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -1965,9 +2211,9 @@ extension AppStreamClient {
     ///
     /// Deletes an app block.
     ///
-    /// - Parameter DeleteAppBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppBlockInput`)
     ///
-    /// - Returns: `DeleteAppBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2001,6 +2247,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppBlockOutput>(DeleteAppBlockOutput.httpOutput(from:), DeleteAppBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppBlockInput, DeleteAppBlockOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppBlockOutput>())
@@ -2035,9 +2282,9 @@ extension AppStreamClient {
     ///
     /// Deletes an app block builder. An app block builder can only be deleted when it has no association with an app block.
     ///
-    /// - Parameter DeleteAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppBlockBuilderInput`)
     ///
-    /// - Returns: `DeleteAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2072,6 +2319,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppBlockBuilderOutput>(DeleteAppBlockBuilderOutput.httpOutput(from:), DeleteAppBlockBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppBlockBuilderInput, DeleteAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppBlockBuilderOutput>())
@@ -2106,9 +2354,9 @@ extension AppStreamClient {
     ///
     /// Deletes an application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2143,6 +2391,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -2175,11 +2424,11 @@ extension AppStreamClient {
 
     /// Performs the `DeleteDirectoryConfig` operation on the `AppStream` service.
     ///
-    /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
+    /// Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
     ///
-    /// - Parameter DeleteDirectoryConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectoryConfigInput`)
     ///
-    /// - Returns: `DeleteDirectoryConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectoryConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,6 +2461,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDirectoryConfigOutput>(DeleteDirectoryConfigOutput.httpOutput(from:), DeleteDirectoryConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectoryConfigInput, DeleteDirectoryConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectoryConfigOutput>())
@@ -2246,9 +2496,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified entitlement.
     ///
-    /// - Parameter DeleteEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEntitlementInput`)
     ///
-    /// - Returns: `DeleteEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2283,6 +2533,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEntitlementOutput>(DeleteEntitlementOutput.httpOutput(from:), DeleteEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEntitlementInput, DeleteEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEntitlementOutput>())
@@ -2317,9 +2568,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified fleet.
     ///
-    /// - Parameter DeleteFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetInput`)
     ///
-    /// - Returns: `DeleteFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2353,6 +2604,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetOutput>(DeleteFleetOutput.httpOutput(from:), DeleteFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
@@ -2387,9 +2639,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified image. You cannot delete an image when it is in use. After you delete an image, you cannot provision new capacity using the image.
     ///
-    /// - Parameter DeleteImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageInput`)
     ///
-    /// - Returns: `DeleteImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2424,6 +2676,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageInput, DeleteImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImageOutput>(DeleteImageOutput.httpOutput(from:), DeleteImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImageInput, DeleteImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImageOutput>())
@@ -2458,9 +2711,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified image builder and releases the capacity.
     ///
-    /// - Parameter DeleteImageBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageBuilderInput`)
     ///
-    /// - Returns: `DeleteImageBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2494,6 +2747,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImageBuilderOutput>(DeleteImageBuilderOutput.httpOutput(from:), DeleteImageBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImageBuilderInput, DeleteImageBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImageBuilderOutput>())
@@ -2528,9 +2782,9 @@ extension AppStreamClient {
     ///
     /// Deletes permissions for the specified private image. After you delete permissions for an image, AWS accounts to which you previously granted these permissions can no longer use the image.
     ///
-    /// - Parameter DeleteImagePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImagePermissionsInput`)
     ///
-    /// - Returns: `DeleteImagePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImagePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2563,6 +2817,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImagePermissionsOutput>(DeleteImagePermissionsOutput.httpOutput(from:), DeleteImagePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImagePermissionsInput, DeleteImagePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImagePermissionsOutput>())
@@ -2597,9 +2852,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified stack. After the stack is deleted, the application streaming environment provided by the stack is no longer available to users. Also, any reservations made for application streaming sessions for the stack are released.
     ///
-    /// - Parameter DeleteStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStackInput`)
     ///
-    /// - Returns: `DeleteStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2634,6 +2889,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStackInput, DeleteStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStackOutput>(DeleteStackOutput.httpOutput(from:), DeleteStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStackInput, DeleteStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStackOutput>())
@@ -2668,9 +2924,9 @@ extension AppStreamClient {
     ///
     /// Deletes custom branding that customizes the appearance of the streaming application catalog page.
     ///
-    /// - Parameter DeleteThemeForStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThemeForStackInput`)
     ///
-    /// - Returns: `DeleteThemeForStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThemeForStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2704,6 +2960,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThemeForStackOutput>(DeleteThemeForStackOutput.httpOutput(from:), DeleteThemeForStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThemeForStackInput, DeleteThemeForStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThemeForStackOutput>())
@@ -2738,9 +2995,9 @@ extension AppStreamClient {
     ///
     /// Disables usage report generation.
     ///
-    /// - Parameter DeleteUsageReportSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUsageReportSubscriptionInput`)
     ///
-    /// - Returns: `DeleteUsageReportSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUsageReportSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2773,6 +3030,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUsageReportSubscriptionOutput>(DeleteUsageReportSubscriptionOutput.httpOutput(from:), DeleteUsageReportSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUsageReportSubscriptionInput, DeleteUsageReportSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUsageReportSubscriptionOutput>())
@@ -2807,9 +3065,9 @@ extension AppStreamClient {
     ///
     /// Deletes a user from the user pool.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2841,6 +3099,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -2875,9 +3134,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more app block builder associations.
     ///
-    /// - Parameter DescribeAppBlockBuilderAppBlockAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppBlockBuilderAppBlockAssociationsInput`)
     ///
-    /// - Returns: `DescribeAppBlockBuilderAppBlockAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppBlockBuilderAppBlockAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2910,6 +3169,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppBlockBuilderAppBlockAssociationsOutput>(DescribeAppBlockBuilderAppBlockAssociationsOutput.httpOutput(from:), DescribeAppBlockBuilderAppBlockAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppBlockBuilderAppBlockAssociationsInput, DescribeAppBlockBuilderAppBlockAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppBlockBuilderAppBlockAssociationsOutput>())
@@ -2944,9 +3204,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more app block builders.
     ///
-    /// - Parameter DescribeAppBlockBuildersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppBlockBuildersInput`)
     ///
-    /// - Returns: `DescribeAppBlockBuildersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppBlockBuildersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2979,6 +3239,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppBlockBuildersOutput>(DescribeAppBlockBuildersOutput.httpOutput(from:), DescribeAppBlockBuildersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppBlockBuildersInput, DescribeAppBlockBuildersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppBlockBuildersOutput>())
@@ -3013,9 +3274,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more app blocks.
     ///
-    /// - Parameter DescribeAppBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppBlocksInput`)
     ///
-    /// - Returns: `DescribeAppBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppBlocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3048,6 +3309,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppBlocksOutput>(DescribeAppBlocksOutput.httpOutput(from:), DescribeAppBlocksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppBlocksInput, DescribeAppBlocksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppBlocksOutput>())
@@ -3078,13 +3340,84 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeAppLicenseUsage` operation on the `AppStream` service.
+    ///
+    /// Retrieves license included application usage information.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppLicenseUsageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAppLicenseUsageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func describeAppLicenseUsage(input: DescribeAppLicenseUsageInput) async throws -> DescribeAppLicenseUsageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAppLicenseUsage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(DescribeAppLicenseUsageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppLicenseUsageOutput>(DescribeAppLicenseUsageOutput.httpOutput(from:), DescribeAppLicenseUsageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppLicenseUsageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAppLicenseUsageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(xAmzTarget: "PhotonAdminProxyService.DescribeAppLicenseUsage"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAppLicenseUsageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAppLicenseUsageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAppLicenseUsageInput, DescribeAppLicenseUsageOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAppLicenseUsage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeApplicationFleetAssociations` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more application fleet associations. Either ApplicationArn or FleetName must be specified.
     ///
-    /// - Parameter DescribeApplicationFleetAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationFleetAssociationsInput`)
     ///
-    /// - Returns: `DescribeApplicationFleetAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationFleetAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3117,6 +3450,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationFleetAssociationsOutput>(DescribeApplicationFleetAssociationsOutput.httpOutput(from:), DescribeApplicationFleetAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationFleetAssociationsInput, DescribeApplicationFleetAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationFleetAssociationsOutput>())
@@ -3151,9 +3485,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more applications.
     ///
-    /// - Parameter DescribeApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationsInput`)
     ///
-    /// - Returns: `DescribeApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3186,6 +3520,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationsOutput>(DescribeApplicationsOutput.httpOutput(from:), DescribeApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationsOutput>())
@@ -3218,11 +3553,11 @@ extension AppStreamClient {
 
     /// Performs the `DescribeDirectoryConfigs` operation on the `AppStream` service.
     ///
-    /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
+    /// Retrieves a list that describes one or more specified Directory Config objects for WorkSpaces Applications, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains. Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     ///
-    /// - Parameter DescribeDirectoryConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDirectoryConfigsInput`)
     ///
-    /// - Returns: `DescribeDirectoryConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDirectoryConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3254,6 +3589,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDirectoryConfigsOutput>(DescribeDirectoryConfigsOutput.httpOutput(from:), DescribeDirectoryConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectoryConfigsInput, DescribeDirectoryConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectoryConfigsOutput>())
@@ -3288,9 +3624,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one of more entitlements.
     ///
-    /// - Parameter DescribeEntitlementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntitlementsInput`)
     ///
-    /// - Returns: `DescribeEntitlementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3324,6 +3660,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntitlementsOutput>(DescribeEntitlementsOutput.httpOutput(from:), DescribeEntitlementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntitlementsInput, DescribeEntitlementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntitlementsOutput>())
@@ -3358,9 +3695,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
     ///
-    /// - Parameter DescribeFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetsInput`)
     ///
-    /// - Returns: `DescribeFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3392,6 +3729,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetsInput, DescribeFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetsOutput>(DescribeFleetsOutput.httpOutput(from:), DescribeFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetsInput, DescribeFleetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetsOutput>())
@@ -3426,9 +3764,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified image builders, if the image builder names are provided. Otherwise, all image builders in the account are described.
     ///
-    /// - Parameter DescribeImageBuildersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageBuildersInput`)
     ///
-    /// - Returns: `DescribeImageBuildersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageBuildersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3460,6 +3798,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageBuildersOutput>(DescribeImageBuildersOutput.httpOutput(from:), DescribeImageBuildersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageBuildersInput, DescribeImageBuildersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageBuildersOutput>())
@@ -3494,9 +3833,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes the permissions for shared AWS account IDs on a private image that you own.
     ///
-    /// - Parameter DescribeImagePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImagePermissionsInput`)
     ///
-    /// - Returns: `DescribeImagePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImagePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3528,6 +3867,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImagePermissionsOutput>(DescribeImagePermissionsOutput.httpOutput(from:), DescribeImagePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImagePermissionsInput, DescribeImagePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImagePermissionsOutput>())
@@ -3562,9 +3902,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified images, if the image names or image ARNs are provided. Otherwise, all images in the account are described.
     ///
-    /// - Parameter DescribeImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImagesInput`)
     ///
-    /// - Returns: `DescribeImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3597,6 +3937,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImagesInput, DescribeImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImagesOutput>(DescribeImagesOutput.httpOutput(from:), DescribeImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImagesInput, DescribeImagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImagesOutput>())
@@ -3631,9 +3972,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes the streaming sessions for a specified stack and fleet. If a UserId is provided for the stack and fleet, only streaming sessions for that user are described. If an authentication type is not provided, the default is to authenticate users using a streaming URL.
     ///
-    /// - Parameter DescribeSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSessionsInput`)
     ///
-    /// - Returns: `DescribeSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3665,6 +4006,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSessionsOutput>(DescribeSessionsOutput.httpOutput(from:), DescribeSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSessionsOutput>())
@@ -3695,13 +4037,83 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeSoftwareAssociations` operation on the `AppStream` service.
+    ///
+    /// Retrieves license included application associations for a specified resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeSoftwareAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeSoftwareAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func describeSoftwareAssociations(input: DescribeSoftwareAssociationsInput) async throws -> DescribeSoftwareAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeSoftwareAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(DescribeSoftwareAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSoftwareAssociationsOutput>(DescribeSoftwareAssociationsOutput.httpOutput(from:), DescribeSoftwareAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSoftwareAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSoftwareAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(xAmzTarget: "PhotonAdminProxyService.DescribeSoftwareAssociations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeSoftwareAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSoftwareAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSoftwareAssociationsInput, DescribeSoftwareAssociationsOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSoftwareAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeStacks` operation on the `AppStream` service.
     ///
     /// Retrieves a list that describes one or more specified stacks, if the stack names are provided. Otherwise, all stacks in the account are described.
     ///
-    /// - Parameter DescribeStacksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStacksInput`)
     ///
-    /// - Returns: `DescribeStacksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStacksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3733,6 +4145,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStacksInput, DescribeStacksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStacksOutput>(DescribeStacksOutput.httpOutput(from:), DescribeStacksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStacksInput, DescribeStacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStacksOutput>())
@@ -3767,9 +4180,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes the theme for a specified stack. A theme is custom branding that customizes the appearance of the streaming application catalog page.
     ///
-    /// - Parameter DescribeThemeForStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThemeForStackInput`)
     ///
-    /// - Returns: `DescribeThemeForStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThemeForStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3802,6 +4215,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThemeForStackOutput>(DescribeThemeForStackOutput.httpOutput(from:), DescribeThemeForStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThemeForStackInput, DescribeThemeForStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThemeForStackOutput>())
@@ -3836,9 +4250,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more usage report subscriptions.
     ///
-    /// - Parameter DescribeUsageReportSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsageReportSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeUsageReportSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsageReportSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3871,6 +4285,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUsageReportSubscriptionsOutput>(DescribeUsageReportSubscriptionsOutput.httpOutput(from:), DescribeUsageReportSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUsageReportSubscriptionsInput, DescribeUsageReportSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUsageReportSubscriptionsOutput>())
@@ -3909,9 +4324,9 @@ extension AppStreamClient {
     ///
     /// * The user name (email address of the user associated with the stack) and the authentication type for the user
     ///
-    /// - Parameter DescribeUserStackAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserStackAssociationsInput`)
     ///
-    /// - Returns: `DescribeUserStackAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserStackAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3944,6 +4359,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserStackAssociationsOutput>(DescribeUserStackAssociationsOutput.httpOutput(from:), DescribeUserStackAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserStackAssociationsInput, DescribeUserStackAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserStackAssociationsOutput>())
@@ -3978,9 +4394,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list that describes one or more specified users in the user pool.
     ///
-    /// - Parameter DescribeUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsersInput`)
     ///
-    /// - Returns: `DescribeUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4014,6 +4430,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUsersInput, DescribeUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUsersOutput>(DescribeUsersOutput.httpOutput(from:), DescribeUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUsersInput, DescribeUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUsersOutput>())
@@ -4046,11 +4463,11 @@ extension AppStreamClient {
 
     /// Performs the `DisableUser` operation on the `AppStream` service.
     ///
-    /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
+    /// Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
     ///
-    /// - Parameter DisableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableUserInput`)
     ///
-    /// - Returns: `DisableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4082,6 +4499,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableUserInput, DisableUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableUserOutput>(DisableUserOutput.httpOutput(from:), DisableUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableUserInput, DisableUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableUserOutput>())
@@ -4116,9 +4534,9 @@ extension AppStreamClient {
     ///
     /// Disassociates a specified app block builder from a specified app block.
     ///
-    /// - Parameter DisassociateAppBlockBuilderAppBlockInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAppBlockBuilderAppBlockInput`)
     ///
-    /// - Returns: `DisassociateAppBlockBuilderAppBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAppBlockBuilderAppBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4153,6 +4571,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAppBlockBuilderAppBlockOutput>(DisassociateAppBlockBuilderAppBlockOutput.httpOutput(from:), DisassociateAppBlockBuilderAppBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAppBlockBuilderAppBlockInput, DisassociateAppBlockBuilderAppBlockOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAppBlockBuilderAppBlockOutput>())
@@ -4187,9 +4606,9 @@ extension AppStreamClient {
     ///
     /// Disassociates the specified application from the fleet.
     ///
-    /// - Parameter DisassociateApplicationFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApplicationFleetInput`)
     ///
-    /// - Returns: `DisassociateApplicationFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApplicationFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4223,6 +4642,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateApplicationFleetOutput>(DisassociateApplicationFleetOutput.httpOutput(from:), DisassociateApplicationFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApplicationFleetInput, DisassociateApplicationFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApplicationFleetOutput>())
@@ -4257,9 +4677,9 @@ extension AppStreamClient {
     ///
     /// Deletes the specified application from the specified entitlement.
     ///
-    /// - Parameter DisassociateApplicationFromEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApplicationFromEntitlementInput`)
     ///
-    /// - Returns: `DisassociateApplicationFromEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApplicationFromEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4293,6 +4713,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateApplicationFromEntitlementOutput>(DisassociateApplicationFromEntitlementOutput.httpOutput(from:), DisassociateApplicationFromEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApplicationFromEntitlementInput, DisassociateApplicationFromEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApplicationFromEntitlementOutput>())
@@ -4327,9 +4748,9 @@ extension AppStreamClient {
     ///
     /// Disassociates the specified fleet from the specified stack.
     ///
-    /// - Parameter DisassociateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFleetInput`)
     ///
-    /// - Returns: `DisassociateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4364,6 +4785,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFleetInput, DisassociateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFleetOutput>(DisassociateFleetOutput.httpOutput(from:), DisassociateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFleetInput, DisassociateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFleetOutput>())
@@ -4394,13 +4816,85 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateSoftwareFromImageBuilder` operation on the `AppStream` service.
+    ///
+    /// Removes license included application(s) association(s) from an image builder instance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSoftwareFromImageBuilderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateSoftwareFromImageBuilderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
+    /// - `InvalidParameterCombinationException` : Indicates an incorrect combination of parameters, or a missing parameter.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func disassociateSoftwareFromImageBuilder(input: DisassociateSoftwareFromImageBuilderInput) async throws -> DisassociateSoftwareFromImageBuilderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateSoftwareFromImageBuilder")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(DisassociateSoftwareFromImageBuilderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSoftwareFromImageBuilderOutput>(DisassociateSoftwareFromImageBuilderOutput.httpOutput(from:), DisassociateSoftwareFromImageBuilderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSoftwareFromImageBuilderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateSoftwareFromImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(xAmzTarget: "PhotonAdminProxyService.DisassociateSoftwareFromImageBuilder"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateSoftwareFromImageBuilderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSoftwareFromImageBuilderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSoftwareFromImageBuilderInput, DisassociateSoftwareFromImageBuilderOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateSoftwareFromImageBuilder")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableUser` operation on the `AppStream` service.
     ///
-    /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
+    /// Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
     ///
-    /// - Parameter EnableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableUserInput`)
     ///
-    /// - Returns: `EnableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4433,6 +4927,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableUserInput, EnableUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableUserOutput>(EnableUserOutput.httpOutput(from:), EnableUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableUserInput, EnableUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableUserOutput>())
@@ -4467,9 +4962,9 @@ extension AppStreamClient {
     ///
     /// Immediately stops the specified streaming session.
     ///
-    /// - Parameter ExpireSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExpireSessionInput`)
     ///
-    /// - Returns: `ExpireSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExpireSessionOutput`)
     public func expireSession(input: ExpireSessionInput) async throws -> ExpireSessionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4496,6 +4991,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExpireSessionInput, ExpireSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExpireSessionOutput>(ExpireSessionOutput.httpOutput(from:), ExpireSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExpireSessionInput, ExpireSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExpireSessionOutput>())
@@ -4526,13 +5022,83 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetExportImageTask` operation on the `AppStream` service.
+    ///
+    /// Retrieves information about an export image task, including its current state, progress, and any error details.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetExportImageTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetExportImageTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func getExportImageTask(input: GetExportImageTaskInput) async throws -> GetExportImageTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getExportImageTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetExportImageTaskInput, GetExportImageTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(GetExportImageTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExportImageTaskOutput>(GetExportImageTaskOutput.httpOutput(from:), GetExportImageTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetExportImageTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetExportImageTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(xAmzTarget: "PhotonAdminProxyService.GetExportImageTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetExportImageTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetExportImageTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetExportImageTaskInput, GetExportImageTaskOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetExportImageTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAssociatedFleets` operation on the `AppStream` service.
     ///
     /// Retrieves the name of the fleet that is associated with the specified stack.
     ///
-    /// - Parameter ListAssociatedFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedFleetsInput`)
     ///
-    /// - Returns: `ListAssociatedFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedFleetsOutput`)
     public func listAssociatedFleets(input: ListAssociatedFleetsInput) async throws -> ListAssociatedFleetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4559,6 +5125,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociatedFleetsOutput>(ListAssociatedFleetsOutput.httpOutput(from:), ListAssociatedFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedFleetsInput, ListAssociatedFleetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedFleetsOutput>())
@@ -4593,9 +5160,9 @@ extension AppStreamClient {
     ///
     /// Retrieves the name of the stack with which the specified fleet is associated.
     ///
-    /// - Parameter ListAssociatedStacksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedStacksInput`)
     ///
-    /// - Returns: `ListAssociatedStacksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedStacksOutput`)
     public func listAssociatedStacks(input: ListAssociatedStacksInput) async throws -> ListAssociatedStacksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4622,6 +5189,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociatedStacksOutput>(ListAssociatedStacksOutput.httpOutput(from:), ListAssociatedStacksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedStacksInput, ListAssociatedStacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedStacksOutput>())
@@ -4656,9 +5224,9 @@ extension AppStreamClient {
     ///
     /// Retrieves a list of entitled applications.
     ///
-    /// - Parameter ListEntitledApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitledApplicationsInput`)
     ///
-    /// - Returns: `ListEntitledApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitledApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4692,6 +5260,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitledApplicationsOutput>(ListEntitledApplicationsOutput.httpOutput(from:), ListEntitledApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitledApplicationsInput, ListEntitledApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitledApplicationsOutput>())
@@ -4722,13 +5291,82 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListExportImageTasks` operation on the `AppStream` service.
+    ///
+    /// Lists export image tasks, with optional filtering and pagination. Use this operation to monitor the status of multiple export operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListExportImageTasksInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListExportImageTasksOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    public func listExportImageTasks(input: ListExportImageTasksInput) async throws -> ListExportImageTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listExportImageTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListExportImageTasksInput, ListExportImageTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(ListExportImageTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExportImageTasksOutput>(ListExportImageTasksOutput.httpOutput(from:), ListExportImageTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListExportImageTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListExportImageTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(xAmzTarget: "PhotonAdminProxyService.ListExportImageTasks"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListExportImageTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListExportImageTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListExportImageTasksInput, ListExportImageTasksOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListExportImageTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `AppStream` service.
     ///
-    /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// Retrieves a list of all tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4760,6 +5398,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4794,9 +5433,9 @@ extension AppStreamClient {
     ///
     /// Starts an app block builder. An app block builder can only be started when it's associated with an app block. Starting an app block builder starts a new instance, which is equivalent to an elastic fleet instance with application builder assistance functionality.
     ///
-    /// - Parameter StartAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAppBlockBuilderInput`)
     ///
-    /// - Returns: `StartAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4805,7 +5444,7 @@ extension AppStreamClient {
     /// - `InvalidAccountStatusException` : The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startAppBlockBuilder(input: StartAppBlockBuilderInput) async throws -> StartAppBlockBuilderOutput {
@@ -4834,6 +5473,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAppBlockBuilderOutput>(StartAppBlockBuilderOutput.httpOutput(from:), StartAppBlockBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAppBlockBuilderInput, StartAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAppBlockBuilderOutput>())
@@ -4868,9 +5508,9 @@ extension AppStreamClient {
     ///
     /// Starts the specified fleet.
     ///
-    /// - Parameter StartFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFleetInput`)
     ///
-    /// - Returns: `StartFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4880,7 +5520,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     public func startFleet(input: StartFleetInput) async throws -> StartFleetOutput {
@@ -4909,6 +5549,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFleetInput, StartFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFleetOutput>(StartFleetOutput.httpOutput(from:), StartFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFleetInput, StartFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFleetOutput>())
@@ -4943,9 +5584,9 @@ extension AppStreamClient {
     ///
     /// Starts the specified image builder.
     ///
-    /// - Parameter StartImageBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImageBuilderInput`)
     ///
-    /// - Returns: `StartImageBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImageBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4981,6 +5622,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImageBuilderInput, StartImageBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImageBuilderOutput>(StartImageBuilderOutput.httpOutput(from:), StartImageBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImageBuilderInput, StartImageBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImageBuilderOutput>())
@@ -5011,13 +5653,84 @@ extension AppStreamClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartSoftwareDeploymentToImageBuilder` operation on the `AppStream` service.
+    ///
+    /// Initiates license included applications deployment to an image builder instance.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartSoftwareDeploymentToImageBuilderInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartSoftwareDeploymentToImageBuilderOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : An API error occurred. Wait a few minutes and try again.
+    /// - `OperationNotPermittedException` : The attempted operation is not permitted.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    public func startSoftwareDeploymentToImageBuilder(input: StartSoftwareDeploymentToImageBuilderInput) async throws -> StartSoftwareDeploymentToImageBuilderOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startSoftwareDeploymentToImageBuilder")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "appstream")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(StartSoftwareDeploymentToImageBuilderInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSoftwareDeploymentToImageBuilderOutput>(StartSoftwareDeploymentToImageBuilderOutput.httpOutput(from:), StartSoftwareDeploymentToImageBuilderOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartSoftwareDeploymentToImageBuilderOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("AppStream", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSoftwareDeploymentToImageBuilderOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(xAmzTarget: "PhotonAdminProxyService.StartSoftwareDeploymentToImageBuilder"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartSoftwareDeploymentToImageBuilderInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSoftwareDeploymentToImageBuilderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartSoftwareDeploymentToImageBuilderInput, StartSoftwareDeploymentToImageBuilderOutput>(serviceID: serviceName, version: AppStreamClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AppStream")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartSoftwareDeploymentToImageBuilder")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopAppBlockBuilder` operation on the `AppStream` service.
     ///
     /// Stops an app block builder. Stopping an app block builder terminates the instance, and the instance state is not persisted.
     ///
-    /// - Parameter StopAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAppBlockBuilderInput`)
     ///
-    /// - Returns: `StopAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5051,6 +5764,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAppBlockBuilderOutput>(StopAppBlockBuilderOutput.httpOutput(from:), StopAppBlockBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAppBlockBuilderInput, StopAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAppBlockBuilderOutput>())
@@ -5085,9 +5799,9 @@ extension AppStreamClient {
     ///
     /// Stops the specified fleet.
     ///
-    /// - Parameter StopFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopFleetInput`)
     ///
-    /// - Returns: `StopFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5120,6 +5834,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopFleetInput, StopFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopFleetOutput>(StopFleetOutput.httpOutput(from:), StopFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopFleetInput, StopFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopFleetOutput>())
@@ -5154,9 +5869,9 @@ extension AppStreamClient {
     ///
     /// Stops the specified image builder.
     ///
-    /// - Parameter StopImageBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopImageBuilderInput`)
     ///
-    /// - Returns: `StopImageBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopImageBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5190,6 +5905,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopImageBuilderInput, StopImageBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopImageBuilderOutput>(StopImageBuilderOutput.httpOutput(from:), StopImageBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopImageBuilderInput, StopImageBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopImageBuilderOutput>())
@@ -5222,11 +5938,11 @@ extension AppStreamClient {
 
     /// Performs the `TagResource` operation on the `AppStream` service.
     ///
-    /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use [ListTagsForResource]. To disassociate tags from your resources, use [UntagResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// Adds or overwrites one or more tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value. To list the current tags for your resources, use [ListTagsForResource]. To disassociate tags from your resources, use [UntagResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5260,6 +5976,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5292,11 +6009,11 @@ extension AppStreamClient {
 
     /// Performs the `UntagResource` operation on the `AppStream` service.
     ///
-    /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use [ListTagsForResource]. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5328,6 +6045,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5362,9 +6080,9 @@ extension AppStreamClient {
     ///
     /// Updates an app block builder. If the app block builder is in the STARTING or STOPPING state, you can't update it. If the app block builder is in the RUNNING state, you can only update the DisplayName and Description. If the app block builder is in the STOPPED state, you can update any attribute except the Name.
     ///
-    /// - Parameter UpdateAppBlockBuilderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppBlockBuilderInput`)
     ///
-    /// - Returns: `UpdateAppBlockBuilderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppBlockBuilderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5375,7 +6093,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -5405,6 +6123,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppBlockBuilderOutput>(UpdateAppBlockBuilderOutput.httpOutput(from:), UpdateAppBlockBuilderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppBlockBuilderInput, UpdateAppBlockBuilderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppBlockBuilderOutput>())
@@ -5439,9 +6158,9 @@ extension AppStreamClient {
     ///
     /// Updates the specified application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5475,6 +6194,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -5507,11 +6227,11 @@ extension AppStreamClient {
 
     /// Performs the `UpdateDirectoryConfig` operation on the `AppStream` service.
     ///
-    /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+    /// Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
-    /// - Parameter UpdateDirectoryConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDirectoryConfigInput`)
     ///
-    /// - Returns: `UpdateDirectoryConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDirectoryConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5548,6 +6268,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDirectoryConfigOutput>(UpdateDirectoryConfigOutput.httpOutput(from:), UpdateDirectoryConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectoryConfigInput, UpdateDirectoryConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectoryConfigOutput>())
@@ -5582,9 +6303,9 @@ extension AppStreamClient {
     ///
     /// Updates the specified entitlement.
     ///
-    /// - Parameter UpdateEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEntitlementInput`)
     ///
-    /// - Returns: `UpdateEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5619,6 +6340,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEntitlementOutput>(UpdateEntitlementOutput.httpOutput(from:), UpdateEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEntitlementInput, UpdateEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEntitlementOutput>())
@@ -5660,9 +6382,9 @@ extension AppStreamClient {
     ///
     /// If the fleet is in the STARTING or STOPPED state, you can't update it.
     ///
-    /// - Parameter UpdateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFleetInput`)
     ///
-    /// - Returns: `UpdateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5674,7 +6396,7 @@ extension AppStreamClient {
     /// - `InvalidRoleException` : The specified role is invalid.
     /// - `LimitExceededException` : The requested limit exceeds the permitted limit for an account.
     /// - `OperationNotPermittedException` : The attempted operation is not permitted.
-    /// - `RequestLimitExceededException` : AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// - `RequestLimitExceededException` : WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotAvailableException` : The specified resource exists and is not in use, but isn't available.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -5704,6 +6426,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetOutput>(UpdateFleetOutput.httpOutput(from:), UpdateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetInput, UpdateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetOutput>())
@@ -5738,9 +6461,9 @@ extension AppStreamClient {
     ///
     /// Adds or updates permissions for the specified private image.
     ///
-    /// - Parameter UpdateImagePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImagePermissionsInput`)
     ///
-    /// - Returns: `UpdateImagePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImagePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5774,6 +6497,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateImagePermissionsOutput>(UpdateImagePermissionsOutput.httpOutput(from:), UpdateImagePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateImagePermissionsInput, UpdateImagePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateImagePermissionsOutput>())
@@ -5808,9 +6532,9 @@ extension AppStreamClient {
     ///
     /// Updates the specified fields for the specified stack.
     ///
-    /// - Parameter UpdateStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStackInput`)
     ///
-    /// - Returns: `UpdateStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5850,6 +6574,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStackInput, UpdateStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStackOutput>(UpdateStackOutput.httpOutput(from:), UpdateStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStackInput, UpdateStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStackOutput>())
@@ -5884,9 +6609,9 @@ extension AppStreamClient {
     ///
     /// Updates custom branding that customizes the appearance of the streaming application catalog page.
     ///
-    /// - Parameter UpdateThemeForStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThemeForStackInput`)
     ///
-    /// - Returns: `UpdateThemeForStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThemeForStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5923,6 +6648,7 @@ extension AppStreamClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThemeForStackOutput>(UpdateThemeForStackOutput.httpOutput(from:), UpdateThemeForStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThemeForStackInput, UpdateThemeForStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThemeForStackOutput>())

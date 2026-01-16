@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
 public struct DisassociateDefaultViewInput: Swift.Sendable {
@@ -50,6 +51,11 @@ public struct GetDefaultViewInput: Swift.Sendable {
 }
 
 public struct GetIndexInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetServiceIndexInput: Swift.Sendable {
 
     public init() { }
 }
@@ -873,6 +879,85 @@ public struct UpdateViewOutput: Swift.Sendable {
     }
 }
 
+public struct CreateResourceExplorerSetupInput: Swift.Sendable {
+    /// A list of Amazon Web Services Regions that should be configured as aggregator Regions. Aggregator Regions receive replicated index information from all other Regions where there is a user-owned index.
+    public var aggregatorRegions: [Swift.String]?
+    /// A list of Amazon Web Services Regions where Resource Explorer should be configured. Each Region in the list will have a user-owned index created.
+    /// This member is required.
+    public var regionList: [Swift.String]?
+    /// The name for the view to be created as part of the Resource Explorer setup. The view name must be unique within the Amazon Web Services account and Region.
+    /// This member is required.
+    public var viewName: Swift.String?
+
+    public init(
+        aggregatorRegions: [Swift.String]? = nil,
+        regionList: [Swift.String]? = nil,
+        viewName: Swift.String? = nil
+    ) {
+        self.aggregatorRegions = aggregatorRegions
+        self.regionList = regionList
+        self.viewName = viewName
+    }
+}
+
+public struct CreateResourceExplorerSetupOutput: Swift.Sendable {
+    /// The unique identifier for the setup task. Use this ID with GetResourceExplorerSetup to monitor the progress of the configuration operation.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        taskId: Swift.String? = nil
+    ) {
+        self.taskId = taskId
+    }
+}
+
+public struct DeleteResourceExplorerSetupInput: Swift.Sendable {
+    /// Specifies whether to delete Resource Explorer configuration from all Regions where it is currently enabled. If this parameter is set to true, a value for RegionList must not be provided. Otherwise, the operation fails with a ValidationException error.
+    public var deleteInAllRegions: Swift.Bool?
+    /// A list of Amazon Web Services Regions from which to delete the Resource Explorer configuration. If not specified, the operation uses the DeleteInAllRegions parameter to determine scope.
+    public var regionList: [Swift.String]?
+
+    public init(
+        deleteInAllRegions: Swift.Bool? = nil,
+        regionList: [Swift.String]? = nil
+    ) {
+        self.deleteInAllRegions = deleteInAllRegions
+        self.regionList = regionList
+    }
+}
+
+public struct DeleteResourceExplorerSetupOutput: Swift.Sendable {
+    /// The unique identifier for the deletion task. Use this ID with GetResourceExplorerSetup to monitor the progress of the deletion operation.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        taskId: Swift.String? = nil
+    ) {
+        self.taskId = taskId
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
+    /// Contains information about an error that occurred during a Resource Explorer setup operation.
+    public struct ErrorDetails: Swift.Sendable {
+        /// The error code that identifies the type of error that occurred.
+        public var code: Swift.String?
+        /// A human-readable description of the error that occurred.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
 extension ResourceExplorer2ClientTypes {
 
     /// This is a structure that contains the status of Amazon Web Services service access, and whether you have a valid service-linked role to enable multi-account search for your organization.
@@ -1035,6 +1120,221 @@ public struct GetManagedViewOutput: Swift.Sendable {
         managedView: ResourceExplorer2ClientTypes.ManagedView? = nil
     ) {
         self.managedView = managedView
+    }
+}
+
+public struct GetResourceExplorerSetupInput: Swift.Sendable {
+    /// The maximum number of Region status results to return in a single response. Valid values are between 1 and 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous GetResourceExplorerSetup response. Use this token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The unique identifier of the setup task to retrieve status information for. This ID is returned by CreateResourceExplorerSetup or DeleteResourceExplorerSetup operations.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.taskId = taskId
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
+    public enum OperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case skipped
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .skipped,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .skipped: return "SKIPPED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
+    /// Contains information about the status of a Resource Explorer index operation in a specific Region.
+    public struct IndexStatus: Swift.Sendable {
+        /// Details about any error that occurred during the index operation.
+        public var errorDetails: ResourceExplorer2ClientTypes.ErrorDetails?
+        /// An index is the data store used by Amazon Web Services Resource Explorer to hold information about your Amazon Web Services resources that the service discovers. Creating an index in an Amazon Web Services Region turns on Resource Explorer and lets it discover your resources. By default, an index is local, meaning that it contains information about resources in only the same Region as the index. However, you can promote the index of one Region in the account by calling [UpdateIndexType] to convert it into an aggregator index. The aggregator index receives a replicated copy of the index information from all other Regions where Resource Explorer is turned on. This allows search operations in that Region to return results from all Regions in the account.
+        public var index: ResourceExplorer2ClientTypes.Index?
+        /// The current status of the index operation. Valid values are SUCCEEDED, FAILED, IN_PROGRESS, or SKIPPED.
+        public var status: ResourceExplorer2ClientTypes.OperationStatus?
+
+        public init(
+            errorDetails: ResourceExplorer2ClientTypes.ErrorDetails? = nil,
+            index: ResourceExplorer2ClientTypes.Index? = nil,
+            status: ResourceExplorer2ClientTypes.OperationStatus? = nil
+        ) {
+            self.errorDetails = errorDetails
+            self.index = index
+            self.status = status
+        }
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
+    /// Contains information about the status of a Resource Explorer view operation in a specific Region.
+    public struct ViewStatus: Swift.Sendable {
+        /// Details about any error that occurred during the view operation.
+        public var errorDetails: ResourceExplorer2ClientTypes.ErrorDetails?
+        /// The current status of the view operation. Valid values are SUCCEEDED, FAILED, IN_PROGRESS, or SKIPPED.
+        public var status: ResourceExplorer2ClientTypes.OperationStatus?
+        /// A view is a structure that defines a set of filters that provide a view into the information in the Amazon Web Services Resource Explorer index. The filters specify which information from the index is visible to the users of the view. For example, you can specify filters that include only resources that are tagged with the key "ENV" and the value "DEVELOPMENT" in the results returned by this view. You could also create a second view that includes only resources that are tagged with "ENV" and "PRODUCTION".
+        public var view: ResourceExplorer2ClientTypes.View?
+
+        public init(
+            errorDetails: ResourceExplorer2ClientTypes.ErrorDetails? = nil,
+            status: ResourceExplorer2ClientTypes.OperationStatus? = nil,
+            view: ResourceExplorer2ClientTypes.View? = nil
+        ) {
+            self.errorDetails = errorDetails
+            self.status = status
+            self.view = view
+        }
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
+    /// Contains information about the status of Resource Explorer configuration in a specific Amazon Web Services Region.
+    public struct RegionStatus: Swift.Sendable {
+        /// The status information for the Resource Explorer index in this Region.
+        public var index: ResourceExplorer2ClientTypes.IndexStatus?
+        /// The Amazon Web Services Region for which this status information applies.
+        public var region: Swift.String?
+        /// The status information for the Resource Explorer view in this Region.
+        public var view: ResourceExplorer2ClientTypes.ViewStatus?
+
+        public init(
+            index: ResourceExplorer2ClientTypes.IndexStatus? = nil,
+            region: Swift.String? = nil,
+            view: ResourceExplorer2ClientTypes.ViewStatus? = nil
+        ) {
+            self.index = index
+            self.region = region
+            self.view = view
+        }
+    }
+}
+
+public struct GetResourceExplorerSetupOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent GetResourceExplorerSetup request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of Region status objects that describe the current state of Resource Explorer configuration in each Region.
+    public var regions: [ResourceExplorer2ClientTypes.RegionStatus]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        regions: [ResourceExplorer2ClientTypes.RegionStatus]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.regions = regions
+    }
+}
+
+public struct GetServiceIndexOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Resource Explorer index in the current Region.
+    public var arn: Swift.String?
+    /// The type of the index. Valid values are LOCAL (contains resources from the current Region only) or AGGREGATOR (contains replicated resource information from all Regions).
+    public var type: ResourceExplorer2ClientTypes.IndexType?
+
+    public init(
+        arn: Swift.String? = nil,
+        type: ResourceExplorer2ClientTypes.IndexType? = nil
+    ) {
+        self.arn = arn
+        self.type = type
+    }
+}
+
+public struct GetServiceViewInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the service view to retrieve details for.
+    /// This member is required.
+    public var serviceViewArn: Swift.String?
+
+    public init(
+        serviceViewArn: Swift.String? = nil
+    ) {
+        self.serviceViewArn = serviceViewArn
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
+    /// Contains the configuration and properties of a Resource Explorer service view.
+    public struct ServiceView: Swift.Sendable {
+        /// A search filter defines which resources can be part of a search query result set.
+        public var filters: ResourceExplorer2ClientTypes.SearchFilter?
+        /// A list of additional resource properties that are included in this view for search and filtering purposes.
+        public var includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]?
+        /// The scope type of the service view, which determines what resources are included.
+        public var scopeType: Swift.String?
+        /// The Amazon Resource Name (ARN) of the service view.
+        /// This member is required.
+        public var serviceViewArn: Swift.String?
+        /// The Amazon Web Services service that has streaming access to this view's data.
+        public var streamingAccessForService: Swift.String?
+
+        public init(
+            filters: ResourceExplorer2ClientTypes.SearchFilter? = nil,
+            includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]? = nil,
+            scopeType: Swift.String? = nil,
+            serviceViewArn: Swift.String? = nil,
+            streamingAccessForService: Swift.String? = nil
+        ) {
+            self.filters = filters
+            self.includedProperties = includedProperties
+            self.scopeType = scopeType
+            self.serviceViewArn = serviceViewArn
+            self.streamingAccessForService = streamingAccessForService
+        }
+    }
+}
+
+extension ResourceExplorer2ClientTypes.ServiceView: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServiceView(includedProperties: \(Swift.String(describing: includedProperties)), scopeType: \(Swift.String(describing: scopeType)), serviceViewArn: \(Swift.String(describing: serviceViewArn)), streamingAccessForService: \(Swift.String(describing: streamingAccessForService)), filters: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetServiceViewOutput: Swift.Sendable {
+    /// A ServiceView object that contains the details and configuration of the requested service view.
+    /// This member is required.
+    public var view: ResourceExplorer2ClientTypes.ServiceView?
+
+    public init(
+        view: ResourceExplorer2ClientTypes.ServiceView? = nil
+    ) {
+        self.view = view
     }
 }
 
@@ -1244,6 +1544,122 @@ public struct ListResourcesOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.resources = resources
         self.viewArn = viewArn
+    }
+}
+
+public struct ListServiceIndexesInput: Swift.Sendable {
+    /// The maximum number of index results to return in a single response. Valid values are between 1 and 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous ListServiceIndexes response. Use this token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of Amazon Web Services Regions to include in the search for indexes. If not specified, indexes from all Regions are returned.
+    public var regions: [Swift.String]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        regions: [Swift.String]? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.regions = regions
+    }
+}
+
+public struct ListServiceIndexesOutput: Swift.Sendable {
+    /// A list of Index objects that describe the Resource Explorer indexes found in the specified Regions.
+    public var indexes: [ResourceExplorer2ClientTypes.Index]?
+    /// The pagination token to use in a subsequent ListServiceIndexes request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        indexes: [ResourceExplorer2ClientTypes.Index]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.indexes = indexes
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListServiceViewsInput: Swift.Sendable {
+    /// The maximum number of service view results to return in a single response. Valid values are between 1 and 50.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous ListServiceViews response. Use this token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListServiceViewsOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent ListServiceViews request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of Amazon Resource Names (ARNs) for the service views available in the current Amazon Web Services account.
+    public var serviceViews: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceViews: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.serviceViews = serviceViews
+    }
+}
+
+public struct ListStreamingAccessForServicesInput: Swift.Sendable {
+    /// The maximum number of streaming access entries to return in the response. If there are more results available, the response includes a NextToken value that you can use in a subsequent call to get the next set of results. The value must be between 1 and 50. If you don't specify a value, the default is 50.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from. The pagination tokens expire after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ResourceExplorer2ClientTypes {
+
+    /// Contains information about an Amazon Web Services service that has been granted streaming access to your Resource Explorer data.
+    public struct StreamingAccessDetails: Swift.Sendable {
+        /// The date and time when streaming access was granted to the Amazon Web Services service, in ISO 8601 format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The service principal of the Amazon Web Services service that has streaming access to your Resource Explorer data. A service principal is a unique identifier for an Amazon Web Services service.
+        /// This member is required.
+        public var servicePrincipal: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            servicePrincipal: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.servicePrincipal = servicePrincipal
+        }
+    }
+}
+
+public struct ListStreamingAccessForServicesOutput: Swift.Sendable {
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. The pagination tokens expire after 24 hours.
+    public var nextToken: Swift.String?
+    /// A list of Amazon Web Services services that have streaming access to your Resource Explorer data, including details about when the access was granted.
+    /// This member is required.
+    public var streamingAccessForServices: [ResourceExplorer2ClientTypes.StreamingAccessDetails]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        streamingAccessForServices: [ResourceExplorer2ClientTypes.StreamingAccessDetails]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.streamingAccessForServices = streamingAccessForServices
     }
 }
 
@@ -1473,6 +1889,13 @@ extension CreateIndexInput {
     }
 }
 
+extension CreateResourceExplorerSetupInput {
+
+    static func urlPathProvider(_ value: CreateResourceExplorerSetupInput) -> Swift.String? {
+        return "/CreateResourceExplorerSetup"
+    }
+}
+
 extension CreateViewInput {
 
     static func urlPathProvider(_ value: CreateViewInput) -> Swift.String? {
@@ -1484,6 +1907,13 @@ extension DeleteIndexInput {
 
     static func urlPathProvider(_ value: DeleteIndexInput) -> Swift.String? {
         return "/DeleteIndex"
+    }
+}
+
+extension DeleteResourceExplorerSetupInput {
+
+    static func urlPathProvider(_ value: DeleteResourceExplorerSetupInput) -> Swift.String? {
+        return "/DeleteResourceExplorerSetup"
     }
 }
 
@@ -1529,6 +1959,27 @@ extension GetManagedViewInput {
     }
 }
 
+extension GetResourceExplorerSetupInput {
+
+    static func urlPathProvider(_ value: GetResourceExplorerSetupInput) -> Swift.String? {
+        return "/GetResourceExplorerSetup"
+    }
+}
+
+extension GetServiceIndexInput {
+
+    static func urlPathProvider(_ value: GetServiceIndexInput) -> Swift.String? {
+        return "/GetServiceIndex"
+    }
+}
+
+extension GetServiceViewInput {
+
+    static func urlPathProvider(_ value: GetServiceViewInput) -> Swift.String? {
+        return "/GetServiceView"
+    }
+}
+
 extension GetViewInput {
 
     static func urlPathProvider(_ value: GetViewInput) -> Swift.String? {
@@ -1561,6 +2012,27 @@ extension ListResourcesInput {
 
     static func urlPathProvider(_ value: ListResourcesInput) -> Swift.String? {
         return "/ListResources"
+    }
+}
+
+extension ListServiceIndexesInput {
+
+    static func urlPathProvider(_ value: ListServiceIndexesInput) -> Swift.String? {
+        return "/ListServiceIndexes"
+    }
+}
+
+extension ListServiceViewsInput {
+
+    static func urlPathProvider(_ value: ListServiceViewsInput) -> Swift.String? {
+        return "/ListServiceViews"
+    }
+}
+
+extension ListStreamingAccessForServicesInput {
+
+    static func urlPathProvider(_ value: ListStreamingAccessForServicesInput) -> Swift.String? {
+        return "/ListStreamingAccessForServices"
     }
 }
 
@@ -1670,6 +2142,16 @@ extension CreateIndexInput {
     }
 }
 
+extension CreateResourceExplorerSetupInput {
+
+    static func write(value: CreateResourceExplorerSetupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregatorRegions"].writeList(value.aggregatorRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RegionList"].writeList(value.regionList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ViewName"].write(value.viewName)
+    }
+}
+
 extension CreateViewInput {
 
     static func write(value: CreateViewInput?, to writer: SmithyJSON.Writer) throws {
@@ -1691,6 +2173,15 @@ extension DeleteIndexInput {
     }
 }
 
+extension DeleteResourceExplorerSetupInput {
+
+    static func write(value: DeleteResourceExplorerSetupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeleteInAllRegions"].write(value.deleteInAllRegions)
+        try writer["RegionList"].writeList(value.regionList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension DeleteViewInput {
 
     static func write(value: DeleteViewInput?, to writer: SmithyJSON.Writer) throws {
@@ -1704,6 +2195,24 @@ extension GetManagedViewInput {
     static func write(value: GetManagedViewInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ManagedViewArn"].write(value.managedViewArn)
+    }
+}
+
+extension GetResourceExplorerSetupInput {
+
+    static func write(value: GetResourceExplorerSetupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TaskId"].write(value.taskId)
+    }
+}
+
+extension GetServiceViewInput {
+
+    static func write(value: GetServiceViewInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServiceViewArn"].write(value.serviceViewArn)
     }
 }
 
@@ -1754,6 +2263,34 @@ extension ListResourcesInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["ViewArn"].write(value.viewArn)
+    }
+}
+
+extension ListServiceIndexesInput {
+
+    static func write(value: ListServiceIndexesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListServiceViewsInput {
+
+    static func write(value: ListServiceViewsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListStreamingAccessForServicesInput {
+
+    static func write(value: ListStreamingAccessForServicesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -1852,6 +2389,18 @@ extension CreateIndexOutput {
     }
 }
 
+extension CreateResourceExplorerSetupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateResourceExplorerSetupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateResourceExplorerSetupOutput()
+        value.taskId = try reader["TaskId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateViewOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateViewOutput {
@@ -1874,6 +2423,18 @@ extension DeleteIndexOutput {
         value.arn = try reader["Arn"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteResourceExplorerSetupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourceExplorerSetupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteResourceExplorerSetupOutput()
+        value.taskId = try reader["TaskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1952,6 +2513,44 @@ extension GetManagedViewOutput {
     }
 }
 
+extension GetResourceExplorerSetupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourceExplorerSetupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourceExplorerSetupOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.RegionStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetServiceIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetServiceIndexOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetServiceIndexOutput()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension GetServiceViewOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetServiceViewOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetServiceViewOutput()
+        value.view = try reader["View"].readIfPresent(with: ResourceExplorer2ClientTypes.ServiceView.read(from:))
+        return value
+    }
+}
+
 extension GetViewOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetViewOutput {
@@ -2014,6 +2613,45 @@ extension ListResourcesOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.viewArn = try reader["ViewArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ListServiceIndexesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceIndexesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListServiceIndexesOutput()
+        value.indexes = try reader["Indexes"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.Index.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListServiceViewsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceViewsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListServiceViewsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.serviceViews = try reader["ServiceViews"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListStreamingAccessForServicesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListStreamingAccessForServicesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListStreamingAccessForServicesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.streamingAccessForServices = try reader["StreamingAccessForServices"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.StreamingAccessDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2166,6 +2804,24 @@ enum CreateIndexOutputError {
     }
 }
 
+enum CreateResourceExplorerSetupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateViewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2197,6 +2853,24 @@ enum DeleteIndexOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteResourceExplorerSetupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2313,6 +2987,60 @@ enum GetManagedViewOutputError {
     }
 }
 
+enum GetResourceExplorerSetupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetServiceIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetServiceViewOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetViewOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2397,6 +3125,56 @@ enum ListResourcesOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListServiceIndexesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListServiceViewsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListStreamingAccessForServicesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2745,6 +3523,53 @@ extension ResourceExplorer2ClientTypes.ManagedView {
     }
 }
 
+extension ResourceExplorer2ClientTypes.RegionStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.RegionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.RegionStatus()
+        value.region = try reader["Region"].readIfPresent()
+        value.index = try reader["Index"].readIfPresent(with: ResourceExplorer2ClientTypes.IndexStatus.read(from:))
+        value.view = try reader["View"].readIfPresent(with: ResourceExplorer2ClientTypes.ViewStatus.read(from:))
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.ViewStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ViewStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.ViewStatus()
+        value.status = try reader["Status"].readIfPresent()
+        value.view = try reader["View"].readIfPresent(with: ResourceExplorer2ClientTypes.View.read(from:))
+        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: ResourceExplorer2ClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.ErrorDetails()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.IndexStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.IndexStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.IndexStatus()
+        value.status = try reader["Status"].readIfPresent()
+        value.index = try reader["Index"].readIfPresent(with: ResourceExplorer2ClientTypes.Index.read(from:))
+        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: ResourceExplorer2ClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
 extension ResourceExplorer2ClientTypes.Index {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.Index {
@@ -2753,6 +3578,20 @@ extension ResourceExplorer2ClientTypes.Index {
         value.region = try reader["Region"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.ServiceView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.ServiceView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.ServiceView()
+        value.serviceViewArn = try reader["ServiceViewArn"].readIfPresent() ?? ""
+        value.filters = try reader["Filters"].readIfPresent(with: ResourceExplorer2ClientTypes.SearchFilter.read(from:))
+        value.includedProperties = try reader["IncludedProperties"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.IncludedProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.streamingAccessForService = try reader["StreamingAccessForService"].readIfPresent()
+        value.scopeType = try reader["ScopeType"].readIfPresent()
         return value
     }
 }
@@ -2794,6 +3633,17 @@ extension ResourceExplorer2ClientTypes.ResourceProperty {
         value.name = try reader["Name"].readIfPresent()
         value.lastReportedAt = try reader["LastReportedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.data = try reader["Data"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceExplorer2ClientTypes.StreamingAccessDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceExplorer2ClientTypes.StreamingAccessDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceExplorer2ClientTypes.StreamingAccessDetails()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }

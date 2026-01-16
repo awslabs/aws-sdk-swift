@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PCSClient: ClientRuntime.Client {
+public class PCSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PCSClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: PCSClient.PCSClientConfiguration
     let serviceName = "PCS"
@@ -371,11 +371,11 @@ extension PCSClient {
 extension PCSClient {
     /// Performs the `CreateCluster` operation on the `PCS` service.
     ///
-    /// Creates a cluster in your account. Amazon Web Services PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action. It takes time for Amazon Web Services PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
+    /// Creates a cluster in your account. PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action. It takes time for PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -398,7 +398,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
     /// * The max number of clusters or queues has been reached for the account.
@@ -443,6 +443,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -475,11 +476,11 @@ extension PCSClient {
 
     /// Performs the `CreateComputeNodeGroup` operation on the `PCS` service.
     ///
-    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more Amazon Web Services PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. Amazon Web Services PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that Amazon Web Services PCS launches in your account. You must already have a launch template before you call this API. For more information, see [Launch an instance from a launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see [Launch an instance from a launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
     ///
-    /// - Parameter CreateComputeNodeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComputeNodeGroupInput`)
     ///
-    /// - Returns: `CreateComputeNodeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComputeNodeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,7 +503,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
@@ -548,6 +549,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComputeNodeGroupInput, CreateComputeNodeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComputeNodeGroupOutput>(CreateComputeNodeGroupOutput.httpOutput(from:), CreateComputeNodeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComputeNodeGroupInput, CreateComputeNodeGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComputeNodeGroupOutput>())
@@ -582,9 +584,9 @@ extension PCSClient {
     ///
     /// Creates a job queue. You must associate 1 or more compute node groups with the queue. You can associate 1 compute node group with multiple queues.
     ///
-    /// - Parameter CreateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
     ///
-    /// - Returns: `CreateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -607,7 +609,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
@@ -653,6 +655,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
@@ -687,9 +690,9 @@ extension PCSClient {
     ///
     /// Deletes a cluster and all its linked resources. You must delete all queues and compute node groups associated with the cluster before you can delete the cluster.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -712,7 +715,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -751,6 +754,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -785,9 +789,9 @@ extension PCSClient {
     ///
     /// Deletes a compute node group. You must delete all queues associated with the compute node group first.
     ///
-    /// - Parameter DeleteComputeNodeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComputeNodeGroupInput`)
     ///
-    /// - Returns: `DeleteComputeNodeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComputeNodeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -810,7 +814,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -849,6 +853,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteComputeNodeGroupInput, DeleteComputeNodeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComputeNodeGroupOutput>(DeleteComputeNodeGroupOutput.httpOutput(from:), DeleteComputeNodeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComputeNodeGroupInput, DeleteComputeNodeGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComputeNodeGroupOutput>())
@@ -881,11 +886,11 @@ extension PCSClient {
 
     /// Performs the `DeleteQueue` operation on the `PCS` service.
     ///
-    /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, Amazon Web Services PCS terminates all the compute nodes for this queue.
+    /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
     ///
-    /// - Parameter DeleteQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueInput`)
     ///
-    /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,7 +913,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -947,6 +952,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
@@ -981,9 +987,9 @@ extension PCSClient {
     ///
     /// Returns detailed information about a running cluster in your account. This API action provides networking information, endpoint information for communication with the scheduler, and provisioning status.
     ///
-    /// - Parameter GetClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterInput`)
     ///
-    /// - Returns: `GetClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,7 +1012,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1044,6 +1050,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClusterInput, GetClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterOutput>(GetClusterOutput.httpOutput(from:), GetClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterInput, GetClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterOutput>())
@@ -1078,9 +1085,9 @@ extension PCSClient {
     ///
     /// Returns detailed information about a compute node group. This API action provides networking information, EC2 instance type, compute node group status, and scheduler (such as Slurm) configuration.
     ///
-    /// - Parameter GetComputeNodeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComputeNodeGroupInput`)
     ///
-    /// - Returns: `GetComputeNodeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComputeNodeGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1103,7 +1110,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1141,6 +1148,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComputeNodeGroupInput, GetComputeNodeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComputeNodeGroupOutput>(GetComputeNodeGroupOutput.httpOutput(from:), GetComputeNodeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComputeNodeGroupInput, GetComputeNodeGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComputeNodeGroupOutput>())
@@ -1175,9 +1183,9 @@ extension PCSClient {
     ///
     /// Returns detailed information about a queue. The information includes the compute node groups that the queue uses to schedule jobs.
     ///
-    /// - Parameter GetQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueInput`)
     ///
-    /// - Returns: `GetQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1200,7 +1208,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1238,6 +1246,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueueInput, GetQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueOutput>(GetQueueOutput.httpOutput(from:), GetQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueInput, GetQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueOutput>())
@@ -1272,9 +1281,9 @@ extension PCSClient {
     ///
     /// Returns a list of running clusters in your account.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1297,7 +1306,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1335,6 +1344,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClustersInput, ListClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -1369,9 +1379,9 @@ extension PCSClient {
     ///
     /// Returns a list of all compute node groups associated with a cluster.
     ///
-    /// - Parameter ListComputeNodeGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComputeNodeGroupsInput`)
     ///
-    /// - Returns: `ListComputeNodeGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComputeNodeGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,7 +1404,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1432,6 +1442,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComputeNodeGroupsInput, ListComputeNodeGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComputeNodeGroupsOutput>(ListComputeNodeGroupsOutput.httpOutput(from:), ListComputeNodeGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComputeNodeGroupsInput, ListComputeNodeGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComputeNodeGroupsOutput>())
@@ -1466,9 +1477,9 @@ extension PCSClient {
     ///
     /// Returns a list of all queues associated with a cluster.
     ///
-    /// - Parameter ListQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
     ///
-    /// - Returns: `ListQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1491,7 +1502,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1529,6 +1540,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueuesInput, ListQueuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
@@ -1561,11 +1573,11 @@ extension PCSClient {
 
     /// Performs the `ListTagsForResource` operation on the `PCS` service.
     ///
-    /// Returns a list of all tags on an Amazon Web Services PCS resource.
+    /// Returns a list of all tags on an PCS resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1597,6 +1609,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1629,11 +1642,11 @@ extension PCSClient {
 
     /// Performs the `RegisterComputeNodeGroupInstance` operation on the `PCS` service.
     ///
-    /// This API action isn't intended for you to use. Amazon Web Services PCS uses this API action to register the compute nodes it launches in your account.
+    /// This API action isn't intended for you to use. PCS uses this API action to register the compute nodes it launches in your account.
     ///
-    /// - Parameter RegisterComputeNodeGroupInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterComputeNodeGroupInstanceInput`)
     ///
-    /// - Returns: `RegisterComputeNodeGroupInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterComputeNodeGroupInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1647,7 +1660,7 @@ extension PCSClient {
     /// * The cluster ID doesn't exist.
     ///
     /// * The EC2 instance isn't present.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     public func registerComputeNodeGroupInstance(input: RegisterComputeNodeGroupInstanceInput) async throws -> RegisterComputeNodeGroupInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1674,6 +1687,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterComputeNodeGroupInstanceInput, RegisterComputeNodeGroupInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterComputeNodeGroupInstanceOutput>(RegisterComputeNodeGroupInstanceOutput.httpOutput(from:), RegisterComputeNodeGroupInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterComputeNodeGroupInstanceInput, RegisterComputeNodeGroupInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterComputeNodeGroupInstanceOutput>())
@@ -1706,11 +1720,11 @@ extension PCSClient {
 
     /// Performs the `TagResource` operation on the `PCS` service.
     ///
-    /// Adds or edits tags on an Amazon Web Services PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
+    /// Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1749,6 +1763,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1781,11 +1796,11 @@ extension PCSClient {
 
     /// Performs the `UntagResource` operation on the `PCS` service.
     ///
-    /// Deletes tags from an Amazon Web Services PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the Amazon Web Services PCS resource.
+    /// Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1817,6 +1832,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1847,13 +1863,13 @@ extension PCSClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `UpdateComputeNodeGroup` operation on the `PCS` service.
+    /// Performs the `UpdateCluster` operation on the `PCS` service.
     ///
-    /// Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
+    /// Updates a cluster configuration. You can modify Slurm scheduler settings, accounting configuration, and security groups for an existing cluster. You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
     ///
-    /// - Parameter UpdateComputeNodeGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateComputeNodeGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1876,7 +1892,106 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
+    /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
+    /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
+    /// - `ValidationException` : The request isn't valid. Examples
+    ///
+    /// * Your request contains malformed JSON or unsupported characters.
+    ///
+    /// * The scheduler version isn't supported.
+    ///
+    /// * There are networking related errors, such as network validation failure.
+    ///
+    /// * AMI type is CUSTOM and the launch template doesn't define the AMI ID, or the AMI type is AL2 and the launch template defines the AMI.
+    public func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "pcs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateClusterInput, UpdateClusterOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateClusterInput, UpdateClusterOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutput>(UpdateClusterInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PCS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateClusterInput, UpdateClusterOutput>(xAmzTarget: "AWSParallelComputingService.UpdateCluster"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateClusterInput, UpdateClusterOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateClusterInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateClusterInput, UpdateClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateClusterInput, UpdateClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateClusterInput, UpdateClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateClusterInput, UpdateClusterOutput>(serviceID: serviceName, version: PCSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PCS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateComputeNodeGroup` operation on the `PCS` service.
+    ///
+    /// Updates a compute node group. You can update many of the fields related to your compute node group including the configurations for networking, compute nodes, and settings specific to your scheduler (such as Slurm).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateComputeNodeGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateComputeNodeGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action. Examples
+    ///
+    /// * The launch template instance profile doesn't pass iam:PassRole verification.
+    ///
+    /// * There is a mismatch between the account ID and cluster ID.
+    ///
+    /// * The cluster ID doesn't exist.
+    ///
+    /// * The EC2 instance isn't present.
+    /// - `ConflictException` : Your request has conflicting operations. This can occur if you're trying to perform more than 1 operation on the same resource at the same time. Examples
+    ///
+    /// * A cluster with the same name already exists.
+    ///
+    /// * A cluster isn't in ACTIVE status.
+    ///
+    /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
+    ///
+    /// * A queue already exists in a cluster.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
@@ -1922,6 +2037,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComputeNodeGroupInput, UpdateComputeNodeGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComputeNodeGroupOutput>(UpdateComputeNodeGroupOutput.httpOutput(from:), UpdateComputeNodeGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComputeNodeGroupInput, UpdateComputeNodeGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateComputeNodeGroupOutput>())
@@ -1956,9 +2072,9 @@ extension PCSClient {
     ///
     /// Updates the compute node group configuration of a queue. Use this API to change the compute node groups that the queue can send jobs to.
     ///
-    /// - Parameter UpdateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueInput`)
     ///
-    /// - Returns: `UpdateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,7 +2097,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
@@ -2027,6 +2143,7 @@ extension PCSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueInput, UpdateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueOutput>(UpdateQueueOutput.httpOutput(from:), UpdateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueInput, UpdateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueOutput>())

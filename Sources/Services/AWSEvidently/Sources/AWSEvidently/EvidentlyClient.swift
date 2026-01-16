@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class EvidentlyClient: ClientRuntime.Client {
+public class EvidentlyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EvidentlyClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: EvidentlyClient.EvidentlyClientConfiguration
     let serviceName = "Evidently"
@@ -373,9 +373,9 @@ extension EvidentlyClient {
     ///
     /// This operation assigns feature variation to user sessions. For each user session, you pass in an entityID that represents the user. Evidently then checks the evaluation rules and assigns the variation. The first rules that are evaluated are the override rules. If the user's entityID matches an override rule, the user is served the variation specified by that rule. Next, if there is a launch of the feature, the user might be assigned to a variation in the launch. The chance of this depends on the percentage of users that are allocated to that launch. If the user is enrolled in the launch, the variation they are served depends on the allocation of the various feature variations used for the launch. If the user is not assigned to a launch, and there is an ongoing experiment for this feature, the user might be assigned to a variation in the experiment. The chance of this depends on the percentage of users that are allocated to that experiment. If the user is enrolled in the experiment, the variation they are served depends on the allocation of the various feature variations used for the experiment. If the user is not assigned to a launch or experiment, they are served the default variation.
     ///
-    /// - Parameter BatchEvaluateFeatureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchEvaluateFeatureInput`)
     ///
-    /// - Returns: `BatchEvaluateFeatureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchEvaluateFeatureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchEvaluateFeatureInput, BatchEvaluateFeatureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchEvaluateFeatureOutput>(BatchEvaluateFeatureOutput.httpOutput(from:), BatchEvaluateFeatureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchEvaluateFeatureInput, BatchEvaluateFeatureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchEvaluateFeatureOutput>())
@@ -443,9 +444,9 @@ extension EvidentlyClient {
     ///
     /// Creates an Evidently experiment. Before you create an experiment, you must create the feature to use for the experiment. An experiment helps you make feature design decisions based on evidence and data. An experiment can test as many as five variations at once. Evidently collects experiment data and analyzes it by statistical methods, and provides clear recommendations about which variations perform better. You can optionally specify a segment to have the experiment consider only certain audience types in the experiment, such as using only user sessions from a certain location or who use a certain internet browser. Don't use this operation to update an existing experiment. Instead, use [UpdateExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateExperiment.html).
     ///
-    /// - Parameter CreateExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExperimentInput`)
     ///
-    /// - Returns: `CreateExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExperimentInput, CreateExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExperimentOutput>(CreateExperimentOutput.httpOutput(from:), CreateExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExperimentInput, CreateExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExperimentOutput>())
@@ -514,9 +516,9 @@ extension EvidentlyClient {
     ///
     /// Creates an Evidently feature that you want to launch or test. You can define up to five variations of a feature, and use these variations in your launches and experiments. A feature must be created in a project. For information about creating a project, see [CreateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateProject.html). Don't use this operation to update an existing feature. Instead, use [UpdateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateFeature.html).
     ///
-    /// - Parameter CreateFeatureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFeatureInput`)
     ///
-    /// - Returns: `CreateFeatureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFeatureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,6 +556,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFeatureInput, CreateFeatureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFeatureOutput>(CreateFeatureOutput.httpOutput(from:), CreateFeatureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFeatureInput, CreateFeatureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFeatureOutput>())
@@ -585,9 +588,9 @@ extension EvidentlyClient {
     ///
     /// Creates a launch of a given feature. Before you create a launch, you must create the feature to use for the launch. You can use a launch to safely validate new features by serving them to a specified percentage of your users while you roll out the feature. You can monitor the performance of the new feature to help you decide when to ramp up traffic to more users. This helps you reduce risk and identify unintended consequences before you fully launch the feature. Don't use this operation to update an existing launch. Instead, use [UpdateLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateLaunch.html).
     ///
-    /// - Parameter CreateLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLaunchInput`)
     ///
-    /// - Returns: `CreateLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLaunchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,6 +628,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLaunchInput, CreateLaunchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLaunchOutput>(CreateLaunchOutput.httpOutput(from:), CreateLaunchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLaunchInput, CreateLaunchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLaunchOutput>())
@@ -656,9 +660,9 @@ extension EvidentlyClient {
     ///
     /// Creates a project, which is the logical object in Evidently that can contain features, launches, and experiments. Use projects to group similar features together. To update an existing project, use [UpdateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateProject.html).
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,6 +699,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -726,9 +731,9 @@ extension EvidentlyClient {
     ///
     /// Use this operation to define a segment of your audience. A segment is a portion of your audience that share one or more characteristics. Examples could be Chrome browser users, users in Europe, or Firefox browser users in Europe who also fit other criteria that your application collects, such as age. Using a segment in an experiment limits that experiment to evaluate only the users who match the segment criteria. Using one or more segments in a launch allows you to define different traffic splits for the different audience segments. For more information about segment pattern syntax, see [ Segment rule pattern syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html#CloudWatch-Evidently-segments-syntax.html). The pattern that you define for a segment is matched against the value of evaluationContext, which is passed into Evidently in the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html) operation, when Evidently assigns a feature variation to a user.
     ///
-    /// - Parameter CreateSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSegmentInput`)
     ///
-    /// - Returns: `CreateSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,6 +770,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSegmentInput, CreateSegmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSegmentOutput>(CreateSegmentOutput.httpOutput(from:), CreateSegmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSegmentInput, CreateSegmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSegmentOutput>())
@@ -796,9 +802,9 @@ extension EvidentlyClient {
     ///
     /// Deletes an Evidently experiment. The feature used for the experiment is not deleted. To stop an experiment without deleting it, use [StopExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_StopExperiment.html).
     ///
-    /// - Parameter DeleteExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExperimentInput`)
     ///
-    /// - Returns: `DeleteExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -834,6 +840,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteExperimentInput, DeleteExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExperimentOutput>(DeleteExperimentOutput.httpOutput(from:), DeleteExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExperimentInput, DeleteExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExperimentOutput>())
@@ -865,9 +872,9 @@ extension EvidentlyClient {
     ///
     /// Deletes an Evidently feature.
     ///
-    /// - Parameter DeleteFeatureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFeatureInput`)
     ///
-    /// - Returns: `DeleteFeatureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFeatureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -902,6 +909,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFeatureInput, DeleteFeatureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFeatureOutput>(DeleteFeatureOutput.httpOutput(from:), DeleteFeatureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFeatureInput, DeleteFeatureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFeatureOutput>())
@@ -933,9 +941,9 @@ extension EvidentlyClient {
     ///
     /// Deletes an Evidently launch. The feature used for the launch is not deleted. To stop a launch without deleting it, use [StopLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_StopLaunch.html).
     ///
-    /// - Parameter DeleteLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLaunchInput`)
     ///
-    /// - Returns: `DeleteLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLaunchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -970,6 +978,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLaunchInput, DeleteLaunchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLaunchOutput>(DeleteLaunchOutput.httpOutput(from:), DeleteLaunchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLaunchInput, DeleteLaunchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLaunchOutput>())
@@ -1001,9 +1010,9 @@ extension EvidentlyClient {
     ///
     /// Deletes an Evidently project. Before you can delete a project, you must delete all the features that the project contains. To delete a feature, use [DeleteFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_DeleteFeature.html).
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1038,6 +1047,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -1069,9 +1079,9 @@ extension EvidentlyClient {
     ///
     /// Deletes a segment. You can't delete a segment that is being used in a launch or experiment, even if that launch or experiment is not currently running.
     ///
-    /// - Parameter DeleteSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSegmentInput`)
     ///
-    /// - Returns: `DeleteSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1106,6 +1116,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSegmentInput, DeleteSegmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSegmentOutput>(DeleteSegmentOutput.httpOutput(from:), DeleteSegmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSegmentInput, DeleteSegmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSegmentOutput>())
@@ -1137,9 +1148,9 @@ extension EvidentlyClient {
     ///
     /// This operation assigns a feature variation to one given user session. You pass in an entityID that represents the user. Evidently then checks the evaluation rules and assigns the variation. The first rules that are evaluated are the override rules. If the user's entityID matches an override rule, the user is served the variation specified by that rule. If there is a current launch with this feature that uses segment overrides, and if the user session's evaluationContext matches a segment rule defined in a segment override, the configuration in the segment overrides is used. For more information about segments, see [CreateSegment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSegment.html) and [Use segments to focus your audience](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html). If there is a launch with no segment overrides, the user might be assigned to a variation in the launch. The chance of this depends on the percentage of users that are allocated to that launch. If the user is enrolled in the launch, the variation they are served depends on the allocation of the various feature variations used for the launch. If the user is not assigned to a launch, and there is an ongoing experiment for this feature, the user might be assigned to a variation in the experiment. The chance of this depends on the percentage of users that are allocated to that experiment. If the experiment uses a segment, then only user sessions with evaluationContext values that match the segment rule are used in the experiment. If the user is enrolled in the experiment, the variation they are served depends on the allocation of the various feature variations used for the experiment. If the user is not assigned to a launch or experiment, they are served the default variation.
     ///
-    /// - Parameter EvaluateFeatureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EvaluateFeatureInput`)
     ///
-    /// - Returns: `EvaluateFeatureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EvaluateFeatureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1176,6 +1187,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateFeatureInput, EvaluateFeatureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateFeatureOutput>(EvaluateFeatureOutput.httpOutput(from:), EvaluateFeatureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateFeatureInput, EvaluateFeatureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EvaluateFeatureOutput>())
@@ -1207,9 +1219,9 @@ extension EvidentlyClient {
     ///
     /// Returns the details about one experiment. You must already know the experiment name. To retrieve a list of experiments in your account, use [ListExperiments](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListExperiments.html).
     ///
-    /// - Parameter GetExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExperimentInput`)
     ///
-    /// - Returns: `GetExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1243,6 +1255,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExperimentInput, GetExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExperimentOutput>(GetExperimentOutput.httpOutput(from:), GetExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExperimentInput, GetExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExperimentOutput>())
@@ -1274,9 +1287,9 @@ extension EvidentlyClient {
     ///
     /// Retrieves the results of a running or completed experiment. No results are available until there have been 100 events for each variation and at least 10 minutes have passed since the start of the experiment. To increase the statistical power, Evidently performs an additional offline p-value analysis at the end of the experiment. Offline p-value analysis can detect statistical significance in some cases where the anytime p-values used during the experiment do not find statistical significance. Experiment results are available up to 63 days after the start of the experiment. They are not available after that because of CloudWatch data retention policies.
     ///
-    /// - Parameter GetExperimentResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExperimentResultsInput`)
     ///
-    /// - Returns: `GetExperimentResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExperimentResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1314,6 +1327,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExperimentResultsInput, GetExperimentResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExperimentResultsOutput>(GetExperimentResultsOutput.httpOutput(from:), GetExperimentResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExperimentResultsInput, GetExperimentResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExperimentResultsOutput>())
@@ -1345,9 +1359,9 @@ extension EvidentlyClient {
     ///
     /// Returns the details about one feature. You must already know the feature name. To retrieve a list of features in your account, use [ListFeatures](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListFeatures.html).
     ///
-    /// - Parameter GetFeatureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFeatureInput`)
     ///
-    /// - Returns: `GetFeatureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFeatureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1381,6 +1395,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFeatureInput, GetFeatureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFeatureOutput>(GetFeatureOutput.httpOutput(from:), GetFeatureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFeatureInput, GetFeatureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFeatureOutput>())
@@ -1412,9 +1427,9 @@ extension EvidentlyClient {
     ///
     /// Returns the details about one launch. You must already know the launch name. To retrieve a list of launches in your account, use [ListLaunches](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListLaunches.html).
     ///
-    /// - Parameter GetLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLaunchInput`)
     ///
-    /// - Returns: `GetLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLaunchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,6 +1463,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLaunchInput, GetLaunchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLaunchOutput>(GetLaunchOutput.httpOutput(from:), GetLaunchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLaunchInput, GetLaunchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLaunchOutput>())
@@ -1479,9 +1495,9 @@ extension EvidentlyClient {
     ///
     /// Returns the details about one launch. You must already know the project name. To retrieve a list of projects in your account, use [ListProjects](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListProjects.html).
     ///
-    /// - Parameter GetProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProjectInput`)
     ///
-    /// - Returns: `GetProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1515,6 +1531,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProjectOutput>(GetProjectOutput.httpOutput(from:), GetProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProjectInput, GetProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProjectOutput>())
@@ -1546,9 +1563,9 @@ extension EvidentlyClient {
     ///
     /// Returns information about the specified segment. Specify the segment you want to view by specifying its ARN.
     ///
-    /// - Parameter GetSegmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSegmentInput`)
     ///
-    /// - Returns: `GetSegmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSegmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1582,6 +1599,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSegmentInput, GetSegmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSegmentOutput>(GetSegmentOutput.httpOutput(from:), GetSegmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSegmentInput, GetSegmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSegmentOutput>())
@@ -1613,9 +1631,9 @@ extension EvidentlyClient {
     ///
     /// Returns configuration details about all the experiments in the specified project.
     ///
-    /// - Parameter ListExperimentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentsInput`)
     ///
-    /// - Returns: `ListExperimentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1649,6 +1667,7 @@ extension EvidentlyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExperimentsInput, ListExperimentsOutput>(ListExperimentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperimentsOutput>(ListExperimentsOutput.httpOutput(from:), ListExperimentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperimentsInput, ListExperimentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExperimentsOutput>())
@@ -1680,9 +1699,9 @@ extension EvidentlyClient {
     ///
     /// Returns configuration details about all the features in the specified project.
     ///
-    /// - Parameter ListFeaturesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFeaturesInput`)
     ///
-    /// - Returns: `ListFeaturesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFeaturesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,6 +1736,7 @@ extension EvidentlyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFeaturesInput, ListFeaturesOutput>(ListFeaturesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFeaturesOutput>(ListFeaturesOutput.httpOutput(from:), ListFeaturesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFeaturesInput, ListFeaturesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFeaturesOutput>())
@@ -1748,9 +1768,9 @@ extension EvidentlyClient {
     ///
     /// Returns configuration details about all the launches in the specified project.
     ///
-    /// - Parameter ListLaunchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLaunchesInput`)
     ///
-    /// - Returns: `ListLaunchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLaunchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1784,6 +1804,7 @@ extension EvidentlyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLaunchesInput, ListLaunchesOutput>(ListLaunchesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLaunchesOutput>(ListLaunchesOutput.httpOutput(from:), ListLaunchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLaunchesInput, ListLaunchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLaunchesOutput>())
@@ -1815,9 +1836,9 @@ extension EvidentlyClient {
     ///
     /// Returns configuration details about all the projects in the current Region in your account.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1851,6 +1872,7 @@ extension EvidentlyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProjectsInput, ListProjectsOutput>(ListProjectsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
@@ -1882,9 +1904,9 @@ extension EvidentlyClient {
     ///
     /// Use this operation to find which experiments or launches are using a specified segment.
     ///
-    /// - Parameter ListSegmentReferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSegmentReferencesInput`)
     ///
-    /// - Returns: `ListSegmentReferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSegmentReferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1919,6 +1941,7 @@ extension EvidentlyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSegmentReferencesInput, ListSegmentReferencesOutput>(ListSegmentReferencesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSegmentReferencesOutput>(ListSegmentReferencesOutput.httpOutput(from:), ListSegmentReferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSegmentReferencesInput, ListSegmentReferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSegmentReferencesOutput>())
@@ -1950,9 +1973,9 @@ extension EvidentlyClient {
     ///
     /// Returns a list of audience segments that you have created in your account in this Region.
     ///
-    /// - Parameter ListSegmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSegmentsInput`)
     ///
-    /// - Returns: `ListSegmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSegmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1986,6 +2009,7 @@ extension EvidentlyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSegmentsInput, ListSegmentsOutput>(ListSegmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSegmentsOutput>(ListSegmentsOutput.httpOutput(from:), ListSegmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSegmentsInput, ListSegmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSegmentsOutput>())
@@ -2017,9 +2041,9 @@ extension EvidentlyClient {
     ///
     /// Displays the tags associated with an Evidently resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,6 +2076,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2083,9 +2108,9 @@ extension EvidentlyClient {
     ///
     /// Sends performance events to Evidently. These events can be used to evaluate a launch or an experiment.
     ///
-    /// - Parameter PutProjectEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProjectEventsInput`)
     ///
-    /// - Returns: `PutProjectEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProjectEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2122,6 +2147,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProjectEventsInput, PutProjectEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProjectEventsOutput>(PutProjectEventsOutput.httpOutput(from:), PutProjectEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProjectEventsInput, PutProjectEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutProjectEventsOutput>())
@@ -2153,9 +2179,9 @@ extension EvidentlyClient {
     ///
     /// Starts an existing experiment. To create an experiment, use [CreateExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateExperiment.html).
     ///
-    /// - Parameter StartExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExperimentInput`)
     ///
-    /// - Returns: `StartExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2194,6 +2220,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExperimentInput, StartExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExperimentOutput>(StartExperimentOutput.httpOutput(from:), StartExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExperimentInput, StartExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExperimentOutput>())
@@ -2225,9 +2252,9 @@ extension EvidentlyClient {
     ///
     /// Starts an existing launch. To create a launch, use [CreateLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateLaunch.html).
     ///
-    /// - Parameter StartLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartLaunchInput`)
     ///
-    /// - Returns: `StartLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartLaunchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2263,6 +2290,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartLaunchInput, StartLaunchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLaunchOutput>(StartLaunchOutput.httpOutput(from:), StartLaunchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLaunchInput, StartLaunchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartLaunchOutput>())
@@ -2294,9 +2322,9 @@ extension EvidentlyClient {
     ///
     /// Stops an experiment that is currently running. If you stop an experiment, you can't resume it or restart it.
     ///
-    /// - Parameter StopExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopExperimentInput`)
     ///
-    /// - Returns: `StopExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2335,6 +2363,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopExperimentInput, StopExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopExperimentOutput>(StopExperimentOutput.httpOutput(from:), StopExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopExperimentInput, StopExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopExperimentOutput>())
@@ -2366,9 +2395,9 @@ extension EvidentlyClient {
     ///
     /// Stops a launch that is currently running. After you stop a launch, you will not be able to resume it or restart it. Also, it will not be evaluated as a rule for traffic allocation, and the traffic that was allocated to the launch will instead be available to the feature's experiment, if there is one. Otherwise, all traffic will be served the default variation after the launch is stopped.
     ///
-    /// - Parameter StopLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopLaunchInput`)
     ///
-    /// - Returns: `StopLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopLaunchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2405,6 +2434,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopLaunchInput, StopLaunchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopLaunchOutput>(StopLaunchOutput.httpOutput(from:), StopLaunchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopLaunchInput, StopLaunchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopLaunchOutput>())
@@ -2436,9 +2466,9 @@ extension EvidentlyClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch Evidently resource. Projects, features, launches, and experiments can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2474,6 +2504,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2505,9 +2536,9 @@ extension EvidentlyClient {
     ///
     /// Use this operation to test a rules pattern that you plan to use to create an audience segment. For more information about segments, see [CreateSegment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSegment.html).
     ///
-    /// - Parameter TestSegmentPatternInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestSegmentPatternInput`)
     ///
-    /// - Returns: `TestSegmentPatternOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestSegmentPatternOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2543,6 +2574,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestSegmentPatternInput, TestSegmentPatternOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestSegmentPatternOutput>(TestSegmentPatternOutput.httpOutput(from:), TestSegmentPatternOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestSegmentPatternInput, TestSegmentPatternOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestSegmentPatternOutput>())
@@ -2574,9 +2606,9 @@ extension EvidentlyClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2610,6 +2642,7 @@ extension EvidentlyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2641,9 +2674,9 @@ extension EvidentlyClient {
     ///
     /// Updates an Evidently experiment. Don't use this operation to update an experiment's tag. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
     ///
-    /// - Parameter UpdateExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExperimentInput`)
     ///
-    /// - Returns: `UpdateExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2680,6 +2713,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExperimentInput, UpdateExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExperimentOutput>(UpdateExperimentOutput.httpOutput(from:), UpdateExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExperimentInput, UpdateExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExperimentOutput>())
@@ -2711,9 +2745,9 @@ extension EvidentlyClient {
     ///
     /// Updates an existing feature. You can't use this operation to update the tags of an existing feature. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
     ///
-    /// - Parameter UpdateFeatureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFeatureInput`)
     ///
-    /// - Returns: `UpdateFeatureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFeatureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2751,6 +2785,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFeatureInput, UpdateFeatureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFeatureOutput>(UpdateFeatureOutput.httpOutput(from:), UpdateFeatureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFeatureInput, UpdateFeatureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFeatureOutput>())
@@ -2782,9 +2817,9 @@ extension EvidentlyClient {
     ///
     /// Updates a launch of a given feature. Don't use this operation to update the tags of an existing launch. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
     ///
-    /// - Parameter UpdateLaunchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLaunchInput`)
     ///
-    /// - Returns: `UpdateLaunchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLaunchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2821,6 +2856,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLaunchInput, UpdateLaunchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLaunchOutput>(UpdateLaunchOutput.httpOutput(from:), UpdateLaunchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLaunchInput, UpdateLaunchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLaunchOutput>())
@@ -2852,9 +2888,9 @@ extension EvidentlyClient {
     ///
     /// Updates the description of an existing project. To create a new project, use [CreateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateProject.html). Don't use this operation to update the data storage options of a project. Instead, use [UpdateProjectDataDelivery](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateProjectDataDelivery.html). Don't use this operation to update the tags of a project. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2892,6 +2928,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())
@@ -2923,9 +2960,9 @@ extension EvidentlyClient {
     ///
     /// Updates the data storage options for this project. If you store evaluation events, you an keep them and analyze them on your own. If you choose not to store evaluation events, Evidently deletes them after using them to produce metrics and other experiment results that you can view. You can't specify both cloudWatchLogs and s3Destination in the same operation.
     ///
-    /// - Parameter UpdateProjectDataDeliveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectDataDeliveryInput`)
     ///
-    /// - Returns: `UpdateProjectDataDeliveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectDataDeliveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2963,6 +3000,7 @@ extension EvidentlyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectDataDeliveryInput, UpdateProjectDataDeliveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectDataDeliveryOutput>(UpdateProjectDataDeliveryOutput.httpOutput(from:), UpdateProjectDataDeliveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectDataDeliveryInput, UpdateProjectDataDeliveryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectDataDeliveryOutput>())

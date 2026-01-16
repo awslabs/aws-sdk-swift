@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class QConnectClient: ClientRuntime.Client {
+public class QConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "QConnectClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"
@@ -374,9 +374,9 @@ extension QConnectClient {
     ///
     /// Activates a specific version of the Amazon Q in Connect message template. After the version is activated, the previous active version will be deactivated automatically. You can use the $ACTIVE_VERSION qualifier later to reference the version that is in active status.
     ///
-    /// - Parameter ActivateMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateMessageTemplateInput`)
     ///
-    /// - Returns: `ActivateMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivateMessageTemplateInput, ActivateMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateMessageTemplateOutput>(ActivateMessageTemplateOutput.httpOutput(from:), ActivateMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateMessageTemplateInput, ActivateMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateMessageTemplateOutput>())
@@ -445,9 +446,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect AI Agent.
     ///
-    /// - Parameter CreateAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIAgentInput`)
     ///
-    /// - Returns: `CreateAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +489,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAIAgentInput, CreateAIAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAIAgentOutput>(CreateAIAgentOutput.httpOutput(from:), CreateAIAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAIAgentInput, CreateAIAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAIAgentOutput>())
@@ -519,9 +521,9 @@ extension QConnectClient {
     ///
     /// Creates and Amazon Q in Connect AI Agent version.
     ///
-    /// - Parameter CreateAIAgentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIAgentVersionInput`)
     ///
-    /// - Returns: `CreateAIAgentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIAgentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +564,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAIAgentVersionInput, CreateAIAgentVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAIAgentVersionOutput>(CreateAIAgentVersionOutput.httpOutput(from:), CreateAIAgentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAIAgentVersionInput, CreateAIAgentVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAIAgentVersionOutput>())
@@ -593,9 +596,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect AI Guardrail.
     ///
-    /// - Parameter CreateAIGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIGuardrailInput`)
     ///
-    /// - Returns: `CreateAIGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,6 +639,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAIGuardrailInput, CreateAIGuardrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAIGuardrailOutput>(CreateAIGuardrailOutput.httpOutput(from:), CreateAIGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAIGuardrailInput, CreateAIGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAIGuardrailOutput>())
@@ -667,9 +671,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect AI Guardrail version.
     ///
-    /// - Parameter CreateAIGuardrailVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIGuardrailVersionInput`)
     ///
-    /// - Returns: `CreateAIGuardrailVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIGuardrailVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -710,6 +714,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAIGuardrailVersionInput, CreateAIGuardrailVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAIGuardrailVersionOutput>(CreateAIGuardrailVersionOutput.httpOutput(from:), CreateAIGuardrailVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAIGuardrailVersionInput, CreateAIGuardrailVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAIGuardrailVersionOutput>())
@@ -739,11 +744,11 @@ extension QConnectClient {
 
     /// Performs the `CreateAIPrompt` operation on the `QConnect` service.
     ///
-    /// Creates an Amazon Q in Connect AI Prompt. For more information on supported models, see [Supported models for system and custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
+    /// Creates an Amazon Q in Connect AI Prompt.
     ///
-    /// - Parameter CreateAIPromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIPromptInput`)
     ///
-    /// - Returns: `CreateAIPromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIPromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,6 +789,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAIPromptInput, CreateAIPromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAIPromptOutput>(CreateAIPromptOutput.httpOutput(from:), CreateAIPromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAIPromptInput, CreateAIPromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAIPromptOutput>())
@@ -815,9 +821,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect AI Prompt version.
     ///
-    /// - Parameter CreateAIPromptVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAIPromptVersionInput`)
     ///
-    /// - Returns: `CreateAIPromptVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAIPromptVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -858,6 +864,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAIPromptVersionInput, CreateAIPromptVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAIPromptVersionOutput>(CreateAIPromptVersionOutput.httpOutput(from:), CreateAIPromptVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAIPromptVersionInput, CreateAIPromptVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAIPromptVersionOutput>())
@@ -889,9 +896,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect assistant.
     ///
-    /// - Parameter CreateAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssistantInput`)
     ///
-    /// - Returns: `CreateAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,6 +937,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssistantInput, CreateAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssistantOutput>(CreateAssistantOutput.httpOutput(from:), CreateAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssistantInput, CreateAssistantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssistantOutput>())
@@ -961,9 +969,9 @@ extension QConnectClient {
     ///
     /// Creates an association between an Amazon Q in Connect assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
     ///
-    /// - Parameter CreateAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssistantAssociationInput`)
     ///
-    /// - Returns: `CreateAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,6 +1010,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssistantAssociationInput, CreateAssistantAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssistantAssociationOutput>(CreateAssistantAssociationOutput.httpOutput(from:), CreateAssistantAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssistantAssociationInput, CreateAssistantAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssistantAssociationOutput>())
@@ -1033,9 +1042,9 @@ extension QConnectClient {
     ///
     /// Creates Amazon Q in Connect content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_StartContentUpload.html) to upload an asset.
     ///
-    /// - Parameter CreateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContentInput`)
     ///
-    /// - Returns: `CreateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,6 +1084,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContentInput, CreateContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContentOutput>(CreateContentOutput.httpOutput(from:), CreateContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContentInput, CreateContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContentOutput>())
@@ -1113,9 +1123,9 @@ extension QConnectClient {
     ///
     /// For more information, see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter CreateContentAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContentAssociationInput`)
     ///
-    /// - Returns: `CreateContentAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContentAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1156,6 +1166,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContentAssociationInput, CreateContentAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContentAssociationOutput>(CreateContentAssociationOutput.httpOutput(from:), CreateContentAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContentAssociationInput, CreateContentAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContentAssociationOutput>())
@@ -1195,9 +1206,9 @@ extension QConnectClient {
     ///
     /// * Call CreateKnowledgeBase.
     ///
-    /// - Parameter CreateKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKnowledgeBaseInput`)
     ///
-    /// - Returns: `CreateKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1236,6 +1247,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKnowledgeBaseOutput>(CreateKnowledgeBaseOutput.httpOutput(from:), CreateKnowledgeBaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKnowledgeBaseInput, CreateKnowledgeBaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKnowledgeBaseOutput>())
@@ -1267,9 +1279,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect message template. The name of the message template has to be unique for each knowledge base. The channel subtype of the message template is immutable and cannot be modified after creation. After the message template is created, you can use the $LATEST qualifier to reference the created message template.
     ///
-    /// - Parameter CreateMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMessageTemplateInput`)
     ///
-    /// - Returns: `CreateMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1309,6 +1321,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMessageTemplateInput, CreateMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMessageTemplateOutput>(CreateMessageTemplateOutput.httpOutput(from:), CreateMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMessageTemplateInput, CreateMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMessageTemplateOutput>())
@@ -1340,9 +1353,9 @@ extension QConnectClient {
     ///
     /// Uploads an attachment file to the specified Amazon Q in Connect message template. The name of the message template attachment has to be unique for each message template referenced by the $LATEST qualifier. The body of the attachment file should be encoded using base64 encoding. After the file is uploaded, you can use the pre-signed Amazon S3 URL returned in response to download the uploaded file.
     ///
-    /// - Parameter CreateMessageTemplateAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMessageTemplateAttachmentInput`)
     ///
-    /// - Returns: `CreateMessageTemplateAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMessageTemplateAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1382,6 +1395,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMessageTemplateAttachmentInput, CreateMessageTemplateAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMessageTemplateAttachmentOutput>(CreateMessageTemplateAttachmentOutput.httpOutput(from:), CreateMessageTemplateAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMessageTemplateAttachmentInput, CreateMessageTemplateAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMessageTemplateAttachmentOutput>())
@@ -1413,9 +1427,9 @@ extension QConnectClient {
     ///
     /// Creates a new Amazon Q in Connect message template version from the current content and configuration of a message template. Versions are immutable and monotonically increasing. Once a version is created, you can reference a specific version of the message template by passing in <message-template-id>:<versionNumber> as the message template identifier. An error is displayed if the supplied messageTemplateContentSha256 is different from the messageTemplateContentSha256 of the message template with $LATEST qualifier. If multiple CreateMessageTemplateVersion requests are made while the message template remains the same, only the first invocation creates a new version and the succeeding requests will return the same response as the first invocation.
     ///
-    /// - Parameter CreateMessageTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMessageTemplateVersionInput`)
     ///
-    /// - Returns: `CreateMessageTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMessageTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1454,6 +1468,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMessageTemplateVersionInput, CreateMessageTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMessageTemplateVersionOutput>(CreateMessageTemplateVersionOutput.httpOutput(from:), CreateMessageTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMessageTemplateVersionInput, CreateMessageTemplateVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMessageTemplateVersionOutput>())
@@ -1485,9 +1500,9 @@ extension QConnectClient {
     ///
     /// Creates an Amazon Q in Connect quick response.
     ///
-    /// - Parameter CreateQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQuickResponseInput`)
     ///
-    /// - Returns: `CreateQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1527,6 +1542,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQuickResponseInput, CreateQuickResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQuickResponseOutput>(CreateQuickResponseOutput.httpOutput(from:), CreateQuickResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQuickResponseInput, CreateQuickResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQuickResponseOutput>())
@@ -1558,15 +1574,16 @@ extension QConnectClient {
     ///
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
-    /// - Parameter CreateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
-    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `DependencyFailedException` : The request failed because it depends on another request that failed.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
@@ -1599,6 +1616,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSessionInput, CreateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(CreateSessionOutput.httpOutput(from:), CreateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSessionInput, CreateSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSessionOutput>())
@@ -1630,9 +1648,9 @@ extension QConnectClient {
     ///
     /// Deactivates a specific version of the Amazon Q in Connect message template . After the version is deactivated, you can no longer use the $ACTIVE_VERSION qualifier to reference the version in active status.
     ///
-    /// - Parameter DeactivateMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateMessageTemplateInput`)
     ///
-    /// - Returns: `DeactivateMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1670,6 +1688,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivateMessageTemplateInput, DeactivateMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateMessageTemplateOutput>(DeactivateMessageTemplateOutput.httpOutput(from:), DeactivateMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateMessageTemplateInput, DeactivateMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateMessageTemplateOutput>())
@@ -1701,9 +1720,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect AI Agent.
     ///
-    /// - Parameter DeleteAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIAgentInput`)
     ///
-    /// - Returns: `DeleteAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1738,6 +1757,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAIAgentInput, DeleteAIAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAIAgentOutput>(DeleteAIAgentOutput.httpOutput(from:), DeleteAIAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAIAgentInput, DeleteAIAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAIAgentOutput>())
@@ -1769,9 +1789,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect AI Agent Version.
     ///
-    /// - Parameter DeleteAIAgentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIAgentVersionInput`)
     ///
-    /// - Returns: `DeleteAIAgentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIAgentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1807,6 +1827,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAIAgentVersionInput, DeleteAIAgentVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAIAgentVersionOutput>(DeleteAIAgentVersionOutput.httpOutput(from:), DeleteAIAgentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAIAgentVersionInput, DeleteAIAgentVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAIAgentVersionOutput>())
@@ -1838,9 +1859,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect AI Guardrail.
     ///
-    /// - Parameter DeleteAIGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIGuardrailInput`)
     ///
-    /// - Returns: `DeleteAIGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1876,6 +1897,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAIGuardrailInput, DeleteAIGuardrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAIGuardrailOutput>(DeleteAIGuardrailOutput.httpOutput(from:), DeleteAIGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAIGuardrailInput, DeleteAIGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAIGuardrailOutput>())
@@ -1907,9 +1929,9 @@ extension QConnectClient {
     ///
     /// Delete and Amazon Q in Connect AI Guardrail version.
     ///
-    /// - Parameter DeleteAIGuardrailVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIGuardrailVersionInput`)
     ///
-    /// - Returns: `DeleteAIGuardrailVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIGuardrailVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1945,6 +1967,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAIGuardrailVersionInput, DeleteAIGuardrailVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAIGuardrailVersionOutput>(DeleteAIGuardrailVersionOutput.httpOutput(from:), DeleteAIGuardrailVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAIGuardrailVersionInput, DeleteAIGuardrailVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAIGuardrailVersionOutput>())
@@ -1976,9 +1999,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect AI Prompt.
     ///
-    /// - Parameter DeleteAIPromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIPromptInput`)
     ///
-    /// - Returns: `DeleteAIPromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIPromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2013,6 +2036,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAIPromptInput, DeleteAIPromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAIPromptOutput>(DeleteAIPromptOutput.httpOutput(from:), DeleteAIPromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAIPromptInput, DeleteAIPromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAIPromptOutput>())
@@ -2044,9 +2068,9 @@ extension QConnectClient {
     ///
     /// Delete and Amazon Q in Connect AI Prompt version.
     ///
-    /// - Parameter DeleteAIPromptVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAIPromptVersionInput`)
     ///
-    /// - Returns: `DeleteAIPromptVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAIPromptVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2082,6 +2106,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAIPromptVersionInput, DeleteAIPromptVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAIPromptVersionOutput>(DeleteAIPromptVersionOutput.httpOutput(from:), DeleteAIPromptVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAIPromptVersionInput, DeleteAIPromptVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAIPromptVersionOutput>())
@@ -2113,9 +2138,9 @@ extension QConnectClient {
     ///
     /// Deletes an assistant.
     ///
-    /// - Parameter DeleteAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssistantInput`)
     ///
-    /// - Returns: `DeleteAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2149,6 +2174,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssistantInput, DeleteAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssistantOutput>(DeleteAssistantOutput.httpOutput(from:), DeleteAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssistantInput, DeleteAssistantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssistantOutput>())
@@ -2180,9 +2206,9 @@ extension QConnectClient {
     ///
     /// Deletes an assistant association.
     ///
-    /// - Parameter DeleteAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssistantAssociationInput`)
     ///
-    /// - Returns: `DeleteAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2216,6 +2242,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssistantAssociationInput, DeleteAssistantAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssistantAssociationOutput>(DeleteAssistantAssociationOutput.httpOutput(from:), DeleteAssistantAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssistantAssociationInput, DeleteAssistantAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssistantAssociationOutput>())
@@ -2247,9 +2274,9 @@ extension QConnectClient {
     ///
     /// Deletes the content.
     ///
-    /// - Parameter DeleteContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContentInput`)
     ///
-    /// - Returns: `DeleteContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2284,6 +2311,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContentInput, DeleteContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContentOutput>(DeleteContentOutput.httpOutput(from:), DeleteContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContentInput, DeleteContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContentOutput>())
@@ -2315,9 +2343,9 @@ extension QConnectClient {
     ///
     /// Deletes the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter DeleteContentAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContentAssociationInput`)
     ///
-    /// - Returns: `DeleteContentAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContentAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2351,6 +2379,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContentAssociationInput, DeleteContentAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContentAssociationOutput>(DeleteContentAssociationOutput.httpOutput(from:), DeleteContentAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContentAssociationInput, DeleteContentAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContentAssociationOutput>())
@@ -2382,9 +2411,9 @@ extension QConnectClient {
     ///
     /// Deletes the quick response import job.
     ///
-    /// - Parameter DeleteImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImportJobInput`)
     ///
-    /// - Returns: `DeleteImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2419,6 +2448,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImportJobInput, DeleteImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImportJobOutput>(DeleteImportJobOutput.httpOutput(from:), DeleteImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImportJobInput, DeleteImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImportJobOutput>())
@@ -2450,9 +2480,9 @@ extension QConnectClient {
     ///
     /// Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
     ///
-    /// - Parameter DeleteKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKnowledgeBaseInput`)
     ///
-    /// - Returns: `DeleteKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2487,6 +2517,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKnowledgeBaseInput, DeleteKnowledgeBaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKnowledgeBaseOutput>(DeleteKnowledgeBaseOutput.httpOutput(from:), DeleteKnowledgeBaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKnowledgeBaseInput, DeleteKnowledgeBaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKnowledgeBaseOutput>())
@@ -2518,9 +2549,9 @@ extension QConnectClient {
     ///
     /// Deletes an Amazon Q in Connect message template entirely or a specific version of the message template if version is supplied in the request. You can provide the message template identifier as <message-template-id>:<versionNumber> to delete a specific version of the message template. If it is not supplied, the message template and all available versions will be deleted.
     ///
-    /// - Parameter DeleteMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMessageTemplateInput`)
     ///
-    /// - Returns: `DeleteMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2555,6 +2586,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMessageTemplateInput, DeleteMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageTemplateOutput>(DeleteMessageTemplateOutput.httpOutput(from:), DeleteMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageTemplateInput, DeleteMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageTemplateOutput>())
@@ -2586,9 +2618,9 @@ extension QConnectClient {
     ///
     /// Deletes the attachment file from the Amazon Q in Connect message template that is referenced by $LATEST qualifier. Attachments on available message template versions will remain unchanged.
     ///
-    /// - Parameter DeleteMessageTemplateAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMessageTemplateAttachmentInput`)
     ///
-    /// - Returns: `DeleteMessageTemplateAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMessageTemplateAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2623,6 +2655,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMessageTemplateAttachmentInput, DeleteMessageTemplateAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageTemplateAttachmentOutput>(DeleteMessageTemplateAttachmentOutput.httpOutput(from:), DeleteMessageTemplateAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageTemplateAttachmentInput, DeleteMessageTemplateAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageTemplateAttachmentOutput>())
@@ -2654,9 +2687,9 @@ extension QConnectClient {
     ///
     /// Deletes a quick response.
     ///
-    /// - Parameter DeleteQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQuickResponseInput`)
     ///
-    /// - Returns: `DeleteQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2690,6 +2723,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQuickResponseInput, DeleteQuickResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQuickResponseOutput>(DeleteQuickResponseOutput.httpOutput(from:), DeleteQuickResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQuickResponseInput, DeleteQuickResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQuickResponseOutput>())
@@ -2721,9 +2755,9 @@ extension QConnectClient {
     ///
     /// Gets an Amazon Q in Connect AI Agent.
     ///
-    /// - Parameter GetAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAIAgentInput`)
     ///
-    /// - Returns: `GetAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2758,6 +2792,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAIAgentInput, GetAIAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAIAgentOutput>(GetAIAgentOutput.httpOutput(from:), GetAIAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAIAgentInput, GetAIAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAIAgentOutput>())
@@ -2789,9 +2824,9 @@ extension QConnectClient {
     ///
     /// Gets the Amazon Q in Connect AI Guardrail.
     ///
-    /// - Parameter GetAIGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAIGuardrailInput`)
     ///
-    /// - Returns: `GetAIGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAIGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2826,6 +2861,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAIGuardrailInput, GetAIGuardrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAIGuardrailOutput>(GetAIGuardrailOutput.httpOutput(from:), GetAIGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAIGuardrailInput, GetAIGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAIGuardrailOutput>())
@@ -2857,9 +2893,9 @@ extension QConnectClient {
     ///
     /// Gets and Amazon Q in Connect AI Prompt.
     ///
-    /// - Parameter GetAIPromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAIPromptInput`)
     ///
-    /// - Returns: `GetAIPromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAIPromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2894,6 +2930,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAIPromptInput, GetAIPromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAIPromptOutput>(GetAIPromptOutput.httpOutput(from:), GetAIPromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAIPromptInput, GetAIPromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAIPromptOutput>())
@@ -2925,9 +2962,9 @@ extension QConnectClient {
     ///
     /// Retrieves information about an assistant.
     ///
-    /// - Parameter GetAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssistantInput`)
     ///
-    /// - Returns: `GetAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2961,6 +2998,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssistantInput, GetAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssistantOutput>(GetAssistantOutput.httpOutput(from:), GetAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssistantInput, GetAssistantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssistantOutput>())
@@ -2992,9 +3030,9 @@ extension QConnectClient {
     ///
     /// Retrieves information about an assistant association.
     ///
-    /// - Parameter GetAssistantAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssistantAssociationInput`)
     ///
-    /// - Returns: `GetAssistantAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssistantAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3028,6 +3066,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssistantAssociationInput, GetAssistantAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssistantAssociationOutput>(GetAssistantAssociationOutput.httpOutput(from:), GetAssistantAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssistantAssociationInput, GetAssistantAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssistantAssociationOutput>())
@@ -3059,9 +3098,9 @@ extension QConnectClient {
     ///
     /// Retrieves content, including a pre-signed URL to download the content.
     ///
-    /// - Parameter GetContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentInput`)
     ///
-    /// - Returns: `GetContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3095,6 +3134,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContentInput, GetContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContentOutput>(GetContentOutput.httpOutput(from:), GetContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContentInput, GetContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContentOutput>())
@@ -3126,9 +3166,9 @@ extension QConnectClient {
     ///
     /// Returns the content association. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter GetContentAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentAssociationInput`)
     ///
-    /// - Returns: `GetContentAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3162,6 +3202,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContentAssociationInput, GetContentAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContentAssociationOutput>(GetContentAssociationOutput.httpOutput(from:), GetContentAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContentAssociationInput, GetContentAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContentAssociationOutput>())
@@ -3193,9 +3234,9 @@ extension QConnectClient {
     ///
     /// Retrieves summary information about the content.
     ///
-    /// - Parameter GetContentSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContentSummaryInput`)
     ///
-    /// - Returns: `GetContentSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContentSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3229,6 +3270,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContentSummaryInput, GetContentSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContentSummaryOutput>(GetContentSummaryOutput.httpOutput(from:), GetContentSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContentSummaryInput, GetContentSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContentSummaryOutput>())
@@ -3260,9 +3302,9 @@ extension QConnectClient {
     ///
     /// Retrieves the started import job.
     ///
-    /// - Parameter GetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportJobInput`)
     ///
-    /// - Returns: `GetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3295,6 +3337,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImportJobInput, GetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportJobOutput>(GetImportJobOutput.httpOutput(from:), GetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportJobInput, GetImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportJobOutput>())
@@ -3326,9 +3369,9 @@ extension QConnectClient {
     ///
     /// Retrieves information about the knowledge base.
     ///
-    /// - Parameter GetKnowledgeBaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKnowledgeBaseInput`)
     ///
-    /// - Returns: `GetKnowledgeBaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKnowledgeBaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3362,6 +3405,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKnowledgeBaseInput, GetKnowledgeBaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKnowledgeBaseOutput>(GetKnowledgeBaseOutput.httpOutput(from:), GetKnowledgeBaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKnowledgeBaseInput, GetKnowledgeBaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKnowledgeBaseOutput>())
@@ -3393,9 +3437,9 @@ extension QConnectClient {
     ///
     /// Retrieves the Amazon Q in Connect message template. The message template identifier can contain an optional qualifier, for example, <message-template-id>:<qualifier>, which is either an actual version number or an Amazon Q Connect managed qualifier $ACTIVE_VERSION | $LATEST. If it is not supplied, then $LATEST is assumed implicitly.
     ///
-    /// - Parameter GetMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMessageTemplateInput`)
     ///
-    /// - Returns: `GetMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3430,6 +3474,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMessageTemplateInput, GetMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMessageTemplateOutput>(GetMessageTemplateOutput.httpOutput(from:), GetMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMessageTemplateInput, GetMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMessageTemplateOutput>())
@@ -3461,15 +3506,16 @@ extension QConnectClient {
     ///
     /// Retrieves next message on an Amazon Q in Connect session.
     ///
-    /// - Parameter GetNextMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNextMessageInput`)
     ///
-    /// - Returns: `GetNextMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNextMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `UnprocessableContentException` : The server has a failure of processing the message
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getNextMessage(input: GetNextMessageInput) async throws -> GetNextMessageOutput {
         let context = Smithy.ContextBuilder()
@@ -3497,6 +3543,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetNextMessageInput, GetNextMessageOutput>(GetNextMessageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNextMessageOutput>(GetNextMessageOutput.httpOutput(from:), GetNextMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNextMessageInput, GetNextMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNextMessageOutput>())
@@ -3528,9 +3575,9 @@ extension QConnectClient {
     ///
     /// Retrieves the quick response.
     ///
-    /// - Parameter GetQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQuickResponseInput`)
     ///
-    /// - Returns: `GetQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3564,6 +3611,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQuickResponseInput, GetQuickResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQuickResponseOutput>(GetQuickResponseOutput.httpOutput(from:), GetQuickResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQuickResponseInput, GetQuickResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQuickResponseOutput>())
@@ -3596,9 +3644,9 @@ extension QConnectClient {
     /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
-    /// - Parameter GetRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationsInput`)
     ///
-    /// - Returns: `GetRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3632,6 +3680,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRecommendationsInput, GetRecommendationsOutput>(GetRecommendationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationsOutput>(GetRecommendationsOutput.httpOutput(from:), GetRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationsInput, GetRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationsOutput>())
@@ -3663,9 +3712,9 @@ extension QConnectClient {
     ///
     /// Retrieves information for a specified session.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3699,6 +3748,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -3730,9 +3780,9 @@ extension QConnectClient {
     ///
     /// List AI Agent versions.
     ///
-    /// - Parameter ListAIAgentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIAgentVersionsInput`)
     ///
-    /// - Returns: `ListAIAgentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIAgentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3768,6 +3818,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAIAgentVersionsInput, ListAIAgentVersionsOutput>(ListAIAgentVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAIAgentVersionsOutput>(ListAIAgentVersionsOutput.httpOutput(from:), ListAIAgentVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAIAgentVersionsInput, ListAIAgentVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAIAgentVersionsOutput>())
@@ -3799,9 +3850,9 @@ extension QConnectClient {
     ///
     /// Lists AI Agents.
     ///
-    /// - Parameter ListAIAgentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIAgentsInput`)
     ///
-    /// - Returns: `ListAIAgentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIAgentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3837,6 +3888,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAIAgentsInput, ListAIAgentsOutput>(ListAIAgentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAIAgentsOutput>(ListAIAgentsOutput.httpOutput(from:), ListAIAgentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAIAgentsInput, ListAIAgentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAIAgentsOutput>())
@@ -3868,9 +3920,9 @@ extension QConnectClient {
     ///
     /// Lists AI Guardrail versions.
     ///
-    /// - Parameter ListAIGuardrailVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIGuardrailVersionsInput`)
     ///
-    /// - Returns: `ListAIGuardrailVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIGuardrailVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3906,6 +3958,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAIGuardrailVersionsInput, ListAIGuardrailVersionsOutput>(ListAIGuardrailVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAIGuardrailVersionsOutput>(ListAIGuardrailVersionsOutput.httpOutput(from:), ListAIGuardrailVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAIGuardrailVersionsInput, ListAIGuardrailVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAIGuardrailVersionsOutput>())
@@ -3937,9 +3990,9 @@ extension QConnectClient {
     ///
     /// Lists the AI Guardrails available on the Amazon Q in Connect assistant.
     ///
-    /// - Parameter ListAIGuardrailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIGuardrailsInput`)
     ///
-    /// - Returns: `ListAIGuardrailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIGuardrailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3975,6 +4028,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAIGuardrailsInput, ListAIGuardrailsOutput>(ListAIGuardrailsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAIGuardrailsOutput>(ListAIGuardrailsOutput.httpOutput(from:), ListAIGuardrailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAIGuardrailsInput, ListAIGuardrailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAIGuardrailsOutput>())
@@ -4006,9 +4060,9 @@ extension QConnectClient {
     ///
     /// Lists AI Prompt versions.
     ///
-    /// - Parameter ListAIPromptVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIPromptVersionsInput`)
     ///
-    /// - Returns: `ListAIPromptVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIPromptVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4044,6 +4098,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAIPromptVersionsInput, ListAIPromptVersionsOutput>(ListAIPromptVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAIPromptVersionsOutput>(ListAIPromptVersionsOutput.httpOutput(from:), ListAIPromptVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAIPromptVersionsInput, ListAIPromptVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAIPromptVersionsOutput>())
@@ -4075,9 +4130,9 @@ extension QConnectClient {
     ///
     /// Lists the AI Prompts available on the Amazon Q in Connect assistant.
     ///
-    /// - Parameter ListAIPromptsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAIPromptsInput`)
     ///
-    /// - Returns: `ListAIPromptsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAIPromptsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4113,6 +4168,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAIPromptsInput, ListAIPromptsOutput>(ListAIPromptsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAIPromptsOutput>(ListAIPromptsOutput.httpOutput(from:), ListAIPromptsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAIPromptsInput, ListAIPromptsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAIPromptsOutput>())
@@ -4144,9 +4200,9 @@ extension QConnectClient {
     ///
     /// Lists information about assistant associations.
     ///
-    /// - Parameter ListAssistantAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssistantAssociationsInput`)
     ///
-    /// - Returns: `ListAssistantAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssistantAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4180,6 +4236,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssistantAssociationsInput, ListAssistantAssociationsOutput>(ListAssistantAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssistantAssociationsOutput>(ListAssistantAssociationsOutput.httpOutput(from:), ListAssistantAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssistantAssociationsInput, ListAssistantAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssistantAssociationsOutput>())
@@ -4211,9 +4268,9 @@ extension QConnectClient {
     ///
     /// Lists information about assistants.
     ///
-    /// - Parameter ListAssistantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssistantsInput`)
     ///
-    /// - Returns: `ListAssistantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssistantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4247,6 +4304,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssistantsInput, ListAssistantsOutput>(ListAssistantsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssistantsOutput>(ListAssistantsOutput.httpOutput(from:), ListAssistantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssistantsInput, ListAssistantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssistantsOutput>())
@@ -4278,9 +4336,9 @@ extension QConnectClient {
     ///
     /// Lists the content associations. For more information about content associations--what they are and when they are used--see [Integrate Amazon Q in Connect with step-by-step guides](https://docs.aws.amazon.com/connect/latest/adminguide/integrate-q-with-guides.html) in the Amazon Connect Administrator Guide.
     ///
-    /// - Parameter ListContentAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContentAssociationsInput`)
     ///
-    /// - Returns: `ListContentAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContentAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4315,6 +4373,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContentAssociationsInput, ListContentAssociationsOutput>(ListContentAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContentAssociationsOutput>(ListContentAssociationsOutput.httpOutput(from:), ListContentAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContentAssociationsInput, ListContentAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContentAssociationsOutput>())
@@ -4346,9 +4405,9 @@ extension QConnectClient {
     ///
     /// Lists the content.
     ///
-    /// - Parameter ListContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContentsInput`)
     ///
-    /// - Returns: `ListContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4382,6 +4441,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListContentsInput, ListContentsOutput>(ListContentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContentsOutput>(ListContentsOutput.httpOutput(from:), ListContentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContentsInput, ListContentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContentsOutput>())
@@ -4413,9 +4473,9 @@ extension QConnectClient {
     ///
     /// Lists information about import jobs.
     ///
-    /// - Parameter ListImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportJobsInput`)
     ///
-    /// - Returns: `ListImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4448,6 +4508,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListImportJobsInput, ListImportJobsOutput>(ListImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportJobsOutput>(ListImportJobsOutput.httpOutput(from:), ListImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportJobsInput, ListImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportJobsOutput>())
@@ -4479,9 +4540,9 @@ extension QConnectClient {
     ///
     /// Lists the knowledge bases.
     ///
-    /// - Parameter ListKnowledgeBasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKnowledgeBasesInput`)
     ///
-    /// - Returns: `ListKnowledgeBasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKnowledgeBasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4514,6 +4575,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKnowledgeBasesInput, ListKnowledgeBasesOutput>(ListKnowledgeBasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKnowledgeBasesOutput>(ListKnowledgeBasesOutput.httpOutput(from:), ListKnowledgeBasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKnowledgeBasesInput, ListKnowledgeBasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKnowledgeBasesOutput>())
@@ -4545,9 +4607,9 @@ extension QConnectClient {
     ///
     /// Lists all the available versions for the specified Amazon Q in Connect message template.
     ///
-    /// - Parameter ListMessageTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMessageTemplateVersionsInput`)
     ///
-    /// - Returns: `ListMessageTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMessageTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4582,6 +4644,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMessageTemplateVersionsInput, ListMessageTemplateVersionsOutput>(ListMessageTemplateVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMessageTemplateVersionsOutput>(ListMessageTemplateVersionsOutput.httpOutput(from:), ListMessageTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMessageTemplateVersionsInput, ListMessageTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessageTemplateVersionsOutput>())
@@ -4613,9 +4676,9 @@ extension QConnectClient {
     ///
     /// Lists all the available Amazon Q in Connect message templates for the specified knowledge base.
     ///
-    /// - Parameter ListMessageTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMessageTemplatesInput`)
     ///
-    /// - Returns: `ListMessageTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMessageTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4650,6 +4713,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMessageTemplatesInput, ListMessageTemplatesOutput>(ListMessageTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMessageTemplatesOutput>(ListMessageTemplatesOutput.httpOutput(from:), ListMessageTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMessageTemplatesInput, ListMessageTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessageTemplatesOutput>())
@@ -4681,9 +4745,9 @@ extension QConnectClient {
     ///
     /// Lists messages on an Amazon Q in Connect session.
     ///
-    /// - Parameter ListMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMessagesInput`)
     ///
-    /// - Returns: `ListMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4717,6 +4781,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMessagesInput, ListMessagesOutput>(ListMessagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMessagesOutput>(ListMessagesOutput.httpOutput(from:), ListMessagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMessagesInput, ListMessagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessagesOutput>())
@@ -4748,9 +4813,9 @@ extension QConnectClient {
     ///
     /// Lists information about quick response.
     ///
-    /// - Parameter ListQuickResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQuickResponsesInput`)
     ///
-    /// - Returns: `ListQuickResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQuickResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4784,6 +4849,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQuickResponsesInput, ListQuickResponsesOutput>(ListQuickResponsesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQuickResponsesOutput>(ListQuickResponsesOutput.httpOutput(from:), ListQuickResponsesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQuickResponsesInput, ListQuickResponsesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQuickResponsesOutput>())
@@ -4811,13 +4877,81 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListSpans` operation on the `QConnect` service.
+    ///
+    /// Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSpansInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSpansOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
+    public func listSpans(input: ListSpansInput) async throws -> ListSpansOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSpans")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wisdom")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSpansInput, ListSpansOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSpansInput, ListSpansOutput>(ListSpansInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSpansInput, ListSpansOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListSpansInput, ListSpansOutput>(ListSpansInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpansOutput>(ListSpansOutput.httpOutput(from:), ListSpansOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpansInput, ListSpansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSpansOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSpansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSpansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSpansInput, ListSpansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSpansInput, ListSpansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSpansInput, ListSpansOutput>(serviceID: serviceName, version: QConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSpans")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `QConnect` service.
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4848,6 +4982,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4879,9 +5014,9 @@ extension QConnectClient {
     ///
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
     ///
-    /// - Parameter NotifyRecommendationsReceivedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyRecommendationsReceivedInput`)
     ///
-    /// - Returns: `NotifyRecommendationsReceivedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyRecommendationsReceivedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4917,6 +5052,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyRecommendationsReceivedInput, NotifyRecommendationsReceivedOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyRecommendationsReceivedOutput>(NotifyRecommendationsReceivedOutput.httpOutput(from:), NotifyRecommendationsReceivedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyRecommendationsReceivedInput, NotifyRecommendationsReceivedOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyRecommendationsReceivedOutput>())
@@ -4948,9 +5084,9 @@ extension QConnectClient {
     ///
     /// Provides feedback against the specified assistant for the specified target. This API only supports generative targets.
     ///
-    /// - Parameter PutFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFeedbackInput`)
     ///
-    /// - Returns: `PutFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4986,6 +5122,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFeedbackInput, PutFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFeedbackOutput>(PutFeedbackOutput.httpOutput(from:), PutFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFeedbackInput, PutFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFeedbackOutput>())
@@ -5018,9 +5155,9 @@ extension QConnectClient {
     /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
-    /// - Parameter QueryAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryAssistantInput`)
     ///
-    /// - Returns: `QueryAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5057,6 +5194,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryAssistantInput, QueryAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryAssistantOutput>(QueryAssistantOutput.httpOutput(from:), QueryAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryAssistantInput, QueryAssistantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryAssistantOutput>())
@@ -5088,9 +5226,9 @@ extension QConnectClient {
     ///
     /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     ///
-    /// - Parameter RemoveAssistantAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveAssistantAIAgentInput`)
     ///
-    /// - Returns: `RemoveAssistantAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAssistantAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5125,6 +5263,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RemoveAssistantAIAgentInput, RemoveAssistantAIAgentOutput>(RemoveAssistantAIAgentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveAssistantAIAgentOutput>(RemoveAssistantAIAgentOutput.httpOutput(from:), RemoveAssistantAIAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveAssistantAIAgentInput, RemoveAssistantAIAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveAssistantAIAgentOutput>())
@@ -5156,9 +5295,9 @@ extension QConnectClient {
     ///
     /// Removes a URI template from a knowledge base.
     ///
-    /// - Parameter RemoveKnowledgeBaseTemplateUriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveKnowledgeBaseTemplateUriInput`)
     ///
-    /// - Returns: `RemoveKnowledgeBaseTemplateUriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveKnowledgeBaseTemplateUriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5191,6 +5330,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveKnowledgeBaseTemplateUriInput, RemoveKnowledgeBaseTemplateUriOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveKnowledgeBaseTemplateUriOutput>(RemoveKnowledgeBaseTemplateUriOutput.httpOutput(from:), RemoveKnowledgeBaseTemplateUriOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveKnowledgeBaseTemplateUriInput, RemoveKnowledgeBaseTemplateUriOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveKnowledgeBaseTemplateUriOutput>())
@@ -5222,9 +5362,9 @@ extension QConnectClient {
     ///
     /// Renders the Amazon Q in Connect message template based on the attribute values provided and generates the message content. For any variable present in the message template, if the attribute value is neither provided in the attribute request parameter nor the default attribute of the message template, the rendered message content will keep the variable placeholder as it is and return the attribute keys that are missing.
     ///
-    /// - Parameter RenderMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RenderMessageTemplateInput`)
     ///
-    /// - Returns: `RenderMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RenderMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5261,6 +5401,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenderMessageTemplateInput, RenderMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RenderMessageTemplateOutput>(RenderMessageTemplateOutput.httpOutput(from:), RenderMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenderMessageTemplateInput, RenderMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RenderMessageTemplateOutput>())
@@ -5288,13 +5429,88 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `Retrieve` operation on the `QConnect` service.
+    ///
+    /// Retrieves content from knowledge sources based on a query.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RetrieveInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RetrieveOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `DependencyFailedException` : The request failed because it depends on another request that failed.
+    /// - `RequestTimeoutException` : The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
+    public func retrieve(input: RetrieveInput) async throws -> RetrieveOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "retrieve")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wisdom")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RetrieveInput, RetrieveOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RetrieveInput, RetrieveOutput>(RetrieveInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetrieveInput, RetrieveOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveInput, RetrieveOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RetrieveInput, RetrieveOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RetrieveInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveInput, RetrieveOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveOutput>(RetrieveOutput.httpOutput(from:), RetrieveOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveInput, RetrieveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetrieveOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetrieveOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetrieveInput, RetrieveOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RetrieveInput, RetrieveOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RetrieveInput, RetrieveOutput>(serviceID: serviceName, version: QConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Retrieve")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchContent` operation on the `QConnect` service.
     ///
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
     ///
-    /// - Parameter SearchContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchContentInput`)
     ///
-    /// - Returns: `SearchContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5332,6 +5548,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchContentInput, SearchContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchContentOutput>(SearchContentOutput.httpOutput(from:), SearchContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchContentInput, SearchContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchContentOutput>())
@@ -5363,9 +5580,9 @@ extension QConnectClient {
     ///
     /// Searches for Amazon Q in Connect message templates in the specified knowledge base.
     ///
-    /// - Parameter SearchMessageTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchMessageTemplatesInput`)
     ///
-    /// - Returns: `SearchMessageTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchMessageTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5404,6 +5621,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchMessageTemplatesInput, SearchMessageTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchMessageTemplatesOutput>(SearchMessageTemplatesOutput.httpOutput(from:), SearchMessageTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchMessageTemplatesInput, SearchMessageTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchMessageTemplatesOutput>())
@@ -5435,9 +5653,9 @@ extension QConnectClient {
     ///
     /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
     ///
-    /// - Parameter SearchQuickResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchQuickResponsesInput`)
     ///
-    /// - Returns: `SearchQuickResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchQuickResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5476,6 +5694,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchQuickResponsesInput, SearchQuickResponsesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchQuickResponsesOutput>(SearchQuickResponsesOutput.httpOutput(from:), SearchQuickResponsesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchQuickResponsesInput, SearchQuickResponsesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchQuickResponsesOutput>())
@@ -5507,9 +5726,9 @@ extension QConnectClient {
     ///
     /// Searches for sessions.
     ///
-    /// - Parameter SearchSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSessionsInput`)
     ///
-    /// - Returns: `SearchSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5547,6 +5766,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchSessionsInput, SearchSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchSessionsOutput>(SearchSessionsOutput.httpOutput(from:), SearchSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchSessionsInput, SearchSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchSessionsOutput>())
@@ -5578,17 +5798,19 @@ extension QConnectClient {
     ///
     /// Submits a message to the Amazon Q in Connect session.
     ///
-    /// - Parameter SendMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendMessageInput`)
     ///
-    /// - Returns: `SendMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `DependencyFailedException` : The request failed because it depends on another request that failed.
     /// - `RequestTimeoutException` : The request reached the service more than 15 minutes after the date stamp on the request or more than 15 minutes after the request expiration date (such as for pre-signed URLs), or the date stamp on the request is more than 15 minutes in the future.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func sendMessage(input: SendMessageInput) async throws -> SendMessageOutput {
@@ -5620,6 +5842,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendMessageInput, SendMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendMessageOutput>(SendMessageOutput.httpOutput(from:), SendMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendMessageInput, SendMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendMessageOutput>())
@@ -5651,9 +5874,9 @@ extension QConnectClient {
     ///
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
     ///
-    /// - Parameter StartContentUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartContentUploadInput`)
     ///
-    /// - Returns: `StartContentUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartContentUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5690,6 +5913,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartContentUploadInput, StartContentUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartContentUploadOutput>(StartContentUploadOutput.httpOutput(from:), StartContentUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartContentUploadInput, StartContentUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartContentUploadOutput>())
@@ -5723,9 +5947,9 @@ extension QConnectClient {
     ///
     /// * For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
     ///
-    /// - Parameter StartImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportJobInput`)
     ///
-    /// - Returns: `StartImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5765,6 +5989,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportJobInput, StartImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportJobOutput>(StartImportJobOutput.httpOutput(from:), StartImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportJobInput, StartImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportJobOutput>())
@@ -5796,9 +6021,9 @@ extension QConnectClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5833,6 +6058,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5864,9 +6090,9 @@ extension QConnectClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5898,6 +6124,7 @@ extension QConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5929,9 +6156,9 @@ extension QConnectClient {
     ///
     /// Updates an AI Agent.
     ///
-    /// - Parameter UpdateAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAIAgentInput`)
     ///
-    /// - Returns: `UpdateAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5971,6 +6198,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAIAgentInput, UpdateAIAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAIAgentOutput>(UpdateAIAgentOutput.httpOutput(from:), UpdateAIAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAIAgentInput, UpdateAIAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAIAgentOutput>())
@@ -6002,9 +6230,9 @@ extension QConnectClient {
     ///
     /// Updates an AI Guardrail.
     ///
-    /// - Parameter UpdateAIGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAIGuardrailInput`)
     ///
-    /// - Returns: `UpdateAIGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAIGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6044,6 +6272,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAIGuardrailInput, UpdateAIGuardrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAIGuardrailOutput>(UpdateAIGuardrailOutput.httpOutput(from:), UpdateAIGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAIGuardrailInput, UpdateAIGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAIGuardrailOutput>())
@@ -6075,9 +6304,9 @@ extension QConnectClient {
     ///
     /// Updates an AI Prompt.
     ///
-    /// - Parameter UpdateAIPromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAIPromptInput`)
     ///
-    /// - Returns: `UpdateAIPromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAIPromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6117,6 +6346,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAIPromptInput, UpdateAIPromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAIPromptOutput>(UpdateAIPromptOutput.httpOutput(from:), UpdateAIPromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAIPromptInput, UpdateAIPromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAIPromptOutput>())
@@ -6148,9 +6378,9 @@ extension QConnectClient {
     ///
     /// Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     ///
-    /// - Parameter UpdateAssistantAIAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssistantAIAgentInput`)
     ///
-    /// - Returns: `UpdateAssistantAIAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssistantAIAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6187,6 +6417,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssistantAIAgentInput, UpdateAssistantAIAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssistantAIAgentOutput>(UpdateAssistantAIAgentOutput.httpOutput(from:), UpdateAssistantAIAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssistantAIAgentInput, UpdateAssistantAIAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssistantAIAgentOutput>())
@@ -6218,9 +6449,9 @@ extension QConnectClient {
     ///
     /// Updates information about the content.
     ///
-    /// - Parameter UpdateContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContentInput`)
     ///
-    /// - Returns: `UpdateContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6258,6 +6489,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContentInput, UpdateContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContentOutput>(UpdateContentOutput.httpOutput(from:), UpdateContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContentInput, UpdateContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContentOutput>())
@@ -6289,9 +6521,9 @@ extension QConnectClient {
     ///
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     ///
-    /// - Parameter UpdateKnowledgeBaseTemplateUriInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKnowledgeBaseTemplateUriInput`)
     ///
-    /// - Returns: `UpdateKnowledgeBaseTemplateUriOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKnowledgeBaseTemplateUriOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6327,6 +6559,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKnowledgeBaseTemplateUriInput, UpdateKnowledgeBaseTemplateUriOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKnowledgeBaseTemplateUriOutput>(UpdateKnowledgeBaseTemplateUriOutput.httpOutput(from:), UpdateKnowledgeBaseTemplateUriOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKnowledgeBaseTemplateUriInput, UpdateKnowledgeBaseTemplateUriOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKnowledgeBaseTemplateUriOutput>())
@@ -6358,9 +6591,9 @@ extension QConnectClient {
     ///
     /// Updates the Amazon Q in Connect message template. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template that is referenced by the $LATEST qualifier. Any modification will only apply to the message template that is referenced by the $LATEST qualifier. The fields for all available versions will remain unchanged.
     ///
-    /// - Parameter UpdateMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMessageTemplateInput`)
     ///
-    /// - Returns: `UpdateMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6398,6 +6631,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMessageTemplateInput, UpdateMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMessageTemplateOutput>(UpdateMessageTemplateOutput.httpOutput(from:), UpdateMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMessageTemplateInput, UpdateMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMessageTemplateOutput>())
@@ -6429,9 +6663,9 @@ extension QConnectClient {
     ///
     /// Updates the Amazon Q in Connect message template metadata. Note that any modification to the message template’s name, description and grouping configuration will applied to the message template pointed by the $LATEST qualifier and all available versions. Partial update is supported. If any field is not supplied, it will remain unchanged for the message template.
     ///
-    /// - Parameter UpdateMessageTemplateMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMessageTemplateMetadataInput`)
     ///
-    /// - Returns: `UpdateMessageTemplateMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMessageTemplateMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6469,6 +6703,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMessageTemplateMetadataInput, UpdateMessageTemplateMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMessageTemplateMetadataOutput>(UpdateMessageTemplateMetadataOutput.httpOutput(from:), UpdateMessageTemplateMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMessageTemplateMetadataInput, UpdateMessageTemplateMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMessageTemplateMetadataOutput>())
@@ -6500,9 +6735,9 @@ extension QConnectClient {
     ///
     /// Updates an existing Amazon Q in Connect quick response.
     ///
-    /// - Parameter UpdateQuickResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQuickResponseInput`)
     ///
-    /// - Returns: `UpdateQuickResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQuickResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6541,6 +6776,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQuickResponseInput, UpdateQuickResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQuickResponseOutput>(UpdateQuickResponseOutput.httpOutput(from:), UpdateQuickResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQuickResponseInput, UpdateQuickResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQuickResponseOutput>())
@@ -6572,9 +6808,9 @@ extension QConnectClient {
     ///
     /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
-    /// - Parameter UpdateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSessionInput`)
     ///
-    /// - Returns: `UpdateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6611,6 +6847,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSessionInput, UpdateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSessionOutput>(UpdateSessionOutput.httpOutput(from:), UpdateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSessionInput, UpdateSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSessionOutput>())
@@ -6642,9 +6879,9 @@ extension QConnectClient {
     ///
     /// Updates the data stored on an Amazon Q in Connect Session.
     ///
-    /// - Parameter UpdateSessionDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSessionDataInput`)
     ///
-    /// - Returns: `UpdateSessionDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSessionDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6681,6 +6918,7 @@ extension QConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSessionDataInput, UpdateSessionDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSessionDataOutput>(UpdateSessionDataOutput.httpOutput(from:), UpdateSessionDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSessionDataInput, UpdateSessionDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSessionDataOutput>())

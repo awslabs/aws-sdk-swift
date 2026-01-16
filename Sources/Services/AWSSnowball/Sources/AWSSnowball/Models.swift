@@ -1189,9 +1189,9 @@ public struct ClusterLimitExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension SnowballClientTypes {
 
-    /// Configures the wireless connection on an Snowcone device.
+    /// Configures the wireless connection on an Snowball Edge device.
     public struct WirelessConnection: Swift.Sendable {
-        /// Enables the Wi-Fi adapter on an Snowcone device.
+        /// Enables the Wi-Fi adapter on an Snowball Edge device.
         public var isWifiEnabled: Swift.Bool
 
         public init(
@@ -1204,9 +1204,9 @@ extension SnowballClientTypes {
 
 extension SnowballClientTypes {
 
-    /// Specifies the device configuration for an Snowcone job.
+    /// Specifies the device configuration for an Snowball Edge job.
     public struct SnowconeDeviceConfiguration: Swift.Sendable {
-        /// Configures the wireless connection for the Snowcone device.
+        /// Configures the wireless connection for the Snowball Edge device.
         public var wirelessConnection: SnowballClientTypes.WirelessConnection?
 
         public init(
@@ -1221,7 +1221,7 @@ extension SnowballClientTypes {
 
     /// The container for SnowconeDeviceConfiguration.
     public struct DeviceConfiguration: Swift.Sendable {
-        /// Returns information about the device configuration for an Snowcone job.
+        /// Returns information about the device configuration for an Snowball Edge job.
         public var snowconeDeviceConfiguration: SnowballClientTypes.SnowconeDeviceConfiguration?
 
         public init(
@@ -1321,7 +1321,7 @@ public struct CreateJobInput: Swift.Sendable {
     public var clusterId: Swift.String?
     /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
     public var description: Swift.String?
-    /// Defines the device configuration for an Snowcone job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+    /// Defines the device configuration for an Snowball Edge job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
     public var deviceConfiguration: SnowballClientTypes.DeviceConfiguration?
     /// The forwarding address ID for a job. This field is not supported in most Regions.
     public var forwardingAddressId: Swift.String?
@@ -1756,7 +1756,7 @@ extension SnowballClientTypes {
         ///
         /// * In the US, you have access to one-day shipping and two-day shipping.
         public var shippingOption: SnowballClientTypes.ShippingOption?
-        /// The type of Snowcone device to use for this cluster. For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.
+        /// The type of Snowball Edge device to use for this cluster. For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.
         public var snowballType: SnowballClientTypes.SnowballType?
         /// The tax documents required in your Amazon Web Services Region.
         public var taxDocuments: SnowballClientTypes.TaxDocuments?

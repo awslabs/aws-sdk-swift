@@ -32,6 +32,9 @@ abstract class AWSHTTPBindingProtocolGenerator(
 ) : HTTPBindingProtocolGenerator(customizations) {
     override var serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSServiceError
 
+    override val clockSkewProviderSymbol: Symbol
+        get() = AWSClientRuntimeTypes.Core.AWSClockSkewProvider
+
     override val retryErrorInfoProviderSymbol: Symbol
         get() = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider
 

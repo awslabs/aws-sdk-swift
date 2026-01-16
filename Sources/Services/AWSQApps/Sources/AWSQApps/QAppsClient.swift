@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class QAppsClient: ClientRuntime.Client {
+public class QAppsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "QAppsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: QAppsClient.QAppsClientConfiguration
     let serviceName = "QApps"
@@ -374,9 +374,9 @@ extension QAppsClient {
     ///
     /// Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
     ///
-    /// - Parameter AssociateLibraryItemReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateLibraryItemReviewInput`)
     ///
-    /// - Returns: `AssociateLibraryItemReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateLibraryItemReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +418,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateLibraryItemReviewInput, AssociateLibraryItemReviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateLibraryItemReviewOutput>(AssociateLibraryItemReviewOutput.httpOutput(from:), AssociateLibraryItemReviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateLibraryItemReviewInput, AssociateLibraryItemReviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateLibraryItemReviewOutput>())
@@ -449,9 +450,9 @@ extension QAppsClient {
     ///
     /// This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a favorite for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
     ///
-    /// - Parameter AssociateQAppWithUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateQAppWithUserInput`)
     ///
-    /// - Returns: `AssociateQAppWithUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateQAppWithUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -492,6 +493,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateQAppWithUserInput, AssociateQAppWithUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateQAppWithUserOutput>(AssociateQAppWithUserOutput.httpOutput(from:), AssociateQAppWithUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateQAppWithUserInput, AssociateQAppWithUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateQAppWithUserOutput>())
@@ -523,9 +525,9 @@ extension QAppsClient {
     ///
     /// Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
-    /// - Parameter BatchCreateCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateCategoryInput`)
     ///
-    /// - Returns: `BatchCreateCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,6 +568,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateCategoryInput, BatchCreateCategoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateCategoryOutput>(BatchCreateCategoryOutput.httpOutput(from:), BatchCreateCategoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateCategoryInput, BatchCreateCategoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateCategoryOutput>())
@@ -597,9 +600,9 @@ extension QAppsClient {
     ///
     /// Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
-    /// - Parameter BatchDeleteCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteCategoryInput`)
     ///
-    /// - Returns: `BatchDeleteCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,6 +643,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteCategoryInput, BatchDeleteCategoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteCategoryOutput>(BatchDeleteCategoryOutput.httpOutput(from:), BatchDeleteCategoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteCategoryInput, BatchDeleteCategoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteCategoryOutput>())
@@ -671,9 +675,9 @@ extension QAppsClient {
     ///
     /// Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
-    /// - Parameter BatchUpdateCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateCategoryInput`)
     ///
-    /// - Returns: `BatchUpdateCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,6 +718,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateCategoryInput, BatchUpdateCategoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateCategoryOutput>(BatchUpdateCategoryOutput.httpOutput(from:), BatchUpdateCategoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateCategoryInput, BatchUpdateCategoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateCategoryOutput>())
@@ -745,9 +750,9 @@ extension QAppsClient {
     ///
     /// Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
     ///
-    /// - Parameter CreateLibraryItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLibraryItemInput`)
     ///
-    /// - Returns: `CreateLibraryItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLibraryItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,6 +793,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLibraryItemInput, CreateLibraryItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLibraryItemOutput>(CreateLibraryItemOutput.httpOutput(from:), CreateLibraryItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLibraryItemInput, CreateLibraryItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLibraryItemOutput>())
@@ -819,9 +825,9 @@ extension QAppsClient {
     ///
     /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level. The IAM permissions are derived from the qapps:ImportDocument action. For more information on the IAM policy for Amazon Q Apps, see [IAM permissions for using Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/deploy-q-apps-iam-permissions.html).
     ///
-    /// - Parameter CreatePresignedUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresignedUrlInput`)
     ///
-    /// - Returns: `CreatePresignedUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresignedUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -860,6 +866,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresignedUrlInput, CreatePresignedUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresignedUrlOutput>(CreatePresignedUrlOutput.httpOutput(from:), CreatePresignedUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresignedUrlInput, CreatePresignedUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresignedUrlOutput>())
@@ -891,9 +898,9 @@ extension QAppsClient {
     ///
     /// Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts.
     ///
-    /// - Parameter CreateQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQAppInput`)
     ///
-    /// - Returns: `CreateQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -935,6 +942,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQAppInput, CreateQAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQAppOutput>(CreateQAppOutput.httpOutput(from:), CreateQAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQAppInput, CreateQAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQAppOutput>())
@@ -966,9 +974,9 @@ extension QAppsClient {
     ///
     /// Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
     ///
-    /// - Parameter DeleteLibraryItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLibraryItemInput`)
     ///
-    /// - Returns: `DeleteLibraryItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLibraryItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1009,6 +1017,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLibraryItemInput, DeleteLibraryItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLibraryItemOutput>(DeleteLibraryItemOutput.httpOutput(from:), DeleteLibraryItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLibraryItemInput, DeleteLibraryItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLibraryItemOutput>())
@@ -1040,9 +1049,9 @@ extension QAppsClient {
     ///
     /// Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
     ///
-    /// - Parameter DeleteQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQAppInput`)
     ///
-    /// - Returns: `DeleteQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,6 +1091,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQAppInput, DeleteQAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQAppOutput>(DeleteQAppOutput.httpOutput(from:), DeleteQAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQAppInput, DeleteQAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQAppOutput>())
@@ -1113,9 +1123,9 @@ extension QAppsClient {
     ///
     /// Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
     ///
-    /// - Parameter DescribeQAppPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQAppPermissionsInput`)
     ///
-    /// - Returns: `DescribeQAppPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQAppPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1153,6 +1163,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeQAppPermissionsInput, DescribeQAppPermissionsOutput>(DescribeQAppPermissionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQAppPermissionsOutput>(DescribeQAppPermissionsOutput.httpOutput(from:), DescribeQAppPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQAppPermissionsInput, DescribeQAppPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQAppPermissionsOutput>())
@@ -1184,9 +1195,9 @@ extension QAppsClient {
     ///
     /// Removes a rating or review previously submitted by the user for a library item.
     ///
-    /// - Parameter DisassociateLibraryItemReviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateLibraryItemReviewInput`)
     ///
-    /// - Returns: `DisassociateLibraryItemReviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateLibraryItemReviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,6 +1239,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateLibraryItemReviewInput, DisassociateLibraryItemReviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateLibraryItemReviewOutput>(DisassociateLibraryItemReviewOutput.httpOutput(from:), DisassociateLibraryItemReviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateLibraryItemReviewInput, DisassociateLibraryItemReviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateLibraryItemReviewOutput>())
@@ -1259,9 +1271,9 @@ extension QAppsClient {
     ///
     /// Disassociates a Q App from a user removing the user's access to run the Q App.
     ///
-    /// - Parameter DisassociateQAppFromUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateQAppFromUserInput`)
     ///
-    /// - Returns: `DisassociateQAppFromUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateQAppFromUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,6 +1313,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateQAppFromUserInput, DisassociateQAppFromUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateQAppFromUserOutput>(DisassociateQAppFromUserOutput.httpOutput(from:), DisassociateQAppFromUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateQAppFromUserInput, DisassociateQAppFromUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateQAppFromUserOutput>())
@@ -1332,9 +1345,9 @@ extension QAppsClient {
     ///
     /// Exports the collected data of a Q App data collection session.
     ///
-    /// - Parameter ExportQAppSessionDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportQAppSessionDataInput`)
     ///
-    /// - Returns: `ExportQAppSessionDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportQAppSessionDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1376,6 +1389,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportQAppSessionDataInput, ExportQAppSessionDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportQAppSessionDataOutput>(ExportQAppSessionDataOutput.httpOutput(from:), ExportQAppSessionDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportQAppSessionDataInput, ExportQAppSessionDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportQAppSessionDataOutput>())
@@ -1407,9 +1421,9 @@ extension QAppsClient {
     ///
     /// Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
     ///
-    /// - Parameter GetLibraryItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLibraryItemInput`)
     ///
-    /// - Returns: `GetLibraryItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLibraryItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1447,6 +1461,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLibraryItemInput, GetLibraryItemOutput>(GetLibraryItemInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLibraryItemOutput>(GetLibraryItemOutput.httpOutput(from:), GetLibraryItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLibraryItemInput, GetLibraryItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLibraryItemOutput>())
@@ -1478,9 +1493,9 @@ extension QAppsClient {
     ///
     /// Retrieves the full details of an Q App, including its definition specifying the cards and flow.
     ///
-    /// - Parameter GetQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQAppInput`)
     ///
-    /// - Returns: `GetQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1518,6 +1533,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQAppInput, GetQAppOutput>(GetQAppInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQAppOutput>(GetQAppOutput.httpOutput(from:), GetQAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQAppInput, GetQAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQAppOutput>())
@@ -1549,9 +1565,9 @@ extension QAppsClient {
     ///
     /// Retrieves the current state and results for an active session of an Amazon Q App.
     ///
-    /// - Parameter GetQAppSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQAppSessionInput`)
     ///
-    /// - Returns: `GetQAppSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQAppSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1590,6 +1606,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQAppSessionInput, GetQAppSessionOutput>(GetQAppSessionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQAppSessionOutput>(GetQAppSessionOutput.httpOutput(from:), GetQAppSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQAppSessionInput, GetQAppSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQAppSessionOutput>())
@@ -1621,9 +1638,9 @@ extension QAppsClient {
     ///
     /// Retrieves the current configuration of a Q App session.
     ///
-    /// - Parameter GetQAppSessionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQAppSessionMetadataInput`)
     ///
-    /// - Returns: `GetQAppSessionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQAppSessionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1662,6 +1679,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetQAppSessionMetadataInput, GetQAppSessionMetadataOutput>(GetQAppSessionMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQAppSessionMetadataOutput>(GetQAppSessionMetadataOutput.httpOutput(from:), GetQAppSessionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQAppSessionMetadataInput, GetQAppSessionMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQAppSessionMetadataOutput>())
@@ -1693,9 +1711,9 @@ extension QAppsClient {
     ///
     /// Uploads a file that can then be used either as a default in a FileUploadCard from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
     ///
-    /// - Parameter ImportDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportDocumentInput`)
     ///
-    /// - Returns: `ImportDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1737,6 +1755,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportDocumentInput, ImportDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportDocumentOutput>(ImportDocumentOutput.httpOutput(from:), ImportDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportDocumentInput, ImportDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportDocumentOutput>())
@@ -1768,9 +1787,9 @@ extension QAppsClient {
     ///
     /// Lists the categories of a Amazon Q Business application environment instance. For more information, see [Custom labels for Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/qapps-custom-labels.html).
     ///
-    /// - Parameter ListCategoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCategoriesInput`)
     ///
-    /// - Returns: `ListCategoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCategoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1807,6 +1826,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<ListCategoriesInput, ListCategoriesOutput>(ListCategoriesInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCategoriesOutput>(ListCategoriesOutput.httpOutput(from:), ListCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCategoriesInput, ListCategoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCategoriesOutput>())
@@ -1838,9 +1858,9 @@ extension QAppsClient {
     ///
     /// Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
     ///
-    /// - Parameter ListLibraryItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLibraryItemsInput`)
     ///
-    /// - Returns: `ListLibraryItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLibraryItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1878,6 +1898,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLibraryItemsInput, ListLibraryItemsOutput>(ListLibraryItemsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLibraryItemsOutput>(ListLibraryItemsOutput.httpOutput(from:), ListLibraryItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLibraryItemsInput, ListLibraryItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLibraryItemsOutput>())
@@ -1909,9 +1930,9 @@ extension QAppsClient {
     ///
     /// Lists the collected data of a Q App data collection session.
     ///
-    /// - Parameter ListQAppSessionDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQAppSessionDataInput`)
     ///
-    /// - Returns: `ListQAppSessionDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQAppSessionDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1950,6 +1971,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQAppSessionDataInput, ListQAppSessionDataOutput>(ListQAppSessionDataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQAppSessionDataOutput>(ListQAppSessionDataOutput.httpOutput(from:), ListQAppSessionDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQAppSessionDataInput, ListQAppSessionDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQAppSessionDataOutput>())
@@ -1981,9 +2003,9 @@ extension QAppsClient {
     ///
     /// Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
     ///
-    /// - Parameter ListQAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQAppsInput`)
     ///
-    /// - Returns: `ListQAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,6 +2042,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQAppsInput, ListQAppsOutput>(ListQAppsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQAppsOutput>(ListQAppsOutput.httpOutput(from:), ListQAppsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQAppsInput, ListQAppsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQAppsOutput>())
@@ -2051,9 +2074,9 @@ extension QAppsClient {
     ///
     /// Lists the tags associated with an Amazon Q Apps resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2088,6 +2111,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2119,9 +2143,9 @@ extension QAppsClient {
     ///
     /// Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call CreateQApp. This API doesn't create Amazon Q Apps directly.
     ///
-    /// - Parameter PredictQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PredictQAppInput`)
     ///
-    /// - Returns: `PredictQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PredictQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2160,6 +2184,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PredictQAppInput, PredictQAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PredictQAppOutput>(PredictQAppOutput.httpOutput(from:), PredictQAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PredictQAppInput, PredictQAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PredictQAppOutput>())
@@ -2191,9 +2216,9 @@ extension QAppsClient {
     ///
     /// Starts a new session for an Amazon Q App, allowing inputs to be provided and the app to be run. Each Q App session will be condensed into a single conversation in the web experience.
     ///
-    /// - Parameter StartQAppSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQAppSessionInput`)
     ///
-    /// - Returns: `StartQAppSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQAppSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2234,6 +2259,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQAppSessionInput, StartQAppSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQAppSessionOutput>(StartQAppSessionOutput.httpOutput(from:), StartQAppSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQAppSessionInput, StartQAppSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQAppSessionOutput>())
@@ -2265,9 +2291,9 @@ extension QAppsClient {
     ///
     /// Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
     ///
-    /// - Parameter StopQAppSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQAppSessionInput`)
     ///
-    /// - Returns: `StopQAppSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQAppSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2308,6 +2334,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopQAppSessionInput, StopQAppSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopQAppSessionOutput>(StopQAppSessionOutput.httpOutput(from:), StopQAppSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopQAppSessionInput, StopQAppSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopQAppSessionOutput>())
@@ -2339,9 +2366,9 @@ extension QAppsClient {
     ///
     /// Associates tags with an Amazon Q Apps resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2380,6 +2407,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2411,9 +2439,9 @@ extension QAppsClient {
     ///
     /// Disassociates tags from an Amazon Q Apps resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2449,6 +2477,7 @@ extension QAppsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2480,9 +2509,9 @@ extension QAppsClient {
     ///
     /// Updates the library item for an Amazon Q App.
     ///
-    /// - Parameter UpdateLibraryItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLibraryItemInput`)
     ///
-    /// - Returns: `UpdateLibraryItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLibraryItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2523,6 +2552,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLibraryItemInput, UpdateLibraryItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLibraryItemOutput>(UpdateLibraryItemOutput.httpOutput(from:), UpdateLibraryItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLibraryItemInput, UpdateLibraryItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLibraryItemOutput>())
@@ -2554,9 +2584,9 @@ extension QAppsClient {
     ///
     /// Updates the verification status of a library item for an Amazon Q App.
     ///
-    /// - Parameter UpdateLibraryItemMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLibraryItemMetadataInput`)
     ///
-    /// - Returns: `UpdateLibraryItemMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLibraryItemMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2597,6 +2627,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLibraryItemMetadataOutput>(UpdateLibraryItemMetadataOutput.httpOutput(from:), UpdateLibraryItemMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLibraryItemMetadataInput, UpdateLibraryItemMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLibraryItemMetadataOutput>())
@@ -2628,9 +2659,9 @@ extension QAppsClient {
     ///
     /// Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
     ///
-    /// - Parameter UpdateQAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQAppInput`)
     ///
-    /// - Returns: `UpdateQAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2671,6 +2702,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQAppInput, UpdateQAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQAppOutput>(UpdateQAppOutput.httpOutput(from:), UpdateQAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQAppInput, UpdateQAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQAppOutput>())
@@ -2702,9 +2734,9 @@ extension QAppsClient {
     ///
     /// Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
     ///
-    /// - Parameter UpdateQAppPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQAppPermissionsInput`)
     ///
-    /// - Returns: `UpdateQAppPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQAppPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2744,6 +2776,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQAppPermissionsInput, UpdateQAppPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQAppPermissionsOutput>(UpdateQAppPermissionsOutput.httpOutput(from:), UpdateQAppPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQAppPermissionsInput, UpdateQAppPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQAppPermissionsOutput>())
@@ -2775,9 +2808,9 @@ extension QAppsClient {
     ///
     /// Updates the session for a given Q App sessionId. This is only valid when at least one card of the session is in the WAITING state. Data for each WAITING card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the WAITING status will be ignored.
     ///
-    /// - Parameter UpdateQAppSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQAppSessionInput`)
     ///
-    /// - Returns: `UpdateQAppSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQAppSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2818,6 +2851,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQAppSessionInput, UpdateQAppSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQAppSessionOutput>(UpdateQAppSessionOutput.httpOutput(from:), UpdateQAppSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQAppSessionInput, UpdateQAppSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQAppSessionOutput>())
@@ -2849,9 +2883,9 @@ extension QAppsClient {
     ///
     /// Updates the configuration metadata of a session for a given Q App sessionId.
     ///
-    /// - Parameter UpdateQAppSessionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQAppSessionMetadataInput`)
     ///
-    /// - Returns: `UpdateQAppSessionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQAppSessionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2892,6 +2926,7 @@ extension QAppsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQAppSessionMetadataInput, UpdateQAppSessionMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQAppSessionMetadataOutput>(UpdateQAppSessionMetadataOutput.httpOutput(from:), UpdateQAppSessionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQAppSessionMetadataInput, UpdateQAppSessionMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQAppSessionMetadataOutput>())

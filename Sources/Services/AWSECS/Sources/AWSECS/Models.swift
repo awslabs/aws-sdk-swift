@@ -24,8 +24,177 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum number of accelerators (such as GPUs) for instance type selection. This is used for workloads that require specific numbers of accelerators.
+    public struct AcceleratorCountRequest: Swift.Sendable {
+        /// The maximum number of accelerators. Instance types with more accelerators are excluded from selection.
+        public var max: Swift.Int?
+        /// The minimum number of accelerators. Instance types with fewer accelerators are excluded from selection.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum AcceleratorManufacturer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonWebServices
+        case amd
+        case habana
+        case nvidia
+        case xilinx
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcceleratorManufacturer] {
+            return [
+                .amazonWebServices,
+                .amd,
+                .habana,
+                .nvidia,
+                .xilinx
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonWebServices: return "amazon-web-services"
+            case .amd: return "amd"
+            case .habana: return "habana"
+            case .nvidia: return "nvidia"
+            case .xilinx: return "xilinx"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum AcceleratorName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case a100
+        case a10g
+        case h100
+        case inferentia
+        case k520
+        case k80
+        case m60
+        case radeonProV520
+        case t4
+        case t4g
+        case v100
+        case vu9p
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcceleratorName] {
+            return [
+                .a100,
+                .a10g,
+                .h100,
+                .inferentia,
+                .k520,
+                .k80,
+                .m60,
+                .radeonProV520,
+                .t4,
+                .t4g,
+                .v100,
+                .vu9p
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .a100: return "a100"
+            case .a10g: return "a10g"
+            case .h100: return "h100"
+            case .inferentia: return "inferentia"
+            case .k520: return "k520"
+            case .k80: return "k80"
+            case .m60: return "m60"
+            case .radeonProV520: return "radeon-pro-v520"
+            case .t4: return "t4"
+            case .t4g: return "t4g"
+            case .v100: return "v100"
+            case .vu9p: return "vu9p"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum total accelerator memory in mebibytes (MiB) for instance type selection. This is important for GPU workloads that require specific amounts of video memory.
+    public struct AcceleratorTotalMemoryMiBRequest: Swift.Sendable {
+        /// The maximum total accelerator memory in MiB. Instance types with more accelerator memory are excluded from selection.
+        public var max: Swift.Int?
+        /// The minimum total accelerator memory in MiB. Instance types with less accelerator memory are excluded from selection.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum AcceleratorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fpga
+        case gpu
+        case inference
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcceleratorType] {
+            return [
+                .fpga,
+                .gpu,
+                .inference
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fpga: return "fpga"
+            case .gpu: return "gpu"
+            case .inference: return "inference"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
 
 /// You don't have authorization to perform the requested action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -48,6 +217,35 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum AccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessType] {
+            return [
+                .private,
+                .public
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -143,6 +341,30 @@ public struct ClientException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
+/// The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
+public struct ClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see [Amazon ECS service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages-list.html).
 public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -202,6 +424,30 @@ public struct ServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ServerException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified task isn't supported in this Region.
+public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedFeatureException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -387,6 +633,662 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The configuration that controls how Amazon ECS optimizes your infrastructure.
+    public struct InfrastructureOptimization: Swift.Sendable {
+        /// This parameter defines the number of seconds Amazon ECS Managed Instances waits before optimizing EC2 instances that have become idle or underutilized. A longer delay increases the likelihood of placing new tasks on idle or underutilized instances instances, reducing startup time. A shorter delay helps reduce infrastructure costs by optimizing idle or underutilized instances,instances more quickly. Valid values are:
+        ///
+        /// * null - Uses the default optimization behavior.
+        ///
+        /// * -1 - Disables automatic infrastructure optimization.
+        ///
+        /// * A value between 0 and 3600 (inclusive) - Specifies the number of seconds to wait before optimizing instances.
+        public var scaleInAfter: Swift.Int?
+
+        public init(
+            scaleInAfter: Swift.Int? = nil
+        ) {
+            self.scaleInAfter = scaleInAfter
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum CapacityOptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case spot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityOptionType] {
+            return [
+                .onDemand,
+                .spot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "ON_DEMAND"
+            case .spot: return "SPOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum BareMetal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BareMetal] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum baseline Amazon EBS bandwidth in megabits per second (Mbps) for instance type selection. This is important for workloads with high storage I/O requirements.
+    public struct BaselineEbsBandwidthMbpsRequest: Swift.Sendable {
+        /// The maximum baseline Amazon EBS bandwidth in Mbps. Instance types with higher Amazon EBS bandwidth are excluded from selection.
+        public var max: Swift.Int?
+        /// The minimum baseline Amazon EBS bandwidth in Mbps. Instance types with lower Amazon EBS bandwidth are excluded from selection.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum BurstablePerformance: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BurstablePerformance] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum CpuManufacturer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonWebServices
+        case amd
+        case intel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CpuManufacturer] {
+            return [
+                .amazonWebServices,
+                .amd,
+                .intel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonWebServices: return "amazon-web-services"
+            case .amd: return "amd"
+            case .intel: return "intel"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum InstanceGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case current
+        case previous
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceGeneration] {
+            return [
+                .current,
+                .previous
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .current: return "current"
+            case .previous: return "previous"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum LocalStorage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalStorage] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum LocalStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hdd
+        case ssd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalStorageType] {
+            return [
+                .hdd,
+                .ssd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hdd: return "hdd"
+            case .ssd: return "ssd"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum amount of memory per vCPU in gibibytes (GiB). This helps ensure that instance types have the appropriate memory-to-CPU ratio for your workloads.
+    public struct MemoryGiBPerVCpuRequest: Swift.Sendable {
+        /// The maximum amount of memory per vCPU in GiB. Instance types with a higher memory-to-vCPU ratio are excluded from selection.
+        public var max: Swift.Double?
+        /// The minimum amount of memory per vCPU in GiB. Instance types with a lower memory-to-vCPU ratio are excluded from selection.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum amount of memory in mebibytes (MiB) for instance type selection. This ensures that selected instance types have adequate memory for your workloads.
+    public struct MemoryMiBRequest: Swift.Sendable {
+        /// The maximum amount of memory in MiB. Instance types with more memory than this value are excluded from selection.
+        public var max: Swift.Int?
+        /// The minimum amount of memory in MiB. Instance types with less memory than this value are excluded from selection.
+        /// This member is required.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum network bandwidth in gigabits per second (Gbps) for instance type selection. This is important for network-intensive workloads.
+    public struct NetworkBandwidthGbpsRequest: Swift.Sendable {
+        /// The maximum network bandwidth in Gbps. Instance types with higher network bandwidth are excluded from selection.
+        public var max: Swift.Double?
+        /// The minimum network bandwidth in Gbps. Instance types with lower network bandwidth are excluded from selection.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum number of network interfaces for instance type selection. This is useful for workloads that require multiple network interfaces.
+    public struct NetworkInterfaceCountRequest: Swift.Sendable {
+        /// The maximum number of network interfaces. Instance types that support more network interfaces are excluded from selection.
+        public var max: Swift.Int?
+        /// The minimum number of network interfaces. Instance types that support fewer network interfaces are excluded from selection.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum total local storage in gigabytes (GB) for instance types with local storage. This is useful for workloads that require local storage for temporary data or caching.
+    public struct TotalLocalStorageGBRequest: Swift.Sendable {
+        /// The maximum total local storage in GB. Instance types with more local storage are excluded from selection.
+        public var max: Swift.Double?
+        /// The minimum total local storage in GB. Instance types with less local storage are excluded from selection.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The minimum and maximum number of vCPUs for instance type selection. This allows you to specify a range of vCPU counts that meet your workload requirements.
+    public struct VCpuCountRangeRequest: Swift.Sendable {
+        /// The maximum number of vCPUs. Instance types with more vCPUs than this value are excluded from selection.
+        public var max: Swift.Int?
+        /// The minimum number of vCPUs. Instance types with fewer vCPUs than this value are excluded from selection.
+        /// This member is required.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The instance requirements for attribute-based instance type selection. Instead of specifying exact instance types, you define requirements such as vCPU count, memory size, network performance, and accelerator specifications. Amazon ECS automatically selects Amazon EC2 instance types that match these requirements, providing flexibility and helping to mitigate capacity constraints.
+    public struct InstanceRequirementsRequest: Swift.Sendable {
+        /// The minimum and maximum number of accelerators for the instance types. This is used when you need instances with specific numbers of GPUs or other accelerators.
+        public var acceleratorCount: ECSClientTypes.AcceleratorCountRequest?
+        /// The accelerator manufacturers to include. You can specify nvidia, amd, amazon-web-services, or xilinx depending on your accelerator requirements.
+        public var acceleratorManufacturers: [ECSClientTypes.AcceleratorManufacturer]?
+        /// The specific accelerator names to include. For example, you can specify a100, v100, k80, or other specific accelerator models.
+        public var acceleratorNames: [ECSClientTypes.AcceleratorName]?
+        /// The minimum and maximum total accelerator memory in mebibytes (MiB). This is important for GPU workloads that require specific amounts of video memory.
+        public var acceleratorTotalMemoryMiB: ECSClientTypes.AcceleratorTotalMemoryMiBRequest?
+        /// The accelerator types to include. You can specify gpu for graphics processing units, fpga for field programmable gate arrays, or inference for machine learning inference accelerators.
+        public var acceleratorTypes: [ECSClientTypes.AcceleratorType]?
+        /// The instance types to include in the selection. When specified, Amazon ECS only considers these instance types, subject to the other requirements specified.
+        public var allowedInstanceTypes: [Swift.String]?
+        /// Indicates whether to include bare metal instance types. Set to included to allow bare metal instances, excluded to exclude them, or required to use only bare metal instances.
+        public var bareMetal: ECSClientTypes.BareMetal?
+        /// The minimum and maximum baseline Amazon EBS bandwidth in megabits per second (Mbps). This is important for workloads with high storage I/O requirements.
+        public var baselineEbsBandwidthMbps: ECSClientTypes.BaselineEbsBandwidthMbpsRequest?
+        /// Indicates whether to include burstable performance instance types (T2, T3, T3a, T4g). Set to included to allow burstable instances, excluded to exclude them, or required to use only burstable instances.
+        public var burstablePerformance: ECSClientTypes.BurstablePerformance?
+        /// The CPU manufacturers to include or exclude. You can specify intel, amd, or amazon-web-services to control which CPU types are used for your workloads.
+        public var cpuManufacturers: [ECSClientTypes.CpuManufacturer]?
+        /// The instance types to exclude from selection. Use this to prevent Amazon ECS from selecting specific instance types that may not be suitable for your workloads.
+        public var excludedInstanceTypes: [Swift.String]?
+        /// The instance generations to include. You can specify current to use the latest generation instances, or previous to include previous generation instances for cost optimization.
+        public var instanceGenerations: [ECSClientTypes.InstanceGeneration]?
+        /// Indicates whether to include instance types with local storage. Set to included to allow local storage, excluded to exclude it, or required to use only instances with local storage.
+        public var localStorage: ECSClientTypes.LocalStorage?
+        /// The local storage types to include. You can specify hdd for hard disk drives, ssd for solid state drives, or both.
+        public var localStorageTypes: [ECSClientTypes.LocalStorageType]?
+        /// The maximum price for Spot instances as a percentage of the optimal On-Demand price. This provides more precise cost control for Spot instance selection.
+        public var maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int?
+        /// The minimum and maximum amount of memory per vCPU in gibibytes (GiB). This helps ensure that instance types have the appropriate memory-to-CPU ratio for your workloads.
+        public var memoryGiBPerVCpu: ECSClientTypes.MemoryGiBPerVCpuRequest?
+        /// The minimum and maximum amount of memory in mebibytes (MiB) for the instance types. Amazon ECS selects instance types that have memory within this range.
+        /// This member is required.
+        public var memoryMiB: ECSClientTypes.MemoryMiBRequest?
+        /// The minimum and maximum network bandwidth in gigabits per second (Gbps). This is crucial for network-intensive workloads that require high throughput.
+        public var networkBandwidthGbps: ECSClientTypes.NetworkBandwidthGbpsRequest?
+        /// The minimum and maximum number of network interfaces for the instance types. This is useful for workloads that require multiple network interfaces.
+        public var networkInterfaceCount: ECSClientTypes.NetworkInterfaceCountRequest?
+        /// The price protection threshold for On-Demand Instances, as a percentage higher than an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified price is from either the lowest priced current generation instance types or, failing that, the lowest priced previous generation instance types that match your attributes. When Amazon ECS selects instance types with your attributes, we will exclude instance types whose price exceeds your specified threshold.
+        public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int?
+        /// Indicates whether the instance types must support hibernation. When set to true, only instance types that support hibernation are selected.
+        public var requireHibernateSupport: Swift.Bool?
+        /// The maximum price for Spot instances as a percentage over the lowest priced On-Demand instance. This helps control Spot instance costs while maintaining access to capacity.
+        public var spotMaxPricePercentageOverLowestPrice: Swift.Int?
+        /// The minimum and maximum total local storage in gigabytes (GB) for instance types with local storage.
+        public var totalLocalStorageGB: ECSClientTypes.TotalLocalStorageGBRequest?
+        /// The minimum and maximum number of vCPUs for the instance types. Amazon ECS selects instance types that have vCPU counts within this range.
+        /// This member is required.
+        public var vCpuCount: ECSClientTypes.VCpuCountRangeRequest?
+
+        public init(
+            acceleratorCount: ECSClientTypes.AcceleratorCountRequest? = nil,
+            acceleratorManufacturers: [ECSClientTypes.AcceleratorManufacturer]? = nil,
+            acceleratorNames: [ECSClientTypes.AcceleratorName]? = nil,
+            acceleratorTotalMemoryMiB: ECSClientTypes.AcceleratorTotalMemoryMiBRequest? = nil,
+            acceleratorTypes: [ECSClientTypes.AcceleratorType]? = nil,
+            allowedInstanceTypes: [Swift.String]? = nil,
+            bareMetal: ECSClientTypes.BareMetal? = nil,
+            baselineEbsBandwidthMbps: ECSClientTypes.BaselineEbsBandwidthMbpsRequest? = nil,
+            burstablePerformance: ECSClientTypes.BurstablePerformance? = nil,
+            cpuManufacturers: [ECSClientTypes.CpuManufacturer]? = nil,
+            excludedInstanceTypes: [Swift.String]? = nil,
+            instanceGenerations: [ECSClientTypes.InstanceGeneration]? = nil,
+            localStorage: ECSClientTypes.LocalStorage? = nil,
+            localStorageTypes: [ECSClientTypes.LocalStorageType]? = nil,
+            maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int? = nil,
+            memoryGiBPerVCpu: ECSClientTypes.MemoryGiBPerVCpuRequest? = nil,
+            memoryMiB: ECSClientTypes.MemoryMiBRequest? = nil,
+            networkBandwidthGbps: ECSClientTypes.NetworkBandwidthGbpsRequest? = nil,
+            networkInterfaceCount: ECSClientTypes.NetworkInterfaceCountRequest? = nil,
+            onDemandMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
+            requireHibernateSupport: Swift.Bool? = nil,
+            spotMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
+            totalLocalStorageGB: ECSClientTypes.TotalLocalStorageGBRequest? = nil,
+            vCpuCount: ECSClientTypes.VCpuCountRangeRequest? = nil
+        ) {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorManufacturers = acceleratorManufacturers
+            self.acceleratorNames = acceleratorNames
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.allowedInstanceTypes = allowedInstanceTypes
+            self.bareMetal = bareMetal
+            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.burstablePerformance = burstablePerformance
+            self.cpuManufacturers = cpuManufacturers
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.instanceGenerations = instanceGenerations
+            self.localStorage = localStorage
+            self.localStorageTypes = localStorageTypes
+            self.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = maxSpotPriceAsPercentageOfOptimalOnDemandPrice
+            self.memoryGiBPerVCpu = memoryGiBPerVCpu
+            self.memoryMiB = memoryMiB
+            self.networkBandwidthGbps = networkBandwidthGbps
+            self.networkInterfaceCount = networkInterfaceCount
+            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireHibernateSupport = requireHibernateSupport
+            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
+            self.totalLocalStorageGB = totalLocalStorageGB
+            self.vCpuCount = vCpuCount
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ManagedInstancesMonitoringOptions: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basic
+        case detailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedInstancesMonitoringOptions] {
+            return [
+                .basic,
+                .detailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .detailed: return "DETAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The network configuration for Amazon ECS Managed Instances. This specifies the VPC subnets and security groups that instances use for network connectivity. Amazon ECS Managed Instances support multiple network modes including awsvpc (instances receive ENIs for task isolation), host (instances share network namespace with tasks), and none (no external network connectivity), ensuring backward compatibility for migrating workloads from Fargate or Amazon EC2.
+    public struct ManagedInstancesNetworkConfiguration: Swift.Sendable {
+        /// The list of security group IDs to apply to Amazon ECS Managed Instances. These security groups control the network traffic allowed to and from the instances.
+        public var securityGroups: [Swift.String]?
+        /// The list of subnet IDs where Amazon ECS can launch Amazon ECS Managed Instances. Instances are distributed across the specified subnets for high availability. All subnets must be in the same VPC.
+        public var subnets: [Swift.String]?
+
+        public init(
+            securityGroups: [Swift.String]? = nil,
+            subnets: [Swift.String]? = nil
+        ) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The storage configuration for Amazon ECS Managed Instances. This defines the root volume configuration for the instances.
+    public struct ManagedInstancesStorageConfiguration: Swift.Sendable {
+        /// The size of the tasks volume.
+        public var storageSizeGiB: Swift.Int?
+
+        public init(
+            storageSizeGiB: Swift.Int? = nil
+        ) {
+            self.storageSizeGiB = storageSizeGiB
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The launch template configuration for Amazon ECS Managed Instances. This defines how Amazon ECS launches Amazon EC2 instances, including the instance profile for your tasks, network and storage configuration, capacity options, and instance requirements for flexible instance type selection.
+    public struct InstanceLaunchTemplate: Swift.Sendable {
+        /// The capacity option type. This determines whether Amazon ECS launches On-Demand or Spot Instances for your managed instance capacity provider. Valid values are:
+        ///
+        /// * ON_DEMAND - Launches standard On-Demand Instances. On-Demand Instances provide predictable pricing and availability.
+        ///
+        /// * SPOT - Launches Spot Instances that use spare Amazon EC2 capacity at reduced cost. Spot Instances can be interrupted by Amazon EC2 with a two-minute notification when the capacity is needed back.
+        ///
+        ///
+        /// The default is On-Demand For more information about Amazon EC2 capacity options, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon EC2 User Guide.
+        public var capacityOptionType: ECSClientTypes.CapacityOptionType?
+        /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS applies to Amazon ECS Managed Instances. This instance profile must include the necessary permissions for your tasks to access Amazon Web Services services and resources. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
+        /// This member is required.
+        public var ec2InstanceProfileArn: Swift.String?
+        /// Determines whether to enable FIPS 140-2 validated cryptographic modules on EC2 instances launched by the capacity provider. If true, instances use FIPS-compliant cryptographic algorithms and modules for enhanced security compliance. If false, instances use standard cryptographic implementations. If not specified, instances are launched with FIPS enabled in AWS GovCloud (US) regions and FIPS disabled in other regions.
+        public var fipsEnabled: Swift.Bool?
+        /// The instance requirements. You can specify:
+        ///
+        /// * The instance types
+        ///
+        /// * Instance requirements such as vCPU count, memory, network performance, and accelerator specifications
+        ///
+        ///
+        /// Amazon ECS automatically selects the instances that match the specified criteria.
+        public var instanceRequirements: ECSClientTypes.InstanceRequirementsRequest?
+        /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see [Detailed monitoring for Amazon ECS Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/detailed-monitoring-managed-instances.html) in the Amazon ECS Developer Guide.
+        public var monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions?
+        /// The network configuration for Amazon ECS Managed Instances. This specifies the subnets and security groups that instances use for network connectivity.
+        /// This member is required.
+        public var networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration?
+        /// The storage configuration for Amazon ECS Managed Instances. This defines the root volume size and type for the instances.
+        public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
+
+        public init(
+            capacityOptionType: ECSClientTypes.CapacityOptionType? = nil,
+            ec2InstanceProfileArn: Swift.String? = nil,
+            fipsEnabled: Swift.Bool? = nil,
+            instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
+            monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
+            networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
+        ) {
+            self.capacityOptionType = capacityOptionType
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.fipsEnabled = fipsEnabled
+            self.instanceRequirements = instanceRequirements
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum PropagateMITags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityProvider
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropagateMITags] {
+            return [
+                .capacityProvider,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityProvider: return "CAPACITY_PROVIDER"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The configuration for creating a Amazon ECS Managed Instances provider. This specifies how Amazon ECS should manage Amazon EC2 instances, including the infrastructure role, instance launch template, and whether to propagate tags from the capacity provider to the instances.
+    public struct CreateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in your capacity provider. Provides control over the delay between when EC2 instances become idle or underutilized and when Amazon ECS optimizes them.
+        public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
+        /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS uses to manage instances on your behalf. This role must have permissions to launch, terminate, and manage Amazon EC2 instances, as well as access to other Amazon Web Services services required for Amazon ECS Managed Instances functionality. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
+        /// This member is required.
+        public var infrastructureRoleArn: Swift.String?
+        /// The launch template configuration that specifies how Amazon ECS should launch Amazon EC2 instances. This includes the instance profile, network configuration, storage settings, and instance requirements for attribute-based instance type selection. For more information, see [Store instance launch parameters in Amazon EC2 launch templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide.
+        /// This member is required.
+        public var instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplate?
+        /// Specifies whether to propagate tags from the capacity provider to the Amazon ECS Managed Instances. When enabled, tags applied to the capacity provider are automatically applied to all instances launched by this provider.
+        public var propagateTags: ECSClientTypes.PropagateMITags?
+
+        public init(
+            infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplate? = nil,
+            propagateTags: ECSClientTypes.PropagateMITags? = nil
+        ) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define them. The following basic restrictions apply to tags:
     ///
     /// * Maximum number of tags per resource - 50
@@ -420,8 +1322,11 @@ extension ECSClientTypes {
 
 public struct CreateCapacityProviderInput: Swift.Sendable {
     /// The details of the Auto Scaling group for the capacity provider.
-    /// This member is required.
     public var autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProvider?
+    /// The name of the cluster to associate with the capacity provider. When you create a capacity provider with Amazon ECS Managed Instances, it becomes available only within the specified cluster.
+    public var cluster: Swift.String?
+    /// The configuration for the Amazon ECS Managed Instances provider. This configuration specifies how Amazon ECS manages Amazon EC2 instances on your behalf, including the infrastructure role, instance launch template, and tag propagation settings.
+    public var managedInstancesProvider: ECSClientTypes.CreateManagedInstancesProviderConfiguration?
     /// The name of the capacity provider. Up to 255 characters are allowed. They include letters (both upper and lowercase letters), numbers, underscores (_), and hyphens (-). The name can't be prefixed with "aws", "ecs", or "fargate".
     /// This member is required.
     public var name: Swift.String?
@@ -444,10 +1349,14 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
 
     public init(
         autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProvider? = nil,
+        cluster: Swift.String? = nil,
+        managedInstancesProvider: ECSClientTypes.CreateManagedInstancesProviderConfiguration? = nil,
         name: Swift.String? = nil,
         tags: [ECSClientTypes.Tag]? = nil
     ) {
         self.autoScalingGroupProvider = autoScalingGroupProvider
+        self.cluster = cluster
+        self.managedInstancesProvider = managedInstancesProvider
         self.name = name
         self.tags = tags
     }
@@ -455,15 +1364,46 @@ public struct CreateCapacityProviderInput: Swift.Sendable {
 
 extension ECSClientTypes {
 
+    /// The configuration for a Amazon ECS Managed Instances provider. Amazon ECS uses this configuration to automatically launch, manage, and terminate Amazon EC2 instances on your behalf. Managed instances provide access to the full range of Amazon EC2 instance types and features while offloading infrastructure management to Amazon Web Services.
+    public struct ManagedInstancesProvider: Swift.Sendable {
+        /// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in your capacity provider. Configure it to turn on or off the infrastructure optimization in your capacity provider, and to control the idle or underutilized EC2 instances optimization delay.
+        public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
+        /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS assumes to manage instances. This role must include permissions for Amazon EC2 instance lifecycle management, networking, and any additional Amazon Web Services services required for your workloads. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
+        public var infrastructureRoleArn: Swift.String?
+        /// The launch template that defines how Amazon ECS launches Amazon ECS Managed Instances. This includes the instance profile for your tasks, network and storage configuration, and instance requirements that determine which Amazon EC2 instance types can be used. For more information, see [Store instance launch parameters in Amazon EC2 launch templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide.
+        public var instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplate?
+        /// Determines whether tags from the capacity provider are automatically applied to Amazon ECS Managed Instances. This helps with cost allocation and resource management by ensuring consistent tagging across your infrastructure.
+        public var propagateTags: ECSClientTypes.PropagateMITags?
+
+        public init(
+            infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplate? = nil,
+            propagateTags: ECSClientTypes.PropagateMITags? = nil
+        ) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum CapacityProviderStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case deprovisioning
         case inactive
+        case provisioning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CapacityProviderStatus] {
             return [
                 .active,
-                .inactive
+                .deprovisioning,
+                .inactive,
+                .provisioning
             ]
         }
 
@@ -475,7 +1415,44 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .deprovisioning: return "DEPROVISIONING"
             case .inactive: return "INACTIVE"
+            case .provisioning: return "PROVISIONING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum CapacityProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec2Autoscaling
+        case fargate
+        case fargateSpot
+        case managedInstances
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityProviderType] {
+            return [
+                .ec2Autoscaling,
+                .fargate,
+                .fargateSpot,
+                .managedInstances
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2Autoscaling: return "EC2_AUTOSCALING"
+            case .fargate: return "FARGATE"
+            case .fargateSpot: return "FARGATE_SPOT"
+            case .managedInstances: return "MANAGED_INSTANCES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -485,6 +1462,9 @@ extension ECSClientTypes {
 extension ECSClientTypes {
 
     public enum CapacityProviderUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createComplete
+        case createFailed
+        case createInProgress
         case deleteComplete
         case deleteFailed
         case deleteInProgress
@@ -495,6 +1475,9 @@ extension ECSClientTypes {
 
         public static var allCases: [CapacityProviderUpdateStatus] {
             return [
+                .createComplete,
+                .createFailed,
+                .createInProgress,
                 .deleteComplete,
                 .deleteFailed,
                 .deleteInProgress,
@@ -511,6 +1494,9 @@ extension ECSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .createComplete: return "CREATE_COMPLETE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
             case .deleteComplete: return "DELETE_COMPLETE"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleteInProgress: return "DELETE_IN_PROGRESS"
@@ -531,6 +1517,10 @@ extension ECSClientTypes {
         public var autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProvider?
         /// The Amazon Resource Name (ARN) that identifies the capacity provider.
         public var capacityProviderArn: Swift.String?
+        /// The cluster that this capacity provider is associated with. Managed instances capacity providers are cluster-scoped, meaning they can only be used within their associated cluster. This is required for Managed instances.
+        public var cluster: Swift.String?
+        /// The configuration for the Amazon ECS Managed Instances provider. This includes the infrastructure role, the launch template configuration, and tag propagation settings.
+        public var managedInstancesProvider: ECSClientTypes.ManagedInstancesProvider?
         /// The name of the capacity provider.
         public var name: Swift.String?
         /// The current status of the capacity provider. Only capacity providers in an ACTIVE state can be used in a cluster. When a capacity provider is successfully deleted, it has an INACTIVE status.
@@ -551,6 +1541,8 @@ extension ECSClientTypes {
         ///
         /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public var tags: [ECSClientTypes.Tag]?
+        /// The type of capacity provider. For Amazon ECS Managed Instances, this value is MANAGED_INSTANCES, indicating that Amazon ECS manages the underlying Amazon EC2 instances on your behalf.
+        public var type: ECSClientTypes.CapacityProviderType?
         /// The update status of the capacity provider. The following are the possible states that is returned. DELETE_IN_PROGRESS The capacity provider is in the process of being deleted. DELETE_COMPLETE The capacity provider was successfully deleted and has an INACTIVE status. DELETE_FAILED The capacity provider can't be deleted. The update status reason provides further details about why the delete failed.
         public var updateStatus: ECSClientTypes.CapacityProviderUpdateStatus?
         /// The update status reason. This provides further details about the update status for the capacity provider.
@@ -559,17 +1551,23 @@ extension ECSClientTypes {
         public init(
             autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProvider? = nil,
             capacityProviderArn: Swift.String? = nil,
+            cluster: Swift.String? = nil,
+            managedInstancesProvider: ECSClientTypes.ManagedInstancesProvider? = nil,
             name: Swift.String? = nil,
             status: ECSClientTypes.CapacityProviderStatus? = nil,
             tags: [ECSClientTypes.Tag]? = nil,
+            type: ECSClientTypes.CapacityProviderType? = nil,
             updateStatus: ECSClientTypes.CapacityProviderUpdateStatus? = nil,
             updateStatusReason: Swift.String? = nil
         ) {
             self.autoScalingGroupProvider = autoScalingGroupProvider
             self.capacityProviderArn = capacityProviderArn
+            self.cluster = cluster
+            self.managedInstancesProvider = managedInstancesProvider
             self.name = name
             self.status = status
             self.tags = tags
+            self.type = type
             self.updateStatus = updateStatus
             self.updateStatusReason = updateStatusReason
         }
@@ -749,9 +1747,9 @@ extension ECSClientTypes {
         ///
         /// * Only one capacity provider in a strategy can have a base defined
         ///
-        /// * Default value is 0 if not specified
+        /// * The default value is 0 if not specified
         ///
-        /// * Valid range: 0 to 100,000
+        /// * The valid range is 0 to 100,000
         ///
         /// * Base requirements are satisfied first before weight distribution
         public var base: Swift.Int
@@ -762,9 +1760,9 @@ extension ECSClientTypes {
         ///
         /// * Weight is considered after the base value is satisfied
         ///
-        /// * Default value is 0 if not specified
+        /// * The default value is 0 if not specified
         ///
-        /// * Valid range: 0 to 1,000
+        /// * The valid range is 0 to 1,000
         ///
         /// * At least one capacity provider must have a weight greater than zero
         ///
@@ -839,7 +1837,7 @@ extension ECSClientTypes {
 
     /// The settings to use when creating a cluster. This parameter is used to turn on CloudWatch Container Insights with enhanced observability or CloudWatch Container Insights for a cluster. Container Insights with enhanced observability provides all the Container Insights metrics, plus additional task and container metrics. This version supports enhanced observability for Amazon ECS clusters using the Amazon EC2 and Fargate launch types. After you configure Container Insights with enhanced observability on Amazon ECS, Container Insights auto-collects detailed infrastructure telemetry from the cluster level down to the container level in your environment and displays these critical performance data in curated dashboards removing the heavy lifting in observability set-up. For more information, see [Monitor Amazon ECS containers using Container Insights with enhanced observability](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html) in the Amazon Elastic Container Service Developer Guide.
     public struct ClusterSetting: Swift.Sendable {
-        /// The name of the cluster setting. The value is containerInsights .
+        /// The name of the cluster setting. The value is containerInsights.
         public var name: ECSClientTypes.ClusterSettingName?
         /// The value to set for the cluster setting. The supported values are enhanced, enabled, and disabled. To use Container Insights with enhanced observability, set the containerInsights account setting to enhanced. To use Container Insights, set the containerInsights account setting to enabled. If a cluster value is specified, it will override the containerInsights value set with [PutAccountSetting](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSetting.html) or [PutAccountSettingDefault](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSettingDefault.html).
         public var value: Swift.String?
@@ -1080,30 +2078,6 @@ public struct CreateClusterOutput: Swift.Sendable {
     }
 }
 
-/// The specified cluster wasn't found. You can view your available clusters with [ListClusters](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListClusters.html). Amazon ECS clusters are Region specific.
-public struct ClusterNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ClusterNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The specified platform version doesn't satisfy the required capabilities of the task definition.
 public struct PlatformTaskDefinitionIncompatibilityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1152,27 +2126,432 @@ public struct PlatformUnknownException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// The specified task isn't supported in this Region.
-public struct UnsupportedFeatureException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension ECSClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
+    /// The network configuration for an Express service. By default, an Express service utilizes subnets and security groups associated with the default VPC.
+    public struct ExpressGatewayServiceNetworkConfiguration: Swift.Sendable {
+        /// The IDs of the security groups associated with the Express service.
+        public var securityGroups: [Swift.String]?
+        /// The IDs of the subnets associated with the Express service.
+        public var subnets: [Swift.String]?
+
+        public init(
+            securityGroups: [Swift.String]? = nil,
+            subnets: [Swift.String]? = nil
+        ) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
     }
+}
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "UnsupportedFeatureException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+extension ECSClientTypes {
+
+    /// Specifies the Amazon CloudWatch Logs configuration for the Express service container.
+    public struct ExpressGatewayServiceAwsLogsConfiguration: Swift.Sendable {
+        /// The name of the CloudWatch Logs log group to send container logs to.
+        /// This member is required.
+        public var logGroup: Swift.String?
+        /// The prefix for the CloudWatch Logs log stream names. The default for an Express service is ecs.
+        /// This member is required.
+        public var logStreamPrefix: Swift.String?
+
+        public init(
+            logGroup: Swift.String? = nil,
+            logStreamPrefix: Swift.String? = nil
+        ) {
+            self.logGroup = logGroup
+            self.logStreamPrefix = logStreamPrefix
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The repository credentials for private registry authentication to pass to the container.
+    public struct ExpressGatewayRepositoryCredentials: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.
+        public var credentialsParameter: Swift.String?
+
+        public init(
+            credentialsParameter: Swift.String? = nil
+        ) {
+            self.credentialsParameter = credentialsParameter
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object representing the secret to expose to your container. Secrets can be exposed to a container in the following ways:
+    ///
+    /// * To inject sensitive data into your containers as environment variables, use the secrets container definition parameter.
+    ///
+    /// * To reference sensitive information in the log configuration of a container, use the secretOptions container definition parameter.
+    ///
+    ///
+    /// For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct Secret: Swift.Sendable {
+        /// The name of the secret.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The secret to expose to the container. The supported values are either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the SSM Parameter Store. For information about the require Identity and Access Management permissions, see [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html#secrets-iam) (for Secrets Manager) or [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html) (for Systems Manager Parameter store) in the Amazon Elastic Container Service Developer Guide. If the SSM Parameter Store parameter exists in the same Region as the task you're launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
+        /// This member is required.
+        public var valueFrom: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            valueFrom: Swift.String? = nil
+        ) {
+            self.name = name
+            self.valueFrom = valueFrom
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Defines the configuration for the primary container in an Express service. This container receives traffic from the Application Load Balancer and runs your application code. The container configuration includes the container image, port mapping, logging settings, environment variables, and secrets. The container image is the only required parameter, with sensible defaults provided for other settings.
+    public struct ExpressGatewayContainer: Swift.Sendable {
+        /// The log configuration for the container.
+        public var awsLogsConfiguration: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration?
+        /// The command that is passed to the container.
+        public var command: [Swift.String]?
+        /// The port number on the container that receives traffic from the load balancer. Default is 80.
+        public var containerPort: Swift.Int?
+        /// The environment variables to pass to the container.
+        public var environment: [ECSClientTypes.KeyValuePair]?
+        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. For Express services, the image typically contains a web application that listens on the specified container port. The image can be stored in Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
+        /// This member is required.
+        public var image: Swift.String?
+        /// The configuration for repository credentials for private registry authentication.
+        public var repositoryCredentials: ECSClientTypes.ExpressGatewayRepositoryCredentials?
+        /// The secrets to pass to the container.
+        public var secrets: [ECSClientTypes.Secret]?
+
+        public init(
+            awsLogsConfiguration: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration? = nil,
+            command: [Swift.String]? = nil,
+            containerPort: Swift.Int? = nil,
+            environment: [ECSClientTypes.KeyValuePair]? = nil,
+            image: Swift.String? = nil,
+            repositoryCredentials: ECSClientTypes.ExpressGatewayRepositoryCredentials? = nil,
+            secrets: [ECSClientTypes.Secret]? = nil
+        ) {
+            self.awsLogsConfiguration = awsLogsConfiguration
+            self.command = command
+            self.containerPort = containerPort
+            self.environment = environment
+            self.image = image
+            self.repositoryCredentials = repositoryCredentials
+            self.secrets = secrets
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceScalingMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case averagecpuutilization
+        case averagememoryutilization
+        case requestcountpertarget
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceScalingMetric] {
+            return [
+                .averagecpuutilization,
+                .averagememoryutilization,
+                .requestcountpertarget
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .averagecpuutilization: return "AVERAGE_CPU"
+            case .averagememoryutilization: return "AVERAGE_MEMORY"
+            case .requestcountpertarget: return "REQUEST_COUNT_PER_TARGET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Defines the auto-scaling configuration for an Express service. This determines how the service automatically adjusts the number of running tasks based on demand metrics such as CPU utilization, memory utilization, or request count per target. Auto-scaling helps ensure your application can handle varying levels of traffic while optimizing costs by scaling down during low-demand periods. You can specify the minimum and maximum number of tasks, the scaling metric, and the target value for that metric.
+    public struct ExpressGatewayScalingTarget: Swift.Sendable {
+        /// The metric used for auto-scaling decisions. The default metric used for an Express service is CPUUtilization.
+        public var autoScalingMetric: ECSClientTypes.ExpressGatewayServiceScalingMetric?
+        /// The target value for the auto-scaling metric. The default value for an Express service is 60.
+        public var autoScalingTargetValue: Swift.Int?
+        /// The maximum number of tasks to run in the Express service.
+        public var maxTaskCount: Swift.Int?
+        /// The minimum number of tasks to run in the Express service.
+        public var minTaskCount: Swift.Int?
+
+        public init(
+            autoScalingMetric: ECSClientTypes.ExpressGatewayServiceScalingMetric? = nil,
+            autoScalingTargetValue: Swift.Int? = nil,
+            maxTaskCount: Swift.Int? = nil,
+            minTaskCount: Swift.Int? = nil
+        ) {
+            self.autoScalingMetric = autoScalingMetric
+            self.autoScalingTargetValue = autoScalingTargetValue
+            self.maxTaskCount = maxTaskCount
+            self.minTaskCount = minTaskCount
+        }
+    }
+}
+
+public struct CreateExpressGatewayServiceInput: Swift.Sendable {
+    /// The short name or full Amazon Resource Name (ARN) of the cluster on which to create the Express service. If you do not specify a cluster, the default cluster is assumed.
+    public var cluster: Swift.String?
+    /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
+    public var cpu: Swift.String?
+    /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
+    public var healthCheckPath: Swift.String?
+    /// The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Services resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.
+    /// This member is required.
+    public var infrastructureRoleArn: Swift.String?
+    /// The amount of memory (in MiB) used by the task. This parameter determines the memory allocation for each task in the Express service. The default value for an express service is 512 MiB.
+    public var memory: Swift.String?
+    /// The network configuration for the Express service tasks. This specifies the VPC subnets and security groups for the tasks. For Express services, you can specify custom security groups and subnets. If not provided, Amazon ECS will use the default VPC configuration and create appropriate security groups automatically. The network configuration determines how your service integrates with your VPC and what network access it has.
+    public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+    /// The primary container configuration for the Express service. This defines the main application container that will receive traffic from the Application Load Balancer. The primary container must specify at minimum a container image. You can also configure the container port (defaults to 80), logging configuration, environment variables, secrets, and startup commands. The container image can be from Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
+    /// This member is required.
+    public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+    /// The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60.
+    public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+    /// The name of the Express service. This name must be unique within the specified cluster and can contain up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens. The name is used to identify the service in the Amazon ECS console and API operations. If you don't specify a service name, Amazon ECS generates a unique name for the service. The service name becomes part of the service ARN and cannot be changed after the service is created.
+    public var serviceName: Swift.String?
+    /// The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
+    public var tags: [ECSClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
+    public var taskRoleArn: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        cluster: Swift.String? = nil,
+        cpu: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        healthCheckPath: Swift.String? = nil,
+        infrastructureRoleArn: Swift.String? = nil,
+        memory: Swift.String? = nil,
+        networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+        primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+        scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+        serviceName: Swift.String? = nil,
+        tags: [ECSClientTypes.Tag]? = nil,
+        taskRoleArn: Swift.String? = nil
     ) {
-        self.properties.message = message
+        self.cluster = cluster
+        self.cpu = cpu
+        self.executionRoleArn = executionRoleArn
+        self.healthCheckPath = healthCheckPath
+        self.infrastructureRoleArn = infrastructureRoleArn
+        self.memory = memory
+        self.networkConfiguration = networkConfiguration
+        self.primaryContainer = primaryContainer
+        self.scalingTarget = scalingTarget
+        self.serviceName = serviceName
+        self.tags = tags
+        self.taskRoleArn = taskRoleArn
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The entry point into an Express service.
+    public struct IngressPathSummary: Swift.Sendable {
+        /// The type of access to the endpoint for the Express service.
+        /// This member is required.
+        public var accessType: ECSClientTypes.AccessType?
+        /// The endpoint for access to the service.
+        /// This member is required.
+        public var endpoint: Swift.String?
+
+        public init(
+            accessType: ECSClientTypes.AccessType? = nil,
+            endpoint: Swift.String? = nil
+        ) {
+            self.accessType = accessType
+            self.endpoint = endpoint
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents a specific configuration revision of an Express service, containing all the settings and parameters for that revision.
+    public struct ExpressGatewayServiceConfiguration: Swift.Sendable {
+        /// The CPU allocation for tasks in this service revision.
+        public var cpu: Swift.String?
+        /// The Unix timestamp for when this service revision was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the task execution role for the service revision.
+        public var executionRoleArn: Swift.String?
+        /// The health check path for this service revision.
+        public var healthCheckPath: Swift.String?
+        /// The entry point into this service revision.
+        public var ingressPaths: [ECSClientTypes.IngressPathSummary]?
+        /// The memory allocation for tasks in this service revision.
+        public var memory: Swift.String?
+        /// The network configuration for tasks in this service revision.
+        public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+        /// The primary container configuration for this service revision.
+        public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+        /// The auto-scaling configuration for this service revision.
+        public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+        /// The ARN of the service revision.
+        public var serviceRevisionArn: Swift.String?
+        /// The ARN of the task role for the service revision.
+        public var taskRoleArn: Swift.String?
+
+        public init(
+            cpu: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            executionRoleArn: Swift.String? = nil,
+            healthCheckPath: Swift.String? = nil,
+            ingressPaths: [ECSClientTypes.IngressPathSummary]? = nil,
+            memory: Swift.String? = nil,
+            networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+            primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+            scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+            serviceRevisionArn: Swift.String? = nil,
+            taskRoleArn: Swift.String? = nil
+        ) {
+            self.cpu = cpu
+            self.createdAt = createdAt
+            self.executionRoleArn = executionRoleArn
+            self.healthCheckPath = healthCheckPath
+            self.ingressPaths = ingressPaths
+            self.memory = memory
+            self.networkConfiguration = networkConfiguration
+            self.primaryContainer = primaryContainer
+            self.scalingTarget = scalingTarget
+            self.serviceRevisionArn = serviceRevisionArn
+            self.taskRoleArn = taskRoleArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case draining
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceStatusCode] {
+            return [
+                .active,
+                .draining,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .draining: return "DRAINING"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object that defines the status of Express service creation and information about the status of the service.
+    public struct ExpressGatewayServiceStatus: Swift.Sendable {
+        /// The status of the Express service.
+        public var statusCode: ECSClientTypes.ExpressGatewayServiceStatusCode?
+        /// Information about why the Express service is in the current status.
+        public var statusReason: Swift.String?
+
+        public init(
+            statusCode: ECSClientTypes.ExpressGatewayServiceStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents an Express service, which provides a simplified way to deploy containerized web applications on Amazon ECS with managed Amazon Web Services infrastructure. An Express service automatically provisions and manages Application Load Balancers, target groups, security groups, and auto-scaling policies. Express services use a service revision architecture where each service can have multiple active configurations, enabling blue-green deployments and gradual rollouts. The service maintains a list of active configurations and manages the lifecycle of the underlying Amazon Web Services resources.
+    public struct ECSExpressGatewayService: Swift.Sendable {
+        /// The list of active service configurations for the Express service.
+        public var activeConfigurations: [ECSClientTypes.ExpressGatewayServiceConfiguration]?
+        /// The short name or full ARN of the cluster that hosts the Express service.
+        public var cluster: Swift.String?
+        /// The Unix timestamp for when the Express service was created.
+        public var createdAt: Foundation.Date?
+        /// The current deployment configuration for the Express service.
+        public var currentDeployment: Swift.String?
+        /// The ARN of the infrastructure role that manages Amazon Web Services resources for the Express service.
+        public var infrastructureRoleArn: Swift.String?
+        /// The ARN that identifies the Express service.
+        public var serviceArn: Swift.String?
+        /// The name of the Express service.
+        public var serviceName: Swift.String?
+        /// The current status of the Express service.
+        public var status: ECSClientTypes.ExpressGatewayServiceStatus?
+        /// The metadata applied to the Express service.
+        public var tags: [ECSClientTypes.Tag]?
+        /// The Unix timestamp for when the Express service was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            activeConfigurations: [ECSClientTypes.ExpressGatewayServiceConfiguration]? = nil,
+            cluster: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            currentDeployment: Swift.String? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            status: ECSClientTypes.ExpressGatewayServiceStatus? = nil,
+            tags: [ECSClientTypes.Tag]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.activeConfigurations = activeConfigurations
+            self.cluster = cluster
+            self.createdAt = createdAt
+            self.currentDeployment = currentDeployment
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.serviceArn = serviceArn
+            self.serviceName = serviceName
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct CreateExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of your Express service following the create operation.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
     }
 }
 
@@ -1227,6 +2606,25 @@ extension ECSClientTypes {
             self.alarmNames = alarmNames
             self.enable = enable
             self.rollback = rollback
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Configuration for a canary deployment strategy that shifts a fixed percentage of traffic to the new service revision, waits for a specified bake time, then shifts the remaining traffic. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to CANARY.
+    public struct CanaryConfiguration: Swift.Sendable {
+        /// The amount of time in minutes to wait during the canary phase before shifting the remaining production traffic to the new service revision. Valid values are 0 to 1440 minutes (24 hours). The default value is 10.
+        public var canaryBakeTimeInMinutes: Swift.Int?
+        /// The percentage of production traffic to shift to the new service revision during the canary phase. Valid values are multiples of 0.1 from 0.1 to 100.0. The default value is 5.0.
+        public var canaryPercent: Swift.Double?
+
+        public init(
+            canaryBakeTimeInMinutes: Swift.Int? = 0,
+            canaryPercent: Swift.Double? = 0.0
+        ) {
+            self.canaryBakeTimeInMinutes = canaryBakeTimeInMinutes
+            self.canaryPercent = canaryPercent
         }
     }
 }
@@ -1300,6 +2698,8 @@ extension ECSClientTypes {
 
     /// A deployment lifecycle hook runs custom logic at specific stages of the deployment process. Currently, you can use Lambda functions as hook targets. For more information, see [Lifecycle hooks for Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html) in the Amazon Elastic Container Service Developer Guide.
     public struct DeploymentLifecycleHook: Swift.Sendable {
+        /// Use this field to specify custom parameters that Amazon ECS will pass to your hook target invocations (such as a Lambda function).
+        public var hookDetails: Smithy.Document?
         /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
         public var hookTargetArn: Swift.String?
         /// The lifecycle stages at which to run the hook. Choose from these valid values:
@@ -1325,10 +2725,12 @@ extension ECSClientTypes {
         public var roleArn: Swift.String?
 
         public init(
+            hookDetails: Smithy.Document? = nil,
             hookTargetArn: Swift.String? = nil,
             lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]? = nil,
             roleArn: Swift.String? = nil
         ) {
+            self.hookDetails = hookDetails
             self.hookTargetArn = hookTargetArn
             self.lifecycleStages = lifecycleStages
             self.roleArn = roleArn
@@ -1338,14 +2740,37 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// Configuration for linear deployment strategy that shifts production traffic in equal percentage increments with configurable wait times between each step until 100% of traffic is shifted to the new service revision. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to LINEAR.
+    public struct LinearConfiguration: Swift.Sendable {
+        /// The amount of time in minutes to wait between each traffic shifting step during a linear deployment. Valid values are 0 to 1440 minutes (24 hours). The default value is 6. This bake time is not applied after reaching 100 percent traffic.
+        public var stepBakeTimeInMinutes: Swift.Int?
+        /// The percentage of production traffic to shift in each step during a linear deployment. Valid values are multiples of 0.1 from 3.0 to 100.0. The default value is 10.0.
+        public var stepPercent: Swift.Double?
+
+        public init(
+            stepBakeTimeInMinutes: Swift.Int? = 0,
+            stepPercent: Swift.Double? = 0.0
+        ) {
+            self.stepBakeTimeInMinutes = stepBakeTimeInMinutes
+            self.stepPercent = stepPercent
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum DeploymentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blueGreen
+        case canary
+        case linear
         case rolling
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DeploymentStrategy] {
             return [
                 .blueGreen,
+                .canary,
+                .linear,
                 .rolling
             ]
         }
@@ -1358,6 +2783,8 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .blueGreen: return "BLUE_GREEN"
+            case .canary: return "CANARY"
+            case .linear: return "LINEAR"
             case .rolling: return "ROLLING"
             case let .sdkUnknown(s): return s
             }
@@ -1373,13 +2800,17 @@ extension ECSClientTypes {
         public var alarms: ECSClientTypes.DeploymentAlarms?
         /// The time period when both blue and green service revisions are running simultaneously after the production traffic has shifted. You must provide this parameter when you use the BLUE_GREEN deployment strategy.
         public var bakeTimeInMinutes: Swift.Int?
+        /// Configuration for canary deployment strategy. Only valid when the deployment strategy is CANARY. This configuration enables shifting a fixed percentage of traffic for testing, followed by shifting the remaining traffic after a bake period.
+        public var canaryConfiguration: ECSClientTypes.CanaryConfiguration?
         /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide
         public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
         /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
         public var lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]?
+        /// Configuration for linear deployment strategy. Only valid when the deployment strategy is LINEAR. This configuration enables progressive traffic shifting in equal percentage increments with configurable bake times between each step.
+        public var linearConfiguration: ECSClientTypes.LinearConfiguration?
         /// If a service is using the rolling update (ECS) deployment type, the maximumPercent parameter represents an upper limit on the number of your service's tasks that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desiredCount (rounded down to the nearest integer). This parameter enables you to define the deployment batch size. For example, if your service is using the REPLICA service scheduler and has a desiredCount of four tasks and a maximumPercent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default maximumPercent value for a service using the REPLICA service scheduler is 200%. The Amazon ECS scheduler uses this parameter to replace unhealthy tasks by starting replacement tasks first and then stopping the unhealthy tasks, as long as cluster resources for starting replacement tasks are available. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and tasks in the service use the EC2 launch type, the maximum percent value is set to the default value. The maximum percent value is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom maximumPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If the service uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and the tasks in the service use the Fargate launch type, the maximum percent value is not used. The value is still returned when describing your service.
         public var maximumPercent: Swift.Int?
-        /// If a service is using the rolling update (ECS) deployment type, the minimumHealthyPercent represents a lower limit on the number of your service's tasks that must remain in the RUNNING state during a deployment, as a percentage of the desiredCount (rounded up to the nearest integer). This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desiredCount of four tasks and a minimumHealthyPercent of 50%, the service scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. If any tasks are unhealthy and if maximumPercent doesn't allow the Amazon ECS scheduler to start replacement tasks, the scheduler stops the unhealthy tasks one-by-one — using the minimumHealthyPercent as a constraint — to clear up capacity to launch replacement tasks. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) . For services that do not use a load balancer, the following should be noted:
+        /// If a service is using the rolling update (ECS) deployment type, the minimumHealthyPercent represents a lower limit on the number of your service's tasks that must remain in the RUNNING state during a deployment, as a percentage of the desiredCount (rounded up to the nearest integer). This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desiredCount of four tasks and a minimumHealthyPercent of 50%, the service scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. If any tasks are unhealthy and if maximumPercent doesn't allow the Amazon ECS scheduler to start replacement tasks, the scheduler stops the unhealthy tasks one-by-one — using the minimumHealthyPercent as a constraint — to clear up capacity to launch replacement tasks. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). For services that do not use a load balancer, the following should be noted:
         ///
         /// * A service is considered healthy if all essential containers within the tasks in the service pass their health checks.
         ///
@@ -1402,21 +2833,29 @@ extension ECSClientTypes {
         /// * ROLLING - When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration.
         ///
         /// * BLUE_GREEN - A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed.
+        ///
+        /// * LINEAR - A linear deployment strategy (LINEAR) gradually shifts traffic from the current production environment to a new environment in equal percentages over time. With Amazon ECS linear deployments, you can control the pace of traffic shifting and validate new service revisions with increasing amounts of production traffic.
+        ///
+        /// * CANARY - A canary deployment strategy (CANARY) shifts a small percentage of traffic to the new service revision first, then shifts the remaining traffic all at once after a specified time period. This allows you to test the new version with a subset of users before full deployment.
         public var strategy: ECSClientTypes.DeploymentStrategy?
 
         public init(
             alarms: ECSClientTypes.DeploymentAlarms? = nil,
             bakeTimeInMinutes: Swift.Int? = nil,
+            canaryConfiguration: ECSClientTypes.CanaryConfiguration? = nil,
             deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker? = nil,
             lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]? = nil,
+            linearConfiguration: ECSClientTypes.LinearConfiguration? = nil,
             maximumPercent: Swift.Int? = nil,
             minimumHealthyPercent: Swift.Int? = nil,
             strategy: ECSClientTypes.DeploymentStrategy? = nil
         ) {
             self.alarms = alarms
             self.bakeTimeInMinutes = bakeTimeInMinutes
+            self.canaryConfiguration = canaryConfiguration
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.lifecycleHooks = lifecycleHooks
+            self.linearConfiguration = linearConfiguration
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
             self.strategy = strategy
@@ -1521,13 +2960,15 @@ extension ECSClientTypes {
         case ec2
         case external
         case fargate
+        case managedInstances
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LaunchType] {
             return [
                 .ec2,
                 .external,
-                .fargate
+                .fargate,
+                .managedInstances
             ]
         }
 
@@ -1541,6 +2982,7 @@ extension ECSClientTypes {
             case .ec2: return "EC2"
             case .external: return "EXTERNAL"
             case .fargate: return "FARGATE"
+            case .managedInstances: return "MANAGED_INSTANCES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1812,6 +3254,86 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The format for Service Connect access log output. Choose TEXT for human-readable logs or JSON for structured data that integrates well with log analysis tools.
+    public enum ServiceConnectAccessLoggingFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case json
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceConnectAccessLoggingFormat] {
+            return [
+                .json,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Controls whether query parameters are included in Service Connect access logs. Consider security and privacy implications when enabling this feature. By default, this parameter is DISABLED.
+    public enum ServiceConnectIncludeQueryParameters: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceConnectIncludeQueryParameters] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Configuration for Service Connect access logging. Access logs provide detailed information about requests made to your service, including request patterns, response codes, and timing data for debugging and monitoring purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
+    public struct ServiceConnectAccessLogConfiguration: Swift.Sendable {
+        /// The format for Service Connect access log output. Choose TEXT for human-readable logs or JSON for structured data that integrates well with log analysis tools.
+        /// This member is required.
+        public var format: ECSClientTypes.ServiceConnectAccessLoggingFormat?
+        /// Specifies whether to include query parameters in Service Connect access logs. When enabled, query parameters from HTTP requests are included in the access logs. Consider security and privacy implications when enabling this feature, as query parameters may contain sensitive information such as request IDs and tokens. By default, this parameter is DISABLED.
+        public var includeQueryParameters: ECSClientTypes.ServiceConnectIncludeQueryParameters?
+
+        public init(
+            format: ECSClientTypes.ServiceConnectAccessLoggingFormat? = nil,
+            includeQueryParameters: ECSClientTypes.ServiceConnectIncludeQueryParameters? = nil
+        ) {
+            self.format = format
+            self.includeQueryParameters = includeQueryParameters
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum LogDriver: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsfirelens
         case awslogs
@@ -1853,34 +3375,6 @@ extension ECSClientTypes {
             case .syslog: return "syslog"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension ECSClientTypes {
-
-    /// An object representing the secret to expose to your container. Secrets can be exposed to a container in the following ways:
-    ///
-    /// * To inject sensitive data into your containers as environment variables, use the secrets container definition parameter.
-    ///
-    /// * To reference sensitive information in the log configuration of a container, use the secretOptions container definition parameter.
-    ///
-    ///
-    /// For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
-    public struct Secret: Swift.Sendable {
-        /// The name of the secret.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The secret to expose to the container. The supported values are either the full ARN of the Secrets Manager secret or the full ARN of the parameter in the SSM Parameter Store. For information about the require Identity and Access Management permissions, see [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html#secrets-iam) (for Secrets Manager) or [Required IAM permissions for Amazon ECS secrets](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html) (for Systems Manager Parameter store) in the Amazon Elastic Container Service Developer Guide. If the SSM Parameter Store parameter exists in the same Region as the task you're launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
-        /// This member is required.
-        public var valueFrom: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            valueFrom: Swift.String? = nil
-        ) {
-            self.name = name
-            self.valueFrom = valueFrom
         }
     }
 }
@@ -2098,6 +3592,8 @@ extension ECSClientTypes {
 
     /// The Service Connect configuration of your Amazon ECS service. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
     public struct ServiceConnectConfiguration: Swift.Sendable {
+        /// The configuration for Service Connect access logging. Access logs capture detailed information about requests made to your service, including request patterns, response codes, and timing data. They can be useful for debugging connectivity issues, monitoring service performance, and auditing service-to-service communication for security and compliance purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
+        public var accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration?
         /// Specifies whether to use Service Connect with this service.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -2117,11 +3613,13 @@ extension ECSClientTypes {
         public var services: [ECSClientTypes.ServiceConnectService]?
 
         public init(
+            accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration? = nil,
             enabled: Swift.Bool = false,
             logConfiguration: ECSClientTypes.LogConfiguration? = nil,
             namespace: Swift.String? = nil,
             services: [ECSClientTypes.ServiceConnectService]? = nil
         ) {
+            self.accessLogConfiguration = accessLogConfiguration
             self.enabled = enabled
             self.logConfiguration = logConfiguration
             self.namespace = namespace
@@ -2372,9 +3870,13 @@ extension ECSClientTypes {
 }
 
 public struct CreateServiceInput: Swift.Sendable {
-    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide .
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
+    ///
+    /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
+    ///
+    /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
-    /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy can contain a maximum of 20 capacity providers.
+    /// The capacity provider strategy to use for the service. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy can contain a maximum of 20 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
     public var clientToken: Swift.String?
@@ -2390,11 +3892,11 @@ public struct CreateServiceInput: Swift.Sendable {
     public var enableECSManagedTags: Swift.Bool?
     /// Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
     public var enableExecuteCommand: Swift.Bool?
-    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
+    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
     public var healthCheckGracePeriodSeconds: Swift.Int?
-    /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
+    /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
     public var launchType: ECSClientTypes.LaunchType?
-    /// A load balancer object representing the load balancers to use with your service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the rolling update (ECS) deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
+    /// A load balancer object representing the load balancers to use with your service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
     /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see [Task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
@@ -2498,6 +4000,33 @@ public struct CreateServiceInput: Swift.Sendable {
         self.taskDefinition = taskDefinition
         self.volumeConfigurations = volumeConfigurations
         self.vpcLatticeConfigurations = vpcLatticeConfigurations
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The summary of the current service revision configuration
+    public struct ServiceCurrentRevisionSummary: Swift.Sendable {
+        /// The ARN of the current service revision.
+        public var arn: Swift.String?
+        /// The number of pending tasks in the current service revision
+        public var pendingTaskCount: Swift.Int
+        /// The number of requested tasks in the current service revision
+        public var requestedTaskCount: Swift.Int
+        /// The number of running tasks of the current service revision
+        public var runningTaskCount: Swift.Int
+
+        public init(
+            arn: Swift.String? = nil,
+            pendingTaskCount: Swift.Int = 0,
+            requestedTaskCount: Swift.Int = 0,
+            runningTaskCount: Swift.Int = 0
+        ) {
+            self.arn = arn
+            self.pendingTaskCount = pendingTaskCount
+            self.requestedTaskCount = requestedTaskCount
+            self.runningTaskCount = runningTaskCount
+        }
     }
 }
 
@@ -2681,6 +4210,35 @@ extension ECSClientTypes {
             self.createdAt = createdAt
             self.id = id
             self.message = message
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ResourceManagementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customer
+        case ecs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceManagementType] {
+            return [
+                .customer,
+                .ecs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .ecs: return "ECS"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2899,7 +4457,11 @@ extension ECSClientTypes {
 
     /// Details on a service within a cluster.
     public struct Service: Swift.Sendable {
-        /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide .
+        /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
+        ///
+        /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
+        ///
+        /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
         public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
         /// The capacity provider strategy the service uses. When using the DescribeServices API, this field is omitted if the service was created using a launch type.
         public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
@@ -2909,6 +4471,10 @@ extension ECSClientTypes {
         public var createdAt: Foundation.Date?
         /// The principal that created the service.
         public var createdBy: Swift.String?
+        /// The ARN of the current service deployment.
+        public var currentServiceDeployment: Swift.String?
+        /// The list of the service revisions.
+        public var currentServiceRevisions: [ECSClientTypes.ServiceCurrentRevisionSummary]?
         /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
         public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
         /// The deployment controller type the service is using.
@@ -2923,7 +4489,7 @@ extension ECSClientTypes {
         public var enableExecuteCommand: Swift.Bool
         /// The event stream for your service. A maximum of 100 of the latest events are displayed.
         public var events: [ECSClientTypes.ServiceEvent]?
-        /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started.
+        /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
         public var healthCheckGracePeriodSeconds: Swift.Int?
         /// The launch type the service is using. When using the DescribeServices API, this field is omitted if the service was created using a capacity provider strategy.
         public var launchType: ECSClientTypes.LaunchType?
@@ -2943,6 +4509,8 @@ extension ECSClientTypes {
         public var platformVersion: Swift.String?
         /// Determines whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated.
         public var propagateTags: ECSClientTypes.PropagateTags?
+        /// Identifies whether an ECS Service is an Express Service managed by ECS, or managed by the customer. The valid values are ECS and CUSTOMER
+        public var resourceManagementType: ECSClientTypes.ResourceManagementType?
         /// The ARN of the IAM role that's associated with the service. It allows the Amazon ECS container agent to register container instances with an Elastic Load Balancing load balancer.
         public var roleArn: Swift.String?
         /// The number of tasks in the cluster that are in the RUNNING state.
@@ -2988,6 +4556,8 @@ extension ECSClientTypes {
             clusterArn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
+            currentServiceDeployment: Swift.String? = nil,
+            currentServiceRevisions: [ECSClientTypes.ServiceCurrentRevisionSummary]? = nil,
             deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
             deploymentController: ECSClientTypes.DeploymentController? = nil,
             deployments: [ECSClientTypes.Deployment]? = nil,
@@ -3005,6 +4575,7 @@ extension ECSClientTypes {
             platformFamily: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
             propagateTags: ECSClientTypes.PropagateTags? = nil,
+            resourceManagementType: ECSClientTypes.ResourceManagementType? = nil,
             roleArn: Swift.String? = nil,
             runningCount: Swift.Int = 0,
             schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil,
@@ -3021,6 +4592,8 @@ extension ECSClientTypes {
             self.clusterArn = clusterArn
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.currentServiceDeployment = currentServiceDeployment
+            self.currentServiceRevisions = currentServiceRevisions
             self.deploymentConfiguration = deploymentConfiguration
             self.deploymentController = deploymentController
             self.deployments = deployments
@@ -3038,6 +4611,7 @@ extension ECSClientTypes {
             self.platformFamily = platformFamily
             self.platformVersion = platformVersion
             self.propagateTags = propagateTags
+            self.resourceManagementType = resourceManagementType
             self.roleArn = roleArn
             self.runningCount = runningCount
             self.schedulingStrategy = schedulingStrategy
@@ -3205,6 +4779,7 @@ extension ECSClientTypes {
         case containerInsights
         case containerInstanceLongArnFormat
         case defaultLogDriverMode
+        case fargateEventWindows
         case fargateFipsMode
         case fargateTaskRetirementWaitPeriod
         case guardDutyActivate
@@ -3219,6 +4794,7 @@ extension ECSClientTypes {
                 .containerInsights,
                 .containerInstanceLongArnFormat,
                 .defaultLogDriverMode,
+                .fargateEventWindows,
                 .fargateFipsMode,
                 .fargateTaskRetirementWaitPeriod,
                 .guardDutyActivate,
@@ -3239,6 +4815,7 @@ extension ECSClientTypes {
             case .containerInsights: return "containerInsights"
             case .containerInstanceLongArnFormat: return "containerInstanceLongArnFormat"
             case .defaultLogDriverMode: return "defaultLogDriverMode"
+            case .fargateEventWindows: return "fargateEventWindows"
             case .fargateFipsMode: return "fargateFIPSMode"
             case .fargateTaskRetirementWaitPeriod: return "fargateTaskRetirementWaitPeriod"
             case .guardDutyActivate: return "guardDutyActivate"
@@ -3443,11 +5020,15 @@ public struct DeleteCapacityProviderInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the capacity provider to delete.
     /// This member is required.
     public var capacityProvider: Swift.String?
+    /// The name of the cluster that contains the capacity provider to delete. Managed instances capacity providers are cluster-scoped and can only be deleted from their associated cluster.
+    public var cluster: Swift.String?
 
     public init(
-        capacityProvider: Swift.String? = nil
+        capacityProvider: Swift.String? = nil,
+        cluster: Swift.String? = nil
     ) {
         self.capacityProvider = capacityProvider
+        self.cluster = cluster
     }
 }
 
@@ -3459,6 +5040,30 @@ public struct DeleteCapacityProviderOutput: Swift.Sendable {
         capacityProvider: ECSClientTypes.CapacityProvider? = nil
     ) {
         self.capacityProvider = capacityProvider
+    }
+}
+
+/// The cluster contains one or more capacity providers that prevent the requested operation. This exception occurs when you try to delete a cluster that still has active capacity providers, including Amazon ECS Managed Instances capacity providers. You must first delete all capacity providers from the cluster before you can delete the cluster itself.
+public struct ClusterContainsCapacityProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterContainsCapacityProviderException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -3557,6 +5162,29 @@ public struct DeleteClusterOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteExpressGatewayServiceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Express service to delete. The ARN uniquely identifies the service within your Amazon Web Services account and region.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+
+    public init(
+        serviceArn: Swift.String? = nil
+    ) {
+        self.serviceArn = serviceArn
+    }
+}
+
+public struct DeleteExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of the deleted express service.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
 public struct DeleteServiceInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service to delete. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
@@ -3629,13 +5257,15 @@ extension ECSClientTypes {
         case ec2
         case external
         case fargate
+        case managedInstances
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Compatibility] {
             return [
                 .ec2,
                 .external,
-                .fargate
+                .fargate,
+                .managedInstances
             ]
         }
 
@@ -3649,6 +5279,7 @@ extension ECSClientTypes {
             case .ec2: return "EC2"
             case .external: return "EXTERNAL"
             case .fargate: return "FARGATE"
+            case .managedInstances: return "MANAGED_INSTANCES"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4552,7 +6183,7 @@ extension ECSClientTypes {
     public struct ContainerDefinition: Swift.Sendable {
         /// The command that's passed to the container. This parameter maps to Cmd in the docker container create command and the COMMAND parameter to docker run. If there are multiple arguments, each argument is a separated string in the array.
         public var command: [Swift.String]?
-        /// The number of cpu units reserved for the container. This parameter maps to CpuShares in the docker container create commandand the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the only requirement is that the total amount of CPU reserved for all containers within a task be lower than the task-level cpu value. You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the [Amazon EC2 Instances](http://aws.amazon.com/ec2/instance-types/) detail page by 1,024. Linux containers share unallocated CPU units with other containers on the container instance with the same ratio as their allocated amount. For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that's the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task is guaranteed a minimum of 512 CPU units when needed. Moreover, each container could float to higher CPU usage if the other container was not using it. If both tasks were 100% active all of the time, they would be limited to 512 CPU units. On Linux container instances, the Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. The minimum valid CPU share value that the Linux kernel allows is 2, and the maximum valid CPU share value that the Linux kernel allows is 262144. However, the CPU parameter isn't required, and you can use CPU values below 2 or above 262144 in your container definitions. For CPU values below 2 (including null) or above 262144, the behavior varies based on your Amazon ECS container agent version:
+        /// The number of cpu units reserved for the container. This parameter maps to CpuShares in the docker container create command and the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the only requirement is that the total amount of CPU reserved for all containers within a task be lower than the task-level cpu value. You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the [Amazon EC2 Instances](http://aws.amazon.com/ec2/instance-types/) detail page by 1,024. Linux containers share unallocated CPU units with other containers on the container instance with the same ratio as their allocated amount. For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that's the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task is guaranteed a minimum of 512 CPU units when needed. Moreover, each container could float to higher CPU usage if the other container was not using it. If both tasks were 100% active all of the time, they would be limited to 512 CPU units. On Linux container instances, the Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. The minimum valid CPU share value that the Linux kernel allows is 2, and the maximum valid CPU share value that the Linux kernel allows is 262144. However, the CPU parameter isn't required, and you can use CPU values below 2 or above 262144 in your container definitions. For CPU values below 2 (including null) or above 262144, the behavior varies based on your Amazon ECS container agent version:
         ///
         /// * Agent versions less than or equal to 1.1.0: Null and zero CPU values are passed to Docker as 0, which Docker then converts to 1,024 CPU shares. CPU values of 1 are passed to Docker as 1, which the Linux kernel converts to two CPU shares.
         ///
@@ -4625,7 +6256,7 @@ extension ECSClientTypes {
         public var mountPoints: [ECSClientTypes.MountPoint]?
         /// The name of a container. If you're linking multiple containers together in a task definition, the name of one container can be entered in the links of another container to connect the containers. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. This parameter maps to name in the docker container create command and the --name option to docker run.
         public var name: Swift.String?
-        /// The list of port mappings for the container. Port mappings allow containers to access ports on the host container instance to send or receive traffic. For task definitions that use the awsvpc network mode, only specify the containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Port mappings on Windows use the NetNAT gateway address rather than localhost. There's no loopback for port mappings on Windows, so you can't access a container's mapped port from the host itself. This parameter maps to PortBindings in the the docker container create command and the --publish option to docker run. If the network mode of a task definition is set to none, then you can't specify port mappings. If the network mode of a task definition is set to host, then host ports must either be undefined or they must match the container port in the port mapping. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the Network Bindings section of a container description for a selected task in the Amazon ECS console. The assignments are also visible in the networkBindings section [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) responses.
+        /// The list of port mappings for the container. Port mappings allow containers to access ports on the host container instance to send or receive traffic. For task definitions that use the awsvpc network mode, only specify the containerPort. The hostPort can be left blank or it must be the same value as the containerPort. Port mappings on Windows use the NetNAT gateway address rather than localhost. There's no loopback for port mappings on Windows, so you can't access a container's mapped port from the host itself. This parameter maps to PortBindings in the docker container create command and the --publish option to docker run. If the network mode of a task definition is set to none, then you can't specify port mappings. If the network mode of a task definition is set to host, then host ports must either be undefined or they must match the container port in the port mapping. After a task reaches the RUNNING status, manual and automatic host and container port assignments are visible in the Network Bindings section of a container description for a selected task in the Amazon ECS console. The assignments are also visible in the networkBindings section [DescribeTasks](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DescribeTasks.html) responses.
         public var portMappings: [ECSClientTypes.PortMapping]?
         /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the docker container create command and the --privileged option to docker run This parameter is not supported for Windows containers or tasks run on Fargate.
         public var privileged: Swift.Bool?
@@ -5109,7 +6740,7 @@ extension ECSClientTypes {
 
     /// Information about the platform for the Amazon ECS service or task. For more information about RuntimePlatform, see [RuntimePlatform](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#runtime-platform) in the Amazon Elastic Container Service Developer Guide.
     public struct RuntimePlatform: Swift.Sendable {
-        /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to ARM64. This option is available for tasks that run on Linux Amazon EC2 instance or Linux containers on Fargate.
+        /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to ARM64. This option is available for tasks that run on Linux Amazon EC2 instance, Amazon ECS Managed Instances, or Linux containers on Fargate.
         public var cpuArchitecture: ECSClientTypes.CPUArchitecture?
         /// The operating system.
         public var operatingSystemFamily: ECSClientTypes.OSFamily?
@@ -5471,7 +7102,7 @@ extension ECSClientTypes {
         public var memory: Swift.String?
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
         public var networkMode: ECSClientTypes.NetworkMode?
-        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the The default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
         public var pidMode: ECSClientTypes.PidMode?
         /// An array of placement constraint objects to use for tasks. This parameter isn't supported for tasks run on Fargate.
         public var placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]?
@@ -5483,7 +7114,7 @@ extension ECSClientTypes {
         public var registeredBy: Swift.String?
         /// The container instance attributes required by your task. When an Amazon EC2 instance is registered to your cluster, the Amazon ECS container agent assigns some standard attributes to the instance. You can apply custom attributes. These are specified as key-value pairs using the Amazon ECS console or the [PutAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAttributes.html) API. These attributes are used when determining task placement for tasks hosted on Amazon EC2 instances. For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide. This parameter isn't supported for tasks run on Fargate.
         public var requiresAttributes: [ECSClientTypes.Attribute]?
-        /// The task launch types the task definition was validated against. The valid values are EC2, FARGATE, and EXTERNAL. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The task launch types the task definition was validated against. The valid values are MANAGED_INSTANCES, EC2, FARGATE, and EXTERNAL. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
         public var requiresCompatibilities: [ECSClientTypes.Compatibility]?
         /// The revision of the task in a particular family. The revision is a version number of a task definition in a family. When you register a task definition for the first time, the revision is 1. Each time that you register a new revision of a task definition in the same family, the revision value always increases by one. This is even if you deregistered previous revisions in this family.
         public var revision: Swift.Int
@@ -5975,6 +7606,8 @@ extension ECSClientTypes {
 public struct DescribeCapacityProvidersInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of one or more capacity providers. Up to 100 capacity providers can be described in an action.
     public var capacityProviders: [Swift.String]?
+    /// The name of the cluster to describe capacity providers for. When specified, only capacity providers associated with this cluster are returned, including Amazon ECS Managed Instances capacity providers.
+    public var cluster: Swift.String?
     /// Specifies whether or not you want to see the resource tags for the capacity provider. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
     public var include: [ECSClientTypes.CapacityProviderField]?
     /// The maximum number of account setting results returned by DescribeCapacityProviders in paginated output. When this parameter is used, DescribeCapacityProviders only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeCapacityProviders request with the returned nextToken value. This value can be between 1 and 10. If this parameter is not used, then DescribeCapacityProviders returns up to 10 results and a nextToken value if applicable.
@@ -5984,11 +7617,13 @@ public struct DescribeCapacityProvidersInput: Swift.Sendable {
 
     public init(
         capacityProviders: [Swift.String]? = nil,
+        cluster: Swift.String? = nil,
         include: [ECSClientTypes.CapacityProviderField]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.capacityProviders = capacityProviders
+        self.cluster = cluster
         self.include = include
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -6143,6 +7778,83 @@ public struct DescribeContainerInstancesOutput: Swift.Sendable {
     ) {
         self.containerInstances = containerInstances
         self.failures = failures
+    }
+}
+
+/// The specified resource wasn't found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum ExpressGatewayServiceInclude: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressGatewayServiceInclude] {
+            return [
+                .tags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tags: return "TAGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeExpressGatewayServiceInput: Swift.Sendable {
+    /// Specifies additional information to include in the response. Valid values are TAGS to include resource tags associated with the Express service.
+    public var include: [ECSClientTypes.ExpressGatewayServiceInclude]?
+    /// The Amazon Resource Name (ARN) of the Express service to describe. The ARN uniquely identifies the service within your Amazon Web Services account and region.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+
+    public init(
+        include: [ECSClientTypes.ExpressGatewayServiceInclude]? = nil,
+        serviceArn: Swift.String? = nil
+    ) {
+        self.include = include
+        self.serviceArn = serviceArn
+    }
+}
+
+public struct DescribeExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of the described express service.
+    public var service: ECSClientTypes.ECSExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.ECSExpressGatewayService? = nil
+    ) {
+        self.service = service
     }
 }
 
@@ -6323,20 +8035,28 @@ extension ECSClientTypes {
         public var arn: Swift.String?
         /// The number of pending tasks for the service revision.
         public var pendingTaskCount: Swift.Int
+        /// The percentage of production traffic that is directed to this service revision. This value represents a snapshot of the traffic distribution and may not reflect real-time changes during active deployments. Valid values are 0.0 to 100.0.
+        public var requestedProductionTrafficWeight: Swift.Double?
         /// The number of requested tasks for the service revision.
         public var requestedTaskCount: Swift.Int
+        /// The percentage of test traffic that is directed to this service revision. This value represents a snapshot of the traffic distribution and may not reflect real-time changes during active deployments. Valid values are 0.0 to 100.0.
+        public var requestedTestTrafficWeight: Swift.Double?
         /// The number of running tasks for the service revision.
         public var runningTaskCount: Swift.Int
 
         public init(
             arn: Swift.String? = nil,
             pendingTaskCount: Swift.Int = 0,
+            requestedProductionTrafficWeight: Swift.Double? = 0.0,
             requestedTaskCount: Swift.Int = 0,
+            requestedTestTrafficWeight: Swift.Double? = 0.0,
             runningTaskCount: Swift.Int = 0
         ) {
             self.arn = arn
             self.pendingTaskCount = pendingTaskCount
+            self.requestedProductionTrafficWeight = requestedProductionTrafficWeight
             self.requestedTaskCount = requestedTaskCount
+            self.requestedTestTrafficWeight = requestedTestTrafficWeight
             self.runningTaskCount = runningTaskCount
         }
     }
@@ -6547,6 +8267,492 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum ManagedResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deleted
+        case deprovisioning
+        case failed
+        case provisioning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedResourceStatus] {
+            return [
+                .active,
+                .deleted,
+                .deprovisioning,
+                .failed,
+                .provisioning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .deprovisioning: return "DEPROVISIONING"
+            case .failed: return "FAILED"
+            case .provisioning: return "PROVISIONING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Application Auto Scaling policy created by Amazon ECS when you create an Express service.
+    public struct ManagedApplicationAutoScalingPolicy: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Application Auto Scaling policy associated with the Express service.
+        public var arn: Swift.String?
+        /// The metric used for auto scaling decisions. The available metrics are ECSServiceAverageCPUUtilization, ECSServiceAverageMemoryUtilization, and ALBRequestCOuntPerTarget.
+        /// This member is required.
+        public var metric: Swift.String?
+        /// The type of Application Auto Scaling policy associated with the Express service. Valid values are TargetTrackingScaling, StepScaling, and PredictiveScaling.
+        /// This member is required.
+        public var policyType: Swift.String?
+        /// The status of Application Auto Scaling policy creation.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the Application Auto Scaling policy is in the current status.
+        public var statusReason: Swift.String?
+        /// The target value for the auto scaling metric.
+        /// This member is required.
+        public var targetValue: Swift.Double
+        /// The Unix timestamp for when the Application Auto Scaling policy was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            metric: Swift.String? = nil,
+            policyType: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            targetValue: Swift.Double = 0.0,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.metric = metric
+            self.policyType = policyType
+            self.status = status
+            self.statusReason = statusReason
+            self.targetValue = targetValue
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents a scalable target.
+    public struct ManagedScalableTarget: Swift.Sendable {
+        /// The ARN of the scalable target.
+        public var arn: Swift.String?
+        /// The maximum value to scale to in response to a scale-out activity.
+        /// This member is required.
+        public var maxCapacity: Swift.Int
+        /// The minimum value to scale to in response to a scale-in activity.
+        /// This member is required.
+        public var minCapacity: Swift.Int
+        /// The status of the scalable target.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the scalable target is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the target was most recently updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            maxCapacity: Swift.Int = 0,
+            minCapacity: Swift.Int = 0,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The auto scaling configuration created by Amazon ECS for an Express service.
+    public struct ManagedAutoScaling: Swift.Sendable {
+        /// The policy used for auto scaling.
+        public var applicationAutoScalingPolicies: [ECSClientTypes.ManagedApplicationAutoScalingPolicy]?
+        /// Represents a scalable target.
+        public var scalableTarget: ECSClientTypes.ManagedScalableTarget?
+
+        public init(
+            applicationAutoScalingPolicies: [ECSClientTypes.ManagedApplicationAutoScalingPolicy]? = nil,
+            scalableTarget: ECSClientTypes.ManagedScalableTarget? = nil
+        ) {
+            self.applicationAutoScalingPolicies = applicationAutoScalingPolicies
+            self.scalableTarget = scalableTarget
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The ACM certificate associated with the HTTPS domain created for the Express service.
+    public struct ManagedCertificate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public var arn: Swift.String?
+        /// The fully qualified domain name (FQDN) that is secured with this ACM certificate.
+        /// This member is required.
+        public var domainName: Swift.String?
+        /// The status of the ACM; certificate.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the ACM certificate is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the ACM certificate was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            domainName: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.domainName = domainName
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The listeners associated with the Express service's Application Load Balancer.
+    public struct ManagedListener: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the load balancer listener.
+        public var arn: Swift.String?
+        /// The status of the load balancer listener.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Informaion about why the load balancer listener is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when this listener was most recently updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Application Load Balancer associated with the Express service.
+    public struct ManagedLoadBalancer: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public var arn: Swift.String?
+        /// The scheme of the load balancer. By default, the scheme of the load balancer is internet-facing.
+        /// This member is required.
+        public var scheme: Swift.String?
+        /// The IDs of the security groups associated with the load balancer.
+        public var securityGroupIds: [Swift.String]?
+        /// The status of the load balancer.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the load balancer is in the current status.
+        public var statusReason: Swift.String?
+        /// The IDs of the subnets associated with the load balancer.
+        public var subnetIds: [Swift.String]?
+        /// The Unix timestamp for when this load balancer was most recently updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            scheme: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.scheme = scheme
+            self.securityGroupIds = securityGroupIds
+            self.status = status
+            self.statusReason = statusReason
+            self.subnetIds = subnetIds
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A security group associated with the Express service.
+    public struct ManagedSecurityGroup: Swift.Sendable {
+        /// The ARN of the security group.
+        public var arn: Swift.String?
+        /// The status of the security group.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the security group is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the security group was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The listener rule associated with the Express service's Application Load Balancer.
+    public struct ManagedListenerRule: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the load balancer listener rule.
+        public var arn: Swift.String?
+        /// The status of the load balancer listener rule.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the load balancer listener rule is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when this listener rule was most recently updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The target group associated with the Express service's Application Load Balancer. For more information about load balancer target groups, see [CreateTargetGroup](https://docs.aws.amazon.com/elasticloadbalancing/latest/APIReference/API_CreateTargetGroup.html) in the Elastic Load Balancing API Reference
+    public struct ManagedTargetGroup: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the target group.
+        public var arn: Swift.String?
+        /// The destination for health checks on the targets.
+        /// This member is required.
+        public var healthCheckPath: Swift.String?
+        /// The port the load balancer uses when performing health checks on targets.
+        /// This member is required.
+        public var healthCheckPort: Swift.Int
+        /// The port on which the targets receive traffic.
+        /// This member is required.
+        public var port: Swift.Int
+        /// The status of the target group.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the target group is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the target group was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            healthCheckPath: Swift.String? = nil,
+            healthCheckPort: Swift.Int = 0,
+            port: Swift.Int = 0,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.healthCheckPath = healthCheckPath
+            self.healthCheckPort = healthCheckPort
+            self.port = port
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The entry point into the Express service.
+    public struct ManagedIngressPath: Swift.Sendable {
+        /// The type of access to the endpoint for the Express service.
+        /// This member is required.
+        public var accessType: ECSClientTypes.AccessType?
+        /// The ACM certificate for the Express service's domain.
+        public var certificate: ECSClientTypes.ManagedCertificate?
+        /// The endpoint for access to the Express service.
+        /// This member is required.
+        public var endpoint: Swift.String?
+        /// The listeners associated with the Application Load Balancer.
+        public var listener: ECSClientTypes.ManagedListener?
+        /// The Application Load Balancer associated with the Express service.
+        public var loadBalancer: ECSClientTypes.ManagedLoadBalancer?
+        /// The security groups associated with the Application Load Balancer.
+        public var loadBalancerSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]?
+        /// The listener rules for the Application Load Balancer.
+        public var rule: ECSClientTypes.ManagedListenerRule?
+        /// The target groups associated with the Application Load Balancer.
+        public var targetGroups: [ECSClientTypes.ManagedTargetGroup]?
+
+        public init(
+            accessType: ECSClientTypes.AccessType? = nil,
+            certificate: ECSClientTypes.ManagedCertificate? = nil,
+            endpoint: Swift.String? = nil,
+            listener: ECSClientTypes.ManagedListener? = nil,
+            loadBalancer: ECSClientTypes.ManagedLoadBalancer? = nil,
+            loadBalancerSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]? = nil,
+            rule: ECSClientTypes.ManagedListenerRule? = nil,
+            targetGroups: [ECSClientTypes.ManagedTargetGroup]? = nil
+        ) {
+            self.accessType = accessType
+            self.certificate = certificate
+            self.endpoint = endpoint
+            self.listener = listener
+            self.loadBalancer = loadBalancer
+            self.loadBalancerSecurityGroups = loadBalancerSecurityGroups
+            self.rule = rule
+            self.targetGroups = targetGroups
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Cloudwatch Log Group created by Amazon ECS for an Express service.
+    public struct ManagedLogGroup: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Cloudwatch Log Group associated with the Express service.
+        public var arn: Swift.String?
+        /// The name of the Cloudwatch Log Group associated with the Express service.
+        /// This member is required.
+        public var logGroupName: Swift.String?
+        /// The status of the Cloudwatch LogGroup.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the Cloudwatch LogGroup is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the Cloudwatch LogGroup was last updated
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            logGroupName: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.logGroupName = logGroupName
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The CloudWatch metric alarm associated with the Express service's scaling policy.
+    public struct ManagedMetricAlarm: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the CloudWatch metric alarm.
+        public var arn: Swift.String?
+        /// The status of the CloudWatch metric alarm.
+        /// This member is required.
+        public var status: ECSClientTypes.ManagedResourceStatus?
+        /// Information about why the CloudWatch metric alarm is in the current status.
+        public var statusReason: Swift.String?
+        /// The Unix timestamp for when the CloudWatch metric alarm was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            status: ECSClientTypes.ManagedResourceStatus? = nil,
+            statusReason: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Represents the Amazon Web Services resources managed by Amazon ECS for an Express service, including ingress paths, auto-scaling policies, metric alarms, and security groups.
+    public struct ECSManagedResources: Swift.Sendable {
+        /// The auto-scaling configuration and policies for the Express service.
+        public var autoScaling: ECSClientTypes.ManagedAutoScaling?
+        /// The ingress paths and endpoints for the Express service.
+        public var ingressPaths: [ECSClientTypes.ManagedIngressPath]?
+        /// The log groups managed by the Express service.
+        public var logGroups: [ECSClientTypes.ManagedLogGroup]?
+        /// The CloudWatch metric alarms associated with the Express service.
+        public var metricAlarms: [ECSClientTypes.ManagedMetricAlarm]?
+        /// The security groups managed by the Express service.
+        public var serviceSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]?
+
+        public init(
+            autoScaling: ECSClientTypes.ManagedAutoScaling? = nil,
+            ingressPaths: [ECSClientTypes.ManagedIngressPath]? = nil,
+            logGroups: [ECSClientTypes.ManagedLogGroup]? = nil,
+            metricAlarms: [ECSClientTypes.ManagedMetricAlarm]? = nil,
+            serviceSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]? = nil
+        ) {
+            self.autoScaling = autoScaling
+            self.ingressPaths = ingressPaths
+            self.logGroups = logGroups
+            self.metricAlarms = metricAlarms
+            self.serviceSecurityGroups = serviceSecurityGroups
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The resolved load balancer configuration for a service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
     public struct ServiceRevisionLoadBalancer: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the production listener rule or listener that directs traffic to the target group associated with the service revision.
@@ -6591,6 +8797,8 @@ extension ECSClientTypes {
         public var containerImages: [ECSClientTypes.ContainerImage]?
         /// The time that the service revision was created. The format is yyyy-mm-dd HH:mm:ss.SSSSS.
         public var createdAt: Foundation.Date?
+        /// The resources created and managed by Amazon ECS when you create an Express service for Amazon ECS.
+        public var ecsManagedResources: ECSClientTypes.ECSManagedResources?
         /// The amount of ephemeral storage to allocate for the deployment.
         public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
         /// Indicates whether Runtime Monitoring is turned on.
@@ -6627,6 +8835,7 @@ extension ECSClientTypes {
             clusterArn: Swift.String? = nil,
             containerImages: [ECSClientTypes.ContainerImage]? = nil,
             createdAt: Foundation.Date? = nil,
+            ecsManagedResources: ECSClientTypes.ECSManagedResources? = nil,
             fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
             guardDutyEnabled: Swift.Bool = false,
             launchType: ECSClientTypes.LaunchType? = nil,
@@ -6647,6 +8856,7 @@ extension ECSClientTypes {
             self.clusterArn = clusterArn
             self.containerImages = containerImages
             self.createdAt = createdAt
+            self.ecsManagedResources = ecsManagedResources
             self.fargateEphemeralStorage = fargateEphemeralStorage
             self.guardDutyEnabled = guardDutyEnabled
             self.launchType = launchType
@@ -7731,30 +9941,6 @@ public struct ExecuteCommandOutput: Swift.Sendable {
     }
 }
 
-/// The specified resource wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct GetTaskProtectionInput: Swift.Sendable {
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the service that the task sets exist in.
     /// This member is required.
@@ -7985,7 +10171,7 @@ public struct ListContainerInstancesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a ListContainerInstances request indicating that more results are available to fulfill the request and further calls are needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
-    /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using [UpdateContainerInstancesState](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerInstancesState.html). If you don't specify this parameter, the default is to include container instances set to all states other than INACTIVE.
+    /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using [UpdateContainerInstancesState](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerInstancesState.html). If you don't specify this parameter, the The default is to include container instances set to all states other than INACTIVE.
     public var status: ECSClientTypes.ContainerInstanceStatus?
 
     public init(
@@ -8156,6 +10342,8 @@ public struct ListServicesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a ListServices request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
+    /// The resourceManagementType type to use when filtering the ListServices results.
+    public var resourceManagementType: ECSClientTypes.ResourceManagementType?
     /// The scheduling strategy to use when filtering the ListServices results.
     public var schedulingStrategy: ECSClientTypes.SchedulingStrategy?
 
@@ -8164,12 +10352,14 @@ public struct ListServicesInput: Swift.Sendable {
         launchType: ECSClientTypes.LaunchType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        resourceManagementType: ECSClientTypes.ResourceManagementType? = nil,
         schedulingStrategy: ECSClientTypes.SchedulingStrategy? = nil
     ) {
         self.cluster = cluster
         self.launchType = launchType
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.resourceManagementType = resourceManagementType
         self.schedulingStrategy = schedulingStrategy
     }
 }
@@ -8495,6 +10685,8 @@ public struct PutAccountSettingInput: Swift.Sendable {
     ///
     /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
     ///
+    /// * fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.
+    ///
     /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
     ///
     /// * defaultLogDriverMode - Amazon ECS supports setting a default delivery mode of log messages from a container to the logDriver that you specify in the container's logConfiguration. The delivery mode affects application stability when the flow of logs from the container to the log driver is interrupted. The defaultLogDriverMode setting supports two values: blocking and non-blocking. If you don't specify a delivery mode in your container definition's logConfiguration, the mode you specify using this account setting will be used as the default. For more information about log delivery modes, see [LogConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_LogConfiguration.html). On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
@@ -8561,6 +10753,8 @@ public struct PutAccountSettingDefaultInput: Swift.Sendable {
     /// * fargateFIPSMode - If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected.
     ///
     /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * fargateEventWindows - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.
     ///
     /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
     ///
@@ -8877,7 +11071,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     public var memory: Swift.String?
     /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
     public var networkMode: ECSClientTypes.NetworkMode?
-    /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+    /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the The default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
     public var pidMode: ECSClientTypes.PidMode?
     /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
     public var placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]?
@@ -8885,7 +11079,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     public var proxyConfiguration: ECSClientTypes.ProxyConfiguration?
     /// The task launch type that Amazon ECS validates the task definition against. A client exception is returned if the task definition doesn't validate against the compatibilities specified. If no value is specified, the parameter is omitted from the response.
     public var requiresCompatibilities: [ECSClientTypes.Compatibility]?
-    /// The operating system that your tasks definitions run on. A platform family is specified only for tasks using the Fargate launch type.
+    /// The operating system that your tasks definitions run on.
     public var runtimePlatform: ECSClientTypes.RuntimePlatform?
     /// The metadata that you apply to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
     ///
@@ -8964,7 +11158,7 @@ public struct RegisterTaskDefinitionOutput: Swift.Sendable {
     }
 }
 
-/// Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/).
+/// Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web Services Support](http://aws.amazon.com/contact-us/).
 public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -9140,7 +11334,7 @@ extension ECSClientTypes {
 }
 
 public struct RunTaskInput: Swift.Sendable {
-    /// The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType. A capacity provider strategy can contain a maximum of 20 capacity providers.
+    /// The capacity provider strategy to use for the task. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType. A capacity provider strategy can contain a maximum of 20 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 64 characters are allowed. The valid characters are characters in the range of 33-126, inclusive. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/ECS_Idempotency.html).
     public var clientToken: Swift.String?
@@ -9154,7 +11348,7 @@ public struct RunTaskInput: Swift.Sendable {
     public var enableExecuteCommand: Swift.Bool?
     /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
     public var group: Swift.String?
-    /// The infrastructure to run your standalone task on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A task can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.
+    /// The infrastructure to run your standalone task on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A task can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.
     public var launchType: ECSClientTypes.LaunchType?
     /// The network configuration for the task. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see [Task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
@@ -9191,7 +11385,7 @@ public struct RunTaskInput: Swift.Sendable {
     /// The family and revision (family:revision) or full ARN of the task definition to run. If a revision isn't specified, the latest ACTIVE revision is used. The full ARN value must match the value that you specified as the Resource of the principal's permissions policy. When you specify a task definition, you must either specify a specific revision, or all revisions in the ARN. To specify a specific revision, include the revision number in the ARN. For example, to specify revision 2, use arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:2. To specify all revisions, use the wildcard (*) in the ARN. For example, to specify all revisions, use arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*. For more information, see [Policy Resources for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-resources) in the Amazon Elastic Container Service Developer Guide.
     /// This member is required.
     public var taskDefinition: Swift.String?
-    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in in [TaskManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
+    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [TaskManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TaskManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition.
     public var volumeConfigurations: [ECSClientTypes.TaskVolumeConfiguration]?
 
     public init(
@@ -9759,19 +11953,86 @@ extension ECSClientTypes {
     }
 }
 
+extension ECSClientTypes {
+
+    /// The updated launch template configuration for Amazon ECS Managed Instances. You can modify the instance profile, network configuration, storage settings, and instance requirements. Changes apply to new instances launched after the update. For more information, see [Store instance launch parameters in Amazon EC2 launch templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide.
+    public struct InstanceLaunchTemplateUpdate: Swift.Sendable {
+        /// The updated Amazon Resource Name (ARN) of the instance profile. The new instance profile must have the necessary permissions for your tasks. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
+        public var ec2InstanceProfileArn: Swift.String?
+        /// The updated instance requirements for attribute-based instance type selection. Changes to instance requirements affect which instance types Amazon ECS selects for new instances.
+        public var instanceRequirements: ECSClientTypes.InstanceRequirementsRequest?
+        /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see [Detailed monitoring for Amazon ECS Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/detailed-monitoring-managed-instances.html) in the Amazon ECS Developer Guide.
+        public var monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions?
+        /// The updated network configuration for Amazon ECS Managed Instances. Changes to subnets and security groups affect new instances launched after the update.
+        public var networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration?
+        /// The updated storage configuration for Amazon ECS Managed Instances. Changes to storage settings apply to new instances launched after the update.
+        public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
+
+        public init(
+            ec2InstanceProfileArn: Swift.String? = nil,
+            instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
+            monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
+            networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
+        ) {
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceRequirements = instanceRequirements
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The updated configuration for a Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes apply to new instances launched after the update.
+    public struct UpdateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// The updated infrastructure optimization configuration. Changes to this setting affect how Amazon ECS optimizes instances going forward.
+        public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
+        /// The updated Amazon Resource Name (ARN) of the infrastructure role. The new role must have the necessary permissions to manage instances and access required Amazon Web Services services. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
+        /// This member is required.
+        public var infrastructureRoleArn: Swift.String?
+        /// The updated launch template configuration. Changes to the launch template affect new instances launched after the update, while existing instances continue to use their original configuration.
+        /// This member is required.
+        public var instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplateUpdate?
+        /// The updated tag propagation setting. When changed, this affects only new instances launched after the update.
+        public var propagateTags: ECSClientTypes.PropagateMITags?
+
+        public init(
+            infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplateUpdate? = nil,
+            propagateTags: ECSClientTypes.PropagateMITags? = nil
+        ) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+    }
+}
+
 public struct UpdateCapacityProviderInput: Swift.Sendable {
     /// An object that represent the parameters to update for the Auto Scaling group capacity provider.
-    /// This member is required.
     public var autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProviderUpdate?
+    /// The name of the cluster that contains the capacity provider to update. Managed instances capacity providers are cluster-scoped and can only be updated within their associated cluster.
+    public var cluster: Swift.String?
+    /// The updated configuration for the Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes take effect for new instances launched after the update.
+    public var managedInstancesProvider: ECSClientTypes.UpdateManagedInstancesProviderConfiguration?
     /// The name of the capacity provider to update.
     /// This member is required.
     public var name: Swift.String?
 
     public init(
         autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProviderUpdate? = nil,
+        cluster: Swift.String? = nil,
+        managedInstancesProvider: ECSClientTypes.UpdateManagedInstancesProviderConfiguration? = nil,
         name: Swift.String? = nil
     ) {
         self.autoScalingGroupProvider = autoScalingGroupProvider
+        self.cluster = cluster
+        self.managedInstancesProvider = managedInstancesProvider
         self.name = name
     }
 }
@@ -9961,10 +12222,111 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateExpressGatewayServiceInput: Swift.Sendable {
+    /// The number of CPU units used by the task.
+    public var cpu: Swift.String?
+    /// The Amazon Resource Name (ARN) of the task execution role for the Express service.
+    public var executionRoleArn: Swift.String?
+    /// The path on the container for Application Load Balancer health checks.
+    public var healthCheckPath: Swift.String?
+    /// The amount of memory (in MiB) used by the task.
+    public var memory: Swift.String?
+    /// The network configuration for the Express service tasks. By default, the network configuration for an Express service uses the default VPC.
+    public var networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?
+    /// The primary container configuration for the Express service.
+    public var primaryContainer: ECSClientTypes.ExpressGatewayContainer?
+    /// The auto-scaling configuration for the Express service.
+    public var scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget?
+    /// The Amazon Resource Name (ARN) of the Express service to update.
+    /// This member is required.
+    public var serviceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
+    public var taskRoleArn: Swift.String?
+
+    public init(
+        cpu: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        healthCheckPath: Swift.String? = nil,
+        memory: Swift.String? = nil,
+        networkConfiguration: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration? = nil,
+        primaryContainer: ECSClientTypes.ExpressGatewayContainer? = nil,
+        scalingTarget: ECSClientTypes.ExpressGatewayScalingTarget? = nil,
+        serviceArn: Swift.String? = nil,
+        taskRoleArn: Swift.String? = nil
+    ) {
+        self.cpu = cpu
+        self.executionRoleArn = executionRoleArn
+        self.healthCheckPath = healthCheckPath
+        self.memory = memory
+        self.networkConfiguration = networkConfiguration
+        self.primaryContainer = primaryContainer
+        self.scalingTarget = scalingTarget
+        self.serviceArn = serviceArn
+        self.taskRoleArn = taskRoleArn
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An object that describes an Express service to be updated.
+    public struct UpdatedExpressGatewayService: Swift.Sendable {
+        /// The cluster associated with the Express service that is being updated.
+        public var cluster: Swift.String?
+        /// The Unix timestamp for when the Express service that is being updated was created.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the Express service that is being updated.
+        public var serviceArn: Swift.String?
+        /// The name of the Express service that is being updated.
+        public var serviceName: Swift.String?
+        /// The status of the Express service that is being updated.
+        public var status: ECSClientTypes.ExpressGatewayServiceStatus?
+        /// The configuration to which the current Express service is being updated to.
+        public var targetConfiguration: ECSClientTypes.ExpressGatewayServiceConfiguration?
+        /// The Unix timestamp for when the Express service that is being updated was most recently updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            cluster: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
+            status: ECSClientTypes.ExpressGatewayServiceStatus? = nil,
+            targetConfiguration: ECSClientTypes.ExpressGatewayServiceConfiguration? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.cluster = cluster
+            self.createdAt = createdAt
+            self.serviceArn = serviceArn
+            self.serviceName = serviceName
+            self.status = status
+            self.targetConfiguration = targetConfiguration
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct UpdateExpressGatewayServiceOutput: Swift.Sendable {
+    /// The full description of your express gateway service following the update call.
+    public var service: ECSClientTypes.UpdatedExpressGatewayService?
+
+    public init(
+        service: ECSClientTypes.UpdatedExpressGatewayService? = nil
+    ) {
+        self.service = service
+    }
+}
+
 public struct UpdateServiceInput: Swift.Sendable {
-    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . This parameter doesn't trigger a new service deployment.
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . The default behavior of AvailabilityZoneRebalancing differs between create and update requests:
+    ///
+    /// * For create service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults the value to ENABLED.
+    ///
+    /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
+    ///
+    ///
+    /// This parameter doesn't trigger a new service deployment.
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
-    /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
+    /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
     ///
     /// * Update the Fargate launch type to an Auto Scaling group capacity provider.
     ///
@@ -9993,7 +12355,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var enableExecuteCommand: Swift.Bool?
     /// Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
     public var forceNewDeployment: Swift.Bool?
-    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. This parameter doesn't trigger a new service deployment.
+    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count. This parameter doesn't trigger a new service deployment.
     public var healthCheckGracePeriodSeconds: Swift.Int?
     /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
@@ -10213,6 +12575,13 @@ extension CreateClusterInput {
     }
 }
 
+extension CreateExpressGatewayServiceInput {
+
+    static func urlPathProvider(_ value: CreateExpressGatewayServiceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateServiceInput {
 
     static func urlPathProvider(_ value: CreateServiceInput) -> Swift.String? {
@@ -10251,6 +12620,13 @@ extension DeleteCapacityProviderInput {
 extension DeleteClusterInput {
 
     static func urlPathProvider(_ value: DeleteClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteExpressGatewayServiceInput {
+
+    static func urlPathProvider(_ value: DeleteExpressGatewayServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10307,6 +12683,13 @@ extension DescribeClustersInput {
 extension DescribeContainerInstancesInput {
 
     static func urlPathProvider(_ value: DescribeContainerInstancesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeExpressGatewayServiceInput {
+
+    static func urlPathProvider(_ value: DescribeExpressGatewayServiceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -10591,6 +12974,13 @@ extension UpdateContainerInstancesStateInput {
     }
 }
 
+extension UpdateExpressGatewayServiceInput {
+
+    static func urlPathProvider(_ value: UpdateExpressGatewayServiceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateServiceInput {
 
     static func urlPathProvider(_ value: UpdateServiceInput) -> Swift.String? {
@@ -10624,6 +13014,8 @@ extension CreateCapacityProviderInput {
     static func write(value: CreateCapacityProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["autoScalingGroupProvider"].write(value.autoScalingGroupProvider, with: ECSClientTypes.AutoScalingGroupProvider.write(value:to:))
+        try writer["cluster"].write(value.cluster)
+        try writer["managedInstancesProvider"].write(value.managedInstancesProvider, with: ECSClientTypes.CreateManagedInstancesProviderConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -10640,6 +13032,25 @@ extension CreateClusterInput {
         try writer["serviceConnectDefaults"].write(value.serviceConnectDefaults, with: ECSClientTypes.ClusterServiceConnectDefaultsRequest.write(value:to:))
         try writer["settings"].writeList(value.settings, memberWritingClosure: ECSClientTypes.ClusterSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateExpressGatewayServiceInput {
+
+    static func write(value: CreateExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cluster"].write(value.cluster)
+        try writer["cpu"].write(value.cpu)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["healthCheckPath"].write(value.healthCheckPath)
+        try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
+        try writer["memory"].write(value.memory)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration.write(value:to:))
+        try writer["primaryContainer"].write(value.primaryContainer, with: ECSClientTypes.ExpressGatewayContainer.write(value:to:))
+        try writer["scalingTarget"].write(value.scalingTarget, with: ECSClientTypes.ExpressGatewayScalingTarget.write(value:to:))
+        try writer["serviceName"].write(value.serviceName)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: ECSClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["taskRoleArn"].write(value.taskRoleArn)
     }
 }
 
@@ -10719,6 +13130,7 @@ extension DeleteCapacityProviderInput {
     static func write(value: DeleteCapacityProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["capacityProvider"].write(value.capacityProvider)
+        try writer["cluster"].write(value.cluster)
     }
 }
 
@@ -10727,6 +13139,14 @@ extension DeleteClusterInput {
     static func write(value: DeleteClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cluster"].write(value.cluster)
+    }
+}
+
+extension DeleteExpressGatewayServiceInput {
+
+    static func write(value: DeleteExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serviceArn"].write(value.serviceArn)
     }
 }
 
@@ -10782,6 +13202,7 @@ extension DescribeCapacityProvidersInput {
     static func write(value: DescribeCapacityProvidersInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["capacityProviders"].writeList(value.capacityProviders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["cluster"].write(value.cluster)
         try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.CapacityProviderField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
@@ -10804,6 +13225,15 @@ extension DescribeContainerInstancesInput {
         try writer["cluster"].write(value.cluster)
         try writer["containerInstances"].writeList(value.containerInstances, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.ContainerInstanceField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeExpressGatewayServiceInput {
+
+    static func write(value: DescribeExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.ExpressGatewayServiceInclude>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["serviceArn"].write(value.serviceArn)
     }
 }
 
@@ -10961,6 +13391,7 @@ extension ListServicesInput {
         try writer["launchType"].write(value.launchType)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+        try writer["resourceManagementType"].write(value.resourceManagementType)
         try writer["schedulingStrategy"].write(value.schedulingStrategy)
     }
 }
@@ -11230,6 +13661,8 @@ extension UpdateCapacityProviderInput {
     static func write(value: UpdateCapacityProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["autoScalingGroupProvider"].write(value.autoScalingGroupProvider, with: ECSClientTypes.AutoScalingGroupProviderUpdate.write(value:to:))
+        try writer["cluster"].write(value.cluster)
+        try writer["managedInstancesProvider"].write(value.managedInstancesProvider, with: ECSClientTypes.UpdateManagedInstancesProviderConfiguration.write(value:to:))
         try writer["name"].write(value.name)
     }
 }
@@ -11270,6 +13703,22 @@ extension UpdateContainerInstancesStateInput {
         try writer["cluster"].write(value.cluster)
         try writer["containerInstances"].writeList(value.containerInstances, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].write(value.status)
+    }
+}
+
+extension UpdateExpressGatewayServiceInput {
+
+    static func write(value: UpdateExpressGatewayServiceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cpu"].write(value.cpu)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["healthCheckPath"].write(value.healthCheckPath)
+        try writer["memory"].write(value.memory)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration.write(value:to:))
+        try writer["primaryContainer"].write(value.primaryContainer, with: ECSClientTypes.ExpressGatewayContainer.write(value:to:))
+        try writer["scalingTarget"].write(value.scalingTarget, with: ECSClientTypes.ExpressGatewayScalingTarget.write(value:to:))
+        try writer["serviceArn"].write(value.serviceArn)
+        try writer["taskRoleArn"].write(value.taskRoleArn)
     }
 }
 
@@ -11358,6 +13807,18 @@ extension CreateClusterOutput {
     }
 }
 
+extension CreateExpressGatewayServiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateExpressGatewayServiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateExpressGatewayServiceOutput()
+        value.service = try reader["service"].readIfPresent(with: ECSClientTypes.ECSExpressGatewayService.read(from:))
+        return value
+    }
+}
+
 extension CreateServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateServiceOutput {
@@ -11426,6 +13887,18 @@ extension DeleteClusterOutput {
         let reader = responseReader
         var value = DeleteClusterOutput()
         value.cluster = try reader["cluster"].readIfPresent(with: ECSClientTypes.Cluster.read(from:))
+        return value
+    }
+}
+
+extension DeleteExpressGatewayServiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteExpressGatewayServiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteExpressGatewayServiceOutput()
+        value.service = try reader["service"].readIfPresent(with: ECSClientTypes.ECSExpressGatewayService.read(from:))
         return value
     }
 }
@@ -11527,6 +14000,18 @@ extension DescribeContainerInstancesOutput {
         var value = DescribeContainerInstancesOutput()
         value.containerInstances = try reader["containerInstances"].readListIfPresent(memberReadingClosure: ECSClientTypes.ContainerInstance.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: ECSClientTypes.Failure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeExpressGatewayServiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeExpressGatewayServiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeExpressGatewayServiceOutput()
+        value.service = try reader["service"].readIfPresent(with: ECSClientTypes.ECSExpressGatewayService.read(from:))
         return value
     }
 }
@@ -12029,6 +14514,18 @@ extension UpdateContainerInstancesStateOutput {
     }
 }
 
+extension UpdateExpressGatewayServiceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateExpressGatewayServiceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateExpressGatewayServiceOutput()
+        value.service = try reader["service"].readIfPresent(with: ECSClientTypes.UpdatedExpressGatewayService.read(from:))
+        return value
+    }
+}
+
 extension UpdateServiceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateServiceOutput {
@@ -12087,9 +14584,11 @@ enum CreateCapacityProviderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             case "UpdateInProgressException": return try UpdateInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12108,6 +14607,27 @@ enum CreateClusterOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NamespaceNotFoundException": return try NamespaceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateExpressGatewayServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "PlatformTaskDefinitionIncompatibilityException": return try PlatformTaskDefinitionIncompatibilityException.makeError(baseError: baseError)
+            case "PlatformUnknownException": return try PlatformUnknownException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12200,8 +14720,10 @@ enum DeleteCapacityProviderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12216,6 +14738,7 @@ enum DeleteClusterOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterContainsCapacityProviderException": return try ClusterContainsCapacityProviderException.makeError(baseError: baseError)
             case "ClusterContainsContainerInstancesException": return try ClusterContainsContainerInstancesException.makeError(baseError: baseError)
             case "ClusterContainsServicesException": return try ClusterContainsServicesException.makeError(baseError: baseError)
             case "ClusterContainsTasksException": return try ClusterContainsTasksException.makeError(baseError: baseError)
@@ -12223,6 +14746,27 @@ enum DeleteClusterOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "UpdateInProgressException": return try UpdateInProgressException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteExpressGatewayServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceNotActiveException": return try ServiceNotActiveException.makeError(baseError: baseError)
+            case "ServiceNotFoundException": return try ServiceNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12327,8 +14871,10 @@ enum DescribeCapacityProvidersOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12362,6 +14908,26 @@ enum DescribeContainerInstancesOutputError {
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeExpressGatewayServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12989,8 +15555,10 @@ enum UpdateCapacityProviderOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13063,6 +15631,27 @@ enum UpdateContainerInstancesStateOutputError {
             case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateExpressGatewayServiceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ClusterNotFoundException": return try ClusterNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ServiceNotActiveException": return try ServiceNotActiveException.makeError(baseError: baseError)
+            case "ServiceNotFoundException": return try ServiceNotFoundException.makeError(baseError: baseError)
+            case "UnsupportedFeatureException": return try UnsupportedFeatureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13169,6 +15758,19 @@ extension ClientException {
     }
 }
 
+extension ClusterNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ClusterNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
@@ -13200,6 +15802,19 @@ extension ServerException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServerException {
         let reader = baseError.errorBodyReader
         var value = ServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedFeatureException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedFeatureException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedFeatureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13247,19 +15862,6 @@ extension AccessDeniedException {
     }
 }
 
-extension ClusterNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ClusterNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension PlatformTaskDefinitionIncompatibilityException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PlatformTaskDefinitionIncompatibilityException {
@@ -13278,19 +15880,6 @@ extension PlatformUnknownException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PlatformUnknownException {
         let reader = baseError.errorBodyReader
         var value = PlatformUnknownException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedFeatureException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedFeatureException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedFeatureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13330,6 +15919,19 @@ extension TargetNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetNotFoundException {
         let reader = baseError.errorBodyReader
         var value = TargetNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ClusterContainsCapacityProviderException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClusterContainsCapacityProviderException {
+        let reader = baseError.errorBodyReader
+        var value = ClusterContainsCapacityProviderException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13390,11 +15992,11 @@ extension TaskSetNotFoundException {
     }
 }
 
-extension TargetNotConnectedException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetNotConnectedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TargetNotConnectedException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13403,11 +16005,11 @@ extension TargetNotConnectedException {
     }
 }
 
-extension ResourceNotFoundException {
+extension TargetNotConnectedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TargetNotConnectedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = TargetNotConnectedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13515,11 +16117,14 @@ extension ECSClientTypes.CapacityProvider {
         var value = ECSClientTypes.CapacityProvider()
         value.capacityProviderArn = try reader["capacityProviderArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        value.cluster = try reader["cluster"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.autoScalingGroupProvider = try reader["autoScalingGroupProvider"].readIfPresent(with: ECSClientTypes.AutoScalingGroupProvider.read(from:))
+        value.managedInstancesProvider = try reader["managedInstancesProvider"].readIfPresent(with: ECSClientTypes.ManagedInstancesProvider.read(from:))
         value.updateStatus = try reader["updateStatus"].readIfPresent()
         value.updateStatusReason = try reader["updateStatusReason"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ECSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -13537,6 +16142,307 @@ extension ECSClientTypes.Tag {
         var value = ECSClientTypes.Tag()
         value.key = try reader["key"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedInstancesProvider {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedInstancesProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedInstancesProvider()
+        value.infrastructureRoleArn = try reader["infrastructureRoleArn"].readIfPresent()
+        value.instanceLaunchTemplate = try reader["instanceLaunchTemplate"].readIfPresent(with: ECSClientTypes.InstanceLaunchTemplate.read(from:))
+        value.propagateTags = try reader["propagateTags"].readIfPresent()
+        value.infrastructureOptimization = try reader["infrastructureOptimization"].readIfPresent(with: ECSClientTypes.InfrastructureOptimization.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.InfrastructureOptimization {
+
+    static func write(value: ECSClientTypes.InfrastructureOptimization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scaleInAfter"].write(value.scaleInAfter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.InfrastructureOptimization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.InfrastructureOptimization()
+        value.scaleInAfter = try reader["scaleInAfter"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.InstanceLaunchTemplate {
+
+    static func write(value: ECSClientTypes.InstanceLaunchTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityOptionType"].write(value.capacityOptionType)
+        try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
+        try writer["fipsEnabled"].write(value.fipsEnabled)
+        try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
+        try writer["monitoring"].write(value.monitoring)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: ECSClientTypes.ManagedInstancesStorageConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.InstanceLaunchTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.InstanceLaunchTemplate()
+        value.ec2InstanceProfileArn = try reader["ec2InstanceProfileArn"].readIfPresent() ?? ""
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: ECSClientTypes.ManagedInstancesNetworkConfiguration.read(from:))
+        value.storageConfiguration = try reader["storageConfiguration"].readIfPresent(with: ECSClientTypes.ManagedInstancesStorageConfiguration.read(from:))
+        value.monitoring = try reader["monitoring"].readIfPresent()
+        value.capacityOptionType = try reader["capacityOptionType"].readIfPresent()
+        value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: ECSClientTypes.InstanceRequirementsRequest.read(from:))
+        value.fipsEnabled = try reader["fipsEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.InstanceRequirementsRequest {
+
+    static func write(value: ECSClientTypes.InstanceRequirementsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["acceleratorCount"].write(value.acceleratorCount, with: ECSClientTypes.AcceleratorCountRequest.write(value:to:))
+        try writer["acceleratorManufacturers"].writeList(value.acceleratorManufacturers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.AcceleratorManufacturer>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["acceleratorNames"].writeList(value.acceleratorNames, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.AcceleratorName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["acceleratorTotalMemoryMiB"].write(value.acceleratorTotalMemoryMiB, with: ECSClientTypes.AcceleratorTotalMemoryMiBRequest.write(value:to:))
+        try writer["acceleratorTypes"].writeList(value.acceleratorTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.AcceleratorType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["bareMetal"].write(value.bareMetal)
+        try writer["baselineEbsBandwidthMbps"].write(value.baselineEbsBandwidthMbps, with: ECSClientTypes.BaselineEbsBandwidthMbpsRequest.write(value:to:))
+        try writer["burstablePerformance"].write(value.burstablePerformance)
+        try writer["cpuManufacturers"].writeList(value.cpuManufacturers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.CpuManufacturer>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["excludedInstanceTypes"].writeList(value.excludedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["instanceGenerations"].writeList(value.instanceGenerations, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.InstanceGeneration>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["localStorage"].write(value.localStorage)
+        try writer["localStorageTypes"].writeList(value.localStorageTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.LocalStorageType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxSpotPriceAsPercentageOfOptimalOnDemandPrice"].write(value.maxSpotPriceAsPercentageOfOptimalOnDemandPrice)
+        try writer["memoryGiBPerVCpu"].write(value.memoryGiBPerVCpu, with: ECSClientTypes.MemoryGiBPerVCpuRequest.write(value:to:))
+        try writer["memoryMiB"].write(value.memoryMiB, with: ECSClientTypes.MemoryMiBRequest.write(value:to:))
+        try writer["networkBandwidthGbps"].write(value.networkBandwidthGbps, with: ECSClientTypes.NetworkBandwidthGbpsRequest.write(value:to:))
+        try writer["networkInterfaceCount"].write(value.networkInterfaceCount, with: ECSClientTypes.NetworkInterfaceCountRequest.write(value:to:))
+        try writer["onDemandMaxPricePercentageOverLowestPrice"].write(value.onDemandMaxPricePercentageOverLowestPrice)
+        try writer["requireHibernateSupport"].write(value.requireHibernateSupport)
+        try writer["spotMaxPricePercentageOverLowestPrice"].write(value.spotMaxPricePercentageOverLowestPrice)
+        try writer["totalLocalStorageGB"].write(value.totalLocalStorageGB, with: ECSClientTypes.TotalLocalStorageGBRequest.write(value:to:))
+        try writer["vCpuCount"].write(value.vCpuCount, with: ECSClientTypes.VCpuCountRangeRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.InstanceRequirementsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.InstanceRequirementsRequest()
+        value.vCpuCount = try reader["vCpuCount"].readIfPresent(with: ECSClientTypes.VCpuCountRangeRequest.read(from:))
+        value.memoryMiB = try reader["memoryMiB"].readIfPresent(with: ECSClientTypes.MemoryMiBRequest.read(from:))
+        value.cpuManufacturers = try reader["cpuManufacturers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.CpuManufacturer>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.memoryGiBPerVCpu = try reader["memoryGiBPerVCpu"].readIfPresent(with: ECSClientTypes.MemoryGiBPerVCpuRequest.read(from:))
+        value.excludedInstanceTypes = try reader["excludedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceGenerations = try reader["instanceGenerations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.InstanceGeneration>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.spotMaxPricePercentageOverLowestPrice = try reader["spotMaxPricePercentageOverLowestPrice"].readIfPresent()
+        value.onDemandMaxPricePercentageOverLowestPrice = try reader["onDemandMaxPricePercentageOverLowestPrice"].readIfPresent()
+        value.bareMetal = try reader["bareMetal"].readIfPresent()
+        value.burstablePerformance = try reader["burstablePerformance"].readIfPresent()
+        value.requireHibernateSupport = try reader["requireHibernateSupport"].readIfPresent()
+        value.networkInterfaceCount = try reader["networkInterfaceCount"].readIfPresent(with: ECSClientTypes.NetworkInterfaceCountRequest.read(from:))
+        value.localStorage = try reader["localStorage"].readIfPresent()
+        value.localStorageTypes = try reader["localStorageTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.LocalStorageType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalLocalStorageGB = try reader["totalLocalStorageGB"].readIfPresent(with: ECSClientTypes.TotalLocalStorageGBRequest.read(from:))
+        value.baselineEbsBandwidthMbps = try reader["baselineEbsBandwidthMbps"].readIfPresent(with: ECSClientTypes.BaselineEbsBandwidthMbpsRequest.read(from:))
+        value.acceleratorTypes = try reader["acceleratorTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.AcceleratorType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.acceleratorCount = try reader["acceleratorCount"].readIfPresent(with: ECSClientTypes.AcceleratorCountRequest.read(from:))
+        value.acceleratorManufacturers = try reader["acceleratorManufacturers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.AcceleratorManufacturer>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.acceleratorNames = try reader["acceleratorNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.AcceleratorName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.acceleratorTotalMemoryMiB = try reader["acceleratorTotalMemoryMiB"].readIfPresent(with: ECSClientTypes.AcceleratorTotalMemoryMiBRequest.read(from:))
+        value.networkBandwidthGbps = try reader["networkBandwidthGbps"].readIfPresent(with: ECSClientTypes.NetworkBandwidthGbpsRequest.read(from:))
+        value.allowedInstanceTypes = try reader["allowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = try reader["maxSpotPriceAsPercentageOfOptimalOnDemandPrice"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.NetworkBandwidthGbpsRequest {
+
+    static func write(value: ECSClientTypes.NetworkBandwidthGbpsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.NetworkBandwidthGbpsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.NetworkBandwidthGbpsRequest()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.AcceleratorTotalMemoryMiBRequest {
+
+    static func write(value: ECSClientTypes.AcceleratorTotalMemoryMiBRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.AcceleratorTotalMemoryMiBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.AcceleratorTotalMemoryMiBRequest()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.AcceleratorCountRequest {
+
+    static func write(value: ECSClientTypes.AcceleratorCountRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.AcceleratorCountRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.AcceleratorCountRequest()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.BaselineEbsBandwidthMbpsRequest {
+
+    static func write(value: ECSClientTypes.BaselineEbsBandwidthMbpsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.BaselineEbsBandwidthMbpsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.BaselineEbsBandwidthMbpsRequest()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.TotalLocalStorageGBRequest {
+
+    static func write(value: ECSClientTypes.TotalLocalStorageGBRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.TotalLocalStorageGBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.TotalLocalStorageGBRequest()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.NetworkInterfaceCountRequest {
+
+    static func write(value: ECSClientTypes.NetworkInterfaceCountRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.NetworkInterfaceCountRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.NetworkInterfaceCountRequest()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.MemoryGiBPerVCpuRequest {
+
+    static func write(value: ECSClientTypes.MemoryGiBPerVCpuRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.MemoryGiBPerVCpuRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.MemoryGiBPerVCpuRequest()
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.MemoryMiBRequest {
+
+    static func write(value: ECSClientTypes.MemoryMiBRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.MemoryMiBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.MemoryMiBRequest()
+        value.min = try reader["min"].readIfPresent() ?? 0
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.VCpuCountRangeRequest {
+
+    static func write(value: ECSClientTypes.VCpuCountRangeRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.VCpuCountRangeRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.VCpuCountRangeRequest()
+        value.min = try reader["min"].readIfPresent() ?? 0
+        value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedInstancesStorageConfiguration {
+
+    static func write(value: ECSClientTypes.ManagedInstancesStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["storageSizeGiB"].write(value.storageSizeGiB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedInstancesStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedInstancesStorageConfiguration()
+        value.storageSizeGiB = try reader["storageSizeGiB"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedInstancesNetworkConfiguration {
+
+    static func write(value: ECSClientTypes.ManagedInstancesNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedInstancesNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedInstancesNetworkConfiguration()
+        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13762,6 +16668,181 @@ extension ECSClientTypes.ExecuteCommandLogConfiguration {
     }
 }
 
+extension ECSClientTypes.ECSExpressGatewayService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ECSExpressGatewayService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ECSExpressGatewayService()
+        value.cluster = try reader["cluster"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.serviceArn = try reader["serviceArn"].readIfPresent()
+        value.infrastructureRoleArn = try reader["infrastructureRoleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceStatus.read(from:))
+        value.currentDeployment = try reader["currentDeployment"].readIfPresent()
+        value.activeConfigurations = try reader["activeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.ExpressGatewayServiceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ECSClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayServiceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayServiceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayServiceConfiguration()
+        value.serviceRevisionArn = try reader["serviceRevisionArn"].readIfPresent()
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.taskRoleArn = try reader["taskRoleArn"].readIfPresent()
+        value.cpu = try reader["cpu"].readIfPresent()
+        value.memory = try reader["memory"].readIfPresent()
+        value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration.read(from:))
+        value.healthCheckPath = try reader["healthCheckPath"].readIfPresent()
+        value.primaryContainer = try reader["primaryContainer"].readIfPresent(with: ECSClientTypes.ExpressGatewayContainer.read(from:))
+        value.scalingTarget = try reader["scalingTarget"].readIfPresent(with: ECSClientTypes.ExpressGatewayScalingTarget.read(from:))
+        value.ingressPaths = try reader["ingressPaths"].readListIfPresent(memberReadingClosure: ECSClientTypes.IngressPathSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.IngressPathSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.IngressPathSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.IngressPathSummary()
+        value.accessType = try reader["accessType"].readIfPresent() ?? .sdkUnknown("")
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayScalingTarget {
+
+    static func write(value: ECSClientTypes.ExpressGatewayScalingTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoScalingMetric"].write(value.autoScalingMetric)
+        try writer["autoScalingTargetValue"].write(value.autoScalingTargetValue)
+        try writer["maxTaskCount"].write(value.maxTaskCount)
+        try writer["minTaskCount"].write(value.minTaskCount)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayScalingTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayScalingTarget()
+        value.minTaskCount = try reader["minTaskCount"].readIfPresent()
+        value.maxTaskCount = try reader["maxTaskCount"].readIfPresent()
+        value.autoScalingMetric = try reader["autoScalingMetric"].readIfPresent()
+        value.autoScalingTargetValue = try reader["autoScalingTargetValue"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayContainer {
+
+    static func write(value: ECSClientTypes.ExpressGatewayContainer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsLogsConfiguration"].write(value.awsLogsConfiguration, with: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration.write(value:to:))
+        try writer["command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["containerPort"].write(value.containerPort)
+        try writer["environment"].writeList(value.environment, memberWritingClosure: ECSClientTypes.KeyValuePair.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["image"].write(value.image)
+        try writer["repositoryCredentials"].write(value.repositoryCredentials, with: ECSClientTypes.ExpressGatewayRepositoryCredentials.write(value:to:))
+        try writer["secrets"].writeList(value.secrets, memberWritingClosure: ECSClientTypes.Secret.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayContainer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayContainer()
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.containerPort = try reader["containerPort"].readIfPresent()
+        value.awsLogsConfiguration = try reader["awsLogsConfiguration"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration.read(from:))
+        value.repositoryCredentials = try reader["repositoryCredentials"].readIfPresent(with: ECSClientTypes.ExpressGatewayRepositoryCredentials.read(from:))
+        value.command = try reader["command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.environment = try reader["environment"].readListIfPresent(memberReadingClosure: ECSClientTypes.KeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.secrets = try reader["secrets"].readListIfPresent(memberReadingClosure: ECSClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.Secret {
+
+    static func write(value: ECSClientTypes.Secret?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["valueFrom"].write(value.valueFrom)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.Secret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.Secret()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.valueFrom = try reader["valueFrom"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayRepositoryCredentials {
+
+    static func write(value: ECSClientTypes.ExpressGatewayRepositoryCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentialsParameter"].write(value.credentialsParameter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayRepositoryCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayRepositoryCredentials()
+        value.credentialsParameter = try reader["credentialsParameter"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration {
+
+    static func write(value: ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroup"].write(value.logGroup)
+        try writer["logStreamPrefix"].write(value.logStreamPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayServiceAwsLogsConfiguration()
+        value.logGroup = try reader["logGroup"].readIfPresent() ?? ""
+        value.logStreamPrefix = try reader["logStreamPrefix"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayServiceNetworkConfiguration {
+
+    static func write(value: ECSClientTypes.ExpressGatewayServiceNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayServiceNetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayServiceNetworkConfiguration()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnets = try reader["subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ExpressGatewayServiceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ExpressGatewayServiceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ExpressGatewayServiceStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
 extension ECSClientTypes.Service {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.Service {
@@ -13787,6 +16868,8 @@ extension ECSClientTypes.Service {
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.events = try reader["events"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currentServiceDeployment = try reader["currentServiceDeployment"].readIfPresent()
+        value.currentServiceRevisions = try reader["currentServiceRevisions"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceCurrentRevisionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.placementConstraints = try reader["placementConstraints"].readListIfPresent(memberReadingClosure: ECSClientTypes.PlacementConstraint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.placementStrategy = try reader["placementStrategy"].readListIfPresent(memberReadingClosure: ECSClientTypes.PlacementStrategy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: ECSClientTypes.NetworkConfiguration.read(from:))
@@ -13799,6 +16882,7 @@ extension ECSClientTypes.Service {
         value.propagateTags = try reader["propagateTags"].readIfPresent()
         value.enableExecuteCommand = try reader["enableExecuteCommand"].readIfPresent() ?? false
         value.availabilityZoneRebalancing = try reader["availabilityZoneRebalancing"].readIfPresent()
+        value.resourceManagementType = try reader["resourceManagementType"].readIfPresent()
         return value
     }
 }
@@ -13882,6 +16966,19 @@ extension ECSClientTypes.PlacementConstraint {
         var value = ECSClientTypes.PlacementConstraint()
         value.type = try reader["type"].readIfPresent()
         value.expression = try reader["expression"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.ServiceCurrentRevisionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceCurrentRevisionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ServiceCurrentRevisionSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.requestedTaskCount = try reader["requestedTaskCount"].readIfPresent() ?? 0
+        value.runningTaskCount = try reader["runningTaskCount"].readIfPresent() ?? 0
+        value.pendingTaskCount = try reader["pendingTaskCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -14043,6 +17140,7 @@ extension ECSClientTypes.ServiceConnectConfiguration {
 
     static func write(value: ECSClientTypes.ServiceConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accessLogConfiguration"].write(value.accessLogConfiguration, with: ECSClientTypes.ServiceConnectAccessLogConfiguration.write(value:to:))
         try writer["enabled"].write(value.enabled)
         try writer["logConfiguration"].write(value.logConfiguration, with: ECSClientTypes.LogConfiguration.write(value:to:))
         try writer["namespace"].write(value.namespace)
@@ -14056,6 +17154,24 @@ extension ECSClientTypes.ServiceConnectConfiguration {
         value.namespace = try reader["namespace"].readIfPresent()
         value.services = try reader["services"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceConnectService.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: ECSClientTypes.LogConfiguration.read(from:))
+        value.accessLogConfiguration = try reader["accessLogConfiguration"].readIfPresent(with: ECSClientTypes.ServiceConnectAccessLogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ServiceConnectAccessLogConfiguration {
+
+    static func write(value: ECSClientTypes.ServiceConnectAccessLogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+        try writer["includeQueryParameters"].write(value.includeQueryParameters)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceConnectAccessLogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ServiceConnectAccessLogConfiguration()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.includeQueryParameters = try reader["includeQueryParameters"].readIfPresent()
         return value
     }
 }
@@ -14075,23 +17191,6 @@ extension ECSClientTypes.LogConfiguration {
         value.logDriver = try reader["logDriver"].readIfPresent() ?? .sdkUnknown("")
         value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.secretOptions = try reader["secretOptions"].readListIfPresent(memberReadingClosure: ECSClientTypes.Secret.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ECSClientTypes.Secret {
-
-    static func write(value: ECSClientTypes.Secret?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["valueFrom"].write(value.valueFrom)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.Secret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ECSClientTypes.Secret()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.valueFrom = try reader["valueFrom"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14360,8 +17459,10 @@ extension ECSClientTypes.DeploymentConfiguration {
         guard let value else { return }
         try writer["alarms"].write(value.alarms, with: ECSClientTypes.DeploymentAlarms.write(value:to:))
         try writer["bakeTimeInMinutes"].write(value.bakeTimeInMinutes)
+        try writer["canaryConfiguration"].write(value.canaryConfiguration, with: ECSClientTypes.CanaryConfiguration.write(value:to:))
         try writer["deploymentCircuitBreaker"].write(value.deploymentCircuitBreaker, with: ECSClientTypes.DeploymentCircuitBreaker.write(value:to:))
         try writer["lifecycleHooks"].writeList(value.lifecycleHooks, memberWritingClosure: ECSClientTypes.DeploymentLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["linearConfiguration"].write(value.linearConfiguration, with: ECSClientTypes.LinearConfiguration.write(value:to:))
         try writer["maximumPercent"].write(value.maximumPercent)
         try writer["minimumHealthyPercent"].write(value.minimumHealthyPercent)
         try writer["strategy"].write(value.strategy)
@@ -14377,6 +17478,42 @@ extension ECSClientTypes.DeploymentConfiguration {
         value.strategy = try reader["strategy"].readIfPresent()
         value.bakeTimeInMinutes = try reader["bakeTimeInMinutes"].readIfPresent()
         value.lifecycleHooks = try reader["lifecycleHooks"].readListIfPresent(memberReadingClosure: ECSClientTypes.DeploymentLifecycleHook.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linearConfiguration = try reader["linearConfiguration"].readIfPresent(with: ECSClientTypes.LinearConfiguration.read(from:))
+        value.canaryConfiguration = try reader["canaryConfiguration"].readIfPresent(with: ECSClientTypes.CanaryConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.CanaryConfiguration {
+
+    static func write(value: ECSClientTypes.CanaryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["canaryBakeTimeInMinutes"].write(value.canaryBakeTimeInMinutes)
+        try writer["canaryPercent"].write(value.canaryPercent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.CanaryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.CanaryConfiguration()
+        value.canaryPercent = try reader["canaryPercent"].readIfPresent()
+        value.canaryBakeTimeInMinutes = try reader["canaryBakeTimeInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.LinearConfiguration {
+
+    static func write(value: ECSClientTypes.LinearConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["stepBakeTimeInMinutes"].write(value.stepBakeTimeInMinutes)
+        try writer["stepPercent"].write(value.stepPercent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.LinearConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.LinearConfiguration()
+        value.stepPercent = try reader["stepPercent"].readIfPresent()
+        value.stepBakeTimeInMinutes = try reader["stepBakeTimeInMinutes"].readIfPresent()
         return value
     }
 }
@@ -14385,6 +17522,7 @@ extension ECSClientTypes.DeploymentLifecycleHook {
 
     static func write(value: ECSClientTypes.DeploymentLifecycleHook?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["hookDetails"].write(value.hookDetails)
         try writer["hookTargetArn"].write(value.hookTargetArn)
         try writer["lifecycleStages"].writeList(value.lifecycleStages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.DeploymentLifecycleHookStage>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
@@ -14396,6 +17534,7 @@ extension ECSClientTypes.DeploymentLifecycleHook {
         value.hookTargetArn = try reader["hookTargetArn"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.lifecycleStages = try reader["lifecycleStages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.DeploymentLifecycleHookStage>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hookDetails = try reader["hookDetails"].readIfPresent()
         return value
     }
 }
@@ -15324,6 +18463,8 @@ extension ECSClientTypes.ServiceRevisionSummary {
         value.requestedTaskCount = try reader["requestedTaskCount"].readIfPresent() ?? 0
         value.runningTaskCount = try reader["runningTaskCount"].readIfPresent() ?? 0
         value.pendingTaskCount = try reader["pendingTaskCount"].readIfPresent() ?? 0
+        value.requestedTestTrafficWeight = try reader["requestedTestTrafficWeight"].readIfPresent()
+        value.requestedProductionTrafficWeight = try reader["requestedProductionTrafficWeight"].readIfPresent()
         return value
     }
 }
@@ -15352,6 +18493,192 @@ extension ECSClientTypes.ServiceRevision {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcLatticeConfigurations = try reader["vpcLatticeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.VpcLatticeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resolvedConfiguration = try reader["resolvedConfiguration"].readIfPresent(with: ECSClientTypes.ResolvedConfiguration.read(from:))
+        value.ecsManagedResources = try reader["ecsManagedResources"].readIfPresent(with: ECSClientTypes.ECSManagedResources.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ECSManagedResources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ECSManagedResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ECSManagedResources()
+        value.ingressPaths = try reader["ingressPaths"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedIngressPath.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoScaling = try reader["autoScaling"].readIfPresent(with: ECSClientTypes.ManagedAutoScaling.read(from:))
+        value.metricAlarms = try reader["metricAlarms"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedMetricAlarm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceSecurityGroups = try reader["serviceSecurityGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedSecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logGroups = try reader["logGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedLogGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedLogGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedLogGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedLogGroup()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.logGroupName = try reader["logGroupName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedSecurityGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedSecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedSecurityGroup()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedMetricAlarm {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedMetricAlarm {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedMetricAlarm()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedAutoScaling {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedAutoScaling {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedAutoScaling()
+        value.scalableTarget = try reader["scalableTarget"].readIfPresent(with: ECSClientTypes.ManagedScalableTarget.read(from:))
+        value.applicationAutoScalingPolicies = try reader["applicationAutoScalingPolicies"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedApplicationAutoScalingPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedApplicationAutoScalingPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedApplicationAutoScalingPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedApplicationAutoScalingPolicy()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.policyType = try reader["policyType"].readIfPresent() ?? ""
+        value.targetValue = try reader["targetValue"].readIfPresent() ?? 0
+        value.metric = try reader["metric"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedScalableTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedScalableTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedScalableTarget()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.minCapacity = try reader["minCapacity"].readIfPresent() ?? 0
+        value.maxCapacity = try reader["maxCapacity"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedIngressPath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedIngressPath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedIngressPath()
+        value.accessType = try reader["accessType"].readIfPresent() ?? .sdkUnknown("")
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.loadBalancer = try reader["loadBalancer"].readIfPresent(with: ECSClientTypes.ManagedLoadBalancer.read(from:))
+        value.loadBalancerSecurityGroups = try reader["loadBalancerSecurityGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedSecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificate = try reader["certificate"].readIfPresent(with: ECSClientTypes.ManagedCertificate.read(from:))
+        value.listener = try reader["listener"].readIfPresent(with: ECSClientTypes.ManagedListener.read(from:))
+        value.rule = try reader["rule"].readIfPresent(with: ECSClientTypes.ManagedListenerRule.read(from:))
+        value.targetGroups = try reader["targetGroups"].readListIfPresent(memberReadingClosure: ECSClientTypes.ManagedTargetGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedTargetGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedTargetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedTargetGroup()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.healthCheckPath = try reader["healthCheckPath"].readIfPresent() ?? ""
+        value.healthCheckPort = try reader["healthCheckPort"].readIfPresent() ?? 0
+        value.port = try reader["port"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedListenerRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedListenerRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedListenerRule()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedListener {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedListener {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedListener()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedCertificate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedCertificate()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ECSClientTypes.ManagedLoadBalancer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ManagedLoadBalancer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ManagedLoadBalancer()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.scheme = try reader["scheme"].readIfPresent() ?? ""
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15637,6 +18964,33 @@ extension ECSClientTypes.ServiceDeploymentBrief {
     }
 }
 
+extension ECSClientTypes.UpdatedExpressGatewayService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.UpdatedExpressGatewayService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.UpdatedExpressGatewayService()
+        value.serviceArn = try reader["serviceArn"].readIfPresent()
+        value.cluster = try reader["cluster"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceStatus.read(from:))
+        value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: ECSClientTypes.ExpressGatewayServiceConfiguration.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ECSClientTypes.CreateManagedInstancesProviderConfiguration {
+
+    static func write(value: ECSClientTypes.CreateManagedInstancesProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: ECSClientTypes.InfrastructureOptimization.write(value:to:))
+        try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
+        try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: ECSClientTypes.InstanceLaunchTemplate.write(value:to:))
+        try writer["propagateTags"].write(value.propagateTags)
+    }
+}
+
 extension ECSClientTypes.ClusterServiceConnectDefaultsRequest {
 
     static func write(value: ECSClientTypes.ClusterServiceConnectDefaultsRequest?, to writer: SmithyJSON.Writer) throws {
@@ -15740,6 +19094,29 @@ extension ECSClientTypes.AutoScalingGroupProviderUpdate {
         try writer["managedDraining"].write(value.managedDraining)
         try writer["managedScaling"].write(value.managedScaling, with: ECSClientTypes.ManagedScaling.write(value:to:))
         try writer["managedTerminationProtection"].write(value.managedTerminationProtection)
+    }
+}
+
+extension ECSClientTypes.UpdateManagedInstancesProviderConfiguration {
+
+    static func write(value: ECSClientTypes.UpdateManagedInstancesProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: ECSClientTypes.InfrastructureOptimization.write(value:to:))
+        try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
+        try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: ECSClientTypes.InstanceLaunchTemplateUpdate.write(value:to:))
+        try writer["propagateTags"].write(value.propagateTags)
+    }
+}
+
+extension ECSClientTypes.InstanceLaunchTemplateUpdate {
+
+    static func write(value: ECSClientTypes.InstanceLaunchTemplateUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
+        try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
+        try writer["monitoring"].write(value.monitoring)
+        try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
+        try writer["storageConfiguration"].write(value.storageConfiguration, with: ECSClientTypes.ManagedInstancesStorageConfiguration.write(value:to:))
     }
 }
 

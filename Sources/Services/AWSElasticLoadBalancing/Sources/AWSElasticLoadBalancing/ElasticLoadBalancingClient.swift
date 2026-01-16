@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -63,9 +64,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ElasticLoadBalancingClient: ClientRuntime.Client {
+public class ElasticLoadBalancingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ElasticLoadBalancingClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticLoadBalancingClient.ElasticLoadBalancingClientConfiguration
     let serviceName = "Elastic Load Balancing"
@@ -371,9 +371,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Adds the specified tags to the specified load balancer. Each load balancer can have a maximum of 10 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the load balancer, AddTags updates its value. For more information, see [Tag Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter AddTagsInput : Contains the parameters for AddTags.
+    /// - Parameter input: Contains the parameters for AddTags. (Type: `AddTagsInput`)
     ///
-    /// - Returns: `AddTagsOutput` : Contains the output of AddTags.
+    /// - Returns: Contains the output of AddTags. (Type: `AddTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,6 +407,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsOutput>())
@@ -440,9 +441,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Associates one or more security groups with your load balancer in a virtual private cloud (VPC). The specified security groups override the previously associated security groups. For more information, see [Security Groups for Load Balancers in a VPC](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-security-groups.html#elb-vpc-security-groups) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter ApplySecurityGroupsToLoadBalancerInput : Contains the parameters for ApplySecurityGroupsToLoadBalancer.
+    /// - Parameter input: Contains the parameters for ApplySecurityGroupsToLoadBalancer. (Type: `ApplySecurityGroupsToLoadBalancerInput`)
     ///
-    /// - Returns: `ApplySecurityGroupsToLoadBalancerOutput` : Contains the output of ApplySecurityGroupsToLoadBalancer.
+    /// - Returns: Contains the output of ApplySecurityGroupsToLoadBalancer. (Type: `ApplySecurityGroupsToLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,6 +477,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplySecurityGroupsToLoadBalancerInput, ApplySecurityGroupsToLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplySecurityGroupsToLoadBalancerOutput>(ApplySecurityGroupsToLoadBalancerOutput.httpOutput(from:), ApplySecurityGroupsToLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplySecurityGroupsToLoadBalancerInput, ApplySecurityGroupsToLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplySecurityGroupsToLoadBalancerOutput>())
@@ -509,9 +511,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Adds one or more subnets to the set of configured subnets for the specified load balancer. The load balancer evenly distributes requests across all registered subnets. For more information, see [Add or Remove Subnets for Your Load Balancer in a VPC](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-manage-subnets.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter AttachLoadBalancerToSubnetsInput : Contains the parameters for AttachLoaBalancerToSubnets.
+    /// - Parameter input: Contains the parameters for AttachLoaBalancerToSubnets. (Type: `AttachLoadBalancerToSubnetsInput`)
     ///
-    /// - Returns: `AttachLoadBalancerToSubnetsOutput` : Contains the output of AttachLoadBalancerToSubnets.
+    /// - Returns: Contains the output of AttachLoadBalancerToSubnets. (Type: `AttachLoadBalancerToSubnetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,6 +548,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachLoadBalancerToSubnetsInput, AttachLoadBalancerToSubnetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachLoadBalancerToSubnetsOutput>(AttachLoadBalancerToSubnetsOutput.httpOutput(from:), AttachLoadBalancerToSubnetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachLoadBalancerToSubnetsInput, AttachLoadBalancerToSubnetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachLoadBalancerToSubnetsOutput>())
@@ -579,9 +582,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Specifies the health check settings to use when evaluating the health state of your EC2 instances. For more information, see [Configure Health Checks for Your Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-healthchecks.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter ConfigureHealthCheckInput : Contains the parameters for ConfigureHealthCheck.
+    /// - Parameter input: Contains the parameters for ConfigureHealthCheck. (Type: `ConfigureHealthCheckInput`)
     ///
-    /// - Returns: `ConfigureHealthCheckOutput` : Contains the output of ConfigureHealthCheck.
+    /// - Returns: Contains the output of ConfigureHealthCheck. (Type: `ConfigureHealthCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,6 +616,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfigureHealthCheckInput, ConfigureHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfigureHealthCheckOutput>(ConfigureHealthCheckOutput.httpOutput(from:), ConfigureHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfigureHealthCheckInput, ConfigureHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfigureHealthCheckOutput>())
@@ -646,9 +650,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Generates a stickiness policy with sticky session lifetimes that follow that of an application-generated cookie. This policy can be associated only with HTTP/HTTPS listeners. This policy is similar to the policy created by [CreateLBCookieStickinessPolicy], except that the lifetime of the special Elastic Load Balancing cookie, AWSELB, follows the lifetime of the application-generated cookie specified in the policy configuration. The load balancer only inserts a new stickiness cookie when the application response includes a new application cookie. If the application cookie is explicitly removed or expires, the session stops being sticky until a new application cookie is issued. For more information, see [Application-Controlled Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-application) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter CreateAppCookieStickinessPolicyInput : Contains the parameters for CreateAppCookieStickinessPolicy.
+    /// - Parameter input: Contains the parameters for CreateAppCookieStickinessPolicy. (Type: `CreateAppCookieStickinessPolicyInput`)
     ///
-    /// - Returns: `CreateAppCookieStickinessPolicyOutput` : Contains the output for CreateAppCookieStickinessPolicy.
+    /// - Returns: Contains the output for CreateAppCookieStickinessPolicy. (Type: `CreateAppCookieStickinessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -683,6 +687,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppCookieStickinessPolicyInput, CreateAppCookieStickinessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppCookieStickinessPolicyOutput>(CreateAppCookieStickinessPolicyOutput.httpOutput(from:), CreateAppCookieStickinessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppCookieStickinessPolicyInput, CreateAppCookieStickinessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppCookieStickinessPolicyOutput>())
@@ -716,9 +721,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Generates a stickiness policy with sticky session lifetimes controlled by the lifetime of the browser (user-agent) or a specified expiration period. This policy can be associated only with HTTP/HTTPS listeners. When a load balancer implements this policy, the load balancer uses a special cookie to track the instance for each request. When the load balancer receives a request, it first checks to see if this cookie is present in the request. If so, the load balancer sends the request to the application server specified in the cookie. If not, the load balancer sends the request to a server that is chosen based on the existing load-balancing algorithm. A cookie is inserted into the response for binding subsequent requests from the same user to that server. The validity of the cookie is based on the cookie expiration time, which is specified in the policy configuration. For more information, see [Duration-Based Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter CreateLBCookieStickinessPolicyInput : Contains the parameters for CreateLBCookieStickinessPolicy.
+    /// - Parameter input: Contains the parameters for CreateLBCookieStickinessPolicy. (Type: `CreateLBCookieStickinessPolicyInput`)
     ///
-    /// - Returns: `CreateLBCookieStickinessPolicyOutput` : Contains the output for CreateLBCookieStickinessPolicy.
+    /// - Returns: Contains the output for CreateLBCookieStickinessPolicy. (Type: `CreateLBCookieStickinessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -753,6 +758,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLBCookieStickinessPolicyInput, CreateLBCookieStickinessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLBCookieStickinessPolicyOutput>(CreateLBCookieStickinessPolicyOutput.httpOutput(from:), CreateLBCookieStickinessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLBCookieStickinessPolicyInput, CreateLBCookieStickinessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLBCookieStickinessPolicyOutput>())
@@ -786,9 +792,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Creates a Classic Load Balancer. You can add listeners, security groups, subnets, and tags when you create your load balancer, or you can add them later using [CreateLoadBalancerListeners], [ApplySecurityGroupsToLoadBalancer], [AttachLoadBalancerToSubnets], and [AddTags]. To describe your current load balancers, see [DescribeLoadBalancers]. When you are finished with a load balancer, you can delete it using [DeleteLoadBalancer]. You can create up to 20 load balancers per region per account. You can request an increase for the number of load balancers for your account. For more information, see [Limits for Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter CreateLoadBalancerInput : Contains the parameters for CreateLoadBalancer.
+    /// - Parameter input: Contains the parameters for CreateLoadBalancer. (Type: `CreateLoadBalancerInput`)
     ///
-    /// - Returns: `CreateLoadBalancerOutput` : Contains the output for CreateLoadBalancer.
+    /// - Returns: Contains the output for CreateLoadBalancer. (Type: `CreateLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -831,6 +837,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoadBalancerOutput>(CreateLoadBalancerOutput.httpOutput(from:), CreateLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoadBalancerOutput>())
@@ -864,9 +871,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Creates one or more listeners for the specified load balancer. If a listener with the specified port does not already exist, it is created; otherwise, the properties of the new listener must match the properties of the existing listener. For more information, see [Listeners for Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter CreateLoadBalancerListenersInput : Contains the parameters for CreateLoadBalancerListeners.
+    /// - Parameter input: Contains the parameters for CreateLoadBalancerListeners. (Type: `CreateLoadBalancerListenersInput`)
     ///
-    /// - Returns: `CreateLoadBalancerListenersOutput` : Contains the parameters for CreateLoadBalancerListener.
+    /// - Returns: Contains the parameters for CreateLoadBalancerListener. (Type: `CreateLoadBalancerListenersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -902,6 +909,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoadBalancerListenersInput, CreateLoadBalancerListenersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoadBalancerListenersOutput>(CreateLoadBalancerListenersOutput.httpOutput(from:), CreateLoadBalancerListenersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoadBalancerListenersInput, CreateLoadBalancerListenersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoadBalancerListenersOutput>())
@@ -935,9 +943,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Creates a policy with the specified attributes for the specified load balancer. Policies are settings that are saved for your load balancer and that can be applied to the listener or the application server, depending on the policy type.
     ///
-    /// - Parameter CreateLoadBalancerPolicyInput : Contains the parameters for CreateLoadBalancerPolicy.
+    /// - Parameter input: Contains the parameters for CreateLoadBalancerPolicy. (Type: `CreateLoadBalancerPolicyInput`)
     ///
-    /// - Returns: `CreateLoadBalancerPolicyOutput` : Contains the output of CreateLoadBalancerPolicy.
+    /// - Returns: Contains the output of CreateLoadBalancerPolicy. (Type: `CreateLoadBalancerPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,6 +981,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoadBalancerPolicyInput, CreateLoadBalancerPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoadBalancerPolicyOutput>(CreateLoadBalancerPolicyOutput.httpOutput(from:), CreateLoadBalancerPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoadBalancerPolicyInput, CreateLoadBalancerPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoadBalancerPolicyOutput>())
@@ -1006,9 +1015,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Deletes the specified load balancer. If you are attempting to recreate a load balancer, you must reconfigure all settings. The DNS name associated with a deleted load balancer are no longer usable. The name and associated DNS record of the deleted load balancer no longer exist and traffic sent to any of its IP addresses is no longer delivered to your instances. If the load balancer does not exist or has already been deleted, the call to DeleteLoadBalancer still succeeds.
     ///
-    /// - Parameter DeleteLoadBalancerInput : Contains the parameters for DeleteLoadBalancer.
+    /// - Parameter input: Contains the parameters for DeleteLoadBalancer. (Type: `DeleteLoadBalancerInput`)
     ///
-    /// - Returns: `DeleteLoadBalancerOutput` : Contains the output of DeleteLoadBalancer.
+    /// - Returns: Contains the output of DeleteLoadBalancer. (Type: `DeleteLoadBalancerOutput`)
     public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1035,6 +1044,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerOutput>(DeleteLoadBalancerOutput.httpOutput(from:), DeleteLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoadBalancerOutput>())
@@ -1068,9 +1078,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Deletes the specified listeners from the specified load balancer.
     ///
-    /// - Parameter DeleteLoadBalancerListenersInput : Contains the parameters for DeleteLoadBalancerListeners.
+    /// - Parameter input: Contains the parameters for DeleteLoadBalancerListeners. (Type: `DeleteLoadBalancerListenersInput`)
     ///
-    /// - Returns: `DeleteLoadBalancerListenersOutput` : Contains the output of DeleteLoadBalancerListeners.
+    /// - Returns: Contains the output of DeleteLoadBalancerListeners. (Type: `DeleteLoadBalancerListenersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1102,6 +1112,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoadBalancerListenersInput, DeleteLoadBalancerListenersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerListenersOutput>(DeleteLoadBalancerListenersOutput.httpOutput(from:), DeleteLoadBalancerListenersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoadBalancerListenersInput, DeleteLoadBalancerListenersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoadBalancerListenersOutput>())
@@ -1135,9 +1146,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Deletes the specified policy from the specified load balancer. This policy must not be enabled for any listeners.
     ///
-    /// - Parameter DeleteLoadBalancerPolicyInput : Contains the parameters for DeleteLoadBalancerPolicy.
+    /// - Parameter input: Contains the parameters for DeleteLoadBalancerPolicy. (Type: `DeleteLoadBalancerPolicyInput`)
     ///
-    /// - Returns: `DeleteLoadBalancerPolicyOutput` : Contains the output of DeleteLoadBalancerPolicy.
+    /// - Returns: Contains the output of DeleteLoadBalancerPolicy. (Type: `DeleteLoadBalancerPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,6 +1181,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoadBalancerPolicyInput, DeleteLoadBalancerPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerPolicyOutput>(DeleteLoadBalancerPolicyOutput.httpOutput(from:), DeleteLoadBalancerPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoadBalancerPolicyInput, DeleteLoadBalancerPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoadBalancerPolicyOutput>())
@@ -1203,9 +1215,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Deregisters the specified instances from the specified load balancer. After the instance is deregistered, it no longer receives traffic from the load balancer. You can use [DescribeLoadBalancers] to verify that the instance is deregistered from the load balancer. For more information, see [Register or De-Register EC2 Instances](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter DeregisterInstancesFromLoadBalancerInput : Contains the parameters for DeregisterInstancesFromLoadBalancer.
+    /// - Parameter input: Contains the parameters for DeregisterInstancesFromLoadBalancer. (Type: `DeregisterInstancesFromLoadBalancerInput`)
     ///
-    /// - Returns: `DeregisterInstancesFromLoadBalancerOutput` : Contains the output of DeregisterInstancesFromLoadBalancer.
+    /// - Returns: Contains the output of DeregisterInstancesFromLoadBalancer. (Type: `DeregisterInstancesFromLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1238,6 +1250,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterInstancesFromLoadBalancerInput, DeregisterInstancesFromLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterInstancesFromLoadBalancerOutput>(DeregisterInstancesFromLoadBalancerOutput.httpOutput(from:), DeregisterInstancesFromLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterInstancesFromLoadBalancerInput, DeregisterInstancesFromLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterInstancesFromLoadBalancerOutput>())
@@ -1271,9 +1284,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Describes the current Elastic Load Balancing resource limits for your AWS account. For more information, see [Limits for Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter DescribeAccountLimitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountLimitsInput`)
     ///
-    /// - Returns: `DescribeAccountLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountLimitsOutput`)
     public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1300,6 +1313,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutput>(DescribeAccountLimitsOutput.httpOutput(from:), DescribeAccountLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountLimitsOutput>())
@@ -1333,9 +1347,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Describes the state of the specified instances with respect to the specified load balancer. If no instances are specified, the call describes the state of all instances that are currently registered with the load balancer. If instances are specified, their state is returned even if they are no longer registered with the load balancer. The state of terminated instances is not returned.
     ///
-    /// - Parameter DescribeInstanceHealthInput : Contains the parameters for DescribeInstanceHealth.
+    /// - Parameter input: Contains the parameters for DescribeInstanceHealth. (Type: `DescribeInstanceHealthInput`)
     ///
-    /// - Returns: `DescribeInstanceHealthOutput` : Contains the output for DescribeInstanceHealth.
+    /// - Returns: Contains the output for DescribeInstanceHealth. (Type: `DescribeInstanceHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1368,6 +1382,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceHealthOutput>(DescribeInstanceHealthOutput.httpOutput(from:), DescribeInstanceHealthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceHealthInput, DescribeInstanceHealthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceHealthOutput>())
@@ -1401,9 +1416,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Describes the attributes for the specified load balancer.
     ///
-    /// - Parameter DescribeLoadBalancerAttributesInput : Contains the parameters for DescribeLoadBalancerAttributes.
+    /// - Parameter input: Contains the parameters for DescribeLoadBalancerAttributes. (Type: `DescribeLoadBalancerAttributesInput`)
     ///
-    /// - Returns: `DescribeLoadBalancerAttributesOutput` : Contains the output of DescribeLoadBalancerAttributes.
+    /// - Returns: Contains the output of DescribeLoadBalancerAttributes. (Type: `DescribeLoadBalancerAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1436,6 +1451,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoadBalancerAttributesInput, DescribeLoadBalancerAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerAttributesOutput>(DescribeLoadBalancerAttributesOutput.httpOutput(from:), DescribeLoadBalancerAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoadBalancerAttributesInput, DescribeLoadBalancerAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoadBalancerAttributesOutput>())
@@ -1469,9 +1485,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Describes the specified policies. If you specify a load balancer name, the action returns the descriptions of all policies created for the load balancer. If you specify a policy name associated with your load balancer, the action returns the description of that policy. If you don't specify a load balancer name, the action returns descriptions of the specified sample policies, or descriptions of all sample policies. The names of the sample policies have the ELBSample- prefix.
     ///
-    /// - Parameter DescribeLoadBalancerPoliciesInput : Contains the parameters for DescribeLoadBalancerPolicies.
+    /// - Parameter input: Contains the parameters for DescribeLoadBalancerPolicies. (Type: `DescribeLoadBalancerPoliciesInput`)
     ///
-    /// - Returns: `DescribeLoadBalancerPoliciesOutput` : Contains the output of DescribeLoadBalancerPolicies.
+    /// - Returns: Contains the output of DescribeLoadBalancerPolicies. (Type: `DescribeLoadBalancerPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,6 +1520,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoadBalancerPoliciesInput, DescribeLoadBalancerPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerPoliciesOutput>(DescribeLoadBalancerPoliciesOutput.httpOutput(from:), DescribeLoadBalancerPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoadBalancerPoliciesInput, DescribeLoadBalancerPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoadBalancerPoliciesOutput>())
@@ -1537,9 +1554,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Describes the specified load balancer policy types or all load balancer policy types. The description of each type indicates how it can be used. For example, some policies can be used only with layer 7 listeners, some policies can be used only with layer 4 listeners, and some policies can be used only with your EC2 instances. You can use [CreateLoadBalancerPolicy] to create a policy configuration for any of these policy types. Then, depending on the policy type, use either [SetLoadBalancerPoliciesOfListener] or [SetLoadBalancerPoliciesForBackendServer] to set the policy.
     ///
-    /// - Parameter DescribeLoadBalancerPolicyTypesInput : Contains the parameters for DescribeLoadBalancerPolicyTypes.
+    /// - Parameter input: Contains the parameters for DescribeLoadBalancerPolicyTypes. (Type: `DescribeLoadBalancerPolicyTypesInput`)
     ///
-    /// - Returns: `DescribeLoadBalancerPolicyTypesOutput` : Contains the output of DescribeLoadBalancerPolicyTypes.
+    /// - Returns: Contains the output of DescribeLoadBalancerPolicyTypes. (Type: `DescribeLoadBalancerPolicyTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1571,6 +1588,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoadBalancerPolicyTypesInput, DescribeLoadBalancerPolicyTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoadBalancerPolicyTypesOutput>(DescribeLoadBalancerPolicyTypesOutput.httpOutput(from:), DescribeLoadBalancerPolicyTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoadBalancerPolicyTypesInput, DescribeLoadBalancerPolicyTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoadBalancerPolicyTypesOutput>())
@@ -1604,9 +1622,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
     ///
-    /// - Parameter DescribeLoadBalancersInput : Contains the parameters for DescribeLoadBalancers.
+    /// - Parameter input: Contains the parameters for DescribeLoadBalancers. (Type: `DescribeLoadBalancersInput`)
     ///
-    /// - Returns: `DescribeLoadBalancersOutput` : Contains the parameters for DescribeLoadBalancers.
+    /// - Returns: Contains the parameters for DescribeLoadBalancers. (Type: `DescribeLoadBalancersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1639,6 +1657,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoadBalancersOutput>(DescribeLoadBalancersOutput.httpOutput(from:), DescribeLoadBalancersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoadBalancersInput, DescribeLoadBalancersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoadBalancersOutput>())
@@ -1672,9 +1691,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Describes the tags associated with the specified load balancers.
     ///
-    /// - Parameter DescribeTagsInput : Contains the parameters for DescribeTags.
+    /// - Parameter input: Contains the parameters for DescribeTags. (Type: `DescribeTagsInput`)
     ///
-    /// - Returns: `DescribeTagsOutput` : Contains the output for DescribeTags.
+    /// - Returns: Contains the output for DescribeTags. (Type: `DescribeTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1706,6 +1725,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(DescribeTagsOutput.httpOutput(from:), DescribeTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTagsInput, DescribeTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTagsOutput>())
@@ -1739,9 +1759,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Removes the specified subnets from the set of configured subnets for the load balancer. After a subnet is removed, all EC2 instances registered with the load balancer in the removed subnet go into the OutOfService state. Then, the load balancer balances the traffic among the remaining routable subnets.
     ///
-    /// - Parameter DetachLoadBalancerFromSubnetsInput : Contains the parameters for DetachLoadBalancerFromSubnets.
+    /// - Parameter input: Contains the parameters for DetachLoadBalancerFromSubnets. (Type: `DetachLoadBalancerFromSubnetsInput`)
     ///
-    /// - Returns: `DetachLoadBalancerFromSubnetsOutput` : Contains the output of DetachLoadBalancerFromSubnets.
+    /// - Returns: Contains the output of DetachLoadBalancerFromSubnets. (Type: `DetachLoadBalancerFromSubnetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1774,6 +1794,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachLoadBalancerFromSubnetsInput, DetachLoadBalancerFromSubnetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachLoadBalancerFromSubnetsOutput>(DetachLoadBalancerFromSubnetsOutput.httpOutput(from:), DetachLoadBalancerFromSubnetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachLoadBalancerFromSubnetsInput, DetachLoadBalancerFromSubnetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachLoadBalancerFromSubnetsOutput>())
@@ -1807,9 +1828,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Removes the specified Availability Zones from the set of Availability Zones for the specified load balancer in EC2-Classic or a default VPC. For load balancers in a non-default VPC, use [DetachLoadBalancerFromSubnets]. There must be at least one Availability Zone registered with a load balancer at all times. After an Availability Zone is removed, all instances registered with the load balancer that are in the removed Availability Zone go into the OutOfService state. Then, the load balancer attempts to equally balance the traffic among its remaining Availability Zones. For more information, see [Add or Remove Availability Zones](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-az.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter DisableAvailabilityZonesForLoadBalancerInput : Contains the parameters for DisableAvailabilityZonesForLoadBalancer.
+    /// - Parameter input: Contains the parameters for DisableAvailabilityZonesForLoadBalancer. (Type: `DisableAvailabilityZonesForLoadBalancerInput`)
     ///
-    /// - Returns: `DisableAvailabilityZonesForLoadBalancerOutput` : Contains the output for DisableAvailabilityZonesForLoadBalancer.
+    /// - Returns: Contains the output for DisableAvailabilityZonesForLoadBalancer. (Type: `DisableAvailabilityZonesForLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1842,6 +1863,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableAvailabilityZonesForLoadBalancerInput, DisableAvailabilityZonesForLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableAvailabilityZonesForLoadBalancerOutput>(DisableAvailabilityZonesForLoadBalancerOutput.httpOutput(from:), DisableAvailabilityZonesForLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAvailabilityZonesForLoadBalancerInput, DisableAvailabilityZonesForLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAvailabilityZonesForLoadBalancerOutput>())
@@ -1875,9 +1897,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Adds the specified Availability Zones to the set of Availability Zones for the specified load balancer in EC2-Classic or a default VPC. For load balancers in a non-default VPC, use [AttachLoadBalancerToSubnets]. The load balancer evenly distributes requests across all its registered Availability Zones that contain instances. For more information, see [Add or Remove Availability Zones](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-az.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter EnableAvailabilityZonesForLoadBalancerInput : Contains the parameters for EnableAvailabilityZonesForLoadBalancer.
+    /// - Parameter input: Contains the parameters for EnableAvailabilityZonesForLoadBalancer. (Type: `EnableAvailabilityZonesForLoadBalancerInput`)
     ///
-    /// - Returns: `EnableAvailabilityZonesForLoadBalancerOutput` : Contains the output of EnableAvailabilityZonesForLoadBalancer.
+    /// - Returns: Contains the output of EnableAvailabilityZonesForLoadBalancer. (Type: `EnableAvailabilityZonesForLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1909,6 +1931,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableAvailabilityZonesForLoadBalancerInput, EnableAvailabilityZonesForLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableAvailabilityZonesForLoadBalancerOutput>(EnableAvailabilityZonesForLoadBalancerOutput.httpOutput(from:), EnableAvailabilityZonesForLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAvailabilityZonesForLoadBalancerInput, EnableAvailabilityZonesForLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAvailabilityZonesForLoadBalancerOutput>())
@@ -1950,9 +1973,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// * [Idle Connection Timeout](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html)
     ///
-    /// - Parameter ModifyLoadBalancerAttributesInput : Contains the parameters for ModifyLoadBalancerAttributes.
+    /// - Parameter input: Contains the parameters for ModifyLoadBalancerAttributes. (Type: `ModifyLoadBalancerAttributesInput`)
     ///
-    /// - Returns: `ModifyLoadBalancerAttributesOutput` : Contains the output of ModifyLoadBalancerAttributes.
+    /// - Returns: Contains the output of ModifyLoadBalancerAttributes. (Type: `ModifyLoadBalancerAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1986,6 +2009,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyLoadBalancerAttributesInput, ModifyLoadBalancerAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyLoadBalancerAttributesOutput>(ModifyLoadBalancerAttributesOutput.httpOutput(from:), ModifyLoadBalancerAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyLoadBalancerAttributesInput, ModifyLoadBalancerAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyLoadBalancerAttributesOutput>())
@@ -2019,9 +2043,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Adds the specified instances to the specified load balancer. The instance must be a running instance in the same network as the load balancer (EC2-Classic or the same VPC). If you have EC2-Classic instances and a load balancer in a VPC with ClassicLink enabled, you can link the EC2-Classic instances to that VPC and then register the linked EC2-Classic instances with the load balancer in the VPC. Note that RegisterInstanceWithLoadBalancer completes when the request has been registered. Instance registration takes a little time to complete. To check the state of the registered instances, use [DescribeLoadBalancers] or [DescribeInstanceHealth]. After the instance is registered, it starts receiving traffic and requests from the load balancer. Any instance that is not in one of the Availability Zones registered for the load balancer is moved to the OutOfService state. If an Availability Zone is added to the load balancer later, any instances registered with the load balancer move to the InService state. To deregister instances from a load balancer, use [DeregisterInstancesFromLoadBalancer]. For more information, see [Register or De-Register EC2 Instances](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter RegisterInstancesWithLoadBalancerInput : Contains the parameters for RegisterInstancesWithLoadBalancer.
+    /// - Parameter input: Contains the parameters for RegisterInstancesWithLoadBalancer. (Type: `RegisterInstancesWithLoadBalancerInput`)
     ///
-    /// - Returns: `RegisterInstancesWithLoadBalancerOutput` : Contains the output of RegisterInstancesWithLoadBalancer.
+    /// - Returns: Contains the output of RegisterInstancesWithLoadBalancer. (Type: `RegisterInstancesWithLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2054,6 +2078,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterInstancesWithLoadBalancerInput, RegisterInstancesWithLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterInstancesWithLoadBalancerOutput>(RegisterInstancesWithLoadBalancerOutput.httpOutput(from:), RegisterInstancesWithLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterInstancesWithLoadBalancerInput, RegisterInstancesWithLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterInstancesWithLoadBalancerOutput>())
@@ -2087,9 +2112,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Removes one or more tags from the specified load balancer.
     ///
-    /// - Parameter RemoveTagsInput : Contains the parameters for RemoveTags.
+    /// - Parameter input: Contains the parameters for RemoveTags. (Type: `RemoveTagsInput`)
     ///
-    /// - Returns: `RemoveTagsOutput` : Contains the output of RemoveTags.
+    /// - Returns: Contains the output of RemoveTags. (Type: `RemoveTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2121,6 +2146,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(RemoveTagsOutput.httpOutput(from:), RemoveTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsInput, RemoveTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsOutput>())
@@ -2154,9 +2180,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Sets the certificate that terminates the specified listener's SSL connections. The specified certificate replaces any prior certificate that was used on the same load balancer and port. For more information about updating your SSL certificate, see [Replace the SSL Certificate for Your Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-update-ssl-cert.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter SetLoadBalancerListenerSSLCertificateInput : Contains the parameters for SetLoadBalancerListenerSSLCertificate.
+    /// - Parameter input: Contains the parameters for SetLoadBalancerListenerSSLCertificate. (Type: `SetLoadBalancerListenerSSLCertificateInput`)
     ///
-    /// - Returns: `SetLoadBalancerListenerSSLCertificateOutput` : Contains the output of SetLoadBalancerListenerSSLCertificate.
+    /// - Returns: Contains the output of SetLoadBalancerListenerSSLCertificate. (Type: `SetLoadBalancerListenerSSLCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2192,6 +2218,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetLoadBalancerListenerSSLCertificateInput, SetLoadBalancerListenerSSLCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetLoadBalancerListenerSSLCertificateOutput>(SetLoadBalancerListenerSSLCertificateOutput.httpOutput(from:), SetLoadBalancerListenerSSLCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetLoadBalancerListenerSSLCertificateInput, SetLoadBalancerListenerSSLCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetLoadBalancerListenerSSLCertificateOutput>())
@@ -2225,9 +2252,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Replaces the set of policies associated with the specified port on which the EC2 instance is listening with a new set of policies. At this time, only the back-end server authentication policy type can be applied to the instance ports; this policy type is composed of multiple public key policies. Each time you use SetLoadBalancerPoliciesForBackendServer to enable the policies, use the PolicyNames parameter to list the policies that you want to enable. You can use [DescribeLoadBalancers] or [DescribeLoadBalancerPolicies] to verify that the policy is associated with the EC2 instance. For more information about enabling back-end instance authentication, see [Configure Back-end Instance Authentication](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-create-https-ssl-load-balancer.html#configure_backendauth_clt) in the Classic Load Balancers Guide. For more information about Proxy Protocol, see [Configure Proxy Protocol Support](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-proxy-protocol.html) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter SetLoadBalancerPoliciesForBackendServerInput : Contains the parameters for SetLoadBalancerPoliciesForBackendServer.
+    /// - Parameter input: Contains the parameters for SetLoadBalancerPoliciesForBackendServer. (Type: `SetLoadBalancerPoliciesForBackendServerInput`)
     ///
-    /// - Returns: `SetLoadBalancerPoliciesForBackendServerOutput` : Contains the output of SetLoadBalancerPoliciesForBackendServer.
+    /// - Returns: Contains the output of SetLoadBalancerPoliciesForBackendServer. (Type: `SetLoadBalancerPoliciesForBackendServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2261,6 +2288,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetLoadBalancerPoliciesForBackendServerInput, SetLoadBalancerPoliciesForBackendServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetLoadBalancerPoliciesForBackendServerOutput>(SetLoadBalancerPoliciesForBackendServerOutput.httpOutput(from:), SetLoadBalancerPoliciesForBackendServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetLoadBalancerPoliciesForBackendServerInput, SetLoadBalancerPoliciesForBackendServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetLoadBalancerPoliciesForBackendServerOutput>())
@@ -2294,9 +2322,9 @@ extension ElasticLoadBalancingClient {
     ///
     /// Replaces the current set of policies for the specified load balancer port with the specified set of policies. To enable back-end server authentication, use [SetLoadBalancerPoliciesForBackendServer]. For more information about setting policies, see [Update the SSL Negotiation Configuration](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/ssl-config-update.html), [Duration-Based Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration), and [Application-Controlled Session Stickiness](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-application) in the Classic Load Balancers Guide.
     ///
-    /// - Parameter SetLoadBalancerPoliciesOfListenerInput : Contains the parameters for SetLoadBalancePoliciesOfListener.
+    /// - Parameter input: Contains the parameters for SetLoadBalancePoliciesOfListener. (Type: `SetLoadBalancerPoliciesOfListenerInput`)
     ///
-    /// - Returns: `SetLoadBalancerPoliciesOfListenerOutput` : Contains the output of SetLoadBalancePoliciesOfListener.
+    /// - Returns: Contains the output of SetLoadBalancePoliciesOfListener. (Type: `SetLoadBalancerPoliciesOfListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2331,6 +2359,7 @@ extension ElasticLoadBalancingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetLoadBalancerPoliciesOfListenerInput, SetLoadBalancerPoliciesOfListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetLoadBalancerPoliciesOfListenerOutput>(SetLoadBalancerPoliciesOfListenerOutput.httpOutput(from:), SetLoadBalancerPoliciesOfListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetLoadBalancerPoliciesOfListenerInput, SetLoadBalancerPoliciesOfListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetLoadBalancerPoliciesOfListenerOutput>())

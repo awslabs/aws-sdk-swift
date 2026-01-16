@@ -5,14 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct SmithyHTTPAuth.AWSSigningConfig
-import protocol SmithyEventStreamsAPI.MessageEncoder
-import struct SmithyEventStreamsAPI.Message
-import protocol SmithyEventStreamsAuthAPI.MessageSigner
-import protocol SmithyEventStreamsAuthAPI.MessageDataSigner
-import protocol SmithyHTTPAuthAPI.Signer
-import struct Smithy.Attributes
 import struct Smithy.AttributeKey
+import struct Smithy.Attributes
+import struct SmithyEventStreamsAPI.Message
+import protocol SmithyEventStreamsAPI.MessageEncoder
+import protocol SmithyEventStreamsAuthAPI.MessageDataSigner
+import protocol SmithyEventStreamsAuthAPI.MessageSigner
+import struct SmithyHTTPAuth.AWSSigningConfig
+import protocol SmithyHTTPAuthAPI.Signer
 
 /// Signs a `Message` using the AWS SigV4 signing algorithm
 public actor AWSMessageSigner: MessageSigner {

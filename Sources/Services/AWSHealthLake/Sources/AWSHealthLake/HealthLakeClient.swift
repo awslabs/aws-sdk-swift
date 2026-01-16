@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class HealthLakeClient: ClientRuntime.Client {
+public class HealthLakeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "HealthLakeClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: HealthLakeClient.HealthLakeClientConfiguration
     let serviceName = "HealthLake"
@@ -372,17 +372,17 @@ extension HealthLakeClient {
 extension HealthLakeClient {
     /// Performs the `CreateFHIRDatastore` operation on the `HealthLake` service.
     ///
-    /// Creates a data store that can ingest and export FHIR formatted data.
+    /// Create a FHIR-enabled data store.
     ///
-    /// - Parameter CreateFHIRDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFHIRDatastoreInput`)
     ///
-    /// - Returns: `CreateFHIRDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFHIRDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     public func createFHIRDatastore(input: CreateFHIRDatastoreInput) async throws -> CreateFHIRDatastoreOutput {
@@ -412,6 +412,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFHIRDatastoreInput, CreateFHIRDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFHIRDatastoreOutput>(CreateFHIRDatastoreOutput.httpOutput(from:), CreateFHIRDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFHIRDatastoreInput, CreateFHIRDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFHIRDatastoreOutput>())
@@ -444,18 +445,18 @@ extension HealthLakeClient {
 
     /// Performs the `DeleteFHIRDatastore` operation on the `HealthLake` service.
     ///
-    /// Deletes a data store.
+    /// Delete a FHIR-enabled data store.
     ///
-    /// - Parameter DeleteFHIRDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFHIRDatastoreInput`)
     ///
-    /// - Returns: `DeleteFHIRDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFHIRDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
-    /// - `ConflictException` : The data store is in a transition state and the user requested action can not be performed.
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ConflictException` : The data store is in a transition state and the user requested action cannot be performed.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
@@ -485,6 +486,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFHIRDatastoreInput, DeleteFHIRDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFHIRDatastoreOutput>(DeleteFHIRDatastoreOutput.httpOutput(from:), DeleteFHIRDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFHIRDatastoreInput, DeleteFHIRDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFHIRDatastoreOutput>())
@@ -517,16 +519,16 @@ extension HealthLakeClient {
 
     /// Performs the `DescribeFHIRDatastore` operation on the `HealthLake` service.
     ///
-    /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
+    /// Get properties for a FHIR-enabled data store.
     ///
-    /// - Parameter DescribeFHIRDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFHIRDatastoreInput`)
     ///
-    /// - Returns: `DescribeFHIRDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFHIRDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
@@ -556,6 +558,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFHIRDatastoreInput, DescribeFHIRDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFHIRDatastoreOutput>(DescribeFHIRDatastoreOutput.httpOutput(from:), DescribeFHIRDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFHIRDatastoreInput, DescribeFHIRDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFHIRDatastoreOutput>())
@@ -588,16 +591,16 @@ extension HealthLakeClient {
 
     /// Performs the `DescribeFHIRExportJob` operation on the `HealthLake` service.
     ///
-    /// Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
+    /// Get FHIR export job properties.
     ///
-    /// - Parameter DescribeFHIRExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFHIRExportJobInput`)
     ///
-    /// - Returns: `DescribeFHIRExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFHIRExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
@@ -627,6 +630,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFHIRExportJobInput, DescribeFHIRExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFHIRExportJobOutput>(DescribeFHIRExportJobOutput.httpOutput(from:), DescribeFHIRExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFHIRExportJobInput, DescribeFHIRExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFHIRExportJobOutput>())
@@ -659,16 +663,16 @@ extension HealthLakeClient {
 
     /// Performs the `DescribeFHIRImportJob` operation on the `HealthLake` service.
     ///
-    /// Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
+    /// Get the import job properties to learn more about the job or job progress.
     ///
-    /// - Parameter DescribeFHIRImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFHIRImportJobInput`)
     ///
-    /// - Returns: `DescribeFHIRImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFHIRImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
@@ -698,6 +702,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFHIRImportJobInput, DescribeFHIRImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFHIRImportJobOutput>(DescribeFHIRImportJobOutput.httpOutput(from:), DescribeFHIRImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFHIRImportJobInput, DescribeFHIRImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFHIRImportJobOutput>())
@@ -730,16 +735,16 @@ extension HealthLakeClient {
 
     /// Performs the `ListFHIRDatastores` operation on the `HealthLake` service.
     ///
-    /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
+    /// List all FHIR-enabled data stores in a user’s account, regardless of data store status.
     ///
-    /// - Parameter ListFHIRDatastoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFHIRDatastoresInput`)
     ///
-    /// - Returns: `ListFHIRDatastoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFHIRDatastoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
     public func listFHIRDatastores(input: ListFHIRDatastoresInput) async throws -> ListFHIRDatastoresOutput {
@@ -768,6 +773,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFHIRDatastoresInput, ListFHIRDatastoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFHIRDatastoresOutput>(ListFHIRDatastoresOutput.httpOutput(from:), ListFHIRDatastoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFHIRDatastoresInput, ListFHIRDatastoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFHIRDatastoresOutput>())
@@ -802,15 +808,15 @@ extension HealthLakeClient {
     ///
     /// Lists all FHIR export jobs associated with an account and their statuses.
     ///
-    /// - Parameter ListFHIRExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFHIRExportJobsInput`)
     ///
-    /// - Returns: `ListFHIRExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFHIRExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
@@ -840,6 +846,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFHIRExportJobsInput, ListFHIRExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFHIRExportJobsOutput>(ListFHIRExportJobsOutput.httpOutput(from:), ListFHIRExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFHIRExportJobsInput, ListFHIRExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFHIRExportJobsOutput>())
@@ -872,17 +879,17 @@ extension HealthLakeClient {
 
     /// Performs the `ListFHIRImportJobs` operation on the `HealthLake` service.
     ///
-    /// Lists all FHIR import jobs associated with an account and their statuses.
+    /// List all FHIR import jobs associated with an account and their statuses.
     ///
-    /// - Parameter ListFHIRImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFHIRImportJobsInput`)
     ///
-    /// - Returns: `ListFHIRImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFHIRImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
@@ -912,6 +919,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFHIRImportJobsInput, ListFHIRImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFHIRImportJobsOutput>(ListFHIRImportJobsOutput.httpOutput(from:), ListFHIRImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFHIRImportJobsInput, ListFHIRImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFHIRImportJobsOutput>())
@@ -946,9 +954,9 @@ extension HealthLakeClient {
     ///
     /// Returns a list of all existing tags associated with a data store.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -981,6 +989,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1013,17 +1022,17 @@ extension HealthLakeClient {
 
     /// Performs the `StartFHIRExportJob` operation on the `HealthLake` service.
     ///
-    /// Begins a FHIR export job.
+    /// Start a FHIR export job.
     ///
-    /// - Parameter StartFHIRExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFHIRExportJobInput`)
     ///
-    /// - Returns: `StartFHIRExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFHIRExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
@@ -1054,6 +1063,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFHIRExportJobInput, StartFHIRExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFHIRExportJobOutput>(StartFHIRExportJobOutput.httpOutput(from:), StartFHIRExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFHIRExportJobInput, StartFHIRExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFHIRExportJobOutput>())
@@ -1086,17 +1096,17 @@ extension HealthLakeClient {
 
     /// Performs the `StartFHIRImportJob` operation on the `HealthLake` service.
     ///
-    /// Begins a FHIR Import job.
+    /// Start importing bulk FHIR data into an ACTIVE data store. The import job imports FHIR data found in the InputDataConfig object and stores processing results in the JobOutputDataConfig object.
     ///
-    /// - Parameter StartFHIRImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFHIRImportJobInput`)
     ///
-    /// - Returns: `StartFHIRImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFHIRImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
-    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `InternalServerException` : An unknown internal error occurred in the service.
     /// - `ResourceNotFoundException` : The requested data store was not found.
     /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
     /// - `ValidationException` : The user input parameter was invalid.
@@ -1127,6 +1137,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFHIRImportJobInput, StartFHIRImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFHIRImportJobOutput>(StartFHIRImportJobOutput.httpOutput(from:), StartFHIRImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFHIRImportJobInput, StartFHIRImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFHIRImportJobOutput>())
@@ -1159,11 +1170,11 @@ extension HealthLakeClient {
 
     /// Performs the `TagResource` operation on the `HealthLake` service.
     ///
-    /// Adds a user specified key and value tag to a data store.
+    /// Add a user-specifed key and value tag to a data store.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1196,6 +1207,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1228,11 +1240,11 @@ extension HealthLakeClient {
 
     /// Performs the `UntagResource` operation on the `HealthLake` service.
     ///
-    /// Removes tags from a data store.
+    /// Remove a user-specifed key and value tag from a data store.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,6 +1277,7 @@ extension HealthLakeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

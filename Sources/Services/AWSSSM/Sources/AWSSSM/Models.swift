@@ -1272,15 +1272,15 @@ extension SSMClientTypes {
         public var excludeAccounts: [Swift.String]?
         /// The Automation execution role used by the currently running Automation. If not specified, the default value is AWS-SystemsManager-AutomationExecutionRole.
         public var executionRoleName: Swift.String?
-        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false.
+        /// Indicates whether to include child organizational units (OUs) that are children of the targeted OUs. The default is false. This parameter is not supported by State Manager.
         public var includeChildOrganizationUnits: Swift.Bool
         /// The Amazon Web Services Regions targeted by the current Automation execution.
         public var regions: [Swift.String]?
         /// The details for the CloudWatch alarm you want to apply to an automation or command.
         public var targetLocationAlarmConfiguration: SSMClientTypes.AlarmConfiguration?
-        /// The maximum number of Amazon Web Services Regions and Amazon Web Services accounts allowed to run the Automation concurrently.
+        /// The maximum number of Amazon Web Services Regions and Amazon Web Services accounts allowed to run the Automation concurrently. TargetLocationMaxConcurrency has a default value of 1.
         public var targetLocationMaxConcurrency: Swift.String?
-        /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation.
+        /// The maximum number of errors allowed before the system stops queueing additional Automation executions for the currently running Automation. TargetLocationMaxErrors has a default value of 0.
         public var targetLocationMaxErrors: Swift.String?
         /// A list of key-value mappings to target resources. If you specify values for this data type, you must also specify a value for TargetParameterName. This Targets parameter takes precedence over the StartAutomationExecution:Targets parameter if both are supplied.
         public var targets: [SSMClientTypes.Target]?
@@ -1359,7 +1359,7 @@ public struct CreateAssociationInput: Swift.Sendable {
     public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
     /// Adds or overwrites one or more tags for a State Manager association. Tags are metadata that you can assign to your Amazon Web Services resources. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [SSMClientTypes.Tag]?
-    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
+    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts. The IncludeChildOrganizationUnits parameter is not supported by State Manager.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
     /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     public var targetMaps: [[Swift.String: [Swift.String]]]?
@@ -1931,6 +1931,29 @@ public struct MaxDocumentSizeExceeded: ClientRuntime.ModeledError, AWSClientRunt
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "MaxDocumentSizeExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The requested operation is no longer supported by Systems Manager.
+public struct NoLongerSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoLongerSupported" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2864,9 +2887,9 @@ public struct CreateOpsItemInput: Swift.Sendable {
     ///
     /// * /aws/issue This type of OpsItem is used for default OpsItems created by OpsCenter.
     ///
-    /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
-    ///
     /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+    ///
+    /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests. Amazon Web Services Systems Manager Change Manager will no longer be open to new customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html).
     public var opsItemType: Swift.String?
     /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     public var plannedEndTime: Foundation.Date?
@@ -3243,9 +3266,9 @@ extension SSMClientTypes {
 
     /// Defines an approval rule for a patch baseline.
     public struct PatchRule: Swift.Sendable {
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If the day represented by 7 is 2025-11-16, patches released between 2025-11-16T00:00:00Z and 2025-11-16T23:59:59Z will be included in the approval. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
         public var approveAfterDays: Swift.Int?
-        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2024-12-31. This parameter is marked as Required: No, but your request must include a value for either ApproveUntilDate or ApproveAfterDays. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
+        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2025-11-16. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If you enter the date 2025-11-16, patches released between 2025-11-16T00:00:00Z and 2025-11-16T23:59:59Z will be included in the approval. This parameter is marked as Required: No, but your request must include a value for either ApproveUntilDate or ApproveAfterDays. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
         public var approveUntilDate: Swift.String?
         /// A compliance severity level for all approved patches in a patch baseline.
         public var complianceLevel: SSMClientTypes.PatchComplianceLevel?
@@ -3474,7 +3497,11 @@ public struct CreatePatchBaselineInput: Swift.Sendable {
     public var operatingSystem: SSMClientTypes.OperatingSystem?
     /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see [Package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html) in the Amazon Web Services Systems Manager User Guide.
     public var rejectedPatches: [Swift.String]?
-    /// The action for Patch Manager to take on patches included in the RejectedPackages list. ALLOW_AS_DEPENDENCY Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified. Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified. BLOCK All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+    /// The action for Patch Manager to take on patches included in the RejectedPackages list. ALLOW_AS_DEPENDENCY Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified. Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified. BLOCK All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. State value assignment for patch compliance:
+    ///
+    /// * If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+    ///
+    /// * If an update attempts to install a dependency package that is now rejected by the baseline, when previous versions of the package were not rejected, the package being updated is reported as MISSING for SCAN operations and as FAILED for INSTALL operations.
     public var rejectedPatchesAction: SSMClientTypes.PatchAction?
     /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
     public var sources: [SSMClientTypes.PatchSource]?
@@ -11102,15 +11129,19 @@ public struct GetDeployablePatchSnapshotForInstanceInput: Swift.Sendable {
     /// The snapshot ID provided by the user when running AWS-RunPatchBaseline.
     /// This member is required.
     public var snapshotId: Swift.String?
+    /// Specifies whether to use S3 dualstack endpoints for the patch snapshot download URL. Set to true to receive a presigned URL that supports both IPv4 and IPv6 connectivity. Set to false to use standard IPv4-only endpoints. Default is false. This parameter is required for managed nodes in IPv6-only environments.
+    public var useS3DualStackEndpoint: Swift.Bool?
 
     public init(
         baselineOverride: SSMClientTypes.BaselineOverride? = nil,
         instanceId: Swift.String? = nil,
-        snapshotId: Swift.String? = nil
+        snapshotId: Swift.String? = nil,
+        useS3DualStackEndpoint: Swift.Bool? = false
     ) {
         self.baselineOverride = baselineOverride
         self.instanceId = instanceId
         self.snapshotId = snapshotId
+        self.useS3DualStackEndpoint = useS3DualStackEndpoint
     }
 }
 
@@ -18689,7 +18720,7 @@ public struct UpdateAssociationInput: Swift.Sendable {
     public var scheduleOffset: Swift.Int?
     /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the [PutComplianceItems] API operation. In this case, compliance data isn't managed by State Manager, a tool in Amazon Web Services Systems Manager. It is managed by your direct call to the [PutComplianceItems] API operation. By default, all associations use AUTO mode.
     public var syncCompliance: SSMClientTypes.AssociationSyncCompliance?
-    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
+    /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts. The IncludeChildOrganizationUnits parameter is not supported by State Manager.
     public var targetLocations: [SSMClientTypes.TargetLocation]?
     /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     public var targetMaps: [[Swift.String: [Swift.String]]]?
@@ -19597,7 +19628,11 @@ public struct UpdatePatchBaselineInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of explicitly rejected patches for the baseline. For information about accepted formats for lists of approved patches and rejected patches, see [Package name formats for approved and rejected patch lists](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html) in the Amazon Web Services Systems Manager User Guide.
     public var rejectedPatches: [Swift.String]?
-    /// The action for Patch Manager to take on patches included in the RejectedPackages list. ALLOW_AS_DEPENDENCY Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified. Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified. BLOCK All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+    /// The action for Patch Manager to take on patches included in the RejectedPackages list. ALLOW_AS_DEPENDENCY Linux and macOS: A package in the rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as INSTALLED_OTHER. This is the default action if no option is specified. Windows Server: Windows Server doesn't support the concept of package dependencies. If a package in the rejected patches list and already installed on the node, its status is reported as INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the default action if no option is specified. BLOCK All OSs: Packages in the rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. State value assignment for patch compliance:
+    ///
+    /// * If a package was installed before it was added to the rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
+    ///
+    /// * If an update attempts to install a dependency package that is now rejected by the baseline, when previous versions of the package were not rejected, the package being updated is reported as MISSING for SCAN operations and as FAILED for INSTALL operations.
     public var rejectedPatchesAction: SSMClientTypes.PatchAction?
     /// If True, then all fields that are required by the [CreatePatchBaseline] operation are also required for this API request. Optional fields that aren't specified are set to null.
     public var replace: Swift.Bool?
@@ -21766,6 +21801,7 @@ extension GetDeployablePatchSnapshotForInstanceInput {
         try writer["BaselineOverride"].write(value.baselineOverride, with: SSMClientTypes.BaselineOverride.write(value:to:))
         try writer["InstanceId"].write(value.instanceId)
         try writer["SnapshotId"].write(value.snapshotId)
+        try writer["UseS3DualStackEndpoint"].write(value.useS3DualStackEndpoint)
     }
 }
 
@@ -24699,6 +24735,7 @@ enum CreateDocumentOutputError {
             case "InvalidDocumentContent": return try InvalidDocumentContent.makeError(baseError: baseError)
             case "InvalidDocumentSchemaVersion": return try InvalidDocumentSchemaVersion.makeError(baseError: baseError)
             case "MaxDocumentSizeExceeded": return try MaxDocumentSizeExceeded.makeError(baseError: baseError)
+            case "NoLongerSupported": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "TooManyUpdates": return try TooManyUpdates.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -26677,6 +26714,7 @@ enum StartChangeRequestExecutionOutputError {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatch.makeError(baseError: baseError)
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidAutomationExecutionParameters": return try InvalidAutomationExecutionParametersException.makeError(baseError: baseError)
+            case "NoLongerSupported": return try NoLongerSupportedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27381,6 +27419,19 @@ extension MaxDocumentSizeExceeded {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxDocumentSizeExceeded {
         let reader = baseError.errorBodyReader
         var value = MaxDocumentSizeExceeded()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoLongerSupportedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoLongerSupportedException {
+        let reader = baseError.errorBodyReader
+        var value = NoLongerSupportedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

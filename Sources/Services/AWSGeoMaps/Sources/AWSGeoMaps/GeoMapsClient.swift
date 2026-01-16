@@ -22,6 +22,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -60,9 +61,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GeoMapsClient: ClientRuntime.Client {
+public class GeoMapsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GeoMapsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoMapsClient.GeoMapsClientConfiguration
     let serviceName = "Geo Maps"
@@ -366,11 +366,11 @@ extension GeoMapsClient {
 extension GeoMapsClient {
     /// Performs the `GetGlyphs` operation on the `GeoMaps` service.
     ///
-    /// GetGlyphs returns the map's glyphs.
+    /// GetGlyphs returns the map's glyphs. For more information, see [Style labels with glyphs](https://docs.aws.amazon.com/location/latest/developerguide/styling-labels-with-glyphs.html) in the Amazon Location Service Developer Guide.
     ///
-    /// - Parameter GetGlyphsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlyphsInput`)
     ///
-    /// - Returns: `GetGlyphsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlyphsOutput`)
     public func getGlyphs(input: GetGlyphsInput) async throws -> GetGlyphsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -396,6 +396,7 @@ extension GeoMapsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlyphsInput, GetGlyphsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlyphsOutput>(GetGlyphsOutput.httpOutput(from:), GetGlyphsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlyphsInput, GetGlyphsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlyphsOutput>())
@@ -425,11 +426,11 @@ extension GeoMapsClient {
 
     /// Performs the `GetSprites` operation on the `GeoMaps` service.
     ///
-    /// GetSprites returns the map's sprites.
+    /// GetSprites returns the map's sprites. For more information, see [Style iconography with sprites](https://docs.aws.amazon.com/location/latest/developerguide/styling-iconography-with-sprites.html) in the Amazon Location Service Developer Guide.
     ///
-    /// - Parameter GetSpritesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpritesInput`)
     ///
-    /// - Returns: `GetSpritesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpritesOutput`)
     public func getSprites(input: GetSpritesInput) async throws -> GetSpritesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -455,6 +456,7 @@ extension GeoMapsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSpritesInput, GetSpritesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSpritesOutput>(GetSpritesOutput.httpOutput(from:), GetSpritesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSpritesInput, GetSpritesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSpritesOutput>())
@@ -484,11 +486,17 @@ extension GeoMapsClient {
 
     /// Performs the `GetStaticMap` operation on the `GeoMaps` service.
     ///
-    /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
+    /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:
     ///
-    /// - Parameter GetStaticMapInput : [no documentation found]
+    /// * [Static maps](https://docs.aws.amazon.com/location/latest/developerguide/static-maps.html)
     ///
-    /// - Returns: `GetStaticMapOutput` : [no documentation found]
+    /// * [Customize static maps](https://docs.aws.amazon.com/location/latest/developerguide/customizing-static-maps.html)
+    ///
+    /// * [Overlay on the static map](https://docs.aws.amazon.com/location/latest/developerguide/overlaying-static-map.html)
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetStaticMapInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetStaticMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -523,6 +531,7 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetStaticMapInput, GetStaticMapOutput>(GetStaticMapInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStaticMapOutput>(GetStaticMapOutput.httpOutput(from:), GetStaticMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStaticMapInput, GetStaticMapOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStaticMapOutput>())
@@ -552,11 +561,11 @@ extension GeoMapsClient {
 
     /// Performs the `GetStyleDescriptor` operation on the `GeoMaps` service.
     ///
-    /// GetStyleDescriptor returns information about the style.
+    /// GetStyleDescriptor returns information about the style. For more information, see [Style dynamic maps](https://docs.aws.amazon.com/location/latest/developerguide/styling-dynamic-maps.html) in the Amazon Location Service Developer Guide.
     ///
-    /// - Parameter GetStyleDescriptorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStyleDescriptorInput`)
     ///
-    /// - Returns: `GetStyleDescriptorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStyleDescriptorOutput`)
     public func getStyleDescriptor(input: GetStyleDescriptorInput) async throws -> GetStyleDescriptorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -583,6 +592,7 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetStyleDescriptorInput, GetStyleDescriptorOutput>(GetStyleDescriptorInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStyleDescriptorOutput>(GetStyleDescriptorOutput.httpOutput(from:), GetStyleDescriptorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStyleDescriptorInput, GetStyleDescriptorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStyleDescriptorOutput>())
@@ -612,17 +622,18 @@ extension GeoMapsClient {
 
     /// Performs the `GetTile` operation on the `GeoMaps` service.
     ///
-    /// GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.
+    /// GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see [Tiles](https://docs.aws.amazon.com/location/latest/developerguide/tiles.html) in the Amazon Location Service Developer Guide.
     ///
-    /// - Parameter GetTileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTileInput`)
     ///
-    /// - Returns: `GetTileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request was denied because of insufficient access or permissions. Check with an administrator to verify your permissions.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Exception thrown when the associated resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getTile(input: GetTileInput) async throws -> GetTileOutput {
@@ -651,6 +662,7 @@ extension GeoMapsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTileInput, GetTileOutput>(GetTileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTileOutput>(GetTileOutput.httpOutput(from:), GetTileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTileInput, GetTileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTileOutput>())

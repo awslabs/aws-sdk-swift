@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MediaConvertClient: ClientRuntime.Client {
+public class MediaConvertClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MediaConvertClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConvertClient.MediaConvertClientConfiguration
     let serviceName = "MediaConvert"
@@ -373,9 +373,9 @@ extension MediaConvertClient {
     ///
     /// Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
     ///
-    /// - Parameter AssociateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateCertificateInput`)
     ///
-    /// - Returns: `AssociateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -385,6 +385,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func associateCertificate(input: AssociateCertificateInput) async throws -> AssociateCertificateOutput {
         let context = Smithy.ContextBuilder()
@@ -414,6 +415,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCertificateInput, AssociateCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateCertificateOutput>(AssociateCertificateOutput.httpOutput(from:), AssociateCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCertificateInput, AssociateCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateCertificateOutput>())
@@ -445,9 +447,9 @@ extension MediaConvertClient {
     ///
     /// Permanently cancel a job. Once you have canceled a job, you can't start it again.
     ///
-    /// - Parameter CancelJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -457,6 +459,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = Smithy.ContextBuilder()
@@ -483,6 +486,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobOutput>())
@@ -514,9 +518,9 @@ extension MediaConvertClient {
     ///
     /// Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -526,6 +530,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = Smithy.ContextBuilder()
@@ -556,6 +561,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -587,9 +593,9 @@ extension MediaConvertClient {
     ///
     /// Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreateJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobTemplateInput`)
     ///
-    /// - Returns: `CreateJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -599,6 +605,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -628,6 +635,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobTemplateOutput>(CreateJobTemplateOutput.httpOutput(from:), CreateJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobTemplateOutput>())
@@ -659,9 +667,9 @@ extension MediaConvertClient {
     ///
     /// Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter CreatePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresetInput`)
     ///
-    /// - Returns: `CreatePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,6 +679,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput {
         let context = Smithy.ContextBuilder()
@@ -700,6 +709,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresetInput, CreatePresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresetOutput>(CreatePresetOutput.httpOutput(from:), CreatePresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresetInput, CreatePresetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresetOutput>())
@@ -731,9 +741,9 @@ extension MediaConvertClient {
     ///
     /// Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
     ///
-    /// - Parameter CreateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
     ///
-    /// - Returns: `CreateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,6 +753,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -772,6 +783,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
@@ -799,13 +811,13 @@ extension MediaConvertClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `DeleteJobTemplate` operation on the `MediaConvert` service.
+    /// Performs the `CreateResourceShare` operation on the `MediaConvert` service.
     ///
-    /// Permanently delete a job template you have created.
+    /// Create a new resource share request for MediaConvert resources with AWS Support.
     ///
-    /// - Parameter DeleteJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceShareInput`)
     ///
-    /// - Returns: `DeleteJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -815,6 +827,81 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
+    /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
+    public func createResourceShare(input: CreateResourceShareInput) async throws -> CreateResourceShareOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createResourceShare")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconvert")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateResourceShareInput, CreateResourceShareOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateResourceShareInput, CreateResourceShareOutput>(CreateResourceShareInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateResourceShareInput, CreateResourceShareOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResourceShareInput, CreateResourceShareOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateResourceShareInput, CreateResourceShareOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateResourceShareInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceShareInput, CreateResourceShareOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceShareOutput>(CreateResourceShareOutput.httpOutput(from:), CreateResourceShareOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceShareInput, CreateResourceShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceShareOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConvert", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResourceShareOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResourceShareOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResourceShareInput, CreateResourceShareOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResourceShareInput, CreateResourceShareOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResourceShareInput, CreateResourceShareOutput>(serviceID: serviceName, version: MediaConvertClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConvert")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateResourceShare")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteJobTemplate` operation on the `MediaConvert` service.
+    ///
+    /// Permanently delete a job template you have created.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobTemplateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteJobTemplateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The service can't process your request because of a problem in the request. Please check your request form and syntax.
+    /// - `ConflictException` : The service couldn't complete your request because there is a conflict with the current state of the resource.
+    /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
+    /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
+    /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -841,6 +928,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobTemplateOutput>(DeleteJobTemplateOutput.httpOutput(from:), DeleteJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobTemplateOutput>())
@@ -872,9 +960,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a policy that you created.
     ///
-    /// - Parameter DeletePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyInput`)
     ///
-    /// - Returns: `DeletePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -884,6 +972,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -910,6 +999,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(DeletePolicyOutput.httpOutput(from:), DeletePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyInput, DeletePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyOutput>())
@@ -941,9 +1031,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a preset you have created.
     ///
-    /// - Parameter DeletePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePresetInput`)
     ///
-    /// - Returns: `DeletePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -953,6 +1043,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput {
         let context = Smithy.ContextBuilder()
@@ -979,6 +1070,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePresetInput, DeletePresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePresetOutput>(DeletePresetOutput.httpOutput(from:), DeletePresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePresetInput, DeletePresetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePresetOutput>())
@@ -1010,9 +1102,9 @@ extension MediaConvertClient {
     ///
     /// Permanently delete a queue you have created.
     ///
-    /// - Parameter DeleteQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueInput`)
     ///
-    /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,6 +1114,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -1048,6 +1141,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueueInput, DeleteQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
@@ -1080,9 +1174,9 @@ extension MediaConvertClient {
     /// Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
     @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     ///
-    /// - Parameter DescribeEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointsInput`)
     ///
-    /// - Returns: `DescribeEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1092,6 +1186,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput {
         let context = Smithy.ContextBuilder()
@@ -1121,6 +1216,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointsOutput>(DescribeEndpointsOutput.httpOutput(from:), DescribeEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointsInput, DescribeEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointsOutput>())
@@ -1152,9 +1248,9 @@ extension MediaConvertClient {
     ///
     /// Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
     ///
-    /// - Parameter DisassociateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateCertificateInput`)
     ///
-    /// - Returns: `DisassociateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1164,6 +1260,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func disassociateCertificate(input: DisassociateCertificateInput) async throws -> DisassociateCertificateOutput {
         let context = Smithy.ContextBuilder()
@@ -1190,6 +1287,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateCertificateInput, DisassociateCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateCertificateOutput>(DisassociateCertificateOutput.httpOutput(from:), DisassociateCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCertificateInput, DisassociateCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateCertificateOutput>())
@@ -1221,9 +1319,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific transcoding job.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1233,6 +1331,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getJob(input: GetJobInput) async throws -> GetJobOutput {
         let context = Smithy.ContextBuilder()
@@ -1259,6 +1358,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobInput, GetJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -1290,9 +1390,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific job template.
     ///
-    /// - Parameter GetJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobTemplateInput`)
     ///
-    /// - Returns: `GetJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1302,6 +1402,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getJobTemplate(input: GetJobTemplateInput) async throws -> GetJobTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -1328,6 +1429,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobTemplateInput, GetJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobTemplateOutput>(GetJobTemplateOutput.httpOutput(from:), GetJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobTemplateInput, GetJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobTemplateOutput>())
@@ -1355,13 +1457,13 @@ extension MediaConvertClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `GetPolicy` operation on the `MediaConvert` service.
+    /// Performs the `GetJobsQueryResults` operation on the `MediaConvert` service.
     ///
-    /// Retrieve the JSON for your policy.
+    /// Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobsQueryResultsInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobsQueryResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1371,6 +1473,78 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
+    /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
+    public func getJobsQueryResults(input: GetJobsQueryResultsInput) async throws -> GetJobsQueryResultsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getJobsQueryResults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconvert")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetJobsQueryResultsInput, GetJobsQueryResultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>(GetJobsQueryResultsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobsQueryResultsOutput>(GetJobsQueryResultsOutput.httpOutput(from:), GetJobsQueryResultsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetJobsQueryResultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConvert", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobsQueryResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobsQueryResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>(serviceID: serviceName, version: MediaConvertClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConvert")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetJobsQueryResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPolicy` operation on the `MediaConvert` service.
+    ///
+    /// Retrieve the JSON for your policy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The service can't process your request because of a problem in the request. Please check your request form and syntax.
+    /// - `ConflictException` : The service couldn't complete your request because there is a conflict with the current state of the resource.
+    /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
+    /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
+    /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -1397,6 +1571,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(GetPolicyOutput.httpOutput(from:), GetPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
@@ -1428,9 +1603,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific preset.
     ///
-    /// - Parameter GetPresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPresetInput`)
     ///
-    /// - Returns: `GetPresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1440,6 +1615,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getPreset(input: GetPresetInput) async throws -> GetPresetOutput {
         let context = Smithy.ContextBuilder()
@@ -1466,6 +1642,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPresetInput, GetPresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPresetOutput>(GetPresetOutput.httpOutput(from:), GetPresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPresetInput, GetPresetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPresetOutput>())
@@ -1497,9 +1674,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the JSON for a specific queue.
     ///
-    /// - Parameter GetQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueInput`)
     ///
-    /// - Returns: `GetQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1509,6 +1686,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getQueue(input: GetQueueInput) async throws -> GetQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -1535,6 +1713,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueueInput, GetQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueOutput>(GetQueueOutput.httpOutput(from:), GetQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueInput, GetQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueOutput>())
@@ -1566,9 +1745,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
     ///
-    /// - Parameter ListJobTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobTemplatesInput`)
     ///
-    /// - Returns: `ListJobTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,6 +1757,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput {
         let context = Smithy.ContextBuilder()
@@ -1605,6 +1785,7 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(ListJobTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobTemplatesOutput>(ListJobTemplatesOutput.httpOutput(from:), ListJobTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobTemplatesOutput>())
@@ -1636,9 +1817,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1648,6 +1829,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = Smithy.ContextBuilder()
@@ -1675,6 +1857,7 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -1706,9 +1889,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListPresetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPresetsInput`)
     ///
-    /// - Returns: `ListPresetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPresetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1718,6 +1901,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput {
         let context = Smithy.ContextBuilder()
@@ -1745,6 +1929,7 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPresetsInput, ListPresetsOutput>(ListPresetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPresetsOutput>(ListPresetsOutput.httpOutput(from:), ListPresetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPresetsInput, ListPresetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPresetsOutput>())
@@ -1776,9 +1961,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
     ///
-    /// - Parameter ListQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
     ///
-    /// - Returns: `ListQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,6 +1973,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput {
         let context = Smithy.ContextBuilder()
@@ -1815,6 +2001,7 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueuesInput, ListQueuesOutput>(ListQueuesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
@@ -1846,9 +2033,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve the tags for a MediaConvert resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1858,6 +2045,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -1884,6 +2072,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1915,9 +2104,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array of all available Job engine versions and the date they expire.
     ///
-    /// - Parameter ListVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVersionsInput`)
     ///
-    /// - Returns: `ListVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1927,6 +2116,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listVersions(input: ListVersionsInput) async throws -> ListVersionsOutput {
         let context = Smithy.ContextBuilder()
@@ -1954,6 +2144,7 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVersionsInput, ListVersionsOutput>(ListVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVersionsOutput>(ListVersionsOutput.httpOutput(from:), ListVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVersionsInput, ListVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVersionsOutput>())
@@ -1985,9 +2176,9 @@ extension MediaConvertClient {
     ///
     /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
     ///
-    /// - Parameter ProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProbeInput`)
     ///
-    /// - Returns: `ProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1997,6 +2188,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func probe(input: ProbeInput) async throws -> ProbeOutput {
         let context = Smithy.ContextBuilder()
@@ -2026,6 +2218,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ProbeInput, ProbeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProbeOutput>(ProbeOutput.httpOutput(from:), ProbeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProbeInput, ProbeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ProbeOutput>())
@@ -2057,9 +2250,9 @@ extension MediaConvertClient {
     ///
     /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
     ///
-    /// - Parameter PutPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPolicyInput`)
     ///
-    /// - Returns: `PutPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2069,6 +2262,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2098,6 +2292,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPolicyInput, PutPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPolicyOutput>(PutPolicyOutput.httpOutput(from:), PutPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPolicyInput, PutPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPolicyOutput>())
@@ -2129,9 +2324,9 @@ extension MediaConvertClient {
     ///
     /// Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
     ///
-    /// - Parameter SearchJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
     ///
-    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2141,6 +2336,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func searchJobs(input: SearchJobsInput) async throws -> SearchJobsOutput {
         let context = Smithy.ContextBuilder()
@@ -2168,6 +2364,7 @@ extension MediaConvertClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<SearchJobsInput, SearchJobsOutput>(SearchJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchJobsOutput>(SearchJobsOutput.httpOutput(from:), SearchJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchJobsInput, SearchJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchJobsOutput>())
@@ -2195,13 +2392,13 @@ extension MediaConvertClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `TagResource` operation on the `MediaConvert` service.
+    /// Performs the `StartJobsQuery` operation on the `MediaConvert` service.
     ///
-    /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    /// Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartJobsQueryInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartJobsQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2211,6 +2408,81 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
+    /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
+    public func startJobsQuery(input: StartJobsQueryInput) async throws -> StartJobsQueryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startJobsQuery")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconvert")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartJobsQueryInput, StartJobsQueryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(StartJobsQueryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartJobsQueryInput, StartJobsQueryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartJobsQueryInput, StartJobsQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartJobsQueryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartJobsQueryInput, StartJobsQueryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartJobsQueryOutput>(StartJobsQueryOutput.httpOutput(from:), StartJobsQueryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartJobsQueryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConvert", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartJobsQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartJobsQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartJobsQueryInput, StartJobsQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(serviceID: serviceName, version: MediaConvertClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConvert")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartJobsQuery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `TagResource` operation on the `MediaConvert` service.
+    ///
+    /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The service can't process your request because of a problem in the request. Please check your request form and syntax.
+    /// - `ConflictException` : The service couldn't complete your request because there is a conflict with the current state of the resource.
+    /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
+    /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
+    /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2240,6 +2512,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2271,9 +2544,9 @@ extension MediaConvertClient {
     ///
     /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2283,6 +2556,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2312,6 +2586,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2343,9 +2618,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing job templates.
     ///
-    /// - Parameter UpdateJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobTemplateInput`)
     ///
-    /// - Returns: `UpdateJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2355,6 +2630,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func updateJobTemplate(input: UpdateJobTemplateInput) async throws -> UpdateJobTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -2384,6 +2660,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobTemplateInput, UpdateJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobTemplateOutput>(UpdateJobTemplateOutput.httpOutput(from:), UpdateJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobTemplateInput, UpdateJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobTemplateOutput>())
@@ -2415,9 +2692,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing presets.
     ///
-    /// - Parameter UpdatePresetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePresetInput`)
     ///
-    /// - Returns: `UpdatePresetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2427,6 +2704,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func updatePreset(input: UpdatePresetInput) async throws -> UpdatePresetOutput {
         let context = Smithy.ContextBuilder()
@@ -2456,6 +2734,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePresetInput, UpdatePresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePresetOutput>(UpdatePresetOutput.httpOutput(from:), UpdatePresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePresetInput, UpdatePresetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePresetOutput>())
@@ -2487,9 +2766,9 @@ extension MediaConvertClient {
     ///
     /// Modify one of your existing queues.
     ///
-    /// - Parameter UpdateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueInput`)
     ///
-    /// - Returns: `UpdateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2499,6 +2778,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func updateQueue(input: UpdateQueueInput) async throws -> UpdateQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -2528,6 +2808,7 @@ extension MediaConvertClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueInput, UpdateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueOutput>(UpdateQueueOutput.httpOutput(from:), UpdateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueInput, UpdateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueOutput>())

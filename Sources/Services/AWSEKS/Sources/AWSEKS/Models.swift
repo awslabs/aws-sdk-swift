@@ -650,9 +650,11 @@ extension EKSClientTypes {
         case bottlerocketArm64
         case bottlerocketArm64Fips
         case bottlerocketArm64Nvidia
+        case bottlerocketArm64NvidiaFips
         case bottlerocketX8664
         case bottlerocketX8664Fips
         case bottlerocketX8664Nvidia
+        case bottlerocketX8664NvidiaFips
         case custom
         case windowsCore2019X8664
         case windowsCore2022X8664
@@ -673,9 +675,11 @@ extension EKSClientTypes {
                 .bottlerocketArm64,
                 .bottlerocketArm64Fips,
                 .bottlerocketArm64Nvidia,
+                .bottlerocketArm64NvidiaFips,
                 .bottlerocketX8664,
                 .bottlerocketX8664Fips,
                 .bottlerocketX8664Nvidia,
+                .bottlerocketX8664NvidiaFips,
                 .custom,
                 .windowsCore2019X8664,
                 .windowsCore2022X8664,
@@ -702,9 +706,11 @@ extension EKSClientTypes {
             case .bottlerocketArm64: return "BOTTLEROCKET_ARM_64"
             case .bottlerocketArm64Fips: return "BOTTLEROCKET_ARM_64_FIPS"
             case .bottlerocketArm64Nvidia: return "BOTTLEROCKET_ARM_64_NVIDIA"
+            case .bottlerocketArm64NvidiaFips: return "BOTTLEROCKET_ARM_64_NVIDIA_FIPS"
             case .bottlerocketX8664: return "BOTTLEROCKET_x86_64"
             case .bottlerocketX8664Fips: return "BOTTLEROCKET_x86_64_FIPS"
             case .bottlerocketX8664Nvidia: return "BOTTLEROCKET_x86_64_NVIDIA"
+            case .bottlerocketX8664NvidiaFips: return "BOTTLEROCKET_x86_64_NVIDIA_FIPS"
             case .custom: return "CUSTOM"
             case .windowsCore2019X8664: return "WINDOWS_CORE_2019_x86_64"
             case .windowsCore2022X8664: return "WINDOWS_CORE_2022_x86_64"
@@ -712,6 +718,247 @@ extension EKSClientTypes {
             case .windowsFull2022X8664: return "WINDOWS_FULL_2022_x86_64"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Configuration for integrating Argo CD with IAM Identity CenterIAM; Identity Center. This allows you to use your organization's identity provider for authentication to Argo CD.
+    public struct ArgoCdAwsIdcConfigRequest: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM Identity CenterIAM; Identity Center instance to use for authentication.
+        /// This member is required.
+        public var idcInstanceArn: Swift.String?
+        /// The Region where your IAM Identity CenterIAM; Identity Center instance is located.
+        public var idcRegion: Swift.String?
+
+        public init(
+            idcInstanceArn: Swift.String? = nil,
+            idcRegion: Swift.String? = nil
+        ) {
+            self.idcInstanceArn = idcInstanceArn
+            self.idcRegion = idcRegion
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The response object containing IAM Identity CenterIAM; Identity Center configuration details for an Argo CD capability.
+    public struct ArgoCdAwsIdcConfigResponse: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM Identity CenterIAM; Identity Center instance used for authentication.
+        public var idcInstanceArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the managed application created in IAM Identity CenterIAM; Identity Center for this Argo CD capability. This application is automatically created and managed by Amazon EKS.
+        public var idcManagedApplicationArn: Swift.String?
+        /// The Region where the IAM Identity CenterIAM; Identity Center instance is located.
+        public var idcRegion: Swift.String?
+
+        public init(
+            idcInstanceArn: Swift.String? = nil,
+            idcManagedApplicationArn: Swift.String? = nil,
+            idcRegion: Swift.String? = nil
+        ) {
+            self.idcInstanceArn = idcInstanceArn
+            self.idcManagedApplicationArn = idcManagedApplicationArn
+            self.idcRegion = idcRegion
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Configuration for network access to the Argo CD capability's managed API server endpoint. When VPC endpoint IDs are specified, public access is blocked and the Argo CD server is only accessible through the specified VPC endpoints.
+    public struct ArgoCdNetworkAccessConfigRequest: Swift.Sendable {
+        /// A list of VPC endpoint IDs to associate with the managed Argo CD API server endpoint. Each VPC endpoint provides private connectivity from a specific VPC to the Argo CD server. You can specify multiple VPC endpoint IDs to enable access from multiple VPCs.
+        public var vpceIds: [Swift.String]?
+
+        public init(
+            vpceIds: [Swift.String]? = nil
+        ) {
+            self.vpceIds = vpceIds
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum SsoIdentityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ssoGroup
+        case ssoUser
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SsoIdentityType] {
+            return [
+                .ssoGroup,
+                .ssoUser
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ssoGroup: return "SSO_GROUP"
+            case .ssoUser: return "SSO_USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An IAM Identity CenterIAM; Identity Center identity (user or group) that can be assigned permissions in a capability.
+    public struct SsoIdentity: Swift.Sendable {
+        /// The unique identifier of the IAM Identity CenterIAM; Identity Center user or group.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The type of identity. Valid values are SSO_USER or SSO_GROUP.
+        /// This member is required.
+        public var type: EKSClientTypes.SsoIdentityType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: EKSClientTypes.SsoIdentityType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum ArgoCdRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case admin
+        case editor
+        case viewer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ArgoCdRole] {
+            return [
+                .admin,
+                .editor,
+                .viewer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .admin: return "ADMIN"
+            case .editor: return "EDITOR"
+            case .viewer: return "VIEWER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// A mapping between an Argo CD role and IAM Identity CenterIAM; Identity Center identities. This defines which users or groups have specific permissions in Argo CD.
+    public struct ArgoCdRoleMapping: Swift.Sendable {
+        /// A list of IAM Identity CenterIAM; Identity Center identities (users or groups) that should be assigned this Argo CD role.
+        /// This member is required.
+        public var identities: [EKSClientTypes.SsoIdentity]?
+        /// The Argo CD role to assign. Valid values are:
+        ///
+        /// * ADMIN – Full administrative access to Argo CD.
+        ///
+        /// * EDITOR – Edit access to Argo CD resources.
+        ///
+        /// * VIEWER – Read-only access to Argo CD resources.
+        /// This member is required.
+        public var role: EKSClientTypes.ArgoCdRole?
+
+        public init(
+            identities: [EKSClientTypes.SsoIdentity]? = nil,
+            role: EKSClientTypes.ArgoCdRole? = nil
+        ) {
+            self.identities = identities
+            self.role = role
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Configuration settings for an Argo CD capability. This includes the Kubernetes namespace, IAM Identity CenterIAM; Identity Center integration, RBAC role mappings, and network access configuration.
+    public struct ArgoCdConfigRequest: Swift.Sendable {
+        /// Configuration for IAM Identity CenterIAM; Identity Center integration. When configured, users can authenticate to Argo CD using their IAM Identity CenterIAM; Identity Center credentials.
+        /// This member is required.
+        public var awsIdc: EKSClientTypes.ArgoCdAwsIdcConfigRequest?
+        /// The Kubernetes namespace where Argo CD resources will be created. If not specified, the default namespace is used.
+        public var namespace: Swift.String?
+        /// Configuration for network access to the Argo CD capability's managed API server endpoint. By default, the Argo CD server is accessible via a public endpoint. You can optionally specify one or more VPC endpoint IDs to enable private connectivity from your VPCs. When VPC endpoints are configured, public access is blocked and the Argo CD server is only accessible through the specified VPC endpoints.
+        public var networkAccess: EKSClientTypes.ArgoCdNetworkAccessConfigRequest?
+        /// A list of role mappings that define which IAM Identity CenterIAM; Identity Center users or groups have which Argo CD roles. Each mapping associates an Argo CD role (ADMIN, EDITOR, or VIEWER) with one or more IAM Identity CenterIAM; Identity Center identities.
+        public var rbacRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]?
+
+        public init(
+            awsIdc: EKSClientTypes.ArgoCdAwsIdcConfigRequest? = nil,
+            namespace: Swift.String? = nil,
+            networkAccess: EKSClientTypes.ArgoCdNetworkAccessConfigRequest? = nil,
+            rbacRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]? = nil
+        ) {
+            self.awsIdc = awsIdc
+            self.namespace = namespace
+            self.networkAccess = networkAccess
+            self.rbacRoleMappings = rbacRoleMappings
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The response object containing network access configuration for the Argo CD capability's managed API server endpoint. If VPC endpoint IDs are present, public access is blocked and the Argo CD server is only accessible through the specified VPC endpoints.
+    public struct ArgoCdNetworkAccessConfigResponse: Swift.Sendable {
+        /// The list of VPC endpoint IDs associated with the managed Argo CD API server endpoint. Each VPC endpoint provides private connectivity from a specific VPC to the Argo CD server.
+        public var vpceIds: [Swift.String]?
+
+        public init(
+            vpceIds: [Swift.String]? = nil
+        ) {
+            self.vpceIds = vpceIds
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The response object containing Argo CD configuration details, including the server URL that you use to access the Argo CD web interface and API.
+    public struct ArgoCdConfigResponse: Swift.Sendable {
+        /// The IAM Identity CenterIAM; Identity Center integration configuration.
+        public var awsIdc: EKSClientTypes.ArgoCdAwsIdcConfigResponse?
+        /// The Kubernetes namespace where Argo CD resources are monitored by your Argo CD Capability.
+        public var namespace: Swift.String?
+        /// The network access configuration for the Argo CD capability's managed API server endpoint. If VPC endpoint IDs are specified, public access is blocked and the Argo CD server is only accessible through the specified VPC endpoints.
+        public var networkAccess: EKSClientTypes.ArgoCdNetworkAccessConfigResponse?
+        /// The list of role mappings that define which IAM Identity CenterIAM; Identity Center users or groups have which Argo CD roles.
+        public var rbacRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]?
+        /// The URL of the Argo CD server. Use this URL to access the Argo CD web interface and API.
+        public var serverUrl: Swift.String?
+
+        public init(
+            awsIdc: EKSClientTypes.ArgoCdAwsIdcConfigResponse? = nil,
+            namespace: Swift.String? = nil,
+            networkAccess: EKSClientTypes.ArgoCdNetworkAccessConfigResponse? = nil,
+            rbacRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]? = nil,
+            serverUrl: Swift.String? = nil
+        ) {
+            self.awsIdc = awsIdc
+            self.namespace = namespace
+            self.networkAccess = networkAccess
+            self.rbacRoleMappings = rbacRoleMappings
+            self.serverUrl = serverUrl
         }
     }
 }
@@ -1249,9 +1496,11 @@ extension EKSClientTypes {
         case maxUnavailable
         case maxUnavailablePercentage
         case minSize
+        case nodeRepairConfig
         case nodeRepairEnabled
         case platformVersion
         case podIdentityAssociations
+        case previousTier
         case publicAccessCidrs
         case releaseVersion
         case remoteNetworkConfig
@@ -1262,6 +1511,7 @@ extension EKSClientTypes {
         case subnets
         case taintsToAdd
         case taintsToRemove
+        case updatedTier
         case updateStrategy
         case upgradePolicy
         case version
@@ -1290,9 +1540,11 @@ extension EKSClientTypes {
                 .maxUnavailable,
                 .maxUnavailablePercentage,
                 .minSize,
+                .nodeRepairConfig,
                 .nodeRepairEnabled,
                 .platformVersion,
                 .podIdentityAssociations,
+                .previousTier,
                 .publicAccessCidrs,
                 .releaseVersion,
                 .remoteNetworkConfig,
@@ -1303,6 +1555,7 @@ extension EKSClientTypes {
                 .subnets,
                 .taintsToAdd,
                 .taintsToRemove,
+                .updatedTier,
                 .updateStrategy,
                 .upgradePolicy,
                 .version,
@@ -1337,9 +1590,11 @@ extension EKSClientTypes {
             case .maxUnavailable: return "MaxUnavailable"
             case .maxUnavailablePercentage: return "MaxUnavailablePercentage"
             case .minSize: return "MinSize"
+            case .nodeRepairConfig: return "NodeRepairConfig"
             case .nodeRepairEnabled: return "NodeRepairEnabled"
             case .platformVersion: return "PlatformVersion"
             case .podIdentityAssociations: return "PodIdentityAssociations"
+            case .previousTier: return "PreviousTier"
             case .publicAccessCidrs: return "PublicAccessCidrs"
             case .releaseVersion: return "ReleaseVersion"
             case .remoteNetworkConfig: return "RemoteNetworkConfig"
@@ -1350,6 +1605,7 @@ extension EKSClientTypes {
             case .subnets: return "Subnets"
             case .taintsToAdd: return "TaintsToAdd"
             case .taintsToRemove: return "TaintsToRemove"
+            case .updatedTier: return "UpdatedTier"
             case .updateStrategy: return "UpdateStrategy"
             case .upgradePolicy: return "UpgradePolicy"
             case .version: return "Version"
@@ -1423,6 +1679,7 @@ extension EKSClientTypes {
         case associateIdentityProviderConfig
         case autoModeUpdate
         case configUpdate
+        case controlPlaneScalingConfigUpdate
         case deletionProtectionUpdate
         case disassociateIdentityProviderConfig
         case endpointAccessUpdate
@@ -1442,6 +1699,7 @@ extension EKSClientTypes {
                 .associateIdentityProviderConfig,
                 .autoModeUpdate,
                 .configUpdate,
+                .controlPlaneScalingConfigUpdate,
                 .deletionProtectionUpdate,
                 .disassociateIdentityProviderConfig,
                 .endpointAccessUpdate,
@@ -1467,6 +1725,7 @@ extension EKSClientTypes {
             case .associateIdentityProviderConfig: return "AssociateIdentityProviderConfig"
             case .autoModeUpdate: return "AutoModeUpdate"
             case .configUpdate: return "ConfigUpdate"
+            case .controlPlaneScalingConfigUpdate: return "ControlPlaneScalingConfigUpdate"
             case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
             case .endpointAccessUpdate: return "EndpointAccessUpdate"
@@ -1814,6 +2073,367 @@ public struct CreateAddonOutput: Swift.Sendable {
     }
 }
 
+extension EKSClientTypes {
+
+    /// Configuration settings for a capability. The structure of this object varies depending on the capability type.
+    public struct CapabilityConfigurationRequest: Swift.Sendable {
+        /// Configuration settings specific to Argo CD capabilities. This field is only used when creating or updating an Argo CD capability.
+        public var argoCd: EKSClientTypes.ArgoCdConfigRequest?
+
+        public init(
+            argoCd: EKSClientTypes.ArgoCdConfigRequest? = nil
+        ) {
+            self.argoCd = argoCd
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CapabilityDeletePropagationPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case retain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityDeletePropagationPolicy] {
+            return [
+                .retain
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .retain: return "RETAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CapabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ack
+        case argocd
+        case kro
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityType] {
+            return [
+                .ack,
+                .argocd,
+                .kro
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ack: return "ACK"
+            case .argocd: return "ARGOCD"
+            case .kro: return "KRO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateCapabilityInput: Swift.Sendable {
+    /// A unique name for the capability. The name must be unique within your cluster and can contain alphanumeric characters, hyphens, and underscores.
+    /// This member is required.
+    public var capabilityName: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 24 hours after creation. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned.
+    public var clientRequestToken: Swift.String?
+    /// The name of the Amazon EKS cluster where you want to create the capability.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The configuration settings for the capability. The structure of this object varies depending on the capability type. For Argo CD capabilities, you can configure IAM Identity CenterIAM; Identity Center integration, RBAC role mappings, and network access settings.
+    public var configuration: EKSClientTypes.CapabilityConfigurationRequest?
+    /// Specifies how Kubernetes resources managed by the capability should be handled when the capability is deleted. Currently, the only supported value is RETAIN which retains all Kubernetes resources managed by the capability when the capability is deleted. Because resources are retained, all Kubernetes resources created by the capability should be deleted from the cluster before deleting the capability itself. After the capability is deleted, these resources become difficult to manage because the controller is no longer available.
+    /// This member is required.
+    public var deletePropagationPolicy: EKSClientTypes.CapabilityDeletePropagationPolicy?
+    /// The Amazon Resource Name (ARN) of the IAM role that the capability uses to interact with Amazon Web Services services. This role must have a trust policy that allows the EKS service principal to assume it, and it must have the necessary permissions for the capability type you're creating. For ACK capabilities, the role needs permissions to manage the resources you want to control through Kubernetes. For Argo CD capabilities, the role needs permissions to access Git repositories and Secrets Manager. For KRO capabilities, the role needs permissions based on the resources you'll be orchestrating.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define them. The following basic restrictions apply to tags:
+    ///
+    /// * Maximum number of tags per resource – 50
+    ///
+    /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+    ///
+    /// * Maximum key length – 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length – 256 Unicode characters in UTF-8
+    ///
+    /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+    ///
+    /// * Tag keys and values are case-sensitive.
+    ///
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of capability to create. Valid values are:
+    ///
+    /// * ACK – Amazon Web Services Controllers for Kubernetes (ACK), which lets you manage resources directly from Kubernetes.
+    ///
+    /// * ARGOCD – Argo CD for GitOps-based continuous delivery.
+    ///
+    /// * KRO – Kube Resource Orchestrator (KRO) for composing and managing custom Kubernetes resources.
+    /// This member is required.
+    public var type: EKSClientTypes.CapabilityType?
+
+    public init(
+        capabilityName: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        configuration: EKSClientTypes.CapabilityConfigurationRequest? = nil,
+        deletePropagationPolicy: EKSClientTypes.CapabilityDeletePropagationPolicy? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: EKSClientTypes.CapabilityType? = nil
+    ) {
+        self.capabilityName = capabilityName
+        self.clientRequestToken = clientRequestToken
+        self.clusterName = clusterName
+        self.configuration = configuration
+        self.deletePropagationPolicy = deletePropagationPolicy
+        self.roleArn = roleArn
+        self.tags = tags
+        self.type = type
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The response object containing capability configuration details.
+    public struct CapabilityConfigurationResponse: Swift.Sendable {
+        /// Configuration settings for an Argo CD capability, including the server URL and other Argo CD-specific settings.
+        public var argoCd: EKSClientTypes.ArgoCdConfigResponse?
+
+        public init(
+            argoCd: EKSClientTypes.ArgoCdConfigResponse? = nil
+        ) {
+            self.argoCd = argoCd
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CapabilityIssueCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case clusterUnreachable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityIssueCode] {
+            return [
+                .accessDenied,
+                .clusterUnreachable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "AccessDenied"
+            case .clusterUnreachable: return "ClusterUnreachable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An issue affecting a capability's health or operation.
+    public struct CapabilityIssue: Swift.Sendable {
+        /// A code identifying the type of issue. This can be used to programmatically handle specific issue types.
+        public var code: EKSClientTypes.CapabilityIssueCode?
+        /// A human-readable message describing the issue and potential remediation steps.
+        public var message: Swift.String?
+
+        public init(
+            code: EKSClientTypes.CapabilityIssueCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Health information for a capability, including any issues that may be affecting its operation.
+    public struct CapabilityHealth: Swift.Sendable {
+        /// A list of issues affecting the capability. If this list is empty, the capability is healthy.
+        public var issues: [EKSClientTypes.CapabilityIssue]?
+
+        public init(
+            issues: [EKSClientTypes.CapabilityIssue]? = nil
+        ) {
+            self.issues = issues
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum CapabilityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case degraded
+        case deleteFailed
+        case deleting
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapabilityStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .degraded,
+                .deleteFailed,
+                .deleting,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .degraded: return "DEGRADED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// An object representing a managed capability in an Amazon EKS cluster. This includes all configuration, status, and health information for the capability.
+    public struct Capability: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the capability.
+        public var arn: Swift.String?
+        /// The unique name of the capability within the cluster.
+        public var capabilityName: Swift.String?
+        /// The name of the Amazon EKS cluster that contains this capability.
+        public var clusterName: Swift.String?
+        /// The configuration settings for the capability. The structure varies depending on the capability type.
+        public var configuration: EKSClientTypes.CapabilityConfigurationResponse?
+        /// The Unix epoch timestamp in seconds for when the capability was created.
+        public var createdAt: Foundation.Date?
+        /// The delete propagation policy for the capability. Currently, the only supported value is RETAIN, which keeps all resources managed by the capability when the capability is deleted.
+        public var deletePropagationPolicy: EKSClientTypes.CapabilityDeletePropagationPolicy?
+        /// Health information for the capability, including any issues that may be affecting its operation.
+        public var health: EKSClientTypes.CapabilityHealth?
+        /// The Unix epoch timestamp in seconds for when the capability was last modified.
+        public var modifiedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the IAM role that the capability uses to interact with Amazon Web Services services.
+        public var roleArn: Swift.String?
+        /// The current status of the capability. Valid values include:
+        ///
+        /// * CREATING – The capability is being created.
+        ///
+        /// * ACTIVE – The capability is running and available.
+        ///
+        /// * UPDATING – The capability is being updated.
+        ///
+        /// * DELETING – The capability is being deleted.
+        ///
+        /// * CREATE_FAILED – The capability creation failed.
+        ///
+        /// * UPDATE_FAILED – The capability update failed.
+        ///
+        /// * DELETE_FAILED – The capability deletion failed.
+        public var status: EKSClientTypes.CapabilityStatus?
+        /// The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define them. The following basic restrictions apply to tags:
+        ///
+        /// * Maximum number of tags per resource – 50
+        ///
+        /// * For each resource, each tag key must be unique, and each tag key can have only one value.
+        ///
+        /// * Maximum key length – 128 Unicode characters in UTF-8
+        ///
+        /// * Maximum value length – 256 Unicode characters in UTF-8
+        ///
+        /// * If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.
+        ///
+        /// * Tag keys and values are case-sensitive.
+        ///
+        /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public var tags: [Swift.String: Swift.String]?
+        /// The type of capability. Valid values are ACK, ARGOCD, or KRO.
+        public var type: EKSClientTypes.CapabilityType?
+        /// The version of the capability software that is currently running.
+        public var version: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            capabilityName: Swift.String? = nil,
+            clusterName: Swift.String? = nil,
+            configuration: EKSClientTypes.CapabilityConfigurationResponse? = nil,
+            createdAt: Foundation.Date? = nil,
+            deletePropagationPolicy: EKSClientTypes.CapabilityDeletePropagationPolicy? = nil,
+            health: EKSClientTypes.CapabilityHealth? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            roleArn: Swift.String? = nil,
+            status: EKSClientTypes.CapabilityStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            type: EKSClientTypes.CapabilityType? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.capabilityName = capabilityName
+            self.clusterName = clusterName
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.deletePropagationPolicy = deletePropagationPolicy
+            self.health = health
+            self.modifiedAt = modifiedAt
+            self.roleArn = roleArn
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.version = version
+        }
+    }
+}
+
+public struct CreateCapabilityOutput: Swift.Sendable {
+    /// An object containing information about the newly created capability, including its name, ARN, status, and configuration.
+    public var capability: EKSClientTypes.Capability?
+
+    public init(
+        capability: EKSClientTypes.Capability? = nil
+    ) {
+        self.capability = capability
+    }
+}
+
 /// The service is unavailable. Back off and retry the operation.
 public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1912,6 +2532,56 @@ extension EKSClientTypes {
             self.enabled = enabled
             self.nodePools = nodePools
             self.nodeRoleArn = nodeRoleArn
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum ProvisionedControlPlaneTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case standard
+        case tier2xl
+        case tier4xl
+        case tierXl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProvisionedControlPlaneTier] {
+            return [
+                .standard,
+                .tier2xl,
+                .tier4xl,
+                .tierXl
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .standard: return "standard"
+            case .tier2xl: return "tier-2xl"
+            case .tier4xl: return "tier-4xl"
+            case .tierXl: return "tier-xl"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+    public struct ControlPlaneScalingConfig: Swift.Sendable {
+        /// The control plane scaling tier configuration. Available options are standard, tier-xl, tier-2xl, or tier-4xl. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        public var tier: EKSClientTypes.ProvisionedControlPlaneTier?
+
+        public init(
+            tier: EKSClientTypes.ProvisionedControlPlaneTier? = nil
+        ) {
+            self.tier = tier
         }
     }
 }
@@ -2330,6 +3000,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
     public var computeConfig: EKSClientTypes.ComputeConfigRequest?
+    /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+    public var controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig?
     /// Indicates whether to enable deletion protection for the cluster. When enabled, the cluster cannot be deleted unless deletion protection is first disabled. This helps prevent accidental cluster deletion. Default value is false.
     public var deletionProtection: Swift.Bool?
     /// The encryption configuration for the cluster.
@@ -2367,6 +3039,7 @@ public struct CreateClusterInput: Swift.Sendable {
         bootstrapSelfManagedAddons: Swift.Bool? = nil,
         clientRequestToken: Swift.String? = nil,
         computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
+        controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig? = nil,
         deletionProtection: Swift.Bool? = nil,
         encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
@@ -2386,6 +3059,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
         self.clientRequestToken = clientRequestToken
         self.computeConfig = computeConfig
+        self.controlPlaneScalingConfig = controlPlaneScalingConfig
         self.deletionProtection = deletionProtection
         self.encryptionConfig = encryptionConfig
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
@@ -2847,6 +3521,8 @@ extension EKSClientTypes {
         public var computeConfig: EKSClientTypes.ComputeConfigResponse?
         /// The configuration used to connect to a cluster for registration.
         public var connectorConfig: EKSClientTypes.ConnectorConfigResponse?
+        /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        public var controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig?
         /// The Unix epoch timestamp at object creation.
         public var createdAt: Foundation.Date?
         /// The current deletion protection setting for the cluster. When true, deletion protection is enabled and the cluster cannot be deleted until protection is disabled. When false, the cluster can be deleted normally. This setting only applies to clusters in an active state.
@@ -2897,6 +3573,7 @@ extension EKSClientTypes {
             clientRequestToken: Swift.String? = nil,
             computeConfig: EKSClientTypes.ComputeConfigResponse? = nil,
             connectorConfig: EKSClientTypes.ConnectorConfigResponse? = nil,
+            controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig? = nil,
             createdAt: Foundation.Date? = nil,
             deletionProtection: Swift.Bool? = nil,
             encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
@@ -2925,6 +3602,7 @@ extension EKSClientTypes {
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
             self.connectorConfig = connectorConfig
+            self.controlPlaneScalingConfig = controlPlaneScalingConfig
             self.createdAt = createdAt
             self.deletionProtection = deletionProtection
             self.encryptionConfig = encryptionConfig
@@ -3449,15 +4127,94 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    public enum RepairAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noaction
+        case reboot
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RepairAction] {
+            return [
+                .noaction,
+                .reboot,
+                .replace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noaction: return "NoAction"
+            case .reboot: return "Reboot"
+            case .replace: return "Replace"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Specify granular overrides for specific repair actions. These overrides control the repair action and the repair delay time before a node is considered eligible for repair. If you use this, you must specify all the values.
+    public struct NodeRepairConfigOverrides: Swift.Sendable {
+        /// Specify the minimum time in minutes to wait before attempting to repair a node with this specific nodeMonitoringCondition and nodeUnhealthyReason.
+        public var minRepairWaitTimeMins: Swift.Int?
+        /// Specify an unhealthy condition reported by the node monitoring agent that this override would apply to.
+        public var nodeMonitoringCondition: Swift.String?
+        /// Specify a reason reported by the node monitoring agent that this override would apply to.
+        public var nodeUnhealthyReason: Swift.String?
+        /// Specify the repair action to take for nodes when all of the specified conditions are met.
+        public var repairAction: EKSClientTypes.RepairAction?
+
+        public init(
+            minRepairWaitTimeMins: Swift.Int? = nil,
+            nodeMonitoringCondition: Swift.String? = nil,
+            nodeUnhealthyReason: Swift.String? = nil,
+            repairAction: EKSClientTypes.RepairAction? = nil
+        ) {
+            self.minRepairWaitTimeMins = minRepairWaitTimeMins
+            self.nodeMonitoringCondition = nodeMonitoringCondition
+            self.nodeUnhealthyReason = nodeUnhealthyReason
+            self.repairAction = repairAction
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// The node auto repair configuration for the node group.
     public struct NodeRepairConfig: Swift.Sendable {
         /// Specifies whether to enable node auto repair for the node group. Node auto repair is disabled by default.
         public var enabled: Swift.Bool?
+        /// Specify the maximum number of nodes that can be repaired concurrently or in parallel, expressed as a count of unhealthy nodes. This gives you finer-grained control over the pace of node replacements. When using this, you cannot also set maxParallelNodesRepairedPercentage at the same time.
+        public var maxParallelNodesRepairedCount: Swift.Int?
+        /// Specify the maximum number of nodes that can be repaired concurrently or in parallel, expressed as a percentage of unhealthy nodes. This gives you finer-grained control over the pace of node replacements. When using this, you cannot also set maxParallelNodesRepairedCount at the same time.
+        public var maxParallelNodesRepairedPercentage: Swift.Int?
+        /// Specify a count threshold of unhealthy nodes, above which node auto repair actions will stop. When using this, you cannot also set maxUnhealthyNodeThresholdPercentage at the same time.
+        public var maxUnhealthyNodeThresholdCount: Swift.Int?
+        /// Specify a percentage threshold of unhealthy nodes, above which node auto repair actions will stop. When using this, you cannot also set maxUnhealthyNodeThresholdCount at the same time.
+        public var maxUnhealthyNodeThresholdPercentage: Swift.Int?
+        /// Specify granular overrides for specific repair actions. These overrides control the repair action and the repair delay time before a node is considered eligible for repair. If you use this, you must specify all the values.
+        public var nodeRepairConfigOverrides: [EKSClientTypes.NodeRepairConfigOverrides]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            maxParallelNodesRepairedCount: Swift.Int? = nil,
+            maxParallelNodesRepairedPercentage: Swift.Int? = nil,
+            maxUnhealthyNodeThresholdCount: Swift.Int? = nil,
+            maxUnhealthyNodeThresholdPercentage: Swift.Int? = nil,
+            nodeRepairConfigOverrides: [EKSClientTypes.NodeRepairConfigOverrides]? = nil
         ) {
             self.enabled = enabled
+            self.maxParallelNodesRepairedCount = maxParallelNodesRepairedCount
+            self.maxParallelNodesRepairedPercentage = maxParallelNodesRepairedPercentage
+            self.maxUnhealthyNodeThresholdCount = maxUnhealthyNodeThresholdCount
+            self.maxUnhealthyNodeThresholdPercentage = maxUnhealthyNodeThresholdPercentage
+            self.nodeRepairConfigOverrides = nodeRepairConfigOverrides
         }
     }
 }
@@ -4279,6 +5036,34 @@ public struct DeleteAddonOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCapabilityInput: Swift.Sendable {
+    /// The name of the capability to delete.
+    /// This member is required.
+    public var capabilityName: Swift.String?
+    /// The name of the Amazon EKS cluster that contains the capability you want to delete.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        capabilityName: Swift.String? = nil,
+        clusterName: Swift.String? = nil
+    ) {
+        self.capabilityName = capabilityName
+        self.clusterName = clusterName
+    }
+}
+
+public struct DeleteCapabilityOutput: Swift.Sendable {
+    /// An object containing information about the deleted capability, including its final status and configuration.
+    public var capability: EKSClientTypes.Capability?
+
+    public init(
+        capability: EKSClientTypes.Capability? = nil
+    ) {
+        self.capability = capability
+    }
+}
+
 public struct DeleteClusterInput: Swift.Sendable {
     /// The name of the cluster to delete.
     /// This member is required.
@@ -4575,6 +5360,34 @@ public struct DescribeAddonVersionsOutput: Swift.Sendable {
     ) {
         self.addons = addons
         self.nextToken = nextToken
+    }
+}
+
+public struct DescribeCapabilityInput: Swift.Sendable {
+    /// The name of the capability to describe.
+    /// This member is required.
+    public var capabilityName: Swift.String?
+    /// The name of the Amazon EKS cluster that contains the capability you want to describe.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        capabilityName: Swift.String? = nil,
+        clusterName: Swift.String? = nil
+    ) {
+        self.capabilityName = capabilityName
+        self.clusterName = clusterName
+    }
+}
+
+public struct DescribeCapabilityOutput: Swift.Sendable {
+    /// An object containing detailed information about the capability, including its name, ARN, type, status, version, configuration, health status, and timestamps for when it was created and last modified.
+    public var capability: EKSClientTypes.Capability?
+
+    public init(
+        capability: EKSClientTypes.Capability? = nil
+    ) {
+        self.capability = capability
     }
 }
 
@@ -5243,6 +6056,73 @@ public struct DescribeInsightOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeInsightsRefreshInput: Swift.Sendable {
+    /// The name of the cluster associated with the insights refresh operation.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum InsightsRefreshStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightsRefreshStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeInsightsRefreshOutput: Swift.Sendable {
+    /// The date and time when the insights refresh operation ended.
+    public var endedAt: Foundation.Date?
+    /// The message associated with the insights refresh operation.
+    public var message: Swift.String?
+    /// The date and time when the insights refresh operation started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the insights refresh operation.
+    public var status: EKSClientTypes.InsightsRefreshStatus?
+
+    public init(
+        endedAt: Foundation.Date? = nil,
+        message: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: EKSClientTypes.InsightsRefreshStatus? = nil
+    ) {
+        self.endedAt = endedAt
+        self.message = message
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
 public struct DescribeNodegroupInput: Swift.Sendable {
     /// The name of your cluster.
     /// This member is required.
@@ -5303,6 +6183,8 @@ public struct DescribePodIdentityAssociationOutput: Swift.Sendable {
 public struct DescribeUpdateInput: Swift.Sendable {
     /// The name of the add-on. The name must match one of the names returned by [ListAddons](https://docs.aws.amazon.com/eks/latest/APIReference/API_ListAddons.html). This parameter is required if the update is an add-on update.
     public var addonName: Swift.String?
+    /// The name of the capability for which you want to describe updates.
+    public var capabilityName: Swift.String?
     /// The name of the Amazon EKS cluster associated with the update.
     /// This member is required.
     public var name: Swift.String?
@@ -5314,11 +6196,13 @@ public struct DescribeUpdateInput: Swift.Sendable {
 
     public init(
         addonName: Swift.String? = nil,
+        capabilityName: Swift.String? = nil,
         name: Swift.String? = nil,
         nodegroupName: Swift.String? = nil,
         updateId: Swift.String? = nil
     ) {
         self.addonName = addonName
+        self.capabilityName = capabilityName
         self.name = name
         self.nodegroupName = nodegroupName
         self.updateId = updateId
@@ -5544,6 +6428,80 @@ public struct ListAssociatedAccessPoliciesOutput: Swift.Sendable {
         self.clusterName = clusterName
         self.nextToken = nextToken
         self.principalArn = principalArn
+    }
+}
+
+public struct ListCapabilitiesInput: Swift.Sendable {
+    /// The name of the Amazon EKS cluster for which you want to list capabilities.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you don't specify a value, the default is 100 results.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EKSClientTypes {
+
+    /// A summary of a capability, containing basic information without the full configuration details. This is returned by the ListCapabilities operation.
+    public struct CapabilitySummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the capability.
+        public var arn: Swift.String?
+        /// The unique name of the capability within the cluster.
+        public var capabilityName: Swift.String?
+        /// The Unix epoch timestamp in seconds for when the capability was created.
+        public var createdAt: Foundation.Date?
+        /// The Unix epoch timestamp in seconds for when the capability was last modified.
+        public var modifiedAt: Foundation.Date?
+        /// The current status of the capability.
+        public var status: EKSClientTypes.CapabilityStatus?
+        /// The type of capability. Valid values are ACK, ARGOCD, or KRO.
+        public var type: EKSClientTypes.CapabilityType?
+        /// The version of the capability software that is currently running.
+        public var version: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            capabilityName: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            status: EKSClientTypes.CapabilityStatus? = nil,
+            type: EKSClientTypes.CapabilityType? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.capabilityName = capabilityName
+            self.createdAt = createdAt
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.type = type
+            self.version = version
+        }
+    }
+}
+
+public struct ListCapabilitiesOutput: Swift.Sendable {
+    /// A list of capability summary objects, each containing basic information about a capability including its name, ARN, type, status, version, and timestamps.
+    public var capabilities: [EKSClientTypes.CapabilitySummary]?
+    /// The nextToken value to include in a future ListCapabilities request. When the results of a ListCapabilities request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        capabilities: [EKSClientTypes.CapabilitySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.capabilities = capabilities
+        self.nextToken = nextToken
     }
 }
 
@@ -6038,6 +6996,8 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 public struct ListUpdatesInput: Swift.Sendable {
     /// The names of the installed add-ons that have available updates.
     public var addonName: Swift.String?
+    /// The name of the capability for which you want to list updates.
+    public var capabilityName: Swift.String?
     /// The maximum number of results, returned in paginated output. You receive maxResults in a single page, along with a nextToken response element. You can see the remaining results of the initial request by sending another request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, 100 results and a nextToken value, if applicable, are returned.
     public var maxResults: Swift.Int?
     /// The name of the Amazon EKS cluster to list updates for.
@@ -6050,12 +7010,14 @@ public struct ListUpdatesInput: Swift.Sendable {
 
     public init(
         addonName: Swift.String? = nil,
+        capabilityName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         nodegroupName: Swift.String? = nil
     ) {
         self.addonName = addonName
+        self.capabilityName = capabilityName
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
@@ -6209,6 +7171,33 @@ public struct RegisterClusterOutput: Swift.Sendable {
     }
 }
 
+public struct StartInsightsRefreshInput: Swift.Sendable {
+    /// The name of the cluster for the refresh insights operation.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+    }
+}
+
+public struct StartInsightsRefreshOutput: Swift.Sendable {
+    /// The message associated with the insights refresh operation.
+    public var message: Swift.String?
+    /// The current status of the insights refresh operation.
+    public var status: EKSClientTypes.InsightsRefreshStatus?
+
+    public init(
+        message: Swift.String? = nil,
+        status: EKSClientTypes.InsightsRefreshStatus? = nil
+    ) {
+        self.message = message
+        self.status = status
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to add tags to.
     /// This member is required.
@@ -6353,6 +7342,103 @@ public struct UpdateAddonOutput: Swift.Sendable {
 
 extension EKSClientTypes {
 
+    /// Updates to RBAC role mappings for an Argo CD capability. You can add, update, or remove role mappings in a single operation.
+    public struct UpdateRoleMappings: Swift.Sendable {
+        /// A list of role mappings to add or update. If a mapping for the specified role already exists, it will be updated with the new identities. If it doesn't exist, a new mapping will be created.
+        public var addOrUpdateRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]?
+        /// A list of role mappings to remove from the RBAC configuration. Each mapping specifies an Argo CD role (ADMIN, EDITOR, or VIEWER) and the identities to remove from that role.
+        public var removeRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]?
+
+        public init(
+            addOrUpdateRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]? = nil,
+            removeRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]? = nil
+        ) {
+            self.addOrUpdateRoleMappings = addOrUpdateRoleMappings
+            self.removeRoleMappings = removeRoleMappings
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Configuration updates for an Argo CD capability. You only need to specify the fields you want to update.
+    public struct UpdateArgoCdConfig: Swift.Sendable {
+        /// Updated network access configuration for the Argo CD capability's managed API server endpoint. You can add or remove VPC endpoint associations to control which VPCs have private access to the Argo CD server.
+        public var networkAccess: EKSClientTypes.ArgoCdNetworkAccessConfigRequest?
+        /// Updated RBAC role mappings for the Argo CD capability. You can add, update, or remove role mappings.
+        public var rbacRoleMappings: EKSClientTypes.UpdateRoleMappings?
+
+        public init(
+            networkAccess: EKSClientTypes.ArgoCdNetworkAccessConfigRequest? = nil,
+            rbacRoleMappings: EKSClientTypes.UpdateRoleMappings? = nil
+        ) {
+            self.networkAccess = networkAccess
+            self.rbacRoleMappings = rbacRoleMappings
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Configuration updates for a capability. The structure varies depending on the capability type.
+    public struct UpdateCapabilityConfiguration: Swift.Sendable {
+        /// Configuration updates specific to Argo CD capabilities.
+        public var argoCd: EKSClientTypes.UpdateArgoCdConfig?
+
+        public init(
+            argoCd: EKSClientTypes.UpdateArgoCdConfig? = nil
+        ) {
+            self.argoCd = argoCd
+        }
+    }
+}
+
+public struct UpdateCapabilityInput: Swift.Sendable {
+    /// The name of the capability to update configuration for.
+    /// This member is required.
+    public var capabilityName: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 24 hours after creation.
+    public var clientRequestToken: Swift.String?
+    /// The name of the Amazon EKS cluster that contains the capability you want to update configuration for.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The updated configuration settings for the capability. You only need to specify the configuration parameters you want to change. For Argo CD capabilities, you can update RBAC role mappings and network access settings.
+    public var configuration: EKSClientTypes.UpdateCapabilityConfiguration?
+    /// The updated delete propagation policy for the capability. Currently, the only supported value is RETAIN.
+    public var deletePropagationPolicy: EKSClientTypes.CapabilityDeletePropagationPolicy?
+    /// The Amazon Resource Name (ARN) of the IAM role that the capability uses to interact with Amazon Web Services services. If you specify a new role ARN, the capability will start using the new role for all subsequent operations.
+    public var roleArn: Swift.String?
+
+    public init(
+        capabilityName: Swift.String? = nil,
+        clientRequestToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        configuration: EKSClientTypes.UpdateCapabilityConfiguration? = nil,
+        deletePropagationPolicy: EKSClientTypes.CapabilityDeletePropagationPolicy? = nil,
+        roleArn: Swift.String? = nil
+    ) {
+        self.capabilityName = capabilityName
+        self.clientRequestToken = clientRequestToken
+        self.clusterName = clusterName
+        self.configuration = configuration
+        self.deletePropagationPolicy = deletePropagationPolicy
+        self.roleArn = roleArn
+    }
+}
+
+public struct UpdateCapabilityOutput: Swift.Sendable {
+    /// An object representing an asynchronous update.
+    public var update: EKSClientTypes.Update?
+
+    public init(
+        update: EKSClientTypes.Update? = nil
+    ) {
+        self.update = update
+    }
+}
+
+extension EKSClientTypes {
+
     /// The access configuration information for the cluster.
     public struct UpdateAccessConfigRequest: Swift.Sendable {
         /// The desired authentication mode for the cluster.
@@ -6373,6 +7459,8 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
     public var computeConfig: EKSClientTypes.ComputeConfigRequest?
+    /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+    public var controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig?
     /// Specifies whether to enable or disable deletion protection for the cluster. When enabled (true), the cluster cannot be deleted until deletion protection is explicitly disabled. When disabled (false), the cluster can be deleted normally.
     public var deletionProtection: Swift.Bool?
     /// The Kubernetes network configuration for the cluster.
@@ -6397,6 +7485,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         accessConfig: EKSClientTypes.UpdateAccessConfigRequest? = nil,
         clientRequestToken: Swift.String? = nil,
         computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
+        controlPlaneScalingConfig: EKSClientTypes.ControlPlaneScalingConfig? = nil,
         deletionProtection: Swift.Bool? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
@@ -6410,6 +7499,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         self.accessConfig = accessConfig
         self.clientRequestToken = clientRequestToken
         self.computeConfig = computeConfig
+        self.controlPlaneScalingConfig = controlPlaneScalingConfig
         self.deletionProtection = deletionProtection
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
@@ -6633,7 +7723,7 @@ public struct UpdateNodegroupVersionInput: Swift.Sendable {
     public var nodegroupName: Swift.String?
     /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var releaseVersion: Swift.String?
-    /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
+    /// The Kubernetes version to update to. If no version is specified, then the node group will be updated to match the cluster's current Kubernetes version, and the latest available AMI for that version will be used. You can also specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html) in the Amazon EKS User Guide.
     public var version: Swift.String?
 
     public init(
@@ -6763,6 +7853,16 @@ extension CreateAddonInput {
     }
 }
 
+extension CreateCapabilityInput {
+
+    static func urlPathProvider(_ value: CreateCapabilityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/capabilities"
+    }
+}
+
 extension CreateClusterInput {
 
     static func urlPathProvider(_ value: CreateClusterInput) -> Swift.String? {
@@ -6842,6 +7942,19 @@ extension DeleteAddonInput {
             items.append(preserveQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteCapabilityInput {
+
+    static func urlPathProvider(_ value: DeleteCapabilityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        guard let capabilityName = value.capabilityName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/capabilities/\(capabilityName.urlPercentEncoding())"
     }
 }
 
@@ -7016,6 +8129,19 @@ extension DescribeAddonVersionsInput {
     }
 }
 
+extension DescribeCapabilityInput {
+
+    static func urlPathProvider(_ value: DescribeCapabilityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        guard let capabilityName = value.capabilityName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/capabilities/\(capabilityName.urlPercentEncoding())"
+    }
+}
+
 extension DescribeClusterInput {
 
     static func urlPathProvider(_ value: DescribeClusterInput) -> Swift.String? {
@@ -7121,6 +8247,16 @@ extension DescribeInsightInput {
     }
 }
 
+extension DescribeInsightsRefreshInput {
+
+    static func urlPathProvider(_ value: DescribeInsightsRefreshInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/insights-refresh"
+    }
+}
+
 extension DescribeNodegroupInput {
 
     static func urlPathProvider(_ value: DescribeNodegroupInput) -> Swift.String? {
@@ -7171,6 +8307,10 @@ extension DescribeUpdateInput {
         if let addonName = value.addonName {
             let addonNameQueryItem = Smithy.URIQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
             items.append(addonNameQueryItem)
+        }
+        if let capabilityName = value.capabilityName {
+            let capabilityNameQueryItem = Smithy.URIQueryItem(name: "capabilityName".urlPercentEncoding(), value: Swift.String(capabilityName).urlPercentEncoding())
+            items.append(capabilityNameQueryItem)
         }
         return items
     }
@@ -7305,6 +8445,32 @@ extension ListAssociatedAccessPoliciesInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCapabilitiesInput {
+
+    static func urlPathProvider(_ value: ListCapabilitiesInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/capabilities"
+    }
+}
+
+extension ListCapabilitiesInput {
+
+    static func queryItemProvider(_ value: ListCapabilitiesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -7522,6 +8688,10 @@ extension ListUpdatesInput {
             let addonNameQueryItem = Smithy.URIQueryItem(name: "addonName".urlPercentEncoding(), value: Swift.String(addonName).urlPercentEncoding())
             items.append(addonNameQueryItem)
         }
+        if let capabilityName = value.capabilityName {
+            let capabilityNameQueryItem = Smithy.URIQueryItem(name: "capabilityName".urlPercentEncoding(), value: Swift.String(capabilityName).urlPercentEncoding())
+            items.append(capabilityNameQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -7538,6 +8708,16 @@ extension RegisterClusterInput {
 
     static func urlPathProvider(_ value: RegisterClusterInput) -> Swift.String? {
         return "/cluster-registrations"
+    }
+}
+
+extension StartInsightsRefreshInput {
+
+    static func urlPathProvider(_ value: StartInsightsRefreshInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/insights-refresh"
     }
 }
 
@@ -7600,6 +8780,19 @@ extension UpdateAddonInput {
             return nil
         }
         return "/clusters/\(clusterName.urlPercentEncoding())/addons/\(addonName.urlPercentEncoding())/update"
+    }
+}
+
+extension UpdateCapabilityInput {
+
+    static func urlPathProvider(_ value: UpdateCapabilityInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        guard let capabilityName = value.capabilityName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/capabilities/\(capabilityName.urlPercentEncoding())"
     }
 }
 
@@ -7729,6 +8922,20 @@ extension CreateAddonInput {
     }
 }
 
+extension CreateCapabilityInput {
+
+    static func write(value: CreateCapabilityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capabilityName"].write(value.capabilityName)
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["configuration"].write(value.configuration, with: EKSClientTypes.CapabilityConfigurationRequest.write(value:to:))
+        try writer["deletePropagationPolicy"].write(value.deletePropagationPolicy)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+}
+
 extension CreateClusterInput {
 
     static func write(value: CreateClusterInput?, to writer: SmithyJSON.Writer) throws {
@@ -7737,6 +8944,7 @@ extension CreateClusterInput {
         try writer["bootstrapSelfManagedAddons"].write(value.bootstrapSelfManagedAddons)
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
+        try writer["controlPlaneScalingConfig"].write(value.controlPlaneScalingConfig, with: EKSClientTypes.ControlPlaneScalingConfig.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["encryptionConfig"].writeList(value.encryptionConfig, memberWritingClosure: EKSClientTypes.EncryptionConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
@@ -7889,6 +9097,17 @@ extension UpdateAddonInput {
     }
 }
 
+extension UpdateCapabilityInput {
+
+    static func write(value: UpdateCapabilityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["configuration"].write(value.configuration, with: EKSClientTypes.UpdateCapabilityConfiguration.write(value:to:))
+        try writer["deletePropagationPolicy"].write(value.deletePropagationPolicy)
+        try writer["roleArn"].write(value.roleArn)
+    }
+}
+
 extension UpdateClusterConfigInput {
 
     static func write(value: UpdateClusterConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -7896,6 +9115,7 @@ extension UpdateClusterConfigInput {
         try writer["accessConfig"].write(value.accessConfig, with: EKSClientTypes.UpdateAccessConfigRequest.write(value:to:))
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
+        try writer["controlPlaneScalingConfig"].write(value.controlPlaneScalingConfig, with: EKSClientTypes.ControlPlaneScalingConfig.write(value:to:))
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
@@ -8025,6 +9245,18 @@ extension CreateAddonOutput {
     }
 }
 
+extension CreateCapabilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCapabilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCapabilityOutput()
+        value.capability = try reader["capability"].readIfPresent(with: EKSClientTypes.Capability.read(from:))
+        return value
+    }
+}
+
 extension CreateClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateClusterOutput {
@@ -8100,6 +9332,18 @@ extension DeleteAddonOutput {
         let reader = responseReader
         var value = DeleteAddonOutput()
         value.addon = try reader["addon"].readIfPresent(with: EKSClientTypes.Addon.read(from:))
+        return value
+    }
+}
+
+extension DeleteCapabilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCapabilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCapabilityOutput()
+        value.capability = try reader["capability"].readIfPresent(with: EKSClientTypes.Capability.read(from:))
         return value
     }
 }
@@ -8228,6 +9472,18 @@ extension DescribeAddonVersionsOutput {
     }
 }
 
+extension DescribeCapabilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCapabilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCapabilityOutput()
+        value.capability = try reader["capability"].readIfPresent(with: EKSClientTypes.Capability.read(from:))
+        return value
+    }
+}
+
 extension DescribeClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeClusterOutput {
@@ -8297,6 +9553,21 @@ extension DescribeInsightOutput {
         let reader = responseReader
         var value = DescribeInsightOutput()
         value.insight = try reader["insight"].readIfPresent(with: EKSClientTypes.Insight.read(from:))
+        return value
+    }
+}
+
+extension DescribeInsightsRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInsightsRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeInsightsRefreshOutput()
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.message = try reader["message"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -8406,6 +9677,19 @@ extension ListAssociatedAccessPoliciesOutput {
         value.clusterName = try reader["clusterName"].readIfPresent()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.principalArn = try reader["principalArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCapabilitiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCapabilitiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCapabilitiesOutput()
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: EKSClientTypes.CapabilitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -8538,6 +9822,19 @@ extension RegisterClusterOutput {
     }
 }
 
+extension StartInsightsRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartInsightsRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartInsightsRefreshOutput()
+        value.message = try reader["message"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -8571,6 +9868,18 @@ extension UpdateAddonOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAddonOutput()
+        value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
+        return value
+    }
+}
+
+extension UpdateCapabilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCapabilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCapabilityOutput()
         value.update = try reader["update"].readIfPresent(with: EKSClientTypes.Update.read(from:))
         return value
     }
@@ -8743,6 +10052,26 @@ enum CreateAddonOutputError {
     }
 }
 
+enum CreateCapabilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8866,6 +10195,24 @@ enum DeleteAddonOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCapabilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9047,6 +10394,23 @@ enum DescribeAddonVersionsOutputError {
     }
 }
 
+enum DescribeCapabilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9133,6 +10497,23 @@ enum DescribeIdentityProviderConfigOutputError {
 }
 
 enum DescribeInsightOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeInsightsRefreshOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -9296,6 +10677,21 @@ enum ListAssociatedAccessPoliciesOutputError {
         switch baseError.code {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCapabilitiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9476,6 +10872,23 @@ enum RegisterClusterOutputError {
     }
 }
 
+enum StartInsightsRefreshOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9534,6 +10947,24 @@ enum UpdateAddonOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCapabilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -9789,6 +11220,19 @@ extension ResourceLimitExceededException {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceUnavailableException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
@@ -9811,19 +11255,6 @@ extension UnsupportedAvailabilityZoneException {
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.nodegroupName = try reader["nodegroupName"].readIfPresent()
         value.properties.validZones = try reader["validZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -10038,6 +11469,129 @@ extension EKSClientTypes.AddonIssue {
     }
 }
 
+extension EKSClientTypes.Capability {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Capability {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.Capability()
+        value.capabilityName = try reader["capabilityName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: EKSClientTypes.CapabilityConfigurationResponse.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.health = try reader["health"].readIfPresent(with: EKSClientTypes.CapabilityHealth.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deletePropagationPolicy = try reader["deletePropagationPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.CapabilityHealth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CapabilityHealth()
+        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: EKSClientTypes.CapabilityIssue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.CapabilityIssue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityIssue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CapabilityIssue()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.CapabilityConfigurationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilityConfigurationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CapabilityConfigurationResponse()
+        value.argoCd = try reader["argoCd"].readIfPresent(with: EKSClientTypes.ArgoCdConfigResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ArgoCdConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ArgoCdConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ArgoCdConfigResponse()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.awsIdc = try reader["awsIdc"].readIfPresent(with: EKSClientTypes.ArgoCdAwsIdcConfigResponse.read(from:))
+        value.rbacRoleMappings = try reader["rbacRoleMappings"].readListIfPresent(memberReadingClosure: EKSClientTypes.ArgoCdRoleMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkAccess = try reader["networkAccess"].readIfPresent(with: EKSClientTypes.ArgoCdNetworkAccessConfigResponse.read(from:))
+        value.serverUrl = try reader["serverUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension EKSClientTypes.ArgoCdNetworkAccessConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ArgoCdNetworkAccessConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ArgoCdNetworkAccessConfigResponse()
+        value.vpceIds = try reader["vpceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.ArgoCdRoleMapping {
+
+    static func write(value: EKSClientTypes.ArgoCdRoleMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identities"].writeList(value.identities, memberWritingClosure: EKSClientTypes.SsoIdentity.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["role"].write(value.role)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ArgoCdRoleMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ArgoCdRoleMapping()
+        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
+        value.identities = try reader["identities"].readListIfPresent(memberReadingClosure: EKSClientTypes.SsoIdentity.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EKSClientTypes.SsoIdentity {
+
+    static func write(value: EKSClientTypes.SsoIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.SsoIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.SsoIdentity()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension EKSClientTypes.ArgoCdAwsIdcConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ArgoCdAwsIdcConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ArgoCdAwsIdcConfigResponse()
+        value.idcInstanceArn = try reader["idcInstanceArn"].readIfPresent()
+        value.idcRegion = try reader["idcRegion"].readIfPresent()
+        value.idcManagedApplicationArn = try reader["idcManagedApplicationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension EKSClientTypes.Cluster {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.Cluster {
@@ -10070,6 +11624,22 @@ extension EKSClientTypes.Cluster {
         value.computeConfig = try reader["computeConfig"].readIfPresent(with: EKSClientTypes.ComputeConfigResponse.read(from:))
         value.storageConfig = try reader["storageConfig"].readIfPresent(with: EKSClientTypes.StorageConfigResponse.read(from:))
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
+        value.controlPlaneScalingConfig = try reader["controlPlaneScalingConfig"].readIfPresent(with: EKSClientTypes.ControlPlaneScalingConfig.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.ControlPlaneScalingConfig {
+
+    static func write(value: EKSClientTypes.ControlPlaneScalingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tier"].write(value.tier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ControlPlaneScalingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.ControlPlaneScalingConfig()
+        value.tier = try reader["tier"].readIfPresent()
         return value
     }
 }
@@ -10544,12 +12114,43 @@ extension EKSClientTypes.NodeRepairConfig {
     static func write(value: EKSClientTypes.NodeRepairConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
+        try writer["maxParallelNodesRepairedCount"].write(value.maxParallelNodesRepairedCount)
+        try writer["maxParallelNodesRepairedPercentage"].write(value.maxParallelNodesRepairedPercentage)
+        try writer["maxUnhealthyNodeThresholdCount"].write(value.maxUnhealthyNodeThresholdCount)
+        try writer["maxUnhealthyNodeThresholdPercentage"].write(value.maxUnhealthyNodeThresholdPercentage)
+        try writer["nodeRepairConfigOverrides"].writeList(value.nodeRepairConfigOverrides, memberWritingClosure: EKSClientTypes.NodeRepairConfigOverrides.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodeRepairConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.NodeRepairConfig()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.maxUnhealthyNodeThresholdCount = try reader["maxUnhealthyNodeThresholdCount"].readIfPresent()
+        value.maxUnhealthyNodeThresholdPercentage = try reader["maxUnhealthyNodeThresholdPercentage"].readIfPresent()
+        value.maxParallelNodesRepairedCount = try reader["maxParallelNodesRepairedCount"].readIfPresent()
+        value.maxParallelNodesRepairedPercentage = try reader["maxParallelNodesRepairedPercentage"].readIfPresent()
+        value.nodeRepairConfigOverrides = try reader["nodeRepairConfigOverrides"].readListIfPresent(memberReadingClosure: EKSClientTypes.NodeRepairConfigOverrides.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.NodeRepairConfigOverrides {
+
+    static func write(value: EKSClientTypes.NodeRepairConfigOverrides?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["minRepairWaitTimeMins"].write(value.minRepairWaitTimeMins)
+        try writer["nodeMonitoringCondition"].write(value.nodeMonitoringCondition)
+        try writer["nodeUnhealthyReason"].write(value.nodeUnhealthyReason)
+        try writer["repairAction"].write(value.repairAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.NodeRepairConfigOverrides {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.NodeRepairConfigOverrides()
+        value.nodeMonitoringCondition = try reader["nodeMonitoringCondition"].readIfPresent()
+        value.nodeUnhealthyReason = try reader["nodeUnhealthyReason"].readIfPresent()
+        value.minRepairWaitTimeMins = try reader["minRepairWaitTimeMins"].readIfPresent()
+        value.repairAction = try reader["repairAction"].readIfPresent()
         return value
     }
 }
@@ -10900,6 +12501,22 @@ extension EKSClientTypes.AccessPolicy {
     }
 }
 
+extension EKSClientTypes.CapabilitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CapabilitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CapabilitySummary()
+        value.capabilityName = try reader["capabilityName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension EKSClientTypes.IdentityProviderConfig {
 
     static func write(value: EKSClientTypes.IdentityProviderConfig?, to writer: SmithyJSON.Writer) throws {
@@ -10978,6 +12595,42 @@ extension EKSClientTypes.AddonNamespaceConfigRequest {
     static func write(value: EKSClientTypes.AddonNamespaceConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["namespace"].write(value.namespace)
+    }
+}
+
+extension EKSClientTypes.CapabilityConfigurationRequest {
+
+    static func write(value: EKSClientTypes.CapabilityConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["argoCd"].write(value.argoCd, with: EKSClientTypes.ArgoCdConfigRequest.write(value:to:))
+    }
+}
+
+extension EKSClientTypes.ArgoCdConfigRequest {
+
+    static func write(value: EKSClientTypes.ArgoCdConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsIdc"].write(value.awsIdc, with: EKSClientTypes.ArgoCdAwsIdcConfigRequest.write(value:to:))
+        try writer["namespace"].write(value.namespace)
+        try writer["networkAccess"].write(value.networkAccess, with: EKSClientTypes.ArgoCdNetworkAccessConfigRequest.write(value:to:))
+        try writer["rbacRoleMappings"].writeList(value.rbacRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EKSClientTypes.ArgoCdNetworkAccessConfigRequest {
+
+    static func write(value: EKSClientTypes.ArgoCdNetworkAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["vpceIds"].writeList(value.vpceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension EKSClientTypes.ArgoCdAwsIdcConfigRequest {
+
+    static func write(value: EKSClientTypes.ArgoCdAwsIdcConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idcInstanceArn"].write(value.idcInstanceArn)
+        try writer["idcRegion"].write(value.idcRegion)
     }
 }
 
@@ -11089,6 +12742,32 @@ extension EKSClientTypes.ConnectorConfigRequest {
         guard let value else { return }
         try writer["provider"].write(value.provider)
         try writer["roleArn"].write(value.roleArn)
+    }
+}
+
+extension EKSClientTypes.UpdateCapabilityConfiguration {
+
+    static func write(value: EKSClientTypes.UpdateCapabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["argoCd"].write(value.argoCd, with: EKSClientTypes.UpdateArgoCdConfig.write(value:to:))
+    }
+}
+
+extension EKSClientTypes.UpdateArgoCdConfig {
+
+    static func write(value: EKSClientTypes.UpdateArgoCdConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkAccess"].write(value.networkAccess, with: EKSClientTypes.ArgoCdNetworkAccessConfigRequest.write(value:to:))
+        try writer["rbacRoleMappings"].write(value.rbacRoleMappings, with: EKSClientTypes.UpdateRoleMappings.write(value:to:))
+    }
+}
+
+extension EKSClientTypes.UpdateRoleMappings {
+
+    static func write(value: EKSClientTypes.UpdateRoleMappings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addOrUpdateRoleMappings"].writeList(value.addOrUpdateRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["removeRoleMappings"].writeList(value.removeRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

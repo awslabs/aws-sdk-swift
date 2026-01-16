@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SWFClient: ClientRuntime.Client {
+public class SWFClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SWFClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SWFClient.SWFClientConfiguration
     let serviceName = "SWF"
@@ -391,9 +391,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter CountClosedWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountClosedWorkflowExecutionsInput`)
     ///
-    /// - Returns: `CountClosedWorkflowExecutionsOutput` : Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions]
+    /// - Returns: Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions] (Type: `CountClosedWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -426,6 +426,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CountClosedWorkflowExecutionsOutput>(CountClosedWorkflowExecutionsOutput.httpOutput(from:), CountClosedWorkflowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountClosedWorkflowExecutionsInput, CountClosedWorkflowExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CountClosedWorkflowExecutionsOutput>())
@@ -478,9 +479,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter CountOpenWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountOpenWorkflowExecutionsInput`)
     ///
-    /// - Returns: `CountOpenWorkflowExecutionsOutput` : Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions]
+    /// - Returns: Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions] (Type: `CountOpenWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -513,6 +514,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CountOpenWorkflowExecutionsOutput>(CountOpenWorkflowExecutionsOutput.httpOutput(from:), CountOpenWorkflowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountOpenWorkflowExecutionsInput, CountOpenWorkflowExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CountOpenWorkflowExecutionsOutput>())
@@ -556,9 +558,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter CountPendingActivityTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountPendingActivityTasksInput`)
     ///
-    /// - Returns: `CountPendingActivityTasksOutput` : Contains the count of tasks in a task list.
+    /// - Returns: Contains the count of tasks in a task list. (Type: `CountPendingActivityTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -591,6 +593,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CountPendingActivityTasksOutput>(CountPendingActivityTasksOutput.httpOutput(from:), CountPendingActivityTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountPendingActivityTasksInput, CountPendingActivityTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CountPendingActivityTasksOutput>())
@@ -634,9 +637,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter CountPendingDecisionTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountPendingDecisionTasksInput`)
     ///
-    /// - Returns: `CountPendingDecisionTasksOutput` : Contains the count of tasks in a task list.
+    /// - Returns: Contains the count of tasks in a task list. (Type: `CountPendingDecisionTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -669,6 +672,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CountPendingDecisionTasksOutput>(CountPendingDecisionTasksOutput.httpOutput(from:), CountPendingDecisionTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountPendingDecisionTasksInput, CountPendingDecisionTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CountPendingDecisionTasksOutput>())
@@ -719,9 +723,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeleteActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteActivityTypeInput`)
     ///
-    /// - Returns: `DeleteActivityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -755,6 +759,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteActivityTypeOutput>(DeleteActivityTypeOutput.httpOutput(from:), DeleteActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteActivityTypeInput, DeleteActivityTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteActivityTypeOutput>())
@@ -805,9 +810,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeleteWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowTypeInput`)
     ///
-    /// - Returns: `DeleteWorkflowTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -841,6 +846,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowTypeOutput>(DeleteWorkflowTypeOutput.httpOutput(from:), DeleteWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowTypeInput, DeleteWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowTypeOutput>())
@@ -891,9 +897,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeprecateActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateActivityTypeInput`)
     ///
-    /// - Returns: `DeprecateActivityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,6 +933,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateActivityTypeOutput>(DeprecateActivityTypeOutput.httpOutput(from:), DeprecateActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateActivityTypeInput, DeprecateActivityTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprecateActivityTypeOutput>())
@@ -970,9 +977,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeprecateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateDomainInput`)
     ///
-    /// - Returns: `DeprecateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,6 +1013,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateDomainInput, DeprecateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateDomainOutput>(DeprecateDomainOutput.httpOutput(from:), DeprecateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateDomainInput, DeprecateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprecateDomainOutput>())
@@ -1056,9 +1064,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DeprecateWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateWorkflowTypeInput`)
     ///
-    /// - Returns: `DeprecateWorkflowTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1092,6 +1100,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateWorkflowTypeOutput>(DeprecateWorkflowTypeOutput.httpOutput(from:), DeprecateWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateWorkflowTypeInput, DeprecateWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprecateWorkflowTypeOutput>())
@@ -1142,9 +1151,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DescribeActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActivityTypeInput`)
     ///
-    /// - Returns: `DescribeActivityTypeOutput` : Detailed information about an activity type.
+    /// - Returns: Detailed information about an activity type. (Type: `DescribeActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1177,6 +1186,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActivityTypeOutput>(DescribeActivityTypeOutput.httpOutput(from:), DescribeActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActivityTypeInput, DescribeActivityTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActivityTypeOutput>())
@@ -1220,9 +1230,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DescribeDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainInput`)
     ///
-    /// - Returns: `DescribeDomainOutput` : Contains details of a domain.
+    /// - Returns: Contains details of a domain. (Type: `DescribeDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1255,6 +1265,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainInput, DescribeDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainOutput>(DescribeDomainOutput.httpOutput(from:), DescribeDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainInput, DescribeDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainOutput>())
@@ -1298,9 +1309,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DescribeWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkflowExecutionInput`)
     ///
-    /// - Returns: `DescribeWorkflowExecutionOutput` : Contains details about a workflow execution.
+    /// - Returns: Contains details about a workflow execution. (Type: `DescribeWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1333,6 +1344,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkflowExecutionOutput>(DescribeWorkflowExecutionOutput.httpOutput(from:), DescribeWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkflowExecutionInput, DescribeWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkflowExecutionOutput>())
@@ -1383,9 +1395,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter DescribeWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkflowTypeInput`)
     ///
-    /// - Returns: `DescribeWorkflowTypeOutput` : Contains details about a workflow type.
+    /// - Returns: Contains details about a workflow type. (Type: `DescribeWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1418,6 +1430,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkflowTypeOutput>(DescribeWorkflowTypeOutput.httpOutput(from:), DescribeWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkflowTypeInput, DescribeWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkflowTypeOutput>())
@@ -1461,9 +1474,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter GetWorkflowExecutionHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowExecutionHistoryInput`)
     ///
-    /// - Returns: `GetWorkflowExecutionHistoryOutput` : Paginated representation of a workflow history for a workflow execution. This is the up to date, complete and authoritative record of the events related to all tasks and events in the life of the workflow execution.
+    /// - Returns: Paginated representation of a workflow history for a workflow execution. This is the up to date, complete and authoritative record of the events related to all tasks and events in the life of the workflow execution. (Type: `GetWorkflowExecutionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1496,6 +1509,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowExecutionHistoryOutput>(GetWorkflowExecutionHistoryOutput.httpOutput(from:), GetWorkflowExecutionHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowExecutionHistoryInput, GetWorkflowExecutionHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowExecutionHistoryOutput>())
@@ -1539,9 +1553,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListActivityTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActivityTypesInput`)
     ///
-    /// - Returns: `ListActivityTypesOutput` : Contains a paginated list of activity type information structures.
+    /// - Returns: Contains a paginated list of activity type information structures. (Type: `ListActivityTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1574,6 +1588,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListActivityTypesInput, ListActivityTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActivityTypesOutput>(ListActivityTypesOutput.httpOutput(from:), ListActivityTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActivityTypesInput, ListActivityTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListActivityTypesOutput>())
@@ -1626,9 +1641,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListClosedWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClosedWorkflowExecutionsInput`)
     ///
-    /// - Returns: `ListClosedWorkflowExecutionsOutput` : Contains a paginated list of information about workflow executions.
+    /// - Returns: Contains a paginated list of information about workflow executions. (Type: `ListClosedWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1661,6 +1676,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClosedWorkflowExecutionsOutput>(ListClosedWorkflowExecutionsOutput.httpOutput(from:), ListClosedWorkflowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClosedWorkflowExecutionsInput, ListClosedWorkflowExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClosedWorkflowExecutionsOutput>())
@@ -1704,9 +1720,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : Contains a paginated collection of DomainInfo structures.
+    /// - Returns: Contains a paginated collection of DomainInfo structures. (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1738,6 +1754,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -1790,9 +1807,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListOpenWorkflowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpenWorkflowExecutionsInput`)
     ///
-    /// - Returns: `ListOpenWorkflowExecutionsOutput` : Contains a paginated list of information about workflow executions.
+    /// - Returns: Contains a paginated list of information about workflow executions. (Type: `ListOpenWorkflowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1825,6 +1842,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpenWorkflowExecutionsOutput>(ListOpenWorkflowExecutionsOutput.httpOutput(from:), ListOpenWorkflowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpenWorkflowExecutionsInput, ListOpenWorkflowExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpenWorkflowExecutionsOutput>())
@@ -1859,9 +1877,9 @@ extension SWFClient {
     ///
     /// List tags for a given domain.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1895,6 +1913,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1938,9 +1957,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter ListWorkflowTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowTypesInput`)
     ///
-    /// - Returns: `ListWorkflowTypesOutput` : Contains a paginated list of information structures about workflow types.
+    /// - Returns: Contains a paginated list of information structures about workflow types. (Type: `ListWorkflowTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1973,6 +1992,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowTypesOutput>(ListWorkflowTypesOutput.httpOutput(from:), ListWorkflowTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowTypesInput, ListWorkflowTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowTypesOutput>())
@@ -2016,9 +2036,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter PollForActivityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PollForActivityTaskInput`)
     ///
-    /// - Returns: `PollForActivityTaskOutput` : Unit of work sent to an activity worker.
+    /// - Returns: Unit of work sent to an activity worker. (Type: `PollForActivityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,6 +2072,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PollForActivityTaskOutput>(PollForActivityTaskOutput.httpOutput(from:), PollForActivityTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PollForActivityTaskInput, PollForActivityTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PollForActivityTaskOutput>())
@@ -2095,9 +2116,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter PollForDecisionTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PollForDecisionTaskInput`)
     ///
-    /// - Returns: `PollForDecisionTaskOutput` : A structure that represents a decision task. Decision tasks are sent to deciders in order for them to make decisions.
+    /// - Returns: A structure that represents a decision task. Decision tasks are sent to deciders in order for them to make decisions. (Type: `PollForDecisionTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2131,6 +2152,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PollForDecisionTaskOutput>(PollForDecisionTaskOutput.httpOutput(from:), PollForDecisionTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PollForDecisionTaskInput, PollForDecisionTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PollForDecisionTaskOutput>())
@@ -2174,9 +2196,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RecordActivityTaskHeartbeatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RecordActivityTaskHeartbeatInput`)
     ///
-    /// - Returns: `RecordActivityTaskHeartbeatOutput` : Status information about an activity task.
+    /// - Returns: Status information about an activity task. (Type: `RecordActivityTaskHeartbeatOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2209,6 +2231,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RecordActivityTaskHeartbeatOutput>(RecordActivityTaskHeartbeatOutput.httpOutput(from:), RecordActivityTaskHeartbeatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RecordActivityTaskHeartbeatInput, RecordActivityTaskHeartbeatOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RecordActivityTaskHeartbeatOutput>())
@@ -2261,9 +2284,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RegisterActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterActivityTypeInput`)
     ///
-    /// - Returns: `RegisterActivityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2298,6 +2321,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterActivityTypeOutput>(RegisterActivityTypeOutput.httpOutput(from:), RegisterActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterActivityTypeInput, RegisterActivityTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterActivityTypeOutput>())
@@ -2341,9 +2365,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RegisterDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterDomainInput`)
     ///
-    /// - Returns: `RegisterDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2378,6 +2402,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDomainInput, RegisterDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterDomainOutput>(RegisterDomainOutput.httpOutput(from:), RegisterDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDomainInput, RegisterDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDomainOutput>())
@@ -2430,9 +2455,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RegisterWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterWorkflowTypeInput`)
     ///
-    /// - Returns: `RegisterWorkflowTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2467,6 +2492,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterWorkflowTypeOutput>(RegisterWorkflowTypeOutput.httpOutput(from:), RegisterWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterWorkflowTypeInput, RegisterWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterWorkflowTypeOutput>())
@@ -2510,9 +2536,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RequestCancelWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RequestCancelWorkflowExecutionInput`)
     ///
-    /// - Returns: `RequestCancelWorkflowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RequestCancelWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2545,6 +2571,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestCancelWorkflowExecutionOutput>(RequestCancelWorkflowExecutionOutput.httpOutput(from:), RequestCancelWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestCancelWorkflowExecutionInput, RequestCancelWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestCancelWorkflowExecutionOutput>())
@@ -2588,9 +2615,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RespondActivityTaskCanceledInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RespondActivityTaskCanceledInput`)
     ///
-    /// - Returns: `RespondActivityTaskCanceledOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RespondActivityTaskCanceledOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2623,6 +2650,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondActivityTaskCanceledOutput>(RespondActivityTaskCanceledOutput.httpOutput(from:), RespondActivityTaskCanceledOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondActivityTaskCanceledInput, RespondActivityTaskCanceledOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RespondActivityTaskCanceledOutput>())
@@ -2666,9 +2694,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RespondActivityTaskCompletedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RespondActivityTaskCompletedInput`)
     ///
-    /// - Returns: `RespondActivityTaskCompletedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RespondActivityTaskCompletedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2701,6 +2729,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondActivityTaskCompletedOutput>(RespondActivityTaskCompletedOutput.httpOutput(from:), RespondActivityTaskCompletedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondActivityTaskCompletedInput, RespondActivityTaskCompletedOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RespondActivityTaskCompletedOutput>())
@@ -2744,9 +2773,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RespondActivityTaskFailedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RespondActivityTaskFailedInput`)
     ///
-    /// - Returns: `RespondActivityTaskFailedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RespondActivityTaskFailedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2779,6 +2808,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondActivityTaskFailedOutput>(RespondActivityTaskFailedOutput.httpOutput(from:), RespondActivityTaskFailedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondActivityTaskFailedInput, RespondActivityTaskFailedOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RespondActivityTaskFailedOutput>())
@@ -2813,9 +2843,9 @@ extension SWFClient {
     ///
     /// Used by deciders to tell the service that the [DecisionTask] identified by the taskToken has successfully completed. The decisions argument specifies the list of decisions made while processing the task. A DecisionTaskCompleted event is added to the workflow history. The executionContext specified is attached to the event in the workflow execution history. Access Control If an IAM policy grants permission to use RespondDecisionTaskCompleted, it can express permissions for the list of decisions in the decisions parameter. Each of the decisions has one or more parameters, much like a regular API call. To allow for policies to be as readable as possible, you can express permissions on decisions as if they were actual API calls, including applying conditions to some parameters. For more information, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter RespondDecisionTaskCompletedInput : Input data for a TaskCompleted response to a decision task.
+    /// - Parameter input: Input data for a TaskCompleted response to a decision task. (Type: `RespondDecisionTaskCompletedInput`)
     ///
-    /// - Returns: `RespondDecisionTaskCompletedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RespondDecisionTaskCompletedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2848,6 +2878,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondDecisionTaskCompletedOutput>(RespondDecisionTaskCompletedOutput.httpOutput(from:), RespondDecisionTaskCompletedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondDecisionTaskCompletedInput, RespondDecisionTaskCompletedOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RespondDecisionTaskCompletedOutput>())
@@ -2891,9 +2922,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter SignalWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SignalWorkflowExecutionInput`)
     ///
-    /// - Returns: `SignalWorkflowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SignalWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2926,6 +2957,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SignalWorkflowExecutionOutput>(SignalWorkflowExecutionOutput.httpOutput(from:), SignalWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignalWorkflowExecutionInput, SignalWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SignalWorkflowExecutionOutput>())
@@ -2988,9 +3020,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter StartWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkflowExecutionInput`)
     ///
-    /// - Returns: `StartWorkflowExecutionOutput` : Specifies the runId of a workflow execution.
+    /// - Returns: Specifies the runId of a workflow execution. (Type: `StartWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3027,6 +3059,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWorkflowExecutionOutput>(StartWorkflowExecutionOutput.httpOutput(from:), StartWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWorkflowExecutionInput, StartWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWorkflowExecutionOutput>())
@@ -3061,9 +3094,9 @@ extension SWFClient {
     ///
     /// Add a tag to a Amazon SWF domain. Amazon SWF supports a maximum of 50 tags per resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3098,6 +3131,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3141,9 +3175,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter TerminateWorkflowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateWorkflowExecutionInput`)
     ///
-    /// - Returns: `TerminateWorkflowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateWorkflowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3176,6 +3210,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateWorkflowExecutionOutput>(TerminateWorkflowExecutionOutput.httpOutput(from:), TerminateWorkflowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateWorkflowExecutionInput, TerminateWorkflowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateWorkflowExecutionOutput>())
@@ -3226,9 +3261,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter UndeprecateActivityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UndeprecateActivityTypeInput`)
     ///
-    /// - Returns: `UndeprecateActivityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UndeprecateActivityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3262,6 +3297,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UndeprecateActivityTypeOutput>(UndeprecateActivityTypeOutput.httpOutput(from:), UndeprecateActivityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UndeprecateActivityTypeInput, UndeprecateActivityTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UndeprecateActivityTypeOutput>())
@@ -3305,9 +3341,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter UndeprecateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UndeprecateDomainInput`)
     ///
-    /// - Returns: `UndeprecateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UndeprecateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3341,6 +3377,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UndeprecateDomainOutput>(UndeprecateDomainOutput.httpOutput(from:), UndeprecateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UndeprecateDomainInput, UndeprecateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UndeprecateDomainOutput>())
@@ -3391,9 +3428,9 @@ extension SWFClient {
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
     ///
-    /// - Parameter UndeprecateWorkflowTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UndeprecateWorkflowTypeInput`)
     ///
-    /// - Returns: `UndeprecateWorkflowTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UndeprecateWorkflowTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3427,6 +3464,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UndeprecateWorkflowTypeOutput>(UndeprecateWorkflowTypeOutput.httpOutput(from:), UndeprecateWorkflowTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UndeprecateWorkflowTypeInput, UndeprecateWorkflowTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UndeprecateWorkflowTypeOutput>())
@@ -3461,9 +3499,9 @@ extension SWFClient {
     ///
     /// Remove a tag from a Amazon SWF domain.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3497,6 +3535,7 @@ extension SWFClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

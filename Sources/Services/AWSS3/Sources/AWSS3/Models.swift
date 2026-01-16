@@ -21,6 +21,7 @@ import class SmithyHTTPAPI.HTTPRequestBuilder
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Reader
 @_spi(SmithyReadWrite) import class SmithyXML.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum ClientRuntime.ErrorFault
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
@@ -161,6 +162,11 @@ public struct DeletePublicAccessBlockOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutBucketAbacOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutBucketAccelerateConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -264,6 +270,50 @@ public struct UpdateBucketMetadataJournalTableConfigurationOutput: Swift.Sendabl
 public struct WriteGetObjectResponseOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension S3ClientTypes {
+
+    public enum BucketAbacStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BucketAbacStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The ABAC status of the general purpose bucket. When ABAC is enabled for the general purpose bucket, you can use tags to manage access to the general purpose buckets as well as for cost tracking purposes. When ABAC is disabled for the general purpose buckets, you can only use tags for cost tracking purposes. For more information, see [Using tags with S3 general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html).
+    public struct AbacStatus: Swift.Sendable {
+        /// The ABAC status of the general purpose bucket.
+        public var status: S3ClientTypes.BucketAbacStatus?
+
+        public init(
+            status: S3ClientTypes.BucketAbacStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
 }
 
 extension S3ClientTypes {
@@ -474,28 +524,9 @@ extension S3ClientTypes {
 
     /// Container for the person being granted permissions.
     public struct Grantee: Swift.Sendable {
-        /// Screen name of the grantee.
+        ///
         public var displayName: Swift.String?
-        /// Email address of the grantee. Using email addresses to specify a grantee is only supported in the following Amazon Web Services Regions:
         ///
-        /// * US East (N. Virginia)
-        ///
-        /// * US West (N. California)
-        ///
-        /// * US West (Oregon)
-        ///
-        /// * Asia Pacific (Singapore)
-        ///
-        /// * Asia Pacific (Sydney)
-        ///
-        /// * Asia Pacific (Tokyo)
-        ///
-        /// * Europe (Ireland)
-        ///
-        /// * South America (São Paulo)
-        ///
-        ///
-        /// For a list of all the Amazon S3 supported Regions and endpoints, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region) in the Amazon Web Services General Reference.
         public var emailAddress: Swift.String?
         /// The canonical user ID of the grantee.
         public var id: Swift.String?
@@ -580,28 +611,9 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Container for the owner's display name and ID.
+    /// Container for the owner's display name and ID.
     public struct Owner: Swift.Sendable {
-        /// Container for the display name of the owner. This value is only supported in the following Amazon Web Services Regions:
         ///
-        /// * US East (N. Virginia)
-        ///
-        /// * US West (N. California)
-        ///
-        /// * US West (Oregon)
-        ///
-        /// * Asia Pacific (Singapore)
-        ///
-        /// * Asia Pacific (Sydney)
-        ///
-        /// * Asia Pacific (Tokyo)
-        ///
-        /// * Europe (Ireland)
-        ///
-        /// * South America (São Paulo)
-        ///
-        ///
-        /// This functionality is not supported for directory buckets.
         public var displayName: Swift.String?
         /// Container for the ID of the owner.
         public var id: Swift.String?
@@ -891,15 +903,15 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
     public var bucket: Swift.String?
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool?
-    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
     /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
-    /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
     /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum type that was specified during the CreateMultipartUpload request. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumType: S3ClientTypes.ChecksumType?
@@ -1150,6 +1162,7 @@ extension S3ClientTypes {
     public enum StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
+        case fsxOntap
         case fsxOpenzfs
         case glacier
         case glacierIr
@@ -1166,6 +1179,7 @@ extension S3ClientTypes {
             return [
                 .deepArchive,
                 .expressOnezone,
+                .fsxOntap,
                 .fsxOpenzfs,
                 .glacier,
                 .glacierIr,
@@ -1188,6 +1202,7 @@ extension S3ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
+            case .fsxOntap: return "FSX_ONTAP"
             case .fsxOpenzfs: return "FSX_OPENZFS"
             case .glacier: return "GLACIER"
             case .glacierIr: return "GLACIER_IR"
@@ -1336,6 +1351,10 @@ public struct CopyObjectInput: Swift.Sendable {
     ///
     /// * This functionality is not supported for Amazon S3 on Outposts.
     public var grantWriteACP: Swift.String?
+    /// Copies the object if the entity tag (ETag) of the destination object matches the specified tag. If the ETag values do not match, the operation returns a 412 Precondition Failed error. If a concurrent operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should fetch the object's ETag and retry the upload. Expects the ETag value as a string. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
+    public var ifMatch: Swift.String?
+    /// Copies the object only if the object key name at the destination does not already exist in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a concurrent operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should retry the upload. Expects the '*' (asterisk) character. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
+    public var ifNoneMatch: Swift.String?
     /// The key of the destination object.
     /// This member is required.
     public var key: Swift.String?
@@ -1458,6 +1477,8 @@ public struct CopyObjectInput: Swift.Sendable {
         grantRead: Swift.String? = nil,
         grantReadACP: Swift.String? = nil,
         grantWriteACP: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ifNoneMatch: Swift.String? = nil,
         key: Swift.String? = nil,
         metadata: [Swift.String: Swift.String]? = nil,
         metadataDirective: S3ClientTypes.MetadataDirective? = nil,
@@ -1500,6 +1521,8 @@ public struct CopyObjectInput: Swift.Sendable {
         self.grantRead = grantRead
         self.grantReadACP = grantReadACP
         self.grantWriteACP = grantWriteACP
+        self.ifMatch = ifMatch
+        self.ifNoneMatch = ifNoneMatch
         self.key = key
         self.metadata = metadata
         self.metadataDirective = metadataDirective
@@ -1522,7 +1545,7 @@ public struct CopyObjectInput: Swift.Sendable {
 
 extension CopyObjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CopyObjectInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "CopyObjectInput(acl: \(Swift.String(describing: acl)), bucket: \(Swift.String(describing: bucket)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumAlgorithm: \(Swift.String(describing: checksumAlgorithm)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentType: \(Swift.String(describing: contentType)), copySource: \(Swift.String(describing: copySource)), copySourceIfMatch: \(Swift.String(describing: copySourceIfMatch)), copySourceIfModifiedSince: \(Swift.String(describing: copySourceIfModifiedSince)), copySourceIfNoneMatch: \(Swift.String(describing: copySourceIfNoneMatch)), copySourceIfUnmodifiedSince: \(Swift.String(describing: copySourceIfUnmodifiedSince)), copySourceSSECustomerAlgorithm: \(Swift.String(describing: copySourceSSECustomerAlgorithm)), copySourceSSECustomerKeyMD5: \(Swift.String(describing: copySourceSSECustomerKeyMD5)), expectedBucketOwner: \(Swift.String(describing: expectedBucketOwner)), expectedSourceBucketOwner: \(Swift.String(describing: expectedSourceBucketOwner)), expires: \(Swift.String(describing: expires)), grantFullControl: \(Swift.String(describing: grantFullControl)), grantRead: \(Swift.String(describing: grantRead)), grantReadACP: \(Swift.String(describing: grantReadACP)), grantWriteACP: \(Swift.String(describing: grantWriteACP)), ifMatch: \(Swift.String(describing: ifMatch)), ifNoneMatch: \(Swift.String(describing: ifNoneMatch)), key: \(Swift.String(describing: key)), metadata: \(Swift.String(describing: metadata)), metadataDirective: \(Swift.String(describing: metadataDirective)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), requestPayer: \(Swift.String(describing: requestPayer)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagging: \(Swift.String(describing: tagging)), taggingDirective: \(Swift.String(describing: taggingDirective)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), copySourceSSECustomerKey: \"CONTENT_REDACTED\", sseCustomerKey: \"CONTENT_REDACTED\", ssekmsEncryptionContext: \"CONTENT_REDACTED\", ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 extension S3ClientTypes {
@@ -1531,13 +1554,13 @@ extension S3ClientTypes {
     public struct CopyObjectResult: Swift.Sendable {
         /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC32: Swift.String?
-        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This will only be present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC32C: Swift.String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This checksum is present if the object being copied was uploaded with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC64NVME: Swift.String?
-        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA1: Swift.String?
-        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumSHA256: Swift.String?
         /// The checksum type that is used to calculate the object’s checksum value. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumType: S3ClientTypes.ChecksumType?
@@ -1962,7 +1985,7 @@ extension S3ClientTypes {
         public var location: S3ClientTypes.LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). This functionality is not supported for directory buckets.
         public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
-        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access. You must have the s3:TagResource permission to create a general purpose bucket with tags or the s3express:TagResource permission to create a directory bucket with tags. When creating buckets with tags, note that tag-based conditions using aws:ResourceTag and s3:BucketTag condition keys are applicable only after ABAC is enabled on the bucket. To learn more, see [Enabling ABAC in general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging-enable-abac.html).
         public var tags: [S3ClientTypes.Tag]?
 
         public init(
@@ -3120,7 +3143,7 @@ public struct DeleteObjectInput: Swift.Sendable {
     public var bypassGovernanceRetention: Swift.Bool?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
-    /// The If-Match header field makes the request method conditional on ETags. If the ETag value does not match, the operation returns a 412 Precondition Failed error. If the ETag matches or if the object doesn't exist, the operation will return a 204 Success (No Content) response. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232). This functionality is only supported for directory buckets.
+    /// Deletes the object if the ETag (entity tag) value provided during the delete operation matches the ETag of the object in S3. If the ETag values do not match, the operation returns a 412 Precondition Failed error. Expects the ETag value as a string. If-Match does accept a string value of an '*' (asterisk) character to denote a match of any ETag. For more information about conditional requests, see [RFC 7232](https://tools.ietf.org/html/rfc7232).
     public var ifMatch: Swift.String?
     /// If present, the object is deleted only if its modification times matches the provided Timestamp. If the Timestamp values do not match, the operation returns a 412 Precondition Failed error. If the Timestamp matches or if the object doesn’t exist, the operation returns a 204 Success (No Content) response. This functionality is only supported for directory buckets.
     public var ifMatchLastModifiedTime: Foundation.Date?
@@ -4460,6 +4483,33 @@ public struct DeletePublicAccessBlockInput: Swift.Sendable {
     }
 }
 
+public struct GetBucketAbacInput: Swift.Sendable {
+    /// The name of the general purpose bucket.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The Amazon Web Services account ID of the general purpose bucket's owner.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    ) {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+public struct GetBucketAbacOutput: Swift.Sendable {
+    /// The ABAC status of the general purpose bucket.
+    public var abacStatus: S3ClientTypes.AbacStatus?
+
+    public init(
+        abacStatus: S3ClientTypes.AbacStatus? = nil
+    ) {
+        self.abacStatus = abacStatus
+    }
+}
+
 public struct GetBucketAccelerateConfigurationInput: Swift.Sendable {
     /// The name of the bucket for which the accelerate configuration is retrieved.
     /// This member is required.
@@ -4514,7 +4564,7 @@ public struct GetBucketAclInput: Swift.Sendable {
 public struct GetBucketAclOutput: Swift.Sendable {
     /// A list of grants.
     public var grants: [S3ClientTypes.Grant]?
-    /// Container for the bucket owner's display name and ID.
+    /// Container for the bucket owner's ID.
     public var owner: S3ClientTypes.Owner?
 
     public init(
@@ -4885,6 +4935,59 @@ extension S3ClientTypes.ServerSideEncryptionByDefault: Swift.CustomDebugStringCo
 
 extension S3ClientTypes {
 
+    public enum EncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case sseC
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .none,
+                .sseC
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .sseC: return "SSE-C"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects encrypted with the specified server-side encryption type. For example, blocking an encryption type will block PutObject, CopyObject, PostObject, multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see [Blocking or unblocking SSE-C for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/blocking-unblocking-s3-c-encryption-gpb.html). This data type is used with the following actions:
+    ///
+    /// * [PutBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html)
+    ///
+    /// * [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
+    ///
+    /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
+    ///
+    ///
+    /// Permissions You must have the s3:PutEncryptionConfiguration permission to block or unblock an encryption type for a bucket. You must have the s3:GetEncryptionConfiguration permission to view a bucket's encryption type.
+    public struct BlockedEncryptionTypes: Swift.Sendable {
+        /// The object encryption type that you want to block or unblock for an Amazon S3 general purpose bucket. Currently, this parameter only supports blocking or unblocking server side encryption with customer-provided keys (SSE-C). For more information about SSE-C, see [Using server-side encryption with customer-provided keys (SSE-C)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html).
+        public var encryptionType: [S3ClientTypes.EncryptionType]?
+
+        public init(
+            encryptionType: [S3ClientTypes.EncryptionType]? = nil
+        ) {
+            self.encryptionType = encryptionType
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     /// Specifies the default server-side encryption configuration.
     ///
     /// * General purpose buckets - If you're specifying a customer managed KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requester’s account. This behavior can result in data that's encrypted with a KMS key that belongs to the requester, and not the bucket owner.
@@ -4893,6 +4996,8 @@ extension S3ClientTypes {
     public struct ServerSideEncryptionRule: Swift.Sendable {
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public var applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault?
+        /// A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects encrypted with the specified server-side encryption type. For example, blocking an encryption type will block PutObject, CopyObject, PostObject, multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see [Blocking or unblocking SSE-C for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/blocking-unblocking-s3-c-encryption-gpb.html). Currently, this parameter only supports blocking or unblocking server-side encryption with customer-provided keys (SSE-C). For more information about SSE-C, see [Using server-side encryption with customer-provided keys (SSE-C)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html).
+        public var blockedEncryptionTypes: S3ClientTypes.BlockedEncryptionTypes?
         /// Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket. Existing objects are not affected. Setting the BucketKeyEnabled element to true causes Amazon S3 to use an S3 Bucket Key.
         ///
         /// * General purpose buckets - By default, S3 Bucket Key is not enabled. For more information, see [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) in the Amazon S3 User Guide.
@@ -4902,9 +5007,11 @@ extension S3ClientTypes {
 
         public init(
             applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault? = nil,
+            blockedEncryptionTypes: S3ClientTypes.BlockedEncryptionTypes? = nil,
             bucketKeyEnabled: Swift.Bool? = nil
         ) {
             self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
+            self.blockedEncryptionTypes = blockedEncryptionTypes
             self.bucketKeyEnabled = bucketKeyEnabled
         }
     }
@@ -5326,6 +5433,7 @@ extension S3ClientTypes {
         case intelligenttieringaccesstier
         case ismultipartuploaded
         case lastmodifieddate
+        case lifecycleexpirationdate
         case objectaccesscontrollist
         case objectlocklegalholdstatus
         case objectlockmode
@@ -5345,6 +5453,7 @@ extension S3ClientTypes {
                 .intelligenttieringaccesstier,
                 .ismultipartuploaded,
                 .lastmodifieddate,
+                .lifecycleexpirationdate,
                 .objectaccesscontrollist,
                 .objectlocklegalholdstatus,
                 .objectlockmode,
@@ -5370,6 +5479,7 @@ extension S3ClientTypes {
             case .intelligenttieringaccesstier: return "IntelligentTieringAccessTier"
             case .ismultipartuploaded: return "IsMultipartUploaded"
             case .lastmodifieddate: return "LastModifiedDate"
+            case .lifecycleexpirationdate: return "LifecycleExpirationDate"
             case .objectaccesscontrollist: return "ObjectAccessControlList"
             case .objectlocklegalholdstatus: return "ObjectLockLegalHoldStatus"
             case .objectlockmode: return "ObjectLockMode"
@@ -5732,7 +5842,7 @@ extension S3ClientTypes {
         public var noncurrentVersionExpiration: S3ClientTypes.NoncurrentVersionExpiration?
         /// Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime. This parameter applies to general purpose buckets only. It is not supported for directory bucket lifecycle configurations.
         public var noncurrentVersionTransitions: [S3ClientTypes.NoncurrentVersionTransition]?
-        /// Prefix identifying one or more objects to which the rule applies. This is no longer used; use Filter instead. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
+        /// The general purpose bucket prefix that identifies one or more objects to which the rule applies. We recommend using Filter instead of Prefix for new PUTs. Previous configurations where a prefix is defined will continue to operate as before. Replacement must be made for object keys containing special characters (such as carriage returns) when using XML requests. For more information, see [ XML related object key constraints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints).
         @available(*, deprecated)
         public var `prefix`: Swift.String?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
@@ -8102,13 +8212,13 @@ public struct GetObjectOutput: Swift.Sendable {
     public var cacheControl: Swift.String?
     /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
-    /// The Base64 encoded, 32-bit CRC32C checksum of the object. This will only be present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
     /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
-    /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
     /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in the CreateMultipartUpload request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumType: S3ClientTypes.ChecksumType?
@@ -8291,7 +8401,7 @@ public struct GetObjectAclInput: Swift.Sendable {
 public struct GetObjectAclOutput: Swift.Sendable {
     /// A list of grants.
     public var grants: [S3ClientTypes.Grant]?
-    /// Container for the bucket owner's display name and ID.
+    /// Container for the bucket owner's ID.
     public var owner: S3ClientTypes.Owner?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
@@ -8408,15 +8518,15 @@ extension S3ClientTypes {
 
     /// Contains all the possible checksum or digest values for an object.
     public struct Checksum: Swift.Sendable {
-        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
         public var checksumCRC32: Swift.String?
         /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
         public var checksumCRC32C: Swift.String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This checksum is present if the object was uploaded with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumCRC64NVME: Swift.String?
-        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
         public var checksumSHA1: Swift.String?
-        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
         public var checksumSHA256: Swift.String?
         /// The checksum type that is used to calculate the object’s checksum value. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
         public var checksumType: S3ClientTypes.ChecksumType?
@@ -8920,7 +9030,7 @@ public struct GetPublicAccessBlockInput: Swift.Sendable {
 
 extension S3ClientTypes {
 
-    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
+    /// The PublicAccessBlock configuration that you want to apply to this Amazon S3 bucket. You can enable the configuration options in any combination. Bucket-level settings work alongside account-level settings (which may inherit from organization-level policies). For more information about when Amazon S3 considers a bucket or object public, see [The Meaning of "Public"](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status) in the Amazon S3 User Guide.
     public struct PublicAccessBlockConfiguration: Swift.Sendable {
         /// Specifies whether Amazon S3 should block public access control lists (ACLs) for this bucket and objects in this bucket. Setting this element to TRUE causes the following behavior:
         ///
@@ -9186,15 +9296,15 @@ public struct HeadObjectOutput: Swift.Sendable {
     public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
-    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
     /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
     /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
-    /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
     /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in CreateMultipartUpload request. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumType: S3ClientTypes.ChecksumType?
@@ -9719,7 +9829,7 @@ extension S3ClientTypes {
 
     /// Container element that identifies who initiated the multipart upload.
     public struct Initiator: Swift.Sendable {
-        /// Name of the Principal. This functionality is not supported for directory buckets.
+        /// This functionality is not supported for directory buckets.
         public var displayName: Swift.String?
         /// If the principal is an Amazon Web Services account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value. Directory buckets - If the principal is an Amazon Web Services account, it provides the Amazon Web Services account ID. If the principal is an IAM User, it provides a user ARN value.
         public var id: Swift.String?
@@ -9930,6 +10040,7 @@ extension S3ClientTypes {
     public enum ObjectStorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
+        case fsxOntap
         case fsxOpenzfs
         case glacier
         case glacierIr
@@ -9946,6 +10057,7 @@ extension S3ClientTypes {
             return [
                 .deepArchive,
                 .expressOnezone,
+                .fsxOntap,
                 .fsxOpenzfs,
                 .glacier,
                 .glacierIr,
@@ -9968,6 +10080,7 @@ extension S3ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
+            case .fsxOntap: return "FSX_ONTAP"
             case .fsxOpenzfs: return "FSX_OPENZFS"
             case .glacier: return "GLACIER"
             case .glacierIr: return "GLACIER_IR"
@@ -10546,7 +10659,7 @@ public struct ListPartsOutput: Swift.Sendable {
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in CreateMultipartUpload request. For more information, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumType: S3ClientTypes.ChecksumType?
-    /// Container element that identifies who initiated the multipart upload. If the initiator is an Amazon Web Services account, this element provides the same information as the Owner element. If the initiator is an IAM User, this element provides the user ARN and display name.
+    /// Container element that identifies who initiated the multipart upload. If the initiator is an Amazon Web Services account, this element provides the same information as the Owner element. If the initiator is an IAM User, this element provides the user ARN.
     public var initiator: S3ClientTypes.Initiator?
     /// Indicates whether the returned list of parts is truncated. A true value indicates that the list was truncated. A list can be truncated if the number of parts exceeds the limit returned in the MaxParts element.
     public var isTruncated: Swift.Bool?
@@ -10556,7 +10669,7 @@ public struct ListPartsOutput: Swift.Sendable {
     public var maxParts: Swift.Int?
     /// When a list is truncated, this element specifies the last part in the list, as well as the value to use for the part-number-marker request parameter in a subsequent request.
     public var nextPartNumberMarker: Swift.String?
-    /// Container element that identifies the object owner, after the object is created. If multipart upload is initiated by an IAM user, this element provides the parent account ID and display name. Directory buckets - The bucket owner is returned as the object owner for all the parts.
+    /// Container element that identifies the object owner, after the object is created. If multipart upload is initiated by an IAM user, this element provides the parent account ID. Directory buckets - The bucket owner is returned as the object owner for all the parts.
     public var owner: S3ClientTypes.Owner?
     /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
     public var partNumberMarker: Swift.String?
@@ -10603,6 +10716,35 @@ public struct ListPartsOutput: Swift.Sendable {
         self.requestCharged = requestCharged
         self.storageClass = storageClass
         self.uploadId = uploadId
+    }
+}
+
+public struct PutBucketAbacInput: Swift.Sendable {
+    /// The ABAC status of the general purpose bucket. When ABAC is enabled for the general purpose bucket, you can use tags to manage access to the general purpose buckets as well as for cost tracking purposes. When ABAC is disabled for the general purpose buckets, you can only use tags for cost tracking purposes. For more information, see [Using tags with S3 general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html).
+    /// This member is required.
+    public var abacStatus: S3ClientTypes.AbacStatus?
+    /// The name of the general purpose bucket.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// The MD5 hash of the PutBucketAbac request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+    public var contentMD5: Swift.String?
+    /// The Amazon Web Services account ID of the general purpose bucket's owner.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        abacStatus: S3ClientTypes.AbacStatus? = nil,
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    ) {
+        self.abacStatus = abacStatus
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
     }
 }
 
@@ -11282,7 +11424,7 @@ public struct PutBucketVersioningInput: Swift.Sendable {
     public var contentMD5: Swift.String?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
-    /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+    /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. The serial number is the number that uniquely identifies the MFA device. For physical MFA devices, this is the unique serial number that's provided with the device. For virtual MFA devices, the serial number is the device ARN. For more information, see [Enabling versioning on buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html) and [Configuring MFA delete](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiFactorAuthenticationDelete.html) in the Amazon Simple Storage Service User Guide.
     public var mfa: Swift.String?
     /// Container for setting the versioning state.
     /// This member is required.
@@ -11647,15 +11789,15 @@ extension PutObjectInput: Swift.CustomDebugStringConvertible {
 public struct PutObjectOutput: Swift.Sendable {
     /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool?
-    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
     /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
     /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This header is present if the object was uploaded with the CRC64NVME checksum algorithm, or if it was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information about how checksums are calculated with multipart uploads, see [Checking object integrity in the Amazon S3 User Guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html).
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
-    /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
     /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. For PutObject uploads, the checksum type is always FULL_OBJECT. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumType: S3ClientTypes.ChecksumType?
@@ -11968,7 +12110,7 @@ public struct PutObjectTaggingInput: Swift.Sendable {
     /// Name of the object key.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that she or he will be charged for the tagging object request. Bucket owners need not specify this parameter in their requests.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Container for the TagSet and Tag elements
     /// This member is required.
@@ -12912,7 +13054,7 @@ extension S3ClientTypes {
 
     /// The container for the records event.
     public struct RecordsEvent: Swift.Sendable {
-        /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDKforJava) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
+        /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDK for Java) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
         public var payload: Foundation.Data?
 
         public init(
@@ -13175,15 +13317,15 @@ extension UploadPartInput: Swift.CustomDebugStringConvertible {
 public struct UploadPartOutput: Swift.Sendable {
     /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
     public var bucketKeyEnabled: Swift.Bool?
-    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32: Swift.String?
     /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumCRC32C: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumCRC64NVME: Swift.String?
-    /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA1: Swift.String?
-    /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
+    /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see [ Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html#large-object-checksums) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
     /// Entity tag for the uploaded object.
     public var eTag: Swift.String?
@@ -13826,6 +13968,12 @@ extension CopyObjectInput {
         }
         if let grantWriteACP = value.grantWriteACP {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
+        }
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        if let ifNoneMatch = value.ifNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(ifNoneMatch)))
         }
         if let metadataDirective = value.metadataDirective {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-metadata-directive", value: Swift.String(metadataDirective.rawValue)))
@@ -14720,6 +14868,33 @@ extension DeletePublicAccessBlockInput {
     static func queryItemProvider(_ value: DeletePublicAccessBlockInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "publicAccessBlock", value: nil))
+        return items
+    }
+}
+
+extension GetBucketAbacInput {
+
+    static func urlPathProvider(_ value: GetBucketAbacInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetBucketAbacInput {
+
+    static func headerProvider(_ value: GetBucketAbacInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension GetBucketAbacInput {
+
+    static func queryItemProvider(_ value: GetBucketAbacInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "abac", value: nil))
         return items
     }
 }
@@ -16324,6 +16499,39 @@ extension ListPartsInput {
     }
 }
 
+extension PutBucketAbacInput {
+
+    static func urlPathProvider(_ value: PutBucketAbacInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutBucketAbacInput {
+
+    static func headerProvider(_ value: PutBucketAbacInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension PutBucketAbacInput {
+
+    static func queryItemProvider(_ value: PutBucketAbacInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "abac", value: nil))
+        return items
+    }
+}
+
 extension PutBucketAccelerateConfigurationInput {
 
     static func urlPathProvider(_ value: PutBucketAccelerateConfigurationInput) -> Swift.String? {
@@ -17891,6 +18099,14 @@ extension DeleteObjectsInput {
     }
 }
 
+extension PutBucketAbacInput {
+
+    static func write(value: PutBucketAbacInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AbacStatus"].write(value.abacStatus, with: S3ClientTypes.AbacStatus.write(value:to:))
+    }
+}
+
 extension PutBucketAccelerateConfigurationInput {
 
     static func write(value: PutBucketAccelerateConfigurationInput?, to writer: SmithyXML.Writer) throws {
@@ -18488,6 +18704,18 @@ extension DeletePublicAccessBlockOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePublicAccessBlockOutput {
         return DeletePublicAccessBlockOutput()
+    }
+}
+
+extension GetBucketAbacOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBucketAbacOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketAbacOutput()
+        value.abacStatus = try reader.readIfPresent(with: S3ClientTypes.AbacStatus.read(from:))
+        return value
     }
 }
 
@@ -19408,6 +19636,13 @@ extension ListPartsOutput {
     }
 }
 
+extension PutBucketAbacOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutBucketAbacOutput {
+        return PutBucketAbacOutput()
+    }
+}
+
 extension PutBucketAccelerateConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutBucketAccelerateConfigurationOutput {
@@ -20181,6 +20416,20 @@ enum DeletePublicAccessBlockOutputError {
     }
 }
 
+enum GetBucketAbacOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetBucketAccelerateConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20792,6 +21041,20 @@ enum ListObjectVersionsOutputError {
 }
 
 enum ListPartsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutBucketAbacOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -21550,6 +21813,21 @@ extension S3ClientTypes.Error {
     }
 }
 
+extension S3ClientTypes.AbacStatus {
+
+    static func write(value: S3ClientTypes.AbacStatus?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.AbacStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.AbacStatus()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension S3ClientTypes.Owner {
 
     static func write(value: S3ClientTypes.Owner?, to writer: SmithyXML.Writer) throws {
@@ -21805,6 +22083,7 @@ extension S3ClientTypes.ServerSideEncryptionRule {
     static func write(value: S3ClientTypes.ServerSideEncryptionRule?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["ApplyServerSideEncryptionByDefault"].write(value.applyServerSideEncryptionByDefault, with: S3ClientTypes.ServerSideEncryptionByDefault.write(value:to:))
+        try writer["BlockedEncryptionTypes"].write(value.blockedEncryptionTypes, with: S3ClientTypes.BlockedEncryptionTypes.write(value:to:))
         try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
     }
 
@@ -21813,6 +22092,22 @@ extension S3ClientTypes.ServerSideEncryptionRule {
         var value = S3ClientTypes.ServerSideEncryptionRule()
         value.applyServerSideEncryptionByDefault = try reader["ApplyServerSideEncryptionByDefault"].readIfPresent(with: S3ClientTypes.ServerSideEncryptionByDefault.read(from:))
         value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent()
+        value.blockedEncryptionTypes = try reader["BlockedEncryptionTypes"].readIfPresent(with: S3ClientTypes.BlockedEncryptionTypes.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.BlockedEncryptionTypes {
+
+    static func write(value: S3ClientTypes.BlockedEncryptionTypes?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionType"].writeList(value.encryptionType, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ClientTypes.EncryptionType>().write(value:to:), memberNodeInfo: "EncryptionType", isFlattened: true)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.BlockedEncryptionTypes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.BlockedEncryptionTypes()
+        value.encryptionType = try reader["EncryptionType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ClientTypes.EncryptionType>().read(from:), memberNodeInfo: "EncryptionType", isFlattened: true)
         return value
     }
 }
@@ -23821,6 +24116,7 @@ extension GetObjectInput {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetObjectInput, GetObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
@@ -23965,6 +24261,7 @@ extension PutObjectInput {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
@@ -24050,6 +24347,7 @@ extension UploadPartInput {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UploadPartInput, UploadPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())
@@ -24116,6 +24414,7 @@ extension GetObjectInput {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetObjectInput, GetObjectOutput>(GetObjectInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectOutput>(GetObjectOutput.httpOutput(from:), GetObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInput, GetObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectOutput>())
@@ -24186,6 +24485,7 @@ extension PutObjectInput {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutObjectInput, PutObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutObjectOutput>(PutObjectOutput.httpOutput(from:), PutObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutObjectInput, PutObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutObjectOutput>())
@@ -24257,6 +24557,7 @@ extension UploadPartInput {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadPartInput, UploadPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadPartOutput>(UploadPartOutput.httpOutput(from:), UploadPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadPartInput, UploadPartOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadPartOutput>())

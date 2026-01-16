@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import enum Smithy.URIScheme
 import ClientRuntime
+import enum Smithy.URIScheme
 import SmithyHTTPAPI
 
 extension ServiceEndpointMetadata {

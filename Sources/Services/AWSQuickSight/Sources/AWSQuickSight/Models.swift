@@ -34,7 +34,7 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-/// You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
+/// You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon Quick Sight service, that your policies have the correct permissions, and that you are using the correct credentials.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -63,11 +63,11 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension QuickSightClientTypes {
 
-    /// The Amazon QuickSight customizations associated with your Amazon Web Services account or a QuickSight namespace in a specific Amazon Web Services Region.
+    /// The Quick Sight customizations associated with your Amazon Web Services account or a Quick Sight namespace in a specific Amazon Web Services Region.
     public struct AccountCustomization: Swift.Sendable {
         /// The default email customization template.
         public var defaultEmailCustomizationTemplate: Swift.String?
-        /// The default theme for this Amazon QuickSight subscription.
+        /// The default theme for this Quick Sight subscription.
         public var defaultTheme: Swift.String?
 
         public init(
@@ -116,27 +116,27 @@ extension QuickSightClientTypes {
 
     /// A structure that contains the following account information elements:
     ///
-    /// * Your Amazon QuickSight account name.
+    /// * Your Quick Sight account name.
     ///
-    /// * The edition of Amazon QuickSight that your account is using.
+    /// * The edition of Quick Sight that your account is using.
     ///
-    /// * The notification email address that is associated with the Amazon QuickSight account.
+    /// * The notification email address that is associated with the Quick Sight account.
     ///
-    /// * The authentication type of the Amazon QuickSight account.
+    /// * The authentication type of the Quick Sight account.
     ///
-    /// * The status of the Amazon QuickSight account's subscription.
+    /// * The status of the Quick Sight account's subscription.
     public struct AccountInfo: Swift.Sendable {
-        /// The account name that you provided for the Amazon QuickSight subscription in your Amazon Web Services account. You create this name when you sign up for Amazon QuickSight. It's unique over all of Amazon Web Services, and it appears only when users sign in.
+        /// The account name that you provided for the Amazon Quick Sight subscription in your Amazon Web Services account. You create this name when you sign up for Quick Suite. It's unique over all of Amazon Web Services, and it appears only when users sign in.
         public var accountName: Swift.String?
         /// The status of your account subscription.
         public var accountSubscriptionStatus: Swift.String?
-        /// The way that your Amazon QuickSight account is authenticated.
+        /// The way that your Amazon Quick Sight account is authenticated.
         public var authenticationType: Swift.String?
-        /// The edition of your Amazon QuickSight account.
+        /// The edition of your Quick Sight account.
         public var edition: QuickSightClientTypes.Edition?
         /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
         public var iamIdentityCenterInstanceArn: Swift.String?
-        /// The email address that will be used for Amazon QuickSight to send notifications regarding your Amazon Web Services account or Amazon QuickSight subscription.
+        /// The email address that will be used for Quick Sight to send notifications regarding your Amazon Web Services account or Quick Sight subscription.
         public var notificationEmail: Swift.String?
 
         public init(
@@ -159,19 +159,19 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The Amazon QuickSight settings associated with your Amazon Web Services account.
+    /// The Quick Sight settings associated with your Amazon Web Services account.
     public struct AccountSettings: Swift.Sendable {
-        /// The "account name" you provided for the Amazon QuickSight subscription in your Amazon Web Services account. You create this name when you sign up for Amazon QuickSight. It is unique in all of Amazon Web Services and it appears only when users sign in.
+        /// The "account name" you provided for the Quick Sight subscription in your Amazon Web Services account. You create this name when you sign up for Quick Sight. It is unique in all of Amazon Web Services and it appears only when users sign in.
         public var accountName: Swift.String?
-        /// The default Amazon QuickSight namespace for your Amazon Web Services account.
+        /// The default Quick Sight namespace for your Amazon Web Services account.
         public var defaultNamespace: Swift.String?
-        /// The edition of Amazon QuickSight that you're currently subscribed to: Enterprise edition or Standard edition.
+        /// The edition of Quick Sight that you're currently subscribed to: Enterprise edition or Standard edition.
         public var edition: QuickSightClientTypes.Edition?
-        /// The main notification email for your Amazon QuickSight subscription.
+        /// The main notification email for your Quick Sight subscription.
         public var notificationEmail: Swift.String?
-        /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account. For more information about turning on public sharing, see [UpdatePublicSharingSettings](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdatePublicSharingSettings.html).
+        /// A Boolean value that indicates whether public sharing is turned on for an Quick Suite account. For more information about turning on public sharing, see [UpdatePublicSharingSettings](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdatePublicSharingSettings.html).
         public var publicSharingEnabled: Swift.Bool
-        /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubsctiption request. A False value will allow the ccount to be deleted.
+        /// A boolean value that determines whether or not an Quick Sight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubsctiption request. A False value will allow the ccount to be deleted.
         public var terminationProtectionEnabled: Swift.Bool
 
         public init(
@@ -190,6 +190,762 @@ extension QuickSightClientTypes {
             self.terminationProtectionEnabled = terminationProtectionEnabled
         }
     }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only authentication metadata for API key-based connections, containing non-sensitive configuration details.
+    public struct ReadAPIKeyConnectionMetadata: Swift.Sendable {
+        /// The base endpoint URL for API key authentication.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+        /// The email address associated with the API key authentication.
+        public var email: Swift.String?
+
+        public init(
+            baseEndpoint: Swift.String? = nil,
+            email: Swift.String? = nil
+        ) {
+            self.baseEndpoint = baseEndpoint
+            self.email = email
+        }
+    }
+}
+
+extension QuickSightClientTypes.ReadAPIKeyConnectionMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ReadAPIKeyConnectionMetadata(baseEndpoint: \(Swift.String(describing: baseEndpoint)), email: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    public enum AuthorizationCodeGrantCredentialsSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case plainCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuthorizationCodeGrantCredentialsSource] {
+            return [
+                .plainCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .plainCredentials: return "PLAIN_CREDENTIALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only configuration details for OAuth2 authorization code grant flow, including endpoints and client information.
+    public struct ReadAuthorizationCodeGrantDetails: Swift.Sendable {
+        /// The authorization server endpoint used to obtain authorization codes from the resource owner.
+        /// This member is required.
+        public var authorizationEndpoint: Swift.String?
+        /// The client identifier for the OAuth2 authorization code grant flow.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// The authorization server endpoint used to obtain access tokens via the authorization code grant flow.
+        /// This member is required.
+        public var tokenEndpoint: Swift.String?
+
+        public init(
+            authorizationEndpoint: Swift.String? = nil,
+            clientId: Swift.String? = nil,
+            tokenEndpoint: Swift.String? = nil
+        ) {
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientId = clientId
+            self.tokenEndpoint = tokenEndpoint
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only credentials details for OAuth2 authorization code grant flow, containing non-sensitive configuration information.
+    public enum ReadAuthorizationCodeGrantCredentialsDetails: Swift.Sendable {
+        /// The read-only authorization code grant configuration details.
+        case readauthorizationcodegrantdetails(QuickSightClientTypes.ReadAuthorizationCodeGrantDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only metadata for OAuth2 authorization code grant authentication configuration.
+    public struct ReadAuthorizationCodeGrantMetadata: Swift.Sendable {
+        /// The source of credentials for the authorization code grant flow.
+        public var authorizationCodeGrantCredentialsSource: QuickSightClientTypes.AuthorizationCodeGrantCredentialsSource?
+        /// The base endpoint URL for the OAuth2 authorization code grant flow.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+        /// The read-only credentials details for the authorization code grant flow.
+        public var readAuthorizationCodeGrantCredentialsDetails: QuickSightClientTypes.ReadAuthorizationCodeGrantCredentialsDetails?
+        /// The redirect URL where the authorization server will send the user after authorization.
+        /// This member is required.
+        public var redirectUrl: Swift.String?
+
+        public init(
+            authorizationCodeGrantCredentialsSource: QuickSightClientTypes.AuthorizationCodeGrantCredentialsSource? = nil,
+            baseEndpoint: Swift.String? = nil,
+            readAuthorizationCodeGrantCredentialsDetails: QuickSightClientTypes.ReadAuthorizationCodeGrantCredentialsDetails? = nil,
+            redirectUrl: Swift.String? = nil
+        ) {
+            self.authorizationCodeGrantCredentialsSource = authorizationCodeGrantCredentialsSource
+            self.baseEndpoint = baseEndpoint
+            self.readAuthorizationCodeGrantCredentialsDetails = readAuthorizationCodeGrantCredentialsDetails
+            self.redirectUrl = redirectUrl
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only metadata for basic authentication connections, containing non-sensitive configuration details.
+    public struct ReadBasicAuthConnectionMetadata: Swift.Sendable {
+        /// The base endpoint URL for basic authentication.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+        /// The username used for basic authentication.
+        /// This member is required.
+        public var username: Swift.String?
+
+        public init(
+            baseEndpoint: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.baseEndpoint = baseEndpoint
+            self.username = username
+        }
+    }
+}
+
+extension QuickSightClientTypes.ReadBasicAuthConnectionMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ReadBasicAuthConnectionMetadata(baseEndpoint: \(Swift.String(describing: baseEndpoint)), username: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    public enum ClientCredentialsSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case plainCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientCredentialsSource] {
+            return [
+                .plainCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .plainCredentials: return "PLAIN_CREDENTIALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only configuration details for OAuth2 client credentials grant flow, including client ID and token endpoint.
+    public struct ReadClientCredentialsGrantDetails: Swift.Sendable {
+        /// The client identifier for the OAuth2 client credentials grant flow.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// The authorization server endpoint used to obtain access tokens via the client credentials grant flow.
+        /// This member is required.
+        public var tokenEndpoint: Swift.String?
+
+        public init(
+            clientId: Swift.String? = nil,
+            tokenEndpoint: Swift.String? = nil
+        ) {
+            self.clientId = clientId
+            self.tokenEndpoint = tokenEndpoint
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only details for OAuth2 client credentials, containing non-sensitive configuration information.
+    public enum ReadClientCredentialsDetails: Swift.Sendable {
+        /// The read-only client credentials grant configuration details.
+        case readclientcredentialsgrantdetails(QuickSightClientTypes.ReadClientCredentialsGrantDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only metadata for OAuth2 client credentials grant authentication configuration.
+    public struct ReadClientCredentialsGrantMetadata: Swift.Sendable {
+        /// The base endpoint URL for the OAuth2 client credentials grant flow.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+        /// The source of client credentials for the OAuth2 client credentials grant flow.
+        public var clientCredentialsSource: QuickSightClientTypes.ClientCredentialsSource?
+        /// The read-only client credentials configuration details.
+        public var readClientCredentialsDetails: QuickSightClientTypes.ReadClientCredentialsDetails?
+
+        public init(
+            baseEndpoint: Swift.String? = nil,
+            clientCredentialsSource: QuickSightClientTypes.ClientCredentialsSource? = nil,
+            readClientCredentialsDetails: QuickSightClientTypes.ReadClientCredentialsDetails? = nil
+        ) {
+            self.baseEndpoint = baseEndpoint
+            self.clientCredentialsSource = clientCredentialsSource
+            self.readClientCredentialsDetails = readClientCredentialsDetails
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only metadata for IAM-based connections, containing role and source ARN information.
+    public struct ReadIamConnectionMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM role to assume for authentication.
+        /// This member is required.
+        public var roleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the source resource for IAM authentication.
+        /// This member is required.
+        public var sourceArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil,
+            sourceArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+            self.sourceArn = sourceArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only metadata for connections that do not require authentication credentials.
+    public struct ReadNoneConnectionMetadata: Swift.Sendable {
+        /// The base endpoint URL for connections that do not require authentication.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+
+        public init(
+            baseEndpoint: Swift.String? = nil
+        ) {
+            self.baseEndpoint = baseEndpoint
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only authentication metadata union containing non-sensitive configuration details for different authentication types.
+    public enum ReadAuthenticationMetadata: Swift.Sendable {
+        /// Read-only metadata for OAuth2 authorization code grant flow configuration.
+        case authorizationcodegrantmetadata(QuickSightClientTypes.ReadAuthorizationCodeGrantMetadata)
+        /// Read-only metadata for OAuth2 client credentials grant flow configuration.
+        case clientcredentialsgrantmetadata(QuickSightClientTypes.ReadClientCredentialsGrantMetadata)
+        /// Read-only metadata for basic authentication configuration.
+        case basicauthconnectionmetadata(QuickSightClientTypes.ReadBasicAuthConnectionMetadata)
+        /// Read-only metadata for API key authentication configuration.
+        case apikeyconnectionmetadata(QuickSightClientTypes.ReadAPIKeyConnectionMetadata)
+        /// Read-only metadata for connections that do not require authentication.
+        case noneconnectionmetadata(QuickSightClientTypes.ReadNoneConnectionMetadata)
+        /// Read-only metadata for IAM-based authentication configuration.
+        case iamconnectionmetadata(QuickSightClientTypes.ReadIamConnectionMetadata)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ConnectionAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiKey
+        case basic
+        case iam
+        case `none`
+        case oauth2AuthorizationCode
+        case oauth2ClientCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionAuthType] {
+            return [
+                .apiKey,
+                .basic,
+                .iam,
+                .none,
+                .oauth2AuthorizationCode,
+                .oauth2ClientCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .apiKey: return "API_KEY"
+            case .basic: return "BASIC"
+            case .iam: return "IAM"
+            case .none: return "NONE"
+            case .oauth2AuthorizationCode: return "OAUTH2_AUTHORIZATION_CODE"
+            case .oauth2ClientCredentials: return "OAUTH2_CLIENT_CREDENTIALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Read-only authentication configuration containing non-sensitive authentication details for action connectors.
+    public struct ReadAuthConfig: Swift.Sendable {
+        /// The authentication metadata containing configuration details specific to the authentication type.
+        /// This member is required.
+        public var authenticationMetadata: QuickSightClientTypes.ReadAuthenticationMetadata?
+        /// The type of authentication being used (BASIC, API_KEY, OAUTH2_CLIENT_CREDENTIALS, or OAUTH2_AUTHORIZATION_CODE).
+        /// This member is required.
+        public var authenticationType: QuickSightClientTypes.ConnectionAuthType?
+
+        public init(
+            authenticationMetadata: QuickSightClientTypes.ReadAuthenticationMetadata? = nil,
+            authenticationType: QuickSightClientTypes.ConnectionAuthType? = nil
+        ) {
+            self.authenticationMetadata = authenticationMetadata
+            self.authenticationType = authenticationType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ActionConnectorErrorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalFailure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionConnectorErrorType] {
+            return [
+                .internalFailure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Contains error information for an action connector that is in an error state.
+    public struct ActionConnectorError: Swift.Sendable {
+        /// The error message describing what went wrong with the action connector.
+        public var message: Swift.String?
+        /// The type or category of the error.
+        public var type: QuickSightClientTypes.ActionConnectorErrorType?
+
+        public init(
+            message: Swift.String? = nil,
+            type: QuickSightClientTypes.ActionConnectorErrorType? = nil
+        ) {
+            self.message = message
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationFailed
+        case creationInProgress
+        case creationSuccessful
+        case deleted
+        case updateFailed
+        case updateInProgress
+        case updateSuccessful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceStatus] {
+            return [
+                .creationFailed,
+                .creationInProgress,
+                .creationSuccessful,
+                .deleted,
+                .updateFailed,
+                .updateInProgress,
+                .updateSuccessful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationFailed: return "CREATION_FAILED"
+            case .creationInProgress: return "CREATION_IN_PROGRESS"
+            case .creationSuccessful: return "CREATION_SUCCESSFUL"
+            case .deleted: return "DELETED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateSuccessful: return "UPDATE_SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum ActionConnectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonBedrockAgentRuntime
+        case amazonBedrockDataAutomationRuntime
+        case amazonBedrockRuntime
+        case amazonComprehend
+        case amazonComprehendMedical
+        case amazonS3
+        case amazonTextract
+        case asana
+        case atlassianConfluence
+        case bambooHr
+        case genericHttp
+        case jiraCloud
+        case microsoftOnedrive
+        case microsoftOutlook
+        case microsoftSharepoint
+        case microsoftTeams
+        case pagerdutyAdvance
+        case salesforceCrm
+        case sapBillofmaterials
+        case sapBusinesspartner
+        case sapMaterialstock
+        case sapPhysicalinventory
+        case sapProductmasterdata
+        case servicenowNowPlatform
+        case slack
+        case smartsheet
+        case zendeskSuite
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionConnectorType] {
+            return [
+                .amazonBedrockAgentRuntime,
+                .amazonBedrockDataAutomationRuntime,
+                .amazonBedrockRuntime,
+                .amazonComprehend,
+                .amazonComprehendMedical,
+                .amazonS3,
+                .amazonTextract,
+                .asana,
+                .atlassianConfluence,
+                .bambooHr,
+                .genericHttp,
+                .jiraCloud,
+                .microsoftOnedrive,
+                .microsoftOutlook,
+                .microsoftSharepoint,
+                .microsoftTeams,
+                .pagerdutyAdvance,
+                .salesforceCrm,
+                .sapBillofmaterials,
+                .sapBusinesspartner,
+                .sapMaterialstock,
+                .sapPhysicalinventory,
+                .sapProductmasterdata,
+                .servicenowNowPlatform,
+                .slack,
+                .smartsheet,
+                .zendeskSuite
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonBedrockAgentRuntime: return "AMAZON_BEDROCK_AGENT_RUNTIME"
+            case .amazonBedrockDataAutomationRuntime: return "AMAZON_BEDROCK_DATA_AUTOMATION_RUNTIME"
+            case .amazonBedrockRuntime: return "AMAZON_BEDROCK_RUNTIME"
+            case .amazonComprehend: return "AMAZON_COMPREHEND"
+            case .amazonComprehendMedical: return "AMAZON_COMPREHEND_MEDICAL"
+            case .amazonS3: return "AMAZON_S3"
+            case .amazonTextract: return "AMAZON_TEXTRACT"
+            case .asana: return "ASANA"
+            case .atlassianConfluence: return "ATLASSIAN_CONFLUENCE"
+            case .bambooHr: return "BAMBOO_HR"
+            case .genericHttp: return "GENERIC_HTTP"
+            case .jiraCloud: return "JIRA_CLOUD"
+            case .microsoftOnedrive: return "MICROSOFT_ONEDRIVE"
+            case .microsoftOutlook: return "MICROSOFT_OUTLOOK"
+            case .microsoftSharepoint: return "MICROSOFT_SHAREPOINT"
+            case .microsoftTeams: return "MICROSOFT_TEAMS"
+            case .pagerdutyAdvance: return "PAGERDUTY_ADVANCE"
+            case .salesforceCrm: return "SALESFORCE_CRM"
+            case .sapBillofmaterials: return "SAP_BILLOFMATERIALS"
+            case .sapBusinesspartner: return "SAP_BUSINESSPARTNER"
+            case .sapMaterialstock: return "SAP_MATERIALSTOCK"
+            case .sapPhysicalinventory: return "SAP_PHYSICALINVENTORY"
+            case .sapProductmasterdata: return "SAP_PRODUCTMASTERDATA"
+            case .servicenowNowPlatform: return "SERVICENOW_NOW_PLATFORM"
+            case .slack: return "SLACK"
+            case .smartsheet: return "SMARTSHEET"
+            case .zendeskSuite: return "ZENDESK_SUITE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Contains detailed information about an action connector, including its configuration, status, and enabled actions.
+    public struct ActionConnector: Swift.Sendable {
+        /// The unique identifier of the action connector.
+        /// This member is required.
+        public var actionConnectorId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the action connector.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The authentication configuration used to connect to the external service.
+        public var authenticationConfig: QuickSightClientTypes.ReadAuthConfig?
+        /// The timestamp when the action connector was created.
+        public var createdTime: Foundation.Date?
+        /// The description of the action connector.
+        public var description: Swift.String?
+        /// The list of actions that are enabled for this connector.
+        public var enabledActions: [Swift.String]?
+        /// Error information if the action connector is in an error state.
+        public var error: QuickSightClientTypes.ActionConnectorError?
+        /// The date and time when the action connector was last updated.
+        /// This member is required.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The name of the action connector.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The current status of the action connector.
+        public var status: QuickSightClientTypes.ResourceStatus?
+        /// The type of action connector.
+        /// This member is required.
+        public var type: QuickSightClientTypes.ActionConnectorType?
+        /// The ARN of the VPC connection used for secure connectivity to the external service.
+        public var vpcConnectionArn: Swift.String?
+
+        public init(
+            actionConnectorId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            authenticationConfig: QuickSightClientTypes.ReadAuthConfig? = nil,
+            createdTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            enabledActions: [Swift.String]? = nil,
+            error: QuickSightClientTypes.ActionConnectorError? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: QuickSightClientTypes.ResourceStatus? = nil,
+            type: QuickSightClientTypes.ActionConnectorType? = nil,
+            vpcConnectionArn: Swift.String? = nil
+        ) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.authenticationConfig = authenticationConfig
+            self.createdTime = createdTime
+            self.description = description
+            self.enabledActions = enabledActions
+            self.error = error
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.status = status
+            self.type = type
+            self.vpcConnectionArn = vpcConnectionArn
+        }
+    }
+}
+
+extension QuickSightClientTypes.ActionConnector: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ActionConnector(actionConnectorId: \(Swift.String(describing: actionConnectorId)), arn: \(Swift.String(describing: arn)), authenticationConfig: \(Swift.String(describing: authenticationConfig)), createdTime: \(Swift.String(describing: createdTime)), enabledActions: \(Swift.String(describing: enabledActions)), error: \(Swift.String(describing: error)), lastUpdatedTime: \(Swift.String(describing: lastUpdatedTime)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), vpcConnectionArn: \(Swift.String(describing: vpcConnectionArn)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    public enum ActionConnectorSearchFilterNameEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actionConnectorName
+        case actionConnectorType
+        case directQuicksightOwner
+        case directQuicksightSoleOwner
+        case directQuicksightViewerOrOwner
+        case quicksightOwner
+        case quicksightViewerOrOwner
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionConnectorSearchFilterNameEnum] {
+            return [
+                .actionConnectorName,
+                .actionConnectorType,
+                .directQuicksightOwner,
+                .directQuicksightSoleOwner,
+                .directQuicksightViewerOrOwner,
+                .quicksightOwner,
+                .quicksightViewerOrOwner
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actionConnectorName: return "ACTION_CONNECTOR_NAME"
+            case .actionConnectorType: return "ACTION_CONNECTOR_TYPE"
+            case .directQuicksightOwner: return "DIRECT_QUICKSIGHT_OWNER"
+            case .directQuicksightSoleOwner: return "DIRECT_QUICKSIGHT_SOLE_OWNER"
+            case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+            case .quicksightOwner: return "QUICKSIGHT_OWNER"
+            case .quicksightViewerOrOwner: return "QUICKSIGHT_VIEWER_OR_OWNER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum FilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stringequals
+        case stringlike
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterOperator] {
+            return [
+                .stringequals,
+                .stringlike
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stringequals: return "StringEquals"
+            case .stringlike: return "StringLike"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter used to search for action connectors based on specific criteria.
+    public struct ActionConnectorSearchFilter: Swift.Sendable {
+        /// The name of the filter attribute (e.g., ACTION_CONNECTOR_NAME, ACTION_CONNECTOR_TYPE, QUICKSIGHT_VIEWER_OR_OWNER).
+        /// This member is required.
+        public var name: QuickSightClientTypes.ActionConnectorSearchFilterNameEnum?
+        /// The comparison operator to use for the filter (e.g., StringEquals, StringLike).
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.FilterOperator?
+        /// The value to compare against using the specified operator.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: QuickSightClientTypes.ActionConnectorSearchFilterNameEnum? = nil,
+            `operator`: QuickSightClientTypes.FilterOperator? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Contains summary information about an action connector, used in list and search operations.
+    public struct ActionConnectorSummary: Swift.Sendable {
+        /// The unique identifier of the action connector.
+        /// This member is required.
+        public var actionConnectorId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the action connector.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time when the action connector was created.
+        public var createdTime: Foundation.Date?
+        /// Error information if the action connector is in an error state.
+        public var error: QuickSightClientTypes.ActionConnectorError?
+        /// The date and time when the action connector was last updated.
+        /// This member is required.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The name of the action connector.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The current status of the action connector.
+        public var status: QuickSightClientTypes.ResourceStatus?
+        /// The type of action connector (e.g., SALESFORCE, JIRA, CUSTOM, BEDROCK).
+        /// This member is required.
+        public var type: QuickSightClientTypes.ActionConnectorType?
+
+        public init(
+            actionConnectorId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            error: QuickSightClientTypes.ActionConnectorError? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: QuickSightClientTypes.ResourceStatus? = nil,
+            type: QuickSightClientTypes.ActionConnectorType? = nil
+        ) {
+            self.actionConnectorId = actionConnectorId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.error = error
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes.ActionConnectorSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ActionConnectorSummary(actionConnectorId: \(Swift.String(describing: actionConnectorId)), arn: \(Swift.String(describing: arn)), createdTime: \(Swift.String(describing: createdTime)), error: \(Swift.String(describing: error)), lastUpdatedTime: \(Swift.String(describing: lastUpdatedTime)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -408,6 +1164,208 @@ extension QuickSightClientTypes {
             self.aggregationFunctionParameters = aggregationFunctionParameters
             self.period = period
             self.periodField = periodField
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// An aggregation function that concatenates values from multiple rows into a single string with a specified separator.
+    public struct DataPrepListAggregationFunction: Swift.Sendable {
+        /// Whether to include only distinct values in the concatenated result, removing duplicates.
+        /// This member is required.
+        public var distinct: Swift.Bool
+        /// The name of the column containing values to be concatenated.
+        public var inputColumnName: Swift.String?
+        /// The string used to separate values in the concatenated result.
+        /// This member is required.
+        public var separator: Swift.String?
+
+        public init(
+            distinct: Swift.Bool = false,
+            inputColumnName: Swift.String? = nil,
+            separator: Swift.String? = nil
+        ) {
+            self.distinct = distinct
+            self.inputColumnName = inputColumnName
+            self.separator = separator
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DataPrepSimpleAggregationFunctionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case average
+        case count
+        case distinctCount
+        case max
+        case min
+        case sum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataPrepSimpleAggregationFunctionType] {
+            return [
+                .average,
+                .count,
+                .distinctCount,
+                .max,
+                .min,
+                .sum
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "AVERAGE"
+            case .count: return "COUNT"
+            case .distinctCount: return "DISTINCT_COUNT"
+            case .max: return "MAX"
+            case .min: return "MIN"
+            case .sum: return "SUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A simple aggregation function that performs standard statistical operations on a column.
+    public struct DataPrepSimpleAggregationFunction: Swift.Sendable {
+        /// The type of aggregation function to perform, such as COUNT, SUM, AVERAGE, MIN, MAX, MEDIAN, VARIANCE, or STANDARD_DEVIATION.
+        /// This member is required.
+        public var functionType: QuickSightClientTypes.DataPrepSimpleAggregationFunctionType?
+        /// The name of the column on which to perform the aggregation function.
+        public var inputColumnName: Swift.String?
+
+        public init(
+            functionType: QuickSightClientTypes.DataPrepSimpleAggregationFunctionType? = nil,
+            inputColumnName: Swift.String? = nil
+        ) {
+            self.functionType = functionType
+            self.inputColumnName = inputColumnName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Defines the type of aggregation function to apply to data during data preparation, supporting simple and list aggregations.
+    public struct DataPrepAggregationFunction: Swift.Sendable {
+        /// A list aggregation function that concatenates values from multiple rows into a single delimited string.
+        public var listAggregation: QuickSightClientTypes.DataPrepListAggregationFunction?
+        /// A simple aggregation function such as SUM, COUNT, AVERAGE, MIN, MAX, MEDIAN, VARIANCE, or STANDARD_DEVIATION.
+        public var simpleAggregation: QuickSightClientTypes.DataPrepSimpleAggregationFunction?
+
+        public init(
+            listAggregation: QuickSightClientTypes.DataPrepListAggregationFunction? = nil,
+            simpleAggregation: QuickSightClientTypes.DataPrepSimpleAggregationFunction? = nil
+        ) {
+            self.listAggregation = listAggregation
+            self.simpleAggregation = simpleAggregation
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Defines an aggregation function to be applied to grouped data, creating a new column with the calculated result.
+    public struct Aggregation: Swift.Sendable {
+        /// The aggregation function to apply, such as SUM, COUNT, AVERAGE, MIN, MAX
+        /// This member is required.
+        public var aggregationFunction: QuickSightClientTypes.DataPrepAggregationFunction?
+        /// A unique identifier for the new column that will contain the aggregated values.
+        /// This member is required.
+        public var newColumnId: Swift.String?
+        /// The name for the new column that will contain the aggregated values.
+        /// This member is required.
+        public var newColumnName: Swift.String?
+
+        public init(
+            aggregationFunction: QuickSightClientTypes.DataPrepAggregationFunction? = nil,
+            newColumnId: Swift.String? = nil,
+            newColumnName: Swift.String? = nil
+        ) {
+            self.aggregationFunction = aggregationFunction
+            self.newColumnId = newColumnId
+            self.newColumnName = newColumnName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Maps a source column identifier to a target column identifier during transform operations.
+    public struct DataSetColumnIdMapping: Swift.Sendable {
+        /// Source column ID.
+        /// This member is required.
+        public var sourceColumnId: Swift.String?
+        /// Target column ID.
+        /// This member is required.
+        public var targetColumnId: Swift.String?
+
+        public init(
+            sourceColumnId: Swift.String? = nil,
+            targetColumnId: Swift.String? = nil
+        ) {
+            self.sourceColumnId = sourceColumnId
+            self.targetColumnId = targetColumnId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Specifies the source of data for a transform operation, including the source operation and column mappings.
+    public struct TransformOperationSource: Swift.Sendable {
+        /// The mappings between source column identifiers and target column identifiers for this transformation.
+        public var columnIdMappings: [QuickSightClientTypes.DataSetColumnIdMapping]?
+        /// The identifier of the transform operation that provides input data.
+        /// This member is required.
+        public var transformOperationId: Swift.String?
+
+        public init(
+            columnIdMappings: [QuickSightClientTypes.DataSetColumnIdMapping]? = nil,
+            transformOperationId: Swift.String? = nil
+        ) {
+            self.columnIdMappings = columnIdMappings
+            self.transformOperationId = transformOperationId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that groups rows by specified columns and applies aggregation functions to calculate summary values.
+    public struct AggregateOperation: Swift.Sendable {
+        /// The list of aggregation functions to apply to the grouped data, such as SUM, COUNT, or AVERAGE.
+        /// This member is required.
+        public var aggregations: [QuickSightClientTypes.Aggregation]?
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The list of column names to group by when performing the aggregation. Rows with the same values in these columns will be grouped together.
+        public var groupByColumnNames: [Swift.String]?
+        /// The source transform operation that provides input data for the aggregation.
+        /// This member is required.
+        public var source: QuickSightClientTypes.TransformOperationSource?
+
+        public init(
+            aggregations: [QuickSightClientTypes.Aggregation]? = nil,
+            alias: Swift.String? = nil,
+            groupByColumnNames: [Swift.String]? = nil,
+            source: QuickSightClientTypes.TransformOperationSource? = nil
+        ) {
+            self.aggregations = aggregations
+            self.alias = alias
+            self.groupByColumnNames = groupByColumnNames
+            self.source = source
         }
     }
 }
@@ -865,9 +1823,9 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The generative Q&A settings of an embedded Amazon QuickSight console.
+    /// The generative Q&A settings of an embedded Quick Sight console.
     public struct DataQnAConfigurations: Swift.Sendable {
-        /// The generative Q&A settings of an embedded Amazon QuickSight console.
+        /// The generative Q&A settings of an embedded Quick Sight console.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -881,9 +1839,9 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The data story settings of an embedded Amazon QuickSight console.
+    /// The data story settings of an embedded Quick Sight console.
     public struct DataStoriesConfigurations: Swift.Sendable {
-        /// The data story settings of an embedded Amazon QuickSight console.
+        /// The data story settings of an embedded Quick Sight console.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -897,9 +1855,9 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The executive summary settings of an embedded Amazon QuickSight console or dashboard.
+    /// The executive summary settings of an embedded Quick Sight console or dashboard.
     public struct ExecutiveSummaryConfigurations: Swift.Sendable {
-        /// The executive summary settings of an embedded Amazon QuickSight console or dashboard.
+        /// The executive summary settings of an embedded Quick Sight console or dashboard.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -913,9 +1871,9 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The generative BI authoring settings of an embedded Amazon QuickSight console.
+    /// The generative BI authoring settings of an embedded Quick Sight console.
     public struct GenerativeAuthoringConfigurations: Swift.Sendable {
-        /// The generative BI authoring settings of an embedded Amazon QuickSight console.
+        /// The generative BI authoring settings of an embedded Quick Sight console.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -929,15 +1887,15 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A collection of Amazon Q feature configurations in an embedded Amazon QuickSight console.
+    /// A collection of Amazon Q feature configurations in an embedded Quick Sight console.
     public struct AmazonQInQuickSightConsoleConfigurations: Swift.Sendable {
-        /// Adds generative Q&A capabilitiees to an embedded Amazon QuickSight console.
+        /// Adds generative Q&A capabilitiees to an embedded Quick Sight console.
         public var dataQnA: QuickSightClientTypes.DataQnAConfigurations?
-        /// Adds the data stories feature to an embedded Amazon QuickSight console.
+        /// Adds the data stories feature to an embedded Quick Sight console.
         public var dataStories: QuickSightClientTypes.DataStoriesConfigurations?
-        /// Adds the executive summaries feature to an embedded Amazon QuickSight console.
+        /// Adds the executive summaries feature to an embedded Quick Sight console.
         public var executiveSummary: QuickSightClientTypes.ExecutiveSummaryConfigurations?
-        /// Adds the generative BI authoring experience to an embedded Amazon QuickSight console.
+        /// Adds the generative BI authoring experience to an embedded Quick Sight console.
         public var generativeAuthoring: QuickSightClientTypes.GenerativeAuthoringConfigurations?
 
         public init(
@@ -956,9 +1914,9 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A collection of Amazon Q feature configurations in an embedded Amazon QuickSight dashboard.
+    /// A collection of Amazon Q feature configurations in an embedded Quick Sight dashboard.
     public struct AmazonQInQuickSightDashboardConfigurations: Swift.Sendable {
-        /// A generated executive summary of an embedded Amazon QuickSight dashboard.
+        /// A generated executive summary of an embedded Quick Sight dashboard.
         public var executiveSummary: QuickSightClientTypes.ExecutiveSummaryConfigurations?
 
         public init(
@@ -1641,11 +2599,11 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A sheet, which is an object that contains a set of visuals that are viewed together on one page in Amazon QuickSight. Every analysis and dashboard contains at least one sheet. Each sheet contains at least one visualization widget, for example a chart, pivot table, or narrative insight. Sheets can be associated with other components, such as controls, filters, and so on.
+    /// A sheet, which is an object that contains a set of visuals that are viewed together on one page in Quick Sight. Every analysis and dashboard contains at least one sheet. Each sheet contains at least one visualization widget, for example a chart, pivot table, or narrative insight. Sheets can be associated with other components, such as controls, filters, and so on.
     public struct Sheet: Swift.Sendable {
         /// A list of images on a sheet.
         public var images: [QuickSightClientTypes.SheetImage]?
-        /// The name of a sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
+        /// The name of a sheet. This name is displayed on the sheet's tab in the Quick Sight console.
         public var name: Swift.String?
         /// The unique identifier associated with a sheet.
         public var sheetId: Swift.String?
@@ -1664,51 +2622,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case creationFailed
-        case creationInProgress
-        case creationSuccessful
-        case deleted
-        case updateFailed
-        case updateInProgress
-        case updateSuccessful
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceStatus] {
-            return [
-                .creationFailed,
-                .creationInProgress,
-                .creationSuccessful,
-                .deleted,
-                .updateFailed,
-                .updateInProgress,
-                .updateSuccessful
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .creationFailed: return "CREATION_FAILED"
-            case .creationInProgress: return "CREATION_IN_PROGRESS"
-            case .creationSuccessful: return "CREATION_SUCCESSFUL"
-            case .deleted: return "DELETED"
-            case .updateFailed: return "UPDATE_FAILED"
-            case .updateInProgress: return "UPDATE_IN_PROGRESS"
-            case .updateSuccessful: return "UPDATE_SUCCESSFUL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// Metadata structure for an analysis in Amazon QuickSight
+    /// Metadata structure for an analysis in Quick Sight
     public struct Analysis: Swift.Sendable {
         /// The ID of the analysis.
         public var analysisId: Swift.String?
@@ -1841,9 +2755,9 @@ extension QuickSightClientTypes {
         public var optimizedViewPortWidth: Swift.String?
         /// This value determines the layout behavior when the viewport is resized.
         ///
-        /// * FIXED: A fixed width will be used when optimizing the layout. In the Amazon QuickSight console, this option is called Classic.
+        /// * FIXED: A fixed width will be used when optimizing the layout. In the Quick Sight console, this option is called Classic.
         ///
-        /// * RESPONSIVE: The width of the canvas will be responsive and optimized to the view port. In the Amazon QuickSight console, this option is called Tiled.
+        /// * RESPONSIVE: The width of the canvas will be responsive and optimized to the view port. In the Quick Sight console, this option is called Tiled.
         /// This member is required.
         public var resizeOption: QuickSightClientTypes.ResizeOption?
 
@@ -2263,6 +3177,218 @@ extension QuickSightClientTypes {
             customColors: [QuickSightClientTypes.CustomColor]? = nil
         ) {
             self.customColors = customColors
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DecalPatternType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case checkerboardLarge
+        case checkerboardMedium
+        case checkerboardSmall
+        case circleLarge
+        case circleMedium
+        case circleSmall
+        case diagonalLarge
+        case diagonalMedium
+        case diagonalOppositeLarge
+        case diagonalOppositeMedium
+        case diagonalOppositeSmall
+        case diagonalSmall
+        case diamondGridLarge
+        case diamondGridMedium
+        case diamondGridSmall
+        case diamondLarge
+        case diamondMedium
+        case diamondSmall
+        case solid
+        case triangleLarge
+        case triangleMedium
+        case triangleSmall
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DecalPatternType] {
+            return [
+                .checkerboardLarge,
+                .checkerboardMedium,
+                .checkerboardSmall,
+                .circleLarge,
+                .circleMedium,
+                .circleSmall,
+                .diagonalLarge,
+                .diagonalMedium,
+                .diagonalOppositeLarge,
+                .diagonalOppositeMedium,
+                .diagonalOppositeSmall,
+                .diagonalSmall,
+                .diamondGridLarge,
+                .diamondGridMedium,
+                .diamondGridSmall,
+                .diamondLarge,
+                .diamondMedium,
+                .diamondSmall,
+                .solid,
+                .triangleLarge,
+                .triangleMedium,
+                .triangleSmall
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .checkerboardLarge: return "CHECKERBOARD_LARGE"
+            case .checkerboardMedium: return "CHECKERBOARD_MEDIUM"
+            case .checkerboardSmall: return "CHECKERBOARD_SMALL"
+            case .circleLarge: return "CIRCLE_LARGE"
+            case .circleMedium: return "CIRCLE_MEDIUM"
+            case .circleSmall: return "CIRCLE_SMALL"
+            case .diagonalLarge: return "DIAGONAL_LARGE"
+            case .diagonalMedium: return "DIAGONAL_MEDIUM"
+            case .diagonalOppositeLarge: return "DIAGONAL_OPPOSITE_LARGE"
+            case .diagonalOppositeMedium: return "DIAGONAL_OPPOSITE_MEDIUM"
+            case .diagonalOppositeSmall: return "DIAGONAL_OPPOSITE_SMALL"
+            case .diagonalSmall: return "DIAGONAL_SMALL"
+            case .diamondGridLarge: return "DIAMOND_GRID_LARGE"
+            case .diamondGridMedium: return "DIAMOND_GRID_MEDIUM"
+            case .diamondGridSmall: return "DIAMOND_GRID_SMALL"
+            case .diamondLarge: return "DIAMOND_LARGE"
+            case .diamondMedium: return "DIAMOND_MEDIUM"
+            case .diamondSmall: return "DIAMOND_SMALL"
+            case .solid: return "SOLID"
+            case .triangleLarge: return "TRIANGLE_LARGE"
+            case .triangleMedium: return "TRIANGLE_MEDIUM"
+            case .triangleSmall: return "TRIANGLE_SMALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DecalStyleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DecalStyleType] {
+            return [
+                .auto,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "Auto"
+            case .manual: return "Manual"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Decal settings for accessibility features that define visual patterns and styling for data elements.
+    public struct DecalSettings: Swift.Sendable {
+        /// Color configuration for the decal pattern.
+        public var decalColor: Swift.String?
+        /// Type of pattern used for the decal, such as solid, diagonal, or circular patterns in various sizes.
+        ///
+        /// * SOLID: Solid fill pattern.
+        ///
+        /// * DIAGONAL_SMALL: Small diagonal stripes pattern.
+        ///
+        /// * DIAGONAL_MEDIUM: Medium diagonal stripes pattern.
+        ///
+        /// * DIAGONAL_LARGE: Large diagonal stripes pattern.
+        ///
+        /// * DIAGONAL_OPPOSITE_SMALL: Small cross-diagonal stripes pattern.
+        ///
+        /// * DIAGONAL_OPPOSITE_MEDIUM: Medium cross-diagonal stripes pattern.
+        ///
+        /// * DIAGONAL_OPPOSITE_LARGE: Large cross-diagonal stripes pattern.
+        ///
+        /// * CIRCLE_SMALL: Small circle pattern.
+        ///
+        /// * CIRCLE_MEDIUM: Medium circle pattern.
+        ///
+        /// * CIRCLE_LARGE: Large circle pattern.
+        ///
+        /// * DIAMOND_SMALL: Small diamonds pattern.
+        ///
+        /// * DIAMOND_MEDIUM: Medium diamonds pattern.
+        ///
+        /// * DIAMOND_LARGE: Large diamonds pattern.
+        ///
+        /// * DIAMOND_GRID_SMALL: Small diamond grid pattern.
+        ///
+        /// * DIAMOND_GRID_MEDIUM: Medium diamond grid pattern.
+        ///
+        /// * DIAMOND_GRID_LARGE: Large diamond grid pattern.
+        ///
+        /// * CHECKERBOARD_SMALL: Small checkerboard pattern.
+        ///
+        /// * CHECKERBOARD_MEDIUM: Medium checkerboard pattern.
+        ///
+        /// * CHECKERBOARD_LARGE: Large checkerboard pattern.
+        ///
+        /// * TRIANGLE_SMALL: Small triangles pattern.
+        ///
+        /// * TRIANGLE_MEDIUM: Medium triangles pattern.
+        ///
+        /// * TRIANGLE_LARGE: Large triangles pattern.
+        public var decalPatternType: QuickSightClientTypes.DecalPatternType?
+        /// Style type for the decal, which can be either manual or automatic. This field is only applicable for line series.
+        ///
+        /// * Manual: Apply manual line and marker configuration for line series.
+        ///
+        /// * Auto: Apply automatic line and marker configuration for line series.
+        public var decalStyleType: QuickSightClientTypes.DecalStyleType?
+        /// Visibility setting for the decal pattern.
+        public var decalVisibility: QuickSightClientTypes.Visibility?
+        /// Field value of the field that you are setting the decal pattern to. Applicable only for field level settings.
+        public var elementValue: Swift.String?
+
+        public init(
+            decalColor: Swift.String? = nil,
+            decalPatternType: QuickSightClientTypes.DecalPatternType? = nil,
+            decalStyleType: QuickSightClientTypes.DecalStyleType? = nil,
+            decalVisibility: QuickSightClientTypes.Visibility? = nil,
+            elementValue: Swift.String? = nil
+        ) {
+            self.decalColor = decalColor
+            self.decalPatternType = decalPatternType
+            self.decalStyleType = decalStyleType
+            self.decalVisibility = decalVisibility
+            self.elementValue = elementValue
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Decal settings configuration for a column
+    public struct DecalSettingsConfiguration: Swift.Sendable {
+        /// A list of up to 50 decal settings.
+        public var customDecalSettings: [QuickSightClientTypes.DecalSettings]?
+
+        public init(
+            customDecalSettings: [QuickSightClientTypes.DecalSettings]? = nil
+        ) {
+            self.customDecalSettings = customDecalSettings
         }
     }
 }
@@ -2772,6 +3898,8 @@ extension QuickSightClientTypes {
         /// The column.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// Decal configuration of the column.
+        public var decalSettingsConfiguration: QuickSightClientTypes.DecalSettingsConfiguration?
         /// The format configuration of a column.
         public var formatConfiguration: QuickSightClientTypes.FormatConfiguration?
         /// The role of the column.
@@ -2780,11 +3908,13 @@ extension QuickSightClientTypes {
         public init(
             colorsConfiguration: QuickSightClientTypes.ColorsConfiguration? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            decalSettingsConfiguration: QuickSightClientTypes.DecalSettingsConfiguration? = nil,
             formatConfiguration: QuickSightClientTypes.FormatConfiguration? = nil,
             role: QuickSightClientTypes.ColumnRole? = nil
         ) {
             self.colorsConfiguration = colorsConfiguration
             self.column = column
+            self.decalSettingsConfiguration = decalSettingsConfiguration
             self.formatConfiguration = formatConfiguration
             self.role = role
         }
@@ -3060,9 +4190,9 @@ extension QuickSightClientTypes {
     public struct CategoryFilterConfiguration: Swift.Sendable {
         /// A custom filter that filters based on a single value. This filter can be partially matched.
         public var customFilterConfiguration: QuickSightClientTypes.CustomFilterConfiguration?
-        /// A list of custom filter values. In the Amazon QuickSight console, this filter type is called a custom filter list.
+        /// A list of custom filter values. In the Quick Sight console, this filter type is called a custom filter list.
         public var customFilterListConfiguration: QuickSightClientTypes.CustomFilterListConfiguration?
-        /// A list of filter configurations. In the Amazon QuickSight console, this filter type is called a filter list.
+        /// A list of filter configurations. In the Quick Sight console, this filter type is called a filter list.
         public var filterListConfiguration: QuickSightClientTypes.FilterListConfiguration?
 
         public init(
@@ -3896,7 +5026,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon QuickSight User Guide.
+    /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon Quick Suite User Guide.
     public struct CategoryFilter: Swift.Sendable {
         /// The column that the filter is applied to.
         /// This member is required.
@@ -4576,7 +5706,7 @@ extension QuickSightClientTypes {
 
     /// With a Filter, you can remove portions of data from a particular visual or view. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct Filter: Swift.Sendable {
-        /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon QuickSight User Guide.
+        /// A CategoryFilter filters text values. For more information, see [Adding text filters](https://docs.aws.amazon.com/quicksight/latest/user/add-a-text-filter-data-prep.html) in the Amazon Quick Suite User Guide.
         public var categoryFilter: QuickSightClientTypes.CategoryFilter?
         /// A NestedFilter filters data with a subset of data that is defined by the nested inner filter.
         public var nestedFilter: QuickSightClientTypes.NestedFilter?
@@ -4709,7 +5839,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A grouping of individual filters. Filter groups are applied to the same group of visuals. For more information, see [Adding filter conditions (group filters) with AND and OR operators](https://docs.aws.amazon.com/quicksight/latest/user/add-a-compound-filter.html) in the Amazon QuickSight User Guide.
+    /// A grouping of individual filters. Filter groups are applied to the same group of visuals. For more information, see [Adding filter conditions (group filters) with AND and OR operators](https://docs.aws.amazon.com/quicksight/latest/user/add-a-compound-filter.html) in the Amazon Quick Suite User Guide.
     public struct FilterGroup: Swift.Sendable {
         /// The filter new feature which can apply filter group to all data sets. Choose one of the following options:
         ///
@@ -5361,7 +6491,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The declaration definition of a parameter. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    /// The declaration definition of a parameter. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct ParameterDeclaration: Swift.Sendable {
         /// A parameter declaration for the DateTime data type.
         public var dateTimeParameterDeclaration: QuickSightClientTypes.DateTimeParameterDeclaration?
@@ -5848,13 +6978,17 @@ extension QuickSightClientTypes {
         public var color: Swift.String?
         /// The border visibility of a free-form layout element.
         public var visibility: QuickSightClientTypes.Visibility?
+        /// The border width of a free-form layout element.
+        public var width: Swift.String?
 
         public init(
             color: Swift.String? = nil,
-            visibility: QuickSightClientTypes.Visibility? = nil
+            visibility: QuickSightClientTypes.Visibility? = nil,
+            width: Swift.String? = nil
         ) {
             self.color = color
             self.visibility = visibility
+            self.width = width
         }
     }
 }
@@ -5963,6 +7097,8 @@ extension QuickSightClientTypes {
     public struct FreeFormLayoutElement: Swift.Sendable {
         /// The background style configuration of a free-form layout element.
         public var backgroundStyle: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle?
+        /// The border radius of a free-form layout element.
+        public var borderRadius: Swift.String?
         /// The border style configuration of a free-form layout element.
         public var borderStyle: QuickSightClientTypes.FreeFormLayoutElementBorderStyle?
         /// A unique identifier for an element within a free-form layout.
@@ -5976,6 +7112,8 @@ extension QuickSightClientTypes {
         public var height: Swift.String?
         /// The loading animation configuration of a free-form layout element.
         public var loadingAnimation: QuickSightClientTypes.LoadingAnimation?
+        /// The padding of a free-form layout element.
+        public var padding: Swift.String?
         /// The rendering rules that determine when an element should be displayed within a free-form layout.
         public var renderingRules: [QuickSightClientTypes.SheetElementRenderingRule]?
         /// The border style configuration of a free-form layout element. This border style is used when the element is selected.
@@ -5994,11 +7132,13 @@ extension QuickSightClientTypes {
 
         public init(
             backgroundStyle: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle? = nil,
+            borderRadius: Swift.String? = nil,
             borderStyle: QuickSightClientTypes.FreeFormLayoutElementBorderStyle? = nil,
             elementId: Swift.String? = nil,
             elementType: QuickSightClientTypes.LayoutElementType? = nil,
             height: Swift.String? = nil,
             loadingAnimation: QuickSightClientTypes.LoadingAnimation? = nil,
+            padding: Swift.String? = nil,
             renderingRules: [QuickSightClientTypes.SheetElementRenderingRule]? = nil,
             selectedBorderStyle: QuickSightClientTypes.FreeFormLayoutElementBorderStyle? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil,
@@ -6007,11 +7147,13 @@ extension QuickSightClientTypes {
             yAxisLocation: Swift.String? = nil
         ) {
             self.backgroundStyle = backgroundStyle
+            self.borderRadius = borderRadius
             self.borderStyle = borderStyle
             self.elementId = elementId
             self.elementType = elementType
             self.height = height
             self.loadingAnimation = loadingAnimation
+            self.padding = padding
             self.renderingRules = renderingRules
             self.selectedBorderStyle = selectedBorderStyle
             self.visibility = visibility
@@ -6044,8 +7186,56 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The background style configuration of a grid layout element.
+    public struct GridLayoutElementBackgroundStyle: Swift.Sendable {
+        /// The background color of a grid layout element.
+        public var color: Swift.String?
+        /// The background visibility of a grid layout element.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            color: Swift.String? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil
+        ) {
+            self.color = color
+            self.visibility = visibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The border style configuration of a grid layout element.
+    public struct GridLayoutElementBorderStyle: Swift.Sendable {
+        /// The border color of a grid layout element.
+        public var color: Swift.String?
+        /// The border visibility of a grid layout element.
+        public var visibility: QuickSightClientTypes.Visibility?
+        /// The border width of a grid layout element.
+        public var width: Swift.String?
+
+        public init(
+            color: Swift.String? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil,
+            width: Swift.String? = nil
+        ) {
+            self.color = color
+            self.visibility = visibility
+            self.width = width
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// An element within a grid layout.
     public struct GridLayoutElement: Swift.Sendable {
+        /// The background style configuration of a grid layout element.
+        public var backgroundStyle: QuickSightClientTypes.GridLayoutElementBackgroundStyle?
+        /// The border radius of a grid layout element.
+        public var borderRadius: Swift.String?
+        /// The border style configuration of a grid layout element.
+        public var borderStyle: QuickSightClientTypes.GridLayoutElementBorderStyle?
         /// The column index for the upper left corner of an element.
         public var columnIndex: Swift.Int?
         /// The width of a grid element expressed as a number of grid columns.
@@ -6057,26 +7247,44 @@ extension QuickSightClientTypes {
         /// The type of element.
         /// This member is required.
         public var elementType: QuickSightClientTypes.LayoutElementType?
+        /// The configuration of loading animation in free-form layout.
+        public var loadingAnimation: QuickSightClientTypes.LoadingAnimation?
+        /// The padding of a grid layout element.
+        public var padding: Swift.String?
         /// The row index for the upper left corner of an element.
         public var rowIndex: Swift.Int?
         /// The height of a grid element expressed as a number of grid rows.
         /// This member is required.
         public var rowSpan: Swift.Int?
+        /// The border style configuration of a grid layout element. This border style is used when the element is selected.
+        public var selectedBorderStyle: QuickSightClientTypes.GridLayoutElementBorderStyle?
 
         public init(
+            backgroundStyle: QuickSightClientTypes.GridLayoutElementBackgroundStyle? = nil,
+            borderRadius: Swift.String? = nil,
+            borderStyle: QuickSightClientTypes.GridLayoutElementBorderStyle? = nil,
             columnIndex: Swift.Int? = nil,
             columnSpan: Swift.Int? = nil,
             elementId: Swift.String? = nil,
             elementType: QuickSightClientTypes.LayoutElementType? = nil,
+            loadingAnimation: QuickSightClientTypes.LoadingAnimation? = nil,
+            padding: Swift.String? = nil,
             rowIndex: Swift.Int? = nil,
-            rowSpan: Swift.Int? = nil
+            rowSpan: Swift.Int? = nil,
+            selectedBorderStyle: QuickSightClientTypes.GridLayoutElementBorderStyle? = nil
         ) {
+            self.backgroundStyle = backgroundStyle
+            self.borderRadius = borderRadius
+            self.borderStyle = borderStyle
             self.columnIndex = columnIndex
             self.columnSpan = columnSpan
             self.elementId = elementId
             self.elementType = elementType
+            self.loadingAnimation = loadingAnimation
+            self.padding = padding
             self.rowIndex = rowIndex
             self.rowSpan = rowSpan
+            self.selectedBorderStyle = selectedBorderStyle
         }
     }
 }
@@ -6470,7 +7678,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A Layout defines the placement of elements within a sheet. For more information, see [Types of layout](https://docs.aws.amazon.com/quicksight/latest/user/types-of-layout.html) in the Amazon QuickSight User Guide. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    /// A Layout defines the placement of elements within a sheet. For more information, see [Types of layout](https://docs.aws.amazon.com/quicksight/latest/user/types-of-layout.html) in the Amazon Quick Suite User Guide. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct Layout: Swift.Sendable {
         /// The configuration that determines what the type of layout for a sheet.
         /// This member is required.
@@ -7741,6 +8949,48 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Border settings configuration for visual elements, including visibility, width, and color properties.
+    public struct BorderSettings: Swift.Sendable {
+        /// Color of the border.
+        public var borderColor: Swift.String?
+        /// Visibility setting for the border.
+        public var borderVisibility: QuickSightClientTypes.Visibility?
+        /// Width of the border. Valid range is from 1px to 8px.
+        public var borderWidth: Swift.String?
+
+        public init(
+            borderColor: Swift.String? = nil,
+            borderVisibility: QuickSightClientTypes.Visibility? = nil,
+            borderWidth: Swift.String? = nil
+        ) {
+            self.borderColor = borderColor
+            self.borderVisibility = borderVisibility
+            self.borderWidth = borderWidth
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The options that determine the default presentation of all bar series in BarChartVisual.
+    public struct BarChartDefaultSeriesSettings: Swift.Sendable {
+        /// Border settings for all bar series in the visual.
+        public var borderSettings: QuickSightClientTypes.BorderSettings?
+        /// Decal settings for all bar series in the visual.
+        public var decalSettings: QuickSightClientTypes.DecalSettings?
+
+        public init(
+            borderSettings: QuickSightClientTypes.BorderSettings? = nil,
+            decalSettings: QuickSightClientTypes.DecalSettings? = nil
+        ) {
+            self.borderSettings = borderSettings
+            self.decalSettings = decalSettings
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The dimension type field with categorical type columns..
     public struct CategoricalDimensionField: Swift.Sendable {
         /// The column that is used in the CategoricalDimensionField.
@@ -8613,6 +9863,93 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Options that determine the presentation of a bar series in the visual.
+    public struct BarChartSeriesSettings: Swift.Sendable {
+        /// Border settings for the bar series.
+        public var borderSettings: QuickSightClientTypes.BorderSettings?
+        /// Decal settings for the bar series.
+        public var decalSettings: QuickSightClientTypes.DecalSettings?
+
+        public init(
+            borderSettings: QuickSightClientTypes.BorderSettings? = nil,
+            decalSettings: QuickSightClientTypes.DecalSettings? = nil
+        ) {
+            self.borderSettings = borderSettings
+            self.decalSettings = decalSettings
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The data field series item configuration of a BarChartVisual.
+    public struct DataFieldBarSeriesItem: Swift.Sendable {
+        /// Field ID of the field that you are setting the series configuration for.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// Field value of the field that you are setting the series configuration for.
+        public var fieldValue: Swift.String?
+        /// Options that determine the presentation of bar series associated to the field.
+        public var settings: QuickSightClientTypes.BarChartSeriesSettings?
+
+        public init(
+            fieldId: Swift.String? = nil,
+            fieldValue: Swift.String? = nil,
+            settings: QuickSightClientTypes.BarChartSeriesSettings? = nil
+        ) {
+            self.fieldId = fieldId
+            self.fieldValue = fieldValue
+            self.settings = settings
+        }
+    }
+}
+
+extension QuickSightClientTypes.DataFieldBarSeriesItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataFieldBarSeriesItem(fieldId: \(Swift.String(describing: fieldId)), settings: \(Swift.String(describing: settings)), fieldValue: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The field series item configuration of a BarChartVisual.
+    public struct FieldBarSeriesItem: Swift.Sendable {
+        /// Field ID of the field for which you are setting the series configuration.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// Options that determine the presentation of bar series associated to the field.
+        public var settings: QuickSightClientTypes.BarChartSeriesSettings?
+
+        public init(
+            fieldId: Swift.String? = nil,
+            settings: QuickSightClientTypes.BarChartSeriesSettings? = nil
+        ) {
+            self.fieldId = fieldId
+            self.settings = settings
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The series item configuration of a BarChartVisual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct BarSeriesItem: Swift.Sendable {
+        /// The data field series item configuration of a BarChartVisual.
+        public var dataFieldBarSeriesItem: QuickSightClientTypes.DataFieldBarSeriesItem?
+        /// The field series item configuration of a BarChartVisual.
+        public var fieldBarSeriesItem: QuickSightClientTypes.FieldBarSeriesItem?
+
+        public init(
+            dataFieldBarSeriesItem: QuickSightClientTypes.DataFieldBarSeriesItem? = nil,
+            fieldBarSeriesItem: QuickSightClientTypes.FieldBarSeriesItem? = nil
+        ) {
+            self.dataFieldBarSeriesItem = dataFieldBarSeriesItem
+            self.fieldBarSeriesItem = fieldBarSeriesItem
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum PanelBorderStyle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dashed
         case dotted
@@ -9356,6 +10693,8 @@ extension QuickSightClientTypes {
         public var contributionAnalysisDefaults: [QuickSightClientTypes.ContributionAnalysisDefault]?
         /// The options that determine if visual data labels are displayed.
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
+        /// The options that determine the default presentation of all bar series in BarChartVisual.
+        public var defaultSeriesSettings: QuickSightClientTypes.BarChartDefaultSeriesSettings?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.BarChartFieldWells?
         /// The general visual interactions setup for a visual.
@@ -9370,6 +10709,8 @@ extension QuickSightClientTypes {
         public var orientation: QuickSightClientTypes.BarChartOrientation?
         /// The reference line setup of the visual.
         public var referenceLines: [QuickSightClientTypes.ReferenceLine]?
+        /// The series item configuration of a BarChartVisual.
+        public var series: [QuickSightClientTypes.BarSeriesItem]?
         /// The small multiples setup for the visual.
         public var smallMultiplesOptions: QuickSightClientTypes.SmallMultiplesOptions?
         /// The sort configuration of a BarChartVisual.
@@ -9390,11 +10731,13 @@ extension QuickSightClientTypes {
             colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             contributionAnalysisDefaults: [QuickSightClientTypes.ContributionAnalysisDefault]? = nil,
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
+            defaultSeriesSettings: QuickSightClientTypes.BarChartDefaultSeriesSettings? = nil,
             fieldWells: QuickSightClientTypes.BarChartFieldWells? = nil,
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             orientation: QuickSightClientTypes.BarChartOrientation? = nil,
             referenceLines: [QuickSightClientTypes.ReferenceLine]? = nil,
+            series: [QuickSightClientTypes.BarSeriesItem]? = nil,
             smallMultiplesOptions: QuickSightClientTypes.SmallMultiplesOptions? = nil,
             sortConfiguration: QuickSightClientTypes.BarChartSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
@@ -9408,11 +10751,13 @@ extension QuickSightClientTypes {
             self.colorLabelOptions = colorLabelOptions
             self.contributionAnalysisDefaults = contributionAnalysisDefaults
             self.dataLabels = dataLabels
+            self.defaultSeriesSettings = defaultSeriesSettings
             self.fieldWells = fieldWells
             self.interactions = interactions
             self.legend = legend
             self.orientation = orientation
             self.referenceLines = referenceLines
+            self.series = series
             self.smallMultiplesOptions = smallMultiplesOptions
             self.sortConfiguration = sortConfiguration
             self.tooltip = tooltip
@@ -9705,7 +11050,7 @@ extension QuickSightClientTypes {
     /// * Vertical stacked 100% bar chart
     ///
     ///
-    /// For more information, see [Using bar charts](https://docs.aws.amazon.com/quicksight/latest/user/bar-charts.html) in the Amazon QuickSight User Guide.
+    /// For more information, see [Using bar charts](https://docs.aws.amazon.com/quicksight/latest/user/bar-charts.html) in the Amazon Quick Suite User Guide.
     public struct BarChartVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -9945,7 +11290,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A box plot. For more information, see [Using box plots](https://docs.aws.amazon.com/quicksight/latest/user/box-plots.html) in the Amazon QuickSight User Guide.
+    /// A box plot. For more information, see [Using box plots](https://docs.aws.amazon.com/quicksight/latest/user/box-plots.html) in the Amazon Quick Suite User Guide.
     public struct BoxPlotVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -9979,6 +11324,211 @@ extension QuickSightClientTypes {
             self.title = title
             self.visualContentAltText = visualContentAltText
             self.visualId = visualId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum LineInterpolation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linear
+        case smooth
+        case stepped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineInterpolation] {
+            return [
+                .linear,
+                .smooth,
+                .stepped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linear: return "LINEAR"
+            case .smooth: return "SMOOTH"
+            case .stepped: return "STEPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum LineChartLineStyle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dashed
+        case dotted
+        case solid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineChartLineStyle] {
+            return [
+                .dashed,
+                .dotted,
+                .solid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dashed: return "DASHED"
+            case .dotted: return "DOTTED"
+            case .solid: return "SOLID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Line styles options for a line series in LineChartVisual.
+    public struct LineChartLineStyleSettings: Swift.Sendable {
+        /// Interpolation style for line series.
+        ///
+        /// * LINEAR: Show as default, linear style.
+        ///
+        /// * SMOOTH: Show as a smooth curve.
+        ///
+        /// * STEPPED: Show steps in line.
+        public var lineInterpolation: QuickSightClientTypes.LineInterpolation?
+        /// Line style for line series.
+        ///
+        /// * SOLID: Show as a solid line.
+        ///
+        /// * DOTTED: Show as a dotted line.
+        ///
+        /// * DASHED: Show as a dashed line.
+        public var lineStyle: QuickSightClientTypes.LineChartLineStyle?
+        /// Configuration option that determines whether to show the line for the series.
+        public var lineVisibility: QuickSightClientTypes.Visibility?
+        /// Width that determines the line thickness.
+        public var lineWidth: Swift.String?
+
+        public init(
+            lineInterpolation: QuickSightClientTypes.LineInterpolation? = nil,
+            lineStyle: QuickSightClientTypes.LineChartLineStyle? = nil,
+            lineVisibility: QuickSightClientTypes.Visibility? = nil,
+            lineWidth: Swift.String? = nil
+        ) {
+            self.lineInterpolation = lineInterpolation
+            self.lineStyle = lineStyle
+            self.lineVisibility = lineVisibility
+            self.lineWidth = lineWidth
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum LineChartMarkerShape: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case circle
+        case diamond
+        case roundedSquare
+        case square
+        case triangle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineChartMarkerShape] {
+            return [
+                .circle,
+                .diamond,
+                .roundedSquare,
+                .square,
+                .triangle
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .circle: return "CIRCLE"
+            case .diamond: return "DIAMOND"
+            case .roundedSquare: return "ROUNDED_SQUARE"
+            case .square: return "SQUARE"
+            case .triangle: return "TRIANGLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Marker styles options for a line series in LineChartVisual.
+    public struct LineChartMarkerStyleSettings: Swift.Sendable {
+        /// Color of marker in the series.
+        public var markerColor: Swift.String?
+        /// Shape option for markers in the series.
+        ///
+        /// * CIRCLE: Show marker as a circle.
+        ///
+        /// * TRIANGLE: Show marker as a triangle.
+        ///
+        /// * SQUARE: Show marker as a square.
+        ///
+        /// * DIAMOND: Show marker as a diamond.
+        ///
+        /// * ROUNDED_SQUARE: Show marker as a rounded square.
+        public var markerShape: QuickSightClientTypes.LineChartMarkerShape?
+        /// Size of marker in the series.
+        public var markerSize: Swift.String?
+        /// Configuration option that determines whether to show the markers in the series.
+        public var markerVisibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            markerColor: Swift.String? = nil,
+            markerShape: QuickSightClientTypes.LineChartMarkerShape? = nil,
+            markerSize: Swift.String? = nil,
+            markerVisibility: QuickSightClientTypes.Visibility? = nil
+        ) {
+            self.markerColor = markerColor
+            self.markerShape = markerShape
+            self.markerSize = markerSize
+            self.markerVisibility = markerVisibility
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The options that determine the default presentation of all series in ComboChartVisual.
+    public struct ComboChartDefaultSeriesSettings: Swift.Sendable {
+        /// Border settings for all bar series in the visual.
+        public var borderSettings: QuickSightClientTypes.BorderSettings?
+        /// Decal settings for all series in the visual.
+        public var decalSettings: QuickSightClientTypes.DecalSettings?
+        /// Line styles options for all line series in the visual.
+        public var lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings?
+        /// Marker styles options for all line series in the visual.
+        public var markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings?
+
+        public init(
+            borderSettings: QuickSightClientTypes.BorderSettings? = nil,
+            decalSettings: QuickSightClientTypes.DecalSettings? = nil,
+            lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings? = nil,
+            markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil
+        ) {
+            self.borderSettings = borderSettings
+            self.decalSettings = decalSettings
+            self.lineStyleSettings = lineStyleSettings
+            self.markerStyleSettings = markerStyleSettings
         }
     }
 }
@@ -10021,6 +11571,101 @@ extension QuickSightClientTypes {
             comboChartAggregatedFieldWells: QuickSightClientTypes.ComboChartAggregatedFieldWells? = nil
         ) {
             self.comboChartAggregatedFieldWells = comboChartAggregatedFieldWells
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Options that determine the presentation of a series in the visual.
+    public struct ComboChartSeriesSettings: Swift.Sendable {
+        /// Border settings for the bar series in the visual.
+        public var borderSettings: QuickSightClientTypes.BorderSettings?
+        /// Decal settings for the series in the visual.
+        public var decalSettings: QuickSightClientTypes.DecalSettings?
+        /// Line styles options for the line series in the visual.
+        public var lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings?
+        /// Marker styles options for the line series in the visual.
+        public var markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings?
+
+        public init(
+            borderSettings: QuickSightClientTypes.BorderSettings? = nil,
+            decalSettings: QuickSightClientTypes.DecalSettings? = nil,
+            lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings? = nil,
+            markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil
+        ) {
+            self.borderSettings = borderSettings
+            self.decalSettings = decalSettings
+            self.lineStyleSettings = lineStyleSettings
+            self.markerStyleSettings = markerStyleSettings
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The data field series item configuration of a ComboChartVisual.
+    public struct DataFieldComboSeriesItem: Swift.Sendable {
+        /// Field ID of the field that you are setting the series configuration for.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// Field value of the field that you are setting the series configuration for.
+        public var fieldValue: Swift.String?
+        /// Options that determine the presentation of series associated to the field.
+        public var settings: QuickSightClientTypes.ComboChartSeriesSettings?
+
+        public init(
+            fieldId: Swift.String? = nil,
+            fieldValue: Swift.String? = nil,
+            settings: QuickSightClientTypes.ComboChartSeriesSettings? = nil
+        ) {
+            self.fieldId = fieldId
+            self.fieldValue = fieldValue
+            self.settings = settings
+        }
+    }
+}
+
+extension QuickSightClientTypes.DataFieldComboSeriesItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataFieldComboSeriesItem(fieldId: \(Swift.String(describing: fieldId)), settings: \(Swift.String(describing: settings)), fieldValue: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The field series item configuration of a ComboChartVisual.
+    public struct FieldComboSeriesItem: Swift.Sendable {
+        /// Field ID of the field for which you are setting the series configuration.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// Options that determine the presentation of series associated to the field.
+        public var settings: QuickSightClientTypes.ComboChartSeriesSettings?
+
+        public init(
+            fieldId: Swift.String? = nil,
+            settings: QuickSightClientTypes.ComboChartSeriesSettings? = nil
+        ) {
+            self.fieldId = fieldId
+            self.settings = settings
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The series item configuration of a ComboChartVisual. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct ComboSeriesItem: Swift.Sendable {
+        /// The data field series item configuration of a ComboChartVisual.
+        public var dataFieldComboSeriesItem: QuickSightClientTypes.DataFieldComboSeriesItem?
+        /// The field series item configuration of a ComboChartVisual.
+        public var fieldComboSeriesItem: QuickSightClientTypes.FieldComboSeriesItem?
+
+        public init(
+            dataFieldComboSeriesItem: QuickSightClientTypes.DataFieldComboSeriesItem? = nil,
+            fieldComboSeriesItem: QuickSightClientTypes.FieldComboSeriesItem? = nil
+        ) {
+            self.dataFieldComboSeriesItem = dataFieldComboSeriesItem
+            self.fieldComboSeriesItem = fieldComboSeriesItem
         }
     }
 }
@@ -10129,6 +11774,8 @@ extension QuickSightClientTypes {
         public var categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The label options (label text, label visibility, and sort icon visibility) of a combo chart's color field well.
         public var colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
+        /// The options that determine the default presentation of all series in ComboChartVisual.
+        public var defaultSeriesSettings: QuickSightClientTypes.ComboChartDefaultSeriesSettings?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.ComboChartFieldWells?
         /// The general visual interactions setup for a visual.
@@ -10147,6 +11794,8 @@ extension QuickSightClientTypes {
         public var secondaryYAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions?
         /// The label options (label text, label visibility, and sort icon visibility) of a combo chart's secondary y-axis(line) field well.
         public var secondaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
+        /// The series item configuration of a ComboChartVisual.
+        public var series: [QuickSightClientTypes.ComboSeriesItem]?
         /// The settings of a chart's single axis configuration.
         public var singleAxisOptions: QuickSightClientTypes.SingleAxisOptions?
         /// The sort configuration of a ComboChartVisual.
@@ -10162,6 +11811,7 @@ extension QuickSightClientTypes {
             categoryAxis: QuickSightClientTypes.AxisDisplayOptions? = nil,
             categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
+            defaultSeriesSettings: QuickSightClientTypes.ComboChartDefaultSeriesSettings? = nil,
             fieldWells: QuickSightClientTypes.ComboChartFieldWells? = nil,
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
@@ -10171,6 +11821,7 @@ extension QuickSightClientTypes {
             referenceLines: [QuickSightClientTypes.ReferenceLine]? = nil,
             secondaryYAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             secondaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
+            series: [QuickSightClientTypes.ComboSeriesItem]? = nil,
             singleAxisOptions: QuickSightClientTypes.SingleAxisOptions? = nil,
             sortConfiguration: QuickSightClientTypes.ComboChartSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
@@ -10181,6 +11832,7 @@ extension QuickSightClientTypes {
             self.categoryAxis = categoryAxis
             self.categoryLabelOptions = categoryLabelOptions
             self.colorLabelOptions = colorLabelOptions
+            self.defaultSeriesSettings = defaultSeriesSettings
             self.fieldWells = fieldWells
             self.interactions = interactions
             self.legend = legend
@@ -10190,6 +11842,7 @@ extension QuickSightClientTypes {
             self.referenceLines = referenceLines
             self.secondaryYAxisDisplayOptions = secondaryYAxisDisplayOptions
             self.secondaryYAxisLabelOptions = secondaryYAxisLabelOptions
+            self.series = series
             self.singleAxisOptions = singleAxisOptions
             self.sortConfiguration = sortConfiguration
             self.tooltip = tooltip
@@ -10200,7 +11853,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A combo chart. The ComboChartVisual includes stacked bar combo charts and clustered bar combo charts For more information, see [Using combo charts](https://docs.aws.amazon.com/quicksight/latest/user/combo-charts.html) in the Amazon QuickSight User Guide.
+    /// A combo chart. The ComboChartVisual includes stacked bar combo charts and clustered bar combo charts For more information, see [Using combo charts](https://docs.aws.amazon.com/quicksight/latest/user/combo-charts.html) in the Amazon Quick Suite User Guide.
     public struct ComboChartVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -10331,7 +11984,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A visual that contains custom content. For more information, see [Using custom visual content](https://docs.aws.amazon.com/quicksight/latest/user/custom-visual-content.html) in the Amazon QuickSight User Guide.
+    /// A visual that contains custom content. For more information, see [Using custom visual content](https://docs.aws.amazon.com/quicksight/latest/user/custom-visual-content.html) in the Amazon Quick Suite User Guide.
     public struct CustomContentVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -10372,7 +12025,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// An empty visual. Empty visuals are used in layouts but have not been configured to show any data. A new visual created in the Amazon QuickSight console is considered an EmptyVisual until a visual type is selected.
+    /// An empty visual. Empty visuals are used in layouts but have not been configured to show any data. A new visual created in the Quick Sight console is considered an EmptyVisual until a visual type is selected.
     public struct EmptyVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -10791,7 +12444,92 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A filled map. For more information, see [Creating filled maps](https://docs.aws.amazon.com/quicksight/latest/user/filled-maps.html) in the Amazon QuickSight User Guide.
+    /// The preference coordinate for the geocode preference.
+    public struct Coordinate: Swift.Sendable {
+        /// The latitude coordinate value for the geocode preference.
+        /// This member is required.
+        public var latitude: Swift.Double?
+        /// The longitude coordinate value for the geocode preference.
+        /// This member is required.
+        public var longitude: Swift.Double?
+
+        public init(
+            latitude: Swift.Double? = nil,
+            longitude: Swift.Double? = nil
+        ) {
+            self.latitude = latitude
+            self.longitude = longitude
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The preference hierarchy for the geocode preference.
+    public struct GeocoderHierarchy: Swift.Sendable {
+        /// The city value for the preference hierarchy.
+        public var city: Swift.String?
+        /// The country value for the preference hierarchy.
+        public var country: Swift.String?
+        /// The county/district value for the preference hierarchy.
+        public var county: Swift.String?
+        /// The postcode value for the preference hierarchy.
+        public var postCode: Swift.String?
+        /// The state/region value for the preference hierarchy.
+        public var state: Swift.String?
+
+        public init(
+            city: Swift.String? = nil,
+            country: Swift.String? = nil,
+            county: Swift.String? = nil,
+            postCode: Swift.String? = nil,
+            state: Swift.String? = nil
+        ) {
+            self.city = city
+            self.country = country
+            self.county = county
+            self.postCode = postCode
+            self.state = state
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The preference value for the geocode preference.
+    public enum GeocodePreferenceValue: Swift.Sendable {
+        /// The preference hierarchy for the geocode preference.
+        case geocoderhierarchy(QuickSightClientTypes.GeocoderHierarchy)
+        /// The preference coordinate for the geocode preference.
+        case coordinate(QuickSightClientTypes.Coordinate)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The geocode preference.
+    public struct GeocodePreference: Swift.Sendable {
+        /// The preference definition for the geocode preference.
+        /// This member is required.
+        public var preference: QuickSightClientTypes.GeocodePreferenceValue?
+        /// The unique request key for the geocode preference.
+        /// This member is required.
+        public var requestKey: QuickSightClientTypes.GeocoderHierarchy?
+
+        public init(
+            preference: QuickSightClientTypes.GeocodePreferenceValue? = nil,
+            requestKey: QuickSightClientTypes.GeocoderHierarchy? = nil
+        ) {
+            self.preference = preference
+            self.requestKey = requestKey
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filled map. For more information, see [Creating filled maps](https://docs.aws.amazon.com/quicksight/latest/user/filled-maps.html) in the Amazon Quick Suite User Guide.
     public struct FilledMapVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -10801,6 +12539,8 @@ extension QuickSightClientTypes {
         public var columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]?
         /// The conditional formatting of a FilledMapVisual.
         public var conditionalFormatting: QuickSightClientTypes.FilledMapConditionalFormatting?
+        /// The geocoding prefences for filled map visual.
+        public var geocodingPreferences: [QuickSightClientTypes.GeocodePreference]?
         /// The subtitle that is displayed on the visual.
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
@@ -10816,6 +12556,7 @@ extension QuickSightClientTypes {
             chartConfiguration: QuickSightClientTypes.FilledMapConfiguration? = nil,
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
             conditionalFormatting: QuickSightClientTypes.FilledMapConditionalFormatting? = nil,
+            geocodingPreferences: [QuickSightClientTypes.GeocodePreference]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
@@ -10825,6 +12566,7 @@ extension QuickSightClientTypes {
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
             self.conditionalFormatting = conditionalFormatting
+            self.geocodingPreferences = geocodingPreferences
             self.subtitle = subtitle
             self.title = title
             self.visualContentAltText = visualContentAltText
@@ -11008,7 +12750,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A funnel chart. For more information, see [Using funnel charts](https://docs.aws.amazon.com/quicksight/latest/user/funnel-visual-content.html) in the Amazon QuickSight User Guide.
+    /// A funnel chart. For more information, see [Using funnel charts](https://docs.aws.amazon.com/quicksight/latest/user/funnel-visual-content.html) in the Amazon Quick Suite User Guide.
     public struct FunnelChartVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -11716,7 +13458,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A gauge chart. For more information, see [Using gauge charts](https://docs.aws.amazon.com/quicksight/latest/user/gauge-chart.html) in the Amazon QuickSight User Guide.
+    /// A gauge chart. For more information, see [Using gauge charts](https://docs.aws.amazon.com/quicksight/latest/user/gauge-chart.html) in the Amazon Quick Suite User Guide.
     public struct GaugeChartVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -11983,7 +13725,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A geospatial map or a points on map visual. For more information, see [Creating point maps](https://docs.aws.amazon.com/quicksight/latest/user/point-maps.html) in the Amazon QuickSight User Guide.
+    /// A geospatial map or a points on map visual. For more information, see [Creating point maps](https://docs.aws.amazon.com/quicksight/latest/user/point-maps.html) in the Amazon Quick Suite User Guide.
     public struct GeospatialMapVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -11991,6 +13733,8 @@ extension QuickSightClientTypes {
         public var chartConfiguration: QuickSightClientTypes.GeospatialMapConfiguration?
         /// The column hierarchy that is used during drill-downs and drill-ups.
         public var columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]?
+        /// The geocoding prefences for geospatial map.
+        public var geocodingPreferences: [QuickSightClientTypes.GeocodePreference]?
         /// The subtitle that is displayed on the visual.
         public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
         /// The title that is displayed on the visual.
@@ -12005,6 +13749,7 @@ extension QuickSightClientTypes {
             actions: [QuickSightClientTypes.VisualCustomAction]? = nil,
             chartConfiguration: QuickSightClientTypes.GeospatialMapConfiguration? = nil,
             columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
+            geocodingPreferences: [QuickSightClientTypes.GeocodePreference]? = nil,
             subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
             title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
             visualContentAltText: Swift.String? = nil,
@@ -12013,6 +13758,7 @@ extension QuickSightClientTypes {
             self.actions = actions
             self.chartConfiguration = chartConfiguration
             self.columnHierarchies = columnHierarchies
+            self.geocodingPreferences = geocodingPreferences
             self.subtitle = subtitle
             self.title = title
             self.visualContentAltText = visualContentAltText
@@ -12216,7 +13962,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A heat map. For more information, see [Using heat maps](https://docs.aws.amazon.com/quicksight/latest/user/heat-map.html) in the Amazon QuickSight User Guide.
+    /// A heat map. For more information, see [Using heat maps](https://docs.aws.amazon.com/quicksight/latest/user/heat-map.html) in the Amazon Quick Suite User Guide.
     public struct HeatMapVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -12423,7 +14169,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A histogram. For more information, see [Using histograms](https://docs.aws.amazon.com/quicksight/latest/user/histogram-charts.html) in the Amazon QuickSight User Guide.
+    /// A histogram. For more information, see [Using histograms](https://docs.aws.amazon.com/quicksight/latest/user/histogram-charts.html) in the Amazon Quick Suite User Guide.
     public struct HistogramVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -13028,7 +14774,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// An insight visual. For more information, see [Working with insights](https://docs.aws.amazon.com/quicksight/latest/user/computational-insights.html) in the Amazon QuickSight User Guide.
+    /// An insight visual. For more information, see [Working with insights](https://docs.aws.amazon.com/quicksight/latest/user/computational-insights.html) in the Amazon Quick Suite User Guide.
     public struct InsightVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -13457,7 +15203,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A key performance indicator (KPI). For more information, see [Using KPIs](https://docs.aws.amazon.com/quicksight/latest/user/kpi.html) in the Amazon QuickSight User Guide.
+    /// A key performance indicator (KPI). For more information, see [Using KPIs](https://docs.aws.amazon.com/quicksight/latest/user/kpi.html) in the Amazon Quick Suite User Guide.
     public struct KPIVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -14337,188 +16083,12 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    public enum LineInterpolation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case linear
-        case smooth
-        case stepped
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LineInterpolation] {
-            return [
-                .linear,
-                .smooth,
-                .stepped
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .linear: return "LINEAR"
-            case .smooth: return "SMOOTH"
-            case .stepped: return "STEPPED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum LineChartLineStyle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case dashed
-        case dotted
-        case solid
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LineChartLineStyle] {
-            return [
-                .dashed,
-                .dotted,
-                .solid
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .dashed: return "DASHED"
-            case .dotted: return "DOTTED"
-            case .solid: return "SOLID"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// Line styles options for a line series in LineChartVisual.
-    public struct LineChartLineStyleSettings: Swift.Sendable {
-        /// Interpolation style for line series.
-        ///
-        /// * LINEAR: Show as default, linear style.
-        ///
-        /// * SMOOTH: Show as a smooth curve.
-        ///
-        /// * STEPPED: Show steps in line.
-        public var lineInterpolation: QuickSightClientTypes.LineInterpolation?
-        /// Line style for line series.
-        ///
-        /// * SOLID: Show as a solid line.
-        ///
-        /// * DOTTED: Show as a dotted line.
-        ///
-        /// * DASHED: Show as a dashed line.
-        public var lineStyle: QuickSightClientTypes.LineChartLineStyle?
-        /// Configuration option that determines whether to show the line for the series.
-        public var lineVisibility: QuickSightClientTypes.Visibility?
-        /// Width that determines the line thickness.
-        public var lineWidth: Swift.String?
-
-        public init(
-            lineInterpolation: QuickSightClientTypes.LineInterpolation? = nil,
-            lineStyle: QuickSightClientTypes.LineChartLineStyle? = nil,
-            lineVisibility: QuickSightClientTypes.Visibility? = nil,
-            lineWidth: Swift.String? = nil
-        ) {
-            self.lineInterpolation = lineInterpolation
-            self.lineStyle = lineStyle
-            self.lineVisibility = lineVisibility
-            self.lineWidth = lineWidth
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum LineChartMarkerShape: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case circle
-        case diamond
-        case roundedSquare
-        case square
-        case triangle
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LineChartMarkerShape] {
-            return [
-                .circle,
-                .diamond,
-                .roundedSquare,
-                .square,
-                .triangle
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .circle: return "CIRCLE"
-            case .diamond: return "DIAMOND"
-            case .roundedSquare: return "ROUNDED_SQUARE"
-            case .square: return "SQUARE"
-            case .triangle: return "TRIANGLE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// Marker styles options for a line series in LineChartVisual.
-    public struct LineChartMarkerStyleSettings: Swift.Sendable {
-        /// Color of marker in the series.
-        public var markerColor: Swift.String?
-        /// Shape option for markers in the series.
-        ///
-        /// * CIRCLE: Show marker as a circle.
-        ///
-        /// * TRIANGLE: Show marker as a triangle.
-        ///
-        /// * SQUARE: Show marker as a square.
-        ///
-        /// * DIAMOND: Show marker as a diamond.
-        ///
-        /// * ROUNDED_SQUARE: Show marker as a rounded square.
-        public var markerShape: QuickSightClientTypes.LineChartMarkerShape?
-        /// Size of marker in the series.
-        public var markerSize: Swift.String?
-        /// Configuration option that determines whether to show the markers in the series.
-        public var markerVisibility: QuickSightClientTypes.Visibility?
-
-        public init(
-            markerColor: Swift.String? = nil,
-            markerShape: QuickSightClientTypes.LineChartMarkerShape? = nil,
-            markerSize: Swift.String? = nil,
-            markerVisibility: QuickSightClientTypes.Visibility? = nil
-        ) {
-            self.markerColor = markerColor
-            self.markerShape = markerShape
-            self.markerSize = markerSize
-            self.markerVisibility = markerVisibility
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     /// The options that determine the default presentation of all line series in LineChartVisual.
     public struct LineChartDefaultSeriesSettings: Swift.Sendable {
         /// The axis to which you are binding all line series to.
         public var axisBinding: QuickSightClientTypes.AxisBinding?
+        /// Decal settings options for all line series in the visual.
+        public var decalSettings: QuickSightClientTypes.DecalSettings?
         /// Line styles options for all line series in the visual.
         public var lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings?
         /// Marker styles options for all line series in the visual.
@@ -14526,10 +16096,12 @@ extension QuickSightClientTypes {
 
         public init(
             axisBinding: QuickSightClientTypes.AxisBinding? = nil,
+            decalSettings: QuickSightClientTypes.DecalSettings? = nil,
             lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings? = nil,
             markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil
         ) {
             self.axisBinding = axisBinding
+            self.decalSettings = decalSettings
             self.lineStyleSettings = lineStyleSettings
             self.markerStyleSettings = markerStyleSettings
         }
@@ -14778,15 +16350,19 @@ extension QuickSightClientTypes {
 
     /// The options that determine the presentation of a line series in the visual
     public struct LineChartSeriesSettings: Swift.Sendable {
+        /// Decal settings for a line series in LineChartVisual.
+        public var decalSettings: QuickSightClientTypes.DecalSettings?
         /// Line styles options for a line series in LineChartVisual.
         public var lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings?
         /// Marker styles options for a line series in LineChartVisual.
         public var markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings?
 
         public init(
+            decalSettings: QuickSightClientTypes.DecalSettings? = nil,
             lineStyleSettings: QuickSightClientTypes.LineChartLineStyleSettings? = nil,
             markerStyleSettings: QuickSightClientTypes.LineChartMarkerStyleSettings? = nil
         ) {
+            self.decalSettings = decalSettings
             self.lineStyleSettings = lineStyleSettings
             self.markerStyleSettings = markerStyleSettings
         }
@@ -15031,7 +16607,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A line chart. For more information, see [Using line charts](https://docs.aws.amazon.com/quicksight/latest/user/line-charts.html) in the Amazon QuickSight User Guide.
+    /// A line chart. For more information, see [Using line charts](https://docs.aws.amazon.com/quicksight/latest/user/line-charts.html) in the Amazon Quick Suite User Guide.
     public struct LineChartVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -15123,7 +16699,7 @@ extension QuickSightClientTypes {
 
     /// The label options of the label that is displayed in the center of a donut chart. This option isn't available for pie charts.
     public struct DonutCenterOptions: Swift.Sendable {
-        /// Determines the visibility of the label in a donut chart. In the Amazon QuickSight console, this option is called 'Show total'.
+        /// Determines the visibility of the label in a donut chart. In the Quick Sight console, this option is called 'Show total'.
         public var labelVisibility: QuickSightClientTypes.Visibility?
 
         public init(
@@ -15294,7 +16870,7 @@ extension QuickSightClientTypes {
     /// * Donut charts
     ///
     ///
-    /// For more information, see [Using pie charts](https://docs.aws.amazon.com/quicksight/latest/user/pie-chart.html) in the Amazon QuickSight User Guide. For more information, see [Using donut charts](https://docs.aws.amazon.com/quicksight/latest/user/donut-chart.html) in the Amazon QuickSight User Guide.
+    /// For more information, see [Using pie charts](https://docs.aws.amazon.com/quicksight/latest/user/pie-chart.html) in the Amazon Quick Suite User Guide. For more information, see [Using donut charts](https://docs.aws.amazon.com/quicksight/latest/user/donut-chart.html) in the Amazon Quick Suite User Guide.
     public struct PieChartVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -15328,6 +16904,69 @@ extension QuickSightClientTypes {
             self.title = title
             self.visualContentAltText = visualContentAltText
             self.visualId = visualId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DashboardCustomizationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashboardCustomizationStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The configuration that controls field customization options available to dashboard readers for a visual.
+    public struct VisualCustomizationFieldsConfiguration: Swift.Sendable {
+        /// The additional dataset fields available for dashboard readers to customize the visual with, beyond the fields already configured on the visual.
+        public var additionalFields: [QuickSightClientTypes.ColumnIdentifier]?
+        /// Specifies whether dashboard readers can customize fields for this visual. This option is ENABLED by default.
+        public var status: QuickSightClientTypes.DashboardCustomizationStatus?
+
+        public init(
+            additionalFields: [QuickSightClientTypes.ColumnIdentifier]? = nil,
+            status: QuickSightClientTypes.DashboardCustomizationStatus? = nil
+        ) {
+            self.additionalFields = additionalFields
+            self.status = status
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The options that define customizations available to dashboard readers for a specific visual
+    public struct DashboardCustomizationVisualOptions: Swift.Sendable {
+        /// The configuration that controls field customization options available to dashboard readers for a visual.
+        public var fieldsConfiguration: QuickSightClientTypes.VisualCustomizationFieldsConfiguration?
+
+        public init(
+            fieldsConfiguration: QuickSightClientTypes.VisualCustomizationFieldsConfiguration? = nil
+        ) {
+            self.fieldsConfiguration = fieldsConfiguration
         }
     }
 }
@@ -16338,6 +17977,8 @@ extension QuickSightClientTypes {
 
     /// The configuration for a PivotTableVisual.
     public struct PivotTableConfiguration: Swift.Sendable {
+        /// The options that define customizations available to dashboard readers for a specific visual
+        public var dashboardCustomizationVisualOptions: QuickSightClientTypes.DashboardCustomizationVisualOptions?
         /// The field options for a pivot table visual.
         public var fieldOptions: QuickSightClientTypes.PivotTableFieldOptions?
         /// The field wells of the visual.
@@ -16354,6 +17995,7 @@ extension QuickSightClientTypes {
         public var totalOptions: QuickSightClientTypes.PivotTableTotalOptions?
 
         public init(
+            dashboardCustomizationVisualOptions: QuickSightClientTypes.DashboardCustomizationVisualOptions? = nil,
             fieldOptions: QuickSightClientTypes.PivotTableFieldOptions? = nil,
             fieldWells: QuickSightClientTypes.PivotTableFieldWells? = nil,
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
@@ -16362,6 +18004,7 @@ extension QuickSightClientTypes {
             tableOptions: QuickSightClientTypes.PivotTableOptions? = nil,
             totalOptions: QuickSightClientTypes.PivotTableTotalOptions? = nil
         ) {
+            self.dashboardCustomizationVisualOptions = dashboardCustomizationVisualOptions
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -16503,7 +18146,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A pivot table. For more information, see [Using pivot tables](https://docs.aws.amazon.com/quicksight/latest/user/pivot-table.html) in the Amazon QuickSight User Guide.
+    /// A pivot table. For more information, see [Using pivot tables](https://docs.aws.amazon.com/quicksight/latest/user/pivot-table.html) in the Amazon Quick Suite User Guide.
     public struct PivotTableVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -16705,7 +18348,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A flexible visualization type that allows engineers to create new custom charts in Amazon QuickSight.
+    /// A flexible visualization type that allows engineers to create new custom charts in Quick Sight.
     public struct PluginVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -17105,7 +18748,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A sankey diagram. For more information, see [Using Sankey diagrams](https://docs.aws.amazon.com/quicksight/latest/user/sankey-diagram.html) in the Amazon QuickSight User Guide.
+    /// A sankey diagram. For more information, see [Using Sankey diagrams](https://docs.aws.amazon.com/quicksight/latest/user/sankey-diagram.html) in the Amazon Quick Suite User Guide.
     public struct SankeyDiagramVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -17292,7 +18935,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A scatter plot. For more information, see [Using scatter plots](https://docs.aws.amazon.com/quicksight/latest/user/scatter-plot.html) in the Amazon QuickSight User Guide.
+    /// A scatter plot. For more information, see [Using scatter plots](https://docs.aws.amazon.com/quicksight/latest/user/scatter-plot.html) in the Amazon Quick Suite User Guide.
     public struct ScatterPlotVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -17868,6 +19511,8 @@ extension QuickSightClientTypes {
 
     /// The configuration for a TableVisual.
     public struct TableConfiguration: Swift.Sendable {
+        /// The options that define customizations available to dashboard readers for a specific visual
+        public var dashboardCustomizationVisualOptions: QuickSightClientTypes.DashboardCustomizationVisualOptions?
         /// The field options for a table visual.
         public var fieldOptions: QuickSightClientTypes.TableFieldOptions?
         /// The field wells of the visual.
@@ -17886,6 +19531,7 @@ extension QuickSightClientTypes {
         public var totalOptions: QuickSightClientTypes.TotalOptions?
 
         public init(
+            dashboardCustomizationVisualOptions: QuickSightClientTypes.DashboardCustomizationVisualOptions? = nil,
             fieldOptions: QuickSightClientTypes.TableFieldOptions? = nil,
             fieldWells: QuickSightClientTypes.TableFieldWells? = nil,
             interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
@@ -17895,6 +19541,7 @@ extension QuickSightClientTypes {
             tableOptions: QuickSightClientTypes.TableOptions? = nil,
             totalOptions: QuickSightClientTypes.TotalOptions? = nil
         ) {
+            self.dashboardCustomizationVisualOptions = dashboardCustomizationVisualOptions
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
             self.interactions = interactions
@@ -17982,7 +19629,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A table visual. For more information, see [Using tables as visuals](https://docs.aws.amazon.com/quicksight/latest/user/tabular.html) in the Amazon QuickSight User Guide.
+    /// A table visual. For more information, see [Using tables as visuals](https://docs.aws.amazon.com/quicksight/latest/user/tabular.html) in the Amazon Quick Suite User Guide.
     public struct TableVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -18130,7 +19777,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A tree map. For more information, see [Using tree maps](https://docs.aws.amazon.com/quicksight/latest/user/tree-map.html) in the Amazon QuickSight User Guide.
+    /// A tree map. For more information, see [Using tree maps](https://docs.aws.amazon.com/quicksight/latest/user/tree-map.html) in the Amazon Quick Suite User Guide.
     public struct TreeMapVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -18339,7 +19986,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A waterfall chart. For more information, see [Using waterfall charts](https://docs.aws.amazon.com/quicksight/latest/user/waterfall-chart.html) in the Amazon QuickSight User Guide.
+    /// A waterfall chart. For more information, see [Using waterfall charts](https://docs.aws.amazon.com/quicksight/latest/user/waterfall-chart.html) in the Amazon Quick Suite User Guide.
     public struct WaterfallVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -18649,7 +20296,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A word cloud. For more information, see [Using word clouds](https://docs.aws.amazon.com/quicksight/latest/user/word-cloud.html) in the Amazon QuickSight User Guide.
+    /// A word cloud. For more information, see [Using word clouds](https://docs.aws.amazon.com/quicksight/latest/user/word-cloud.html) in the Amazon Quick Suite User Guide.
     public struct WordCloudVisual: Swift.Sendable {
         /// The list of custom actions that are configured for a visual.
         public var actions: [QuickSightClientTypes.VisualCustomAction]?
@@ -18691,55 +20338,55 @@ extension QuickSightClientTypes {
 
     /// A visual displayed on a sheet in an analysis, dashboard, or template. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct Visual: Swift.Sendable {
-        /// A bar chart. For more information, see [Using bar charts](https://docs.aws.amazon.com/quicksight/latest/user/bar-charts.html) in the Amazon QuickSight User Guide.
+        /// A bar chart. For more information, see [Using bar charts](https://docs.aws.amazon.com/quicksight/latest/user/bar-charts.html) in the Amazon Quick Suite User Guide.
         public var barChartVisual: QuickSightClientTypes.BarChartVisual?
-        /// A box plot. For more information, see [Using box plots](https://docs.aws.amazon.com/quicksight/latest/user/box-plots.html) in the Amazon QuickSight User Guide.
+        /// A box plot. For more information, see [Using box plots](https://docs.aws.amazon.com/quicksight/latest/user/box-plots.html) in the Amazon Quick Suite User Guide.
         public var boxPlotVisual: QuickSightClientTypes.BoxPlotVisual?
-        /// A combo chart. For more information, see [Using combo charts](https://docs.aws.amazon.com/quicksight/latest/user/combo-charts.html) in the Amazon QuickSight User Guide.
+        /// A combo chart. For more information, see [Using combo charts](https://docs.aws.amazon.com/quicksight/latest/user/combo-charts.html) in the Amazon Quick Suite User Guide.
         public var comboChartVisual: QuickSightClientTypes.ComboChartVisual?
-        /// A visual that contains custom content. For more information, see [Using custom visual content](https://docs.aws.amazon.com/quicksight/latest/user/custom-visual-content.html) in the Amazon QuickSight User Guide.
+        /// A visual that contains custom content. For more information, see [Using custom visual content](https://docs.aws.amazon.com/quicksight/latest/user/custom-visual-content.html) in the Amazon Quick Suite User Guide.
         public var customContentVisual: QuickSightClientTypes.CustomContentVisual?
         /// An empty visual.
         public var emptyVisual: QuickSightClientTypes.EmptyVisual?
-        /// A filled map. For more information, see [Creating filled maps](https://docs.aws.amazon.com/quicksight/latest/user/filled-maps.html) in the Amazon QuickSight User Guide.
+        /// A filled map. For more information, see [Creating filled maps](https://docs.aws.amazon.com/quicksight/latest/user/filled-maps.html) in the Amazon Quick Suite User Guide.
         public var filledMapVisual: QuickSightClientTypes.FilledMapVisual?
-        /// A funnel chart. For more information, see [Using funnel charts](https://docs.aws.amazon.com/quicksight/latest/user/funnel-visual-content.html) in the Amazon QuickSight User Guide.
+        /// A funnel chart. For more information, see [Using funnel charts](https://docs.aws.amazon.com/quicksight/latest/user/funnel-visual-content.html) in the Amazon Quick Suite User Guide.
         public var funnelChartVisual: QuickSightClientTypes.FunnelChartVisual?
-        /// A gauge chart. For more information, see [Using gauge charts](https://docs.aws.amazon.com/quicksight/latest/user/gauge-chart.html) in the Amazon QuickSight User Guide.
+        /// A gauge chart. For more information, see [Using gauge charts](https://docs.aws.amazon.com/quicksight/latest/user/gauge-chart.html) in the Amazon Quick Suite User Guide.
         public var gaugeChartVisual: QuickSightClientTypes.GaugeChartVisual?
-        /// A geospatial map or a points on map visual. For more information, see [Creating point maps](https://docs.aws.amazon.com/quicksight/latest/user/point-maps.html) in the Amazon QuickSight User Guide.
+        /// A geospatial map or a points on map visual. For more information, see [Creating point maps](https://docs.aws.amazon.com/quicksight/latest/user/point-maps.html) in the Amazon Quick Suite User Guide.
         public var geospatialMapVisual: QuickSightClientTypes.GeospatialMapVisual?
-        /// A heat map. For more information, see [Using heat maps](https://docs.aws.amazon.com/quicksight/latest/user/heat-map.html) in the Amazon QuickSight User Guide.
+        /// A heat map. For more information, see [Using heat maps](https://docs.aws.amazon.com/quicksight/latest/user/heat-map.html) in the Amazon Quick Suite User Guide.
         public var heatMapVisual: QuickSightClientTypes.HeatMapVisual?
-        /// A histogram. For more information, see [Using histograms](https://docs.aws.amazon.com/quicksight/latest/user/histogram-charts.html) in the Amazon QuickSight User Guide.
+        /// A histogram. For more information, see [Using histograms](https://docs.aws.amazon.com/quicksight/latest/user/histogram-charts.html) in the Amazon Quick Suite User Guide.
         public var histogramVisual: QuickSightClientTypes.HistogramVisual?
-        /// An insight visual. For more information, see [Working with insights](https://docs.aws.amazon.com/quicksight/latest/user/computational-insights.html) in the Amazon QuickSight User Guide.
+        /// An insight visual. For more information, see [Working with insights](https://docs.aws.amazon.com/quicksight/latest/user/computational-insights.html) in the Amazon Quick Suite User Guide.
         public var insightVisual: QuickSightClientTypes.InsightVisual?
-        /// A key performance indicator (KPI). For more information, see [Using KPIs](https://docs.aws.amazon.com/quicksight/latest/user/kpi.html) in the Amazon QuickSight User Guide.
+        /// A key performance indicator (KPI). For more information, see [Using KPIs](https://docs.aws.amazon.com/quicksight/latest/user/kpi.html) in the Amazon Quick Suite User Guide.
         public var kpiVisual: QuickSightClientTypes.KPIVisual?
         /// The properties for a layer map visual
         public var layerMapVisual: QuickSightClientTypes.LayerMapVisual?
-        /// A line chart. For more information, see [Using line charts](https://docs.aws.amazon.com/quicksight/latest/user/line-charts.html) in the Amazon QuickSight User Guide.
+        /// A line chart. For more information, see [Using line charts](https://docs.aws.amazon.com/quicksight/latest/user/line-charts.html) in the Amazon Quick Suite User Guide.
         public var lineChartVisual: QuickSightClientTypes.LineChartVisual?
-        /// A pie or donut chart. For more information, see [Using pie charts](https://docs.aws.amazon.com/quicksight/latest/user/pie-chart.html) in the Amazon QuickSight User Guide.
+        /// A pie or donut chart. For more information, see [Using pie charts](https://docs.aws.amazon.com/quicksight/latest/user/pie-chart.html) in the Amazon Quick Suite User Guide.
         public var pieChartVisual: QuickSightClientTypes.PieChartVisual?
-        /// A pivot table. For more information, see [Using pivot tables](https://docs.aws.amazon.com/quicksight/latest/user/pivot-table.html) in the Amazon QuickSight User Guide.
+        /// A pivot table. For more information, see [Using pivot tables](https://docs.aws.amazon.com/quicksight/latest/user/pivot-table.html) in the Amazon Quick Suite User Guide.
         public var pivotTableVisual: QuickSightClientTypes.PivotTableVisual?
         /// The custom plugin visual type.
         public var pluginVisual: QuickSightClientTypes.PluginVisual?
-        /// A radar chart visual. For more information, see [Using radar charts](https://docs.aws.amazon.com/quicksight/latest/user/radar-chart.html) in the Amazon QuickSight User Guide.
+        /// A radar chart visual. For more information, see [Using radar charts](https://docs.aws.amazon.com/quicksight/latest/user/radar-chart.html) in the Amazon Quick Suite User Guide.
         public var radarChartVisual: QuickSightClientTypes.RadarChartVisual?
-        /// A sankey diagram. For more information, see [Using Sankey diagrams](https://docs.aws.amazon.com/quicksight/latest/user/sankey-diagram.html) in the Amazon QuickSight User Guide.
+        /// A sankey diagram. For more information, see [Using Sankey diagrams](https://docs.aws.amazon.com/quicksight/latest/user/sankey-diagram.html) in the Amazon Quick Suite User Guide.
         public var sankeyDiagramVisual: QuickSightClientTypes.SankeyDiagramVisual?
-        /// A scatter plot. For more information, see [Using scatter plots](https://docs.aws.amazon.com/quicksight/latest/user/scatter-plot.html) in the Amazon QuickSight User Guide.
+        /// A scatter plot. For more information, see [Using scatter plots](https://docs.aws.amazon.com/quicksight/latest/user/scatter-plot.html) in the Amazon Quick Suite User Guide.
         public var scatterPlotVisual: QuickSightClientTypes.ScatterPlotVisual?
-        /// A table visual. For more information, see [Using tables as visuals](https://docs.aws.amazon.com/quicksight/latest/user/tabular.html) in the Amazon QuickSight User Guide.
+        /// A table visual. For more information, see [Using tables as visuals](https://docs.aws.amazon.com/quicksight/latest/user/tabular.html) in the Amazon Quick Suite User Guide.
         public var tableVisual: QuickSightClientTypes.TableVisual?
-        /// A tree map. For more information, see [Using tree maps](https://docs.aws.amazon.com/quicksight/latest/user/tree-map.html) in the Amazon QuickSight User Guide.
+        /// A tree map. For more information, see [Using tree maps](https://docs.aws.amazon.com/quicksight/latest/user/tree-map.html) in the Amazon Quick Suite User Guide.
         public var treeMapVisual: QuickSightClientTypes.TreeMapVisual?
-        /// A waterfall chart. For more information, see [Using waterfall charts](https://docs.aws.amazon.com/quicksight/latest/user/waterfall-chart.html) in the Amazon QuickSight User Guide.
+        /// A waterfall chart. For more information, see [Using waterfall charts](https://docs.aws.amazon.com/quicksight/latest/user/waterfall-chart.html) in the Amazon Quick Suite User Guide.
         public var waterfallVisual: QuickSightClientTypes.WaterfallVisual?
-        /// A word cloud. For more information, see [Using word clouds](https://docs.aws.amazon.com/quicksight/latest/user/word-cloud.html) in the Amazon QuickSight User Guide.
+        /// A word cloud. For more information, see [Using word clouds](https://docs.aws.amazon.com/quicksight/latest/user/word-cloud.html) in the Amazon Quick Suite User Guide.
         public var wordCloudVisual: QuickSightClientTypes.WordCloudVisual?
 
         public init(
@@ -18812,15 +20459,15 @@ extension QuickSightClientTypes {
         public var customActionDefaults: QuickSightClientTypes.VisualCustomActionDefaults?
         /// A description of the sheet.
         public var description: Swift.String?
-        /// The list of filter controls that are on a sheet. For more information, see [Adding filter controls to analysis sheets](https://docs.aws.amazon.com/quicksight/latest/user/filter-controls.html) in the Amazon QuickSight User Guide.
+        /// The list of filter controls that are on a sheet. For more information, see [Adding filter controls to analysis sheets](https://docs.aws.amazon.com/quicksight/latest/user/filter-controls.html) in the Amazon Quick Suite User Guide.
         public var filterControls: [QuickSightClientTypes.FilterControl]?
         /// A list of images on a sheet.
         public var images: [QuickSightClientTypes.SheetImage]?
-        /// Layouts define how the components of a sheet are arranged. For more information, see [Types of layout](https://docs.aws.amazon.com/quicksight/latest/user/types-of-layout.html) in the Amazon QuickSight User Guide.
+        /// Layouts define how the components of a sheet are arranged. For more information, see [Types of layout](https://docs.aws.amazon.com/quicksight/latest/user/types-of-layout.html) in the Amazon Quick Suite User Guide.
         public var layouts: [QuickSightClientTypes.Layout]?
-        /// The name of the sheet. This name is displayed on the sheet's tab in the Amazon QuickSight console.
+        /// The name of the sheet. This name is displayed on the sheet's tab in the Quick Suite console.
         public var name: Swift.String?
-        /// The list of parameter controls that are on a sheet. For more information, see [Using a Control with a Parameter in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-controls.html) in the Amazon QuickSight User Guide.
+        /// The list of parameter controls that are on a sheet. For more information, see [Using a Control with a Parameter in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-controls.html) in the Amazon Quick Suite User Guide.
         public var parameterControls: [QuickSightClientTypes.ParameterControl]?
         /// The control layouts of the sheet.
         public var sheetControlLayouts: [QuickSightClientTypes.SheetControlLayout]?
@@ -18999,11 +20646,11 @@ extension QuickSightClientTypes {
         /// An array of dataset identifier declarations. This mapping allows the usage of dataset identifiers instead of dataset ARNs throughout analysis sub-structures.
         /// This member is required.
         public var dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]?
-        /// Filter definitions for an analysis. For more information, see [Filtering Data in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon QuickSight User Guide.
+        /// Filter definitions for an analysis. For more information, see [Filtering Data in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon Quick Suite User Guide.
         public var filterGroups: [QuickSightClientTypes.FilterGroup]?
         /// An array of option definitions for an analysis.
         public var options: QuickSightClientTypes.AssetOptions?
-        /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide.
+        /// An array of parameter declarations for an analysis. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
         /// A structure that describes the query execution options.
         public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
@@ -19076,35 +20723,6 @@ extension QuickSightClientTypes {
             case .quicksightOwner: return "QUICKSIGHT_OWNER"
             case .quicksightUser: return "QUICKSIGHT_USER"
             case .quicksightViewerOrOwner: return "QUICKSIGHT_VIEWER_OR_OWNER"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    public enum FilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case stringequals
-        case stringlike
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FilterOperator] {
-            return [
-                .stringequals,
-                .stringlike
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .stringequals: return "StringEquals"
-            case .stringlike: return "StringLike"
             case let .sdkUnknown(s): return s
             }
         }
@@ -19215,7 +20833,7 @@ extension QuickSightClientTypes {
         public var createdTime: Foundation.Date?
         /// The time that the analysis was last updated.
         public var lastUpdatedTime: Foundation.Date?
-        /// The name of the analysis. This name is displayed in the Amazon QuickSight console.
+        /// The name of the analysis. This name is displayed in the Quick Sight console.
         public var name: Swift.String?
         /// The last known status for the analysis.
         public var status: QuickSightClientTypes.ResourceStatus?
@@ -19380,7 +20998,7 @@ extension QuickSightClientTypes {
         public var enabledFeatures: [QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfigurationEnabledFeature]?
         /// The feature configuration for an embedded dashboard.
         public var featureConfigurations: QuickSightClientTypes.AnonymousUserDashboardFeatureConfigurations?
-        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this dashboard. The Amazon Resource Name (ARN) of this dashboard must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         /// This member is required.
         public var initialDashboardId: Swift.String?
 
@@ -19409,15 +21027,15 @@ extension QuickSightClientTypes {
     /// * The VisualId of the visual that you want to embed.
     ///
     ///
-    /// The DashboardId, SheetId, and VisualId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console. You can also get the DashboardId with a ListDashboards API operation.
+    /// The DashboardId, SheetId, and VisualId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon Quick Sight console. You can also get the DashboardId with a ListDashboards API operation.
     public struct DashboardVisualId: Swift.Sendable {
-        /// The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console. You can also get the DashboardId with a ListDashboards API operation.
+        /// The ID of the dashboard that has the visual that you want to embed. The DashboardId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Quick Suite console. You can also get the DashboardId with a ListDashboards API operation.
         /// This member is required.
         public var dashboardId: Swift.String?
-        /// The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console.
+        /// The ID of the sheet that the has visual that you want to embed. The SheetId can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Quick Suite console.
         /// This member is required.
         public var sheetId: Swift.String?
-        /// The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon QuickSight console.
+        /// The ID of the visual that you want to embed. The VisualID can be found in the IDs for developers section of the Embed visual pane of the visual's on-visual menu of the Amazon Quick Sight console.
         /// This member is required.
         public var visualId: Swift.String?
 
@@ -19437,7 +21055,7 @@ extension QuickSightClientTypes {
 
     /// The experience that you are embedding. You can use this object to generate a url that embeds a visual into your application.
     public struct AnonymousUserDashboardVisualEmbeddingConfiguration: Swift.Sendable {
-        /// The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        /// The visual ID for the visual that you want the user to see. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         /// This member is required.
         public var initialDashboardVisualId: QuickSightClientTypes.DashboardVisualId?
 
@@ -19453,7 +21071,7 @@ extension QuickSightClientTypes {
 
     /// The settings that you want to use for the Generative Q&A experience.
     public struct AnonymousUserGenerativeQnAEmbeddingConfiguration: Swift.Sendable {
-        /// The Amazon QuickSight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Generative Q&A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experience topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
+        /// The Quick Sight Q topic ID of the new reader experience topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Quick Sight renders the Generative Q&A experience with this new reader experience topic pre selected. The Amazon Resource Name (ARN) of this Q new reader experience topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
         /// This member is required.
         public var initialTopicId: Swift.String?
 
@@ -19469,7 +21087,7 @@ extension QuickSightClientTypes {
 
     /// The settings that you want to use with the Q search bar.
     public struct AnonymousUserQSearchBarEmbeddingConfiguration: Swift.Sendable {
-        /// The Amazon QuickSight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
+        /// The Quick Sight Q topic ID of the legacy topic that you want the anonymous user to see first. This ID is included in the output URL. When the URL in response is accessed, Quick Sight renders the Q search bar with this legacy topic pre-selected. The Amazon Resource Name (ARN) of this Q legacy topic must be included in the AuthorizedResourceArns parameter. Otherwise, the request fails with an InvalidParameterValueException error.
         /// This member is required.
         public var initialTopicId: Swift.String?
 
@@ -19483,11 +21101,11 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The type of experience you want to embed. For anonymous users, you can embed Amazon QuickSight dashboards.
+    /// The type of experience you want to embed. For anonymous users, you can embed Quick Suite dashboards.
     public struct AnonymousUserEmbeddingExperienceConfiguration: Swift.Sendable {
-        /// The type of embedding experience. In this case, Amazon QuickSight dashboards.
+        /// The type of embedding experience. In this case, Amazon Quick Sight dashboards.
         public var dashboard: QuickSightClientTypes.AnonymousUserDashboardEmbeddingConfiguration?
-        /// The type of embedding experience. In this case, Amazon QuickSight visuals.
+        /// The type of embedding experience. In this case, Amazon Quick Sight visuals.
         public var dashboardVisual: QuickSightClientTypes.AnonymousUserDashboardVisualEmbeddingConfiguration?
         /// The Generative Q&A experience that you want to use for anonymous user embedding.
         public var generativeQnA: QuickSightClientTypes.AnonymousUserGenerativeQnAEmbeddingConfiguration?
@@ -19640,7 +21258,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// An optional structure that contains the Amazon S3 bucket configuration that the generated snapshots are stored in. If you don't provide this information, generated snapshots are stored in the default Amazon QuickSight bucket.
+    /// An optional structure that contains the Amazon S3 bucket configuration that the generated snapshots are stored in. If you don't provide this information, generated snapshots are stored in the default Amazon Quick Sight bucket.
     public struct S3BucketConfiguration: Swift.Sendable {
         /// The name of an existing Amazon S3 bucket where the generated snapshot artifacts are sent.
         /// This member is required.
@@ -19738,6 +21356,86 @@ extension QuickSightClientTypes {
             fileGroups: [QuickSightClientTypes.SnapshotJobResultFileGroup]? = nil
         ) {
             self.fileGroups = fileGroups
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configuration for API key-based authentication to external services.
+    public struct APIKeyConnectionMetadata: Swift.Sendable {
+        /// The API key used for authentication.
+        /// This member is required.
+        public var apiKey: Swift.String?
+        /// The base URL endpoint for the external service.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+        /// The email address associated with the API key, if required.
+        public var email: Swift.String?
+
+        public init(
+            apiKey: Swift.String? = nil,
+            baseEndpoint: Swift.String? = nil,
+            email: Swift.String? = nil
+        ) {
+            self.apiKey = apiKey
+            self.baseEndpoint = baseEndpoint
+            self.email = email
+        }
+    }
+}
+
+extension QuickSightClientTypes.APIKeyConnectionMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "APIKeyConnectionMetadata(baseEndpoint: \(Swift.String(describing: baseEndpoint)), apiKey: \"CONTENT_REDACTED\", email: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// Represents a column that will be included in the result of an append operation, combining data from multiple sources.
+    public struct AppendedColumn: Swift.Sendable {
+        /// The name of the column to include in the appended result.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// A unique identifier for the column in the appended result.
+        /// This member is required.
+        public var newColumnId: Swift.String?
+
+        public init(
+            columnName: Swift.String? = nil,
+            newColumnId: Swift.String? = nil
+        ) {
+            self.columnName = columnName
+            self.newColumnId = newColumnId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that combines rows from two data sources by stacking them vertically (union operation).
+    public struct AppendOperation: Swift.Sendable {
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The list of columns to include in the appended result, mapping columns from both sources.
+        /// This member is required.
+        public var appendedColumns: [QuickSightClientTypes.AppendedColumn]?
+        /// The first data source to be included in the append operation.
+        public var firstSource: QuickSightClientTypes.TransformOperationSource?
+        /// The second data source to be appended to the first source.
+        public var secondSource: QuickSightClientTypes.TransformOperationSource?
+
+        public init(
+            alias: Swift.String? = nil,
+            appendedColumns: [QuickSightClientTypes.AppendedColumn]? = nil,
+            firstSource: QuickSightClientTypes.TransformOperationSource? = nil,
+            secondSource: QuickSightClientTypes.TransformOperationSource? = nil
+        ) {
+            self.alias = alias
+            self.appendedColumns = appendedColumns
+            self.firstSource = firstSource
+            self.secondSource = secondSource
         }
     }
 }
@@ -19844,19 +21542,50 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The contextual accent palette.
+    public struct ContextualAccentPalette: Swift.Sendable {
+        /// The color palette.
+        public var automation: QuickSightClientTypes.Palette?
+        /// The color palette.
+        public var connection: QuickSightClientTypes.Palette?
+        /// The color palette.
+        public var insight: QuickSightClientTypes.Palette?
+        /// The color palette.
+        public var visualization: QuickSightClientTypes.Palette?
+
+        public init(
+            automation: QuickSightClientTypes.Palette? = nil,
+            connection: QuickSightClientTypes.Palette? = nil,
+            insight: QuickSightClientTypes.Palette? = nil,
+            visualization: QuickSightClientTypes.Palette? = nil
+        ) {
+            self.automation = automation
+            self.connection = connection
+            self.insight = insight
+            self.visualization = visualization
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The application theme.
     public struct ApplicationTheme: Swift.Sendable {
         /// The color palette.
         public var brandColorPalette: QuickSightClientTypes.BrandColorPalette?
         /// The element style.
         public var brandElementStyle: QuickSightClientTypes.BrandElementStyle?
+        /// The contextual accent palette.
+        public var contextualAccentPalette: QuickSightClientTypes.ContextualAccentPalette?
 
         public init(
             brandColorPalette: QuickSightClientTypes.BrandColorPalette? = nil,
-            brandElementStyle: QuickSightClientTypes.BrandElementStyle? = nil
+            brandElementStyle: QuickSightClientTypes.BrandElementStyle? = nil,
+            contextualAccentPalette: QuickSightClientTypes.ContextualAccentPalette? = nil
         ) {
             self.brandColorPalette = brandColorPalette
             self.brandElementStyle = brandElementStyle
+            self.contextualAccentPalette = contextualAccentPalette
         }
     }
 }
@@ -20681,7 +22410,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A structure that contains the configuration of a shared link to an Amazon QuickSight dashboard.
+    /// A structure that contains the configuration of a shared link to an Amazon Quick Sight dashboard.
     public struct AssetBundleResourceLinkSharingConfiguration: Swift.Sendable {
         /// A list of link sharing permissions for the dashboards that you want to apply overrides to.
         public var permissions: QuickSightClientTypes.AssetBundleResourcePermissions?
@@ -21043,7 +22772,7 @@ extension QuickSightClientTypes {
 
     /// Parameters for Amazon Athena.
     public struct AthenaParameters: Swift.Sendable {
-        /// An optional parameter that configures IAM Identity Center authentication to grant Amazon QuickSight access to your workgroup. This parameter can only be specified if your Amazon QuickSight account is configured with IAM Identity Center.
+        /// An optional parameter that configures IAM Identity Center authentication to grant Quick Sight access to your workgroup. This parameter can only be specified if your Quick Sight account is configured with IAM Identity Center.
         public var identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration?
         /// Use the RoleArn structure to override an account-wide role for a specific Athena data source. For example, say an account administrator has turned off all Athena access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow Athena access for the single Athena data source that is specified in the structure, even if the account-wide role forbidding Athena access is still active.
         public var roleArn: Swift.String?
@@ -21146,6 +22875,37 @@ extension QuickSightClientTypes {
         ) {
             self.dataSetRegion = dataSetRegion
             self.projectId = projectId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The parameters that are required to connect to a Confluence data source
+    public struct ConfluenceParameters: Swift.Sendable {
+        /// The URL of the Confluence site to connect to.
+        /// This member is required.
+        public var confluenceUrl: Swift.String?
+
+        public init(
+            confluenceUrl: Swift.String? = nil
+        ) {
+            self.confluenceUrl = confluenceUrl
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The parameters that are required to connect to a custom connection data source.
+    public struct CustomConnectionParameters: Swift.Sendable {
+        /// The type of custom connector.
+        public var connectionType: Swift.String?
+
+        public init(
+            connectionType: Swift.String? = nil
+        ) {
+            self.connectionType = connectionType
         }
     }
 }
@@ -21379,6 +23139,22 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The parameters that are required to connect to an Amazon Q Business data source.
+    public struct QBusinessParameters: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Q Business application.
+        /// This member is required.
+        public var applicationArn: Swift.String?
+
+        public init(
+            applicationArn: Swift.String? = nil
+        ) {
+            self.applicationArn = applicationArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The parameters for Amazon RDS.
     public struct RdsParameters: Swift.Sendable {
         /// Database.
@@ -21400,15 +23176,15 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A structure that grants Amazon QuickSight access to your cluster and make a call to the redshift:GetClusterCredentials API. For more information on the redshift:GetClusterCredentials API, see [GetClusterCredentials](https://docs.aws.amazon.com/redshift/latest/APIReference/API_GetClusterCredentials.html).
+    /// A structure that grants Quick Sight access to your cluster and make a call to the redshift:GetClusterCredentials API. For more information on the redshift:GetClusterCredentials API, see [GetClusterCredentials](https://docs.aws.amazon.com/redshift/latest/APIReference/API_GetClusterCredentials.html).
     public struct RedshiftIAMParameters: Swift.Sendable {
-        /// Automatically creates a database user. If your database doesn't have a DatabaseUser, set this parameter to True. If there is no DatabaseUser, Amazon QuickSight can't connect to your cluster. The RoleArn that you use for this operation must grant access to redshift:CreateClusterUser to successfully create the user.
+        /// Automatically creates a database user. If your database doesn't have a DatabaseUser, set this parameter to True. If there is no DatabaseUser, Quick Sight can't connect to your cluster. The RoleArn that you use for this operation must grant access to redshift:CreateClusterUser to successfully create the user.
         public var autoCreateDatabaseUser: Swift.Bool
-        /// A list of groups whose permissions will be granted to Amazon QuickSight to access the cluster. These permissions are combined with the permissions granted to Amazon QuickSight by the DatabaseUser. If you choose to include this parameter, the RoleArn must grant access to redshift:JoinGroup.
+        /// A list of groups whose permissions will be granted to Quick Sight to access the cluster. These permissions are combined with the permissions granted to Quick Sight by the DatabaseUser. If you choose to include this parameter, the RoleArn must grant access to redshift:JoinGroup.
         public var databaseGroups: [Swift.String]?
-        /// The user whose permissions and group memberships will be used by Amazon QuickSight to access the cluster. If this user already exists in your database, Amazon QuickSight is granted the same permissions that the user has. If the user doesn't exist, set the value of AutoCreateDatabaseUser to True to create a new user with PUBLIC permissions.
+        /// The user whose permissions and group memberships will be used by Quick Sight to access the cluster. If this user already exists in your database, Amazon Quick Sight is granted the same permissions that the user has. If the user doesn't exist, set the value of AutoCreateDatabaseUser to True to create a new user with PUBLIC permissions.
         public var databaseUser: Swift.String?
-        /// Use the RoleArn structure to allow Amazon QuickSight to call redshift:GetClusterCredentials on your cluster. The calling principal must have iam:PassRole access to pass the role to Amazon QuickSight. The role's trust policy must allow the Amazon QuickSight service principal to assume the role.
+        /// Use the RoleArn structure to allow Quick Sight to call redshift:GetClusterCredentials on your cluster. The calling principal must have iam:PassRole access to pass the role to Quick Sight. The role's trust policy must allow the Quick Sight service principal to assume the role.
         /// This member is required.
         public var roleArn: Swift.String?
 
@@ -21437,9 +23213,9 @@ extension QuickSightClientTypes {
         public var database: Swift.String?
         /// Host. This field can be blank if ClusterId is provided.
         public var host: Swift.String?
-        /// An optional parameter that uses IAM authentication to grant Amazon QuickSight access to your cluster. This parameter can be used instead of [DataSourceCredentials](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DataSourceCredentials.html).
+        /// An optional parameter that uses IAM authentication to grant Quick Sight access to your cluster. This parameter can be used instead of [DataSourceCredentials](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DataSourceCredentials.html).
         public var iamParameters: QuickSightClientTypes.RedshiftIAMParameters?
-        /// An optional parameter that configures IAM Identity Center authentication to grant Amazon QuickSight access to your cluster. This parameter can only be specified if your Amazon QuickSight account is configured with IAM Identity Center.
+        /// An optional parameter that configures IAM Identity Center authentication to grant Quick Sight access to your cluster. This parameter can only be specified if your Quick Sight account is configured with IAM Identity Center.
         public var identityCenterConfiguration: QuickSightClientTypes.IdentityCenterConfiguration?
         /// Port. This field can be blank if the ClusterId is provided.
         public var port: Swift.Int
@@ -21458,6 +23234,30 @@ extension QuickSightClientTypes {
             self.iamParameters = iamParameters
             self.identityCenterConfiguration = identityCenterConfiguration
             self.port = port
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The parameters that are required to connect to a S3 Knowledge Base data source.
+    public struct S3KnowledgeBaseParameters: Swift.Sendable {
+        /// The URL of the S3 bucket that contains the knowledge base data.
+        /// This member is required.
+        public var bucketUrl: Swift.String?
+        /// The location of metadata files within the S3 bucket that describe the structure and content of the knowledge base.
+        public var metadataFilesLocation: Swift.String?
+        /// Use the RoleArn structure to override an account-wide role for a specific S3 Knowledge Base data source. For example, say an account administrator has turned off all S3 access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow S3 access for the single S3 Knowledge Base data source that is specified in the structure, even if the account-wide role forbidding S3 access is still active.
+        public var roleArn: Swift.String?
+
+        public init(
+            bucketUrl: Swift.String? = nil,
+            metadataFilesLocation: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.bucketUrl = bucketUrl
+            self.metadataFilesLocation = metadataFilesLocation
+            self.roleArn = roleArn
         }
     }
 }
@@ -21487,7 +23287,7 @@ extension QuickSightClientTypes {
 
     /// The parameters for S3.
     public struct S3Parameters: Swift.Sendable {
-        /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded into Amazon QuickSight.
+        /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded into Quick Sight.
         /// This member is required.
         public var manifestFileLocation: QuickSightClientTypes.ManifestFileLocation?
         /// Use the RoleArn structure to override an account-wide role for a specific S3 data source. For example, say an account administrator has turned off all S3 access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow S3 access for the single S3 data source that is specified in the structure, even if the account-wide role forbidding S3 access is still active.
@@ -21609,7 +23409,7 @@ extension QuickSightClientTypes {
         /// Host.
         /// This member is required.
         public var host: Swift.String?
-        /// An object that contains information needed to create a data source connection between an Amazon QuickSight account and Snowflake.
+        /// An object that contains information needed to create a data source connection between an Quick Sight account and Snowflake.
         public var oAuthParameters: QuickSightClientTypes.OAuthParameters?
         /// Warehouse.
         /// This member is required.
@@ -21723,7 +23523,7 @@ extension QuickSightClientTypes {
         /// The host name of the Starburst data source.
         /// This member is required.
         public var host: Swift.String?
-        /// An object that contains information needed to create a data source connection between an Amazon QuickSight account and Starburst.
+        /// An object that contains information needed to create a data source connection between an Quick Sight account and Starburst.
         public var oAuthParameters: QuickSightClientTypes.OAuthParameters?
         /// The port for the Starburst data source.
         /// This member is required.
@@ -21826,7 +23626,94 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The parameters that Amazon QuickSight uses to connect to your underlying data source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
+    public enum WebCrawlerAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basicAuth
+        case form
+        case noAuth
+        case saml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebCrawlerAuthType] {
+            return [
+                .basicAuth,
+                .form,
+                .noAuth,
+                .saml
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basicAuth: return "BASIC_AUTH"
+            case .form: return "FORM"
+            case .noAuth: return "NO_AUTH"
+            case .saml: return "SAML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The parameters for a web crawler data source.
+    public struct WebCrawlerParameters: Swift.Sendable {
+        /// The URL of the login page for the web crawler to authenticate.
+        public var loginPageUrl: Swift.String?
+        /// The XPath expression for locating the password submit button on the login page.
+        public var passwordButtonXpath: Swift.String?
+        /// The XPath expression for locating the password field on the login page.
+        public var passwordFieldXpath: Swift.String?
+        /// The XPath expression for locating the username submit button on the login page.
+        public var usernameButtonXpath: Swift.String?
+        /// The XPath expression for locating the username field on the login page.
+        public var usernameFieldXpath: Swift.String?
+        /// The authentication type for the web crawler. The type can be one of the following:
+        ///
+        /// * NO_AUTH: No authentication required.
+        ///
+        /// * BASIC_AUTH: Basic authentication using username and password.
+        ///
+        /// * SAML: SAML-based authentication.
+        ///
+        /// * FORM: Form-based authentication.
+        /// This member is required.
+        public var webCrawlerAuthType: QuickSightClientTypes.WebCrawlerAuthType?
+        /// The hostname of the web proxy server for the web crawler.
+        public var webProxyHostName: Swift.String?
+        /// The port number of the web proxy server for the web crawler.
+        public var webProxyPortNumber: Swift.Int
+
+        public init(
+            loginPageUrl: Swift.String? = nil,
+            passwordButtonXpath: Swift.String? = nil,
+            passwordFieldXpath: Swift.String? = nil,
+            usernameButtonXpath: Swift.String? = nil,
+            usernameFieldXpath: Swift.String? = nil,
+            webCrawlerAuthType: QuickSightClientTypes.WebCrawlerAuthType? = nil,
+            webProxyHostName: Swift.String? = nil,
+            webProxyPortNumber: Swift.Int = 0
+        ) {
+            self.loginPageUrl = loginPageUrl
+            self.passwordButtonXpath = passwordButtonXpath
+            self.passwordFieldXpath = passwordFieldXpath
+            self.usernameButtonXpath = usernameButtonXpath
+            self.usernameFieldXpath = usernameFieldXpath
+            self.webCrawlerAuthType = webCrawlerAuthType
+            self.webProxyHostName = webProxyHostName
+            self.webProxyPortNumber = webProxyPortNumber
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The parameters that Quick Sight uses to connect to your underlying data source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
     public enum DataSourceParameters: Swift.Sendable {
         /// The parameters for OpenSearch.
         case amazonelasticsearchparameters(QuickSightClientTypes.AmazonElasticsearchParameters)
@@ -21856,6 +23743,8 @@ extension QuickSightClientTypes {
         case redshiftparameters(QuickSightClientTypes.RedshiftParameters)
         /// The parameters for S3.
         case s3parameters(QuickSightClientTypes.S3Parameters)
+        /// The parameters for S3 Knowledge Base.
+        case s3knowledgebaseparameters(QuickSightClientTypes.S3KnowledgeBaseParameters)
         /// The parameters for ServiceNow.
         case servicenowparameters(QuickSightClientTypes.ServiceNowParameters)
         /// The parameters for Snowflake.
@@ -21882,13 +23771,21 @@ extension QuickSightClientTypes {
         case bigqueryparameters(QuickSightClientTypes.BigQueryParameters)
         /// The parameters for Impala.
         case impalaparameters(QuickSightClientTypes.ImpalaParameters)
+        /// The parameters for custom connectors.
+        case customconnectionparameters(QuickSightClientTypes.CustomConnectionParameters)
+        /// The parameters for Web Crawler.
+        case webcrawlerparameters(QuickSightClientTypes.WebCrawlerParameters)
+        /// The parameters for Confluence.
+        case confluenceparameters(QuickSightClientTypes.ConfluenceParameters)
+        /// The parameters for Amazon Q Business.
+        case qbusinessparameters(QuickSightClientTypes.QBusinessParameters)
         case sdkUnknown(Swift.String)
     }
 }
 
 extension QuickSightClientTypes {
 
-    /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying data source.
+    /// Secure Socket Layer (SSL) properties that apply when Quick Sight connects to your underlying data source.
     public struct SslProperties: Swift.Sendable {
         /// A Boolean option to control whether SSL should be disabled.
         public var disableSsl: Swift.Bool
@@ -21910,11 +23807,11 @@ extension QuickSightClientTypes {
         /// The ID of the data source to apply overrides to.
         /// This member is required.
         public var dataSourceId: Swift.String?
-        /// The parameters that Amazon QuickSight uses to connect to your underlying data source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
+        /// The parameters that Quick Sight uses to connect to your underlying data source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
         public var dataSourceParameters: QuickSightClientTypes.DataSourceParameters?
         /// A new name for the data source.
         public var name: Swift.String?
-        /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying data source.
+        /// Secure Socket Layer (SSL) properties that apply when Quick Sight connects to your underlying data source.
         public var sslProperties: QuickSightClientTypes.SslProperties?
         /// VPC connection properties.
         public var vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
@@ -22532,6 +24429,250 @@ extension QuickSightClientTypes {
             case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configuration details for OAuth 2.0 authorization code grant flow.
+    public struct AuthorizationCodeGrantDetails: Swift.Sendable {
+        /// The authorization endpoint URL for the OAuth flow.
+        /// This member is required.
+        public var authorizationEndpoint: Swift.String?
+        /// The client ID for the OAuth application.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// The client secret for the OAuth application.
+        /// This member is required.
+        public var clientSecret: Swift.String?
+        /// The token endpoint URL for obtaining access tokens.
+        /// This member is required.
+        public var tokenEndpoint: Swift.String?
+
+        public init(
+            authorizationEndpoint: Swift.String? = nil,
+            clientId: Swift.String? = nil,
+            clientSecret: Swift.String? = nil,
+            tokenEndpoint: Swift.String? = nil
+        ) {
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.tokenEndpoint = tokenEndpoint
+        }
+    }
+}
+
+extension QuickSightClientTypes.AuthorizationCodeGrantDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AuthorizationCodeGrantDetails(authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// Details for OAuth 2.0 authorization code grant credentials.
+    public enum AuthorizationCodeGrantCredentialsDetails: Swift.Sendable {
+        /// The authorization code grant configuration details.
+        case authorizationcodegrantdetails(QuickSightClientTypes.AuthorizationCodeGrantDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Metadata for OAuth 2.0 authorization code grant authentication.
+    public struct AuthorizationCodeGrantMetadata: Swift.Sendable {
+        /// The detailed credentials configuration for authorization code grant.
+        public var authorizationCodeGrantCredentialsDetails: QuickSightClientTypes.AuthorizationCodeGrantCredentialsDetails?
+        /// The source of the authorization code grant credentials.
+        public var authorizationCodeGrantCredentialsSource: QuickSightClientTypes.AuthorizationCodeGrantCredentialsSource?
+        /// The base URL endpoint for the external service.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+        /// The redirect URL for the OAuth authorization flow.
+        /// This member is required.
+        public var redirectUrl: Swift.String?
+
+        public init(
+            authorizationCodeGrantCredentialsDetails: QuickSightClientTypes.AuthorizationCodeGrantCredentialsDetails? = nil,
+            authorizationCodeGrantCredentialsSource: QuickSightClientTypes.AuthorizationCodeGrantCredentialsSource? = nil,
+            baseEndpoint: Swift.String? = nil,
+            redirectUrl: Swift.String? = nil
+        ) {
+            self.authorizationCodeGrantCredentialsDetails = authorizationCodeGrantCredentialsDetails
+            self.authorizationCodeGrantCredentialsSource = authorizationCodeGrantCredentialsSource
+            self.baseEndpoint = baseEndpoint
+            self.redirectUrl = redirectUrl
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Metadata for basic authentication using username and password.
+    public struct BasicAuthConnectionMetadata: Swift.Sendable {
+        /// The base URL endpoint for the external service.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+        /// The password for basic authentication.
+        /// This member is required.
+        public var password: Swift.String?
+        /// The username for basic authentication.
+        /// This member is required.
+        public var username: Swift.String?
+
+        public init(
+            baseEndpoint: Swift.String? = nil,
+            password: Swift.String? = nil,
+            username: Swift.String? = nil
+        ) {
+            self.baseEndpoint = baseEndpoint
+            self.password = password
+            self.username = username
+        }
+    }
+}
+
+extension QuickSightClientTypes.BasicAuthConnectionMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BasicAuthConnectionMetadata(baseEndpoint: \(Swift.String(describing: baseEndpoint)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// Configuration details for OAuth2 client credentials grant flow, including client ID, client secret, token endpoint, and optional scopes.
+    public struct ClientCredentialsGrantDetails: Swift.Sendable {
+        /// The client identifier issued to the client during the registration process with the authorization server.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// The client secret issued to the client during the registration process with the authorization server.
+        /// This member is required.
+        public var clientSecret: Swift.String?
+        /// The authorization server endpoint used to obtain access tokens via the client credentials grant flow.
+        /// This member is required.
+        public var tokenEndpoint: Swift.String?
+
+        public init(
+            clientId: Swift.String? = nil,
+            clientSecret: Swift.String? = nil,
+            tokenEndpoint: Swift.String? = nil
+        ) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.tokenEndpoint = tokenEndpoint
+        }
+    }
+}
+
+extension QuickSightClientTypes.ClientCredentialsGrantDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ClientCredentialsGrantDetails(clientId: \(Swift.String(describing: clientId)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// Details for OAuth 2.0 client credentials grant authentication.
+    public enum ClientCredentialsDetails: Swift.Sendable {
+        /// The OAuth2 client credentials grant configuration details for authentication.
+        case clientcredentialsgrantdetails(QuickSightClientTypes.ClientCredentialsGrantDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configuration for OAuth 2.0 client credentials grant authentication, including client ID, client secret, token endpoint, and optional scopes.
+    public struct ClientCredentialsGrantMetadata: Swift.Sendable {
+        /// The base endpoint URL for the external service.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+        /// The detailed client credentials configuration including client ID, client secret, and token endpoint.
+        public var clientCredentialsDetails: QuickSightClientTypes.ClientCredentialsDetails?
+        /// The source of the client credentials configuration.
+        public var clientCredentialsSource: QuickSightClientTypes.ClientCredentialsSource?
+
+        public init(
+            baseEndpoint: Swift.String? = nil,
+            clientCredentialsDetails: QuickSightClientTypes.ClientCredentialsDetails? = nil,
+            clientCredentialsSource: QuickSightClientTypes.ClientCredentialsSource? = nil
+        ) {
+            self.baseEndpoint = baseEndpoint
+            self.clientCredentialsDetails = clientCredentialsDetails
+            self.clientCredentialsSource = clientCredentialsSource
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Authentication metadata for IAM-based connections, used for first-party Amazon Web Services service integrations.
+    public struct IAMConnectionMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the IAM role to assume for authentication with Amazon Web Services services. This IAM role should be in the same account as Quick Sight.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            roleArn: Swift.String? = nil
+        ) {
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Authentication metadata for connections that do not require authentication credentials.
+    public struct NoneConnectionMetadata: Swift.Sendable {
+        /// The base endpoint URL for connections that do not require authentication.
+        /// This member is required.
+        public var baseEndpoint: Swift.String?
+
+        public init(
+            baseEndpoint: Swift.String? = nil
+        ) {
+            self.baseEndpoint = baseEndpoint
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Union type containing authentication metadata for different authentication methods.
+    public enum AuthenticationMetadata: Swift.Sendable {
+        /// OAuth 2.0 authorization code grant authentication metadata.
+        case authorizationcodegrantmetadata(QuickSightClientTypes.AuthorizationCodeGrantMetadata)
+        /// OAuth 2.0 client credentials grant authentication metadata.
+        case clientcredentialsgrantmetadata(QuickSightClientTypes.ClientCredentialsGrantMetadata)
+        /// Basic authentication metadata using username and password.
+        case basicauthconnectionmetadata(QuickSightClientTypes.BasicAuthConnectionMetadata)
+        /// API key authentication metadata.
+        case apikeyconnectionmetadata(QuickSightClientTypes.APIKeyConnectionMetadata)
+        /// No authentication metadata for services that don't require authentication.
+        case noneconnectionmetadata(QuickSightClientTypes.NoneConnectionMetadata)
+        /// IAM role-based authentication metadata for Amazon Web Services services.
+        case iamconnectionmetadata(QuickSightClientTypes.IAMConnectionMetadata)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Authentication configuration for connecting to external services.
+    public struct AuthConfig: Swift.Sendable {
+        /// The authentication metadata containing the specific configuration for the chosen authentication type.
+        /// This member is required.
+        public var authenticationMetadata: QuickSightClientTypes.AuthenticationMetadata?
+        /// The type of authentication method.
+        /// This member is required.
+        public var authenticationType: QuickSightClientTypes.ConnectionAuthType?
+
+        public init(
+            authenticationMetadata: QuickSightClientTypes.AuthenticationMetadata? = nil,
+            authenticationType: QuickSightClientTypes.ConnectionAuthType? = nil
+        ) {
+            self.authenticationMetadata = authenticationMetadata
+            self.authenticationType = authenticationType
         }
     }
 }
@@ -24050,13 +26191,21 @@ extension QuickSightClientTypes {
 
     /// The display options for tile borders for visuals.
     public struct BorderStyle: Swift.Sendable {
+        /// The option to add color for tile borders for visuals.
+        public var color: Swift.String?
         /// The option to enable display of borders for visuals.
         public var show: Swift.Bool?
+        /// The option to set the width of tile borders for visuals.
+        public var width: Swift.String?
 
         public init(
-            show: Swift.Bool? = false
+            color: Swift.String? = nil,
+            show: Swift.Bool? = false,
+            width: Swift.String? = nil
         ) {
+            self.color = color
             self.show = show
+            self.width = width
         }
     }
 }
@@ -24333,7 +26482,7 @@ extension QuickSightClientTypes {
     public struct BrandDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the brand.
         public var arn: Swift.String?
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the Quick Suite brand.
         /// This member is required.
         public var brandId: Swift.String?
         /// The status of the brand.
@@ -24381,7 +26530,7 @@ extension QuickSightClientTypes {
     public struct BrandSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the brand.
         public var arn: Swift.String?
-        /// The ID of the Amazon QuickSight brand.
+        /// The ID of the Quick Suite brand.
         public var brandId: Swift.String?
         /// The name of the brand.
         public var brandName: Swift.String?
@@ -24418,7 +26567,7 @@ extension QuickSightClientTypes {
 
     /// A calculated column for a dataset.
     public struct CalculatedColumn: Swift.Sendable {
-        /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Amazon QuickSight preserves the existing calculated column.
+        /// A unique ID to identify a calculated column. During a dataset update, if the column ID of a calculated column matches that of an existing calculated column, Quick Sight preserves the existing calculated column.
         /// This member is required.
         public var columnId: Swift.String?
         /// Column name.
@@ -24549,10 +26698,18 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A set of actions that correspond to Amazon QuickSight permissions.
+    /// A set of actions that correspond to Amazon Quick Sight permissions.
     public struct Capabilities: Swift.Sendable {
+        /// The ability to perform actions in external services through Action connectors. Actions allow users to interact with third-party systems.
+        public var action: QuickSightClientTypes.CapabilityState?
         /// The ability to add or run anomaly detection.
         public var addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform analysis-related actions.
+        public var analysis: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform automate-related actions.
+        public var automate: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform chat-related actions.
+        public var chatAgent: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update email reports.
         public var createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update data sources.
@@ -24563,10 +26720,14 @@ extension QuickSightClientTypes {
         public var createAndUpdateThemes: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update threshold alerts.
         public var createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState?
+        /// The ability to create chat agents.
+        public var createChatAgents: QuickSightClientTypes.CapabilityState?
         /// The ability to create a SPICE dataset.
         public var createSPICEDataset: QuickSightClientTypes.CapabilityState?
         /// The ability to create shared folders.
         public var createSharedFolders: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform dashboard-related actions.
+        public var dashboard: QuickSightClientTypes.CapabilityState?
         /// The ability to export to CSV files from the UI.
         public var exportToCsv: QuickSightClientTypes.CapabilityState?
         /// The ability to export to CSV files in scheduled email reports.
@@ -24579,12 +26740,24 @@ extension QuickSightClientTypes {
         public var exportToPdf: QuickSightClientTypes.CapabilityState?
         /// The ability to export to PDF files in scheduled email reports.
         public var exportToPdfInScheduledReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform flow-related actions.
+        public var flow: QuickSightClientTypes.CapabilityState?
         /// The ability to include content in scheduled email reports.
         public var includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState?
+        /// The ability to use knowledge bases to specify content from external applications.
+        public var knowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to use UI Agent step to perform tasks on public websites.
+        public var performFlowUiTask: QuickSightClientTypes.CapabilityState?
         /// The ability to print reports.
         public var printReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to enable approvals for flow share.
+        public var publishWithoutApproval: QuickSightClientTypes.CapabilityState?
         /// The ability to rename shared folders.
         public var renameSharedFolders: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform research-related actions.
+        public var research: QuickSightClientTypes.CapabilityState?
+        /// The ability to enable users to upgrade their user role.
+        public var selfUpgradeUserRole: QuickSightClientTypes.CapabilityState?
         /// The ability to share analyses.
         public var shareAnalyses: QuickSightClientTypes.CapabilityState?
         /// The ability to share dashboards.
@@ -24593,58 +26766,94 @@ extension QuickSightClientTypes {
         public var shareDataSources: QuickSightClientTypes.CapabilityState?
         /// The ability to share datasets.
         public var shareDatasets: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform space-related actions.
+        public var space: QuickSightClientTypes.CapabilityState?
         /// The ability to subscribe to email reports.
         public var subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research. Web search queries will be processed securely in an Amazon Web Services region us-east-1.
+        public var useAgentWebSearch: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Bedrock models for general knowledge step in flows.
+        public var useBedrockModels: QuickSightClientTypes.CapabilityState?
         /// The ability to view account SPICE capacity.
         public var viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState?
 
         public init(
+            action: QuickSightClientTypes.CapabilityState? = nil,
             addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState? = nil,
+            analysis: QuickSightClientTypes.CapabilityState? = nil,
+            automate: QuickSightClientTypes.CapabilityState? = nil,
+            chatAgent: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDataSources: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDatasets: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateThemes: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState? = nil,
+            createChatAgents: QuickSightClientTypes.CapabilityState? = nil,
             createSPICEDataset: QuickSightClientTypes.CapabilityState? = nil,
             createSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
+            dashboard: QuickSightClientTypes.CapabilityState? = nil,
             exportToCsv: QuickSightClientTypes.CapabilityState? = nil,
             exportToCsvInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
             exportToExcel: QuickSightClientTypes.CapabilityState? = nil,
             exportToExcelInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
             exportToPdf: QuickSightClientTypes.CapabilityState? = nil,
             exportToPdfInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
+            flow: QuickSightClientTypes.CapabilityState? = nil,
             includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState? = nil,
+            knowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            performFlowUiTask: QuickSightClientTypes.CapabilityState? = nil,
             printReports: QuickSightClientTypes.CapabilityState? = nil,
+            publishWithoutApproval: QuickSightClientTypes.CapabilityState? = nil,
             renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
+            research: QuickSightClientTypes.CapabilityState? = nil,
+            selfUpgradeUserRole: QuickSightClientTypes.CapabilityState? = nil,
             shareAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             shareDashboards: QuickSightClientTypes.CapabilityState? = nil,
             shareDataSources: QuickSightClientTypes.CapabilityState? = nil,
             shareDatasets: QuickSightClientTypes.CapabilityState? = nil,
+            space: QuickSightClientTypes.CapabilityState? = nil,
             subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
+            useAgentWebSearch: QuickSightClientTypes.CapabilityState? = nil,
+            useBedrockModels: QuickSightClientTypes.CapabilityState? = nil,
             viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil
         ) {
+            self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
+            self.analysis = analysis
+            self.automate = automate
+            self.chatAgent = chatAgent
             self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
             self.createAndUpdateDataSources = createAndUpdateDataSources
             self.createAndUpdateDatasets = createAndUpdateDatasets
             self.createAndUpdateThemes = createAndUpdateThemes
             self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
+            self.createChatAgents = createChatAgents
             self.createSPICEDataset = createSPICEDataset
             self.createSharedFolders = createSharedFolders
+            self.dashboard = dashboard
             self.exportToCsv = exportToCsv
             self.exportToCsvInScheduledReports = exportToCsvInScheduledReports
             self.exportToExcel = exportToExcel
             self.exportToExcelInScheduledReports = exportToExcelInScheduledReports
             self.exportToPdf = exportToPdf
             self.exportToPdfInScheduledReports = exportToPdfInScheduledReports
+            self.flow = flow
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
+            self.knowledgeBase = knowledgeBase
+            self.performFlowUiTask = performFlowUiTask
             self.printReports = printReports
+            self.publishWithoutApproval = publishWithoutApproval
             self.renameSharedFolders = renameSharedFolders
+            self.research = research
+            self.selfUpgradeUserRole = selfUpgradeUserRole
             self.shareAnalyses = shareAnalyses
             self.shareDashboards = shareDashboards
             self.shareDataSources = shareDataSources
             self.shareDatasets = shareDatasets
+            self.space = space
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
+            self.useAgentWebSearch = useAgentWebSearch
+            self.useBedrockModels = useBedrockModels
             self.viewAccountSPICECapacity = viewAccountSPICECapacity
         }
     }
@@ -24721,7 +26930,7 @@ extension QuickSightClientTypes {
         /// Column name.
         /// This member is required.
         public var columnName: Swift.String?
-        /// When casting a column from string to datetime type, you can supply a string in a format supported by Amazon QuickSight to denote the source data format.
+        /// When casting a column from string to datetime type, you can supply a string in a format supported by Quick Sight to denote the source data format.
         public var format: Swift.String?
         /// New column data type.
         /// This member is required.
@@ -24739,6 +26948,32 @@ extension QuickSightClientTypes {
             self.format = format
             self.newColumnType = newColumnType
             self.subType = subType
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that changes the data types of one or more columns in the dataset.
+    public struct CastColumnTypesOperation: Swift.Sendable {
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The list of column type casting operations to perform.
+        /// This member is required.
+        public var castColumnTypeOperations: [QuickSightClientTypes.CastColumnTypeOperation]?
+        /// The source transform operation that provides input data for the type casting.
+        /// This member is required.
+        public var source: QuickSightClientTypes.TransformOperationSource?
+
+        public init(
+            alias: Swift.String? = nil,
+            castColumnTypeOperations: [QuickSightClientTypes.CastColumnTypeOperation]? = nil,
+            source: QuickSightClientTypes.TransformOperationSource? = nil
+        ) {
+            self.alias = alias
+            self.castColumnTypeOperations = castColumnTypeOperations
+            self.source = source
         }
     }
 }
@@ -24940,7 +27175,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// Groupings of columns that work together in certain Amazon QuickSight features. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
+    /// Groupings of columns that work together in certain Quick Sight features. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
     public struct ColumnGroup: Swift.Sendable {
         /// Geospatial column group that denotes a hierarchy.
         public var geoSpatialColumnGroup: QuickSightClientTypes.GeoSpatialColumnGroup?
@@ -24993,7 +27228,7 @@ extension QuickSightClientTypes {
     public struct ColumnLevelPermissionRule: Swift.Sendable {
         /// An array of column names.
         public var columnNames: [Swift.String]?
-        /// An array of Amazon Resource Names (ARNs) for Amazon QuickSight users or groups.
+        /// An array of Amazon Resource Names (ARNs) for Quick Sight users or groups.
         public var principals: [Swift.String]?
 
         public init(
@@ -25155,6 +27390,25 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Specifies a column to be unpivoted, transforming it from a column into rows with associated values.
+    public struct ColumnToUnpivot: Swift.Sendable {
+        /// The name of the column to unpivot from the source data.
+        public var columnName: Swift.String?
+        /// The value to assign to this column in the unpivoted result, typically the column name or a descriptive label.
+        public var newValue: Swift.String?
+
+        public init(
+            columnName: Swift.String? = nil,
+            newValue: Swift.String? = nil
+        ) {
+            self.columnName = columnName
+            self.newValue = newValue
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum UndefinedSpecifiedValueType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case least
         case most
@@ -25263,13 +27517,13 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct CreateAccountCustomizationInput: Swift.Sendable {
-    /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
+    /// The Quick Sight customizations you're adding. You can add these to an Amazon Web Services account and a QuickSight namespace. For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
     /// This member is required.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
-    /// The ID for the Amazon Web Services account that you want to customize Amazon QuickSight for.
+    /// The ID for the Amazon Web Services account that you want to customize Quick Sight for.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight namespace that you want to add customizations to.
+    /// The Quick Sight namespace that you want to add customizations to.
     public var namespace: Swift.String?
     /// A list of the tags that you want to attach to this resource.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -25288,11 +27542,11 @@ public struct CreateAccountCustomizationInput: Swift.Sendable {
 }
 
 public struct CreateAccountCustomizationOutput: Swift.Sendable {
-    /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region.
+    /// The Quick Sight customizations you're adding.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) for the customization that you created for this Amazon Web Services account.
     public var arn: Swift.String?
-    /// The ID for the Amazon Web Services account that you want to customize Amazon QuickSight for.
+    /// The ID for the Amazon Web Services account that you want to customize Quick Sight for.
     public var awsAccountId: Swift.String?
     /// The namespace associated with the customization you're creating.
     public var namespace: Swift.String?
@@ -25346,30 +27600,30 @@ public struct PreconditionNotMetException: ClientRuntime.ModeledError, AWSClient
 }
 
 public struct CreateAccountSubscriptionInput: Swift.Sendable {
-    /// The name of your Amazon QuickSight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon QuickSight account is created.
+    /// The name of your Amazon Quick Sight account. This name is unique over all of Amazon Web Services, and it appears only when users sign in. You can't change AccountName value after the Amazon Quick Sight account is created.
     /// This member is required.
     public var accountName: Swift.String?
-    /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
+    /// The name of your Active Directory. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
     public var activeDirectoryName: Swift.String?
-    /// The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The admin group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminProGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see [Using IAM Identity Center with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see [Using Active Directory with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon Quick Sight User Guide.
     public var adminGroup: [Swift.String]?
-    /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Amazon QuickSight account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The admin pro group associated with your Active Directory or IAM Identity Center account. Either this field or the AdminGroup field is required if ACTIVE_DIRECTORY or IAM_IDENTITY_CENTER is the selected authentication method of the new Quick Sight account. For more information about using IAM Identity Center in Amazon Quick Sight, see [Using IAM Identity Center with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see [Using Active Directory with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon Quick Sight User Guide.
     public var adminProGroup: [Swift.String]?
-    /// The method that you want to use to authenticate your Amazon QuickSight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
+    /// The method that you want to use to authenticate your Quick Sight account. If you choose ACTIVE_DIRECTORY, provide an ActiveDirectoryName and an AdminGroup associated with your Active Directory. If you choose IAM_IDENTITY_CENTER, provide an AdminGroup associated with your IAM Identity Center account.
     /// This member is required.
     public var authenticationMethod: QuickSightClientTypes.AuthenticationMethodOption?
-    /// The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The author group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see [Using IAM Identity Center with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see [Using Active Directory with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon Quick Sight User Guide.
     public var authorGroup: [Swift.String]?
-    /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The author pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see [Using IAM Identity Center with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see [Using Active Directory with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon Quick Sight User Guide.
     public var authorProGroup: [Swift.String]?
-    /// The Amazon Web Services account ID of the account that you're using to create your Amazon QuickSight account.
+    /// The Amazon Web Services account ID of the account that you're using to create your Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// A 10-digit phone number for the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+    /// A 10-digit phone number for the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     public var contactNumber: Swift.String?
-    /// The ID of the Active Directory that is associated with your Amazon QuickSight account.
+    /// The ID of the Active Directory that is associated with your Quick Sight account.
     public var directoryId: Swift.String?
-    /// The edition of Amazon QuickSight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q. If you choose ENTERPRISE_AND_Q, the following parameters are required:
+    /// The edition of Amazon Quick Sight that you want your account to have. Currently, you can choose from ENTERPRISE or ENTERPRISE_AND_Q. If you choose ENTERPRISE_AND_Q, the following parameters are required:
     ///
     /// * FirstName
     ///
@@ -25379,22 +27633,22 @@ public struct CreateAccountSubscriptionInput: Swift.Sendable {
     ///
     /// * ContactNumber
     public var edition: QuickSightClientTypes.Edition?
-    /// The email address of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+    /// The email address of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     public var emailAddress: Swift.String?
-    /// The first name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+    /// The first name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     public var firstName: Swift.String?
     /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
     public var iamIdentityCenterInstanceArn: Swift.String?
-    /// The last name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
+    /// The last name of the author of the Amazon Quick Sight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon Quick Sight account.
     public var lastName: Swift.String?
-    /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon QuickSight account or Amazon QuickSight subscription.
+    /// The email address that you want Quick Sight to send notifications to regarding your Quick Sight account or Quick Sight subscription.
     /// This member is required.
     public var notificationEmail: Swift.String?
-    /// The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The reader group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see [Using IAM Identity Center with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see [Using Active Directory with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon Quick Sight User Guide.
     public var readerGroup: [Swift.String]?
-    /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon QuickSight, see [Using IAM Identity Center with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon QuickSight User Guide. For more information about using Active Directory in Amazon QuickSight, see [Using Active Directory with Amazon QuickSight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon QuickSight User Guide.
+    /// The reader pro group associated with your Active Directory or IAM Identity Center account. For more information about using IAM Identity Center in Amazon Quick Sight, see [Using IAM Identity Center with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html) in the Amazon Quick Sight User Guide. For more information about using Active Directory in Amazon Quick Sight, see [Using Active Directory with Amazon Quick Sight Enterprise Edition](https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html) in the Amazon Quick Sight User Guide.
     public var readerProGroup: [Swift.String]?
-    /// The realm of the Active Directory that is associated with your Amazon QuickSight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Amazon QuickSight account.
+    /// The realm of the Active Directory that is associated with your Quick Sight account. This field is required if ACTIVE_DIRECTORY is the selected authentication method of the new Quick Sight account.
     public var realm: Swift.String?
 
     public init(
@@ -25444,13 +27698,13 @@ extension QuickSightClientTypes {
 
     /// A SignupResponse object that contains a summary of a newly created account.
     public struct SignupResponse: Swift.Sendable {
-        /// The name of your Amazon QuickSight account.
+        /// The name of your Quick Sight account.
         public var accountName: Swift.String?
-        /// The type of Active Directory that is being used to authenticate the Amazon QuickSight account. Valid values are SIMPLE_AD, AD_CONNECTOR, and MICROSOFT_AD.
+        /// The type of Active Directory that is being used to authenticate the Amazon Quick Sight account. Valid values are SIMPLE_AD, AD_CONNECTOR, and MICROSOFT_AD.
         public var directoryType: Swift.String?
-        /// A Boolean that is TRUE if the Amazon QuickSight uses IAM as an authentication method.
+        /// A Boolean that is TRUE if the Amazon Quick Sight uses IAM as an authentication method.
         public var iamUser: Swift.Bool
-        /// The user login name for your Amazon QuickSight account.
+        /// The user login name for your Amazon Quick Sight account.
         public var userLoginName: Swift.String?
 
         public init(
@@ -25470,7 +27724,7 @@ extension QuickSightClientTypes {
 public struct CreateAccountSubscriptionOutput: Swift.Sendable {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
-    /// A SignupResponse object that returns information about a newly created Amazon QuickSight account.
+    /// A SignupResponse object that returns information about a newly created Quick Sight account.
     public var signupResponse: QuickSightClientTypes.SignupResponse?
     /// The HTTP status of the request.
     public var status: Swift.Int
@@ -25482,6 +27736,113 @@ public struct CreateAccountSubscriptionOutput: Swift.Sendable {
     ) {
         self.requestId = requestId
         self.signupResponse = signupResponse
+        self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Permission for the resource.
+    public struct ResourcePermission: Swift.Sendable {
+        /// The IAM action to grant or revoke permissions on.
+        /// This member is required.
+        public var actions: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:
+        ///
+        /// * The ARN of an Quick Sight user or group associated with a data source or dataset. (This is common.)
+        ///
+        /// * The ARN of an Quick Sight user, group, or namespace associated with an analysis, dashboard, template, or theme. Namespace sharing is not supported for action connectors. (This is common.)
+        ///
+        /// * The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a Quick Sight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. Account root sharing is not supported for action connectors. (This is less common.)
+        /// This member is required.
+        public var principal: Swift.String?
+
+        public init(
+            actions: [Swift.String]? = nil,
+            principal: Swift.String? = nil
+        ) {
+            self.actions = actions
+            self.principal = principal
+        }
+    }
+}
+
+public struct CreateActionConnectorInput: Swift.Sendable {
+    /// A unique identifier for the action connector. This ID must be unique within the Amazon Web Services account. The ActionConnectorId must not start with the prefix quicksuite-
+    /// This member is required.
+    public var actionConnectorId: Swift.String?
+    /// The authentication configuration for connecting to the external service. This includes the authentication type, base URL, and authentication metadata such as client credentials or API keys.
+    /// This member is required.
+    public var authenticationConfig: QuickSightClientTypes.AuthConfig?
+    /// The Amazon Web Services account ID associated with the action connector.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// An optional description of the action connector.
+    public var description: Swift.String?
+    /// A descriptive name for the action connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The permissions configuration that defines which users, groups, or namespaces can access this action connector and what operations they can perform.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// A list of tags to apply to the action connector for resource management and organization.
+    public var tags: [QuickSightClientTypes.Tag]?
+    /// The type of action connector.
+    /// This member is required.
+    public var type: QuickSightClientTypes.ActionConnectorType?
+    /// The ARN of the VPC connection to use for secure connectivity to the external service.
+    public var vpcConnectionArn: Swift.String?
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        authenticationConfig: QuickSightClientTypes.AuthConfig? = nil,
+        awsAccountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil,
+        type: QuickSightClientTypes.ActionConnectorType? = nil,
+        vpcConnectionArn: Swift.String? = nil
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.authenticationConfig = authenticationConfig
+        self.awsAccountId = awsAccountId
+        self.description = description
+        self.name = name
+        self.permissions = permissions
+        self.tags = tags
+        self.type = type
+        self.vpcConnectionArn = vpcConnectionArn
+    }
+}
+
+extension CreateActionConnectorInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateActionConnectorInput(actionConnectorId: \(Swift.String(describing: actionConnectorId)), authenticationConfig: \(Swift.String(describing: authenticationConfig)), awsAccountId: \(Swift.String(describing: awsAccountId)), permissions: \(Swift.String(describing: permissions)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), vpcConnectionArn: \(Swift.String(describing: vpcConnectionArn)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateActionConnectorOutput: Swift.Sendable {
+    /// The unique identifier of the created action connector.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the created action connector.
+    public var arn: Swift.String?
+    /// The creation status of the action connector.
+    public var creationStatus: QuickSightClientTypes.ResourceStatus?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status code of the request.
+    public var status: Swift.Int
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        creationStatus: QuickSightClientTypes.ResourceStatus? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.arn = arn
+        self.creationStatus = creationStatus
+        self.requestId = requestId
         self.status = status
     }
 }
@@ -25517,7 +27878,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-/// This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
+/// This error indicates that you are calling an operation on an Amazon Quick Suite subscription where the edition doesn't include support for that operation. Amazon Quick Suite currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
 public struct UnsupportedUserEditionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -25650,7 +28011,7 @@ extension QuickSightClientTypes.StringParameter: Swift.CustomDebugStringConverti
 
 extension QuickSightClientTypes {
 
-    /// A list of Amazon QuickSight parameters and the list's override values.
+    /// A list of Quick Sight parameters and the list's override values.
     public struct Parameters: Swift.Sendable {
         /// The parameters that have a data type of date-time.
         public var dateTimeParameters: [QuickSightClientTypes.DateTimeParameter]?
@@ -25671,33 +28032,6 @@ extension QuickSightClientTypes {
             self.decimalParameters = decimalParameters
             self.integerParameters = integerParameters
             self.stringParameters = stringParameters
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// Permission for the resource.
-    public struct ResourcePermission: Swift.Sendable {
-        /// The IAM action to grant or revoke permissions on.
-        /// This member is required.
-        public var actions: [Swift.String]?
-        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:
-        ///
-        /// * The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)
-        ///
-        /// * The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)
-        ///
-        /// * The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. (This is less common.)
-        /// This member is required.
-        public var principal: Swift.String?
-
-        public init(
-            actions: [Swift.String]? = nil,
-            principal: Swift.String? = nil
-        ) {
-            self.actions = actions
-            self.principal = principal
         }
     }
 }
@@ -25756,9 +28090,9 @@ public struct CreateAnalysisInput: Swift.Sendable {
     public var awsAccountId: Swift.String?
     /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var definition: QuickSightClientTypes.AnalysisDefinition?
-    /// When you create the analysis, Amazon QuickSight adds the analysis to these folders.
+    /// When you create the analysis, Amazon Quick Sight adds the analysis to these folders.
     public var folderArns: [Swift.String]?
-    /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon QuickSight console.
+    /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon Quick Sight console.
     /// This member is required.
     public var name: Swift.String?
     /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values.
@@ -25769,7 +28103,7 @@ public struct CreateAnalysisInput: Swift.Sendable {
     public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
     public var tags: [QuickSightClientTypes.Tag]?
-    /// The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon QuickSight console, make sure that you have access to it.
+    /// The ARN for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
     public var themeArn: Swift.String?
     /// The option to relax the validation needed to create an analysis with definition objects. This skips the validation step for specific errors.
     public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
@@ -25885,7 +28219,7 @@ public struct CreateBrandInput: Swift.Sendable {
     public var awsAccountId: Swift.String?
     /// The definition of the brand.
     public var brandDefinition: QuickSightClientTypes.BrandDefinition?
-    /// The ID of the Amazon QuickSight brand.
+    /// The ID of the Quick Suite brand.
     /// This member is required.
     public var brandId: Swift.String?
     /// A map of the key-value pairs that are assigned to the brand.
@@ -25927,14 +28261,22 @@ extension QuickSightClientTypes {
 
     /// A transform operation that creates calculated columns. Columns created in one such operation form a lexical closure.
     public struct CreateColumnsOperation: Swift.Sendable {
+        /// Alias for this operation.
+        public var alias: Swift.String?
         /// Calculated columns to create.
         /// This member is required.
         public var columns: [QuickSightClientTypes.CalculatedColumn]?
+        /// The source transform operation that provides input data for creating new calculated columns.
+        public var source: QuickSightClientTypes.TransformOperationSource?
 
         public init(
-            columns: [QuickSightClientTypes.CalculatedColumn]? = nil
+            alias: Swift.String? = nil,
+            columns: [QuickSightClientTypes.CalculatedColumn]? = nil,
+            source: QuickSightClientTypes.TransformOperationSource? = nil
         ) {
+            self.alias = alias
             self.columns = columns
+            self.source = source
         }
     }
 }
@@ -26045,6 +28387,36 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Executive summary option.
+    public struct DataStoriesSharingOption: Swift.Sendable {
+        /// Availability status.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init(
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        ) {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Data stories sharing option.
+    public struct ExecutiveSummaryOption: Swift.Sendable {
+        /// Availability status.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init(
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        ) {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Export to .csv option.
     public struct ExportToCSVOption: Swift.Sendable {
         /// Availability status.
@@ -26063,6 +28435,21 @@ extension QuickSightClientTypes {
     /// Determines whether or not hidden fields are visible on exported dashbaords.
     public struct ExportWithHiddenFieldsOption: Swift.Sendable {
         /// The status of the export with hidden fields options.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init(
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        ) {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Determines if Actions in Amazon Quick Suite are enabled in a dashboard..
+    public struct QuickSuiteActionsOption: Swift.Sendable {
+        /// Availability status.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
         public init(
@@ -26189,12 +28576,18 @@ extension QuickSightClientTypes {
         public var dataPointMenuLabelOption: QuickSightClientTypes.DataPointMenuLabelOption?
         /// The data point tool tip options of a dashboard.
         public var dataPointTooltipOption: QuickSightClientTypes.DataPointTooltipOption?
-        /// Adds Q&A capabilities to an Amazon QuickSight dashboard. If no topic is linked, Dashboard Q&A uses the data values that are rendered on the dashboard. End users can use Dashboard Q&A to ask for different slices of the data that they see on the dashboard. If a topic is linked, Topic Q&A is used.
+        /// Adds Q&A capabilities to an Quick Sight dashboard. If no topic is linked, Dashboard Q&A uses the data values that are rendered on the dashboard. End users can use Dashboard Q&A to ask for different slices of the data that they see on the dashboard. If a topic is linked, Topic Q&A is used.
         public var dataQAEnabledOption: QuickSightClientTypes.DataQAEnabledOption?
+        /// Data stories sharing option.
+        public var dataStoriesSharingOption: QuickSightClientTypes.DataStoriesSharingOption?
+        /// Executive summary option.
+        public var executiveSummaryOption: QuickSightClientTypes.ExecutiveSummaryOption?
         /// Export to .csv option.
         public var exportToCSVOption: QuickSightClientTypes.ExportToCSVOption?
         /// Determines if hidden fields are exported with a dashboard.
         public var exportWithHiddenFieldsOption: QuickSightClientTypes.ExportWithHiddenFieldsOption?
+        /// Determines if Actions in Amazon Quick Suite are enabled in a dashboard.
+        public var quickSuiteActionsOption: QuickSightClientTypes.QuickSuiteActionsOption?
         /// Sheet controls option.
         public var sheetControlsOption: QuickSightClientTypes.SheetControlsOption?
         /// The sheet layout maximization options of a dashbaord.
@@ -26213,8 +28606,11 @@ extension QuickSightClientTypes {
             dataPointMenuLabelOption: QuickSightClientTypes.DataPointMenuLabelOption? = nil,
             dataPointTooltipOption: QuickSightClientTypes.DataPointTooltipOption? = nil,
             dataQAEnabledOption: QuickSightClientTypes.DataQAEnabledOption? = nil,
+            dataStoriesSharingOption: QuickSightClientTypes.DataStoriesSharingOption? = nil,
+            executiveSummaryOption: QuickSightClientTypes.ExecutiveSummaryOption? = nil,
             exportToCSVOption: QuickSightClientTypes.ExportToCSVOption? = nil,
             exportWithHiddenFieldsOption: QuickSightClientTypes.ExportWithHiddenFieldsOption? = nil,
+            quickSuiteActionsOption: QuickSightClientTypes.QuickSuiteActionsOption? = nil,
             sheetControlsOption: QuickSightClientTypes.SheetControlsOption? = nil,
             sheetLayoutElementMaximizationOption: QuickSightClientTypes.SheetLayoutElementMaximizationOption? = nil,
             visualAxisSortOption: QuickSightClientTypes.VisualAxisSortOption? = nil,
@@ -26226,8 +28622,11 @@ extension QuickSightClientTypes {
             self.dataPointMenuLabelOption = dataPointMenuLabelOption
             self.dataPointTooltipOption = dataPointTooltipOption
             self.dataQAEnabledOption = dataQAEnabledOption
+            self.dataStoriesSharingOption = dataStoriesSharingOption
+            self.executiveSummaryOption = executiveSummaryOption
             self.exportToCSVOption = exportToCSVOption
             self.exportWithHiddenFieldsOption = exportWithHiddenFieldsOption
+            self.quickSuiteActionsOption = quickSuiteActionsOption
             self.sheetControlsOption = sheetControlsOption
             self.sheetLayoutElementMaximizationOption = sheetLayoutElementMaximizationOption
             self.visualAxisSortOption = visualAxisSortOption
@@ -26250,11 +28649,11 @@ extension QuickSightClientTypes {
         /// An array of dataset identifier declarations. With this mapping,you can use dataset identifiers instead of dataset Amazon Resource Names (ARNs) throughout the dashboard's sub-structures.
         /// This member is required.
         public var dataSetIdentifierDeclarations: [QuickSightClientTypes.DataSetIdentifierDeclaration]?
-        /// The filter definitions for a dashboard. For more information, see [Filtering Data in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon QuickSight User Guide.
+        /// The filter definitions for a dashboard. For more information, see [Filtering Data in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/adding-a-filter.html) in the Amazon Quick Suite User Guide.
         public var filterGroups: [QuickSightClientTypes.FilterGroup]?
         /// An array of option definitions for a dashboard.
         public var options: QuickSightClientTypes.AssetOptions?
-        /// The parameter declarations for a dashboard. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide.
+        /// The parameter declarations for a dashboard. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
         /// An array of sheet definitions for a dashboard.
         public var sheets: [QuickSightClientTypes.SheetDefinition]?
@@ -26345,15 +28744,21 @@ public struct CreateDashboardInput: Swift.Sendable {
     public var dashboardId: Swift.String?
     /// Options for publishing the dashboard when you create it:
     ///
-    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
+    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
     ///
     /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
     ///
     /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+    ///
+    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
+    ///
+    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
     public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
     /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
-    /// When you create the dashboard, Amazon QuickSight adds the dashboard to these folders.
+    /// When you create the dashboard, Amazon Quick Sight adds the dashboard to these folders.
     public var folderArns: [Swift.String]?
     /// A list of analysis Amazon Resource Names (ARNs) to be linked to the dashboard.
     public var linkEntities: [Swift.String]?
@@ -26366,7 +28771,7 @@ public struct CreateDashboardInput: Swift.Sendable {
     public var parameters: QuickSightClientTypes.Parameters?
     /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN. To specify no permissions, omit the permissions list.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -26440,6 +28845,1125 @@ public struct CreateDashboardOutput: Swift.Sendable {
         self.requestId = requestId
         self.status = status
         self.versionArn = versionArn
+    }
+}
+
+/// An exception thrown when an invalid parameter value is provided for dataset operations.
+public struct InvalidDataSetParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDataSetParameterValueException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Specifies the source of data for a destination table, including the transform operation and column mappings.
+    public struct DestinationTableSource: Swift.Sendable {
+        /// The identifier of the transform operation that provides data to the destination table.
+        /// This member is required.
+        public var transformOperationId: Swift.String?
+
+        public init(
+            transformOperationId: Swift.String? = nil
+        ) {
+            self.transformOperationId = transformOperationId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Defines a destination table in data preparation that receives the final transformed data.
+    public struct DestinationTable: Swift.Sendable {
+        /// Alias for the destination table.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The source configuration that specifies which transform operation provides data to this destination table.
+        /// This member is required.
+        public var source: QuickSightClientTypes.DestinationTableSource?
+
+        public init(
+            alias: Swift.String? = nil,
+            source: QuickSightClientTypes.DestinationTableSource? = nil
+        ) {
+            self.alias = alias
+            self.source = source
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum InputColumnDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bit
+        case boolean
+        case datetime
+        case decimal
+        case integer
+        case json
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputColumnDataType] {
+            return [
+                .bit,
+                .boolean,
+                .datetime,
+                .decimal,
+                .integer,
+                .json,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bit: return "BIT"
+            case .boolean: return "BOOLEAN"
+            case .datetime: return "DATETIME"
+            case .decimal: return "DECIMAL"
+            case .integer: return "INTEGER"
+            case .json: return "JSON"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Metadata for a column that is used as the input of a transform operation.
+    public struct InputColumn: Swift.Sendable {
+        /// A unique identifier for the input column.
+        public var id: Swift.String?
+        /// The name of this column in the underlying data source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The sub data type of the column. Sub types are only available for decimal columns that are part of a SPICE dataset.
+        public var subType: QuickSightClientTypes.ColumnDataSubType?
+        /// The data type of the column.
+        /// This member is required.
+        public var type: QuickSightClientTypes.InputColumnDataType?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            subType: QuickSightClientTypes.ColumnDataSubType? = nil,
+            type: QuickSightClientTypes.InputColumnDataType? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.subType = subType
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// References a parent dataset that serves as a data source, including its columns and metadata.
+    public struct ParentDataSet: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the parent dataset.
+        /// This member is required.
+        public var dataSetArn: Swift.String?
+        /// The list of input columns available from the parent dataset.
+        /// This member is required.
+        public var inputColumns: [QuickSightClientTypes.InputColumn]?
+
+        public init(
+            dataSetArn: Swift.String? = nil,
+            inputColumns: [QuickSightClientTypes.InputColumn]? = nil
+        ) {
+            self.dataSetArn = dataSetArn
+            self.inputColumns = inputColumns
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A source table that provides initial data from either a physical table or parent dataset.
+    public struct SourceTable: Swift.Sendable {
+        /// A parent dataset that serves as the data source instead of a physical table.
+        public var dataSet: QuickSightClientTypes.ParentDataSet?
+        /// The identifier of the physical table that serves as the data source.
+        public var physicalTableId: Swift.String?
+
+        public init(
+            dataSet: QuickSightClientTypes.ParentDataSet? = nil,
+            physicalTableId: Swift.String? = nil
+        ) {
+            self.dataSet = dataSet
+            self.physicalTableId = physicalTableId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DataSetDateComparisonFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case after
+        case afterOrEqualsTo
+        case before
+        case beforeOrEqualsTo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSetDateComparisonFilterOperator] {
+            return [
+                .after,
+                .afterOrEqualsTo,
+                .before,
+                .beforeOrEqualsTo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .after: return "AFTER"
+            case .afterOrEqualsTo: return "AFTER_OR_EQUALS_TO"
+            case .before: return "BEFORE"
+            case .beforeOrEqualsTo: return "BEFORE_OR_EQUALS_TO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Represents a date value used in filter conditions.
+    public struct DataSetDateFilterValue: Swift.Sendable {
+        /// A static date value used for filtering.
+        public var staticValue: Foundation.Date?
+
+        public init(
+            staticValue: Foundation.Date? = nil
+        ) {
+            self.staticValue = staticValue
+        }
+    }
+}
+
+extension QuickSightClientTypes.DataSetDateFilterValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataSetDateFilterValue(staticValue: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition that compares date values using operators like BEFORE, AFTER, or their inclusive variants.
+    public struct DataSetDateComparisonFilterCondition: Swift.Sendable {
+        /// The comparison operator to use, such as BEFORE, BEFORE_OR_EQUALS_TO, AFTER, or AFTER_OR_EQUALS_TO.
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.DataSetDateComparisonFilterOperator?
+        /// The date value to compare against.
+        public var value: QuickSightClientTypes.DataSetDateFilterValue?
+
+        public init(
+            `operator`: QuickSightClientTypes.DataSetDateComparisonFilterOperator? = nil,
+            value: QuickSightClientTypes.DataSetDateFilterValue? = nil
+        ) {
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition that filters date values within a specified range.
+    public struct DataSetDateRangeFilterCondition: Swift.Sendable {
+        /// Whether to include the maximum value in the filter range.
+        public var includeMaximum: Swift.Bool?
+        /// Whether to include the minimum value in the filter range.
+        public var includeMinimum: Swift.Bool?
+        /// The maximum date value for the range filter.
+        public var rangeMaximum: QuickSightClientTypes.DataSetDateFilterValue?
+        /// The minimum date value for the range filter.
+        public var rangeMinimum: QuickSightClientTypes.DataSetDateFilterValue?
+
+        public init(
+            includeMaximum: Swift.Bool? = false,
+            includeMinimum: Swift.Bool? = false,
+            rangeMaximum: QuickSightClientTypes.DataSetDateFilterValue? = nil,
+            rangeMinimum: QuickSightClientTypes.DataSetDateFilterValue? = nil
+        ) {
+            self.includeMaximum = includeMaximum
+            self.includeMinimum = includeMinimum
+            self.rangeMaximum = rangeMaximum
+            self.rangeMinimum = rangeMinimum
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition for date columns, supporting both comparison and range-based filtering.
+    public struct DataSetDateFilterCondition: Swift.Sendable {
+        /// The name of the date column to filter.
+        public var columnName: Swift.String?
+        /// A comparison-based filter condition for the date column.
+        public var comparisonFilterCondition: QuickSightClientTypes.DataSetDateComparisonFilterCondition?
+        /// A range-based filter condition for the date column, filtering values between minimum and maximum dates.
+        public var rangeFilterCondition: QuickSightClientTypes.DataSetDateRangeFilterCondition?
+
+        public init(
+            columnName: Swift.String? = nil,
+            comparisonFilterCondition: QuickSightClientTypes.DataSetDateComparisonFilterCondition? = nil,
+            rangeFilterCondition: QuickSightClientTypes.DataSetDateRangeFilterCondition? = nil
+        ) {
+            self.columnName = columnName
+            self.comparisonFilterCondition = comparisonFilterCondition
+            self.rangeFilterCondition = rangeFilterCondition
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DataSetNumericComparisonFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case doesNotEqual
+        case equals
+        case greaterThan
+        case greaterThanOrEqualsTo
+        case lessThan
+        case lessThanOrEqualsTo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSetNumericComparisonFilterOperator] {
+            return [
+                .doesNotEqual,
+                .equals,
+                .greaterThan,
+                .greaterThanOrEqualsTo,
+                .lessThan,
+                .lessThanOrEqualsTo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .doesNotEqual: return "DOES_NOT_EQUAL"
+            case .equals: return "EQUALS"
+            case .greaterThan: return "GREATER_THAN"
+            case .greaterThanOrEqualsTo: return "GREATER_THAN_OR_EQUALS_TO"
+            case .lessThan: return "LESS_THAN"
+            case .lessThanOrEqualsTo: return "LESS_THAN_OR_EQUALS_TO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Represents a numeric value used in filter conditions.
+    public struct DataSetNumericFilterValue: Swift.Sendable {
+        /// A static numeric value used for filtering.
+        public var staticValue: Swift.Double?
+
+        public init(
+            staticValue: Swift.Double? = 0.0
+        ) {
+            self.staticValue = staticValue
+        }
+    }
+}
+
+extension QuickSightClientTypes.DataSetNumericFilterValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataSetNumericFilterValue(staticValue: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition that compares numeric values using operators like EQUALS, GREATER_THAN, or LESS_THAN.
+    public struct DataSetNumericComparisonFilterCondition: Swift.Sendable {
+        /// The comparison operator to use, such as EQUALS, GREATER_THAN, LESS_THAN, or their variants.
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.DataSetNumericComparisonFilterOperator?
+        /// The numeric value to compare against.
+        public var value: QuickSightClientTypes.DataSetNumericFilterValue?
+
+        public init(
+            `operator`: QuickSightClientTypes.DataSetNumericComparisonFilterOperator? = nil,
+            value: QuickSightClientTypes.DataSetNumericFilterValue? = nil
+        ) {
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition that filters numeric values within a specified range.
+    public struct DataSetNumericRangeFilterCondition: Swift.Sendable {
+        /// Whether to include the maximum value in the filter range.
+        public var includeMaximum: Swift.Bool?
+        /// Whether to include the minimum value in the filter range.
+        public var includeMinimum: Swift.Bool?
+        /// The maximum numeric value for the range filter.
+        public var rangeMaximum: QuickSightClientTypes.DataSetNumericFilterValue?
+        /// The minimum numeric value for the range filter.
+        public var rangeMinimum: QuickSightClientTypes.DataSetNumericFilterValue?
+
+        public init(
+            includeMaximum: Swift.Bool? = false,
+            includeMinimum: Swift.Bool? = false,
+            rangeMaximum: QuickSightClientTypes.DataSetNumericFilterValue? = nil,
+            rangeMinimum: QuickSightClientTypes.DataSetNumericFilterValue? = nil
+        ) {
+            self.includeMaximum = includeMaximum
+            self.includeMinimum = includeMinimum
+            self.rangeMaximum = rangeMaximum
+            self.rangeMinimum = rangeMinimum
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition for numeric columns, supporting both comparison and range-based filtering.
+    public struct DataSetNumericFilterCondition: Swift.Sendable {
+        /// The name of the numeric column to filter.
+        public var columnName: Swift.String?
+        /// A comparison-based filter condition for the numeric column.
+        public var comparisonFilterCondition: QuickSightClientTypes.DataSetNumericComparisonFilterCondition?
+        /// A range-based filter condition for the numeric column, filtering values between minimum and maximum numbers.
+        public var rangeFilterCondition: QuickSightClientTypes.DataSetNumericRangeFilterCondition?
+
+        public init(
+            columnName: Swift.String? = nil,
+            comparisonFilterCondition: QuickSightClientTypes.DataSetNumericComparisonFilterCondition? = nil,
+            rangeFilterCondition: QuickSightClientTypes.DataSetNumericRangeFilterCondition? = nil
+        ) {
+            self.columnName = columnName
+            self.comparisonFilterCondition = comparisonFilterCondition
+            self.rangeFilterCondition = rangeFilterCondition
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DataSetStringComparisonFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case doesNotContain
+        case doesNotEqual
+        case endsWith
+        case equals
+        case startsWith
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSetStringComparisonFilterOperator] {
+            return [
+                .contains,
+                .doesNotContain,
+                .doesNotEqual,
+                .endsWith,
+                .equals,
+                .startsWith
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .doesNotContain: return "DOES_NOT_CONTAIN"
+            case .doesNotEqual: return "DOES_NOT_EQUAL"
+            case .endsWith: return "ENDS_WITH"
+            case .equals: return "EQUALS"
+            case .startsWith: return "STARTS_WITH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Represents a string value used in filter conditions.
+    public struct DataSetStringFilterValue: Swift.Sendable {
+        /// A static string value used for filtering.
+        public var staticValue: Swift.String?
+
+        public init(
+            staticValue: Swift.String? = nil
+        ) {
+            self.staticValue = staticValue
+        }
+    }
+}
+
+extension QuickSightClientTypes.DataSetStringFilterValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataSetStringFilterValue(staticValue: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition that compares string values using operators like EQUALS, CONTAINS, or STARTS_WITH.
+    public struct DataSetStringComparisonFilterCondition: Swift.Sendable {
+        /// The comparison operator to use, such as EQUALS, CONTAINS, STARTS_WITH, ENDS_WITH, or their negations.
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.DataSetStringComparisonFilterOperator?
+        /// The string value to compare against.
+        public var value: QuickSightClientTypes.DataSetStringFilterValue?
+
+        public init(
+            `operator`: QuickSightClientTypes.DataSetStringComparisonFilterOperator? = nil,
+            value: QuickSightClientTypes.DataSetStringFilterValue? = nil
+        ) {
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum DataSetStringListFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSetStringListFilterOperator] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Represents a list of string values used in filter conditions.
+    public struct DataSetStringListFilterValue: Swift.Sendable {
+        /// A list of static string values used for filtering.
+        public var staticValues: [Swift.String]?
+
+        public init(
+            staticValues: [Swift.String]? = nil
+        ) {
+            self.staticValues = staticValues
+        }
+    }
+}
+
+extension QuickSightClientTypes.DataSetStringListFilterValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DataSetStringListFilterValue(staticValues: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition that includes or excludes string values from a specified list.
+    public struct DataSetStringListFilterCondition: Swift.Sendable {
+        /// The list operator to use, either INCLUDE to match values in the list or EXCLUDE to filter out values in the list.
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.DataSetStringListFilterOperator?
+        /// The list of string values to include or exclude in the filter.
+        public var values: QuickSightClientTypes.DataSetStringListFilterValue?
+
+        public init(
+            `operator`: QuickSightClientTypes.DataSetStringListFilterOperator? = nil,
+            values: QuickSightClientTypes.DataSetStringListFilterValue? = nil
+        ) {
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A filter condition for string columns, supporting both comparison and list-based filtering.
+    public struct DataSetStringFilterCondition: Swift.Sendable {
+        /// The name of the string column to filter.
+        public var columnName: Swift.String?
+        /// A comparison-based filter condition for the string column.
+        public var comparisonFilterCondition: QuickSightClientTypes.DataSetStringComparisonFilterCondition?
+        /// A list-based filter condition that includes or excludes values from a specified list.
+        public var listFilterCondition: QuickSightClientTypes.DataSetStringListFilterCondition?
+
+        public init(
+            columnName: Swift.String? = nil,
+            comparisonFilterCondition: QuickSightClientTypes.DataSetStringComparisonFilterCondition? = nil,
+            listFilterCondition: QuickSightClientTypes.DataSetStringListFilterCondition? = nil
+        ) {
+            self.columnName = columnName
+            self.comparisonFilterCondition = comparisonFilterCondition
+            self.listFilterCondition = listFilterCondition
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that filters rows based on a condition.
+    public struct FilterOperation: Swift.Sendable {
+        /// An expression that must evaluate to a Boolean value. Rows for which the expression evaluates to true are kept in the dataset.
+        public var conditionExpression: Swift.String?
+        /// A date-based filter condition within a filter operation.
+        public var dateFilterCondition: QuickSightClientTypes.DataSetDateFilterCondition?
+        /// A numeric-based filter condition within a filter operation.
+        public var numericFilterCondition: QuickSightClientTypes.DataSetNumericFilterCondition?
+        /// A string-based filter condition within a filter operation.
+        public var stringFilterCondition: QuickSightClientTypes.DataSetStringFilterCondition?
+
+        public init(
+            conditionExpression: Swift.String? = nil,
+            dateFilterCondition: QuickSightClientTypes.DataSetDateFilterCondition? = nil,
+            numericFilterCondition: QuickSightClientTypes.DataSetNumericFilterCondition? = nil,
+            stringFilterCondition: QuickSightClientTypes.DataSetStringFilterCondition? = nil
+        ) {
+            self.conditionExpression = conditionExpression
+            self.dateFilterCondition = dateFilterCondition
+            self.numericFilterCondition = numericFilterCondition
+            self.stringFilterCondition = stringFilterCondition
+        }
+    }
+}
+
+extension QuickSightClientTypes.FilterOperation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FilterOperation(dateFilterCondition: \(Swift.String(describing: dateFilterCondition)), numericFilterCondition: \(Swift.String(describing: numericFilterCondition)), stringFilterCondition: \(Swift.String(describing: stringFilterCondition)), conditionExpression: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that applies one or more filter conditions.
+    public struct FiltersOperation: Swift.Sendable {
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The list of filter operations to apply.
+        /// This member is required.
+        public var filterOperations: [QuickSightClientTypes.FilterOperation]?
+        /// The source transform operation that provides input data for filtering.
+        /// This member is required.
+        public var source: QuickSightClientTypes.TransformOperationSource?
+
+        public init(
+            alias: Swift.String? = nil,
+            filterOperations: [QuickSightClientTypes.FilterOperation]? = nil,
+            source: QuickSightClientTypes.TransformOperationSource? = nil
+        ) {
+            self.alias = alias
+            self.filterOperations = filterOperations
+            self.source = source
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Specifies the source table and column mappings for an import table operation.
+    public struct ImportTableOperationSource: Swift.Sendable {
+        /// The mappings between source column identifiers and target column identifiers during the import.
+        public var columnIdMappings: [QuickSightClientTypes.DataSetColumnIdMapping]?
+        /// The identifier of the source table to import data from.
+        /// This member is required.
+        public var sourceTableId: Swift.String?
+
+        public init(
+            columnIdMappings: [QuickSightClientTypes.DataSetColumnIdMapping]? = nil,
+            sourceTableId: Swift.String? = nil
+        ) {
+            self.columnIdMappings = columnIdMappings
+            self.sourceTableId = sourceTableId
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that imports data from a source table.
+    public struct ImportTableOperation: Swift.Sendable {
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The source configuration that specifies which source table to import and any column mappings.
+        /// This member is required.
+        public var source: QuickSightClientTypes.ImportTableOperationSource?
+
+        public init(
+            alias: Swift.String? = nil,
+            source: QuickSightClientTypes.ImportTableOperationSource? = nil
+        ) {
+            self.alias = alias
+            self.source = source
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Specifies a mapping to override the name of an output column from a transform operation.
+    public struct OutputColumnNameOverride: Swift.Sendable {
+        /// The new name to assign to the column in the output.
+        /// This member is required.
+        public var outputColumnName: Swift.String?
+        /// The original name of the column from the source transform operation.
+        public var sourceColumnName: Swift.String?
+
+        public init(
+            outputColumnName: Swift.String? = nil,
+            sourceColumnName: Swift.String? = nil
+        ) {
+            self.outputColumnName = outputColumnName
+            self.sourceColumnName = sourceColumnName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Properties that control how columns are handled for a join operand, including column name overrides.
+    public struct JoinOperandProperties: Swift.Sendable {
+        /// A list of column name overrides to apply to the join operand's output columns.
+        /// This member is required.
+        public var outputColumnNameOverrides: [QuickSightClientTypes.OutputColumnNameOverride]?
+
+        public init(
+            outputColumnNameOverrides: [QuickSightClientTypes.OutputColumnNameOverride]? = nil
+        ) {
+            self.outputColumnNameOverrides = outputColumnNameOverrides
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum JoinOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inner
+        case `left`
+        case outer
+        case `right`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JoinOperationType] {
+            return [
+                .inner,
+                .left,
+                .outer,
+                .right
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inner: return "INNER"
+            case .left: return "LEFT"
+            case .outer: return "OUTER"
+            case .right: return "RIGHT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that combines data from two sources based on specified join conditions.
+    public struct JoinOperation: Swift.Sendable {
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The left operand for the join operation.
+        /// This member is required.
+        public var leftOperand: QuickSightClientTypes.TransformOperationSource?
+        /// Properties that control how the left operand's columns are handled in the join result.
+        public var leftOperandProperties: QuickSightClientTypes.JoinOperandProperties?
+        /// The join condition that specifies how to match rows between the left and right operands.
+        /// This member is required.
+        public var onClause: Swift.String?
+        /// The right operand for the join operation.
+        /// This member is required.
+        public var rightOperand: QuickSightClientTypes.TransformOperationSource?
+        /// Properties that control how the right operand's columns are handled in the join result.
+        public var rightOperandProperties: QuickSightClientTypes.JoinOperandProperties?
+        /// The type of join to perform, such as INNER, LEFT, RIGHT, or OUTER.
+        /// This member is required.
+        public var type: QuickSightClientTypes.JoinOperationType?
+
+        public init(
+            alias: Swift.String? = nil,
+            leftOperand: QuickSightClientTypes.TransformOperationSource? = nil,
+            leftOperandProperties: QuickSightClientTypes.JoinOperandProperties? = nil,
+            onClause: Swift.String? = nil,
+            rightOperand: QuickSightClientTypes.TransformOperationSource? = nil,
+            rightOperandProperties: QuickSightClientTypes.JoinOperandProperties? = nil,
+            type: QuickSightClientTypes.JoinOperationType? = nil
+        ) {
+            self.alias = alias
+            self.leftOperand = leftOperand
+            self.leftOperandProperties = leftOperandProperties
+            self.onClause = onClause
+            self.rightOperand = rightOperand
+            self.rightOperandProperties = rightOperandProperties
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes.JoinOperation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "JoinOperation(alias: \(Swift.String(describing: alias)), leftOperand: \(Swift.String(describing: leftOperand)), leftOperandProperties: \(Swift.String(describing: leftOperandProperties)), rightOperand: \(Swift.String(describing: rightOperand)), rightOperandProperties: \(Swift.String(describing: rightOperandProperties)), type: \(Swift.String(describing: type)), onClause: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// Specifies a label value to be pivoted into a separate column, including the new column name and identifier.
+    public struct PivotedLabel: Swift.Sendable {
+        /// The label value from the source data to be pivoted.
+        /// This member is required.
+        public var labelName: Swift.String?
+        /// A unique identifier for the new column created from this pivoted label.
+        /// This member is required.
+        public var newColumnId: Swift.String?
+        /// The name for the new column created from this pivoted label.
+        /// This member is required.
+        public var newColumnName: Swift.String?
+
+        public init(
+            labelName: Swift.String? = nil,
+            newColumnId: Swift.String? = nil,
+            newColumnName: Swift.String? = nil
+        ) {
+            self.labelName = labelName
+            self.newColumnId = newColumnId
+            self.newColumnName = newColumnName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configuration for a pivot operation, specifying which column contains labels and how to pivot them.
+    public struct PivotConfiguration: Swift.Sendable {
+        /// The name of the column that contains the labels to be pivoted into separate columns.
+        public var labelColumnName: Swift.String?
+        /// The list of specific label values to pivot into separate columns.
+        /// This member is required.
+        public var pivotedLabels: [QuickSightClientTypes.PivotedLabel]?
+
+        public init(
+            labelColumnName: Swift.String? = nil,
+            pivotedLabels: [QuickSightClientTypes.PivotedLabel]? = nil
+        ) {
+            self.labelColumnName = labelColumnName
+            self.pivotedLabels = pivotedLabels
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configuration for how to handle value columns in pivot operations, including aggregation settings.
+    public struct ValueColumnConfiguration: Swift.Sendable {
+        /// The aggregation function to apply when multiple values map to the same pivoted cell.
+        public var aggregationFunction: QuickSightClientTypes.DataPrepAggregationFunction?
+
+        public init(
+            aggregationFunction: QuickSightClientTypes.DataPrepAggregationFunction? = nil
+        ) {
+            self.aggregationFunction = aggregationFunction
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that pivots data by converting row values into columns.
+    public struct PivotOperation: Swift.Sendable {
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The list of column names to group by when performing the pivot operation.
+        public var groupByColumnNames: [Swift.String]?
+        /// Configuration that specifies which labels to pivot and how to structure the resulting columns.
+        /// This member is required.
+        public var pivotConfiguration: QuickSightClientTypes.PivotConfiguration?
+        /// The source transform operation that provides input data for pivoting.
+        /// This member is required.
+        public var source: QuickSightClientTypes.TransformOperationSource?
+        /// Configuration for how to aggregate values when multiple rows map to the same pivoted column.
+        /// This member is required.
+        public var valueColumnConfiguration: QuickSightClientTypes.ValueColumnConfiguration?
+
+        public init(
+            alias: Swift.String? = nil,
+            groupByColumnNames: [Swift.String]? = nil,
+            pivotConfiguration: QuickSightClientTypes.PivotConfiguration? = nil,
+            source: QuickSightClientTypes.TransformOperationSource? = nil,
+            valueColumnConfiguration: QuickSightClientTypes.ValueColumnConfiguration? = nil
+        ) {
+            self.alias = alias
+            self.groupByColumnNames = groupByColumnNames
+            self.pivotConfiguration = pivotConfiguration
+            self.source = source
+            self.valueColumnConfiguration = valueColumnConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that projects columns. Operations that come after a projection can only refer to projected columns.
+    public struct ProjectOperation: Swift.Sendable {
+        /// Alias for this operation.
+        public var alias: Swift.String?
+        /// Projected columns.
+        /// This member is required.
+        public var projectedColumns: [Swift.String]?
+        /// The source transform operation that provides input data for column projection.
+        public var source: QuickSightClientTypes.TransformOperationSource?
+
+        public init(
+            alias: Swift.String? = nil,
+            projectedColumns: [Swift.String]? = nil,
+            source: QuickSightClientTypes.TransformOperationSource? = nil
+        ) {
+            self.alias = alias
+            self.projectedColumns = projectedColumns
+            self.source = source
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that renames a column.
+    public struct RenameColumnOperation: Swift.Sendable {
+        /// The name of the column to be renamed.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// The new name for the column.
+        /// This member is required.
+        public var newColumnName: Swift.String?
+
+        public init(
+            columnName: Swift.String? = nil,
+            newColumnName: Swift.String? = nil
+        ) {
+            self.columnName = columnName
+            self.newColumnName = newColumnName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that renames one or more columns in the dataset.
+    public struct RenameColumnsOperation: Swift.Sendable {
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The list of column rename operations to perform, specifying old and new column names.
+        /// This member is required.
+        public var renameColumnOperations: [QuickSightClientTypes.RenameColumnOperation]?
+        /// The source transform operation that provides input data for column renaming.
+        /// This member is required.
+        public var source: QuickSightClientTypes.TransformOperationSource?
+
+        public init(
+            alias: Swift.String? = nil,
+            renameColumnOperations: [QuickSightClientTypes.RenameColumnOperation]? = nil,
+            source: QuickSightClientTypes.TransformOperationSource? = nil
+        ) {
+            self.alias = alias
+            self.renameColumnOperations = renameColumnOperations
+            self.source = source
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A transform operation that converts columns into rows, normalizing the data structure.
+    public struct UnpivotOperation: Swift.Sendable {
+        /// Alias for this operation.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The list of columns to unpivot from the source data.
+        /// This member is required.
+        public var columnsToUnpivot: [QuickSightClientTypes.ColumnToUnpivot]?
+        /// The source transform operation that provides input data for unpivoting.
+        /// This member is required.
+        public var source: QuickSightClientTypes.TransformOperationSource?
+        /// A unique identifier for the new column that will contain the unpivoted column names.
+        /// This member is required.
+        public var unpivotedLabelColumnId: Swift.String?
+        /// The name for the new column that will contain the unpivoted column names.
+        /// This member is required.
+        public var unpivotedLabelColumnName: Swift.String?
+        /// A unique identifier for the new column that will contain the unpivoted values.
+        /// This member is required.
+        public var unpivotedValueColumnId: Swift.String?
+        /// The name for the new column that will contain the unpivoted values.
+        /// This member is required.
+        public var unpivotedValueColumnName: Swift.String?
+
+        public init(
+            alias: Swift.String? = nil,
+            columnsToUnpivot: [QuickSightClientTypes.ColumnToUnpivot]? = nil,
+            source: QuickSightClientTypes.TransformOperationSource? = nil,
+            unpivotedLabelColumnId: Swift.String? = nil,
+            unpivotedLabelColumnName: Swift.String? = nil,
+            unpivotedValueColumnId: Swift.String? = nil,
+            unpivotedValueColumnName: Swift.String? = nil
+        ) {
+            self.alias = alias
+            self.columnsToUnpivot = columnsToUnpivot
+            self.source = source
+            self.unpivotedLabelColumnId = unpivotedLabelColumnId
+            self.unpivotedLabelColumnName = unpivotedLabelColumnName
+            self.unpivotedValueColumnId = unpivotedValueColumnId
+            self.unpivotedValueColumnName = unpivotedValueColumnName
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A step in data preparation that performs a specific operation on the data.
+    public struct TransformStep: Swift.Sendable {
+        /// A transform step that groups data and applies aggregation functions to calculate summary values.
+        public var aggregateStep: QuickSightClientTypes.AggregateOperation?
+        /// A transform step that combines rows from multiple sources by stacking them vertically.
+        public var appendStep: QuickSightClientTypes.AppendOperation?
+        /// A transform step that changes the data types of one or more columns.
+        public var castColumnTypesStep: QuickSightClientTypes.CastColumnTypesOperation?
+        /// A transform operation that creates calculated columns. Columns created in one such operation form a lexical closure.
+        public var createColumnsStep: QuickSightClientTypes.CreateColumnsOperation?
+        /// A transform step that applies filter conditions.
+        public var filtersStep: QuickSightClientTypes.FiltersOperation?
+        /// A transform step that brings data from a source table.
+        public var importTableStep: QuickSightClientTypes.ImportTableOperation?
+        /// A transform step that combines data from two sources based on specified join conditions.
+        public var joinStep: QuickSightClientTypes.JoinOperation?
+        /// A transform step that converts row values into columns to reshape the data structure.
+        public var pivotStep: QuickSightClientTypes.PivotOperation?
+        /// A transform operation that projects columns. Operations that come after a projection can only refer to projected columns.
+        public var projectStep: QuickSightClientTypes.ProjectOperation?
+        /// A transform step that changes the names of one or more columns.
+        public var renameColumnsStep: QuickSightClientTypes.RenameColumnsOperation?
+        /// A transform step that converts columns into rows to normalize the data structure.
+        public var unpivotStep: QuickSightClientTypes.UnpivotOperation?
+
+        public init(
+            aggregateStep: QuickSightClientTypes.AggregateOperation? = nil,
+            appendStep: QuickSightClientTypes.AppendOperation? = nil,
+            castColumnTypesStep: QuickSightClientTypes.CastColumnTypesOperation? = nil,
+            createColumnsStep: QuickSightClientTypes.CreateColumnsOperation? = nil,
+            filtersStep: QuickSightClientTypes.FiltersOperation? = nil,
+            importTableStep: QuickSightClientTypes.ImportTableOperation? = nil,
+            joinStep: QuickSightClientTypes.JoinOperation? = nil,
+            pivotStep: QuickSightClientTypes.PivotOperation? = nil,
+            projectStep: QuickSightClientTypes.ProjectOperation? = nil,
+            renameColumnsStep: QuickSightClientTypes.RenameColumnsOperation? = nil,
+            unpivotStep: QuickSightClientTypes.UnpivotOperation? = nil
+        ) {
+            self.aggregateStep = aggregateStep
+            self.appendStep = appendStep
+            self.castColumnTypesStep = castColumnTypesStep
+            self.createColumnsStep = createColumnsStep
+            self.filtersStep = filtersStep
+            self.importTableStep = importTableStep
+            self.joinStep = joinStep
+            self.pivotStep = pivotStep
+            self.projectStep = projectStep
+            self.renameColumnsStep = renameColumnsStep
+            self.unpivotStep = unpivotStep
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configuration for data preparation operations, defining the complete pipeline from source tables through transformations to destination tables.
+    public struct DataPrepConfiguration: Swift.Sendable {
+        /// A map of destination tables that receive the final prepared data.
+        /// This member is required.
+        public var destinationTableMap: [Swift.String: QuickSightClientTypes.DestinationTable]?
+        /// A map of source tables that provide information about underlying sources.
+        /// This member is required.
+        public var sourceTableMap: [Swift.String: QuickSightClientTypes.SourceTable]?
+        /// A map of transformation steps that process the data.
+        /// This member is required.
+        public var transformStepMap: [Swift.String: QuickSightClientTypes.TransformStep]?
+
+        public init(
+            destinationTableMap: [Swift.String: QuickSightClientTypes.DestinationTable]? = nil,
+            sourceTableMap: [Swift.String: QuickSightClientTypes.SourceTable]? = nil,
+            transformStepMap: [Swift.String: QuickSightClientTypes.TransformStep]? = nil
+        ) {
+            self.destinationTableMap = destinationTableMap
+            self.sourceTableMap = sourceTableMap
+            self.transformStepMap = transformStepMap
+        }
     }
 }
 
@@ -26690,7 +30214,7 @@ extension QuickSightClientTypes {
     public struct DataSetUsageConfiguration: Swift.Sendable {
         /// An option that controls whether a child dataset of a direct query can use this dataset as a source.
         public var disableUseAsDirectQuerySource: Swift.Bool
-        /// An option that controls whether a child dataset that's stored in QuickSight can use this dataset as a source.
+        /// An option that controls whether a child dataset that's stored in Quick Sight can use this dataset as a source.
         public var disableUseAsImportedSource: Swift.Bool
 
         public init(
@@ -26753,27 +30277,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A transform operation that filters rows based on a condition.
-    public struct FilterOperation: Swift.Sendable {
-        /// An expression that must evaluate to a Boolean value. Rows for which the expression evaluates to true are kept in the dataset.
-        /// This member is required.
-        public var conditionExpression: Swift.String?
-
-        public init(
-            conditionExpression: Swift.String? = nil
-        ) {
-            self.conditionExpression = conditionExpression
-        }
-    }
-}
-
-extension QuickSightClientTypes.FilterOperation: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "FilterOperation(conditionExpression: \"CONTENT_REDACTED\")"}
-}
-
-extension QuickSightClientTypes {
-
     /// The configuration that overrides the existing default values for a dataset parameter that is inherited from another dataset.
     public struct NewDefaultValues: Swift.Sendable {
         /// A list of static default values for a given date time parameter.
@@ -26819,43 +30322,6 @@ extension QuickSightClientTypes {
             self.newDefaultValues = newDefaultValues
             self.newParameterName = newParameterName
             self.parameterName = parameterName
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// A transform operation that projects columns. Operations that come after a projection can only refer to projected columns.
-    public struct ProjectOperation: Swift.Sendable {
-        /// Projected columns.
-        /// This member is required.
-        public var projectedColumns: [Swift.String]?
-
-        public init(
-            projectedColumns: [Swift.String]? = nil
-        ) {
-            self.projectedColumns = projectedColumns
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// A transform operation that renames a column.
-    public struct RenameColumnOperation: Swift.Sendable {
-        /// The name of the column to be renamed.
-        /// This member is required.
-        public var columnName: Swift.String?
-        /// The new name for the column.
-        /// This member is required.
-        public var newColumnName: Swift.String?
-
-        public init(
-            columnName: Swift.String? = nil,
-            newColumnName: Swift.String? = nil
-        ) {
-            self.columnName = columnName
-            self.newColumnName = newColumnName
         }
     }
 }
@@ -26930,7 +30396,7 @@ extension QuickSightClientTypes {
 
     /// Properties associated with the columns participating in a join.
     public struct JoinKeyProperties: Swift.Sendable {
-        /// A value that indicates that a row in a table is uniquely identified by the columns in a join key. This is used by Amazon QuickSight to optimize query performance.
+        /// A value that indicates that a row in a table is uniquely identified by the columns in a join key. This is used by Quick Sight to optimize query performance.
         public var uniqueKey: Swift.Bool?
 
         public init(
@@ -27096,75 +30562,6 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    public enum InputColumnDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case bit
-        case boolean
-        case datetime
-        case decimal
-        case integer
-        case json
-        case string
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InputColumnDataType] {
-            return [
-                .bit,
-                .boolean,
-                .datetime,
-                .decimal,
-                .integer,
-                .json,
-                .string
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .bit: return "BIT"
-            case .boolean: return "BOOLEAN"
-            case .datetime: return "DATETIME"
-            case .decimal: return "DECIMAL"
-            case .integer: return "INTEGER"
-            case .json: return "JSON"
-            case .string: return "STRING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// Metadata for a column that is used as the input of a transform operation.
-    public struct InputColumn: Swift.Sendable {
-        /// The name of this column in the underlying data source.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The sub data type of the column. Sub types are only available for decimal columns that are part of a SPICE dataset.
-        public var subType: QuickSightClientTypes.ColumnDataSubType?
-        /// The data type of the column.
-        /// This member is required.
-        public var type: QuickSightClientTypes.InputColumnDataType?
-
-        public init(
-            name: Swift.String? = nil,
-            subType: QuickSightClientTypes.ColumnDataSubType? = nil,
-            type: QuickSightClientTypes.InputColumnDataType? = nil
-        ) {
-            self.name = name
-            self.subType = subType
-            self.type = type
-        }
-    }
-}
-
-extension QuickSightClientTypes {
-
     /// A physical table type built from the results of the custom SQL query.
     public struct CustomSql: Swift.Sendable {
         /// The column schema from the SQL query result set.
@@ -27191,6 +30588,11 @@ extension QuickSightClientTypes {
             self.sqlQuery = sqlQuery
         }
     }
+}
+
+extension QuickSightClientTypes.CustomSql: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CustomSql(columns: \(Swift.String(describing: columns)), dataSourceArn: \(Swift.String(describing: dataSourceArn)), name: \(Swift.String(describing: name)), sqlQuery: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -27303,6 +30705,8 @@ extension QuickSightClientTypes {
     public struct UploadSettings: Swift.Sendable {
         /// Whether the file has a header row, or the files each have a header row.
         public var containsHeader: Swift.Bool?
+        /// A custom cell address range for Excel files, specifying which cells to import from the spreadsheet.
+        public var customCellAddressRange: Swift.String?
         /// The delimiter between values in the file.
         public var delimiter: Swift.String?
         /// File format.
@@ -27314,12 +30718,14 @@ extension QuickSightClientTypes {
 
         public init(
             containsHeader: Swift.Bool? = false,
+            customCellAddressRange: Swift.String? = nil,
             delimiter: Swift.String? = nil,
             format: QuickSightClientTypes.FileFormat? = nil,
             startFromRow: Swift.Int? = nil,
             textQualifier: QuickSightClientTypes.TextQualifier? = nil
         ) {
             self.containsHeader = containsHeader
+            self.customCellAddressRange = customCellAddressRange
             self.delimiter = delimiter
             self.format = format
             self.startFromRow = startFromRow
@@ -27355,6 +30761,51 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// An element in the hierarchical path to a table within a data source, containing both name and identifier.
+    public struct TablePathElement: Swift.Sendable {
+        /// The unique identifier of the path element.
+        public var id: Swift.String?
+        /// The name of the path element.
+        public var name: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A table from a Software-as-a-Service (SaaS) data source, including connection details and column definitions.
+    public struct SaaSTable: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SaaS data source.
+        /// This member is required.
+        public var dataSourceArn: Swift.String?
+        /// The list of input columns available from the SaaS table.
+        /// This member is required.
+        public var inputColumns: [QuickSightClientTypes.InputColumn]?
+        /// The hierarchical path to the table within the SaaS data source.
+        /// This member is required.
+        public var tablePath: [QuickSightClientTypes.TablePathElement]?
+
+        public init(
+            dataSourceArn: Swift.String? = nil,
+            inputColumns: [QuickSightClientTypes.InputColumn]? = nil,
+            tablePath: [QuickSightClientTypes.TablePathElement]? = nil
+        ) {
+            self.dataSourceArn = dataSourceArn
+            self.inputColumns = inputColumns
+            self.tablePath = tablePath
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// A view of a data source that contains information about the shape of the data in the underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
     public enum PhysicalTable: Swift.Sendable {
         /// A physical table type for relational data sources.
@@ -27363,6 +30814,8 @@ extension QuickSightClientTypes {
         case customsql(QuickSightClientTypes.CustomSql)
         /// A physical table type for as S3 data source.
         case s3source(QuickSightClientTypes.S3Source)
+        /// A physical table type for Software-as-a-Service (SaaS) sources.
+        case saastable(QuickSightClientTypes.SaaSTable)
         case sdkUnknown(Swift.String)
     }
 }
@@ -27456,7 +30909,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// Information about a dataset that contains permissions for row-level security (RLS). The permissions dataset maps fields to users or groups. For more information, see [Using Row-Level Security (RLS) to Restrict Access to a Dataset](https://docs.aws.amazon.com/quicksight/latest/user/restrict-access-to-a-data-set-using-row-level-security.html) in the Amazon QuickSight User Guide. The option to deny permissions by setting PermissionPolicy to DENY_ACCESS is not supported for new RLS datasets.
+    /// Information about a dataset that contains permissions for row-level security (RLS). The permissions dataset maps fields to users or groups. For more information, see [Using Row-Level Security (RLS) to Restrict Access to a Dataset](https://docs.aws.amazon.com/quicksight/latest/user/restrict-access-to-a-data-set-using-row-level-security.html) in the Quick Sight User Guide. The option to deny permissions by setting PermissionPolicy to DENY_ACCESS is not supported for new RLS datasets.
     public struct RowLevelPermissionDataSet: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the dataset that contains permissions for RLS.
         /// This member is required.
@@ -27547,6 +31000,65 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// Configuration for row level security.
+    public struct RowLevelPermissionConfiguration: Swift.Sendable {
+        /// Information about a dataset that contains permissions for row-level security (RLS). The permissions dataset maps fields to users or groups. For more information, see [Using Row-Level Security (RLS) to Restrict Access to a Dataset](https://docs.aws.amazon.com/quicksight/latest/user/restrict-access-to-a-data-set-using-row-level-security.html) in the Quick Sight User Guide. The option to deny permissions by setting PermissionPolicy to DENY_ACCESS is not supported for new RLS datasets.
+        public var rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet?
+        /// The configuration of tags on a dataset to set row-level security.
+        public var tagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration?
+
+        public init(
+            rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
+            tagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil
+        ) {
+            self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+            self.tagConfiguration = tagConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A semantic table that represents the final analytical structure of the data.
+    public struct SemanticTable: Swift.Sendable {
+        /// Alias for the semantic table.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The identifier of the destination table from data preparation that provides data to this semantic table.
+        /// This member is required.
+        public var destinationTableId: Swift.String?
+        /// Configuration for row level security that control data access for this semantic table.
+        public var rowLevelPermissionConfiguration: QuickSightClientTypes.RowLevelPermissionConfiguration?
+
+        public init(
+            alias: Swift.String? = nil,
+            destinationTableId: Swift.String? = nil,
+            rowLevelPermissionConfiguration: QuickSightClientTypes.RowLevelPermissionConfiguration? = nil
+        ) {
+            self.alias = alias
+            self.destinationTableId = destinationTableId
+            self.rowLevelPermissionConfiguration = rowLevelPermissionConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configuration for the semantic model that defines how prepared data is structured for analysis and reporting.
+    public struct SemanticModelConfiguration: Swift.Sendable {
+        /// A map of semantic tables that define the analytical structure.
+        public var tableMap: [Swift.String: QuickSightClientTypes.SemanticTable]?
+
+        public init(
+            tableMap: [Swift.String: QuickSightClientTypes.SemanticTable]? = nil
+        ) {
+            self.tableMap = tableMap
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     public enum DataSetUseAs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rlsRules
         case sdkUnknown(Swift.String)
@@ -27575,10 +31087,12 @@ public struct CreateDataSetInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+    /// Groupings of columns that work together in certain Amazon Quick Sight features. Currently, only geospatial hierarchy is supported.
     public var columnGroups: [QuickSightClientTypes.ColumnGroup]?
     /// A set of one or more definitions of a [ColumnLevelPermissionRule](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_ColumnLevelPermissionRule.html).
     public var columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]?
+    /// The data preparation configuration for the dataset. This configuration defines the source tables, transformation steps, and destination tables used to prepare the data. Required when using the new data preparation experience.
+    public var dataPrepConfiguration: QuickSightClientTypes.DataPrepConfiguration?
     /// An ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -27588,12 +31102,13 @@ public struct CreateDataSetInput: Swift.Sendable {
     public var datasetParameters: [QuickSightClientTypes.DatasetParameter]?
     /// The folder that contains fields and nested subfolders for your dataset.
     public var fieldFolders: [Swift.String: QuickSightClientTypes.FieldFolder]?
-    /// When you create the dataset, Amazon QuickSight adds the dataset to these folders.
+    /// When you create the dataset, Amazon Quick Sight adds the dataset to these folders.
     public var folderArns: [Swift.String]?
     /// Indicates whether you want to import the data into SPICE.
     /// This member is required.
     public var importMode: QuickSightClientTypes.DataSetImportMode?
-    /// Configures the combination and transformation of the data from the physical tables.
+    /// Configures the combination and transformation of the data from the physical tables. This parameter is used with the legacy data preparation experience.
+    @available(*, deprecated, message: "Only used in the legacy data preparation experience. API deprecated since 2025-10-23")
     public var logicalTableMap: [Swift.String: QuickSightClientTypes.LogicalTable]?
     /// The display name for the dataset.
     /// This member is required.
@@ -27605,10 +31120,14 @@ public struct CreateDataSetInput: Swift.Sendable {
     /// Declares the physical tables that are available in the underlying data sources.
     /// This member is required.
     public var physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]?
-    /// The row-level security configuration for the data that you want to create.
+    /// The row-level security configuration for the data that you want to create. This parameter is used with the legacy data preparation experience.
+    @available(*, deprecated, message: "Only used in the legacy data preparation experience. API deprecated since 2025-10-23")
     public var rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet?
-    /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
+    /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only. This parameter is used with the legacy data preparation experience.
+    @available(*, deprecated, message: "Only used in the legacy data preparation experience. API deprecated since 2025-10-23")
     public var rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration?
+    /// The semantic model configuration for the dataset. This configuration defines how the prepared data is structured for an analysis, including table mappings and row-level security configurations. Required when using the new data preparation experience.
+    public var semanticModelConfiguration: QuickSightClientTypes.SemanticModelConfiguration?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
     public var tags: [QuickSightClientTypes.Tag]?
     /// The usage of the dataset. RLS_RULES must be specified for RLS permission datasets.
@@ -27618,6 +31137,7 @@ public struct CreateDataSetInput: Swift.Sendable {
         awsAccountId: Swift.String? = nil,
         columnGroups: [QuickSightClientTypes.ColumnGroup]? = nil,
         columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]? = nil,
+        dataPrepConfiguration: QuickSightClientTypes.DataPrepConfiguration? = nil,
         dataSetId: Swift.String? = nil,
         dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration? = nil,
         datasetParameters: [QuickSightClientTypes.DatasetParameter]? = nil,
@@ -27631,12 +31151,14 @@ public struct CreateDataSetInput: Swift.Sendable {
         physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]? = nil,
         rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
         rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil,
+        semanticModelConfiguration: QuickSightClientTypes.SemanticModelConfiguration? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil,
         useAs: QuickSightClientTypes.DataSetUseAs? = nil
     ) {
         self.awsAccountId = awsAccountId
         self.columnGroups = columnGroups
         self.columnLevelPermissionRules = columnLevelPermissionRules
+        self.dataPrepConfiguration = dataPrepConfiguration
         self.dataSetId = dataSetId
         self.dataSetUsageConfiguration = dataSetUsageConfiguration
         self.datasetParameters = datasetParameters
@@ -27650,6 +31172,7 @@ public struct CreateDataSetInput: Swift.Sendable {
         self.physicalTableMap = physicalTableMap
         self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
         self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
+        self.semanticModelConfiguration = semanticModelConfiguration
         self.tags = tags
         self.useAs = useAs
     }
@@ -27686,7 +31209,7 @@ public struct CreateDataSetOutput: Swift.Sendable {
     }
 }
 
-/// The customer managed key that is registered to your Amazon QuickSight account is unavailable.
+/// The customer managed key that is registered to your Amazon Quick Sight account is unavailable.
 public struct CustomerManagedKeyUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -27740,23 +31263,82 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The combination of username, private key and passphrase that are used as credentials.
+    public struct KeyPairCredentials: Swift.Sendable {
+        /// Username
+        /// This member is required.
+        public var keyPairUsername: Swift.String?
+        /// PrivateKey
+        /// This member is required.
+        public var privateKey: Swift.String?
+        /// PrivateKeyPassphrase
+        public var privateKeyPassphrase: Swift.String?
+
+        public init(
+            keyPairUsername: Swift.String? = nil,
+            privateKey: Swift.String? = nil,
+            privateKeyPassphrase: Swift.String? = nil
+        ) {
+            self.keyPairUsername = keyPairUsername
+            self.privateKey = privateKey
+            self.privateKeyPassphrase = privateKeyPassphrase
+        }
+    }
+}
+
+extension QuickSightClientTypes.KeyPairCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KeyPairCredentials(keyPairUsername: \(Swift.String(describing: keyPairUsername)), privateKey: \"CONTENT_REDACTED\", privateKeyPassphrase: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The credentials for authenticating with a web proxy server.
+    public struct WebProxyCredentials: Swift.Sendable {
+        /// The password for authenticating with the web proxy server.
+        /// This member is required.
+        public var webProxyPassword: Swift.String?
+        /// The username for authenticating with the web proxy server.
+        /// This member is required.
+        public var webProxyUsername: Swift.String?
+
+        public init(
+            webProxyPassword: Swift.String? = nil,
+            webProxyUsername: Swift.String? = nil
+        ) {
+            self.webProxyPassword = webProxyPassword
+            self.webProxyUsername = webProxyUsername
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// Data source credentials. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
     public struct DataSourceCredentials: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of a data source that has the credential pair that you want to use. When CopySourceArn is not null, the credential pair from the data source in the ARN is used as the credentials for the DataSourceCredentials structure.
         public var copySourceArn: Swift.String?
         /// Credential pair. For more information, see [CredentialPair](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CredentialPair.html).
         public var credentialPair: QuickSightClientTypes.CredentialPair?
+        /// The credentials for connecting using key-pair.
+        public var keyPairCredentials: QuickSightClientTypes.KeyPairCredentials?
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public var secretArn: Swift.String?
+        /// The credentials for connecting through a web proxy server.
+        public var webProxyCredentials: QuickSightClientTypes.WebProxyCredentials?
 
         public init(
             copySourceArn: Swift.String? = nil,
             credentialPair: QuickSightClientTypes.CredentialPair? = nil,
-            secretArn: Swift.String? = nil
+            keyPairCredentials: QuickSightClientTypes.KeyPairCredentials? = nil,
+            secretArn: Swift.String? = nil,
+            webProxyCredentials: QuickSightClientTypes.WebProxyCredentials? = nil
         ) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
+            self.keyPairCredentials = keyPairCredentials
             self.secretArn = secretArn
+            self.webProxyCredentials = webProxyCredentials
         }
     }
 }
@@ -27778,19 +31360,26 @@ extension QuickSightClientTypes {
         case auroraPostgresql
         case awsIotAnalytics
         case bigquery
+        case confluence
         case databricks
         case exasol
         case github
+        case googlesheets
+        case googleDrive
         case jira
         case mariadb
         case mysql
+        case oneDrive
         case oracle
         case postgresql
         case presto
+        case qbusiness
         case redshift
         case s3
+        case s3KnowledgeBase
         case salesforce
         case servicenow
+        case sharepoint
         case snowflake
         case spark
         case sqlserver
@@ -27799,6 +31388,7 @@ extension QuickSightClientTypes {
         case timestream
         case trino
         case twitter
+        case webCrawler
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DataSourceType] {
@@ -27811,19 +31401,26 @@ extension QuickSightClientTypes {
                 .auroraPostgresql,
                 .awsIotAnalytics,
                 .bigquery,
+                .confluence,
                 .databricks,
                 .exasol,
                 .github,
+                .googlesheets,
+                .googleDrive,
                 .jira,
                 .mariadb,
                 .mysql,
+                .oneDrive,
                 .oracle,
                 .postgresql,
                 .presto,
+                .qbusiness,
                 .redshift,
                 .s3,
+                .s3KnowledgeBase,
                 .salesforce,
                 .servicenow,
+                .sharepoint,
                 .snowflake,
                 .spark,
                 .sqlserver,
@@ -27831,7 +31428,8 @@ extension QuickSightClientTypes {
                 .teradata,
                 .timestream,
                 .trino,
-                .twitter
+                .twitter,
+                .webCrawler
             ]
         }
 
@@ -27850,19 +31448,26 @@ extension QuickSightClientTypes {
             case .auroraPostgresql: return "AURORA_POSTGRESQL"
             case .awsIotAnalytics: return "AWS_IOT_ANALYTICS"
             case .bigquery: return "BIGQUERY"
+            case .confluence: return "CONFLUENCE"
             case .databricks: return "DATABRICKS"
             case .exasol: return "EXASOL"
             case .github: return "GITHUB"
+            case .googlesheets: return "GOOGLESHEETS"
+            case .googleDrive: return "GOOGLE_DRIVE"
             case .jira: return "JIRA"
             case .mariadb: return "MARIADB"
             case .mysql: return "MYSQL"
+            case .oneDrive: return "ONE_DRIVE"
             case .oracle: return "ORACLE"
             case .postgresql: return "POSTGRESQL"
             case .presto: return "PRESTO"
+            case .qbusiness: return "QBUSINESS"
             case .redshift: return "REDSHIFT"
             case .s3: return "S3"
+            case .s3KnowledgeBase: return "S3_KNOWLEDGE_BASE"
             case .salesforce: return "SALESFORCE"
             case .servicenow: return "SERVICENOW"
+            case .sharepoint: return "SHAREPOINT"
             case .snowflake: return "SNOWFLAKE"
             case .spark: return "SPARK"
             case .sqlserver: return "SQLSERVER"
@@ -27871,6 +31476,7 @@ extension QuickSightClientTypes {
             case .timestream: return "TIMESTREAM"
             case .trino: return "TRINO"
             case .twitter: return "TWITTER"
+            case .webCrawler: return "WEB_CRAWLER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -27881,28 +31487,28 @@ public struct CreateDataSourceInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The credentials Amazon QuickSight that uses to connect to your underlying source. Currently, only credentials based on user name and password are supported.
+    /// The credentials Amazon Quick Sight that uses to connect to your underlying source. Currently, only credentials based on user name and password are supported.
     public var credentials: QuickSightClientTypes.DataSourceCredentials?
     /// An ID for the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     /// This member is required.
     public var dataSourceId: Swift.String?
-    /// The parameters that Amazon QuickSight uses to connect to your underlying source.
+    /// The parameters that Amazon Quick Sight uses to connect to your underlying source.
     public var dataSourceParameters: QuickSightClientTypes.DataSourceParameters?
-    /// When you create the data source, Amazon QuickSight adds the data source to these folders.
+    /// When you create the data source, Amazon Quick Sight adds the data source to these folders.
     public var folderArns: [Swift.String]?
     /// A display name for the data source.
     /// This member is required.
     public var name: Swift.String?
     /// A list of resource permissions on the data source.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying source.
+    /// Secure Socket Layer (SSL) properties that apply when Amazon Quick Sight connects to your underlying source.
     public var sslProperties: QuickSightClientTypes.SslProperties?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the data source.
     public var tags: [QuickSightClientTypes.Tag]?
     /// The type of the data source. To return a list of all data sources, use ListDataSources. Use AMAZON_ELASTICSEARCH for Amazon OpenSearch Service.
     /// This member is required.
     public var type: QuickSightClientTypes.DataSourceType?
-    /// Use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to your underlying source.
+    /// Use this parameter only when you want Amazon Quick Sight to use a VPC connection when connecting to your underlying source.
     public var vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
 
     public init(
@@ -28153,7 +31759,7 @@ public struct CreateFolderMembershipInput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
-    /// An asset in a Amazon QuickSight folder, such as a dashboard, analysis, or dataset.
+    /// An asset in a Quick Sight folder, such as a dashboard, analysis, or dataset.
     public struct FolderMember: Swift.Sendable {
         /// The ID of an asset in the folder.
         public var memberId: Swift.String?
@@ -28191,7 +31797,7 @@ public struct CreateFolderMembershipOutput: Swift.Sendable {
 
 /// The request object for this operation.
 public struct CreateGroupInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// A description for the group that you want to create.
@@ -28218,7 +31824,7 @@ public struct CreateGroupInput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
-    /// A group in Amazon QuickSight consists of a set of users. You can use groups to make it easier to manage access and security.
+    /// A group in Quick Sight consists of a set of users. You can use groups to make it easier to manage access and security.
     public struct Group: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the group.
         public var arn: Swift.String?
@@ -28264,7 +31870,7 @@ public struct CreateGroupOutput: Swift.Sendable {
 }
 
 public struct CreateGroupMembershipInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the group that you want to add the user to.
@@ -28292,7 +31898,7 @@ public struct CreateGroupMembershipInput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
-    /// A member of an Amazon QuickSight group. Currently, group members must be users. Groups can't be members of another group. .
+    /// A member of an Quick Sight group. Currently, group members must be users. Groups can't be members of another group. .
     public struct GroupMember: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the group member (user).
         public var arn: Swift.String?
@@ -28341,15 +31947,15 @@ public struct CreateIAMPolicyAssignmentInput: Swift.Sendable {
     /// * DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
     /// This member is required.
     public var assignmentStatus: QuickSightClientTypes.AssignmentStatus?
-    /// The ID of the Amazon Web Services account where you want to assign an IAM policy to Amazon QuickSight users or groups.
+    /// The ID of the Amazon Web Services account where you want to assign an IAM policy to Amazon Quick Sight users or groups.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight users, groups, or both that you want to assign the policy to.
+    /// The Amazon Quick Sight users, groups, or both that you want to assign the policy to.
     public var identities: [Swift.String: [Swift.String]]?
     /// The namespace that contains the assignment.
     /// This member is required.
     public var namespace: Swift.String?
-    /// The ARN for the IAM policy to apply to the Amazon QuickSight users and groups specified in this assignment.
+    /// The ARN for the IAM policy to apply to the Amazon Quick Sight users and groups specified in this assignment.
     public var policyArn: Swift.String?
 
     public init(
@@ -28382,9 +31988,9 @@ public struct CreateIAMPolicyAssignmentOutput: Swift.Sendable {
     ///
     /// * DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
     public var assignmentStatus: QuickSightClientTypes.AssignmentStatus?
-    /// The Amazon QuickSight users, groups, or both that the IAM policy is assigned to.
+    /// The Amazon Quick Sight users, groups, or both that the IAM policy is assigned to.
     public var identities: [Swift.String: [Swift.String]]?
-    /// The ARN for the IAM policy that is applied to the Amazon QuickSight users and groups specified in this assignment.
+    /// The ARN for the IAM policy that is applied to the Amazon Quick Sight users and groups specified in this assignment.
     public var policyArn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -28561,7 +32167,7 @@ extension QuickSightClientTypes {
 }
 
 public struct CreateNamespaceInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to create the Amazon QuickSight namespace in.
+    /// The ID for the Amazon Web Services account that you want to create the Quick Sight namespace in.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// Specifies the type of your user identity directory. Currently, this supports users with an identity type of QUICKSIGHT.
@@ -28625,7 +32231,7 @@ extension QuickSightClientTypes {
 }
 
 public struct CreateNamespaceOutput: Swift.Sendable {
-    /// The ARN of the Amazon QuickSight namespace you created.
+    /// The ARN of the Quick Sight namespace you created.
     public var arn: Swift.String?
     /// The Amazon Web Services Region; that you want to use for the free SPICE capacity for the new namespace. This is set to the region that you run CreateNamespace in.
     public var capacityRegion: Swift.String?
@@ -28816,7 +32422,7 @@ extension QuickSightClientTypes {
         /// * INCREMENTAL_REFRESH: A partial refresh of some rows of a dataset, based on the time window specified.
         ///
         ///
-        /// For more information on full and incremental refreshes, see [Refreshing SPICE data](https://docs.aws.amazon.com/quicksight/latest/user/refreshing-imported-data.html) in the Amazon QuickSight User Guide.
+        /// For more information on full and incremental refreshes, see [Refreshing SPICE data](https://docs.aws.amazon.com/quicksight/latest/user/refreshing-imported-data.html) in the Amazon Quick Suite User Guide.
         /// This member is required.
         public var refreshType: QuickSightClientTypes.IngestionType?
         /// The frequency for the refresh schedule.
@@ -28931,7 +32537,7 @@ extension QuickSightClientTypes {
 }
 
 public struct CreateRoleMembershipInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the group that you want to add to the role.
@@ -29023,11 +32629,11 @@ extension QuickSightClientTypes {
         /// An array of dataset configurations. These configurations define the required columns for each dataset used within a template.
         /// This member is required.
         public var dataSetConfigurations: [QuickSightClientTypes.DataSetConfiguration]?
-        /// Filter definitions for a template. For more information, see [Filtering Data](https://docs.aws.amazon.com/quicksight/latest/user/filtering-visual-data.html) in the Amazon QuickSight User Guide.
+        /// Filter definitions for a template. For more information, see [Filtering Data](https://docs.aws.amazon.com/quicksight/latest/user/filtering-visual-data.html) in the Amazon Quick Suite User Guide.
         public var filterGroups: [QuickSightClientTypes.FilterGroup]?
         /// An array of option definitions for a template.
         public var options: QuickSightClientTypes.AssetOptions?
-        /// An array of parameter declarations for a template. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon QuickSight User Guide.
+        /// An array of parameter declarations for a template. Parameters are named variables that can transfer a value for use by an action or an object. For more information, see [Parameters in Amazon Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/parameters-in-quicksight.html) in the Amazon Quick Suite User Guide.
         public var parameterDeclarations: [QuickSightClientTypes.ParameterDeclaration]?
         /// A structure that describes the query execution options.
         public var queryExecutionOptions: QuickSightClientTypes.QueryExecutionOptions?
@@ -29119,7 +32725,7 @@ extension QuickSightClientTypes {
 }
 
 public struct CreateTemplateInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
@@ -29128,7 +32734,7 @@ public struct CreateTemplateInput: Swift.Sendable {
     public var name: Swift.String?
     /// A list of resource permissions to be set on the template.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
+    /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -29195,7 +32801,7 @@ public struct CreateTemplateOutput: Swift.Sendable {
 }
 
 public struct CreateTemplateAliasInput: Swift.Sendable {
-    /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by Amazon QuickSight.
+    /// The name that you want to give to the template alias that you're creating. Don't start the alias name with the $ character. Alias names that start with $ are reserved by Quick Sight.
     /// This member is required.
     public var aliasName: Swift.String?
     /// The ID of the Amazon Web Services account that contains the template that you creating an alias for.
@@ -29288,15 +32894,46 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// Display options related to tiles on a sheet.
-    public struct TileStyle: Swift.Sendable {
-        /// The border around a tile.
-        public var border: QuickSightClientTypes.BorderStyle?
+    /// The background configuration for sheets.
+    public struct SheetBackgroundStyle: Swift.Sendable {
+        /// The solid color background option for sheets.
+        public var color: Swift.String?
+        /// The gradient background option for sheets.
+        public var gradient: Swift.String?
 
         public init(
-            border: QuickSightClientTypes.BorderStyle? = nil
+            color: Swift.String? = nil,
+            gradient: Swift.String? = nil
         ) {
+            self.color = color
+            self.gradient = gradient
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Display options related to tiles on a sheet.
+    public struct TileStyle: Swift.Sendable {
+        /// The background color of a tile.
+        public var backgroundColor: Swift.String?
+        /// The border around a tile.
+        public var border: QuickSightClientTypes.BorderStyle?
+        /// The border radius of a tile.
+        public var borderRadius: Swift.String?
+        /// The padding of a tile.
+        public var padding: Swift.String?
+
+        public init(
+            backgroundColor: Swift.String? = nil,
+            border: QuickSightClientTypes.BorderStyle? = nil,
+            borderRadius: Swift.String? = nil,
+            padding: Swift.String? = nil
+        ) {
+            self.backgroundColor = backgroundColor
             self.border = border
+            self.borderRadius = borderRadius
+            self.padding = padding
         }
     }
 }
@@ -29354,15 +32991,19 @@ extension QuickSightClientTypes {
 
     /// The theme display options for sheets.
     public struct SheetStyle: Swift.Sendable {
+        /// The background for sheets.
+        public var background: QuickSightClientTypes.SheetBackgroundStyle?
         /// The display options for tiles.
         public var tile: QuickSightClientTypes.TileStyle?
         /// The layout options for tiles.
         public var tileLayout: QuickSightClientTypes.TileLayoutStyle?
 
         public init(
+            background: QuickSightClientTypes.SheetBackgroundStyle? = nil,
             tile: QuickSightClientTypes.TileStyle? = nil,
             tileLayout: QuickSightClientTypes.TileLayoutStyle? = nil
         ) {
+            self.background = background
             self.tile = tile
             self.tileLayout = tileLayout
         }
@@ -29386,22 +33027,122 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// Determines the typography options.
-    public struct Typography: Swift.Sendable {
-        /// Determines the list of font families.
-        public var fontFamilies: [QuickSightClientTypes.Font]?
+    public enum TextTransform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capitalize
+        case sdkUnknown(Swift.String)
 
-        public init(
-            fontFamilies: [QuickSightClientTypes.Font]? = nil
-        ) {
-            self.fontFamilies = fontFamilies
+        public static var allCases: [TextTransform] {
+            return [
+                .capitalize
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capitalize: return "CAPITALIZE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
 
 extension QuickSightClientTypes {
 
-    /// The theme colors that apply to UI and to charts, excluding data colors. The colors description is a hexadecimal color code that consists of six alphanumerical characters, prefixed with #, for example #37BFF5. For more information, see [Using Themes in Amazon QuickSight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Amazon QuickSight User Guide.
+    /// Configures the display properties of the visual sub-title.
+    public struct VisualSubtitleFontConfiguration: Swift.Sendable {
+        /// Configures the display properties of the given text.
+        public var fontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Determines the alignment of visual sub-title.
+        public var textAlignment: QuickSightClientTypes.HorizontalTextAlignment?
+        /// Determines the text transformation of visual sub-title.
+        public var textTransform: QuickSightClientTypes.TextTransform?
+
+        public init(
+            fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            textAlignment: QuickSightClientTypes.HorizontalTextAlignment? = nil,
+            textTransform: QuickSightClientTypes.TextTransform? = nil
+        ) {
+            self.fontConfiguration = fontConfiguration
+            self.textAlignment = textAlignment
+            self.textTransform = textTransform
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Configures the display properties of the visual title.
+    public struct VisualTitleFontConfiguration: Swift.Sendable {
+        /// Configures the display properties of the given text.
+        public var fontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Determines the alignment of visual title.
+        public var textAlignment: QuickSightClientTypes.HorizontalTextAlignment?
+        /// Determines the text transformation of visual title.
+        public var textTransform: QuickSightClientTypes.TextTransform?
+
+        public init(
+            fontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            textAlignment: QuickSightClientTypes.HorizontalTextAlignment? = nil,
+            textTransform: QuickSightClientTypes.TextTransform? = nil
+        ) {
+            self.fontConfiguration = fontConfiguration
+            self.textAlignment = textAlignment
+            self.textTransform = textTransform
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Determines the typography options.
+    public struct Typography: Swift.Sendable {
+        /// Configures the display properties of the given text.
+        public var axisLabelFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the given text.
+        public var axisTitleFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the given text.
+        public var dataLabelFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Determines the list of font families.
+        public var fontFamilies: [QuickSightClientTypes.Font]?
+        /// Configures the display properties of the given text.
+        public var legendTitleFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the given text.
+        public var legendValueFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// Configures the display properties of the visual sub-title.
+        public var visualSubtitleFontConfiguration: QuickSightClientTypes.VisualSubtitleFontConfiguration?
+        /// Configures the display properties of the visual title.
+        public var visualTitleFontConfiguration: QuickSightClientTypes.VisualTitleFontConfiguration?
+
+        public init(
+            axisLabelFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            axisTitleFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            dataLabelFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            fontFamilies: [QuickSightClientTypes.Font]? = nil,
+            legendTitleFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            legendValueFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
+            visualSubtitleFontConfiguration: QuickSightClientTypes.VisualSubtitleFontConfiguration? = nil,
+            visualTitleFontConfiguration: QuickSightClientTypes.VisualTitleFontConfiguration? = nil
+        ) {
+            self.axisLabelFontConfiguration = axisLabelFontConfiguration
+            self.axisTitleFontConfiguration = axisTitleFontConfiguration
+            self.dataLabelFontConfiguration = dataLabelFontConfiguration
+            self.fontFamilies = fontFamilies
+            self.legendTitleFontConfiguration = legendTitleFontConfiguration
+            self.legendValueFontConfiguration = legendValueFontConfiguration
+            self.visualSubtitleFontConfiguration = visualSubtitleFontConfiguration
+            self.visualTitleFontConfiguration = visualTitleFontConfiguration
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The theme colors that apply to UI and to charts, excluding data colors. The colors description is a hexadecimal color code that consists of six alphanumerical characters, prefixed with #, for example #37BFF5. For more information, see [Using Themes in Quick Sight](https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html) in the Quick Sight User Guide.
     public struct UIColorPalette: Swift.Sendable {
         /// This color is that applies to selected states and buttons.
         public var accent: Swift.String?
@@ -29505,7 +33246,7 @@ public struct CreateThemeInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account where you want to store the new theme.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The ID of the theme that a custom theme will inherit from. All themes inherit from one of the starting themes defined by Amazon QuickSight. For a list of the starting themes, use ListThemes or choose Themes from within an analysis.
+    /// The ID of the theme that a custom theme will inherit from. All themes inherit from one of the starting themes defined by Amazon Quick Sight. For a list of the starting themes, use ListThemes or choose Themes from within an analysis.
     /// This member is required.
     public var baseThemeId: Swift.String?
     /// The theme configuration, which contains the theme display properties.
@@ -29577,7 +33318,7 @@ public struct CreateThemeOutput: Swift.Sendable {
 }
 
 public struct CreateThemeAliasInput: Swift.Sendable {
-    /// The name that you want to give to the theme alias that you are creating. The alias name can't begin with a $. Alias names that start with $ are reserved by Amazon QuickSight.
+    /// The name that you want to give to the theme alias that you are creating. The alias name can't begin with a $. Alias names that start with $ are reserved by Amazon Quick Sight.
     /// This member is required.
     public var aliasName: Swift.String?
     /// The ID of the Amazon Web Services account that contains the theme for the new theme alias.
@@ -30119,6 +33860,7 @@ extension QuickSightClientTypes {
     public enum NamedFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case categoryFilter
         case dateRangeFilter
+        case nullFilter
         case numericEqualityFilter
         case numericRangeFilter
         case relativeDateFilter
@@ -30128,6 +33870,7 @@ extension QuickSightClientTypes {
             return [
                 .categoryFilter,
                 .dateRangeFilter,
+                .nullFilter,
                 .numericEqualityFilter,
                 .numericRangeFilter,
                 .relativeDateFilter
@@ -30143,6 +33886,7 @@ extension QuickSightClientTypes {
             switch self {
             case .categoryFilter: return "CATEGORY_FILTER"
             case .dateRangeFilter: return "DATE_RANGE_FILTER"
+            case .nullFilter: return "NULL_FILTER"
             case .numericEqualityFilter: return "NUMERIC_EQUALITY_FILTER"
             case .numericRangeFilter: return "NUMERIC_RANGE_FILTER"
             case .relativeDateFilter: return "RELATIVE_DATE_FILTER"
@@ -30150,6 +33894,91 @@ extension QuickSightClientTypes {
             }
         }
     }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that represents a singular filter constant, used in filters to specify a single value to match against.
+    public struct TopicSingularFilterConstant: Swift.Sendable {
+        /// The type of the singular filter constant. Valid values for this structure are SINGULAR.
+        public var constantType: QuickSightClientTypes.ConstantType?
+        /// The value of the singular filter constant.
+        public var singularConstant: Swift.String?
+
+        public init(
+            constantType: QuickSightClientTypes.ConstantType? = nil,
+            singularConstant: Swift.String? = nil
+        ) {
+            self.constantType = constantType
+            self.singularConstant = singularConstant
+        }
+    }
+}
+
+extension QuickSightClientTypes.TopicSingularFilterConstant: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum NullFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allValues
+        case nonNullsOnly
+        case nullsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NullFilterType] {
+            return [
+                .allValues,
+                .nonNullsOnly,
+                .nullsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allValues: return "ALL_VALUES"
+            case .nonNullsOnly: return "NON_NULLS_ONLY"
+            case .nullsOnly: return "NULLS_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The structure that represents a null filter.
+    public struct TopicNullFilter: Swift.Sendable {
+        /// A structure that represents a singular filter constant, used in filters to specify a single value to match against.
+        public var constant: QuickSightClientTypes.TopicSingularFilterConstant?
+        /// A Boolean value that indicates if the filter is inverse.
+        public var inverse: Swift.Bool
+        /// The type of the null filter. Valid values for this type are NULLS_ONLY, NON_NULLS_ONLY, and ALL_VALUES.
+        public var nullFilterType: QuickSightClientTypes.NullFilterType?
+
+        public init(
+            constant: QuickSightClientTypes.TopicSingularFilterConstant? = nil,
+            inverse: Swift.Bool = false,
+            nullFilterType: QuickSightClientTypes.NullFilterType? = nil
+        ) {
+            self.constant = constant
+            self.inverse = inverse
+            self.nullFilterType = nullFilterType
+        }
+    }
+}
+
+extension QuickSightClientTypes.TopicNullFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TopicNullFilter(inverse: \(Swift.String(describing: inverse)), nullFilterType: \(Swift.String(describing: nullFilterType)), constant: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -30208,31 +34037,6 @@ extension QuickSightClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
-    }
-}
-
-extension QuickSightClientTypes {
-
-    /// A structure that represents a singular filter constant, used in filters to specify a single value to match against.
-    public struct TopicSingularFilterConstant: Swift.Sendable {
-        /// The type of the singular filter constant. Valid values for this structure are SINGULAR.
-        public var constantType: QuickSightClientTypes.ConstantType?
-        /// The value of the singular filter constant.
-        public var singularConstant: Swift.String?
-
-        public init(
-            constantType: QuickSightClientTypes.ConstantType? = nil,
-            singularConstant: Swift.String? = nil
-        ) {
-            self.constantType = constantType
-            self.singularConstant = singularConstant
-        }
-    }
-}
-
-extension QuickSightClientTypes.TopicSingularFilterConstant: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CONTENT_REDACTED"
     }
 }
 
@@ -30373,6 +34177,8 @@ extension QuickSightClientTypes {
         public var filterSynonyms: [Swift.String]?
         /// The type of the filter. Valid values for this structure are CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, and RELATIVE_DATE_FILTER.
         public var filterType: QuickSightClientTypes.NamedFilterType?
+        /// The null filter.
+        public var nullFilter: QuickSightClientTypes.TopicNullFilter?
         /// The numeric equality filter.
         public var numericEqualityFilter: QuickSightClientTypes.TopicNumericEqualityFilter?
         /// The numeric range filter.
@@ -30391,6 +34197,7 @@ extension QuickSightClientTypes {
             filterName: Swift.String? = nil,
             filterSynonyms: [Swift.String]? = nil,
             filterType: QuickSightClientTypes.NamedFilterType? = nil,
+            nullFilter: QuickSightClientTypes.TopicNullFilter? = nil,
             numericEqualityFilter: QuickSightClientTypes.TopicNumericEqualityFilter? = nil,
             numericRangeFilter: QuickSightClientTypes.TopicNumericRangeFilter? = nil,
             operandFieldName: Swift.String? = nil,
@@ -30403,6 +34210,7 @@ extension QuickSightClientTypes {
             self.filterName = filterName
             self.filterSynonyms = filterSynonyms
             self.filterType = filterType
+            self.nullFilter = nullFilter
             self.numericEqualityFilter = numericEqualityFilter
             self.numericRangeFilter = numericRangeFilter
             self.operandFieldName = operandFieldName
@@ -31517,6 +35325,8 @@ extension QuickSightClientTypes {
     public struct OutputColumn: Swift.Sendable {
         /// A description for a column.
         public var description: Swift.String?
+        /// A unique identifier for the output column.
+        public var id: Swift.String?
         /// The display name of the column..
         public var name: Swift.String?
         /// The sub data type of the column.
@@ -31526,11 +35336,13 @@ extension QuickSightClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            id: Swift.String? = nil,
             name: Swift.String? = nil,
             subType: QuickSightClientTypes.ColumnDataSubType? = nil,
             type: QuickSightClientTypes.ColumnDataType? = nil
         ) {
             self.description = description
+            self.id = id
             self.name = name
             self.subType = subType
             self.type = type
@@ -31540,7 +35352,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.OutputColumn: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OutputColumn(name: \(Swift.String(describing: name)), subType: \(Swift.String(describing: subType)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+        "OutputColumn(id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), subType: \(Swift.String(describing: subType)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -31549,7 +35361,7 @@ extension QuickSightClientTypes {
     public struct DataSet: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
-        /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+        /// Groupings of columns that work together in certain Quick Sight features. Currently, only geospatial hierarchy is supported.
         public var columnGroups: [QuickSightClientTypes.ColumnGroup]?
         /// A set of one or more definitions of a [ColumnLevelPermissionRule](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_ColumnLevelPermissionRule.html).
         public var columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]?
@@ -31557,6 +35369,8 @@ extension QuickSightClientTypes {
         public var consumedSpiceCapacityInBytes: Swift.Int
         /// The time that this dataset was created.
         public var createdTime: Foundation.Date?
+        /// The data preparation configuration associated with this dataset.
+        public var dataPrepConfiguration: QuickSightClientTypes.DataPrepConfiguration?
         /// The ID of the dataset. Limited to 96 characters.
         public var dataSetId: Swift.String?
         /// The usage configuration to apply to child datasets that reference this dataset as a source.
@@ -31583,6 +35397,8 @@ extension QuickSightClientTypes {
         public var rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet?
         /// The element you can use to define tags for row-level security.
         public var rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration?
+        /// The semantic model configuration associated with this dataset.
+        public var semanticModelConfiguration: QuickSightClientTypes.SemanticModelConfiguration?
         /// The usage of the dataset.
         public var useAs: QuickSightClientTypes.DataSetUseAs?
 
@@ -31592,6 +35408,7 @@ extension QuickSightClientTypes {
             columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]? = nil,
             consumedSpiceCapacityInBytes: Swift.Int = 0,
             createdTime: Foundation.Date? = nil,
+            dataPrepConfiguration: QuickSightClientTypes.DataPrepConfiguration? = nil,
             dataSetId: Swift.String? = nil,
             dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration? = nil,
             datasetParameters: [QuickSightClientTypes.DatasetParameter]? = nil,
@@ -31605,6 +35422,7 @@ extension QuickSightClientTypes {
             physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]? = nil,
             rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
             rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil,
+            semanticModelConfiguration: QuickSightClientTypes.SemanticModelConfiguration? = nil,
             useAs: QuickSightClientTypes.DataSetUseAs? = nil
         ) {
             self.arn = arn
@@ -31612,6 +35430,7 @@ extension QuickSightClientTypes {
             self.columnLevelPermissionRules = columnLevelPermissionRules
             self.consumedSpiceCapacityInBytes = consumedSpiceCapacityInBytes
             self.createdTime = createdTime
+            self.dataPrepConfiguration = dataPrepConfiguration
             self.dataSetId = dataSetId
             self.dataSetUsageConfiguration = dataSetUsageConfiguration
             self.datasetParameters = datasetParameters
@@ -31625,6 +35444,7 @@ extension QuickSightClientTypes {
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
+            self.semanticModelConfiguration = semanticModelConfiguration
             self.useAs = useAs
         }
     }
@@ -31727,8 +35547,10 @@ extension QuickSightClientTypes {
         public var lastUpdatedTime: Foundation.Date?
         /// A display name for the dataset.
         public var name: Swift.String?
-        /// The row-level security configuration for the dataset.
+        /// The row-level security configuration for the dataset in the legacy data preparation experience.
         public var rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet?
+        /// The row-level security configuration for the dataset in the new data preparation experience.
+        public var rowLevelPermissionDataSetMap: [Swift.String: QuickSightClientTypes.RowLevelPermissionDataSet]?
         /// Whether or not the row level permission tags are applied.
         public var rowLevelPermissionTagConfigurationApplied: Swift.Bool
         /// The usage of the dataset.
@@ -31743,6 +35565,7 @@ extension QuickSightClientTypes {
             lastUpdatedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
+            rowLevelPermissionDataSetMap: [Swift.String: QuickSightClientTypes.RowLevelPermissionDataSet]? = nil,
             rowLevelPermissionTagConfigurationApplied: Swift.Bool = false,
             useAs: QuickSightClientTypes.DataSetUseAs? = nil
         ) {
@@ -31754,6 +35577,7 @@ extension QuickSightClientTypes {
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
+            self.rowLevelPermissionDataSetMap = rowLevelPermissionDataSetMap
             self.rowLevelPermissionTagConfigurationApplied = rowLevelPermissionTagConfigurationApplied
             self.useAs = useAs
         }
@@ -31838,7 +35662,7 @@ extension QuickSightClientTypes {
         public var createdTime: Foundation.Date?
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public var dataSourceId: Swift.String?
-        /// The parameters that Amazon QuickSight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
+        /// The parameters that Quick Sight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
         public var dataSourceParameters: QuickSightClientTypes.DataSourceParameters?
         /// Error information from the last update or the creation of the data source.
         public var errorInfo: QuickSightClientTypes.DataSourceErrorInfo?
@@ -31848,13 +35672,13 @@ extension QuickSightClientTypes {
         public var name: Swift.String?
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public var secretArn: Swift.String?
-        /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying source.
+        /// Secure Socket Layer (SSL) properties that apply when Quick Sight connects to your underlying source.
         public var sslProperties: QuickSightClientTypes.SslProperties?
         /// The HTTP status of the request.
         public var status: QuickSightClientTypes.ResourceStatus?
         /// The type of the data source. This type indicates which database engine the data source connects to.
         public var type: QuickSightClientTypes.DataSourceType?
-        /// The VPC connection information. You need to use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to your underlying source.
+        /// The VPC connection information. You need to use this parameter only when you want Quick Sight to use a VPC connection when connecting to your underlying source.
         public var vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
 
         public init(
@@ -31994,10 +35818,10 @@ extension QuickSightClientTypes {
 }
 
 public struct DeleteAccountCustomizationInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to delete Amazon QuickSight customizations from in this Amazon Web Services Region.
+    /// The ID for the Amazon Web Services account that you want to delete Quick Sight customizations from.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight namespace that you're deleting the customizations from.
+    /// The Quick Sight namespace that you're deleting the customizations from.
     public var namespace: Swift.String?
 
     public init(
@@ -32010,6 +35834,33 @@ public struct DeleteAccountCustomizationInput: Swift.Sendable {
 }
 
 public struct DeleteAccountCustomizationOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DeleteAccountCustomPermissionInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account from which you want to unapply the custom permissions profile.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DeleteAccountCustomPermissionOutput: Swift.Sendable {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -32051,6 +35902,46 @@ public struct DeleteAccountSubscriptionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteActionConnectorInput: Swift.Sendable {
+    /// The unique identifier of the action connector to delete.
+    /// This member is required.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Web Services account ID that contains the action connector to delete.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DeleteActionConnectorOutput: Swift.Sendable {
+    /// The unique identifier of the deleted action connector.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the deleted action connector.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status code of the request.
+    public var status: Swift.Int
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DeleteAnalysisInput: Swift.Sendable {
     /// The ID of the analysis that you're deleting.
     /// This member is required.
@@ -32060,7 +35951,7 @@ public struct DeleteAnalysisInput: Swift.Sendable {
     public var awsAccountId: Swift.String?
     /// This option defaults to the value NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
     public var forceDeleteWithoutRecovery: Swift.Bool?
-    /// A value that specifies the number of days that Amazon QuickSight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
+    /// A value that specifies the number of days that Amazon Quick Sight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
     public var recoveryWindowInDays: Swift.Int?
 
     public init(
@@ -32107,7 +35998,7 @@ public struct DeleteBrandInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that owns the brand.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The ID of the Amazon QuickSight brand.
+    /// The ID of the Quick Suite brand.
     /// This member is required.
     public var brandId: Swift.String?
 
@@ -32238,7 +36129,7 @@ public struct DeleteDataSetInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// The ID for the dataset that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     /// This member is required.
     public var dataSetId: Swift.String?
 
@@ -32254,7 +36145,7 @@ public struct DeleteDataSetInput: Swift.Sendable {
 public struct DeleteDataSetOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var arn: Swift.String?
-    /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// The ID for the dataset that you want to delete. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     public var dataSetId: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -32347,10 +36238,10 @@ public struct DeleteDataSourceOutput: Swift.Sendable {
 }
 
 public struct DeleteDefaultQBusinessApplicationInput: Swift.Sendable {
-    /// The ID of the Amazon QuickSight account that you want to disconnect from a Amazon Q Business application.
+    /// The ID of the Quick Sight account that you want to disconnect from a Amazon Q Business application.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
+    /// The Quick Sight namespace that you want to delete a linked Amazon Q Business application from. If this field is left blank, the Amazon Q Business application is deleted from the default namespace. Currently, the default namespace is the only valid value for this parameter.
     public var namespace: Swift.String?
 
     public init(
@@ -32460,7 +36351,7 @@ public struct DeleteFolderMembershipOutput: Swift.Sendable {
 }
 
 public struct DeleteGroupInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the group that you want to delete.
@@ -32497,7 +36388,7 @@ public struct DeleteGroupOutput: Swift.Sendable {
 }
 
 public struct DeleteGroupMembershipInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the group that you want to delete the user from.
@@ -32612,7 +36503,7 @@ public struct DeleteIdentityPropagationConfigOutput: Swift.Sendable {
 }
 
 public struct DeleteNamespaceInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to delete the Amazon QuickSight namespace from.
+    /// The ID for the Amazon Web Services account that you want to delete the Quick Sight namespace from.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The namespace that you want to delete.
@@ -32689,7 +36580,7 @@ public struct DeleteRefreshScheduleOutput: Swift.Sendable {
 }
 
 public struct DeleteRoleCustomPermissionInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The namespace that includes the role.
@@ -32726,7 +36617,7 @@ public struct DeleteRoleCustomPermissionOutput: Swift.Sendable {
 }
 
 public struct DeleteRoleMembershipInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the group.
@@ -33043,7 +36934,7 @@ public struct DeleteTopicRefreshScheduleOutput: Swift.Sendable {
 }
 
 public struct DeleteUserInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The namespace. Currently, you should set this to default.
@@ -33081,7 +36972,7 @@ public struct DeleteUserOutput: Swift.Sendable {
 
 ///
 public struct DeleteUserByPrincipalIdInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The namespace. Currently, you should set this to default.
@@ -33203,12 +37094,12 @@ public struct DeleteVPCConnectionOutput: Swift.Sendable {
 }
 
 public struct DescribeAccountCustomizationInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to describe Amazon QuickSight customizations for.
+    /// The ID for the Amazon Web Services account that you want to describe Quick Sight customizations for.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight namespace that you want to describe Amazon QuickSight customizations for.
+    /// The Quick Sight namespace that you want to describe Quick Sight customizations for.
     public var namespace: Swift.String?
-    /// The Resolved flag works with the other parameters to determine which view of Amazon QuickSight customizations is returned. You can add this flag to your command to use the same view that Amazon QuickSight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
+    /// The Resolved flag works with the other parameters to determine which view of Quick Sight customizations is returned. You can add this flag to your command to use the same view that Quick Sight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
     public var resolved: Swift.Bool?
 
     public init(
@@ -33223,13 +37114,13 @@ public struct DescribeAccountCustomizationInput: Swift.Sendable {
 }
 
 public struct DescribeAccountCustomizationOutput: Swift.Sendable {
-    /// The Amazon QuickSight customizations that exist in the current Amazon Web Services Region.
+    /// The Quick Sight customizations that exist.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) of the customization that's associated with this Amazon Web Services account.
     public var arn: Swift.String?
     /// The ID for the Amazon Web Services account that you're describing.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight namespace that you're describing.
+    /// The Quick Sight namespace that you're describing.
     public var namespace: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -33253,6 +37144,37 @@ public struct DescribeAccountCustomizationOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeAccountCustomPermissionInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account for which you want to describe the applied custom permissions profile.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeAccountCustomPermissionOutput: Swift.Sendable {
+    /// The name of the custom permissions profile.
+    public var customPermissionsName: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        customPermissionsName: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.customPermissionsName = customPermissionsName
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct DescribeAccountSettingsInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that contains the settings that you want to list.
     /// This member is required.
@@ -33266,7 +37188,7 @@ public struct DescribeAccountSettingsInput: Swift.Sendable {
 }
 
 public struct DescribeAccountSettingsOutput: Swift.Sendable {
-    /// The Amazon QuickSight settings for this Amazon Web Services account. This information includes the edition of Amazon Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon QuickSight subscription. In the QuickSight console, the Amazon QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon QuickSight service for your Amazon Web Services account. The edition that you subscribe to applies to Amazon QuickSight in every Amazon Web Services Region where you use it.
+    /// The Amazon Quick Sight settings for this Amazon Web Services account. This information includes the edition of Amazon Quick Sight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon Quick Sight subscription. In the Quick Sight console, the Amazon Quick Sight subscription is sometimes referred to as a Quick Sight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon Quick Sight service for your Amazon Web Services account. The edition that you subscribe to applies to Quick Suite in every Amazon Web Services Region where you use it.
     public var accountSettings: QuickSightClientTypes.AccountSettings?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -33285,7 +37207,7 @@ public struct DescribeAccountSettingsOutput: Swift.Sendable {
 }
 
 public struct DescribeAccountSubscriptionInput: Swift.Sendable {
-    /// The Amazon Web Services account ID associated with your Amazon QuickSight account.
+    /// The Amazon Web Services account ID associated with your Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
 
@@ -33299,15 +37221,15 @@ public struct DescribeAccountSubscriptionInput: Swift.Sendable {
 public struct DescribeAccountSubscriptionOutput: Swift.Sendable {
     /// A structure that contains the following elements:
     ///
-    /// * Your Amazon QuickSight account name.
+    /// * Your Quick Sight account name.
     ///
-    /// * The edition of Amazon QuickSight that your account is using.
+    /// * The edition of Quick Sight that your account is using.
     ///
-    /// * The notification email address that is associated with the Amazon QuickSight account.
+    /// * The notification email address that is associated with the Amazon Quick Sight account.
     ///
-    /// * The authentication type of the Amazon QuickSight account.
+    /// * The authentication type of the Quick Sight account.
     ///
-    /// * The status of the Amazon QuickSight account's subscription.
+    /// * The status of the Quick Sight account's subscription.
     public var accountInfo: QuickSightClientTypes.AccountInfo?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -33320,6 +37242,86 @@ public struct DescribeAccountSubscriptionOutput: Swift.Sendable {
         status: Swift.Int = 0
     ) {
         self.accountInfo = accountInfo
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DescribeActionConnectorInput: Swift.Sendable {
+    /// The unique identifier of the action connector to describe.
+    /// This member is required.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Web Services account ID that contains the action connector.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeActionConnectorOutput: Swift.Sendable {
+    /// The detailed information about the action connector, including its configuration and current state.
+    public var actionConnector: QuickSightClientTypes.ActionConnector?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status code of the request.
+    public var status: Swift.Int
+
+    public init(
+        actionConnector: QuickSightClientTypes.ActionConnector? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.actionConnector = actionConnector
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct DescribeActionConnectorPermissionsInput: Swift.Sendable {
+    /// The unique identifier of the action connector whose permissions you want to describe.
+    /// This member is required.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Web Services account ID that contains the action connector.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.awsAccountId = awsAccountId
+    }
+}
+
+public struct DescribeActionConnectorPermissionsOutput: Swift.Sendable {
+    /// The unique identifier of the action connector.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the action connector.
+    public var arn: Swift.String?
+    /// The list of permissions associated with the action connector, including the principals and their allowed actions.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status code of the request.
+    public var status: Swift.Int
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.arn = arn
+        self.permissions = permissions
         self.requestId = requestId
         self.status = status
     }
@@ -33712,7 +37714,7 @@ public struct DescribeBrandInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that owns the brand.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The ID of the Amazon QuickSight brand.
+    /// The ID of the Quick Suite brand.
     /// This member is required.
     public var brandId: Swift.String?
     /// The ID of the specific version. The default value is the latest version.
@@ -33779,7 +37781,7 @@ public struct DescribeBrandPublishedVersionInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that owns the brand.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The ID of the Amazon QuickSight brand.
+    /// The ID of the Quick Suite brand.
     /// This member is required.
     public var brandId: Swift.String?
 
@@ -33921,11 +37923,17 @@ public struct DescribeDashboardDefinitionOutput: Swift.Sendable {
     public var dashboardId: Swift.String?
     /// Options for publishing the dashboard:
     ///
-    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
+    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
     ///
     /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
     ///
     /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+    ///
+    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
+    ///
+    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
     public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
     /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
@@ -34123,7 +38131,7 @@ extension QuickSightClientTypes {
         /// A list of SnapshotJobResultFileGroup objects that contain information about the snapshot that is generated. This list can hold a maximum of 6 FileGroup configurations.
         /// This member is required.
         public var fileGroups: [QuickSightClientTypes.SnapshotFileGroup]?
-        /// A list of Amazon QuickSight parameters and the list's override values.
+        /// A list of Quick Sight parameters and the list's override values.
         public var parameters: QuickSightClientTypes.Parameters?
 
         public init(
@@ -34251,7 +38259,7 @@ public struct DescribeDashboardSnapshotJobResultInput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
-    /// An object that contains information on the error that caused the snapshot job to fail.
+    /// An object that contains information on the error that caused the snapshot job to fail. For more information, see [DescribeDashboardSnapshotJobResult API](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_DescribeDashboardSnapshotJobResult.html).
     public struct SnapshotJobErrorInfo: Swift.Sendable {
         /// The error message.
         public var errorMessage: Swift.String?
@@ -34270,15 +38278,34 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// A structure that contains information about files that are requested for registered user during a StartDashboardSnapshotJob API call.
+    public struct RegisteredUserSnapshotJobResult: Swift.Sendable {
+        /// A list of SnapshotJobResultFileGroup objects that contain information on the files that are requested for registered user during a StartDashboardSnapshotJob API call. If the job succeeds, these objects contain the location where the snapshot artifacts are stored. If the job fails, the objects contain information about the error that caused the job to fail.
+        public var fileGroups: [QuickSightClientTypes.SnapshotJobResultFileGroup]?
+
+        public init(
+            fileGroups: [QuickSightClientTypes.SnapshotJobResultFileGroup]? = nil
+        ) {
+            self.fileGroups = fileGroups
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// An object that provides information on the result of a snapshot job. This object provides information about the job, the job status, and the location of the generated file.
     public struct SnapshotJobResult: Swift.Sendable {
         /// A list of AnonymousUserSnapshotJobResult objects that contain information on anonymous users and their user configurations. This data provided by you when you make a StartDashboardSnapshotJob API call.
         public var anonymousUsers: [QuickSightClientTypes.AnonymousUserSnapshotJobResult]?
+        /// A list of RegisteredUserSnapshotJobResult objects that contain information about files that are requested for registered user during a StartDashboardSnapshotJob API call.
+        public var registeredUsers: [QuickSightClientTypes.RegisteredUserSnapshotJobResult]?
 
         public init(
-            anonymousUsers: [QuickSightClientTypes.AnonymousUserSnapshotJobResult]? = nil
+            anonymousUsers: [QuickSightClientTypes.AnonymousUserSnapshotJobResult]? = nil,
+            registeredUsers: [QuickSightClientTypes.RegisteredUserSnapshotJobResult]? = nil
         ) {
             self.anonymousUsers = anonymousUsers
+            self.registeredUsers = registeredUsers
         }
     }
 }
@@ -34357,7 +38384,7 @@ public struct DescribeDataSetInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// The ID for the dataset that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     /// This member is required.
     public var dataSetId: Swift.String?
 
@@ -34393,7 +38420,7 @@ public struct DescribeDataSetPermissionsInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// The ID for the dataset that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     /// This member is required.
     public var dataSetId: Swift.String?
 
@@ -34409,7 +38436,7 @@ public struct DescribeDataSetPermissionsInput: Swift.Sendable {
 public struct DescribeDataSetPermissionsOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var dataSetArn: Swift.String?
-    /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// The ID for the dataset that you want to describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     public var dataSetId: Swift.String?
     /// A list of resource permissions on the dataset.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -34550,10 +38577,10 @@ public struct DescribeDataSourcePermissionsOutput: Swift.Sendable {
 }
 
 public struct DescribeDefaultQBusinessApplicationInput: Swift.Sendable {
-    /// The ID of the Amazon QuickSight account that is linked to the Amazon Q Business application that you want described.
+    /// The ID of the Quick Sight account that is linked to the Amazon Q Business application that you want described.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+    /// The Quick Sight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
     public var namespace: Swift.String?
 
     public init(
@@ -34566,7 +38593,7 @@ public struct DescribeDefaultQBusinessApplicationInput: Swift.Sendable {
 }
 
 public struct DescribeDefaultQBusinessApplicationOutput: Swift.Sendable {
-    /// The ID of the Amazon Q Business application that is linked to the Amazon QuickSight account.
+    /// The ID of the Amazon Q Business application that is linked to the Quick Sight account.
     public var applicationId: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -34603,7 +38630,7 @@ public struct DescribeFolderInput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
-    /// A folder in Amazon QuickSight.
+    /// A folder in Quick Sight.
     public struct Folder: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the folder.
         public var arn: Swift.String?
@@ -34811,7 +38838,7 @@ public struct DescribeFolderResolvedPermissionsOutput: Swift.Sendable {
 }
 
 public struct DescribeGroupInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the group that you want to describe.
@@ -34852,7 +38879,7 @@ public struct DescribeGroupOutput: Swift.Sendable {
 }
 
 public struct DescribeGroupMembershipInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the group that you want to search.
@@ -34879,7 +38906,7 @@ public struct DescribeGroupMembershipInput: Swift.Sendable {
 }
 
 public struct DescribeGroupMembershipOutput: Swift.Sendable {
-    /// A member of an Amazon QuickSight group. Currently, group members must be users. Groups can't be members of another group. .
+    /// A member of an Quick Sight group. Currently, group members must be users. Groups can't be members of another group. .
     public var groupMember: QuickSightClientTypes.GroupMember?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -35425,13 +39452,13 @@ extension QuickSightClientTypes {
 
     /// A customer managed key structure that contains the information listed below:
     ///
-    /// * KeyArn - The ARN of a KMS key that is registered to a Amazon QuickSight account for encryption and decryption use.
+    /// * KeyArn - The ARN of a KMS key that is registered to a Quick Sight account for encryption and decryption use.
     ///
     /// * DefaultKey - Indicates whether the current key is set as the default key for encryption and decryption use.
     public struct RegisteredCustomerManagedKey: Swift.Sendable {
         /// Indicates whether a RegisteredCustomerManagedKey is set as the default key for encryption and decryption use.
         public var defaultKey: Swift.Bool
-        /// The ARN of the KMS key that is registered to a Amazon QuickSight account for encryption and decryption use.
+        /// The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use.
         public var keyArn: Swift.String?
 
         public init(
@@ -35444,11 +39471,61 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes {
+
+    public enum QDataKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwned
+        case cmk
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QDataKeyType] {
+            return [
+                .awsOwned,
+                .cmk
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwned: return "AWS_OWNED"
+            case .cmk: return "CMK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that contains information about the QDataKey.
+    public struct QDataKey: Swift.Sendable {
+        /// The ARN of the KMS key that is registered to a Quick Sight account for encryption and decryption use as a QDataKey.
+        public var qDataKeyArn: Swift.String?
+        /// The type of QDataKey.
+        public var qDataKeyType: QuickSightClientTypes.QDataKeyType?
+
+        public init(
+            qDataKeyArn: Swift.String? = nil,
+            qDataKeyType: QuickSightClientTypes.QDataKeyType? = nil
+        ) {
+            self.qDataKeyArn = qDataKeyArn
+            self.qDataKeyType = qDataKeyType
+        }
+    }
+}
+
 public struct DescribeKeyRegistrationOutput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the customer managed key registration specified in the request.
     public var awsAccountId: Swift.String?
-    /// A list of RegisteredCustomerManagedKey objects in a Amazon QuickSight account.
+    /// A list of RegisteredCustomerManagedKey objects in a Quick Sight account.
     public var keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]?
+    /// A list of QDataKey objects in a Quick Sight account.
+    public var qDataKey: QuickSightClientTypes.QDataKey?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -35457,18 +39534,20 @@ public struct DescribeKeyRegistrationOutput: Swift.Sendable {
     public init(
         awsAccountId: Swift.String? = nil,
         keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]? = nil,
+        qDataKey: QuickSightClientTypes.QDataKey? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
     ) {
         self.awsAccountId = awsAccountId
         self.keyRegistration = keyRegistration
+        self.qDataKey = qDataKey
         self.requestId = requestId
         self.status = status
     }
 }
 
 public struct DescribeNamespaceInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespace that you want to describe.
+    /// The ID for the Amazon Web Services account that contains the Quick Sight namespace that you want to describe.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The namespace that you want to describe.
@@ -35655,7 +39734,7 @@ public struct DescribeQPersonalizationConfigurationOutput: Swift.Sendable {
 }
 
 public struct DescribeQuickSightQSearchConfigurationInput: Swift.Sendable {
-    /// The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that the user wants described.
+    /// The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that the user wants described.
     /// This member is required.
     public var awsAccountId: Swift.String?
 
@@ -35696,7 +39775,7 @@ extension QuickSightClientTypes {
 }
 
 public struct DescribeQuickSightQSearchConfigurationOutput: Swift.Sendable {
-    /// The status of Amazon QuickSight Q Search configuration.
+    /// The status of Quick Sight Q Search configuration.
     public var qSearchStatus: QuickSightClientTypes.QSearchStatus?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -35760,7 +39839,7 @@ public struct DescribeRefreshScheduleOutput: Swift.Sendable {
 }
 
 public struct DescribeRoleCustomPermissionInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The namespace that contains the role.
@@ -35796,6 +39875,117 @@ public struct DescribeRoleCustomPermissionOutput: Swift.Sendable {
     ) {
         self.customPermissionsName = customPermissionsName
         self.requestId = requestId
+        self.status = status
+    }
+}
+
+/// One or more parameter has a value that isn't valid.
+public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request ID for this request.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidParameterException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+public struct DescribeSelfUpgradeConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Quick Suite namespace that you want to describe the Quick Suite self-upgrade configuration for.
+    /// This member is required.
+    public var namespace: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SelfUpgradeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case adminApproval
+        case autoApproval
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelfUpgradeStatus] {
+            return [
+                .adminApproval,
+                .autoApproval
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .adminApproval: return "ADMIN_APPROVAL"
+            case .autoApproval: return "AUTO_APPROVAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The self-upgrade configuration for the Quick Suite account.
+    public struct SelfUpgradeConfiguration: Swift.Sendable {
+        /// Status set for the self-upgrade configuration for the Quick Suite account. It can contain the following values:
+        ///
+        /// * AUTO_APPROVAL: All the self-upgrade requests will be auto approved.
+        ///
+        /// * ADMIN_APPROVAL: All the self-upgrade requests will require admin approval.
+        public var selfUpgradeStatus: QuickSightClientTypes.SelfUpgradeStatus?
+
+        public init(
+            selfUpgradeStatus: QuickSightClientTypes.SelfUpgradeStatus? = nil
+        ) {
+            self.selfUpgradeStatus = selfUpgradeStatus
+        }
+    }
+}
+
+public struct DescribeSelfUpgradeConfigurationOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The self-upgrade configuration for the Quick Suite account.
+    public var selfUpgradeConfiguration: QuickSightClientTypes.SelfUpgradeConfiguration?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        selfUpgradeConfiguration: QuickSightClientTypes.SelfUpgradeConfiguration? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.selfUpgradeConfiguration = selfUpgradeConfiguration
         self.status = status
     }
 }
@@ -35946,7 +40136,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A template object. A template is an entity in Amazon QuickSight that encapsulates the metadata required to create an analysis and that you can use to create a dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with an analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template. You can share templates across Amazon Web Services accounts by allowing users in other Amazon Web Services accounts to create a template or a dashboard from an existing template.
+    /// A template object. A template is an entity in Quick Sight that encapsulates the metadata required to create an analysis and that you can use to create a dashboard. A template adds a layer of abstraction by using placeholders to replace the dataset associated with an analysis. You can use templates to create dashboards by replacing dataset placeholders with datasets that follow the same schema that was used to create the source analysis and template. You can share templates across Amazon Web Services accounts by allowing users in other Amazon Web Services accounts to create a template or a dashboard from an existing template.
     public struct Template: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the template.
         public var arn: Swift.String?
@@ -36269,7 +40459,7 @@ extension QuickSightClientTypes {
     public struct ThemeVersion: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the resource.
         public var arn: Swift.String?
-        /// The Amazon QuickSight-defined ID of the theme that a custom theme inherits from. All themes initially inherit from a default Amazon QuickSight theme.
+        /// The Quick Sight-defined ID of the theme that a custom theme inherits from. All themes initially inherit from a default Quick Sight theme.
         public var baseThemeId: Swift.String?
         /// The theme configuration, which contains all the theme display properties.
         public var configuration: QuickSightClientTypes.ThemeConfiguration?
@@ -36697,7 +40887,7 @@ public struct DescribeTopicRefreshScheduleOutput: Swift.Sendable {
 }
 
 public struct DescribeUserInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The namespace. Currently, you should set this to default.
@@ -36799,9 +40989,9 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A registered user of Amazon QuickSight.
+    /// A registered user of Quick Sight.
     public struct User: Swift.Sendable {
-        /// The active status of user. When you create an Amazon QuickSight user that's not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
+        /// The active status of user. When you create an Quick Sight user that's not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
         public var active: Swift.Bool
         /// The Amazon Resource Name (ARN) for the user.
         public var arn: Swift.String?
@@ -36809,7 +40999,7 @@ extension QuickSightClientTypes {
         public var customPermissionsName: Swift.String?
         /// The user's email address.
         public var email: Swift.String?
-        /// The type of supported external login provider that provides identity to let the user federate into Amazon QuickSight with an associated IAM role. The type can be one of the following.
+        /// The type of supported external login provider that provides identity to let the user federate into Quick Sight with an associated IAM role. The type can be one of the following.
         ///
         /// * COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com.
         ///
@@ -36823,25 +41013,25 @@ extension QuickSightClientTypes {
         public var identityType: QuickSightClientTypes.IdentityType?
         /// The principal ID of the user.
         public var principalId: Swift.String?
-        /// The Amazon QuickSight role for the user. The user role can be one of the following:.
+        /// The Quick Sight role for the user. The user role can be one of the following:.
         ///
         /// * READER: A user who has read-only access to dashboards.
         ///
         /// * AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.
         ///
-        /// * ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.
+        /// * ADMIN: A user who is an author, who can also manage Amazon Quick Sight settings.
         ///
-        /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+        /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
         ///
         /// * AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.
         ///
-        /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.
+        /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing.
         ///
         /// * RESTRICTED_READER: This role isn't currently available for use.
         ///
         /// * RESTRICTED_AUTHOR: This role isn't currently available for use.
         public var role: QuickSightClientTypes.UserRole?
-        /// The user's user name. This value is required if you are registering a user that will be managed in Amazon QuickSight. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
+        /// The user's user name. This value is required if you are registering a user that will be managed in Quick Sight. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
         public var userName: Swift.String?
 
         public init(
@@ -37070,7 +41260,7 @@ public struct DescribeVPCConnectionOutput: Swift.Sendable {
     }
 }
 
-/// The domain specified isn't on the allow list. All domains for embedded dashboards must be added to the approved list by an Amazon QuickSight admin.
+/// The domain specified isn't on the allow list. All domains for embedded dashboards must be added to the approved list by an Amazon Quick Suite admin.
 public struct DomainNotWhitelistedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -37131,14 +41321,14 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// An entry that appears when a KeyRegistration update to Amazon QuickSight fails.
+    /// An entry that appears when a KeyRegistration update to Quick Sight fails.
     public struct FailedKeyRegistrationEntry: Swift.Sendable {
         /// The ARN of the KMS key that failed to update.
         public var keyArn: Swift.String?
         /// A message that provides information about why a FailedKeyRegistrationEntry error occurred.
         /// This member is required.
         public var message: Swift.String?
-        /// A boolean that indicates whether a FailedKeyRegistrationEntry resulted from user error. If the value of this property is True, the error was caused by user error. If the value of this property is False, the error occurred on the backend. If your job continues fail and with a FalseSenderFault value, contact Amazon Web ServicesSupport.
+        /// A boolean that indicates whether a FailedKeyRegistrationEntry resulted from user error. If the value of this property is True, the error was caused by user error. If the value of this property is False, the error occurred on the backend. If your job continues fail and with a FalseSenderFault value, contact Amazon Web Services Support.
         /// This member is required.
         public var senderFault: Swift.Bool
         /// The HTTP status of a FailedKeyRegistrationEntry error.
@@ -37155,6 +41345,143 @@ extension QuickSightClientTypes {
             self.message = message
             self.senderFault = senderFault
             self.statusCode = statusCode
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum FieldName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case directQuicksightOwner
+        case directQuicksightSoleOwner
+        case directQuicksightViewerOrOwner
+        case flowDescription
+        case flowName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldName] {
+            return [
+                .directQuicksightOwner,
+                .directQuicksightSoleOwner,
+                .directQuicksightViewerOrOwner,
+                .flowDescription,
+                .flowName
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .directQuicksightOwner: return "DIRECT_QUICKSIGHT_OWNER"
+            case .directQuicksightSoleOwner: return "DIRECT_QUICKSIGHT_SOLE_OWNER"
+            case .directQuicksightViewerOrOwner: return "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+            case .flowDescription: return "assetDescription"
+            case .flowName: return "assetName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum FlowPublishState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case draft
+        case pendingApproval
+        case published
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowPublishState] {
+            return [
+                .draft,
+                .pendingApproval,
+                .published
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .draft: return "DRAFT"
+            case .pendingApproval: return "PENDING_APPROVAL"
+            case .published: return "PUBLISHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The basic information of the flow exluding its definition specifying the steps.
+    public struct FlowSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the flow.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The identifier of the principal who created the flow.
+        public var createdBy: Swift.String?
+        /// The time this flow was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The description of the flow.
+        public var description: Swift.String?
+        /// The unique identifier of the flow.
+        /// This member is required.
+        public var flowId: Swift.String?
+        /// The last time this flow was published.
+        public var lastPublishedAt: Foundation.Date?
+        /// The identifier of the last principal who published the flow.
+        public var lastPublishedBy: Swift.String?
+        /// The identifier of the last principal who updated the flow.
+        public var lastUpdatedBy: Swift.String?
+        /// The last time this flow was modified.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The display name of the flow.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The publish state for the flow. The valid values are DRAFT, PUBLISHED, or PENDING_APPROVAL.
+        public var publishState: QuickSightClientTypes.FlowPublishState?
+        /// The number of runs done for the flow.
+        public var runCount: Swift.Int
+        /// The number of users who have used the flow.
+        public var userCount: Swift.Int
+
+        public init(
+            arn: Swift.String? = nil,
+            createdBy: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            flowId: Swift.String? = nil,
+            lastPublishedAt: Foundation.Date? = nil,
+            lastPublishedBy: Swift.String? = nil,
+            lastUpdatedBy: Swift.String? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            publishState: QuickSightClientTypes.FlowPublishState? = nil,
+            runCount: Swift.Int = 0,
+            userCount: Swift.Int = 0
+        ) {
+            self.arn = arn
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.description = description
+            self.flowId = flowId
+            self.lastPublishedAt = lastPublishedAt
+            self.lastPublishedBy = lastPublishedBy
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.publishState = publishState
+            self.runCount = runCount
+            self.userCount = userCount
         }
     }
 }
@@ -37224,7 +41551,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A filter to use to search an Amazon QuickSight folder.
+    /// A filter to use to search an Quick Sight folder.
     public struct FolderSearchFilter: Swift.Sendable {
         /// The name of a value that you want to use in the filter. For example, "Name": "QUICKSIGHT_OWNER". Valid values are defined as follows:
         ///
@@ -37261,7 +41588,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A summary of information about an existing Amazon QuickSight folder.
+    /// A summary of information about an existing Quick Sight folder.
     public struct FolderSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the folder.
         public var arn: Swift.String?
@@ -37405,7 +41732,7 @@ public struct SessionLifetimeInMinutesInvalidException: ClientRuntime.ModeledErr
     }
 }
 
-/// This error indicates that you are calling an embedding operation in Amazon QuickSight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You can do this on the Manage Amazon QuickSight page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
+/// This error indicates that you are calling an embedding operation in Amazon Quick Sight without the required pricing plan on your Amazon Web Services account. Before you can use embedding for anonymous users, a Quick Suite administrator needs to add capacity pricing to Quick Sight. You can do this on the Manage Quick Suite page. After capacity pricing is added, you can use the [GetDashboardEmbedUrl](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GetDashboardEmbedUrl.html) API operation with the --identity-type ANONYMOUS option.
 public struct UnsupportedPricingPlanException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -37459,9 +41786,9 @@ extension QuickSightClientTypes.SessionTag: Swift.CustomDebugStringConvertible {
 }
 
 public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Sendable {
-    /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
+    /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
     public var allowedDomains: [Swift.String]?
-    /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
+    /// The Amazon Resource Names (ARNs) for the Quick Sight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
     /// This member is required.
     public var authorizedResourceArns: [Swift.String]?
     /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
@@ -37470,12 +41797,12 @@ public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Sendable {
     /// The configuration of the experience that you are embedding.
     /// This member is required.
     public var experienceConfiguration: QuickSightClientTypes.AnonymousUserEmbeddingExperienceConfiguration?
-    /// The Amazon QuickSight namespace that the anonymous user virtually belongs to. If you are not using an Amazon QuickSight custom namespace, set this to default.
+    /// The Amazon Quick Sight namespace that the anonymous user virtually belongs to. If you are not using an Amazon Quick Suite custom namespace, set this to default.
     /// This member is required.
     public var namespace: Swift.String?
     /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
     public var sessionLifetimeInMinutes: Swift.Int?
-    /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in the Amazon QuickSight User Guide.
+    /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in the Amazon Quick Sight User Guide.
     public var sessionTags: [QuickSightClientTypes.SessionTag]?
 
     public init(
@@ -37498,7 +41825,7 @@ public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Sendable {
 }
 
 public struct GenerateEmbedUrlForAnonymousUserOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) to use for the anonymous Amazon QuickSight user.
+    /// The Amazon Resource Name (ARN) to use for the anonymous Amazon Quick Suite user.
     /// This member is required.
     public var anonymousUserArn: Swift.String?
     /// The embed URL for the dashboard.
@@ -37558,9 +41885,9 @@ public struct QuickSightUserNotFoundException: ClientRuntime.ModeledError, AWSCl
 
 extension QuickSightClientTypes {
 
-    /// The recent snapshots configuration for an embedded Amazon QuickSight dashboard.
+    /// The recent snapshots configuration for an embedded Quick Sight dashboard.
     public struct RecentSnapshotsConfigurations: Swift.Sendable {
-        /// The recent snapshots configuration for an embedded Amazon QuickSight dashboard.
+        /// The recent snapshots configuration for an embedded Quick Sight dashboard.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -37574,9 +41901,9 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+    /// The schedules configuration for an embedded Quick Sight dashboard.
     public struct SchedulesConfigurations: Swift.Sendable {
-        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        /// The schedules configuration for an embedded Quick Sight dashboard.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -37592,7 +41919,7 @@ extension QuickSightClientTypes {
 
     /// The state perssitence configuration of an embedded dashboard.
     public struct StatePersistenceConfigurations: Swift.Sendable {
-        /// Determines if a Amazon QuickSight dashboard's state persistence settings are turned on or off.
+        /// Determines if a Quick Sight dashboard's state persistence settings are turned on or off.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -37606,9 +41933,9 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The threshold alerts configuration for an embedded Amazon QuickSight dashboard.
+    /// The threshold alerts configuration for an embedded Quick Sight dashboard.
     public struct ThresholdAlertsConfigurations: Swift.Sendable {
-        /// The threshold alerts configuration for an embedded Amazon QuickSight dashboard.
+        /// The threshold alerts configuration for an embedded Quick Sight dashboard.
         /// This member is required.
         public var enabled: Swift.Bool
 
@@ -37624,19 +41951,19 @@ extension QuickSightClientTypes {
 
     /// The feature configuration for an embedded dashboard.
     public struct RegisteredUserDashboardFeatureConfigurations: Swift.Sendable {
-        /// The Amazon Q configurations of an embedded Amazon QuickSight dashboard.
+        /// The Amazon Q configurations of an embedded Amazon Quick Sight dashboard.
         public var amazonQInQuickSight: QuickSightClientTypes.AmazonQInQuickSightDashboardConfigurations?
-        /// The bookmarks configuration for an embedded dashboard in Amazon QuickSight.
+        /// The bookmarks configuration for an embedded dashboard in Amazon Quick Sight.
         public var bookmarks: QuickSightClientTypes.BookmarksConfigurations?
-        /// The recent snapshots configuration for an Amazon QuickSight embedded dashboard
+        /// The recent snapshots configuration for an Quick Sight embedded dashboard
         public var recentSnapshots: QuickSightClientTypes.RecentSnapshotsConfigurations?
-        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        /// The schedules configuration for an embedded Quick Sight dashboard.
         public var schedules: QuickSightClientTypes.SchedulesConfigurations?
         /// The shared view settings of an embedded dashboard.
         public var sharedView: QuickSightClientTypes.SharedViewConfigurations?
         /// The state persistence settings of an embedded dashboard.
         public var statePersistence: QuickSightClientTypes.StatePersistenceConfigurations?
-        /// The threshold alerts configuration for an Amazon QuickSight embedded dashboard.
+        /// The threshold alerts configuration for an Quick Sight embedded dashboard.
         public var thresholdAlerts: QuickSightClientTypes.ThresholdAlertsConfigurations?
 
         public init(
@@ -37663,9 +41990,9 @@ extension QuickSightClientTypes {
 
     /// Information about the dashboard you want to embed.
     public struct RegisteredUserDashboardEmbeddingConfiguration: Swift.Sendable {
-        /// The feature configurations of an embbedded Amazon QuickSight dashboard.
+        /// The feature configurations of an embbedded Amazon Quick Sight dashboard.
         public var featureConfigurations: QuickSightClientTypes.RegisteredUserDashboardFeatureConfigurations?
-        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
+        /// The dashboard ID for the dashboard that you want the user to see first. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this dashboard if the user has permissions to view it. If the user does not have permission to view this dashboard, they see a permissions error message.
         /// This member is required.
         public var initialDashboardId: Swift.String?
 
@@ -37683,7 +42010,7 @@ extension QuickSightClientTypes {
 
     /// The experience that you are embedding. You can use this object to generate a url that embeds a visual into your application.
     public struct RegisteredUserDashboardVisualEmbeddingConfiguration: Swift.Sendable {
-        /// The visual ID for the visual that you want the user to embed. This ID is included in the output URL. When the URL in response is accessed, Amazon QuickSight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
+        /// The visual ID for the visual that you want the user to embed. This ID is included in the output URL. When the URL in response is accessed, Amazon Quick Sight renders this visual. The Amazon Resource Name (ARN) of the dashboard that the visual belongs to must be included in the AuthorizedResourceArns parameter. Otherwise, the request will fail with InvalidParameterValueException.
         /// This member is required.
         public var initialDashboardVisualId: QuickSightClientTypes.DashboardVisualId?
 
@@ -37699,7 +42026,7 @@ extension QuickSightClientTypes {
 
     /// An object that provides information about the configuration of a Generative Q&A experience.
     public struct RegisteredUserGenerativeQnAEmbeddingConfiguration: Swift.Sendable {
-        /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
+        /// The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience. You can find a topic ID by navigating to the Topics pane in the Quick Suite application and opening a topic. The ID is in the URL for the topic that you open. If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.
         public var initialTopicId: Swift.String?
 
         public init(
@@ -37714,7 +42041,7 @@ extension QuickSightClientTypes {
 
     /// Information about the Q search bar embedding experience.
     public struct RegisteredUserQSearchBarEmbeddingConfiguration: Swift.Sendable {
-        /// The ID of the legacy Q topic that you want to use as the starting topic in the Q search bar. To locate the topic ID of the topic that you want to use, open the [Amazon QuickSight console](https://quicksight.aws.amazon.com/), navigate to the Topics pane, and choose thre topic that you want to use. The TopicID is located in the URL of the topic that opens. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the list of available topics. If you don't specify an initial topic or if you specify a new reader experience topic, a list of all shared legacy topics is shown in the Q bar.
+        /// The ID of the legacy Q topic that you want to use as the starting topic in the Q search bar. To locate the topic ID of the topic that you want to use, open the [Quick Sight console](https://quicksight.aws.amazon.com/), navigate to the Topics pane, and choose thre topic that you want to use. The TopicID is located in the URL of the topic that opens. When you select an initial topic, you can specify whether or not readers are allowed to select other topics from the list of available topics. If you don't specify an initial topic or if you specify a new reader experience topic, a list of all shared legacy topics is shown in the Q bar.
         public var initialTopicId: Swift.String?
 
         public init(
@@ -37727,19 +42054,28 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The feature configurations of an embedded Amazon QuickSight console.
+    /// An object that provides information about the configuration of a chat agent.
+    public struct RegisteredUserQuickChatEmbeddingConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The feature configurations of an embedded Amazon Quick Sight console.
     public struct RegisteredUserConsoleFeatureConfigurations: Swift.Sendable {
-        /// The Amazon Q configurations of an embedded Amazon QuickSight console.
+        /// The Amazon Q configurations of an embedded Amazon Quick Sight console.
         public var amazonQInQuickSight: QuickSightClientTypes.AmazonQInQuickSightConsoleConfigurations?
-        /// The recent snapshots configuration for an embedded Amazon QuickSight dashboard.
+        /// The recent snapshots configuration for an embedded Quick Sight dashboard.
         public var recentSnapshots: QuickSightClientTypes.RecentSnapshotsConfigurations?
-        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        /// The schedules configuration for an embedded Quick Sight dashboard.
         public var schedules: QuickSightClientTypes.SchedulesConfigurations?
         /// The shared view settings of an embedded dashboard.
         public var sharedView: QuickSightClientTypes.SharedViewConfigurations?
-        /// The state persistence configurations of an embedded Amazon QuickSight console.
+        /// The state persistence configurations of an embedded Amazon Quick Sight console.
         public var statePersistence: QuickSightClientTypes.StatePersistenceConfigurations?
-        /// The threshold alerts configuration for an embedded Amazon QuickSight dashboard.
+        /// The threshold alerts configuration for an embedded Quick Sight dashboard.
         public var thresholdAlerts: QuickSightClientTypes.ThresholdAlertsConfigurations?
 
         public init(
@@ -37762,11 +42098,11 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// Information about the Amazon QuickSight console that you want to embed.
+    /// Information about the Amazon Quick Sight console that you want to embed.
     public struct RegisteredUserQuickSightConsoleEmbeddingConfiguration: Swift.Sendable {
-        /// The embedding configuration of an embedded Amazon QuickSight console.
+        /// The embedding configuration of an embedded Amazon Quick Sight console.
         public var featureConfigurations: QuickSightClientTypes.RegisteredUserConsoleFeatureConfigurations?
-        /// The initial URL path for the Amazon QuickSight console. InitialPath is required. The entry point URL is constrained to the following paths:
+        /// The initial URL path for the Amazon Quick Sight console. InitialPath is required. The entry point URL is constrained to the following paths:
         ///
         /// * /start
         ///
@@ -37776,9 +42112,9 @@ extension QuickSightClientTypes {
         ///
         /// * /start/favorites
         ///
-        /// * /dashboards/DashboardId. DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard.
+        /// * /dashboards/DashboardId. DashboardId is the actual ID key from the Amazon Quick Sight console URL of the dashboard.
         ///
-        /// * /analyses/AnalysisId. AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis.
+        /// * /analyses/AnalysisId. AnalysisId is the actual ID key from the Amazon Quick Sight console URL of the analysis.
         public var initialPath: Swift.String?
 
         public init(
@@ -37793,24 +42129,26 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// The type of experience you want to embed. For registered users, you can embed Amazon QuickSight dashboards or the Amazon QuickSight console. Exactly one of the experience configurations is required. You can choose Dashboard or QuickSightConsole. You cannot choose more than one experience configuration.
+    /// The type of experience you want to embed. For registered users, you can embed Quick Suite dashboards or the Amazon Quick Sight console. Exactly one of the experience configurations is required. You can choose Dashboard or QuickSightConsole. You cannot choose more than one experience configuration.
     public struct RegisteredUserEmbeddingExperienceConfiguration: Swift.Sendable {
         /// The configuration details for providing a dashboard embedding experience.
         public var dashboard: QuickSightClientTypes.RegisteredUserDashboardEmbeddingConfiguration?
-        /// The type of embedding experience. In this case, Amazon QuickSight visuals.
+        /// The type of embedding experience. In this case, Amazon Quick Sight visuals.
         public var dashboardVisual: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration?
-        /// The configuration details for embedding the Generative Q&A experience. For more information about embedding the Generative Q&A experience, see [Embedding Overview](https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html) in the Amazon QuickSight User Guide.
+        /// The configuration details for embedding the Generative Q&A experience. For more information about embedding the Generative Q&A experience, see [Embedding Overview](https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html) in the Amazon Quick Sight User Guide.
         public var generativeQnA: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration?
-        /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see [Embedding Overview](https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html) in the Amazon QuickSight User Guide.
+        /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see [Embedding Overview](https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html) in the Amazon Quick Sight User Guide.
         public var qSearchBar: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration?
-        /// The configuration details for providing each Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see [Customizing Access to the Amazon QuickSight Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html) in the Amazon QuickSight User Guide. Use [GenerateEmbedUrlForRegisteredUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html) where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use the [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:
+        /// The configuration details for embedding the Quick chat agent.
+        public var quickChat: QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration?
+        /// The configuration details for providing each Amazon Quick Sight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see [Customizing Access to the Amazon Quick Sight Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html) in the Amazon Quick Suite User Guide. Use [GenerateEmbedUrlForRegisteredUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_GenerateEmbedUrlForRegisteredUser.html) where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon Quick Sight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) API operation. Use the [RegisterUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_RegisterUser.html) API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon Quick Suite User Guide:
         ///
-        /// * [Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-full-console-for-authenticated-users.html)
+        /// * [Embedding the Full Functionality of the Amazon Quick Sight Console for Authenticated Users](https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics-full-console-for-authenticated-users.html)
         ///
-        /// * [Customizing Access to the Amazon QuickSight Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html)
+        /// * [Customizing Access to the Amazon Quick Suite Console](https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html)
         ///
         ///
-        /// For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon QuickSight Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
+        /// For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the [Amazon Quick Suite Developer Portal](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-portal.html).
         public var quickSightConsole: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration?
 
         public init(
@@ -37818,24 +42156,26 @@ extension QuickSightClientTypes {
             dashboardVisual: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration? = nil,
             generativeQnA: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration? = nil,
             qSearchBar: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration? = nil,
+            quickChat: QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration? = nil,
             quickSightConsole: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil
         ) {
             self.dashboard = dashboard
             self.dashboardVisual = dashboardVisual
             self.generativeQnA = generativeQnA
             self.qSearchBar = qSearchBar
+            self.quickChat = quickChat
             self.quickSightConsole = quickSightConsole
         }
     }
 }
 
 public struct GenerateEmbedUrlForRegisteredUserInput: Swift.Sendable {
-    /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
+    /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage Quick Sight menu in the Amazon Quick Sight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
     public var allowedDomains: [Swift.String]?
     /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The experience that you want to embed. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, the Amazon QuickSight Generative Q&A experience, or the entire Amazon QuickSight console.
+    /// The experience that you want to embed. For registered users, you can embed Quick Suite dashboards, Amazon Quick Sight visuals, the Amazon Quick Sight Q search bar, the Amazon Quick Sight Generative Q&A experience, or the entire Amazon Quick Sight console.
     /// This member is required.
     public var experienceConfiguration: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration?
     /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
@@ -37860,7 +42200,7 @@ public struct GenerateEmbedUrlForRegisteredUserInput: Swift.Sendable {
 }
 
 public struct GenerateEmbedUrlForRegisteredUserOutput: Swift.Sendable {
-    /// The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, Generative Q&A experience, or console.
+    /// The embed URL for the Amazon Quick Sight dashboard, visual, Q search bar, Generative Q&A experience, or console.
     /// This member is required.
     public var embedUrl: Swift.String?
     /// The Amazon Web Services request ID for this operation.
@@ -37892,7 +42232,7 @@ public struct GenerateEmbedUrlForRegisteredUserWithIdentityInput: Swift.Sendable
     /// The ID of the Amazon Web Services registered user.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The type of experience you want to embed. For registered users, you can embed Amazon QuickSight dashboards or the Amazon QuickSight console. Exactly one of the experience configurations is required. You can choose Dashboard or QuickSightConsole. You cannot choose more than one experience configuration.
+    /// The type of experience you want to embed. For registered users, you can embed Quick Suite dashboards or the Amazon Quick Sight console. Exactly one of the experience configurations is required. You can choose Dashboard or QuickSightConsole. You cannot choose more than one experience configuration.
     /// This member is required.
     public var experienceConfiguration: QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration?
     /// The validity of the session in minutes.
@@ -37966,7 +42306,7 @@ public struct IdentityTypeNotSupportedException: ClientRuntime.ModeledError, AWS
 }
 
 public struct GetDashboardEmbedUrlInput: Swift.Sendable {
-    /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Amazon QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+    /// A list of one or more dashboard IDs that you want anonymous users to have tempporary access to. Currently, the IdentityType parameter must be set to ANONYMOUS because other identity types authenticate as Quick Suite or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
     public var additionalDashboardIds: [Swift.String]?
     /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
     /// This member is required.
@@ -37977,17 +42317,17 @@ public struct GetDashboardEmbedUrlInput: Swift.Sendable {
     /// The authentication method that the user uses to sign in.
     /// This member is required.
     public var identityType: QuickSightClientTypes.EmbeddingIdentityType?
-    /// The Amazon QuickSight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set Namespace = default.
+    /// The Amazon Quick Sight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set Namespace = default.
     public var namespace: Swift.String?
     /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
     public var resetDisabled: Swift.Bool?
     /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
     public var sessionLifetimeInMinutes: Swift.Int?
-    /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
+    /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon Quick Sight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon Quick Sight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
     public var statePersistenceEnabled: Swift.Bool?
     /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
     public var undoRedoDisabled: Swift.Bool?
-    /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:
+    /// The Amazon Quick Suite user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon Quick Suite users in your account (readers, authors, or admins) authenticated as one of the following:
     ///
     /// * Active Directory (AD) users or group members
     ///
@@ -38049,8 +42389,252 @@ extension GetDashboardEmbedUrlOutput: Swift.CustomDebugStringConvertible {
         "GetDashboardEmbedUrlOutput(requestId: \(Swift.String(describing: requestId)), status: \(Swift.String(describing: status)), embedUrl: \"CONTENT_REDACTED\")"}
 }
 
+public struct GetFlowMetadataInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the flow that you are getting metadata for.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        flowId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.flowId = flowId
+    }
+}
+
+public struct GetFlowMetadataOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time this flow was created.
+    /// This member is required.
+    public var createdTime: Foundation.Date?
+    /// The description for the flow.
+    public var description: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The last time this flow was modified.
+    public var lastUpdatedTime: Foundation.Date?
+    /// A display name for the flow.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The publish state for the flow. Valid values are DRAFT, PUBLISHED, or PENDING_APPROVAL.
+    public var publishState: QuickSightClientTypes.FlowPublishState?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The number of runs done for the flow.
+    public var runCount: Swift.Int
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+    /// The number of users who have used the flow.
+    public var userCount: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        createdTime: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        flowId: Swift.String? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        publishState: QuickSightClientTypes.FlowPublishState? = nil,
+        requestId: Swift.String? = nil,
+        runCount: Swift.Int = 0,
+        status: Swift.Int = 0,
+        userCount: Swift.Int = 0
+    ) {
+        self.arn = arn
+        self.createdTime = createdTime
+        self.description = description
+        self.flowId = flowId
+        self.lastUpdatedTime = lastUpdatedTime
+        self.name = name
+        self.publishState = publishState
+        self.requestId = requestId
+        self.runCount = runCount
+        self.status = status
+        self.userCount = userCount
+    }
+}
+
+public struct GetFlowPermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the flow that you are getting permissions for.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The unique identifier of the flow to get permissions from.
+    /// This member is required.
+    public var flowId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        flowId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.flowId = flowId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that contains the permission information for one principal against one flow.
+    public struct Permission: Swift.Sendable {
+        /// A list of actions that the principal can perform against the flow. The following are the list of values to set a principal as a flow owner:
+        ///
+        /// * quicksight:PublishFlow
+        ///
+        /// * quicksight:GetFlow
+        ///
+        /// * quicksight:UpdateFlowPermissions
+        ///
+        /// * quicksight:GetFlowSession
+        ///
+        /// * quicksight:StartFlowSession
+        ///
+        /// * quicksight:StopFlowSession
+        ///
+        /// * quicksight:UpdateFlowSession
+        ///
+        /// * quicksight:UnpublishFlow
+        ///
+        /// * quicksight:GetFlowStages
+        ///
+        /// * quicksight:DeleteFlow
+        ///
+        /// * quicksight:DescribeFlowPermissions
+        ///
+        /// * quicksight:UpdateFlow
+        ///
+        /// * quicksight:CreatePresignedUrl
+        ///
+        ///
+        /// The following are the list of values to set a principal as a flow viewer:
+        ///
+        /// * quicksight:GetFlow
+        ///
+        /// * quicksight:UpdateFlowSession
+        ///
+        /// * quicksight:StartFlowSession
+        ///
+        /// * quicksight:StopFlowSession
+        ///
+        /// * quicksight:GetFlowSession
+        ///
+        /// * quicksight:CreatePresignedUrl
+        ///
+        /// * quicksight:GetFlowStages
+        /// This member is required.
+        public var actions: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the principal. This can be an Amazon Quick Suite user, group or namespace associated with the flow. Namespace principal can only be set as a viewer and will grant everyone in the same namespace viewer permissions.
+        /// This member is required.
+        public var principal: Swift.String?
+
+        public init(
+            actions: [Swift.String]? = nil,
+            principal: Swift.String? = nil
+        ) {
+            self.actions = actions
+            self.principal = principal
+        }
+    }
+}
+
+public struct GetFlowPermissionsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow you are getting permissions against.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The unique identifier of the flow with permissions.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// A structure that contains the permissions for the flow.
+    /// This member is required.
+    public var permissions: [QuickSightClientTypes.Permission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        flowId: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.Permission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.arn = arn
+        self.flowId = flowId
+        self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that contains information to identify a user.
+    public enum UserIdentifier: Swift.Sendable {
+        /// The name of the user that you want to get identity context for.
+        case username(Swift.String)
+        /// The email address of the user that you want to get identity context for.
+        case email(Swift.String)
+        /// The Amazon Resource Name (ARN) of the user that you want to get identity context for.
+        case userarn(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// ///////////////////////// /////////////////////////
+public struct GetIdentityContextInput: Swift.Sendable {
+    /// The ID for the Amazon Web Services account that the user whose identity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The namespace of the user that you want to get identity context for. This parameter is required when the UserIdentifier is specified using Email or UserName.
+    public var namespace: Swift.String?
+    /// The timestamp at which the session will expire.
+    public var sessionExpiresAt: Foundation.Date?
+    /// The identifier for the user whose identity context you want to retrieve.
+    /// This member is required.
+    public var userIdentifier: QuickSightClientTypes.UserIdentifier?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        sessionExpiresAt: Foundation.Date? = nil,
+        userIdentifier: QuickSightClientTypes.UserIdentifier? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+        self.sessionExpiresAt = sessionExpiresAt
+        self.userIdentifier = userIdentifier
+    }
+}
+
+public struct GetIdentityContextOutput: Swift.Sendable {
+    /// The identity context information for the user. This is an identity token that should be used as the ContextAssertion parameter in the [STS AssumeRole API](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html) call to obtain identity enhanced Amazon Web Services credentials.
+    public var context: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    /// This member is required.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    /// This member is required.
+    public var status: Swift.Int?
+
+    public init(
+        context: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int? = nil
+    ) {
+        self.context = context
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct GetSessionEmbedUrlInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account associated with your Amazon QuickSight subscription.
+    /// The ID for the Amazon Web Services account associated with your Amazon Quick Sight subscription.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The URL you use to access the embedded session. The entry point URL is constrained to the following paths:
@@ -38063,13 +42647,13 @@ public struct GetSessionEmbedUrlInput: Swift.Sendable {
     ///
     /// * /start/favorites
     ///
-    /// * /dashboards/DashboardId  - where DashboardId is the actual ID key from the Amazon QuickSight console URL of the dashboard
+    /// * /dashboards/DashboardId  - where DashboardId is the actual ID key from the Amazon Quick Sight console URL of the dashboard
     ///
-    /// * /analyses/AnalysisId  - where AnalysisId is the actual ID key from the Amazon QuickSight console URL of the analysis
+    /// * /analyses/AnalysisId  - where AnalysisId is the actual ID key from the Amazon Quick Sight console URL of the analysis
     public var entryPoint: Swift.String?
     /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
     public var sessionLifetimeInMinutes: Swift.Int?
-    /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon QuickSight users in your account (readers, authors, or admins). They need to be authenticated as one of the following:
+    /// The Amazon Quick Suite user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any type of Amazon Quick Suite users in your account (readers, authors, or admins). They need to be authenticated as one of the following:
     ///
     /// * Active Directory (AD) users or group members
     ///
@@ -38095,7 +42679,7 @@ public struct GetSessionEmbedUrlInput: Swift.Sendable {
 }
 
 public struct GetSessionEmbedUrlOutput: Swift.Sendable {
-    /// A single-use URL that you can put into your server-side web page to embed your Amazon QuickSight session. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
+    /// A single-use URL that you can put into your server-side web page to embed your Quick Suite session. This URL is valid for 5 minutes. The API operation provides the URL with an auth_code value that enables one (and only one) sign-on to a user session that is valid for 10 hours.
     public var embedUrl: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -38270,6 +42854,50 @@ extension QuickSightClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+public struct ListActionConnectorsInput: Swift.Sendable {
+    /// The Amazon Web Services account ID for which to list action connectors.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of action connectors to return in a single response. Valid range is 1 to 100.
+    public var maxResults: Swift.Int?
+    /// A pagination token to retrieve the next set of results. Use the token returned from a previous call to continue listing action connectors.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListActionConnectorsOutput: Swift.Sendable {
+    /// A list of action connector summaries containing basic information about each connector.
+    /// This member is required.
+    public var actionConnectorSummaries: [QuickSightClientTypes.ActionConnectorSummary]?
+    /// A pagination token to retrieve the next set of results. If null, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status code of the request.
+    public var status: Swift.Int
+
+    public init(
+        actionConnectorSummaries: [QuickSightClientTypes.ActionConnectorSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.actionConnectorSummaries = actionConnectorSummaries
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
     }
 }
 
@@ -38657,6 +43285,49 @@ public struct ListDataSourcesOutput: Swift.Sendable {
     }
 }
 
+public struct ListFlowsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the flow list that you are getting.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token to request the next set of results, or null if you want to retrieve the first set.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFlowsOutput: Swift.Sendable {
+    /// A structure that contains all of the flows in your Amazon Web Services account. This structure provides basic information about the flows.
+    public var flowSummaryList: [QuickSightClientTypes.FlowSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        flowSummaryList: [QuickSightClientTypes.FlowSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.flowSummaryList = flowSummaryList
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct ListFolderMembersInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
@@ -38797,7 +43468,7 @@ public struct ListFoldersForResourceOutput: Swift.Sendable {
 }
 
 public struct ListGroupMembershipsInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the group that you want to see a membership list of.
@@ -38850,7 +43521,7 @@ public struct ListGroupMembershipsOutput: Swift.Sendable {
 }
 
 public struct ListGroupsInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The maximum number of results to return.
@@ -39027,7 +43698,7 @@ public struct ListIdentityPropagationConfigsOutput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
-    /// A list of services and their authorized targets that the Amazon QuickSight IAM Identity Center application can access.
+    /// A list of services and their authorized targets that the Quick Sight IAM Identity Center application can access.
     public var services: [QuickSightClientTypes.AuthorizedTargetsByService]?
     /// The HTTP status of the request.
     public var status: Swift.Int
@@ -39094,7 +43765,7 @@ public struct ListIngestionsOutput: Swift.Sendable {
 }
 
 public struct ListNamespacesInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that contains the Amazon QuickSight namespaces that you want to list.
+    /// The ID for the Amazon Web Services account that contains the Quick Sight namespaces that you want to list.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The maximum number of results to return.
@@ -39173,7 +43844,7 @@ public struct ListRefreshSchedulesOutput: Swift.Sendable {
 }
 
 public struct ListRoleMembershipsInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The maximum number of results to return.
@@ -39221,6 +43892,139 @@ public struct ListRoleMembershipsOutput: Swift.Sendable {
         self.membersList = membersList
         self.nextToken = nextToken
         self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct ListSelfUpgradesInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the self-upgrade requests.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The Quick Suite namespace for the self-upgrade requests.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SelfUpgradeRequestStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approved
+        case denied
+        case pending
+        case updateFailed
+        case verifyFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelfUpgradeRequestStatus] {
+            return [
+                .approved,
+                .denied,
+                .pending,
+                .updateFailed,
+                .verifyFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approved: return "APPROVED"
+            case .denied: return "DENIED"
+            case .pending: return "PENDING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .verifyFailed: return "VERIFY_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// Details of a self-upgrade request.
+    public struct SelfUpgradeRequestDetail: Swift.Sendable {
+        /// The time when the self-upgrade request was created.
+        public var creationTime: Swift.Int
+        /// The time of the last update attempt for the self-upgrade request.
+        public var lastUpdateAttemptTime: Swift.Int
+        /// The reason for the last update failure, if applicable.
+        public var lastUpdateFailureReason: Swift.String?
+        /// The original role of the user before the upgrade.
+        public var originalRole: QuickSightClientTypes.UserRole?
+        /// An optional note explaining the reason for the self-upgrade request.
+        public var requestNote: Swift.String?
+        /// The status of the self-upgrade request.
+        public var requestStatus: QuickSightClientTypes.SelfUpgradeRequestStatus?
+        /// The role that the user is requesting to upgrade to.
+        public var requestedRole: QuickSightClientTypes.UserRole?
+        /// The ID of the self-upgrade request.
+        public var upgradeRequestId: Swift.String?
+        /// The username of the user who initiated the self-upgrade request.
+        public var userName: Swift.String?
+
+        public init(
+            creationTime: Swift.Int = 0,
+            lastUpdateAttemptTime: Swift.Int = 0,
+            lastUpdateFailureReason: Swift.String? = nil,
+            originalRole: QuickSightClientTypes.UserRole? = nil,
+            requestNote: Swift.String? = nil,
+            requestStatus: QuickSightClientTypes.SelfUpgradeRequestStatus? = nil,
+            requestedRole: QuickSightClientTypes.UserRole? = nil,
+            upgradeRequestId: Swift.String? = nil,
+            userName: Swift.String? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastUpdateAttemptTime = lastUpdateAttemptTime
+            self.lastUpdateFailureReason = lastUpdateFailureReason
+            self.originalRole = originalRole
+            self.requestNote = requestNote
+            self.requestStatus = requestStatus
+            self.requestedRole = requestedRole
+            self.upgradeRequestId = upgradeRequestId
+            self.userName = userName
+        }
+    }
+}
+
+public struct ListSelfUpgradesOutput: Swift.Sendable {
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// A list of self-upgrade request details.
+    public var selfUpgradeRequestDetails: [QuickSightClientTypes.SelfUpgradeRequestDetail]?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        selfUpgradeRequestDetails: [QuickSightClientTypes.SelfUpgradeRequestDetail]? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.selfUpgradeRequestDetails = selfUpgradeRequestDetails
         self.status = status
     }
 }
@@ -39521,9 +44325,9 @@ public struct ListThemesInput: Swift.Sendable {
     ///
     /// * ALL (default)- Display all existing themes.
     ///
-    /// * CUSTOM - Display only the themes created by people using Amazon QuickSight.
+    /// * CUSTOM - Display only the themes created by people using Amazon Quick Sight.
     ///
-    /// * QUICKSIGHT - Display only the starting themes defined by Amazon QuickSight.
+    /// * QUICKSIGHT - Display only the starting themes defined by Quick Sight.
     public var type: QuickSightClientTypes.ThemeType?
 
     public init(
@@ -39835,7 +44639,7 @@ public struct ListTopicsOutput: Swift.Sendable {
 }
 
 public struct ListUserGroupsInput: Swift.Sendable {
-    /// The Amazon Web Services account ID that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The Amazon Web Services account ID that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The maximum number of results to return from this request.
@@ -39845,7 +44649,7 @@ public struct ListUserGroupsInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// A pagination token that can be used in a subsequent request.
     public var nextToken: Swift.String?
-    /// The Amazon QuickSight user name that you want to list group memberships for.
+    /// The Amazon Quick Sight user name that you want to list group memberships for.
     /// This member is required.
     public var userName: Swift.String?
 
@@ -39888,7 +44692,7 @@ public struct ListUserGroupsOutput: Swift.Sendable {
 }
 
 public struct ListUsersInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The maximum number of results to return from this request.
@@ -40216,10 +45020,10 @@ public struct PutDataSetRefreshPropertiesOutput: Swift.Sendable {
 }
 
 public struct RegisterUserInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+    /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
     public var customFederationProviderUrl: Swift.String?
     /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:
     ///
@@ -40232,12 +45036,12 @@ public struct RegisterUserInput: Swift.Sendable {
     /// * Subscribe to email reports
     ///
     ///
-    /// To add custom permissions to an existing user, use [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user. Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader, admin pro, author pro, reader pro). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+    /// To add custom permissions to an existing user, use [UpdateUser](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_UpdateUser.html) instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Quick Sight user. Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader, admin pro, author pro, reader pro). This feature is available only to Quick Sight Enterprise edition subscriptions.
     public var customPermissionsName: Swift.String?
     /// The email address of the user that you want to register.
     /// This member is required.
     public var email: Swift.String?
-    /// The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.
+    /// The type of supported external login provider that provides identity to let a user federate into Amazon Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.
     ///
     /// * COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.
     ///
@@ -40245,33 +45049,33 @@ public struct RegisterUserInput: Swift.Sendable {
     public var externalLoginFederationProviderType: Swift.String?
     /// The identity ID for a user in the external login provider.
     public var externalLoginId: Swift.String?
-    /// The ARN of the IAM user or role that you are registering with Amazon QuickSight.
+    /// The ARN of the IAM user or role that you are registering with Amazon Quick Sight.
     public var iamArn: Swift.String?
-    /// The identity type that your Amazon QuickSight account uses to manage the identity of users.
+    /// The identity type that your Quick Sight account uses to manage the identity of users.
     /// This member is required.
     public var identityType: QuickSightClientTypes.IdentityType?
     /// The namespace. Currently, you should set this to default.
     /// This member is required.
     public var namespace: Swift.String?
-    /// You need to use this parameter only when you register one or more users using an assumed IAM role. You don't need to provide the session name for other scenarios, for example when you are registering an IAM user or an Amazon QuickSight user. You can register multiple users using the same IAM role if each user has a different session name. For more information on assuming IAM roles, see [assume-role](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html) in the CLI Reference.
+    /// You need to use this parameter only when you register one or more users using an assumed IAM role. You don't need to provide the session name for other scenarios, for example when you are registering an IAM user or an Amazon Quick Sight user. You can register multiple users using the same IAM role if each user has a different session name. For more information on assuming IAM roles, see [assume-role](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html) in the CLI Reference.
     public var sessionName: Swift.String?
     /// The tags to associate with the user.
     public var tags: [QuickSightClientTypes.Tag]?
-    /// The Amazon QuickSight user name that you want to create for the user you are registering.
+    /// The Amazon Quick Sight user name that you want to create for the user you are registering.
     public var userName: Swift.String?
-    /// The Amazon QuickSight role for the user. The user role can be one of the following:
+    /// The Amazon Quick Sight role for the user. The user role can be one of the following:
     ///
     /// * READER: A user who has read-only access to dashboards.
     ///
     /// * AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.
     ///
-    /// * ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.
+    /// * ADMIN: A user who is an author, who can also manage Amazon Quick Sight settings.
     ///
-    /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+    /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
     ///
     /// * AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.
     ///
-    /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.
+    /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing.
     ///
     /// * RESTRICTED_READER: This role isn't currently available for use.
     ///
@@ -40377,6 +45181,54 @@ public struct RestoreAnalysisOutput: Swift.Sendable {
         self.arn = arn
         self.requestId = requestId
         self.restorationFailedFolderArns = restorationFailedFolderArns
+        self.status = status
+    }
+}
+
+public struct SearchActionConnectorsInput: Swift.Sendable {
+    /// The Amazon Web Services account ID in which to search for action connectors.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The search filters to apply. You can filter by connector name, type, or user permissions. Maximum of one filter is supported.
+    /// This member is required.
+    public var filters: [QuickSightClientTypes.ActionConnectorSearchFilter]?
+    /// The maximum number of action connectors to return in a single response. Valid range is 1 to 100.
+    public var maxResults: Swift.Int?
+    /// A pagination token to retrieve the next set of results. Use the token returned from a previous call to continue searching.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.ActionConnectorSearchFilter]? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct SearchActionConnectorsOutput: Swift.Sendable {
+    /// A list of action connector summaries that match the search criteria.
+    public var actionConnectorSummaries: [QuickSightClientTypes.ActionConnectorSummary]?
+    /// A pagination token to retrieve the next set of results. If null, there are no more results to retrieve.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status code of the request.
+    public var status: Swift.Int
+
+    public init(
+        actionConnectorSummaries: [QuickSightClientTypes.ActionConnectorSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.actionConnectorSummaries = actionConnectorSummaries
+        self.nextToken = nextToken
+        self.requestId = requestId
         self.status = status
     }
 }
@@ -40573,6 +45425,120 @@ public struct SearchDataSourcesOutput: Swift.Sendable {
     }
 }
 
+extension QuickSightClientTypes {
+
+    public enum SearchFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stringEquals
+        case stringLike
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchFilterOperator] {
+            return [
+                .stringEquals,
+                .stringLike
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stringEquals: return "StringEquals"
+            case .stringLike: return "StringLike"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A structure that contains the filter information when searching flows.
+    public struct SearchFlowsFilter: Swift.Sendable {
+        /// The name of the value that you want to use as a filter, for example "Name": "DIRECT_QUICKSIGHT_SOLE_OWNER". Valid values are defined as follows:
+        ///
+        /// * assetName: Any flows whose names have a substring match to this value will be returned.
+        ///
+        /// * assetDescription: Any flows whose descriptions have a substring match to this value will be returned.
+        ///
+        /// * DIRECT_QUICKSIGHT_SOLE_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as the only owner of the analysis are returned. Implicit permissions from folders or groups are not considered.
+        ///
+        /// * DIRECT_QUICKSIGHT_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the owners of the analyses are returned. Implicit permissions from folders or groups are not considered.
+        ///
+        /// * DIRECT_QUICKSIGHT_VIEWER_OR_OWNER: Provide an ARN of a user or group, and any analyses with that ARN listed as one of the owners or viewers of the analyses are returned. Implicit permissions from folders or groups are not considered.
+        /// This member is required.
+        public var name: QuickSightClientTypes.FieldName?
+        /// The comparison operator that you want to use as a filter, for example "Operator": "StringEquals". Valid values are "StringEquals" and "StringLike".
+        /// This member is required.
+        public var `operator`: QuickSightClientTypes.SearchFilterOperator?
+        /// The value of the named item, in this case DIRECT_QUICKSIGHT_SOLE_OWNER, that you want to use as a filter, for example "Value". An example is "arn:aws:quicksight:us-east-1:1:user/default/UserName1".
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: QuickSightClientTypes.FieldName? = nil,
+            `operator`: QuickSightClientTypes.SearchFilterOperator? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+public struct SearchFlowsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account where you are searching for flows from.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The filters applied to the search when searching for flows in the Amazon Web Services account.
+    /// This member is required.
+    public var filters: [QuickSightClientTypes.SearchFlowsFilter]?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The token to request the next set of results, or null if you want to retrieve the first set.
+    public var nextToken: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        filters: [QuickSightClientTypes.SearchFlowsFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct SearchFlowsOutput: Swift.Sendable {
+    /// The list of flows found against the search.
+    /// This member is required.
+    public var flowSummaryList: [QuickSightClientTypes.FlowSummary]?
+    /// The token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        flowSummaryList: [QuickSightClientTypes.FlowSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.flowSummaryList = flowSummaryList
+        self.nextToken = nextToken
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct SearchFoldersInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that contains the folder.
     /// This member is required.
@@ -40622,7 +45588,7 @@ public struct SearchFoldersOutput: Swift.Sendable {
 }
 
 public struct SearchGroupsInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The structure for the search filters that you want to apply to your search.
@@ -40926,7 +45892,7 @@ public struct StartAssetBundleImportJobInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account to import assets into.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The failure action for the import job. If you choose ROLLBACK, failed import jobs will attempt to undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon QuickSight account in an inconsistent state.
+    /// The failure action for the import job. If you choose ROLLBACK, failed import jobs will attempt to undo any asset changes caused by the failed job. If you choose DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by the failed job, possibly keeping the Amazon Quick Sight account in an inconsistent state.
     public var failureAction: QuickSightClientTypes.AssetBundleImportFailureAction?
     /// Optional overrides that are applied to the resource configuration before import.
     public var overrideParameters: QuickSightClientTypes.AssetBundleImportJobOverrideParameters?
@@ -40985,7 +45951,7 @@ extension QuickSightClientTypes {
 
     /// A structure that contains information on the anonymous user configuration.
     public struct SnapshotAnonymousUser: Swift.Sendable {
-        /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon QuickSight, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in the Amazon QuickSight User Guide.
+        /// The tags to be used for row-level security (RLS). Make sure that the relevant datasets have RLS tags configured before you start a snapshot export job. You can configure the RLS tags of a dataset with a DataSet$RowLevelPermissionTagConfiguration API call. These are not the tags that are used for Amazon Web Services resource tagging. For more information on row level security in Amazon Quick Sight, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in the Amazon Quick Suite User Guide.
         public var rowLevelPermissionTags: [QuickSightClientTypes.SessionTag]?
 
         public init(
@@ -40998,7 +45964,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
-    /// A structure that contains information about the users that the dashboard snapshot is generated for.
+    /// A structure that contains information about the users that the dashboard snapshot is generated for. When using identity-enhanced session credentials, set the UserConfiguration request attribute to null. Otherwise, the request will be invalid.
     public struct SnapshotUserConfiguration: Swift.Sendable {
         /// An array of records that describe the anonymous users that the dashboard snapshot is generated for.
         public var anonymousUsers: [QuickSightClientTypes.SnapshotAnonymousUser]?
@@ -41024,8 +45990,7 @@ public struct StartDashboardSnapshotJobInput: Swift.Sendable {
     /// An ID for the dashboard snapshot job. This ID is unique to the dashboard while the job is running. This ID can be used to poll the status of a job with a DescribeDashboardSnapshotJob while the job runs. You can reuse this ID for another job 24 hours after the current job is completed.
     /// This member is required.
     public var snapshotJobId: Swift.String?
-    /// A structure that contains information about the anonymous users that the generated snapshot is for. This API will not return information about registered Amazon QuickSight.
-    /// This member is required.
+    /// A structure that contains information about the users that the dashboard snapshot is generated for. The users can be either anonymous users or registered users. Anonymous users cannot be used together with registered users. When using identity-enhanced session credentials, set the UserConfiguration request attribute to null. Otherwise, the request will be invalid.
     public var userConfiguration: QuickSightClientTypes.SnapshotUserConfiguration?
 
     public init(
@@ -41073,7 +46038,7 @@ public struct StartDashboardSnapshotJobScheduleInput: Swift.Sendable {
     /// The ID of the dashboard that you want to start a snapshot job schedule for.
     /// This member is required.
     public var dashboardId: Swift.String?
-    /// The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon QuickSight console in the Schedules pane of the dashboard that the schedule is configured for.
+    /// The ID of the schedule that you want to start a snapshot job schedule for. The schedule ID can be found in the Amazon Quick Sight console in the Schedules pane of the dashboard that the schedule is configured for.
     /// This member is required.
     public var scheduleId: Swift.String?
 
@@ -41168,13 +46133,13 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateAccountCustomizationInput: Swift.Sendable {
-    /// The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
+    /// The Quick Sight customizations you're updating.
     /// This member is required.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
-    /// The ID for the Amazon Web Services account that you want to update Amazon QuickSight customizations for.
+    /// The ID for the Amazon Web Services account that you want to update Quick Sight customizations for.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The namespace that you want to update Amazon QuickSight customizations for.
+    /// The namespace that you want to update Quick Sight customizations for.
     public var namespace: Swift.String?
 
     public init(
@@ -41189,11 +46154,11 @@ public struct UpdateAccountCustomizationInput: Swift.Sendable {
 }
 
 public struct UpdateAccountCustomizationOutput: Swift.Sendable {
-    /// The Amazon QuickSight customizations you're updating in the current Amazon Web Services Region.
+    /// The Quick Sight customizations you're updating.
     public var accountCustomization: QuickSightClientTypes.AccountCustomization?
     /// The Amazon Resource Name (ARN) for the updated customization for this Amazon Web Services account.
     public var arn: Swift.String?
-    /// The ID for the Amazon Web Services account that you want to update Amazon QuickSight customizations for.
+    /// The ID for the Amazon Web Services account that you want to update Quick Sight customizations for.
     public var awsAccountId: Swift.String?
     /// The namespace associated with the customization that you're updating.
     public var namespace: Swift.String?
@@ -41219,16 +46184,48 @@ public struct UpdateAccountCustomizationOutput: Swift.Sendable {
     }
 }
 
-public struct UpdateAccountSettingsInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that contains the Amazon QuickSight settings that you want to list.
+public struct UpdateAccountCustomPermissionInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account for which you want to apply a custom permissions profile.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon QuickSight provide an email address that becomes associated with the default namespace.
+    /// The name of the custom permissions profile that you want to apply to an account.
+    /// This member is required.
+    public var customPermissionsName: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        customPermissionsName: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.customPermissionsName = customPermissionsName
+    }
+}
+
+public struct UpdateAccountCustomPermissionOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct UpdateAccountSettingsInput: Swift.Sendable {
+    /// The ID for the Amazon Web Services account that contains the Quick Sight settings that you want to list.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The default namespace for this Amazon Web Services account. Currently, the default is default. IAM users that register for the first time with Amazon Quick Sight provide an email address that becomes associated with the default namespace.
     /// This member is required.
     public var defaultNamespace: Swift.String?
-    /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon Web Services account or Amazon QuickSight subscription.
+    /// The email address that you want Quick Sight to send notifications to regarding your Amazon Web Services account or Quick Sight subscription.
     public var notificationEmail: Swift.String?
-    /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
+    /// A boolean value that determines whether or not an Quick Sight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
     public var terminationProtectionEnabled: Swift.Bool?
 
     public init(
@@ -41259,6 +46256,125 @@ public struct UpdateAccountSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateActionConnectorInput: Swift.Sendable {
+    /// The unique identifier of the action connector to update.
+    /// This member is required.
+    public var actionConnectorId: Swift.String?
+    /// The updated authentication configuration for connecting to the external service.
+    /// This member is required.
+    public var authenticationConfig: QuickSightClientTypes.AuthConfig?
+    /// The Amazon Web Services account ID that contains the action connector to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The updated description of the action connector.
+    public var description: Swift.String?
+    /// The new name for the action connector.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The updated ARN of the VPC connection to use for secure connectivity.
+    public var vpcConnectionArn: Swift.String?
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        authenticationConfig: QuickSightClientTypes.AuthConfig? = nil,
+        awsAccountId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        vpcConnectionArn: Swift.String? = nil
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.authenticationConfig = authenticationConfig
+        self.awsAccountId = awsAccountId
+        self.description = description
+        self.name = name
+        self.vpcConnectionArn = vpcConnectionArn
+    }
+}
+
+extension UpdateActionConnectorInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateActionConnectorInput(actionConnectorId: \(Swift.String(describing: actionConnectorId)), authenticationConfig: \(Swift.String(describing: authenticationConfig)), awsAccountId: \(Swift.String(describing: awsAccountId)), vpcConnectionArn: \(Swift.String(describing: vpcConnectionArn)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateActionConnectorOutput: Swift.Sendable {
+    /// The unique identifier of the updated action connector.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the updated action connector.
+    public var arn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status code of the request.
+    public var status: Swift.Int
+    /// The status of the update operation.
+    public var updateStatus: QuickSightClientTypes.ResourceStatus?
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0,
+        updateStatus: QuickSightClientTypes.ResourceStatus? = nil
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.arn = arn
+        self.requestId = requestId
+        self.status = status
+        self.updateStatus = updateStatus
+    }
+}
+
+public struct UpdateActionConnectorPermissionsInput: Swift.Sendable {
+    /// The unique identifier of the action connector whose permissions you want to update.
+    /// This member is required.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Web Services account ID that contains the action connector.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The permissions to grant to users and groups for this action connector.
+    public var grantPermissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The permissions to revoke from users and groups for this action connector.
+    public var revokePermissions: [QuickSightClientTypes.ResourcePermission]?
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        awsAccountId: Swift.String? = nil,
+        grantPermissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        revokePermissions: [QuickSightClientTypes.ResourcePermission]? = nil
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.awsAccountId = awsAccountId
+        self.grantPermissions = grantPermissions
+        self.revokePermissions = revokePermissions
+    }
+}
+
+public struct UpdateActionConnectorPermissionsOutput: Swift.Sendable {
+    /// The unique identifier of the action connector.
+    public var actionConnectorId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the action connector.
+    public var arn: Swift.String?
+    /// The updated permissions configuration for the action connector.
+    public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status code of the request.
+    public var status: Swift.Int
+
+    public init(
+        actionConnectorId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.actionConnectorId = actionConnectorId
+        self.arn = arn
+        self.permissions = permissions
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
 public struct UpdateAnalysisInput: Swift.Sendable {
     /// The ID for the analysis that you're updating. This ID displays in the URL of the analysis.
     /// This member is required.
@@ -41268,14 +46384,14 @@ public struct UpdateAnalysisInput: Swift.Sendable {
     public var awsAccountId: Swift.String?
     /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
     public var definition: QuickSightClientTypes.AnalysisDefinition?
-    /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon QuickSight console.
+    /// A descriptive name for the analysis that you're updating. This name displays for the analysis in the Amazon Quick Sight console.
     /// This member is required.
     public var name: Swift.String?
     /// The parameter names and override values that you want to use. An analysis can have any parameter type, and some parameters might accept multiple values.
     public var parameters: QuickSightClientTypes.Parameters?
     /// A source entity to use for the analysis that you're updating. This metadata structure contains details that describe a source template and one or more datasets.
     public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
-    /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon QuickSight console, make sure that you have access to it.
+    /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that you're creating. To see the theme in the Amazon Quick Sight console, make sure that you have access to it.
     public var themeArn: Swift.String?
     /// The option to relax the validation needed to update an analysis with definition objects. This skips the validation step for specific errors.
     public var validationStrategy: QuickSightClientTypes.ValidationStrategy?
@@ -41384,7 +46500,7 @@ public struct UpdateApplicationWithTokenExchangeGrantInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account to be updated with a token exchange grant.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The namespace of the Amazon QuickSight application.
+    /// The namespace of the Quick Suite application.
     /// This member is required.
     public var namespace: Swift.String?
 
@@ -41418,7 +46534,7 @@ public struct UpdateBrandInput: Swift.Sendable {
     public var awsAccountId: Swift.String?
     /// The definition of the brand.
     public var brandDefinition: QuickSightClientTypes.BrandDefinition?
-    /// The ID of the Amazon QuickSight brand.
+    /// The ID of the Quick Suite brand.
     /// This member is required.
     public var brandId: Swift.String?
 
@@ -41488,7 +46604,7 @@ public struct UpdateBrandPublishedVersionInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that owns the brand.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The ID of the Amazon QuickSight brand.
+    /// The ID of the Quick Suite brand.
     /// This member is required.
     public var brandId: Swift.String?
     /// The ID of the published version.
@@ -41570,11 +46686,17 @@ public struct UpdateDashboardInput: Swift.Sendable {
     public var dashboardId: Swift.String?
     /// Options for publishing the dashboard when you create it:
     ///
-    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
+    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon Quick Sight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
     ///
     /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
     ///
     /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+    ///
+    /// * AvailabilityStatus for QuickSuiteActionsOption - This status can be either ENABLED or DISABLED. Features related to Actions in Amazon Quick Suite on dashboards are disabled when this is set to DISABLED. This option is DISABLED by default.
+    ///
+    /// * AvailabilityStatus for ExecutiveSummaryOption - This status can be either ENABLED or DISABLED. The option to build an executive summary is disabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for DataStoriesSharingOption - This status can be either ENABLED or DISABLED. The option to share a data story is disabled when this is set to DISABLED. This option is ENABLED by default.
     public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
     /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
@@ -41583,7 +46705,7 @@ public struct UpdateDashboardInput: Swift.Sendable {
     public var name: Swift.String?
     /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
     public var parameters: QuickSightClientTypes.Parameters?
-    /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+    /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon Quick Sight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
     public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
     /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
     public var themeArn: Swift.String?
@@ -41731,7 +46853,7 @@ public struct UpdateDashboardPermissionsOutput: Swift.Sendable {
     public var dashboardArn: Swift.String?
     /// The ID for the dashboard.
     public var dashboardId: Swift.String?
-    /// Updates the permissions of a shared link to an Amazon QuickSight dashboard.
+    /// Updates the permissions of a shared link to an Quick Sight dashboard.
     public var linkSharingConfiguration: QuickSightClientTypes.LinkSharingConfiguration?
     /// Information about the permissions on the dashboard.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
@@ -41842,10 +46964,12 @@ public struct UpdateDataSetInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// Groupings of columns that work together in certain Amazon QuickSight features. Currently, only geospatial hierarchy is supported.
+    /// Groupings of columns that work together in certain Amazon Quick Sight features. Currently, only geospatial hierarchy is supported.
     public var columnGroups: [QuickSightClientTypes.ColumnGroup]?
     /// A set of one or more definitions of a [ColumnLevelPermissionRule](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_ColumnLevelPermissionRule.html).
     public var columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]?
+    /// The data preparation configuration for the dataset. This configuration defines the source tables, transformation steps, and destination tables used to prepare the data. Required when using the new data preparation experience.
+    public var dataPrepConfiguration: QuickSightClientTypes.DataPrepConfiguration?
     /// The ID for the dataset that you want to update. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     /// This member is required.
     public var dataSetId: Swift.String?
@@ -41858,7 +46982,8 @@ public struct UpdateDataSetInput: Swift.Sendable {
     /// Indicates whether you want to import the data into SPICE.
     /// This member is required.
     public var importMode: QuickSightClientTypes.DataSetImportMode?
-    /// Configures the combination and transformation of the data from the physical tables.
+    /// Configures the combination and transformation of the data from the physical tables. This parameter is used with the legacy data preparation experience.
+    @available(*, deprecated, message: "Only used in the legacy data preparation experience. API deprecated since 2025-10-23")
     public var logicalTableMap: [Swift.String: QuickSightClientTypes.LogicalTable]?
     /// The display name for the dataset.
     /// This member is required.
@@ -41868,15 +46993,20 @@ public struct UpdateDataSetInput: Swift.Sendable {
     /// Declares the physical tables that are available in the underlying data sources.
     /// This member is required.
     public var physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]?
-    /// The row-level security configuration for the data you want to create.
+    /// The row-level security configuration for the data you want to create. This parameter is used with the legacy data preparation experience.
+    @available(*, deprecated, message: "Only used in the legacy data preparation experience. API deprecated since 2025-10-23")
     public var rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet?
-    /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
+    /// The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only. This parameter is used with the legacy data preparation experience.
+    @available(*, deprecated, message: "Only used in the legacy data preparation experience. API deprecated since 2025-10-23")
     public var rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration?
+    /// The semantic model configuration for the dataset. This configuration defines how the prepared data is structured for an analysis, including table mappings and row-level security configurations. Required when using the new data preparation experience.
+    public var semanticModelConfiguration: QuickSightClientTypes.SemanticModelConfiguration?
 
     public init(
         awsAccountId: Swift.String? = nil,
         columnGroups: [QuickSightClientTypes.ColumnGroup]? = nil,
         columnLevelPermissionRules: [QuickSightClientTypes.ColumnLevelPermissionRule]? = nil,
+        dataPrepConfiguration: QuickSightClientTypes.DataPrepConfiguration? = nil,
         dataSetId: Swift.String? = nil,
         dataSetUsageConfiguration: QuickSightClientTypes.DataSetUsageConfiguration? = nil,
         datasetParameters: [QuickSightClientTypes.DatasetParameter]? = nil,
@@ -41887,11 +47017,13 @@ public struct UpdateDataSetInput: Swift.Sendable {
         performanceConfiguration: QuickSightClientTypes.PerformanceConfiguration? = nil,
         physicalTableMap: [Swift.String: QuickSightClientTypes.PhysicalTable]? = nil,
         rowLevelPermissionDataSet: QuickSightClientTypes.RowLevelPermissionDataSet? = nil,
-        rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil
+        rowLevelPermissionTagConfiguration: QuickSightClientTypes.RowLevelPermissionTagConfiguration? = nil,
+        semanticModelConfiguration: QuickSightClientTypes.SemanticModelConfiguration? = nil
     ) {
         self.awsAccountId = awsAccountId
         self.columnGroups = columnGroups
         self.columnLevelPermissionRules = columnLevelPermissionRules
+        self.dataPrepConfiguration = dataPrepConfiguration
         self.dataSetId = dataSetId
         self.dataSetUsageConfiguration = dataSetUsageConfiguration
         self.datasetParameters = datasetParameters
@@ -41903,13 +47035,14 @@ public struct UpdateDataSetInput: Swift.Sendable {
         self.physicalTableMap = physicalTableMap
         self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
         self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
+        self.semanticModelConfiguration = semanticModelConfiguration
     }
 }
 
 public struct UpdateDataSetOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the dataset.
     public var arn: Swift.String?
-    /// The ID for the dataset that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+    /// The ID for the dataset that you want to update. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     public var dataSetId: Swift.String?
     /// The ARN for the ingestion, which is triggered as a result of dataset creation if the import mode is SPICE.
     public var ingestionArn: Swift.String?
@@ -41989,19 +47122,19 @@ public struct UpdateDataSourceInput: Swift.Sendable {
     /// The Amazon Web Services account ID.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The credentials that Amazon QuickSight that uses to connect to your underlying source. Currently, only credentials based on user name and password are supported.
+    /// The credentials that Amazon Quick Sight that uses to connect to your underlying source. Currently, only credentials based on user name and password are supported.
     public var credentials: QuickSightClientTypes.DataSourceCredentials?
     /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
     /// This member is required.
     public var dataSourceId: Swift.String?
-    /// The parameters that Amazon QuickSight uses to connect to your underlying source.
+    /// The parameters that Amazon Quick Sight uses to connect to your underlying source.
     public var dataSourceParameters: QuickSightClientTypes.DataSourceParameters?
     /// A display name for the data source.
     /// This member is required.
     public var name: Swift.String?
-    /// Secure Socket Layer (SSL) properties that apply when Amazon QuickSight connects to your underlying source.
+    /// Secure Socket Layer (SSL) properties that apply when Amazon Quick Sight connects to your underlying source.
     public var sslProperties: QuickSightClientTypes.SslProperties?
-    /// Use this parameter only when you want Amazon QuickSight to use a VPC connection when connecting to your underlying source.
+    /// Use this parameter only when you want Amazon Quick Sight to use a VPC connection when connecting to your underlying source.
     public var vpcConnectionProperties: QuickSightClientTypes.VpcConnectionProperties?
 
     public init(
@@ -42107,10 +47240,10 @@ public struct UpdateDefaultQBusinessApplicationInput: Swift.Sendable {
     /// The ID of the Amazon Q Business application that you want to update.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// The ID of the Amazon QuickSight account that is connected to the Amazon Q Business application that you want to update.
+    /// The ID of the Quick Sight account that is connected to the Amazon Q Business application that you want to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
+    /// The Quick Sight namespace that contains the linked Amazon Q Business application. If this field is left blank, the default namespace is used. Currently, the default namespace is the only valid value for this parameter.
     public var namespace: Swift.String?
 
     public init(
@@ -42134,6 +47267,62 @@ public struct UpdateDefaultQBusinessApplicationOutput: Swift.Sendable {
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
     ) {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+public struct UpdateFlowPermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the flow you are updating permissions against.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The unique identifier of the flow to update permissions for.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The permissions that you want to grant on this flow.
+    public var grantPermissions: [QuickSightClientTypes.Permission]?
+    /// The permissions that you want to revoke from this flow.
+    public var revokePermissions: [QuickSightClientTypes.Permission]?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        flowId: Swift.String? = nil,
+        grantPermissions: [QuickSightClientTypes.Permission]? = nil,
+        revokePermissions: [QuickSightClientTypes.Permission]? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.flowId = flowId
+        self.grantPermissions = grantPermissions
+        self.revokePermissions = revokePermissions
+    }
+}
+
+public struct UpdateFlowPermissionsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow you are updating permissions against.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The unique identifier of the flow with updated permissions.
+    /// This member is required.
+    public var flowId: Swift.String?
+    /// The permissions on the flow after they are updated.
+    /// This member is required.
+    public var permissions: [QuickSightClientTypes.Permission]?
+    /// The Amazon Web Services request ID for this operation.
+    /// This member is required.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        arn: Swift.String? = nil,
+        flowId: Swift.String? = nil,
+        permissions: [QuickSightClientTypes.Permission]? = nil,
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.arn = arn
+        self.flowId = flowId
+        self.permissions = permissions
         self.requestId = requestId
         self.status = status
     }
@@ -42237,7 +47426,7 @@ public struct UpdateFolderPermissionsOutput: Swift.Sendable {
 }
 
 public struct UpdateGroupInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The description for the group that you want to update.
@@ -42296,12 +47485,12 @@ public struct UpdateIAMPolicyAssignmentInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the IAM policy assignment.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The Amazon QuickSight users, groups, or both that you want to assign the policy to.
+    /// The Amazon Quick Sight users, groups, or both that you want to assign the policy to.
     public var identities: [Swift.String: [Swift.String]]?
     /// The namespace of the assignment.
     /// This member is required.
     public var namespace: Swift.String?
-    /// The ARN for the IAM policy to apply to the Amazon QuickSight users and groups specified in this assignment.
+    /// The ARN for the IAM policy to apply to the Amazon Quick Sight users and groups specified in this assignment.
     public var policyArn: Swift.String?
 
     public init(
@@ -42334,9 +47523,9 @@ public struct UpdateIAMPolicyAssignmentOutput: Swift.Sendable {
     ///
     /// * DRAFT - This assignment is an unfinished draft and isn't used when creating the data source.
     public var assignmentStatus: QuickSightClientTypes.AssignmentStatus?
-    /// The Amazon QuickSight users, groups, or both that the IAM policy is assigned to.
+    /// The Amazon Quick Sight users, groups, or both that the IAM policy is assigned to.
     public var identities: [Swift.String: [Swift.String]]?
-    /// The ARN for the IAM policy applied to the Amazon QuickSight users and groups specified in this assignment.
+    /// The ARN for the IAM policy applied to the Amazon Quick Sight users and groups specified in this assignment.
     public var policyArn: Swift.String?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -42449,7 +47638,7 @@ public struct UpdateKeyRegistrationInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the customer managed key registration that you want to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// A list of RegisteredCustomerManagedKey objects to be updated to the Amazon QuickSight account.
+    /// A list of RegisteredCustomerManagedKey objects to be updated to the Quick Sight account.
     /// This member is required.
     public var keyRegistration: [QuickSightClientTypes.RegisteredCustomerManagedKey]?
 
@@ -42464,7 +47653,7 @@ public struct UpdateKeyRegistrationInput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
-    /// A success entry that occurs when a KeyRegistration job is successfully applied to the Amazon QuickSight account.
+    /// A success entry that occurs when a KeyRegistration job is successfully applied to the Quick Sight account.
     public struct SuccessfulKeyRegistrationEntry: Swift.Sendable {
         /// The ARN of the KMS key that is associated with the SuccessfulKeyRegistrationEntry entry.
         /// This member is required.
@@ -42503,10 +47692,10 @@ public struct UpdateKeyRegistrationOutput: Swift.Sendable {
 }
 
 public struct UpdatePublicSharingSettingsInput: Swift.Sendable {
-    /// The Amazon Web Services account ID associated with your Amazon QuickSight subscription.
+    /// The Amazon Web Services account ID associated with your Amazon Quick Sight subscription.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
+    /// A Boolean value that indicates whether public sharing is turned on for an Quick Suite account.
     public var publicSharingEnabled: Swift.Bool?
 
     public init(
@@ -42537,7 +47726,7 @@ public struct UpdateQPersonalizationConfigurationInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account account that contains the personalization configuration that the user wants to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// An option to allow Amazon QuickSight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
+    /// An option to allow Amazon Quick Sight to customize data stories with user specific metadata, specifically location and job information, in your IAM Identity Center instance.
     /// This member is required.
     public var personalizationMode: QuickSightClientTypes.PersonalizationMode?
 
@@ -42570,10 +47759,10 @@ public struct UpdateQPersonalizationConfigurationOutput: Swift.Sendable {
 }
 
 public struct UpdateQuickSightQSearchConfigurationInput: Swift.Sendable {
-    /// The ID of the Amazon Web Services account that contains the Amazon QuickSight Q Search configuration that you want to update.
+    /// The ID of the Amazon Web Services account that contains the Quick Sight Q Search configuration that you want to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The status of the Amazon QuickSight Q Search configuration that the user wants to update.
+    /// The status of the Quick Sight Q Search configuration that the user wants to update.
     /// This member is required.
     public var qSearchStatus: QuickSightClientTypes.QSearchStatus?
 
@@ -42587,7 +47776,7 @@ public struct UpdateQuickSightQSearchConfigurationInput: Swift.Sendable {
 }
 
 public struct UpdateQuickSightQSearchConfigurationOutput: Swift.Sendable {
-    /// The status of the Amazon QuickSight Q Search configuration.
+    /// The status of the Quick Sight Q Search configuration.
     public var qSearchStatus: QuickSightClientTypes.QSearchStatus?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
@@ -42651,7 +47840,7 @@ public struct UpdateRefreshScheduleOutput: Swift.Sendable {
 }
 
 public struct UpdateRoleCustomPermissionInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// The name of the custom permission that you want to update the role with.
@@ -42678,6 +47867,121 @@ public struct UpdateRoleCustomPermissionInput: Swift.Sendable {
 }
 
 public struct UpdateRoleCustomPermissionOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.status = status
+    }
+}
+
+extension QuickSightClientTypes {
+
+    public enum SelfUpgradeAdminAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approve
+        case deny
+        case verify
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelfUpgradeAdminAction] {
+            return [
+                .approve,
+                .deny,
+                .verify
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approve: return "APPROVE"
+            case .deny: return "DENY"
+            case .verify: return "VERIFY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateSelfUpgradeInput: Swift.Sendable {
+    /// The action to perform on the self-upgrade request. Valid values are APPROVE, DENY, or VERIFY.
+    /// This member is required.
+    public var action: QuickSightClientTypes.SelfUpgradeAdminAction?
+    /// The ID of the Amazon Web Services account that contains the self-upgrade request.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Quick Suite namespace for the self-upgrade request.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The ID of the self-upgrade request to update.
+    /// This member is required.
+    public var upgradeRequestId: Swift.String?
+
+    public init(
+        action: QuickSightClientTypes.SelfUpgradeAdminAction? = nil,
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        upgradeRequestId: Swift.String? = nil
+    ) {
+        self.action = action
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+        self.upgradeRequestId = upgradeRequestId
+    }
+}
+
+public struct UpdateSelfUpgradeOutput: Swift.Sendable {
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// Details of the updated self-upgrade request.
+    public var selfUpgradeRequestDetail: QuickSightClientTypes.SelfUpgradeRequestDetail?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        requestId: Swift.String? = nil,
+        selfUpgradeRequestDetail: QuickSightClientTypes.SelfUpgradeRequestDetail? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.requestId = requestId
+        self.selfUpgradeRequestDetail = selfUpgradeRequestDetail
+        self.status = status
+    }
+}
+
+public struct UpdateSelfUpgradeConfigurationInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration that you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The Quick Suite namespace that you want to update the Quick Suite self-upgrade configuration for.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The self-upgrade status that you want to set for the Quick Suite account.
+    /// This member is required.
+    public var selfUpgradeStatus: QuickSightClientTypes.SelfUpgradeStatus?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        selfUpgradeStatus: QuickSightClientTypes.SelfUpgradeStatus? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.namespace = namespace
+        self.selfUpgradeStatus = selfUpgradeStatus
+    }
+}
+
+public struct UpdateSelfUpgradeConfigurationOutput: Swift.Sendable {
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -42736,7 +48040,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
     public var definition: QuickSightClientTypes.TemplateVersionDefinition?
     /// The name for the template.
     public var name: Swift.String?
-    /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region;. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+    /// The entity that you are using as a source when you update the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Quick Sight-supported Amazon Web Services Region;. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
     public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
     /// The ID for the template.
     /// This member is required.
@@ -42898,7 +48202,7 @@ public struct UpdateThemeInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the theme that you're updating.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The theme ID, defined by Amazon QuickSight, that a custom theme inherits from. All themes initially inherit from a default Amazon QuickSight theme.
+    /// The theme ID, defined by Amazon Quick Sight, that a custom theme inherits from. All themes initially inherit from a default Quick Sight theme.
     /// This member is required.
     public var baseThemeId: Swift.String?
     /// The theme configuration, which contains the theme display properties.
@@ -43217,10 +48521,10 @@ public struct UpdateTopicRefreshScheduleOutput: Swift.Sendable {
 }
 
 public struct UpdateUserInput: Swift.Sendable {
-    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+    /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
+    /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
     public var customFederationProviderUrl: Swift.String?
     /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:
     ///
@@ -43233,12 +48537,12 @@ public struct UpdateUserInput: Swift.Sendable {
     /// * Subscribe to email reports
     ///
     ///
-    /// A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user. Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+    /// A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Quick Sight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Quick Sight user. Quick Sight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Quick Sight users to one of the default security cohorts in Quick Sight (admin, author, reader). This feature is available only to Quick Sight Enterprise edition subscriptions.
     public var customPermissionsName: Swift.String?
     /// The email address of the user that you want to update.
     /// This member is required.
     public var email: Swift.String?
-    /// The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.
+    /// The type of supported external login provider that provides identity to let a user federate into Quick Sight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.
     ///
     /// * COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.
     ///
@@ -43251,27 +48555,27 @@ public struct UpdateUserInput: Swift.Sendable {
     /// The namespace. Currently, you should set this to default.
     /// This member is required.
     public var namespace: Swift.String?
-    /// The Amazon QuickSight role of the user. The role can be one of the following default security cohorts:
+    /// The Amazon Quick Sight role of the user. The role can be one of the following default security cohorts:
     ///
     /// * READER: A user who has read-only access to dashboards.
     ///
     /// * AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.
     ///
-    /// * ADMIN: A user who is an author, who can also manage Amazon QuickSight settings.
+    /// * ADMIN: A user who is an author, who can also manage Amazon Quick Sight settings.
     ///
-    /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Amazon QuickSight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
+    /// * READER_PRO: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q in Quick Sight, can build stories with Amazon Q, and can generate executive summaries from dashboards.
     ///
     /// * AUTHOR_PRO: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.
     ///
-    /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.
+    /// * ADMIN_PRO: Admin Pros are Author Pros who can also manage Amazon Quick Sight administrative settings. Admin Pro users are billed at Author Pro pricing.
     ///
     ///
-    /// The name of the Amazon QuickSight role is invisible to the user except for the console screens dealing with permissions.
+    /// The name of the Quick Sight role is invisible to the user except for the console screens dealing with permissions.
     /// This member is required.
     public var role: QuickSightClientTypes.UserRole?
     /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
     public var unapplyCustomPermissions: Swift.Bool?
-    /// The Amazon QuickSight user name that you want to update.
+    /// The Amazon Quick Sight user name that you want to update.
     /// This member is required.
     public var userName: Swift.String?
 
@@ -43305,7 +48609,7 @@ public struct UpdateUserOutput: Swift.Sendable {
     public var requestId: Swift.String?
     /// The HTTP status of the request.
     public var status: Swift.Int
-    /// The Amazon QuickSight user.
+    /// The Amazon Quick Sight user.
     public var user: QuickSightClientTypes.User?
 
     public init(
@@ -43663,6 +48967,16 @@ extension CreateAccountSubscriptionInput {
     }
 }
 
+extension CreateActionConnectorInput {
+
+    static func urlPathProvider(_ value: CreateActionConnectorInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors"
+    }
+}
+
 extension CreateAnalysisInput {
 
     static func urlPathProvider(_ value: CreateAnalysisInput) -> Swift.String? {
@@ -43980,6 +49294,16 @@ extension DeleteAccountCustomizationInput {
     }
 }
 
+extension DeleteAccountCustomPermissionInput {
+
+    static func urlPathProvider(_ value: DeleteAccountCustomPermissionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/custom-permission"
+    }
+}
+
 extension DeleteAccountSubscriptionInput {
 
     static func urlPathProvider(_ value: DeleteAccountSubscriptionInput) -> Swift.String? {
@@ -43987,6 +49311,19 @@ extension DeleteAccountSubscriptionInput {
             return nil
         }
         return "/account/\(awsAccountId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteActionConnectorInput {
+
+    static func urlPathProvider(_ value: DeleteActionConnectorInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let actionConnectorId = value.actionConnectorId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors/\(actionConnectorId.urlPercentEncoding())"
     }
 }
 
@@ -44499,6 +49836,16 @@ extension DescribeAccountCustomizationInput {
     }
 }
 
+extension DescribeAccountCustomPermissionInput {
+
+    static func urlPathProvider(_ value: DescribeAccountCustomPermissionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/custom-permission"
+    }
+}
+
 extension DescribeAccountSettingsInput {
 
     static func urlPathProvider(_ value: DescribeAccountSettingsInput) -> Swift.String? {
@@ -44516,6 +49863,32 @@ extension DescribeAccountSubscriptionInput {
             return nil
         }
         return "/account/\(awsAccountId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeActionConnectorInput {
+
+    static func urlPathProvider(_ value: DescribeActionConnectorInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let actionConnectorId = value.actionConnectorId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors/\(actionConnectorId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeActionConnectorPermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeActionConnectorPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let actionConnectorId = value.actionConnectorId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors/\(actionConnectorId.urlPercentEncoding())/permissions"
     }
 }
 
@@ -45088,6 +50461,19 @@ extension DescribeRoleCustomPermissionInput {
     }
 }
 
+extension DescribeSelfUpgradeConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeSelfUpgradeConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/self-upgrade-configuration"
+    }
+}
+
 extension DescribeTemplateInput {
 
     static func urlPathProvider(_ value: DescribeTemplateInput) -> Swift.String? {
@@ -45407,6 +50793,42 @@ extension GetDashboardEmbedUrlInput {
     }
 }
 
+extension GetFlowMetadataInput {
+
+    static func urlPathProvider(_ value: GetFlowMetadataInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let flowId = value.flowId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows/\(flowId.urlPercentEncoding())/metadata"
+    }
+}
+
+extension GetFlowPermissionsInput {
+
+    static func urlPathProvider(_ value: GetFlowPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let flowId = value.flowId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows/\(flowId.urlPercentEncoding())/permissions"
+    }
+}
+
+extension GetIdentityContextInput {
+
+    static func urlPathProvider(_ value: GetIdentityContextInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/identity-context"
+    }
+}
+
 extension GetSessionEmbedUrlInput {
 
     static func urlPathProvider(_ value: GetSessionEmbedUrlInput) -> Swift.String? {
@@ -45432,6 +50854,32 @@ extension GetSessionEmbedUrlInput {
         if let sessionLifetimeInMinutes = value.sessionLifetimeInMinutes {
             let sessionLifetimeInMinutesQueryItem = Smithy.URIQueryItem(name: "session-lifetime".urlPercentEncoding(), value: Swift.String(sessionLifetimeInMinutes).urlPercentEncoding())
             items.append(sessionLifetimeInMinutesQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListActionConnectorsInput {
+
+    static func urlPathProvider(_ value: ListActionConnectorsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors"
+    }
+}
+
+extension ListActionConnectorsInput {
+
+    static func queryItemProvider(_ value: ListActionConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -45661,6 +51109,32 @@ extension ListDataSourcesInput {
 extension ListDataSourcesInput {
 
     static func queryItemProvider(_ value: ListDataSourcesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListFlowsInput {
+
+    static func urlPathProvider(_ value: ListFlowsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows"
+    }
+}
+
+extension ListFlowsInput {
+
+    static func queryItemProvider(_ value: ListFlowsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -45997,6 +51471,35 @@ extension ListRoleMembershipsInput {
 extension ListRoleMembershipsInput {
 
     static func queryItemProvider(_ value: ListRoleMembershipsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSelfUpgradesInput {
+
+    static func urlPathProvider(_ value: ListSelfUpgradesInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/self-upgrade-requests"
+    }
+}
+
+extension ListSelfUpgradesInput {
+
+    static func queryItemProvider(_ value: ListSelfUpgradesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -46392,6 +51895,32 @@ extension RestoreAnalysisInput {
     }
 }
 
+extension SearchActionConnectorsInput {
+
+    static func urlPathProvider(_ value: SearchActionConnectorsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/search/action-connectors"
+    }
+}
+
+extension SearchActionConnectorsInput {
+
+    static func queryItemProvider(_ value: SearchActionConnectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension SearchAnalysesInput {
 
     static func urlPathProvider(_ value: SearchAnalysesInput) -> Swift.String? {
@@ -46429,6 +51958,16 @@ extension SearchDataSourcesInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/search/data-sources"
+    }
+}
+
+extension SearchFlowsInput {
+
+    static func urlPathProvider(_ value: SearchFlowsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows/searchFlows"
     }
 }
 
@@ -46588,6 +52127,16 @@ extension UpdateAccountCustomizationInput {
     }
 }
 
+extension UpdateAccountCustomPermissionInput {
+
+    static func urlPathProvider(_ value: UpdateAccountCustomPermissionInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/custom-permission"
+    }
+}
+
 extension UpdateAccountSettingsInput {
 
     static func urlPathProvider(_ value: UpdateAccountSettingsInput) -> Swift.String? {
@@ -46595,6 +52144,32 @@ extension UpdateAccountSettingsInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/settings"
+    }
+}
+
+extension UpdateActionConnectorInput {
+
+    static func urlPathProvider(_ value: UpdateActionConnectorInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let actionConnectorId = value.actionConnectorId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors/\(actionConnectorId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateActionConnectorPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateActionConnectorPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let actionConnectorId = value.actionConnectorId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/action-connectors/\(actionConnectorId.urlPercentEncoding())/permissions"
     }
 }
 
@@ -46836,6 +52411,19 @@ extension UpdateDefaultQBusinessApplicationInput {
     }
 }
 
+extension UpdateFlowPermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateFlowPermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let flowId = value.flowId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/flows/\(flowId.urlPercentEncoding())/permissions"
+    }
+}
+
 extension UpdateFolderInput {
 
     static func urlPathProvider(_ value: UpdateFolderInput) -> Swift.String? {
@@ -46983,6 +52571,32 @@ extension UpdateRoleCustomPermissionInput {
             return nil
         }
         return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/roles/\(role.rawValue.urlPercentEncoding())/custom-permission"
+    }
+}
+
+extension UpdateSelfUpgradeInput {
+
+    static func urlPathProvider(_ value: UpdateSelfUpgradeInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/update-self-upgrade-request"
+    }
+}
+
+extension UpdateSelfUpgradeConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateSelfUpgradeConfigurationInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/namespaces/\(namespace.urlPercentEncoding())/self-upgrade-configuration"
     }
 }
 
@@ -47217,6 +52831,21 @@ extension CreateAccountSubscriptionInput {
     }
 }
 
+extension CreateActionConnectorInput {
+
+    static func write(value: CreateActionConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionConnectorId"].write(value.actionConnectorId)
+        try writer["AuthenticationConfig"].write(value.authenticationConfig, with: QuickSightClientTypes.AuthConfig.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Type"].write(value.type)
+        try writer["VpcConnectionArn"].write(value.vpcConnectionArn)
+    }
+}
+
 extension CreateAnalysisInput {
 
     static func write(value: CreateAnalysisInput?, to writer: SmithyJSON.Writer) throws {
@@ -47278,6 +52907,7 @@ extension CreateDataSetInput {
         guard let value else { return }
         try writer["ColumnGroups"].writeList(value.columnGroups, memberWritingClosure: QuickSightClientTypes.ColumnGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ColumnLevelPermissionRules"].writeList(value.columnLevelPermissionRules, memberWritingClosure: QuickSightClientTypes.ColumnLevelPermissionRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataPrepConfiguration"].write(value.dataPrepConfiguration, with: QuickSightClientTypes.DataPrepConfiguration.write(value:to:))
         try writer["DataSetId"].write(value.dataSetId)
         try writer["DataSetUsageConfiguration"].write(value.dataSetUsageConfiguration, with: QuickSightClientTypes.DataSetUsageConfiguration.write(value:to:))
         try writer["DatasetParameters"].writeList(value.datasetParameters, memberWritingClosure: QuickSightClientTypes.DatasetParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -47291,6 +52921,7 @@ extension CreateDataSetInput {
         try writer["PhysicalTableMap"].writeMap(value.physicalTableMap, valueWritingClosure: QuickSightClientTypes.PhysicalTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RowLevelPermissionDataSet"].write(value.rowLevelPermissionDataSet, with: QuickSightClientTypes.RowLevelPermissionDataSet.write(value:to:))
         try writer["RowLevelPermissionTagConfiguration"].write(value.rowLevelPermissionTagConfiguration, with: QuickSightClientTypes.RowLevelPermissionTagConfiguration.write(value:to:))
+        try writer["SemanticModelConfiguration"].write(value.semanticModelConfiguration, with: QuickSightClientTypes.SemanticModelConfiguration.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UseAs"].write(value.useAs)
     }
@@ -47485,6 +53116,16 @@ extension GenerateEmbedUrlForRegisteredUserWithIdentityInput {
     }
 }
 
+extension GetIdentityContextInput {
+
+    static func write(value: GetIdentityContextInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Namespace"].write(value.namespace)
+        try writer["SessionExpiresAt"].writeTimestamp(value.sessionExpiresAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["UserIdentifier"].write(value.userIdentifier, with: QuickSightClientTypes.UserIdentifier.write(value:to:))
+    }
+}
+
 extension PredictQAResultsInput {
 
     static func write(value: PredictQAResultsInput?, to writer: SmithyJSON.Writer) throws {
@@ -47519,6 +53160,14 @@ extension RegisterUserInput {
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UserName"].write(value.userName)
         try writer["UserRole"].write(value.userRole)
+    }
+}
+
+extension SearchActionConnectorsInput {
+
+    static func write(value: SearchActionConnectorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.ActionConnectorSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -47557,6 +53206,16 @@ extension SearchDataSourcesInput {
     static func write(value: SearchDataSourcesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.DataSourceSearchFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension SearchFlowsInput {
+
+    static func write(value: SearchFlowsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: QuickSightClientTypes.SearchFlowsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
     }
@@ -47647,6 +53306,14 @@ extension UpdateAccountCustomizationInput {
     }
 }
 
+extension UpdateAccountCustomPermissionInput {
+
+    static func write(value: UpdateAccountCustomPermissionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomPermissionsName"].write(value.customPermissionsName)
+    }
+}
+
 extension UpdateAccountSettingsInput {
 
     static func write(value: UpdateAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
@@ -47654,6 +53321,26 @@ extension UpdateAccountSettingsInput {
         try writer["DefaultNamespace"].write(value.defaultNamespace)
         try writer["NotificationEmail"].write(value.notificationEmail)
         try writer["TerminationProtectionEnabled"].write(value.terminationProtectionEnabled)
+    }
+}
+
+extension UpdateActionConnectorInput {
+
+    static func write(value: UpdateActionConnectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationConfig"].write(value.authenticationConfig, with: QuickSightClientTypes.AuthConfig.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["VpcConnectionArn"].write(value.vpcConnectionArn)
+    }
+}
+
+extension UpdateActionConnectorPermissionsInput {
+
+    static func write(value: UpdateActionConnectorPermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -47759,6 +53446,7 @@ extension UpdateDataSetInput {
         guard let value else { return }
         try writer["ColumnGroups"].writeList(value.columnGroups, memberWritingClosure: QuickSightClientTypes.ColumnGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ColumnLevelPermissionRules"].writeList(value.columnLevelPermissionRules, memberWritingClosure: QuickSightClientTypes.ColumnLevelPermissionRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DataPrepConfiguration"].write(value.dataPrepConfiguration, with: QuickSightClientTypes.DataPrepConfiguration.write(value:to:))
         try writer["DataSetUsageConfiguration"].write(value.dataSetUsageConfiguration, with: QuickSightClientTypes.DataSetUsageConfiguration.write(value:to:))
         try writer["DatasetParameters"].writeList(value.datasetParameters, memberWritingClosure: QuickSightClientTypes.DatasetParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["FieldFolders"].writeMap(value.fieldFolders, valueWritingClosure: QuickSightClientTypes.FieldFolder.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -47769,6 +53457,7 @@ extension UpdateDataSetInput {
         try writer["PhysicalTableMap"].writeMap(value.physicalTableMap, valueWritingClosure: QuickSightClientTypes.PhysicalTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["RowLevelPermissionDataSet"].write(value.rowLevelPermissionDataSet, with: QuickSightClientTypes.RowLevelPermissionDataSet.write(value:to:))
         try writer["RowLevelPermissionTagConfiguration"].write(value.rowLevelPermissionTagConfiguration, with: QuickSightClientTypes.RowLevelPermissionTagConfiguration.write(value:to:))
+        try writer["SemanticModelConfiguration"].write(value.semanticModelConfiguration, with: QuickSightClientTypes.SemanticModelConfiguration.write(value:to:))
     }
 }
 
@@ -47807,6 +53496,15 @@ extension UpdateDefaultQBusinessApplicationInput {
     static func write(value: UpdateDefaultQBusinessApplicationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ApplicationId"].write(value.applicationId)
+    }
+}
+
+extension UpdateFlowPermissionsInput {
+
+    static func write(value: UpdateFlowPermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GrantPermissions"].writeList(value.grantPermissions, memberWritingClosure: QuickSightClientTypes.Permission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RevokePermissions"].writeList(value.revokePermissions, memberWritingClosure: QuickSightClientTypes.Permission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -47909,6 +53607,23 @@ extension UpdateRoleCustomPermissionInput {
     static func write(value: UpdateRoleCustomPermissionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CustomPermissionsName"].write(value.customPermissionsName)
+    }
+}
+
+extension UpdateSelfUpgradeInput {
+
+    static func write(value: UpdateSelfUpgradeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["UpgradeRequestId"].write(value.upgradeRequestId)
+    }
+}
+
+extension UpdateSelfUpgradeConfigurationInput {
+
+    static func write(value: UpdateSelfUpgradeConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SelfUpgradeStatus"].write(value.selfUpgradeStatus)
     }
 }
 
@@ -48112,6 +53827,22 @@ extension CreateAccountSubscriptionOutput {
         var value = CreateAccountSubscriptionOutput()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.signupResponse = try reader["SignupResponse"].readIfPresent(with: QuickSightClientTypes.SignupResponse.read(from:))
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension CreateActionConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateActionConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateActionConnectorOutput()
+        value.actionConnectorId = try reader["ActionConnectorId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.creationStatus = try reader["CreationStatus"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -48472,6 +54203,19 @@ extension DeleteAccountCustomizationOutput {
     }
 }
 
+extension DeleteAccountCustomPermissionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAccountCustomPermissionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteAccountCustomPermissionOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension DeleteAccountSubscriptionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAccountSubscriptionOutput {
@@ -48479,6 +54223,21 @@ extension DeleteAccountSubscriptionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAccountSubscriptionOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DeleteActionConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteActionConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteActionConnectorOutput()
+        value.actionConnectorId = try reader["ActionConnectorId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -48911,6 +54670,20 @@ extension DescribeAccountCustomizationOutput {
     }
 }
 
+extension DescribeAccountCustomPermissionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAccountCustomPermissionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAccountCustomPermissionOutput()
+        value.customPermissionsName = try reader["CustomPermissionsName"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension DescribeAccountSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAccountSettingsOutput {
@@ -48933,6 +54706,36 @@ extension DescribeAccountSubscriptionOutput {
         let reader = responseReader
         var value = DescribeAccountSubscriptionOutput()
         value.accountInfo = try reader["AccountInfo"].readIfPresent(with: QuickSightClientTypes.AccountInfo.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeActionConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeActionConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeActionConnectorOutput()
+        value.actionConnector = try reader["ActionConnector"].readIfPresent(with: QuickSightClientTypes.ActionConnector.read(from:))
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension DescribeActionConnectorPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeActionConnectorPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeActionConnectorPermissionsOutput()
+        value.actionConnectorId = try reader["ActionConnectorId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -49425,6 +55228,7 @@ extension DescribeKeyRegistrationOutput {
         var value = DescribeKeyRegistrationOutput()
         value.awsAccountId = try reader["AwsAccountId"].readIfPresent()
         value.keyRegistration = try reader["KeyRegistration"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.RegisteredCustomerManagedKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.qDataKey = try reader["QDataKey"].readIfPresent(with: QuickSightClientTypes.QDataKey.read(from:))
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? 0
         return value
@@ -49498,6 +55302,20 @@ extension DescribeRoleCustomPermissionOutput {
         value.customPermissionsName = try reader["CustomPermissionsName"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DescribeSelfUpgradeConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSelfUpgradeConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSelfUpgradeConfigurationOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.selfUpgradeConfiguration = try reader["SelfUpgradeConfiguration"].readIfPresent(with: QuickSightClientTypes.SelfUpgradeConfiguration.read(from:))
+        value.status = httpResponse.statusCode.rawValue
         return value
     }
 }
@@ -49758,6 +55576,58 @@ extension GetDashboardEmbedUrlOutput {
     }
 }
 
+extension GetFlowMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFlowMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFlowMetadataOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.flowId = try reader["FlowId"].readIfPresent() ?? ""
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.publishState = try reader["PublishState"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.runCount = try reader["RunCount"].readIfPresent() ?? 0
+        value.userCount = try reader["UserCount"].readIfPresent() ?? 0
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension GetFlowPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFlowPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFlowPermissionsOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.flowId = try reader["FlowId"].readIfPresent() ?? ""
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Permission.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension GetIdentityContextOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdentityContextOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIdentityContextOutput()
+        value.context = try reader["Context"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension GetSessionEmbedUrlOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionEmbedUrlOutput {
@@ -49766,6 +55636,21 @@ extension GetSessionEmbedUrlOutput {
         let reader = responseReader
         var value = GetSessionEmbedUrlOutput()
         value.embedUrl = try reader["EmbedUrl"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension ListActionConnectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListActionConnectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListActionConnectorsOutput()
+        value.actionConnectorSummaries = try reader["ActionConnectorSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ActionConnectorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -49898,6 +55783,21 @@ extension ListDataSourcesOutput {
         let reader = responseReader
         var value = ListDataSourcesOutput()
         value.dataSources = try reader["DataSources"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension ListFlowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFlowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFlowsOutput()
+        value.flowSummaryList = try reader["FlowSummaryList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FlowSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
@@ -50079,6 +55979,21 @@ extension ListRoleMembershipsOutput {
         value.membersList = try reader["MembersList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension ListSelfUpgradesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSelfUpgradesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSelfUpgradesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.selfUpgradeRequestDetails = try reader["SelfUpgradeRequestDetails"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SelfUpgradeRequestDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -50339,6 +56254,21 @@ extension RestoreAnalysisOutput {
     }
 }
 
+extension SearchActionConnectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchActionConnectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchActionConnectorsOutput()
+        value.actionConnectorSummaries = try reader["ActionConnectorSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ActionConnectorSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension SearchAnalysesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchAnalysesOutput {
@@ -50392,6 +56322,21 @@ extension SearchDataSourcesOutput {
         let reader = responseReader
         var value = SearchDataSourcesOutput()
         value.dataSourceSummaries = try reader["DataSourceSummaries"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension SearchFlowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchFlowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchFlowsOutput()
+        value.flowSummaryList = try reader["FlowSummaryList"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FlowSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
@@ -50545,6 +56490,19 @@ extension UpdateAccountCustomizationOutput {
     }
 }
 
+extension UpdateAccountCustomPermissionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAccountCustomPermissionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAccountCustomPermissionOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension UpdateAccountSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAccountSettingsOutput {
@@ -50552,6 +56510,38 @@ extension UpdateAccountSettingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateAccountSettingsOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateActionConnectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateActionConnectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateActionConnectorOutput()
+        value.actionConnectorId = try reader["ActionConnectorId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.updateStatus = try reader["UpdateStatus"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateActionConnectorPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateActionConnectorPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateActionConnectorPermissionsOutput()
+        value.actionConnectorId = try reader["ActionConnectorId"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ResourcePermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
@@ -50811,6 +56801,22 @@ extension UpdateDefaultQBusinessApplicationOutput {
     }
 }
 
+extension UpdateFlowPermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFlowPermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateFlowPermissionsOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.flowId = try reader["FlowId"].readIfPresent() ?? ""
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Permission.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension UpdateFolderOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFolderOutput {
@@ -50980,6 +56986,33 @@ extension UpdateRoleCustomPermissionOutput {
         var value = UpdateRoleCustomPermissionOutput()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension UpdateSelfUpgradeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSelfUpgradeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSelfUpgradeOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.selfUpgradeRequestDetail = try reader["SelfUpgradeRequestDetail"].readIfPresent(with: QuickSightClientTypes.SelfUpgradeRequestDetail.read(from:))
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateSelfUpgradeConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSelfUpgradeConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSelfUpgradeConfigurationOutput()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
         return value
     }
 }
@@ -51282,6 +57315,25 @@ enum CreateAccountSubscriptionOutputError {
     }
 }
 
+enum CreateActionConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateAnalysisOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51377,6 +57429,7 @@ enum CreateDataSetOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidDataSetParameterValueException": return try InvalidDataSetParameterValueException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceExistsException": return try ResourceExistsException.makeError(baseError: baseError)
@@ -51768,6 +57821,24 @@ enum DeleteAccountCustomizationOutputError {
     }
 }
 
+enum DeleteAccountCustomPermissionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAccountSubscriptionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51782,6 +57853,24 @@ enum DeleteAccountSubscriptionOutputError {
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteActionConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -52374,6 +58463,24 @@ enum DescribeAccountCustomizationOutputError {
     }
 }
 
+enum DescribeAccountCustomPermissionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeAccountSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -52406,6 +58513,42 @@ enum DescribeAccountSubscriptionOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeActionConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeActionConnectorPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -53072,6 +59215,27 @@ enum DescribeRoleCustomPermissionOutputError {
     }
 }
 
+enum DescribeSelfUpgradeConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -53412,6 +59576,59 @@ enum GetDashboardEmbedUrlOutputError {
     }
 }
 
+enum GetFlowMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFlowPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIdentityContextOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSessionEmbedUrlOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -53429,6 +59646,24 @@ enum GetSessionEmbedUrlOutputError {
             case "SessionLifetimeInMinutesInvalidException": return try SessionLifetimeInMinutesInvalidException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListActionConnectorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -53589,6 +59824,23 @@ enum ListDataSourcesOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFlowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -53816,6 +60068,28 @@ enum ListRefreshSchedulesOutputError {
 }
 
 enum ListRoleMembershipsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSelfUpgradesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -54169,6 +60443,23 @@ enum RestoreAnalysisOutputError {
     }
 }
 
+enum SearchActionConnectorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SearchAnalysesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -54239,6 +60530,23 @@ enum SearchDataSourcesOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchFlowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -54445,6 +60753,24 @@ enum UpdateAccountCustomizationOutputError {
     }
 }
 
+enum UpdateAccountCustomPermissionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateAccountSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -54459,6 +60785,46 @@ enum UpdateAccountSettingsOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateActionConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateActionConnectorPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedUserEditionException": return try UnsupportedUserEditionException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -54711,6 +61077,7 @@ enum UpdateDataSetOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidDataSetParameterValueException": return try InvalidDataSetParameterValueException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -54792,6 +61159,23 @@ enum UpdateDefaultQBusinessApplicationOutputError {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateFlowPermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -55021,6 +61405,49 @@ enum UpdateRoleCustomPermissionOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSelfUpgradeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceUnavailableException": return try ResourceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSelfUpgradeConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -55479,6 +61906,20 @@ extension InvalidRequestException {
     }
 }
 
+extension InvalidDataSetParameterValueException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidDataSetParameterValueException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDataSetParameterValueException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CustomerManagedKeyUnavailableException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> CustomerManagedKeyUnavailableException {
@@ -55512,6 +61953,20 @@ extension InvalidNextTokenException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidNextTokenException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -55824,12 +62279,14 @@ extension QuickSightClientTypes.ApplicationTheme {
         guard let value else { return }
         try writer["BrandColorPalette"].write(value.brandColorPalette, with: QuickSightClientTypes.BrandColorPalette.write(value:to:))
         try writer["BrandElementStyle"].write(value.brandElementStyle, with: QuickSightClientTypes.BrandElementStyle.write(value:to:))
+        try writer["ContextualAccentPalette"].write(value.contextualAccentPalette, with: QuickSightClientTypes.ContextualAccentPalette.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ApplicationTheme {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ApplicationTheme()
         value.brandColorPalette = try reader["BrandColorPalette"].readIfPresent(with: QuickSightClientTypes.BrandColorPalette.read(from:))
+        value.contextualAccentPalette = try reader["ContextualAccentPalette"].readIfPresent(with: QuickSightClientTypes.ContextualAccentPalette.read(from:))
         value.brandElementStyle = try reader["BrandElementStyle"].readIfPresent(with: QuickSightClientTypes.BrandElementStyle.read(from:))
         return value
     }
@@ -55880,6 +62337,27 @@ extension QuickSightClientTypes.Palette {
         var value = QuickSightClientTypes.Palette()
         value.foreground = try reader["Foreground"].readIfPresent()
         value.background = try reader["Background"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ContextualAccentPalette {
+
+    static func write(value: QuickSightClientTypes.ContextualAccentPalette?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Automation"].write(value.automation, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Connection"].write(value.connection, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Insight"].write(value.insight, with: QuickSightClientTypes.Palette.write(value:to:))
+        try writer["Visualization"].write(value.visualization, with: QuickSightClientTypes.Palette.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ContextualAccentPalette {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ContextualAccentPalette()
+        value.connection = try reader["Connection"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.visualization = try reader["Visualization"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.insight = try reader["Insight"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
+        value.automation = try reader["Automation"].readIfPresent(with: QuickSightClientTypes.Palette.read(from:))
         return value
     }
 }
@@ -56000,6 +62478,209 @@ extension QuickSightClientTypes.AccountInfo {
         value.authenticationType = try reader["AuthenticationType"].readIfPresent()
         value.accountSubscriptionStatus = try reader["AccountSubscriptionStatus"].readIfPresent()
         value.iamIdentityCenterInstanceArn = try reader["IAMIdentityCenterInstanceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ActionConnector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ActionConnector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ActionConnector()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.actionConnectorId = try reader["ActionConnectorId"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: QuickSightClientTypes.ActionConnectorError.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.authenticationConfig = try reader["AuthenticationConfig"].readIfPresent(with: QuickSightClientTypes.ReadAuthConfig.read(from:))
+        value.enabledActions = try reader["EnabledActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConnectionArn = try reader["VpcConnectionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadAuthConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadAuthConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadAuthConfig()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent() ?? .sdkUnknown("")
+        value.authenticationMetadata = try reader["AuthenticationMetadata"].readIfPresent(with: QuickSightClientTypes.ReadAuthenticationMetadata.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadAuthenticationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadAuthenticationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "AuthorizationCodeGrantMetadata":
+                return .authorizationcodegrantmetadata(try reader["AuthorizationCodeGrantMetadata"].read(with: QuickSightClientTypes.ReadAuthorizationCodeGrantMetadata.read(from:)))
+            case "ClientCredentialsGrantMetadata":
+                return .clientcredentialsgrantmetadata(try reader["ClientCredentialsGrantMetadata"].read(with: QuickSightClientTypes.ReadClientCredentialsGrantMetadata.read(from:)))
+            case "BasicAuthConnectionMetadata":
+                return .basicauthconnectionmetadata(try reader["BasicAuthConnectionMetadata"].read(with: QuickSightClientTypes.ReadBasicAuthConnectionMetadata.read(from:)))
+            case "ApiKeyConnectionMetadata":
+                return .apikeyconnectionmetadata(try reader["ApiKeyConnectionMetadata"].read(with: QuickSightClientTypes.ReadAPIKeyConnectionMetadata.read(from:)))
+            case "NoneConnectionMetadata":
+                return .noneconnectionmetadata(try reader["NoneConnectionMetadata"].read(with: QuickSightClientTypes.ReadNoneConnectionMetadata.read(from:)))
+            case "IamConnectionMetadata":
+                return .iamconnectionmetadata(try reader["IamConnectionMetadata"].read(with: QuickSightClientTypes.ReadIamConnectionMetadata.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QuickSightClientTypes.ReadIamConnectionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadIamConnectionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadIamConnectionMetadata()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadNoneConnectionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadNoneConnectionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadNoneConnectionMetadata()
+        value.baseEndpoint = try reader["BaseEndpoint"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadAPIKeyConnectionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadAPIKeyConnectionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadAPIKeyConnectionMetadata()
+        value.baseEndpoint = try reader["BaseEndpoint"].readIfPresent() ?? ""
+        value.email = try reader["Email"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadBasicAuthConnectionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadBasicAuthConnectionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadBasicAuthConnectionMetadata()
+        value.baseEndpoint = try reader["BaseEndpoint"].readIfPresent() ?? ""
+        value.username = try reader["Username"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadClientCredentialsGrantMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadClientCredentialsGrantMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadClientCredentialsGrantMetadata()
+        value.baseEndpoint = try reader["BaseEndpoint"].readIfPresent() ?? ""
+        value.readClientCredentialsDetails = try reader["ReadClientCredentialsDetails"].readIfPresent(with: QuickSightClientTypes.ReadClientCredentialsDetails.read(from:))
+        value.clientCredentialsSource = try reader["ClientCredentialsSource"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadClientCredentialsDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadClientCredentialsDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ReadClientCredentialsGrantDetails":
+                return .readclientcredentialsgrantdetails(try reader["ReadClientCredentialsGrantDetails"].read(with: QuickSightClientTypes.ReadClientCredentialsGrantDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QuickSightClientTypes.ReadClientCredentialsGrantDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadClientCredentialsGrantDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadClientCredentialsGrantDetails()
+        value.clientId = try reader["ClientId"].readIfPresent() ?? ""
+        value.tokenEndpoint = try reader["TokenEndpoint"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadAuthorizationCodeGrantMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadAuthorizationCodeGrantMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadAuthorizationCodeGrantMetadata()
+        value.baseEndpoint = try reader["BaseEndpoint"].readIfPresent() ?? ""
+        value.redirectUrl = try reader["RedirectUrl"].readIfPresent() ?? ""
+        value.readAuthorizationCodeGrantCredentialsDetails = try reader["ReadAuthorizationCodeGrantCredentialsDetails"].readIfPresent(with: QuickSightClientTypes.ReadAuthorizationCodeGrantCredentialsDetails.read(from:))
+        value.authorizationCodeGrantCredentialsSource = try reader["AuthorizationCodeGrantCredentialsSource"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ReadAuthorizationCodeGrantCredentialsDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadAuthorizationCodeGrantCredentialsDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ReadAuthorizationCodeGrantDetails":
+                return .readauthorizationcodegrantdetails(try reader["ReadAuthorizationCodeGrantDetails"].read(with: QuickSightClientTypes.ReadAuthorizationCodeGrantDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QuickSightClientTypes.ReadAuthorizationCodeGrantDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ReadAuthorizationCodeGrantDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ReadAuthorizationCodeGrantDetails()
+        value.clientId = try reader["ClientId"].readIfPresent() ?? ""
+        value.tokenEndpoint = try reader["TokenEndpoint"].readIfPresent() ?? ""
+        value.authorizationEndpoint = try reader["AuthorizationEndpoint"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ActionConnectorError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ActionConnectorError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ActionConnectorError()
+        value.message = try reader["Message"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ResourcePermission {
+
+    static func write(value: QuickSightClientTypes.ResourcePermission?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Principal"].write(value.principal)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ResourcePermission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ResourcePermission()
+        value.principal = try reader["Principal"].readIfPresent() ?? ""
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -56827,6 +63508,7 @@ extension QuickSightClientTypes.ColumnConfiguration {
         guard let value else { return }
         try writer["ColorsConfiguration"].write(value.colorsConfiguration, with: QuickSightClientTypes.ColorsConfiguration.write(value:to:))
         try writer["Column"].write(value.column, with: QuickSightClientTypes.ColumnIdentifier.write(value:to:))
+        try writer["DecalSettingsConfiguration"].write(value.decalSettingsConfiguration, with: QuickSightClientTypes.DecalSettingsConfiguration.write(value:to:))
         try writer["FormatConfiguration"].write(value.formatConfiguration, with: QuickSightClientTypes.FormatConfiguration.write(value:to:))
         try writer["Role"].write(value.role)
     }
@@ -56838,6 +63520,45 @@ extension QuickSightClientTypes.ColumnConfiguration {
         value.formatConfiguration = try reader["FormatConfiguration"].readIfPresent(with: QuickSightClientTypes.FormatConfiguration.read(from:))
         value.role = try reader["Role"].readIfPresent()
         value.colorsConfiguration = try reader["ColorsConfiguration"].readIfPresent(with: QuickSightClientTypes.ColorsConfiguration.read(from:))
+        value.decalSettingsConfiguration = try reader["DecalSettingsConfiguration"].readIfPresent(with: QuickSightClientTypes.DecalSettingsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DecalSettingsConfiguration {
+
+    static func write(value: QuickSightClientTypes.DecalSettingsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomDecalSettings"].writeList(value.customDecalSettings, memberWritingClosure: QuickSightClientTypes.DecalSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DecalSettingsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DecalSettingsConfiguration()
+        value.customDecalSettings = try reader["CustomDecalSettings"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DecalSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DecalSettings {
+
+    static func write(value: QuickSightClientTypes.DecalSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DecalColor"].write(value.decalColor)
+        try writer["DecalPatternType"].write(value.decalPatternType)
+        try writer["DecalStyleType"].write(value.decalStyleType)
+        try writer["DecalVisibility"].write(value.decalVisibility)
+        try writer["ElementValue"].write(value.elementValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DecalSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DecalSettings()
+        value.elementValue = try reader["ElementValue"].readIfPresent()
+        value.decalVisibility = try reader["DecalVisibility"].readIfPresent()
+        value.decalColor = try reader["DecalColor"].readIfPresent()
+        value.decalPatternType = try reader["DecalPatternType"].readIfPresent()
+        value.decalStyleType = try reader["DecalStyleType"].readIfPresent()
         return value
     }
 }
@@ -58628,12 +65349,18 @@ extension QuickSightClientTypes.GridLayoutElement {
 
     static func write(value: QuickSightClientTypes.GridLayoutElement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BackgroundStyle"].write(value.backgroundStyle, with: QuickSightClientTypes.GridLayoutElementBackgroundStyle.write(value:to:))
+        try writer["BorderRadius"].write(value.borderRadius)
+        try writer["BorderStyle"].write(value.borderStyle, with: QuickSightClientTypes.GridLayoutElementBorderStyle.write(value:to:))
         try writer["ColumnIndex"].write(value.columnIndex)
         try writer["ColumnSpan"].write(value.columnSpan)
         try writer["ElementId"].write(value.elementId)
         try writer["ElementType"].write(value.elementType)
+        try writer["LoadingAnimation"].write(value.loadingAnimation, with: QuickSightClientTypes.LoadingAnimation.write(value:to:))
+        try writer["Padding"].write(value.padding)
         try writer["RowIndex"].write(value.rowIndex)
         try writer["RowSpan"].write(value.rowSpan)
+        try writer["SelectedBorderStyle"].write(value.selectedBorderStyle, with: QuickSightClientTypes.GridLayoutElementBorderStyle.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutElement {
@@ -58645,6 +65372,63 @@ extension QuickSightClientTypes.GridLayoutElement {
         value.columnSpan = try reader["ColumnSpan"].readIfPresent() ?? 0
         value.rowIndex = try reader["RowIndex"].readIfPresent()
         value.rowSpan = try reader["RowSpan"].readIfPresent() ?? 0
+        value.borderStyle = try reader["BorderStyle"].readIfPresent(with: QuickSightClientTypes.GridLayoutElementBorderStyle.read(from:))
+        value.selectedBorderStyle = try reader["SelectedBorderStyle"].readIfPresent(with: QuickSightClientTypes.GridLayoutElementBorderStyle.read(from:))
+        value.backgroundStyle = try reader["BackgroundStyle"].readIfPresent(with: QuickSightClientTypes.GridLayoutElementBackgroundStyle.read(from:))
+        value.loadingAnimation = try reader["LoadingAnimation"].readIfPresent(with: QuickSightClientTypes.LoadingAnimation.read(from:))
+        value.borderRadius = try reader["BorderRadius"].readIfPresent()
+        value.padding = try reader["Padding"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LoadingAnimation {
+
+    static func write(value: QuickSightClientTypes.LoadingAnimation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LoadingAnimation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LoadingAnimation()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GridLayoutElementBackgroundStyle {
+
+    static func write(value: QuickSightClientTypes.GridLayoutElementBackgroundStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["Visibility"].write(value.visibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutElementBackgroundStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GridLayoutElementBackgroundStyle()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GridLayoutElementBorderStyle {
+
+    static func write(value: QuickSightClientTypes.GridLayoutElementBorderStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["Visibility"].write(value.visibility)
+        try writer["Width"].write(value.width)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GridLayoutElementBorderStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GridLayoutElementBorderStyle()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent()
+        value.width = try reader["Width"].readIfPresent()
         return value
     }
 }
@@ -58775,11 +65559,13 @@ extension QuickSightClientTypes.FreeFormLayoutElement {
     static func write(value: QuickSightClientTypes.FreeFormLayoutElement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BackgroundStyle"].write(value.backgroundStyle, with: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle.write(value:to:))
+        try writer["BorderRadius"].write(value.borderRadius)
         try writer["BorderStyle"].write(value.borderStyle, with: QuickSightClientTypes.FreeFormLayoutElementBorderStyle.write(value:to:))
         try writer["ElementId"].write(value.elementId)
         try writer["ElementType"].write(value.elementType)
         try writer["Height"].write(value.height)
         try writer["LoadingAnimation"].write(value.loadingAnimation, with: QuickSightClientTypes.LoadingAnimation.write(value:to:))
+        try writer["Padding"].write(value.padding)
         try writer["RenderingRules"].writeList(value.renderingRules, memberWritingClosure: QuickSightClientTypes.SheetElementRenderingRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SelectedBorderStyle"].write(value.selectedBorderStyle, with: QuickSightClientTypes.FreeFormLayoutElementBorderStyle.write(value:to:))
         try writer["Visibility"].write(value.visibility)
@@ -58803,21 +65589,8 @@ extension QuickSightClientTypes.FreeFormLayoutElement {
         value.selectedBorderStyle = try reader["SelectedBorderStyle"].readIfPresent(with: QuickSightClientTypes.FreeFormLayoutElementBorderStyle.read(from:))
         value.backgroundStyle = try reader["BackgroundStyle"].readIfPresent(with: QuickSightClientTypes.FreeFormLayoutElementBackgroundStyle.read(from:))
         value.loadingAnimation = try reader["LoadingAnimation"].readIfPresent(with: QuickSightClientTypes.LoadingAnimation.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.LoadingAnimation {
-
-    static func write(value: QuickSightClientTypes.LoadingAnimation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Visibility"].write(value.visibility)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LoadingAnimation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.LoadingAnimation()
-        value.visibility = try reader["Visibility"].readIfPresent()
+        value.borderRadius = try reader["BorderRadius"].readIfPresent()
+        value.padding = try reader["Padding"].readIfPresent()
         return value
     }
 }
@@ -58845,6 +65618,7 @@ extension QuickSightClientTypes.FreeFormLayoutElementBorderStyle {
         guard let value else { return }
         try writer["Color"].write(value.color)
         try writer["Visibility"].write(value.visibility)
+        try writer["Width"].write(value.width)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FreeFormLayoutElementBorderStyle {
@@ -58852,6 +65626,7 @@ extension QuickSightClientTypes.FreeFormLayoutElementBorderStyle {
         var value = QuickSightClientTypes.FreeFormLayoutElementBorderStyle()
         value.visibility = try reader["Visibility"].readIfPresent()
         value.color = try reader["Color"].readIfPresent()
+        value.width = try reader["Width"].readIfPresent()
         return value
     }
 }
@@ -62025,6 +68800,7 @@ extension QuickSightClientTypes.ComboChartConfiguration {
         try writer["CategoryAxis"].write(value.categoryAxis, with: QuickSightClientTypes.AxisDisplayOptions.write(value:to:))
         try writer["CategoryLabelOptions"].write(value.categoryLabelOptions, with: QuickSightClientTypes.ChartAxisLabelOptions.write(value:to:))
         try writer["ColorLabelOptions"].write(value.colorLabelOptions, with: QuickSightClientTypes.ChartAxisLabelOptions.write(value:to:))
+        try writer["DefaultSeriesSettings"].write(value.defaultSeriesSettings, with: QuickSightClientTypes.ComboChartDefaultSeriesSettings.write(value:to:))
         try writer["FieldWells"].write(value.fieldWells, with: QuickSightClientTypes.ComboChartFieldWells.write(value:to:))
         try writer["Interactions"].write(value.interactions, with: QuickSightClientTypes.VisualInteractionOptions.write(value:to:))
         try writer["Legend"].write(value.legend, with: QuickSightClientTypes.LegendOptions.write(value:to:))
@@ -62034,6 +68810,7 @@ extension QuickSightClientTypes.ComboChartConfiguration {
         try writer["ReferenceLines"].writeList(value.referenceLines, memberWritingClosure: QuickSightClientTypes.ReferenceLine.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SecondaryYAxisDisplayOptions"].write(value.secondaryYAxisDisplayOptions, with: QuickSightClientTypes.AxisDisplayOptions.write(value:to:))
         try writer["SecondaryYAxisLabelOptions"].write(value.secondaryYAxisLabelOptions, with: QuickSightClientTypes.ChartAxisLabelOptions.write(value:to:))
+        try writer["Series"].writeList(value.series, memberWritingClosure: QuickSightClientTypes.ComboSeriesItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SingleAxisOptions"].write(value.singleAxisOptions, with: QuickSightClientTypes.SingleAxisOptions.write(value:to:))
         try writer["SortConfiguration"].write(value.sortConfiguration, with: QuickSightClientTypes.ComboChartSortConfiguration.write(value:to:))
         try writer["Tooltip"].write(value.tooltip, with: QuickSightClientTypes.TooltipOptions.write(value:to:))
@@ -62054,6 +68831,8 @@ extension QuickSightClientTypes.ComboChartConfiguration {
         value.secondaryYAxisLabelOptions = try reader["SecondaryYAxisLabelOptions"].readIfPresent(with: QuickSightClientTypes.ChartAxisLabelOptions.read(from:))
         value.singleAxisOptions = try reader["SingleAxisOptions"].readIfPresent(with: QuickSightClientTypes.SingleAxisOptions.read(from:))
         value.colorLabelOptions = try reader["ColorLabelOptions"].readIfPresent(with: QuickSightClientTypes.ChartAxisLabelOptions.read(from:))
+        value.defaultSeriesSettings = try reader["DefaultSeriesSettings"].readIfPresent(with: QuickSightClientTypes.ComboChartDefaultSeriesSettings.read(from:))
+        value.series = try reader["Series"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ComboSeriesItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.legend = try reader["Legend"].readIfPresent(with: QuickSightClientTypes.LegendOptions.read(from:))
         value.barDataLabels = try reader["BarDataLabels"].readIfPresent(with: QuickSightClientTypes.DataLabelOptions.read(from:))
         value.lineDataLabels = try reader["LineDataLabels"].readIfPresent(with: QuickSightClientTypes.DataLabelOptions.read(from:))
@@ -62061,6 +68840,162 @@ extension QuickSightClientTypes.ComboChartConfiguration {
         value.referenceLines = try reader["ReferenceLines"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ReferenceLine.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.visualPalette = try reader["VisualPalette"].readIfPresent(with: QuickSightClientTypes.VisualPalette.read(from:))
         value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.VisualInteractionOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ComboSeriesItem {
+
+    static func write(value: QuickSightClientTypes.ComboSeriesItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataFieldComboSeriesItem"].write(value.dataFieldComboSeriesItem, with: QuickSightClientTypes.DataFieldComboSeriesItem.write(value:to:))
+        try writer["FieldComboSeriesItem"].write(value.fieldComboSeriesItem, with: QuickSightClientTypes.FieldComboSeriesItem.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ComboSeriesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ComboSeriesItem()
+        value.fieldComboSeriesItem = try reader["FieldComboSeriesItem"].readIfPresent(with: QuickSightClientTypes.FieldComboSeriesItem.read(from:))
+        value.dataFieldComboSeriesItem = try reader["DataFieldComboSeriesItem"].readIfPresent(with: QuickSightClientTypes.DataFieldComboSeriesItem.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataFieldComboSeriesItem {
+
+    static func write(value: QuickSightClientTypes.DataFieldComboSeriesItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FieldValue"].write(value.fieldValue)
+        try writer["Settings"].write(value.settings, with: QuickSightClientTypes.ComboChartSeriesSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataFieldComboSeriesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataFieldComboSeriesItem()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.fieldValue = try reader["FieldValue"].readIfPresent()
+        value.settings = try reader["Settings"].readIfPresent(with: QuickSightClientTypes.ComboChartSeriesSettings.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ComboChartSeriesSettings {
+
+    static func write(value: QuickSightClientTypes.ComboChartSeriesSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BorderSettings"].write(value.borderSettings, with: QuickSightClientTypes.BorderSettings.write(value:to:))
+        try writer["DecalSettings"].write(value.decalSettings, with: QuickSightClientTypes.DecalSettings.write(value:to:))
+        try writer["LineStyleSettings"].write(value.lineStyleSettings, with: QuickSightClientTypes.LineChartLineStyleSettings.write(value:to:))
+        try writer["MarkerStyleSettings"].write(value.markerStyleSettings, with: QuickSightClientTypes.LineChartMarkerStyleSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ComboChartSeriesSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ComboChartSeriesSettings()
+        value.lineStyleSettings = try reader["LineStyleSettings"].readIfPresent(with: QuickSightClientTypes.LineChartLineStyleSettings.read(from:))
+        value.markerStyleSettings = try reader["MarkerStyleSettings"].readIfPresent(with: QuickSightClientTypes.LineChartMarkerStyleSettings.read(from:))
+        value.decalSettings = try reader["DecalSettings"].readIfPresent(with: QuickSightClientTypes.DecalSettings.read(from:))
+        value.borderSettings = try reader["BorderSettings"].readIfPresent(with: QuickSightClientTypes.BorderSettings.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BorderSettings {
+
+    static func write(value: QuickSightClientTypes.BorderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BorderColor"].write(value.borderColor)
+        try writer["BorderVisibility"].write(value.borderVisibility)
+        try writer["BorderWidth"].write(value.borderWidth)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BorderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BorderSettings()
+        value.borderVisibility = try reader["BorderVisibility"].readIfPresent()
+        value.borderWidth = try reader["BorderWidth"].readIfPresent()
+        value.borderColor = try reader["BorderColor"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LineChartMarkerStyleSettings {
+
+    static func write(value: QuickSightClientTypes.LineChartMarkerStyleSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MarkerColor"].write(value.markerColor)
+        try writer["MarkerShape"].write(value.markerShape)
+        try writer["MarkerSize"].write(value.markerSize)
+        try writer["MarkerVisibility"].write(value.markerVisibility)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LineChartMarkerStyleSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LineChartMarkerStyleSettings()
+        value.markerVisibility = try reader["MarkerVisibility"].readIfPresent()
+        value.markerShape = try reader["MarkerShape"].readIfPresent()
+        value.markerSize = try reader["MarkerSize"].readIfPresent()
+        value.markerColor = try reader["MarkerColor"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.LineChartLineStyleSettings {
+
+    static func write(value: QuickSightClientTypes.LineChartLineStyleSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LineInterpolation"].write(value.lineInterpolation)
+        try writer["LineStyle"].write(value.lineStyle)
+        try writer["LineVisibility"].write(value.lineVisibility)
+        try writer["LineWidth"].write(value.lineWidth)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LineChartLineStyleSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.LineChartLineStyleSettings()
+        value.lineVisibility = try reader["LineVisibility"].readIfPresent()
+        value.lineInterpolation = try reader["LineInterpolation"].readIfPresent()
+        value.lineStyle = try reader["LineStyle"].readIfPresent()
+        value.lineWidth = try reader["LineWidth"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FieldComboSeriesItem {
+
+    static func write(value: QuickSightClientTypes.FieldComboSeriesItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldId"].write(value.fieldId)
+        try writer["Settings"].write(value.settings, with: QuickSightClientTypes.ComboChartSeriesSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldComboSeriesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FieldComboSeriesItem()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.settings = try reader["Settings"].readIfPresent(with: QuickSightClientTypes.ComboChartSeriesSettings.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ComboChartDefaultSeriesSettings {
+
+    static func write(value: QuickSightClientTypes.ComboChartDefaultSeriesSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BorderSettings"].write(value.borderSettings, with: QuickSightClientTypes.BorderSettings.write(value:to:))
+        try writer["DecalSettings"].write(value.decalSettings, with: QuickSightClientTypes.DecalSettings.write(value:to:))
+        try writer["LineStyleSettings"].write(value.lineStyleSettings, with: QuickSightClientTypes.LineChartLineStyleSettings.write(value:to:))
+        try writer["MarkerStyleSettings"].write(value.markerStyleSettings, with: QuickSightClientTypes.LineChartMarkerStyleSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ComboChartDefaultSeriesSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ComboChartDefaultSeriesSettings()
+        value.lineStyleSettings = try reader["LineStyleSettings"].readIfPresent(with: QuickSightClientTypes.LineChartLineStyleSettings.read(from:))
+        value.markerStyleSettings = try reader["MarkerStyleSettings"].readIfPresent(with: QuickSightClientTypes.LineChartMarkerStyleSettings.read(from:))
+        value.decalSettings = try reader["DecalSettings"].readIfPresent(with: QuickSightClientTypes.DecalSettings.read(from:))
+        value.borderSettings = try reader["BorderSettings"].readIfPresent(with: QuickSightClientTypes.BorderSettings.read(from:))
         return value
     }
 }
@@ -63020,6 +69955,7 @@ extension QuickSightClientTypes.FilledMapVisual {
         try writer["ChartConfiguration"].write(value.chartConfiguration, with: QuickSightClientTypes.FilledMapConfiguration.write(value:to:))
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ConditionalFormatting"].write(value.conditionalFormatting, with: QuickSightClientTypes.FilledMapConditionalFormatting.write(value:to:))
+        try writer["GeocodingPreferences"].writeList(value.geocodingPreferences, memberWritingClosure: QuickSightClientTypes.GeocodePreference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
         try writer["VisualContentAltText"].write(value.visualContentAltText)
@@ -63037,6 +69973,92 @@ extension QuickSightClientTypes.FilledMapVisual {
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
+        value.geocodingPreferences = try reader["GeocodingPreferences"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.GeocodePreference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeocodePreference {
+
+    static func write(value: QuickSightClientTypes.GeocodePreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Preference"].write(value.preference, with: QuickSightClientTypes.GeocodePreferenceValue.write(value:to:))
+        try writer["RequestKey"].write(value.requestKey, with: QuickSightClientTypes.GeocoderHierarchy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeocodePreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeocodePreference()
+        value.requestKey = try reader["RequestKey"].readIfPresent(with: QuickSightClientTypes.GeocoderHierarchy.read(from:))
+        value.preference = try reader["Preference"].readIfPresent(with: QuickSightClientTypes.GeocodePreferenceValue.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeocodePreferenceValue {
+
+    static func write(value: QuickSightClientTypes.GeocodePreferenceValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .coordinate(coordinate):
+                try writer["Coordinate"].write(coordinate, with: QuickSightClientTypes.Coordinate.write(value:to:))
+            case let .geocoderhierarchy(geocoderhierarchy):
+                try writer["GeocoderHierarchy"].write(geocoderhierarchy, with: QuickSightClientTypes.GeocoderHierarchy.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeocodePreferenceValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "GeocoderHierarchy":
+                return .geocoderhierarchy(try reader["GeocoderHierarchy"].read(with: QuickSightClientTypes.GeocoderHierarchy.read(from:)))
+            case "Coordinate":
+                return .coordinate(try reader["Coordinate"].read(with: QuickSightClientTypes.Coordinate.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension QuickSightClientTypes.Coordinate {
+
+    static func write(value: QuickSightClientTypes.Coordinate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Latitude"].write(value.latitude)
+        try writer["Longitude"].write(value.longitude)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Coordinate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Coordinate()
+        value.latitude = try reader["Latitude"].readIfPresent() ?? 0.0
+        value.longitude = try reader["Longitude"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension QuickSightClientTypes.GeocoderHierarchy {
+
+    static func write(value: QuickSightClientTypes.GeocoderHierarchy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["City"].write(value.city)
+        try writer["Country"].write(value.country)
+        try writer["County"].write(value.county)
+        try writer["PostCode"].write(value.postCode)
+        try writer["State"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.GeocoderHierarchy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.GeocoderHierarchy()
+        value.country = try reader["Country"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.county = try reader["County"].readIfPresent()
+        value.city = try reader["City"].readIfPresent()
+        value.postCode = try reader["PostCode"].readIfPresent()
         return value
     }
 }
@@ -63301,6 +70323,7 @@ extension QuickSightClientTypes.GeospatialMapVisual {
         try writer["Actions"].writeList(value.actions, memberWritingClosure: QuickSightClientTypes.VisualCustomAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ChartConfiguration"].write(value.chartConfiguration, with: QuickSightClientTypes.GeospatialMapConfiguration.write(value:to:))
         try writer["ColumnHierarchies"].writeList(value.columnHierarchies, memberWritingClosure: QuickSightClientTypes.ColumnHierarchy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GeocodingPreferences"].writeList(value.geocodingPreferences, memberWritingClosure: QuickSightClientTypes.GeocodePreference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subtitle"].write(value.subtitle, with: QuickSightClientTypes.VisualSubtitleLabelOptions.write(value:to:))
         try writer["Title"].write(value.title, with: QuickSightClientTypes.VisualTitleLabelOptions.write(value:to:))
         try writer["VisualContentAltText"].write(value.visualContentAltText)
@@ -63317,6 +70340,7 @@ extension QuickSightClientTypes.GeospatialMapVisual {
         value.columnHierarchies = try reader["ColumnHierarchies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnHierarchy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.VisualCustomAction.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.visualContentAltText = try reader["VisualContentAltText"].readIfPresent()
+        value.geocodingPreferences = try reader["GeocodingPreferences"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.GeocodePreference.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -63898,6 +70922,7 @@ extension QuickSightClientTypes.LineChartSeriesSettings {
 
     static func write(value: QuickSightClientTypes.LineChartSeriesSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DecalSettings"].write(value.decalSettings, with: QuickSightClientTypes.DecalSettings.write(value:to:))
         try writer["LineStyleSettings"].write(value.lineStyleSettings, with: QuickSightClientTypes.LineChartLineStyleSettings.write(value:to:))
         try writer["MarkerStyleSettings"].write(value.markerStyleSettings, with: QuickSightClientTypes.LineChartMarkerStyleSettings.write(value:to:))
     }
@@ -63907,48 +70932,7 @@ extension QuickSightClientTypes.LineChartSeriesSettings {
         var value = QuickSightClientTypes.LineChartSeriesSettings()
         value.lineStyleSettings = try reader["LineStyleSettings"].readIfPresent(with: QuickSightClientTypes.LineChartLineStyleSettings.read(from:))
         value.markerStyleSettings = try reader["MarkerStyleSettings"].readIfPresent(with: QuickSightClientTypes.LineChartMarkerStyleSettings.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.LineChartMarkerStyleSettings {
-
-    static func write(value: QuickSightClientTypes.LineChartMarkerStyleSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MarkerColor"].write(value.markerColor)
-        try writer["MarkerShape"].write(value.markerShape)
-        try writer["MarkerSize"].write(value.markerSize)
-        try writer["MarkerVisibility"].write(value.markerVisibility)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LineChartMarkerStyleSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.LineChartMarkerStyleSettings()
-        value.markerVisibility = try reader["MarkerVisibility"].readIfPresent()
-        value.markerShape = try reader["MarkerShape"].readIfPresent()
-        value.markerSize = try reader["MarkerSize"].readIfPresent()
-        value.markerColor = try reader["MarkerColor"].readIfPresent()
-        return value
-    }
-}
-
-extension QuickSightClientTypes.LineChartLineStyleSettings {
-
-    static func write(value: QuickSightClientTypes.LineChartLineStyleSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LineInterpolation"].write(value.lineInterpolation)
-        try writer["LineStyle"].write(value.lineStyle)
-        try writer["LineVisibility"].write(value.lineVisibility)
-        try writer["LineWidth"].write(value.lineWidth)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.LineChartLineStyleSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.LineChartLineStyleSettings()
-        value.lineVisibility = try reader["LineVisibility"].readIfPresent()
-        value.lineInterpolation = try reader["LineInterpolation"].readIfPresent()
-        value.lineStyle = try reader["LineStyle"].readIfPresent()
-        value.lineWidth = try reader["LineWidth"].readIfPresent()
+        value.decalSettings = try reader["DecalSettings"].readIfPresent(with: QuickSightClientTypes.DecalSettings.read(from:))
         return value
     }
 }
@@ -63977,6 +70961,7 @@ extension QuickSightClientTypes.LineChartDefaultSeriesSettings {
     static func write(value: QuickSightClientTypes.LineChartDefaultSeriesSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AxisBinding"].write(value.axisBinding)
+        try writer["DecalSettings"].write(value.decalSettings, with: QuickSightClientTypes.DecalSettings.write(value:to:))
         try writer["LineStyleSettings"].write(value.lineStyleSettings, with: QuickSightClientTypes.LineChartLineStyleSettings.write(value:to:))
         try writer["MarkerStyleSettings"].write(value.markerStyleSettings, with: QuickSightClientTypes.LineChartMarkerStyleSettings.write(value:to:))
     }
@@ -63987,6 +70972,7 @@ extension QuickSightClientTypes.LineChartDefaultSeriesSettings {
         value.axisBinding = try reader["AxisBinding"].readIfPresent()
         value.lineStyleSettings = try reader["LineStyleSettings"].readIfPresent(with: QuickSightClientTypes.LineChartLineStyleSettings.read(from:))
         value.markerStyleSettings = try reader["MarkerStyleSettings"].readIfPresent(with: QuickSightClientTypes.LineChartMarkerStyleSettings.read(from:))
+        value.decalSettings = try reader["DecalSettings"].readIfPresent(with: QuickSightClientTypes.DecalSettings.read(from:))
         return value
     }
 }
@@ -65130,11 +72116,13 @@ extension QuickSightClientTypes.BarChartConfiguration {
         try writer["ColorLabelOptions"].write(value.colorLabelOptions, with: QuickSightClientTypes.ChartAxisLabelOptions.write(value:to:))
         try writer["ContributionAnalysisDefaults"].writeList(value.contributionAnalysisDefaults, memberWritingClosure: QuickSightClientTypes.ContributionAnalysisDefault.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DataLabels"].write(value.dataLabels, with: QuickSightClientTypes.DataLabelOptions.write(value:to:))
+        try writer["DefaultSeriesSettings"].write(value.defaultSeriesSettings, with: QuickSightClientTypes.BarChartDefaultSeriesSettings.write(value:to:))
         try writer["FieldWells"].write(value.fieldWells, with: QuickSightClientTypes.BarChartFieldWells.write(value:to:))
         try writer["Interactions"].write(value.interactions, with: QuickSightClientTypes.VisualInteractionOptions.write(value:to:))
         try writer["Legend"].write(value.legend, with: QuickSightClientTypes.LegendOptions.write(value:to:))
         try writer["Orientation"].write(value.orientation)
         try writer["ReferenceLines"].writeList(value.referenceLines, memberWritingClosure: QuickSightClientTypes.ReferenceLine.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Series"].writeList(value.series, memberWritingClosure: QuickSightClientTypes.BarSeriesItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SmallMultiplesOptions"].write(value.smallMultiplesOptions, with: QuickSightClientTypes.SmallMultiplesOptions.write(value:to:))
         try writer["SortConfiguration"].write(value.sortConfiguration, with: QuickSightClientTypes.BarChartSortConfiguration.write(value:to:))
         try writer["Tooltip"].write(value.tooltip, with: QuickSightClientTypes.TooltipOptions.write(value:to:))
@@ -65157,12 +72145,101 @@ extension QuickSightClientTypes.BarChartConfiguration {
         value.valueAxis = try reader["ValueAxis"].readIfPresent(with: QuickSightClientTypes.AxisDisplayOptions.read(from:))
         value.valueLabelOptions = try reader["ValueLabelOptions"].readIfPresent(with: QuickSightClientTypes.ChartAxisLabelOptions.read(from:))
         value.colorLabelOptions = try reader["ColorLabelOptions"].readIfPresent(with: QuickSightClientTypes.ChartAxisLabelOptions.read(from:))
+        value.defaultSeriesSettings = try reader["DefaultSeriesSettings"].readIfPresent(with: QuickSightClientTypes.BarChartDefaultSeriesSettings.read(from:))
+        value.series = try reader["Series"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.BarSeriesItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.legend = try reader["Legend"].readIfPresent(with: QuickSightClientTypes.LegendOptions.read(from:))
         value.dataLabels = try reader["DataLabels"].readIfPresent(with: QuickSightClientTypes.DataLabelOptions.read(from:))
         value.tooltip = try reader["Tooltip"].readIfPresent(with: QuickSightClientTypes.TooltipOptions.read(from:))
         value.referenceLines = try reader["ReferenceLines"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ReferenceLine.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.contributionAnalysisDefaults = try reader["ContributionAnalysisDefaults"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ContributionAnalysisDefault.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.VisualInteractionOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BarSeriesItem {
+
+    static func write(value: QuickSightClientTypes.BarSeriesItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataFieldBarSeriesItem"].write(value.dataFieldBarSeriesItem, with: QuickSightClientTypes.DataFieldBarSeriesItem.write(value:to:))
+        try writer["FieldBarSeriesItem"].write(value.fieldBarSeriesItem, with: QuickSightClientTypes.FieldBarSeriesItem.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BarSeriesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BarSeriesItem()
+        value.fieldBarSeriesItem = try reader["FieldBarSeriesItem"].readIfPresent(with: QuickSightClientTypes.FieldBarSeriesItem.read(from:))
+        value.dataFieldBarSeriesItem = try reader["DataFieldBarSeriesItem"].readIfPresent(with: QuickSightClientTypes.DataFieldBarSeriesItem.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataFieldBarSeriesItem {
+
+    static func write(value: QuickSightClientTypes.DataFieldBarSeriesItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldId"].write(value.fieldId)
+        try writer["FieldValue"].write(value.fieldValue)
+        try writer["Settings"].write(value.settings, with: QuickSightClientTypes.BarChartSeriesSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataFieldBarSeriesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataFieldBarSeriesItem()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.fieldValue = try reader["FieldValue"].readIfPresent()
+        value.settings = try reader["Settings"].readIfPresent(with: QuickSightClientTypes.BarChartSeriesSettings.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BarChartSeriesSettings {
+
+    static func write(value: QuickSightClientTypes.BarChartSeriesSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BorderSettings"].write(value.borderSettings, with: QuickSightClientTypes.BorderSettings.write(value:to:))
+        try writer["DecalSettings"].write(value.decalSettings, with: QuickSightClientTypes.DecalSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BarChartSeriesSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BarChartSeriesSettings()
+        value.decalSettings = try reader["DecalSettings"].readIfPresent(with: QuickSightClientTypes.DecalSettings.read(from:))
+        value.borderSettings = try reader["BorderSettings"].readIfPresent(with: QuickSightClientTypes.BorderSettings.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FieldBarSeriesItem {
+
+    static func write(value: QuickSightClientTypes.FieldBarSeriesItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldId"].write(value.fieldId)
+        try writer["Settings"].write(value.settings, with: QuickSightClientTypes.BarChartSeriesSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FieldBarSeriesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FieldBarSeriesItem()
+        value.fieldId = try reader["FieldId"].readIfPresent() ?? ""
+        value.settings = try reader["Settings"].readIfPresent(with: QuickSightClientTypes.BarChartSeriesSettings.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.BarChartDefaultSeriesSettings {
+
+    static func write(value: QuickSightClientTypes.BarChartDefaultSeriesSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BorderSettings"].write(value.borderSettings, with: QuickSightClientTypes.BorderSettings.write(value:to:))
+        try writer["DecalSettings"].write(value.decalSettings, with: QuickSightClientTypes.DecalSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BarChartDefaultSeriesSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.BarChartDefaultSeriesSettings()
+        value.decalSettings = try reader["DecalSettings"].readIfPresent(with: QuickSightClientTypes.DecalSettings.read(from:))
+        value.borderSettings = try reader["BorderSettings"].readIfPresent(with: QuickSightClientTypes.BorderSettings.read(from:))
         return value
     }
 }
@@ -65344,6 +72421,7 @@ extension QuickSightClientTypes.PivotTableConfiguration {
 
     static func write(value: QuickSightClientTypes.PivotTableConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DashboardCustomizationVisualOptions"].write(value.dashboardCustomizationVisualOptions, with: QuickSightClientTypes.DashboardCustomizationVisualOptions.write(value:to:))
         try writer["FieldOptions"].write(value.fieldOptions, with: QuickSightClientTypes.PivotTableFieldOptions.write(value:to:))
         try writer["FieldWells"].write(value.fieldWells, with: QuickSightClientTypes.PivotTableFieldWells.write(value:to:))
         try writer["Interactions"].write(value.interactions, with: QuickSightClientTypes.VisualInteractionOptions.write(value:to:))
@@ -65362,7 +72440,40 @@ extension QuickSightClientTypes.PivotTableConfiguration {
         value.totalOptions = try reader["TotalOptions"].readIfPresent(with: QuickSightClientTypes.PivotTableTotalOptions.read(from:))
         value.fieldOptions = try reader["FieldOptions"].readIfPresent(with: QuickSightClientTypes.PivotTableFieldOptions.read(from:))
         value.paginatedReportOptions = try reader["PaginatedReportOptions"].readIfPresent(with: QuickSightClientTypes.PivotTablePaginatedReportOptions.read(from:))
+        value.dashboardCustomizationVisualOptions = try reader["DashboardCustomizationVisualOptions"].readIfPresent(with: QuickSightClientTypes.DashboardCustomizationVisualOptions.read(from:))
         value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.VisualInteractionOptions.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DashboardCustomizationVisualOptions {
+
+    static func write(value: QuickSightClientTypes.DashboardCustomizationVisualOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldsConfiguration"].write(value.fieldsConfiguration, with: QuickSightClientTypes.VisualCustomizationFieldsConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DashboardCustomizationVisualOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DashboardCustomizationVisualOptions()
+        value.fieldsConfiguration = try reader["FieldsConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualCustomizationFieldsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualCustomizationFieldsConfiguration {
+
+    static func write(value: QuickSightClientTypes.VisualCustomizationFieldsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalFields"].writeList(value.additionalFields, memberWritingClosure: QuickSightClientTypes.ColumnIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualCustomizationFieldsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualCustomizationFieldsConfiguration()
+        value.status = try reader["Status"].readIfPresent()
+        value.additionalFields = try reader["AdditionalFields"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -65978,6 +73089,7 @@ extension QuickSightClientTypes.TableConfiguration {
 
     static func write(value: QuickSightClientTypes.TableConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DashboardCustomizationVisualOptions"].write(value.dashboardCustomizationVisualOptions, with: QuickSightClientTypes.DashboardCustomizationVisualOptions.write(value:to:))
         try writer["FieldOptions"].write(value.fieldOptions, with: QuickSightClientTypes.TableFieldOptions.write(value:to:))
         try writer["FieldWells"].write(value.fieldWells, with: QuickSightClientTypes.TableFieldWells.write(value:to:))
         try writer["Interactions"].write(value.interactions, with: QuickSightClientTypes.VisualInteractionOptions.write(value:to:))
@@ -65998,6 +73110,7 @@ extension QuickSightClientTypes.TableConfiguration {
         value.fieldOptions = try reader["FieldOptions"].readIfPresent(with: QuickSightClientTypes.TableFieldOptions.read(from:))
         value.paginatedReportOptions = try reader["PaginatedReportOptions"].readIfPresent(with: QuickSightClientTypes.TablePaginatedReportOptions.read(from:))
         value.tableInlineVisualizations = try reader["TableInlineVisualizations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TableInlineVisualization.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dashboardCustomizationVisualOptions = try reader["DashboardCustomizationVisualOptions"].readIfPresent(with: QuickSightClientTypes.DashboardCustomizationVisualOptions.read(from:))
         value.interactions = try reader["Interactions"].readIfPresent(with: QuickSightClientTypes.VisualInteractionOptions.read(from:))
         return value
     }
@@ -66821,23 +73934,6 @@ extension QuickSightClientTypes.DataSetIdentifierDeclaration {
     }
 }
 
-extension QuickSightClientTypes.ResourcePermission {
-
-    static func write(value: QuickSightClientTypes.ResourcePermission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Principal"].write(value.principal)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ResourcePermission {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.ResourcePermission()
-        value.principal = try reader["Principal"].readIfPresent() ?? ""
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension QuickSightClientTypes.AssetBundleExportJobError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AssetBundleExportJobError {
@@ -67405,6 +74501,10 @@ extension QuickSightClientTypes.DataSourceParameters {
                 try writer["AwsIotAnalyticsParameters"].write(awsiotanalyticsparameters, with: QuickSightClientTypes.AwsIotAnalyticsParameters.write(value:to:))
             case let .bigqueryparameters(bigqueryparameters):
                 try writer["BigQueryParameters"].write(bigqueryparameters, with: QuickSightClientTypes.BigQueryParameters.write(value:to:))
+            case let .confluenceparameters(confluenceparameters):
+                try writer["ConfluenceParameters"].write(confluenceparameters, with: QuickSightClientTypes.ConfluenceParameters.write(value:to:))
+            case let .customconnectionparameters(customconnectionparameters):
+                try writer["CustomConnectionParameters"].write(customconnectionparameters, with: QuickSightClientTypes.CustomConnectionParameters.write(value:to:))
             case let .databricksparameters(databricksparameters):
                 try writer["DatabricksParameters"].write(databricksparameters, with: QuickSightClientTypes.DatabricksParameters.write(value:to:))
             case let .exasolparameters(exasolparameters):
@@ -67423,10 +74523,14 @@ extension QuickSightClientTypes.DataSourceParameters {
                 try writer["PostgreSqlParameters"].write(postgresqlparameters, with: QuickSightClientTypes.PostgreSqlParameters.write(value:to:))
             case let .prestoparameters(prestoparameters):
                 try writer["PrestoParameters"].write(prestoparameters, with: QuickSightClientTypes.PrestoParameters.write(value:to:))
+            case let .qbusinessparameters(qbusinessparameters):
+                try writer["QBusinessParameters"].write(qbusinessparameters, with: QuickSightClientTypes.QBusinessParameters.write(value:to:))
             case let .rdsparameters(rdsparameters):
                 try writer["RdsParameters"].write(rdsparameters, with: QuickSightClientTypes.RdsParameters.write(value:to:))
             case let .redshiftparameters(redshiftparameters):
                 try writer["RedshiftParameters"].write(redshiftparameters, with: QuickSightClientTypes.RedshiftParameters.write(value:to:))
+            case let .s3knowledgebaseparameters(s3knowledgebaseparameters):
+                try writer["S3KnowledgeBaseParameters"].write(s3knowledgebaseparameters, with: QuickSightClientTypes.S3KnowledgeBaseParameters.write(value:to:))
             case let .s3parameters(s3parameters):
                 try writer["S3Parameters"].write(s3parameters, with: QuickSightClientTypes.S3Parameters.write(value:to:))
             case let .servicenowparameters(servicenowparameters):
@@ -67445,6 +74549,8 @@ extension QuickSightClientTypes.DataSourceParameters {
                 try writer["TrinoParameters"].write(trinoparameters, with: QuickSightClientTypes.TrinoParameters.write(value:to:))
             case let .twitterparameters(twitterparameters):
                 try writer["TwitterParameters"].write(twitterparameters, with: QuickSightClientTypes.TwitterParameters.write(value:to:))
+            case let .webcrawlerparameters(webcrawlerparameters):
+                try writer["WebCrawlerParameters"].write(webcrawlerparameters, with: QuickSightClientTypes.WebCrawlerParameters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -67482,6 +74588,8 @@ extension QuickSightClientTypes.DataSourceParameters {
                 return .redshiftparameters(try reader["RedshiftParameters"].read(with: QuickSightClientTypes.RedshiftParameters.read(from:)))
             case "S3Parameters":
                 return .s3parameters(try reader["S3Parameters"].read(with: QuickSightClientTypes.S3Parameters.read(from:)))
+            case "S3KnowledgeBaseParameters":
+                return .s3knowledgebaseparameters(try reader["S3KnowledgeBaseParameters"].read(with: QuickSightClientTypes.S3KnowledgeBaseParameters.read(from:)))
             case "ServiceNowParameters":
                 return .servicenowparameters(try reader["ServiceNowParameters"].read(with: QuickSightClientTypes.ServiceNowParameters.read(from:)))
             case "SnowflakeParameters":
@@ -67508,9 +74616,91 @@ extension QuickSightClientTypes.DataSourceParameters {
                 return .bigqueryparameters(try reader["BigQueryParameters"].read(with: QuickSightClientTypes.BigQueryParameters.read(from:)))
             case "ImpalaParameters":
                 return .impalaparameters(try reader["ImpalaParameters"].read(with: QuickSightClientTypes.ImpalaParameters.read(from:)))
+            case "CustomConnectionParameters":
+                return .customconnectionparameters(try reader["CustomConnectionParameters"].read(with: QuickSightClientTypes.CustomConnectionParameters.read(from:)))
+            case "WebCrawlerParameters":
+                return .webcrawlerparameters(try reader["WebCrawlerParameters"].read(with: QuickSightClientTypes.WebCrawlerParameters.read(from:)))
+            case "ConfluenceParameters":
+                return .confluenceparameters(try reader["ConfluenceParameters"].read(with: QuickSightClientTypes.ConfluenceParameters.read(from:)))
+            case "QBusinessParameters":
+                return .qbusinessparameters(try reader["QBusinessParameters"].read(with: QuickSightClientTypes.QBusinessParameters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QuickSightClientTypes.QBusinessParameters {
+
+    static func write(value: QuickSightClientTypes.QBusinessParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationArn"].write(value.applicationArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.QBusinessParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.QBusinessParameters()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ConfluenceParameters {
+
+    static func write(value: QuickSightClientTypes.ConfluenceParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfluenceUrl"].write(value.confluenceUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ConfluenceParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ConfluenceParameters()
+        value.confluenceUrl = try reader["ConfluenceUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.WebCrawlerParameters {
+
+    static func write(value: QuickSightClientTypes.WebCrawlerParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LoginPageUrl"].write(value.loginPageUrl)
+        try writer["PasswordButtonXpath"].write(value.passwordButtonXpath)
+        try writer["PasswordFieldXpath"].write(value.passwordFieldXpath)
+        try writer["UsernameButtonXpath"].write(value.usernameButtonXpath)
+        try writer["UsernameFieldXpath"].write(value.usernameFieldXpath)
+        try writer["WebCrawlerAuthType"].write(value.webCrawlerAuthType)
+        try writer["WebProxyHostName"].write(value.webProxyHostName)
+        try writer["WebProxyPortNumber"].write(value.webProxyPortNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.WebCrawlerParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.WebCrawlerParameters()
+        value.webCrawlerAuthType = try reader["WebCrawlerAuthType"].readIfPresent() ?? .sdkUnknown("")
+        value.usernameFieldXpath = try reader["UsernameFieldXpath"].readIfPresent()
+        value.passwordFieldXpath = try reader["PasswordFieldXpath"].readIfPresent()
+        value.usernameButtonXpath = try reader["UsernameButtonXpath"].readIfPresent()
+        value.passwordButtonXpath = try reader["PasswordButtonXpath"].readIfPresent()
+        value.loginPageUrl = try reader["LoginPageUrl"].readIfPresent()
+        value.webProxyHostName = try reader["WebProxyHostName"].readIfPresent()
+        value.webProxyPortNumber = try reader["WebProxyPortNumber"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomConnectionParameters {
+
+    static func write(value: QuickSightClientTypes.CustomConnectionParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionType"].write(value.connectionType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomConnectionParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomConnectionParameters()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        return value
     }
 }
 
@@ -67778,6 +74968,25 @@ extension QuickSightClientTypes.ServiceNowParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.ServiceNowParameters()
         value.siteBaseUrl = try reader["SiteBaseUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.S3KnowledgeBaseParameters {
+
+    static func write(value: QuickSightClientTypes.S3KnowledgeBaseParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketUrl"].write(value.bucketUrl)
+        try writer["MetadataFilesLocation"].write(value.metadataFilesLocation)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.S3KnowledgeBaseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.S3KnowledgeBaseParameters()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.bucketUrl = try reader["BucketUrl"].readIfPresent() ?? ""
+        value.metadataFilesLocation = try reader["MetadataFilesLocation"].readIfPresent()
         return value
     }
 }
@@ -68518,28 +75727,43 @@ extension QuickSightClientTypes.Capabilities {
 
     static func write(value: QuickSightClientTypes.Capabilities?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Action"].write(value.action)
         try writer["AddOrRunAnomalyDetectionForAnalyses"].write(value.addOrRunAnomalyDetectionForAnalyses)
+        try writer["Analysis"].write(value.analysis)
+        try writer["Automate"].write(value.automate)
+        try writer["ChatAgent"].write(value.chatAgent)
         try writer["CreateAndUpdateDashboardEmailReports"].write(value.createAndUpdateDashboardEmailReports)
         try writer["CreateAndUpdateDataSources"].write(value.createAndUpdateDataSources)
         try writer["CreateAndUpdateDatasets"].write(value.createAndUpdateDatasets)
         try writer["CreateAndUpdateThemes"].write(value.createAndUpdateThemes)
         try writer["CreateAndUpdateThresholdAlerts"].write(value.createAndUpdateThresholdAlerts)
+        try writer["CreateChatAgents"].write(value.createChatAgents)
         try writer["CreateSPICEDataset"].write(value.createSPICEDataset)
         try writer["CreateSharedFolders"].write(value.createSharedFolders)
+        try writer["Dashboard"].write(value.dashboard)
         try writer["ExportToCsv"].write(value.exportToCsv)
         try writer["ExportToCsvInScheduledReports"].write(value.exportToCsvInScheduledReports)
         try writer["ExportToExcel"].write(value.exportToExcel)
         try writer["ExportToExcelInScheduledReports"].write(value.exportToExcelInScheduledReports)
         try writer["ExportToPdf"].write(value.exportToPdf)
         try writer["ExportToPdfInScheduledReports"].write(value.exportToPdfInScheduledReports)
+        try writer["Flow"].write(value.flow)
         try writer["IncludeContentInScheduledReportsEmail"].write(value.includeContentInScheduledReportsEmail)
+        try writer["KnowledgeBase"].write(value.knowledgeBase)
+        try writer["PerformFlowUiTask"].write(value.performFlowUiTask)
         try writer["PrintReports"].write(value.printReports)
+        try writer["PublishWithoutApproval"].write(value.publishWithoutApproval)
         try writer["RenameSharedFolders"].write(value.renameSharedFolders)
+        try writer["Research"].write(value.research)
+        try writer["SelfUpgradeUserRole"].write(value.selfUpgradeUserRole)
         try writer["ShareAnalyses"].write(value.shareAnalyses)
         try writer["ShareDashboards"].write(value.shareDashboards)
         try writer["ShareDataSources"].write(value.shareDataSources)
         try writer["ShareDatasets"].write(value.shareDatasets)
+        try writer["Space"].write(value.space)
         try writer["SubscribeDashboardEmailReports"].write(value.subscribeDashboardEmailReports)
+        try writer["UseAgentWebSearch"].write(value.useAgentWebSearch)
+        try writer["UseBedrockModels"].write(value.useBedrockModels)
         try writer["ViewAccountSPICECapacity"].write(value.viewAccountSPICECapacity)
     }
 
@@ -68569,6 +75793,21 @@ extension QuickSightClientTypes.Capabilities {
         value.exportToCsvInScheduledReports = try reader["ExportToCsvInScheduledReports"].readIfPresent()
         value.exportToExcelInScheduledReports = try reader["ExportToExcelInScheduledReports"].readIfPresent()
         value.includeContentInScheduledReportsEmail = try reader["IncludeContentInScheduledReportsEmail"].readIfPresent()
+        value.dashboard = try reader["Dashboard"].readIfPresent()
+        value.analysis = try reader["Analysis"].readIfPresent()
+        value.automate = try reader["Automate"].readIfPresent()
+        value.flow = try reader["Flow"].readIfPresent()
+        value.publishWithoutApproval = try reader["PublishWithoutApproval"].readIfPresent()
+        value.useBedrockModels = try reader["UseBedrockModels"].readIfPresent()
+        value.performFlowUiTask = try reader["PerformFlowUiTask"].readIfPresent()
+        value.useAgentWebSearch = try reader["UseAgentWebSearch"].readIfPresent()
+        value.knowledgeBase = try reader["KnowledgeBase"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.space = try reader["Space"].readIfPresent()
+        value.chatAgent = try reader["ChatAgent"].readIfPresent()
+        value.createChatAgents = try reader["CreateChatAgents"].readIfPresent()
+        value.research = try reader["Research"].readIfPresent()
+        value.selfUpgradeUserRole = try reader["SelfUpgradeUserRole"].readIfPresent()
         return value
     }
 }
@@ -68661,8 +75900,11 @@ extension QuickSightClientTypes.DashboardPublishOptions {
         try writer["DataPointMenuLabelOption"].write(value.dataPointMenuLabelOption, with: QuickSightClientTypes.DataPointMenuLabelOption.write(value:to:))
         try writer["DataPointTooltipOption"].write(value.dataPointTooltipOption, with: QuickSightClientTypes.DataPointTooltipOption.write(value:to:))
         try writer["DataQAEnabledOption"].write(value.dataQAEnabledOption, with: QuickSightClientTypes.DataQAEnabledOption.write(value:to:))
+        try writer["DataStoriesSharingOption"].write(value.dataStoriesSharingOption, with: QuickSightClientTypes.DataStoriesSharingOption.write(value:to:))
+        try writer["ExecutiveSummaryOption"].write(value.executiveSummaryOption, with: QuickSightClientTypes.ExecutiveSummaryOption.write(value:to:))
         try writer["ExportToCSVOption"].write(value.exportToCSVOption, with: QuickSightClientTypes.ExportToCSVOption.write(value:to:))
         try writer["ExportWithHiddenFieldsOption"].write(value.exportWithHiddenFieldsOption, with: QuickSightClientTypes.ExportWithHiddenFieldsOption.write(value:to:))
+        try writer["QuickSuiteActionsOption"].write(value.quickSuiteActionsOption, with: QuickSightClientTypes.QuickSuiteActionsOption.write(value:to:))
         try writer["SheetControlsOption"].write(value.sheetControlsOption, with: QuickSightClientTypes.SheetControlsOption.write(value:to:))
         try writer["SheetLayoutElementMaximizationOption"].write(value.sheetLayoutElementMaximizationOption, with: QuickSightClientTypes.SheetLayoutElementMaximizationOption.write(value:to:))
         try writer["VisualAxisSortOption"].write(value.visualAxisSortOption, with: QuickSightClientTypes.VisualAxisSortOption.write(value:to:))
@@ -68685,6 +75927,54 @@ extension QuickSightClientTypes.DashboardPublishOptions {
         value.dataPointMenuLabelOption = try reader["DataPointMenuLabelOption"].readIfPresent(with: QuickSightClientTypes.DataPointMenuLabelOption.read(from:))
         value.dataPointTooltipOption = try reader["DataPointTooltipOption"].readIfPresent(with: QuickSightClientTypes.DataPointTooltipOption.read(from:))
         value.dataQAEnabledOption = try reader["DataQAEnabledOption"].readIfPresent(with: QuickSightClientTypes.DataQAEnabledOption.read(from:))
+        value.quickSuiteActionsOption = try reader["QuickSuiteActionsOption"].readIfPresent(with: QuickSightClientTypes.QuickSuiteActionsOption.read(from:))
+        value.executiveSummaryOption = try reader["ExecutiveSummaryOption"].readIfPresent(with: QuickSightClientTypes.ExecutiveSummaryOption.read(from:))
+        value.dataStoriesSharingOption = try reader["DataStoriesSharingOption"].readIfPresent(with: QuickSightClientTypes.DataStoriesSharingOption.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataStoriesSharingOption {
+
+    static func write(value: QuickSightClientTypes.DataStoriesSharingOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityStatus"].write(value.availabilityStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataStoriesSharingOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataStoriesSharingOption()
+        value.availabilityStatus = try reader["AvailabilityStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ExecutiveSummaryOption {
+
+    static func write(value: QuickSightClientTypes.ExecutiveSummaryOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityStatus"].write(value.availabilityStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ExecutiveSummaryOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ExecutiveSummaryOption()
+        value.availabilityStatus = try reader["AvailabilityStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.QuickSuiteActionsOption {
+
+    static func write(value: QuickSightClientTypes.QuickSuiteActionsOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityStatus"].write(value.availabilityStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.QuickSuiteActionsOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.QuickSuiteActionsOption()
+        value.availabilityStatus = try reader["AvailabilityStatus"].readIfPresent()
         return value
     }
 }
@@ -69118,15 +76408,16 @@ extension QuickSightClientTypes.SnapshotJobResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.SnapshotJobResult()
         value.anonymousUsers = try reader["AnonymousUsers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AnonymousUserSnapshotJobResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.registeredUsers = try reader["RegisteredUsers"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.RegisteredUserSnapshotJobResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension QuickSightClientTypes.AnonymousUserSnapshotJobResult {
+extension QuickSightClientTypes.RegisteredUserSnapshotJobResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnonymousUserSnapshotJobResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RegisteredUserSnapshotJobResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.AnonymousUserSnapshotJobResult()
+        var value = QuickSightClientTypes.RegisteredUserSnapshotJobResult()
         value.fileGroups = try reader["FileGroups"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SnapshotJobResultFileGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -69166,6 +76457,16 @@ extension QuickSightClientTypes.SnapshotJobResultErrorInfo {
     }
 }
 
+extension QuickSightClientTypes.AnonymousUserSnapshotJobResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnonymousUserSnapshotJobResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AnonymousUserSnapshotJobResult()
+        value.fileGroups = try reader["FileGroups"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SnapshotJobResultFileGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension QuickSightClientTypes.SnapshotJobErrorInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SnapshotJobErrorInfo {
@@ -69201,6 +76502,1039 @@ extension QuickSightClientTypes.DataSet {
         value.datasetParameters = try reader["DatasetParameters"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DatasetParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.performanceConfiguration = try reader["PerformanceConfiguration"].readIfPresent(with: QuickSightClientTypes.PerformanceConfiguration.read(from:))
         value.useAs = try reader["UseAs"].readIfPresent()
+        value.dataPrepConfiguration = try reader["DataPrepConfiguration"].readIfPresent(with: QuickSightClientTypes.DataPrepConfiguration.read(from:))
+        value.semanticModelConfiguration = try reader["SemanticModelConfiguration"].readIfPresent(with: QuickSightClientTypes.SemanticModelConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SemanticModelConfiguration {
+
+    static func write(value: QuickSightClientTypes.SemanticModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TableMap"].writeMap(value.tableMap, valueWritingClosure: QuickSightClientTypes.SemanticTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SemanticModelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SemanticModelConfiguration()
+        value.tableMap = try reader["TableMap"].readMapIfPresent(valueReadingClosure: QuickSightClientTypes.SemanticTable.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SemanticTable {
+
+    static func write(value: QuickSightClientTypes.SemanticTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["DestinationTableId"].write(value.destinationTableId)
+        try writer["RowLevelPermissionConfiguration"].write(value.rowLevelPermissionConfiguration, with: QuickSightClientTypes.RowLevelPermissionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SemanticTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SemanticTable()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.destinationTableId = try reader["DestinationTableId"].readIfPresent() ?? ""
+        value.rowLevelPermissionConfiguration = try reader["RowLevelPermissionConfiguration"].readIfPresent(with: QuickSightClientTypes.RowLevelPermissionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.RowLevelPermissionConfiguration {
+
+    static func write(value: QuickSightClientTypes.RowLevelPermissionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RowLevelPermissionDataSet"].write(value.rowLevelPermissionDataSet, with: QuickSightClientTypes.RowLevelPermissionDataSet.write(value:to:))
+        try writer["TagConfiguration"].write(value.tagConfiguration, with: QuickSightClientTypes.RowLevelPermissionTagConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowLevelPermissionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.RowLevelPermissionConfiguration()
+        value.tagConfiguration = try reader["TagConfiguration"].readIfPresent(with: QuickSightClientTypes.RowLevelPermissionTagConfiguration.read(from:))
+        value.rowLevelPermissionDataSet = try reader["RowLevelPermissionDataSet"].readIfPresent(with: QuickSightClientTypes.RowLevelPermissionDataSet.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.RowLevelPermissionDataSet {
+
+    static func write(value: QuickSightClientTypes.RowLevelPermissionDataSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["FormatVersion"].write(value.formatVersion)
+        try writer["Namespace"].write(value.namespace)
+        try writer["PermissionPolicy"].write(value.permissionPolicy)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowLevelPermissionDataSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.RowLevelPermissionDataSet()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.permissionPolicy = try reader["PermissionPolicy"].readIfPresent() ?? .sdkUnknown("")
+        value.formatVersion = try reader["FormatVersion"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.RowLevelPermissionTagConfiguration {
+
+    static func write(value: QuickSightClientTypes.RowLevelPermissionTagConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+        try writer["TagRuleConfigurations"].writeList(value.tagRuleConfigurations, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagRules"].writeList(value.tagRules, memberWritingClosure: QuickSightClientTypes.RowLevelPermissionTagRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowLevelPermissionTagConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.RowLevelPermissionTagConfiguration()
+        value.status = try reader["Status"].readIfPresent()
+        value.tagRules = try reader["TagRules"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.RowLevelPermissionTagRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tagRuleConfigurations = try reader["TagRuleConfigurations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.RowLevelPermissionTagRule {
+
+    static func write(value: QuickSightClientTypes.RowLevelPermissionTagRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["MatchAllValue"].write(value.matchAllValue)
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagMultiValueDelimiter"].write(value.tagMultiValueDelimiter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowLevelPermissionTagRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.RowLevelPermissionTagRule()
+        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.tagMultiValueDelimiter = try reader["TagMultiValueDelimiter"].readIfPresent()
+        value.matchAllValue = try reader["MatchAllValue"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataPrepConfiguration {
+
+    static func write(value: QuickSightClientTypes.DataPrepConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationTableMap"].writeMap(value.destinationTableMap, valueWritingClosure: QuickSightClientTypes.DestinationTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SourceTableMap"].writeMap(value.sourceTableMap, valueWritingClosure: QuickSightClientTypes.SourceTable.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TransformStepMap"].writeMap(value.transformStepMap, valueWritingClosure: QuickSightClientTypes.TransformStep.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataPrepConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataPrepConfiguration()
+        value.sourceTableMap = try reader["SourceTableMap"].readMapIfPresent(valueReadingClosure: QuickSightClientTypes.SourceTable.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.transformStepMap = try reader["TransformStepMap"].readMapIfPresent(valueReadingClosure: QuickSightClientTypes.TransformStep.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.destinationTableMap = try reader["DestinationTableMap"].readMapIfPresent(valueReadingClosure: QuickSightClientTypes.DestinationTable.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DestinationTable {
+
+    static func write(value: QuickSightClientTypes.DestinationTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.DestinationTableSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DestinationTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DestinationTable()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.DestinationTableSource.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DestinationTableSource {
+
+    static func write(value: QuickSightClientTypes.DestinationTableSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TransformOperationId"].write(value.transformOperationId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DestinationTableSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DestinationTableSource()
+        value.transformOperationId = try reader["TransformOperationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TransformStep {
+
+    static func write(value: QuickSightClientTypes.TransformStep?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregateStep"].write(value.aggregateStep, with: QuickSightClientTypes.AggregateOperation.write(value:to:))
+        try writer["AppendStep"].write(value.appendStep, with: QuickSightClientTypes.AppendOperation.write(value:to:))
+        try writer["CastColumnTypesStep"].write(value.castColumnTypesStep, with: QuickSightClientTypes.CastColumnTypesOperation.write(value:to:))
+        try writer["CreateColumnsStep"].write(value.createColumnsStep, with: QuickSightClientTypes.CreateColumnsOperation.write(value:to:))
+        try writer["FiltersStep"].write(value.filtersStep, with: QuickSightClientTypes.FiltersOperation.write(value:to:))
+        try writer["ImportTableStep"].write(value.importTableStep, with: QuickSightClientTypes.ImportTableOperation.write(value:to:))
+        try writer["JoinStep"].write(value.joinStep, with: QuickSightClientTypes.JoinOperation.write(value:to:))
+        try writer["PivotStep"].write(value.pivotStep, with: QuickSightClientTypes.PivotOperation.write(value:to:))
+        try writer["ProjectStep"].write(value.projectStep, with: QuickSightClientTypes.ProjectOperation.write(value:to:))
+        try writer["RenameColumnsStep"].write(value.renameColumnsStep, with: QuickSightClientTypes.RenameColumnsOperation.write(value:to:))
+        try writer["UnpivotStep"].write(value.unpivotStep, with: QuickSightClientTypes.UnpivotOperation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TransformStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TransformStep()
+        value.importTableStep = try reader["ImportTableStep"].readIfPresent(with: QuickSightClientTypes.ImportTableOperation.read(from:))
+        value.projectStep = try reader["ProjectStep"].readIfPresent(with: QuickSightClientTypes.ProjectOperation.read(from:))
+        value.filtersStep = try reader["FiltersStep"].readIfPresent(with: QuickSightClientTypes.FiltersOperation.read(from:))
+        value.createColumnsStep = try reader["CreateColumnsStep"].readIfPresent(with: QuickSightClientTypes.CreateColumnsOperation.read(from:))
+        value.renameColumnsStep = try reader["RenameColumnsStep"].readIfPresent(with: QuickSightClientTypes.RenameColumnsOperation.read(from:))
+        value.castColumnTypesStep = try reader["CastColumnTypesStep"].readIfPresent(with: QuickSightClientTypes.CastColumnTypesOperation.read(from:))
+        value.joinStep = try reader["JoinStep"].readIfPresent(with: QuickSightClientTypes.JoinOperation.read(from:))
+        value.aggregateStep = try reader["AggregateStep"].readIfPresent(with: QuickSightClientTypes.AggregateOperation.read(from:))
+        value.pivotStep = try reader["PivotStep"].readIfPresent(with: QuickSightClientTypes.PivotOperation.read(from:))
+        value.unpivotStep = try reader["UnpivotStep"].readIfPresent(with: QuickSightClientTypes.UnpivotOperation.read(from:))
+        value.appendStep = try reader["AppendStep"].readIfPresent(with: QuickSightClientTypes.AppendOperation.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AppendOperation {
+
+    static func write(value: QuickSightClientTypes.AppendOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["AppendedColumns"].writeList(value.appendedColumns, memberWritingClosure: QuickSightClientTypes.AppendedColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FirstSource"].write(value.firstSource, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+        try writer["SecondSource"].write(value.secondSource, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AppendOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AppendOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.firstSource = try reader["FirstSource"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.secondSource = try reader["SecondSource"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.appendedColumns = try reader["AppendedColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.AppendedColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AppendedColumn {
+
+    static func write(value: QuickSightClientTypes.AppendedColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["NewColumnId"].write(value.newColumnId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AppendedColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AppendedColumn()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.newColumnId = try reader["NewColumnId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TransformOperationSource {
+
+    static func write(value: QuickSightClientTypes.TransformOperationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnIdMappings"].writeList(value.columnIdMappings, memberWritingClosure: QuickSightClientTypes.DataSetColumnIdMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TransformOperationId"].write(value.transformOperationId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TransformOperationSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TransformOperationSource()
+        value.transformOperationId = try reader["TransformOperationId"].readIfPresent() ?? ""
+        value.columnIdMappings = try reader["ColumnIdMappings"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetColumnIdMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetColumnIdMapping {
+
+    static func write(value: QuickSightClientTypes.DataSetColumnIdMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceColumnId"].write(value.sourceColumnId)
+        try writer["TargetColumnId"].write(value.targetColumnId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetColumnIdMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetColumnIdMapping()
+        value.sourceColumnId = try reader["SourceColumnId"].readIfPresent() ?? ""
+        value.targetColumnId = try reader["TargetColumnId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.UnpivotOperation {
+
+    static func write(value: QuickSightClientTypes.UnpivotOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["ColumnsToUnpivot"].writeList(value.columnsToUnpivot, memberWritingClosure: QuickSightClientTypes.ColumnToUnpivot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+        try writer["UnpivotedLabelColumnId"].write(value.unpivotedLabelColumnId)
+        try writer["UnpivotedLabelColumnName"].write(value.unpivotedLabelColumnName)
+        try writer["UnpivotedValueColumnId"].write(value.unpivotedValueColumnId)
+        try writer["UnpivotedValueColumnName"].write(value.unpivotedValueColumnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.UnpivotOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.UnpivotOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.columnsToUnpivot = try reader["ColumnsToUnpivot"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.ColumnToUnpivot.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unpivotedLabelColumnName = try reader["UnpivotedLabelColumnName"].readIfPresent() ?? ""
+        value.unpivotedLabelColumnId = try reader["UnpivotedLabelColumnId"].readIfPresent() ?? ""
+        value.unpivotedValueColumnName = try reader["UnpivotedValueColumnName"].readIfPresent() ?? ""
+        value.unpivotedValueColumnId = try reader["UnpivotedValueColumnId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ColumnToUnpivot {
+
+    static func write(value: QuickSightClientTypes.ColumnToUnpivot?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["NewValue"].write(value.newValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ColumnToUnpivot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ColumnToUnpivot()
+        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.newValue = try reader["NewValue"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PivotOperation {
+
+    static func write(value: QuickSightClientTypes.PivotOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["GroupByColumnNames"].writeList(value.groupByColumnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PivotConfiguration"].write(value.pivotConfiguration, with: QuickSightClientTypes.PivotConfiguration.write(value:to:))
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+        try writer["ValueColumnConfiguration"].write(value.valueColumnConfiguration, with: QuickSightClientTypes.ValueColumnConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PivotOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PivotOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.groupByColumnNames = try reader["GroupByColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.valueColumnConfiguration = try reader["ValueColumnConfiguration"].readIfPresent(with: QuickSightClientTypes.ValueColumnConfiguration.read(from:))
+        value.pivotConfiguration = try reader["PivotConfiguration"].readIfPresent(with: QuickSightClientTypes.PivotConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PivotConfiguration {
+
+    static func write(value: QuickSightClientTypes.PivotConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LabelColumnName"].write(value.labelColumnName)
+        try writer["PivotedLabels"].writeList(value.pivotedLabels, memberWritingClosure: QuickSightClientTypes.PivotedLabel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PivotConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PivotConfiguration()
+        value.labelColumnName = try reader["LabelColumnName"].readIfPresent()
+        value.pivotedLabels = try reader["PivotedLabels"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.PivotedLabel.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.PivotedLabel {
+
+    static func write(value: QuickSightClientTypes.PivotedLabel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LabelName"].write(value.labelName)
+        try writer["NewColumnId"].write(value.newColumnId)
+        try writer["NewColumnName"].write(value.newColumnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.PivotedLabel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.PivotedLabel()
+        value.labelName = try reader["LabelName"].readIfPresent() ?? ""
+        value.newColumnName = try reader["NewColumnName"].readIfPresent() ?? ""
+        value.newColumnId = try reader["NewColumnId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ValueColumnConfiguration {
+
+    static func write(value: QuickSightClientTypes.ValueColumnConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregationFunction"].write(value.aggregationFunction, with: QuickSightClientTypes.DataPrepAggregationFunction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ValueColumnConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ValueColumnConfiguration()
+        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.DataPrepAggregationFunction.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataPrepAggregationFunction {
+
+    static func write(value: QuickSightClientTypes.DataPrepAggregationFunction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ListAggregation"].write(value.listAggregation, with: QuickSightClientTypes.DataPrepListAggregationFunction.write(value:to:))
+        try writer["SimpleAggregation"].write(value.simpleAggregation, with: QuickSightClientTypes.DataPrepSimpleAggregationFunction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataPrepAggregationFunction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataPrepAggregationFunction()
+        value.simpleAggregation = try reader["SimpleAggregation"].readIfPresent(with: QuickSightClientTypes.DataPrepSimpleAggregationFunction.read(from:))
+        value.listAggregation = try reader["ListAggregation"].readIfPresent(with: QuickSightClientTypes.DataPrepListAggregationFunction.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataPrepListAggregationFunction {
+
+    static func write(value: QuickSightClientTypes.DataPrepListAggregationFunction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Distinct"].write(value.distinct)
+        try writer["InputColumnName"].write(value.inputColumnName)
+        try writer["Separator"].write(value.separator)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataPrepListAggregationFunction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataPrepListAggregationFunction()
+        value.inputColumnName = try reader["InputColumnName"].readIfPresent()
+        value.separator = try reader["Separator"].readIfPresent() ?? ""
+        value.distinct = try reader["Distinct"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataPrepSimpleAggregationFunction {
+
+    static func write(value: QuickSightClientTypes.DataPrepSimpleAggregationFunction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FunctionType"].write(value.functionType)
+        try writer["InputColumnName"].write(value.inputColumnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataPrepSimpleAggregationFunction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataPrepSimpleAggregationFunction()
+        value.inputColumnName = try reader["InputColumnName"].readIfPresent()
+        value.functionType = try reader["FunctionType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension QuickSightClientTypes.AggregateOperation {
+
+    static func write(value: QuickSightClientTypes.AggregateOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Aggregations"].writeList(value.aggregations, memberWritingClosure: QuickSightClientTypes.Aggregation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Alias"].write(value.alias)
+        try writer["GroupByColumnNames"].writeList(value.groupByColumnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AggregateOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.AggregateOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.groupByColumnNames = try reader["GroupByColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aggregations = try reader["Aggregations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Aggregation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.Aggregation {
+
+    static func write(value: QuickSightClientTypes.Aggregation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggregationFunction"].write(value.aggregationFunction, with: QuickSightClientTypes.DataPrepAggregationFunction.write(value:to:))
+        try writer["NewColumnId"].write(value.newColumnId)
+        try writer["NewColumnName"].write(value.newColumnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Aggregation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Aggregation()
+        value.aggregationFunction = try reader["AggregationFunction"].readIfPresent(with: QuickSightClientTypes.DataPrepAggregationFunction.read(from:))
+        value.newColumnName = try reader["NewColumnName"].readIfPresent() ?? ""
+        value.newColumnId = try reader["NewColumnId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.JoinOperation {
+
+    static func write(value: QuickSightClientTypes.JoinOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["LeftOperand"].write(value.leftOperand, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+        try writer["LeftOperandProperties"].write(value.leftOperandProperties, with: QuickSightClientTypes.JoinOperandProperties.write(value:to:))
+        try writer["OnClause"].write(value.onClause)
+        try writer["RightOperand"].write(value.rightOperand, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+        try writer["RightOperandProperties"].write(value.rightOperandProperties, with: QuickSightClientTypes.JoinOperandProperties.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.JoinOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.JoinOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.leftOperand = try reader["LeftOperand"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.rightOperand = try reader["RightOperand"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.onClause = try reader["OnClause"].readIfPresent() ?? ""
+        value.leftOperandProperties = try reader["LeftOperandProperties"].readIfPresent(with: QuickSightClientTypes.JoinOperandProperties.read(from:))
+        value.rightOperandProperties = try reader["RightOperandProperties"].readIfPresent(with: QuickSightClientTypes.JoinOperandProperties.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.JoinOperandProperties {
+
+    static func write(value: QuickSightClientTypes.JoinOperandProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OutputColumnNameOverrides"].writeList(value.outputColumnNameOverrides, memberWritingClosure: QuickSightClientTypes.OutputColumnNameOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.JoinOperandProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.JoinOperandProperties()
+        value.outputColumnNameOverrides = try reader["OutputColumnNameOverrides"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.OutputColumnNameOverride.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.OutputColumnNameOverride {
+
+    static func write(value: QuickSightClientTypes.OutputColumnNameOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OutputColumnName"].write(value.outputColumnName)
+        try writer["SourceColumnName"].write(value.sourceColumnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.OutputColumnNameOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.OutputColumnNameOverride()
+        value.sourceColumnName = try reader["SourceColumnName"].readIfPresent()
+        value.outputColumnName = try reader["OutputColumnName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CastColumnTypesOperation {
+
+    static func write(value: QuickSightClientTypes.CastColumnTypesOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["CastColumnTypeOperations"].writeList(value.castColumnTypeOperations, memberWritingClosure: QuickSightClientTypes.CastColumnTypeOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CastColumnTypesOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CastColumnTypesOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.castColumnTypeOperations = try reader["CastColumnTypeOperations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CastColumnTypeOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CastColumnTypeOperation {
+
+    static func write(value: QuickSightClientTypes.CastColumnTypeOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["Format"].write(value.format)
+        try writer["NewColumnType"].write(value.newColumnType)
+        try writer["SubType"].write(value.subType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CastColumnTypeOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CastColumnTypeOperation()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.newColumnType = try reader["NewColumnType"].readIfPresent() ?? .sdkUnknown("")
+        value.subType = try reader["SubType"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.RenameColumnsOperation {
+
+    static func write(value: QuickSightClientTypes.RenameColumnsOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["RenameColumnOperations"].writeList(value.renameColumnOperations, memberWritingClosure: QuickSightClientTypes.RenameColumnOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RenameColumnsOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.RenameColumnsOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.renameColumnOperations = try reader["RenameColumnOperations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.RenameColumnOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.RenameColumnOperation {
+
+    static func write(value: QuickSightClientTypes.RenameColumnOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["NewColumnName"].write(value.newColumnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RenameColumnOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.RenameColumnOperation()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.newColumnName = try reader["NewColumnName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CreateColumnsOperation {
+
+    static func write(value: QuickSightClientTypes.CreateColumnsOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["Columns"].writeList(value.columns, memberWritingClosure: QuickSightClientTypes.CalculatedColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CreateColumnsOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CreateColumnsOperation()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CalculatedColumn {
+
+    static func write(value: QuickSightClientTypes.CalculatedColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnId"].write(value.columnId)
+        try writer["ColumnName"].write(value.columnName)
+        try writer["Expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CalculatedColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CalculatedColumn()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.columnId = try reader["ColumnId"].readIfPresent() ?? ""
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FiltersOperation {
+
+    static func write(value: QuickSightClientTypes.FiltersOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["FilterOperations"].writeList(value.filterOperations, memberWritingClosure: QuickSightClientTypes.FilterOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FiltersOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FiltersOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.filterOperations = try reader["FilterOperations"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FilterOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FilterOperation {
+
+    static func write(value: QuickSightClientTypes.FilterOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionExpression"].write(value.conditionExpression)
+        try writer["DateFilterCondition"].write(value.dateFilterCondition, with: QuickSightClientTypes.DataSetDateFilterCondition.write(value:to:))
+        try writer["NumericFilterCondition"].write(value.numericFilterCondition, with: QuickSightClientTypes.DataSetNumericFilterCondition.write(value:to:))
+        try writer["StringFilterCondition"].write(value.stringFilterCondition, with: QuickSightClientTypes.DataSetStringFilterCondition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FilterOperation()
+        value.conditionExpression = try reader["ConditionExpression"].readIfPresent()
+        value.stringFilterCondition = try reader["StringFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetStringFilterCondition.read(from:))
+        value.numericFilterCondition = try reader["NumericFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetNumericFilterCondition.read(from:))
+        value.dateFilterCondition = try reader["DateFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetDateFilterCondition.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetDateFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetDateFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["ComparisonFilterCondition"].write(value.comparisonFilterCondition, with: QuickSightClientTypes.DataSetDateComparisonFilterCondition.write(value:to:))
+        try writer["RangeFilterCondition"].write(value.rangeFilterCondition, with: QuickSightClientTypes.DataSetDateRangeFilterCondition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetDateFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetDateFilterCondition()
+        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.comparisonFilterCondition = try reader["ComparisonFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetDateComparisonFilterCondition.read(from:))
+        value.rangeFilterCondition = try reader["RangeFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetDateRangeFilterCondition.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetDateRangeFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetDateRangeFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeMaximum"].write(value.includeMaximum)
+        try writer["IncludeMinimum"].write(value.includeMinimum)
+        try writer["RangeMaximum"].write(value.rangeMaximum, with: QuickSightClientTypes.DataSetDateFilterValue.write(value:to:))
+        try writer["RangeMinimum"].write(value.rangeMinimum, with: QuickSightClientTypes.DataSetDateFilterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetDateRangeFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetDateRangeFilterCondition()
+        value.rangeMinimum = try reader["RangeMinimum"].readIfPresent(with: QuickSightClientTypes.DataSetDateFilterValue.read(from:))
+        value.rangeMaximum = try reader["RangeMaximum"].readIfPresent(with: QuickSightClientTypes.DataSetDateFilterValue.read(from:))
+        value.includeMinimum = try reader["IncludeMinimum"].readIfPresent()
+        value.includeMaximum = try reader["IncludeMaximum"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetDateFilterValue {
+
+    static func write(value: QuickSightClientTypes.DataSetDateFilterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StaticValue"].writeTimestamp(value.staticValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetDateFilterValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetDateFilterValue()
+        value.staticValue = try reader["StaticValue"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetDateComparisonFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetDateComparisonFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value, with: QuickSightClientTypes.DataSetDateFilterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetDateComparisonFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetDateComparisonFilterCondition()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.DataSetDateFilterValue.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetNumericFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetNumericFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["ComparisonFilterCondition"].write(value.comparisonFilterCondition, with: QuickSightClientTypes.DataSetNumericComparisonFilterCondition.write(value:to:))
+        try writer["RangeFilterCondition"].write(value.rangeFilterCondition, with: QuickSightClientTypes.DataSetNumericRangeFilterCondition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetNumericFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetNumericFilterCondition()
+        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.comparisonFilterCondition = try reader["ComparisonFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetNumericComparisonFilterCondition.read(from:))
+        value.rangeFilterCondition = try reader["RangeFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetNumericRangeFilterCondition.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetNumericRangeFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetNumericRangeFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeMaximum"].write(value.includeMaximum)
+        try writer["IncludeMinimum"].write(value.includeMinimum)
+        try writer["RangeMaximum"].write(value.rangeMaximum, with: QuickSightClientTypes.DataSetNumericFilterValue.write(value:to:))
+        try writer["RangeMinimum"].write(value.rangeMinimum, with: QuickSightClientTypes.DataSetNumericFilterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetNumericRangeFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetNumericRangeFilterCondition()
+        value.rangeMinimum = try reader["RangeMinimum"].readIfPresent(with: QuickSightClientTypes.DataSetNumericFilterValue.read(from:))
+        value.rangeMaximum = try reader["RangeMaximum"].readIfPresent(with: QuickSightClientTypes.DataSetNumericFilterValue.read(from:))
+        value.includeMinimum = try reader["IncludeMinimum"].readIfPresent()
+        value.includeMaximum = try reader["IncludeMaximum"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetNumericFilterValue {
+
+    static func write(value: QuickSightClientTypes.DataSetNumericFilterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StaticValue"].write(value.staticValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetNumericFilterValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetNumericFilterValue()
+        value.staticValue = try reader["StaticValue"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetNumericComparisonFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetNumericComparisonFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value, with: QuickSightClientTypes.DataSetNumericFilterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetNumericComparisonFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetNumericComparisonFilterCondition()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.DataSetNumericFilterValue.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetStringFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetStringFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnName"].write(value.columnName)
+        try writer["ComparisonFilterCondition"].write(value.comparisonFilterCondition, with: QuickSightClientTypes.DataSetStringComparisonFilterCondition.write(value:to:))
+        try writer["ListFilterCondition"].write(value.listFilterCondition, with: QuickSightClientTypes.DataSetStringListFilterCondition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetStringFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetStringFilterCondition()
+        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.comparisonFilterCondition = try reader["ComparisonFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetStringComparisonFilterCondition.read(from:))
+        value.listFilterCondition = try reader["ListFilterCondition"].readIfPresent(with: QuickSightClientTypes.DataSetStringListFilterCondition.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetStringListFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetStringListFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].write(value.values, with: QuickSightClientTypes.DataSetStringListFilterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetStringListFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetStringListFilterCondition()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readIfPresent(with: QuickSightClientTypes.DataSetStringListFilterValue.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetStringListFilterValue {
+
+    static func write(value: QuickSightClientTypes.DataSetStringListFilterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StaticValues"].writeList(value.staticValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetStringListFilterValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetStringListFilterValue()
+        value.staticValues = try reader["StaticValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetStringComparisonFilterCondition {
+
+    static func write(value: QuickSightClientTypes.DataSetStringComparisonFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value, with: QuickSightClientTypes.DataSetStringFilterValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetStringComparisonFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetStringComparisonFilterCondition()
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent(with: QuickSightClientTypes.DataSetStringFilterValue.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.DataSetStringFilterValue {
+
+    static func write(value: QuickSightClientTypes.DataSetStringFilterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StaticValue"].write(value.staticValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.DataSetStringFilterValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.DataSetStringFilterValue()
+        value.staticValue = try reader["StaticValue"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ProjectOperation {
+
+    static func write(value: QuickSightClientTypes.ProjectOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["ProjectedColumns"].writeList(value.projectedColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.TransformOperationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ProjectOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ProjectOperation()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.TransformOperationSource.read(from:))
+        value.projectedColumns = try reader["ProjectedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImportTableOperation {
+
+    static func write(value: QuickSightClientTypes.ImportTableOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["Source"].write(value.source, with: QuickSightClientTypes.ImportTableOperationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImportTableOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImportTableOperation()
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent(with: QuickSightClientTypes.ImportTableOperationSource.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ImportTableOperationSource {
+
+    static func write(value: QuickSightClientTypes.ImportTableOperationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ColumnIdMappings"].writeList(value.columnIdMappings, memberWritingClosure: QuickSightClientTypes.DataSetColumnIdMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceTableId"].write(value.sourceTableId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImportTableOperationSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImportTableOperationSource()
+        value.sourceTableId = try reader["SourceTableId"].readIfPresent() ?? ""
+        value.columnIdMappings = try reader["ColumnIdMappings"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.DataSetColumnIdMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SourceTable {
+
+    static func write(value: QuickSightClientTypes.SourceTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSet"].write(value.dataSet, with: QuickSightClientTypes.ParentDataSet.write(value:to:))
+        try writer["PhysicalTableId"].write(value.physicalTableId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SourceTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SourceTable()
+        value.physicalTableId = try reader["PhysicalTableId"].readIfPresent()
+        value.dataSet = try reader["DataSet"].readIfPresent(with: QuickSightClientTypes.ParentDataSet.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ParentDataSet {
+
+    static func write(value: QuickSightClientTypes.ParentDataSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSetArn"].write(value.dataSetArn)
+        try writer["InputColumns"].writeList(value.inputColumns, memberWritingClosure: QuickSightClientTypes.InputColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ParentDataSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ParentDataSet()
+        value.dataSetArn = try reader["DataSetArn"].readIfPresent() ?? ""
+        value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.InputColumn {
+
+    static func write(value: QuickSightClientTypes.InputColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Name"].write(value.name)
+        try writer["SubType"].write(value.subType)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.InputColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.InputColumn()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.subType = try reader["SubType"].readIfPresent()
         return value
     }
 }
@@ -69436,69 +77770,6 @@ extension QuickSightClientTypes.ColumnLevelPermissionRule {
     }
 }
 
-extension QuickSightClientTypes.RowLevelPermissionTagConfiguration {
-
-    static func write(value: QuickSightClientTypes.RowLevelPermissionTagConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
-        try writer["TagRuleConfigurations"].writeList(value.tagRuleConfigurations, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["TagRules"].writeList(value.tagRules, memberWritingClosure: QuickSightClientTypes.RowLevelPermissionTagRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowLevelPermissionTagConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RowLevelPermissionTagConfiguration()
-        value.status = try reader["Status"].readIfPresent()
-        value.tagRules = try reader["TagRules"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.RowLevelPermissionTagRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tagRuleConfigurations = try reader["TagRuleConfigurations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension QuickSightClientTypes.RowLevelPermissionTagRule {
-
-    static func write(value: QuickSightClientTypes.RowLevelPermissionTagRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnName"].write(value.columnName)
-        try writer["MatchAllValue"].write(value.matchAllValue)
-        try writer["TagKey"].write(value.tagKey)
-        try writer["TagMultiValueDelimiter"].write(value.tagMultiValueDelimiter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowLevelPermissionTagRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RowLevelPermissionTagRule()
-        value.tagKey = try reader["TagKey"].readIfPresent() ?? ""
-        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
-        value.tagMultiValueDelimiter = try reader["TagMultiValueDelimiter"].readIfPresent()
-        value.matchAllValue = try reader["MatchAllValue"].readIfPresent()
-        return value
-    }
-}
-
-extension QuickSightClientTypes.RowLevelPermissionDataSet {
-
-    static func write(value: QuickSightClientTypes.RowLevelPermissionDataSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["FormatVersion"].write(value.formatVersion)
-        try writer["Namespace"].write(value.namespace)
-        try writer["PermissionPolicy"].write(value.permissionPolicy)
-        try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RowLevelPermissionDataSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RowLevelPermissionDataSet()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.permissionPolicy = try reader["PermissionPolicy"].readIfPresent() ?? .sdkUnknown("")
-        value.formatVersion = try reader["FormatVersion"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
 extension QuickSightClientTypes.FieldFolder {
 
     static func write(value: QuickSightClientTypes.FieldFolder?, to writer: SmithyJSON.Writer) throws {
@@ -69556,6 +77827,7 @@ extension QuickSightClientTypes.OutputColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.OutputColumn()
         value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.subType = try reader["SubType"].readIfPresent()
@@ -69799,108 +78071,6 @@ extension QuickSightClientTypes.ColumnDescription {
     }
 }
 
-extension QuickSightClientTypes.CastColumnTypeOperation {
-
-    static func write(value: QuickSightClientTypes.CastColumnTypeOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnName"].write(value.columnName)
-        try writer["Format"].write(value.format)
-        try writer["NewColumnType"].write(value.newColumnType)
-        try writer["SubType"].write(value.subType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CastColumnTypeOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CastColumnTypeOperation()
-        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
-        value.newColumnType = try reader["NewColumnType"].readIfPresent() ?? .sdkUnknown("")
-        value.subType = try reader["SubType"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        return value
-    }
-}
-
-extension QuickSightClientTypes.RenameColumnOperation {
-
-    static func write(value: QuickSightClientTypes.RenameColumnOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnName"].write(value.columnName)
-        try writer["NewColumnName"].write(value.newColumnName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.RenameColumnOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.RenameColumnOperation()
-        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
-        value.newColumnName = try reader["NewColumnName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CreateColumnsOperation {
-
-    static func write(value: QuickSightClientTypes.CreateColumnsOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Columns"].writeList(value.columns, memberWritingClosure: QuickSightClientTypes.CalculatedColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CreateColumnsOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CreateColumnsOperation()
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.CalculatedColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension QuickSightClientTypes.CalculatedColumn {
-
-    static func write(value: QuickSightClientTypes.CalculatedColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ColumnId"].write(value.columnId)
-        try writer["ColumnName"].write(value.columnName)
-        try writer["Expression"].write(value.expression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CalculatedColumn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.CalculatedColumn()
-        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
-        value.columnId = try reader["ColumnId"].readIfPresent() ?? ""
-        value.expression = try reader["Expression"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QuickSightClientTypes.FilterOperation {
-
-    static func write(value: QuickSightClientTypes.FilterOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConditionExpression"].write(value.conditionExpression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FilterOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.FilterOperation()
-        value.conditionExpression = try reader["ConditionExpression"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension QuickSightClientTypes.ProjectOperation {
-
-    static func write(value: QuickSightClientTypes.ProjectOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ProjectedColumns"].writeList(value.projectedColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ProjectOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.ProjectOperation()
-        value.projectedColumns = try reader["ProjectedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension QuickSightClientTypes.PhysicalTable {
 
     static func write(value: QuickSightClientTypes.PhysicalTable?, to writer: SmithyJSON.Writer) throws {
@@ -69912,6 +78082,8 @@ extension QuickSightClientTypes.PhysicalTable {
                 try writer["RelationalTable"].write(relationaltable, with: QuickSightClientTypes.RelationalTable.write(value:to:))
             case let .s3source(s3source):
                 try writer["S3Source"].write(s3source, with: QuickSightClientTypes.S3Source.write(value:to:))
+            case let .saastable(saastable):
+                try writer["SaaSTable"].write(saastable, with: QuickSightClientTypes.SaaSTable.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -69927,9 +78099,47 @@ extension QuickSightClientTypes.PhysicalTable {
                 return .customsql(try reader["CustomSql"].read(with: QuickSightClientTypes.CustomSql.read(from:)))
             case "S3Source":
                 return .s3source(try reader["S3Source"].read(with: QuickSightClientTypes.S3Source.read(from:)))
+            case "SaaSTable":
+                return .saastable(try reader["SaaSTable"].read(with: QuickSightClientTypes.SaaSTable.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QuickSightClientTypes.SaaSTable {
+
+    static func write(value: QuickSightClientTypes.SaaSTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceArn"].write(value.dataSourceArn)
+        try writer["InputColumns"].writeList(value.inputColumns, memberWritingClosure: QuickSightClientTypes.InputColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TablePath"].writeList(value.tablePath, memberWritingClosure: QuickSightClientTypes.TablePathElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SaaSTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SaaSTable()
+        value.dataSourceArn = try reader["DataSourceArn"].readIfPresent() ?? ""
+        value.tablePath = try reader["TablePath"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.TablePathElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.inputColumns = try reader["InputColumns"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.InputColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TablePathElement {
+
+    static func write(value: QuickSightClientTypes.TablePathElement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TablePathElement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TablePathElement()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        return value
     }
 }
 
@@ -69952,30 +78162,12 @@ extension QuickSightClientTypes.S3Source {
     }
 }
 
-extension QuickSightClientTypes.InputColumn {
-
-    static func write(value: QuickSightClientTypes.InputColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["SubType"].write(value.subType)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.InputColumn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.InputColumn()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.subType = try reader["SubType"].readIfPresent()
-        return value
-    }
-}
-
 extension QuickSightClientTypes.UploadSettings {
 
     static func write(value: QuickSightClientTypes.UploadSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContainsHeader"].write(value.containsHeader)
+        try writer["CustomCellAddressRange"].write(value.customCellAddressRange)
         try writer["Delimiter"].write(value.delimiter)
         try writer["Format"].write(value.format)
         try writer["StartFromRow"].write(value.startFromRow)
@@ -69990,6 +78182,7 @@ extension QuickSightClientTypes.UploadSettings {
         value.containsHeader = try reader["ContainsHeader"].readIfPresent()
         value.textQualifier = try reader["TextQualifier"].readIfPresent()
         value.delimiter = try reader["Delimiter"].readIfPresent()
+        value.customCellAddressRange = try reader["CustomCellAddressRange"].readIfPresent()
         return value
     }
 }
@@ -70174,6 +78367,17 @@ extension QuickSightClientTypes.RegisteredCustomerManagedKey {
     }
 }
 
+extension QuickSightClientTypes.QDataKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.QDataKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.QDataKey()
+        value.qDataKeyArn = try reader["QDataKeyArn"].readIfPresent()
+        value.qDataKeyType = try reader["QDataKeyType"].readIfPresent()
+        return value
+    }
+}
+
 extension QuickSightClientTypes.NamespaceInfoV2 {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.NamespaceInfoV2 {
@@ -70259,6 +78463,16 @@ extension QuickSightClientTypes.ScheduleRefreshOnEntity {
         var value = QuickSightClientTypes.ScheduleRefreshOnEntity()
         value.dayOfWeek = try reader["DayOfWeek"].readIfPresent()
         value.dayOfMonth = try reader["DayOfMonth"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SelfUpgradeConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SelfUpgradeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SelfUpgradeConfiguration()
+        value.selfUpgradeStatus = try reader["SelfUpgradeStatus"].readIfPresent()
         return value
     }
 }
@@ -70495,13 +78709,65 @@ extension QuickSightClientTypes.Typography {
 
     static func write(value: QuickSightClientTypes.Typography?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AxisLabelFontConfiguration"].write(value.axisLabelFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["AxisTitleFontConfiguration"].write(value.axisTitleFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["DataLabelFontConfiguration"].write(value.dataLabelFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
         try writer["FontFamilies"].writeList(value.fontFamilies, memberWritingClosure: QuickSightClientTypes.Font.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LegendTitleFontConfiguration"].write(value.legendTitleFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["LegendValueFontConfiguration"].write(value.legendValueFontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["VisualSubtitleFontConfiguration"].write(value.visualSubtitleFontConfiguration, with: QuickSightClientTypes.VisualSubtitleFontConfiguration.write(value:to:))
+        try writer["VisualTitleFontConfiguration"].write(value.visualTitleFontConfiguration, with: QuickSightClientTypes.VisualTitleFontConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Typography {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.Typography()
         value.fontFamilies = try reader["FontFamilies"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.Font.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.axisTitleFontConfiguration = try reader["AxisTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.axisLabelFontConfiguration = try reader["AxisLabelFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.legendTitleFontConfiguration = try reader["LegendTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.legendValueFontConfiguration = try reader["LegendValueFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.dataLabelFontConfiguration = try reader["DataLabelFontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.visualTitleFontConfiguration = try reader["VisualTitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualTitleFontConfiguration.read(from:))
+        value.visualSubtitleFontConfiguration = try reader["VisualSubtitleFontConfiguration"].readIfPresent(with: QuickSightClientTypes.VisualSubtitleFontConfiguration.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualSubtitleFontConfiguration {
+
+    static func write(value: QuickSightClientTypes.VisualSubtitleFontConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontConfiguration"].write(value.fontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["TextAlignment"].write(value.textAlignment)
+        try writer["TextTransform"].write(value.textTransform)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualSubtitleFontConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualSubtitleFontConfiguration()
+        value.fontConfiguration = try reader["FontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.textAlignment = try reader["TextAlignment"].readIfPresent()
+        value.textTransform = try reader["TextTransform"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.VisualTitleFontConfiguration {
+
+    static func write(value: QuickSightClientTypes.VisualTitleFontConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FontConfiguration"].write(value.fontConfiguration, with: QuickSightClientTypes.FontConfiguration.write(value:to:))
+        try writer["TextAlignment"].write(value.textAlignment)
+        try writer["TextTransform"].write(value.textTransform)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.VisualTitleFontConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.VisualTitleFontConfiguration()
+        value.fontConfiguration = try reader["FontConfiguration"].readIfPresent(with: QuickSightClientTypes.FontConfiguration.read(from:))
+        value.textAlignment = try reader["TextAlignment"].readIfPresent()
+        value.textTransform = try reader["TextTransform"].readIfPresent()
         return value
     }
 }
@@ -70525,6 +78791,7 @@ extension QuickSightClientTypes.SheetStyle {
 
     static func write(value: QuickSightClientTypes.SheetStyle?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Background"].write(value.background, with: QuickSightClientTypes.SheetBackgroundStyle.write(value:to:))
         try writer["Tile"].write(value.tile, with: QuickSightClientTypes.TileStyle.write(value:to:))
         try writer["TileLayout"].write(value.tileLayout, with: QuickSightClientTypes.TileLayoutStyle.write(value:to:))
     }
@@ -70534,6 +78801,24 @@ extension QuickSightClientTypes.SheetStyle {
         var value = QuickSightClientTypes.SheetStyle()
         value.tile = try reader["Tile"].readIfPresent(with: QuickSightClientTypes.TileStyle.read(from:))
         value.tileLayout = try reader["TileLayout"].readIfPresent(with: QuickSightClientTypes.TileLayoutStyle.read(from:))
+        value.background = try reader["Background"].readIfPresent(with: QuickSightClientTypes.SheetBackgroundStyle.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetBackgroundStyle {
+
+    static func write(value: QuickSightClientTypes.SheetBackgroundStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Color"].write(value.color)
+        try writer["Gradient"].write(value.gradient)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetBackgroundStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetBackgroundStyle()
+        value.color = try reader["Color"].readIfPresent()
+        value.gradient = try reader["Gradient"].readIfPresent()
         return value
     }
 }
@@ -70589,13 +78874,19 @@ extension QuickSightClientTypes.TileStyle {
 
     static func write(value: QuickSightClientTypes.TileStyle?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BackgroundColor"].write(value.backgroundColor)
         try writer["Border"].write(value.border, with: QuickSightClientTypes.BorderStyle.write(value:to:))
+        try writer["BorderRadius"].write(value.borderRadius)
+        try writer["Padding"].write(value.padding)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TileStyle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.TileStyle()
+        value.backgroundColor = try reader["BackgroundColor"].readIfPresent()
         value.border = try reader["Border"].readIfPresent(with: QuickSightClientTypes.BorderStyle.read(from:))
+        value.borderRadius = try reader["BorderRadius"].readIfPresent()
+        value.padding = try reader["Padding"].readIfPresent()
         return value
     }
 }
@@ -70604,13 +78895,17 @@ extension QuickSightClientTypes.BorderStyle {
 
     static func write(value: QuickSightClientTypes.BorderStyle?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Color"].write(value.color)
         try writer["Show"].write(value.show)
+        try writer["Width"].write(value.width)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.BorderStyle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QuickSightClientTypes.BorderStyle()
+        value.color = try reader["Color"].readIfPresent()
         value.show = try reader["Show"].readIfPresent()
+        value.width = try reader["Width"].readIfPresent()
         return value
     }
 }
@@ -71067,6 +79362,7 @@ extension QuickSightClientTypes.TopicFilter {
         try writer["FilterName"].write(value.filterName)
         try writer["FilterSynonyms"].writeList(value.filterSynonyms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["FilterType"].write(value.filterType)
+        try writer["NullFilter"].write(value.nullFilter, with: QuickSightClientTypes.TopicNullFilter.write(value:to:))
         try writer["NumericEqualityFilter"].write(value.numericEqualityFilter, with: QuickSightClientTypes.TopicNumericEqualityFilter.write(value:to:))
         try writer["NumericRangeFilter"].write(value.numericRangeFilter, with: QuickSightClientTypes.TopicNumericRangeFilter.write(value:to:))
         try writer["OperandFieldName"].write(value.operandFieldName)
@@ -71087,6 +79383,43 @@ extension QuickSightClientTypes.TopicFilter {
         value.numericRangeFilter = try reader["NumericRangeFilter"].readIfPresent(with: QuickSightClientTypes.TopicNumericRangeFilter.read(from:))
         value.dateRangeFilter = try reader["DateRangeFilter"].readIfPresent(with: QuickSightClientTypes.TopicDateRangeFilter.read(from:))
         value.relativeDateFilter = try reader["RelativeDateFilter"].readIfPresent(with: QuickSightClientTypes.TopicRelativeDateFilter.read(from:))
+        value.nullFilter = try reader["NullFilter"].readIfPresent(with: QuickSightClientTypes.TopicNullFilter.read(from:))
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicNullFilter {
+
+    static func write(value: QuickSightClientTypes.TopicNullFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Constant"].write(value.constant, with: QuickSightClientTypes.TopicSingularFilterConstant.write(value:to:))
+        try writer["Inverse"].write(value.inverse)
+        try writer["NullFilterType"].write(value.nullFilterType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicNullFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicNullFilter()
+        value.nullFilterType = try reader["NullFilterType"].readIfPresent()
+        value.constant = try reader["Constant"].readIfPresent(with: QuickSightClientTypes.TopicSingularFilterConstant.read(from:))
+        value.inverse = try reader["Inverse"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension QuickSightClientTypes.TopicSingularFilterConstant {
+
+    static func write(value: QuickSightClientTypes.TopicSingularFilterConstant?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConstantType"].write(value.constantType)
+        try writer["SingularConstant"].write(value.singularConstant)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicSingularFilterConstant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.TopicSingularFilterConstant()
+        value.constantType = try reader["ConstantType"].readIfPresent()
+        value.singularConstant = try reader["SingularConstant"].readIfPresent()
         return value
     }
 }
@@ -71106,23 +79439,6 @@ extension QuickSightClientTypes.TopicRelativeDateFilter {
         value.timeGranularity = try reader["TimeGranularity"].readIfPresent()
         value.relativeDateFilterFunction = try reader["RelativeDateFilterFunction"].readIfPresent()
         value.constant = try reader["Constant"].readIfPresent(with: QuickSightClientTypes.TopicSingularFilterConstant.read(from:))
-        return value
-    }
-}
-
-extension QuickSightClientTypes.TopicSingularFilterConstant {
-
-    static func write(value: QuickSightClientTypes.TopicSingularFilterConstant?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConstantType"].write(value.constantType)
-        try writer["SingularConstant"].write(value.singularConstant)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.TopicSingularFilterConstant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QuickSightClientTypes.TopicSingularFilterConstant()
-        value.constantType = try reader["ConstantType"].readIfPresent()
-        value.singularConstant = try reader["SingularConstant"].readIfPresent()
         return value
     }
 }
@@ -71393,6 +79709,40 @@ extension QuickSightClientTypes.NetworkInterface {
     }
 }
 
+extension QuickSightClientTypes.Permission {
+
+    static func write(value: QuickSightClientTypes.Permission?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Principal"].write(value.principal)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Permission {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.Permission()
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.principal = try reader["Principal"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QuickSightClientTypes.ActionConnectorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ActionConnectorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ActionConnectorSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.actionConnectorId = try reader["ActionConnectorId"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: QuickSightClientTypes.ActionConnectorError.read(from:))
+        return value
+    }
+}
+
 extension QuickSightClientTypes.AnalysisSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.AnalysisSummary {
@@ -71498,9 +79848,32 @@ extension QuickSightClientTypes.DataSetSummary {
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.importMode = try reader["ImportMode"].readIfPresent()
         value.rowLevelPermissionDataSet = try reader["RowLevelPermissionDataSet"].readIfPresent(with: QuickSightClientTypes.RowLevelPermissionDataSet.read(from:))
+        value.rowLevelPermissionDataSetMap = try reader["RowLevelPermissionDataSetMap"].readMapIfPresent(valueReadingClosure: QuickSightClientTypes.RowLevelPermissionDataSet.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.rowLevelPermissionTagConfigurationApplied = try reader["RowLevelPermissionTagConfigurationApplied"].readIfPresent() ?? false
         value.columnLevelPermissionRulesApplied = try reader["ColumnLevelPermissionRulesApplied"].readIfPresent() ?? false
         value.useAs = try reader["UseAs"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.FlowSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FlowSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.FlowSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.flowId = try reader["FlowId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
+        value.publishState = try reader["PublishState"].readIfPresent()
+        value.runCount = try reader["RunCount"].readIfPresent() ?? 0
+        value.userCount = try reader["UserCount"].readIfPresent() ?? 0
+        value.lastPublishedBy = try reader["LastPublishedBy"].readIfPresent()
+        value.lastPublishedAt = try reader["LastPublishedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -71561,6 +79934,24 @@ extension QuickSightClientTypes.AuthorizedTargetsByService {
         var value = QuickSightClientTypes.AuthorizedTargetsByService()
         value.service = try reader["Service"].readIfPresent()
         value.authorizedTargets = try reader["AuthorizedTargets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SelfUpgradeRequestDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SelfUpgradeRequestDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SelfUpgradeRequestDetail()
+        value.upgradeRequestId = try reader["UpgradeRequestId"].readIfPresent()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.originalRole = try reader["OriginalRole"].readIfPresent()
+        value.requestedRole = try reader["RequestedRole"].readIfPresent()
+        value.requestNote = try reader["RequestNote"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readIfPresent() ?? 0
+        value.requestStatus = try reader["RequestStatus"].readIfPresent()
+        value.lastUpdateAttemptTime = try reader["lastUpdateAttemptTime"].readIfPresent() ?? 0
+        value.lastUpdateFailureReason = try reader["lastUpdateFailureReason"].readIfPresent()
         return value
     }
 }
@@ -72219,6 +80610,142 @@ extension QuickSightClientTypes.CreateTopicReviewedAnswer {
     }
 }
 
+extension QuickSightClientTypes.AuthConfig {
+
+    static func write(value: QuickSightClientTypes.AuthConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationMetadata"].write(value.authenticationMetadata, with: QuickSightClientTypes.AuthenticationMetadata.write(value:to:))
+        try writer["AuthenticationType"].write(value.authenticationType)
+    }
+}
+
+extension QuickSightClientTypes.AuthenticationMetadata {
+
+    static func write(value: QuickSightClientTypes.AuthenticationMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .apikeyconnectionmetadata(apikeyconnectionmetadata):
+                try writer["ApiKeyConnectionMetadata"].write(apikeyconnectionmetadata, with: QuickSightClientTypes.APIKeyConnectionMetadata.write(value:to:))
+            case let .authorizationcodegrantmetadata(authorizationcodegrantmetadata):
+                try writer["AuthorizationCodeGrantMetadata"].write(authorizationcodegrantmetadata, with: QuickSightClientTypes.AuthorizationCodeGrantMetadata.write(value:to:))
+            case let .basicauthconnectionmetadata(basicauthconnectionmetadata):
+                try writer["BasicAuthConnectionMetadata"].write(basicauthconnectionmetadata, with: QuickSightClientTypes.BasicAuthConnectionMetadata.write(value:to:))
+            case let .clientcredentialsgrantmetadata(clientcredentialsgrantmetadata):
+                try writer["ClientCredentialsGrantMetadata"].write(clientcredentialsgrantmetadata, with: QuickSightClientTypes.ClientCredentialsGrantMetadata.write(value:to:))
+            case let .iamconnectionmetadata(iamconnectionmetadata):
+                try writer["IamConnectionMetadata"].write(iamconnectionmetadata, with: QuickSightClientTypes.IAMConnectionMetadata.write(value:to:))
+            case let .noneconnectionmetadata(noneconnectionmetadata):
+                try writer["NoneConnectionMetadata"].write(noneconnectionmetadata, with: QuickSightClientTypes.NoneConnectionMetadata.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QuickSightClientTypes.IAMConnectionMetadata {
+
+    static func write(value: QuickSightClientTypes.IAMConnectionMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoleArn"].write(value.roleArn)
+    }
+}
+
+extension QuickSightClientTypes.NoneConnectionMetadata {
+
+    static func write(value: QuickSightClientTypes.NoneConnectionMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaseEndpoint"].write(value.baseEndpoint)
+    }
+}
+
+extension QuickSightClientTypes.APIKeyConnectionMetadata {
+
+    static func write(value: QuickSightClientTypes.APIKeyConnectionMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApiKey"].write(value.apiKey)
+        try writer["BaseEndpoint"].write(value.baseEndpoint)
+        try writer["Email"].write(value.email)
+    }
+}
+
+extension QuickSightClientTypes.BasicAuthConnectionMetadata {
+
+    static func write(value: QuickSightClientTypes.BasicAuthConnectionMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaseEndpoint"].write(value.baseEndpoint)
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
+    }
+}
+
+extension QuickSightClientTypes.ClientCredentialsGrantMetadata {
+
+    static func write(value: QuickSightClientTypes.ClientCredentialsGrantMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaseEndpoint"].write(value.baseEndpoint)
+        try writer["ClientCredentialsDetails"].write(value.clientCredentialsDetails, with: QuickSightClientTypes.ClientCredentialsDetails.write(value:to:))
+        try writer["ClientCredentialsSource"].write(value.clientCredentialsSource)
+    }
+}
+
+extension QuickSightClientTypes.ClientCredentialsDetails {
+
+    static func write(value: QuickSightClientTypes.ClientCredentialsDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .clientcredentialsgrantdetails(clientcredentialsgrantdetails):
+                try writer["ClientCredentialsGrantDetails"].write(clientcredentialsgrantdetails, with: QuickSightClientTypes.ClientCredentialsGrantDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QuickSightClientTypes.ClientCredentialsGrantDetails {
+
+    static func write(value: QuickSightClientTypes.ClientCredentialsGrantDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientSecret"].write(value.clientSecret)
+        try writer["TokenEndpoint"].write(value.tokenEndpoint)
+    }
+}
+
+extension QuickSightClientTypes.AuthorizationCodeGrantMetadata {
+
+    static func write(value: QuickSightClientTypes.AuthorizationCodeGrantMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationCodeGrantCredentialsDetails"].write(value.authorizationCodeGrantCredentialsDetails, with: QuickSightClientTypes.AuthorizationCodeGrantCredentialsDetails.write(value:to:))
+        try writer["AuthorizationCodeGrantCredentialsSource"].write(value.authorizationCodeGrantCredentialsSource)
+        try writer["BaseEndpoint"].write(value.baseEndpoint)
+        try writer["RedirectUrl"].write(value.redirectUrl)
+    }
+}
+
+extension QuickSightClientTypes.AuthorizationCodeGrantCredentialsDetails {
+
+    static func write(value: QuickSightClientTypes.AuthorizationCodeGrantCredentialsDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .authorizationcodegrantdetails(authorizationcodegrantdetails):
+                try writer["AuthorizationCodeGrantDetails"].write(authorizationcodegrantdetails, with: QuickSightClientTypes.AuthorizationCodeGrantDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QuickSightClientTypes.AuthorizationCodeGrantDetails {
+
+    static func write(value: QuickSightClientTypes.AuthorizationCodeGrantDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientSecret"].write(value.clientSecret)
+        try writer["TokenEndpoint"].write(value.tokenEndpoint)
+    }
+}
+
 extension QuickSightClientTypes.AnalysisSourceEntity {
 
     static func write(value: QuickSightClientTypes.AnalysisSourceEntity?, to writer: SmithyJSON.Writer) throws {
@@ -72276,7 +80803,28 @@ extension QuickSightClientTypes.DataSourceCredentials {
         guard let value else { return }
         try writer["CopySourceArn"].write(value.copySourceArn)
         try writer["CredentialPair"].write(value.credentialPair, with: QuickSightClientTypes.CredentialPair.write(value:to:))
+        try writer["KeyPairCredentials"].write(value.keyPairCredentials, with: QuickSightClientTypes.KeyPairCredentials.write(value:to:))
         try writer["SecretArn"].write(value.secretArn)
+        try writer["WebProxyCredentials"].write(value.webProxyCredentials, with: QuickSightClientTypes.WebProxyCredentials.write(value:to:))
+    }
+}
+
+extension QuickSightClientTypes.WebProxyCredentials {
+
+    static func write(value: QuickSightClientTypes.WebProxyCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WebProxyPassword"].write(value.webProxyPassword)
+        try writer["WebProxyUsername"].write(value.webProxyUsername)
+    }
+}
+
+extension QuickSightClientTypes.KeyPairCredentials {
+
+    static func write(value: QuickSightClientTypes.KeyPairCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyPairUsername"].write(value.keyPairUsername)
+        try writer["PrivateKey"].write(value.privateKey)
+        try writer["PrivateKeyPassphrase"].write(value.privateKeyPassphrase)
     }
 }
 
@@ -72405,7 +80953,16 @@ extension QuickSightClientTypes.RegisteredUserEmbeddingExperienceConfiguration {
         try writer["DashboardVisual"].write(value.dashboardVisual, with: QuickSightClientTypes.RegisteredUserDashboardVisualEmbeddingConfiguration.write(value:to:))
         try writer["GenerativeQnA"].write(value.generativeQnA, with: QuickSightClientTypes.RegisteredUserGenerativeQnAEmbeddingConfiguration.write(value:to:))
         try writer["QSearchBar"].write(value.qSearchBar, with: QuickSightClientTypes.RegisteredUserQSearchBarEmbeddingConfiguration.write(value:to:))
+        try writer["QuickChat"].write(value.quickChat, with: QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration.write(value:to:))
         try writer["QuickSightConsole"].write(value.quickSightConsole, with: QuickSightClientTypes.RegisteredUserQuickSightConsoleEmbeddingConfiguration.write(value:to:))
+    }
+}
+
+extension QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration {
+
+    static func write(value: QuickSightClientTypes.RegisteredUserQuickChatEmbeddingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -72569,6 +81126,33 @@ extension QuickSightClientTypes.BookmarksConfigurations {
     }
 }
 
+extension QuickSightClientTypes.UserIdentifier {
+
+    static func write(value: QuickSightClientTypes.UserIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .email(email):
+                try writer["Email"].write(email)
+            case let .userarn(userarn):
+                try writer["UserArn"].write(userarn)
+            case let .username(username):
+                try writer["UserName"].write(username)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension QuickSightClientTypes.ActionConnectorSearchFilter {
+
+    static func write(value: QuickSightClientTypes.ActionConnectorSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+    }
+}
+
 extension QuickSightClientTypes.AnalysisSearchFilter {
 
     static func write(value: QuickSightClientTypes.AnalysisSearchFilter?, to writer: SmithyJSON.Writer) throws {
@@ -72602,6 +81186,16 @@ extension QuickSightClientTypes.DataSetSearchFilter {
 extension QuickSightClientTypes.DataSourceSearchFilter {
 
     static func write(value: QuickSightClientTypes.DataSourceSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension QuickSightClientTypes.SearchFlowsFilter {
+
+    static func write(value: QuickSightClientTypes.SearchFlowsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Operator"].write(value.`operator`)

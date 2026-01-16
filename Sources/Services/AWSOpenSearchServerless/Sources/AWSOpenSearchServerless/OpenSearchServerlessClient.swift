@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class OpenSearchServerlessClient: ClientRuntime.Client {
+public class OpenSearchServerlessClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "OpenSearchServerlessClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: OpenSearchServerlessClient.OpenSearchServerlessClientConfiguration
     let serviceName = "OpenSearchServerless"
@@ -372,11 +372,11 @@ extension OpenSearchServerlessClient {
 extension OpenSearchServerlessClient {
     /// Performs the `BatchGetCollection` operation on the `OpenSearchServerless` service.
     ///
-    /// Returns attributes for one or more collections, including the collection endpoint and the OpenSearch Dashboards endpoint. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+    /// Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
     ///
-    /// - Parameter BatchGetCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCollectionInput`)
     ///
-    /// - Returns: `BatchGetCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +409,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCollectionInput, BatchGetCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCollectionOutput>(BatchGetCollectionOutput.httpOutput(from:), BatchGetCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCollectionInput, BatchGetCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCollectionOutput>())
@@ -439,13 +440,83 @@ extension OpenSearchServerlessClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchGetCollectionGroup` operation on the `OpenSearchServerless` service.
+    ///
+    /// Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCollectionGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetCollectionGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    public func batchGetCollectionGroup(input: BatchGetCollectionGroupInput) async throws -> BatchGetCollectionGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetCollectionGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aoss")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>(BatchGetCollectionGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCollectionGroupOutput>(BatchGetCollectionGroupOutput.httpOutput(from:), BatchGetCollectionGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCollectionGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearchServerless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetCollectionGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>(xAmzTarget: "OpenSearchServerless.BatchGetCollectionGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchGetCollectionGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCollectionGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetCollectionGroupInput, BatchGetCollectionGroupOutput>(serviceID: serviceName, version: OpenSearchServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearchServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetCollectionGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchGetEffectiveLifecyclePolicy` operation on the `OpenSearchServerless` service.
     ///
     /// Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
     ///
-    /// - Parameter BatchGetEffectiveLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetEffectiveLifecyclePolicyInput`)
     ///
-    /// - Returns: `BatchGetEffectiveLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetEffectiveLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,6 +549,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetEffectiveLifecyclePolicyInput, BatchGetEffectiveLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetEffectiveLifecyclePolicyOutput>(BatchGetEffectiveLifecyclePolicyOutput.httpOutput(from:), BatchGetEffectiveLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetEffectiveLifecyclePolicyInput, BatchGetEffectiveLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetEffectiveLifecyclePolicyOutput>())
@@ -512,9 +584,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
     ///
-    /// - Parameter BatchGetLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetLifecyclePolicyInput`)
     ///
-    /// - Returns: `BatchGetLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -547,6 +619,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetLifecyclePolicyInput, BatchGetLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetLifecyclePolicyOutput>(BatchGetLifecyclePolicyOutput.httpOutput(from:), BatchGetLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetLifecyclePolicyInput, BatchGetLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetLifecyclePolicyOutput>())
@@ -581,9 +654,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns attributes for one or more VPC endpoints associated with the current account. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
     ///
-    /// - Parameter BatchGetVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetVpcEndpointInput`)
     ///
-    /// - Returns: `BatchGetVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -616,6 +689,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetVpcEndpointInput, BatchGetVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetVpcEndpointOutput>(BatchGetVpcEndpointOutput.httpOutput(from:), BatchGetVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetVpcEndpointInput, BatchGetVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetVpcEndpointOutput>())
@@ -650,14 +724,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
     ///
-    /// - Parameter CreateAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessPolicyInput`)
     ///
-    /// - Returns: `CreateAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -688,6 +762,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessPolicyInput, CreateAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessPolicyOutput>(CreateAccessPolicyOutput.httpOutput(from:), CreateAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessPolicyInput, CreateAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessPolicyOutput>())
@@ -722,14 +797,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Creates a new OpenSearch Serverless collection. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
     ///
-    /// - Parameter CreateCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCollectionInput`)
     ///
-    /// - Returns: `CreateCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `OcuLimitExceededException` : Thrown when the collection you're attempting to create results in a number of search or indexing OCUs that exceeds the account limit.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
@@ -761,6 +836,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCollectionInput, CreateCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollectionOutput>(CreateCollectionOutput.httpOutput(from:), CreateCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollectionInput, CreateCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCollectionOutput>())
@@ -791,18 +867,91 @@ extension OpenSearchServerlessClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateIndex` operation on the `OpenSearchServerless` service.
+    /// Performs the `CreateCollectionGroup` operation on the `OpenSearchServerless` service.
     ///
-    /// Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment) in the OpenSearch User Guide.
+    /// Creates a collection group within OpenSearch Serverless. Collection groups let you manage OpenSearch Compute Units (OCUs) at a group level, with multiple collections sharing the group's capacity limits. For more information, see [Managing collection groups](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-collection-groups.html).
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCollectionGroupInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCollectionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    public func createCollectionGroup(input: CreateCollectionGroupInput) async throws -> CreateCollectionGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCollectionGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aoss")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCollectionGroupInput, CreateCollectionGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>(CreateCollectionGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollectionGroupOutput>(CreateCollectionGroupOutput.httpOutput(from:), CreateCollectionGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCollectionGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearchServerless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCollectionGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>(xAmzTarget: "OpenSearchServerless.CreateCollectionGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCollectionGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCollectionGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCollectionGroupInput, CreateCollectionGroupOutput>(serviceID: serviceName, version: OpenSearchServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearchServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCollectionGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateIndex` operation on the `OpenSearchServerless` service.
+    ///
+    /// Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment) in the OpenSearch User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -832,6 +981,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
@@ -866,14 +1016,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see [Creating data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-create).
     ///
-    /// - Parameter CreateLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLifecyclePolicyInput`)
     ///
-    /// - Returns: `CreateLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -904,6 +1054,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLifecyclePolicyInput, CreateLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLifecyclePolicyOutput>(CreateLifecyclePolicyOutput.httpOutput(from:), CreateLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLifecyclePolicyInput, CreateLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLifecyclePolicyOutput>())
@@ -938,14 +1089,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Specifies a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
-    /// - Parameter CreateSecurityConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityConfigInput`)
     ///
-    /// - Returns: `CreateSecurityConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSecurityConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -976,6 +1127,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityConfigInput, CreateSecurityConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityConfigOutput>(CreateSecurityConfigOutput.httpOutput(from:), CreateSecurityConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityConfigInput, CreateSecurityConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityConfigOutput>())
@@ -1010,14 +1162,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html) and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
     ///
-    /// - Parameter CreateSecurityPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityPolicyInput`)
     ///
-    /// - Returns: `CreateSecurityPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSecurityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -1048,6 +1200,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityPolicyInput, CreateSecurityPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityPolicyOutput>(CreateSecurityPolicyOutput.httpOutput(from:), CreateSecurityPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityPolicyInput, CreateSecurityPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityPolicyOutput>())
@@ -1082,14 +1235,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
     ///
-    /// - Parameter CreateVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcEndpointInput`)
     ///
-    /// - Returns: `CreateVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -1120,6 +1273,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcEndpointOutput>(CreateVpcEndpointOutput.httpOutput(from:), CreateVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointOutput>())
@@ -1154,14 +1308,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Deletes an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
     ///
-    /// - Parameter DeleteAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPolicyInput`)
     ///
-    /// - Returns: `DeleteAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -1192,6 +1346,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccessPolicyInput, DeleteAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPolicyOutput>(DeleteAccessPolicyOutput.httpOutput(from:), DeleteAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPolicyInput, DeleteAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessPolicyOutput>())
@@ -1226,14 +1381,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Deletes an OpenSearch Serverless collection. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
     ///
-    /// - Parameter DeleteCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCollectionInput`)
     ///
-    /// - Returns: `DeleteCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -1264,6 +1419,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCollectionInput, DeleteCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCollectionOutput>(DeleteCollectionOutput.httpOutput(from:), DeleteCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCollectionInput, DeleteCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCollectionOutput>())
@@ -1294,13 +1450,86 @@ extension OpenSearchServerlessClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteCollectionGroup` operation on the `OpenSearchServerless` service.
+    ///
+    /// Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteCollectionGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteCollectionGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    public func deleteCollectionGroup(input: DeleteCollectionGroupInput) async throws -> DeleteCollectionGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCollectionGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aoss")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCollectionGroupInput, DeleteCollectionGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>(DeleteCollectionGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCollectionGroupOutput>(DeleteCollectionGroupOutput.httpOutput(from:), DeleteCollectionGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCollectionGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearchServerless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCollectionGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>(xAmzTarget: "OpenSearchServerless.DeleteCollectionGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCollectionGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCollectionGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCollectionGroupInput, DeleteCollectionGroupOutput>(serviceID: serviceName, version: OpenSearchServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearchServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCollectionGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteIndex` operation on the `OpenSearchServerless` service.
     ///
     /// Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment).
     ///
-    /// - Parameter DeleteIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
     ///
-    /// - Returns: `DeleteIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1334,6 +1563,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexInput, DeleteIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
@@ -1368,14 +1598,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Deletes an OpenSearch Serverless lifecycle policy. For more information, see [Deleting data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-delete).
     ///
-    /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLifecyclePolicyInput`)
     ///
-    /// - Returns: `DeleteLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -1406,6 +1636,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLifecyclePolicyOutput>(DeleteLifecyclePolicyOutput.httpOutput(from:), DeleteLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLifecyclePolicyOutput>())
@@ -1440,14 +1671,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Deletes a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
-    /// - Parameter DeleteSecurityConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSecurityConfigInput`)
     ///
-    /// - Returns: `DeleteSecurityConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSecurityConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -1478,6 +1709,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecurityConfigInput, DeleteSecurityConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecurityConfigOutput>(DeleteSecurityConfigOutput.httpOutput(from:), DeleteSecurityConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityConfigInput, DeleteSecurityConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityConfigOutput>())
@@ -1512,14 +1744,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Deletes an OpenSearch Serverless security policy.
     ///
-    /// - Parameter DeleteSecurityPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSecurityPolicyInput`)
     ///
-    /// - Returns: `DeleteSecurityPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSecurityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -1550,6 +1782,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSecurityPolicyInput, DeleteSecurityPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecurityPolicyOutput>(DeleteSecurityPolicyOutput.httpOutput(from:), DeleteSecurityPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityPolicyInput, DeleteSecurityPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityPolicyOutput>())
@@ -1584,14 +1817,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
     ///
-    /// - Parameter DeleteVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcEndpointInput`)
     ///
-    /// - Returns: `DeleteVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -1622,6 +1855,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcEndpointInput, DeleteVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointOutput>(DeleteVpcEndpointOutput.httpOutput(from:), DeleteVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointInput, DeleteVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointOutput>())
@@ -1656,9 +1890,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
     ///
-    /// - Parameter GetAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPolicyInput`)
     ///
-    /// - Returns: `GetAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,6 +1926,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccessPolicyInput, GetAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPolicyOutput>(GetAccessPolicyOutput.httpOutput(from:), GetAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPolicyInput, GetAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPolicyOutput>())
@@ -1726,9 +1961,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns account-level settings related to OpenSearch Serverless.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,6 +1996,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingsOutput>())
@@ -1795,9 +2031,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment).
     ///
-    /// - Parameter GetIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIndexInput`)
     ///
-    /// - Returns: `GetIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1831,6 +2067,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIndexInput, GetIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIndexOutput>(GetIndexOutput.httpOutput(from:), GetIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIndexInput, GetIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIndexOutput>())
@@ -1865,9 +2102,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
     ///
-    /// - Parameter GetPoliciesStatsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPoliciesStatsInput`)
     ///
-    /// - Returns: `GetPoliciesStatsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPoliciesStatsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1899,6 +2136,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPoliciesStatsInput, GetPoliciesStatsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPoliciesStatsOutput>(GetPoliciesStatsOutput.httpOutput(from:), GetPoliciesStatsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPoliciesStatsInput, GetPoliciesStatsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPoliciesStatsOutput>())
@@ -1933,9 +2171,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns information about an OpenSearch Serverless security configuration. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
-    /// - Parameter GetSecurityConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSecurityConfigInput`)
     ///
-    /// - Returns: `GetSecurityConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSecurityConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1969,6 +2207,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecurityConfigInput, GetSecurityConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecurityConfigOutput>(GetSecurityConfigOutput.httpOutput(from:), GetSecurityConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityConfigInput, GetSecurityConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityConfigOutput>())
@@ -2003,9 +2242,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns information about a configured OpenSearch Serverless security policy. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html) and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
     ///
-    /// - Parameter GetSecurityPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSecurityPolicyInput`)
     ///
-    /// - Returns: `GetSecurityPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSecurityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2039,6 +2278,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSecurityPolicyInput, GetSecurityPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSecurityPolicyOutput>(GetSecurityPolicyOutput.httpOutput(from:), GetSecurityPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSecurityPolicyInput, GetSecurityPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSecurityPolicyOutput>())
@@ -2073,9 +2313,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns information about a list of OpenSearch Serverless access policies.
     ///
-    /// - Parameter ListAccessPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPoliciesInput`)
     ///
-    /// - Returns: `ListAccessPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2108,6 +2348,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPoliciesOutput>(ListAccessPoliciesOutput.httpOutput(from:), ListAccessPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessPoliciesOutput>())
@@ -2138,13 +2379,83 @@ extension OpenSearchServerlessClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListCollectionGroups` operation on the `OpenSearchServerless` service.
+    ///
+    /// Returns a list of collection groups. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCollectionGroupsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCollectionGroupsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    public func listCollectionGroups(input: ListCollectionGroupsInput) async throws -> ListCollectionGroupsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCollectionGroups")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aoss")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCollectionGroupsInput, ListCollectionGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>(ListCollectionGroupsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollectionGroupsOutput>(ListCollectionGroupsOutput.httpOutput(from:), ListCollectionGroupsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCollectionGroupsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearchServerless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCollectionGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>(xAmzTarget: "OpenSearchServerless.ListCollectionGroups"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListCollectionGroupsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollectionGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollectionGroupsInput, ListCollectionGroupsOutput>(serviceID: serviceName, version: OpenSearchServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearchServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCollectionGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListCollections` operation on the `OpenSearchServerless` service.
     ///
     /// Lists all OpenSearch Serverless collections. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html). Make sure to include an empty request body {} if you don't include any collection filters in the request.
     ///
-    /// - Parameter ListCollectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollectionsInput`)
     ///
-    /// - Returns: `ListCollectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2177,6 +2488,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCollectionsInput, ListCollectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollectionsOutput>(ListCollectionsOutput.httpOutput(from:), ListCollectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollectionsInput, ListCollectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollectionsOutput>())
@@ -2211,9 +2523,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns a list of OpenSearch Serverless lifecycle policies. For more information, see [Viewing data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-list).
     ///
-    /// - Parameter ListLifecyclePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLifecyclePoliciesInput`)
     ///
-    /// - Returns: `ListLifecyclePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLifecyclePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2246,6 +2558,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLifecyclePoliciesInput, ListLifecyclePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLifecyclePoliciesOutput>(ListLifecyclePoliciesOutput.httpOutput(from:), ListLifecyclePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLifecyclePoliciesInput, ListLifecyclePoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLifecyclePoliciesOutput>())
@@ -2280,9 +2593,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns information about configured OpenSearch Serverless security configurations. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
-    /// - Parameter ListSecurityConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityConfigsInput`)
     ///
-    /// - Returns: `ListSecurityConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2315,6 +2628,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecurityConfigsInput, ListSecurityConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityConfigsOutput>(ListSecurityConfigsOutput.httpOutput(from:), ListSecurityConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityConfigsInput, ListSecurityConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityConfigsOutput>())
@@ -2349,9 +2663,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns information about configured OpenSearch Serverless security policies.
     ///
-    /// - Parameter ListSecurityPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityPoliciesInput`)
     ///
-    /// - Returns: `ListSecurityPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2384,6 +2698,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityPoliciesOutput>(ListSecurityPoliciesOutput.httpOutput(from:), ListSecurityPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityPoliciesInput, ListSecurityPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityPoliciesOutput>())
@@ -2418,9 +2733,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns the tags for an OpenSearch Serverless resource. For more information, see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2454,6 +2769,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2488,9 +2804,9 @@ extension OpenSearchServerlessClient {
     ///
     /// Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
     ///
-    /// - Parameter ListVpcEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcEndpointsInput`)
     ///
-    /// - Returns: `ListVpcEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2523,6 +2839,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcEndpointsOutput>(ListVpcEndpointsOutput.httpOutput(from:), ListVpcEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointsOutput>())
@@ -2557,14 +2874,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Associates tags with an OpenSearch Serverless resource. For more information, see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
@@ -2595,6 +2912,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2629,14 +2947,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see [Tagging Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/tag-collection.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -2666,6 +2984,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2700,14 +3019,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Updates an OpenSearch Serverless access policy. For more information, see [Data access control for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-data-access.html).
     ///
-    /// - Parameter UpdateAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessPolicyInput`)
     ///
-    /// - Returns: `UpdateAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -2738,6 +3057,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessPolicyInput, UpdateAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessPolicyOutput>(UpdateAccessPolicyOutput.httpOutput(from:), UpdateAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessPolicyInput, UpdateAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessPolicyOutput>())
@@ -2772,14 +3092,15 @@ extension OpenSearchServerlessClient {
     ///
     /// Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see [Managing capacity limits for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-scaling.html).
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
         let context = Smithy.ContextBuilder()
@@ -2807,6 +3128,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(UpdateAccountSettingsOutput.httpOutput(from:), UpdateAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountSettingsOutput>())
@@ -2841,14 +3163,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Updates an OpenSearch Serverless collection.
     ///
-    /// - Parameter UpdateCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCollectionInput`)
     ///
-    /// - Returns: `UpdateCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     public func updateCollection(input: UpdateCollectionInput) async throws -> UpdateCollectionOutput {
@@ -2878,6 +3200,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCollectionInput, UpdateCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCollectionOutput>(UpdateCollectionOutput.httpOutput(from:), UpdateCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCollectionInput, UpdateCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCollectionOutput>())
@@ -2908,13 +3231,86 @@ extension OpenSearchServerlessClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateCollectionGroup` operation on the `OpenSearchServerless` service.
+    ///
+    /// Updates the description and capacity limits of a collection group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCollectionGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCollectionGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
+    /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
+    /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
+    /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
+    public func updateCollectionGroup(input: UpdateCollectionGroupInput) async throws -> UpdateCollectionGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCollectionGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "aoss")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCollectionGroupInput, UpdateCollectionGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>(UpdateCollectionGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCollectionGroupOutput>(UpdateCollectionGroupOutput.httpOutput(from:), UpdateCollectionGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCollectionGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearchServerless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCollectionGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>(xAmzTarget: "OpenSearchServerless.UpdateCollectionGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCollectionGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCollectionGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCollectionGroupInput, UpdateCollectionGroupOutput>(serviceID: serviceName, version: OpenSearchServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearchServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCollectionGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateIndex` operation on the `OpenSearchServerless` service.
     ///
     /// Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see [About automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html#serverless-semantic-enrichment).
     ///
-    /// - Parameter UpdateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexInput`)
     ///
-    /// - Returns: `UpdateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2948,6 +3344,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIndexInput, UpdateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIndexOutput>(UpdateIndexOutput.httpOutput(from:), UpdateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIndexInput, UpdateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIndexOutput>())
@@ -2982,14 +3379,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Updates an OpenSearch Serverless access policy. For more information, see [Updating data lifecycle policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-lifecycle.html#serverless-lifecycle-update).
     ///
-    /// - Parameter UpdateLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLifecyclePolicyInput`)
     ///
-    /// - Returns: `UpdateLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
@@ -3021,6 +3418,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLifecyclePolicyInput, UpdateLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLifecyclePolicyOutput>(UpdateLifecyclePolicyOutput.httpOutput(from:), UpdateLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLifecyclePolicyInput, UpdateLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLifecyclePolicyOutput>())
@@ -3055,14 +3453,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Updates a security configuration for OpenSearch Serverless. For more information, see [SAML authentication for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-saml.html).
     ///
-    /// - Parameter UpdateSecurityConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityConfigInput`)
     ///
-    /// - Returns: `UpdateSecurityConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
@@ -3093,6 +3491,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecurityConfigInput, UpdateSecurityConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityConfigOutput>(UpdateSecurityConfigOutput.httpOutput(from:), UpdateSecurityConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityConfigInput, UpdateSecurityConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityConfigOutput>())
@@ -3127,14 +3526,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Updates an OpenSearch Serverless security policy. For more information, see [Network access for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-network.html) and [Encryption at rest for Amazon OpenSearch Serverless](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-encryption.html).
     ///
-    /// - Parameter UpdateSecurityPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityPolicyInput`)
     ///
-    /// - Returns: `UpdateSecurityPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ResourceNotFoundException` : Thrown when accessing or deleting a resource that does not exist.
     /// - `ServiceQuotaExceededException` : Thrown when you attempt to create more resources than the service allows based on service quotas.
@@ -3166,6 +3565,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecurityPolicyInput, UpdateSecurityPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityPolicyOutput>(UpdateSecurityPolicyOutput.httpOutput(from:), UpdateSecurityPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityPolicyInput, UpdateSecurityPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityPolicyOutput>())
@@ -3200,14 +3600,14 @@ extension OpenSearchServerlessClient {
     ///
     /// Updates an OpenSearch Serverless-managed interface endpoint. For more information, see [Access Amazon OpenSearch Serverless using an interface endpoint](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-vpc.html).
     ///
-    /// - Parameter UpdateVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVpcEndpointInput`)
     ///
-    /// - Returns: `UpdateVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+    /// - `ConflictException` : When creating a resource, thrown when a resource with the same name already exists or is being created.
     /// - `InternalServerException` : Thrown when an error internal to the service occurs while processing a request.
     /// - `ValidationException` : Thrown when the HTTP request contains invalid input or is missing required input.
     public func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutput {
@@ -3237,6 +3637,7 @@ extension OpenSearchServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcEndpointInput, UpdateVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcEndpointOutput>(UpdateVpcEndpointOutput.httpOutput(from:), UpdateVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcEndpointInput, UpdateVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVpcEndpointOutput>())

@@ -128,23 +128,23 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// Structure that contains the results of the account gate function which CloudFormation invokes, if present, before proceeding with a stack set operation in an account and Region. For each account and Region, CloudFormation lets you specify a Lambda function that encapsulates any requirements that must be met before CloudFormation can proceed with a stack set operation in that account and Region. CloudFormation invokes the function each time a stack set operation is requested for that account and Region; if the function returns FAILED, CloudFormation cancels the operation in that account and Region, and sets the stack set operation result status for that account and Region to FAILED. For more information, see [Configuring a target account gate in StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-account-gating.html) in the CloudFormation User Guide.
+    /// Structure that contains the results of the account gate function which CloudFormation invokes, if present, before proceeding with a StackSet operation in an account and Region. For each account and Region, CloudFormation lets you specify a Lambda function that encapsulates any requirements that must be met before CloudFormation can proceed with a StackSet operation in that account and Region. CloudFormation invokes the function each time a StackSet operation is requested for that account and Region; if the function returns FAILED, CloudFormation cancels the operation in that account and Region, and sets the StackSet operation result status for that account and Region to FAILED. For more information, see [Prevent failed StackSets deployments using target account gates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-account-gating.html) in the CloudFormation User Guide.
     public struct AccountGateResult: Swift.Sendable {
         /// The status of the account gate function.
         ///
-        /// * SUCCEEDED: The account gate function has determined that the account and Region passes any requirements for a stack set operation to occur. CloudFormation proceeds with the stack operation in that account and Region.
+        /// * SUCCEEDED: The account gate function has determined that the account and Region passes any requirements for a StackSet operation to occur. CloudFormation proceeds with the stack operation in that account and Region.
         ///
-        /// * FAILED: The account gate function has determined that the account and Region doesn't meet the requirements for a stack set operation to occur. CloudFormation cancels the stack set operation in that account and Region, and sets the stack set operation result status for that account and Region to FAILED.
+        /// * FAILED: The account gate function has determined that the account and Region doesn't meet the requirements for a StackSet operation to occur. CloudFormation cancels the StackSet operation in that account and Region, and sets the StackSet operation result status for that account and Region to FAILED.
         ///
         /// * SKIPPED: CloudFormation has skipped calling the account gate function for this account and Region, for one of the following reasons:
         ///
-        /// * An account gate function hasn't been specified for the account and Region. CloudFormation proceeds with the stack set operation in this account and Region.
+        /// * An account gate function hasn't been specified for the account and Region. CloudFormation proceeds with the StackSet operation in this account and Region.
         ///
-        /// * The AWSCloudFormationStackSetExecutionRole of the stack set administration account lacks permissions to invoke the function. CloudFormation proceeds with the stack set operation in this account and Region.
+        /// * The AWSCloudFormationStackSetExecutionRole of the administration account lacks permissions to invoke the function. CloudFormation proceeds with the StackSet operation in this account and Region.
         ///
-        /// * Either no action is necessary, or no action is possible, on the stack. CloudFormation skips the stack set operation in this account and Region.
+        /// * Either no action is necessary, or no action is possible, on the stack. CloudFormation skips the StackSet operation in this account and Region.
         public var status: CloudFormationClientTypes.AccountGateStatus?
-        /// The reason for the account gate status assigned to this account and Region for the stack set operation.
+        /// The reason for the account gate status assigned to this account and Region for the StackSet operation.
         public var statusReason: Swift.String?
 
         public init(
@@ -159,7 +159,7 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// The AccountLimit data type. CloudFormation has the following limits per account:
+    /// Describes the current CloudFormation limits for your account. CloudFormation has the following limits per account:
     ///
     /// * Number of concurrent resources
     ///
@@ -168,7 +168,7 @@ extension CloudFormationClientTypes {
     /// * Number of stack outputs
     ///
     ///
-    /// For more information about these account limits, and other CloudFormation limits, see [Understand CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
+    /// For more information, see [Understand CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
     public struct AccountLimit: Swift.Sendable {
         /// The name of the account limit. Values: ConcurrentResourcesLimit | StackLimit | StackOutputsLimit
         public var name: Swift.String?
@@ -388,7 +388,7 @@ public struct ActivateTypeInput: Swift.Sendable {
     public var type: CloudFormationClientTypes.ThirdPartyType?
     /// The name of the extension. Conditional: You must specify PublicTypeArn, or TypeName, Type, and PublisherId.
     public var typeName: Swift.String?
-    /// An alias to assign to the public extension, in this account and Region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and Region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console. An extension alias must be unique within a given account and Region. You can activate the same public resource multiple times in the same account and Region, using different type name aliases.
+    /// An alias to assign to the public extension in this account and Region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and Region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console. An extension alias must be unique within a given account and Region. You can activate the same public resource multiple times in the same account and Region, using different type name aliases.
     public var typeNameAlias: Swift.String?
     /// Manually updates a previously-activated type to a new major or minor version, if available. You can also use this parameter to update the value of AutoUpdate.
     ///
@@ -423,13 +423,39 @@ public struct ActivateTypeInput: Swift.Sendable {
 }
 
 public struct ActivateTypeOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the activated extension, in this account and Region.
+    /// The Amazon Resource Name (ARN) of the activated extension in this account and Region.
     public var arn: Swift.String?
 
     public init(
         arn: Swift.String? = nil
     ) {
         self.arn = arn
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum AfterValueFrom: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case template
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AfterValueFrom] {
+            return [
+                .template
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .template: return "TEMPLATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -458,17 +484,124 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension CloudFormationClientTypes {
 
+    public enum AnnotationSeverityLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnnotationSeverityLevel] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .informational: return "INFORMATIONAL"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum AnnotationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case passed
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnnotationStatus] {
+            return [
+                .failed,
+                .passed,
+                .skipped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .passed: return "PASSED"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// The Annotation data type. A GetHookResult call returns detailed information and remediation guidance from Control Tower, Guard, Lambda, or custom Hooks for a Hook invocation result.
+    public struct Annotation: Swift.Sendable {
+        /// An identifier for the evaluation logic that was used when invoking the Hook. For Control Tower, this is the control ID. For Guard, this is the rule ID. For Lambda and custom Hooks, this is a user-defined identifier.
+        public var annotationName: Swift.String?
+        /// A URL that you can access for additional remediation guidance.
+        public var remediationLink: Swift.String?
+        /// Suggests what to change if your Hook returns a FAILED status. For example, "Block public access to the bucket".
+        public var remediationMessage: Swift.String?
+        /// The relative risk associated with any violations of this type.
+        public var severityLevel: CloudFormationClientTypes.AnnotationSeverityLevel?
+        /// The status of the Hook invocation from the downstream service.
+        public var status: CloudFormationClientTypes.AnnotationStatus?
+        /// The explanation for the specific status assigned to this Hook invocation. For example, "Bucket does not block public access".
+        public var statusMessage: Swift.String?
+
+        public init(
+            annotationName: Swift.String? = nil,
+            remediationLink: Swift.String? = nil,
+            remediationMessage: Swift.String? = nil,
+            severityLevel: CloudFormationClientTypes.AnnotationSeverityLevel? = nil,
+            status: CloudFormationClientTypes.AnnotationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.annotationName = annotationName
+            self.remediationLink = remediationLink
+            self.remediationMessage = remediationMessage
+            self.severityLevel = severityLevel
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     public enum AttributeChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case add
         case modify
         case remove
+        case syncwithactual
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AttributeChangeType] {
             return [
                 .add,
                 .modify,
-                .remove
+                .remove,
+                .syncwithactual
             ]
         }
 
@@ -482,6 +615,7 @@ extension CloudFormationClientTypes {
             case .add: return "Add"
             case .modify: return "Modify"
             case .remove: return "Remove"
+            case .syncwithactual: return "SyncWithActual"
             case let .sdkUnknown(s): return s
             }
         }
@@ -490,17 +624,21 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU).
+    /// Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). For more information, see [Enable or disable automatic deployments for StackSets in Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html) in the CloudFormation User Guide.
     public struct AutoDeployment: Swift.Sendable {
+        /// A list of StackSet ARNs that this StackSet depends on for auto-deployment operations. When auto-deployment is triggered, operations will be sequenced to ensure all dependencies complete successfully before this StackSet's operation begins.
+        public var dependsOn: [Swift.String]?
         /// If set to true, StackSets automatically deploys additional stack instances to Organizations accounts that are added to a target organization or organizational unit (OU) in the specified Regions. If an account is removed from a target organization or OU, StackSets deletes stack instances from the account in the specified Regions.
         public var enabled: Swift.Bool?
         /// If set to true, stack resources are retained when an account is removed from a target organization or OU. If set to false, stack resources are deleted. Specify only if Enabled is set to True.
         public var retainStacksOnAccountRemoval: Swift.Bool?
 
         public init(
+            dependsOn: [Swift.String]? = nil,
             enabled: Swift.Bool? = nil,
             retainStacksOnAccountRemoval: Swift.Bool? = nil
         ) {
+            self.dependsOn = dependsOn
             self.enabled = enabled
             self.retainStacksOnAccountRemoval = retainStacksOnAccountRemoval
         }
@@ -537,11 +675,11 @@ extension CloudFormationClientTypes {
     public struct TypeConfigurationIdentifier: Swift.Sendable {
         /// The type of extension.
         public var type: CloudFormationClientTypes.ThirdPartyType?
-        /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region.
+        /// The ARN for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region.
         public var typeArn: Swift.String?
         /// The alias specified for this configuration, if one was specified when the configuration was set.
         public var typeConfigurationAlias: Swift.String?
-        /// The Amazon Resource Name (ARN) for the configuration, in this account and Region.
+        /// The ARN for the configuration, in this account and Region.
         public var typeConfigurationArn: Swift.String?
         /// The name of the extension type to which this configuration applies.
         public var typeName: Swift.String?
@@ -603,7 +741,7 @@ extension CloudFormationClientTypes {
     public struct TypeConfigurationDetails: Swift.Sendable {
         /// The alias specified for this configuration, if one was specified when the configuration was set.
         public var alias: Swift.String?
-        /// The Amazon Resource Name (ARN) for the configuration data, in this account and Region.
+        /// The ARN for the configuration data, in this account and Region.
         public var arn: Swift.String?
         /// A JSON string specifying the configuration data for the extension, in this account and Region. If a configuration hasn't been set for a specified extension, CloudFormation returns {}.
         public var configuration: Swift.String?
@@ -611,7 +749,7 @@ extension CloudFormationClientTypes {
         public var isDefaultConfiguration: Swift.Bool?
         /// When the configuration data was last updated for this extension. If a configuration hasn't been set for a specified extension, CloudFormation returns null.
         public var lastUpdated: Foundation.Date?
-        /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region.
+        /// The ARN for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region.
         public var typeArn: Swift.String?
         /// The name of the extension.
         public var typeName: Swift.String?
@@ -652,6 +790,67 @@ public struct BatchDescribeTypeConfigurationsOutput: Swift.Sendable {
         self.errors = errors
         self.typeConfigurations = typeConfigurations
         self.unprocessedTypeConfigurations = unprocessedTypeConfigurations
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum BeaconStackOperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BeaconStackOperationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum BeforeValueFrom: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case actualState
+        case previousDeploymentState
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BeforeValueFrom] {
+            return [
+                .actualState,
+                .previousDeploymentState
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .actualState: return "ACTUAL_STATE"
+            case .previousDeploymentState: return "PREVIOUS_DEPLOYMENT_STATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -799,6 +998,7 @@ extension CloudFormationClientTypes {
         case `import`
         case modify
         case remove
+        case syncwithactual
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ChangeAction] {
@@ -807,7 +1007,8 @@ extension CloudFormationClientTypes {
                 .dynamic,
                 .import,
                 .modify,
-                .remove
+                .remove,
+                .syncwithactual
             ]
         }
 
@@ -823,6 +1024,7 @@ extension CloudFormationClientTypes {
             case .import: return "Import"
             case .modify: return "Modify"
             case .remove: return "Remove"
+            case .syncwithactual: return "SyncWithActual"
             case let .sdkUnknown(s): return s
             }
         }
@@ -834,6 +1036,7 @@ extension CloudFormationClientTypes {
     public enum ChangeSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automatic
         case directmodification
+        case nomodification
         case parameterreference
         case resourceattribute
         case resourcereference
@@ -843,6 +1046,7 @@ extension CloudFormationClientTypes {
             return [
                 .automatic,
                 .directmodification,
+                .nomodification,
                 .parameterreference,
                 .resourceattribute,
                 .resourcereference
@@ -858,6 +1062,7 @@ extension CloudFormationClientTypes {
             switch self {
             case .automatic: return "Automatic"
             case .directmodification: return "DirectModification"
+            case .nomodification: return "NoModification"
             case .parameterreference: return "ParameterReference"
             case .resourceattribute: return "ResourceAttribute"
             case .resourcereference: return "ResourceReference"
@@ -942,6 +1147,29 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
+    /// Contains drift information for a resource property, including actual value, previous deployment value, and drift detection timestamp.
+    public struct LiveResourceDrift: Swift.Sendable {
+        /// The current live configuration value of the resource property.
+        public var actualValue: Swift.String?
+        /// The timestamp when drift was detected for this resource property.
+        public var driftDetectionTimestamp: Foundation.Date?
+        /// The configuration value from the previous CloudFormation deployment.
+        public var previousValue: Swift.String?
+
+        public init(
+            actualValue: Swift.String? = nil,
+            driftDetectionTimestamp: Foundation.Date? = nil,
+            previousValue: Swift.String? = nil
+        ) {
+            self.actualValue = actualValue
+            self.driftDetectionTimestamp = driftDetectionTimestamp
+            self.previousValue = previousValue
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     public enum RequiresRecreation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case always
         case conditionally
@@ -978,6 +1206,13 @@ extension CloudFormationClientTypes {
     public struct ResourceTargetDefinition: Swift.Sendable {
         /// The value of the property after the change is executed. Large values can be truncated.
         public var afterValue: Swift.String?
+        /// Indicates the source of the after value. Valid value:
+        ///
+        /// * TEMPLATE – The after value comes from the new template.
+        ///
+        ///
+        /// Only present for drift-aware change sets.
+        public var afterValueFrom: CloudFormationClientTypes.AfterValueFrom?
         /// Indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
         public var attribute: CloudFormationClientTypes.ResourceAttribute?
         /// The type of change to be made to the property if the change is executed.
@@ -987,9 +1222,22 @@ extension CloudFormationClientTypes {
         /// * Remove The item will be removed.
         ///
         /// * Modify The item will be modified.
+        ///
+        /// * SyncWithActual The drift status of this item will be reset but the item will not be modified.
         public var attributeChangeType: CloudFormationClientTypes.AttributeChangeType?
         /// The value of the property before the change is executed. Large values can be truncated.
         public var beforeValue: Swift.String?
+        /// Indicates the source of the before value. Valid values:
+        ///
+        /// * ACTUAL_STATE – The before value represents current actual state.
+        ///
+        /// * PREVIOUS_DEPLOYMENT_STATE – The before value represents the previous CloudFormation deployment state.
+        ///
+        ///
+        /// Only present for drift-aware change sets.
+        public var beforeValueFrom: CloudFormationClientTypes.BeforeValueFrom?
+        /// Detailed drift information for the resource property, including actual values, previous deployment values, and drift detection timestamps.
+        public var drift: CloudFormationClientTypes.LiveResourceDrift?
         /// If the Attribute value is Properties, the name of the property. For all other attributes, the value is null.
         public var name: Swift.String?
         /// The property path of the property.
@@ -999,17 +1247,23 @@ extension CloudFormationClientTypes {
 
         public init(
             afterValue: Swift.String? = nil,
+            afterValueFrom: CloudFormationClientTypes.AfterValueFrom? = nil,
             attribute: CloudFormationClientTypes.ResourceAttribute? = nil,
             attributeChangeType: CloudFormationClientTypes.AttributeChangeType? = nil,
             beforeValue: Swift.String? = nil,
+            beforeValueFrom: CloudFormationClientTypes.BeforeValueFrom? = nil,
+            drift: CloudFormationClientTypes.LiveResourceDrift? = nil,
             name: Swift.String? = nil,
             path: Swift.String? = nil,
             requiresRecreation: CloudFormationClientTypes.RequiresRecreation? = nil
         ) {
             self.afterValue = afterValue
+            self.afterValueFrom = afterValueFrom
             self.attribute = attribute
             self.attributeChangeType = attributeChangeType
             self.beforeValue = beforeValue
+            self.beforeValueFrom = beforeValueFrom
+            self.drift = drift
             self.name = name
             self.path = path
             self.requiresRecreation = requiresRecreation
@@ -1034,6 +1288,8 @@ extension CloudFormationClientTypes {
         /// * DirectModification entities are changes that are made directly to the template.
         ///
         /// * Automatic entities are AWS::CloudFormation::Stack resource types, which are also known as nested stacks. If you made no changes to the AWS::CloudFormation::Stack resource, CloudFormation sets the ChangeSource to Automatic because the nested stack's template might have changed. Changes to a nested stack's template aren't visible to CloudFormation until you run an update on the parent stack.
+        ///
+        /// * NoModification entities are changes made to the template that matches the actual state of the resource.
         public var changeSource: CloudFormationClientTypes.ChangeSource?
         /// Indicates whether CloudFormation can determine the target value, and whether the target value will change before you execute a change set. For Static evaluations, CloudFormation can determine that the target value will change, and its value. For example, if you directly modify the InstanceType property of an EC2 instance, CloudFormation knows that this property value will change, and its value, so this is a Static evaluation. For Dynamic evaluations, can't determine the target value because it depends on the result of an intrinsic function, such as a Ref or Fn::GetAtt intrinsic function, when the stack is updated. For example, if your template includes a reference to a resource that's conditionally recreated, the value of the reference (the physical ID of the resource) might change, depending on if the resource is recreated. If the resource is recreated, it will have a new physical ID, so all references to that resource will also be updated.
         public var evaluation: CloudFormationClientTypes.EvaluationType?
@@ -1148,9 +1404,102 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
+    public enum DriftIgnoredReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managedByAws
+        case writeOnlyProperty
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DriftIgnoredReason] {
+            return [
+                .managedByAws,
+                .writeOnlyProperty
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managedByAws: return "MANAGED_BY_AWS"
+            case .writeOnlyProperty: return "WRITE_ONLY_PROPERTY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// The ResourceDriftIgnoredAttribute data type.
+    public struct ResourceDriftIgnoredAttribute: Swift.Sendable {
+        /// Path of the resource attribute for which drift was ignored.
+        public var path: Swift.String?
+        /// Reason why drift was ignored for the attribute, can have 2 possible values:
+        ///
+        /// * WRITE_ONLY_PROPERTY - Property is not included in read response for the resource’s live state.
+        ///
+        /// * MANAGED_BY_AWS - Property is managed by an Amazon Web Services service and is expected to be dynamically modified.
+        public var reason: CloudFormationClientTypes.DriftIgnoredReason?
+
+        public init(
+            path: Swift.String? = nil,
+            reason: CloudFormationClientTypes.DriftIgnoredReason? = nil
+        ) {
+            self.path = path
+            self.reason = reason
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum StackResourceDriftStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleted
+        case inSync
+        case modified
+        case notChecked
+        case unknown
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StackResourceDriftStatus] {
+            return [
+                .deleted,
+                .inSync,
+                .modified,
+                .notChecked,
+                .unknown,
+                .unsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleted: return "DELETED"
+            case .inSync: return "IN_SYNC"
+            case .modified: return "MODIFIED"
+            case .notChecked: return "NOT_CHECKED"
+            case .unknown: return "UNKNOWN"
+            case .unsupported: return "UNSUPPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     /// The ResourceChange structure describes the resource and the action that CloudFormation will perform on it if you execute this change set.
     public struct ResourceChange: Swift.Sendable {
-        /// The action that CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), Remove (deletes a resource), Import (imports a resource), or Dynamic (exact action for the resource can't be determined).
+        /// The action that CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), Remove (deletes a resource), Import (imports a resource), Dynamic (exact action for the resource can't be determined), or SyncWithActual (resource will not be changed, only CloudFormation metadata will change).
         public var action: CloudFormationClientTypes.ChangeAction?
         /// An encoded JSON string that contains the context of the resource after the change is executed.
         public var afterContext: Swift.String?
@@ -1180,8 +1529,29 @@ extension CloudFormationClientTypes {
         ///
         /// * ReplaceAndSnapshot The resource will be replaced and then have a snapshot taken.
         public var policyAction: CloudFormationClientTypes.PolicyAction?
+        /// Information about the resource's state from the previous CloudFormation deployment.
+        public var previousDeploymentContext: Swift.String?
         /// For the Modify action, indicates whether CloudFormation will replace the resource by creating a new one and deleting the old one. This value depends on the value of the RequiresRecreation property in the ResourceTargetDefinition structure. For example, if the RequiresRecreation field is Always and the Evaluation field is Static, Replacement is True. If the RequiresRecreation field is Always and the Evaluation field is Dynamic, Replacement is Conditional. If you have multiple changes with different RequiresRecreation values, the Replacement value depends on the change with the most impact. A RequiresRecreation value of Always has the most impact, followed by Conditional, and then Never.
         public var replacement: CloudFormationClientTypes.Replacement?
+        /// List of resource attributes for which drift was ignored.
+        public var resourceDriftIgnoredAttributes: [CloudFormationClientTypes.ResourceDriftIgnoredAttribute]?
+        /// The drift status of the resource. Valid values:
+        ///
+        /// * IN_SYNC – The resource matches its template definition.
+        ///
+        /// * MODIFIED – Resource properties were modified outside CloudFormation.
+        ///
+        /// * DELETED – The resource was deleted outside CloudFormation.
+        ///
+        /// * NOT_CHECKED – CloudFormation doesn’t currently return this value.
+        ///
+        /// * UNKNOWN – Drift status could not be determined.
+        ///
+        /// * UNSUPPORTED – Resource type does not support actual state comparison.
+        ///
+        ///
+        /// Only present for drift-aware change sets.
+        public var resourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus?
         /// The type of CloudFormation resource, such as AWS::S3::Bucket.
         public var resourceType: Swift.String?
         /// For the Modify action, indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
@@ -1197,7 +1567,10 @@ extension CloudFormationClientTypes {
             moduleInfo: CloudFormationClientTypes.ModuleInfo? = nil,
             physicalResourceId: Swift.String? = nil,
             policyAction: CloudFormationClientTypes.PolicyAction? = nil,
+            previousDeploymentContext: Swift.String? = nil,
             replacement: CloudFormationClientTypes.Replacement? = nil,
+            resourceDriftIgnoredAttributes: [CloudFormationClientTypes.ResourceDriftIgnoredAttribute]? = nil,
+            resourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus? = nil,
             resourceType: Swift.String? = nil,
             scope: [CloudFormationClientTypes.ResourceAttribute]? = nil
         ) {
@@ -1210,7 +1583,10 @@ extension CloudFormationClientTypes {
             self.moduleInfo = moduleInfo
             self.physicalResourceId = physicalResourceId
             self.policyAction = policyAction
+            self.previousDeploymentContext = previousDeploymentContext
             self.replacement = replacement
+            self.resourceDriftIgnoredAttributes = resourceDriftIgnoredAttributes
+            self.resourceDriftStatus = resourceDriftStatus
             self.resourceType = resourceType
             self.scope = scope
         }
@@ -1374,11 +1750,11 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// Specifies target details for an activated hook.
+    /// Specifies target details for an activated Hook.
     public struct ChangeSetHookTargetDetails: Swift.Sendable {
         /// Required if TargetType is RESOURCE.
         public var resourceTargetDetails: CloudFormationClientTypes.ChangeSetHookResourceTargetDetails?
-        /// The name of the type.
+        /// The Hook target type.
         public var targetType: CloudFormationClientTypes.HookTargetType?
 
         public init(
@@ -1393,21 +1769,21 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// Specifies the resource, the hook, and the hook version to be invoked.
+    /// Specifies the resource, the Hook, and the Hook version to be invoked.
     public struct ChangeSetHook: Swift.Sendable {
-        /// Specify the hook failure mode for non-compliant resources in the followings ways.
+        /// Specify the Hook failure mode for non-compliant resources in the followings ways.
         ///
         /// * FAIL Stops provisioning resources.
         ///
         /// * WARN Allows provisioning to continue with a warning message.
         public var failureMode: CloudFormationClientTypes.HookFailureMode?
-        /// Specifies the points in provisioning logic where a hook is invoked.
+        /// The specific point in the provisioning process where the Hook is invoked.
         public var invocationPoint: CloudFormationClientTypes.HookInvocationPoint?
-        /// Specifies details about the target that the hook will run against.
+        /// Specifies details about the target that the Hook will run against.
         public var targetDetails: CloudFormationClientTypes.ChangeSetHookTargetDetails?
         /// The version ID of the type configuration.
         public var typeConfigurationVersionId: Swift.String?
-        /// The unique name for your hook. Specifies a three-part namespace for your hook, with a recommended pattern of Organization::Service::Hook. The following organization namespaces are reserved and can't be used in your hook type names:
+        /// The unique name for your Hook. Specifies a three-part namespace for your Hook, with a recommended pattern of Organization::Service::Hook. The following organization namespaces are reserved and can't be used in your Hook type names:
         ///
         /// * Alexa
         ///
@@ -1761,6 +2137,32 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension CloudFormationClientTypes {
 
+    public enum DeploymentMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case revertDrift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentMode] {
+            return [
+                .revertDrift
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .revertDrift: return "REVERT_DRIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     public enum OnStackFailure: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case delete
         case doNothing
@@ -1897,10 +2299,10 @@ extension CloudFormationClientTypes {
 
     /// The Tag type enables you to specify a key-value pair that can be used to store information about an CloudFormation stack.
     public struct Tag: Swift.Sendable {
-        /// Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services have the reserved prefix: aws:.
+        /// A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services have the reserved prefix: aws:.
         /// This member is required.
         public var key: Swift.String?
-        /// Required. A string that contains the value for this tag. You can specify a maximum of 256 characters for a tag value.
+        /// A string that contains the value for this tag. You can specify a maximum of 256 characters for a tag value.
         /// This member is required.
         public var value: Swift.String?
 
@@ -1918,7 +2320,7 @@ extension CloudFormationClientTypes {
 public struct CreateChangeSetInput: Swift.Sendable {
     /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.
     ///
-    /// * CAPABILITY_IAM and CAPABILITY_NAMED_IAM Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.
+    /// * CAPABILITY_IAM and CAPABILITY_NAMED_IAM Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.
     ///
     /// * If you have IAM resources, you can specify either capability.
     ///
@@ -1960,6 +2362,13 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var changeSetType: CloudFormationClientTypes.ChangeSetType?
     /// A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that CloudFormation successfully received them.
     public var clientToken: Swift.String?
+    /// Determines how CloudFormation handles configuration drift during deployment.
+    ///
+    /// * REVERT_DRIFT – Creates a drift-aware change set that brings actual resource states in line with template definitions. Provides a three-way comparison between actual state, previous deployment state, and desired state.
+    ///
+    ///
+    /// For more information, see [Using drift-aware change sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/drift-aware-change-sets.html) in the CloudFormation User Guide.
+    public var deploymentMode: CloudFormationClientTypes.DeploymentMode?
     /// A description to help you identify this change set.
     public var description: Swift.String?
     /// Indicates if the change set auto-imports resources that already exist. For more information, see [Import Amazon Web Services resources into a CloudFormation stack automatically](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/import-resources-automatically.html) in the CloudFormation User Guide. This parameter can only import resources that have custom names in templates. For more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-name.html) in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
@@ -1981,7 +2390,7 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var onStackFailure: CloudFormationClientTypes.OnStackFailure?
     /// A list of Parameter structures that specify input parameters for the change set. For more information, see the [Parameter] data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with if you execute this change set, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see [Control access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html) in the CloudFormation User Guide. Only one of the Capabilities and ResourceType parameters can be specified.
+    /// Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see [Control CloudFormation access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html) in the CloudFormation User Guide. Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// The resources to import into your stack.
     public var resourcesToImport: [CloudFormationClientTypes.ResourceToImport]?
@@ -1994,11 +2403,11 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var stackName: Swift.String?
     /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to resources in the stack. You can specify a maximum of 50 tags.
     public var tags: [CloudFormationClientTypes.Tag]?
-    /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
+    /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateBody: Swift.String?
-    /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify only TemplateBody or TemplateURL.
+    /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateURL: Swift.String?
-    /// Whether to reuse the template that's associated with the stack to create the change set.
+    /// Whether to reuse the template that's associated with the stack to create the change set. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are applied correctly. For more information, see [AWS::LanguageExtensions transform](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/transform-aws-languageextensions.html). Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
 
     public init(
@@ -2006,6 +2415,7 @@ public struct CreateChangeSetInput: Swift.Sendable {
         changeSetName: Swift.String? = nil,
         changeSetType: CloudFormationClientTypes.ChangeSetType? = nil,
         clientToken: Swift.String? = nil,
+        deploymentMode: CloudFormationClientTypes.DeploymentMode? = nil,
         description: Swift.String? = nil,
         importExistingResources: Swift.Bool? = nil,
         includeNestedStacks: Swift.Bool? = nil,
@@ -2026,6 +2436,7 @@ public struct CreateChangeSetInput: Swift.Sendable {
         self.changeSetName = changeSetName
         self.changeSetType = changeSetType
         self.clientToken = clientToken
+        self.deploymentMode = deploymentMode
         self.description = description
         self.importExistingResources = importExistingResources
         self.includeNestedStacks = includeNestedStacks
@@ -2313,11 +2724,11 @@ public struct CreateStackInput: Swift.Sendable {
     public var enableTerminationProtection: Swift.Bool?
     /// The Amazon SNS topic ARNs to publish stack related events. You can find your Amazon SNS topic ARNs using the Amazon SNS console or your Command Line Interface (CLI).
     public var notificationARNs: [Swift.String]?
-    /// Determines what action will be taken if stack creation fails. This must be one of: DO_NOTHING, ROLLBACK, or DELETE. You can specify either OnFailure or DisableRollback, but not both. Default: ROLLBACK
+    /// Determines what action will be taken if stack creation fails. This must be one of: DO_NOTHING, ROLLBACK, or DELETE. You can specify either OnFailure or DisableRollback, but not both. Although the default setting is ROLLBACK, there is one exception. This exception occurs when a StackSet attempts to deploy a stack instance and the stack instance fails to create successfully. In this case, the CreateStack call overrides the default setting and sets the value of OnFailure to DELETE. Default: ROLLBACK
     public var onFailure: CloudFormationClientTypes.OnFailure?
     /// A list of Parameter structures that specify input parameters for the stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with for this create stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. Use the following syntax to describe template resource types: AWS::* (for all Amazon Web Services resources), Custom::* (for all custom resources), Custom::logical_ID  (for a specific custom resource), AWS::service_name::* (for all resources of a particular Amazon Web Services service), and AWS::service_name::resource_logical_ID  (for a specific Amazon Web Services resource). If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html). Only one of the Capabilities and ResourceType parameters can be specified.
+    /// Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control CloudFormation access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html). Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
@@ -2384,12 +2795,16 @@ public struct CreateStackInput: Swift.Sendable {
 
 /// The output for a [CreateStack] action.
 public struct CreateStackOutput: Swift.Sendable {
+    /// A unique identifier for this stack operation that can be used to track the operation's progress and events.
+    public var operationId: Swift.String?
     /// Unique identifier of the stack.
     public var stackId: Swift.String?
 
     public init(
+        operationId: Swift.String? = nil,
         stackId: Swift.String? = nil
     ) {
+        self.operationId = operationId
         self.stackId = stackId
     }
 }
@@ -2417,7 +2832,7 @@ public struct OperationIdAlreadyExistsException: ClientRuntime.ModeledError, AWS
     }
 }
 
-/// Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
+/// Another operation is currently in progress for this StackSet. Only one operation can be performed for a stack set at a given time.
 public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2440,7 +2855,7 @@ public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-/// The specified stack set doesn't exist.
+/// The specified StackSet doesn't exist.
 public struct StackSetNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2463,7 +2878,7 @@ public struct StackSetNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// Another operation has been performed on this stack set since the specified operation was performed.
+/// Another operation has been performed on this StackSet since the specified operation was performed.
 public struct StaleRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2488,23 +2903,23 @@ public struct StaleRequestException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension CloudFormationClientTypes {
 
-    /// [Service-managed permissions] The Organizations accounts to which StackSets deploys. StackSets doesn't deploy stack instances to the organization management account, even if the organization management account is in your organization or in an OU in your organization. For update operations, you can specify either Accounts or OrganizationalUnitIds. For create and delete operations, specify OrganizationalUnitIds.
+    /// Specifies the Organizations accounts where you want to create, update, or delete stack instances. You can target either your entire organization or specific accounts using organizational units (OUs) and account filter options. CloudFormation doesn't deploy stack instances to the organization management account, even if the organization management account is in your organization or in an OU in your organization. When performing create operations, if you specify both OrganizationalUnitIds and Accounts, you must also specify the AccountFilterType property.
     public struct DeploymentTargets: Swift.Sendable {
-        /// Limit deployment targets to individual accounts or include additional accounts with provided OUs. The following is a list of possible values for the AccountFilterType operation.
+        /// Refines which accounts will have stack operations performed on them by specifying how to use the Accounts and OrganizationalUnitIds properties together. The following values determine how CloudFormation selects target accounts:
         ///
-        /// * INTERSECTION: StackSets deploys to the accounts specified in Accounts parameter.
+        /// * INTERSECTION: Performs stack operations only on specific individual accounts within the selected OUs. Only accounts that are both specified in the Accounts property and belong to the specified OUs will be targeted.
         ///
-        /// * DIFFERENCE: StackSets excludes the accounts specified in Accounts parameter. This enables user to avoid certain accounts within an OU such as suspended accounts.
+        /// * DIFFERENCE: Performs stack operations on all accounts in the selected OUs except for specific accounts listed in the Accounts property. This enables you to exclude certain accounts within an OU, such as suspended accounts.
         ///
-        /// * UNION: StackSets includes additional accounts deployment targets. This is the default value if AccountFilterType is not provided. This enables user to update an entire OU and individual accounts from a different OU in one request, which used to be two separate requests.
+        /// * UNION: Performs stack operations on the specified OUs plus additional individual accounts listed in the Accounts property. This is the default value if AccountFilterType is not provided. This lets you target an entire OU and individual accounts from a different OU in one request. Note that UNION is not supported for CreateStackInstances operations.
         ///
-        /// * NONE: Deploys to all the accounts in specified organizational units (OU).
+        /// * NONE: Performs stack operations on all accounts in the specified organizational units (OUs).
         public var accountFilterType: CloudFormationClientTypes.AccountFilterType?
-        /// The account IDs of the Amazon Web Services accounts. If you have many account numbers, you can provide those accounts using the AccountsUrl property instead.
+        /// The Amazon Web Services account IDs where you want to perform stack operations. How these accounts are used depends on the AccountFilterType property. If you have many account numbers, you can provide those accounts using the AccountsUrl property instead.
         public var accounts: [Swift.String]?
-        /// The Amazon S3 URL path to a file that contains a list of Amazon Web Services account IDs. The file format must be either .csv or .txt, and the data can be comma-separated or new-line-separated. There is currently a 10MB limit for the data (approximately 800,000 accounts).
+        /// The Amazon S3 URL path to a file that contains a list of Amazon Web Services account IDs. The file format must be either .csv or .txt, and the data can be comma-separated or new-line-separated. There is currently a 10MB limit for the data (approximately 800,000 accounts). This property serves the same purpose as Accounts but allows you to specify a large number of accounts.
         public var accountsUrl: Swift.String?
-        /// The organization root ID or organizational unit (OU) IDs.
+        /// The organization root ID or organizational unit (OU) IDs where you want to perform stack operations. CloudFormation will perform operations on accounts within these OUs and their child OUs.
         public var organizationalUnitIds: [Swift.String]?
 
         public init(
@@ -2581,17 +2996,17 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// The user-specified preferences for how CloudFormation performs a stack set operation. For more information about maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options). StackSetOperationPreferences don't apply to AutoDeployment, even if it's enabled.
+    /// The user-specified preferences for how CloudFormation performs a StackSet operation. For more information about maximum concurrent accounts and failure tolerance, see [StackSet operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options). StackSetOperationPreferences don't apply to AutoDeployment, even if it's enabled.
     public struct StackSetOperationPreferences: Swift.Sendable {
         /// Specifies how the concurrency level behaves during the operation execution.
         ///
         /// * STRICT_FAILURE_TOLERANCE: This option dynamically lowers the concurrency level to ensure the number of failed accounts never exceeds the value of FailureToleranceCount +1. The initial actual concurrency is set to the lower of either the value of the MaxConcurrentCount, or the value of FailureToleranceCount +1. The actual concurrency is then reduced proportionally by the number of failures. This is the default behavior. If failure tolerance or Maximum concurrent accounts are set to percentages, the behavior is similar.
         ///
-        /// * SOFT_FAILURE_TOLERANCE: This option decouples FailureToleranceCount from the actual concurrency. This allows stack set operations to run at the concurrency level set by the MaxConcurrentCount value, or MaxConcurrentPercentage, regardless of the number of failures.
+        /// * SOFT_FAILURE_TOLERANCE: This option decouples FailureToleranceCount from the actual concurrency. This allows StackSet operations to run at the concurrency level set by the MaxConcurrentCount value, or MaxConcurrentPercentage, regardless of the number of failures.
         public var concurrencyMode: CloudFormationClientTypes.ConcurrencyMode?
-        /// The number of accounts, per Region, for which this operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. You can specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
+        /// The number of accounts per Region this operation can fail in before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. You can specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
         public var failureToleranceCount: Swift.Int?
-        /// The percentage of accounts, per Region, for which this stack operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. You can specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
+        /// The percentage of accounts per Region this stack operation can fail in before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. You can specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
         public var failureTolerancePercentage: Swift.Int?
         /// The maximum number of accounts in which to perform this operation at one time. This can depend on the value of FailureToleranceCount depending on your ConcurrencyMode. MaxConcurrentCount is at most one more than the FailureToleranceCount if you're using STRICT_FAILURE_TOLERANCE. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public var maxConcurrentCount: Swift.Int?
@@ -2625,35 +3040,35 @@ extension CloudFormationClientTypes {
 public struct CreateStackInstancesInput: Swift.Sendable {
     /// [Self-managed permissions] The account IDs of one or more Amazon Web Services accounts that you want to create stack instances in the specified Region(s) for. You can specify Accounts or DeploymentTargets, but not both.
     public var accounts: [Swift.String]?
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
     /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// [Service-managed permissions] The Organizations accounts for which to create stack instances in the specified Amazon Web Services Regions. You can specify Accounts or DeploymentTargets, but not both.
+    /// [Service-managed permissions] The Organizations accounts in which to create stack instances in the specified Amazon Web Services Regions. You can specify Accounts or DeploymentTargets, but not both.
     public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
-    /// The unique identifier for this stack set operation. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED.
+    /// The unique identifier for this StackSet operation. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the StackSet operation only once, even if you retry the request multiple times. You might retry StackSet operation requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically. Repeating this StackSet operation with a new operation ID retries all stack instances whose status is OUTDATED.
     public var operationId: Swift.String?
-    /// Preferences for how CloudFormation performs this stack set operation.
+    /// Preferences for how CloudFormation performs this StackSet operation.
     public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
-    /// A list of stack set parameters whose values you want to override in the selected stack instances. Any overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Services Regions. When specifying parameters and their values, be aware of how CloudFormation sets parameter values during stack instance operations:
+    /// A list of StackSet parameters whose values you want to override in the selected stack instances. Any overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Services Regions. When specifying parameters and their values, be aware of how CloudFormation sets parameter values during stack instance operations:
     ///
     /// * To override the current value for a parameter, include the parameter and specify its value.
     ///
     /// * To leave an overridden parameter set to its present value, include the parameter and specify UsePreviousValue as true. (You can't specify both a value and set UsePreviousValue to true.)
     ///
-    /// * To set an overridden parameter back to the value specified in the stack set, specify a parameter list but don't include the parameter in the list.
+    /// * To set an overridden parameter back to the value specified in the StackSet, specify a parameter list but don't include the parameter in the list.
     ///
     /// * To leave all parameters set to their present values, don't specify this property at all.
     ///
     ///
-    /// During stack set updates, any parameter values overridden for a stack instance aren't updated, but retain their overridden value. You can only override the parameter values that are specified in the stack set; to add or delete a parameter itself, use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update the stack set template.
+    /// During StackSet updates, any parameter values overridden for a stack instance aren't updated, but retain their overridden value. You can only override the parameter values that are specified in the StackSet; to add or delete a parameter itself, use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update the StackSet template.
     public var parameterOverrides: [CloudFormationClientTypes.Parameter]?
     /// The names of one or more Amazon Web Services Regions where you want to create stack instances using the specified Amazon Web Services accounts.
     /// This member is required.
     public var regions: [Swift.String]?
-    /// The name or unique ID of the stack set that you want to create stack instances from.
+    /// The name or unique ID of the StackSet that you want to create stack instances from.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -2679,7 +3094,7 @@ public struct CreateStackInstancesInput: Swift.Sendable {
 }
 
 public struct CreateStackInstancesOutput: Swift.Sendable {
-    /// The unique identifier for this stack set operation.
+    /// The unique identifier for this StackSet operation.
     public var operationId: Swift.String?
 
     public init(
@@ -2840,7 +3255,7 @@ extension CloudFormationClientTypes {
 
     /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
     public struct ManagedExecution: Swift.Sendable {
-        /// When true, StackSets performs non-conflicting operations concurrently and queues conflicting operations. After conflicting operations finish, StackSets starts queued operations in request order. If there are already running or queued operations, StackSets queues all incoming operations even if they are non-conflicting. You can't modify your stack set's execution configuration while there are running or queued operations for that stack set. When false (default), StackSets performs one operation at a time in request order.
+        /// When true, CloudFormation performs non-conflicting operations concurrently and queues conflicting operations. After conflicting operations finish, CloudFormation starts queued operations in request order. If there are already running or queued operations, CloudFormation queues all incoming operations even if they are non-conflicting. You can't modify your StackSet's execution configuration while there are running or queued operations for that StackSet. When false (default), StackSets performs one operation at a time in request order.
         public var active: Swift.Bool?
 
         public init(
@@ -2881,22 +3296,22 @@ extension CloudFormationClientTypes {
 }
 
 public struct CreateStackSetInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) in the CloudFormation User Guide. Valid only if the permissions model is SELF_MANAGED.
+    /// The Amazon Resource Name (ARN) of the IAM role to use to create this StackSet. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific StackSets within the same administrator account. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) in the CloudFormation User Guide. Valid only if the permissions model is SELF_MANAGED.
     public var administrationRoleARN: Swift.String?
-    /// Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU). For more information, see [Manage automatic deployments for CloudFormation StackSets that use service-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html) in the CloudFormation User Guide. Required if the permissions model is SERVICE_MANAGED. (Not used with self-managed permissions.)
+    /// Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU). For more information, see [Enable or disable automatic deployments for StackSets in Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html) in the CloudFormation User Guide. Required if the permissions model is SERVICE_MANAGED. (Not used with self-managed permissions.)
     public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
-    /// Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
-    /// * To create a stack set with service-managed permissions while signed in to the management account, specify SELF.
+    /// * To create a StackSet with service-managed permissions while signed in to the management account, specify SELF.
     ///
-    /// * To create a stack set with service-managed permissions while signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
+    /// * To create a StackSet with service-managed permissions while signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     ///
     ///
-    /// Stack sets with service-managed permissions are created in the management account, including stack sets that are created by delegated administrators. Valid only if the permissions model is SERVICE_MANAGED.
+    /// StackSets with service-managed permissions are created in the management account, including StackSets that are created by delegated administrators. Valid only if the permissions model is SERVICE_MANAGED.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in order for CloudFormation to create the stack set and related stack instances.
+    /// In some cases, you must explicitly acknowledge that your StackSet template contains certain capabilities in order for CloudFormation to create the StackSet and related stack instances.
     ///
-    /// * CAPABILITY_IAM and CAPABILITY_NAMED_IAM Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stack sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.
+    /// * CAPABILITY_IAM and CAPABILITY_NAMED_IAM Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those StackSets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.
     ///
     /// * If you have IAM resources, you can specify either capability.
     ///
@@ -2924,30 +3339,30 @@ public struct CreateStackSetInput: Swift.Sendable {
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
     ///
-    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your stack set template references one or more macros, you must create the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To create the stack set directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). Stack sets with service-managed permissions don't currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
+    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your StackSet template references one or more macros, you must create the StackSet directly from the processed template, without first reviewing the resulting changes in a change set. To create the StackSet directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). StackSets with service-managed permissions don't currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a StackSet with service-managed permissions, if you reference a macro in your template the StackSet operation will fail.
     public var capabilities: [CloudFormationClientTypes.Capability]?
-    /// A unique identifier for this CreateStackSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another stack set with the same name. You might retry CreateStackSet requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.
+    /// A unique identifier for this CreateStackSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another StackSet with the same name. You might retry CreateStackSet requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.
     public var clientRequestToken: Swift.String?
-    /// A description of the stack set. You can use the description to identify the stack set's purpose or other important information.
+    /// A description of the StackSet. You can use the description to identify the StackSet's purpose or other important information.
     public var description: Swift.String?
-    /// The name of the IAM execution role to use to create the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. Valid only if the permissions model is SELF_MANAGED.
+    /// The name of the IAM execution role to use to create the StackSet. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the StackSet operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their StackSets. Valid only if the permissions model is SELF_MANAGED.
     public var executionRoleName: Swift.String?
-    /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
+    /// Describes whether CloudFormation performs non-conflicting operations concurrently and queues conflicting operations.
     public var managedExecution: CloudFormationClientTypes.ManagedExecution?
-    /// The input parameters for the stack set template.
+    /// The input parameters for the StackSet template.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// Describes how the IAM roles required for stack set operations are created. By default, SELF-MANAGED is specified.
+    /// Describes how the IAM roles required for StackSet operations are created. By default, SELF-MANAGED is specified.
     ///
     /// * With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
     ///
-    /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Activate trusted access for stack sets with Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
+    /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Activate trusted access for StackSets with Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
     public var permissionModel: CloudFormationClientTypes.PermissionModels?
-    /// The stack ID you are importing into a new stack set. Specify the Amazon Resource Name (ARN) of the stack.
+    /// The stack ID you are importing into a new StackSet. Specify the Amazon Resource Name (ARN) of the stack.
     public var stackId: Swift.String?
-    /// The name to associate with the stack set. The name must be unique in the Region where you create your stack set. A stack name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphabetic character and can't be longer than 128 characters.
+    /// The name to associate with the StackSet. The name must be unique in the Region where you create your StackSet. A stack name can contain only alphanumeric characters (case-sensitive) and hyphens. It must start with an alphabetic character and can't be longer than 128 characters.
     /// This member is required.
     public var stackSetName: Swift.String?
-    /// The key-value pairs to associate with this stack set and the stacks created from it. CloudFormation also propagates these tags to supported resources that are created in the stacks. A maximum number of 50 tags can be specified. If you specify tags as part of a CreateStackSet action, CloudFormation checks to see if you have the required IAM permission to tag resources. If you don't, the entire CreateStackSet action fails with an access denied error, and the stack set is not created.
+    /// The key-value pairs to associate with this StackSet and the stacks created from it. CloudFormation also propagates these tags to supported resources that are created in the stacks. A maximum number of 50 tags can be specified. If you specify tags as part of a CreateStackSet action, CloudFormation checks to see if you have the required IAM permission to tag resources. If you don't, the entire CreateStackSet action fails with an access denied error, and the StackSet is not created.
     public var tags: [CloudFormationClientTypes.Tag]?
     /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
     public var templateBody: Swift.String?
@@ -2990,7 +3405,7 @@ public struct CreateStackSetInput: Swift.Sendable {
 }
 
 public struct CreateStackSetOutput: Swift.Sendable {
-    /// The ID of the stack set that you're creating.
+    /// The ID of the StackSet that you're creating.
     public var stackSetId: Swift.String?
 
     public init(
@@ -3011,11 +3426,11 @@ public struct DeactivateOrganizationsAccessOutput: Swift.Sendable {
 }
 
 public struct DeactivateTypeInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for the extension, in this account and Region. Conditional: You must specify either Arn, or TypeName and Type.
+    /// The Amazon Resource Name (ARN) for the extension in this account and Region. Conditional: You must specify either Arn, or TypeName and Type.
     public var arn: Swift.String?
     /// The extension type. Conditional: You must specify either Arn, or TypeName and Type.
     public var type: CloudFormationClientTypes.ThirdPartyType?
-    /// The type name of the extension, in this account and Region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
+    /// The type name of the extension in this account and Region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
     public var typeName: Swift.String?
 
     public init(
@@ -3180,7 +3595,7 @@ public struct DeleteStackInput: Swift.Sendable {
 public struct DeleteStackInstancesInput: Swift.Sendable {
     /// [Self-managed permissions] The account IDs of the Amazon Web Services accounts that you want to delete stack instances for. You can specify Accounts or DeploymentTargets, but not both.
     public var accounts: [Swift.String]?
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -3188,17 +3603,17 @@ public struct DeleteStackInstancesInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// [Service-managed permissions] The Organizations accounts from which to delete stack instances. You can specify Accounts or DeploymentTargets, but not both.
     public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
-    /// The unique identifier for this stack set operation. If you don't specify an operation ID, the SDK generates one automatically. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You can retry stack set operation requests to ensure that CloudFormation successfully received them. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED.
+    /// The unique identifier for this StackSet operation. If you don't specify an operation ID, the SDK generates one automatically. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the StackSet operation only once, even if you retry the request multiple times. You can retry StackSet operation requests to ensure that CloudFormation successfully received them. Repeating this StackSet operation with a new operation ID retries all stack instances whose status is OUTDATED.
     public var operationId: Swift.String?
-    /// Preferences for how CloudFormation performs this stack set operation.
+    /// Preferences for how CloudFormation performs this StackSet operation.
     public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
-    /// The Amazon Web Services Regions where you want to delete stack set instances.
+    /// The Amazon Web Services Regions where you want to delete StackSet instances.
     /// This member is required.
     public var regions: [Swift.String]?
-    /// Removes the stack instances from the specified stack set, but doesn't delete the stacks. You can't reassociate a retained stack or add an existing, saved stack to a new stack set. For more information, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options).
+    /// Removes the stack instances from the specified StackSet, but doesn't delete the stacks. You can't reassociate a retained stack or add an existing, saved stack to a new stack set. For more information, see [StackSet operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
     /// This member is required.
     public var retainStacks: Swift.Bool?
-    /// The name or unique ID of the stack set that you want to delete stack instances for.
+    /// The name or unique ID of the StackSet that you want to delete stack instances for.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -3224,7 +3639,7 @@ public struct DeleteStackInstancesInput: Swift.Sendable {
 }
 
 public struct DeleteStackInstancesOutput: Swift.Sendable {
-    /// The unique identifier for this stack set operation.
+    /// The unique identifier for this StackSet operation.
     public var operationId: Swift.String?
 
     public init(
@@ -3234,7 +3649,7 @@ public struct DeleteStackInstancesOutput: Swift.Sendable {
     }
 }
 
-/// You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
+/// You can't yet delete this StackSet, because it still contains one or more stack instances. Delete all stack instances from the StackSet before deleting the StackSet.
 public struct StackSetNotEmptyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3258,13 +3673,13 @@ public struct StackSetNotEmptyException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct DeleteStackSetInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
     /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// The name or unique ID of the stack set that you're deleting. You can obtain this value by running [ListStackSets].
+    /// The name or unique ID of the StackSet that you're deleting. You can obtain this value by running [ListStackSets].
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -3344,7 +3759,7 @@ public struct DeregisterTypeOutput: Swift.Sendable {
 
 /// The input for the [DescribeAccountLimits] action.
 public struct DescribeAccountLimitsInput: Swift.Sendable {
-    /// A string that identifies the next page of limits that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -3377,7 +3792,7 @@ public struct DescribeChangeSetInput: Swift.Sendable {
     public var changeSetName: Swift.String?
     /// If true, the returned changes include detailed changes in the property values.
     public var includePropertyValues: Swift.Bool?
-    /// A string (provided by the [DescribeChangeSet] response output) that identifies the next page of information that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
     public var stackName: Swift.String?
@@ -3395,6 +3810,41 @@ public struct DescribeChangeSetInput: Swift.Sendable {
     }
 }
 
+extension CloudFormationClientTypes {
+
+    public enum StackDriftStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case drifted
+        case inSync
+        case notChecked
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StackDriftStatus] {
+            return [
+                .drifted,
+                .inSync,
+                .notChecked,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .drifted: return "DRIFTED"
+            case .inSync: return "IN_SYNC"
+            case .notChecked: return "NOT_CHECKED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The output for the [DescribeChangeSet] action.
 public struct DescribeChangeSetOutput: Swift.Sendable {
     /// If you execute the change set, the list of capabilities that were explicitly acknowledged when the change set was created.
@@ -3407,6 +3857,8 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
     public var changes: [CloudFormationClientTypes.Change]?
     /// The start time when the change set was created, in UTC.
     public var creationTime: Foundation.Date?
+    /// The deployment mode specified when the change set was created. Valid value is REVERT_DRIFT. Only present for drift-aware change sets.
+    public var deploymentMode: CloudFormationClientTypes.DeploymentMode?
     /// Information about the change set.
     public var description: Swift.String?
     /// If the change set execution status is AVAILABLE, you can execute the change set. If you can't execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
@@ -3435,6 +3887,19 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
     public var rollbackConfiguration: CloudFormationClientTypes.RollbackConfiguration?
     /// Specifies the change set ID of the root change set in the current nested change set hierarchy.
     public var rootChangeSetId: Swift.String?
+    /// The drift status of the stack when the change set was created. Valid values:
+    ///
+    /// * DRIFTED – The stack has drifted from its last deployment.
+    ///
+    /// * IN_SYNC – The stack is in sync with its last deployment.
+    ///
+    /// * NOT_CHECKED – CloudFormation doesn’t currently return this value.
+    ///
+    /// * UNKNOWN – The drift status could not be determined.
+    ///
+    ///
+    /// Only present for drift-aware change sets.
+    public var stackDriftStatus: CloudFormationClientTypes.StackDriftStatus?
     /// The Amazon Resource Name (ARN) of the stack that's associated with the change set.
     public var stackId: Swift.String?
     /// The name of the stack that's associated with the change set.
@@ -3452,6 +3917,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
         changeSetName: Swift.String? = nil,
         changes: [CloudFormationClientTypes.Change]? = nil,
         creationTime: Foundation.Date? = nil,
+        deploymentMode: CloudFormationClientTypes.DeploymentMode? = nil,
         description: Swift.String? = nil,
         executionStatus: CloudFormationClientTypes.ExecutionStatus? = nil,
         importExistingResources: Swift.Bool? = nil,
@@ -3463,6 +3929,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
         parentChangeSetId: Swift.String? = nil,
         rollbackConfiguration: CloudFormationClientTypes.RollbackConfiguration? = nil,
         rootChangeSetId: Swift.String? = nil,
+        stackDriftStatus: CloudFormationClientTypes.StackDriftStatus? = nil,
         stackId: Swift.String? = nil,
         stackName: Swift.String? = nil,
         status: CloudFormationClientTypes.ChangeSetStatus? = nil,
@@ -3474,6 +3941,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
         self.changeSetName = changeSetName
         self.changes = changes
         self.creationTime = creationTime
+        self.deploymentMode = deploymentMode
         self.description = description
         self.executionStatus = executionStatus
         self.importExistingResources = importExistingResources
@@ -3485,6 +3953,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
         self.parentChangeSetId = parentChangeSetId
         self.rollbackConfiguration = rollbackConfiguration
         self.rootChangeSetId = rootChangeSetId
+        self.stackDriftStatus = stackDriftStatus
         self.stackId = stackId
         self.stackName = stackName
         self.status = status
@@ -3499,7 +3968,7 @@ public struct DescribeChangeSetHooksInput: Swift.Sendable {
     public var changeSetName: Swift.String?
     /// If specified, lists only the Hooks related to the specified LogicalResourceId.
     public var logicalResourceId: Swift.String?
-    /// A string, provided by the DescribeChangeSetHooks response output, that identifies the next page of information that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// If you specified the name of a change set, specify the stack name or stack ID (ARN) of the change set you want to describe.
     public var stackName: Swift.String?
@@ -3522,7 +3991,7 @@ public struct DescribeChangeSetHooksOutput: Swift.Sendable {
     public var changeSetId: Swift.String?
     /// The change set name.
     public var changeSetName: Swift.String?
-    /// List of hook objects.
+    /// List of Hook objects.
     public var hooks: [CloudFormationClientTypes.ChangeSetHook]?
     /// Pagination token, null or empty if no more results.
     public var nextToken: Swift.String?
@@ -3530,7 +3999,7 @@ public struct DescribeChangeSetHooksOutput: Swift.Sendable {
     public var stackId: Swift.String?
     /// The stack name.
     public var stackName: Swift.String?
-    /// Provides the status of the change set hook.
+    /// Provides the status of the change set Hook.
     public var status: CloudFormationClientTypes.ChangeSetHooksStatus?
 
     public init(
@@ -3549,6 +4018,461 @@ public struct DescribeChangeSetHooksOutput: Swift.Sendable {
         self.stackId = stackId
         self.stackName = stackName
         self.status = status
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Event filter allows you to focus on specific events in an operation.
+    public struct EventFilter: Swift.Sendable {
+        /// When set to true, only returns failed events within the operation. This helps quickly identify root causes for a failed operation.
+        public var failedEvents: Swift.Bool?
+
+        public init(
+            failedEvents: Swift.Bool? = nil
+        ) {
+            self.failedEvents = failedEvents
+        }
+    }
+}
+
+public struct DescribeEventsInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the change set for which you want to retrieve events.
+    public var changeSetName: Swift.String?
+    /// Filters to apply when retrieving events.
+    public var filters: CloudFormationClientTypes.EventFilter?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+    /// The unique identifier of the operation for which you want to retrieve events.
+    public var operationId: Swift.String?
+    /// The name or unique stack ID for which you want to retrieve events.
+    public var stackName: Swift.String?
+
+    public init(
+        changeSetName: Swift.String? = nil,
+        filters: CloudFormationClientTypes.EventFilter? = nil,
+        nextToken: Swift.String? = nil,
+        operationId: Swift.String? = nil,
+        stackName: Swift.String? = nil
+    ) {
+        self.changeSetName = changeSetName
+        self.filters = filters
+        self.nextToken = nextToken
+        self.operationId = operationId
+        self.stackName = stackName
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum DetailedStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case configurationComplete
+        case validationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetailedStatus] {
+            return [
+                .configurationComplete,
+                .validationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configurationComplete: return "CONFIGURATION_COMPLETE"
+            case .validationFailed: return "VALIDATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum EventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hookInvocationError
+        case progressEvent
+        case provisioningError
+        case stackEvent
+        case validationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventType] {
+            return [
+                .hookInvocationError,
+                .progressEvent,
+                .provisioningError,
+                .stackEvent,
+                .validationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hookInvocationError: return "HOOK_INVOCATION_ERROR"
+            case .progressEvent: return "PROGRESS_EVENT"
+            case .provisioningError: return "PROVISIONING_ERROR"
+            case .stackEvent: return "STACK_EVENT"
+            case .validationError: return "VALIDATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum HookStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hookCompleteFailed
+        case hookCompleteSucceeded
+        case hookFailed
+        case hookInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HookStatus] {
+            return [
+                .hookCompleteFailed,
+                .hookCompleteSucceeded,
+                .hookFailed,
+                .hookInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hookCompleteFailed: return "HOOK_COMPLETE_FAILED"
+            case .hookCompleteSucceeded: return "HOOK_COMPLETE_SUCCEEDED"
+            case .hookFailed: return "HOOK_FAILED"
+            case .hookInProgress: return "HOOK_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum OperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case continueRollback
+        case createChangeset
+        case createStack
+        case deleteStack
+        case rollback
+        case updateStack
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationType] {
+            return [
+                .continueRollback,
+                .createChangeset,
+                .createStack,
+                .deleteStack,
+                .rollback,
+                .updateStack
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .continueRollback: return "CONTINUE_ROLLBACK"
+            case .createChangeset: return "CREATE_CHANGESET"
+            case .createStack: return "CREATE_STACK"
+            case .deleteStack: return "DELETE_STACK"
+            case .rollback: return "ROLLBACK"
+            case .updateStack: return "UPDATE_STACK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createComplete
+        case createFailed
+        case createInProgress
+        case deleteComplete
+        case deleteFailed
+        case deleteInProgress
+        case deleteSkipped
+        case exportComplete
+        case exportFailed
+        case exportInProgress
+        case exportRollbackComplete
+        case exportRollbackFailed
+        case exportRollbackInProgress
+        case importComplete
+        case importFailed
+        case importInProgress
+        case importRollbackComplete
+        case importRollbackFailed
+        case importRollbackInProgress
+        case rollbackComplete
+        case rollbackFailed
+        case rollbackInProgress
+        case updateComplete
+        case updateFailed
+        case updateInProgress
+        case updateRollbackComplete
+        case updateRollbackFailed
+        case updateRollbackInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceStatus] {
+            return [
+                .createComplete,
+                .createFailed,
+                .createInProgress,
+                .deleteComplete,
+                .deleteFailed,
+                .deleteInProgress,
+                .deleteSkipped,
+                .exportComplete,
+                .exportFailed,
+                .exportInProgress,
+                .exportRollbackComplete,
+                .exportRollbackFailed,
+                .exportRollbackInProgress,
+                .importComplete,
+                .importFailed,
+                .importInProgress,
+                .importRollbackComplete,
+                .importRollbackFailed,
+                .importRollbackInProgress,
+                .rollbackComplete,
+                .rollbackFailed,
+                .rollbackInProgress,
+                .updateComplete,
+                .updateFailed,
+                .updateInProgress,
+                .updateRollbackComplete,
+                .updateRollbackFailed,
+                .updateRollbackInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createComplete: return "CREATE_COMPLETE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteComplete: return "DELETE_COMPLETE"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .deleteSkipped: return "DELETE_SKIPPED"
+            case .exportComplete: return "EXPORT_COMPLETE"
+            case .exportFailed: return "EXPORT_FAILED"
+            case .exportInProgress: return "EXPORT_IN_PROGRESS"
+            case .exportRollbackComplete: return "EXPORT_ROLLBACK_COMPLETE"
+            case .exportRollbackFailed: return "EXPORT_ROLLBACK_FAILED"
+            case .exportRollbackInProgress: return "EXPORT_ROLLBACK_IN_PROGRESS"
+            case .importComplete: return "IMPORT_COMPLETE"
+            case .importFailed: return "IMPORT_FAILED"
+            case .importInProgress: return "IMPORT_IN_PROGRESS"
+            case .importRollbackComplete: return "IMPORT_ROLLBACK_COMPLETE"
+            case .importRollbackFailed: return "IMPORT_ROLLBACK_FAILED"
+            case .importRollbackInProgress: return "IMPORT_ROLLBACK_IN_PROGRESS"
+            case .rollbackComplete: return "ROLLBACK_COMPLETE"
+            case .rollbackFailed: return "ROLLBACK_FAILED"
+            case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
+            case .updateComplete: return "UPDATE_COMPLETE"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateRollbackComplete: return "UPDATE_ROLLBACK_COMPLETE"
+            case .updateRollbackFailed: return "UPDATE_ROLLBACK_FAILED"
+            case .updateRollbackInProgress: return "UPDATE_ROLLBACK_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum ValidationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationStatus] {
+            return [
+                .failed,
+                .skipped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Contains detailed information about an event that occurred during a CloudFormation operation.
+    public struct OperationEvent: Swift.Sendable {
+        /// A unique identifier for the request that initiated this operation.
+        public var clientRequestToken: Swift.String?
+        /// Additional status information about the operation.
+        public var detailedStatus: CloudFormationClientTypes.DetailedStatus?
+        /// The time when the event ended.
+        public var endTime: Foundation.Date?
+        /// A unique identifier for this event.
+        public var eventId: Swift.String?
+        /// The type of event.
+        public var eventType: CloudFormationClientTypes.EventType?
+        /// Specifies how Hook failures are handled.
+        public var hookFailureMode: CloudFormationClientTypes.HookFailureMode?
+        /// The point in the operation lifecycle when the Hook was invoked.
+        public var hookInvocationPoint: CloudFormationClientTypes.HookInvocationPoint?
+        /// The status of the Hook invocation.
+        public var hookStatus: CloudFormationClientTypes.HookStatus?
+        /// Additional information about the Hook status.
+        public var hookStatusReason: Swift.String?
+        /// The type name of the Hook that was invoked.
+        public var hookType: Swift.String?
+        /// The logical name of the resource as specified in the template.
+        public var logicalResourceId: Swift.String?
+        /// The unique identifier of the operation this event belongs to.
+        public var operationId: Swift.String?
+        /// The current status of the operation.
+        public var operationStatus: CloudFormationClientTypes.BeaconStackOperationStatus?
+        /// The type of operation.
+        public var operationType: CloudFormationClientTypes.OperationType?
+        /// The name or unique identifier that corresponds to a physical instance ID of a resource.
+        public var physicalResourceId: Swift.String?
+        /// The properties used to create the resource.
+        public var resourceProperties: Swift.String?
+        /// Current status of the resource.
+        public var resourceStatus: CloudFormationClientTypes.ResourceStatus?
+        /// Success or failure message associated with the resource.
+        public var resourceStatusReason: Swift.String?
+        /// Type of resource.
+        public var resourceType: Swift.String?
+        /// The unique ID name of the instance of the stack.
+        public var stackId: Swift.String?
+        /// The time when the event started.
+        public var startTime: Foundation.Date?
+        /// Time the status was updated.
+        public var timestamp: Foundation.Date?
+        /// Specifies how validation failures are handled.
+        public var validationFailureMode: CloudFormationClientTypes.HookFailureMode?
+        /// The name of the validation that was performed.
+        public var validationName: Swift.String?
+        /// The path within the resource where the validation was applied.
+        public var validationPath: Swift.String?
+        /// The status of the validation.
+        public var validationStatus: CloudFormationClientTypes.ValidationStatus?
+        /// Additional information about the validation status.
+        public var validationStatusReason: Swift.String?
+
+        public init(
+            clientRequestToken: Swift.String? = nil,
+            detailedStatus: CloudFormationClientTypes.DetailedStatus? = nil,
+            endTime: Foundation.Date? = nil,
+            eventId: Swift.String? = nil,
+            eventType: CloudFormationClientTypes.EventType? = nil,
+            hookFailureMode: CloudFormationClientTypes.HookFailureMode? = nil,
+            hookInvocationPoint: CloudFormationClientTypes.HookInvocationPoint? = nil,
+            hookStatus: CloudFormationClientTypes.HookStatus? = nil,
+            hookStatusReason: Swift.String? = nil,
+            hookType: Swift.String? = nil,
+            logicalResourceId: Swift.String? = nil,
+            operationId: Swift.String? = nil,
+            operationStatus: CloudFormationClientTypes.BeaconStackOperationStatus? = nil,
+            operationType: CloudFormationClientTypes.OperationType? = nil,
+            physicalResourceId: Swift.String? = nil,
+            resourceProperties: Swift.String? = nil,
+            resourceStatus: CloudFormationClientTypes.ResourceStatus? = nil,
+            resourceStatusReason: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            stackId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            timestamp: Foundation.Date? = nil,
+            validationFailureMode: CloudFormationClientTypes.HookFailureMode? = nil,
+            validationName: Swift.String? = nil,
+            validationPath: Swift.String? = nil,
+            validationStatus: CloudFormationClientTypes.ValidationStatus? = nil,
+            validationStatusReason: Swift.String? = nil
+        ) {
+            self.clientRequestToken = clientRequestToken
+            self.detailedStatus = detailedStatus
+            self.endTime = endTime
+            self.eventId = eventId
+            self.eventType = eventType
+            self.hookFailureMode = hookFailureMode
+            self.hookInvocationPoint = hookInvocationPoint
+            self.hookStatus = hookStatus
+            self.hookStatusReason = hookStatusReason
+            self.hookType = hookType
+            self.logicalResourceId = logicalResourceId
+            self.operationId = operationId
+            self.operationStatus = operationStatus
+            self.operationType = operationType
+            self.physicalResourceId = physicalResourceId
+            self.resourceProperties = resourceProperties
+            self.resourceStatus = resourceStatus
+            self.resourceStatusReason = resourceStatusReason
+            self.resourceType = resourceType
+            self.stackId = stackId
+            self.startTime = startTime
+            self.timestamp = timestamp
+            self.validationFailureMode = validationFailureMode
+            self.validationName = validationName
+            self.validationPath = validationPath
+            self.validationStatus = validationStatus
+            self.validationStatusReason = validationStatusReason
+        }
+    }
+}
+
+public struct DescribeEventsOutput: Swift.Sendable {
+    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call DescribeEvents again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+    public var nextToken: Swift.String?
+    /// A list of operation events that match the specified criteria.
+    public var operationEvents: [CloudFormationClientTypes.OperationEvent]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        operationEvents: [CloudFormationClientTypes.OperationEvent]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.operationEvents = operationEvents
     }
 }
 
@@ -3653,6 +4577,7 @@ extension CloudFormationClientTypes {
 
     public enum WarningType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case excludedProperties
+        case excludedResources
         case mutuallyExclusiveProperties
         case mutuallyExclusiveTypes
         case unsupportedProperties
@@ -3661,6 +4586,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [WarningType] {
             return [
                 .excludedProperties,
+                .excludedResources,
                 .mutuallyExclusiveProperties,
                 .mutuallyExclusiveTypes,
                 .unsupportedProperties
@@ -3675,6 +4601,7 @@ extension CloudFormationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .excludedProperties: return "EXCLUDED_PROPERTIES"
+            case .excludedResources: return "EXCLUDED_RESOURCES"
             case .mutuallyExclusiveProperties: return "MUTUALLY_EXCLUSIVE_PROPERTIES"
             case .mutuallyExclusiveTypes: return "MUTUALLY_EXCLUSIVE_TYPES"
             case .unsupportedProperties: return "UNSUPPORTED_PROPERTIES"
@@ -4190,41 +5117,6 @@ extension CloudFormationClientTypes {
     }
 }
 
-extension CloudFormationClientTypes {
-
-    public enum StackDriftStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case drifted
-        case inSync
-        case notChecked
-        case unknown
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StackDriftStatus] {
-            return [
-                .drifted,
-                .inSync,
-                .notChecked,
-                .unknown
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .drifted: return "DRIFTED"
-            case .inSync: return "IN_SYNC"
-            case .notChecked: return "NOT_CHECKED"
-            case .unknown: return "UNKNOWN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct DescribeStackDriftDetectionStatusOutput: Swift.Sendable {
     /// The status of the stack drift detection operation.
     ///
@@ -4280,13 +5172,14 @@ public struct DescribeStackDriftDetectionStatusOutput: Swift.Sendable {
 
 /// The input for [DescribeStackEvents] action.
 public struct DescribeStackEventsInput: Swift.Sendable {
-    /// A string that identifies the next page of events that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
     ///
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
     /// * Deleted stacks: You must specify the unique stack ID.
+    /// This member is required.
     public var stackName: Swift.String?
 
     public init(
@@ -4295,177 +5188,6 @@ public struct DescribeStackEventsInput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.stackName = stackName
-    }
-}
-
-extension CloudFormationClientTypes {
-
-    public enum DetailedStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case configurationComplete
-        case validationFailed
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DetailedStatus] {
-            return [
-                .configurationComplete,
-                .validationFailed
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .configurationComplete: return "CONFIGURATION_COMPLETE"
-            case .validationFailed: return "VALIDATION_FAILED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CloudFormationClientTypes {
-
-    public enum HookStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case hookCompleteFailed
-        case hookCompleteSucceeded
-        case hookFailed
-        case hookInProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [HookStatus] {
-            return [
-                .hookCompleteFailed,
-                .hookCompleteSucceeded,
-                .hookFailed,
-                .hookInProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .hookCompleteFailed: return "HOOK_COMPLETE_FAILED"
-            case .hookCompleteSucceeded: return "HOOK_COMPLETE_SUCCEEDED"
-            case .hookFailed: return "HOOK_FAILED"
-            case .hookInProgress: return "HOOK_IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CloudFormationClientTypes {
-
-    public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case createComplete
-        case createFailed
-        case createInProgress
-        case deleteComplete
-        case deleteFailed
-        case deleteInProgress
-        case deleteSkipped
-        case exportComplete
-        case exportFailed
-        case exportInProgress
-        case exportRollbackComplete
-        case exportRollbackFailed
-        case exportRollbackInProgress
-        case importComplete
-        case importFailed
-        case importInProgress
-        case importRollbackComplete
-        case importRollbackFailed
-        case importRollbackInProgress
-        case rollbackComplete
-        case rollbackFailed
-        case rollbackInProgress
-        case updateComplete
-        case updateFailed
-        case updateInProgress
-        case updateRollbackComplete
-        case updateRollbackFailed
-        case updateRollbackInProgress
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourceStatus] {
-            return [
-                .createComplete,
-                .createFailed,
-                .createInProgress,
-                .deleteComplete,
-                .deleteFailed,
-                .deleteInProgress,
-                .deleteSkipped,
-                .exportComplete,
-                .exportFailed,
-                .exportInProgress,
-                .exportRollbackComplete,
-                .exportRollbackFailed,
-                .exportRollbackInProgress,
-                .importComplete,
-                .importFailed,
-                .importInProgress,
-                .importRollbackComplete,
-                .importRollbackFailed,
-                .importRollbackInProgress,
-                .rollbackComplete,
-                .rollbackFailed,
-                .rollbackInProgress,
-                .updateComplete,
-                .updateFailed,
-                .updateInProgress,
-                .updateRollbackComplete,
-                .updateRollbackFailed,
-                .updateRollbackInProgress
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .createComplete: return "CREATE_COMPLETE"
-            case .createFailed: return "CREATE_FAILED"
-            case .createInProgress: return "CREATE_IN_PROGRESS"
-            case .deleteComplete: return "DELETE_COMPLETE"
-            case .deleteFailed: return "DELETE_FAILED"
-            case .deleteInProgress: return "DELETE_IN_PROGRESS"
-            case .deleteSkipped: return "DELETE_SKIPPED"
-            case .exportComplete: return "EXPORT_COMPLETE"
-            case .exportFailed: return "EXPORT_FAILED"
-            case .exportInProgress: return "EXPORT_IN_PROGRESS"
-            case .exportRollbackComplete: return "EXPORT_ROLLBACK_COMPLETE"
-            case .exportRollbackFailed: return "EXPORT_ROLLBACK_FAILED"
-            case .exportRollbackInProgress: return "EXPORT_ROLLBACK_IN_PROGRESS"
-            case .importComplete: return "IMPORT_COMPLETE"
-            case .importFailed: return "IMPORT_FAILED"
-            case .importInProgress: return "IMPORT_IN_PROGRESS"
-            case .importRollbackComplete: return "IMPORT_ROLLBACK_COMPLETE"
-            case .importRollbackFailed: return "IMPORT_ROLLBACK_FAILED"
-            case .importRollbackInProgress: return "IMPORT_ROLLBACK_IN_PROGRESS"
-            case .rollbackComplete: return "ROLLBACK_COMPLETE"
-            case .rollbackFailed: return "ROLLBACK_FAILED"
-            case .rollbackInProgress: return "ROLLBACK_IN_PROGRESS"
-            case .updateComplete: return "UPDATE_COMPLETE"
-            case .updateFailed: return "UPDATE_FAILED"
-            case .updateInProgress: return "UPDATE_IN_PROGRESS"
-            case .updateRollbackComplete: return "UPDATE_ROLLBACK_COMPLETE"
-            case .updateRollbackFailed: return "UPDATE_ROLLBACK_FAILED"
-            case .updateRollbackInProgress: return "UPDATE_ROLLBACK_IN_PROGRESS"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -4484,25 +5206,29 @@ extension CloudFormationClientTypes {
         ///
         /// * VALIDATION_FAILED - template validation failed because of invalid properties in the template. The ResourceStatusReason field shows what properties are defined incorrectly.
         public var detailedStatus: CloudFormationClientTypes.DetailedStatus?
-        /// The unique ID of this event.
+        /// The unique identifier of this event.
         /// This member is required.
         public var eventId: Swift.String?
-        /// Specify the hook failure mode for non-compliant resources in the followings ways.
+        /// Specify the Hook failure mode for non-compliant resources in the followings ways.
         ///
         /// * FAIL Stops provisioning resources.
         ///
         /// * WARN Allows provisioning to continue with a warning message.
         public var hookFailureMode: CloudFormationClientTypes.HookFailureMode?
-        /// Invocation points are points in provisioning logic where Hooks are initiated.
+        /// The unique identifier of the Hook invocation.
+        public var hookInvocationId: Swift.String?
+        /// The specific point in the provisioning process where the Hook is invoked.
         public var hookInvocationPoint: CloudFormationClientTypes.HookInvocationPoint?
-        /// Provides the status of the change set hook.
+        /// Provides the status of the change set Hook.
         public var hookStatus: CloudFormationClientTypes.HookStatus?
-        /// Provides the reason for the hook status.
+        /// Provides the reason for the Hook status.
         public var hookStatusReason: Swift.String?
-        /// The name of the hook.
+        /// The name of the Hook.
         public var hookType: Swift.String?
         /// The logical name of the resource specified in the template.
         public var logicalResourceId: Swift.String?
+        /// The unique identifier of the operation that generated this stack event.
+        public var operationId: Swift.String?
         /// The name or unique identifier associated with the physical instance of the resource.
         public var physicalResourceId: Swift.String?
         /// BLOB of the properties used to create the resource.
@@ -4528,11 +5254,13 @@ extension CloudFormationClientTypes {
             detailedStatus: CloudFormationClientTypes.DetailedStatus? = nil,
             eventId: Swift.String? = nil,
             hookFailureMode: CloudFormationClientTypes.HookFailureMode? = nil,
+            hookInvocationId: Swift.String? = nil,
             hookInvocationPoint: CloudFormationClientTypes.HookInvocationPoint? = nil,
             hookStatus: CloudFormationClientTypes.HookStatus? = nil,
             hookStatusReason: Swift.String? = nil,
             hookType: Swift.String? = nil,
             logicalResourceId: Swift.String? = nil,
+            operationId: Swift.String? = nil,
             physicalResourceId: Swift.String? = nil,
             resourceProperties: Swift.String? = nil,
             resourceStatus: CloudFormationClientTypes.ResourceStatus? = nil,
@@ -4546,11 +5274,13 @@ extension CloudFormationClientTypes {
             self.detailedStatus = detailedStatus
             self.eventId = eventId
             self.hookFailureMode = hookFailureMode
+            self.hookInvocationId = hookInvocationId
             self.hookInvocationPoint = hookInvocationPoint
             self.hookStatus = hookStatus
             self.hookStatusReason = hookStatusReason
             self.hookType = hookType
             self.logicalResourceId = logicalResourceId
+            self.operationId = operationId
             self.physicalResourceId = physicalResourceId
             self.resourceProperties = resourceProperties
             self.resourceStatus = resourceStatus
@@ -4603,7 +5333,7 @@ public struct StackInstanceNotFoundException: ClientRuntime.ModeledError, AWSCli
 }
 
 public struct DescribeStackInstanceInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -4615,7 +5345,7 @@ public struct DescribeStackInstanceInput: Swift.Sendable {
     /// The name of a Region that's associated with this stack instance.
     /// This member is required.
     public var stackInstanceRegion: Swift.String?
-    /// The name or the unique stack ID of the stack set that you want to get stack instance information for.
+    /// The name or the unique stack ID of the StackSet that you want to get stack instance information for.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -4683,11 +5413,11 @@ extension CloudFormationClientTypes {
 
     /// The detailed status of the stack instance.
     public struct StackInstanceComprehensiveStatus: Swift.Sendable {
-        /// * CANCELLED: The operation in the specified account and Region has been canceled. This is either because a user has stopped the stack set operation, or because the failure tolerance of the stack set operation has been exceeded.
+        /// * CANCELLED: The operation in the specified account and Region has been canceled. This is either because a user has stopped the StackSet operation, or because the failure tolerance of the StackSet operation has been exceeded.
         ///
-        /// * FAILED: The operation in the specified account and Region failed. If the stack set operation fails in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.
+        /// * FAILED: The operation in the specified account and Region failed. If the StackSet operation fails in enough accounts within a Region, the failure tolerance for the StackSet operation as a whole might be exceeded.
         ///
-        /// * FAILED_IMPORT: The import of the stack instance in the specified account and Region failed and left the stack in an unstable state. Once the issues causing the failure are fixed, the import operation can be retried. If enough stack set operations fail in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.
+        /// * FAILED_IMPORT: The import of the stack instance in the specified account and Region failed and left the stack in an unstable state. Once the issues causing the failure are fixed, the import operation can be retried. If enough StackSet operations fail in enough accounts within a Region, the failure tolerance for the StackSet operation as a whole might be exceeded.
         ///
         /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.
         ///
@@ -4742,27 +5472,27 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// A CloudFormation stack, in a specific account and Region, that's part of a stack set operation. A stack instance is a reference to an attempted or actual stack in a given account within a given Region. A stack instance can exist without a stack—for example, if the stack couldn't be created for some reason. A stack instance is associated with only one stack set. Each stack instance contains the ID of its associated stack set, in addition to the ID of the actual stack and the stack status.
+    /// A CloudFormation stack, in a specific account and Region, that's part of a StackSet operation. A stack instance is a reference to an attempted or actual stack in a given account within a given Region. A stack instance can exist without a stack—for example, if the stack couldn't be created for some reason. A stack instance is associated with only one StackSet. Each stack instance contains the ID of its associated StackSet, in addition to the ID of the actual stack and the stack status.
     public struct StackInstance: Swift.Sendable {
         /// [Self-managed permissions] The name of the Amazon Web Services account that the stack instance is associated with.
         public var account: Swift.String?
-        /// Status of the stack instance's actual configuration compared to the expected template and parameter configuration of the stack set to which it belongs.
+        /// Status of the stack instance's actual configuration compared to the expected template and parameter configuration of the StackSet it belongs to.
         ///
-        /// * DRIFTED: The stack differs from the expected template and parameter configuration of the stack set to which it belongs. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.
+        /// * DRIFTED: The stack differs from the expected template and parameter configuration of the StackSet it belongs to. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.
         ///
-        /// * NOT_CHECKED: CloudFormation hasn't checked if the stack instance differs from its expected stack set configuration.
+        /// * NOT_CHECKED: CloudFormation hasn't checked if the stack instance differs from its expected StackSet configuration.
         ///
-        /// * IN_SYNC: The stack instance's actual configuration matches its expected stack set configuration.
+        /// * IN_SYNC: The stack instance's actual configuration matches its expected StackSset configuration.
         ///
         /// * UNKNOWN: This value is reserved for future use.
         public var driftStatus: CloudFormationClientTypes.StackDriftStatus?
-        /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection hasn't yet been performed.
+        /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance that drift detection hasn't yet been performed on.
         public var lastDriftCheckTimestamp: Foundation.Date?
         /// The last unique ID of a StackSet operation performed on a stack instance.
         public var lastOperationId: Swift.String?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for [DeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html).
         public var organizationalUnitId: Swift.String?
-        /// A list of parameters from the stack set template whose values have been overridden in this stack instance.
+        /// A list of parameters from the StackSet template whose values have been overridden in this stack instance.
         public var parameterOverrides: [CloudFormationClientTypes.Parameter]?
         /// The name of the Amazon Web Services Region that the stack instance is associated with.
         public var region: Swift.String?
@@ -4770,13 +5500,13 @@ extension CloudFormationClientTypes {
         public var stackId: Swift.String?
         /// The detailed status of the stack instance.
         public var stackInstanceStatus: CloudFormationClientTypes.StackInstanceComprehensiveStatus?
-        /// The name or unique ID of the stack set that the stack instance is associated with.
+        /// The name or unique ID of the StackSet that the stack instance is associated with.
         public var stackSetId: Swift.String?
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.
         ///
         /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually. INOPERABLE can be returned here when the cause is a failed import. If it's due to a failed import, the operation can be retried once the failures are fixed. To see if this is due to a failed import, look at the DetailedStatus member in the StackInstanceSummary member that is a peer to this Status member.
         ///
-        /// * OUTDATED: The stack isn't currently up to date with the stack set because:
+        /// * OUTDATED: The stack isn't currently up to date with the StackSet because:
         ///
         /// * The associated stack failed during a CreateStackSet or UpdateStackSet operation.
         ///
@@ -4785,7 +5515,7 @@ extension CloudFormationClientTypes {
         ///
         ///
         ///
-        /// * CURRENT: The stack is currently up to date with the stack set.
+        /// * CURRENT: The stack is currently up to date with the StackSet.
         public var status: CloudFormationClientTypes.StackInstanceStatus?
         /// The explanation for the specific status code that's assigned to this stack instance.
         public var statusReason: Swift.String?
@@ -5016,44 +5746,6 @@ public struct DescribeStackResourceInput: Swift.Sendable {
 
 extension CloudFormationClientTypes {
 
-    public enum StackResourceDriftStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case deleted
-        case inSync
-        case modified
-        case notChecked
-        case unknown
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StackResourceDriftStatus] {
-            return [
-                .deleted,
-                .inSync,
-                .modified,
-                .notChecked,
-                .unknown
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .deleted: return "DELETED"
-            case .inSync: return "IN_SYNC"
-            case .modified: return "MODIFIED"
-            case .notChecked: return "NOT_CHECKED"
-            case .unknown: return "UNKNOWN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CloudFormationClientTypes {
-
     /// Contains information about whether the resource's actual configuration differs, or has drifted, from its expected configuration.
     public struct StackResourceDriftInformation: Swift.Sendable {
         /// When CloudFormation last checked if the resource had drifted from its expected configuration.
@@ -5158,7 +5850,7 @@ public struct DescribeStackResourceOutput: Swift.Sendable {
 public struct DescribeStackResourceDriftsInput: Swift.Sendable {
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of stack resource drift results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name of the stack for which you want drift information.
     /// This member is required.
@@ -5469,7 +6161,7 @@ public struct DescribeStackResourcesOutput: Swift.Sendable {
 
 /// The input for [DescribeStacks] action.
 public struct DescribeStacksInput: Swift.Sendable {
-    /// A string that identifies the next page of stacks that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the [ListStacks] API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] } The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
     ///
@@ -5511,6 +6203,25 @@ extension CloudFormationClientTypes {
         ) {
             self.lastCheckTimestamp = lastCheckTimestamp
             self.stackDriftStatus = stackDriftStatus
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// Contains information about a CloudFormation operation.
+    public struct OperationEntry: Swift.Sendable {
+        /// The unique identifier for the operation.
+        public var operationId: Swift.String?
+        /// The type of operation.
+        public var operationType: CloudFormationClientTypes.OperationType?
+
+        public init(
+            operationId: Swift.String? = nil,
+            operationType: CloudFormationClientTypes.OperationType? = nil
+        ) {
+            self.operationId = operationId
+            self.operationType = operationType
         }
     }
 }
@@ -5655,7 +6366,7 @@ extension CloudFormationClientTypes {
         public var deletionTime: Foundation.Date?
         /// A user-defined description associated with the stack.
         public var description: Swift.String?
-        /// The detailed status of the resource or stack. If CONFIGURATION_COMPLETE is present, the resource or resource configuration phase has completed and the stabilization of the resources is in progress. The stack sets CONFIGURATION_COMPLETE when all of the resources in the stack have reached that event. For more information, see [Understand CloudFormation stack creation events](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide.
+        /// The detailed status of the resource or stack. If CONFIGURATION_COMPLETE is present, the resource or resource configuration phase has completed and the stabilization of the resources is in progress. The StackSets CONFIGURATION_COMPLETE when all of the resources in the stack have reached that event. For more information, see [Understand CloudFormation stack creation events](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide.
         public var detailedStatus: CloudFormationClientTypes.DetailedStatus?
         /// Boolean to enable or disable rollback on stack creation failures:
         ///
@@ -5667,6 +6378,8 @@ extension CloudFormationClientTypes {
         public var driftInformation: CloudFormationClientTypes.StackDriftInformation?
         /// Whether termination protection is enabled for the stack. For [nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html), termination protection is set on the root stack and can't be changed directly on the nested stack. For more information, see [Protect a CloudFormation stack from being deleted](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) in the CloudFormation User Guide.
         public var enableTerminationProtection: Swift.Bool?
+        /// Information about the most recent operations performed on this stack.
+        public var lastOperations: [CloudFormationClientTypes.OperationEntry]?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
         public var lastUpdatedTime: Foundation.Date?
         /// Amazon SNS topic Amazon Resource Names (ARNs) to which stack related events are published.
@@ -5711,6 +6424,7 @@ extension CloudFormationClientTypes {
             disableRollback: Swift.Bool? = nil,
             driftInformation: CloudFormationClientTypes.StackDriftInformation? = nil,
             enableTerminationProtection: Swift.Bool? = nil,
+            lastOperations: [CloudFormationClientTypes.OperationEntry]? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             notificationARNs: [Swift.String]? = nil,
             outputs: [CloudFormationClientTypes.Output]? = nil,
@@ -5737,6 +6451,7 @@ extension CloudFormationClientTypes {
             self.disableRollback = disableRollback
             self.driftInformation = driftInformation
             self.enableTerminationProtection = enableTerminationProtection
+            self.lastOperations = lastOperations
             self.lastUpdatedTime = lastUpdatedTime
             self.notificationARNs = notificationARNs
             self.outputs = outputs
@@ -5773,13 +6488,13 @@ public struct DescribeStacksOutput: Swift.Sendable {
 }
 
 public struct DescribeStackSetInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
     /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// The name or unique ID of the stack set whose description you want.
+    /// The name or unique ID of the StackSet whose description you want.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -5864,9 +6579,9 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// Detailed information about the drift status of the stack set. For stack sets, contains information about the last completed drift operation performed on the stack set. Information about drift operations in-progress isn't included. For stack set operations, includes information about drift operations currently being performed on the stack set. For more information, see [Performing drift detection on CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html) in the CloudFormation User Guide.
+    /// Detailed information about the drift status of the StackSet. For StackSets, contains information about the last completed drift operation performed on the StackSet. Information about drift operations in-progress isn't included. For StackSet operations, includes information about drift operations currently being performed on the StackSet. For more information, see [Performing drift detection on CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html) in the CloudFormation User Guide.
     public struct StackSetDriftDetectionDetails: Swift.Sendable {
-        /// The status of the stack set drift detection operation.
+        /// The status of the StackSet drift detection operation.
         ///
         /// * COMPLETED: The drift detection operation completed without failing on any stack instances.
         ///
@@ -5878,29 +6593,29 @@ extension CloudFormationClientTypes {
         ///
         /// * STOPPED: The user has canceled the drift detection operation.
         public var driftDetectionStatus: CloudFormationClientTypes.StackSetDriftDetectionStatus?
-        /// Status of the stack set's actual configuration compared to its expected template and parameter configuration. A stack set is considered to have drifted if one or more of its stack instances have drifted from their expected template and parameter configuration.
+        /// Status of the StackSet's actual configuration compared to its expected template and parameter configuration.
         ///
-        /// * DRIFTED: One or more of the stack instances belonging to the stack set stack differs from the expected template and parameter configuration. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.
+        /// * DRIFTED: One or more of the stack instances belonging to the StackSet differs from the expected template and parameter configuration. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.
         ///
-        /// * NOT_CHECKED: CloudFormation hasn't checked the stack set for drift.
+        /// * NOT_CHECKED: CloudFormation hasn't checked the StackSet for drift.
         ///
-        /// * IN_SYNC: All of the stack instances belonging to the stack set stack match from the expected template and parameter configuration.
+        /// * IN_SYNC: All of the stack instances belonging to the StackSet stack match the expected template and parameter configuration.
         public var driftStatus: CloudFormationClientTypes.StackSetDriftStatus?
-        /// The number of stack instances that have drifted from the expected template and parameter configuration of the stack set. A stack instance is considered to have drifted if one or more of the resources in the associated stack don't match their expected configuration.
+        /// The number of stack instances that have drifted from the expected template and parameter configuration of the StackSet. A stack instance is considered to have drifted if one or more of the resources in the associated stack don't match their expected configuration.
         public var driftedStackInstancesCount: Swift.Int?
         /// The number of stack instances for which the drift detection operation failed.
         public var failedStackInstancesCount: Swift.Int?
         /// The number of stack instances that are currently being checked for drift.
         public var inProgressStackInstancesCount: Swift.Int?
-        /// The number of stack instances which match the expected template and parameter configuration of the stack set.
+        /// The number of stack instances which match the expected template and parameter configuration of the StackSet.
         public var inSyncStackInstancesCount: Swift.Int?
-        /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection hasn't yet been performed.
+        /// Most recent time when CloudFormation performed a drift detection operation on the StackSet. This value will be NULL for any StackSet that drift detection hasn't yet been performed on.
         public var lastDriftCheckTimestamp: Foundation.Date?
-        /// The total number of stack instances belonging to this stack set. The total number of stack instances is equal to the total of:
+        /// The total number of stack instances belonging to this StackSet. The total number of stack instances is equal to the total of:
         ///
-        /// * Stack instances that match the stack set configuration.
+        /// * Stack instances that match the StackSet configuration.
         ///
-        /// * Stack instances that have drifted from the stack set configuration.
+        /// * Stack instances that have drifted from the StackSet configuration.
         ///
         /// * Stack instances where the drift detection operation has failed.
         ///
@@ -5960,45 +6675,45 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// A structure that contains information about a stack set. A stack set enables you to provision stacks into Amazon Web Services accounts and across Regions by using a single CloudFormation template. In the stack set, you specify the template to use, in addition to any parameters and capabilities that the template requires.
+    /// A structure that contains information about a StackSet. With StackSets, you can provision stacks across Amazon Web Services accounts and Regions from a single CloudFormation template. Each stack is based on the same CloudFormation template, but you can customize individual stacks using parameters.
     public struct StackSet: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Prerequisites for using CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific StackSets within the same administrator account. For more information, see [Prerequisites for using CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide.
         public var administrationRoleARN: Swift.String?
-        /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU).
+        /// Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). Valid only if the StackSet uses service-managed permissions.
         public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
-        /// The capabilities that are allowed in the stack set. Some stack set templates might include resources that can affect permissions in your Amazon Web Services account—for example, by creating new Identity and Access Management (IAM) users. For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
+        /// The capabilities that are allowed in the StackSet. Some StackSet templates might include resources that can affect permissions in your Amazon Web Services account—for example, by creating new Identity and Access Management (IAM) users. For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
         public var capabilities: [CloudFormationClientTypes.Capability]?
-        /// A description of the stack set that you specify when the stack set is created or updated.
+        /// A description of the StackSet that you specify when the StackSet is created or updated.
         public var description: Swift.String?
-        /// The name of the IAM execution role used to create or update the stack set. Use customized execution roles to control which stack resources users and groups can include in their stack sets.
+        /// The name of the IAM execution role used to create or update the StackSet. Use customized execution roles to control which stack resources users and groups can include in their StackSets.
         public var executionRoleName: Swift.String?
         /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
         public var managedExecution: CloudFormationClientTypes.ManagedExecution?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for [DeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html).
         public var organizationalUnitIds: [Swift.String]?
-        /// A list of input parameters for a stack set.
+        /// A list of input parameters for a StackSet.
         public var parameters: [CloudFormationClientTypes.Parameter]?
-        /// Describes how the IAM roles required for stack set operations are created.
+        /// Describes how the IAM roles required for StackSet operations are created.
         ///
         /// * With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
         ///
-        /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Activate trusted access for stack sets with Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
+        /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Activate trusted access for StackSets with Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
         public var permissionModel: CloudFormationClientTypes.PermissionModels?
         /// Returns a list of all Amazon Web Services Regions the given StackSet has stack instances deployed in. The Amazon Web Services Regions list output is in no particular order.
         public var regions: [Swift.String]?
-        /// The Amazon Resource Name (ARN) of the stack set.
+        /// The Amazon Resource Name (ARN) of the StackSet.
         public var stackSetARN: Swift.String?
-        /// Detailed information about the drift status of the stack set. For stack sets, contains information about the last completed drift operation performed on the stack set. Information about drift operations currently in progress isn't included.
+        /// Detailed information about the drift status of the StackSet. For StackSets, contains information about the last completed drift operation performed on the StackSet. Information about drift operations currently in progress isn't included.
         public var stackSetDriftDetectionDetails: CloudFormationClientTypes.StackSetDriftDetectionDetails?
-        /// The ID of the stack set.
+        /// The ID of the StackSet.
         public var stackSetId: Swift.String?
-        /// The name that's associated with the stack set.
+        /// The name that's associated with the StackSet.
         public var stackSetName: Swift.String?
-        /// The status of the stack set.
+        /// The status of the StackSet.
         public var status: CloudFormationClientTypes.StackSetStatus?
-        /// A list of tags that specify information about the stack set. A maximum number of 50 tags can be specified.
+        /// A list of tags that specify information about the StackSet. A maximum number of 50 tags can be specified.
         public var tags: [CloudFormationClientTypes.Tag]?
-        /// The structure that contains the body of the template that was used to create or update the stack set.
+        /// The structure that contains the body of the template that was used to create or update the StackSet.
         public var templateBody: Swift.String?
 
         public init(
@@ -6042,7 +6757,7 @@ extension CloudFormationClientTypes {
 }
 
 public struct DescribeStackSetOutput: Swift.Sendable {
-    /// The specified stack set.
+    /// The specified StackSet.
     public var stackSet: CloudFormationClientTypes.StackSet?
 
     public init(
@@ -6053,16 +6768,16 @@ public struct DescribeStackSetOutput: Swift.Sendable {
 }
 
 public struct DescribeStackSetOperationInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
     /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// The unique ID of the stack set operation.
+    /// The unique ID of the StackSet operation.
     /// This member is required.
     public var operationId: Swift.String?
-    /// The name or the unique stack ID of the stack set for the stack operation.
+    /// The name or the unique stack ID of the StackSet for the stack operation.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -6170,35 +6885,35 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// The structure that contains information about a stack set operation.
+    /// The structure that contains information about a StackSet operation.
     public struct StackSetOperation: Swift.Sendable {
-        /// The type of stack set operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack set instances that are associated with the specified stack set. Update operations affect both the stack set itself, in addition to all associated stack set instances.
+        /// The type of StackSet operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified StackSet. Update operations affect both the StackSet itself, in addition to all associated stack instances.
         public var action: CloudFormationClientTypes.StackSetOperationAction?
-        /// The Amazon Resource Name (ARN) of the IAM role used to perform this stack set operation. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) in the CloudFormation User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role used to perform this StackSet operation. Use customized administrator roles to control which users or groups can manage specific StackSets within the same administrator account. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) in the CloudFormation User Guide.
         public var administrationRoleARN: Swift.String?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
         public var creationTimestamp: Foundation.Date?
-        /// [Service-managed permissions] The Organizations accounts affected by the stack operation.
+        /// The Organizations accounts affected by the stack operation. Valid only if the StackSet uses service-managed permissions.
         public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
-        /// The time at which the stack set operation ended, across all accounts and Regions specified. Note that this doesn't necessarily mean that the stack set operation was successful, or even attempted, in each account or Region.
+        /// The time at which the StackSet operation ended, across all accounts and Regions specified. Note that this doesn't necessarily mean that the StackSet operation was successful, or even attempted, in each account or Region.
         public var endTimestamp: Foundation.Date?
-        /// The name of the IAM execution role used to create or update the stack set. Use customized execution roles to control which stack resources users and groups can include in their stack sets.
+        /// The name of the IAM execution role used to create or update the StackSet. Use customized execution roles to control which stack resources users and groups can include in their StackSets.
         public var executionRoleName: Swift.String?
-        /// The unique ID of a stack set operation.
+        /// The unique ID of a StackSet operation.
         public var operationId: Swift.String?
-        /// The preferences for how CloudFormation performs this stack set operation.
+        /// The preferences for how CloudFormation performs this StackSet operation.
         public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
-        /// For stack set operations of action type DELETE, specifies whether to remove the stack instances from the specified stack set, but doesn't delete the stacks. You can't re-associate a retained stack, or add an existing, saved stack to a new stack set.
+        /// For StackSet operations of action type DELETE, specifies whether to remove the stack instances from the specified StackSet, but doesn't delete the stacks. You can't re-associate a retained stack, or add an existing, saved stack to a new StackSet.
         public var retainStacks: Swift.Bool?
-        /// Detailed information about the drift status of the stack set. This includes information about drift operations currently being performed on the stack set. This information will only be present for stack set operations whose Action type is DETECT_DRIFT. For more information, see [Performing drift detection on CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html) in the CloudFormation User Guide.
+        /// Detailed information about the drift status of the StackSet. This includes information about drift operations currently being performed on the StackSet. This information will only be present for StackSet operations whose Action type is DETECT_DRIFT. For more information, see [Performing drift detection on CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-drift.html) in the CloudFormation User Guide.
         public var stackSetDriftDetectionDetails: CloudFormationClientTypes.StackSetDriftDetectionDetails?
-        /// The ID of the stack set.
+        /// The ID of the StackSet.
         public var stackSetId: Swift.String?
         /// The status of the operation.
         ///
         /// * FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each Region during stack create and update operations. If the number of failed stacks within a Region exceeds the failure tolerance, the status of the operation in the Region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and CloudFormation cancels the operation in any remaining Regions.
         ///
-        /// * QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the [StackSets status codes](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-status-codes) in the CloudFormation User Guide.
+        /// * QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the [StackSets status codes](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes) in the CloudFormation User Guide.
         ///
         /// * RUNNING: The operation is currently being performed.
         ///
@@ -6248,7 +6963,7 @@ extension CloudFormationClientTypes {
 }
 
 public struct DescribeStackSetOperationOutput: Swift.Sendable {
-    /// The specified stack set operation.
+    /// The specified StackSet operation.
     public var stackSetOperation: CloudFormationClientTypes.StackSetOperation?
 
     public init(
@@ -6446,7 +7161,7 @@ public struct DescribeTypeOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// Whether CloudFormation automatically updates the extension in this account and Region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. For more information, see [Automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
     public var autoUpdate: Swift.Bool?
-    /// A JSON string that represent the current configuration data for the extension in this account and Region. To set the configuration data for an extension, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html). For more information, see [Edit configuration data for extensions in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html) in the CloudFormation User Guide.
+    /// A JSON string that represent the current configuration data for the extension in this account and Region. To set the configuration data for an extension, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html).
     public var configurationSchema: Swift.String?
     /// The ID of the default version of the extension. The default version is used when the extension version isn't specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon Web Services and published by third parties, CloudFormation returns null. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html). To set the default version of an extension, use [SetTypeDefaultVersion].
     public var defaultVersionId: Swift.String?
@@ -6503,7 +7218,7 @@ public struct DescribeTypeOutput: Swift.Sendable {
     public var publisherId: Swift.String?
     /// For extensions that are modules, the public third-party extensions that must be activated in your account in order for the module itself to be activated.
     public var requiredActivatedTypes: [CloudFormationClientTypes.RequiredActivatedType]?
-    /// The schema that defines the extension. For more information about extension schemas, see [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html) in the CloudFormation Command Line Interface (CLI) User Guide.
+    /// The schema that defines the extension. For more information, see [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html) in the CloudFormation Command Line Interface (CLI) User Guide and the [CloudFormation Hooks User Guide](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/what-is-cloudformation-hooks.html).
     public var schema: Swift.String?
     /// The URL of the source code for the extension.
     public var sourceUrl: Swift.String?
@@ -6716,17 +7431,17 @@ public struct DetectStackResourceDriftOutput: Swift.Sendable {
 }
 
 public struct DetectStackSetDriftInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
     /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// The ID of the stack set operation.
+    /// The ID of the StackSet operation.
     public var operationId: Swift.String?
-    /// The user-specified preferences for how CloudFormation performs a stack set operation. For more information about maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options).
+    /// The user-specified preferences for how CloudFormation performs a StackSet operation. For more information about maximum concurrent accounts and failure tolerance, see [StackSet operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
     public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
-    /// The name of the stack set on which to perform the drift detection operation.
+    /// The name of the StackSet on which to perform the drift detection operation.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -6744,7 +7459,7 @@ public struct DetectStackSetDriftInput: Swift.Sendable {
 }
 
 public struct DetectStackSetDriftOutput: Swift.Sendable {
-    /// The ID of the drift detection stack set operation. You can use this operation ID with [DescribeStackSetOperation] to monitor the progress of the drift detection operation.
+    /// The ID of the drift detection StackSet operation. You can use this operation ID with [DescribeStackSetOperation] to monitor the progress of the drift detection operation.
     public var operationId: Swift.String?
 
     public init(
@@ -6920,6 +7635,173 @@ public struct GetGeneratedTemplateOutput: Swift.Sendable {
     }
 }
 
+/// The specified target doesn't have any requested Hook invocations.
+public struct HookResultNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "HookResultNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetHookResultInput: Swift.Sendable {
+    /// The unique identifier (ID) of the Hook invocation result that you want details about. You can get the ID from the [ListHookResults](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListHookResults.html) operation.
+    public var hookResultId: Swift.String?
+
+    public init(
+        hookResultId: Swift.String? = nil
+    ) {
+        self.hookResultId = hookResultId
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum HookTargetAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case create
+        case delete
+        case `import`
+        case update
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HookTargetAction] {
+            return [
+                .create,
+                .delete,
+                .import,
+                .update
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .create: return "CREATE"
+            case .delete: return "DELETE"
+            case .import: return "IMPORT"
+            case .update: return "UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// The HookTarget data type.
+    public struct HookTarget: Swift.Sendable {
+        /// The action that invoked the Hook.
+        /// This member is required.
+        public var action: CloudFormationClientTypes.HookTargetAction?
+        /// The unique identifier of the Hook invocation target.
+        /// This member is required.
+        public var targetId: Swift.String?
+        /// The target type.
+        /// This member is required.
+        public var targetType: CloudFormationClientTypes.HookTargetType?
+        /// The target name, for example, AWS::S3::Bucket.
+        /// This member is required.
+        public var targetTypeName: Swift.String?
+
+        public init(
+            action: CloudFormationClientTypes.HookTargetAction? = nil,
+            targetId: Swift.String? = nil,
+            targetType: CloudFormationClientTypes.HookTargetType? = nil,
+            targetTypeName: Swift.String? = nil
+        ) {
+            self.action = action
+            self.targetId = targetId
+            self.targetType = targetType
+            self.targetTypeName = targetTypeName
+        }
+    }
+}
+
+public struct GetHookResultOutput: Swift.Sendable {
+    /// A list of objects with additional information and guidance that can help you resolve a failed Hook invocation.
+    public var annotations: [CloudFormationClientTypes.Annotation]?
+    /// The failure mode of the invocation.
+    public var failureMode: CloudFormationClientTypes.HookFailureMode?
+    /// The unique identifier of the Hook result.
+    public var hookResultId: Swift.String?
+    /// A message that provides additional details about the Hook invocation status.
+    public var hookStatusReason: Swift.String?
+    /// The specific point in the provisioning process where the Hook is invoked.
+    public var invocationPoint: CloudFormationClientTypes.HookInvocationPoint?
+    /// The timestamp when the Hook was invoked.
+    public var invokedAt: Foundation.Date?
+    /// The original public type name of the Hook when an alias is used. For example, if you activate AWS::Hooks::GuardHook with alias MyCompany::Custom::GuardHook, then TypeName will be MyCompany::Custom::GuardHook and OriginalTypeName will be AWS::Hooks::GuardHook.
+    public var originalTypeName: Swift.String?
+    /// The status of the Hook invocation. The following statuses are possible:
+    ///
+    /// * HOOK_IN_PROGRESS: The Hook is currently running.
+    ///
+    /// * HOOK_COMPLETE_SUCCEEDED: The Hook completed successfully.
+    ///
+    /// * HOOK_COMPLETE_FAILED: The Hook completed but failed validation.
+    ///
+    /// * HOOK_FAILED: The Hook encountered an error during execution.
+    public var status: CloudFormationClientTypes.HookStatus?
+    /// Information about the target of the Hook invocation.
+    public var target: CloudFormationClientTypes.HookTarget?
+    /// The Amazon Resource Name (ARN) of the Hook.
+    public var typeArn: Swift.String?
+    /// The version identifier of the Hook configuration data that was used during invocation.
+    public var typeConfigurationVersionId: Swift.String?
+    /// The name of the Hook that was invoked.
+    public var typeName: Swift.String?
+    /// The version identifier of the Hook that was invoked.
+    public var typeVersionId: Swift.String?
+
+    public init(
+        annotations: [CloudFormationClientTypes.Annotation]? = nil,
+        failureMode: CloudFormationClientTypes.HookFailureMode? = nil,
+        hookResultId: Swift.String? = nil,
+        hookStatusReason: Swift.String? = nil,
+        invocationPoint: CloudFormationClientTypes.HookInvocationPoint? = nil,
+        invokedAt: Foundation.Date? = nil,
+        originalTypeName: Swift.String? = nil,
+        status: CloudFormationClientTypes.HookStatus? = nil,
+        target: CloudFormationClientTypes.HookTarget? = nil,
+        typeArn: Swift.String? = nil,
+        typeConfigurationVersionId: Swift.String? = nil,
+        typeName: Swift.String? = nil,
+        typeVersionId: Swift.String? = nil
+    ) {
+        self.annotations = annotations
+        self.failureMode = failureMode
+        self.hookResultId = hookResultId
+        self.hookStatusReason = hookStatusReason
+        self.invocationPoint = invocationPoint
+        self.invokedAt = invokedAt
+        self.originalTypeName = originalTypeName
+        self.status = status
+        self.target = target
+        self.typeArn = typeArn
+        self.typeConfigurationVersionId = typeConfigurationVersionId
+        self.typeName = typeName
+        self.typeVersionId = typeVersionId
+    }
+}
+
 /// The input for the [GetStackPolicy] action.
 public struct GetStackPolicyInput: Swift.Sendable {
     /// The name or unique stack ID that's associated with the stack whose policy you want to get.
@@ -6935,7 +7817,7 @@ public struct GetStackPolicyInput: Swift.Sendable {
 
 /// The output for the [GetStackPolicy] action.
 public struct GetStackPolicyOutput: Swift.Sendable {
-    /// Structure that contains the stack policy body. (For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide.)
+    /// Structure that contains the stack policy body. For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide.
     public var stackPolicyBody: Swift.String?
 
     public init(
@@ -7031,7 +7913,7 @@ extension CloudFormationClientTypes {
 
 /// The input for the [GetTemplateSummary] action.
 public struct GetTemplateSummaryInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -7039,7 +7921,7 @@ public struct GetTemplateSummaryInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The name or the stack ID that's associated with the stack, which aren't always interchangeable. For running stacks, you can specify either the stack's name or its unique stack ID. For deleted stack, you must specify the unique stack ID. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
     public var stackName: Swift.String?
-    /// The name or unique ID of the stack set from which the stack was created. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
+    /// The name or unique ID of the StackSet from which the stack was created. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
     public var stackSetName: Swift.String?
     /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
     public var templateBody: Swift.String?
@@ -7225,23 +8107,23 @@ public struct StackNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 public struct ImportStacksToStackSetInput: Swift.Sendable {
-    /// By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
-    /// * For service managed stack sets, specify DELEGATED_ADMIN.
+    /// * For service managed StackSets, specify DELEGATED_ADMIN.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// A unique, user defined, identifier for the stack set operation.
+    /// A unique, user defined, identifier for the StackSet operation.
     public var operationId: Swift.String?
-    /// The user-specified preferences for how CloudFormation performs a stack set operation. For more information about maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options).
+    /// The user-specified preferences for how CloudFormation performs a StackSet operation. For more information about maximum concurrent accounts and failure tolerance, see [StackSet operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
     public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
-    /// The list of OU ID's to which the stacks being imported has to be mapped as deployment target.
+    /// The list of OU ID's to which the imported stacks must be mapped as deployment targets.
     public var organizationalUnitIds: [Swift.String]?
-    /// The IDs of the stacks you are importing into a stack set. You import up to 10 stacks per stack set at a time. Specify either StackIds or StackIdsUrl.
+    /// The IDs of the stacks you are importing into a StackSet. You import up to 10 stacks per StackSet at a time. Specify either StackIds or StackIdsUrl.
     public var stackIds: [Swift.String]?
     /// The Amazon S3 URL which contains list of stack ids to be inputted. Specify either StackIds or StackIdsUrl.
     public var stackIdsUrl: Swift.String?
-    /// The name of the stack set. The name must be unique in the Region where you create your stack set.
+    /// The name of the StackSet. The name must be unique in the Region where you create your StackSet.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -7265,7 +8147,7 @@ public struct ImportStacksToStackSetInput: Swift.Sendable {
 }
 
 public struct ImportStacksToStackSetOutput: Swift.Sendable {
-    /// The unique identifier for the stack set operation.
+    /// The unique identifier for the StackSet operation.
     public var operationId: Swift.String?
 
     public init(
@@ -7277,7 +8159,7 @@ public struct ImportStacksToStackSetOutput: Swift.Sendable {
 
 /// The input for the [ListChangeSets] action.
 public struct ListChangeSetsInput: Swift.Sendable {
-    /// A string (provided by the [ListChangeSets] response output) that identifies the next page of change sets that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name or the Amazon Resource Name (ARN) of the stack for which you want to list change sets.
     /// This member is required.
@@ -7309,7 +8191,7 @@ public struct ListChangeSetsOutput: Swift.Sendable {
 }
 
 public struct ListExportsInput: Swift.Sendable {
-    /// A string (provided by the [ListExports] response output) that identifies the next page of exported output values that you asked to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -7321,7 +8203,7 @@ public struct ListExportsInput: Swift.Sendable {
 
 extension CloudFormationClientTypes {
 
-    /// The Export structure describes the exported output values for a stack.
+    /// The Export structure describes the exported output values for a stack. For more information, see [Get exported outputs from a deployed CloudFormation stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html).
     public struct Export: Swift.Sendable {
         /// The stack that contains the exported output name and value.
         public var exportingStackId: Swift.String?
@@ -7360,7 +8242,7 @@ public struct ListExportsOutput: Swift.Sendable {
 public struct ListGeneratedTemplatesInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListGeneratedTemplates API action will return at most 50 results in each response. The maximum value is 100.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of resource scan results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -7442,29 +8324,6 @@ public struct ListGeneratedTemplatesOutput: Swift.Sendable {
     }
 }
 
-/// The specified target doesn't have any requested Hook invocations.
-public struct HookResultNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "HookResultNotFound" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension CloudFormationClientTypes {
 
     public enum ListHookResultsTargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -7501,62 +8360,104 @@ extension CloudFormationClientTypes {
 }
 
 public struct ListHookResultsInput: Swift.Sendable {
-    /// A string that identifies the next page of events that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
-    /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set, it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HookRequestToken returned by the Cloud Control API operation request. For more information on the HookRequestToken, see [ProgressEvent](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_ProgressEvent.html).
-    /// This member is required.
+    /// Filters results by the status of Hook invocations. Can only be used in combination with TypeArn. Valid values are:
+    ///
+    /// * HOOK_IN_PROGRESS: The Hook is currently running.
+    ///
+    /// * HOOK_COMPLETE_SUCCEEDED: The Hook completed successfully.
+    ///
+    /// * HOOK_COMPLETE_FAILED: The Hook completed but failed validation.
+    ///
+    /// * HOOK_FAILED: The Hook encountered an error during execution.
+    public var status: CloudFormationClientTypes.HookStatus?
+    /// Filters results by the unique identifier of the target the Hook was invoked against. For change sets, this is the change set ARN. When the target is a Cloud Control API operation, this value must be the HookRequestToken returned by the Cloud Control API request. For more information on the HookRequestToken, see [ProgressEvent](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_ProgressEvent.html). Required when TargetType is specified and cannot be used otherwise.
     public var targetId: Swift.String?
-    /// The type of operation being targeted by the Hook.
-    /// This member is required.
+    /// Filters results by target type. Currently, only CHANGE_SET and CLOUD_CONTROL are supported filter options. Required when TargetId is specified and cannot be used otherwise.
     public var targetType: CloudFormationClientTypes.ListHookResultsTargetType?
+    /// Filters results by the ARN of the Hook. Can be used alone or in combination with Status.
+    public var typeArn: Swift.String?
 
     public init(
         nextToken: Swift.String? = nil,
+        status: CloudFormationClientTypes.HookStatus? = nil,
         targetId: Swift.String? = nil,
-        targetType: CloudFormationClientTypes.ListHookResultsTargetType? = nil
+        targetType: CloudFormationClientTypes.ListHookResultsTargetType? = nil,
+        typeArn: Swift.String? = nil
     ) {
         self.nextToken = nextToken
+        self.status = status
         self.targetId = targetId
         self.targetType = targetType
+        self.typeArn = typeArn
     }
 }
 
 extension CloudFormationClientTypes {
 
-    /// Describes a Hook invocation, its status, and the reason for its status.
+    /// A ListHookResults call returns a summary of a Hook invocation.
     public struct HookResultSummary: Swift.Sendable {
-        /// The failure mode of the invocation. The following are potential modes:
-        ///
-        /// * FAIL: If the hook invocation returns a failure, then the requested target operation should fail.
-        ///
-        /// * WARN: If the hook invocation returns a failure, then the requested target operation should warn.
+        /// The failure mode of the invocation.
         public var failureMode: CloudFormationClientTypes.HookFailureMode?
-        /// A description of the Hook results status. For example, if the Hook result is in a FAILED state, this may contain additional information for the FAILED state.
+        /// The Amazon Resource Name (ARN) of the target stack or request token of the Cloud Control API operation. Only shown in responses when the request does not specify TargetType and TargetId filters.
+        public var hookExecutionTarget: Swift.String?
+        /// The unique identifier for this Hook invocation result.
+        public var hookResultId: Swift.String?
+        /// A description of the Hook results status. For example, if the Hook result is in a failed state, this may contain additional information for the failed state.
         public var hookStatusReason: Swift.String?
-        /// The exact point in the provisioning logic where the Hook runs.
+        /// The specific point in the provisioning process where the Hook is invoked.
         public var invocationPoint: CloudFormationClientTypes.HookInvocationPoint?
-        /// The state of the Hook invocation.
+        /// The timestamp when the Hook was invoked. Only shown in responses when the request does not specify TargetType and TargetId filters.
+        public var invokedAt: Foundation.Date?
+        /// The status of the Hook invocation. The following statuses are possible:
+        ///
+        /// * HOOK_IN_PROGRESS: The Hook is currently running.
+        ///
+        /// * HOOK_COMPLETE_SUCCEEDED: The Hook completed successfully.
+        ///
+        /// * HOOK_COMPLETE_FAILED: The Hook completed but failed validation.
+        ///
+        /// * HOOK_FAILED: The Hook encountered an error during execution.
         public var status: CloudFormationClientTypes.HookStatus?
-        /// The version of the Hook type configuration.
+        /// The unique identifier of the Hook invocation target.
+        public var targetId: Swift.String?
+        /// The target type that the Hook was invoked against.
+        public var targetType: CloudFormationClientTypes.ListHookResultsTargetType?
+        /// The ARN of the Hook that was invoked.
+        public var typeArn: Swift.String?
+        /// The version of the Hook configuration.
         public var typeConfigurationVersionId: Swift.String?
-        /// The type name of the Hook being invoked.
+        /// The name of the Hook that was invoked.
         public var typeName: Swift.String?
-        /// The version of the Hook being invoked.
+        /// The version of the Hook that was invoked.
         public var typeVersionId: Swift.String?
 
         public init(
             failureMode: CloudFormationClientTypes.HookFailureMode? = nil,
+            hookExecutionTarget: Swift.String? = nil,
+            hookResultId: Swift.String? = nil,
             hookStatusReason: Swift.String? = nil,
             invocationPoint: CloudFormationClientTypes.HookInvocationPoint? = nil,
+            invokedAt: Foundation.Date? = nil,
             status: CloudFormationClientTypes.HookStatus? = nil,
+            targetId: Swift.String? = nil,
+            targetType: CloudFormationClientTypes.ListHookResultsTargetType? = nil,
+            typeArn: Swift.String? = nil,
             typeConfigurationVersionId: Swift.String? = nil,
             typeName: Swift.String? = nil,
             typeVersionId: Swift.String? = nil
         ) {
             self.failureMode = failureMode
+            self.hookExecutionTarget = hookExecutionTarget
+            self.hookResultId = hookResultId
             self.hookStatusReason = hookStatusReason
             self.invocationPoint = invocationPoint
+            self.invokedAt = invokedAt
             self.status = status
+            self.targetId = targetId
+            self.targetType = targetType
+            self.typeArn = typeArn
             self.typeConfigurationVersionId = typeConfigurationVersionId
             self.typeName = typeName
             self.typeVersionId = typeVersionId
@@ -7569,9 +8470,9 @@ public struct ListHookResultsOutput: Swift.Sendable {
     public var hookResults: [CloudFormationClientTypes.HookResultSummary]?
     /// Pagination token, null or empty if no more results.
     public var nextToken: Swift.String?
-    /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set, it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HooksRequestToken returned by the Cloud Control API operation request. For more information on the HooksRequestToken, see [ProgressEvent](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_ProgressEvent.html).
+    /// The unique identifier of the Hook invocation target.
     public var targetId: Swift.String?
-    /// The type of operation being targeted by the Hook.
+    /// The target type.
     public var targetType: CloudFormationClientTypes.ListHookResultsTargetType?
 
     public init(
@@ -7591,7 +8492,7 @@ public struct ListImportsInput: Swift.Sendable {
     /// The name of the exported output value. CloudFormation returns the stack names that are importing this value.
     /// This member is required.
     public var exportName: Swift.String?
-    /// A string (provided by the [ListImports] response output) that identifies the next page of stacks that are importing the specified exported output value.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -7665,7 +8566,7 @@ extension CloudFormationClientTypes {
 public struct ListResourceScanRelatedResourcesInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListResourceScanRelatedResources API action will return up to 100 results in each response. The maximum value is 100.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of resource scan results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the resource scan.
     /// This member is required.
@@ -7728,7 +8629,7 @@ public struct ListResourceScanRelatedResourcesOutput: Swift.Sendable {
 public struct ListResourceScanResourcesInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListResourceScanResources API action will return at most 100 results in each response. The maximum value is 100.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of resource scan results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// If specified, the returned resources will have the specified resource identifier (or one of them in the case where the resource has multiple identifiers).
     public var resourceIdentifier: Swift.String?
@@ -7808,7 +8709,7 @@ extension CloudFormationClientTypes {
 public struct ListResourceScansInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. The default value is 10. The maximum value is 100.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of resource scan results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The scan type that you want to get summary information about. The default is FULL.
     public var scanTypeFilter: CloudFormationClientTypes.ScanType?
@@ -7879,7 +8780,7 @@ public struct ListResourceScansOutput: Swift.Sendable {
 }
 
 public struct ListStackInstanceResourceDriftsInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -7887,7 +8788,7 @@ public struct ListStackInstanceResourceDriftsInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The unique ID of the drift operation.
     /// This member is required.
@@ -7908,7 +8809,7 @@ public struct ListStackInstanceResourceDriftsInput: Swift.Sendable {
     ///
     /// * NOT_CHECKED: CloudFormation doesn't currently return this value.
     public var stackInstanceResourceDriftStatuses: [CloudFormationClientTypes.StackResourceDriftStatus]?
-    /// The name or unique ID of the stack set that you want to list drifted resources for.
+    /// The name or unique ID of the StackSet that you want to list drifted resources for.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -8056,7 +8957,7 @@ extension CloudFormationClientTypes {
 }
 
 public struct ListStackInstancesInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -8066,13 +8967,13 @@ public struct ListStackInstancesInput: Swift.Sendable {
     public var filters: [CloudFormationClientTypes.StackInstanceFilter]?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous request didn't return all the remaining results, the response's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name of the Amazon Web Services account that you want to list stack instances for.
     public var stackInstanceAccount: Swift.String?
     /// The name of the Region where you want to list stack instances.
     public var stackInstanceRegion: Swift.String?
-    /// The name or unique ID of the stack set that you want to list stack instances for.
+    /// The name or unique ID of the StackSet that you want to list stack instances for.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -8101,17 +9002,17 @@ extension CloudFormationClientTypes {
     public struct StackInstanceSummary: Swift.Sendable {
         /// [Self-managed permissions] The name of the Amazon Web Services account that the stack instance is associated with.
         public var account: Swift.String?
-        /// Status of the stack instance's actual configuration compared to the expected template and parameter configuration of the stack set to which it belongs.
+        /// Status of the stack instance's actual configuration compared to the expected template and parameter configuration of the StackSet it belongs to.
         ///
-        /// * DRIFTED: The stack differs from the expected template and parameter configuration of the stack set to which it belongs. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.
+        /// * DRIFTED: The stack differs from the expected template and parameter configuration of the StackSet it belongs to. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.
         ///
-        /// * NOT_CHECKED: CloudFormation hasn't checked if the stack instance differs from its expected stack set configuration.
+        /// * NOT_CHECKED: CloudFormation hasn't checked if the stack instance differs from its expected StackSet configuration.
         ///
-        /// * IN_SYNC: The stack instance's actual configuration matches its expected stack set configuration.
+        /// * IN_SYNC: The stack instance's actual configuration matches its expected StackSet configuration.
         ///
         /// * UNKNOWN: This value is reserved for future use.
         public var driftStatus: CloudFormationClientTypes.StackDriftStatus?
-        /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance on which drift detection hasn't yet been performed.
+        /// Most recent time when CloudFormation performed a drift detection operation on the stack instance. This value will be NULL for any stack instance that drift detection hasn't yet been performed on.
         public var lastDriftCheckTimestamp: Foundation.Date?
         /// The last unique ID of a StackSet operation performed on a stack instance.
         public var lastOperationId: Swift.String?
@@ -8123,13 +9024,13 @@ extension CloudFormationClientTypes {
         public var stackId: Swift.String?
         /// The detailed status of the stack instance.
         public var stackInstanceStatus: CloudFormationClientTypes.StackInstanceComprehensiveStatus?
-        /// The name or unique ID of the stack set that the stack instance is associated with.
+        /// The name or unique ID of the StackSet that the stack instance is associated with.
         public var stackSetId: Swift.String?
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.
         ///
         /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually. INOPERABLE can be returned here when the cause is a failed import. If it's due to a failed import, the operation can be retried once the failures are fixed. To see if this is due to a failed import, call the [DescribeStackInstance] API operation, look at the DetailedStatus member returned in the StackInstanceSummary member.
         ///
-        /// * OUTDATED: The stack isn't currently up to date with the stack set because:
+        /// * OUTDATED: The stack isn't currently up to date with the StackSet because:
         ///
         /// * The associated stack failed during a CreateStackSet or UpdateStackSet operation.
         ///
@@ -8138,7 +9039,7 @@ extension CloudFormationClientTypes {
         ///
         ///
         ///
-        /// * CURRENT: The stack is currently up to date with the stack set.
+        /// * CURRENT: The stack is currently up to date with the StackSet.
         public var status: CloudFormationClientTypes.StackInstanceStatus?
         /// The explanation for the specific status code assigned to this stack instance.
         public var statusReason: Swift.String?
@@ -8189,7 +9090,7 @@ public struct ListStackInstancesOutput: Swift.Sendable {
 public struct ListStackRefactorActionsInput: Swift.Sendable {
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The ID associated with the stack refactor created from the [CreateStackRefactor] action.
     /// This member is required.
@@ -8373,7 +9274,7 @@ public struct ListStackRefactorsInput: Swift.Sendable {
     public var executionStatusFilter: [CloudFormationClientTypes.StackRefactorExecutionStatus]?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -8452,7 +9353,7 @@ public struct ListStackRefactorsOutput: Swift.Sendable {
 
 /// The input for the [ListStackResource] action.
 public struct ListStackResourcesInput: Swift.Sendable {
-    /// A string that identifies the next page of stack resources that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:
     ///
@@ -8564,7 +9465,7 @@ public struct ListStackResourcesOutput: Swift.Sendable {
 
 /// The input for [ListStacks] action.
 public struct ListStacksInput: Swift.Sendable {
-    /// A string that identifies the next page of stacks that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the [Stack] data type.
     public var stackStatusFilter: [CloudFormationClientTypes.StackStatus]?
@@ -8617,6 +9518,8 @@ extension CloudFormationClientTypes {
         public var deletionTime: Foundation.Date?
         /// Summarizes information about whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For more information, see [Detect unmanaged configuration changes to stacks and resources with drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html).
         public var driftInformation: CloudFormationClientTypes.StackDriftInformationSummary?
+        /// Information about the most recent operations performed on this stack.
+        public var lastOperations: [CloudFormationClientTypes.OperationEntry]?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
         public var lastUpdatedTime: Foundation.Date?
         /// For nested stacks, the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see [Nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
@@ -8640,6 +9543,7 @@ extension CloudFormationClientTypes {
             creationTime: Foundation.Date? = nil,
             deletionTime: Foundation.Date? = nil,
             driftInformation: CloudFormationClientTypes.StackDriftInformationSummary? = nil,
+            lastOperations: [CloudFormationClientTypes.OperationEntry]? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             parentId: Swift.String? = nil,
             rootId: Swift.String? = nil,
@@ -8652,6 +9556,7 @@ extension CloudFormationClientTypes {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
             self.driftInformation = driftInformation
+            self.lastOperations = lastOperations
             self.lastUpdatedTime = lastUpdatedTime
             self.parentId = parentId
             self.rootId = rootId
@@ -8689,9 +9594,9 @@ public struct ListStackSetAutoDeploymentTargetsInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of stack set deployment targets that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
-    /// The name or unique ID of the stack set that you want to get automatic deployment targets for.
+    /// The name or unique ID of the StackSet that you want to get automatic deployment targets for.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -8710,9 +9615,9 @@ public struct ListStackSetAutoDeploymentTargetsInput: Swift.Sendable {
 
 extension CloudFormationClientTypes {
 
-    /// One of the targets for the stack set. Returned by the [ListStackSetAutoDeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStackSetAutoDeploymentTargets.html) API operation.
+    /// One of the targets for the StackSet. Returned by the [ListStackSetAutoDeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStackSetAutoDeploymentTargets.html) API operation.
     public struct StackSetAutoDeploymentTargetSummary: Swift.Sendable {
-        /// The organization root ID or organizational unit (OU) IDs where the stack set is targeted.
+        /// The organization root ID or organizational unit (OU) IDs where the StackSet is targeted.
         public var organizationalUnitId: Swift.String?
         /// The list of Regions targeted for this organization or OU.
         public var regions: [Swift.String]?
@@ -8730,7 +9635,7 @@ extension CloudFormationClientTypes {
 public struct ListStackSetAutoDeploymentTargetsOutput: Swift.Sendable {
     /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call [ListStackSetAutoDeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStackSetAutoDeploymentTargets.html) again and use that value for the NextToken parameter. If the request returns all results, NextToken is set to an empty string.
     public var nextToken: Swift.String?
-    /// An array of summaries of the deployment targets for the stack set.
+    /// An array of summaries of the deployment targets for the StackSet.
     public var summaries: [CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary]?
 
     public init(
@@ -8788,7 +9693,7 @@ extension CloudFormationClientTypes {
 }
 
 public struct ListStackSetOperationResultsInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -8798,12 +9703,12 @@ public struct ListStackSetOperationResultsInput: Swift.Sendable {
     public var filters: [CloudFormationClientTypes.OperationResultFilter]?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
-    /// The ID of the stack set operation.
+    /// The ID of the StackSet operation.
     /// This member is required.
     public var operationId: Swift.String?
-    /// The name or unique ID of the stack set that you want to get operation results for.
+    /// The name or unique ID of the StackSet that you want to get operation results for.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -8868,17 +9773,17 @@ extension CloudFormationClientTypes {
     public struct StackSetOperationResultSummary: Swift.Sendable {
         /// [Self-managed permissions] The name of the Amazon Web Services account for this operation result.
         public var account: Swift.String?
-        /// The results of the account gate function CloudFormation invokes, if present, before proceeding with stack set operations in an account.
+        /// The results of the account gate function CloudFormation invokes, if present, before proceeding with StackSet operations in an account.
         public var accountGateResult: CloudFormationClientTypes.AccountGateResult?
         /// [Service-managed permissions] The organization root ID or organizational unit (OU) IDs that you specified for [DeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html).
         public var organizationalUnitId: Swift.String?
         /// The name of the Amazon Web Services Region for this operation result.
         public var region: Swift.String?
-        /// The result status of the stack set operation for the given account in the given Region.
+        /// The result status of the StackSet operation for the given account in the given Region.
         ///
-        /// * CANCELLED: The operation in the specified account and Region has been canceled. This is either because a user has stopped the stack set operation, or because the failure tolerance of the stack set operation has been exceeded.
+        /// * CANCELLED: The operation in the specified account and Region has been canceled. This is either because a user has stopped the StackSet operation, or because the failure tolerance of the StackSet operation has been exceeded.
         ///
-        /// * FAILED: The operation in the specified account and Region failed. If the stack set operation fails in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.
+        /// * FAILED: The operation in the specified account and Region failed. If the StackSet operation fails in enough accounts within a Region, the failure tolerance for the StackSet operation as a whole might be exceeded.
         ///
         /// * RUNNING: The operation in the specified account and Region is currently in progress.
         ///
@@ -8923,7 +9828,7 @@ public struct ListStackSetOperationResultsOutput: Swift.Sendable {
 }
 
 public struct ListStackSetOperationsInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -8931,9 +9836,9 @@ public struct ListStackSetOperationsInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperations again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
-    /// The name or unique ID of the stack set that you want to get operation summaries for.
+    /// The name or unique ID of the StackSet that you want to get operation summaries for.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -8954,21 +9859,21 @@ extension CloudFormationClientTypes {
 
     /// The structures that contain summary information about the specified operation.
     public struct StackSetOperationSummary: Swift.Sendable {
-        /// The type of operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified stack set. Update operations affect both the stack set itself and all associated stack set instances.
+        /// The type of operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack instances that are associated with the specified StackSet. Update operations affect both the StackSet itself and all associated StackSet instances.
         public var action: CloudFormationClientTypes.StackSetOperationAction?
-        /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
+        /// The time at which the operation was initiated. Note that the creation times for the StackSet operation might differ from the creation time of the individual stacks themselves. This is because CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
         public var creationTimestamp: Foundation.Date?
-        /// The time at which the stack set operation ended, across all accounts and Regions specified. Note that this doesn't necessarily mean that the stack set operation was successful, or even attempted, in each account or Region.
+        /// The time at which the StackSet operation ended, across all accounts and Regions specified. Note that this doesn't necessarily mean that the StackSet operation was successful, or even attempted, in each account or Region.
         public var endTimestamp: Foundation.Date?
-        /// The unique ID of the stack set operation.
+        /// The unique ID of the StackSet operation.
         public var operationId: Swift.String?
-        /// The user-specified preferences for how CloudFormation performs a stack set operation. For more information about maximum concurrent accounts and failure tolerance, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-ops-options).
+        /// The user-specified preferences for how CloudFormation performs a StackSet operation. For more information about maximum concurrent accounts and failure tolerance, see [StackSet operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
         public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
         /// The overall status of the operation.
         ///
         /// * FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each Region during stack create and update operations. If the number of failed stacks within a Region exceeds the failure tolerance, the status of the operation in the Region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and CloudFormation cancels the operation in any remaining Regions.
         ///
-        /// * QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the [stack set operation status codes](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/what-is-cfnstacksets.html#stackset-status-codes) in the CloudFormation User Guide.
+        /// * QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the [StackSet status codes](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-status-codes) in the CloudFormation User Guide.
         ///
         /// * RUNNING: The operation is currently being performed.
         ///
@@ -8978,7 +9883,7 @@ extension CloudFormationClientTypes {
         ///
         /// * SUCCEEDED: The operation completed creating or updating all the specified stacks without exceeding the failure tolerance for the operation.
         public var status: CloudFormationClientTypes.StackSetOperationStatus?
-        /// Detailed information about the stack set operation.
+        /// Detailed information about the StackSet operation.
         public var statusDetails: CloudFormationClientTypes.StackSetOperationStatusDetails?
         /// The status of the operation in details.
         public var statusReason: Swift.String?
@@ -9008,7 +9913,7 @@ extension CloudFormationClientTypes {
 public struct ListStackSetOperationsOutput: Swift.Sendable {
     /// If the request doesn't return all results, NextToken is set to a token. To retrieve the next set of results, call ListOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, NextToken is set to null.
     public var nextToken: Swift.String?
-    /// A list of StackSetOperationSummary structures that contain summary information about operations for the specified stack set.
+    /// A list of StackSetOperationSummary structures that contain summary information about operations for the specified StackSet.
     public var summaries: [CloudFormationClientTypes.StackSetOperationSummary]?
 
     public init(
@@ -9021,7 +9926,7 @@ public struct ListStackSetOperationsOutput: Swift.Sendable {
 }
 
 public struct ListStackSetsInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -9029,9 +9934,9 @@ public struct ListStackSetsInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSets again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
-    /// The status of the stack sets that you want to get summary information about.
+    /// The status of the StackSets that you want to get summary information about.
     public var status: CloudFormationClientTypes.StackSetStatus?
 
     public init(
@@ -9049,37 +9954,37 @@ public struct ListStackSetsInput: Swift.Sendable {
 
 extension CloudFormationClientTypes {
 
-    /// The structures that contain summary information about the specified stack set.
+    /// The structures that contain summary information about the specified StackSet.
     public struct StackSetSummary: Swift.Sendable {
         /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organizational unit (OU).
         public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
-        /// A description of the stack set that you specify when the stack set is created or updated.
+        /// A description of the StackSet that you specify when the StackSet is created or updated.
         public var description: Swift.String?
-        /// Status of the stack set's actual configuration compared to its expected template and parameter configuration. A stack set is considered to have drifted if one or more of its stack instances have drifted from their expected template and parameter configuration.
+        /// Status of the StackSet's actual configuration compared to its expected template and parameter configuration.
         ///
-        /// * DRIFTED: One or more of the stack instances belonging to the stack set stack differs from the expected template and parameter configuration. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.
+        /// * DRIFTED: One or more of the stack instances belonging to the StackSet differs from the expected template and parameter configuration. A stack instance is considered to have drifted if one or more of the resources in the associated stack have drifted.
         ///
-        /// * NOT_CHECKED: CloudFormation hasn't checked the stack set for drift.
+        /// * NOT_CHECKED: CloudFormation hasn't checked the StackSet for drift.
         ///
-        /// * IN_SYNC: All the stack instances belonging to the stack set stack match from the expected template and parameter configuration.
+        /// * IN_SYNC: All the stack instances belonging to the StackSet match the expected template and parameter configuration.
         ///
         /// * UNKNOWN: This value is reserved for future use.
         public var driftStatus: CloudFormationClientTypes.StackDriftStatus?
-        /// Most recent time when CloudFormation performed a drift detection operation on the stack set. This value will be NULL for any stack set on which drift detection hasn't yet been performed.
+        /// Most recent time when CloudFormation performed a drift detection operation on the StackSet. This value will be NULL for any StackSet that drift detection hasn't yet been performed on.
         public var lastDriftCheckTimestamp: Foundation.Date?
         /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
         public var managedExecution: CloudFormationClientTypes.ManagedExecution?
-        /// Describes how the IAM roles required for stack set operations are created.
+        /// Describes how the IAM roles required for StackSet operations are created.
         ///
         /// * With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
         ///
-        /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Activate trusted access for stack sets with Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
+        /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Activate trusted access for StackSets with Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
         public var permissionModel: CloudFormationClientTypes.PermissionModels?
-        /// The ID of the stack set.
+        /// The ID of the StackSet.
         public var stackSetId: Swift.String?
-        /// The name of the stack set.
+        /// The name of the StackSet.
         public var stackSetName: Swift.String?
-        /// The status of the stack set.
+        /// The status of the StackSet.
         public var status: CloudFormationClientTypes.StackSetStatus?
 
         public init(
@@ -9109,7 +10014,7 @@ extension CloudFormationClientTypes {
 public struct ListStackSetsOutput: Swift.Sendable {
     /// If the request doesn't return all of the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
     public var nextToken: Swift.String?
-    /// A list of StackSetSummary structures that contain information about the user's stack sets.
+    /// A list of StackSetSummary structures that contain information about the user's StackSets.
     public var summaries: [CloudFormationClientTypes.StackSetSummary]?
 
     public init(
@@ -9124,7 +10029,7 @@ public struct ListStackSetsOutput: Swift.Sendable {
 public struct ListTypeRegistrationsInput: Swift.Sendable {
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The current status of the extension registration request. The default is IN_PROGRESS.
     public var registrationStatusFilter: CloudFormationClientTypes.RegistrationStatus?
@@ -9216,7 +10121,7 @@ public struct ListTypesInput: Swift.Sendable {
     public var filters: CloudFormationClientTypes.TypeFilters?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// For resource types, the provisioning behavior of the resource type. CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:
     ///
@@ -9242,7 +10147,7 @@ public struct ListTypesInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * PUBLIC: Extensions that are publicly visible and available to be activated within any Amazon Web Services account. This includes extensions from Amazon Web Services, in addition to third-party publishers.
+    /// * PUBLIC: Extensions that are publicly visible and available to be activated within any Amazon Web Services account. This includes extensions from Amazon Web Services and third-party publishers.
     ///
     ///
     /// The default is PRIVATE.
@@ -9300,7 +10205,7 @@ extension CloudFormationClientTypes {
         public var publisherName: Swift.String?
         /// The kind of extension.
         public var type: CloudFormationClientTypes.RegistryType?
-        /// The Amazon Resource Name (ARN) of the extension.
+        /// The ARN of the extension.
         public var typeArn: Swift.String?
         /// The name of the extension. If you specified a TypeNameAlias when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in your account and Region, CloudFormation considers that alias as the type name.
         public var typeName: Swift.String?
@@ -9366,7 +10271,7 @@ public struct ListTypeVersionsInput: Swift.Sendable {
     public var deprecatedStatus: CloudFormationClientTypes.DeprecatedStatus?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The publisher ID of the extension publisher. Extensions published by Amazon aren't assigned a publisher ID.
     public var publisherId: Swift.String?
@@ -9398,7 +10303,7 @@ extension CloudFormationClientTypes {
 
     /// Contains summary information about a specific version of a CloudFormation extension.
     public struct TypeVersionSummary: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the extension version.
+        /// The ARN of the extension version.
         public var arn: Swift.String?
         /// The description of the extension version.
         public var description: Swift.String?
@@ -9412,7 +10317,7 @@ extension CloudFormationClientTypes {
         public var type: CloudFormationClientTypes.RegistryType?
         /// The name of the extension.
         public var typeName: Swift.String?
-        /// The ID of a specific version of the extension. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the extension version when it's registered.
+        /// The ID of a specific version of the extension. The version ID is the value at the end of the ARN assigned to the extension version when it's registered.
         public var versionId: Swift.String?
 
         public init(
@@ -9805,12 +10710,16 @@ public struct RollbackStackInput: Swift.Sendable {
 }
 
 public struct RollbackStackOutput: Swift.Sendable {
+    /// A unique identifier for this rollback operation that can be used to track the operation's progress and events.
+    public var operationId: Swift.String?
     /// Unique identifier of the stack.
     public var stackId: Swift.String?
 
     public init(
+        operationId: Swift.String? = nil,
         stackId: Swift.String? = nil
     ) {
+        self.operationId = operationId
         self.stackId = stackId
     }
 }
@@ -9837,14 +10746,14 @@ public struct SetStackPolicyInput: Swift.Sendable {
 }
 
 public struct SetTypeConfigurationInput: Swift.Sendable {
-    /// The configuration data for the extension, in this account and Region. The configuration data must be formatted as JSON, and validate against the schema returned in the ConfigurationSchema response element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). For more information, see [Defining the account-level configuration of an extension](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-model.html#resource-type-howto-configuration) in the CloudFormation Command Line Interface (CLI) User Guide.
+    /// The configuration data for the extension in this account and Region. The configuration data must be formatted as JSON and validate against the extension's schema returned in the Schema response element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html).
     /// This member is required.
     public var configuration: Swift.String?
     /// An alias by which to refer to this extension configuration data. Conditional: Specifying a configuration alias is required when setting a configuration for a resource type extension.
     public var configurationAlias: Swift.String?
     /// The type of extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var type: CloudFormationClientTypes.ThirdPartyType?
-    /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
+    /// The Amazon Resource Name (ARN) for the extension in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
     public var typeArn: Swift.String?
     /// The name of the extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var typeName: Swift.String?
@@ -9865,7 +10774,7 @@ public struct SetTypeConfigurationInput: Swift.Sendable {
 }
 
 public struct SetTypeConfigurationOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for the configuration data, in this account and Region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
+    /// The Amazon Resource Name (ARN) for the configuration data in this account and Region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var configurationArn: Swift.String?
 
     public init(
@@ -9943,7 +10852,7 @@ public struct SignalResourceInput: Swift.Sendable {
     /// The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update.
     /// This member is required.
     public var status: CloudFormationClientTypes.ResourceSignalStatus?
-    /// A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
+    /// A unique ID of the signal. When you signal Amazon EC2 instances or Amazon EC2 Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
     /// This member is required.
     public var uniqueId: Swift.String?
 
@@ -10016,7 +10925,7 @@ public struct StartResourceScanOutput: Swift.Sendable {
 }
 
 public struct StopStackSetOperationInput: Swift.Sendable {
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. Valid only if the StackSet uses service-managed permissions. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
@@ -10025,7 +10934,7 @@ public struct StopStackSetOperationInput: Swift.Sendable {
     /// The ID of the stack operation.
     /// This member is required.
     public var operationId: Swift.String?
-    /// The name or unique ID of the stack set that you want to stop the operation for.
+    /// The name or unique ID of the StackSet that you want to stop the operation for.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -10180,7 +11089,7 @@ public struct UpdateStackInput: Swift.Sendable {
     public var notificationARNs: [Swift.String]?
     /// A list of Parameter structures that specify input parameters for the stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html). Only one of the Capabilities and ResourceType parameters can be specified.
+    /// Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control CloudFormation access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html). Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
@@ -10205,7 +11114,7 @@ public struct UpdateStackInput: Swift.Sendable {
     public var templateBody: Swift.String?
     /// The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateURL: Swift.String?
-    /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+    /// Reuse the existing template that is associated with the stack that you are updating. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are applied correctly. For more information, see [AWS::LanguageExtensions transform](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/transform-aws-languageextensions.html). Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
 
     public init(
@@ -10251,30 +11160,34 @@ public struct UpdateStackInput: Swift.Sendable {
 
 /// The output for an [UpdateStack] action.
 public struct UpdateStackOutput: Swift.Sendable {
+    /// A unique identifier for this update operation that can be used to track the operation's progress and events.
+    public var operationId: Swift.String?
     /// Unique identifier of the stack.
     public var stackId: Swift.String?
 
     public init(
+        operationId: Swift.String? = nil,
         stackId: Swift.String? = nil
     ) {
+        self.operationId = operationId
         self.stackId = stackId
     }
 }
 
 public struct UpdateStackInstancesInput: Swift.Sendable {
-    /// [Self-managed permissions] The account IDs of one or more Amazon Web Services accounts for which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Services Regions. You can specify Accounts or DeploymentTargets, but not both.
+    /// [Self-managed permissions] The account IDs of one or more Amazon Web Services accounts in which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Services Regions. You can specify Accounts or DeploymentTargets, but not both.
     public var accounts: [Swift.String]?
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
     /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// [Service-managed permissions] The Organizations accounts for which you want to update parameter values for stack instances. If your update targets OUs, the overridden parameter values only apply to the accounts that are currently in the target OUs and their child OUs. Accounts added to the target OUs and their child OUs in the future won't use the overridden values. You can specify Accounts or DeploymentTargets, but not both.
+    /// [Service-managed permissions] The Organizations accounts in which you want to update parameter values for stack instances. If your update targets OUs, the overridden parameter values only apply to the accounts that are currently in the target OUs and their child OUs. Accounts added to the target OUs and their child OUs in the future won't use the overridden values. You can specify Accounts or DeploymentTargets, but not both.
     public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
-    /// The unique identifier for this stack set operation. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.
+    /// The unique identifier for this StackSet operation. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the StackSet operation only once, even if you retry the request multiple times. You might retry StackSet operation requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.
     public var operationId: Swift.String?
-    /// Preferences for how CloudFormation performs this stack set operation.
+    /// Preferences for how CloudFormation performs this StackSet operation.
     public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
     /// A list of input parameters whose values you want to update for the specified stack instances. Any overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Services Regions. When specifying parameters and their values, be aware of how CloudFormation sets parameter values during stack instance update operations:
     ///
@@ -10282,17 +11195,17 @@ public struct UpdateStackInstancesInput: Swift.Sendable {
     ///
     /// * To leave an overridden parameter set to its present value, include the parameter and specify UsePreviousValue as true. (You can't specify both a value and set UsePreviousValue to true.)
     ///
-    /// * To set an overridden parameter back to the value specified in the stack set, specify a parameter list but don't include the parameter in the list.
+    /// * To set an overridden parameter back to the value specified in the StackSet, specify a parameter list but don't include the parameter in the list.
     ///
     /// * To leave all parameters set to their present values, don't specify this property at all.
     ///
     ///
-    /// During stack set updates, any parameter values overridden for a stack instance aren't updated, but retain their overridden value. You can only override the parameter values that are specified in the stack set; to add or delete a parameter itself, use UpdateStackSet to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
+    /// During StackSet updates, any parameter values overridden for a stack instance aren't updated, but retain their overridden value. You can only override the parameter values that are specified in the StackSet. To add or delete a parameter itself, use UpdateStackSet to update the StackSet template. If you add a parameter to a template, before you can override the parameter value specified in the StackSet you must first use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update all stack instances with the updated template and parameter value specified in the StackSet. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
     public var parameterOverrides: [CloudFormationClientTypes.Parameter]?
     /// The names of one or more Amazon Web Services Regions in which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Services Regions.
     /// This member is required.
     public var regions: [Swift.String]?
-    /// The name or unique ID of the stack set associated with the stack instances.
+    /// The name or unique ID of the StackSet associated with the stack instances.
     /// This member is required.
     public var stackSetName: Swift.String?
 
@@ -10318,7 +11231,7 @@ public struct UpdateStackInstancesInput: Swift.Sendable {
 }
 
 public struct UpdateStackInstancesOutput: Swift.Sendable {
-    /// The unique identifier for this stack set operation.
+    /// The unique identifier for this StackSet operation.
     public var operationId: Swift.String?
 
     public init(
@@ -10329,19 +11242,19 @@ public struct UpdateStackInstancesOutput: Swift.Sendable {
 }
 
 public struct UpdateStackSetInput: Swift.Sendable {
-    /// [Self-managed permissions] The accounts in which to update associated stack instances. If you specify accounts, you must also specify the Amazon Web Services Regions in which to update stack set instances. To update all the stack instances associated with this stack set, don't specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the stack set update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Amazon Web Services Regions, while leaving all other stack instances with their existing stack instance status.
+    /// [Self-managed permissions] The accounts in which to update associated stack instances. If you specify accounts, you must also specify the Amazon Web Services Regions in which to update StackSet instances. To update all the stack instances associated with this StackSet, don't specify the Accounts or Regions properties. If the StackSet update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the StackSet update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Amazon Web Services Regions, while leaving all other stack instances with their existing stack instance status.
     public var accounts: [Swift.String]?
-    /// [Self-managed permissions] The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
+    /// [Self-managed permissions] The Amazon Resource Name (ARN) of the IAM role to use to update this StackSet. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific StackSets within the same administrator account. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html) in the CloudFormation User Guide. If you specified a customized administrator role when you created the StackSet, you must specify a customized administrator role, even if it is the same customized administrator role used with this StackSet previously.
     public var administrationRoleARN: Swift.String?
-    /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). For more information, see [Manage automatic deployments for CloudFormation StackSets that use service-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html) in the CloudFormation User Guide. If you specify AutoDeployment, don't specify DeploymentTargets or Regions.
+    /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). For more information, see [Enable or disable automatic deployments for StackSets in Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-manage-auto-deployment.html) in the CloudFormation User Guide. If you specify AutoDeployment, don't specify DeploymentTargets or Regions.
     public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
-    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.
+    /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
     ///
     /// * If you are signed in to the management account, specify SELF.
     ///
     /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
     public var callAs: CloudFormationClientTypes.CallAs?
-    /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the stack set and its associated stack instances.
+    /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the StackSet and its associated stack instances.
     ///
     /// * CAPABILITY_IAM and CAPABILITY_NAMED_IAM Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.
     ///
@@ -10371,49 +11284,49 @@ public struct UpdateStackSetInput: Swift.Sendable {
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
     ///
-    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your stack set template references one or more macros, you must update the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To update the stack set directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). Stack sets with service-managed permissions do not currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
+    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your StackSet template references one or more macros, you must update the StackSet directly from the processed template, without first reviewing the resulting changes in a change set. To update the StackSet directly, you must acknowledge this capability. For more information, see [Perform custom processing on CloudFormation templates with template macros](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). StackSets with service-managed permissions do not currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-include.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a StackSet with service-managed permissions, if you reference a macro in your template the StackSet operation will fail.
     public var capabilities: [CloudFormationClientTypes.Capability]?
-    /// [Service-managed permissions] The Organizations accounts in which to update associated stack instances. To update all the stack instances associated with this stack set, do not specify DeploymentTargets or Regions. If the stack set update includes changes to the template (that is, if TemplateBody or TemplateURL is specified), or the Parameters, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the stack set update doesn't include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Regions, while leaving all other stack instances with their existing stack instance status.
+    /// [Service-managed permissions] The Organizations accounts in which to update associated stack instances. To update all the stack instances associated with this StackSet, do not specify DeploymentTargets or Regions. If the StackSet update includes changes to the template (that is, if TemplateBody or TemplateURL is specified), or the Parameters, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the StackSet update doesn't include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Regions, while leaving all other stack instances with their existing stack instance status.
     public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
     /// A brief description of updates that you are making.
     public var description: Swift.String?
-    /// [Self-managed permissions] The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the stack set, so long as you have permissions to perform operations on the stack set.
+    /// [Self-managed permissions] The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the StackSet operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their StackSets. If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the StackSet, so long as you have permissions to perform operations on the StackSet.
     public var executionRoleName: Swift.String?
-    /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
+    /// Describes whether CloudFormation performs non-conflicting operations concurrently and queues conflicting operations.
     public var managedExecution: CloudFormationClientTypes.ManagedExecution?
-    /// The unique ID for this stack set operation. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You might retry stack set operation requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, CloudFormation generates one automatically. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED.
+    /// The unique ID for this StackSet operation. The operation ID also functions as an idempotency token, to ensure that CloudFormation performs the StackSet operation only once, even if you retry the request multiple times. You might retry StackSet operation requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, CloudFormation generates one automatically. Repeating this StackSet operation with a new operation ID retries all stack instances whose status is OUTDATED.
     public var operationId: Swift.String?
-    /// Preferences for how CloudFormation performs this stack set operation.
+    /// Preferences for how CloudFormation performs this StackSet operation.
     public var operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
-    /// A list of input parameters for the stack set template.
+    /// A list of input parameters for the StackSet template.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// Describes how the IAM roles required for stack set operations are created. You cannot modify PermissionModel if there are stack instances associated with your stack set.
+    /// Describes how the IAM roles required for StackSet operations are created. You cannot modify PermissionModel if there are stack instances associated with your stack set.
     ///
     /// * With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see [Grant self-managed permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html).
     ///
-    /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Activate trusted access for stack sets with Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
+    /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Activate trusted access for StackSets with Organizations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-activate-trusted-access.html).
     public var permissionModel: CloudFormationClientTypes.PermissionModels?
-    /// The Amazon Web Services Regions in which to update associated stack instances. If you specify Regions, you must also specify accounts in which to update stack set instances. To update all the stack instances associated with this stack set, do not specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Regions. If the stack set update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Regions, while leaving all other stack instances with their existing stack instance status.
+    /// The Amazon Web Services Regions in which to update associated stack instances. If you specify Regions, you must also specify accounts in which to update StackSet instances. To update all the stack instances associated with this StackSet, do not specify the Accounts or Regions properties. If the StackSet update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Regions. If the StackSet update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Regions, while leaving all other stack instances with their existing stack instance status.
     public var regions: [Swift.String]?
-    /// The name or unique ID of the stack set that you want to update.
+    /// The name or unique ID of the StackSet that you want to update.
     /// This member is required.
     public var stackSetName: Swift.String?
-    /// The key-value pairs to associate with this stack set and the stacks created from it. CloudFormation also propagates these tags to supported resources that are created in the stacks. You can specify a maximum number of 50 tags. If you specify tags for this parameter, those tags replace any list of tags that are currently associated with this stack set. This means:
+    /// The key-value pairs to associate with this StackSet and the stacks created from it. CloudFormation also propagates these tags to supported resources that are created in the stacks. You can specify a maximum number of 50 tags. If you specify tags for this parameter, those tags replace any list of tags that are currently associated with this StackSet. This means:
     ///
     /// * If you don't specify this parameter, CloudFormation doesn't modify the stack's tags.
     ///
-    /// * If you specify any tags using this parameter, you must specify all the tags that you want associated with this stack set, even tags you've specified before (for example, when creating the stack set or during a previous update of the stack set.). Any tags that you don't include in the updated list of tags are removed from the stack set, and therefore from the stacks and resources as well.
+    /// * If you specify any tags using this parameter, you must specify all the tags that you want associated with this StackSet, even tags you've specified before (for example, when creating the StackSet or during a previous update of the StackSet.). Any tags that you don't include in the updated list of tags are removed from the StackSet, and therefore from the stacks and resources as well.
     ///
     /// * If you specify an empty value, CloudFormation removes all currently associated tags.
     ///
     ///
-    /// If you specify new tags as part of an UpdateStackSet action, CloudFormation checks to see if you have the required IAM permission to tag resources. If you omit tags that are currently associated with the stack set from the list of tags you specify, CloudFormation assumes that you want to remove those tags from the stack set, and checks to see if you have permission to untag resources. If you don't have the necessary permission(s), the entire UpdateStackSet action fails with an access denied error, and the stack set is not updated.
+    /// If you specify new tags as part of an UpdateStackSet action, CloudFormation checks to see if you have the required IAM permission to tag resources. If you omit tags that are currently associated with the StackSet from the list of tags you specify, CloudFormation assumes that you want to remove those tags from the StackSet, and checks to see if you have permission to untag resources. If you don't have the necessary permission(s), the entire UpdateStackSet action fails with an access denied error, and the StackSet is not updated.
     public var tags: [CloudFormationClientTypes.Tag]?
     /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var templateBody: Swift.String?
     /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. S3 static website URLs are not supported. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var templateURL: Swift.String?
-    /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
+    /// Use the existing template that's associated with the StackSet that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
 
     public init(
@@ -10460,7 +11373,7 @@ public struct UpdateStackSetInput: Swift.Sendable {
 }
 
 public struct UpdateStackSetOutput: Swift.Sendable {
-    /// The unique ID for this stack set operation.
+    /// The unique ID for this StackSet operation.
     public var operationId: Swift.String?
 
     public init(
@@ -10723,6 +11636,13 @@ extension DescribeChangeSetHooksInput {
     }
 }
 
+extension DescribeEventsInput {
+
+    static func urlPathProvider(_ value: DescribeEventsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeGeneratedTemplateInput {
 
     static func urlPathProvider(_ value: DescribeGeneratedTemplateInput) -> Swift.String? {
@@ -10880,6 +11800,13 @@ extension ExecuteStackRefactorInput {
 extension GetGeneratedTemplateInput {
 
     static func urlPathProvider(_ value: GetGeneratedTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetHookResultInput {
+
+    static func urlPathProvider(_ value: GetHookResultInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11256,6 +12183,7 @@ extension CreateChangeSetInput {
         try writer["ChangeSetName"].write(value.changeSetName)
         try writer["ChangeSetType"].write(value.changeSetType)
         try writer["ClientToken"].write(value.clientToken)
+        try writer["DeploymentMode"].write(value.deploymentMode)
         try writer["Description"].write(value.description)
         try writer["ImportExistingResources"].write(value.importExistingResources)
         try writer["IncludeNestedStacks"].write(value.includeNestedStacks)
@@ -11500,6 +12428,20 @@ extension DescribeChangeSetHooksInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["StackName"].write(value.stackName)
         try writer["Action"].write("DescribeChangeSetHooks")
+        try writer["Version"].write("2010-05-15")
+    }
+}
+
+extension DescribeEventsInput {
+
+    static func write(value: DescribeEventsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ChangeSetName"].write(value.changeSetName)
+        try writer["Filters"].write(value.filters, with: CloudFormationClientTypes.EventFilter.write(value:to:))
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OperationId"].write(value.operationId)
+        try writer["StackName"].write(value.stackName)
+        try writer["Action"].write("DescribeEvents")
         try writer["Version"].write("2010-05-15")
     }
 }
@@ -11765,6 +12707,16 @@ extension GetGeneratedTemplateInput {
     }
 }
 
+extension GetHookResultInput {
+
+    static func write(value: GetHookResultInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["HookResultId"].write(value.hookResultId)
+        try writer["Action"].write("GetHookResult")
+        try writer["Version"].write("2010-05-15")
+    }
+}
+
 extension GetStackPolicyInput {
 
     static func write(value: GetStackPolicyInput?, to writer: SmithyFormURL.Writer) throws {
@@ -11855,8 +12807,10 @@ extension ListHookResultsInput {
     static func write(value: ListHookResultsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["NextToken"].write(value.nextToken)
+        try writer["Status"].write(value.status)
         try writer["TargetId"].write(value.targetId)
         try writer["TargetType"].write(value.targetType)
+        try writer["TypeArn"].write(value.typeArn)
         try writer["Action"].write("ListHookResults")
         try writer["Version"].write("2010-05-15")
     }
@@ -12439,6 +13393,7 @@ extension CreateStackOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["CreateStackResult"]
         var value = CreateStackOutput()
+        value.operationId = try reader["OperationId"].readIfPresent()
         value.stackId = try reader["StackId"].readIfPresent()
         return value
     }
@@ -12566,6 +13521,7 @@ extension DescribeChangeSetOutput {
         value.changeSetName = try reader["ChangeSetName"].readIfPresent()
         value.changes = try reader["Changes"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Change.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deploymentMode = try reader["DeploymentMode"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.executionStatus = try reader["ExecutionStatus"].readIfPresent()
         value.importExistingResources = try reader["ImportExistingResources"].readIfPresent()
@@ -12577,6 +13533,7 @@ extension DescribeChangeSetOutput {
         value.parentChangeSetId = try reader["ParentChangeSetId"].readIfPresent()
         value.rollbackConfiguration = try reader["RollbackConfiguration"].readIfPresent(with: CloudFormationClientTypes.RollbackConfiguration.read(from:))
         value.rootChangeSetId = try reader["RootChangeSetId"].readIfPresent()
+        value.stackDriftStatus = try reader["StackDriftStatus"].readIfPresent()
         value.stackId = try reader["StackId"].readIfPresent()
         value.stackName = try reader["StackName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
@@ -12600,6 +13557,19 @@ extension DescribeChangeSetHooksOutput {
         value.stackId = try reader["StackId"].readIfPresent()
         value.stackName = try reader["StackName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeEventsResult"]
+        var value = DescribeEventsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.operationEvents = try reader["OperationEvents"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12933,6 +13903,30 @@ extension GetGeneratedTemplateOutput {
         var value = GetGeneratedTemplateOutput()
         value.status = try reader["Status"].readIfPresent()
         value.templateBody = try reader["TemplateBody"].readIfPresent()
+        return value
+    }
+}
+
+extension GetHookResultOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHookResultOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetHookResultResult"]
+        var value = GetHookResultOutput()
+        value.annotations = try reader["Annotations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Annotation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureMode = try reader["FailureMode"].readIfPresent()
+        value.hookResultId = try reader["HookResultId"].readIfPresent()
+        value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
+        value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
+        value.invokedAt = try reader["InvokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.originalTypeName = try reader["OriginalTypeName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.target = try reader["Target"].readIfPresent(with: CloudFormationClientTypes.HookTarget.read(from:))
+        value.typeArn = try reader["TypeArn"].readIfPresent()
+        value.typeConfigurationVersionId = try reader["TypeConfigurationVersionId"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent()
+        value.typeVersionId = try reader["TypeVersionId"].readIfPresent()
         return value
     }
 }
@@ -13320,6 +14314,7 @@ extension RollbackStackOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["RollbackStackResult"]
         var value = RollbackStackOutput()
+        value.operationId = try reader["OperationId"].readIfPresent()
         value.stackId = try reader["StackId"].readIfPresent()
         return value
     }
@@ -13408,6 +14403,7 @@ extension UpdateStackOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["UpdateStackResult"]
         var value = UpdateStackOutput()
+        value.operationId = try reader["OperationId"].readIfPresent()
         value.stackId = try reader["StackId"].readIfPresent()
         return value
     }
@@ -13797,6 +14793,19 @@ enum DescribeChangeSetHooksOutputError {
     }
 }
 
+enum DescribeEventsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeGeneratedTemplateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14113,6 +15122,20 @@ enum GetGeneratedTemplateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "GeneratedTemplateNotFound": return try GeneratedTemplateNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetHookResultOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HookResultNotFound": return try HookResultNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15036,11 +16059,11 @@ extension StackRefactorNotFoundException {
     }
 }
 
-extension StackNotFoundException {
+extension HookResultNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StackNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HookResultNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = StackNotFoundException()
+        var value = HookResultNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15049,11 +16072,11 @@ extension StackNotFoundException {
     }
 }
 
-extension HookResultNotFoundException {
+extension StackNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HookResultNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StackNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = HookResultNotFoundException()
+        var value = StackNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15272,11 +16295,14 @@ extension CloudFormationClientTypes.ResourceChange {
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.replacement = try reader["Replacement"].readIfPresent()
         value.scope = try reader["Scope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFormationClientTypes.ResourceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceDriftStatus = try reader["ResourceDriftStatus"].readIfPresent()
+        value.resourceDriftIgnoredAttributes = try reader["ResourceDriftIgnoredAttributes"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceDriftIgnoredAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.details = try reader["Details"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceChangeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.changeSetId = try reader["ChangeSetId"].readIfPresent()
         value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
         value.beforeContext = try reader["BeforeContext"].readIfPresent()
         value.afterContext = try reader["AfterContext"].readIfPresent()
+        value.previousDeploymentContext = try reader["PreviousDeploymentContext"].readIfPresent()
         return value
     }
 }
@@ -15316,7 +16342,33 @@ extension CloudFormationClientTypes.ResourceTargetDefinition {
         value.path = try reader["Path"].readIfPresent()
         value.beforeValue = try reader["BeforeValue"].readIfPresent()
         value.afterValue = try reader["AfterValue"].readIfPresent()
+        value.beforeValueFrom = try reader["BeforeValueFrom"].readIfPresent()
+        value.afterValueFrom = try reader["AfterValueFrom"].readIfPresent()
+        value.drift = try reader["Drift"].readIfPresent(with: CloudFormationClientTypes.LiveResourceDrift.read(from:))
         value.attributeChangeType = try reader["AttributeChangeType"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.LiveResourceDrift {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.LiveResourceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.LiveResourceDrift()
+        value.previousValue = try reader["PreviousValue"].readIfPresent()
+        value.actualValue = try reader["ActualValue"].readIfPresent()
+        value.driftDetectionTimestamp = try reader["DriftDetectionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ResourceDriftIgnoredAttribute {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceDriftIgnoredAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ResourceDriftIgnoredAttribute()
+        value.path = try reader["Path"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }
@@ -15355,6 +16407,42 @@ extension CloudFormationClientTypes.ChangeSetHookResourceTargetDetails {
         value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.resourceAction = try reader["ResourceAction"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.OperationEvent {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.OperationEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.OperationEvent()
+        value.eventId = try reader["EventId"].readIfPresent()
+        value.stackId = try reader["StackId"].readIfPresent()
+        value.operationId = try reader["OperationId"].readIfPresent()
+        value.operationType = try reader["OperationType"].readIfPresent()
+        value.operationStatus = try reader["OperationStatus"].readIfPresent()
+        value.eventType = try reader["EventType"].readIfPresent()
+        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
+        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.resourceStatus = try reader["ResourceStatus"].readIfPresent()
+        value.resourceStatusReason = try reader["ResourceStatusReason"].readIfPresent()
+        value.resourceProperties = try reader["ResourceProperties"].readIfPresent()
+        value.clientRequestToken = try reader["ClientRequestToken"].readIfPresent()
+        value.hookType = try reader["HookType"].readIfPresent()
+        value.hookStatus = try reader["HookStatus"].readIfPresent()
+        value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
+        value.hookInvocationPoint = try reader["HookInvocationPoint"].readIfPresent()
+        value.hookFailureMode = try reader["HookFailureMode"].readIfPresent()
+        value.detailedStatus = try reader["DetailedStatus"].readIfPresent()
+        value.validationFailureMode = try reader["ValidationFailureMode"].readIfPresent()
+        value.validationName = try reader["ValidationName"].readIfPresent()
+        value.validationStatus = try reader["ValidationStatus"].readIfPresent()
+        value.validationStatusReason = try reader["ValidationStatusReason"].readIfPresent()
+        value.validationPath = try reader["ValidationPath"].readIfPresent()
         return value
     }
 }
@@ -15450,6 +16538,7 @@ extension CloudFormationClientTypes.StackEvent {
         value.stackId = try reader["StackId"].readIfPresent() ?? ""
         value.eventId = try reader["EventId"].readIfPresent() ?? ""
         value.stackName = try reader["StackName"].readIfPresent() ?? ""
+        value.operationId = try reader["OperationId"].readIfPresent()
         value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
         value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
@@ -15462,6 +16551,7 @@ extension CloudFormationClientTypes.StackEvent {
         value.hookStatus = try reader["HookStatus"].readIfPresent()
         value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
         value.hookInvocationPoint = try reader["HookInvocationPoint"].readIfPresent()
+        value.hookInvocationId = try reader["HookInvocationId"].readIfPresent()
         value.hookFailureMode = try reader["HookFailureMode"].readIfPresent()
         value.detailedStatus = try reader["DetailedStatus"].readIfPresent()
         return value
@@ -15626,6 +16716,18 @@ extension CloudFormationClientTypes.Stack {
         value.retainExceptOnCreate = try reader["RetainExceptOnCreate"].readIfPresent()
         value.deletionMode = try reader["DeletionMode"].readIfPresent()
         value.detailedStatus = try reader["DetailedStatus"].readIfPresent()
+        value.lastOperations = try reader["LastOperations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.OperationEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.OperationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.OperationEntry()
+        value.operationType = try reader["OperationType"].readIfPresent()
+        value.operationId = try reader["OperationId"].readIfPresent()
         return value
     }
 }
@@ -15699,6 +16801,7 @@ extension CloudFormationClientTypes.AutoDeployment {
 
     static func write(value: CloudFormationClientTypes.AutoDeployment?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Enabled"].write(value.enabled)
         try writer["RetainStacksOnAccountRemoval"].write(value.retainStacksOnAccountRemoval)
     }
@@ -15708,6 +16811,7 @@ extension CloudFormationClientTypes.AutoDeployment {
         var value = CloudFormationClientTypes.AutoDeployment()
         value.enabled = try reader["Enabled"].readIfPresent()
         value.retainStacksOnAccountRemoval = try reader["RetainStacksOnAccountRemoval"].readIfPresent()
+        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15840,6 +16944,34 @@ extension CloudFormationClientTypes.RequiredActivatedType {
     }
 }
 
+extension CloudFormationClientTypes.HookTarget {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.HookTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.HookTarget()
+        value.targetType = try reader["TargetType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetTypeName = try reader["TargetTypeName"].readIfPresent() ?? ""
+        value.targetId = try reader["TargetId"].readIfPresent() ?? ""
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.Annotation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Annotation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Annotation()
+        value.annotationName = try reader["AnnotationName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.remediationMessage = try reader["RemediationMessage"].readIfPresent()
+        value.remediationLink = try reader["RemediationLink"].readIfPresent()
+        value.severityLevel = try reader["SeverityLevel"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudFormationClientTypes.ParameterDeclaration {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ParameterDeclaration {
@@ -15942,6 +17074,7 @@ extension CloudFormationClientTypes.HookResultSummary {
     static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.HookResultSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFormationClientTypes.HookResultSummary()
+        value.hookResultId = try reader["HookResultId"].readIfPresent()
         value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
         value.failureMode = try reader["FailureMode"].readIfPresent()
         value.typeName = try reader["TypeName"].readIfPresent()
@@ -15949,6 +17082,11 @@ extension CloudFormationClientTypes.HookResultSummary {
         value.typeConfigurationVersionId = try reader["TypeConfigurationVersionId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
+        value.invokedAt = try reader["InvokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.targetType = try reader["TargetType"].readIfPresent()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.typeArn = try reader["TypeArn"].readIfPresent()
+        value.hookExecutionTarget = try reader["HookExecutionTarget"].readIfPresent()
         return value
     }
 }
@@ -16130,6 +17268,7 @@ extension CloudFormationClientTypes.StackSummary {
         value.parentId = try reader["ParentId"].readIfPresent()
         value.rootId = try reader["RootId"].readIfPresent()
         value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackDriftInformationSummary.read(from:))
+        value.lastOperations = try reader["LastOperations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16296,6 +17435,14 @@ extension CloudFormationClientTypes.StackDefinition {
         try writer["StackName"].write(value.stackName)
         try writer["TemplateBody"].write(value.templateBody)
         try writer["TemplateURL"].write(value.templateURL)
+    }
+}
+
+extension CloudFormationClientTypes.EventFilter {
+
+    static func write(value: CloudFormationClientTypes.EventFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["FailedEvents"].write(value.failedEvents)
     }
 }
 

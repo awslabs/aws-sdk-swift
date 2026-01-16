@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WorkSpacesThinClientClient: ClientRuntime.Client {
+public class WorkSpacesThinClientClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WorkSpacesThinClientClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesThinClientClient.WorkSpacesThinClientClientConfiguration
     let serviceName = "WorkSpaces Thin Client"
@@ -373,9 +373,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Creates an environment for your thin client devices.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +416,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
@@ -447,9 +448,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Deletes a thin client device.
     ///
-    /// - Parameter DeleteDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceInput`)
     ///
-    /// - Returns: `DeleteDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +488,7 @@ extension WorkSpacesThinClientClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDeviceInput, DeleteDeviceOutput>(DeleteDeviceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeviceOutput>(DeleteDeviceOutput.httpOutput(from:), DeleteDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeviceInput, DeleteDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeviceOutput>())
@@ -518,9 +520,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Deletes an environment.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,6 +560,7 @@ extension WorkSpacesThinClientClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(DeleteEnvironmentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -589,9 +592,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Deregisters a thin client device.
     ///
-    /// - Parameter DeregisterDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterDeviceInput`)
     ///
-    /// - Returns: `DeregisterDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,6 +634,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterDeviceInput, DeregisterDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterDeviceOutput>(DeregisterDeviceOutput.httpOutput(from:), DeregisterDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterDeviceInput, DeregisterDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterDeviceOutput>())
@@ -662,9 +666,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns information for a thin client device.
     ///
-    /// - Parameter GetDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceInput`)
     ///
-    /// - Returns: `GetDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -699,6 +703,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceOutput>(GetDeviceOutput.httpOutput(from:), GetDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceInput, GetDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceOutput>())
@@ -730,9 +735,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns information for an environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,6 +772,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentOutput>(GetEnvironmentOutput.httpOutput(from:), GetEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentOutput>())
@@ -798,9 +804,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns information for a software set.
     ///
-    /// - Parameter GetSoftwareSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSoftwareSetInput`)
     ///
-    /// - Returns: `GetSoftwareSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSoftwareSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -835,6 +841,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSoftwareSetInput, GetSoftwareSetOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSoftwareSetOutput>(GetSoftwareSetOutput.httpOutput(from:), GetSoftwareSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSoftwareSetInput, GetSoftwareSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSoftwareSetOutput>())
@@ -866,9 +873,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns a list of thin client devices.
     ///
-    /// - Parameter ListDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesInput`)
     ///
-    /// - Returns: `ListDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -903,6 +910,7 @@ extension WorkSpacesThinClientClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDevicesInput, ListDevicesOutput>(ListDevicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesOutput>(ListDevicesOutput.httpOutput(from:), ListDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesInput, ListDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesOutput>())
@@ -934,9 +942,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns a list of environments.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -971,6 +979,7 @@ extension WorkSpacesThinClientClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(ListEnvironmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -1002,9 +1011,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns a list of software sets.
     ///
-    /// - Parameter ListSoftwareSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSoftwareSetsInput`)
     ///
-    /// - Returns: `ListSoftwareSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSoftwareSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1039,6 +1048,7 @@ extension WorkSpacesThinClientClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSoftwareSetsInput, ListSoftwareSetsOutput>(ListSoftwareSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSoftwareSetsOutput>(ListSoftwareSetsOutput.httpOutput(from:), ListSoftwareSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSoftwareSetsInput, ListSoftwareSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSoftwareSetsOutput>())
@@ -1070,9 +1080,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1107,6 +1117,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1138,9 +1149,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1179,6 +1190,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1210,9 +1222,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1249,6 +1261,7 @@ extension WorkSpacesThinClientClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1280,9 +1293,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Updates a thin client device.
     ///
-    /// - Parameter UpdateDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceInput`)
     ///
-    /// - Returns: `UpdateDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1320,6 +1333,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeviceInput, UpdateDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeviceOutput>(UpdateDeviceOutput.httpOutput(from:), UpdateDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeviceInput, UpdateDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeviceOutput>())
@@ -1351,9 +1365,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Updates an environment.
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1392,6 +1406,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
@@ -1423,9 +1438,9 @@ extension WorkSpacesThinClientClient {
     ///
     /// Updates a software set.
     ///
-    /// - Parameter UpdateSoftwareSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSoftwareSetInput`)
     ///
-    /// - Returns: `UpdateSoftwareSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSoftwareSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1463,6 +1478,7 @@ extension WorkSpacesThinClientClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSoftwareSetInput, UpdateSoftwareSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSoftwareSetOutput>(UpdateSoftwareSetOutput.httpOutput(from:), UpdateSoftwareSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSoftwareSetInput, UpdateSoftwareSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSoftwareSetOutput>())

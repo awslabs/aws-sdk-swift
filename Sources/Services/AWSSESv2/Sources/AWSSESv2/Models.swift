@@ -1709,6 +1709,126 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    public enum FeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeatureStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The confidence level threshold for suppression validation:
+    ///
+    /// * MEDIUM – Allows emails to be sent to addresses with medium or high delivery likelihood.
+    ///
+    /// * HIGH – Allows emails to be sent only to addresses with high delivery likelihood.
+    ///
+    /// * MANAGED – Managed confidence threshold where Amazon SES automatically determines the appropriate level.
+    public enum SuppressionConfidenceVerdictThreshold: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case managed
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SuppressionConfidenceVerdictThreshold] {
+            return [
+                .high,
+                .managed,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .managed: return "MANAGED"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains the confidence threshold settings for Auto Validation.
+    public struct SuppressionConfidenceThreshold: Swift.Sendable {
+        /// The confidence level threshold for suppression decisions.
+        /// This member is required.
+        public var confidenceVerdictThreshold: SESv2ClientTypes.SuppressionConfidenceVerdictThreshold?
+
+        public init(
+            confidenceVerdictThreshold: SESv2ClientTypes.SuppressionConfidenceVerdictThreshold? = nil
+        ) {
+            self.confidenceVerdictThreshold = confidenceVerdictThreshold
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains Auto Validation settings, allowing you to suppress sending to specific destination(s) if they do not meet required threshold. For details on Auto Validation, see [Auto Validation](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/email-validation.html).
+    public struct SuppressionConditionThreshold: Swift.Sendable {
+        /// Indicates whether Auto Validation is enabled for suppression. Set to ENABLED to enable the Auto Validation feature, or set to DISABLED to disable it.
+        /// This member is required.
+        public var conditionThresholdEnabled: SESv2ClientTypes.FeatureStatus?
+        /// The overall confidence threshold used to determine suppression decisions.
+        public var overallConfidenceThreshold: SESv2ClientTypes.SuppressionConfidenceThreshold?
+
+        public init(
+            conditionThresholdEnabled: SESv2ClientTypes.FeatureStatus? = nil,
+            overallConfidenceThreshold: SESv2ClientTypes.SuppressionConfidenceThreshold? = nil
+        ) {
+            self.conditionThresholdEnabled = conditionThresholdEnabled
+            self.overallConfidenceThreshold = overallConfidenceThreshold
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains validation options for email address suppression.
+    public struct SuppressionValidationOptions: Swift.Sendable {
+        /// Specifies the condition threshold settings for suppression validation.
+        /// This member is required.
+        public var conditionThreshold: SESv2ClientTypes.SuppressionConditionThreshold?
+
+        public init(
+            conditionThreshold: SESv2ClientTypes.SuppressionConditionThreshold? = nil
+        ) {
+            self.conditionThreshold = conditionThreshold
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// An object that contains information about the suppression list preferences for your account.
     public struct SuppressionOptions: Swift.Sendable {
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:
@@ -1717,11 +1837,15 @@ extension SESv2ClientTypes {
         ///
         /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+        /// Contains validation options for email address suppression.
+        public var validationOptions: SESv2ClientTypes.SuppressionValidationOptions?
 
         public init(
-            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
+            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+            validationOptions: SESv2ClientTypes.SuppressionValidationOptions? = nil
         ) {
             self.suppressedReasons = suppressedReasons
+            self.validationOptions = validationOptions
         }
     }
 }
@@ -1804,35 +1928,6 @@ extension SESv2ClientTypes {
         ) {
             self.customRedirectDomain = customRedirectDomain
             self.httpsPolicy = httpsPolicy
-        }
-    }
-}
-
-extension SESv2ClientTypes {
-
-    public enum FeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FeatureStatus] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -2239,6 +2334,8 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Sendable {
     /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
     /// This member is required.
     public var successRedirectionURL: Swift.String?
+    /// An array of objects that define the tags (keys and values) to associate with the custom verification email template.
+    public var tags: [SESv2ClientTypes.Tag]?
     /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see [Custom verification email frequently asked questions](https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#send-email-verify-address-custom-faq) in the Amazon SES Developer Guide.
     /// This member is required.
     public var templateContent: Swift.String?
@@ -2253,6 +2350,7 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Sendable {
         failureRedirectionURL: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         successRedirectionURL: Swift.String? = nil,
+        tags: [SESv2ClientTypes.Tag]? = nil,
         templateContent: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateSubject: Swift.String? = nil
@@ -2260,6 +2358,7 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Sendable {
         self.failureRedirectionURL = failureRedirectionURL
         self.fromEmailAddress = fromEmailAddress
         self.successRedirectionURL = successRedirectionURL
+        self.tags = tags
         self.templateContent = templateContent
         self.templateName = templateName
         self.templateSubject = templateSubject
@@ -2578,9 +2677,11 @@ extension SESv2ClientTypes {
         case awsSesApSoutheast1
         case awsSesApSoutheast2
         case awsSesApSoutheast3
+        case awsSesApSoutheast5
         case awsSesApSouth1
         case awsSesApSouth2
         case awsSesCaCentral1
+        case awsSesCaWest1
         case awsSesEuCentral1
         case awsSesEuCentral2
         case awsSesEuNorth1
@@ -2609,9 +2710,11 @@ extension SESv2ClientTypes {
                 .awsSesApSoutheast1,
                 .awsSesApSoutheast2,
                 .awsSesApSoutheast3,
+                .awsSesApSoutheast5,
                 .awsSesApSouth1,
                 .awsSesApSouth2,
                 .awsSesCaCentral1,
+                .awsSesCaWest1,
                 .awsSesEuCentral1,
                 .awsSesEuCentral2,
                 .awsSesEuNorth1,
@@ -2646,9 +2749,11 @@ extension SESv2ClientTypes {
             case .awsSesApSoutheast1: return "AWS_SES_AP_SOUTHEAST_1"
             case .awsSesApSoutheast2: return "AWS_SES_AP_SOUTHEAST_2"
             case .awsSesApSoutheast3: return "AWS_SES_AP_SOUTHEAST_3"
+            case .awsSesApSoutheast5: return "AWS_SES_AP_SOUTHEAST_5"
             case .awsSesApSouth1: return "AWS_SES_AP_SOUTH_1"
             case .awsSesApSouth2: return "AWS_SES_AP_SOUTH_2"
             case .awsSesCaCentral1: return "AWS_SES_CA_CENTRAL_1"
+            case .awsSesCaWest1: return "AWS_SES_CA_WEST_1"
             case .awsSesEuCentral1: return "AWS_SES_EU_CENTRAL_1"
             case .awsSesEuCentral2: return "AWS_SES_EU_CENTRAL_2"
             case .awsSesEuNorth1: return "AWS_SES_EU_NORTH_1"
@@ -2759,11 +2864,15 @@ extension SESv2ClientTypes {
         ///
         /// * AWS_SES_CA_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).
         ///
+        /// * AWS_SES_CA_WEST_1 – Configure DKIM for the identity by replicating from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).
+        ///
         /// * AWS_SES_AP_SOUTHEAST_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_SOUTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_5 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2925,11 +3034,15 @@ extension SESv2ClientTypes {
         ///
         /// * AWS_SES_CA_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Central) region using Deterministic Easy-DKIM (DEED).
         ///
+        /// * AWS_SES_CA_WEST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Canada (Calgary) region using Deterministic Easy-DKIM (DEED).
+        ///
         /// * AWS_SES_AP_SOUTHEAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Singapore) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_SOUTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Sydney) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_AP_SOUTHEAST_5 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Malaysia) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2945,6 +3058,12 @@ extension SESv2ClientTypes {
         public var signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
         /// If the value is true, then the messages that you send from the identity are signed using DKIM. If the value is false, then the messages that you send from the identity aren't DKIM-signed.
         public var signingEnabled: Swift.Bool
+        /// The hosted zone where Amazon SES publishes the DKIM public key TXT records for this email identity. This value indicates the DNS zone that customers must reference when configuring their CNAME records for DKIM authentication. When configuring DKIM for your domain, create CNAME records in your DNS that point to the selectors in this hosted zone. For example:  selector1._domainkey.yourdomain.com CNAME selector1.
+        ///     selector2._domainkey.yourdomain.com CNAME selector2.
+        ///
+        ///
+        ///     selector3._domainkey.yourdomain.com CNAME selector3.
+        public var signingHostedZone: Swift.String?
         /// Describes whether or not Amazon SES has successfully located the DKIM records in the DNS records for the domain. The status can be one of the following:
         ///
         /// * PENDING – The verification process was initiated, but Amazon SES hasn't yet detected the DKIM records in the DNS configuration for the domain.
@@ -2966,6 +3085,7 @@ extension SESv2ClientTypes {
             nextSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength? = nil,
             signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin? = nil,
             signingEnabled: Swift.Bool = false,
+            signingHostedZone: Swift.String? = nil,
             status: SESv2ClientTypes.DkimStatus? = nil,
             tokens: [Swift.String]? = nil
         ) {
@@ -2974,6 +3094,7 @@ extension SESv2ClientTypes {
             self.nextSigningKeyLength = nextSigningKeyLength
             self.signingAttributesOrigin = signingAttributesOrigin
             self.signingEnabled = signingEnabled
+            self.signingHostedZone = signingHostedZone
             self.status = status
             self.tokens = tokens
         }
@@ -3063,6 +3184,8 @@ public struct CreateEmailIdentityPolicyOutput: Swift.Sendable {
 
 /// Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
 public struct CreateEmailTemplateInput: Swift.Sendable {
+    /// An array of objects that define the tags (keys and values) to associate with the email template.
+    public var tags: [SESv2ClientTypes.Tag]?
     /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
     /// This member is required.
     public var templateContent: SESv2ClientTypes.EmailTemplateContent?
@@ -3071,9 +3194,11 @@ public struct CreateEmailTemplateInput: Swift.Sendable {
     public var templateName: Swift.String?
 
     public init(
+        tags: [SESv2ClientTypes.Tag]? = nil,
         templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
         templateName: Swift.String? = nil
     ) {
+        self.tags = tags
         self.templateContent = templateContent
         self.templateName = templateName
     }
@@ -4509,6 +4634,95 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    /// The confidence level of SES that the email address meets the validation criteria:
+    ///
+    /// * LOW - Weak or no indication of the speciﬁc check (e.g., LOW for IsRoleAddress means the email is less likely to be a role-based address).
+    ///
+    /// * MEDIUM - Moderate indication of the speciﬁc check (e.g., MEDIUM for IsDisposable means the email might be a disposable address).
+    ///
+    /// * HIGH - Strong indication of the speciﬁc check (e.g., HIGH for IsRandomInput means the email is very likely randomly generated).
+    public enum EmailAddressInsightsConfidenceVerdict: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmailAddressInsightsConfidenceVerdict] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains the overall validation verdict for an email address.
+    public struct EmailAddressInsightsVerdict: Swift.Sendable {
+        /// The confidence level of the validation verdict.
+        public var confidenceVerdict: SESv2ClientTypes.EmailAddressInsightsConfidenceVerdict?
+
+        public init(
+            confidenceVerdict: SESv2ClientTypes.EmailAddressInsightsConfidenceVerdict? = nil
+        ) {
+            self.confidenceVerdict = confidenceVerdict
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains individual validation checks performed on an email address.
+    public struct EmailAddressInsightsMailboxEvaluations: Swift.Sendable {
+        /// Checks that the domain exists, has valid DNS records, and is conﬁgured to receive email.
+        public var hasValidDnsRecords: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Checks that the email address follows proper RFC standards and contains valid characters in the correct format.
+        public var hasValidSyntax: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Checks disposable or temporary email addresses that could negatively impact your sender reputation.
+        public var isDisposable: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Checks if the input appears to be random text.
+        public var isRandomInput: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Identiﬁes role-based addresses (such as admin@, support@, or info@) that may have lower engagement rates.
+        public var isRoleAddress: SESv2ClientTypes.EmailAddressInsightsVerdict?
+        /// Checks that the mailbox exists and can receive messages without actually sending an email.
+        public var mailboxExists: SESv2ClientTypes.EmailAddressInsightsVerdict?
+
+        public init(
+            hasValidDnsRecords: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            hasValidSyntax: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            isDisposable: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            isRandomInput: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            isRoleAddress: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil,
+            mailboxExists: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil
+        ) {
+            self.hasValidDnsRecords = hasValidDnsRecords
+            self.hasValidSyntax = hasValidSyntax
+            self.isDisposable = isDisposable
+            self.isRandomInput = isRandomInput
+            self.isRoleAddress = isRoleAddress
+            self.mailboxExists = mailboxExists
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// Contains a Bounce object if the event type is BOUNCE. Contains a Complaint object if the event type is COMPLAINT.
     public struct EventDetails: Swift.Sendable {
         /// Information about a Bounce event.
@@ -4854,6 +5068,22 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    /// Structure containing validation attributes used for suppressing sending to specific destination on account level.
+    public struct SuppressionValidationAttributes: Swift.Sendable {
+        /// Specifies the condition threshold settings for account-level suppression.
+        /// This member is required.
+        public var conditionThreshold: SESv2ClientTypes.SuppressionConditionThreshold?
+
+        public init(
+            conditionThreshold: SESv2ClientTypes.SuppressionConditionThreshold? = nil
+        ) {
+            self.conditionThreshold = conditionThreshold
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// An object that contains information about the email address suppression preferences for your account in the current Amazon Web Services Region.
     public struct SuppressionAttributes: Swift.Sendable {
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:
@@ -4862,11 +5092,15 @@ extension SESv2ClientTypes {
         ///
         /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+        /// Structure containing validation attributes used for suppressing sending to specific destination on account level.
+        public var validationAttributes: SESv2ClientTypes.SuppressionValidationAttributes?
 
         public init(
-            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
+            suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+            validationAttributes: SESv2ClientTypes.SuppressionValidationAttributes? = nil
         ) {
             self.suppressedReasons = suppressedReasons
+            self.validationAttributes = validationAttributes
         }
     }
 }
@@ -5192,6 +5426,8 @@ public struct GetCustomVerificationEmailTemplateOutput: Swift.Sendable {
     public var fromEmailAddress: Swift.String?
     /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
     public var successRedirectionURL: Swift.String?
+    /// An array of objects that define the tags (keys and values) that are associated with the custom verification email template.
+    public var tags: [SESv2ClientTypes.Tag]?
     /// The content of the custom verification email.
     public var templateContent: Swift.String?
     /// The name of the custom verification email template.
@@ -5203,6 +5439,7 @@ public struct GetCustomVerificationEmailTemplateOutput: Swift.Sendable {
         failureRedirectionURL: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         successRedirectionURL: Swift.String? = nil,
+        tags: [SESv2ClientTypes.Tag]? = nil,
         templateContent: Swift.String? = nil,
         templateName: Swift.String? = nil,
         templateSubject: Swift.String? = nil
@@ -5210,6 +5447,7 @@ public struct GetCustomVerificationEmailTemplateOutput: Swift.Sendable {
         self.failureRedirectionURL = failureRedirectionURL
         self.fromEmailAddress = fromEmailAddress
         self.successRedirectionURL = successRedirectionURL
+        self.tags = tags
         self.templateContent = templateContent
         self.templateName = templateName
         self.templateSubject = templateSubject
@@ -5518,6 +5756,50 @@ public struct GetDomainStatisticsReportOutput: Swift.Sendable {
     ) {
         self.dailyVolumes = dailyVolumes
         self.overallVolume = overallVolume
+    }
+}
+
+/// A request to return validation insights about an email address.
+public struct GetEmailAddressInsightsInput: Swift.Sendable {
+    /// The email address to analyze for validation insights.
+    /// This member is required.
+    public var emailAddress: Swift.String?
+
+    public init(
+        emailAddress: Swift.String? = nil
+    ) {
+        self.emailAddress = emailAddress
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains detailed validation information about an email address.
+    public struct MailboxValidation: Swift.Sendable {
+        /// Specific validation checks performed on the email address.
+        public var evaluations: SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations?
+        /// Overall validity assessment with a conﬁdence verdict.
+        public var isValid: SESv2ClientTypes.EmailAddressInsightsVerdict?
+
+        public init(
+            evaluations: SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations? = nil,
+            isValid: SESv2ClientTypes.EmailAddressInsightsVerdict? = nil
+        ) {
+            self.evaluations = evaluations
+            self.isValid = isValid
+        }
+    }
+}
+
+/// Validation insights about an email address.
+public struct GetEmailAddressInsightsOutput: Swift.Sendable {
+    /// Detailed validation results for the email address.
+    public var mailboxValidation: SESv2ClientTypes.MailboxValidation?
+
+    public init(
+        mailboxValidation: SESv2ClientTypes.MailboxValidation? = nil
+    ) {
+        self.mailboxValidation = mailboxValidation
     }
 }
 
@@ -5871,6 +6153,8 @@ public struct GetEmailTemplateInput: Swift.Sendable {
 
 /// The following element is returned by the service.
 public struct GetEmailTemplateOutput: Swift.Sendable {
+    /// An array of objects that define the tags (keys and values) that are associated with the email template.
+    public var tags: [SESv2ClientTypes.Tag]?
     /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
     /// This member is required.
     public var templateContent: SESv2ClientTypes.EmailTemplateContent?
@@ -5879,9 +6163,11 @@ public struct GetEmailTemplateOutput: Swift.Sendable {
     public var templateName: Swift.String?
 
     public init(
+        tags: [SESv2ClientTypes.Tag]? = nil,
         templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
         templateName: Swift.String? = nil
     ) {
+        self.tags = tags
         self.templateContent = templateContent
         self.templateName = templateName
     }
@@ -7765,11 +8051,15 @@ public struct PutAccountSuppressionAttributesInput: Swift.Sendable {
     ///
     /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
     public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+    /// An object that contains additional suppression attributes for your account.
+    public var validationAttributes: SESv2ClientTypes.SuppressionValidationAttributes?
 
     public init(
-        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
+        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+        validationAttributes: SESv2ClientTypes.SuppressionValidationAttributes? = nil
     ) {
         self.suppressedReasons = suppressedReasons
+        self.validationAttributes = validationAttributes
     }
 }
 
@@ -7908,13 +8198,17 @@ public struct PutConfigurationSetSuppressionOptionsInput: Swift.Sendable {
     ///
     /// * BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
     public var suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
+    /// An object that contains information about the email address suppression preferences for the configuration set in the current Amazon Web Services Region.
+    public var validationOptions: SESv2ClientTypes.SuppressionValidationOptions?
 
     public init(
         configurationSetName: Swift.String? = nil,
-        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil
+        suppressedReasons: [SESv2ClientTypes.SuppressionListReason]? = nil,
+        validationOptions: SESv2ClientTypes.SuppressionValidationOptions? = nil
     ) {
         self.configurationSetName = configurationSetName
         self.suppressedReasons = suppressedReasons
+        self.validationOptions = validationOptions
     }
 }
 
@@ -8157,13 +8451,21 @@ public struct PutEmailIdentityDkimSigningAttributesOutput: Swift.Sendable {
     public var dkimStatus: SESv2ClientTypes.DkimStatus?
     /// If you used [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html) to configure DKIM authentication for the domain, then this object contains a set of unique strings that you use to create a set of CNAME records that you add to the DNS configuration for your domain. When Amazon SES detects these records in the DNS configuration for your domain, the DKIM authentication process is complete. If you configured DKIM authentication for the domain by providing your own public-private key pair, then this object contains the selector that's associated with your public key. Regardless of the DKIM authentication method you use, Amazon SES searches for the appropriate records in the DNS configuration of the domain for up to 72 hours.
     public var dkimTokens: [Swift.String]?
+    /// The hosted zone where Amazon SES publishes the DKIM public key TXT records for this email identity. This value indicates the DNS zone that customers must reference when configuring their CNAME records for DKIM authentication. When configuring DKIM for your domain, create CNAME records in your DNS that point to the selectors in this hosted zone. For example:  selector1._domainkey.yourdomain.com CNAME selector1.
+    ///     selector2._domainkey.yourdomain.com CNAME selector2.
+    ///
+    ///
+    ///     selector3._domainkey.yourdomain.com CNAME selector3.
+    public var signingHostedZone: Swift.String?
 
     public init(
         dkimStatus: SESv2ClientTypes.DkimStatus? = nil,
-        dkimTokens: [Swift.String]? = nil
+        dkimTokens: [Swift.String]? = nil,
+        signingHostedZone: Swift.String? = nil
     ) {
         self.dkimStatus = dkimStatus
         self.dkimTokens = dkimTokens
+        self.signingHostedZone = signingHostedZone
     }
 }
 
@@ -9195,6 +9497,13 @@ extension GetDomainStatisticsReportInput {
     }
 }
 
+extension GetEmailAddressInsightsInput {
+
+    static func urlPathProvider(_ value: GetEmailAddressInsightsInput) -> Swift.String? {
+        return "/v2/email/email-address-insights"
+    }
+}
+
 extension GetEmailIdentityInput {
 
     static func urlPathProvider(_ value: GetEmailIdentityInput) -> Swift.String? {
@@ -9802,7 +10111,7 @@ extension PutEmailIdentityDkimSigningAttributesInput {
         guard let emailIdentity = value.emailIdentity else {
             return nil
         }
-        return "/v1/email/identities/\(emailIdentity.urlPercentEncoding())/dkim/signing"
+        return "/v2/email/identities/\(emailIdentity.urlPercentEncoding())/dkim/signing"
     }
 }
 
@@ -10057,6 +10366,7 @@ extension CreateCustomVerificationEmailTemplateInput {
         try writer["FailureRedirectionURL"].write(value.failureRedirectionURL)
         try writer["FromEmailAddress"].write(value.fromEmailAddress)
         try writer["SuccessRedirectionURL"].write(value.successRedirectionURL)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SESv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateContent"].write(value.templateContent)
         try writer["TemplateName"].write(value.templateName)
         try writer["TemplateSubject"].write(value.templateSubject)
@@ -10107,6 +10417,7 @@ extension CreateEmailTemplateInput {
 
     static func write(value: CreateEmailTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SESv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateContent"].write(value.templateContent, with: SESv2ClientTypes.EmailTemplateContent.write(value:to:))
         try writer["TemplateName"].write(value.templateName)
     }
@@ -10172,6 +10483,14 @@ extension DeleteTenantResourceAssociationInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["TenantName"].write(value.tenantName)
+    }
+}
+
+extension GetEmailAddressInsightsInput {
+
+    static func write(value: GetEmailAddressInsightsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EmailAddress"].write(value.emailAddress)
     }
 }
 
@@ -10298,6 +10617,7 @@ extension PutAccountSuppressionAttributesInput {
     static func write(value: PutAccountSuppressionAttributesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ValidationAttributes"].write(value.validationAttributes, with: SESv2ClientTypes.SuppressionValidationAttributes.write(value:to:))
     }
 }
 
@@ -10348,6 +10668,7 @@ extension PutConfigurationSetSuppressionOptionsInput {
     static func write(value: PutConfigurationSetSuppressionOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ValidationOptions"].write(value.validationOptions, with: SESv2ClientTypes.SuppressionValidationOptions.write(value:to:))
     }
 }
 
@@ -10956,6 +11277,7 @@ extension GetCustomVerificationEmailTemplateOutput {
         value.failureRedirectionURL = try reader["FailureRedirectionURL"].readIfPresent()
         value.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
         value.successRedirectionURL = try reader["SuccessRedirectionURL"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.templateContent = try reader["TemplateContent"].readIfPresent()
         value.templateName = try reader["TemplateName"].readIfPresent()
         value.templateSubject = try reader["TemplateSubject"].readIfPresent()
@@ -11057,6 +11379,18 @@ extension GetDomainStatisticsReportOutput {
     }
 }
 
+extension GetEmailAddressInsightsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEmailAddressInsightsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEmailAddressInsightsOutput()
+        value.mailboxValidation = try reader["MailboxValidation"].readIfPresent(with: SESv2ClientTypes.MailboxValidation.read(from:))
+        return value
+    }
+}
+
 extension GetEmailIdentityOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEmailIdentityOutput {
@@ -11097,6 +11431,7 @@ extension GetEmailTemplateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetEmailTemplateOutput()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.templateContent = try reader["TemplateContent"].readIfPresent(with: SESv2ClientTypes.EmailTemplateContent.read(from:))
         value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
         return value
@@ -11593,6 +11928,7 @@ extension PutEmailIdentityDkimSigningAttributesOutput {
         var value = PutEmailIdentityDkimSigningAttributesOutput()
         value.dkimStatus = try reader["DkimStatus"].readIfPresent()
         value.dkimTokens = try reader["DkimTokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signingHostedZone = try reader["SigningHostedZone"].readIfPresent()
         return value
     }
 }
@@ -12466,6 +12802,21 @@ enum GetDomainStatisticsReportOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetEmailAddressInsightsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13718,6 +14069,7 @@ extension SESv2ClientTypes.DkimAttributes {
         value.signingEnabled = try reader["SigningEnabled"].readIfPresent() ?? false
         value.status = try reader["Status"].readIfPresent()
         value.tokens = try reader["Tokens"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signingHostedZone = try reader["SigningHostedZone"].readIfPresent()
         value.signingAttributesOrigin = try reader["SigningAttributesOrigin"].readIfPresent()
         value.nextSigningKeyLength = try reader["NextSigningKeyLength"].readIfPresent()
         value.currentSigningKeyLength = try reader["CurrentSigningKeyLength"].readIfPresent()
@@ -13761,6 +14113,54 @@ extension SESv2ClientTypes.SuppressionAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESv2ClientTypes.SuppressionAttributes()
         value.suppressedReasons = try reader["SuppressedReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.SuppressionListReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationAttributes = try reader["ValidationAttributes"].readIfPresent(with: SESv2ClientTypes.SuppressionValidationAttributes.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionValidationAttributes {
+
+    static func write(value: SESv2ClientTypes.SuppressionValidationAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionThreshold"].write(value.conditionThreshold, with: SESv2ClientTypes.SuppressionConditionThreshold.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionValidationAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionValidationAttributes()
+        value.conditionThreshold = try reader["ConditionThreshold"].readIfPresent(with: SESv2ClientTypes.SuppressionConditionThreshold.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionConditionThreshold {
+
+    static func write(value: SESv2ClientTypes.SuppressionConditionThreshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionThresholdEnabled"].write(value.conditionThresholdEnabled)
+        try writer["OverallConfidenceThreshold"].write(value.overallConfidenceThreshold, with: SESv2ClientTypes.SuppressionConfidenceThreshold.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionConditionThreshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionConditionThreshold()
+        value.conditionThresholdEnabled = try reader["ConditionThresholdEnabled"].readIfPresent() ?? .sdkUnknown("")
+        value.overallConfidenceThreshold = try reader["OverallConfidenceThreshold"].readIfPresent(with: SESv2ClientTypes.SuppressionConfidenceThreshold.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionConfidenceThreshold {
+
+    static func write(value: SESv2ClientTypes.SuppressionConfidenceThreshold?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfidenceVerdictThreshold"].write(value.confidenceVerdictThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionConfidenceThreshold {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionConfidenceThreshold()
+        value.confidenceVerdictThreshold = try reader["ConfidenceVerdictThreshold"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13925,12 +14325,29 @@ extension SESv2ClientTypes.SuppressionOptions {
     static func write(value: SESv2ClientTypes.SuppressionOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SuppressedReasons"].writeList(value.suppressedReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESv2ClientTypes.SuppressionListReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ValidationOptions"].write(value.validationOptions, with: SESv2ClientTypes.SuppressionValidationOptions.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESv2ClientTypes.SuppressionOptions()
         value.suppressedReasons = try reader["SuppressedReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESv2ClientTypes.SuppressionListReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationOptions = try reader["ValidationOptions"].readIfPresent(with: SESv2ClientTypes.SuppressionValidationOptions.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.SuppressionValidationOptions {
+
+    static func write(value: SESv2ClientTypes.SuppressionValidationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionThreshold"].write(value.conditionThreshold, with: SESv2ClientTypes.SuppressionConditionThreshold.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressionValidationOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.SuppressionValidationOptions()
+        value.conditionThreshold = try reader["ConditionThreshold"].readIfPresent(with: SESv2ClientTypes.SuppressionConditionThreshold.read(from:))
         return value
     }
 }
@@ -14318,6 +14735,42 @@ extension SESv2ClientTypes.DailyVolume {
         value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.volumeStatistics = try reader["VolumeStatistics"].readIfPresent(with: SESv2ClientTypes.VolumeStatistics.read(from:))
         value.domainIspPlacements = try reader["DomainIspPlacements"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.DomainIspPlacement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SESv2ClientTypes.MailboxValidation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.MailboxValidation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.MailboxValidation()
+        value.isValid = try reader["IsValid"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.evaluations = try reader["Evaluations"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.EmailAddressInsightsMailboxEvaluations()
+        value.hasValidSyntax = try reader["HasValidSyntax"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.hasValidDnsRecords = try reader["HasValidDnsRecords"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.mailboxExists = try reader["MailboxExists"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.isRoleAddress = try reader["IsRoleAddress"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.isDisposable = try reader["IsDisposable"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        value.isRandomInput = try reader["IsRandomInput"].readIfPresent(with: SESv2ClientTypes.EmailAddressInsightsVerdict.read(from:))
+        return value
+    }
+}
+
+extension SESv2ClientTypes.EmailAddressInsightsVerdict {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.EmailAddressInsightsVerdict {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.EmailAddressInsightsVerdict()
+        value.confidenceVerdict = try reader["ConfidenceVerdict"].readIfPresent()
         return value
     }
 }

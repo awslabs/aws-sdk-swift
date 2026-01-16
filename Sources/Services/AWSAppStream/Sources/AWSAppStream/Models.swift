@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension AppStreamClientTypes {
 
@@ -55,7 +56,7 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes {
 
-    /// Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and AppStream 2.0. When you specify an interface endpoint for a stack, users of the stack can connect to AppStream 2.0 only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint.
+    /// Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and WorkSpaces Applications. When you specify an interface endpoint for a stack, users of the stack can connect to WorkSpaces Applications only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint.
     public struct AccessEndpoint: Swift.Sendable {
         /// The type of interface endpoint.
         /// This member is required.
@@ -114,6 +115,82 @@ extension AppStreamClientTypes {
             case .fileDownload: return "FILE_DOWNLOAD"
             case .fileUpload: return "FILE_UPLOAD"
             case .printingToLocalDevice: return "PRINTING_TO_LOCAL_DEVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The collection of license usage records.
+    public struct AdminAppLicenseUsageRecord: Swift.Sendable {
+        /// The billing period for the license usage record.
+        /// This member is required.
+        public var billingPeriod: Swift.String?
+        /// The type of license (for example, Microsoft Office).
+        /// This member is required.
+        public var licenseType: Swift.String?
+        /// The account ID of the owner of the license.
+        /// This member is required.
+        public var ownerAWSAccountId: Swift.String?
+        /// The date and time when the license was first used.
+        /// This member is required.
+        public var subscriptionFirstUsedDate: Foundation.Date?
+        /// The date and time when the license was last used.
+        /// This member is required.
+        public var subscriptionLastUsedDate: Foundation.Date?
+        /// The ARN of the user who used the license-included application.
+        /// This member is required.
+        public var userArn: Swift.String?
+        /// The ID of the user who used the license-included application.
+        /// This member is required.
+        public var userId: Swift.String?
+
+        public init(
+            billingPeriod: Swift.String? = nil,
+            licenseType: Swift.String? = nil,
+            ownerAWSAccountId: Swift.String? = nil,
+            subscriptionFirstUsedDate: Foundation.Date? = nil,
+            subscriptionLastUsedDate: Foundation.Date? = nil,
+            userArn: Swift.String? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.billingPeriod = billingPeriod
+            self.licenseType = licenseType
+            self.ownerAWSAccountId = ownerAWSAccountId
+            self.subscriptionFirstUsedDate = subscriptionFirstUsedDate
+            self.subscriptionLastUsedDate = subscriptionLastUsedDate
+            self.userArn = userArn
+            self.userId = userId
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The image type is the type of AppStream image resource.
+    public enum AgentSoftwareVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysLatest
+        case currentLatest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentSoftwareVersion] {
+            return [
+                .alwaysLatest,
+                .currentLatest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysLatest: return "ALWAYS_LATEST"
+            case .currentLatest: return "CURRENT_LATEST"
             case let .sdkUnknown(s): return s
             }
         }
@@ -259,7 +336,7 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes {
 
-    /// Describes an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
+    /// Describes an app block. App blocks are a WorkSpaces Applications resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     public struct AppBlock: Swift.Sendable {
         /// The errors of the app block.
         public var appBlockErrors: [AppStreamClientTypes.ErrorDetails]?
@@ -283,7 +360,7 @@ extension AppStreamClientTypes {
         public var setupScriptDetails: AppStreamClientTypes.ScriptDetails?
         /// The source S3 location of the app block.
         public var sourceS3Location: AppStreamClientTypes.S3Location?
-        /// The state of the app block. An app block with AppStream 2.0 packaging will be in the INACTIVE state if no application package (VHD) is assigned to it. After an application package (VHD) is created by an app block builder for an app block, it becomes ACTIVE. Custom app blocks are always in the ACTIVE state and no action is required to use them.
+        /// The state of the app block. An app block with WorkSpaces Applications packaging will be in the INACTIVE state if no application package (VHD) is assigned to it. After an application package (VHD) is created by an app block builder for an app block, it becomes ACTIVE. Custom app blocks are always in the ACTIVE state and no action is required to use them.
         public var state: AppStreamClientTypes.AppBlockState?
 
         public init(
@@ -347,6 +424,7 @@ extension AppStreamClientTypes {
         case stsDisabledInRegion
         case subnetHasInsufficientIpAddresses
         case subnetNotFound
+        case validationError
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FleetErrorCode] {
@@ -380,7 +458,8 @@ extension AppStreamClientTypes {
                 .securityGroupsNotFound,
                 .stsDisabledInRegion,
                 .subnetHasInsufficientIpAddresses,
-                .subnetNotFound
+                .subnetNotFound,
+                .validationError
             ]
         }
 
@@ -421,6 +500,7 @@ extension AppStreamClientTypes {
             case .stsDisabledInRegion: return "STS_DISABLED_IN_REGION"
             case .subnetHasInsufficientIpAddresses: return "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
             case .subnetNotFound: return "SUBNET_NOT_FOUND"
+            case .validationError: return "VALIDATION_ERROR"
             case let .sdkUnknown(s): return s
             }
         }
@@ -703,14 +783,63 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes {
 
+    /// Configuration for an application in the imported image's application catalog. This structure defines how applications appear and launch for users.
+    public struct ApplicationConfig: Swift.Sendable {
+        /// The absolute path to the executable file that launches the application. This is a required field that can be 1-32767 characters to support Windows extended file paths. Use escaped file path strings like "C:\\\\Windows\\\\System32\\\\notepad.exe".
+        /// This member is required.
+        public var absoluteAppPath: Swift.String?
+        /// The absolute path to the icon file for the application. This field is optional and can be 1-32767 characters. If not provided, the icon is derived from the executable. Use PNG images with proper transparency for the best user experience.
+        public var absoluteIconPath: Swift.String?
+        /// The absolute path to the prewarm manifest file for this application. This field is optional and only applicable when using application-specific manifests. The path can be 1-32767 characters and should point to a text file containing file paths to prewarm.
+        public var absoluteManifestPath: Swift.String?
+        /// The display name shown to users for this application. This field is optional and can be 0-100 characters, matching the pattern ^[a-zA-Z0-9][a-zA-Z0-9_. -]{0,99}$.
+        public var displayName: Swift.String?
+        /// The launch parameters to pass to the application executable. This field is optional and can be 0-1024 characters. Use escaped strings with the full list of required parameters, such as PowerShell script paths or command-line arguments.
+        public var launchParameters: Swift.String?
+        /// The name of the application. This is a required field that must be unique within the application catalog and between 1-100 characters, matching the pattern ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,99}$.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The working directory to use when launching the application. This field is optional and can be 0-32767 characters. Use escaped file path strings like "C:\\\\Path\\\\To\\\\Working\\\\Directory".
+        public var workingDirectory: Swift.String?
+
+        public init(
+            absoluteAppPath: Swift.String? = nil,
+            absoluteIconPath: Swift.String? = nil,
+            absoluteManifestPath: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            launchParameters: Swift.String? = nil,
+            name: Swift.String? = nil,
+            workingDirectory: Swift.String? = nil
+        ) {
+            self.absoluteAppPath = absoluteAppPath
+            self.absoluteIconPath = absoluteIconPath
+            self.absoluteManifestPath = absoluteManifestPath
+            self.displayName = displayName
+            self.launchParameters = launchParameters
+            self.name = name
+            self.workingDirectory = workingDirectory
+        }
+    }
+}
+
+extension AppStreamClientTypes.ApplicationConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension AppStreamClientTypes {
+
     public enum PlatformType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonLinux2
         case rhel8
         case rockyLinux8
+        case ubuntuPro2404
         case windows
         case windowsServer2016
         case windowsServer2019
         case windowsServer2022
+        case windowsServer2025
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PlatformType] {
@@ -718,10 +847,12 @@ extension AppStreamClientTypes {
                 .amazonLinux2,
                 .rhel8,
                 .rockyLinux8,
+                .ubuntuPro2404,
                 .windows,
                 .windowsServer2016,
                 .windowsServer2019,
-                .windowsServer2022
+                .windowsServer2022,
+                .windowsServer2025
             ]
         }
 
@@ -735,10 +866,12 @@ extension AppStreamClientTypes {
             case .amazonLinux2: return "AMAZON_LINUX2"
             case .rhel8: return "RHEL8"
             case .rockyLinux8: return "ROCKY_LINUX8"
+            case .ubuntuPro2404: return "UBUNTU_PRO_2404"
             case .windows: return "WINDOWS"
             case .windowsServer2016: return "WINDOWS_SERVER_2016"
             case .windowsServer2019: return "WINDOWS_SERVER_2019"
             case .windowsServer2022: return "WINDOWS_SERVER_2022"
+            case .windowsServer2025: return "WINDOWS_SERVER_2025"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1235,6 +1368,76 @@ public struct AssociateFleetOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct AssociateSoftwareToImageBuilderInput: Swift.Sendable {
+    /// The name of the target image builder instance.
+    /// This member is required.
+    public var imageBuilderName: Swift.String?
+    /// The list of license included applications to associate with the image builder. Possible values include the following:
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_64Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_64Bit
+    /// This member is required.
+    public var softwareNames: [Swift.String]?
+
+    public init(
+        imageBuilderName: Swift.String? = nil,
+        softwareNames: [Swift.String]? = nil
+    ) {
+        self.imageBuilderName = imageBuilderName
+        self.softwareNames = softwareNames
+    }
+}
+
+public struct AssociateSoftwareToImageBuilderOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension AppStreamClientTypes {
 
     public enum AuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1684,7 +1887,7 @@ public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-/// AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+/// WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
 public struct RequestLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1717,7 +1920,7 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
     public var displayName: Swift.String?
     /// Enables or disables default internet access for the app block builder.
     public var enableDefaultInternetAccess: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var iamRoleArn: Swift.String?
     /// The instance type to use when launching the app block builder. The following instance types are available:
     ///
@@ -1738,7 +1941,7 @@ public struct CreateAppBlockBuilderInput: Swift.Sendable {
     /// The platform of the app block builder. WINDOWS_SERVER_2019 is the only valid value.
     /// This member is required.
     public var platform: AppStreamClientTypes.AppBlockBuilderPlatformType?
-    /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var tags: [Swift.String: Swift.String]?
     /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
     /// This member is required.
@@ -1833,7 +2036,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// The name of the application. This name is visible to users when display name is not specified.
     /// This member is required.
     public var name: Swift.String?
-    /// The platforms the application supports. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The platforms the application supports. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     /// This member is required.
     public var platforms: [AppStreamClientTypes.PlatformType]?
     /// The tags assigned to the application.
@@ -1999,9 +2202,9 @@ public struct EntitlementAlreadyExistsException: ClientRuntime.ModeledError, AWS
 
 extension AppStreamClientTypes {
 
-    /// An attribute associated with an entitlement. Application entitlements work by matching a supported SAML 2.0 attribute name to a value when a user identity federates to an Amazon AppStream 2.0 SAML application.
+    /// An attribute associated with an entitlement. Application entitlements work by matching a supported SAML 2.0 attribute name to a value when a user identity federates to a WorkSpaces Applications SAML application.
     public struct EntitlementAttribute: Swift.Sendable {
-        /// A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity federates into an Amazon AppStream 2.0 SAML application. The following are valid values:
+        /// A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity federates into a WorkSpaces Applications SAML application. The following are valid values:
         ///
         /// * roles
         ///
@@ -2018,7 +2221,7 @@ extension AppStreamClientTypes {
         /// * userType
         /// This member is required.
         public var name: Swift.String?
-        /// A value that is matched to a supported SAML attribute name when a user identity federates into an Amazon AppStream 2.0 SAML application.
+        /// A value that is matched to a supported SAML attribute name when a user identity federates into a WorkSpaces Applications SAML application.
         /// This member is required.
         public var value: Swift.String?
 
@@ -2065,7 +2268,7 @@ public struct CreateEntitlementInput: Swift.Sendable {
 
 extension AppStreamClientTypes {
 
-    /// Specifies an entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
+    /// Specifies an entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. WorkSpaces Applications user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     public struct Entitlement: Swift.Sendable {
         /// Specifies whether all or selected apps are entitled.
         /// This member is required.
@@ -2114,6 +2317,130 @@ public struct CreateEntitlementOutput: Swift.Sendable {
         entitlement: AppStreamClientTypes.Entitlement? = nil
     ) {
         self.entitlement = entitlement
+    }
+}
+
+public struct CreateExportImageTaskInput: Swift.Sendable {
+    /// An optional description for the exported AMI. This description will be applied to the resulting EC2 AMI.
+    public var amiDescription: Swift.String?
+    /// The name for the exported EC2 AMI. This is a required field that must be unique within your account and region.
+    /// This member is required.
+    public var amiName: Swift.String?
+    /// The ARN of the IAM role that allows WorkSpaces Applications to create the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing appstream.amazonaws.com to assume the role.
+    /// This member is required.
+    public var iamRoleArn: Swift.String?
+    /// The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account.
+    /// This member is required.
+    public var imageName: Swift.String?
+    /// The tags to apply to the exported AMI. These tags help you organize and manage your EC2 AMIs.
+    public var tagSpecifications: [Swift.String: Swift.String]?
+
+    public init(
+        amiDescription: Swift.String? = nil,
+        amiName: Swift.String? = nil,
+        iamRoleArn: Swift.String? = nil,
+        imageName: Swift.String? = nil,
+        tagSpecifications: [Swift.String: Swift.String]? = nil
+    ) {
+        self.amiDescription = amiDescription
+        self.amiName = amiName
+        self.iamRoleArn = iamRoleArn
+        self.imageName = imageName
+        self.tagSpecifications = tagSpecifications
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum ExportImageTaskState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case exporting
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportImageTaskState] {
+            return [
+                .completed,
+                .exporting,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .exporting: return "EXPORTING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// Information about an export image task, including its current state, timestamps, and any error details.
+    public struct ExportImageTask: Swift.Sendable {
+        /// The description that will be applied to the exported EC2 AMI.
+        public var amiDescription: Swift.String?
+        /// The ID of the EC2 AMI that was created by this export task. This field is only populated when the task completes successfully.
+        public var amiId: Swift.String?
+        /// The name of the EC2 AMI that will be created by this export task.
+        /// This member is required.
+        public var amiName: Swift.String?
+        /// The date and time when the export image task was created.
+        /// This member is required.
+        public var createdDate: Foundation.Date?
+        /// Details about any errors that occurred during the export process. This field is only populated when the task fails.
+        public var errorDetails: [AppStreamClientTypes.ErrorDetails]?
+        /// The ARN of the WorkSpaces Applications image being exported.
+        /// This member is required.
+        public var imageArn: Swift.String?
+        /// The current state of the export image task, such as PENDING, RUNNING, COMPLETED, or FAILED.
+        public var state: AppStreamClientTypes.ExportImageTaskState?
+        /// The tags that will be applied to the exported EC2 AMI.
+        public var tagSpecifications: [Swift.String: Swift.String]?
+        /// The unique identifier for the export image task. Use this ID to track the task's progress and retrieve its details.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            amiDescription: Swift.String? = nil,
+            amiId: Swift.String? = nil,
+            amiName: Swift.String? = nil,
+            createdDate: Foundation.Date? = nil,
+            errorDetails: [AppStreamClientTypes.ErrorDetails]? = nil,
+            imageArn: Swift.String? = nil,
+            state: AppStreamClientTypes.ExportImageTaskState? = nil,
+            tagSpecifications: [Swift.String: Swift.String]? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.amiDescription = amiDescription
+            self.amiId = amiId
+            self.amiName = amiName
+            self.createdDate = createdDate
+            self.errorDetails = errorDetails
+            self.imageArn = imageArn
+            self.state = state
+            self.tagSpecifications = tagSpecifications
+            self.taskId = taskId
+        }
+    }
+}
+
+public struct CreateExportImageTaskOutput: Swift.Sendable {
+    /// Information about the export image task that was created, including the task ID and initial state.
+    public var exportImageTask: AppStreamClientTypes.ExportImageTask?
+
+    public init(
+        exportImageTask: AppStreamClientTypes.ExportImageTask? = nil
+    ) {
+        self.exportImageTask = exportImageTask
     }
 }
 
@@ -2170,6 +2497,21 @@ extension AppStreamClientTypes {
 
 extension AppStreamClientTypes {
 
+    /// Configuration for the root volume of fleet instances and image builders. This allows you to customize the storage capacity beyond the default 200 GB.
+    public struct VolumeConfig: Swift.Sendable {
+        /// The size of the root volume in GB. Valid range is 200-500 GB. The default is 200 GB, which is included in the hourly instance rate. Additional storage beyond 200 GB incurs extra charges and applies to instances regardless of their running state.
+        public var volumeSizeInGb: Swift.Int?
+
+        public init(
+            volumeSizeInGb: Swift.Int? = nil
+        ) {
+            self.volumeSizeInGb = volumeSizeInGb
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
     public enum StreamView: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case app
         case desktop
@@ -2212,7 +2554,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public var enableDefaultInternetAccess: Swift.Bool?
     /// The fleet type. ALWAYS_ON Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps. ON_DEMAND Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.
     public var fleetType: AppStreamClientTypes.FleetType?
-    /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var iamRoleArn: Swift.String?
     /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     public var idleDisconnectTimeoutInSeconds: Swift.Int?
@@ -2264,16 +2606,6 @@ public struct CreateFleetInput: Swift.Sendable {
     ///
     /// * stream.memory.z1d.12xlarge
     ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
-    ///
-    /// * stream.graphics-desktop.2xlarge
-    ///
     /// * stream.graphics.g4dn.xlarge
     ///
     /// * stream.graphics.g4dn.2xlarge
@@ -2300,12 +2632,6 @@ public struct CreateFleetInput: Swift.Sendable {
     ///
     /// * stream.graphics.g5.24xlarge
     ///
-    /// * stream.graphics-pro.4xlarge
-    ///
-    /// * stream.graphics-pro.8xlarge
-    ///
-    /// * stream.graphics-pro.16xlarge
-    ///
     /// * stream.graphics.g6.xlarge
     ///
     /// * stream.graphics.g6.2xlarge
@@ -2323,6 +2649,16 @@ public struct CreateFleetInput: Swift.Sendable {
     /// * stream.graphics.gr6.4xlarge
     ///
     /// * stream.graphics.gr6.8xlarge
+    ///
+    /// * stream.graphics.g6f.large
+    ///
+    /// * stream.graphics.g6f.xlarge
+    ///
+    /// * stream.graphics.g6f.2xlarge
+    ///
+    /// * stream.graphics.g6f.4xlarge
+    ///
+    /// * stream.graphics.gr6f.4xlarge
     ///
     ///
     /// The following instance types are available for Elastic fleets:
@@ -2347,13 +2683,15 @@ public struct CreateFleetInput: Swift.Sendable {
     /// A unique name for the fleet.
     /// This member is required.
     public var name: Swift.String?
-    /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The fleet platform. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     public var platform: AppStreamClientTypes.PlatformType?
+    /// The configuration for the root volume of fleet instances. Use this to customize storage capacity from 200 GB up to 500 GB based on your application requirements.
+    public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?
     /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
     public var sessionScriptS3Location: AppStreamClientTypes.S3Location?
-    /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
+    /// The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
     public var streamView: AppStreamClientTypes.StreamView?
-    /// The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ For more information, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var tags: [Swift.String: Swift.String]?
     /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
     public var usbDeviceFilterStrings: [Swift.String]?
@@ -2378,6 +2716,7 @@ public struct CreateFleetInput: Swift.Sendable {
         maxUserDurationInSeconds: Swift.Int? = nil,
         name: Swift.String? = nil,
         platform: AppStreamClientTypes.PlatformType? = nil,
+        rootVolumeConfig: AppStreamClientTypes.VolumeConfig? = nil,
         sessionScriptS3Location: AppStreamClientTypes.S3Location? = nil,
         streamView: AppStreamClientTypes.StreamView? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -2401,6 +2740,7 @@ public struct CreateFleetInput: Swift.Sendable {
         self.maxUserDurationInSeconds = maxUserDurationInSeconds
         self.name = name
         self.platform = platform
+        self.rootVolumeConfig = rootVolumeConfig
         self.sessionScriptS3Location = sessionScriptS3Location
         self.streamView = streamView
         self.tags = tags
@@ -2489,7 +2829,7 @@ extension AppStreamClientTypes {
         public var fleetErrors: [AppStreamClientTypes.FleetError]?
         /// The fleet type. ALWAYS_ON Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps. ON_DEMAND Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.
         public var fleetType: AppStreamClientTypes.FleetType?
-        /// The ARN of the IAM role that is applied to the fleet. To assume a role, the fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+        /// The ARN of the IAM role that is applied to the fleet. To assume a role, the fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon WorkSpaces Applications Administration Guide.
         public var iamRoleArn: Swift.String?
         /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
         public var idleDisconnectTimeoutInSeconds: Swift.Int?
@@ -2537,16 +2877,6 @@ extension AppStreamClientTypes {
         ///
         /// * stream.memory.z1d.12xlarge
         ///
-        /// * stream.graphics-design.large
-        ///
-        /// * stream.graphics-design.xlarge
-        ///
-        /// * stream.graphics-design.2xlarge
-        ///
-        /// * stream.graphics-design.4xlarge
-        ///
-        /// * stream.graphics-desktop.2xlarge
-        ///
         /// * stream.graphics.g4dn.xlarge
         ///
         /// * stream.graphics.g4dn.2xlarge
@@ -2558,12 +2888,6 @@ extension AppStreamClientTypes {
         /// * stream.graphics.g4dn.12xlarge
         ///
         /// * stream.graphics.g4dn.16xlarge
-        ///
-        /// * stream.graphics-pro.4xlarge
-        ///
-        /// * stream.graphics-pro.8xlarge
-        ///
-        /// * stream.graphics-pro.16xlarge
         ///
         /// * stream.graphics.g5.xlarge
         ///
@@ -2596,6 +2920,16 @@ extension AppStreamClientTypes {
         /// * stream.graphics.gr6.4xlarge
         ///
         /// * stream.graphics.gr6.8xlarge
+        ///
+        /// * stream.graphics.g6f.large
+        ///
+        /// * stream.graphics.g6f.xlarge
+        ///
+        /// * stream.graphics.g6f.2xlarge
+        ///
+        /// * stream.graphics.g6f.4xlarge
+        ///
+        /// * stream.graphics.gr6f.4xlarge
         /// This member is required.
         public var instanceType: Swift.String?
         /// The maximum number of concurrent sessions for the fleet.
@@ -2609,12 +2943,14 @@ extension AppStreamClientTypes {
         public var name: Swift.String?
         /// The platform of the fleet.
         public var platform: AppStreamClientTypes.PlatformType?
+        /// The current configuration of the root volume for fleet instances, including the storage size in GB.
+        public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?
         /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
         public var sessionScriptS3Location: AppStreamClientTypes.S3Location?
         /// The current state for the fleet.
         /// This member is required.
         public var state: AppStreamClientTypes.FleetState?
-        /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
+        /// The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public var streamView: AppStreamClientTypes.StreamView?
         /// The USB device filter strings associated with the fleet.
         public var usbDeviceFilterStrings: [Swift.String]?
@@ -2642,6 +2978,7 @@ extension AppStreamClientTypes {
             maxUserDurationInSeconds: Swift.Int? = nil,
             name: Swift.String? = nil,
             platform: AppStreamClientTypes.PlatformType? = nil,
+            rootVolumeConfig: AppStreamClientTypes.VolumeConfig? = nil,
             sessionScriptS3Location: AppStreamClientTypes.S3Location? = nil,
             state: AppStreamClientTypes.FleetState? = nil,
             streamView: AppStreamClientTypes.StreamView? = nil,
@@ -2668,6 +3005,7 @@ extension AppStreamClientTypes {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.rootVolumeConfig = rootVolumeConfig
             self.sessionScriptS3Location = sessionScriptS3Location
             self.state = state
             self.streamView = streamView
@@ -2691,7 +3029,7 @@ public struct CreateFleetOutput: Swift.Sendable {
 public struct CreateImageBuilderInput: Swift.Sendable {
     /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
-    /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+    /// The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
     public var appstreamAgentVersion: Swift.String?
     /// The description to display.
     public var description: Swift.String?
@@ -2701,7 +3039,7 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     public var domainJoinInfo: AppStreamClientTypes.DomainJoinInfo?
     /// Enables or disables default internet access for the image builder.
     public var enableDefaultInternetAccess: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var iamRoleArn: Swift.String?
     /// The ARN of the public, private, or shared image to use.
     public var imageArn: Swift.String?
@@ -2747,16 +3085,6 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     ///
     /// * stream.memory.z1d.12xlarge
     ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
-    ///
-    /// * stream.graphics-desktop.2xlarge
-    ///
     /// * stream.graphics.g4dn.xlarge
     ///
     /// * stream.graphics.g4dn.2xlarge
@@ -2768,12 +3096,6 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     /// * stream.graphics.g4dn.12xlarge
     ///
     /// * stream.graphics.g4dn.16xlarge
-    ///
-    /// * stream.graphics-pro.4xlarge
-    ///
-    /// * stream.graphics-pro.8xlarge
-    ///
-    /// * stream.graphics-pro.16xlarge
     ///
     /// * stream.graphics.g5.xlarge
     ///
@@ -2806,12 +3128,124 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     /// * stream.graphics.gr6.4xlarge
     ///
     /// * stream.graphics.gr6.8xlarge
+    ///
+    /// * stream.graphics.g6f.large
+    ///
+    /// * stream.graphics.g6f.xlarge
+    ///
+    /// * stream.graphics.g6f.2xlarge
+    ///
+    /// * stream.graphics.g6f.4xlarge
+    ///
+    /// * stream.graphics.gr6f.4xlarge
     /// This member is required.
     public var instanceType: Swift.String?
     /// A unique name for the image builder.
     /// This member is required.
     public var name: Swift.String?
-    /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The configuration for the root volume of the image builder. Use this to customize storage capacity from 200 GB up to 500 GB based on your application installation requirements.
+    public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?
+    /// The list of license included applications to install on the image builder during creation. Possible values include the following:
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_64Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_64Bit
+    public var softwaresToInstall: [Swift.String]?
+    /// The list of license included applications to uninstall from the image builder during creation. Possible values include the following:
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_64Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_64Bit
+    public var softwaresToUninstall: [Swift.String]?
+    /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var tags: [Swift.String: Swift.String]?
     /// The VPC configuration for the image builder. You can specify only one subnet.
     public var vpcConfig: AppStreamClientTypes.VpcConfig?
@@ -2828,6 +3262,9 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         imageName: Swift.String? = nil,
         instanceType: Swift.String? = nil,
         name: Swift.String? = nil,
+        rootVolumeConfig: AppStreamClientTypes.VolumeConfig? = nil,
+        softwaresToInstall: [Swift.String]? = nil,
+        softwaresToUninstall: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: AppStreamClientTypes.VpcConfig? = nil
     ) {
@@ -2842,6 +3279,9 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         self.imageName = imageName
         self.instanceType = instanceType
         self.name = name
+        self.rootVolumeConfig = rootVolumeConfig
+        self.softwaresToInstall = softwaresToInstall
+        self.softwaresToUninstall = softwaresToUninstall
         self.tags = tags
         self.vpcConfig = vpcConfig
     }
@@ -2882,14 +3322,18 @@ extension AppStreamClientTypes {
     public struct NetworkAccessConfiguration: Swift.Sendable {
         /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
         public var eniId: Swift.String?
+        /// The IPv6 addresses assigned to the elastic network interface. This field supports IPv6 connectivity for WorkSpaces Applications instances.
+        public var eniIpv6Addresses: [Swift.String]?
         /// The private IP address of the elastic network interface that is attached to instances in your VPC.
         public var eniPrivateIpAddress: Swift.String?
 
         public init(
             eniId: Swift.String? = nil,
+            eniIpv6Addresses: [Swift.String]? = nil,
             eniPrivateIpAddress: Swift.String? = nil
         ) {
             self.eniId = eniId
+            self.eniIpv6Addresses = eniIpv6Addresses
             self.eniPrivateIpAddress = eniPrivateIpAddress
         }
     }
@@ -2901,12 +3345,15 @@ extension AppStreamClientTypes {
         case deleting
         case failed
         case pending
+        case pendingImageImport
         case pendingQualification
+        case pendingSyncingApps
         case rebooting
         case running
         case snapshotting
         case stopped
         case stopping
+        case syncingApps
         case updating
         case updatingAgent
         case sdkUnknown(Swift.String)
@@ -2916,12 +3363,15 @@ extension AppStreamClientTypes {
                 .deleting,
                 .failed,
                 .pending,
+                .pendingImageImport,
                 .pendingQualification,
+                .pendingSyncingApps,
                 .rebooting,
                 .running,
                 .snapshotting,
                 .stopped,
                 .stopping,
+                .syncingApps,
                 .updating,
                 .updatingAgent
             ]
@@ -2937,12 +3387,15 @@ extension AppStreamClientTypes {
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
+            case .pendingImageImport: return "PENDING_IMAGE_IMPORT"
             case .pendingQualification: return "PENDING_QUALIFICATION"
+            case .pendingSyncingApps: return "PENDING_SYNCING_APPS"
             case .rebooting: return "REBOOTING"
             case .running: return "RUNNING"
             case .snapshotting: return "SNAPSHOTTING"
             case .stopped: return "STOPPED"
             case .stopping: return "STOPPING"
+            case .syncingApps: return "SYNCING_APPS"
             case .updating: return "UPDATING"
             case .updatingAgent: return "UPDATING_AGENT"
             case let .sdkUnknown(s): return s
@@ -3005,7 +3458,7 @@ extension AppStreamClientTypes {
     public struct ImageBuilder: Swift.Sendable {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Administrators can connect to the image builder only through the specified endpoints.
         public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
-        /// The version of the AppStream 2.0 agent that is currently being used by the image builder.
+        /// The version of the WorkSpaces Applications agent that is currently being used by the image builder.
         public var appstreamAgentVersion: Swift.String?
         /// The ARN for the image builder.
         public var arn: Swift.String?
@@ -3019,7 +3472,7 @@ extension AppStreamClientTypes {
         public var domainJoinInfo: AppStreamClientTypes.DomainJoinInfo?
         /// Enables or disables default internet access for the image builder.
         public var enableDefaultInternetAccess: Swift.Bool?
-        /// The ARN of the IAM role that is applied to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+        /// The ARN of the IAM role that is applied to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon WorkSpaces Applications Administration Guide.
         public var iamRoleArn: Swift.String?
         /// The ARN of the image from which this builder was created.
         public var imageArn: Swift.String?
@@ -3065,16 +3518,6 @@ extension AppStreamClientTypes {
         ///
         /// * stream.memory.z1d.12xlarge
         ///
-        /// * stream.graphics-design.large
-        ///
-        /// * stream.graphics-design.xlarge
-        ///
-        /// * stream.graphics-design.2xlarge
-        ///
-        /// * stream.graphics-design.4xlarge
-        ///
-        /// * stream.graphics-desktop.2xlarge
-        ///
         /// * stream.graphics.g4dn.xlarge
         ///
         /// * stream.graphics.g4dn.2xlarge
@@ -3086,12 +3529,6 @@ extension AppStreamClientTypes {
         /// * stream.graphics.g4dn.12xlarge
         ///
         /// * stream.graphics.g4dn.16xlarge
-        ///
-        /// * stream.graphics-pro.4xlarge
-        ///
-        /// * stream.graphics-pro.8xlarge
-        ///
-        /// * stream.graphics-pro.16xlarge
         ///
         /// * stream.graphics.g5.xlarge
         ///
@@ -3124,8 +3561,18 @@ extension AppStreamClientTypes {
         /// * stream.graphics.gr6.4xlarge
         ///
         /// * stream.graphics.gr6.8xlarge
+        ///
+        /// * stream.graphics.g6f.large
+        ///
+        /// * stream.graphics.g6f.xlarge
+        ///
+        /// * stream.graphics.g6f.2xlarge
+        ///
+        /// * stream.graphics.g6f.4xlarge
+        ///
+        /// * stream.graphics.gr6f.4xlarge
         public var instanceType: Swift.String?
-        /// Indicates whether the image builder is using the latest AppStream 2.0 agent version or not.
+        /// Indicates whether the image builder is using the latest WorkSpaces Applications agent version or not.
         public var latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion?
         /// The name of the image builder.
         /// This member is required.
@@ -3134,6 +3581,8 @@ extension AppStreamClientTypes {
         public var networkAccessConfiguration: AppStreamClientTypes.NetworkAccessConfiguration?
         /// The operating system platform of the image builder.
         public var platform: AppStreamClientTypes.PlatformType?
+        /// The current configuration of the root volume for the image builder, including the storage size in GB.
+        public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?
         /// The state of the image builder.
         public var state: AppStreamClientTypes.ImageBuilderState?
         /// The reason why the last state change occurred.
@@ -3158,6 +3607,7 @@ extension AppStreamClientTypes {
             name: Swift.String? = nil,
             networkAccessConfiguration: AppStreamClientTypes.NetworkAccessConfiguration? = nil,
             platform: AppStreamClientTypes.PlatformType? = nil,
+            rootVolumeConfig: AppStreamClientTypes.VolumeConfig? = nil,
             state: AppStreamClientTypes.ImageBuilderState? = nil,
             stateChangeReason: AppStreamClientTypes.ImageBuilderStateChangeReason? = nil,
             vpcConfig: AppStreamClientTypes.VpcConfig? = nil
@@ -3178,6 +3628,7 @@ extension AppStreamClientTypes {
             self.name = name
             self.networkAccessConfiguration = networkAccessConfiguration
             self.platform = platform
+            self.rootVolumeConfig = rootVolumeConfig
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.vpcConfig = vpcConfig
@@ -3215,7 +3666,7 @@ public struct CreateImageBuilderStreamingURLInput: Swift.Sendable {
 public struct CreateImageBuilderStreamingURLOutput: Swift.Sendable {
     /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
     public var expires: Foundation.Date?
-    /// The URL to start the AppStream 2.0 streaming session.
+    /// The URL to start the WorkSpaces Applications streaming session.
     public var streamingURL: Swift.String?
 
     public init(
@@ -3224,6 +3675,470 @@ public struct CreateImageBuilderStreamingURLOutput: Swift.Sendable {
     ) {
         self.expires = expires
         self.streamingURL = streamingURL
+    }
+}
+
+/// The exception that is thrown when a dry run operation is requested. This indicates that the validation checks have been performed successfully, but no actual resources were created or modified.
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message in the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DryRunOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// Configuration for runtime validation of imported images. This structure specifies the instance type to use for testing the imported image's streaming capabilities.
+    public struct RuntimeValidationConfig: Swift.Sendable {
+        /// The instance type to use for runtime validation testing. It's recommended to use the same instance type you plan to use for your fleet to ensure accurate validation results.
+        public var intendedInstanceType: Swift.String?
+
+        public init(
+            intendedInstanceType: Swift.String? = nil
+        ) {
+            self.intendedInstanceType = intendedInstanceType
+        }
+    }
+}
+
+public struct CreateImportedImageInput: Swift.Sendable {
+    /// The version of the WorkSpaces Applications agent to use for the imported image. Choose CURRENT_LATEST to use the agent version available at the time of import, or ALWAYS_LATEST to automatically update to the latest agent version when new versions are released.
+    public var agentSoftwareVersion: AppStreamClientTypes.AgentSoftwareVersion?
+    /// Configuration for the application catalog of the imported image. This allows you to specify applications available for streaming, including their paths, icons, and launch parameters. This field contains sensitive data.
+    public var appCatalogConfig: [AppStreamClientTypes.ApplicationConfig]?
+    /// An optional description for the imported image. The description must match approved regex patterns and can be up to 256 characters.
+    public var description: Swift.String?
+    /// An optional display name for the imported image. The display name must match approved regex patterns and can be up to 100 characters.
+    public var displayName: Swift.String?
+    /// When set to true, performs validation checks without actually creating the imported image. Use this to verify your configuration before executing the actual import operation.
+    public var dryRun: Swift.Bool?
+    /// The ARN of the IAM role that allows WorkSpaces Applications to access your AMI. The role must have permissions to modify image attributes and describe images, with a trust relationship allowing appstream.amazonaws.com to assume the role.
+    /// This member is required.
+    public var iamRoleArn: Swift.String?
+    /// A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, periods, and hyphens.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Configuration for runtime validation of the imported image. When specified, WorkSpaces Applications provisions an instance to test streaming functionality, which helps ensure the image is suitable for use.
+    public var runtimeValidationConfig: AppStreamClientTypes.RuntimeValidationConfig?
+    /// The ID of the EC2 AMI to import. The AMI must meet specific requirements including Windows Server 2022 Full Base, UEFI boot mode, TPM 2.0 support, and proper drivers.
+    /// This member is required.
+    public var sourceAmiId: Swift.String?
+    /// The tags to apply to the imported image. Tags help you organize and manage your WorkSpaces Applications resources.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        agentSoftwareVersion: AppStreamClientTypes.AgentSoftwareVersion? = nil,
+        appCatalogConfig: [AppStreamClientTypes.ApplicationConfig]? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        iamRoleArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        runtimeValidationConfig: AppStreamClientTypes.RuntimeValidationConfig? = nil,
+        sourceAmiId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.agentSoftwareVersion = agentSoftwareVersion
+        self.appCatalogConfig = appCatalogConfig
+        self.description = description
+        self.displayName = displayName
+        self.dryRun = dryRun
+        self.iamRoleArn = iamRoleArn
+        self.name = name
+        self.runtimeValidationConfig = runtimeValidationConfig
+        self.sourceAmiId = sourceAmiId
+        self.tags = tags
+    }
+}
+
+extension CreateImportedImageInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateImportedImageInput(agentSoftwareVersion: \(Swift.String(describing: agentSoftwareVersion)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), dryRun: \(Swift.String(describing: dryRun)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), name: \(Swift.String(describing: name)), runtimeValidationConfig: \(Swift.String(describing: runtimeValidationConfig)), sourceAmiId: \(Swift.String(describing: sourceAmiId)), tags: \(Swift.String(describing: tags)), appCatalogConfig: \"CONTENT_REDACTED\")"}
+}
+
+extension AppStreamClientTypes {
+
+    public enum DynamicAppProvidersEnabled: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DynamicAppProvidersEnabled] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// Describes the permissions for an image.
+    public struct ImagePermissions: Swift.Sendable {
+        /// Indicates whether the image can be used for a fleet.
+        public var allowFleet: Swift.Bool?
+        /// Indicates whether the image can be used for an image builder.
+        public var allowImageBuilder: Swift.Bool?
+
+        public init(
+            allowFleet: Swift.Bool? = nil,
+            allowImageBuilder: Swift.Bool? = nil
+        ) {
+            self.allowFleet = allowFleet
+            self.allowImageBuilder = allowImageBuilder
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum ImageSharedWithOthers: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `false`
+        case `true`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageSharedWithOthers] {
+            return [
+                .false,
+                .true
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .false: return "FALSE"
+            case .true: return "TRUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The image type is the type of AppStream image resource.
+    public enum ImageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
+        case native
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageType] {
+            return [
+                .custom,
+                .native
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .custom: return "CUSTOM"
+            case .native: return "NATIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum ImageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case copying
+        case creating
+        case deleting
+        case failed
+        case importing
+        case pending
+        case validating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageState] {
+            return [
+                .available,
+                .copying,
+                .creating,
+                .deleting,
+                .failed,
+                .importing,
+                .pending,
+                .validating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .copying: return "COPYING"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .importing: return "IMPORTING"
+            case .pending: return "PENDING"
+            case .validating: return "VALIDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum ImageStateChangeReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case imageBuilderNotAvailable
+        case imageCopyFailure
+        case imageImportFailure
+        case imageUpdateFailure
+        case internalError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageStateChangeReasonCode] {
+            return [
+                .imageBuilderNotAvailable,
+                .imageCopyFailure,
+                .imageImportFailure,
+                .imageUpdateFailure,
+                .internalError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .imageBuilderNotAvailable: return "IMAGE_BUILDER_NOT_AVAILABLE"
+            case .imageCopyFailure: return "IMAGE_COPY_FAILURE"
+            case .imageImportFailure: return "IMAGE_IMPORT_FAILURE"
+            case .imageUpdateFailure: return "IMAGE_UPDATE_FAILURE"
+            case .internalError: return "INTERNAL_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// Describes the reason why the last image state change occurred.
+    public struct ImageStateChangeReason: Swift.Sendable {
+        /// The state change reason code.
+        public var code: AppStreamClientTypes.ImageStateChangeReasonCode?
+        /// The state change reason message.
+        public var message: Swift.String?
+
+        public init(
+            code: AppStreamClientTypes.ImageStateChangeReasonCode? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum VisibilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `private`
+        case `public`
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VisibilityType] {
+            return [
+                .private,
+                .public,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .public: return "PUBLIC"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// Describes an image.
+    public struct Image: Swift.Sendable {
+        /// The applications associated with the image.
+        public var applications: [AppStreamClientTypes.Application]?
+        /// The version of the WorkSpaces Applications agent to use for instances that are launched from this image.
+        public var appstreamAgentVersion: Swift.String?
+        /// The ARN of the image.
+        public var arn: Swift.String?
+        /// The ARN of the image from which this image was created.
+        public var baseImageArn: Swift.String?
+        /// The time the image was created.
+        public var createdTime: Foundation.Date?
+        /// The description to display.
+        public var description: Swift.String?
+        /// The image name to display.
+        public var displayName: Swift.String?
+        /// Indicates whether dynamic app providers are enabled within an WorkSpaces Applications image or not.
+        public var dynamicAppProvidersEnabled: AppStreamClientTypes.DynamicAppProvidersEnabled?
+        /// The name of the image builder that was used to create the private image. If the image is shared, copied, or updated by using Managed Image Updates, this value is null.
+        public var imageBuilderName: Swift.String?
+        /// Indicates whether an image builder can be launched from this image.
+        public var imageBuilderSupported: Swift.Bool?
+        /// Describes the errors that are returned when a new image can't be created.
+        public var imageErrors: [AppStreamClientTypes.ResourceError]?
+        /// The permissions to provide to the destination AWS account for the specified image.
+        public var imagePermissions: AppStreamClientTypes.ImagePermissions?
+        /// Indicates whether the image is shared with another account ID.
+        public var imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers?
+        /// The type of the image. Images created through AMI import have type "custom", while WorkSpaces Applications provided images have type "native". Custom images support additional instance types including GeneralPurpose, MemoryOptimized, ComputeOptimized, and Accelerated instance families.
+        public var imageType: AppStreamClientTypes.ImageType?
+        /// Indicates whether the image is using the latest WorkSpaces Applications agent version or not.
+        public var latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion?
+        /// Indicates whether the image includes license-included applications.
+        public var managedSoftwareIncluded: Swift.Bool?
+        /// The name of the image.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The operating system platform of the image.
+        public var platform: AppStreamClientTypes.PlatformType?
+        /// The release date of the public base image. For private images, this date is the release date of the base image from which the image was created.
+        public var publicBaseImageReleasedDate: Foundation.Date?
+        /// The image starts in the PENDING state. If image creation succeeds, the state is AVAILABLE. If image creation fails, the state is FAILED.
+        public var state: AppStreamClientTypes.ImageState?
+        /// The reason why the last state change occurred.
+        public var stateChangeReason: AppStreamClientTypes.ImageStateChangeReason?
+        /// The supported instances families that determine which image a customer can use when the customer launches a fleet or image builder. The following instances families are supported:
+        ///
+        /// * General Purpose
+        ///
+        /// * Compute Optimized
+        ///
+        /// * Memory Optimized
+        ///
+        /// * Graphics G4
+        ///
+        /// * Graphics G5
+        ///
+        /// * Graphics G6
+        public var supportedInstanceFamilies: [Swift.String]?
+        /// Indicates whether the image is public or private.
+        public var visibility: AppStreamClientTypes.VisibilityType?
+
+        public init(
+            applications: [AppStreamClientTypes.Application]? = nil,
+            appstreamAgentVersion: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            baseImageArn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            dynamicAppProvidersEnabled: AppStreamClientTypes.DynamicAppProvidersEnabled? = nil,
+            imageBuilderName: Swift.String? = nil,
+            imageBuilderSupported: Swift.Bool? = nil,
+            imageErrors: [AppStreamClientTypes.ResourceError]? = nil,
+            imagePermissions: AppStreamClientTypes.ImagePermissions? = nil,
+            imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers? = nil,
+            imageType: AppStreamClientTypes.ImageType? = nil,
+            latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion? = nil,
+            managedSoftwareIncluded: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            platform: AppStreamClientTypes.PlatformType? = nil,
+            publicBaseImageReleasedDate: Foundation.Date? = nil,
+            state: AppStreamClientTypes.ImageState? = nil,
+            stateChangeReason: AppStreamClientTypes.ImageStateChangeReason? = nil,
+            supportedInstanceFamilies: [Swift.String]? = nil,
+            visibility: AppStreamClientTypes.VisibilityType? = nil
+        ) {
+            self.applications = applications
+            self.appstreamAgentVersion = appstreamAgentVersion
+            self.arn = arn
+            self.baseImageArn = baseImageArn
+            self.createdTime = createdTime
+            self.description = description
+            self.displayName = displayName
+            self.dynamicAppProvidersEnabled = dynamicAppProvidersEnabled
+            self.imageBuilderName = imageBuilderName
+            self.imageBuilderSupported = imageBuilderSupported
+            self.imageErrors = imageErrors
+            self.imagePermissions = imagePermissions
+            self.imageSharedWithOthers = imageSharedWithOthers
+            self.imageType = imageType
+            self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
+            self.managedSoftwareIncluded = managedSoftwareIncluded
+            self.name = name
+            self.platform = platform
+            self.publicBaseImageReleasedDate = publicBaseImageReleasedDate
+            self.state = state
+            self.stateChangeReason = stateChangeReason
+            self.supportedInstanceFamilies = supportedInstanceFamilies
+            self.visibility = visibility
+        }
+    }
+}
+
+public struct CreateImportedImageOutput: Swift.Sendable {
+    /// Describes an image.
+    public var image: AppStreamClientTypes.Image?
+
+    public init(
+        image: AppStreamClientTypes.Image? = nil
+    ) {
+        self.image = image
     }
 }
 
@@ -3269,7 +4184,7 @@ extension AppStreamClientTypes {
         public var connectorType: AppStreamClientTypes.StorageConnectorType?
         /// The names of the domains for the account.
         public var domains: [Swift.String]?
-        /// The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to AppStream 2.0. The attribute can only be specified when ConnectorType=ONE_DRIVE.
+        /// The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to WorkSpaces Applications. The attribute can only be specified when ConnectorType=ONE_DRIVE.
         public var domainsRequireAdminConsent: [Swift.String]?
         /// The ARN of the storage connector.
         public var resourceIdentifier: Swift.String?
@@ -3387,7 +4302,7 @@ extension AppStreamClientTypes {
 }
 
 public struct CreateStackInput: Swift.Sendable {
-    /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+    /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
     public var applicationSettings: AppStreamClientTypes.ApplicationSettings?
@@ -3395,7 +4310,7 @@ public struct CreateStackInput: Swift.Sendable {
     public var description: Swift.String?
     /// The stack name to display.
     public var displayName: Swift.String?
-    /// The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.
+    /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
     public var embedHostDomains: [Swift.String]?
     /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
     public var feedbackURL: Swift.String?
@@ -3408,7 +4323,7 @@ public struct CreateStackInput: Swift.Sendable {
     public var storageConnectors: [AppStreamClientTypes.StorageConnector]?
     /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
     public var streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings?
-    /// The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var tags: [Swift.String: Swift.String]?
     /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
     public var userSettings: [AppStreamClientTypes.UserSetting]?
@@ -3494,7 +4409,7 @@ extension AppStreamClientTypes {
 
     /// Describes a stack.
     public struct Stack: Swift.Sendable {
-        /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+        /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
         public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
         /// The persistent application settings for users of the stack.
         public var applicationSettings: AppStreamClientTypes.ApplicationSettingsResponse?
@@ -3506,7 +4421,7 @@ extension AppStreamClientTypes {
         public var description: Swift.String?
         /// The stack name to display.
         public var displayName: Swift.String?
-        /// The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.
+        /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
         public var embedHostDomains: [Swift.String]?
         /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public var feedbackURL: Swift.String?
@@ -3575,7 +4490,7 @@ public struct CreateStreamingURLInput: Swift.Sendable {
     /// The name of the fleet.
     /// This member is required.
     public var fleetName: Swift.String?
-    /// The session context. For more information, see [Session Context](https://docs.aws.amazon.com/appstream2/latest/developerguide/managing-stacks-fleets.html#managing-stacks-fleets-parameters) in the Amazon AppStream 2.0 Administration Guide.
+    /// The session context. For more information, see [Session Context](https://docs.aws.amazon.com/appstream2/latest/developerguide/managing-stacks-fleets.html#managing-stacks-fleets-parameters) in the Amazon WorkSpaces Applications Administration Guide.
     public var sessionContext: Swift.String?
     /// The name of the stack.
     /// This member is required.
@@ -3606,7 +4521,7 @@ public struct CreateStreamingURLInput: Swift.Sendable {
 public struct CreateStreamingURLOutput: Swift.Sendable {
     /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
     public var expires: Foundation.Date?
-    /// The URL to start the AppStream 2.0 streaming session.
+    /// The URL to start the WorkSpaces Applications streaming session.
     public var streamingURL: Swift.String?
 
     public init(
@@ -3792,7 +4707,7 @@ public struct CreateThemeForStackOutput: Swift.Sendable {
 }
 
 public struct CreateUpdatedImageInput: Swift.Sendable {
-    /// Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
+    /// Indicates whether to display the status of image update availability before WorkSpaces Applications initiates the process of creating a new updated image. If this value is set to true, WorkSpaces Applications displays whether image updates are available. If this value is set to false, WorkSpaces Applications initiates the process of creating a new updated image without displaying whether image updates are available.
     public var dryRun: Swift.Bool?
     /// The name of the image to update.
     /// This member is required.
@@ -3804,7 +4719,7 @@ public struct CreateUpdatedImageInput: Swift.Sendable {
     /// The name of the new image. The name must be unique within the AWS account and Region.
     /// This member is required.
     public var newImageName: Swift.String?
-    /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var newImageTags: [Swift.String: Swift.String]?
 
     public init(
@@ -3821,322 +4736,6 @@ public struct CreateUpdatedImageInput: Swift.Sendable {
         self.newImageDisplayName = newImageDisplayName
         self.newImageName = newImageName
         self.newImageTags = newImageTags
-    }
-}
-
-extension AppStreamClientTypes {
-
-    public enum DynamicAppProvidersEnabled: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DynamicAppProvidersEnabled] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AppStreamClientTypes {
-
-    /// Describes the permissions for an image.
-    public struct ImagePermissions: Swift.Sendable {
-        /// Indicates whether the image can be used for a fleet.
-        public var allowFleet: Swift.Bool?
-        /// Indicates whether the image can be used for an image builder.
-        public var allowImageBuilder: Swift.Bool?
-
-        public init(
-            allowFleet: Swift.Bool? = nil,
-            allowImageBuilder: Swift.Bool? = nil
-        ) {
-            self.allowFleet = allowFleet
-            self.allowImageBuilder = allowImageBuilder
-        }
-    }
-}
-
-extension AppStreamClientTypes {
-
-    public enum ImageSharedWithOthers: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `false`
-        case `true`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ImageSharedWithOthers] {
-            return [
-                .false,
-                .true
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .false: return "FALSE"
-            case .true: return "TRUE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AppStreamClientTypes {
-
-    public enum ImageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case available
-        case copying
-        case creating
-        case deleting
-        case failed
-        case importing
-        case pending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ImageState] {
-            return [
-                .available,
-                .copying,
-                .creating,
-                .deleting,
-                .failed,
-                .importing,
-                .pending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .available: return "AVAILABLE"
-            case .copying: return "COPYING"
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .failed: return "FAILED"
-            case .importing: return "IMPORTING"
-            case .pending: return "PENDING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AppStreamClientTypes {
-
-    public enum ImageStateChangeReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case imageBuilderNotAvailable
-        case imageCopyFailure
-        case internalError
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ImageStateChangeReasonCode] {
-            return [
-                .imageBuilderNotAvailable,
-                .imageCopyFailure,
-                .internalError
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .imageBuilderNotAvailable: return "IMAGE_BUILDER_NOT_AVAILABLE"
-            case .imageCopyFailure: return "IMAGE_COPY_FAILURE"
-            case .internalError: return "INTERNAL_ERROR"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AppStreamClientTypes {
-
-    /// Describes the reason why the last image state change occurred.
-    public struct ImageStateChangeReason: Swift.Sendable {
-        /// The state change reason code.
-        public var code: AppStreamClientTypes.ImageStateChangeReasonCode?
-        /// The state change reason message.
-        public var message: Swift.String?
-
-        public init(
-            code: AppStreamClientTypes.ImageStateChangeReasonCode? = nil,
-            message: Swift.String? = nil
-        ) {
-            self.code = code
-            self.message = message
-        }
-    }
-}
-
-extension AppStreamClientTypes {
-
-    public enum VisibilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `private`
-        case `public`
-        case shared
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [VisibilityType] {
-            return [
-                .private,
-                .public,
-                .shared
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .private: return "PRIVATE"
-            case .public: return "PUBLIC"
-            case .shared: return "SHARED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension AppStreamClientTypes {
-
-    /// Describes an image.
-    public struct Image: Swift.Sendable {
-        /// The applications associated with the image.
-        public var applications: [AppStreamClientTypes.Application]?
-        /// The version of the AppStream 2.0 agent to use for instances that are launched from this image.
-        public var appstreamAgentVersion: Swift.String?
-        /// The ARN of the image.
-        public var arn: Swift.String?
-        /// The ARN of the image from which this image was created.
-        public var baseImageArn: Swift.String?
-        /// The time the image was created.
-        public var createdTime: Foundation.Date?
-        /// The description to display.
-        public var description: Swift.String?
-        /// The image name to display.
-        public var displayName: Swift.String?
-        /// Indicates whether dynamic app providers are enabled within an AppStream 2.0 image or not.
-        public var dynamicAppProvidersEnabled: AppStreamClientTypes.DynamicAppProvidersEnabled?
-        /// The name of the image builder that was used to create the private image. If the image is shared, copied, or updated by using Managed Image Updates, this value is null.
-        public var imageBuilderName: Swift.String?
-        /// Indicates whether an image builder can be launched from this image.
-        public var imageBuilderSupported: Swift.Bool?
-        /// Describes the errors that are returned when a new image can't be created.
-        public var imageErrors: [AppStreamClientTypes.ResourceError]?
-        /// The permissions to provide to the destination AWS account for the specified image.
-        public var imagePermissions: AppStreamClientTypes.ImagePermissions?
-        /// Indicates whether the image is shared with another account ID.
-        public var imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers?
-        /// Indicates whether the image is using the latest AppStream 2.0 agent version or not.
-        public var latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion?
-        /// The name of the image.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The operating system platform of the image.
-        public var platform: AppStreamClientTypes.PlatformType?
-        /// The release date of the public base image. For private images, this date is the release date of the base image from which the image was created.
-        public var publicBaseImageReleasedDate: Foundation.Date?
-        /// The image starts in the PENDING state. If image creation succeeds, the state is AVAILABLE. If image creation fails, the state is FAILED.
-        public var state: AppStreamClientTypes.ImageState?
-        /// The reason why the last state change occurred.
-        public var stateChangeReason: AppStreamClientTypes.ImageStateChangeReason?
-        /// The supported instances families that determine which image a customer can use when the customer launches a fleet or image builder. The following instances families are supported:
-        ///
-        /// * General Purpose
-        ///
-        /// * Compute Optimized
-        ///
-        /// * Memory Optimized
-        ///
-        /// * Graphics
-        ///
-        /// * Graphics Design
-        ///
-        /// * Graphics Pro
-        ///
-        /// * Graphics G4
-        ///
-        /// * Graphics G5
-        public var supportedInstanceFamilies: [Swift.String]?
-        /// Indicates whether the image is public or private.
-        public var visibility: AppStreamClientTypes.VisibilityType?
-
-        public init(
-            applications: [AppStreamClientTypes.Application]? = nil,
-            appstreamAgentVersion: Swift.String? = nil,
-            arn: Swift.String? = nil,
-            baseImageArn: Swift.String? = nil,
-            createdTime: Foundation.Date? = nil,
-            description: Swift.String? = nil,
-            displayName: Swift.String? = nil,
-            dynamicAppProvidersEnabled: AppStreamClientTypes.DynamicAppProvidersEnabled? = nil,
-            imageBuilderName: Swift.String? = nil,
-            imageBuilderSupported: Swift.Bool? = nil,
-            imageErrors: [AppStreamClientTypes.ResourceError]? = nil,
-            imagePermissions: AppStreamClientTypes.ImagePermissions? = nil,
-            imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers? = nil,
-            latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion? = nil,
-            name: Swift.String? = nil,
-            platform: AppStreamClientTypes.PlatformType? = nil,
-            publicBaseImageReleasedDate: Foundation.Date? = nil,
-            state: AppStreamClientTypes.ImageState? = nil,
-            stateChangeReason: AppStreamClientTypes.ImageStateChangeReason? = nil,
-            supportedInstanceFamilies: [Swift.String]? = nil,
-            visibility: AppStreamClientTypes.VisibilityType? = nil
-        ) {
-            self.applications = applications
-            self.appstreamAgentVersion = appstreamAgentVersion
-            self.arn = arn
-            self.baseImageArn = baseImageArn
-            self.createdTime = createdTime
-            self.description = description
-            self.displayName = displayName
-            self.dynamicAppProvidersEnabled = dynamicAppProvidersEnabled
-            self.imageBuilderName = imageBuilderName
-            self.imageBuilderSupported = imageBuilderSupported
-            self.imageErrors = imageErrors
-            self.imagePermissions = imagePermissions
-            self.imageSharedWithOthers = imageSharedWithOthers
-            self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
-            self.name = name
-            self.platform = platform
-            self.publicBaseImageReleasedDate = publicBaseImageReleasedDate
-            self.state = state
-            self.stateChangeReason = stateChangeReason
-            self.supportedInstanceFamilies = supportedInstanceFamilies
-            self.visibility = visibility
-        }
     }
 }
 
@@ -4187,7 +4786,7 @@ extension AppStreamClientTypes {
 }
 
 public struct CreateUsageReportSubscriptionOutput: Swift.Sendable {
-    /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
+    /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, WorkSpaces Applications created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, WorkSpaces Applications uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, WorkSpaces Applications creates a new S3 bucket.
     public var s3BucketName: Swift.String?
     /// The schedule for generating usage reports.
     public var schedule: AppStreamClientTypes.UsageReportSchedule?
@@ -4717,6 +5316,41 @@ public struct DescribeApplicationsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeAppLicenseUsageInput: Swift.Sendable {
+    /// Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08.
+    /// This member is required.
+    public var billingPeriod: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// Token for pagination of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        billingPeriod: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.billingPeriod = billingPeriod
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeAppLicenseUsageOutput: Swift.Sendable {
+    /// Collection of license usage records.
+    public var appLicenseUsages: [AppStreamClientTypes.AdminAppLicenseUsageRecord]?
+    /// Token for pagination of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        appLicenseUsages: [AppStreamClientTypes.AdminAppLicenseUsageRecord]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.appLicenseUsages = appLicenseUsages
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeDirectoryConfigsInput: Swift.Sendable {
     /// The directory names.
     public var directoryNames: [Swift.String]?
@@ -5134,6 +5768,168 @@ public struct DescribeSessionsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeSoftwareAssociationsInput: Swift.Sendable {
+    /// The ARN of the resource to describe software associations. Possible resources are Image and ImageBuilder.
+    /// This member is required.
+    public var associatedResource: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The pagination token to use to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        associatedResource: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.associatedResource = associatedResource
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum SoftwareDeploymentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failedToInstall
+        case failedToUninstall
+        case installed
+        case pendingInstallation
+        case pendingUninstallation
+        case stagedForInstallation
+        case stagedForUninstallation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SoftwareDeploymentStatus] {
+            return [
+                .failedToInstall,
+                .failedToUninstall,
+                .installed,
+                .pendingInstallation,
+                .pendingUninstallation,
+                .stagedForInstallation,
+                .stagedForUninstallation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedToInstall: return "FAILED_TO_INSTALL"
+            case .failedToUninstall: return "FAILED_TO_UNINSTALL"
+            case .installed: return "INSTALLED"
+            case .pendingInstallation: return "PENDING_INSTALLATION"
+            case .pendingUninstallation: return "PENDING_UNINSTALLATION"
+            case .stagedForInstallation: return "STAGED_FOR_INSTALLATION"
+            case .stagedForUninstallation: return "STAGED_FOR_UNINSTALLATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The association between a license-included application and a resource.
+    public struct SoftwareAssociations: Swift.Sendable {
+        /// The error details for failed deployments of the license-included application.
+        public var deploymentError: [AppStreamClientTypes.ErrorDetails]?
+        /// The name of the license-included application. Possible values include the following:
+        ///
+        /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+        ///
+        /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+        ///
+        /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+        ///
+        /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+        ///
+        /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+        ///
+        /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+        ///
+        /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+        ///
+        /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+        ///
+        /// * Microsoft_Project_2021_Professional_32Bit
+        ///
+        /// * Microsoft_Project_2021_Professional_64Bit
+        ///
+        /// * Microsoft_Project_2024_Professional_32Bit
+        ///
+        /// * Microsoft_Project_2024_Professional_64Bit
+        ///
+        /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+        ///
+        /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+        ///
+        /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+        ///
+        /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+        ///
+        /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+        ///
+        /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+        ///
+        /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+        ///
+        /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+        ///
+        /// * Microsoft_Project_2021_Standard_32Bit
+        ///
+        /// * Microsoft_Project_2021_Standard_64Bit
+        ///
+        /// * Microsoft_Project_2024_Standard_32Bit
+        ///
+        /// * Microsoft_Project_2024_Standard_64Bit
+        public var softwareName: Swift.String?
+        /// The deployment status of the license-included application.
+        public var status: AppStreamClientTypes.SoftwareDeploymentStatus?
+
+        public init(
+            deploymentError: [AppStreamClientTypes.ErrorDetails]? = nil,
+            softwareName: Swift.String? = nil,
+            status: AppStreamClientTypes.SoftwareDeploymentStatus? = nil
+        ) {
+            self.deploymentError = deploymentError
+            self.softwareName = softwareName
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeSoftwareAssociationsOutput: Swift.Sendable {
+    /// The ARN of the resource to describe software associations.
+    public var associatedResource: Swift.String?
+    /// The pagination token to use to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+    /// Collection of license included applications association details including:
+    ///
+    /// * License included application name and version information
+    ///
+    /// * Deployment status (SoftwareDeploymentStatus enum)
+    ///
+    /// * Error details for failed deployments
+    ///
+    /// * Association timestamps
+    public var softwareAssociations: [AppStreamClientTypes.SoftwareAssociations]?
+
+    public init(
+        associatedResource: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        softwareAssociations: [AppStreamClientTypes.SoftwareAssociations]? = nil
+    ) {
+        self.associatedResource = associatedResource
+        self.nextToken = nextToken
+        self.softwareAssociations = softwareAssociations
+    }
+}
+
 public struct DescribeStacksInput: Swift.Sendable {
     /// The names of the stacks to describe.
     public var names: [Swift.String]?
@@ -5259,7 +6055,7 @@ extension AppStreamClientTypes {
     public struct UsageReportSubscription: Swift.Sendable {
         /// The time when the last usage report was generated.
         public var lastGeneratedReportDate: Foundation.Date?
-        /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
+        /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, WorkSpaces Applications created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, WorkSpaces Applications uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, WorkSpaces Applications creates a new S3 bucket.
         public var s3BucketName: Swift.String?
         /// The schedule for generating usage reports.
         public var schedule: AppStreamClientTypes.UsageReportSchedule?
@@ -5556,6 +6352,76 @@ public struct DisassociateFleetOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateSoftwareFromImageBuilderInput: Swift.Sendable {
+    /// The name of the target image builder instance.
+    /// This member is required.
+    public var imageBuilderName: Swift.String?
+    /// The list of license included applications to disassociate from the image builder. Possible values include the following:
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_64Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_64Bit
+    /// This member is required.
+    public var softwareNames: [Swift.String]?
+
+    public init(
+        imageBuilderName: Swift.String? = nil,
+        softwareNames: [Swift.String]? = nil
+    ) {
+        self.imageBuilderName = imageBuilderName
+        self.softwareNames = softwareNames
+    }
+}
+
+public struct DisassociateSoftwareFromImageBuilderOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct EnableUserInput: Swift.Sendable {
     /// The authentication type for the user. You must specify USERPOOL.
     /// This member is required.
@@ -5618,6 +6484,27 @@ public struct ExpireSessionOutput: Swift.Sendable {
 
 extension AppStreamClientTypes {
 
+    /// A filter for narrowing down the results when listing export image tasks. Filters allow you to specify criteria such as task state or creation date.
+    public struct Filter: Swift.Sendable {
+        /// The name of the filter. Valid filter names depend on the operation being performed.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The values for the filter. Multiple values can be specified for a single filter name.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
     /// The fleet attribute.
     public enum FleetAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case domainJoinInfo
@@ -5625,6 +6512,7 @@ extension AppStreamClientTypes {
         case maxSessionsPerInstance
         case sessionScriptS3Location
         case usbDeviceFilterStrings
+        case volumeConfiguration
         case vpcConfiguration
         case vpcConfigurationSecurityGroupIds
         case sdkUnknown(Swift.String)
@@ -5636,6 +6524,7 @@ extension AppStreamClientTypes {
                 .maxSessionsPerInstance,
                 .sessionScriptS3Location,
                 .usbDeviceFilterStrings,
+                .volumeConfiguration,
                 .vpcConfiguration,
                 .vpcConfigurationSecurityGroupIds
             ]
@@ -5653,11 +6542,34 @@ extension AppStreamClientTypes {
             case .maxSessionsPerInstance: return "MAX_SESSIONS_PER_INSTANCE"
             case .sessionScriptS3Location: return "SESSION_SCRIPT_S3_LOCATION"
             case .usbDeviceFilterStrings: return "USB_DEVICE_FILTER_STRINGS"
+            case .volumeConfiguration: return "VOLUME_CONFIGURATION"
             case .vpcConfiguration: return "VPC_CONFIGURATION"
             case .vpcConfigurationSecurityGroupIds: return "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+public struct GetExportImageTaskInput: Swift.Sendable {
+    /// The unique identifier of the export image task to retrieve information about.
+    public var taskId: Swift.String?
+
+    public init(
+        taskId: Swift.String? = nil
+    ) {
+        self.taskId = taskId
+    }
+}
+
+public struct GetExportImageTaskOutput: Swift.Sendable {
+    /// Information about the export image task, including its current state, created date, and any error details.
+    public var exportImageTask: AppStreamClientTypes.ExportImageTask?
+
+    public init(
+        exportImageTask: AppStreamClientTypes.ExportImageTask? = nil
+    ) {
+        self.exportImageTask = exportImageTask
     }
 }
 
@@ -5763,6 +6675,40 @@ public struct ListEntitledApplicationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListExportImageTasksInput: Swift.Sendable {
+    /// Optional filters to apply when listing export image tasks. Filters help you narrow down the results based on specific criteria.
+    public var filters: [AppStreamClientTypes.Filter]?
+    /// The maximum number of export image tasks to return in a single request. The valid range is 1-500, with a default of 50.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous request. Use this to retrieve the next page of results when there are more tasks than the MaxResults limit.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [AppStreamClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListExportImageTasksOutput: Swift.Sendable {
+    /// The list of export image tasks that match the specified criteria.
+    public var exportImageTasks: [AppStreamClientTypes.ExportImageTask]?
+    /// The pagination token to use for retrieving the next page of results. This field is only present when there are more results available.
+    public var nextToken: Swift.String?
+
+    public init(
+        exportImageTasks: [AppStreamClientTypes.ExportImageTask]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.exportImageTasks = exportImageTasks
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -5827,7 +6773,7 @@ public struct StartFleetOutput: Swift.Sendable {
 }
 
 public struct StartImageBuilderInput: Swift.Sendable {
-    /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+    /// The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
     public var appstreamAgentVersion: Swift.String?
     /// The name of the image builder.
     /// This member is required.
@@ -5851,6 +6797,27 @@ public struct StartImageBuilderOutput: Swift.Sendable {
     ) {
         self.imageBuilder = imageBuilder
     }
+}
+
+public struct StartSoftwareDeploymentToImageBuilderInput: Swift.Sendable {
+    /// The name of the target image builder instance.
+    /// This member is required.
+    public var imageBuilderName: Swift.String?
+    /// Whether to retry previously failed license included application deployments.
+    public var retryFailedDeployments: Swift.Bool?
+
+    public init(
+        imageBuilderName: Swift.String? = nil,
+        retryFailedDeployments: Swift.Bool? = nil
+    ) {
+        self.imageBuilderName = imageBuilderName
+        self.retryFailedDeployments = retryFailedDeployments
+    }
+}
+
+public struct StartSoftwareDeploymentToImageBuilderOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct StopAppBlockBuilderInput: Swift.Sendable {
@@ -5971,7 +6938,7 @@ public struct UpdateAppBlockBuilderInput: Swift.Sendable {
     public var displayName: Swift.String?
     /// Enables or disables default internet access for the app block builder.
     public var enableDefaultInternetAccess: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var iamRoleArn: Swift.String?
     /// The instance type to use when launching the app block builder. The following instance types are available:
     ///
@@ -6177,7 +7144,7 @@ public struct UpdateFleetInput: Swift.Sendable {
     public var domainJoinInfo: AppStreamClientTypes.DomainJoinInfo?
     /// Enables or disables default internet access for the fleet.
     public var enableDefaultInternetAccess: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon AppStream 2.0 Administration Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see [Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html) in the Amazon WorkSpaces Applications Administration Guide.
     public var iamRoleArn: Swift.String?
     /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0. If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     public var idleDisconnectTimeoutInSeconds: Swift.Int?
@@ -6229,16 +7196,6 @@ public struct UpdateFleetInput: Swift.Sendable {
     ///
     /// * stream.memory.z1d.12xlarge
     ///
-    /// * stream.graphics-design.large
-    ///
-    /// * stream.graphics-design.xlarge
-    ///
-    /// * stream.graphics-design.2xlarge
-    ///
-    /// * stream.graphics-design.4xlarge
-    ///
-    /// * stream.graphics-desktop.2xlarge
-    ///
     /// * stream.graphics.g4dn.xlarge
     ///
     /// * stream.graphics.g4dn.2xlarge
@@ -6251,11 +7208,47 @@ public struct UpdateFleetInput: Swift.Sendable {
     ///
     /// * stream.graphics.g4dn.16xlarge
     ///
-    /// * stream.graphics-pro.4xlarge
+    /// * stream.graphics.g5.xlarge
     ///
-    /// * stream.graphics-pro.8xlarge
+    /// * stream.graphics.g5.2xlarge
     ///
-    /// * stream.graphics-pro.16xlarge
+    /// * stream.graphics.g5.4xlarge
+    ///
+    /// * stream.graphics.g5.8xlarge
+    ///
+    /// * stream.graphics.g5.16xlarge
+    ///
+    /// * stream.graphics.g5.12xlarge
+    ///
+    /// * stream.graphics.g5.24xlarge
+    ///
+    /// * stream.graphics.g6.xlarge
+    ///
+    /// * stream.graphics.g6.2xlarge
+    ///
+    /// * stream.graphics.g6.4xlarge
+    ///
+    /// * stream.graphics.g6.8xlarge
+    ///
+    /// * stream.graphics.g6.16xlarge
+    ///
+    /// * stream.graphics.g6.12xlarge
+    ///
+    /// * stream.graphics.g6.24xlarge
+    ///
+    /// * stream.graphics.gr6.4xlarge
+    ///
+    /// * stream.graphics.gr6.8xlarge
+    ///
+    /// * stream.graphics.g6f.large
+    ///
+    /// * stream.graphics.g6f.xlarge
+    ///
+    /// * stream.graphics.g6f.2xlarge
+    ///
+    /// * stream.graphics.g6f.4xlarge
+    ///
+    /// * stream.graphics.gr6f.4xlarge
     ///
     ///
     /// The following instance types are available for Elastic fleets:
@@ -6278,11 +7271,13 @@ public struct UpdateFleetInput: Swift.Sendable {
     public var maxUserDurationInSeconds: Swift.Int?
     /// A unique name for the fleet.
     public var name: Swift.String?
-    /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    /// The platform of the fleet. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
     public var platform: AppStreamClientTypes.PlatformType?
+    /// The updated configuration for the root volume of fleet instances. Note that volume size cannot be decreased below the image volume size.
+    public var rootVolumeConfig: AppStreamClientTypes.VolumeConfig?
     /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
     public var sessionScriptS3Location: AppStreamClientTypes.S3Location?
-    /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
+    /// The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
     public var streamView: AppStreamClientTypes.StreamView?
     /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
     public var usbDeviceFilterStrings: [Swift.String]?
@@ -6308,6 +7303,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         maxUserDurationInSeconds: Swift.Int? = nil,
         name: Swift.String? = nil,
         platform: AppStreamClientTypes.PlatformType? = nil,
+        rootVolumeConfig: AppStreamClientTypes.VolumeConfig? = nil,
         sessionScriptS3Location: AppStreamClientTypes.S3Location? = nil,
         streamView: AppStreamClientTypes.StreamView? = nil,
         usbDeviceFilterStrings: [Swift.String]? = nil,
@@ -6331,6 +7327,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         self.maxUserDurationInSeconds = maxUserDurationInSeconds
         self.name = name
         self.platform = platform
+        self.rootVolumeConfig = rootVolumeConfig
         self.sessionScriptS3Location = sessionScriptS3Location
         self.streamView = streamView
         self.usbDeviceFilterStrings = usbDeviceFilterStrings
@@ -6436,7 +7433,7 @@ extension AppStreamClientTypes {
 }
 
 public struct UpdateStackInput: Swift.Sendable {
-    /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+    /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
     public var applicationSettings: AppStreamClientTypes.ApplicationSettings?
@@ -6449,7 +7446,7 @@ public struct UpdateStackInput: Swift.Sendable {
     public var description: Swift.String?
     /// The stack name to display.
     public var displayName: Swift.String?
-    /// The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.
+    /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
     public var embedHostDomains: [Swift.String]?
     /// The URL that users are redirected to after they choose the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
     public var feedbackURL: Swift.String?
@@ -6612,6 +7609,13 @@ extension AssociateFleetInput {
     }
 }
 
+extension AssociateSoftwareToImageBuilderInput {
+
+    static func urlPathProvider(_ value: AssociateSoftwareToImageBuilderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchAssociateUserStackInput {
 
     static func urlPathProvider(_ value: BatchAssociateUserStackInput) -> Swift.String? {
@@ -6675,6 +7679,13 @@ extension CreateEntitlementInput {
     }
 }
 
+extension CreateExportImageTaskInput {
+
+    static func urlPathProvider(_ value: CreateExportImageTaskInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateFleetInput {
 
     static func urlPathProvider(_ value: CreateFleetInput) -> Swift.String? {
@@ -6692,6 +7703,13 @@ extension CreateImageBuilderInput {
 extension CreateImageBuilderStreamingURLInput {
 
     static func urlPathProvider(_ value: CreateImageBuilderStreamingURLInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateImportedImageInput {
+
+    static func urlPathProvider(_ value: CreateImportedImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6864,6 +7882,13 @@ extension DescribeApplicationsInput {
     }
 }
 
+extension DescribeAppLicenseUsageInput {
+
+    static func urlPathProvider(_ value: DescribeAppLicenseUsageInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeDirectoryConfigsInput {
 
     static func urlPathProvider(_ value: DescribeDirectoryConfigsInput) -> Swift.String? {
@@ -6909,6 +7934,13 @@ extension DescribeImagesInput {
 extension DescribeSessionsInput {
 
     static func urlPathProvider(_ value: DescribeSessionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeSoftwareAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeSoftwareAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6983,6 +8015,13 @@ extension DisassociateFleetInput {
     }
 }
 
+extension DisassociateSoftwareFromImageBuilderInput {
+
+    static func urlPathProvider(_ value: DisassociateSoftwareFromImageBuilderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension EnableUserInput {
 
     static func urlPathProvider(_ value: EnableUserInput) -> Swift.String? {
@@ -6993,6 +8032,13 @@ extension EnableUserInput {
 extension ExpireSessionInput {
 
     static func urlPathProvider(_ value: ExpireSessionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetExportImageTaskInput {
+
+    static func urlPathProvider(_ value: GetExportImageTaskInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7014,6 +8060,13 @@ extension ListAssociatedStacksInput {
 extension ListEntitledApplicationsInput {
 
     static func urlPathProvider(_ value: ListEntitledApplicationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListExportImageTasksInput {
+
+    static func urlPathProvider(_ value: ListExportImageTasksInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7042,6 +8095,13 @@ extension StartFleetInput {
 extension StartImageBuilderInput {
 
     static func urlPathProvider(_ value: StartImageBuilderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartSoftwareDeploymentToImageBuilderInput {
+
+    static func urlPathProvider(_ value: StartSoftwareDeploymentToImageBuilderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7174,6 +8234,15 @@ extension AssociateFleetInput {
     }
 }
 
+extension AssociateSoftwareToImageBuilderInput {
+
+    static func write(value: AssociateSoftwareToImageBuilderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageBuilderName"].write(value.imageBuilderName)
+        try writer["SoftwareNames"].writeList(value.softwareNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchAssociateUserStackInput {
 
     static func write(value: BatchAssociateUserStackInput?, to writer: SmithyJSON.Writer) throws {
@@ -7283,6 +8352,18 @@ extension CreateEntitlementInput {
     }
 }
 
+extension CreateExportImageTaskInput {
+
+    static func write(value: CreateExportImageTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AmiDescription"].write(value.amiDescription)
+        try writer["AmiName"].write(value.amiName)
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["ImageName"].write(value.imageName)
+        try writer["TagSpecifications"].writeMap(value.tagSpecifications, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateFleetInput {
 
     static func write(value: CreateFleetInput?, to writer: SmithyJSON.Writer) throws {
@@ -7304,6 +8385,7 @@ extension CreateFleetInput {
         try writer["MaxUserDurationInSeconds"].write(value.maxUserDurationInSeconds)
         try writer["Name"].write(value.name)
         try writer["Platform"].write(value.platform)
+        try writer["RootVolumeConfig"].write(value.rootVolumeConfig, with: AppStreamClientTypes.VolumeConfig.write(value:to:))
         try writer["SessionScriptS3Location"].write(value.sessionScriptS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
         try writer["StreamView"].write(value.streamView)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -7327,6 +8409,9 @@ extension CreateImageBuilderInput {
         try writer["ImageName"].write(value.imageName)
         try writer["InstanceType"].write(value.instanceType)
         try writer["Name"].write(value.name)
+        try writer["RootVolumeConfig"].write(value.rootVolumeConfig, with: AppStreamClientTypes.VolumeConfig.write(value:to:))
+        try writer["SoftwaresToInstall"].writeList(value.softwaresToInstall, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SoftwaresToUninstall"].writeList(value.softwaresToUninstall, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: AppStreamClientTypes.VpcConfig.write(value:to:))
     }
@@ -7338,6 +8423,23 @@ extension CreateImageBuilderStreamingURLInput {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Validity"].write(value.validity)
+    }
+}
+
+extension CreateImportedImageInput {
+
+    static func write(value: CreateImportedImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AgentSoftwareVersion"].write(value.agentSoftwareVersion)
+        try writer["AppCatalogConfig"].writeList(value.appCatalogConfig, memberWritingClosure: AppStreamClientTypes.ApplicationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["Name"].write(value.name)
+        try writer["RuntimeValidationConfig"].write(value.runtimeValidationConfig, with: AppStreamClientTypes.RuntimeValidationConfig.write(value:to:))
+        try writer["SourceAmiId"].write(value.sourceAmiId)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7578,6 +8680,16 @@ extension DescribeApplicationsInput {
     }
 }
 
+extension DescribeAppLicenseUsageInput {
+
+    static func write(value: DescribeAppLicenseUsageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BillingPeriod"].write(value.billingPeriod)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension DescribeDirectoryConfigsInput {
 
     static func write(value: DescribeDirectoryConfigsInput?, to writer: SmithyJSON.Writer) throws {
@@ -7652,6 +8764,16 @@ extension DescribeSessionsInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["StackName"].write(value.stackName)
         try writer["UserId"].write(value.userId)
+    }
+}
+
+extension DescribeSoftwareAssociationsInput {
+
+    static func write(value: DescribeSoftwareAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssociatedResource"].write(value.associatedResource)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -7749,6 +8871,15 @@ extension DisassociateFleetInput {
     }
 }
 
+extension DisassociateSoftwareFromImageBuilderInput {
+
+    static func write(value: DisassociateSoftwareFromImageBuilderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageBuilderName"].write(value.imageBuilderName)
+        try writer["SoftwareNames"].writeList(value.softwareNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension EnableUserInput {
 
     static func write(value: EnableUserInput?, to writer: SmithyJSON.Writer) throws {
@@ -7763,6 +8894,14 @@ extension ExpireSessionInput {
     static func write(value: ExpireSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SessionId"].write(value.sessionId)
+    }
+}
+
+extension GetExportImageTaskInput {
+
+    static func write(value: GetExportImageTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TaskId"].write(value.taskId)
     }
 }
 
@@ -7792,6 +8931,16 @@ extension ListEntitledApplicationsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["StackName"].write(value.stackName)
+    }
+}
+
+extension ListExportImageTasksInput {
+
+    static func write(value: ListExportImageTasksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: AppStreamClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -7825,6 +8974,15 @@ extension StartImageBuilderInput {
         guard let value else { return }
         try writer["AppstreamAgentVersion"].write(value.appstreamAgentVersion)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension StartSoftwareDeploymentToImageBuilderInput {
+
+    static func write(value: StartSoftwareDeploymentToImageBuilderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageBuilderName"].write(value.imageBuilderName)
+        try writer["RetryFailedDeployments"].write(value.retryFailedDeployments)
     }
 }
 
@@ -7948,6 +9106,7 @@ extension UpdateFleetInput {
         try writer["MaxUserDurationInSeconds"].write(value.maxUserDurationInSeconds)
         try writer["Name"].write(value.name)
         try writer["Platform"].write(value.platform)
+        try writer["RootVolumeConfig"].write(value.rootVolumeConfig, with: AppStreamClientTypes.VolumeConfig.write(value:to:))
         try writer["SessionScriptS3Location"].write(value.sessionScriptS3Location, with: AppStreamClientTypes.S3Location.write(value:to:))
         try writer["StreamView"].write(value.streamView)
         try writer["UsbDeviceFilterStrings"].writeList(value.usbDeviceFilterStrings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8035,6 +9194,13 @@ extension AssociateFleetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateFleetOutput {
         return AssociateFleetOutput()
+    }
+}
+
+extension AssociateSoftwareToImageBuilderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateSoftwareToImageBuilderOutput {
+        return AssociateSoftwareToImageBuilderOutput()
     }
 }
 
@@ -8147,6 +9313,18 @@ extension CreateEntitlementOutput {
     }
 }
 
+extension CreateExportImageTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateExportImageTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateExportImageTaskOutput()
+        value.exportImageTask = try reader["ExportImageTask"].readIfPresent(with: AppStreamClientTypes.ExportImageTask.read(from:))
+        return value
+    }
+}
+
 extension CreateFleetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFleetOutput {
@@ -8180,6 +9358,18 @@ extension CreateImageBuilderStreamingURLOutput {
         var value = CreateImageBuilderStreamingURLOutput()
         value.expires = try reader["Expires"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.streamingURL = try reader["StreamingURL"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateImportedImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateImportedImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateImportedImageOutput()
+        value.image = try reader["Image"].readIfPresent(with: AppStreamClientTypes.Image.read(from:))
         return value
     }
 }
@@ -8420,6 +9610,19 @@ extension DescribeApplicationsOutput {
     }
 }
 
+extension DescribeAppLicenseUsageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAppLicenseUsageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAppLicenseUsageOutput()
+        value.appLicenseUsages = try reader["AppLicenseUsages"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AdminAppLicenseUsageRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDirectoryConfigsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDirectoryConfigsOutput {
@@ -8508,6 +9711,20 @@ extension DescribeSessionsOutput {
         var value = DescribeSessionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.sessions = try reader["Sessions"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.Session.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeSoftwareAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSoftwareAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSoftwareAssociationsOutput()
+        value.associatedResource = try reader["AssociatedResource"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.softwareAssociations = try reader["SoftwareAssociations"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.SoftwareAssociations.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8611,6 +9828,13 @@ extension DisassociateFleetOutput {
     }
 }
 
+extension DisassociateSoftwareFromImageBuilderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateSoftwareFromImageBuilderOutput {
+        return DisassociateSoftwareFromImageBuilderOutput()
+    }
+}
+
 extension EnableUserOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableUserOutput {
@@ -8622,6 +9846,18 @@ extension ExpireSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ExpireSessionOutput {
         return ExpireSessionOutput()
+    }
+}
+
+extension GetExportImageTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetExportImageTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetExportImageTaskOutput()
+        value.exportImageTask = try reader["ExportImageTask"].readIfPresent(with: AppStreamClientTypes.ExportImageTask.read(from:))
+        return value
     }
 }
 
@@ -8659,6 +9895,19 @@ extension ListEntitledApplicationsOutput {
         let reader = responseReader
         var value = ListEntitledApplicationsOutput()
         value.entitledApplications = try reader["EntitledApplications"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.EntitledApplication.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListExportImageTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExportImageTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListExportImageTasksOutput()
+        value.exportImageTasks = try reader["ExportImageTasks"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ExportImageTask.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -8704,6 +9953,13 @@ extension StartImageBuilderOutput {
         var value = StartImageBuilderOutput()
         value.imageBuilder = try reader["ImageBuilder"].readIfPresent(with: AppStreamClientTypes.ImageBuilder.read(from:))
         return value
+    }
+}
+
+extension StartSoftwareDeploymentToImageBuilderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSoftwareDeploymentToImageBuilderOutput {
+        return StartSoftwareDeploymentToImageBuilderOutput()
     }
 }
 
@@ -8915,6 +10171,24 @@ enum AssociateFleetOutputError {
     }
 }
 
+enum AssociateSoftwareToImageBuilderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "IncompatibleImageException": return try IncompatibleImageException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchAssociateUserStackOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9073,6 +10347,26 @@ enum CreateEntitlementOutputError {
     }
 }
 
+enum CreateExportImageTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidAccountStatusException": return try InvalidAccountStatusException.makeError(baseError: baseError)
+            case "InvalidRoleException": return try InvalidRoleException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotAvailableException": return try ResourceNotAvailableException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateFleetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9130,6 +10424,27 @@ enum CreateImageBuilderStreamingURLOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateImportedImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DryRunOperationException": return try DryRunOperationException.makeError(baseError: baseError)
+            case "IncompatibleImageException": return try IncompatibleImageException.makeError(baseError: baseError)
+            case "InvalidAccountStatusException": return try InvalidAccountStatusException.makeError(baseError: baseError)
+            case "InvalidRoleException": return try InvalidRoleException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9530,6 +10845,22 @@ enum DescribeApplicationsOutputError {
     }
 }
 
+enum DescribeAppLicenseUsageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDirectoryConfigsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9626,6 +10957,21 @@ enum DescribeSessionsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeSoftwareAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9786,6 +11132,23 @@ enum DisassociateFleetOutputError {
     }
 }
 
+enum DisassociateSoftwareFromImageBuilderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EnableUserOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9809,6 +11172,21 @@ enum ExpireSessionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetExportImageTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9851,6 +11229,20 @@ enum ListEntitledApplicationsOutputError {
             case "EntitlementNotFoundException": return try EntitlementNotFoundException.makeError(baseError: baseError)
             case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListExportImageTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9923,6 +11315,22 @@ enum StartImageBuilderOutputError {
             case "IncompatibleImageException": return try IncompatibleImageException.makeError(baseError: baseError)
             case "InvalidAccountStatusException": return try InvalidAccountStatusException.makeError(baseError: baseError)
             case "ResourceNotAvailableException": return try ResourceNotAvailableException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartSoftwareDeploymentToImageBuilderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10331,6 +11739,19 @@ extension EntitlementAlreadyExistsException {
     }
 }
 
+extension DryRunOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DryRunOperationException {
+        let reader = baseError.errorBodyReader
+        var value = DryRunOperationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceInUseException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
@@ -10653,6 +12074,24 @@ extension AppStreamClientTypes.EntitlementAttribute {
     }
 }
 
+extension AppStreamClientTypes.ExportImageTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ExportImageTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ExportImageTask()
+        value.taskId = try reader["TaskId"].readIfPresent() ?? ""
+        value.imageArn = try reader["ImageArn"].readIfPresent() ?? ""
+        value.amiName = try reader["AmiName"].readIfPresent() ?? ""
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.amiDescription = try reader["AmiDescription"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.amiId = try reader["AmiId"].readIfPresent()
+        value.tagSpecifications = try reader["TagSpecifications"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.errorDetails = try reader["ErrorDetails"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension AppStreamClientTypes.Fleet {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Fleet {
@@ -10683,6 +12122,22 @@ extension AppStreamClientTypes.Fleet {
         value.usbDeviceFilterStrings = try reader["UsbDeviceFilterStrings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sessionScriptS3Location = try reader["SessionScriptS3Location"].readIfPresent(with: AppStreamClientTypes.S3Location.read(from:))
         value.maxSessionsPerInstance = try reader["MaxSessionsPerInstance"].readIfPresent()
+        value.rootVolumeConfig = try reader["RootVolumeConfig"].readIfPresent(with: AppStreamClientTypes.VolumeConfig.read(from:))
+        return value
+    }
+}
+
+extension AppStreamClientTypes.VolumeConfig {
+
+    static func write(value: AppStreamClientTypes.VolumeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VolumeSizeInGb"].write(value.volumeSizeInGb)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.VolumeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.VolumeConfig()
+        value.volumeSizeInGb = try reader["VolumeSizeInGb"].readIfPresent()
         return value
     }
 }
@@ -10755,6 +12210,7 @@ extension AppStreamClientTypes.ImageBuilder {
         value.imageBuilderErrors = try reader["ImageBuilderErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.appstreamAgentVersion = try reader["AppstreamAgentVersion"].readIfPresent()
         value.accessEndpoints = try reader["AccessEndpoints"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AccessEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rootVolumeConfig = try reader["RootVolumeConfig"].readIfPresent(with: AppStreamClientTypes.VolumeConfig.read(from:))
         value.latestAppstreamAgentVersion = try reader["LatestAppstreamAgentVersion"].readIfPresent()
         return value
     }
@@ -10766,6 +12222,7 @@ extension AppStreamClientTypes.NetworkAccessConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.NetworkAccessConfiguration()
         value.eniPrivateIpAddress = try reader["EniPrivateIpAddress"].readIfPresent()
+        value.eniIpv6Addresses = try reader["EniIpv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.eniId = try reader["EniId"].readIfPresent()
         return value
     }
@@ -10776,6 +12233,66 @@ extension AppStreamClientTypes.ImageBuilderStateChangeReason {
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageBuilderStateChangeReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.ImageBuilderStateChangeReason()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.Image {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Image {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.Image()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent()
+        value.baseImageArn = try reader["BaseImageArn"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.imageBuilderSupported = try reader["ImageBuilderSupported"].readIfPresent()
+        value.imageBuilderName = try reader["ImageBuilderName"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.stateChangeReason = try reader["StateChangeReason"].readIfPresent(with: AppStreamClientTypes.ImageStateChangeReason.read(from:))
+        value.applications = try reader["Applications"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.Application.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.publicBaseImageReleasedDate = try reader["PublicBaseImageReleasedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.appstreamAgentVersion = try reader["AppstreamAgentVersion"].readIfPresent()
+        value.imagePermissions = try reader["ImagePermissions"].readIfPresent(with: AppStreamClientTypes.ImagePermissions.read(from:))
+        value.imageErrors = try reader["ImageErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.latestAppstreamAgentVersion = try reader["LatestAppstreamAgentVersion"].readIfPresent()
+        value.supportedInstanceFamilies = try reader["SupportedInstanceFamilies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dynamicAppProvidersEnabled = try reader["DynamicAppProvidersEnabled"].readIfPresent()
+        value.imageSharedWithOthers = try reader["ImageSharedWithOthers"].readIfPresent()
+        value.managedSoftwareIncluded = try reader["ManagedSoftwareIncluded"].readIfPresent()
+        value.imageType = try reader["ImageType"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ImagePermissions {
+
+    static func write(value: AppStreamClientTypes.ImagePermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowFleet"].write(value.allowFleet)
+        try writer["allowImageBuilder"].write(value.allowImageBuilder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImagePermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ImagePermissions()
+        value.allowFleet = try reader["allowFleet"].readIfPresent()
+        value.allowImageBuilder = try reader["allowImageBuilder"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.ImageStateChangeReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageStateChangeReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.ImageStateChangeReason()
         value.code = try reader["Code"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         return value
@@ -10917,60 +12434,18 @@ extension AppStreamClientTypes.ThemeFooterLink {
     }
 }
 
-extension AppStreamClientTypes.Image {
+extension AppStreamClientTypes.AdminAppLicenseUsageRecord {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.Image {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AdminAppLicenseUsageRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.Image()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent()
-        value.baseImageArn = try reader["BaseImageArn"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        value.imageBuilderSupported = try reader["ImageBuilderSupported"].readIfPresent()
-        value.imageBuilderName = try reader["ImageBuilderName"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.stateChangeReason = try reader["StateChangeReason"].readIfPresent(with: AppStreamClientTypes.ImageStateChangeReason.read(from:))
-        value.applications = try reader["Applications"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.Application.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.publicBaseImageReleasedDate = try reader["PublicBaseImageReleasedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.appstreamAgentVersion = try reader["AppstreamAgentVersion"].readIfPresent()
-        value.imagePermissions = try reader["ImagePermissions"].readIfPresent(with: AppStreamClientTypes.ImagePermissions.read(from:))
-        value.imageErrors = try reader["ImageErrors"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ResourceError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.latestAppstreamAgentVersion = try reader["LatestAppstreamAgentVersion"].readIfPresent()
-        value.supportedInstanceFamilies = try reader["SupportedInstanceFamilies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dynamicAppProvidersEnabled = try reader["DynamicAppProvidersEnabled"].readIfPresent()
-        value.imageSharedWithOthers = try reader["ImageSharedWithOthers"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ImagePermissions {
-
-    static func write(value: AppStreamClientTypes.ImagePermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowFleet"].write(value.allowFleet)
-        try writer["allowImageBuilder"].write(value.allowImageBuilder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImagePermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ImagePermissions()
-        value.allowFleet = try reader["allowFleet"].readIfPresent()
-        value.allowImageBuilder = try reader["allowImageBuilder"].readIfPresent()
-        return value
-    }
-}
-
-extension AppStreamClientTypes.ImageStateChangeReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.ImageStateChangeReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppStreamClientTypes.ImageStateChangeReason()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        var value = AppStreamClientTypes.AdminAppLicenseUsageRecord()
+        value.userArn = try reader["UserArn"].readIfPresent() ?? ""
+        value.billingPeriod = try reader["BillingPeriod"].readIfPresent() ?? ""
+        value.ownerAWSAccountId = try reader["OwnerAWSAccountId"].readIfPresent() ?? ""
+        value.subscriptionFirstUsedDate = try reader["SubscriptionFirstUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.subscriptionLastUsedDate = try reader["SubscriptionLastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.licenseType = try reader["LicenseType"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11002,6 +12477,18 @@ extension AppStreamClientTypes.Session {
         value.authenticationType = try reader["AuthenticationType"].readIfPresent()
         value.networkAccessConfiguration = try reader["NetworkAccessConfiguration"].readIfPresent(with: AppStreamClientTypes.NetworkAccessConfiguration.read(from:))
         value.instanceId = try reader["InstanceId"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.SoftwareAssociations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SoftwareAssociations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.SoftwareAssociations()
+        value.softwareName = try reader["SoftwareName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.deploymentError = try reader["DeploymentError"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11066,12 +12553,43 @@ extension AppStreamClientTypes.ComputeCapacity {
     }
 }
 
+extension AppStreamClientTypes.RuntimeValidationConfig {
+
+    static func write(value: AppStreamClientTypes.RuntimeValidationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntendedInstanceType"].write(value.intendedInstanceType)
+    }
+}
+
+extension AppStreamClientTypes.ApplicationConfig {
+
+    static func write(value: AppStreamClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AbsoluteAppPath"].write(value.absoluteAppPath)
+        try writer["AbsoluteIconPath"].write(value.absoluteIconPath)
+        try writer["AbsoluteManifestPath"].write(value.absoluteManifestPath)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["LaunchParameters"].write(value.launchParameters)
+        try writer["Name"].write(value.name)
+        try writer["WorkingDirectory"].write(value.workingDirectory)
+    }
+}
+
 extension AppStreamClientTypes.ApplicationSettings {
 
     static func write(value: AppStreamClientTypes.ApplicationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
         try writer["SettingsGroup"].write(value.settingsGroup)
+    }
+}
+
+extension AppStreamClientTypes.Filter {
+
+    static func write(value: AppStreamClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

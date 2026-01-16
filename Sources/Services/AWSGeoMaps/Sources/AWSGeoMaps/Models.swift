@@ -75,6 +75,32 @@ extension GeoMapsClientTypes {
     }
 }
 
+extension GeoMapsClientTypes {
+
+    public enum ContourDensity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContourDensity] {
+            return [
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .medium: return "Medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetGlyphsInput: Swift.Sendable {
     /// Name of the FontStack to retrieve. Example: Amazon Ember Bold,Noto Sans Bold. The supported font stacks are as follows:
     ///
@@ -237,7 +263,7 @@ public struct GetGlyphsInput: Swift.Sendable {
     /// * Open Sans Regular,Arial Unicode MS Regular
     /// This member is required.
     public var fontStack: Swift.String?
-    /// A Unicode range of characters to download glyphs for. This must be aligned to multiples of 256. Example: 0-255.pdf
+    /// A Unicode range of characters to download glyphs for. This must be aligned to multiples of 256. Example: 0-255.pbf
     /// This member is required.
     public var fontUnicodeRange: Swift.String?
 
@@ -657,11 +683,11 @@ extension GeoMapsClientTypes {
 }
 
 public struct GetStaticMapInput: Swift.Sendable {
-    /// Takes in two or more pair of coordinates, [Lon, Lat], with each coordinate separated by a comma. The API will generate an image to encompass all of the provided coordinates. Cannot be used with Zoom and or Radius Example: 97.170451,78.039098,99.045536,27.176178
+    /// Takes in two or more pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], with each coordinate separated by a comma. The API will generate an image to encompass all of the provided coordinates. Cannot be used with Zoom and or Radius Example: 97.170451,78.039098,99.045536,27.176178
     public var boundedPositions: Swift.String?
-    /// Takes in two pairs of coordinates, [Lon, Lat], denoting south-westerly and north-easterly edges of the image. The underlying area becomes the view of the image. Example: -123.17075,49.26959,-123.08125,49.31429
+    /// Takes in two pairs of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], denoting south-westerly and north-easterly edges of the image. The underlying area becomes the view of the image. Example: -123.17075,49.26959,-123.08125,49.31429
     public var boundingBox: Swift.String?
-    /// Takes in a pair of coordinates, [Lon, Lat], which becomes the center point of the image. This parameter requires that either zoom or radius is set. Cannot be used with Zoom and or Radius Example: 49.295,-123.108
+    /// Takes in a pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], which becomes the center point of the image. This parameter requires that either zoom or radius is set. Cannot be used with Zoom and or Radius Example: 49.295,-123.108
     public var center: Swift.String?
     /// Sets color tone for map, such as dark and light for specific map styles. It only applies to vector map styles, such as Standard. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
@@ -912,7 +938,7 @@ public struct GetStaticMapInput: Swift.Sendable {
 
 extension GetStaticMapInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStaticMapInput(boundedPositions: \(Swift.String(describing: boundedPositions)), boundingBox: \(Swift.String(describing: boundingBox)), center: \(Swift.String(describing: center)), colorScheme: \(Swift.String(describing: colorScheme)), compactOverlay: \(Swift.String(describing: compactOverlay)), cropLabels: \(Swift.String(describing: cropLabels)), fileName: \(Swift.String(describing: fileName)), geoJsonOverlay: \(Swift.String(describing: geoJsonOverlay)), height: \(Swift.String(describing: height)), labelSize: \(Swift.String(describing: labelSize)), language: \(Swift.String(describing: language)), padding: \(Swift.String(describing: padding)), pointsOfInterests: \(Swift.String(describing: pointsOfInterests)), politicalView: \(Swift.String(describing: politicalView)), radius: \(Swift.String(describing: radius)), scaleBarUnit: \(Swift.String(describing: scaleBarUnit)), style: \(Swift.String(describing: style)), width: \(Swift.String(describing: width)), zoom: \(Swift.String(describing: zoom)), key: \"CONTENT_REDACTED\")"}
+        "GetStaticMapInput(colorScheme: \(Swift.String(describing: colorScheme)), cropLabels: \(Swift.String(describing: cropLabels)), fileName: \(Swift.String(describing: fileName)), labelSize: \(Swift.String(describing: labelSize)), language: \(Swift.String(describing: language)), pointsOfInterests: \(Swift.String(describing: pointsOfInterests)), scaleBarUnit: \(Swift.String(describing: scaleBarUnit)), style: \(Swift.String(describing: style)), boundedPositions: \"CONTENT_REDACTED\", boundingBox: \"CONTENT_REDACTED\", center: \"CONTENT_REDACTED\", compactOverlay: \"CONTENT_REDACTED\", geoJsonOverlay: \"CONTENT_REDACTED\", height: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", padding: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", radius: \"CONTENT_REDACTED\", width: \"CONTENT_REDACTED\", zoom: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStaticMapOutput: Swift.Sendable {
@@ -943,9 +969,92 @@ public struct GetStaticMapOutput: Swift.Sendable {
     }
 }
 
+extension GeoMapsClientTypes {
+
+    public enum Terrain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hillshade
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Terrain] {
+            return [
+                .hillshade
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hillshade: return "Hillshade"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoMapsClientTypes {
+
+    public enum Traffic: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Traffic] {
+            return [
+                .all
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GeoMapsClientTypes {
+
+    public enum TravelMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case transit
+        case truck
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TravelMode] {
+            return [
+                .transit,
+                .truck
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .transit: return "Transit"
+            case .truck: return "Truck"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetStyleDescriptorInput: Swift.Sendable {
     /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light Default value: Light Valid values for ColorScheme are case sensitive.
     public var colorScheme: GeoMapsClientTypes.ColorScheme?
+    /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard map style.
+    public var contourDensity: GeoMapsClientTypes.ContourDensity?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
     /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:
@@ -981,23 +1090,42 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
     /// Style specifies the desired map style.
     /// This member is required.
     public var style: GeoMapsClientTypes.MapStyle?
+    /// Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:
+    ///
+    /// * Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.
+    ///
+    ///
+    /// This parameter is valid only for the Standard map style.
+    public var terrain: GeoMapsClientTypes.Terrain?
+    /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
+    public var traffic: GeoMapsClientTypes.Traffic?
+    /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid only for the Standard map style.
+    public var travelModes: [GeoMapsClientTypes.TravelMode]?
 
     public init(
         colorScheme: GeoMapsClientTypes.ColorScheme? = nil,
+        contourDensity: GeoMapsClientTypes.ContourDensity? = nil,
         key: Swift.String? = nil,
         politicalView: Swift.String? = nil,
-        style: GeoMapsClientTypes.MapStyle? = nil
+        style: GeoMapsClientTypes.MapStyle? = nil,
+        terrain: GeoMapsClientTypes.Terrain? = nil,
+        traffic: GeoMapsClientTypes.Traffic? = nil,
+        travelModes: [GeoMapsClientTypes.TravelMode]? = nil
     ) {
         self.colorScheme = colorScheme
+        self.contourDensity = contourDensity
         self.key = key
         self.politicalView = politicalView
         self.style = style
+        self.terrain = terrain
+        self.traffic = traffic
+        self.travelModes = travelModes
     }
 }
 
 extension GetStyleDescriptorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStyleDescriptorInput(colorScheme: \(Swift.String(describing: colorScheme)), politicalView: \(Swift.String(describing: politicalView)), style: \(Swift.String(describing: style)), key: \"CONTENT_REDACTED\")"}
+        "GetStyleDescriptorInput(colorScheme: \(Swift.String(describing: colorScheme)), contourDensity: \(Swift.String(describing: contourDensity)), style: \(Swift.String(describing: style)), terrain: \(Swift.String(describing: terrain)), traffic: \(Swift.String(describing: traffic)), travelModes: \(Swift.String(describing: travelModes)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStyleDescriptorOutput: Swift.Sendable {
@@ -1023,7 +1151,72 @@ public struct GetStyleDescriptorOutput: Swift.Sendable {
     }
 }
 
+/// Exception thrown when the associated resource could not be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension GeoMapsClientTypes {
+
+    public enum TileAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Map elevation contour lines.
+        case contourLines
+        /// Map hillshading details for shading elevation changes.
+        case hillshade
+        /// Map logistics details, including advanced pois and road networks.
+        case logistics
+        /// Map transit details.
+        case transit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TileAdditionalFeature] {
+            return [
+                .contourLines,
+                .hillshade,
+                .logistics,
+                .transit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contourLines: return "ContourLines"
+            case .hillshade: return "Hillshade"
+            case .logistics: return "Logistics"
+            case .transit: return "Transit"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetTileInput: Swift.Sendable {
+    /// A list of optional additional parameters such as map styles that can be requested for each result.
+    public var additionalFeatures: [GeoMapsClientTypes.TileAdditionalFeature]?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
     /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap
@@ -1040,12 +1233,14 @@ public struct GetTileInput: Swift.Sendable {
     public var z: Swift.String?
 
     public init(
+        additionalFeatures: [GeoMapsClientTypes.TileAdditionalFeature]? = nil,
         key: Swift.String? = nil,
         tileset: Swift.String? = nil,
         x: Swift.String? = nil,
         y: Swift.String? = nil,
         z: Swift.String? = nil
     ) {
+        self.additionalFeatures = additionalFeatures
         self.key = key
         self.tileset = tileset
         self.x = x
@@ -1056,7 +1251,7 @@ public struct GetTileInput: Swift.Sendable {
 
 extension GetTileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetTileInput(tileset: \(Swift.String(describing: tileset)), x: \(Swift.String(describing: x)), y: \(Swift.String(describing: y)), z: \(Swift.String(describing: z)), key: \"CONTENT_REDACTED\")"}
+        "GetTileInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), tileset: \(Swift.String(describing: tileset)), key: \"CONTENT_REDACTED\", x: \"CONTENT_REDACTED\", y: \"CONTENT_REDACTED\", z: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetTileOutput: Swift.Sendable {
@@ -1231,6 +1426,18 @@ extension GetStyleDescriptorInput {
 
     static func queryItemProvider(_ value: GetStyleDescriptorInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let terrain = value.terrain {
+            let terrainQueryItem = Smithy.URIQueryItem(name: "terrain".urlPercentEncoding(), value: Swift.String(terrain.rawValue).urlPercentEncoding())
+            items.append(terrainQueryItem)
+        }
+        if let contourDensity = value.contourDensity {
+            let contourDensityQueryItem = Smithy.URIQueryItem(name: "contour-density".urlPercentEncoding(), value: Swift.String(contourDensity.rawValue).urlPercentEncoding())
+            items.append(contourDensityQueryItem)
+        }
+        if let traffic = value.traffic {
+            let trafficQueryItem = Smithy.URIQueryItem(name: "traffic".urlPercentEncoding(), value: Swift.String(traffic.rawValue).urlPercentEncoding())
+            items.append(trafficQueryItem)
+        }
         if let colorScheme = value.colorScheme {
             let colorSchemeQueryItem = Smithy.URIQueryItem(name: "color-scheme".urlPercentEncoding(), value: Swift.String(colorScheme.rawValue).urlPercentEncoding())
             items.append(colorSchemeQueryItem)
@@ -1242,6 +1449,12 @@ extension GetStyleDescriptorInput {
         if let key = value.key {
             let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
+        }
+        if let travelModes = value.travelModes {
+            travelModes.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "travel-modes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
         }
         return items
     }
@@ -1270,6 +1483,12 @@ extension GetTileInput {
 
     static func queryItemProvider(_ value: GetTileInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let additionalFeatures = value.additionalFeatures {
+            additionalFeatures.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "additional-features".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         if let key = value.key {
             let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)
@@ -1475,6 +1694,7 @@ enum GetTileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1529,6 +1749,19 @@ extension ValidationException {
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: GeoMapsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

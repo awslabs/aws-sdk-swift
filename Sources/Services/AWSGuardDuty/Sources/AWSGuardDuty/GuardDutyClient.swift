@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GuardDutyClient: ClientRuntime.Client {
+public class GuardDutyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GuardDutyClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: GuardDutyClient.GuardDutyClientConfiguration
     let serviceName = "GuardDuty"
@@ -374,9 +374,9 @@ extension GuardDutyClient {
     ///
     /// Accepts the invitation to be a member account and get monitored by a GuardDuty administrator account that sent the invitation.
     ///
-    /// - Parameter AcceptAdministratorInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptAdministratorInvitationInput`)
     ///
-    /// - Returns: `AcceptAdministratorInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptAdministratorInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptAdministratorInvitationOutput>(AcceptAdministratorInvitationOutput.httpOutput(from:), AcceptAdministratorInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAdministratorInvitationInput, AcceptAdministratorInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAdministratorInvitationOutput>())
@@ -443,9 +444,9 @@ extension GuardDutyClient {
     /// Accepts the invitation to be monitored by a GuardDuty administrator account.
     @available(*, deprecated, message: "This operation is deprecated, use AcceptAdministratorInvitation instead")
     ///
-    /// - Parameter AcceptInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptInvitationInput`)
     ///
-    /// - Returns: `AcceptInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,6 +481,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptInvitationInput, AcceptInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptInvitationOutput>(AcceptInvitationOutput.httpOutput(from:), AcceptInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptInvitationOutput>())
@@ -511,9 +513,9 @@ extension GuardDutyClient {
     ///
     /// Archives GuardDuty findings that are specified by the list of finding IDs. Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
     ///
-    /// - Parameter ArchiveFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ArchiveFindingsInput`)
     ///
-    /// - Returns: `ArchiveFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ArchiveFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -548,6 +550,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ArchiveFindingsInput, ArchiveFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ArchiveFindingsOutput>(ArchiveFindingsOutput.httpOutput(from:), ArchiveFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ArchiveFindingsInput, ArchiveFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ArchiveFindingsOutput>())
@@ -586,9 +589,9 @@ extension GuardDutyClient {
     ///
     /// Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter CreateDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDetectorInput`)
     ///
-    /// - Returns: `CreateDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,6 +627,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDetectorInput, CreateDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDetectorOutput>(CreateDetectorOutput.httpOutput(from:), CreateDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDetectorInput, CreateDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDetectorOutput>())
@@ -655,9 +659,9 @@ extension GuardDutyClient {
     ///
     /// Creates a filter using the specified finding criteria. The maximum number of saved filters per Amazon Web Services account per Region is 100. For more information, see [Quotas for GuardDuty](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_limits.html).
     ///
-    /// - Parameter CreateFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFilterInput`)
     ///
-    /// - Returns: `CreateFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,6 +697,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFilterInput, CreateFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFilterOutput>(CreateFilterOutput.httpOutput(from:), CreateFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFilterInput, CreateFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFilterOutput>())
@@ -724,9 +729,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
     ///
-    /// - Parameter CreateIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIPSetInput`)
     ///
-    /// - Returns: `CreateIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,6 +768,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIPSetInput, CreateIPSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIPSetOutput>(CreateIPSetOutput.httpOutput(from:), CreateIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIPSetInput, CreateIPSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIPSetOutput>())
@@ -794,9 +800,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new Malware Protection plan for the protected resource. When you create a Malware Protection plan, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see [Amazon Web Services service terms for GuardDuty Malware Protection](http://aws.amazon.com/service-terms/#87._Amazon_GuardDuty).
     ///
-    /// - Parameter CreateMalwareProtectionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMalwareProtectionPlanInput`)
     ///
-    /// - Returns: `CreateMalwareProtectionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMalwareProtectionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -834,6 +840,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMalwareProtectionPlanInput, CreateMalwareProtectionPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMalwareProtectionPlanOutput>(CreateMalwareProtectionPlanOutput.httpOutput(from:), CreateMalwareProtectionPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMalwareProtectionPlanInput, CreateMalwareProtectionPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMalwareProtectionPlanOutput>())
@@ -865,9 +872,9 @@ extension GuardDutyClient {
     ///
     /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. As a delegated administrator, using CreateMembers will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account. A delegated administrator must enable GuardDuty prior to being added as a member. When you use CreateMembers as an Organizations delegated administrator, GuardDuty applies your organization's auto-enable settings to the member accounts in this request, irrespective of the accounts being new or existing members. For more information about the existing auto-enable settings for your organization, see [DescribeOrganizationConfiguration](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeOrganizationConfiguration.html). If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
-    /// - Parameter CreateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembersInput`)
     ///
-    /// - Returns: `CreateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -902,6 +909,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMembersInput, CreateMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembersOutput>(CreateMembersOutput.httpOutput(from:), CreateMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembersInput, CreateMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembersOutput>())
@@ -933,9 +941,9 @@ extension GuardDutyClient {
     ///
     /// Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the findings, the destination resource must exist.
     ///
-    /// - Parameter CreatePublishingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePublishingDestinationInput`)
     ///
-    /// - Returns: `CreatePublishingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePublishingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -971,6 +979,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePublishingDestinationInput, CreatePublishingDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePublishingDestinationOutput>(CreatePublishingDestinationOutput.httpOutput(from:), CreatePublishingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePublishingDestinationInput, CreatePublishingDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePublishingDestinationOutput>())
@@ -1002,9 +1011,9 @@ extension GuardDutyClient {
     ///
     /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
     ///
-    /// - Parameter CreateSampleFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSampleFindingsInput`)
     ///
-    /// - Returns: `CreateSampleFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSampleFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1039,6 +1048,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSampleFindingsOutput>(CreateSampleFindingsOutput.httpOutput(from:), CreateSampleFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSampleFindingsOutput>())
@@ -1070,9 +1080,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new threat entity set. In a threat entity set, you can provide known malicious IP addresses and domains for your Amazon Web Services environment. GuardDuty generates findings based on the entries in the threat entity sets. Only users of the administrator account can manage entity sets, which automatically apply to member accounts.
     ///
-    /// - Parameter CreateThreatEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThreatEntitySetInput`)
     ///
-    /// - Returns: `CreateThreatEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThreatEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1108,6 +1118,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThreatEntitySetInput, CreateThreatEntitySetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThreatEntitySetOutput>(CreateThreatEntitySetOutput.httpOutput(from:), CreateThreatEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThreatEntitySetInput, CreateThreatEntitySetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThreatEntitySetOutput>())
@@ -1139,9 +1150,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
     ///
-    /// - Parameter CreateThreatIntelSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThreatIntelSetInput`)
     ///
-    /// - Returns: `CreateThreatIntelSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThreatIntelSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,6 +1189,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThreatIntelSetInput, CreateThreatIntelSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThreatIntelSetOutput>(CreateThreatIntelSetOutput.httpOutput(from:), CreateThreatIntelSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThreatIntelSetInput, CreateThreatIntelSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThreatIntelSetOutput>())
@@ -1209,9 +1221,9 @@ extension GuardDutyClient {
     ///
     /// Creates a new trusted entity set. In the trusted entity set, you can provide IP addresses and domains that you believe are secure for communication in your Amazon Web Services environment. GuardDuty will not generate findings for the entries that are specified in a trusted entity set. At any given time, you can have only one trusted entity set. Only users of the administrator account can manage the entity sets, which automatically apply to member accounts.
     ///
-    /// - Parameter CreateTrustedEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrustedEntitySetInput`)
     ///
-    /// - Returns: `CreateTrustedEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrustedEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1247,6 +1259,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrustedEntitySetInput, CreateTrustedEntitySetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrustedEntitySetOutput>(CreateTrustedEntitySetOutput.httpOutput(from:), CreateTrustedEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrustedEntitySetInput, CreateTrustedEntitySetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrustedEntitySetOutput>())
@@ -1278,9 +1291,9 @@ extension GuardDutyClient {
     ///
     /// Declines invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
     ///
-    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeclineInvitationsInput`)
     ///
-    /// - Returns: `DeclineInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeclineInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1315,6 +1328,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeclineInvitationsOutput>(DeclineInvitationsOutput.httpOutput(from:), DeclineInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeclineInvitationsOutput>())
@@ -1346,9 +1360,9 @@ extension GuardDutyClient {
     ///
     /// Deletes an Amazon GuardDuty detector that is specified by the detector ID.
     ///
-    /// - Parameter DeleteDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDetectorInput`)
     ///
-    /// - Returns: `DeleteDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1380,6 +1394,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDetectorInput, DeleteDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDetectorOutput>(DeleteDetectorOutput.httpOutput(from:), DeleteDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDetectorOutput>())
@@ -1411,9 +1426,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the filter specified by the filter name.
     ///
-    /// - Parameter DeleteFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFilterInput`)
     ///
-    /// - Returns: `DeleteFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1445,6 +1460,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFilterInput, DeleteFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFilterOutput>(DeleteFilterOutput.httpOutput(from:), DeleteFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFilterInput, DeleteFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFilterOutput>())
@@ -1476,9 +1492,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
     ///
-    /// - Parameter DeleteIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIPSetInput`)
     ///
-    /// - Returns: `DeleteIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1510,6 +1526,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIPSetInput, DeleteIPSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIPSetOutput>(DeleteIPSetOutput.httpOutput(from:), DeleteIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIPSetOutput>())
@@ -1541,9 +1558,9 @@ extension GuardDutyClient {
     ///
     /// Deletes invitations sent to the current member account by Amazon Web Services accounts specified by their account IDs.
     ///
-    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvitationsInput`)
     ///
-    /// - Returns: `DeleteInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,6 +1595,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvitationsOutput>(DeleteInvitationsOutput.httpOutput(from:), DeleteInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvitationsOutput>())
@@ -1609,9 +1627,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the Malware Protection plan ID associated with the Malware Protection plan resource. Use this API only when you no longer want to protect the resource associated with this Malware Protection plan ID.
     ///
-    /// - Parameter DeleteMalwareProtectionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMalwareProtectionPlanInput`)
     ///
-    /// - Returns: `DeleteMalwareProtectionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMalwareProtectionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1645,6 +1663,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMalwareProtectionPlanInput, DeleteMalwareProtectionPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMalwareProtectionPlanOutput>(DeleteMalwareProtectionPlanOutput.httpOutput(from:), DeleteMalwareProtectionPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMalwareProtectionPlanInput, DeleteMalwareProtectionPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMalwareProtectionPlanOutput>())
@@ -1676,9 +1695,9 @@ extension GuardDutyClient {
     ///
     /// Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty for a member account in your organization.
     ///
-    /// - Parameter DeleteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMembersInput`)
     ///
-    /// - Returns: `DeleteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,6 +1732,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMembersInput, DeleteMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMembersOutput>(DeleteMembersOutput.httpOutput(from:), DeleteMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMembersInput, DeleteMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMembersOutput>())
@@ -1744,9 +1764,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the publishing definition with the specified destinationId.
     ///
-    /// - Parameter DeletePublishingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePublishingDestinationInput`)
     ///
-    /// - Returns: `DeletePublishingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublishingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1778,6 +1798,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePublishingDestinationInput, DeletePublishingDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublishingDestinationOutput>(DeletePublishingDestinationOutput.httpOutput(from:), DeletePublishingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublishingDestinationInput, DeletePublishingDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePublishingDestinationOutput>())
@@ -1809,9 +1830,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the threat entity set that is associated with the specified threatEntitySetId.
     ///
-    /// - Parameter DeleteThreatEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThreatEntitySetInput`)
     ///
-    /// - Returns: `DeleteThreatEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThreatEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1843,6 +1864,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteThreatEntitySetInput, DeleteThreatEntitySetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThreatEntitySetOutput>(DeleteThreatEntitySetOutput.httpOutput(from:), DeleteThreatEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThreatEntitySetInput, DeleteThreatEntitySetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThreatEntitySetOutput>())
@@ -1874,9 +1896,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
     ///
-    /// - Parameter DeleteThreatIntelSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThreatIntelSetInput`)
     ///
-    /// - Returns: `DeleteThreatIntelSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThreatIntelSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1908,6 +1930,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteThreatIntelSetInput, DeleteThreatIntelSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThreatIntelSetOutput>(DeleteThreatIntelSetOutput.httpOutput(from:), DeleteThreatIntelSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThreatIntelSetInput, DeleteThreatIntelSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThreatIntelSetOutput>())
@@ -1939,9 +1962,9 @@ extension GuardDutyClient {
     ///
     /// Deletes the trusted entity set that is associated with the specified trustedEntitySetId.
     ///
-    /// - Parameter DeleteTrustedEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrustedEntitySetInput`)
     ///
-    /// - Returns: `DeleteTrustedEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrustedEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1973,6 +1996,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrustedEntitySetInput, DeleteTrustedEntitySetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrustedEntitySetOutput>(DeleteTrustedEntitySetOutput.httpOutput(from:), DeleteTrustedEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrustedEntitySetInput, DeleteTrustedEntitySetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrustedEntitySetOutput>())
@@ -2004,9 +2028,9 @@ extension GuardDutyClient {
     ///
     /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter DescribeMalwareScansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMalwareScansInput`)
     ///
-    /// - Returns: `DescribeMalwareScansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMalwareScansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2041,6 +2065,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMalwareScansInput, DescribeMalwareScansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMalwareScansOutput>(DescribeMalwareScansOutput.httpOutput(from:), DescribeMalwareScansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMalwareScansInput, DescribeMalwareScansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMalwareScansOutput>())
@@ -2072,9 +2097,9 @@ extension GuardDutyClient {
     ///
     /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2107,6 +2132,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(DescribeOrganizationConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigurationOutput>(DescribeOrganizationConfigurationOutput.httpOutput(from:), DescribeOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigurationOutput>())
@@ -2138,9 +2164,9 @@ extension GuardDutyClient {
     ///
     /// Returns information about the publishing destination specified by the provided destinationId.
     ///
-    /// - Parameter DescribePublishingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePublishingDestinationInput`)
     ///
-    /// - Returns: `DescribePublishingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePublishingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2172,6 +2198,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePublishingDestinationInput, DescribePublishingDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePublishingDestinationOutput>(DescribePublishingDestinationOutput.httpOutput(from:), DescribePublishingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePublishingDestinationInput, DescribePublishingDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePublishingDestinationOutput>())
@@ -2203,9 +2230,9 @@ extension GuardDutyClient {
     ///
     /// Removes the existing GuardDuty delegated administrator of the organization. Only the organization's management account can run this API operation.
     ///
-    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DisableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2240,6 +2267,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationAdminAccountOutput>(DisableOrganizationAdminAccountOutput.httpOutput(from:), DisableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationAdminAccountOutput>())
@@ -2271,9 +2299,9 @@ extension GuardDutyClient {
     ///
     /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disable GuardDuty in a member account.
     ///
-    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromAdministratorAccountInput`)
     ///
-    /// - Returns: `DisassociateFromAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2305,6 +2333,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromAdministratorAccountOutput>(DisassociateFromAdministratorAccountOutput.httpOutput(from:), DisassociateFromAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromAdministratorAccountOutput>())
@@ -2337,9 +2366,9 @@ extension GuardDutyClient {
     /// Disassociates the current GuardDuty member account from its administrator account. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API.
     @available(*, deprecated, message: "This operation is deprecated, use DisassociateFromAdministratorAccount instead")
     ///
-    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromMasterAccountInput`)
     ///
-    /// - Returns: `DisassociateFromMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2371,6 +2400,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromMasterAccountOutput>(DisassociateFromMasterAccountOutput.httpOutput(from:), DisassociateFromMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromMasterAccountOutput>())
@@ -2402,9 +2432,9 @@ extension GuardDutyClient {
     ///
     /// Disassociates GuardDuty member accounts (from the current administrator account) specified by the account IDs. When you disassociate an invited member from a GuardDuty delegated administrator, the member account details obtained from the [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) API, including the associated email addresses, are retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to disassociate a member account before removing them from your organization. If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
-    /// - Parameter DisassociateMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMembersInput`)
     ///
-    /// - Returns: `DisassociateMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2439,6 +2469,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateMembersInput, DisassociateMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMembersOutput>(DisassociateMembersOutput.httpOutput(from:), DisassociateMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMembersInput, DisassociateMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMembersOutput>())
@@ -2470,9 +2501,9 @@ extension GuardDutyClient {
     ///
     /// Designates an Amazon Web Services account within the organization as your GuardDuty delegated administrator. Only the organization's management account can run this API operation.
     ///
-    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `EnableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2507,6 +2538,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationAdminAccountOutput>(EnableOrganizationAdminAccountOutput.httpOutput(from:), EnableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationAdminAccountOutput>())
@@ -2544,9 +2576,9 @@ extension GuardDutyClient {
     ///
     /// * When an individual account (not associated with an organization) runs this API, it will return success (HTTP 200) but no content.
     ///
-    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdministratorAccountInput`)
     ///
-    /// - Returns: `GetAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2578,6 +2610,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAdministratorAccountOutput>(GetAdministratorAccountOutput.httpOutput(from:), GetAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAdministratorAccountOutput>())
@@ -2609,9 +2642,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you can retrieve the statistics for all the resources associated with the active member accounts in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running on their resources.
     ///
-    /// - Parameter GetCoverageStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoverageStatisticsInput`)
     ///
-    /// - Returns: `GetCoverageStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoverageStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2646,6 +2679,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoverageStatisticsOutput>(GetCoverageStatisticsOutput.httpOutput(from:), GetCoverageStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoverageStatisticsInput, GetCoverageStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoverageStatisticsOutput>())
@@ -2677,9 +2711,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves a GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter GetDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDetectorInput`)
     ///
-    /// - Returns: `GetDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2711,6 +2745,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDetectorInput, GetDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDetectorOutput>(GetDetectorOutput.httpOutput(from:), GetDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDetectorInput, GetDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDetectorOutput>())
@@ -2742,9 +2777,9 @@ extension GuardDutyClient {
     ///
     /// Returns the details of the filter specified by the filter name.
     ///
-    /// - Parameter GetFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFilterInput`)
     ///
-    /// - Returns: `GetFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2776,6 +2811,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFilterInput, GetFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFilterOutput>(GetFilterOutput.httpOutput(from:), GetFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFilterInput, GetFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFilterOutput>())
@@ -2807,9 +2843,9 @@ extension GuardDutyClient {
     ///
     /// Describes Amazon GuardDuty findings specified by finding IDs.
     ///
-    /// - Parameter GetFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsInput`)
     ///
-    /// - Returns: `GetFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2844,6 +2880,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingsInput, GetFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsOutput>(GetFindingsOutput.httpOutput(from:), GetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsInput, GetFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsOutput>())
@@ -2875,9 +2912,9 @@ extension GuardDutyClient {
     ///
     /// Lists GuardDuty findings statistics for the specified detector ID. You must provide either findingStatisticTypes or groupBy parameter, and not both. You can use the maxResults and orderBy parameters only when using groupBy. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter GetFindingsStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsStatisticsInput`)
     ///
-    /// - Returns: `GetFindingsStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2912,6 +2949,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingsStatisticsInput, GetFindingsStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsStatisticsOutput>(GetFindingsStatisticsOutput.httpOutput(from:), GetFindingsStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsStatisticsInput, GetFindingsStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsStatisticsOutput>())
@@ -2943,9 +2981,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the IPSet specified by the ipSetId.
     ///
-    /// - Parameter GetIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIPSetInput`)
     ///
-    /// - Returns: `GetIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2977,6 +3015,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIPSetInput, GetIPSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIPSetOutput>(GetIPSetOutput.httpOutput(from:), GetIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIPSetInput, GetIPSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIPSetOutput>())
@@ -3008,9 +3047,9 @@ extension GuardDutyClient {
     ///
     /// Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
     ///
-    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvitationsCountInput`)
     ///
-    /// - Returns: `GetInvitationsCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvitationsCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3042,6 +3081,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvitationsCountOutput>(GetInvitationsCountOutput.httpOutput(from:), GetInvitationsCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvitationsCountOutput>())
@@ -3073,9 +3113,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the Malware Protection plan details associated with a Malware Protection plan ID.
     ///
-    /// - Parameter GetMalwareProtectionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMalwareProtectionPlanInput`)
     ///
-    /// - Returns: `GetMalwareProtectionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMalwareProtectionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3109,6 +3149,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMalwareProtectionPlanInput, GetMalwareProtectionPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMalwareProtectionPlanOutput>(GetMalwareProtectionPlanOutput.httpOutput(from:), GetMalwareProtectionPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMalwareProtectionPlanInput, GetMalwareProtectionPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMalwareProtectionPlanOutput>())
@@ -3136,13 +3177,80 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetMalwareScan` operation on the `GuardDuty` service.
+    ///
+    /// Retrieves the detailed information for a specific malware scan. Each member account can view the malware scan details for their own account. An administrator can view malware scan details for all accounts in the organization. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetMalwareScanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetMalwareScanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func getMalwareScan(input: GetMalwareScanInput) async throws -> GetMalwareScanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMalwareScan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetMalwareScanInput, GetMalwareScanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMalwareScanInput, GetMalwareScanOutput>(GetMalwareScanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMalwareScanInput, GetMalwareScanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMalwareScanOutput>(GetMalwareScanOutput.httpOutput(from:), GetMalwareScanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMalwareScanInput, GetMalwareScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetMalwareScanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMalwareScanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMalwareScanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMalwareScanInput, GetMalwareScanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMalwareScanInput, GetMalwareScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMalwareScanInput, GetMalwareScanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMalwareScan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetMalwareScanSettings` operation on the `GuardDuty` service.
     ///
     /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter GetMalwareScanSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMalwareScanSettingsInput`)
     ///
-    /// - Returns: `GetMalwareScanSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMalwareScanSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3174,6 +3282,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMalwareScanSettingsInput, GetMalwareScanSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMalwareScanSettingsOutput>(GetMalwareScanSettingsOutput.httpOutput(from:), GetMalwareScanSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMalwareScanSettingsInput, GetMalwareScanSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMalwareScanSettingsOutput>())
@@ -3206,9 +3315,9 @@ extension GuardDutyClient {
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     @available(*, deprecated, message: "This operation is deprecated, use GetAdministratorAccount instead")
     ///
-    /// - Parameter GetMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMasterAccountInput`)
     ///
-    /// - Returns: `GetMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3240,6 +3349,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMasterAccountInput, GetMasterAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMasterAccountOutput>(GetMasterAccountOutput.httpOutput(from:), GetMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMasterAccountOutput>())
@@ -3271,9 +3381,9 @@ extension GuardDutyClient {
     ///
     /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter GetMemberDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemberDetectorsInput`)
     ///
-    /// - Returns: `GetMemberDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemberDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3308,6 +3418,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMemberDetectorsInput, GetMemberDetectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemberDetectorsOutput>(GetMemberDetectorsOutput.httpOutput(from:), GetMemberDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemberDetectorsInput, GetMemberDetectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMemberDetectorsOutput>())
@@ -3339,9 +3450,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
     ///
-    /// - Parameter GetMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembersInput`)
     ///
-    /// - Returns: `GetMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3376,6 +3487,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMembersInput, GetMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMembersOutput>(GetMembersOutput.httpOutput(from:), GetMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMembersInput, GetMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMembersOutput>())
@@ -3407,9 +3519,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves how many active member accounts have each feature enabled within GuardDuty. Only a delegated GuardDuty administrator of an organization can run this API. When you create a new organization, it might take up to 24 hours to generate the statistics for the entire organization.
     ///
-    /// - Parameter GetOrganizationStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrganizationStatisticsInput`)
     ///
-    /// - Returns: `GetOrganizationStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrganizationStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3441,6 +3553,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOrganizationStatisticsInput, GetOrganizationStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOrganizationStatisticsOutput>(GetOrganizationStatisticsOutput.httpOutput(from:), GetOrganizationStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationStatisticsInput, GetOrganizationStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationStatisticsOutput>())
@@ -3472,9 +3585,9 @@ extension GuardDutyClient {
     ///
     /// Provides the number of days left for each data source used in the free trial period.
     ///
-    /// - Parameter GetRemainingFreeTrialDaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRemainingFreeTrialDaysInput`)
     ///
-    /// - Returns: `GetRemainingFreeTrialDaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRemainingFreeTrialDaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3509,6 +3622,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRemainingFreeTrialDaysInput, GetRemainingFreeTrialDaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRemainingFreeTrialDaysOutput>(GetRemainingFreeTrialDaysOutput.httpOutput(from:), GetRemainingFreeTrialDaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRemainingFreeTrialDaysInput, GetRemainingFreeTrialDaysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRemainingFreeTrialDaysOutput>())
@@ -3540,9 +3654,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the threat entity set associated with the specified threatEntitySetId.
     ///
-    /// - Parameter GetThreatEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThreatEntitySetInput`)
     ///
-    /// - Returns: `GetThreatEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThreatEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3574,6 +3688,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetThreatEntitySetInput, GetThreatEntitySetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThreatEntitySetOutput>(GetThreatEntitySetOutput.httpOutput(from:), GetThreatEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThreatEntitySetInput, GetThreatEntitySetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetThreatEntitySetOutput>())
@@ -3605,9 +3720,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
     ///
-    /// - Parameter GetThreatIntelSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThreatIntelSetInput`)
     ///
-    /// - Returns: `GetThreatIntelSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThreatIntelSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3639,6 +3754,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetThreatIntelSetInput, GetThreatIntelSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThreatIntelSetOutput>(GetThreatIntelSetOutput.httpOutput(from:), GetThreatIntelSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThreatIntelSetInput, GetThreatIntelSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetThreatIntelSetOutput>())
@@ -3670,9 +3786,9 @@ extension GuardDutyClient {
     ///
     /// Retrieves the trusted entity set associated with the specified trustedEntitySetId.
     ///
-    /// - Parameter GetTrustedEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrustedEntitySetInput`)
     ///
-    /// - Returns: `GetTrustedEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrustedEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3704,6 +3820,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrustedEntitySetInput, GetTrustedEntitySetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrustedEntitySetOutput>(GetTrustedEntitySetOutput.httpOutput(from:), GetTrustedEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrustedEntitySetInput, GetTrustedEntitySetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrustedEntitySetOutput>())
@@ -3735,9 +3852,9 @@ extension GuardDutyClient {
     ///
     /// Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources, the cost returned will include only the usage so far under 30 days. This may differ from the cost metrics in the console, which project usage over 30 days to provide a monthly cost estimate. For more information, see [Understanding How Usage Costs are Calculated](https://docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations).
     ///
-    /// - Parameter GetUsageStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageStatisticsInput`)
     ///
-    /// - Returns: `GetUsageStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3772,6 +3889,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageStatisticsOutput>(GetUsageStatisticsOutput.httpOutput(from:), GetUsageStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageStatisticsOutput>())
@@ -3803,9 +3921,9 @@ extension GuardDutyClient {
     ///
     /// Invites Amazon Web Services accounts to become members of an organization administered by the Amazon Web Services account that invokes this API. If you are using Amazon Web Services Organizations to manage your GuardDuty environment, this step is not needed. For more information, see [Managing accounts with organizations](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_organizations.html). To invite Amazon Web Services accounts, the first step is to ensure that GuardDuty has been enabled in the potential member accounts. You can now invoke this API to add accounts by invitation. The invited accounts can either accept or decline the invitation from their GuardDuty accounts. Each invited Amazon Web Services account can choose to accept the invitation from only one Amazon Web Services account. For more information, see [Managing GuardDuty accounts by invitation](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_invitations.html). After the invite has been accepted and you choose to disassociate a member account (by using [DisassociateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DisassociateMembers.html)) from your account, the details of the member account obtained by invoking [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html), including the associated email addresses, will be retained. This is done so that you can invoke InviteMembers without the need to invoke [CreateMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html) again. To remove the details associated with a member account, you must also invoke [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html). If you disassociate a member account that was added by invitation, the member account details obtained from this API, including the associated email addresses, will be retained. This is done so that the delegated administrator can invoke the [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html) API without the need to invoke the CreateMembers API again. To remove the details associated with a member account, the delegated administrator must invoke the [DeleteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DeleteMembers.html) API. When the member accounts added through Organizations are later disassociated, you (administrator) can't invite them by calling the InviteMembers API. You can create an association with these member accounts again only by calling the CreateMembers API.
     ///
-    /// - Parameter InviteMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InviteMembersInput`)
     ///
-    /// - Returns: `InviteMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InviteMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3840,6 +3958,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InviteMembersInput, InviteMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InviteMembersOutput>(InviteMembersOutput.httpOutput(from:), InviteMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InviteMembersInput, InviteMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InviteMembersOutput>())
@@ -3871,9 +3990,9 @@ extension GuardDutyClient {
     ///
     /// Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you can retrieve all resources associated with the active member accounts in your organization. Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on their resources.
     ///
-    /// - Parameter ListCoverageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoverageInput`)
     ///
-    /// - Returns: `ListCoverageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoverageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3908,6 +4027,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCoverageInput, ListCoverageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoverageOutput>(ListCoverageOutput.httpOutput(from:), ListCoverageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoverageInput, ListCoverageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoverageOutput>())
@@ -3939,9 +4059,9 @@ extension GuardDutyClient {
     ///
     /// Lists detectorIds of all the existing Amazon GuardDuty detector resources.
     ///
-    /// - Parameter ListDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDetectorsInput`)
     ///
-    /// - Returns: `ListDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3974,6 +4094,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDetectorsInput, ListDetectorsOutput>(ListDetectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDetectorsOutput>(ListDetectorsOutput.httpOutput(from:), ListDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDetectorsInput, ListDetectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDetectorsOutput>())
@@ -4005,9 +4126,9 @@ extension GuardDutyClient {
     ///
     /// Returns a paginated list of the current filters.
     ///
-    /// - Parameter ListFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFiltersInput`)
     ///
-    /// - Returns: `ListFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4040,6 +4161,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFiltersInput, ListFiltersOutput>(ListFiltersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFiltersOutput>(ListFiltersOutput.httpOutput(from:), ListFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFiltersInput, ListFiltersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFiltersOutput>())
@@ -4071,9 +4193,9 @@ extension GuardDutyClient {
     ///
     /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter ListFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsInput`)
     ///
-    /// - Returns: `ListFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4108,6 +4230,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFindingsInput, ListFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsOutput>(ListFindingsOutput.httpOutput(from:), ListFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsInput, ListFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsOutput>())
@@ -4139,9 +4262,9 @@ extension GuardDutyClient {
     ///
     /// Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
     ///
-    /// - Parameter ListIPSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIPSetsInput`)
     ///
-    /// - Returns: `ListIPSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIPSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4174,6 +4297,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIPSetsInput, ListIPSetsOutput>(ListIPSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIPSetsOutput>(ListIPSetsOutput.httpOutput(from:), ListIPSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIPSetsInput, ListIPSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIPSetsOutput>())
@@ -4205,9 +4329,9 @@ extension GuardDutyClient {
     ///
     /// Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
     ///
-    /// - Parameter ListInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
-    /// - Returns: `ListInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4240,6 +4364,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvitationsInput, ListInvitationsOutput>(ListInvitationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvitationsOutput>(ListInvitationsOutput.httpOutput(from:), ListInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvitationsInput, ListInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvitationsOutput>())
@@ -4271,9 +4396,9 @@ extension GuardDutyClient {
     ///
     /// Lists the Malware Protection plan IDs associated with the protected resources in your Amazon Web Services account.
     ///
-    /// - Parameter ListMalwareProtectionPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMalwareProtectionPlansInput`)
     ///
-    /// - Returns: `ListMalwareProtectionPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMalwareProtectionPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4307,6 +4432,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMalwareProtectionPlansInput, ListMalwareProtectionPlansOutput>(ListMalwareProtectionPlansInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMalwareProtectionPlansOutput>(ListMalwareProtectionPlansOutput.httpOutput(from:), ListMalwareProtectionPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMalwareProtectionPlansInput, ListMalwareProtectionPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMalwareProtectionPlansOutput>())
@@ -4334,13 +4460,83 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListMalwareScans` operation on the `GuardDuty` service.
+    ///
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all of its members' accounts.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListMalwareScansInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListMalwareScansOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    public func listMalwareScans(input: ListMalwareScansInput) async throws -> ListMalwareScansOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMalwareScans")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMalwareScansInput, ListMalwareScansOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(ListMalwareScansInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMalwareScansInput, ListMalwareScansOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(ListMalwareScansInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListMalwareScansInput, ListMalwareScansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMalwareScansInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMalwareScansInput, ListMalwareScansOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMalwareScansOutput>(ListMalwareScansOutput.httpOutput(from:), ListMalwareScansOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMalwareScansOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMalwareScansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMalwareScansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMalwareScansInput, ListMalwareScansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMalwareScansInput, ListMalwareScansOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMalwareScans")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListMembers` operation on the `GuardDuty` service.
     ///
     /// Lists details about all member accounts for the current GuardDuty administrator account.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4373,6 +4569,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMembersInput, ListMembersOutput>(ListMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOutput>(ListMembersOutput.httpOutput(from:), ListMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersInput, ListMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOutput>())
@@ -4404,9 +4601,9 @@ extension GuardDutyClient {
     ///
     /// Lists the accounts designated as GuardDuty delegated administrators. Only the organization's management account can run this API operation.
     ///
-    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationAdminAccountsInput`)
     ///
-    /// - Returns: `ListOrganizationAdminAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationAdminAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4439,6 +4636,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsOutput.httpOutput(from:), ListOrganizationAdminAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationAdminAccountsOutput>())
@@ -4470,9 +4668,9 @@ extension GuardDutyClient {
     ///
     /// Returns a list of publishing destinations associated with the specified detectorId.
     ///
-    /// - Parameter ListPublishingDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPublishingDestinationsInput`)
     ///
-    /// - Returns: `ListPublishingDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPublishingDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4505,6 +4703,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPublishingDestinationsInput, ListPublishingDestinationsOutput>(ListPublishingDestinationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublishingDestinationsOutput>(ListPublishingDestinationsOutput.httpOutput(from:), ListPublishingDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublishingDestinationsInput, ListPublishingDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPublishingDestinationsOutput>())
@@ -4536,9 +4735,9 @@ extension GuardDutyClient {
     ///
     /// Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, threat intel sets, and publishing destination, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4571,6 +4770,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4602,9 +4802,9 @@ extension GuardDutyClient {
     ///
     /// Lists the threat entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the threat entity sets that are returned as a response, belong to the administrator account.
     ///
-    /// - Parameter ListThreatEntitySetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThreatEntitySetsInput`)
     ///
-    /// - Returns: `ListThreatEntitySetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThreatEntitySetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4637,6 +4837,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThreatEntitySetsInput, ListThreatEntitySetsOutput>(ListThreatEntitySetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThreatEntitySetsOutput>(ListThreatEntitySetsOutput.httpOutput(from:), ListThreatEntitySetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThreatEntitySetsInput, ListThreatEntitySetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThreatEntitySetsOutput>())
@@ -4668,9 +4869,9 @@ extension GuardDutyClient {
     ///
     /// Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
     ///
-    /// - Parameter ListThreatIntelSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThreatIntelSetsInput`)
     ///
-    /// - Returns: `ListThreatIntelSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThreatIntelSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4703,6 +4904,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThreatIntelSetsInput, ListThreatIntelSetsOutput>(ListThreatIntelSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThreatIntelSetsOutput>(ListThreatIntelSetsOutput.httpOutput(from:), ListThreatIntelSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThreatIntelSetsInput, ListThreatIntelSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThreatIntelSetsOutput>())
@@ -4734,9 +4936,9 @@ extension GuardDutyClient {
     ///
     /// Lists the trusted entity sets associated with the specified GuardDuty detector ID. If you use this operation from a member account, the trusted entity sets that are returned as a response, belong to the administrator account.
     ///
-    /// - Parameter ListTrustedEntitySetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrustedEntitySetsInput`)
     ///
-    /// - Returns: `ListTrustedEntitySetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrustedEntitySetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4769,6 +4971,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrustedEntitySetsInput, ListTrustedEntitySetsOutput>(ListTrustedEntitySetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrustedEntitySetsOutput>(ListTrustedEntitySetsOutput.httpOutput(from:), ListTrustedEntitySetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrustedEntitySetsInput, ListTrustedEntitySetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrustedEntitySetsOutput>())
@@ -4796,13 +4999,83 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SendObjectMalwareScan` operation on the `GuardDuty` service.
+    ///
+    /// Initiates a malware scan for a specific S3 object. This API allows you to perform on-demand malware scanning of individual objects in S3 buckets that have Malware Protection for S3 enabled. When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see [Amazon Web Services service terms for GuardDuty Malware Protection](http://aws.amazon.com/service-terms/#87._Amazon_GuardDuty).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SendObjectMalwareScanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SendObjectMalwareScanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    public func sendObjectMalwareScan(input: SendObjectMalwareScanInput) async throws -> SendObjectMalwareScanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendObjectMalwareScan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SendObjectMalwareScanInput, SendObjectMalwareScanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>(SendObjectMalwareScanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SendObjectMalwareScanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SendObjectMalwareScanOutput>(SendObjectMalwareScanOutput.httpOutput(from:), SendObjectMalwareScanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SendObjectMalwareScanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendObjectMalwareScanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendObjectMalwareScanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SendObjectMalwareScanInput, SendObjectMalwareScanOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SendObjectMalwareScan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartMalwareScan` operation on the `GuardDuty` service.
     ///
-    /// Initiates the malware scan. Invoking this API will automatically create the [Service-linked role](https://docs.aws.amazon.com/guardduty/latest/ug/slr-permissions-malware-protection.html) in the corresponding account. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see [DescribeMalwareScans](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_DescribeMalwareScans.html).
+    /// Initiates the malware scan. Invoking this API will automatically create the [Service-linked role](https://docs.aws.amazon.com/guardduty/latest/ug/slr-permissions-malware-protection.html) in the corresponding account if the resourceArn belongs to an EC2 instance. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see [ListMalwareScans](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListMalwareScans.html) and [GetMalwareScan](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_GetMalwareScan.html). When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see [Amazon Web Services service terms for GuardDuty Malware Protection](http://aws.amazon.com/service-terms/#87._Amazon_GuardDuty).
     ///
-    /// - Parameter StartMalwareScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMalwareScanInput`)
     ///
-    /// - Returns: `StartMalwareScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMalwareScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4831,6 +5104,7 @@ extension GuardDutyClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartMalwareScanInput, StartMalwareScanOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMalwareScanInput, StartMalwareScanOutput>(StartMalwareScanInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMalwareScanInput, StartMalwareScanOutput>())
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMalwareScanInput, StartMalwareScanOutput>(contentType: "application/json"))
@@ -4838,6 +5112,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMalwareScanInput, StartMalwareScanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMalwareScanOutput>(StartMalwareScanOutput.httpOutput(from:), StartMalwareScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMalwareScanInput, StartMalwareScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMalwareScanOutput>())
@@ -4869,9 +5144,9 @@ extension GuardDutyClient {
     ///
     /// Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the [StopMonitoringMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_StopMonitoringMembers.html) operation.
     ///
-    /// - Parameter StartMonitoringMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMonitoringMembersInput`)
     ///
-    /// - Returns: `StartMonitoringMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMonitoringMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4906,6 +5181,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMonitoringMembersInput, StartMonitoringMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMonitoringMembersOutput>(StartMonitoringMembersOutput.httpOutput(from:), StartMonitoringMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMonitoringMembersInput, StartMonitoringMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMonitoringMembersOutput>())
@@ -4937,9 +5213,9 @@ extension GuardDutyClient {
     ///
     /// Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts. With autoEnableOrganizationMembers configuration for your organization set to ALL, you'll receive an error if you attempt to stop monitoring the member accounts in your organization.
     ///
-    /// - Parameter StopMonitoringMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopMonitoringMembersInput`)
     ///
-    /// - Returns: `StopMonitoringMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopMonitoringMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4974,6 +5250,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMonitoringMembersInput, StopMonitoringMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMonitoringMembersOutput>(StopMonitoringMembersOutput.httpOutput(from:), StopMonitoringMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMonitoringMembersInput, StopMonitoringMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMonitoringMembersOutput>())
@@ -5005,9 +5282,9 @@ extension GuardDutyClient {
     ///
     /// Adds tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5043,6 +5320,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5074,9 +5352,9 @@ extension GuardDutyClient {
     ///
     /// Unarchives GuardDuty findings specified by the findingIds.
     ///
-    /// - Parameter UnarchiveFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnarchiveFindingsInput`)
     ///
-    /// - Returns: `UnarchiveFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnarchiveFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5111,6 +5389,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnarchiveFindingsInput, UnarchiveFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnarchiveFindingsOutput>(UnarchiveFindingsOutput.httpOutput(from:), UnarchiveFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnarchiveFindingsInput, UnarchiveFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnarchiveFindingsOutput>())
@@ -5142,9 +5421,9 @@ extension GuardDutyClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5178,6 +5457,7 @@ extension GuardDutyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5209,9 +5489,9 @@ extension GuardDutyClient {
     ///
     /// Updates the GuardDuty detector specified by the detector ID. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter UpdateDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorInput`)
     ///
-    /// - Returns: `UpdateDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5246,6 +5526,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDetectorInput, UpdateDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorOutput>(UpdateDetectorOutput.httpOutput(from:), UpdateDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorInput, UpdateDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDetectorOutput>())
@@ -5277,9 +5558,9 @@ extension GuardDutyClient {
     ///
     /// Updates the filter specified by the filter name.
     ///
-    /// - Parameter UpdateFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFilterInput`)
     ///
-    /// - Returns: `UpdateFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5314,6 +5595,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFilterInput, UpdateFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFilterOutput>(UpdateFilterOutput.httpOutput(from:), UpdateFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFilterInput, UpdateFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFilterOutput>())
@@ -5345,9 +5627,9 @@ extension GuardDutyClient {
     ///
     /// Marks the specified GuardDuty findings as useful or not useful.
     ///
-    /// - Parameter UpdateFindingsFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFindingsFeedbackInput`)
     ///
-    /// - Returns: `UpdateFindingsFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingsFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5382,6 +5664,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFindingsFeedbackInput, UpdateFindingsFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingsFeedbackOutput>(UpdateFindingsFeedbackOutput.httpOutput(from:), UpdateFindingsFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingsFeedbackInput, UpdateFindingsFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingsFeedbackOutput>())
@@ -5413,9 +5696,9 @@ extension GuardDutyClient {
     ///
     /// Updates the IPSet specified by the IPSet ID.
     ///
-    /// - Parameter UpdateIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIPSetInput`)
     ///
-    /// - Returns: `UpdateIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5451,6 +5734,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIPSetInput, UpdateIPSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIPSetOutput>(UpdateIPSetOutput.httpOutput(from:), UpdateIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIPSetOutput>())
@@ -5482,9 +5766,9 @@ extension GuardDutyClient {
     ///
     /// Updates an existing Malware Protection plan resource.
     ///
-    /// - Parameter UpdateMalwareProtectionPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMalwareProtectionPlanInput`)
     ///
-    /// - Returns: `UpdateMalwareProtectionPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMalwareProtectionPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5521,6 +5805,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMalwareProtectionPlanInput, UpdateMalwareProtectionPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMalwareProtectionPlanOutput>(UpdateMalwareProtectionPlanOutput.httpOutput(from:), UpdateMalwareProtectionPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMalwareProtectionPlanInput, UpdateMalwareProtectionPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMalwareProtectionPlanOutput>())
@@ -5552,9 +5837,9 @@ extension GuardDutyClient {
     ///
     /// Updates the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter UpdateMalwareScanSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMalwareScanSettingsInput`)
     ///
-    /// - Returns: `UpdateMalwareScanSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMalwareScanSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5589,6 +5874,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMalwareScanSettingsInput, UpdateMalwareScanSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMalwareScanSettingsOutput>(UpdateMalwareScanSettingsOutput.httpOutput(from:), UpdateMalwareScanSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMalwareScanSettingsInput, UpdateMalwareScanSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMalwareScanSettingsOutput>())
@@ -5620,9 +5906,9 @@ extension GuardDutyClient {
     ///
     /// Contains information on member accounts to be updated. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter UpdateMemberDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMemberDetectorsInput`)
     ///
-    /// - Returns: `UpdateMemberDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMemberDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5657,6 +5943,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMemberDetectorsInput, UpdateMemberDetectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMemberDetectorsOutput>(UpdateMemberDetectorsOutput.httpOutput(from:), UpdateMemberDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMemberDetectorsInput, UpdateMemberDetectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMemberDetectorsOutput>())
@@ -5688,9 +5975,9 @@ extension GuardDutyClient {
     ///
     /// Configures the delegated administrator account with the provided values. You must provide a value for either autoEnableOrganizationMembers or autoEnable, but not both. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html). There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
-    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5725,6 +6012,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOrganizationConfigurationOutput>(UpdateOrganizationConfigurationOutput.httpOutput(from:), UpdateOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationConfigurationOutput>())
@@ -5756,9 +6044,9 @@ extension GuardDutyClient {
     ///
     /// Updates information about the publishing destination specified by the destinationId.
     ///
-    /// - Parameter UpdatePublishingDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePublishingDestinationInput`)
     ///
-    /// - Returns: `UpdatePublishingDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePublishingDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5793,6 +6081,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePublishingDestinationInput, UpdatePublishingDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePublishingDestinationOutput>(UpdatePublishingDestinationOutput.httpOutput(from:), UpdatePublishingDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePublishingDestinationInput, UpdatePublishingDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePublishingDestinationOutput>())
@@ -5824,9 +6113,9 @@ extension GuardDutyClient {
     ///
     /// Updates the threat entity set associated with the specified threatEntitySetId.
     ///
-    /// - Parameter UpdateThreatEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThreatEntitySetInput`)
     ///
-    /// - Returns: `UpdateThreatEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThreatEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5861,6 +6150,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThreatEntitySetInput, UpdateThreatEntitySetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThreatEntitySetOutput>(UpdateThreatEntitySetOutput.httpOutput(from:), UpdateThreatEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThreatEntitySetInput, UpdateThreatEntitySetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThreatEntitySetOutput>())
@@ -5892,9 +6182,9 @@ extension GuardDutyClient {
     ///
     /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
     ///
-    /// - Parameter UpdateThreatIntelSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThreatIntelSetInput`)
     ///
-    /// - Returns: `UpdateThreatIntelSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThreatIntelSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5930,6 +6220,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThreatIntelSetInput, UpdateThreatIntelSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThreatIntelSetOutput>(UpdateThreatIntelSetOutput.httpOutput(from:), UpdateThreatIntelSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThreatIntelSetInput, UpdateThreatIntelSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThreatIntelSetOutput>())
@@ -5961,9 +6252,9 @@ extension GuardDutyClient {
     ///
     /// Updates the trusted entity set associated with the specified trustedEntitySetId.
     ///
-    /// - Parameter UpdateTrustedEntitySetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrustedEntitySetInput`)
     ///
-    /// - Returns: `UpdateTrustedEntitySetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrustedEntitySetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5998,6 +6289,7 @@ extension GuardDutyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrustedEntitySetInput, UpdateTrustedEntitySetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrustedEntitySetOutput>(UpdateTrustedEntitySetOutput.httpOutput(from:), UpdateTrustedEntitySetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrustedEntitySetInput, UpdateTrustedEntitySetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrustedEntitySetOutput>())

@@ -243,6 +243,81 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes {
+
+    /// Contains details about an additional storage volume for a DB instance. RDS support additional storage volumes for RDS for Oracle and RDS for SQL Server.
+    public struct AdditionalStorageVolume: Swift.Sendable {
+        /// The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maximum is 65,536 GiB (64 TiB).
+        public var allocatedStorage: Swift.Int?
+        /// The number of I/O operations per second (IOPS) provisioned for the additional storage volume.
+        public var iops: Swift.Int?
+        /// The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume.
+        public var maxAllocatedStorage: Swift.Int?
+        /// The storage throughput value for the additional storage volume, in mebibytes per second (MiBps). This setting applies only to the General Purpose SSD (gp3) storage type.
+        public var storageThroughput: Swift.Int?
+        /// The storage type for the additional storage volume. Valid Values: GP3 | IO2
+        public var storageType: Swift.String?
+        /// The name of the additional storage volume. Valid Values: RDSDBDATA2 | RDSDBDATA3 | RDSDBDATA4
+        /// This member is required.
+        public var volumeName: Swift.String?
+
+        public init(
+            allocatedStorage: Swift.Int? = nil,
+            iops: Swift.Int? = nil,
+            maxAllocatedStorage: Swift.Int? = nil,
+            storageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil,
+            volumeName: Swift.String? = nil
+        ) {
+            self.allocatedStorage = allocatedStorage
+            self.iops = iops
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+            self.volumeName = volumeName
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// Contains information about an additional storage volume for a DB instance.
+    public struct AdditionalStorageVolumeOutput: Swift.Sendable {
+        /// The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maximum is 65,536 GiB (64 TiB).
+        public var allocatedStorage: Swift.Int?
+        /// The number of I/O operations per second (IOPS) provisioned for the additional storage volume.
+        public var iops: Swift.Int?
+        /// The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume.
+        public var maxAllocatedStorage: Swift.Int?
+        /// The storage throughput value for the additional storage volume, in mebibytes per second (MiBps).
+        public var storageThroughput: Swift.Int?
+        /// The storage type for the additional storage volume. Valid Values: GP3 | IO2
+        public var storageType: Swift.String?
+        /// The status of the additional storage volume. Valid Values: ACTIVE | CREATING | DELETING | MODIFYING | NOT-IN-USE | STORAGE-OPTIMIZATION | VOLUME-FULL
+        public var storageVolumeStatus: Swift.String?
+        /// The name of the additional storage volume.
+        public var volumeName: Swift.String?
+
+        public init(
+            allocatedStorage: Swift.Int? = nil,
+            iops: Swift.Int? = nil,
+            maxAllocatedStorage: Swift.Int? = nil,
+            storageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil,
+            storageVolumeStatus: Swift.String? = nil,
+            volumeName: Swift.String? = nil
+        ) {
+            self.allocatedStorage = allocatedStorage
+            self.iops = iops
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+            self.storageVolumeStatus = storageVolumeStatus
+            self.volumeName = volumeName
+        }
+    }
+}
+
 /// DBClusterIdentifier doesn't refer to an existing DB cluster.
 public struct DBClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -633,6 +708,29 @@ public struct BlueGreenDeploymentNotFoundFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
+/// The DB proxy endpoint doesn't exist.
+public struct DBProxyEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBProxyEndpointNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The specified proxy name doesn't correspond to a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
 public struct DBProxyNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -665,6 +763,29 @@ public struct DBProxyTargetGroupNotFoundFault: ClientRuntime.ModeledError, AWSCl
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "DBProxyTargetGroupNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified DB shard group name wasn't found.
+public struct DBShardGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBShardGroupNotFound" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -734,6 +855,29 @@ public struct IntegrationNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "IntegrationNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The requested operation can't be performed on the endpoint while the endpoint is in this state.
+public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBClusterEndpointStateFault" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -1713,13 +1857,13 @@ public struct CopyDBClusterSnapshotInput: Swift.Sendable {
     ///
     /// To learn how to generate a Signature Version 4 signed request, see [ Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) and [ Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html). If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.
     public var preSignedUrl: Swift.String?
-    /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. You can't copy an encrypted, shared DB cluster snapshot from one Amazon Web Services Region to another. Constraints:
+    /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. Constraints:
     ///
-    /// * Must specify a valid system snapshot in the "available" state.
+    /// * Must specify a valid source snapshot in the "available" state.
     ///
     /// * If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier.
     ///
-    /// * If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to [ Copying Snapshots Across Amazon Web Services Regions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html#USER_CopySnapshot.AcrossRegions) in the Amazon Aurora User Guide.
+    /// * If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB cluster snapshot ARN. You can also specify an ARN of a snapshot that is in a different account and a different Amazon Web Services Region. For more information, go to [ Copying Snapshots Across Amazon Web Services Regions](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_CopySnapshot.html#USER_CopySnapshot.AcrossRegions) in the Amazon Aurora User Guide.
     ///
     ///
     /// Example: my-cluster-snapshot1
@@ -1755,6 +1899,11 @@ public struct CopyDBClusterSnapshotInput: Swift.Sendable {
         self.tags = tags
         self.targetDBClusterSnapshotIdentifier = targetDBClusterSnapshotIdentifier
     }
+}
+
+extension CopyDBClusterSnapshotInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CopyDBClusterSnapshotInput(copyTags: \(Swift.String(describing: copyTags)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sourceDBClusterSnapshotIdentifier: \(Swift.String(describing: sourceDBClusterSnapshotIdentifier)), tags: \(Swift.String(describing: tags)), targetDBClusterSnapshotIdentifier: \(Swift.String(describing: targetDBClusterSnapshotIdentifier)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -2067,9 +2216,9 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
     ///
     /// * region (Amazon Web Services Region)
     public var snapshotTarget: Swift.String?
-    /// The identifier for the source DB snapshot. If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805. If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB snapshot ARN. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805. If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot. If you are copying an encrypted snapshot this parameter must be in the ARN format for the source Amazon Web Services Region. Constraints:
+    /// The identifier for the source DB snapshot. If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805. If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot. If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid DB snapshot ARN. You can also specify an ARN of a snapshot that is in a different account and a different Amazon Web Services Region. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805. Constraints:
     ///
-    /// * Must specify a valid system snapshot in the "available" state.
+    /// * Must specify a valid source snapshot in the "available" state.
     ///
     ///
     /// Example: rds:mydb-2012-04-02-00-01 Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
@@ -2121,6 +2270,11 @@ public struct CopyDBSnapshotInput: Swift.Sendable {
     }
 }
 
+extension CopyDBSnapshotInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CopyDBSnapshotInput(copyOptionGroup: \(Swift.String(describing: copyOptionGroup)), copyTags: \(Swift.String(describing: copyTags)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), optionGroupName: \(Swift.String(describing: optionGroupName)), snapshotAvailabilityZone: \(Swift.String(describing: snapshotAvailabilityZone)), snapshotTarget: \(Swift.String(describing: snapshotTarget)), sourceDBSnapshotIdentifier: \(Swift.String(describing: sourceDBSnapshotIdentifier)), tags: \(Swift.String(describing: tags)), targetCustomAvailabilityZone: \(Swift.String(describing: targetCustomAvailabilityZone)), targetDBSnapshotIdentifier: \(Swift.String(describing: targetDBSnapshotIdentifier)), preSignedUrl: \"CONTENT_REDACTED\")"}
+}
+
 extension RDSClientTypes {
 
     /// Contains the processor features of a DB instance class. To specify the number of CPU cores, use the coreCount feature name for the Name parameter. To specify the number of threads per core, use the threadsPerCore feature name for the Name parameter. You can set the processor features of the DB instance class for a DB instance when you call one of the following actions:
@@ -2147,14 +2301,14 @@ extension RDSClientTypes {
     ///
     /// If you call DescribeDBInstances, ProcessorFeature returns non-null values only if the following conditions are met:
     ///
-    /// * You are accessing an Oracle DB instance.
+    /// * You are accessing an Oracle or SQL Server DB instance.
     ///
-    /// * Your Oracle DB instance class supports configuring the number of CPU cores and threads per core.
+    /// * Your Oracle or SQL Server DB instance class supports configuring the number of CPU cores and threads per core.
     ///
     /// * The current number CPU cores and threads is set to a non-default value.
     ///
     ///
-    /// For more information, see [ Configuring the processor for a DB instance class in RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor) in the Amazon RDS User Guide.
+    /// For more information, see [ Configuring the processor for a DB instance class in RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor), [ Optimizing your RDS for SQL Server CPU](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/SQLServer.Concepts.General.OptimizeCPU.html), and [DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide.
     public struct ProcessorFeature: Swift.Sendable {
         /// The name of the processor feature. Valid names are coreCount and threadsPerCore.
         public var name: Swift.String?
@@ -2175,6 +2329,8 @@ extension RDSClientTypes {
 
     /// Contains the details of an Amazon RDS DB snapshot. This data type is used as a response element in the DescribeDBSnapshots action.
     public struct DBSnapshot: Swift.Sendable {
+        /// The additional storage volumes associated with the DB snapshot. RDS supports additional storage volumes for RDS for Oracle and RDS for SQL Server.
+        public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
         /// Specifies the allocated storage size in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// Specifies the name of the Availability Zone the DB instance was located in at the time of the DB snapshot.
@@ -2251,6 +2407,7 @@ extension RDSClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
             allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
@@ -2289,6 +2446,7 @@ extension RDSClientTypes {
             timezone: Swift.String? = nil,
             vpcId: Swift.String? = nil
         ) {
+            self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -2522,6 +2680,11 @@ extension RDSClientTypes {
             self.value = value
         }
     }
+}
+
+extension RDSClientTypes.OptionSetting: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OptionSetting(allowedValues: \(Swift.String(describing: allowedValues)), applyType: \(Swift.String(describing: applyType)), dataType: \(Swift.String(describing: dataType)), defaultValue: \(Swift.String(describing: defaultValue)), description: \(Swift.String(describing: description)), isCollection: \(Swift.String(describing: isCollection)), isModifiable: \(Swift.String(describing: isModifiable)), name: \(Swift.String(describing: name)), value: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -2794,6 +2957,29 @@ public struct SourceDatabaseNotSupportedFault: ClientRuntime.ModeledError, AWSCl
     }
 }
 
+/// The request would result in the user exceeding the allowed amount of storage available across all DB instances.
+public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StorageQuotaExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct CreateBlueGreenDeploymentInput: Swift.Sendable {
     /// The name of the blue/green deployment. Constraints:
     ///
@@ -3043,6 +3229,29 @@ public struct CustomDBEngineVersionAlreadyExistsFault: ClientRuntime.ModeledErro
     }
 }
 
+/// The specified CEV was not found.
+public struct CustomDBEngineVersionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CustomDBEngineVersionNotFoundFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// You have exceeded your CEV quota.
 public struct CustomDBEngineVersionQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3089,7 +3298,32 @@ public struct Ec2ImagePropertiesNotSupportedFault: ClientRuntime.ModeledError, A
     }
 }
 
+/// You can't delete the CEV.
+public struct InvalidCustomDBEngineVersionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCustomDBEngineVersionStateFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS.
+    public var databaseInstallationFiles: [Swift.String]?
     /// The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid bucket name is my-custom-installation-files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files for your CEV. For example, a valid bucket name is 123456789012/cev1. If this setting isn't specified, no prefix is assumed.
@@ -3105,9 +3339,23 @@ public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
     /// * custom-oracle-se2
     ///
     /// * custom-oracle-se2-cdb
+    ///
+    ///
+    /// RDS Custom for SQL Server supports the following values:
+    ///
+    /// * custom-sqlserver-ee
+    ///
+    /// * custom-sqlserver-se
+    ///
+    /// * ccustom-sqlserver-web
+    ///
+    /// * custom-sqlserver-dev
+    ///
+    ///
+    /// RDS for SQL Server supports only sqlserver-dev-ee.
     /// This member is required.
     public var engine: Swift.String?
-    /// The name of your CEV. The name format is 19.customized_string. For example, a valid CEV name is 19.my_cev1. This setting is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Region.
+    /// The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string*. For example, a valid CEV name is 19.my_cev1. For RDS for SQL Server and RDS Custom for SQL Server, the name format is major engine_version*.*minor_engine_version*.*customized_string*. For example, a valid CEV name is 16.00.4215.2.my_cev1. The CEV name is unique per customer per Amazon Web Services Regions.
     /// This member is required.
     public var engineVersion: Swift.String?
     /// The ID of the Amazon Machine Image (AMI). For RDS Custom for SQL Server, an AMI ID is required to create a CEV. For RDS Custom for Oracle, the default is the most recent AMI available, but you can specify an AMI ID that was used in a different Oracle CEV. Find the AMIs used by your CEVs by calling the [DescribeDBEngineVersions](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBEngineVersions.html) operation.
@@ -3124,6 +3372,7 @@ public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
     public var useAwsProvidedLatestImage: Swift.Bool?
 
     public init(
+        databaseInstallationFiles: [Swift.String]? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -3136,6 +3385,7 @@ public struct CreateCustomDBEngineVersionInput: Swift.Sendable {
         tags: [RDSClientTypes.Tag]? = nil,
         useAwsProvidedLatestImage: Swift.Bool? = nil
     ) {
+        self.databaseInstallationFiles = databaseInstallationFiles
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.description = description
@@ -3287,6 +3537,8 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -3309,6 +3561,8 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
@@ -3325,7 +3579,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
     public var supportedEngineModes: [Swift.String]?
-    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine --engine-version  For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
+    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine <engine_name> --engine-version <engine_version> For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
     public var supportedFeatureNames: [Swift.String]?
     /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
     public var supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
@@ -3357,6 +3611,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     public init(
         createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
+        databaseInstallationFiles: [Swift.String]? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -3368,6 +3623,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        failureReason: Swift.String? = nil,
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
@@ -3393,6 +3649,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
+        self.databaseInstallationFiles = databaseInstallationFiles
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -3404,6 +3661,7 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.failureReason = failureReason
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
@@ -3705,15 +3963,61 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-/// The request would result in the user exceeding the allowed amount of storage available across all DB instances.
-public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+public struct NetworkTypeNotSupported: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "StorageQuotaExceeded" }
+    public static var typeName: Swift.String { "NetworkTypeNotSupported" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified StorageType can't be associated with the DB instance.
+public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "StorageTypeNotSupported" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The operation violates VPC encryption control settings. Make sure that your DB instance type supports the Nitro encryption-in-transit capability, or modify your VPC's encryption controls to not enforce encryption-in-transit.
+public struct VpcEncryptionControlViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "VpcEncryptionControlViolationException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3780,6 +4084,35 @@ extension RDSClientTypes {
             switch self {
             case .advanced: return "advanced"
             case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum MasterUserAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamDbAuth
+        case password
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MasterUserAuthenticationType] {
+            return [
+                .iamDbAuth,
+                .password
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamDbAuth: return "iam-db-auth"
+            case .password: return "password"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3892,6 +4225,29 @@ extension RDSClientTypes {
             self.maxCapacity = maxCapacity
             self.minCapacity = minCapacity
             self.secondsUntilAutoPause = secondsUntilAutoPause
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// The tags to apply to resources when creating or modifying a DB instance or DB cluster. When you specify a tag, you must specify the resource type to tag, otherwise the request will fail.
+    public struct TagSpecification: Swift.Sendable {
+        /// The type of resource to tag on creation. Valid Values:
+        ///
+        /// * auto-backup - The DB instance's automated backup.
+        ///
+        /// * cluster-auto-backup - The DB cluster's automated backup.
+        public var resourceType: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tags: [RDSClientTypes.Tag]?
+
+        public init(
+            resourceType: Swift.String? = nil,
+            tags: [RDSClientTypes.Tag]? = nil
+        ) {
+            self.resourceType = resourceType
+            self.tags = tags
         }
     }
 }
@@ -4047,6 +4403,15 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB cluster. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must contain from 8 to 41 characters.
@@ -4123,18 +4488,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Must be at least 30 minutes.
     public var preferredMaintenanceWindow: Swift.String?
-    /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Valid for Cluster Type: Multi-AZ DB clusters only Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
-    ///
-    /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.
-    ///
-    /// * If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public.
-    ///
-    ///
-    /// If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:
-    ///
-    /// * If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB cluster is private.
-    ///
-    /// * If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.
+    /// Specifies whether the DB cluster is publicly accessible. Valid for Cluster Type: Multi-AZ DB clusters only When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, the endpoint resolves to the private IP address. Access to the DB cluster is controlled by its security group settings. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified depends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to true. If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default, in which case PubliclyAccessible defaults to true. If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS returns an error.
     public var publiclyAccessible: Swift.Bool?
     /// Reserved for future use.
     public var rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration?
@@ -4162,6 +4516,10 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// When you create an Aurora DB cluster with the storage type set to aurora-iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to aurora.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB cluster. Valid Values:
+    ///
+    /// * cluster-auto-backup - The DB cluster's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// Tags to assign to the DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var tags: [RDSClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
@@ -4202,6 +4560,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
@@ -4222,6 +4581,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
         storageEncrypted: Swift.Bool? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
@@ -4259,6 +4619,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.iops = iops
         self.kmsKeyId = kmsKeyId
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
@@ -4279,9 +4640,15 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.storageEncrypted = storageEncrypted
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension CreateDBClusterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDBClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), clusterScalabilityType: \(Swift.String(describing: clusterScalabilityType)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterInstanceClass: \(Swift.String(describing: dbClusterInstanceClass)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableGlobalWriteForwarding: \(Swift.String(describing: enableGlobalWriteForwarding)), enableHttpEndpoint: \(Swift.String(describing: enableHttpEndpoint)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enableLimitlessDatabase: \(Swift.String(describing: enableLimitlessDatabase)), enableLocalWriteForwarding: \(Swift.String(describing: enableLocalWriteForwarding)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineMode: \(Swift.String(describing: engineMode)), engineVersion: \(Swift.String(describing: engineVersion)), globalClusterIdentifier: \(Swift.String(describing: globalClusterIdentifier)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), rdsCustomClusterConfiguration: \(Swift.String(describing: rdsCustomClusterConfiguration)), replicationSourceIdentifier: \(Swift.String(describing: replicationSourceIdentifier)), scalingConfiguration: \(Swift.String(describing: scalingConfiguration)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -4664,6 +5031,11 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes.ClusterPendingModifiedValues: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ClusterPendingModifiedValues(allocatedStorage: \(Swift.String(describing: allocatedStorage)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), certificateDetails: \(Swift.String(describing: certificateDetails)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), engineVersion: \(Swift.String(describing: engineVersion)), iamDatabaseAuthenticationEnabled: \(Swift.String(describing: iamDatabaseAuthenticationEnabled)), iops: \(Swift.String(describing: iops)), pendingCloudwatchLogsExports: \(Swift.String(describing: pendingCloudwatchLogsExports)), rdsCustomClusterConfiguration: \(Swift.String(describing: rdsCustomClusterConfiguration)), storageType: \(Swift.String(describing: storageType)), masterUserPassword: \"CONTENT_REDACTED\")"}
+}
+
 extension RDSClientTypes {
 
     /// The scaling configuration for an Aurora DB cluster in serverless DB engine mode. For more information, see [Using Amazon Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html) in the Amazon Aurora User Guide.
@@ -4745,6 +5117,38 @@ extension RDSClientTypes {
             self.normal = normal
             self.status = status
             self.statusType = statusType
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum UpgradeRolloutOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case first
+        case last
+        case second
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpgradeRolloutOrder] {
+            return [
+                .first,
+                .last,
+                .second
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .first: return "first"
+            case .last: return "last"
+            case .second: return "second"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -4928,6 +5332,14 @@ extension RDSClientTypes {
         public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
+        /// This data type represents the order in which the clusters are upgraded.
+        ///
+        /// * [first] - Typically used for development or testing environments.
+        ///
+        /// * [second] - Default order for resources not specifically configured.
+        ///
+        /// * [last] - Usually reserved for production environments.
+        public var upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder?
         /// The list of VPC security groups that the DB cluster belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
 
@@ -5015,6 +5427,7 @@ extension RDSClientTypes {
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
+            upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
         ) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
@@ -5100,6 +5513,7 @@ extension RDSClientTypes {
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
+            self.upgradeRolloutOrder = upgradeRolloutOrder
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -5265,7 +5679,7 @@ public struct CreateDBClusterParameterGroupInput: Swift.Sendable {
     /// This value is stored as a lowercase string.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
-    /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7, aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine  For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine aurora-postgresql The output contains duplicates. The following are the valid DB engine values:
+    /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7, aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine <engine> For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine aurora-postgresql The output contains duplicates. The following are the valid DB engine values:
     ///
     /// * aurora-mysql
     ///
@@ -5376,6 +5790,7 @@ public struct AuthorizationNotFoundFault: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
+///
 @available(*, deprecated, message: "Please avoid using this fault")
 public struct BackupPolicyNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5445,29 +5860,6 @@ public struct DBInstanceAlreadyExistsFault: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-/// The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
-public struct NetworkTypeNotSupported: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NetworkTypeNotSupported" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// Provisioned IOPS not available in the specified Availability Zone.
 public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5477,29 +5869,6 @@ public struct ProvisionedIopsNotAvailableInAZFault: ClientRuntime.ModeledError, 
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ProvisionedIopsNotAvailableInAZFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The specified StorageType can't be associated with the DB instance.
-public struct StorageTypeNotSupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "StorageTypeNotSupported" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -5539,6 +5908,8 @@ public struct TenantDatabaseQuotaExceededFault: ClientRuntime.ModeledError, AWSC
 
 ///
 public struct CreateDBInstanceInput: Swift.Sendable {
+    /// A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume. Amazon RDS Custom Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
@@ -5886,6 +6257,8 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * postgres
     ///
+    /// * sqlserver-dev-ee
+    ///
     /// * sqlserver-ee
     ///
     /// * sqlserver-se
@@ -5925,6 +6298,15 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB instance. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The password for the master user. This setting doesn't apply to Amazon Aurora DB instances. The password for the master user is managed by the DB cluster. Constraints:
     ///
     /// * Can't be specified if ManageMasterUserPassword is turned on.
@@ -6038,18 +6420,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// The order of priority in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see [ Fault Tolerance for an Aurora DB Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Aurora.Managing.FaultTolerance) in the Amazon Aurora User Guide. This setting doesn't apply to RDS Custom DB instances. Default: 1 Valid Values: 0 - 15
     public var promotionTier: Swift.Int?
-    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
-    ///
-    /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB instance is private.
-    ///
-    /// * If the default VPC in the target Region has an internet gateway attached to it, the DB instance is public.
-    ///
-    ///
-    /// If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:
-    ///
-    /// * If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB instance is private.
-    ///
-    /// * If the subnets are part of a VPC that has an internet gateway attached to it, the DB instance is public.
+    /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is controlled by its security group settings. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified depends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to false for Aurora instances and true for non-Aurora instances. If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default, in which case PubliclyAccessible defaults to true. If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS returns an error.
     public var publiclyAccessible: Swift.Bool?
     /// Specifes whether the DB instance is encrypted. By default, it isn't encrypted. For RDS Custom DB instances, either enable this setting or leave it unset. Otherwise, Amazon RDS reports an error. This setting doesn't apply to Amazon Aurora DB instances. The encryption for DB instances is managed by the DB cluster.
     public var storageEncrypted: Swift.Bool?
@@ -6057,6 +6428,10 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp3.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// Tags to assign to the DB instance.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
@@ -6069,6 +6444,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -6106,6 +6482,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         licenseModel: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
@@ -6128,12 +6505,14 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         storageEncrypted: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         tdeCredentialArn: Swift.String? = nil,
         tdeCredentialPassword: Swift.String? = nil,
         timezone: Swift.String? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -6171,6 +6550,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.licenseModel = licenseModel
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
@@ -6193,12 +6573,18 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.storageEncrypted = storageEncrypted
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.tdeCredentialArn = tdeCredentialArn
         self.tdeCredentialPassword = tdeCredentialPassword
         self.timezone = timezone
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension CreateDBInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -6473,6 +6859,8 @@ extension RDSClientTypes {
 
     /// This data type is used as a response element in the ModifyDBInstance operation and contains changes that will be applied during the next maintenance window.
     public struct PendingModifiedValues: Swift.Sendable {
+        /// The additional storage volume modifications that are pending for the DB instance.
+        public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
         /// The allocated storage size for the DB instance specified in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// The automation mode of the RDS Custom DB instance: full or all-paused. If full, the DB instance automates monitoring and instance recovery. If all-paused, the instance pauses automation for the duration set by --resume-full-automation-mode-minutes.
@@ -6519,6 +6907,7 @@ extension RDSClientTypes {
         public var storageType: Swift.String?
 
         public init(
+            additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
             allocatedStorage: Swift.Int? = nil,
             automationMode: RDSClientTypes.AutomationMode? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
@@ -6542,6 +6931,7 @@ extension RDSClientTypes {
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil
         ) {
+            self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.automationMode = automationMode
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -6566,6 +6956,11 @@ extension RDSClientTypes {
             self.storageType = storageType
         }
     }
+}
+
+extension RDSClientTypes.PendingModifiedValues: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PendingModifiedValues(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), automationMode: \(Swift.String(describing: automationMode)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iamDatabaseAuthenticationEnabled: \(Swift.String(describing: iamDatabaseAuthenticationEnabled)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), pendingCloudwatchLogsExports: \(Swift.String(describing: pendingCloudwatchLogsExports)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), resumeFullAutomationModeTime: \(Swift.String(describing: resumeFullAutomationModeTime)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -6611,6 +7006,8 @@ extension RDSClientTypes {
         public var activityStreamPolicyStatus: RDSClientTypes.ActivityStreamPolicyStatus?
         /// The status of the database activity stream.
         public var activityStreamStatus: RDSClientTypes.ActivityStreamStatus?
+        /// The additional storage volumes associated with the DB instance. RDS supports additional storage volumes for RDS for Oracle and RDS for SQL Server.
+        public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolumeOutput]?
         /// The amount of storage in gibibytes (GiB) allocated for the DB instance.
         public var allocatedStorage: Swift.Int?
         /// The Amazon Web Services Identity and Access Management (IAM) roles associated with the DB instance.
@@ -6783,12 +7180,22 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB instance.
         public var storageType: Swift.String?
+        /// The detailed status information for storage volumes associated with the DB instance. This information helps identify which specific volume is causing the instance to be in a storage-full state.
+        public var storageVolumeStatus: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
         public var tdeCredentialArn: Swift.String?
         /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for RDS for Db2 and RDS for SQL Server DB instances that were created with a time zone specified.
         public var timezone: Swift.String?
+        /// This data type represents the order in which the instances are upgraded.
+        ///
+        /// * [first] - Typically used for development or testing environments.
+        ///
+        /// * [second] - Default order for resources not specifically configured.
+        ///
+        /// * [last] - Usually reserved for production environments.
+        public var upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder?
         /// The list of Amazon EC2 VPC security groups that the DB instance belongs to.
         public var vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]?
 
@@ -6799,6 +7206,7 @@ extension RDSClientTypes {
             activityStreamMode: RDSClientTypes.ActivityStreamMode? = nil,
             activityStreamPolicyStatus: RDSClientTypes.ActivityStreamPolicyStatus? = nil,
             activityStreamStatus: RDSClientTypes.ActivityStreamStatus? = nil,
+            additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolumeOutput]? = nil,
             allocatedStorage: Swift.Int? = nil,
             associatedRoles: [RDSClientTypes.DBInstanceRole]? = nil,
             autoMinorVersionUpgrade: Swift.Bool? = nil,
@@ -6876,9 +7284,11 @@ extension RDSClientTypes {
             storageEncrypted: Swift.Bool? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
+            storageVolumeStatus: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
+            upgradeRolloutOrder: RDSClientTypes.UpgradeRolloutOrder? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
         ) {
             self.activityStreamEngineNativeAuditFieldsIncluded = activityStreamEngineNativeAuditFieldsIncluded
@@ -6887,6 +7297,7 @@ extension RDSClientTypes {
             self.activityStreamMode = activityStreamMode
             self.activityStreamPolicyStatus = activityStreamPolicyStatus
             self.activityStreamStatus = activityStreamStatus
+            self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -6964,9 +7375,11 @@ extension RDSClientTypes {
             self.storageEncrypted = storageEncrypted
             self.storageThroughput = storageThroughput
             self.storageType = storageType
+            self.storageVolumeStatus = storageVolumeStatus
             self.tagList = tagList
             self.tdeCredentialArn = tdeCredentialArn
             self.timezone = timezone
+            self.upgradeRolloutOrder = upgradeRolloutOrder
             self.vpcSecurityGroups = vpcSecurityGroups
         }
     }
@@ -7006,7 +7419,10 @@ public struct DBSubnetGroupNotAllowedFault: ClientRuntime.ModeledError, AWSClien
     }
 }
 
+///
 public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
+    /// A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
@@ -7041,7 +7457,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the Bring Your Own License model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see [ IBM IDs for Bring Your Own License for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html#db2-prereqs-ibm-info). For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
+    /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the bring your own license (BYOL) model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see [IBM IDs for bring your own license (BYOL) for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html#db2-prereqs-ibm-info). For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -7202,6 +7618,10 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// The storage type to associate with the read replica. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1 if the Iops parameter is specified. Otherwise, gp3.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Whether to upgrade the storage file system configuration on the read replica. This option migrates the read replica from the old storage file system layout to the preferred layout.
@@ -7212,6 +7632,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -7255,11 +7676,13 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         sourceDBInstanceIdentifier: Swift.String? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         upgradeStorageConfig: Swift.Bool? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -7303,11 +7726,17 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         self.sourceDBInstanceIdentifier = sourceDBInstanceIdentifier
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.upgradeStorageConfig = upgradeStorageConfig
         self.useDefaultProcessorFeatures = useDefaultProcessorFeatures
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension CreateDBInstanceReadReplicaInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDBInstanceReadReplicaInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), sourceDBClusterIdentifier: \(Swift.String(describing: sourceDBClusterIdentifier)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), upgradeStorageConfig: \(Swift.String(describing: upgradeStorageConfig)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateDBInstanceReadReplicaOutput: Swift.Sendable {
@@ -7323,7 +7752,7 @@ public struct CreateDBInstanceReadReplicaOutput: Swift.Sendable {
 
 ///
 public struct CreateDBParameterGroupInput: Swift.Sendable {
-    /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine  For example, to list all of the available parameter group families for the MySQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine mysql The output contains duplicates. The following are the valid DB engine values:
+    /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine <engine> For example, to list all of the available parameter group families for the MySQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine mysql The output contains duplicates. The following are the valid DB engine values:
     ///
     /// * aurora-mysql
     ///
@@ -7581,6 +8010,67 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum DefaultAuthScheme: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamAuth
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultAuthScheme] {
+            return [
+                .iamAuth,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamAuth: return "IAM_AUTH"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum EndpointNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointNetworkType] {
+            return [
+                .dual,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum EngineFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mysql
         case postgresql
@@ -7611,15 +8101,60 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes {
+
+    public enum TargetConnectionNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetConnectionNetworkType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateDBProxyInput: Swift.Sendable {
     /// The authorization mechanism that the proxy uses.
-    /// This member is required.
     public var auth: [RDSClientTypes.UserAuthConfig]?
     /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
     /// This member is required.
     public var dbProxyName: Swift.String?
     /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database. If you don't specify DefaultAuthScheme or specify this parameter as NONE, you must specify the Auth option.
+    public var defaultAuthScheme: RDSClientTypes.DefaultAuthScheme?
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+    ///
+    /// * IPV4 - The proxy endpoint supports IPv4 only.
+    ///
+    /// * IPV6 - The proxy endpoint supports IPv6 only.
+    ///
+    /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+    public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
     /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL. For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL. For RDS for Microsoft SQL Server, specify SQLSERVER.
     /// This member is required.
     public var engineFamily: RDSClientTypes.EngineFamily?
@@ -7632,6 +8167,19 @@ public struct CreateDBProxyInput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy.
     public var tags: [RDSClientTypes.Tag]?
+    /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:
+    ///
+    /// * IPV4 - The proxy connects to the database using IPv4 only.
+    ///
+    /// * IPV6 - The proxy connects to the database using IPv6 only.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6, the database must support dual-stack mode. RDS doesn't support IPv6-only databases.
+    ///
+    /// * All targets registered with the proxy must be compatible with the specified network type.
+    public var targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType?
     /// One or more VPC security group IDs to associate with the new proxy.
     public var vpcSecurityGroupIds: [Swift.String]?
     /// One or more VPC subnet IDs to associate with the new proxy.
@@ -7642,22 +8190,28 @@ public struct CreateDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        defaultAuthScheme: RDSClientTypes.DefaultAuthScheme? = nil,
+        endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         engineFamily: RDSClientTypes.EngineFamily? = nil,
         idleClientTimeout: Swift.Int? = nil,
         requireTLS: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
+        targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
     ) {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.defaultAuthScheme = defaultAuthScheme
+        self.endpointNetworkType = endpointNetworkType
         self.engineFamily = engineFamily
         self.idleClientTimeout = idleClientTimeout
         self.requireTLS = requireTLS
         self.roleArn = roleArn
         self.tags = tags
+        self.targetConnectionNetworkType = targetConnectionNetworkType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
         self.vpcSubnetIds = vpcSubnetIds
     }
@@ -7762,8 +8316,18 @@ extension RDSClientTypes {
         public var dbProxyName: Swift.String?
         /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
         public var debugLogging: Swift.Bool?
+        /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+        public var defaultAuthScheme: Swift.String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+        ///
+        /// * IPV4 - The proxy endpoint supports IPv4 only.
+        ///
+        /// * IPV6 - The proxy endpoint supports IPv6 only.
+        ///
+        /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
         /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. MYSQL supports Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases. POSTGRESQL supports Aurora PostgreSQL and RDS for PostgreSQL databases. SQLSERVER supports RDS for Microsoft SQL Server databases.
         public var engineFamily: Swift.String?
         /// The number of seconds a connection to the proxy can have no activity before the proxy drops the client connection. The proxy keeps the underlying database connection open and puts it back into the connection pool for reuse by later connection requests. Default: 1800 (30 minutes) Constraints: 1 to 28,800
@@ -7774,6 +8338,12 @@ extension RDSClientTypes {
         public var roleArn: Swift.String?
         /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
         public var status: RDSClientTypes.DBProxyStatus?
+        /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:
+        ///
+        /// * IPV4 - The proxy connects to the database using IPv4 only.
+        ///
+        /// * IPV6 - The proxy connects to the database using IPv6 only.
+        public var targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType?
         /// The date and time when the proxy was last updated.
         public var updatedDate: Foundation.Date?
         /// Provides the VPC ID of the DB proxy.
@@ -7789,12 +8359,15 @@ extension RDSClientTypes {
             dbProxyArn: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             debugLogging: Swift.Bool? = nil,
+            defaultAuthScheme: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             engineFamily: Swift.String? = nil,
             idleClientTimeout: Swift.Int? = nil,
             requireTLS: Swift.Bool? = nil,
             roleArn: Swift.String? = nil,
             status: RDSClientTypes.DBProxyStatus? = nil,
+            targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType? = nil,
             updatedDate: Foundation.Date? = nil,
             vpcId: Swift.String? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -7805,12 +8378,15 @@ extension RDSClientTypes {
             self.dbProxyArn = dbProxyArn
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
+            self.defaultAuthScheme = defaultAuthScheme
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.engineFamily = engineFamily
             self.idleClientTimeout = idleClientTimeout
             self.requireTLS = requireTLS
             self.roleArn = roleArn
             self.status = status
+            self.targetConnectionNetworkType = targetConnectionNetworkType
             self.updatedDate = updatedDate
             self.vpcId = vpcId
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -7935,6 +8511,21 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     /// The name of the DB proxy associated with the DB proxy endpoint that you create.
     /// This member is required.
     public var dbProxyName: Swift.String?
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+    ///
+    /// * IPV4 - The proxy endpoint supports IPv4 only.
+    ///
+    /// * IPV6 - The proxy endpoint supports IPv6 only.
+    ///
+    /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+    public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The role of the DB proxy endpoint. The role determines whether the endpoint can be used for read/write or only read operations. The default is READ_WRITE. The only role that proxies for RDS for Microsoft SQL Server support is READ_WRITE.
@@ -7948,6 +8539,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     public init(
         dbProxyEndpointName: Swift.String? = nil,
         dbProxyName: Swift.String? = nil,
+        endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -7955,6 +8547,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     ) {
         self.dbProxyEndpointName = dbProxyEndpointName
         self.dbProxyName = dbProxyName
+        self.endpointNetworkType = endpointNetworkType
         self.tags = tags
         self.targetRole = targetRole
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -8017,6 +8610,14 @@ extension RDSClientTypes {
         public var dbProxyName: Swift.String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+        ///
+        /// * IPV4 - The proxy endpoint supports IPv4 only.
+        ///
+        /// * IPV6 - The proxy endpoint supports IPv6 only.
+        ///
+        /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
         /// Indicates whether this endpoint is the default endpoint for the associated DB proxy. Default DB proxy endpoints always have read/write capability. Other endpoints that you associate with the DB proxy can be either read/write or read-only.
         public var isDefault: Swift.Bool?
         /// The current status of this DB proxy endpoint. A status of available means the endpoint is ready to handle requests. Other values indicate that you must wait for the endpoint to be ready, or take some action to resolve an issue.
@@ -8036,6 +8637,7 @@ extension RDSClientTypes {
             dbProxyEndpointName: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             isDefault: Swift.Bool? = nil,
             status: RDSClientTypes.DBProxyEndpointStatus? = nil,
             targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
@@ -8048,6 +8650,7 @@ extension RDSClientTypes {
             self.dbProxyEndpointName = dbProxyEndpointName
             self.dbProxyName = dbProxyName
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.isDefault = isDefault
             self.status = status
             self.targetRole = targetRole
@@ -8775,6 +9378,29 @@ public struct GlobalClusterQuotaExceededFault: ClientRuntime.ModeledError, AWSCl
     }
 }
 
+/// The DB shard group must be in the available state.
+public struct InvalidDBShardGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBShardGroupState" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct CreateGlobalClusterInput: Swift.Sendable {
     /// The name for your database of up to 64 alphanumeric characters. If you don't specify a name, Amazon Aurora doesn't create a database in the global database cluster. Constraints:
     ///
@@ -8793,6 +9419,7 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
     /// * Can't be specified if SourceDBClusterIdentifier is specified. In this case, Amazon Aurora uses the engine version of the source DB cluster.
     public var engineVersion: Swift.String?
     /// The cluster identifier for this global database cluster. This parameter is stored as a lowercase string.
+    /// This member is required.
     public var globalClusterIdentifier: Swift.String?
     /// The Amazon Resource Name (ARN) to use as the primary cluster of the global database. If you provide a value for this parameter, don't specify values for the following settings because Amazon Aurora uses the values from the specified source DB cluster:
     ///
@@ -8876,13 +9503,13 @@ extension RDSClientTypes {
         public var isDataLossAllowed: Swift.Bool?
         /// The current status of the global cluster. Possible values are as follows:
         ///
-        /// * pending  The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.
+        /// * pending – The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.
         ///
-        /// * failing-over  Aurora is promoting the chosen secondary Aurora DB cluster to become the new primary DB cluster to fail over the global cluster.
+        /// * failing-over – Aurora is promoting the chosen secondary Aurora DB cluster to become the new primary DB cluster to fail over the global cluster.
         ///
-        /// * cancelling  The request to switch over or fail over the global cluster was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
+        /// * cancelling – The request to switch over or fail over the global cluster was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
         ///
-        /// * switching-over  This status covers the range of Aurora internal operations that take place during the switchover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing replicas.
+        /// * switching-over – This status covers the range of Aurora internal operations that take place during the switchover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing replicas.
         public var status: RDSClientTypes.FailoverStatus?
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being promoted, and which is associated with this state.
         public var toDbClusterArn: Swift.String?
@@ -8985,7 +9612,7 @@ extension RDSClientTypes {
         public var globalClusterIdentifier: Swift.String?
         /// The list of primary and secondary clusters within the global database cluster.
         public var globalClusterMembers: [RDSClientTypes.GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
+        /// The Amazon Web Services [partition](https://docs.aws.amazon.com/glossary/latest/reference/glos-chap.html?id=docs_gateway#partition)-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
         public var globalClusterResourceId: Swift.String?
         /// Specifies the current state of this global database cluster.
         public var status: Swift.String?
@@ -9590,52 +10217,6 @@ public struct DeleteBlueGreenDeploymentOutput: Swift.Sendable {
     }
 }
 
-/// The specified CEV was not found.
-public struct CustomDBEngineVersionNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "CustomDBEngineVersionNotFoundFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// You can't delete the CEV.
-public struct InvalidCustomDBEngineVersionStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidCustomDBEngineVersionStateFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct DeleteCustomDBEngineVersionInput: Swift.Sendable {
     /// The database engine. RDS Custom for Oracle supports the following values:
     ///
@@ -9646,6 +10227,20 @@ public struct DeleteCustomDBEngineVersionInput: Swift.Sendable {
     /// * custom-oracle-se2
     ///
     /// * custom-oracle-se2-cdb
+    ///
+    ///
+    /// RDS Custom for SQL Server supports the following values:
+    ///
+    /// * custom-sqlserver-ee
+    ///
+    /// * custom-sqlserver-se
+    ///
+    /// * ccustom-sqlserver-web
+    ///
+    /// * custom-sqlserver-dev
+    ///
+    ///
+    /// RDS for SQL Server supports only sqlserver-dev-ee.
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -9667,6 +10262,8 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -9689,6 +10286,8 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
@@ -9705,7 +10304,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
     public var supportedEngineModes: [Swift.String]?
-    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine --engine-version  For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
+    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine <engine_name> --engine-version <engine_version> For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
     public var supportedFeatureNames: [Swift.String]?
     /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
     public var supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
@@ -9737,6 +10336,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     public init(
         createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
+        databaseInstallationFiles: [Swift.String]? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -9748,6 +10348,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        failureReason: Swift.String? = nil,
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
@@ -9773,6 +10374,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
     ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
+        self.databaseInstallationFiles = databaseInstallationFiles
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -9784,6 +10386,7 @@ public struct DeleteCustomDBEngineVersionOutput: Swift.Sendable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.failureReason = failureReason
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
@@ -10007,6 +10610,8 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageType: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
         /// The VPC ID associated with the DB cluster.
         public var vpcId: Swift.String?
 
@@ -10035,6 +10640,7 @@ extension RDSClientTypes {
             storageEncrypted: Swift.Bool? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.allocatedStorage = allocatedStorage
@@ -10061,6 +10667,7 @@ extension RDSClientTypes {
             self.storageEncrypted = storageEncrypted
             self.storageThroughput = storageThroughput
             self.storageType = storageType
+            self.tagList = tagList
             self.vpcId = vpcId
         }
     }
@@ -10086,29 +10693,6 @@ public struct DBClusterEndpointNotFoundFault: ClientRuntime.ModeledError, AWSCli
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "DBClusterEndpointNotFoundFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The requested operation can't be performed on the endpoint while the endpoint is in this state.
-public struct InvalidDBClusterEndpointStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidDBClusterEndpointStateFault" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -10395,7 +10979,9 @@ extension RDSClientTypes {
 
     /// An automated backup of a DB instance. It consists of system backups, transaction logs, and the database instance properties that existed at the time you deleted the source instance.
     public struct DBInstanceAutomatedBackup: Swift.Sendable {
-        /// The allocated storage size for the the automated backup in gibibytes (GiB).
+        /// The additional storage volumes associated with the automated backup. Valid Values: GP3 | IO2
+        public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
+        /// The allocated storage size for the automated backup in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// The Availability Zone that the automated backup was created in. For information on Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html).
         public var availabilityZone: Swift.String?
@@ -10457,6 +11043,8 @@ extension RDSClientTypes {
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the automated backup.
         public var storageType: Swift.String?
+        /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
+        public var tagList: [RDSClientTypes.Tag]?
         /// The ARN from the key store with which the automated backup is associated for TDE encryption.
         public var tdeCredentialArn: Swift.String?
         /// The time zone of the automated backup. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified.
@@ -10465,6 +11053,7 @@ extension RDSClientTypes {
         public var vpcId: Swift.String?
 
         public init(
+            additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
             allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             awsBackupRecoveryPointArn: Swift.String? = nil,
@@ -10493,10 +11082,12 @@ extension RDSClientTypes {
             status: Swift.String? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil,
             tdeCredentialArn: Swift.String? = nil,
             timezone: Swift.String? = nil,
             vpcId: Swift.String? = nil
         ) {
+            self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
@@ -10525,6 +11116,7 @@ extension RDSClientTypes {
             self.status = status
             self.storageThroughput = storageThroughput
             self.storageType = storageType
+            self.tagList = tagList
             self.tdeCredentialArn = tdeCredentialArn
             self.timezone = timezone
             self.vpcId = vpcId
@@ -10582,29 +11174,6 @@ public struct DeleteDBProxyOutput: Swift.Sendable {
         dbProxy: RDSClientTypes.DBProxy? = nil
     ) {
         self.dbProxy = dbProxy
-    }
-}
-
-/// The DB proxy endpoint doesn't exist.
-public struct DBProxyEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "DBProxyEndpointNotFoundFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -10672,52 +11241,6 @@ public struct DeleteDBSecurityGroupInput: Swift.Sendable {
         dbSecurityGroupName: Swift.String? = nil
     ) {
         self.dbSecurityGroupName = dbSecurityGroupName
-    }
-}
-
-/// The specified DB shard group name wasn't found.
-public struct DBShardGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "DBShardGroupNotFound" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The DB shard group must be in the available state.
-public struct InvalidDBShardGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidDBShardGroupState" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -12012,6 +12535,7 @@ public struct DescribeDBClusterSnapshotsOutput: Swift.Sendable {
     }
 }
 
+///
 public struct DescribeDBEngineVersionsInput: Swift.Sendable {
     /// The name of a specific DB parameter group family to return details for. Constraints:
     ///
@@ -12134,6 +12658,8 @@ extension RDSClientTypes {
         public var createTime: Foundation.Date?
         /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
         public var customDBEngineVersionManifest: Swift.String?
+        /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+        public var databaseInstallationFiles: [Swift.String]?
         /// The name of the Amazon S3 bucket that contains your database installation files.
         public var databaseInstallationFilesS3BucketName: Swift.String?
         /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -12156,6 +12682,8 @@ extension RDSClientTypes {
         public var engineVersion: Swift.String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
         public var exportableLogTypes: [Swift.String]?
+        /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+        public var failureReason: Swift.String?
         /// The EC2 image
         public var image: RDSClientTypes.CustomDBEngineVersionAMI?
         /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
@@ -12172,7 +12700,7 @@ extension RDSClientTypes {
         public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
         /// A list of the supported DB engine modes.
         public var supportedEngineModes: [Swift.String]?
-        /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine --engine-version  For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
+        /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine <engine_name> --engine-version <engine_version> For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
         public var supportedFeatureNames: [Swift.String]?
         /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
         public var supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
@@ -12204,6 +12732,7 @@ extension RDSClientTypes {
         public init(
             createTime: Foundation.Date? = nil,
             customDBEngineVersionManifest: Swift.String? = nil,
+            databaseInstallationFiles: [Swift.String]? = nil,
             databaseInstallationFilesS3BucketName: Swift.String? = nil,
             databaseInstallationFilesS3Prefix: Swift.String? = nil,
             dbEngineDescription: Swift.String? = nil,
@@ -12215,6 +12744,7 @@ extension RDSClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             exportableLogTypes: [Swift.String]? = nil,
+            failureReason: Swift.String? = nil,
             image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
@@ -12240,6 +12770,7 @@ extension RDSClientTypes {
         ) {
             self.createTime = createTime
             self.customDBEngineVersionManifest = customDBEngineVersionManifest
+            self.databaseInstallationFiles = databaseInstallationFiles
             self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
             self.dbEngineDescription = dbEngineDescription
@@ -12251,6 +12782,7 @@ extension RDSClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.failureReason = failureReason
             self.image = image
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
@@ -12420,7 +12952,7 @@ public struct DBInstanceNotReadyFault: ClientRuntime.ModeledError, AWSClientRunt
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "DBInstanceNotReady" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -12713,6 +13245,7 @@ public struct DescribeDBParameterGroupsOutput: Swift.Sendable {
     }
 }
 
+///
 public struct DescribeDBParametersInput: Swift.Sendable {
     /// The name of a specific DB parameter group to return details for. Constraints:
     ///
@@ -12898,6 +13431,11 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes.ConnectionPoolConfigurationInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionPoolConfigurationInfo(connectionBorrowTimeout: \(Swift.String(describing: connectionBorrowTimeout)), maxConnectionsPercent: \(Swift.String(describing: maxConnectionsPercent)), maxIdleConnectionsPercent: \(Swift.String(describing: maxIdleConnectionsPercent)), sessionPinningFilters: \(Swift.String(describing: sessionPinningFilters)), initQuery: \"CONTENT_REDACTED\")"}
+}
+
 extension RDSClientTypes {
 
     /// Represents a set of RDS DB instances, Aurora DB clusters, or both that a proxy can connect to. Currently, each target group is associated with exactly one RDS DB instance or Aurora DB cluster. This data type is used as a response element in the DescribeDBProxyTargetGroups action.
@@ -13023,6 +13561,7 @@ extension RDSClientTypes {
         case connectionFailed
         case invalidReplicationState
         case pendingProxyCapacity
+        case promoted
         case unreachable
         case sdkUnknown(Swift.String)
 
@@ -13032,6 +13571,7 @@ extension RDSClientTypes {
                 .connectionFailed,
                 .invalidReplicationState,
                 .pendingProxyCapacity,
+                .promoted,
                 .unreachable
             ]
         }
@@ -13047,6 +13587,7 @@ extension RDSClientTypes {
             case .connectionFailed: return "CONNECTION_FAILED"
             case .invalidReplicationState: return "INVALID_REPLICATION_STATE"
             case .pendingProxyCapacity: return "PENDING_PROXY_CAPACITY"
+            case .promoted: return "PROMOTED"
             case .unreachable: return "UNREACHABLE"
             case let .sdkUnknown(s): return s
             }
@@ -13060,13 +13601,15 @@ extension RDSClientTypes {
         case available
         case registering
         case unavailable
+        case unused
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetState] {
             return [
                 .available,
                 .registering,
-                .unavailable
+                .unavailable,
+                .unused
             ]
         }
 
@@ -13080,6 +13623,7 @@ extension RDSClientTypes {
             case .available: return "AVAILABLE"
             case .registering: return "REGISTERING"
             case .unavailable: return "UNAVAILABLE"
+            case .unused: return "UNUSED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -14465,7 +15009,9 @@ extension RDSClientTypes {
         case dbParameterGroup
         case dbProxy
         case dbSecurityGroup
+        case dbShardGroup
         case dbSnapshot
+        case zeroEtl
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SourceType] {
@@ -14478,7 +15024,9 @@ extension RDSClientTypes {
                 .dbParameterGroup,
                 .dbProxy,
                 .dbSecurityGroup,
-                .dbSnapshot
+                .dbShardGroup,
+                .dbSnapshot,
+                .zeroEtl
             ]
         }
 
@@ -14497,7 +15045,9 @@ extension RDSClientTypes {
             case .dbParameterGroup: return "db-parameter-group"
             case .dbProxy: return "db-proxy"
             case .dbSecurityGroup: return "db-security-group"
+            case .dbShardGroup: return "db-shard-group"
             case .dbSnapshot: return "db-snapshot"
+            case .zeroEtl: return "zero-etl"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15345,6 +15895,65 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Sendable {
 
 extension RDSClientTypes {
 
+    /// Contains the available options for additional storage volumes for a DB instance class.
+    public struct AvailableAdditionalStorageVolumesOption: Swift.Sendable {
+        /// The maximum number of I/O operations per second (IOPS) that the additional storage volume supports.
+        public var maxIops: Swift.Int?
+        /// The maximum ratio of I/O operations per second (IOPS) to gibibytes (GiB) of storage for the additional storage volume.
+        public var maxIopsPerGib: Swift.Double?
+        /// The maximum amount of storage that you can allocate for the additional storage volume, in gibibytes (GiB).
+        public var maxStorageSize: Swift.Int?
+        /// The maximum storage throughput that the additional storage volume supports, in mebibytes per second (MiBps).
+        public var maxStorageThroughput: Swift.Int?
+        /// The minimum number of I/O operations per second (IOPS) that the additional storage volume supports.
+        public var minIops: Swift.Int?
+        /// The minimum ratio of I/O operations per second (IOPS) to gibibytes (GiB) of storage for the additional storage volume.
+        public var minIopsPerGib: Swift.Double?
+        /// The minimum amount of storage that you can allocate for the additional storage volume, in gibibytes (GiB).
+        public var minStorageSize: Swift.Int?
+        /// The minimum storage throughput that the additional storage volume supports, in mebibytes per second (MiBps).
+        public var minStorageThroughput: Swift.Int?
+        /// The storage type for the additional storage volume. Valid Values: GP3 | IO2
+        public var storageType: Swift.String?
+        /// Indicates whether the additional storage volume supports provisioned IOPS.
+        public var supportsIops: Swift.Bool?
+        /// Indicates whether the additional storage volume supports storage autoscaling.
+        public var supportsStorageAutoscaling: Swift.Bool?
+        /// Indicates whether the additional storage volume supports configurable storage throughput.
+        public var supportsStorageThroughput: Swift.Bool?
+
+        public init(
+            maxIops: Swift.Int? = nil,
+            maxIopsPerGib: Swift.Double? = nil,
+            maxStorageSize: Swift.Int? = nil,
+            maxStorageThroughput: Swift.Int? = nil,
+            minIops: Swift.Int? = nil,
+            minIopsPerGib: Swift.Double? = nil,
+            minStorageSize: Swift.Int? = nil,
+            minStorageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil,
+            supportsIops: Swift.Bool? = nil,
+            supportsStorageAutoscaling: Swift.Bool? = nil,
+            supportsStorageThroughput: Swift.Bool? = nil
+        ) {
+            self.maxIops = maxIops
+            self.maxIopsPerGib = maxIopsPerGib
+            self.maxStorageSize = maxStorageSize
+            self.maxStorageThroughput = maxStorageThroughput
+            self.minIops = minIops
+            self.minIopsPerGib = minIopsPerGib
+            self.minStorageSize = minStorageSize
+            self.minStorageThroughput = minStorageThroughput
+            self.storageType = storageType
+            self.supportsIops = supportsIops
+            self.supportsStorageAutoscaling = supportsStorageAutoscaling
+            self.supportsStorageThroughput = supportsStorageThroughput
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Contains the available processor feature information for the DB instance class of a DB instance. For more information, see [Configuring the Processor of the DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html#USER_ConfigureProcessor) in the Amazon RDS User Guide.
     public struct AvailableProcessorFeature: Swift.Sendable {
         /// The allowed values for the processor feature of the DB instance class.
@@ -15374,6 +15983,8 @@ extension RDSClientTypes {
         public var availabilityZoneGroup: Swift.String?
         /// A list of Availability Zones for a DB instance.
         public var availabilityZones: [RDSClientTypes.AvailabilityZone]?
+        /// The available options for additional storage volumes for the DB instance class.
+        public var availableAdditionalStorageVolumesOptions: [RDSClientTypes.AvailableAdditionalStorageVolumesOption]?
         /// A list of the available processor features for the DB instance class of a DB instance.
         public var availableProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]?
         /// The DB instance class for a DB instance.
@@ -15418,6 +16029,8 @@ extension RDSClientTypes {
         public var supportedEngineModes: [Swift.String]?
         /// The network types supported by the DB instance (IPV4 or DUAL). A DB instance can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [ Working with a DB instance in a VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html) in the Amazon RDS User Guide.
         public var supportedNetworkTypes: [Swift.String]?
+        /// Indicates whether the DB instance class supports additional storage volumes.
+        public var supportsAdditionalStorageVolumes: Swift.Bool?
         /// Indicates whether DB instances can be configured as a Multi-AZ DB cluster. For more information on Multi-AZ DB clusters, see [ Multi-AZ deployments with two readable standby DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
         public var supportsClusters: Swift.Bool?
         /// Indicates whether a DB instance supports using a dedicated log volume (DLV).
@@ -15426,6 +16039,8 @@ extension RDSClientTypes {
         public var supportsEnhancedMonitoring: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific combination of other DB engine attributes.
         public var supportsGlobalDatabases: Swift.Bool?
+        /// Indicates whether a DB instance supports HTTP endpoints.
+        public var supportsHttpEndpoint: Swift.Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
         public var supportsIAMDatabaseAuthentication: Swift.Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
@@ -15446,6 +16061,7 @@ extension RDSClientTypes {
         public init(
             availabilityZoneGroup: Swift.String? = nil,
             availabilityZones: [RDSClientTypes.AvailabilityZone]? = nil,
+            availableAdditionalStorageVolumesOptions: [RDSClientTypes.AvailableAdditionalStorageVolumesOption]? = nil,
             availableProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]? = nil,
             dbInstanceClass: Swift.String? = nil,
             engine: Swift.String? = nil,
@@ -15468,10 +16084,12 @@ extension RDSClientTypes {
             supportedActivityStreamModes: [Swift.String]? = nil,
             supportedEngineModes: [Swift.String]? = nil,
             supportedNetworkTypes: [Swift.String]? = nil,
+            supportsAdditionalStorageVolumes: Swift.Bool? = nil,
             supportsClusters: Swift.Bool? = nil,
             supportsDedicatedLogVolume: Swift.Bool? = nil,
             supportsEnhancedMonitoring: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsHttpEndpoint: Swift.Bool? = nil,
             supportsIAMDatabaseAuthentication: Swift.Bool? = nil,
             supportsIops: Swift.Bool? = nil,
             supportsKerberosAuthentication: Swift.Bool? = nil,
@@ -15483,6 +16101,7 @@ extension RDSClientTypes {
         ) {
             self.availabilityZoneGroup = availabilityZoneGroup
             self.availabilityZones = availabilityZones
+            self.availableAdditionalStorageVolumesOptions = availableAdditionalStorageVolumesOptions
             self.availableProcessorFeatures = availableProcessorFeatures
             self.dbInstanceClass = dbInstanceClass
             self.engine = engine
@@ -15505,10 +16124,12 @@ extension RDSClientTypes {
             self.supportedActivityStreamModes = supportedActivityStreamModes
             self.supportedEngineModes = supportedEngineModes
             self.supportedNetworkTypes = supportedNetworkTypes
+            self.supportsAdditionalStorageVolumes = supportsAdditionalStorageVolumes
             self.supportsClusters = supportsClusters
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsHttpEndpoint = supportsHttpEndpoint
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
             self.supportsIops = supportsIops
             self.supportsKerberosAuthentication = supportsKerberosAuthentication
@@ -16113,8 +16734,48 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    /// Contains the valid options for an additional storage volume.
+    public struct ValidVolumeOptions: Swift.Sendable {
+        /// The valid storage options for the additional storage volume.
+        public var storage: [RDSClientTypes.ValidStorageOptions]?
+        /// The name of the additional storage volume.
+        public var volumeName: Swift.String?
+
+        public init(
+            storage: [RDSClientTypes.ValidStorageOptions]? = nil,
+            volumeName: Swift.String? = nil
+        ) {
+            self.storage = storage
+            self.volumeName = volumeName
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// Contains the valid options for additional storage volumes for a DB instance.
+    public struct ValidAdditionalStorageOptions: Swift.Sendable {
+        /// Indicates whether the DB instance supports additional storage volumes.
+        public var supportsAdditionalStorageVolumes: Swift.Bool?
+        /// The valid additional storage volume options for the DB instance.
+        public var volumes: [RDSClientTypes.ValidVolumeOptions]?
+
+        public init(
+            supportsAdditionalStorageVolumes: Swift.Bool? = nil,
+            volumes: [RDSClientTypes.ValidVolumeOptions]? = nil
+        ) {
+            self.supportsAdditionalStorageVolumes = supportsAdditionalStorageVolumes
+            self.volumes = volumes
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Information about valid modifications that you can make to your DB instance. Contains the result of a successful call to the DescribeValidDBInstanceModifications action. You can use this information when you call ModifyDBInstance.
     public struct ValidDBInstanceModificationsMessage: Swift.Sendable {
+        /// The valid additional storage options for the DB instance.
+        public var additionalStorage: RDSClientTypes.ValidAdditionalStorageOptions?
         /// Valid storage options for your DB instance.
         public var storage: [RDSClientTypes.ValidStorageOptions]?
         /// Indicates whether a DB instance supports using a dedicated log volume (DLV).
@@ -16123,10 +16784,12 @@ extension RDSClientTypes {
         public var validProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]?
 
         public init(
+            additionalStorage: RDSClientTypes.ValidAdditionalStorageOptions? = nil,
             storage: [RDSClientTypes.ValidStorageOptions]? = nil,
             supportsDedicatedLogVolume: Swift.Bool? = nil,
             validProcessorFeatures: [RDSClientTypes.AvailableProcessorFeature]? = nil
         ) {
+            self.additionalStorage = additionalStorage
             self.storage = storage
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.validProcessorFeatures = validProcessorFeatures
@@ -16272,6 +16935,11 @@ public struct DownloadDBLogFilePortionOutput: Swift.Sendable {
         self.logFileData = logFileData
         self.marker = marker
     }
+}
+
+extension DownloadDBLogFilePortionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DownloadDBLogFilePortionOutput(additionalDataPending: \(Swift.String(describing: additionalDataPending)), marker: \(Swift.String(describing: marker)), logFileData: \"CONTENT_REDACTED\")"}
 }
 
 public struct EnableHttpEndpointInput: Swift.Sendable {
@@ -16627,6 +17295,20 @@ public struct ModifyCustomDBEngineVersionInput: Swift.Sendable {
     /// * custom-oracle-se2
     ///
     /// * custom-oracle-se2-cdb
+    ///
+    ///
+    /// RDS Custom for SQL Server supports the following values:
+    ///
+    /// * custom-sqlserver-ee
+    ///
+    /// * custom-sqlserver-se
+    ///
+    /// * ccustom-sqlserver-web
+    ///
+    /// * custom-sqlserver-dev
+    ///
+    ///
+    /// RDS for SQL Server supports only sqlserver-dev-ee.
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -16654,6 +17336,8 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var createTime: Foundation.Date?
     /// JSON string that lists the installation files and parameters that RDS Custom uses to create a custom engine version (CEV). RDS Custom applies the patches in the order in which they're listed in the manifest. You can set the Oracle home, Oracle base, and UNIX/Linux user and group using the installation parameters. For more information, see [JSON fields in the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.preparing.html#custom-cev.preparing.manifest.fields) in the Amazon RDS User Guide.
     public var customDBEngineVersionManifest: Swift.String?
+    /// The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS. Required for sqlserver-dev-ee.
+    public var databaseInstallationFiles: [Swift.String]?
     /// The name of the Amazon S3 bucket that contains your database installation files.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files. If not specified, then no prefix is assumed.
@@ -16676,6 +17360,8 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The reason that the custom engine version creation for sqlserver-dev-ee failed with an incompatible-installation-media status.
+    public var failureReason: Swift.String?
     /// The EC2 image
     public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
@@ -16692,7 +17378,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
     public var supportedEngineModes: [Swift.String]?
-    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine --engine-version  For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
+    /// A list of features supported by the DB engine. The supported features vary by DB engine and DB engine version. To determine the supported features for a specific DB engine and DB engine version using the CLI, use the following command: aws rds describe-db-engine-versions --engine <engine_name> --engine-version <engine_version> For example, to determine the supported features for RDS for PostgreSQL version 13.3 using the CLI, use the following command: aws rds describe-db-engine-versions --engine postgres --engine-version 13.3 The supported features are listed under SupportedFeatureNames in the output.
     public var supportedFeatureNames: [Swift.String]?
     /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
     public var supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
@@ -16724,6 +17410,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     public init(
         createTime: Foundation.Date? = nil,
         customDBEngineVersionManifest: Swift.String? = nil,
+        databaseInstallationFiles: [Swift.String]? = nil,
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
@@ -16735,6 +17422,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        failureReason: Swift.String? = nil,
         image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
@@ -16760,6 +17448,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     ) {
         self.createTime = createTime
         self.customDBEngineVersionManifest = customDBEngineVersionManifest
+        self.databaseInstallationFiles = databaseInstallationFiles
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
@@ -16771,6 +17460,7 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.failureReason = failureReason
         self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
@@ -16897,7 +17587,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you can set the PerformanceInsightsEnabled parameter to true to collect detailed database counter and per-query metrics. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
@@ -16942,6 +17632,15 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var iops: Swift.Int?
     /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The new password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must contain from 8 to 41 characters.
@@ -17067,6 +17766,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         monitoringInterval: Swift.Int? = nil,
@@ -17114,6 +17814,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.engineVersion = engineVersion
         self.iops = iops
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.monitoringInterval = monitoringInterval
@@ -17132,6 +17833,11 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.storageType = storageType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension ModifyDBClusterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ModifyDBClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowEngineModeChange: \(Swift.String(describing: allowEngineModeChange)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), awsBackupRecoveryPointArn: \(Swift.String(describing: awsBackupRecoveryPointArn)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterInstanceClass: \(Swift.String(describing: dbClusterInstanceClass)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbInstanceParameterGroupName: \(Swift.String(describing: dbInstanceParameterGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableGlobalWriteForwarding: \(Swift.String(describing: enableGlobalWriteForwarding)), enableHttpEndpoint: \(Swift.String(describing: enableHttpEndpoint)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enableLimitlessDatabase: \(Swift.String(describing: enableLimitlessDatabase)), enableLocalWriteForwarding: \(Swift.String(describing: enableLocalWriteForwarding)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engineMode: \(Swift.String(describing: engineMode)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), networkType: \(Swift.String(describing: networkType)), newDBClusterIdentifier: \(Swift.String(describing: newDBClusterIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), scalingConfiguration: \(Swift.String(describing: scalingConfiguration)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), storageType: \(Swift.String(describing: storageType)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyDBClusterOutput: Swift.Sendable {
@@ -17350,8 +18056,50 @@ public struct DBUpgradeDependencyFailureFault: ClientRuntime.ModeledError, AWSCl
     }
 }
 
+extension RDSClientTypes {
+
+    /// Contains details about the modification of an additional storage volume.
+    public struct ModifyAdditionalStorageVolume: Swift.Sendable {
+        /// The amount of storage allocated for the additional storage volume, in gibibytes (GiB). The minimum is 20 GiB. The maximum is 65,536 GiB (64 TiB).
+        public var allocatedStorage: Swift.Int?
+        /// The number of I/O operations per second (IOPS) provisioned for the additional storage volume. This setting is only supported for Provisioned IOPS SSD (io1 and io2) storage types.
+        public var iops: Swift.Int?
+        /// The upper limit in gibibytes (GiB) to which RDS can automatically scale the storage of the additional storage volume. You must provide a value greater than or equal to AllocatedStorage.
+        public var maxAllocatedStorage: Swift.Int?
+        /// Indicates whether to delete the additional storage volume. The value true schedules the volume for deletion. You can delete an additional storage volume only when it doesn't contain database files or other data.
+        public var setForDelete: Swift.Bool?
+        /// The storage throughput value for the additional storage volume, in mebibytes per second (MiBps). This setting applies only to the General Purpose SSD (gp3) storage type.
+        public var storageThroughput: Swift.Int?
+        /// The new storage type for the additional storage volume. Valid Values: GP3 | IO2
+        public var storageType: Swift.String?
+        /// The name of the additional storage volume that you want to modify. Valid Values: RDSDBDATA2 | RDSDBDATA3 | RDSDBDATA4
+        /// This member is required.
+        public var volumeName: Swift.String?
+
+        public init(
+            allocatedStorage: Swift.Int? = nil,
+            iops: Swift.Int? = nil,
+            maxAllocatedStorage: Swift.Int? = nil,
+            setForDelete: Swift.Bool? = nil,
+            storageThroughput: Swift.Int? = nil,
+            storageType: Swift.String? = nil,
+            volumeName: Swift.String? = nil
+        ) {
+            self.allocatedStorage = allocatedStorage
+            self.iops = iops
+            self.maxAllocatedStorage = maxAllocatedStorage
+            self.setForDelete = setForDelete
+            self.storageThroughput = storageThroughput
+            self.storageType = storageType
+            self.volumeName = volumeName
+        }
+    }
+}
+
 ///
 public struct ModifyDBInstanceInput: Swift.Sendable {
+    /// A list of additional storage volumes to modify or delete for the DB instance. You can create up to 3 additional storage volumes. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.ModifyAdditionalStorageVolume]?
     /// The new amount of storage in gibibytes (GiB) to allocate for the DB instance. For RDS for Db2, MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. For the valid values for allocated storage for each engine, see CreateDBInstance. Constraints:
     ///
     /// * When you increase the allocated storage for a DB instance that uses Provisioned IOPS (gp3, io1, or io2 storage type), you must also specify the Iops parameter. You can use the current value for Iops.
@@ -17488,8 +18236,6 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * Must be in the distinguished name format.
     ///
-    /// * Can't be longer than 64 characters.
-    ///
     ///
     /// Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
     public var domainOu: Swift.String?
@@ -17551,6 +18297,15 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * Can't specify the parameters ManageMasterUserPassword and MultiTenant in the same operation.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Amazon RDS API operations never return the password, so this operation provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. This setting doesn't apply to the following DB instances:
     ///
     /// * Amazon Aurora The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.
@@ -17672,6 +18427,10 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3 you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to gp2 (General Purpose SSD), gp3, or Provisioned IOPS (io1), or from these storage types to standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom DB instances.
     public var tdeCredentialArn: Swift.String?
     /// The password for the given ARN from the key store in order to access the device. This setting doesn't apply to RDS Custom DB instances.
@@ -17691,6 +18450,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.ModifyAdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         allowMajorVersionUpgrade: Swift.Bool? = nil,
         applyImmediately: Swift.Bool? = nil,
@@ -17726,6 +18486,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
@@ -17748,11 +18509,13 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         rotateMasterUserPassword: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tdeCredentialArn: Swift.String? = nil,
         tdeCredentialPassword: Swift.String? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
@@ -17788,6 +18551,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.iops = iops
         self.licenseModel = licenseModel
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.maxAllocatedStorage = maxAllocatedStorage
@@ -17810,11 +18574,17 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.rotateMasterUserPassword = rotateMasterUserPassword
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tdeCredentialArn = tdeCredentialArn
         self.tdeCredentialPassword = tdeCredentialPassword
         self.useDefaultProcessorFeatures = useDefaultProcessorFeatures
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension ModifyDBInstanceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ModifyDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), automationMode: \(Swift.String(describing: automationMode)), awsBackupRecoveryPointArn: \(Swift.String(describing: awsBackupRecoveryPointArn)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), certificateRotationRestart: \(Swift.String(describing: certificateRotationRestart)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), disableDomain: \(Swift.String(describing: disableDomain)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), networkType: \(Swift.String(describing: networkType)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), resumeFullAutomationModeMinutes: \(Swift.String(describing: resumeFullAutomationModeMinutes)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyDBInstanceOutput: Swift.Sendable {
@@ -17868,6 +18638,8 @@ public struct ModifyDBProxyInput: Swift.Sendable {
     public var dbProxyName: Swift.String?
     /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The default authentication scheme that the proxy uses for client connections to the proxy and connections from the proxy to the underlying database. Valid values are NONE and IAM_AUTH. When set to IAM_AUTH, the proxy uses end-to-end IAM authentication to connect to the database.
+    public var defaultAuthScheme: RDSClientTypes.DefaultAuthScheme?
     /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
     public var idleClientTimeout: Swift.Int?
     /// The new identifier for the DBProxy. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
@@ -17883,6 +18655,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        defaultAuthScheme: RDSClientTypes.DefaultAuthScheme? = nil,
         idleClientTimeout: Swift.Int? = nil,
         newDBProxyName: Swift.String? = nil,
         requireTLS: Swift.Bool? = nil,
@@ -17892,6 +18665,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.defaultAuthScheme = defaultAuthScheme
         self.idleClientTimeout = idleClientTimeout
         self.newDBProxyName = newDBProxyName
         self.requireTLS = requireTLS
@@ -17977,6 +18751,11 @@ extension RDSClientTypes {
             self.sessionPinningFilters = sessionPinningFilters
         }
     }
+}
+
+extension RDSClientTypes.ConnectionPoolConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionPoolConfiguration(connectionBorrowTimeout: \(Swift.String(describing: connectionBorrowTimeout)), maxConnectionsPercent: \(Swift.String(describing: maxConnectionsPercent)), maxIdleConnectionsPercent: \(Swift.String(describing: maxIdleConnectionsPercent)), sessionPinningFilters: \(Swift.String(describing: sessionPinningFilters)), initQuery: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyDBProxyTargetGroupInput: Swift.Sendable {
@@ -18358,6 +19137,7 @@ public struct ModifyGlobalClusterInput: Swift.Sendable {
     /// The cluster identifier for the global cluster to modify. This parameter isn't case-sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing global database cluster.
+    /// This member is required.
     public var globalClusterIdentifier: Swift.String?
     /// The new cluster identifier for the global database cluster. This value is stored as a lowercase string. Constraints:
     ///
@@ -18665,15 +19445,21 @@ public struct PromoteReadReplicaInput: Swift.Sendable {
     ///
     /// * Must be at least 30 minutes.
     public var preferredBackupWindow: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
 
     public init(
         backupRetentionPeriod: Swift.Int? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
-        preferredBackupWindow: Swift.String? = nil
+        preferredBackupWindow: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil
     ) {
         self.backupRetentionPeriod = backupRetentionPeriod
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.preferredBackupWindow = preferredBackupWindow
+        self.tagSpecifications = tagSpecifications
     }
 }
 
@@ -19007,8 +19793,10 @@ public struct RegisterDBProxyTargetsOutput: Swift.Sendable {
 
 public struct RemoveFromGlobalClusterInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) identifying the cluster that was detached from the Aurora global database cluster.
+    /// This member is required.
     public var dbClusterIdentifier: Swift.String?
     /// The cluster identifier to detach from the Aurora global database cluster.
+    /// This member is required.
     public var globalClusterIdentifier: Swift.String?
 
     public init(
@@ -19394,6 +20182,10 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
     public var storageEncrypted: Swift.Bool?
     /// Specifies the storage type to be associated with the DB cluster. Valid Values: aurora, aurora-iopt1 Default: aurora Valid for: Aurora DB clusters only
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB cluster. Valid Values:
+    ///
+    /// * cluster-auto-backup - The DB cluster's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// A list of EC2 VPC security groups to associate with the restored DB cluster.
@@ -19435,6 +20227,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
         sourceEngineVersion: Swift.String? = nil,
         storageEncrypted: Swift.Bool? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
@@ -19473,9 +20266,15 @@ public struct RestoreDBClusterFromS3Input: Swift.Sendable {
         self.sourceEngineVersion = sourceEngineVersion
         self.storageEncrypted = storageEncrypted
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension RestoreDBClusterFromS3Input: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreDBClusterFromS3Input(availabilityZones: \(Swift.String(describing: availabilityZones)), backtrackWindow: \(Swift.String(describing: backtrackWindow)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseName: \(Swift.String(describing: databaseName)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbClusterParameterGroupName: \(Swift.String(describing: dbClusterParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), serverlessV2ScalingConfiguration: \(Swift.String(describing: serverlessV2ScalingConfiguration)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBClusterFromS3Output: Swift.Sendable {
@@ -19680,6 +20479,10 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var snapshotIdentifier: Swift.String?
     /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid Values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB cluster. Valid Values:
+    ///
+    /// * cluster-auto-backup - The DB cluster's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// The tags to be assigned to the restored DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var tags: [RDSClientTypes.Tag]?
     /// A list of VPC security groups that the new DB cluster will belong to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -19719,6 +20522,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
         snapshotIdentifier: Swift.String? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
@@ -19755,6 +20559,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.snapshotIdentifier = snapshotIdentifier
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -19930,6 +20735,10 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var sourceDbClusterResourceId: Swift.String?
     /// Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid Values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB cluster. Valid Values:
+    ///
+    /// * cluster-auto-backup - The DB cluster's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Specifies whether to restore the DB cluster to the latest restorable backup time. By default, the DB cluster isn't restored to the latest restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is provided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -19970,6 +20779,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         sourceDBClusterIdentifier: Swift.String? = nil,
         sourceDbClusterResourceId: Swift.String? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
@@ -20006,6 +20816,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.sourceDBClusterIdentifier = sourceDBClusterIdentifier
         self.sourceDbClusterResourceId = sourceDbClusterResourceId
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.useLatestRestorableTime = useLatestRestorableTime
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -20025,6 +20836,8 @@ public struct RestoreDBClusterToPointInTimeOutput: Swift.Sendable {
 
 ///
 public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
+    /// A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor version upgrades to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
@@ -20225,6 +21038,10 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp3
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom.
@@ -20237,6 +21054,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -20276,12 +21094,14 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         publiclyAccessible: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         tdeCredentialArn: Swift.String? = nil,
         tdeCredentialPassword: Swift.String? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -20321,12 +21141,18 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.publiclyAccessible = publiclyAccessible
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.tdeCredentialArn = tdeCredentialArn
         self.tdeCredentialPassword = tdeCredentialPassword
         self.useDefaultProcessorFeatures = useDefaultProcessorFeatures
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension RestoreDBInstanceFromDBSnapshotInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
@@ -20341,6 +21167,8 @@ public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
 }
 
 public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
+    /// A list of additional storage volumes to modify or delete for the DB instance. You can modify or delete up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether to automatically apply minor engine upgrades to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
@@ -20527,6 +21355,10 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var storageThroughput: Swift.Int?
     /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified; otherwise gp2
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags to associate with this DB instance. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// Specifies whether the DB instance class of the DB instance uses its default processor features.
@@ -20535,6 +21367,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -20584,10 +21417,12 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         storageEncrypted: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         useDefaultProcessorFeatures: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -20637,10 +21472,16 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         self.storageEncrypted = storageEncrypted
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.useDefaultProcessorFeatures = useDefaultProcessorFeatures
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension RestoreDBInstanceFromS3Input: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreDBInstanceFromS3Input(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromS3Output: Swift.Sendable {
@@ -20679,6 +21520,8 @@ public struct PointInTimeRestoreNotEnabledFault: ClientRuntime.ModeledError, AWS
 
 ///
 public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
+    /// A list of additional storage volumes to restore to the DB instance. You can restore up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
+    public var additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]?
     /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
@@ -20898,6 +21741,10 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * If you specify io1, io2, or gp3, you must also include a value for the Iops parameter.
     public var storageType: Swift.String?
+    /// Tags to assign to resources associated with the DB instance. Valid Values:
+    ///
+    /// * auto-backup - The DB instance's automated backup.
+    public var tagSpecifications: [RDSClientTypes.TagSpecification]?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The name of the new DB instance to create. Constraints:
@@ -20923,6 +21770,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
+        additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
@@ -20964,6 +21812,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         sourceDbiResourceId: Swift.String? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
+        tagSpecifications: [RDSClientTypes.TagSpecification]? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetDBInstanceIdentifier: Swift.String? = nil,
         tdeCredentialArn: Swift.String? = nil,
@@ -20972,6 +21821,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
+        self.additionalStorageVolumes = additionalStorageVolumes
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
@@ -21013,6 +21863,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.sourceDbiResourceId = sourceDbiResourceId
         self.storageThroughput = storageThroughput
         self.storageType = storageType
+        self.tagSpecifications = tagSpecifications
         self.tags = tags
         self.targetDBInstanceIdentifier = targetDBInstanceIdentifier
         self.tdeCredentialArn = tdeCredentialArn
@@ -21021,6 +21872,11 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.useLatestRestorableTime = useLatestRestorableTime
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
+}
+
+extension RestoreDBInstanceToPointInTimeInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceToPointInTimeOutput: Swift.Sendable {
@@ -21191,18 +22047,27 @@ public struct StartDBInstanceAutomatedBackupsReplicationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the source DB instance for the replicated automated backups, for example, arn:aws:rds:us-west-2:123456789012:db:mydatabase.
     /// This member is required.
     public var sourceDBInstanceArn: Swift.String?
+    /// A list of tags to associate with the replicated automated backups.
+    public var tags: [RDSClientTypes.Tag]?
 
     public init(
         backupRetentionPeriod: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         preSignedUrl: Swift.String? = nil,
-        sourceDBInstanceArn: Swift.String? = nil
+        sourceDBInstanceArn: Swift.String? = nil,
+        tags: [RDSClientTypes.Tag]? = nil
     ) {
         self.backupRetentionPeriod = backupRetentionPeriod
         self.kmsKeyId = kmsKeyId
         self.preSignedUrl = preSignedUrl
         self.sourceDBInstanceArn = sourceDBInstanceArn
+        self.tags = tags
     }
+}
+
+extension StartDBInstanceAutomatedBackupsReplicationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartDBInstanceAutomatedBackupsReplicationInput(backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), sourceDBInstanceArn: \(Swift.String(describing: sourceDBInstanceArn)), tags: \(Swift.String(describing: tags)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartDBInstanceAutomatedBackupsReplicationOutput: Swift.Sendable {
@@ -23019,6 +23884,7 @@ extension CreateCustomDBEngineVersionInput {
 
     static func write(value: CreateCustomDBEngineVersionInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["DatabaseInstallationFiles"].writeList(value.databaseInstallationFiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DatabaseInstallationFilesS3BucketName"].write(value.databaseInstallationFilesS3BucketName)
         try writer["DatabaseInstallationFilesS3Prefix"].write(value.databaseInstallationFilesS3Prefix)
         try writer["Description"].write(value.description)
@@ -23073,6 +23939,7 @@ extension CreateDBClusterInput {
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
@@ -23093,6 +23960,7 @@ extension CreateDBClusterInput {
         try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: RDSClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
         try writer["Action"].write("CreateDBCluster")
@@ -23144,6 +24012,7 @@ extension CreateDBInstanceInput {
 
     static func write(value: CreateDBInstanceInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -23181,6 +24050,7 @@ extension CreateDBInstanceInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
@@ -23203,6 +24073,7 @@ extension CreateDBInstanceInput {
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
         try writer["TdeCredentialPassword"].write(value.tdeCredentialPassword)
@@ -23217,6 +24088,7 @@ extension CreateDBInstanceReadReplicaInput {
 
     static func write(value: CreateDBInstanceReadReplicaInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -23260,6 +24132,7 @@ extension CreateDBInstanceReadReplicaInput {
         try writer["SourceDBInstanceIdentifier"].write(value.sourceDBInstanceIdentifier)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["UpgradeStorageConfig"].write(value.upgradeStorageConfig)
         try writer["UseDefaultProcessorFeatures"].write(value.useDefaultProcessorFeatures)
@@ -23289,11 +24162,14 @@ extension CreateDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["DefaultAuthScheme"].write(value.defaultAuthScheme)
+        try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["EngineFamily"].write(value.engineFamily)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
         try writer["RequireTLS"].write(value.requireTLS)
         try writer["RoleArn"].write(value.roleArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["TargetConnectionNetworkType"].write(value.targetConnectionNetworkType)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcSubnetIds"].writeList(value.vpcSubnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("CreateDBProxy")
@@ -23307,6 +24183,7 @@ extension CreateDBProxyEndpointInput {
         guard let value else { return }
         try writer["DBProxyEndpointName"].write(value.dbProxyEndpointName)
         try writer["DBProxyName"].write(value.dbProxyName)
+        try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetRole"].write(value.targetRole)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -24483,6 +25360,7 @@ extension ModifyDBClusterInput {
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["Iops"].write(value.iops)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MonitoringInterval"].write(value.monitoringInterval)
@@ -24546,6 +25424,7 @@ extension ModifyDBInstanceInput {
 
     static func write(value: ModifyDBInstanceInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.ModifyAdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AllowMajorVersionUpgrade"].write(value.allowMajorVersionUpgrade)
         try writer["ApplyImmediately"].write(value.applyImmediately)
@@ -24581,6 +25460,7 @@ extension ModifyDBInstanceInput {
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
@@ -24603,6 +25483,7 @@ extension ModifyDBInstanceInput {
         try writer["RotateMasterUserPassword"].write(value.rotateMasterUserPassword)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
         try writer["TdeCredentialPassword"].write(value.tdeCredentialPassword)
         try writer["UseDefaultProcessorFeatures"].write(value.useDefaultProcessorFeatures)
@@ -24630,6 +25511,7 @@ extension ModifyDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["DefaultAuthScheme"].write(value.defaultAuthScheme)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
         try writer["NewDBProxyName"].write(value.newDBProxyName)
         try writer["RequireTLS"].write(value.requireTLS)
@@ -24805,6 +25687,7 @@ extension PromoteReadReplicaInput {
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Action"].write("PromoteReadReplica")
         try writer["Version"].write("2014-10-31")
     }
@@ -24997,6 +25880,7 @@ extension RestoreDBClusterFromS3Input {
         try writer["SourceEngineVersion"].write(value.sourceEngineVersion)
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
         try writer["Action"].write("RestoreDBClusterFromS3")
@@ -25041,6 +25925,7 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: RDSClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["SnapshotIdentifier"].write(value.snapshotIdentifier)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
         try writer["Action"].write("RestoreDBClusterFromSnapshot")
@@ -25084,6 +25969,7 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["SourceDBClusterIdentifier"].write(value.sourceDBClusterIdentifier)
         try writer["SourceDbClusterResourceId"].write(value.sourceDbClusterResourceId)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["UseLatestRestorableTime"].write(value.useLatestRestorableTime)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
@@ -25096,6 +25982,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
 
     static func write(value: RestoreDBInstanceFromDBSnapshotInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -25135,6 +26022,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
         try writer["TdeCredentialPassword"].write(value.tdeCredentialPassword)
@@ -25149,6 +26037,7 @@ extension RestoreDBInstanceFromS3Input {
 
     static func write(value: RestoreDBInstanceFromS3Input?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -25198,6 +26087,7 @@ extension RestoreDBInstanceFromS3Input {
         try writer["StorageEncrypted"].write(value.storageEncrypted)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["UseDefaultProcessorFeatures"].write(value.useDefaultProcessorFeatures)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "VpcSecurityGroupId", isFlattened: false)
@@ -25210,6 +26100,7 @@ extension RestoreDBInstanceToPointInTimeInput {
 
     static func write(value: RestoreDBInstanceToPointInTimeInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AdditionalStorageVolumes"].writeList(value.additionalStorageVolumes, memberWritingClosure: RDSClientTypes.AdditionalStorageVolume.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
@@ -25251,6 +26142,7 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["SourceDbiResourceId"].write(value.sourceDbiResourceId)
         try writer["StorageThroughput"].write(value.storageThroughput)
         try writer["StorageType"].write(value.storageType)
+        try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: RDSClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "item", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetDBInstanceIdentifier"].write(value.targetDBInstanceIdentifier)
         try writer["TdeCredentialArn"].write(value.tdeCredentialArn)
@@ -25319,6 +26211,7 @@ extension StartDBInstanceAutomatedBackupsReplicationInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["PreSignedUrl"].write(value.preSignedUrl)
         try writer["SourceDBInstanceArn"].write(value.sourceDBInstanceArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("StartDBInstanceAutomatedBackupsReplication")
         try writer["Version"].write("2014-10-31")
     }
@@ -25601,12 +26494,14 @@ extension CreateCustomDBEngineVersionOutput {
         value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
         value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
         value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
         value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
         value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
@@ -25905,12 +26800,14 @@ extension DeleteCustomDBEngineVersionOutput {
         value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
         value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
         value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
         value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
         value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
@@ -26904,12 +27801,14 @@ extension ModifyCustomDBEngineVersionOutput {
         value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
         value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
         value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
         value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
         value.engine = try reader["Engine"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
         value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
@@ -27667,11 +28566,16 @@ enum AddTagsToResourceOutputError {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
             case "DBProxyTargetGroupNotFoundFault": return try DBProxyTargetGroupNotFoundFault.makeError(baseError: baseError)
+            case "DBShardGroupNotFound": return try DBShardGroupNotFoundFault.makeError(baseError: baseError)
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
             case "DBSnapshotTenantDatabaseNotFoundFault": return try DBSnapshotTenantDatabaseNotFoundFault.makeError(baseError: baseError)
             case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBClusterEndpointStateFault": return try InvalidDBClusterEndpointStateFault.makeError(baseError: baseError)
+            case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
+            case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "TenantDatabaseNotFound": return try TenantDatabaseNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -27846,6 +28750,7 @@ enum CreateBlueGreenDeploymentOutputError {
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "SourceClusterNotSupportedFault": return try SourceClusterNotSupportedFault.makeError(baseError: baseError)
             case "SourceDatabaseNotSupportedFault": return try SourceDatabaseNotSupportedFault.makeError(baseError: baseError)
+            case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27861,8 +28766,10 @@ enum CreateCustomDBEngineVersionOutputError {
         switch baseError.code {
             case "CreateCustomDBEngineVersionFault": return try CreateCustomDBEngineVersionFault.makeError(baseError: baseError)
             case "CustomDBEngineVersionAlreadyExistsFault": return try CustomDBEngineVersionAlreadyExistsFault.makeError(baseError: baseError)
+            case "CustomDBEngineVersionNotFoundFault": return try CustomDBEngineVersionNotFoundFault.makeError(baseError: baseError)
             case "CustomDBEngineVersionQuotaExceededFault": return try CustomDBEngineVersionQuotaExceededFault.makeError(baseError: baseError)
             case "Ec2ImagePropertiesNotSupportedFault": return try Ec2ImagePropertiesNotSupportedFault.makeError(baseError: baseError)
+            case "InvalidCustomDBEngineVersionStateFault": return try InvalidCustomDBEngineVersionStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -27896,8 +28803,11 @@ enum CreateDBClusterOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
+            case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27985,6 +28895,7 @@ enum CreateDBInstanceOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28022,6 +28933,7 @@ enum CreateDBInstanceReadReplicaOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28179,6 +29091,8 @@ enum CreateGlobalClusterOutputError {
             case "GlobalClusterAlreadyExistsFault": return try GlobalClusterAlreadyExistsFault.makeError(baseError: baseError)
             case "GlobalClusterQuotaExceededFault": return try GlobalClusterQuotaExceededFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
+            case "InvalidDBShardGroupState": return try InvalidDBShardGroupStateFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28279,6 +29193,8 @@ enum DeleteDBClusterOutputError {
             case "DBClusterSnapshotAlreadyExistsFault": return try DBClusterSnapshotAlreadyExistsFault.makeError(baseError: baseError)
             case "InvalidDBClusterSnapshotStateFault": return try InvalidDBClusterSnapshotStateFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
+            case "InvalidGlobalClusterStateFault": return try InvalidGlobalClusterStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "SnapshotQuotaExceeded": return try SnapshotQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -28359,6 +29275,7 @@ enum DeleteDBInstanceOutputError {
             case "DBSnapshotAlreadyExists": return try DBSnapshotAlreadyExistsFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "SnapshotQuotaExceeded": return try SnapshotQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -28557,6 +29474,7 @@ enum DeleteTenantDatabaseOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "DBSnapshotAlreadyExists": return try DBSnapshotAlreadyExistsFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "TenantDatabaseNotFound": return try TenantDatabaseNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29314,8 +30232,10 @@ enum ListTagsForResourceOutputError {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
             case "DBProxyTargetGroupNotFoundFault": return try DBProxyTargetGroupNotFoundFault.makeError(baseError: baseError)
+            case "DBShardGroupNotFound": return try DBShardGroupNotFoundFault.makeError(baseError: baseError)
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
             case "DBSnapshotTenantDatabaseNotFoundFault": return try DBSnapshotTenantDatabaseNotFoundFault.makeError(baseError: baseError)
             case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
@@ -29398,17 +30318,23 @@ enum ModifyDBClusterOutputError {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBClusterParameterGroupNotFound": return try DBClusterParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceAlreadyExists": return try DBInstanceAlreadyExistsFault.makeError(baseError: baseError)
+            case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
             case "DomainNotFoundFault": return try DomainNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "InvalidDBSecurityGroupState": return try InvalidDBSecurityGroupStateFault.makeError(baseError: baseError)
             case "InvalidDBSubnetGroupStateFault": return try InvalidDBSubnetGroupStateFault.makeError(baseError: baseError)
+            case "InvalidGlobalClusterStateFault": return try InvalidGlobalClusterStateFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotAvailableFault": return try StorageTypeNotAvailableFault.makeError(baseError: baseError)
+            case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29492,6 +30418,7 @@ enum ModifyDBInstanceOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29599,6 +30526,8 @@ enum ModifyDBSnapshotOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBSnapshotState": return try InvalidDBSnapshotStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29631,6 +30560,7 @@ enum ModifyDBSubnetGroupOutputError {
             case "DBSubnetGroupDoesNotCoverEnoughAZs": return try DBSubnetGroupDoesNotCoverEnoughAZs.makeError(baseError: baseError)
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
             case "DBSubnetQuotaExceededFault": return try DBSubnetQuotaExceededFault.makeError(baseError: baseError)
+            case "InvalidDBSubnetGroupStateFault": return try InvalidDBSubnetGroupStateFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "SubnetAlreadyInUse": return try SubnetAlreadyInUse.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -29796,6 +30726,7 @@ enum RebootDBInstanceOutputError {
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29848,6 +30779,7 @@ enum RemoveFromGlobalClusterOutputError {
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "GlobalClusterNotFoundFault": return try GlobalClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidGlobalClusterStateFault": return try InvalidGlobalClusterStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -29912,11 +30844,16 @@ enum RemoveTagsFromResourceOutputError {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
             case "DBProxyNotFoundFault": return try DBProxyNotFoundFault.makeError(baseError: baseError)
             case "DBProxyTargetGroupNotFoundFault": return try DBProxyTargetGroupNotFoundFault.makeError(baseError: baseError)
+            case "DBShardGroupNotFound": return try DBShardGroupNotFoundFault.makeError(baseError: baseError)
             case "DBSnapshotNotFound": return try DBSnapshotNotFoundFault.makeError(baseError: baseError)
             case "DBSnapshotTenantDatabaseNotFoundFault": return try DBSnapshotTenantDatabaseNotFoundFault.makeError(baseError: baseError)
             case "IntegrationNotFoundFault": return try IntegrationNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBClusterEndpointStateFault": return try InvalidDBClusterEndpointStateFault.makeError(baseError: baseError)
+            case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
+            case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "TenantDatabaseNotFound": return try TenantDatabaseNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -29974,6 +30911,7 @@ enum RestoreDBClusterFromS3OutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -30007,8 +30945,11 @@ enum RestoreDBClusterFromSnapshotOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
+            case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30040,8 +30981,11 @@ enum RestoreDBClusterToPointInTimeOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "OptionGroupNotFoundFault": return try OptionGroupNotFoundFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
+            case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30079,6 +31023,7 @@ enum RestoreDBInstanceFromDBSnapshotOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30111,6 +31056,7 @@ enum RestoreDBInstanceFromS3OutputError {
             case "ProvisionedIopsNotAvailableInAZFault": return try ProvisionedIopsNotAvailableInAZFault.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30149,6 +31095,7 @@ enum RestoreDBInstanceToPointInTimeOutputError {
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
             case "TenantDatabaseQuotaExceeded": return try TenantDatabaseQuotaExceededFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30201,6 +31148,8 @@ enum StartDBClusterOutputError {
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "InvalidDBShardGroupState": return try InvalidDBShardGroupStateFault.makeError(baseError: baseError)
+            case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30225,6 +31174,7 @@ enum StartDBInstanceOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "VpcEncryptionControlViolationException": return try VpcEncryptionControlViolationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30240,6 +31190,7 @@ enum StartDBInstanceAutomatedBackupsReplicationOutputError {
         switch baseError.code {
             case "DBInstanceAutomatedBackupQuotaExceeded": return try DBInstanceAutomatedBackupQuotaExceededFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBInstanceAutomatedBackupState": return try InvalidDBInstanceAutomatedBackupStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
             case "StorageTypeNotSupported": return try StorageTypeNotSupportedFault.makeError(baseError: baseError)
@@ -30529,6 +31480,19 @@ extension BlueGreenDeploymentNotFoundFault {
     }
 }
 
+extension DBProxyEndpointNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = DBProxyEndpointNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DBProxyNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyNotFoundFault {
@@ -30547,6 +31511,19 @@ extension DBProxyTargetGroupNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyTargetGroupNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBProxyTargetGroupNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBShardGroupNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = DBShardGroupNotFoundFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30586,6 +31563,19 @@ extension IntegrationNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = IntegrationNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidDBClusterEndpointStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterEndpointStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDBClusterEndpointStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -30958,6 +31948,19 @@ extension SourceDatabaseNotSupportedFault {
     }
 }
 
+extension StorageQuotaExceededFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageQuotaExceededFault {
+        let reader = baseError.errorBodyReader
+        var value = StorageQuotaExceededFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CreateCustomDBEngineVersionFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CreateCustomDBEngineVersionFault {
@@ -30984,6 +31987,19 @@ extension CustomDBEngineVersionAlreadyExistsFault {
     }
 }
 
+extension CustomDBEngineVersionNotFoundFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = CustomDBEngineVersionNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension CustomDBEngineVersionQuotaExceededFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionQuotaExceededFault {
@@ -31002,6 +32018,19 @@ extension Ec2ImagePropertiesNotSupportedFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> Ec2ImagePropertiesNotSupportedFault {
         let reader = baseError.errorBodyReader
         var value = Ec2ImagePropertiesNotSupportedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidCustomDBEngineVersionStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCustomDBEngineVersionStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidCustomDBEngineVersionStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31166,11 +32195,37 @@ extension InvalidVPCNetworkStateFault {
     }
 }
 
-extension StorageQuotaExceededFault {
+extension NetworkTypeNotSupported {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageQuotaExceededFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NetworkTypeNotSupported {
         let reader = baseError.errorBodyReader
-        var value = StorageQuotaExceededFault()
+        var value = NetworkTypeNotSupported()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StorageTypeNotSupportedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
+        let reader = baseError.errorBodyReader
+        var value = StorageTypeNotSupportedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension VpcEncryptionControlViolationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> VpcEncryptionControlViolationException {
+        let reader = baseError.errorBodyReader
+        var value = VpcEncryptionControlViolationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31257,37 +32312,11 @@ extension DBInstanceAlreadyExistsFault {
     }
 }
 
-extension NetworkTypeNotSupported {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NetworkTypeNotSupported {
-        let reader = baseError.errorBodyReader
-        var value = NetworkTypeNotSupported()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ProvisionedIopsNotAvailableInAZFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ProvisionedIopsNotAvailableInAZFault {
         let reader = baseError.errorBodyReader
         var value = ProvisionedIopsNotAvailableInAZFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension StorageTypeNotSupportedFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StorageTypeNotSupportedFault {
-        let reader = baseError.errorBodyReader
-        var value = StorageTypeNotSupportedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31608,6 +32637,19 @@ extension GlobalClusterQuotaExceededFault {
     }
 }
 
+extension InvalidDBShardGroupStateFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBShardGroupStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDBShardGroupStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension IntegrationAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IntegrationAlreadyExistsFault {
@@ -31673,32 +32715,6 @@ extension InvalidBlueGreenDeploymentStateFault {
     }
 }
 
-extension CustomDBEngineVersionNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomDBEngineVersionNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = CustomDBEngineVersionNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidCustomDBEngineVersionStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidCustomDBEngineVersionStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidCustomDBEngineVersionStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DBClusterAutomatedBackupQuotaExceededFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterAutomatedBackupQuotaExceededFault {
@@ -31743,19 +32759,6 @@ extension DBClusterEndpointNotFoundFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBClusterEndpointNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = DBClusterEndpointNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDBClusterEndpointStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBClusterEndpointStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDBClusterEndpointStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -31816,50 +32819,11 @@ extension InvalidDBInstanceAutomatedBackupStateFault {
     }
 }
 
-extension DBProxyEndpointNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = DBProxyEndpointNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidDBProxyEndpointStateFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBProxyEndpointStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBProxyEndpointStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DBShardGroupNotFoundFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DBShardGroupNotFoundFault {
-        let reader = baseError.errorBodyReader
-        var value = DBShardGroupNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDBShardGroupStateFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidDBShardGroupStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDBShardGroupStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -32396,10 +33360,10 @@ extension RDSClientTypes.DBClusterSnapshot {
         value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
         value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
-        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
         value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
+        value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         return value
     }
 }
@@ -32454,6 +33418,7 @@ extension RDSClientTypes.DBSnapshot {
         value.licenseModel = try reader["LicenseModel"].readIfPresent()
         value.snapshotType = try reader["SnapshotType"].readIfPresent()
         value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
         value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
         value.percentProgress = try reader["PercentProgress"].readIfPresent()
         value.sourceRegion = try reader["SourceRegion"].readIfPresent()
@@ -32468,14 +33433,39 @@ extension RDSClientTypes.DBSnapshot {
         value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
         value.dbiResourceId = try reader["DbiResourceId"].readIfPresent()
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.snapshotTarget = try reader["SnapshotTarget"].readIfPresent()
         value.originalSnapshotCreateTime = try reader["OriginalSnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.snapshotDatabaseTime = try reader["SnapshotDatabaseTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.snapshotTarget = try reader["SnapshotTarget"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.snapshotAvailabilityZone = try reader["SnapshotAvailabilityZone"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.AdditionalStorageVolume {
+
+    static func write(value: RDSClientTypes.AdditionalStorageVolume?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllocatedStorage"].write(value.allocatedStorage)
+        try writer["IOPS"].write(value.iops)
+        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
+        try writer["StorageThroughput"].write(value.storageThroughput)
+        try writer["StorageType"].write(value.storageType)
+        try writer["VolumeName"].write(value.volumeName)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AdditionalStorageVolume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AdditionalStorageVolume()
+        value.volumeName = try reader["VolumeName"].readIfPresent() ?? ""
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.iops = try reader["IOPS"].readIfPresent()
+        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
         return value
     }
 }
@@ -32709,7 +33699,6 @@ extension RDSClientTypes.DBCluster {
         value.dbClusterParameterGroup = try reader["DBClusterParameterGroup"].readIfPresent()
         value.dbSubnetGroup = try reader["DBSubnetGroup"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.automaticRestartTime = try reader["AutomaticRestartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["PercentProgress"].readIfPresent()
         value.earliestRestorableTime = try reader["EarliestRestorableTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -32724,6 +33713,7 @@ extension RDSClientTypes.DBCluster {
         value.dbClusterOptionGroupMemberships = try reader["DBClusterOptionGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterOptionGroupStatus.read(from:), memberNodeInfo: "DBClusterOptionGroup", isFlattened: false)
         value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.upgradeRolloutOrder = try reader["UpgradeRolloutOrder"].readIfPresent()
         value.replicationSourceIdentifier = try reader["ReplicationSourceIdentifier"].readIfPresent()
         value.readReplicaIdentifiers = try reader["ReadReplicaIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "ReadReplicaIdentifier", isFlattened: false)
         value.statusInfos = try reader["StatusInfos"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBClusterStatusInfo.read(from:), memberNodeInfo: "DBClusterStatusInfo", isFlattened: false)
@@ -32743,9 +33733,17 @@ extension RDSClientTypes.DBCluster {
         value.backtrackConsumedChangeRecords = try reader["BacktrackConsumedChangeRecords"].readIfPresent()
         value.enabledCloudwatchLogsExports = try reader["EnabledCloudwatchLogsExports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacity = try reader["Capacity"].readIfPresent()
+        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.ClusterPendingModifiedValues.read(from:))
         value.engineMode = try reader["EngineMode"].readIfPresent()
         value.scalingConfigurationInfo = try reader["ScalingConfigurationInfo"].readIfPresent(with: RDSClientTypes.ScalingConfigurationInfo.read(from:))
         value.rdsCustomClusterConfiguration = try reader["RdsCustomClusterConfiguration"].readIfPresent(with: RDSClientTypes.RdsCustomClusterConfiguration.read(from:))
+        value.dbClusterInstanceClass = try reader["DBClusterInstanceClass"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.ioOptimizedNextAllowedModificationTime = try reader["IOOptimizedNextAllowedModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
+        value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.httpEndpointEnabled = try reader["HttpEndpointEnabled"].readIfPresent()
         value.activityStreamMode = try reader["ActivityStreamMode"].readIfPresent()
@@ -32759,28 +33757,21 @@ extension RDSClientTypes.DBCluster {
         value.globalClusterIdentifier = try reader["GlobalClusterIdentifier"].readIfPresent()
         value.globalWriteForwardingStatus = try reader["GlobalWriteForwardingStatus"].readIfPresent()
         value.globalWriteForwardingRequested = try reader["GlobalWriteForwardingRequested"].readIfPresent()
-        value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.ClusterPendingModifiedValues.read(from:))
-        value.dbClusterInstanceClass = try reader["DBClusterInstanceClass"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
-        value.autoMinorVersionUpgrade = try reader["AutoMinorVersionUpgrade"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
+        value.automaticRestartTime = try reader["AutomaticRestartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: RDSClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
         value.monitoringInterval = try reader["MonitoringInterval"].readIfPresent()
         value.monitoringRoleArn = try reader["MonitoringRoleArn"].readIfPresent()
         value.databaseInsightsMode = try reader["DatabaseInsightsMode"].readIfPresent()
         value.performanceInsightsEnabled = try reader["PerformanceInsightsEnabled"].readIfPresent()
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.performanceInsightsRetentionPeriod = try reader["PerformanceInsightsRetentionPeriod"].readIfPresent()
-        value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: RDSClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
-        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
-        value.networkType = try reader["NetworkType"].readIfPresent()
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
-        value.ioOptimizedNextAllowedModificationTime = try reader["IOOptimizedNextAllowedModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.localWriteForwardingStatus = try reader["LocalWriteForwardingStatus"].readIfPresent()
         value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
         value.limitlessDatabase = try reader["LimitlessDatabase"].readIfPresent(with: RDSClientTypes.LimitlessDatabase.read(from:))
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
         value.clusterScalabilityType = try reader["ClusterScalabilityType"].readIfPresent()
         value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
         value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
@@ -32834,22 +33825,18 @@ extension RDSClientTypes.ServerlessV2ScalingConfigurationInfo {
     }
 }
 
-extension RDSClientTypes.ClusterPendingModifiedValues {
+extension RDSClientTypes.DomainMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ClusterPendingModifiedValues {
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DomainMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.ClusterPendingModifiedValues()
-        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.rdsCustomClusterConfiguration = try reader["RdsCustomClusterConfiguration"].readIfPresent(with: RDSClientTypes.RdsCustomClusterConfiguration.read(from:))
-        value.iops = try reader["Iops"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
+        var value = RDSClientTypes.DomainMembership()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.fqdn = try reader["FQDN"].readIfPresent()
+        value.iamRoleName = try reader["IAMRoleName"].readIfPresent()
+        value.ou = try reader["OU"].readIfPresent()
+        value.authSecretArn = try reader["AuthSecretArn"].readIfPresent()
+        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -32873,33 +33860,6 @@ extension RDSClientTypes.RdsCustomClusterConfiguration {
     }
 }
 
-extension RDSClientTypes.PendingCloudwatchLogsExports {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingCloudwatchLogsExports {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.PendingCloudwatchLogsExports()
-        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSClientTypes.DomainMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DomainMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSClientTypes.DomainMembership()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.fqdn = try reader["FQDN"].readIfPresent()
-        value.iamRoleName = try reader["IAMRoleName"].readIfPresent()
-        value.ou = try reader["OU"].readIfPresent()
-        value.authSecretArn = try reader["AuthSecretArn"].readIfPresent()
-        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension RDSClientTypes.ScalingConfigurationInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ScalingConfigurationInfo {
@@ -32911,6 +33871,37 @@ extension RDSClientTypes.ScalingConfigurationInfo {
         value.secondsUntilAutoPause = try reader["SecondsUntilAutoPause"].readIfPresent()
         value.timeoutAction = try reader["TimeoutAction"].readIfPresent()
         value.secondsBeforeTimeout = try reader["SecondsBeforeTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.ClusterPendingModifiedValues {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ClusterPendingModifiedValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ClusterPendingModifiedValues()
+        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.rdsCustomClusterConfiguration = try reader["RdsCustomClusterConfiguration"].readIfPresent(with: RDSClientTypes.RdsCustomClusterConfiguration.read(from:))
+        value.iops = try reader["Iops"].readIfPresent()
+        value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.PendingCloudwatchLogsExports {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.PendingCloudwatchLogsExports {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.PendingCloudwatchLogsExports()
+        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -32973,7 +33964,6 @@ extension RDSClientTypes.DBInstance {
         value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
         value.engine = try reader["Engine"].readIfPresent()
         value.dbInstanceStatus = try reader["DBInstanceStatus"].readIfPresent()
-        value.automaticRestartTime = try reader["AutomaticRestartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.masterUsername = try reader["MasterUsername"].readIfPresent()
         value.dbName = try reader["DBName"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent(with: RDSClientTypes.Endpoint.read(from:))
@@ -32987,6 +33977,7 @@ extension RDSClientTypes.DBInstance {
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
         value.dbSubnetGroup = try reader["DBSubnetGroup"].readIfPresent(with: RDSClientTypes.DBSubnetGroup.read(from:))
         value.preferredMaintenanceWindow = try reader["PreferredMaintenanceWindow"].readIfPresent()
+        value.upgradeRolloutOrder = try reader["UpgradeRolloutOrder"].readIfPresent()
         value.pendingModifiedValues = try reader["PendingModifiedValues"].readIfPresent(with: RDSClientTypes.PendingModifiedValues.read(from:))
         value.latestRestorableTime = try reader["LatestRestorableTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.multiAZ = try reader["MultiAZ"].readIfPresent()
@@ -32998,6 +33989,7 @@ extension RDSClientTypes.DBInstance {
         value.replicaMode = try reader["ReplicaMode"].readIfPresent()
         value.licenseModel = try reader["LicenseModel"].readIfPresent()
         value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
         value.optionGroupMemberships = try reader["OptionGroupMemberships"].readListIfPresent(memberReadingClosure: RDSClientTypes.OptionGroupMembership.read(from:), memberNodeInfo: "OptionGroupMembership", isFlattened: false)
         value.characterSetName = try reader["CharacterSetName"].readIfPresent()
         value.ncharCharacterSetName = try reader["NcharCharacterSetName"].readIfPresent()
@@ -33032,30 +34024,48 @@ extension RDSClientTypes.DBInstance {
         value.listenerEndpoint = try reader["ListenerEndpoint"].readIfPresent(with: RDSClientTypes.Endpoint.read(from:))
         value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.dbInstanceAutomatedBackupsReplications = try reader["DBInstanceAutomatedBackupsReplications"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.read(from:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
+        value.automationMode = try reader["AutomationMode"].readIfPresent()
+        value.resumeFullAutomationModeTime = try reader["ResumeFullAutomationModeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.customerOwnedIpEnabled = try reader["CustomerOwnedIpEnabled"].readIfPresent()
-        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         value.activityStreamStatus = try reader["ActivityStreamStatus"].readIfPresent()
         value.activityStreamKmsKeyId = try reader["ActivityStreamKmsKeyId"].readIfPresent()
         value.activityStreamKinesisStreamName = try reader["ActivityStreamKinesisStreamName"].readIfPresent()
         value.activityStreamMode = try reader["ActivityStreamMode"].readIfPresent()
         value.activityStreamEngineNativeAuditFieldsIncluded = try reader["ActivityStreamEngineNativeAuditFieldsIncluded"].readIfPresent()
-        value.automationMode = try reader["AutomationMode"].readIfPresent()
-        value.resumeFullAutomationModeTime = try reader["ResumeFullAutomationModeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.customIamInstanceProfile = try reader["CustomIamInstanceProfile"].readIfPresent()
+        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.dbInstanceAutomatedBackupsReplications = try reader["DBInstanceAutomatedBackupsReplications"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.read(from:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
         value.backupTarget = try reader["BackupTarget"].readIfPresent()
-        value.networkType = try reader["NetworkType"].readIfPresent()
+        value.automaticRestartTime = try reader["AutomaticRestartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customIamInstanceProfile = try reader["CustomIamInstanceProfile"].readIfPresent()
         value.activityStreamPolicyStatus = try reader["ActivityStreamPolicyStatus"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
-        value.certificateDetails = try reader["CertificateDetails"].readIfPresent(with: RDSClientTypes.CertificateDetails.read(from:))
         value.readReplicaSourceDBClusterIdentifier = try reader["ReadReplicaSourceDBClusterIdentifier"].readIfPresent()
         value.percentProgress = try reader["PercentProgress"].readIfPresent()
+        value.multiTenant = try reader["MultiTenant"].readIfPresent()
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.isStorageConfigUpgradeAvailable = try reader["IsStorageConfigUpgradeAvailable"].readIfPresent()
-        value.multiTenant = try reader["MultiTenant"].readIfPresent()
         value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolumeOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.AdditionalStorageVolumeOutput {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AdditionalStorageVolumeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AdditionalStorageVolumeOutput()
+        value.volumeName = try reader["VolumeName"].readIfPresent()
+        value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.iops = try reader["IOPS"].readIfPresent()
+        value.maxAllocatedStorage = try reader["MaxAllocatedStorage"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
         return value
     }
 }
@@ -33132,19 +34142,20 @@ extension RDSClientTypes.PendingModifiedValues {
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.licenseModel = try reader["LicenseModel"].readIfPresent()
         value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
         value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
         value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
         value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
         value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: RDSClientTypes.PendingCloudwatchLogsExports.read(from:))
         value.processorFeatures = try reader["ProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.ProcessorFeature.read(from:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
         value.automationMode = try reader["AutomationMode"].readIfPresent()
         value.resumeFullAutomationModeTime = try reader["ResumeFullAutomationModeTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -33221,6 +34232,7 @@ extension RDSClientTypes.DBProxy {
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["VpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcSubnetIds = try reader["VpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultAuthScheme = try reader["DefaultAuthScheme"].readIfPresent()
         value.auth = try reader["Auth"].readListIfPresent(memberReadingClosure: RDSClientTypes.UserAuthConfigInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.endpoint = try reader["Endpoint"].readIfPresent()
@@ -33229,6 +34241,8 @@ extension RDSClientTypes.DBProxy {
         value.debugLogging = try reader["DebugLogging"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedDate = try reader["UpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endpointNetworkType = try reader["EndpointNetworkType"].readIfPresent()
+        value.targetConnectionNetworkType = try reader["TargetConnectionNetworkType"].readIfPresent()
         return value
     }
 }
@@ -33264,6 +34278,7 @@ extension RDSClientTypes.DBProxyEndpoint {
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.targetRole = try reader["TargetRole"].readIfPresent()
         value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.endpointNetworkType = try reader["EndpointNetworkType"].readIfPresent()
         return value
     }
 }
@@ -33391,8 +34406,9 @@ extension RDSClientTypes.DBClusterAutomatedBackup {
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
         value.iops = try reader["Iops"].readIfPresent()
-        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
         value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         return value
     }
 }
@@ -33429,6 +34445,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup {
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.licenseModel = try reader["LicenseModel"].readIfPresent()
         value.iops = try reader["Iops"].readIfPresent()
+        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
         value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
         value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
         value.encrypted = try reader["Encrypted"].readIfPresent()
@@ -33440,10 +34457,11 @@ extension RDSClientTypes.DBInstanceAutomatedBackup {
         value.dbInstanceAutomatedBackupsArn = try reader["DBInstanceAutomatedBackupsArn"].readIfPresent()
         value.dbInstanceAutomatedBackupsReplications = try reader["DBInstanceAutomatedBackupsReplications"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.read(from:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
         value.backupTarget = try reader["BackupTarget"].readIfPresent()
-        value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
-        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
-        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.multiTenant = try reader["MultiTenant"].readIfPresent()
+        value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
+        value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -33574,13 +34592,22 @@ extension RDSClientTypes.DBEngineVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = RDSClientTypes.DBEngineVersion()
         value.engine = try reader["Engine"].readIfPresent()
+        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
+        value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
+        value.databaseInstallationFiles = try reader["DatabaseInstallationFiles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customDBEngineVersionManifest = try reader["CustomDBEngineVersionManifest"].readIfPresent()
         value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
         value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
+        value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
         value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
         value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: RDSClientTypes.CharacterSet.read(from:))
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         value.image = try reader["Image"].readIfPresent(with: RDSClientTypes.CustomDBEngineVersionAMI.read(from:))
         value.dbEngineMediaType = try reader["DBEngineMediaType"].readIfPresent()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
         value.supportedNcharCharacterSets = try reader["SupportedNcharCharacterSets"].readListIfPresent(memberReadingClosure: RDSClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
         value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: RDSClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
@@ -33593,15 +34620,8 @@ extension RDSClientTypes.DBEngineVersion {
         value.status = try reader["Status"].readIfPresent()
         value.supportsParallelQuery = try reader["SupportsParallelQuery"].readIfPresent()
         value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
-        value.majorEngineVersion = try reader["MajorEngineVersion"].readIfPresent()
-        value.databaseInstallationFilesS3BucketName = try reader["DatabaseInstallationFilesS3BucketName"].readIfPresent()
-        value.databaseInstallationFilesS3Prefix = try reader["DatabaseInstallationFilesS3Prefix"].readIfPresent()
-        value.dbEngineVersionArn = try reader["DBEngineVersionArn"].readIfPresent()
-        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         value.supportsBabelfish = try reader["SupportsBabelfish"].readIfPresent()
-        value.customDBEngineVersionManifest = try reader["CustomDBEngineVersionManifest"].readIfPresent()
         value.supportsLimitlessDatabase = try reader["SupportsLimitlessDatabase"].readIfPresent()
         value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
         value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -34028,10 +35048,10 @@ extension RDSClientTypes.Integration {
         value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RDSClientTypes.IntegrationError.read(from:), memberNodeInfo: "IntegrationError", isFlattened: false)
         value.dataFilter = try reader["DataFilter"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RDSClientTypes.IntegrationError.read(from:), memberNodeInfo: "IntegrationError", isFlattened: false)
         return value
     }
 }
@@ -34118,6 +35138,7 @@ extension RDSClientTypes.OrderableDBInstanceOption {
         value.supportsStorageEncryption = try reader["SupportsStorageEncryption"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
         value.supportsIops = try reader["SupportsIops"].readIfPresent()
+        value.supportsStorageThroughput = try reader["SupportsStorageThroughput"].readIfPresent()
         value.supportsEnhancedMonitoring = try reader["SupportsEnhancedMonitoring"].readIfPresent()
         value.supportsIAMDatabaseAuthentication = try reader["SupportsIAMDatabaseAuthentication"].readIfPresent()
         value.supportsPerformanceInsights = try reader["SupportsPerformanceInsights"].readIfPresent()
@@ -34127,6 +35148,10 @@ extension RDSClientTypes.OrderableDBInstanceOption {
         value.maxIopsPerDbInstance = try reader["MaxIopsPerDbInstance"].readIfPresent()
         value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
         value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
+        value.minStorageThroughputPerDbInstance = try reader["MinStorageThroughputPerDbInstance"].readIfPresent()
+        value.maxStorageThroughputPerDbInstance = try reader["MaxStorageThroughputPerDbInstance"].readIfPresent()
+        value.minStorageThroughputPerIops = try reader["MinStorageThroughputPerIops"].readIfPresent()
+        value.maxStorageThroughputPerIops = try reader["MaxStorageThroughputPerIops"].readIfPresent()
         value.availableProcessorFeatures = try reader["AvailableProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableProcessorFeature.read(from:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
         value.supportedEngineModes = try reader["SupportedEngineModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
@@ -34134,14 +35159,33 @@ extension RDSClientTypes.OrderableDBInstanceOption {
         value.outpostCapable = try reader["OutpostCapable"].readIfPresent()
         value.supportedActivityStreamModes = try reader["SupportedActivityStreamModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
-        value.supportsClusters = try reader["SupportsClusters"].readIfPresent()
         value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsStorageThroughput = try reader["SupportsStorageThroughput"].readIfPresent()
-        value.minStorageThroughputPerDbInstance = try reader["MinStorageThroughputPerDbInstance"].readIfPresent()
-        value.maxStorageThroughputPerDbInstance = try reader["MaxStorageThroughputPerDbInstance"].readIfPresent()
-        value.minStorageThroughputPerIops = try reader["MinStorageThroughputPerIops"].readIfPresent()
-        value.maxStorageThroughputPerIops = try reader["MaxStorageThroughputPerIops"].readIfPresent()
+        value.supportsClusters = try reader["SupportsClusters"].readIfPresent()
         value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
+        value.supportsAdditionalStorageVolumes = try reader["SupportsAdditionalStorageVolumes"].readIfPresent()
+        value.supportsHttpEndpoint = try reader["SupportsHttpEndpoint"].readIfPresent()
+        value.availableAdditionalStorageVolumesOptions = try reader["AvailableAdditionalStorageVolumesOptions"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableAdditionalStorageVolumesOption.read(from:), memberNodeInfo: "AvailableAdditionalStorageVolumesOption", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.AvailableAdditionalStorageVolumesOption {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableAdditionalStorageVolumesOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AvailableAdditionalStorageVolumesOption()
+        value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
+        value.supportsStorageThroughput = try reader["SupportsStorageThroughput"].readIfPresent()
+        value.supportsIops = try reader["SupportsIops"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.minStorageSize = try reader["MinStorageSize"].readIfPresent()
+        value.maxStorageSize = try reader["MaxStorageSize"].readIfPresent()
+        value.minIops = try reader["MinIops"].readIfPresent()
+        value.maxIops = try reader["MaxIops"].readIfPresent()
+        value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
+        value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
+        value.minStorageThroughput = try reader["MinStorageThroughput"].readIfPresent()
+        value.maxStorageThroughput = try reader["MaxStorageThroughput"].readIfPresent()
         return value
     }
 }
@@ -34234,6 +35278,29 @@ extension RDSClientTypes.ValidDBInstanceModificationsMessage {
         value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
         value.validProcessorFeatures = try reader["ValidProcessorFeatures"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableProcessorFeature.read(from:), memberNodeInfo: "AvailableProcessorFeature", isFlattened: false)
         value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
+        value.additionalStorage = try reader["AdditionalStorage"].readIfPresent(with: RDSClientTypes.ValidAdditionalStorageOptions.read(from:))
+        return value
+    }
+}
+
+extension RDSClientTypes.ValidAdditionalStorageOptions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidAdditionalStorageOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ValidAdditionalStorageOptions()
+        value.supportsAdditionalStorageVolumes = try reader["SupportsAdditionalStorageVolumes"].readIfPresent()
+        value.volumes = try reader["Volumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidVolumeOptions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.ValidVolumeOptions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.ValidVolumeOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.ValidVolumeOptions()
+        value.volumeName = try reader["VolumeName"].readIfPresent()
+        value.storage = try reader["Storage"].readListIfPresent(memberReadingClosure: RDSClientTypes.ValidStorageOptions.read(from:), memberNodeInfo: "ValidStorageOptions", isFlattened: false)
         return value
     }
 }
@@ -34247,9 +35314,9 @@ extension RDSClientTypes.ValidStorageOptions {
         value.storageSize = try reader["StorageSize"].readListIfPresent(memberReadingClosure: RDSClientTypes.Range.read(from:), memberNodeInfo: "Range", isFlattened: false)
         value.provisionedIops = try reader["ProvisionedIops"].readListIfPresent(memberReadingClosure: RDSClientTypes.Range.read(from:), memberNodeInfo: "Range", isFlattened: false)
         value.iopsToStorageRatio = try reader["IopsToStorageRatio"].readListIfPresent(memberReadingClosure: RDSClientTypes.DoubleRange.read(from:), memberNodeInfo: "DoubleRange", isFlattened: false)
-        value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
         value.provisionedStorageThroughput = try reader["ProvisionedStorageThroughput"].readListIfPresent(memberReadingClosure: RDSClientTypes.Range.read(from:), memberNodeInfo: "Range", isFlattened: false)
         value.storageThroughputToIopsRatio = try reader["StorageThroughputToIopsRatio"].readListIfPresent(memberReadingClosure: RDSClientTypes.DoubleRange.read(from:), memberNodeInfo: "DoubleRange", isFlattened: false)
+        value.supportsStorageAutoscaling = try reader["SupportsStorageAutoscaling"].readIfPresent()
         return value
     }
 }
@@ -34300,6 +35367,15 @@ extension RDSClientTypes.ServerlessV2ScalingConfiguration {
     }
 }
 
+extension RDSClientTypes.TagSpecification {
+
+    static func write(value: RDSClientTypes.TagSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+    }
+}
+
 extension RDSClientTypes.UserAuthConfig {
 
     static func write(value: RDSClientTypes.UserAuthConfig?, to writer: SmithyFormURL.Writer) throws {
@@ -34328,6 +35404,20 @@ extension RDSClientTypes.CloudwatchLogsExportConfiguration {
         guard let value else { return }
         try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension RDSClientTypes.ModifyAdditionalStorageVolume {
+
+    static func write(value: RDSClientTypes.ModifyAdditionalStorageVolume?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AllocatedStorage"].write(value.allocatedStorage)
+        try writer["IOPS"].write(value.iops)
+        try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
+        try writer["SetForDelete"].write(value.setForDelete)
+        try writer["StorageThroughput"].write(value.storageThroughput)
+        try writer["StorageType"].write(value.storageType)
+        try writer["VolumeName"].write(value.volumeName)
     }
 }
 

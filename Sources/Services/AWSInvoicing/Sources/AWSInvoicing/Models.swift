@@ -24,6 +24,9 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -542,6 +545,117 @@ extension InvoicingClientTypes {
 
 extension InvoicingClientTypes {
 
+    public enum BuyerDomain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case networkid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BuyerDomain] {
+            return [
+                .networkid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .networkid: return "NetworkID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request could not be completed due to a conflict with the current state of the resource. This exception occurs when a concurrent modification is detected during an update operation, or when attempting to create a resource that already exists.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The identifier of the resource that caused the conflict.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of resource that caused the conflict.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvoicingConflict" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum ConnectionTestingMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case prodEnvDollarTest
+        case testEnvReplayTest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionTestingMethod] {
+            return [
+                .prodEnvDollarTest,
+                .testEnvReplayTest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .prodEnvDollarTest: return "PROD_ENV_DOLLAR_TEST"
+            case .testEnvReplayTest: return "TEST_ENV_REPLAY_TEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Represents contact information for a person or role associated with the procurement portal preference.
+    public struct Contact: Swift.Sendable {
+        /// The email address of the contact person or role.
+        public var email: Swift.String?
+        /// The name of the contact person or role.
+        public var name: Swift.String?
+
+        public init(
+            email: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.email = email
+            self.name = name
+        }
+    }
+}
+
+extension InvoicingClientTypes.Contact: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension InvoicingClientTypes {
+
     /// The tag structure that contains a tag key and value.
     public struct ResourceTag: Swift.Sendable {
         /// The object key of your of your resource tag.
@@ -565,12 +679,16 @@ extension InvoicingClientTypes {
 
     /// This is used to categorize the invoice unit. Values are Amazon Web Services account IDs. Currently, the only supported rule is LINKED_ACCOUNT.
     public struct InvoiceUnitRule: Swift.Sendable {
+        /// A list of Amazon Web Services account account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account.
+        public var billSourceAccounts: [Swift.String]?
         /// The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit.
         public var linkedAccounts: [Swift.String]?
 
         public init(
+            billSourceAccounts: [Swift.String]? = nil,
             linkedAccounts: [Swift.String]? = nil
         ) {
+            self.billSourceAccounts = billSourceAccounts
             self.linkedAccounts = linkedAccounts
         }
     }
@@ -618,6 +736,416 @@ public struct CreateInvoiceUnitOutput: Swift.Sendable {
         invoiceUnitArn: Swift.String? = nil
     ) {
         self.invoiceUnitArn = invoiceUnitArn
+    }
+}
+
+/// The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvoicingServiceQuotaExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum EinvoiceDeliveryAttachmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invoicePdf
+        case rfpPdf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EinvoiceDeliveryAttachmentType] {
+            return [
+                .invoicePdf,
+                .rfpPdf
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invoicePdf: return "INVOICE_PDF"
+            case .rfpPdf: return "RFP_PDF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum EinvoiceDeliveryDocumentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsCloudCreditMemo
+        case awsCloudInvoice
+        case awsMarketplaceCreditMemo
+        case awsMarketplaceInvoice
+        case awsRequestForPayment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EinvoiceDeliveryDocumentType] {
+            return [
+                .awsCloudCreditMemo,
+                .awsCloudInvoice,
+                .awsMarketplaceCreditMemo,
+                .awsMarketplaceInvoice,
+                .awsRequestForPayment
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsCloudCreditMemo: return "AWS_CLOUD_CREDIT_MEMO"
+            case .awsCloudInvoice: return "AWS_CLOUD_INVOICE"
+            case .awsMarketplaceCreditMemo: return "AWS_MARKETPLACE_CREDIT_MEMO"
+            case .awsMarketplaceInvoice: return "AWS_MARKETPLACE_INVOICE"
+            case .awsRequestForPayment: return "AWS_REQUEST_FOR_PAYMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cxml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelProtocol] {
+            return [
+                .cxml
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cxml: return "CXML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum PurchaseOrderDataSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associatedPurchaseOrderRequired
+        case purchaseOrderNotRequired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PurchaseOrderDataSourceType] {
+            return [
+                .associatedPurchaseOrderRequired,
+                .purchaseOrderNotRequired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associatedPurchaseOrderRequired: return "ASSOCIATED_PURCHASE_ORDER_REQUIRED"
+            case .purchaseOrderNotRequired: return "PURCHASE_ORDER_NOT_REQUIRED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Specifies the source configuration for retrieving purchase order data.
+    public struct PurchaseOrderDataSource: Swift.Sendable {
+        /// The type of e-invoice document that requires purchase order data.
+        public var einvoiceDeliveryDocumentType: InvoicingClientTypes.EinvoiceDeliveryDocumentType?
+        /// The type of source for purchase order data.
+        public var purchaseOrderDataSourceType: InvoicingClientTypes.PurchaseOrderDataSourceType?
+
+        public init(
+            einvoiceDeliveryDocumentType: InvoicingClientTypes.EinvoiceDeliveryDocumentType? = nil,
+            purchaseOrderDataSourceType: InvoicingClientTypes.PurchaseOrderDataSourceType? = nil
+        ) {
+            self.einvoiceDeliveryDocumentType = einvoiceDeliveryDocumentType
+            self.purchaseOrderDataSourceType = purchaseOrderDataSourceType
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Specifies the preferences for e-invoice delivery, including document types, attachment types, and customization settings.
+    public struct EinvoiceDeliveryPreference: Swift.Sendable {
+        /// The method to use for testing the connection to the procurement portal.
+        /// This member is required.
+        public var connectionTestingMethod: InvoicingClientTypes.ConnectionTestingMethod?
+        /// The date when e-invoice delivery should be activated for this preference.
+        /// This member is required.
+        public var einvoiceDeliveryActivationDate: Foundation.Date?
+        /// The types of attachments to include with the e-invoice delivery.
+        public var einvoiceDeliveryAttachmentTypes: [InvoicingClientTypes.EinvoiceDeliveryAttachmentType]?
+        /// The types of e-invoice documents to be delivered.
+        /// This member is required.
+        public var einvoiceDeliveryDocumentTypes: [InvoicingClientTypes.EinvoiceDeliveryDocumentType]?
+        /// The communication protocol to use for e-invoice delivery.
+        /// This member is required.
+        public var `protocol`: InvoicingClientTypes.ModelProtocol?
+        /// The sources of purchase order data to use for e-invoice generation and delivery.
+        /// This member is required.
+        public var purchaseOrderDataSources: [InvoicingClientTypes.PurchaseOrderDataSource]?
+
+        public init(
+            connectionTestingMethod: InvoicingClientTypes.ConnectionTestingMethod? = nil,
+            einvoiceDeliveryActivationDate: Foundation.Date? = nil,
+            einvoiceDeliveryAttachmentTypes: [InvoicingClientTypes.EinvoiceDeliveryAttachmentType]? = nil,
+            einvoiceDeliveryDocumentTypes: [InvoicingClientTypes.EinvoiceDeliveryDocumentType]? = nil,
+            `protocol`: InvoicingClientTypes.ModelProtocol? = nil,
+            purchaseOrderDataSources: [InvoicingClientTypes.PurchaseOrderDataSource]? = nil
+        ) {
+            self.connectionTestingMethod = connectionTestingMethod
+            self.einvoiceDeliveryActivationDate = einvoiceDeliveryActivationDate
+            self.einvoiceDeliveryAttachmentTypes = einvoiceDeliveryAttachmentTypes
+            self.einvoiceDeliveryDocumentTypes = einvoiceDeliveryDocumentTypes
+            self.`protocol` = `protocol`
+            self.purchaseOrderDataSources = purchaseOrderDataSources
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum ProcurementPortalName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case coupa
+        case sapBusinessNetwork
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProcurementPortalName] {
+            return [
+                .coupa,
+                .sapBusinessNetwork
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .coupa: return "COUPA"
+            case .sapBusinessNetwork: return "SAP_BUSINESS_NETWORK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Specifies criteria for selecting which invoices should be processed using a particular procurement portal preference.
+    public struct ProcurementPortalPreferenceSelector: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of invoice unit identifiers to which this preference applies.
+        public var invoiceUnitArns: [Swift.String]?
+        /// The list of seller of record IDs to which this preference applies.
+        public var sellerOfRecords: [Swift.String]?
+
+        public init(
+            invoiceUnitArns: [Swift.String]? = nil,
+            sellerOfRecords: [Swift.String]? = nil
+        ) {
+            self.invoiceUnitArns = invoiceUnitArns
+            self.sellerOfRecords = sellerOfRecords
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum SupplierDomain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case networkid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupplierDomain] {
+            return [
+                .networkid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .networkid: return "NetworkID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Input parameters for configuring test environment preferences for a procurement portal.
+    public struct TestEnvPreferenceInput: Swift.Sendable {
+        /// The domain identifier to use for the buyer in the test environment.
+        /// This member is required.
+        public var buyerDomain: InvoicingClientTypes.BuyerDomain?
+        /// The unique identifier to use for the buyer in the test environment.
+        /// This member is required.
+        public var buyerIdentifier: Swift.String?
+        /// The endpoint URL where e-invoices will be delivered in the test environment.
+        public var procurementPortalInstanceEndpoint: Swift.String?
+        /// The shared secret or authentication credential to use for secure communication in the test environment.
+        public var procurementPortalSharedSecret: Swift.String?
+        /// The domain identifier to use for the supplier in the test environment.
+        /// This member is required.
+        public var supplierDomain: InvoicingClientTypes.SupplierDomain?
+        /// The unique identifier to use for the supplier in the test environment.
+        /// This member is required.
+        public var supplierIdentifier: Swift.String?
+
+        public init(
+            buyerDomain: InvoicingClientTypes.BuyerDomain? = nil,
+            buyerIdentifier: Swift.String? = nil,
+            procurementPortalInstanceEndpoint: Swift.String? = nil,
+            procurementPortalSharedSecret: Swift.String? = nil,
+            supplierDomain: InvoicingClientTypes.SupplierDomain? = nil,
+            supplierIdentifier: Swift.String? = nil
+        ) {
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+            self.procurementPortalSharedSecret = procurementPortalSharedSecret
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+        }
+    }
+}
+
+public struct CreateProcurementPortalPreferenceInput: Swift.Sendable {
+    /// The domain identifier for the buyer in the procurement portal.
+    /// This member is required.
+    public var buyerDomain: InvoicingClientTypes.BuyerDomain?
+    /// The unique identifier for the buyer in the procurement portal.
+    /// This member is required.
+    public var buyerIdentifier: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// List of contact information for portal administrators and technical contacts responsible for the e-invoice integration.
+    /// This member is required.
+    public var contacts: [InvoicingClientTypes.Contact]?
+    /// Indicates whether e-invoice delivery is enabled for this procurement portal preference. Set to true to enable e-invoice delivery, false to disable.
+    /// This member is required.
+    public var einvoiceDeliveryEnabled: Swift.Bool?
+    /// Specifies the e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
+    public var einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference?
+    /// The endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
+    public var procurementPortalInstanceEndpoint: Swift.String?
+    /// The name of the procurement portal.
+    /// This member is required.
+    public var procurementPortalName: InvoicingClientTypes.ProcurementPortalName?
+    /// The shared secret or authentication credential used to establish secure communication with the procurement portal. This value must be encrypted at rest.
+    public var procurementPortalSharedSecret: Swift.String?
+    /// Indicates whether purchase order retrieval is enabled for this procurement portal preference. Set to true to enable PO retrieval, false to disable.
+    /// This member is required.
+    public var purchaseOrderRetrievalEnabled: Swift.Bool?
+    /// The tags to apply to this procurement portal preference resource. Each tag consists of a key and an optional value.
+    public var resourceTags: [InvoicingClientTypes.ResourceTag]?
+    /// Specifies criteria for selecting which invoices should be processed using a particular procurement portal preference.
+    public var selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector?
+    /// The domain identifier for the supplier in the procurement portal.
+    /// This member is required.
+    public var supplierDomain: InvoicingClientTypes.SupplierDomain?
+    /// The unique identifier for the supplier in the procurement portal.
+    /// This member is required.
+    public var supplierIdentifier: Swift.String?
+    /// Configuration settings for the test environment of the procurement portal. Includes test credentials and endpoints that are used for validation before production deployment.
+    public var testEnvPreference: InvoicingClientTypes.TestEnvPreferenceInput?
+
+    public init(
+        buyerDomain: InvoicingClientTypes.BuyerDomain? = nil,
+        buyerIdentifier: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        contacts: [InvoicingClientTypes.Contact]? = nil,
+        einvoiceDeliveryEnabled: Swift.Bool? = nil,
+        einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference? = nil,
+        procurementPortalInstanceEndpoint: Swift.String? = nil,
+        procurementPortalName: InvoicingClientTypes.ProcurementPortalName? = nil,
+        procurementPortalSharedSecret: Swift.String? = nil,
+        purchaseOrderRetrievalEnabled: Swift.Bool? = nil,
+        resourceTags: [InvoicingClientTypes.ResourceTag]? = nil,
+        selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector? = nil,
+        supplierDomain: InvoicingClientTypes.SupplierDomain? = nil,
+        supplierIdentifier: Swift.String? = nil,
+        testEnvPreference: InvoicingClientTypes.TestEnvPreferenceInput? = nil
+    ) {
+        self.buyerDomain = buyerDomain
+        self.buyerIdentifier = buyerIdentifier
+        self.clientToken = clientToken
+        self.contacts = contacts
+        self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
+        self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+        self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+        self.procurementPortalName = procurementPortalName
+        self.procurementPortalSharedSecret = procurementPortalSharedSecret
+        self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
+        self.resourceTags = resourceTags
+        self.selector = selector
+        self.supplierDomain = supplierDomain
+        self.supplierIdentifier = supplierIdentifier
+        self.testEnvPreference = testEnvPreference
+    }
+}
+
+extension CreateProcurementPortalPreferenceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateProcurementPortalPreferenceInput(buyerDomain: \(Swift.String(describing: buyerDomain)), buyerIdentifier: \(Swift.String(describing: buyerIdentifier)), clientToken: \(Swift.String(describing: clientToken)), einvoiceDeliveryEnabled: \(Swift.String(describing: einvoiceDeliveryEnabled)), einvoiceDeliveryPreference: \(Swift.String(describing: einvoiceDeliveryPreference)), procurementPortalInstanceEndpoint: \(Swift.String(describing: procurementPortalInstanceEndpoint)), procurementPortalName: \(Swift.String(describing: procurementPortalName)), purchaseOrderRetrievalEnabled: \(Swift.String(describing: purchaseOrderRetrievalEnabled)), resourceTags: \(Swift.String(describing: resourceTags)), selector: \(Swift.String(describing: selector)), supplierDomain: \(Swift.String(describing: supplierDomain)), supplierIdentifier: \(Swift.String(describing: supplierIdentifier)), testEnvPreference: \(Swift.String(describing: testEnvPreference)), contacts: \"CONTENT_REDACTED\", procurementPortalSharedSecret: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateProcurementPortalPreferenceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created procurement portal preference.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
     }
 }
 
@@ -688,6 +1216,30 @@ public struct DeleteInvoiceUnitOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteProcurementPortalPreferenceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to delete.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+    }
+}
+
+public struct DeleteProcurementPortalPreferenceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted procurement portal preference.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+    }
+}
+
 extension InvoicingClientTypes {
 
     /// The organization name providing Amazon Web Services services.
@@ -709,6 +1261,8 @@ extension InvoicingClientTypes {
     public struct Filters: Swift.Sendable {
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
         public var accounts: [Swift.String]?
+        /// A list of Amazon Web Services account account IDs used to filter invoice units. These are payer accounts from other Organizations that have delegated their billing responsibility to the receiver account through the billing transfer feature.
+        public var billSourceAccounts: [Swift.String]?
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. This filter only matches the specified accounts on the invoice receivers of the invoice units.
         public var invoiceReceivers: [Swift.String]?
         /// An optional input to the list API. You can specify a list of invoice unit names inside filters to return invoice units that match only the specified invoice unit names. If multiple names are provided, the result is an OR condition (match any) of the specified invoice unit names.
@@ -716,13 +1270,84 @@ extension InvoicingClientTypes {
 
         public init(
             accounts: [Swift.String]? = nil,
+            billSourceAccounts: [Swift.String]? = nil,
             invoiceReceivers: [Swift.String]? = nil,
             names: [Swift.String]? = nil
         ) {
             self.accounts = accounts
+            self.billSourceAccounts = billSourceAccounts
             self.invoiceReceivers = invoiceReceivers
             self.names = names
         }
+    }
+}
+
+public struct GetInvoicePDFInput: Swift.Sendable {
+    /// Your unique invoice ID.
+    /// This member is required.
+    public var invoiceId: Swift.String?
+
+    public init(
+        invoiceId: Swift.String? = nil
+    ) {
+        self.invoiceId = invoiceId
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Supplemental document associated with the invoice.
+    public struct SupplementalDocument: Swift.Sendable {
+        /// The pre-signed URL to download invoice supplemental document.
+        public var documentUrl: Swift.String?
+        /// The pre-signed URL expiration date of invoice supplemental document.
+        public var documentUrlExpirationDate: Foundation.Date?
+
+        public init(
+            documentUrl: Swift.String? = nil,
+            documentUrlExpirationDate: Foundation.Date? = nil
+        ) {
+            self.documentUrl = documentUrl
+            self.documentUrlExpirationDate = documentUrlExpirationDate
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Invoice document data.
+    public struct InvoicePDF: Swift.Sendable {
+        /// The pre-signed URL to download the invoice document.
+        public var documentUrl: Swift.String?
+        /// The pre-signed URL expiration date of the invoice document.
+        public var documentUrlExpirationDate: Foundation.Date?
+        /// Your unique invoice ID.
+        public var invoiceId: Swift.String?
+        /// List of supplemental documents associated with the invoice.
+        public var supplementalDocuments: [InvoicingClientTypes.SupplementalDocument]?
+
+        public init(
+            documentUrl: Swift.String? = nil,
+            documentUrlExpirationDate: Foundation.Date? = nil,
+            invoiceId: Swift.String? = nil,
+            supplementalDocuments: [InvoicingClientTypes.SupplementalDocument]? = nil
+        ) {
+            self.documentUrl = documentUrl
+            self.documentUrlExpirationDate = documentUrlExpirationDate
+            self.invoiceId = invoiceId
+            self.supplementalDocuments = supplementalDocuments
+        }
+    }
+}
+
+public struct GetInvoicePDFOutput: Swift.Sendable {
+    /// The invoice document and supplemental documents associated with the invoice.
+    public var invoicePDF: InvoicingClientTypes.InvoicePDF?
+
+    public init(
+        invoicePDF: InvoicingClientTypes.InvoicePDF? = nil
+    ) {
+        self.invoicePDF = invoicePDF
     }
 }
 
@@ -774,6 +1399,234 @@ public struct GetInvoiceUnitOutput: Swift.Sendable {
         self.name = name
         self.rule = rule
         self.taxInheritanceDisabled = taxInheritanceDisabled
+    }
+}
+
+public struct GetProcurementPortalPreferenceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to retrieve.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum ProcurementPortalPreferenceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case pendingVerification
+        case suspended
+        case testFailed
+        case testInitializationFailed
+        case testInitialized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProcurementPortalPreferenceStatus] {
+            return [
+                .active,
+                .pendingVerification,
+                .suspended,
+                .testFailed,
+                .testInitializationFailed,
+                .testInitialized
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .pendingVerification: return "PENDING_VERIFICATION"
+            case .suspended: return "SUSPENDED"
+            case .testFailed: return "TEST_FAILED"
+            case .testInitializationFailed: return "TEST_INITIALIZATION_FAILED"
+            case .testInitialized: return "TEST_INITIALIZED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Contains configuration settings for testing the procurement portal integration in a non-production environment.
+    public struct TestEnvPreference: Swift.Sendable {
+        /// The domain identifier for the buyer in the test environment of the procurement portal.
+        /// This member is required.
+        public var buyerDomain: InvoicingClientTypes.BuyerDomain?
+        /// The unique identifier for the buyer in the test environment of the procurement portal.
+        /// This member is required.
+        public var buyerIdentifier: Swift.String?
+        /// The endpoint URL where e-invoices are delivered in the test environment.
+        public var procurementPortalInstanceEndpoint: Swift.String?
+        /// The shared secret or authentication credential used for secure communication with the test environment.
+        public var procurementPortalSharedSecret: Swift.String?
+        /// The endpoint URL used for retrieving purchase orders in the test environment.
+        public var purchaseOrderRetrievalEndpoint: Swift.String?
+        /// The domain identifier for the supplier in the test environment of the procurement portal.
+        /// This member is required.
+        public var supplierDomain: InvoicingClientTypes.SupplierDomain?
+        /// The unique identifier for the supplier in the test environment of the procurement portal.
+        /// This member is required.
+        public var supplierIdentifier: Swift.String?
+
+        public init(
+            buyerDomain: InvoicingClientTypes.BuyerDomain? = nil,
+            buyerIdentifier: Swift.String? = nil,
+            procurementPortalInstanceEndpoint: Swift.String? = nil,
+            procurementPortalSharedSecret: Swift.String? = nil,
+            purchaseOrderRetrievalEndpoint: Swift.String? = nil,
+            supplierDomain: InvoicingClientTypes.SupplierDomain? = nil,
+            supplierIdentifier: Swift.String? = nil
+        ) {
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+            self.procurementPortalSharedSecret = procurementPortalSharedSecret
+            self.purchaseOrderRetrievalEndpoint = purchaseOrderRetrievalEndpoint
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Represents the full configuration of a procurement portal preference, including settings for e-invoice delivery and purchase order retrieval.
+    public struct ProcurementPortalPreference: Swift.Sendable {
+        /// The Amazon Web Services account ID associated with this procurement portal preference.
+        /// This member is required.
+        public var awsAccountId: Swift.String?
+        /// The domain identifier for the buyer in the procurement portal.
+        /// This member is required.
+        public var buyerDomain: InvoicingClientTypes.BuyerDomain?
+        /// The unique identifier for the buyer in the procurement portal.
+        /// This member is required.
+        public var buyerIdentifier: Swift.String?
+        /// List of contact information for portal administrators and technical contacts.
+        public var contacts: [InvoicingClientTypes.Contact]?
+        /// The date and time when the procurement portal preference was created.
+        /// This member is required.
+        public var createDate: Foundation.Date?
+        /// Indicates whether e-invoice delivery is enabled for this procurement portal preference.
+        /// This member is required.
+        public var einvoiceDeliveryEnabled: Swift.Bool?
+        /// The configuration settings that specify how e-invoices are delivered to the procurement portal.
+        public var einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference?
+        /// The current status of the e-invoice delivery preference.
+        public var einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus?
+        /// The reason for the current e-invoice delivery preference status.
+        public var einvoiceDeliveryPreferenceStatusReason: Swift.String?
+        /// The date and time when the procurement portal preference was last updated.
+        /// This member is required.
+        public var lastUpdateDate: Foundation.Date?
+        /// The endpoint URL where e-invoices are delivered to the procurement portal.
+        public var procurementPortalInstanceEndpoint: Swift.String?
+        /// The name of the procurement portal.
+        /// This member is required.
+        public var procurementPortalName: InvoicingClientTypes.ProcurementPortalName?
+        /// The Amazon Resource Name (ARN) of the procurement portal preference.
+        /// This member is required.
+        public var procurementPortalPreferenceArn: Swift.String?
+        /// The shared secret or authentication credential used for secure communication with the procurement portal.
+        public var procurementPortalSharedSecret: Swift.String?
+        /// Indicates whether purchase order retrieval is enabled for this procurement portal preference.
+        /// This member is required.
+        public var purchaseOrderRetrievalEnabled: Swift.Bool?
+        /// The endpoint URL used for retrieving purchase orders from the procurement portal.
+        public var purchaseOrderRetrievalEndpoint: Swift.String?
+        /// The current status of the purchase order retrieval preference.
+        public var purchaseOrderRetrievalPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus?
+        /// The reason for the current purchase order retrieval preference status.
+        public var purchaseOrderRetrievalPreferenceStatusReason: Swift.String?
+        /// Specifies criteria for selecting which invoices should be processed using a particular procurement portal preference.
+        public var selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector?
+        /// The domain identifier for the supplier in the procurement portal.
+        /// This member is required.
+        public var supplierDomain: InvoicingClientTypes.SupplierDomain?
+        /// The unique identifier for the supplier in the procurement portal.
+        /// This member is required.
+        public var supplierIdentifier: Swift.String?
+        /// Configuration on settings for the test environment of the procurement portal.
+        public var testEnvPreference: InvoicingClientTypes.TestEnvPreference?
+        /// The version number of the procurement portal preference configuration.
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            awsAccountId: Swift.String? = nil,
+            buyerDomain: InvoicingClientTypes.BuyerDomain? = nil,
+            buyerIdentifier: Swift.String? = nil,
+            contacts: [InvoicingClientTypes.Contact]? = nil,
+            createDate: Foundation.Date? = nil,
+            einvoiceDeliveryEnabled: Swift.Bool? = nil,
+            einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference? = nil,
+            einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
+            einvoiceDeliveryPreferenceStatusReason: Swift.String? = nil,
+            lastUpdateDate: Foundation.Date? = nil,
+            procurementPortalInstanceEndpoint: Swift.String? = nil,
+            procurementPortalName: InvoicingClientTypes.ProcurementPortalName? = nil,
+            procurementPortalPreferenceArn: Swift.String? = nil,
+            procurementPortalSharedSecret: Swift.String? = nil,
+            purchaseOrderRetrievalEnabled: Swift.Bool? = nil,
+            purchaseOrderRetrievalEndpoint: Swift.String? = nil,
+            purchaseOrderRetrievalPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
+            purchaseOrderRetrievalPreferenceStatusReason: Swift.String? = nil,
+            selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector? = nil,
+            supplierDomain: InvoicingClientTypes.SupplierDomain? = nil,
+            supplierIdentifier: Swift.String? = nil,
+            testEnvPreference: InvoicingClientTypes.TestEnvPreference? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.awsAccountId = awsAccountId
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.contacts = contacts
+            self.createDate = createDate
+            self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
+            self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+            self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
+            self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
+            self.lastUpdateDate = lastUpdateDate
+            self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+            self.procurementPortalName = procurementPortalName
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+            self.procurementPortalSharedSecret = procurementPortalSharedSecret
+            self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
+            self.purchaseOrderRetrievalEndpoint = purchaseOrderRetrievalEndpoint
+            self.purchaseOrderRetrievalPreferenceStatus = purchaseOrderRetrievalPreferenceStatus
+            self.purchaseOrderRetrievalPreferenceStatusReason = purchaseOrderRetrievalPreferenceStatusReason
+            self.selector = selector
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+            self.testEnvPreference = testEnvPreference
+            self.version = version
+        }
+    }
+}
+
+extension InvoicingClientTypes.ProcurementPortalPreference: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ProcurementPortalPreference(awsAccountId: \(Swift.String(describing: awsAccountId)), buyerDomain: \(Swift.String(describing: buyerDomain)), buyerIdentifier: \(Swift.String(describing: buyerIdentifier)), createDate: \(Swift.String(describing: createDate)), einvoiceDeliveryEnabled: \(Swift.String(describing: einvoiceDeliveryEnabled)), einvoiceDeliveryPreference: \(Swift.String(describing: einvoiceDeliveryPreference)), einvoiceDeliveryPreferenceStatus: \(Swift.String(describing: einvoiceDeliveryPreferenceStatus)), einvoiceDeliveryPreferenceStatusReason: \(Swift.String(describing: einvoiceDeliveryPreferenceStatusReason)), lastUpdateDate: \(Swift.String(describing: lastUpdateDate)), procurementPortalInstanceEndpoint: \(Swift.String(describing: procurementPortalInstanceEndpoint)), procurementPortalName: \(Swift.String(describing: procurementPortalName)), procurementPortalPreferenceArn: \(Swift.String(describing: procurementPortalPreferenceArn)), procurementPortalSharedSecret: \(Swift.String(describing: procurementPortalSharedSecret)), purchaseOrderRetrievalEnabled: \(Swift.String(describing: purchaseOrderRetrievalEnabled)), purchaseOrderRetrievalEndpoint: \(Swift.String(describing: purchaseOrderRetrievalEndpoint)), purchaseOrderRetrievalPreferenceStatus: \(Swift.String(describing: purchaseOrderRetrievalPreferenceStatus)), purchaseOrderRetrievalPreferenceStatusReason: \(Swift.String(describing: purchaseOrderRetrievalPreferenceStatusReason)), selector: \(Swift.String(describing: selector)), supplierDomain: \(Swift.String(describing: supplierDomain)), supplierIdentifier: \(Swift.String(describing: supplierIdentifier)), testEnvPreference: \(Swift.String(describing: testEnvPreference)), version: \(Swift.String(describing: version)), contacts: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetProcurementPortalPreferenceOutput: Swift.Sendable {
+    /// The detailed configuration of the requested procurement portal preference.
+    /// This member is required.
+    public var procurementPortalPreference: InvoicingClientTypes.ProcurementPortalPreference?
+
+    public init(
+        procurementPortalPreference: InvoicingClientTypes.ProcurementPortalPreference? = nil
+    ) {
+        self.procurementPortalPreference = procurementPortalPreference
     }
 }
 
@@ -1086,6 +1939,127 @@ public struct ListInvoiceUnitsOutput: Swift.Sendable {
     }
 }
 
+public struct ListProcurementPortalPreferencesInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Provides a summary of a procurement portal preference, including key identifiers and status information.
+    public struct ProcurementPortalPreferenceSummary: Swift.Sendable {
+        /// The Amazon Web Services account ID associated with this procurement portal preference summary.
+        /// This member is required.
+        public var awsAccountId: Swift.String?
+        /// The domain identifier for the buyer in the procurement portal.
+        /// This member is required.
+        public var buyerDomain: InvoicingClientTypes.BuyerDomain?
+        /// The unique identifier for the buyer in the procurement portal.
+        /// This member is required.
+        public var buyerIdentifier: Swift.String?
+        /// The date and time when the procurement portal preference was created.
+        /// This member is required.
+        public var createDate: Foundation.Date?
+        /// Indicates whether e-invoice delivery is enabled for this procurement portal preference.
+        /// This member is required.
+        public var einvoiceDeliveryEnabled: Swift.Bool?
+        /// The current status of the e-invoice delivery preference in this summary.
+        public var einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus?
+        /// The reason for the current e-invoice delivery preference status in this summary.
+        public var einvoiceDeliveryPreferenceStatusReason: Swift.String?
+        /// The date and time when the procurement portal preference was last updated.
+        /// This member is required.
+        public var lastUpdateDate: Foundation.Date?
+        /// The name of the procurement portal.
+        /// This member is required.
+        public var procurementPortalName: InvoicingClientTypes.ProcurementPortalName?
+        /// The Amazon Resource Name (ARN) of the procurement portal preference.
+        /// This member is required.
+        public var procurementPortalPreferenceArn: Swift.String?
+        /// Indicates whether purchase order retrieval is enabled for this procurement portal preference.
+        /// This member is required.
+        public var purchaseOrderRetrievalEnabled: Swift.Bool?
+        /// The current status of the purchase order retrieval preference in this summary.
+        public var purchaseOrderRetrievalPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus?
+        /// The reason for the current purchase order retrieval preference status in this summary.
+        public var purchaseOrderRetrievalPreferenceStatusReason: Swift.String?
+        /// Specifies criteria for selecting which invoices should be processed using a particular procurement portal preference.
+        public var selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector?
+        /// The domain identifier for the supplier in the procurement portal.
+        /// This member is required.
+        public var supplierDomain: InvoicingClientTypes.SupplierDomain?
+        /// The unique identifier for the supplier in the procurement portal.
+        /// This member is required.
+        public var supplierIdentifier: Swift.String?
+        /// The version number of the procurement portal preference configuration in this summary.
+        /// This member is required.
+        public var version: Swift.Int?
+
+        public init(
+            awsAccountId: Swift.String? = nil,
+            buyerDomain: InvoicingClientTypes.BuyerDomain? = nil,
+            buyerIdentifier: Swift.String? = nil,
+            createDate: Foundation.Date? = nil,
+            einvoiceDeliveryEnabled: Swift.Bool? = nil,
+            einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
+            einvoiceDeliveryPreferenceStatusReason: Swift.String? = nil,
+            lastUpdateDate: Foundation.Date? = nil,
+            procurementPortalName: InvoicingClientTypes.ProcurementPortalName? = nil,
+            procurementPortalPreferenceArn: Swift.String? = nil,
+            purchaseOrderRetrievalEnabled: Swift.Bool? = nil,
+            purchaseOrderRetrievalPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
+            purchaseOrderRetrievalPreferenceStatusReason: Swift.String? = nil,
+            selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector? = nil,
+            supplierDomain: InvoicingClientTypes.SupplierDomain? = nil,
+            supplierIdentifier: Swift.String? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.awsAccountId = awsAccountId
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.createDate = createDate
+            self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
+            self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
+            self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
+            self.lastUpdateDate = lastUpdateDate
+            self.procurementPortalName = procurementPortalName
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+            self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
+            self.purchaseOrderRetrievalPreferenceStatus = purchaseOrderRetrievalPreferenceStatus
+            self.purchaseOrderRetrievalPreferenceStatusReason = purchaseOrderRetrievalPreferenceStatusReason
+            self.selector = selector
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+            self.version = version
+        }
+    }
+}
+
+public struct ListProcurementPortalPreferencesOutput: Swift.Sendable {
+    /// The token to use to retrieve the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
+    /// The list of procurement portal preferences associated with the Amazon Web Services account.
+    public var procurementPortalPreferences: [InvoicingClientTypes.ProcurementPortalPreferenceSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        procurementPortalPreferences: [InvoicingClientTypes.ProcurementPortalPreferenceSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.procurementPortalPreferences = procurementPortalPreferences
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of tags to list.
     /// This member is required.
@@ -1109,27 +2083,67 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
-/// The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvoicingServiceQuotaExceeded" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+public struct PutProcurementPortalPreferenceInput: Swift.Sendable {
+    /// Updated list of contact information for portal administrators and technical contacts.
+    /// This member is required.
+    public var contacts: [InvoicingClientTypes.Contact]?
+    /// Updated flag indicating whether e-invoice delivery is enabled for this procurement portal preference.
+    /// This member is required.
+    public var einvoiceDeliveryEnabled: Swift.Bool?
+    /// Updated e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
+    public var einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference?
+    /// The updated endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
+    public var procurementPortalInstanceEndpoint: Swift.String?
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to update.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+    /// The updated shared secret or authentication credential for the procurement portal. This value must be encrypted at rest.
+    public var procurementPortalSharedSecret: Swift.String?
+    /// Updated flag indicating whether purchase order retrieval is enabled for this procurement portal preference.
+    /// This member is required.
+    public var purchaseOrderRetrievalEnabled: Swift.Bool?
+    /// Specifies criteria for selecting which invoices should be processed using a particular procurement portal preference.
+    public var selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector?
+    /// Updated configuration settings for the test environment of the procurement portal.
+    public var testEnvPreference: InvoicingClientTypes.TestEnvPreferenceInput?
 
     public init(
-        message: Swift.String? = nil
+        contacts: [InvoicingClientTypes.Contact]? = nil,
+        einvoiceDeliveryEnabled: Swift.Bool? = nil,
+        einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference? = nil,
+        procurementPortalInstanceEndpoint: Swift.String? = nil,
+        procurementPortalPreferenceArn: Swift.String? = nil,
+        procurementPortalSharedSecret: Swift.String? = nil,
+        purchaseOrderRetrievalEnabled: Swift.Bool? = nil,
+        selector: InvoicingClientTypes.ProcurementPortalPreferenceSelector? = nil,
+        testEnvPreference: InvoicingClientTypes.TestEnvPreferenceInput? = nil
     ) {
-        self.properties.message = message
+        self.contacts = contacts
+        self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
+        self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+        self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        self.procurementPortalSharedSecret = procurementPortalSharedSecret
+        self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
+        self.selector = selector
+        self.testEnvPreference = testEnvPreference
+    }
+}
+
+extension PutProcurementPortalPreferenceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutProcurementPortalPreferenceInput(einvoiceDeliveryEnabled: \(Swift.String(describing: einvoiceDeliveryEnabled)), einvoiceDeliveryPreference: \(Swift.String(describing: einvoiceDeliveryPreference)), procurementPortalInstanceEndpoint: \(Swift.String(describing: procurementPortalInstanceEndpoint)), procurementPortalPreferenceArn: \(Swift.String(describing: procurementPortalPreferenceArn)), purchaseOrderRetrievalEnabled: \(Swift.String(describing: purchaseOrderRetrievalEnabled)), selector: \(Swift.String(describing: selector)), testEnvPreference: \(Swift.String(describing: testEnvPreference)), contacts: \"CONTENT_REDACTED\", procurementPortalSharedSecret: \"CONTENT_REDACTED\")"}
+}
+
+public struct PutProcurementPortalPreferenceOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated procurement portal preference.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
     }
 }
 
@@ -1212,6 +2226,46 @@ public struct UpdateInvoiceUnitOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateProcurementPortalPreferenceStatusInput: Swift.Sendable {
+    /// The updated status of the e-invoice delivery preference.
+    public var einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus?
+    /// The reason for the e-invoice delivery preference status update, providing context for the change.
+    public var einvoiceDeliveryPreferenceStatusReason: Swift.String?
+    /// The Amazon Resource Name (ARN) of the procurement portal preference to update.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+    /// The updated status of the purchase order retrieval preference.
+    public var purchaseOrderRetrievalPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus?
+    /// The reason for the purchase order retrieval preference status update, providing context for the change.
+    public var purchaseOrderRetrievalPreferenceStatusReason: Swift.String?
+
+    public init(
+        einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
+        einvoiceDeliveryPreferenceStatusReason: Swift.String? = nil,
+        procurementPortalPreferenceArn: Swift.String? = nil,
+        purchaseOrderRetrievalPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
+        purchaseOrderRetrievalPreferenceStatusReason: Swift.String? = nil
+    ) {
+        self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
+        self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        self.purchaseOrderRetrievalPreferenceStatus = purchaseOrderRetrievalPreferenceStatus
+        self.purchaseOrderRetrievalPreferenceStatusReason = purchaseOrderRetrievalPreferenceStatusReason
+    }
+}
+
+public struct UpdateProcurementPortalPreferenceStatusOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the procurement portal preference with updated status.
+    /// This member is required.
+    public var procurementPortalPreferenceArn: Swift.String?
+
+    public init(
+        procurementPortalPreferenceArn: Swift.String? = nil
+    ) {
+        self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+    }
+}
+
 extension BatchGetInvoiceProfileInput {
 
     static func urlPathProvider(_ value: BatchGetInvoiceProfileInput) -> Swift.String? {
@@ -1226,6 +2280,13 @@ extension CreateInvoiceUnitInput {
     }
 }
 
+extension CreateProcurementPortalPreferenceInput {
+
+    static func urlPathProvider(_ value: CreateProcurementPortalPreferenceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteInvoiceUnitInput {
 
     static func urlPathProvider(_ value: DeleteInvoiceUnitInput) -> Swift.String? {
@@ -1233,9 +2294,30 @@ extension DeleteInvoiceUnitInput {
     }
 }
 
+extension DeleteProcurementPortalPreferenceInput {
+
+    static func urlPathProvider(_ value: DeleteProcurementPortalPreferenceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetInvoicePDFInput {
+
+    static func urlPathProvider(_ value: GetInvoicePDFInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetInvoiceUnitInput {
 
     static func urlPathProvider(_ value: GetInvoiceUnitInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetProcurementPortalPreferenceInput {
+
+    static func urlPathProvider(_ value: GetProcurementPortalPreferenceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1254,9 +2336,23 @@ extension ListInvoiceUnitsInput {
     }
 }
 
+extension ListProcurementPortalPreferencesInput {
+
+    static func urlPathProvider(_ value: ListProcurementPortalPreferencesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutProcurementPortalPreferenceInput {
+
+    static func urlPathProvider(_ value: PutProcurementPortalPreferenceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1282,6 +2378,13 @@ extension UpdateInvoiceUnitInput {
     }
 }
 
+extension UpdateProcurementPortalPreferenceStatusInput {
+
+    static func urlPathProvider(_ value: UpdateProcurementPortalPreferenceStatusInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchGetInvoiceProfileInput {
 
     static func write(value: BatchGetInvoiceProfileInput?, to writer: SmithyJSON.Writer) throws {
@@ -1303,11 +2406,49 @@ extension CreateInvoiceUnitInput {
     }
 }
 
+extension CreateProcurementPortalPreferenceInput {
+
+    static func write(value: CreateProcurementPortalPreferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BuyerDomain"].write(value.buyerDomain)
+        try writer["BuyerIdentifier"].write(value.buyerIdentifier)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Contacts"].writeList(value.contacts, memberWritingClosure: InvoicingClientTypes.Contact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EinvoiceDeliveryEnabled"].write(value.einvoiceDeliveryEnabled)
+        try writer["EinvoiceDeliveryPreference"].write(value.einvoiceDeliveryPreference, with: InvoicingClientTypes.EinvoiceDeliveryPreference.write(value:to:))
+        try writer["ProcurementPortalInstanceEndpoint"].write(value.procurementPortalInstanceEndpoint)
+        try writer["ProcurementPortalName"].write(value.procurementPortalName)
+        try writer["ProcurementPortalSharedSecret"].write(value.procurementPortalSharedSecret)
+        try writer["PurchaseOrderRetrievalEnabled"].write(value.purchaseOrderRetrievalEnabled)
+        try writer["ResourceTags"].writeList(value.resourceTags, memberWritingClosure: InvoicingClientTypes.ResourceTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Selector"].write(value.selector, with: InvoicingClientTypes.ProcurementPortalPreferenceSelector.write(value:to:))
+        try writer["SupplierDomain"].write(value.supplierDomain)
+        try writer["SupplierIdentifier"].write(value.supplierIdentifier)
+        try writer["TestEnvPreference"].write(value.testEnvPreference, with: InvoicingClientTypes.TestEnvPreferenceInput.write(value:to:))
+    }
+}
+
 extension DeleteInvoiceUnitInput {
 
     static func write(value: DeleteInvoiceUnitInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["InvoiceUnitArn"].write(value.invoiceUnitArn)
+    }
+}
+
+extension DeleteProcurementPortalPreferenceInput {
+
+    static func write(value: DeleteProcurementPortalPreferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProcurementPortalPreferenceArn"].write(value.procurementPortalPreferenceArn)
+    }
+}
+
+extension GetInvoicePDFInput {
+
+    static func write(value: GetInvoicePDFInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InvoiceId"].write(value.invoiceId)
     }
 }
 
@@ -1317,6 +2458,14 @@ extension GetInvoiceUnitInput {
         guard let value else { return }
         try writer["AsOf"].writeTimestamp(value.asOf, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["InvoiceUnitArn"].write(value.invoiceUnitArn)
+    }
+}
+
+extension GetProcurementPortalPreferenceInput {
+
+    static func write(value: GetProcurementPortalPreferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProcurementPortalPreferenceArn"].write(value.procurementPortalPreferenceArn)
     }
 }
 
@@ -1342,11 +2491,36 @@ extension ListInvoiceUnitsInput {
     }
 }
 
+extension ListProcurementPortalPreferencesInput {
+
+    static func write(value: ListProcurementPortalPreferencesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension PutProcurementPortalPreferenceInput {
+
+    static func write(value: PutProcurementPortalPreferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Contacts"].writeList(value.contacts, memberWritingClosure: InvoicingClientTypes.Contact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EinvoiceDeliveryEnabled"].write(value.einvoiceDeliveryEnabled)
+        try writer["EinvoiceDeliveryPreference"].write(value.einvoiceDeliveryPreference, with: InvoicingClientTypes.EinvoiceDeliveryPreference.write(value:to:))
+        try writer["ProcurementPortalInstanceEndpoint"].write(value.procurementPortalInstanceEndpoint)
+        try writer["ProcurementPortalPreferenceArn"].write(value.procurementPortalPreferenceArn)
+        try writer["ProcurementPortalSharedSecret"].write(value.procurementPortalSharedSecret)
+        try writer["PurchaseOrderRetrievalEnabled"].write(value.purchaseOrderRetrievalEnabled)
+        try writer["Selector"].write(value.selector, with: InvoicingClientTypes.ProcurementPortalPreferenceSelector.write(value:to:))
+        try writer["TestEnvPreference"].write(value.testEnvPreference, with: InvoicingClientTypes.TestEnvPreferenceInput.write(value:to:))
     }
 }
 
@@ -1379,6 +2553,18 @@ extension UpdateInvoiceUnitInput {
     }
 }
 
+extension UpdateProcurementPortalPreferenceStatusInput {
+
+    static func write(value: UpdateProcurementPortalPreferenceStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EinvoiceDeliveryPreferenceStatus"].write(value.einvoiceDeliveryPreferenceStatus)
+        try writer["EinvoiceDeliveryPreferenceStatusReason"].write(value.einvoiceDeliveryPreferenceStatusReason)
+        try writer["ProcurementPortalPreferenceArn"].write(value.procurementPortalPreferenceArn)
+        try writer["PurchaseOrderRetrievalPreferenceStatus"].write(value.purchaseOrderRetrievalPreferenceStatus)
+        try writer["PurchaseOrderRetrievalPreferenceStatusReason"].write(value.purchaseOrderRetrievalPreferenceStatusReason)
+    }
+}
+
 extension BatchGetInvoiceProfileOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetInvoiceProfileOutput {
@@ -1403,6 +2589,18 @@ extension CreateInvoiceUnitOutput {
     }
 }
 
+extension CreateProcurementPortalPreferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProcurementPortalPreferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProcurementPortalPreferenceOutput()
+        value.procurementPortalPreferenceArn = try reader["ProcurementPortalPreferenceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DeleteInvoiceUnitOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteInvoiceUnitOutput {
@@ -1411,6 +2609,30 @@ extension DeleteInvoiceUnitOutput {
         let reader = responseReader
         var value = DeleteInvoiceUnitOutput()
         value.invoiceUnitArn = try reader["InvoiceUnitArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteProcurementPortalPreferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProcurementPortalPreferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteProcurementPortalPreferenceOutput()
+        value.procurementPortalPreferenceArn = try reader["ProcurementPortalPreferenceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetInvoicePDFOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInvoicePDFOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInvoicePDFOutput()
+        value.invoicePDF = try reader["InvoicePDF"].readIfPresent(with: InvoicingClientTypes.InvoicePDF.read(from:))
         return value
     }
 }
@@ -1429,6 +2651,18 @@ extension GetInvoiceUnitOutput {
         value.name = try reader["Name"].readIfPresent()
         value.rule = try reader["Rule"].readIfPresent(with: InvoicingClientTypes.InvoiceUnitRule.read(from:))
         value.taxInheritanceDisabled = try reader["TaxInheritanceDisabled"].readIfPresent()
+        return value
+    }
+}
+
+extension GetProcurementPortalPreferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProcurementPortalPreferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetProcurementPortalPreferenceOutput()
+        value.procurementPortalPreference = try reader["ProcurementPortalPreference"].readIfPresent(with: InvoicingClientTypes.ProcurementPortalPreference.read(from:))
         return value
     }
 }
@@ -1459,6 +2693,19 @@ extension ListInvoiceUnitsOutput {
     }
 }
 
+extension ListProcurementPortalPreferencesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProcurementPortalPreferencesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProcurementPortalPreferencesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.procurementPortalPreferences = try reader["ProcurementPortalPreferences"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.ProcurementPortalPreferenceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -1467,6 +2714,18 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.resourceTags = try reader["ResourceTags"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PutProcurementPortalPreferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutProcurementPortalPreferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutProcurementPortalPreferenceOutput()
+        value.procurementPortalPreferenceArn = try reader["ProcurementPortalPreferenceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1493,6 +2752,18 @@ extension UpdateInvoiceUnitOutput {
         let reader = responseReader
         var value = UpdateInvoiceUnitOutput()
         value.invoiceUnitArn = try reader["InvoiceUnitArn"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateProcurementPortalPreferenceStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProcurementPortalPreferenceStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProcurementPortalPreferenceStatusOutput()
+        value.procurementPortalPreferenceArn = try reader["ProcurementPortalPreferenceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1532,7 +2803,63 @@ enum CreateInvoiceUnitOutputError {
     }
 }
 
+enum CreateProcurementPortalPreferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingConflict": return try ConflictException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteInvoiceUnitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteProcurementPortalPreferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetInvoicePDFOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1561,6 +2888,26 @@ enum GetInvoiceUnitOutputError {
             case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
             case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
             case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetProcurementPortalPreferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingConflict": return try ConflictException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
             case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1603,6 +2950,25 @@ enum ListInvoiceUnitsOutputError {
     }
 }
 
+enum ListProcurementPortalPreferencesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingConflict": return try ConflictException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1614,6 +2980,26 @@ enum ListTagsForResourceOutputError {
             case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
             case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
             case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutProcurementPortalPreferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingConflict": return try ConflictException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
             case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1669,6 +3055,26 @@ enum UpdateInvoiceUnitOutputError {
             case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
             case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
             case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProcurementPortalPreferenceStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingConflict": return try ConflictException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingServiceQuotaExceeded": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
             case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1750,6 +3156,21 @@ extension ValidationException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
@@ -1796,10 +3217,35 @@ extension InvoicingClientTypes.ReceiverAddress {
     }
 }
 
+extension InvoicingClientTypes.InvoicePDF {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoicePDF {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.InvoicePDF()
+        value.invoiceId = try reader["InvoiceId"].readIfPresent()
+        value.documentUrl = try reader["DocumentUrl"].readIfPresent()
+        value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.supplementalDocuments = try reader["SupplementalDocuments"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.SupplementalDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension InvoicingClientTypes.SupplementalDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.SupplementalDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.SupplementalDocument()
+        value.documentUrl = try reader["DocumentUrl"].readIfPresent()
+        value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension InvoicingClientTypes.InvoiceUnitRule {
 
     static func write(value: InvoicingClientTypes.InvoiceUnitRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillSourceAccounts"].writeList(value.billSourceAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LinkedAccounts"].writeList(value.linkedAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -1807,6 +3253,131 @@ extension InvoicingClientTypes.InvoiceUnitRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InvoicingClientTypes.InvoiceUnitRule()
         value.linkedAccounts = try reader["LinkedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.billSourceAccounts = try reader["BillSourceAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension InvoicingClientTypes.ProcurementPortalPreference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.ProcurementPortalPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.ProcurementPortalPreference()
+        value.awsAccountId = try reader["AwsAccountId"].readIfPresent() ?? ""
+        value.procurementPortalPreferenceArn = try reader["ProcurementPortalPreferenceArn"].readIfPresent() ?? ""
+        value.procurementPortalName = try reader["ProcurementPortalName"].readIfPresent() ?? .sdkUnknown("")
+        value.buyerDomain = try reader["BuyerDomain"].readIfPresent() ?? .sdkUnknown("")
+        value.buyerIdentifier = try reader["BuyerIdentifier"].readIfPresent() ?? ""
+        value.supplierDomain = try reader["SupplierDomain"].readIfPresent() ?? .sdkUnknown("")
+        value.supplierIdentifier = try reader["SupplierIdentifier"].readIfPresent() ?? ""
+        value.selector = try reader["Selector"].readIfPresent(with: InvoicingClientTypes.ProcurementPortalPreferenceSelector.read(from:))
+        value.procurementPortalSharedSecret = try reader["ProcurementPortalSharedSecret"].readIfPresent()
+        value.procurementPortalInstanceEndpoint = try reader["ProcurementPortalInstanceEndpoint"].readIfPresent()
+        value.purchaseOrderRetrievalEndpoint = try reader["PurchaseOrderRetrievalEndpoint"].readIfPresent()
+        value.testEnvPreference = try reader["TestEnvPreference"].readIfPresent(with: InvoicingClientTypes.TestEnvPreference.read(from:))
+        value.einvoiceDeliveryEnabled = try reader["EinvoiceDeliveryEnabled"].readIfPresent() ?? false
+        value.einvoiceDeliveryPreference = try reader["EinvoiceDeliveryPreference"].readIfPresent(with: InvoicingClientTypes.EinvoiceDeliveryPreference.read(from:))
+        value.purchaseOrderRetrievalEnabled = try reader["PurchaseOrderRetrievalEnabled"].readIfPresent() ?? false
+        value.contacts = try reader["Contacts"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.Contact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.einvoiceDeliveryPreferenceStatus = try reader["EinvoiceDeliveryPreferenceStatus"].readIfPresent()
+        value.einvoiceDeliveryPreferenceStatusReason = try reader["EinvoiceDeliveryPreferenceStatusReason"].readIfPresent()
+        value.purchaseOrderRetrievalPreferenceStatus = try reader["PurchaseOrderRetrievalPreferenceStatus"].readIfPresent()
+        value.purchaseOrderRetrievalPreferenceStatusReason = try reader["PurchaseOrderRetrievalPreferenceStatusReason"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateDate = try reader["LastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension InvoicingClientTypes.Contact {
+
+    static func write(value: InvoicingClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Email"].write(value.email)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.Contact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.Contact()
+        value.name = try reader["Name"].readIfPresent()
+        value.email = try reader["Email"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.EinvoiceDeliveryPreference {
+
+    static func write(value: InvoicingClientTypes.EinvoiceDeliveryPreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionTestingMethod"].write(value.connectionTestingMethod)
+        try writer["EinvoiceDeliveryActivationDate"].writeTimestamp(value.einvoiceDeliveryActivationDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["EinvoiceDeliveryAttachmentTypes"].writeList(value.einvoiceDeliveryAttachmentTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InvoicingClientTypes.EinvoiceDeliveryAttachmentType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EinvoiceDeliveryDocumentTypes"].writeList(value.einvoiceDeliveryDocumentTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InvoicingClientTypes.EinvoiceDeliveryDocumentType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["PurchaseOrderDataSources"].writeList(value.purchaseOrderDataSources, memberWritingClosure: InvoicingClientTypes.PurchaseOrderDataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.EinvoiceDeliveryPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.EinvoiceDeliveryPreference()
+        value.einvoiceDeliveryDocumentTypes = try reader["EinvoiceDeliveryDocumentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<InvoicingClientTypes.EinvoiceDeliveryDocumentType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.einvoiceDeliveryAttachmentTypes = try reader["EinvoiceDeliveryAttachmentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<InvoicingClientTypes.EinvoiceDeliveryAttachmentType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.purchaseOrderDataSources = try reader["PurchaseOrderDataSources"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.PurchaseOrderDataSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionTestingMethod = try reader["ConnectionTestingMethod"].readIfPresent() ?? .sdkUnknown("")
+        value.einvoiceDeliveryActivationDate = try reader["EinvoiceDeliveryActivationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension InvoicingClientTypes.PurchaseOrderDataSource {
+
+    static func write(value: InvoicingClientTypes.PurchaseOrderDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EinvoiceDeliveryDocumentType"].write(value.einvoiceDeliveryDocumentType)
+        try writer["PurchaseOrderDataSourceType"].write(value.purchaseOrderDataSourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.PurchaseOrderDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.PurchaseOrderDataSource()
+        value.einvoiceDeliveryDocumentType = try reader["EinvoiceDeliveryDocumentType"].readIfPresent()
+        value.purchaseOrderDataSourceType = try reader["PurchaseOrderDataSourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.TestEnvPreference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TestEnvPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.TestEnvPreference()
+        value.buyerDomain = try reader["BuyerDomain"].readIfPresent() ?? .sdkUnknown("")
+        value.buyerIdentifier = try reader["BuyerIdentifier"].readIfPresent() ?? ""
+        value.supplierDomain = try reader["SupplierDomain"].readIfPresent() ?? .sdkUnknown("")
+        value.supplierIdentifier = try reader["SupplierIdentifier"].readIfPresent() ?? ""
+        value.procurementPortalSharedSecret = try reader["ProcurementPortalSharedSecret"].readIfPresent()
+        value.procurementPortalInstanceEndpoint = try reader["ProcurementPortalInstanceEndpoint"].readIfPresent()
+        value.purchaseOrderRetrievalEndpoint = try reader["PurchaseOrderRetrievalEndpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.ProcurementPortalPreferenceSelector {
+
+    static func write(value: InvoicingClientTypes.ProcurementPortalPreferenceSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InvoiceUnitArns"].writeList(value.invoiceUnitArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SellerOfRecords"].writeList(value.sellerOfRecords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.ProcurementPortalPreferenceSelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.ProcurementPortalPreferenceSelector()
+        value.invoiceUnitArns = try reader["InvoiceUnitArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sellerOfRecords = try reader["SellerOfRecords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1983,6 +3554,32 @@ extension InvoicingClientTypes.InvoiceUnit {
     }
 }
 
+extension InvoicingClientTypes.ProcurementPortalPreferenceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.ProcurementPortalPreferenceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.ProcurementPortalPreferenceSummary()
+        value.awsAccountId = try reader["AwsAccountId"].readIfPresent() ?? ""
+        value.procurementPortalPreferenceArn = try reader["ProcurementPortalPreferenceArn"].readIfPresent() ?? ""
+        value.procurementPortalName = try reader["ProcurementPortalName"].readIfPresent() ?? .sdkUnknown("")
+        value.buyerDomain = try reader["BuyerDomain"].readIfPresent() ?? .sdkUnknown("")
+        value.buyerIdentifier = try reader["BuyerIdentifier"].readIfPresent() ?? ""
+        value.supplierDomain = try reader["SupplierDomain"].readIfPresent() ?? .sdkUnknown("")
+        value.supplierIdentifier = try reader["SupplierIdentifier"].readIfPresent() ?? ""
+        value.selector = try reader["Selector"].readIfPresent(with: InvoicingClientTypes.ProcurementPortalPreferenceSelector.read(from:))
+        value.einvoiceDeliveryEnabled = try reader["EinvoiceDeliveryEnabled"].readIfPresent() ?? false
+        value.purchaseOrderRetrievalEnabled = try reader["PurchaseOrderRetrievalEnabled"].readIfPresent() ?? false
+        value.einvoiceDeliveryPreferenceStatus = try reader["EinvoiceDeliveryPreferenceStatus"].readIfPresent()
+        value.einvoiceDeliveryPreferenceStatusReason = try reader["EinvoiceDeliveryPreferenceStatusReason"].readIfPresent()
+        value.purchaseOrderRetrievalPreferenceStatus = try reader["PurchaseOrderRetrievalPreferenceStatus"].readIfPresent()
+        value.purchaseOrderRetrievalPreferenceStatusReason = try reader["PurchaseOrderRetrievalPreferenceStatusReason"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateDate = try reader["LastUpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension InvoicingClientTypes.ResourceTag {
 
     static func write(value: InvoicingClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
@@ -2008,6 +3605,19 @@ extension InvoicingClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension InvoicingClientTypes.TestEnvPreferenceInput {
+
+    static func write(value: InvoicingClientTypes.TestEnvPreferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BuyerDomain"].write(value.buyerDomain)
+        try writer["BuyerIdentifier"].write(value.buyerIdentifier)
+        try writer["ProcurementPortalInstanceEndpoint"].write(value.procurementPortalInstanceEndpoint)
+        try writer["ProcurementPortalSharedSecret"].write(value.procurementPortalSharedSecret)
+        try writer["SupplierDomain"].write(value.supplierDomain)
+        try writer["SupplierIdentifier"].write(value.supplierIdentifier)
     }
 }
 
@@ -2044,6 +3654,7 @@ extension InvoicingClientTypes.Filters {
     static func write(value: InvoicingClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BillSourceAccounts"].writeList(value.billSourceAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InvoiceReceivers"].writeList(value.invoiceReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

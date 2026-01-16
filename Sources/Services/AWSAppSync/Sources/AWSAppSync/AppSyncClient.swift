@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class AppSyncClient: ClientRuntime.Client {
+public class AppSyncClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AppSyncClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: AppSyncClient.AppSyncClientConfiguration
     let serviceName = "AppSync"
@@ -373,9 +373,9 @@ extension AppSyncClient {
     ///
     /// Maps an endpoint to your custom domain.
     ///
-    /// - Parameter AssociateApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApiInput`)
     ///
-    /// - Returns: `AssociateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApiInput, AssociateApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateApiOutput>(AssociateApiOutput.httpOutput(from:), AssociateApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApiInput, AssociateApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApiOutput>())
@@ -443,9 +444,9 @@ extension AppSyncClient {
     ///
     /// Creates an association between a Merged API and source API using the source API's identifier.
     ///
-    /// - Parameter AssociateMergedGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMergedGraphqlApiInput`)
     ///
-    /// - Returns: `AssociateMergedGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMergedGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +485,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMergedGraphqlApiOutput>(AssociateMergedGraphqlApiOutput.httpOutput(from:), AssociateMergedGraphqlApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMergedGraphqlApiInput, AssociateMergedGraphqlApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMergedGraphqlApiOutput>())
@@ -515,9 +517,9 @@ extension AppSyncClient {
     ///
     /// Creates an association between a Merged API and source API using the Merged API's identifier.
     ///
-    /// - Parameter AssociateSourceGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceGraphqlApiInput`)
     ///
-    /// - Returns: `AssociateSourceGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSourceGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,6 +558,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSourceGraphqlApiOutput>(AssociateSourceGraphqlApiOutput.httpOutput(from:), AssociateSourceGraphqlApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceGraphqlApiInput, AssociateSourceGraphqlApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceGraphqlApiOutput>())
@@ -587,9 +590,9 @@ extension AppSyncClient {
     ///
     /// Creates an Api object. Use this operation to create an AppSync API with your preferred configuration, such as an Event API that provides real-time message publishing and message subscriptions over WebSockets.
     ///
-    /// - Parameter CreateApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApiInput`)
     ///
-    /// - Returns: `CreateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +630,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApiInput, CreateApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiOutput>(CreateApiOutput.httpOutput(from:), CreateApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiInput, CreateApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApiOutput>())
@@ -658,9 +662,9 @@ extension AppSyncClient {
     ///
     /// Creates a cache for the GraphQL API.
     ///
-    /// - Parameter CreateApiCacheInput : Represents the input of a CreateApiCache operation.
+    /// - Parameter input: Represents the input of a CreateApiCache operation. (Type: `CreateApiCacheInput`)
     ///
-    /// - Returns: `CreateApiCacheOutput` : Represents the output of a CreateApiCache operation.
+    /// - Returns: Represents the output of a CreateApiCache operation. (Type: `CreateApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +702,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApiCacheInput, CreateApiCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiCacheOutput>(CreateApiCacheOutput.httpOutput(from:), CreateApiCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiCacheInput, CreateApiCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApiCacheOutput>())
@@ -729,9 +734,9 @@ extension AppSyncClient {
     ///
     /// Creates a unique key that you can distribute to clients who invoke your API.
     ///
-    /// - Parameter CreateApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApiKeyInput`)
     ///
-    /// - Returns: `CreateApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,6 +776,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApiKeyInput, CreateApiKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiKeyOutput>(CreateApiKeyOutput.httpOutput(from:), CreateApiKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiKeyInput, CreateApiKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApiKeyOutput>())
@@ -802,9 +808,9 @@ extension AppSyncClient {
     ///
     /// Creates a ChannelNamespace for an Api.
     ///
-    /// - Parameter CreateChannelNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelNamespaceInput`)
     ///
-    /// - Returns: `CreateChannelNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,6 +850,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelNamespaceInput, CreateChannelNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelNamespaceOutput>(CreateChannelNamespaceOutput.httpOutput(from:), CreateChannelNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelNamespaceInput, CreateChannelNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelNamespaceOutput>())
@@ -875,9 +882,9 @@ extension AppSyncClient {
     ///
     /// Creates a DataSource object.
     ///
-    /// - Parameter CreateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSourceInput`)
     ///
-    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -915,6 +922,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataSourceOutput>(CreateDataSourceOutput.httpOutput(from:), CreateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataSourceOutput>())
@@ -946,9 +954,9 @@ extension AppSyncClient {
     ///
     /// Creates a custom DomainName object.
     ///
-    /// - Parameter CreateDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainNameInput`)
     ///
-    /// - Returns: `CreateDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,6 +992,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainNameInput, CreateDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainNameOutput>(CreateDomainNameOutput.httpOutput(from:), CreateDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainNameInput, CreateDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainNameOutput>())
@@ -1015,9 +1024,9 @@ extension AppSyncClient {
     ///
     /// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic.
     ///
-    /// - Parameter CreateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFunctionInput`)
     ///
-    /// - Returns: `CreateFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1055,6 +1064,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFunctionInput, CreateFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFunctionOutput>(CreateFunctionOutput.httpOutput(from:), CreateFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFunctionInput, CreateFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFunctionOutput>())
@@ -1086,9 +1096,9 @@ extension AppSyncClient {
     ///
     /// Creates a GraphqlApi object.
     ///
-    /// - Parameter CreateGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphqlApiInput`)
     ///
-    /// - Returns: `CreateGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,6 +1137,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGraphqlApiInput, CreateGraphqlApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGraphqlApiOutput>(CreateGraphqlApiOutput.httpOutput(from:), CreateGraphqlApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGraphqlApiInput, CreateGraphqlApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGraphqlApiOutput>())
@@ -1158,9 +1169,9 @@ extension AppSyncClient {
     ///
     /// Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand, and converts the data source's responses into GraphQL.
     ///
-    /// - Parameter CreateResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResolverInput`)
     ///
-    /// - Returns: `CreateResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1198,6 +1209,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResolverInput, CreateResolverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResolverOutput>(CreateResolverOutput.httpOutput(from:), CreateResolverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResolverInput, CreateResolverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResolverOutput>())
@@ -1229,9 +1241,9 @@ extension AppSyncClient {
     ///
     /// Creates a Type object.
     ///
-    /// - Parameter CreateTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTypeInput`)
     ///
-    /// - Returns: `CreateTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,6 +1281,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTypeInput, CreateTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTypeOutput>(CreateTypeOutput.httpOutput(from:), CreateTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTypeInput, CreateTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTypeOutput>())
@@ -1300,9 +1313,9 @@ extension AppSyncClient {
     ///
     /// Deletes an Api object
     ///
-    /// - Parameter DeleteApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiInput`)
     ///
-    /// - Returns: `DeleteApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,6 +1351,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApiInput, DeleteApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiOutput>(DeleteApiOutput.httpOutput(from:), DeleteApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiInput, DeleteApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApiOutput>())
@@ -1369,9 +1383,9 @@ extension AppSyncClient {
     ///
     /// Deletes an ApiCache object.
     ///
-    /// - Parameter DeleteApiCacheInput : Represents the input of a DeleteApiCache operation.
+    /// - Parameter input: Represents the input of a DeleteApiCache operation. (Type: `DeleteApiCacheInput`)
     ///
-    /// - Returns: `DeleteApiCacheOutput` : Represents the output of a DeleteApiCache operation.
+    /// - Returns: Represents the output of a DeleteApiCache operation. (Type: `DeleteApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,6 +1420,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApiCacheInput, DeleteApiCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiCacheOutput>(DeleteApiCacheOutput.httpOutput(from:), DeleteApiCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiCacheInput, DeleteApiCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApiCacheOutput>())
@@ -1437,9 +1452,9 @@ extension AppSyncClient {
     ///
     /// Deletes an API key.
     ///
-    /// - Parameter DeleteApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiKeyInput`)
     ///
-    /// - Returns: `DeleteApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1473,6 +1488,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApiKeyInput, DeleteApiKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiKeyOutput>(DeleteApiKeyOutput.httpOutput(from:), DeleteApiKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiKeyInput, DeleteApiKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApiKeyOutput>())
@@ -1504,9 +1520,9 @@ extension AppSyncClient {
     ///
     /// Deletes a ChannelNamespace.
     ///
-    /// - Parameter DeleteChannelNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelNamespaceInput`)
     ///
-    /// - Returns: `DeleteChannelNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1542,6 +1558,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelNamespaceInput, DeleteChannelNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelNamespaceOutput>(DeleteChannelNamespaceOutput.httpOutput(from:), DeleteChannelNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelNamespaceInput, DeleteChannelNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelNamespaceOutput>())
@@ -1573,9 +1590,9 @@ extension AppSyncClient {
     ///
     /// Deletes a DataSource object.
     ///
-    /// - Parameter DeleteDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSourceInput`)
     ///
-    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1610,6 +1627,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutput>(DeleteDataSourceOutput.httpOutput(from:), DeleteDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSourceOutput>())
@@ -1641,9 +1659,9 @@ extension AppSyncClient {
     ///
     /// Deletes a custom DomainName object.
     ///
-    /// - Parameter DeleteDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainNameInput`)
     ///
-    /// - Returns: `DeleteDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1678,6 +1696,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainNameInput, DeleteDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainNameOutput>(DeleteDomainNameOutput.httpOutput(from:), DeleteDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainNameInput, DeleteDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainNameOutput>())
@@ -1709,9 +1728,9 @@ extension AppSyncClient {
     ///
     /// Deletes a Function.
     ///
-    /// - Parameter DeleteFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionInput`)
     ///
-    /// - Returns: `DeleteFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1746,6 +1765,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFunctionInput, DeleteFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionOutput>(DeleteFunctionOutput.httpOutput(from:), DeleteFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionInput, DeleteFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFunctionOutput>())
@@ -1777,9 +1797,9 @@ extension AppSyncClient {
     ///
     /// Deletes a GraphqlApi object.
     ///
-    /// - Parameter DeleteGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGraphqlApiInput`)
     ///
-    /// - Returns: `DeleteGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1815,6 +1835,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGraphqlApiInput, DeleteGraphqlApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGraphqlApiOutput>(DeleteGraphqlApiOutput.httpOutput(from:), DeleteGraphqlApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGraphqlApiInput, DeleteGraphqlApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGraphqlApiOutput>())
@@ -1846,9 +1867,9 @@ extension AppSyncClient {
     ///
     /// Deletes a Resolver object.
     ///
-    /// - Parameter DeleteResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResolverInput`)
     ///
-    /// - Returns: `DeleteResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1883,6 +1904,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResolverInput, DeleteResolverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResolverOutput>(DeleteResolverOutput.httpOutput(from:), DeleteResolverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResolverInput, DeleteResolverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResolverOutput>())
@@ -1914,9 +1936,9 @@ extension AppSyncClient {
     ///
     /// Deletes a Type object.
     ///
-    /// - Parameter DeleteTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTypeInput`)
     ///
-    /// - Returns: `DeleteTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,6 +1973,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTypeInput, DeleteTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTypeOutput>(DeleteTypeOutput.httpOutput(from:), DeleteTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTypeInput, DeleteTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTypeOutput>())
@@ -1982,9 +2005,9 @@ extension AppSyncClient {
     ///
     /// Removes an ApiAssociation object from a custom domain.
     ///
-    /// - Parameter DisassociateApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApiInput`)
     ///
-    /// - Returns: `DisassociateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2019,6 +2042,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateApiInput, DisassociateApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateApiOutput>(DisassociateApiOutput.httpOutput(from:), DisassociateApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApiInput, DisassociateApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApiOutput>())
@@ -2050,9 +2074,9 @@ extension AppSyncClient {
     ///
     /// Deletes an association between a Merged API and source API using the source API's identifier and the association ID.
     ///
-    /// - Parameter DisassociateMergedGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMergedGraphqlApiInput`)
     ///
-    /// - Returns: `DisassociateMergedGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMergedGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,6 +2111,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateMergedGraphqlApiInput, DisassociateMergedGraphqlApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMergedGraphqlApiOutput>(DisassociateMergedGraphqlApiOutput.httpOutput(from:), DisassociateMergedGraphqlApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMergedGraphqlApiInput, DisassociateMergedGraphqlApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMergedGraphqlApiOutput>())
@@ -2118,9 +2143,9 @@ extension AppSyncClient {
     ///
     /// Deletes an association between a Merged API and source API using the Merged API's identifier and the association ID.
     ///
-    /// - Parameter DisassociateSourceGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceGraphqlApiInput`)
     ///
-    /// - Returns: `DisassociateSourceGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2155,6 +2180,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSourceGraphqlApiInput, DisassociateSourceGraphqlApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSourceGraphqlApiOutput>(DisassociateSourceGraphqlApiOutput.httpOutput(from:), DisassociateSourceGraphqlApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceGraphqlApiInput, DisassociateSourceGraphqlApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceGraphqlApiOutput>())
@@ -2186,9 +2212,9 @@ extension AppSyncClient {
     ///
     /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type.
     ///
-    /// - Parameter EvaluateCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EvaluateCodeInput`)
     ///
-    /// - Returns: `EvaluateCodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EvaluateCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2224,6 +2250,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateCodeInput, EvaluateCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateCodeOutput>(EvaluateCodeOutput.httpOutput(from:), EvaluateCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateCodeInput, EvaluateCodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EvaluateCodeOutput>())
@@ -2255,9 +2282,9 @@ extension AppSyncClient {
     ///
     /// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL).
     ///
-    /// - Parameter EvaluateMappingTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EvaluateMappingTemplateInput`)
     ///
-    /// - Returns: `EvaluateMappingTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EvaluateMappingTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2293,6 +2320,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateMappingTemplateInput, EvaluateMappingTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateMappingTemplateOutput>(EvaluateMappingTemplateOutput.httpOutput(from:), EvaluateMappingTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateMappingTemplateInput, EvaluateMappingTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EvaluateMappingTemplateOutput>())
@@ -2324,9 +2352,9 @@ extension AppSyncClient {
     ///
     /// Flushes an ApiCache object.
     ///
-    /// - Parameter FlushApiCacheInput : Represents the input of a FlushApiCache operation.
+    /// - Parameter input: Represents the input of a FlushApiCache operation. (Type: `FlushApiCacheInput`)
     ///
-    /// - Returns: `FlushApiCacheOutput` : Represents the output of a FlushApiCache operation.
+    /// - Returns: Represents the output of a FlushApiCache operation. (Type: `FlushApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2361,6 +2389,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<FlushApiCacheInput, FlushApiCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FlushApiCacheOutput>(FlushApiCacheOutput.httpOutput(from:), FlushApiCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FlushApiCacheInput, FlushApiCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FlushApiCacheOutput>())
@@ -2392,9 +2421,9 @@ extension AppSyncClient {
     ///
     /// Retrieves an Api object.
     ///
-    /// - Parameter GetApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiInput`)
     ///
-    /// - Returns: `GetApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2429,6 +2458,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApiInput, GetApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiOutput>(GetApiOutput.httpOutput(from:), GetApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiInput, GetApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiOutput>())
@@ -2460,9 +2490,9 @@ extension AppSyncClient {
     ///
     /// Retrieves an ApiAssociation object.
     ///
-    /// - Parameter GetApiAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiAssociationInput`)
     ///
-    /// - Returns: `GetApiAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2496,6 +2526,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApiAssociationInput, GetApiAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiAssociationOutput>(GetApiAssociationOutput.httpOutput(from:), GetApiAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiAssociationInput, GetApiAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiAssociationOutput>())
@@ -2527,9 +2558,9 @@ extension AppSyncClient {
     ///
     /// Retrieves an ApiCache object.
     ///
-    /// - Parameter GetApiCacheInput : Represents the input of a GetApiCache operation.
+    /// - Parameter input: Represents the input of a GetApiCache operation. (Type: `GetApiCacheInput`)
     ///
-    /// - Returns: `GetApiCacheOutput` : Represents the output of a GetApiCache operation.
+    /// - Returns: Represents the output of a GetApiCache operation. (Type: `GetApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2564,6 +2595,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApiCacheInput, GetApiCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiCacheOutput>(GetApiCacheOutput.httpOutput(from:), GetApiCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiCacheInput, GetApiCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiCacheOutput>())
@@ -2595,9 +2627,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the channel namespace for a specified Api.
     ///
-    /// - Parameter GetChannelNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelNamespaceInput`)
     ///
-    /// - Returns: `GetChannelNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2632,6 +2664,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChannelNamespaceInput, GetChannelNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelNamespaceOutput>(GetChannelNamespaceOutput.httpOutput(from:), GetChannelNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelNamespaceInput, GetChannelNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelNamespaceOutput>())
@@ -2663,9 +2696,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a DataSource object.
     ///
-    /// - Parameter GetDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSourceInput`)
     ///
-    /// - Returns: `GetDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2700,6 +2733,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataSourceInput, GetDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataSourceOutput>(GetDataSourceOutput.httpOutput(from:), GetDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataSourceInput, GetDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataSourceOutput>())
@@ -2731,9 +2765,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the record of an existing introspection. If the retrieval is successful, the result of the instrospection will also be returned. If the retrieval fails the operation, an error message will be returned instead.
     ///
-    /// - Parameter GetDataSourceIntrospectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSourceIntrospectionInput`)
     ///
-    /// - Returns: `GetDataSourceIntrospectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSourceIntrospectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2767,6 +2801,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDataSourceIntrospectionInput, GetDataSourceIntrospectionOutput>(GetDataSourceIntrospectionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataSourceIntrospectionOutput>(GetDataSourceIntrospectionOutput.httpOutput(from:), GetDataSourceIntrospectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataSourceIntrospectionInput, GetDataSourceIntrospectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataSourceIntrospectionOutput>())
@@ -2798,9 +2833,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a custom DomainName object.
     ///
-    /// - Parameter GetDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainNameInput`)
     ///
-    /// - Returns: `GetDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2834,6 +2869,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainNameInput, GetDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainNameOutput>(GetDomainNameOutput.httpOutput(from:), GetDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainNameInput, GetDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainNameOutput>())
@@ -2865,9 +2901,9 @@ extension AppSyncClient {
     ///
     /// Get a Function.
     ///
-    /// - Parameter GetFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionInput`)
     ///
-    /// - Returns: `GetFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2900,6 +2936,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFunctionInput, GetFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionOutput>(GetFunctionOutput.httpOutput(from:), GetFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionInput, GetFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionOutput>())
@@ -2931,9 +2968,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a GraphqlApi object.
     ///
-    /// - Parameter GetGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphqlApiInput`)
     ///
-    /// - Returns: `GetGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2968,6 +3005,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGraphqlApiInput, GetGraphqlApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGraphqlApiOutput>(GetGraphqlApiOutput.httpOutput(from:), GetGraphqlApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGraphqlApiInput, GetGraphqlApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGraphqlApiOutput>())
@@ -2999,9 +3037,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the list of environmental variable key-value pairs associated with an API by its ID value.
     ///
-    /// - Parameter GetGraphqlApiEnvironmentVariablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphqlApiEnvironmentVariablesInput`)
     ///
-    /// - Returns: `GetGraphqlApiEnvironmentVariablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphqlApiEnvironmentVariablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3036,6 +3074,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGraphqlApiEnvironmentVariablesInput, GetGraphqlApiEnvironmentVariablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGraphqlApiEnvironmentVariablesOutput>(GetGraphqlApiEnvironmentVariablesOutput.httpOutput(from:), GetGraphqlApiEnvironmentVariablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGraphqlApiEnvironmentVariablesInput, GetGraphqlApiEnvironmentVariablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGraphqlApiEnvironmentVariablesOutput>())
@@ -3067,9 +3106,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the introspection schema for a GraphQL API.
     ///
-    /// - Parameter GetIntrospectionSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntrospectionSchemaInput`)
     ///
-    /// - Returns: `GetIntrospectionSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntrospectionSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3104,6 +3143,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetIntrospectionSchemaInput, GetIntrospectionSchemaOutput>(GetIntrospectionSchemaInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntrospectionSchemaOutput>(GetIntrospectionSchemaOutput.httpOutput(from:), GetIntrospectionSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntrospectionSchemaInput, GetIntrospectionSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntrospectionSchemaOutput>())
@@ -3135,9 +3175,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a Resolver object.
     ///
-    /// - Parameter GetResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResolverInput`)
     ///
-    /// - Returns: `GetResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3170,6 +3210,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResolverInput, GetResolverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResolverOutput>(GetResolverOutput.httpOutput(from:), GetResolverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResolverInput, GetResolverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResolverOutput>())
@@ -3201,9 +3242,9 @@ extension AppSyncClient {
     ///
     /// Retrieves the current status of a schema creation operation.
     ///
-    /// - Parameter GetSchemaCreationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaCreationStatusInput`)
     ///
-    /// - Returns: `GetSchemaCreationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaCreationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3237,6 +3278,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSchemaCreationStatusInput, GetSchemaCreationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaCreationStatusOutput>(GetSchemaCreationStatusOutput.httpOutput(from:), GetSchemaCreationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaCreationStatusInput, GetSchemaCreationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaCreationStatusOutput>())
@@ -3268,9 +3310,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a SourceApiAssociation object.
     ///
-    /// - Parameter GetSourceApiAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSourceApiAssociationInput`)
     ///
-    /// - Returns: `GetSourceApiAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSourceApiAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3304,6 +3346,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSourceApiAssociationInput, GetSourceApiAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSourceApiAssociationOutput>(GetSourceApiAssociationOutput.httpOutput(from:), GetSourceApiAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSourceApiAssociationInput, GetSourceApiAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSourceApiAssociationOutput>())
@@ -3335,9 +3378,9 @@ extension AppSyncClient {
     ///
     /// Retrieves a Type object.
     ///
-    /// - Parameter GetTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTypeInput`)
     ///
-    /// - Returns: `GetTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3373,6 +3416,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTypeInput, GetTypeOutput>(GetTypeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTypeOutput>(GetTypeOutput.httpOutput(from:), GetTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTypeInput, GetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTypeOutput>())
@@ -3404,9 +3448,9 @@ extension AppSyncClient {
     ///
     /// Lists the API keys for a given API. API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
     ///
-    /// - Parameter ListApiKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApiKeysInput`)
     ///
-    /// - Returns: `ListApiKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApiKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3441,6 +3485,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApiKeysInput, ListApiKeysOutput>(ListApiKeysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApiKeysOutput>(ListApiKeysOutput.httpOutput(from:), ListApiKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApiKeysInput, ListApiKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApiKeysOutput>())
@@ -3472,9 +3517,9 @@ extension AppSyncClient {
     ///
     /// Lists the APIs in your AppSync account. ListApis returns only the high level API details. For more detailed information about an API, use GetApi.
     ///
-    /// - Parameter ListApisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApisInput`)
     ///
-    /// - Returns: `ListApisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3508,6 +3553,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApisInput, ListApisOutput>(ListApisInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApisOutput>(ListApisOutput.httpOutput(from:), ListApisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApisInput, ListApisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApisOutput>())
@@ -3539,9 +3585,9 @@ extension AppSyncClient {
     ///
     /// Lists the channel namespaces for a specified Api. ListChannelNamespaces returns only high level details for the channel namespace. To retrieve code handlers, use GetChannelNamespace.
     ///
-    /// - Parameter ListChannelNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelNamespacesInput`)
     ///
-    /// - Returns: `ListChannelNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3576,6 +3622,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelNamespacesInput, ListChannelNamespacesOutput>(ListChannelNamespacesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelNamespacesOutput>(ListChannelNamespacesOutput.httpOutput(from:), ListChannelNamespacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelNamespacesInput, ListChannelNamespacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelNamespacesOutput>())
@@ -3607,9 +3654,9 @@ extension AppSyncClient {
     ///
     /// Lists the data sources for a given API.
     ///
-    /// - Parameter ListDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourcesInput`)
     ///
-    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3644,6 +3691,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(ListDataSourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourcesOutput>(ListDataSourcesOutput.httpOutput(from:), ListDataSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourcesOutput>())
@@ -3675,9 +3723,9 @@ extension AppSyncClient {
     ///
     /// Lists multiple custom domain names.
     ///
-    /// - Parameter ListDomainNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainNamesInput`)
     ///
-    /// - Returns: `ListDomainNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3711,6 +3759,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainNamesInput, ListDomainNamesOutput>(ListDomainNamesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainNamesOutput>(ListDomainNamesOutput.httpOutput(from:), ListDomainNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainNamesInput, ListDomainNamesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainNamesOutput>())
@@ -3742,9 +3791,9 @@ extension AppSyncClient {
     ///
     /// List multiple functions.
     ///
-    /// - Parameter ListFunctionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionsInput`)
     ///
-    /// - Returns: `ListFunctionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3779,6 +3828,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutput>(ListFunctionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionsOutput>(ListFunctionsOutput.httpOutput(from:), ListFunctionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionsInput, ListFunctionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionsOutput>())
@@ -3810,9 +3860,9 @@ extension AppSyncClient {
     ///
     /// Lists your GraphQL APIs.
     ///
-    /// - Parameter ListGraphqlApisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGraphqlApisInput`)
     ///
-    /// - Returns: `ListGraphqlApisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGraphqlApisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3846,6 +3896,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGraphqlApisInput, ListGraphqlApisOutput>(ListGraphqlApisInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGraphqlApisOutput>(ListGraphqlApisOutput.httpOutput(from:), ListGraphqlApisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGraphqlApisInput, ListGraphqlApisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGraphqlApisOutput>())
@@ -3877,9 +3928,9 @@ extension AppSyncClient {
     ///
     /// Lists the resolvers for a given API and type.
     ///
-    /// - Parameter ListResolversInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolversInput`)
     ///
-    /// - Returns: `ListResolversOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolversOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3914,6 +3965,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResolversInput, ListResolversOutput>(ListResolversInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolversOutput>(ListResolversOutput.httpOutput(from:), ListResolversOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolversInput, ListResolversOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolversOutput>())
@@ -3945,9 +3997,9 @@ extension AppSyncClient {
     ///
     /// List the resolvers that are associated with a specific function.
     ///
-    /// - Parameter ListResolversByFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResolversByFunctionInput`)
     ///
-    /// - Returns: `ListResolversByFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResolversByFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3982,6 +4034,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResolversByFunctionInput, ListResolversByFunctionOutput>(ListResolversByFunctionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResolversByFunctionOutput>(ListResolversByFunctionOutput.httpOutput(from:), ListResolversByFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResolversByFunctionInput, ListResolversByFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResolversByFunctionOutput>())
@@ -4013,9 +4066,9 @@ extension AppSyncClient {
     ///
     /// Lists the SourceApiAssociationSummary data.
     ///
-    /// - Parameter ListSourceApiAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceApiAssociationsInput`)
     ///
-    /// - Returns: `ListSourceApiAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceApiAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4050,6 +4103,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutput>(ListSourceApiAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceApiAssociationsOutput>(ListSourceApiAssociationsOutput.httpOutput(from:), ListSourceApiAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceApiAssociationsInput, ListSourceApiAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceApiAssociationsOutput>())
@@ -4081,9 +4135,9 @@ extension AppSyncClient {
     ///
     /// Lists the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4119,6 +4173,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4150,9 +4205,9 @@ extension AppSyncClient {
     ///
     /// Lists the types for a given API.
     ///
-    /// - Parameter ListTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypesInput`)
     ///
-    /// - Returns: `ListTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4188,6 +4243,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTypesInput, ListTypesOutput>(ListTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypesOutput>(ListTypesOutput.httpOutput(from:), ListTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypesInput, ListTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypesOutput>())
@@ -4219,9 +4275,9 @@ extension AppSyncClient {
     ///
     /// Lists Type objects by the source API association ID.
     ///
-    /// - Parameter ListTypesByAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypesByAssociationInput`)
     ///
-    /// - Returns: `ListTypesByAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypesByAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4257,6 +4313,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTypesByAssociationInput, ListTypesByAssociationOutput>(ListTypesByAssociationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypesByAssociationOutput>(ListTypesByAssociationOutput.httpOutput(from:), ListTypesByAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypesByAssociationInput, ListTypesByAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypesByAssociationOutput>())
@@ -4314,9 +4371,9 @@ extension AppSyncClient {
     ///
     /// You can create a list of environmental variables by adding it to the environmentVariables payload as a list in the format {"key1":"value1","key2":"value2", …}. Note that each call of the PutGraphqlApiEnvironmentVariables action will result in the overwriting of the existing environmental variable list of that API. This means the existing environmental variables will be lost. To avoid this, you must include all existing and new environmental variables in the list each time you call this action.
     ///
-    /// - Parameter PutGraphqlApiEnvironmentVariablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutGraphqlApiEnvironmentVariablesInput`)
     ///
-    /// - Returns: `PutGraphqlApiEnvironmentVariablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutGraphqlApiEnvironmentVariablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4355,6 +4412,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutGraphqlApiEnvironmentVariablesInput, PutGraphqlApiEnvironmentVariablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutGraphqlApiEnvironmentVariablesOutput>(PutGraphqlApiEnvironmentVariablesOutput.httpOutput(from:), PutGraphqlApiEnvironmentVariablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutGraphqlApiEnvironmentVariablesInput, PutGraphqlApiEnvironmentVariablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutGraphqlApiEnvironmentVariablesOutput>())
@@ -4386,9 +4444,9 @@ extension AppSyncClient {
     ///
     /// Creates a new introspection. Returns the introspectionId of the new introspection after its creation.
     ///
-    /// - Parameter StartDataSourceIntrospectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataSourceIntrospectionInput`)
     ///
-    /// - Returns: `StartDataSourceIntrospectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataSourceIntrospectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4425,6 +4483,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataSourceIntrospectionInput, StartDataSourceIntrospectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataSourceIntrospectionOutput>(StartDataSourceIntrospectionOutput.httpOutput(from:), StartDataSourceIntrospectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataSourceIntrospectionInput, StartDataSourceIntrospectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataSourceIntrospectionOutput>())
@@ -4456,9 +4515,9 @@ extension AppSyncClient {
     ///
     /// Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
     ///
-    /// - Parameter StartSchemaCreationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSchemaCreationInput`)
     ///
-    /// - Returns: `StartSchemaCreationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSchemaCreationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4496,6 +4555,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSchemaCreationInput, StartSchemaCreationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSchemaCreationOutput>(StartSchemaCreationOutput.httpOutput(from:), StartSchemaCreationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSchemaCreationInput, StartSchemaCreationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSchemaCreationOutput>())
@@ -4527,9 +4587,9 @@ extension AppSyncClient {
     ///
     /// Initiates a merge operation. Returns a status that shows the result of the merge operation.
     ///
-    /// - Parameter StartSchemaMergeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSchemaMergeInput`)
     ///
-    /// - Returns: `StartSchemaMergeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSchemaMergeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4564,6 +4624,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSchemaMergeInput, StartSchemaMergeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSchemaMergeOutput>(StartSchemaMergeOutput.httpOutput(from:), StartSchemaMergeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSchemaMergeInput, StartSchemaMergeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSchemaMergeOutput>())
@@ -4595,9 +4656,9 @@ extension AppSyncClient {
     ///
     /// Tags a resource with user-supplied tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4636,6 +4697,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4667,9 +4729,9 @@ extension AppSyncClient {
     ///
     /// Untags a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4706,6 +4768,7 @@ extension AppSyncClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4737,9 +4800,9 @@ extension AppSyncClient {
     ///
     /// Updates an Api.
     ///
-    /// - Parameter UpdateApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApiInput`)
     ///
-    /// - Returns: `UpdateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4778,6 +4841,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApiInput, UpdateApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiOutput>(UpdateApiOutput.httpOutput(from:), UpdateApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiInput, UpdateApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApiOutput>())
@@ -4809,9 +4873,9 @@ extension AppSyncClient {
     ///
     /// Updates the cache for the GraphQL API.
     ///
-    /// - Parameter UpdateApiCacheInput : Represents the input of a UpdateApiCache operation.
+    /// - Parameter input: Represents the input of a UpdateApiCache operation. (Type: `UpdateApiCacheInput`)
     ///
-    /// - Returns: `UpdateApiCacheOutput` : Represents the output of a UpdateApiCache operation.
+    /// - Returns: Represents the output of a UpdateApiCache operation. (Type: `UpdateApiCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4849,6 +4913,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApiCacheInput, UpdateApiCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiCacheOutput>(UpdateApiCacheOutput.httpOutput(from:), UpdateApiCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiCacheInput, UpdateApiCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApiCacheOutput>())
@@ -4880,9 +4945,9 @@ extension AppSyncClient {
     ///
     /// Updates an API key. You can update the key as long as it's not deleted.
     ///
-    /// - Parameter UpdateApiKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApiKeyInput`)
     ///
-    /// - Returns: `UpdateApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4921,6 +4986,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApiKeyInput, UpdateApiKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiKeyOutput>(UpdateApiKeyOutput.httpOutput(from:), UpdateApiKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiKeyInput, UpdateApiKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApiKeyOutput>())
@@ -4952,9 +5018,9 @@ extension AppSyncClient {
     ///
     /// Updates a ChannelNamespace associated with an Api.
     ///
-    /// - Parameter UpdateChannelNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelNamespaceInput`)
     ///
-    /// - Returns: `UpdateChannelNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4993,6 +5059,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelNamespaceInput, UpdateChannelNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelNamespaceOutput>(UpdateChannelNamespaceOutput.httpOutput(from:), UpdateChannelNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelNamespaceInput, UpdateChannelNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelNamespaceOutput>())
@@ -5024,9 +5091,9 @@ extension AppSyncClient {
     ///
     /// Updates a DataSource object.
     ///
-    /// - Parameter UpdateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourceInput`)
     ///
-    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5064,6 +5131,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutput>(UpdateDataSourceOutput.httpOutput(from:), UpdateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSourceOutput>())
@@ -5095,9 +5163,9 @@ extension AppSyncClient {
     ///
     /// Updates a custom DomainName object.
     ///
-    /// - Parameter UpdateDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainNameInput`)
     ///
-    /// - Returns: `UpdateDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5135,6 +5203,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainNameInput, UpdateDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainNameOutput>(UpdateDomainNameOutput.httpOutput(from:), UpdateDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainNameInput, UpdateDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainNameOutput>())
@@ -5166,9 +5235,9 @@ extension AppSyncClient {
     ///
     /// Updates a Function object.
     ///
-    /// - Parameter UpdateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionInput`)
     ///
-    /// - Returns: `UpdateFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5206,6 +5275,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFunctionInput, UpdateFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFunctionOutput>(UpdateFunctionOutput.httpOutput(from:), UpdateFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFunctionInput, UpdateFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFunctionOutput>())
@@ -5237,9 +5307,9 @@ extension AppSyncClient {
     ///
     /// Updates a GraphqlApi object.
     ///
-    /// - Parameter UpdateGraphqlApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGraphqlApiInput`)
     ///
-    /// - Returns: `UpdateGraphqlApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGraphqlApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5278,6 +5348,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGraphqlApiInput, UpdateGraphqlApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGraphqlApiOutput>(UpdateGraphqlApiOutput.httpOutput(from:), UpdateGraphqlApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGraphqlApiInput, UpdateGraphqlApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGraphqlApiOutput>())
@@ -5309,9 +5380,9 @@ extension AppSyncClient {
     ///
     /// Updates a Resolver object.
     ///
-    /// - Parameter UpdateResolverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResolverInput`)
     ///
-    /// - Returns: `UpdateResolverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResolverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5349,6 +5420,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResolverInput, UpdateResolverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResolverOutput>(UpdateResolverOutput.httpOutput(from:), UpdateResolverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResolverInput, UpdateResolverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResolverOutput>())
@@ -5380,9 +5452,9 @@ extension AppSyncClient {
     ///
     /// Updates some of the configuration choices of a particular source API association.
     ///
-    /// - Parameter UpdateSourceApiAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSourceApiAssociationInput`)
     ///
-    /// - Returns: `UpdateSourceApiAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSourceApiAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5420,6 +5492,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSourceApiAssociationOutput>(UpdateSourceApiAssociationOutput.httpOutput(from:), UpdateSourceApiAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSourceApiAssociationInput, UpdateSourceApiAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSourceApiAssociationOutput>())
@@ -5451,9 +5524,9 @@ extension AppSyncClient {
     ///
     /// Updates a Type object.
     ///
-    /// - Parameter UpdateTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTypeInput`)
     ///
-    /// - Returns: `UpdateTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5491,6 +5564,7 @@ extension AppSyncClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTypeInput, UpdateTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTypeOutput>(UpdateTypeOutput.httpOutput(from:), UpdateTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTypeInput, UpdateTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTypeOutput>())

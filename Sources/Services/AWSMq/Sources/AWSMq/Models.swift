@@ -353,12 +353,14 @@ extension MqClientTypes {
 
     /// Optional. The authentication strategy used to secure the broker. The default is SIMPLE.
     public enum AuthenticationStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case configManaged
         case ldap
         case simple
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthenticationStrategy] {
             return [
+                .configManaged,
                 .ldap,
                 .simple
             ]
@@ -371,6 +373,7 @@ extension MqClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .configManaged: return "CONFIG_MANAGED"
             case .ldap: return "LDAP"
             case .simple: return "SIMPLE"
             case let .sdkUnknown(s): return s
@@ -1044,8 +1047,7 @@ public struct CreateBrokerInput: Swift.Sendable {
     public var subnetIds: [Swift.String]?
     /// Create tags when creating the broker.
     public var tags: [Swift.String: Swift.String]?
-    /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
-    /// This member is required.
+    /// The list of broker users (persons or applications) who can access queues and topics. For Amazon MQ for RabbitMQ brokers, an administrative user is required if using simple authentication and authorization. For brokers using OAuth2, this user is optional. When provided, one and only one administrative user is accepted and created when a broker is first provisioned. All subsequent broker users are created by making RabbitMQ API calls directly to brokers or via the RabbitMQ web console.
     public var users: [MqClientTypes.User]?
 
     public init(

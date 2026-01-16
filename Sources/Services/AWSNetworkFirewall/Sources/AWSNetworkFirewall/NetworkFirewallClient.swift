@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NetworkFirewallClient: ClientRuntime.Client {
+public class NetworkFirewallClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NetworkFirewallClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFirewallClient.NetworkFirewallClientConfiguration
     let serviceName = "Network Firewall"
@@ -373,9 +373,9 @@ extension NetworkFirewallClient {
     ///
     /// Accepts a transit gateway attachment request for Network Firewall. When you accept the attachment request, Network Firewall creates the necessary routing components to enable traffic flow between the transit gateway and firewall endpoints. You must accept a transit gateway attachment to complete the creation of a transit gateway-attached firewall, unless auto-accept is enabled on the transit gateway. After acceptance, use [DescribeFirewall] to verify the firewall status. To reject an attachment instead of accepting it, use [RejectNetworkFirewallTransitGatewayAttachment]. It can take several minutes for the attachment acceptance to complete and the firewall to become available.
     ///
-    /// - Parameter AcceptNetworkFirewallTransitGatewayAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptNetworkFirewallTransitGatewayAttachmentInput`)
     ///
-    /// - Returns: `AcceptNetworkFirewallTransitGatewayAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptNetworkFirewallTransitGatewayAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +416,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>(AcceptNetworkFirewallTransitGatewayAttachmentOutput.httpOutput(from:), AcceptNetworkFirewallTransitGatewayAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
@@ -450,9 +451,9 @@ extension NetworkFirewallClient {
     ///
     /// Associates the specified Availability Zones with a transit gateway-attached firewall. For each Availability Zone, Network Firewall creates a firewall endpoint to process traffic. You can specify one or more Availability Zones where you want to deploy the firewall. After adding Availability Zones, you must update your transit gateway route tables to direct traffic through the new firewall endpoints. Use [DescribeFirewall] to monitor the status of the new endpoints.
     ///
-    /// - Parameter AssociateAvailabilityZonesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAvailabilityZonesInput`)
     ///
-    /// - Returns: `AssociateAvailabilityZonesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAvailabilityZonesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -496,6 +497,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAvailabilityZonesOutput>(AssociateAvailabilityZonesOutput.httpOutput(from:), AssociateAvailabilityZonesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAvailabilityZonesOutput>())
@@ -530,9 +532,9 @@ extension NetworkFirewallClient {
     ///
     /// Associates a [FirewallPolicy] to a [Firewall]. A firewall policy defines how to monitor and manage your VPC network traffic, using a collection of inspection rule groups and other settings. Each firewall requires one firewall policy association, and you can use the same firewall policy for multiple firewalls.
     ///
-    /// - Parameter AssociateFirewallPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateFirewallPolicyInput`)
     ///
-    /// - Returns: `AssociateFirewallPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateFirewallPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -575,6 +577,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFirewallPolicyOutput>(AssociateFirewallPolicyOutput.httpOutput(from:), AssociateFirewallPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFirewallPolicyOutput>())
@@ -609,9 +612,9 @@ extension NetworkFirewallClient {
     ///
     /// Associates the specified subnets in the Amazon VPC to the firewall. You can specify one subnet for each of the Availability Zones that the VPC spans. This request creates an Network Firewall firewall endpoint in each of the subnets. To enable the firewall's protections, you must also modify the VPC's route tables for each subnet's Availability Zone, to redirect the traffic that's coming into and going out of the zone through the firewall endpoint.
     ///
-    /// - Parameter AssociateSubnetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSubnetsInput`)
     ///
-    /// - Returns: `AssociateSubnetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSubnetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -655,6 +658,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSubnetsOutput>(AssociateSubnetsOutput.httpOutput(from:), AssociateSubnetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSubnetsOutput>())
@@ -685,13 +689,91 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AttachRuleGroupsToProxyConfiguration` operation on the `NetworkFirewall` service.
+    ///
+    /// Attaches [ProxyRuleGroup] resources to a [ProxyConfiguration] A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AttachRuleGroupsToProxyConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AttachRuleGroupsToProxyConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func attachRuleGroupsToProxyConfiguration(input: AttachRuleGroupsToProxyConfigurationInput) async throws -> AttachRuleGroupsToProxyConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "attachRuleGroupsToProxyConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(AttachRuleGroupsToProxyConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachRuleGroupsToProxyConfigurationOutput>(AttachRuleGroupsToProxyConfigurationOutput.httpOutput(from:), AttachRuleGroupsToProxyConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AttachRuleGroupsToProxyConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachRuleGroupsToProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.AttachRuleGroupsToProxyConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachRuleGroupsToProxyConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachRuleGroupsToProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachRuleGroupsToProxyConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateFirewall` operation on the `NetworkFirewall` service.
     ///
     /// Creates an Network Firewall [Firewall] and accompanying [FirewallStatus] for a VPC. The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. After you create a firewall, you can provide additional settings, like the logging configuration. To update the settings for a firewall, you use the operations that apply to the settings themselves, for example [UpdateLoggingConfiguration], [AssociateSubnets], and [UpdateFirewallDeleteProtection]. To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about firewalls, use [ListFirewalls] and [DescribeFirewall]. To generate a report on the last 30 days of traffic monitored by a firewall, use [StartAnalysisReport].
     ///
-    /// - Parameter CreateFirewallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFirewallInput`)
     ///
-    /// - Returns: `CreateFirewallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFirewallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -734,6 +816,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallInput, CreateFirewallOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFirewallOutput>(CreateFirewallOutput.httpOutput(from:), CreateFirewallOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallInput, CreateFirewallOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallOutput>())
@@ -768,9 +851,9 @@ extension NetworkFirewallClient {
     ///
     /// Creates the firewall policy for the firewall according to the specifications. An Network Firewall firewall policy defines the behavior of a firewall, in a collection of stateless and stateful rule groups and other settings. You can use one firewall policy for multiple firewalls.
     ///
-    /// - Parameter CreateFirewallPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFirewallPolicyInput`)
     ///
-    /// - Returns: `CreateFirewallPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFirewallPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -812,6 +895,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFirewallPolicyOutput>(CreateFirewallPolicyOutput.httpOutput(from:), CreateFirewallPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallPolicyOutput>())
@@ -842,13 +926,327 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateProxy` operation on the `NetworkFirewall` service.
+    ///
+    /// Creates an Network Firewall [Proxy] Attaches a Proxy configuration to a NAT Gateway. To manage a proxy's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about proxies, use [ListProxies] and [DescribeProxy].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateProxyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateProxyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
+    public func createProxy(input: CreateProxyInput) async throws -> CreateProxyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createProxy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProxyInput, CreateProxyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProxyInput, CreateProxyOutput>(CreateProxyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProxyInput, CreateProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyInput, CreateProxyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProxyOutput>(CreateProxyOutput.httpOutput(from:), CreateProxyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyInput, CreateProxyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProxyInput, CreateProxyOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateProxy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProxyInput, CreateProxyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProxyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyInput, CreateProxyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyInput, CreateProxyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyInput, CreateProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProxyInput, CreateProxyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProxy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateProxyConfiguration` operation on the `NetworkFirewall` service.
+    ///
+    /// Creates an Network Firewall [ProxyConfiguration] A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration. To manage a proxy configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about proxies, use [ListProxyConfigurations] and [DescribeProxyConfiguration].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateProxyConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateProxyConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func createProxyConfiguration(input: CreateProxyConfigurationInput) async throws -> CreateProxyConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createProxyConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProxyConfigurationInput, CreateProxyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(CreateProxyConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProxyConfigurationOutput>(CreateProxyConfigurationOutput.httpOutput(from:), CreateProxyConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateProxyConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProxyConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProxyConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateProxyRuleGroup` operation on the `NetworkFirewall` service.
+    ///
+    /// Creates an Network Firewall [ProxyRuleGroup] Collections of related proxy filtering rules. Rule groups help you manage and reuse sets of rules across multiple proxy configurations. To manage a proxy rule group's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about proxy rule groups, use [ListProxyRuleGroups] and [DescribeProxyRuleGroup]. To retrieve information about individual proxy rules, use [DescribeProxyRuleGroup] and [DescribeProxyRule].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateProxyRuleGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateProxyRuleGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func createProxyRuleGroup(input: CreateProxyRuleGroupInput) async throws -> CreateProxyRuleGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createProxyRuleGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(CreateProxyRuleGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProxyRuleGroupOutput>(CreateProxyRuleGroupOutput.httpOutput(from:), CreateProxyRuleGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyRuleGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateProxyRuleGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProxyRuleGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyRuleGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProxyRuleGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateProxyRules` operation on the `NetworkFirewall` service.
+    ///
+    /// Creates Network Firewall [ProxyRule] resources. Attaches new proxy rule(s) to an existing proxy rule group. To retrieve information about individual proxy rules, use [DescribeProxyRuleGroup] and [DescribeProxyRule].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateProxyRulesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateProxyRulesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func createProxyRules(input: CreateProxyRulesInput) async throws -> CreateProxyRulesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createProxyRules")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProxyRulesInput, CreateProxyRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(CreateProxyRulesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProxyRulesOutput>(CreateProxyRulesOutput.httpOutput(from:), CreateProxyRulesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyRulesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(xAmzTarget: "NetworkFirewall_20201112.CreateProxyRules"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProxyRulesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProxyRules")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateRuleGroup` operation on the `NetworkFirewall` service.
     ///
     /// Creates the specified stateless or stateful rule group, which includes the rules for network traffic inspection, a capacity setting, and tags. You provide your rule group specification in your request using either RuleGroup or Rules.
     ///
-    /// - Parameter CreateRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleGroupInput`)
     ///
-    /// - Returns: `CreateRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,6 +1288,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleGroupOutput>(CreateRuleGroupOutput.httpOutput(from:), CreateRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleGroupOutput>())
@@ -924,9 +1323,9 @@ extension NetworkFirewallClient {
     ///
     /// Creates an Network Firewall TLS inspection configuration. Network Firewall uses TLS inspection configurations to decrypt your firewall's inbound and outbound SSL/TLS traffic. After decryption, Network Firewall inspects the traffic according to your firewall policy's stateful rules, and then re-encrypts it before sending it to its destination. You can enable inspection of your firewall's inbound traffic, outbound traffic, or both. To use TLS inspection with your firewall, you must first import or provision certificates using ACM, create a TLS inspection configuration, add that configuration to a new firewall policy, and then associate that policy with your firewall. To update the settings for a TLS inspection configuration, use [UpdateTLSInspectionConfiguration]. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about TLS inspection configurations, use [ListTLSInspectionConfigurations] and [DescribeTLSInspectionConfiguration]. For more information about TLS inspection configurations, see [Inspecting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     ///
-    /// - Parameter CreateTLSInspectionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTLSInspectionConfigurationInput`)
     ///
-    /// - Returns: `CreateTLSInspectionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTLSInspectionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,6 +1367,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTLSInspectionConfigurationOutput>(CreateTLSInspectionConfigurationOutput.httpOutput(from:), CreateTLSInspectionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTLSInspectionConfigurationOutput>())
@@ -1002,9 +1402,9 @@ extension NetworkFirewallClient {
     ///
     /// Creates a firewall endpoint for an Network Firewall firewall. This type of firewall endpoint is independent of the firewall endpoints that you specify in the Firewall itself, and you define it in addition to those endpoints after the firewall has been created. You can define a VPC endpoint association using a different VPC than the one you used in the firewall specifications.
     ///
-    /// - Parameter CreateVpcEndpointAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcEndpointAssociationInput`)
     ///
-    /// - Returns: `CreateVpcEndpointAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcEndpointAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1048,6 +1448,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcEndpointAssociationOutput>(CreateVpcEndpointAssociationOutput.httpOutput(from:), CreateVpcEndpointAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointAssociationOutput>())
@@ -1082,9 +1483,9 @@ extension NetworkFirewallClient {
     ///
     /// Deletes the specified [Firewall] and its [FirewallStatus]. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation. You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling [DescribeFirewall]. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using [UpdateFirewallDeleteProtection], then delete the firewall by calling [DeleteFirewall].
     ///
-    /// - Parameter DeleteFirewallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFirewallInput`)
     ///
-    /// - Returns: `DeleteFirewallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFirewallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,6 +1528,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallInput, DeleteFirewallOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFirewallOutput>(DeleteFirewallOutput.httpOutput(from:), DeleteFirewallOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallOutput>())
@@ -1161,9 +1563,9 @@ extension NetworkFirewallClient {
     ///
     /// Deletes the specified [FirewallPolicy].
     ///
-    /// - Parameter DeleteFirewallPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFirewallPolicyInput`)
     ///
-    /// - Returns: `DeleteFirewallPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFirewallPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1206,6 +1608,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFirewallPolicyOutput>(DeleteFirewallPolicyOutput.httpOutput(from:), DeleteFirewallPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallPolicyOutput>())
@@ -1238,11 +1641,11 @@ extension NetworkFirewallClient {
 
     /// Performs the `DeleteNetworkFirewallTransitGatewayAttachment` operation on the `NetworkFirewall` service.
     ///
-    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment. After you delete a transit gateway attachment, raffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use [DescribeFirewall] to monitor the deletion status.
+    /// Deletes a transit gateway attachment from a Network Firewall. Either the firewall owner or the transit gateway owner can delete the attachment. After you delete a transit gateway attachment, traffic will no longer flow through the firewall endpoints. After you initiate the delete operation, use [DescribeFirewall] to monitor the deletion status.
     ///
-    /// - Parameter DeleteNetworkFirewallTransitGatewayAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkFirewallTransitGatewayAttachmentInput`)
     ///
-    /// - Returns: `DeleteNetworkFirewallTransitGatewayAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkFirewallTransitGatewayAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1283,6 +1686,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>(DeleteNetworkFirewallTransitGatewayAttachmentOutput.httpOutput(from:), DeleteNetworkFirewallTransitGatewayAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
@@ -1313,13 +1717,326 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteProxy` operation on the `NetworkFirewall` service.
+    ///
+    /// Deletes the specified [Proxy]. Detaches a Proxy configuration from a NAT Gateway.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProxyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProxyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
+    public func deleteProxy(input: DeleteProxyInput) async throws -> DeleteProxyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProxy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProxyInput, DeleteProxyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProxyInput, DeleteProxyOutput>(DeleteProxyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxyInput, DeleteProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyInput, DeleteProxyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProxyOutput>(DeleteProxyOutput.httpOutput(from:), DeleteProxyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyInput, DeleteProxyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProxyInput, DeleteProxyOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteProxy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProxyInput, DeleteProxyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProxyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyInput, DeleteProxyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyInput, DeleteProxyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyInput, DeleteProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProxyInput, DeleteProxyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProxy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteProxyConfiguration` operation on the `NetworkFirewall` service.
+    ///
+    /// Deletes the specified [ProxyConfiguration].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProxyConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProxyConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func deleteProxyConfiguration(input: DeleteProxyConfigurationInput) async throws -> DeleteProxyConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProxyConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(DeleteProxyConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProxyConfigurationOutput>(DeleteProxyConfigurationOutput.httpOutput(from:), DeleteProxyConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteProxyConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProxyConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProxyConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteProxyRuleGroup` operation on the `NetworkFirewall` service.
+    ///
+    /// Deletes the specified [ProxyRuleGroup].
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProxyRuleGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProxyRuleGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func deleteProxyRuleGroup(input: DeleteProxyRuleGroupInput) async throws -> DeleteProxyRuleGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProxyRuleGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(DeleteProxyRuleGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProxyRuleGroupOutput>(DeleteProxyRuleGroupOutput.httpOutput(from:), DeleteProxyRuleGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyRuleGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteProxyRuleGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProxyRuleGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyRuleGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProxyRuleGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteProxyRules` operation on the `NetworkFirewall` service.
+    ///
+    /// Deletes the specified [ProxyRule](s). currently attached to a [ProxyRuleGroup]
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProxyRulesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProxyRulesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func deleteProxyRules(input: DeleteProxyRulesInput) async throws -> DeleteProxyRulesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProxyRules")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProxyRulesInput, DeleteProxyRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(DeleteProxyRulesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProxyRulesOutput>(DeleteProxyRulesOutput.httpOutput(from:), DeleteProxyRulesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyRulesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(xAmzTarget: "NetworkFirewall_20201112.DeleteProxyRules"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProxyRulesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProxyRules")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteResourcePolicy` operation on the `NetworkFirewall` service.
     ///
     /// Deletes a resource policy that you created in a [PutResourcePolicy] request.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1361,6 +2078,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1395,9 +2113,9 @@ extension NetworkFirewallClient {
     ///
     /// Deletes the specified [RuleGroup].
     ///
-    /// - Parameter DeleteRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleGroupInput`)
     ///
-    /// - Returns: `DeleteRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1440,6 +2158,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleGroupOutput>(DeleteRuleGroupOutput.httpOutput(from:), DeleteRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleGroupOutput>())
@@ -1474,9 +2193,9 @@ extension NetworkFirewallClient {
     ///
     /// Deletes the specified [TLSInspectionConfiguration].
     ///
-    /// - Parameter DeleteTLSInspectionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTLSInspectionConfigurationInput`)
     ///
-    /// - Returns: `DeleteTLSInspectionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTLSInspectionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1518,6 +2237,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTLSInspectionConfigurationOutput>(DeleteTLSInspectionConfigurationOutput.httpOutput(from:), DeleteTLSInspectionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTLSInspectionConfigurationOutput>())
@@ -1552,9 +2272,9 @@ extension NetworkFirewallClient {
     ///
     /// Deletes the specified [VpcEndpointAssociation]. You can check whether an endpoint association is in use by reviewing the route tables for the Availability Zones where you have the endpoint subnet mapping. You can retrieve the subnet mapping by calling [DescribeVpcEndpointAssociation]. You define and update the route tables through Amazon VPC. As needed, update the route tables for the Availability Zone to remove the firewall endpoint for the association. When the route tables no longer use the firewall endpoint, you can remove the endpoint association safely.
     ///
-    /// - Parameter DeleteVpcEndpointAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcEndpointAssociationInput`)
     ///
-    /// - Returns: `DeleteVpcEndpointAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcEndpointAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1596,6 +2316,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointAssociationOutput>(DeleteVpcEndpointAssociationOutput.httpOutput(from:), DeleteVpcEndpointAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointAssociationOutput>())
@@ -1630,9 +2351,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns the data objects for the specified firewall.
     ///
-    /// - Parameter DescribeFirewallInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFirewallInput`)
     ///
-    /// - Returns: `DescribeFirewallOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFirewallOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1673,6 +2394,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallInput, DescribeFirewallOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFirewallOutput>(DescribeFirewallOutput.httpOutput(from:), DescribeFirewallOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallOutput>())
@@ -1707,9 +2429,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns the high-level information about a firewall, including the Availability Zones where the Firewall is currently in use.
     ///
-    /// - Parameter DescribeFirewallMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFirewallMetadataInput`)
     ///
-    /// - Returns: `DescribeFirewallMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFirewallMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1750,6 +2472,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFirewallMetadataOutput>(DescribeFirewallMetadataOutput.httpOutput(from:), DescribeFirewallMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallMetadataOutput>())
@@ -1784,9 +2507,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns the data objects for the specified firewall policy.
     ///
-    /// - Parameter DescribeFirewallPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFirewallPolicyInput`)
     ///
-    /// - Returns: `DescribeFirewallPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFirewallPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1827,6 +2550,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFirewallPolicyOutput>(DescribeFirewallPolicyOutput.httpOutput(from:), DescribeFirewallPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallPolicyOutput>())
@@ -1861,9 +2585,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns key information about a specific flow operation.
     ///
-    /// - Parameter DescribeFlowOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowOperationInput`)
     ///
-    /// - Returns: `DescribeFlowOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1904,6 +2628,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowOperationOutput>(DescribeFlowOperationOutput.httpOutput(from:), DescribeFlowOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowOperationOutput>())
@@ -1938,9 +2663,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns the logging configuration for the specified firewall.
     ///
-    /// - Parameter DescribeLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLoggingConfigurationInput`)
     ///
-    /// - Returns: `DescribeLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,6 +2706,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoggingConfigurationOutput>(DescribeLoggingConfigurationOutput.httpOutput(from:), DescribeLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoggingConfigurationOutput>())
@@ -2011,13 +2737,325 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeProxy` operation on the `NetworkFirewall` service.
+    ///
+    /// Returns the data objects for the specified proxy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeProxyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeProxyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func describeProxy(input: DescribeProxyInput) async throws -> DescribeProxyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeProxy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeProxyInput, DescribeProxyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProxyInput, DescribeProxyOutput>(DescribeProxyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProxyInput, DescribeProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyInput, DescribeProxyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProxyOutput>(DescribeProxyOutput.httpOutput(from:), DescribeProxyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyInput, DescribeProxyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProxyInput, DescribeProxyOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeProxy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProxyInput, DescribeProxyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProxyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyInput, DescribeProxyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyInput, DescribeProxyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyInput, DescribeProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProxyInput, DescribeProxyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeProxy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeProxyConfiguration` operation on the `NetworkFirewall` service.
+    ///
+    /// Returns the data objects for the specified proxy configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeProxyConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeProxyConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func describeProxyConfiguration(input: DescribeProxyConfigurationInput) async throws -> DescribeProxyConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeProxyConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(DescribeProxyConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProxyConfigurationOutput>(DescribeProxyConfigurationOutput.httpOutput(from:), DescribeProxyConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeProxyConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProxyConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeProxyConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeProxyRule` operation on the `NetworkFirewall` service.
+    ///
+    /// Returns the data objects for the specified proxy configuration for the specified proxy rule group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeProxyRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeProxyRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func describeProxyRule(input: DescribeProxyRuleInput) async throws -> DescribeProxyRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeProxyRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeProxyRuleInput, DescribeProxyRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(DescribeProxyRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProxyRuleOutput>(DescribeProxyRuleOutput.httpOutput(from:), DescribeProxyRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeProxyRule"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProxyRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeProxyRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeProxyRuleGroup` operation on the `NetworkFirewall` service.
+    ///
+    /// Returns the data objects for the specified proxy rule group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeProxyRuleGroupInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeProxyRuleGroupOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func describeProxyRuleGroup(input: DescribeProxyRuleGroupInput) async throws -> DescribeProxyRuleGroupOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeProxyRuleGroup")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(DescribeProxyRuleGroupInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProxyRuleGroupOutput>(DescribeProxyRuleGroupOutput.httpOutput(from:), DescribeProxyRuleGroupOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyRuleGroupOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(xAmzTarget: "NetworkFirewall_20201112.DescribeProxyRuleGroup"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeProxyRuleGroupInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyRuleGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeProxyRuleGroup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeResourcePolicy` operation on the `NetworkFirewall` service.
     ///
     /// Retrieves a resource policy that you created in a [PutResourcePolicy] request.
     ///
-    /// - Parameter DescribeResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
-    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2058,6 +3096,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutput>(DescribeResourcePolicyOutput.httpOutput(from:), DescribeResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
@@ -2092,9 +3131,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns the data objects for the specified rule group.
     ///
-    /// - Parameter DescribeRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRuleGroupInput`)
     ///
-    /// - Returns: `DescribeRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,6 +3174,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuleGroupOutput>(DescribeRuleGroupOutput.httpOutput(from:), DescribeRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupOutput>())
@@ -2169,9 +3209,9 @@ extension NetworkFirewallClient {
     ///
     /// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling [DescribeRuleGroup].
     ///
-    /// - Parameter DescribeRuleGroupMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRuleGroupMetadataInput`)
     ///
-    /// - Returns: `DescribeRuleGroupMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRuleGroupMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,6 +3252,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuleGroupMetadataOutput>(DescribeRuleGroupMetadataOutput.httpOutput(from:), DescribeRuleGroupMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupMetadataOutput>())
@@ -2246,9 +3287,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns detailed information for a stateful rule group. For active threat defense Amazon Web Services managed rule groups, this operation provides insight into the protections enabled by the rule group, based on Suricata rule metadata fields. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups. To modify how threat information appears in summaries, use the SummaryConfiguration parameter in [UpdateRuleGroup].
     ///
-    /// - Parameter DescribeRuleGroupSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRuleGroupSummaryInput`)
     ///
-    /// - Returns: `DescribeRuleGroupSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRuleGroupSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2289,6 +3330,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRuleGroupSummaryOutput>(DescribeRuleGroupSummaryOutput.httpOutput(from:), DescribeRuleGroupSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupSummaryOutput>())
@@ -2323,9 +3365,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns the data objects for the specified TLS inspection configuration.
     ///
-    /// - Parameter DescribeTLSInspectionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTLSInspectionConfigurationInput`)
     ///
-    /// - Returns: `DescribeTLSInspectionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTLSInspectionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2366,6 +3408,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTLSInspectionConfigurationOutput>(DescribeTLSInspectionConfigurationOutput.httpOutput(from:), DescribeTLSInspectionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTLSInspectionConfigurationOutput>())
@@ -2400,9 +3443,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns the data object for the specified VPC endpoint association.
     ///
-    /// - Parameter DescribeVpcEndpointAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointAssociationInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2443,6 +3486,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointAssociationOutput>(DescribeVpcEndpointAssociationOutput.httpOutput(from:), DescribeVpcEndpointAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointAssociationOutput>())
@@ -2473,13 +3517,91 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DetachRuleGroupsFromProxyConfiguration` operation on the `NetworkFirewall` service.
+    ///
+    /// Detaches [ProxyRuleGroup] resources from a [ProxyConfiguration] A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DetachRuleGroupsFromProxyConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DetachRuleGroupsFromProxyConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func detachRuleGroupsFromProxyConfiguration(input: DetachRuleGroupsFromProxyConfigurationInput) async throws -> DetachRuleGroupsFromProxyConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "detachRuleGroupsFromProxyConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(DetachRuleGroupsFromProxyConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachRuleGroupsFromProxyConfigurationOutput>(DetachRuleGroupsFromProxyConfigurationOutput.httpOutput(from:), DetachRuleGroupsFromProxyConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetachRuleGroupsFromProxyConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachRuleGroupsFromProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.DetachRuleGroupsFromProxyConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachRuleGroupsFromProxyConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachRuleGroupsFromProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachRuleGroupsFromProxyConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateAvailabilityZones` operation on the `NetworkFirewall` service.
     ///
     /// Removes the specified Availability Zone associations from a transit gateway-attached firewall. This removes the firewall endpoints from these Availability Zones and stops traffic filtering in those zones. Before removing an Availability Zone, ensure you've updated your transit gateway route tables to redirect traffic appropriately. If AvailabilityZoneChangeProtection is enabled, you must first disable it using [UpdateAvailabilityZoneChangeProtection]. To verify the status of your Availability Zone changes, use [DescribeFirewall].
     ///
-    /// - Parameter DisassociateAvailabilityZonesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAvailabilityZonesInput`)
     ///
-    /// - Returns: `DisassociateAvailabilityZonesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAvailabilityZonesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2522,6 +3644,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAvailabilityZonesOutput>(DisassociateAvailabilityZonesOutput.httpOutput(from:), DisassociateAvailabilityZonesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAvailabilityZonesOutput>())
@@ -2556,9 +3679,9 @@ extension NetworkFirewallClient {
     ///
     /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
     ///
-    /// - Parameter DisassociateSubnetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSubnetsInput`)
     ///
-    /// - Returns: `DisassociateSubnetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSubnetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,6 +3724,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSubnetsOutput>(DisassociateSubnetsOutput.httpOutput(from:), DisassociateSubnetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSubnetsOutput>())
@@ -2635,9 +3759,9 @@ extension NetworkFirewallClient {
     ///
     /// The results of a COMPLETED analysis report generated with [StartAnalysisReport]. For more information, see [AnalysisTypeReportResult].
     ///
-    /// - Parameter GetAnalysisReportResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnalysisReportResultsInput`)
     ///
-    /// - Returns: `GetAnalysisReportResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnalysisReportResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2678,6 +3802,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnalysisReportResultsOutput>(GetAnalysisReportResultsOutput.httpOutput(from:), GetAnalysisReportResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnalysisReportResultsOutput>())
@@ -2712,9 +3837,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns a list of all traffic analysis reports generated within the last 30 days.
     ///
-    /// - Parameter ListAnalysisReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnalysisReportsInput`)
     ///
-    /// - Returns: `ListAnalysisReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnalysisReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2755,6 +3880,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalysisReportsOutput>(ListAnalysisReportsOutput.httpOutput(from:), ListAnalysisReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalysisReportsOutput>())
@@ -2789,9 +3915,9 @@ extension NetworkFirewallClient {
     ///
     /// Retrieves the metadata for the firewall policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list.
     ///
-    /// - Parameter ListFirewallPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallPoliciesInput`)
     ///
-    /// - Returns: `ListFirewallPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFirewallPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2831,6 +3957,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFirewallPoliciesOutput>(ListFirewallPoliciesOutput.httpOutput(from:), ListFirewallPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallPoliciesOutput>())
@@ -2865,9 +3992,9 @@ extension NetworkFirewallClient {
     ///
     /// Retrieves the metadata for the firewalls that you have defined. If you provide VPC identifiers in your request, this returns only the firewalls for those VPCs. Depending on your setting for max results and the number of firewalls, a single call might not return the full list.
     ///
-    /// - Parameter ListFirewallsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFirewallsInput`)
     ///
-    /// - Returns: `ListFirewallsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFirewallsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2907,6 +4034,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallsInput, ListFirewallsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFirewallsOutput>(ListFirewallsOutput.httpOutput(from:), ListFirewallsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallsInput, ListFirewallsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallsOutput>())
@@ -2941,9 +4069,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns the results of a specific flow operation. Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
     ///
-    /// - Parameter ListFlowOperationResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowOperationResultsInput`)
     ///
-    /// - Returns: `ListFlowOperationResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowOperationResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2984,6 +4112,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowOperationResultsOutput>(ListFlowOperationResultsOutput.httpOutput(from:), ListFlowOperationResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowOperationResultsOutput>())
@@ -3018,9 +4147,9 @@ extension NetworkFirewallClient {
     ///
     /// Returns a list of all flow operations ran in a specific firewall. You can optionally narrow the request scope by specifying the operation type or Availability Zone associated with a firewall's flow operations. Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
     ///
-    /// - Parameter ListFlowOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowOperationsInput`)
     ///
-    /// - Returns: `ListFlowOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3061,6 +4190,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowOperationsOutput>(ListFlowOperationsOutput.httpOutput(from:), ListFlowOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowOperationsOutput>())
@@ -3091,13 +4221,246 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListProxies` operation on the `NetworkFirewall` service.
+    ///
+    /// Retrieves the metadata for the proxies that you have defined. Depending on your setting for max results and the number of proxies, a single call might not return the full list.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListProxiesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListProxiesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func listProxies(input: ListProxiesInput) async throws -> ListProxiesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProxies")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProxiesInput, ListProxiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProxiesInput, ListProxiesOutput>(ListProxiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProxiesInput, ListProxiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxiesInput, ListProxiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProxiesOutput>(ListProxiesOutput.httpOutput(from:), ListProxiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxiesInput, ListProxiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProxiesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProxiesInput, ListProxiesOutput>(xAmzTarget: "NetworkFirewall_20201112.ListProxies"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListProxiesInput, ListProxiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProxiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxiesInput, ListProxiesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxiesInput, ListProxiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxiesInput, ListProxiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProxiesInput, ListProxiesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProxies")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListProxyConfigurations` operation on the `NetworkFirewall` service.
+    ///
+    /// Retrieves the metadata for the proxy configuration that you have defined. Depending on your setting for max results and the number of proxy configurations, a single call might not return the full list.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListProxyConfigurationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListProxyConfigurationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func listProxyConfigurations(input: ListProxyConfigurationsInput) async throws -> ListProxyConfigurationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProxyConfigurations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProxyConfigurationsInput, ListProxyConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(ListProxyConfigurationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProxyConfigurationsOutput>(ListProxyConfigurationsOutput.httpOutput(from:), ListProxyConfigurationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProxyConfigurationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxyConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListProxyConfigurations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProxyConfigurationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxyConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProxyConfigurations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListProxyRuleGroups` operation on the `NetworkFirewall` service.
+    ///
+    /// Retrieves the metadata for the proxy rule groups that you have defined. Depending on your setting for max results and the number of proxy rule groups, a single call might not return the full list.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListProxyRuleGroupsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListProxyRuleGroupsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func listProxyRuleGroups(input: ListProxyRuleGroupsInput) async throws -> ListProxyRuleGroupsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProxyRuleGroups")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(ListProxyRuleGroupsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProxyRuleGroupsOutput>(ListProxyRuleGroupsOutput.httpOutput(from:), ListProxyRuleGroupsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProxyRuleGroupsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxyRuleGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(xAmzTarget: "NetworkFirewall_20201112.ListProxyRuleGroups"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProxyRuleGroupsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxyRuleGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProxyRuleGroups")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListRuleGroups` operation on the `NetworkFirewall` service.
     ///
     /// Retrieves the metadata for the rule groups that you have defined. Depending on your setting for max results and the number of rule groups, a single call might not return the full list.
     ///
-    /// - Parameter ListRuleGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleGroupsInput`)
     ///
-    /// - Returns: `ListRuleGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3137,6 +4500,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleGroupsOutput>(ListRuleGroupsOutput.httpOutput(from:), ListRuleGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleGroupsOutput>())
@@ -3171,9 +4535,9 @@ extension NetworkFirewallClient {
     ///
     /// Retrieves the metadata for the TLS inspection configurations that you have defined. Depending on your setting for max results and the number of TLS inspection configurations, a single call might not return the full list.
     ///
-    /// - Parameter ListTLSInspectionConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTLSInspectionConfigurationsInput`)
     ///
-    /// - Returns: `ListTLSInspectionConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTLSInspectionConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3213,6 +4577,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTLSInspectionConfigurationsOutput>(ListTLSInspectionConfigurationsOutput.httpOutput(from:), ListTLSInspectionConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTLSInspectionConfigurationsOutput>())
@@ -3247,9 +4612,9 @@ extension NetworkFirewallClient {
     ///
     /// Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3290,6 +4655,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3324,9 +4690,9 @@ extension NetworkFirewallClient {
     ///
     /// Retrieves the metadata for the VPC endpoint associations that you have defined. If you specify a fireawll, this returns only the endpoint associations for that firewall. Depending on your setting for max results and the number of associations, a single call might not return the full list.
     ///
-    /// - Parameter ListVpcEndpointAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcEndpointAssociationsInput`)
     ///
-    /// - Returns: `ListVpcEndpointAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcEndpointAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3366,6 +4732,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcEndpointAssociationsOutput>(ListVpcEndpointAssociationsOutput.httpOutput(from:), ListVpcEndpointAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointAssociationsOutput>())
@@ -3407,9 +4774,9 @@ extension NetworkFirewallClient {
     ///
     /// For additional information about resource sharing using RAM, see [Resource Access Manager User Guide](https://docs.aws.amazon.com/ram/latest/userguide/what-is.html).
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3451,6 +4818,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -3483,11 +4851,11 @@ extension NetworkFirewallClient {
 
     /// Performs the `RejectNetworkFirewallTransitGatewayAttachment` operation on the `NetworkFirewall` service.
     ///
-    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the firewall owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use [DescribeFirewall] to monitor the rejection status. To accept the attachment instead of rejecting it, use [AcceptNetworkFirewallTransitGatewayAttachment]. Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
+    /// Rejects a transit gateway attachment request for Network Firewall. When you reject the attachment request, Network Firewall cancels the creation of routing components between the transit gateway and firewall endpoints. Only the transit gateway owner can reject the attachment. After rejection, no traffic will flow through the firewall endpoints for this attachment. Use [DescribeFirewall] to monitor the rejection status. To accept the attachment instead of rejecting it, use [AcceptNetworkFirewallTransitGatewayAttachment]. Once rejected, you cannot reverse this action. To establish connectivity, you must create a new transit gateway-attached firewall.
     ///
-    /// - Parameter RejectNetworkFirewallTransitGatewayAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectNetworkFirewallTransitGatewayAttachmentInput`)
     ///
-    /// - Returns: `RejectNetworkFirewallTransitGatewayAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectNetworkFirewallTransitGatewayAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3528,6 +4896,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>(RejectNetworkFirewallTransitGatewayAttachmentOutput.httpOutput(from:), RejectNetworkFirewallTransitGatewayAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>())
@@ -3562,9 +4931,9 @@ extension NetworkFirewallClient {
     ///
     /// Generates a traffic analysis report for the timeframe and traffic type you specify. For information on the contents of a traffic analysis report, see [AnalysisReport].
     ///
-    /// - Parameter StartAnalysisReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAnalysisReportInput`)
     ///
-    /// - Returns: `StartAnalysisReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAnalysisReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3605,6 +4974,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAnalysisReportOutput>(StartAnalysisReportOutput.httpOutput(from:), StartAnalysisReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAnalysisReportOutput>())
@@ -3639,9 +5009,9 @@ extension NetworkFirewallClient {
     ///
     /// Begins capturing the flows in a firewall, according to the filters you define. Captures are similar, but not identical to snapshots. Capture operations provide visibility into flows that are not closed and are tracked by a firewall's flow table. Unlike snapshots, captures are a time-boxed view. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort. To avoid encountering operation limits, you should avoid starting captures with broad filters, like wide IP ranges. Instead, we recommend you define more specific criteria with FlowFilters, like narrow IP ranges, ports, or protocols.
     ///
-    /// - Parameter StartFlowCaptureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFlowCaptureInput`)
     ///
-    /// - Returns: `StartFlowCaptureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFlowCaptureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3682,6 +5052,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFlowCaptureOutput>(StartFlowCaptureOutput.httpOutput(from:), StartFlowCaptureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowCaptureOutput>())
@@ -3716,9 +5087,9 @@ extension NetworkFirewallClient {
     ///
     /// Begins the flushing of traffic from the firewall, according to the filters you define. When the operation starts, impacted flows are temporarily marked as timed out before the Suricata engine prunes, or flushes, the flows from the firewall table. While the flush completes, impacted flows are processed as midstream traffic. This may result in a temporary increase in midstream traffic metrics. We recommend that you double check your stream exception policy before you perform a flush operation.
     ///
-    /// - Parameter StartFlowFlushInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFlowFlushInput`)
     ///
-    /// - Returns: `StartFlowFlushOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFlowFlushOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3759,6 +5130,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowFlushInput, StartFlowFlushOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFlowFlushOutput>(StartFlowFlushOutput.httpOutput(from:), StartFlowFlushOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowFlushOutput>())
@@ -3793,9 +5165,9 @@ extension NetworkFirewallClient {
     ///
     /// Adds the specified tags to the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3836,6 +5208,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3870,9 +5243,9 @@ extension NetworkFirewallClient {
     ///
     /// Removes the tags with the specified keys from the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can manage tags for the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3913,6 +5286,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3947,9 +5321,9 @@ extension NetworkFirewallClient {
     ///
     /// Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-attached firewall. When enabled, this setting prevents accidental changes to the firewall's Availability Zone configuration. This helps protect against disrupting traffic flow in production environments. When enabled, you must disable this protection before using [AssociateAvailabilityZones] or [DisassociateAvailabilityZones] to modify the firewall's Availability Zone configuration.
     ///
-    /// - Parameter UpdateAvailabilityZoneChangeProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAvailabilityZoneChangeProtectionInput`)
     ///
-    /// - Returns: `UpdateAvailabilityZoneChangeProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAvailabilityZoneChangeProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3992,6 +5366,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>(UpdateAvailabilityZoneChangeProtectionOutput.httpOutput(from:), UpdateAvailabilityZoneChangeProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>())
@@ -4026,9 +5401,9 @@ extension NetworkFirewallClient {
     ///
     /// Enables specific types of firewall analysis on a specific firewall you define.
     ///
-    /// - Parameter UpdateFirewallAnalysisSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallAnalysisSettingsInput`)
     ///
-    /// - Returns: `UpdateFirewallAnalysisSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallAnalysisSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4041,6 +5416,7 @@ extension NetworkFirewallClient {
     /// * You tried to update a property with a value that isn't among the available types.
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallAnalysisSettings(input: UpdateFirewallAnalysisSettingsInput) async throws -> UpdateFirewallAnalysisSettingsOutput {
@@ -4069,6 +5445,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallAnalysisSettingsOutput>(UpdateFirewallAnalysisSettingsOutput.httpOutput(from:), UpdateFirewallAnalysisSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallAnalysisSettingsOutput>())
@@ -4103,9 +5480,9 @@ extension NetworkFirewallClient {
     ///
     /// Modifies the flag, DeleteProtection, which indicates whether it is possible to delete the firewall. If the flag is set to TRUE, the firewall is protected against deletion. This setting helps protect against accidentally deleting a firewall that's in use.
     ///
-    /// - Parameter UpdateFirewallDeleteProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallDeleteProtectionInput`)
     ///
-    /// - Returns: `UpdateFirewallDeleteProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallDeleteProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4148,6 +5525,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallDeleteProtectionOutput>(UpdateFirewallDeleteProtectionOutput.httpOutput(from:), UpdateFirewallDeleteProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallDeleteProtectionOutput>())
@@ -4182,9 +5560,9 @@ extension NetworkFirewallClient {
     ///
     /// Modifies the description for the specified firewall. Use the description to help you identify the firewall when you're working with it.
     ///
-    /// - Parameter UpdateFirewallDescriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallDescriptionInput`)
     ///
-    /// - Returns: `UpdateFirewallDescriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallDescriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4226,6 +5604,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallDescriptionOutput>(UpdateFirewallDescriptionOutput.httpOutput(from:), UpdateFirewallDescriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallDescriptionOutput>())
@@ -4260,9 +5639,9 @@ extension NetworkFirewallClient {
     ///
     /// A complex type that contains settings for encryption of your firewall resources.
     ///
-    /// - Parameter UpdateFirewallEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallEncryptionConfigurationInput`)
     ///
-    /// - Returns: `UpdateFirewallEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4305,6 +5684,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallEncryptionConfigurationOutput>(UpdateFirewallEncryptionConfigurationOutput.httpOutput(from:), UpdateFirewallEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallEncryptionConfigurationOutput>())
@@ -4339,9 +5719,9 @@ extension NetworkFirewallClient {
     ///
     /// Updates the properties of the specified firewall policy.
     ///
-    /// - Parameter UpdateFirewallPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallPolicyInput`)
     ///
-    /// - Returns: `UpdateFirewallPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4383,6 +5763,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallPolicyOutput>(UpdateFirewallPolicyOutput.httpOutput(from:), UpdateFirewallPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallPolicyOutput>())
@@ -4417,9 +5798,9 @@ extension NetworkFirewallClient {
     ///
     /// Modifies the flag, ChangeProtection, which indicates whether it is possible to change the firewall. If the flag is set to TRUE, the firewall is protected from changes. This setting helps protect against accidentally changing a firewall that's in use.
     ///
-    /// - Parameter UpdateFirewallPolicyChangeProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFirewallPolicyChangeProtectionInput`)
     ///
-    /// - Returns: `UpdateFirewallPolicyChangeProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFirewallPolicyChangeProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4462,6 +5843,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFirewallPolicyChangeProtectionOutput>(UpdateFirewallPolicyChangeProtectionOutput.httpOutput(from:), UpdateFirewallPolicyChangeProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallPolicyChangeProtectionOutput>())
@@ -4505,9 +5887,9 @@ extension NetworkFirewallClient {
     ///
     /// You can't change the LogDestinationType or LogType in a LogDestinationConfig. To change these settings, delete the existing LogDestinationConfig object and create a new one, using two separate calls to this update operation.
     ///
-    /// - Parameter UpdateLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLoggingConfigurationInput`)
     ///
-    /// - Returns: `UpdateLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4550,6 +5932,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLoggingConfigurationOutput>(UpdateLoggingConfigurationOutput.httpOutput(from:), UpdateLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLoggingConfigurationOutput>())
@@ -4580,13 +5963,404 @@ extension NetworkFirewallClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateProxy` operation on the `NetworkFirewall` service.
+    ///
+    /// Updates the properties of the specified proxy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateProxyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProxyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
+    public func updateProxy(input: UpdateProxyInput) async throws -> UpdateProxyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProxy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProxyInput, UpdateProxyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProxyInput, UpdateProxyOutput>(UpdateProxyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyInput, UpdateProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyInput, UpdateProxyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProxyOutput>(UpdateProxyOutput.httpOutput(from:), UpdateProxyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyInput, UpdateProxyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyInput, UpdateProxyOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxy"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyInput, UpdateProxyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyInput, UpdateProxyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyInput, UpdateProxyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyInput, UpdateProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyInput, UpdateProxyOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProxy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProxyConfiguration` operation on the `NetworkFirewall` service.
+    ///
+    /// Updates the properties of the specified proxy configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateProxyConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProxyConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func updateProxyConfiguration(input: UpdateProxyConfigurationInput) async throws -> UpdateProxyConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProxyConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(UpdateProxyConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProxyConfigurationOutput>(UpdateProxyConfigurationOutput.httpOutput(from:), UpdateProxyConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxyConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProxyConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProxyRule` operation on the `NetworkFirewall` service.
+    ///
+    /// Updates the properties of the specified proxy rule.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateProxyRuleInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProxyRuleOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func updateProxyRule(input: UpdateProxyRuleInput) async throws -> UpdateProxyRuleOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProxyRule")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProxyRuleInput, UpdateProxyRuleOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(UpdateProxyRuleInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProxyRuleOutput>(UpdateProxyRuleOutput.httpOutput(from:), UpdateProxyRuleOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRuleOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxyRule"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyRuleInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProxyRule")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProxyRuleGroupPriorities` operation on the `NetworkFirewall` service.
+    ///
+    /// Updates proxy rule group priorities within a proxy configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateProxyRuleGroupPrioritiesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProxyRuleGroupPrioritiesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func updateProxyRuleGroupPriorities(input: UpdateProxyRuleGroupPrioritiesInput) async throws -> UpdateProxyRuleGroupPrioritiesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProxyRuleGroupPriorities")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(UpdateProxyRuleGroupPrioritiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProxyRuleGroupPrioritiesOutput>(UpdateProxyRuleGroupPrioritiesOutput.httpOutput(from:), UpdateProxyRuleGroupPrioritiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRuleGroupPrioritiesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRuleGroupPrioritiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxyRuleGroupPriorities"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyRuleGroupPrioritiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRuleGroupPrioritiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProxyRuleGroupPriorities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProxyRulePriorities` operation on the `NetworkFirewall` service.
+    ///
+    /// Updates proxy rule priorities within a proxy rule group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateProxyRulePrioritiesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProxyRulePrioritiesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
+    ///
+    /// * You specified an unsupported parameter name or value.
+    ///
+    /// * You tried to update a property with a value that isn't among the available types.
+    ///
+    /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
+    /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
+    public func updateProxyRulePriorities(input: UpdateProxyRulePrioritiesInput) async throws -> UpdateProxyRulePrioritiesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProxyRulePriorities")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "network-firewall")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(UpdateProxyRulePrioritiesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProxyRulePrioritiesOutput>(UpdateProxyRulePrioritiesOutput.httpOutput(from:), UpdateProxyRulePrioritiesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRulePrioritiesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRulePrioritiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(xAmzTarget: "NetworkFirewall_20201112.UpdateProxyRulePriorities"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProxyRulePrioritiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRulePrioritiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(serviceID: serviceName, version: NetworkFirewallClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkFirewall")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProxyRulePriorities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateRuleGroup` operation on the `NetworkFirewall` service.
     ///
     /// Updates the rule settings for the specified rule group. You use a rule group by reference in one or more firewall policies. When you modify a rule group, you modify all firewall policies that use the rule group. To update a rule group, first call [DescribeRuleGroup] to retrieve the current [RuleGroup] object, update the object as needed, and then provide the updated object to this call.
     ///
-    /// - Parameter UpdateRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleGroupInput`)
     ///
-    /// - Returns: `UpdateRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4628,6 +6402,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleGroupOutput>(UpdateRuleGroupOutput.httpOutput(from:), UpdateRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleGroupOutput>())
@@ -4662,9 +6437,9 @@ extension NetworkFirewallClient {
     ///
     ///
     ///
-    /// - Parameter UpdateSubnetChangeProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubnetChangeProtectionInput`)
     ///
-    /// - Returns: `UpdateSubnetChangeProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubnetChangeProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4707,6 +6482,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubnetChangeProtectionOutput>(UpdateSubnetChangeProtectionOutput.httpOutput(from:), UpdateSubnetChangeProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubnetChangeProtectionOutput>())
@@ -4741,9 +6517,9 @@ extension NetworkFirewallClient {
     ///
     /// Updates the TLS inspection configuration settings for the specified TLS inspection configuration. You use a TLS inspection configuration by referencing it in one or more firewall policies. When you modify a TLS inspection configuration, you modify all firewall policies that use the TLS inspection configuration. To update a TLS inspection configuration, first call [DescribeTLSInspectionConfiguration] to retrieve the current [TLSInspectionConfiguration] object, update the object as needed, and then provide the updated object to this call.
     ///
-    /// - Parameter UpdateTLSInspectionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTLSInspectionConfigurationInput`)
     ///
-    /// - Returns: `UpdateTLSInspectionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTLSInspectionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4785,6 +6561,7 @@ extension NetworkFirewallClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTLSInspectionConfigurationOutput>(UpdateTLSInspectionConfigurationOutput.httpOutput(from:), UpdateTLSInspectionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTLSInspectionConfigurationOutput>())

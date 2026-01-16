@@ -289,6 +289,38 @@ extension RUMClientTypes {
 
 extension RUMClientTypes {
 
+    public enum AppMonitorPlatform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case android
+        case ios
+        case web
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppMonitorPlatform] {
+            return [
+                .android,
+                .ios,
+                .web
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .android: return "Android"
+            case .ios: return "iOS"
+            case .web: return "Web"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RUMClientTypes {
+
     public enum StateEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case created
@@ -343,6 +375,8 @@ extension RUMClientTypes {
         public var lastModified: Swift.String?
         /// The name of the app monitor.
         public var name: Swift.String?
+        /// The platform type for this app monitor. Valid values are Web for web applications , Android for Android applications, and iOS for IOS applications.
+        public var platform: RUMClientTypes.AppMonitorPlatform?
         /// The current state of the app monitor.
         public var state: RUMClientTypes.StateEnum?
         /// The list of tag keys and values associated with this app monitor.
@@ -359,6 +393,7 @@ extension RUMClientTypes {
             id: Swift.String? = nil,
             lastModified: Swift.String? = nil,
             name: Swift.String? = nil,
+            platform: RUMClientTypes.AppMonitorPlatform? = nil,
             state: RUMClientTypes.StateEnum? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
@@ -372,6 +407,7 @@ extension RUMClientTypes {
             self.id = id
             self.lastModified = lastModified
             self.name = name
+            self.platform = platform
             self.state = state
             self.tags = tags
         }
@@ -1014,6 +1050,8 @@ public struct CreateAppMonitorInput: Swift.Sendable {
     /// A name for the app monitor.
     /// This member is required.
     public var name: Swift.String?
+    /// The platform type for the app monitor. Valid values are Web for web applications, Android for Android applications, and iOS for IOS applications. If you omit this parameter, the default is Web.
+    public var platform: RUMClientTypes.AppMonitorPlatform?
     /// Assigns one or more tags (key-value pairs) to the app monitor. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with an app monitor. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
     public var tags: [Swift.String: Swift.String]?
 
@@ -1025,6 +1063,7 @@ public struct CreateAppMonitorInput: Swift.Sendable {
         domain: Swift.String? = nil,
         domainList: [Swift.String]? = nil,
         name: Swift.String? = nil,
+        platform: RUMClientTypes.AppMonitorPlatform? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.appMonitorConfiguration = appMonitorConfiguration
@@ -1034,6 +1073,7 @@ public struct CreateAppMonitorInput: Swift.Sendable {
         self.domain = domain
         self.domainList = domainList
         self.name = name
+        self.platform = platform
         self.tags = tags
     }
 }
@@ -1327,6 +1367,8 @@ extension RUMClientTypes {
         public var lastModified: Swift.String?
         /// The name of this app monitor.
         public var name: Swift.String?
+        /// The platform type for this app monitor. Valid values are Web for web applications, Android for Android applications, and iOS for IOS applications.
+        public var platform: RUMClientTypes.AppMonitorPlatform?
         /// The current state of this app monitor.
         public var state: RUMClientTypes.StateEnum?
 
@@ -1335,12 +1377,14 @@ extension RUMClientTypes {
             id: Swift.String? = nil,
             lastModified: Swift.String? = nil,
             name: Swift.String? = nil,
+            platform: RUMClientTypes.AppMonitorPlatform? = nil,
             state: RUMClientTypes.StateEnum? = nil
         ) {
             self.created = created
             self.id = id
             self.lastModified = lastModified
             self.name = name
+            self.platform = platform
             self.state = state
         }
     }
@@ -2123,6 +2167,7 @@ extension CreateAppMonitorInput {
         try writer["Domain"].write(value.domain)
         try writer["DomainList"].writeList(value.domainList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
+        try writer["Platform"].write(value.platform)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -3020,6 +3065,7 @@ extension RUMClientTypes.AppMonitor {
         value.dataStorage = try reader["DataStorage"].readIfPresent(with: RUMClientTypes.DataStorage.read(from:))
         value.customEvents = try reader["CustomEvents"].readIfPresent(with: RUMClientTypes.CustomEvents.read(from:))
         value.deobfuscationConfiguration = try reader["DeobfuscationConfiguration"].readIfPresent(with: RUMClientTypes.DeobfuscationConfiguration.read(from:))
+        value.platform = try reader["Platform"].readIfPresent()
         return value
     }
 }
@@ -3133,6 +3179,7 @@ extension RUMClientTypes.AppMonitorSummary {
         value.created = try reader["Created"].readIfPresent()
         value.lastModified = try reader["LastModified"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent()
         return value
     }
 }

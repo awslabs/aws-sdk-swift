@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KeyspacesStreamsClient: ClientRuntime.Client {
+public class KeyspacesStreamsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KeyspacesStreamsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: KeyspacesStreamsClient.KeyspacesStreamsClientConfiguration
     let serviceName = "KeyspacesStreams"
@@ -373,9 +373,9 @@ extension KeyspacesStreamsClient {
     ///
     /// Retrieves data records from a specified shard in an Amazon Keyspaces data stream. This operation returns a collection of data records from the shard, including the primary key columns and information about modifications made to the captured table data. Each record represents a single data modification in the Amazon Keyspaces table and includes metadata about when the change occurred.
     ///
-    /// - Parameter GetRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecordsInput`)
     ///
-    /// - Returns: `GetRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension KeyspacesStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecordsInput, GetRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordsOutput>(GetRecordsOutput.httpOutput(from:), GetRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordsInput, GetRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordsOutput>())
@@ -445,9 +446,9 @@ extension KeyspacesStreamsClient {
     ///
     /// Returns a shard iterator that serves as a bookmark for reading data from a specific position in an Amazon Keyspaces data stream's shard. The shard iterator specifies the shard position from which to start reading data records sequentially. You can specify whether to begin reading at the latest record, the oldest record, or at a particular sequence number within the shard.
     ///
-    /// - Parameter GetShardIteratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetShardIteratorInput`)
     ///
-    /// - Returns: `GetShardIteratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetShardIteratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension KeyspacesStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetShardIteratorInput, GetShardIteratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetShardIteratorOutput>(GetShardIteratorOutput.httpOutput(from:), GetShardIteratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetShardIteratorOutput>())
@@ -517,9 +519,9 @@ extension KeyspacesStreamsClient {
     ///
     /// Returns detailed information about a specific data capture stream for an Amazon Keyspaces table. The information includes the stream's Amazon Resource Name (ARN), creation time, current status, retention period, shard composition, and associated table details. This operation helps you monitor and manage the configuration of your Amazon Keyspaces data streams.
     ///
-    /// - Parameter GetStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamInput`)
     ///
-    /// - Returns: `GetStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +557,7 @@ extension KeyspacesStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStreamInput, GetStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamOutput>(GetStreamOutput.httpOutput(from:), GetStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamInput, GetStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamOutput>())
@@ -589,9 +592,9 @@ extension KeyspacesStreamsClient {
     ///
     /// Returns a list of all data capture streams associated with your Amazon Keyspaces account or for a specific keyspace or table. The response includes information such as stream ARNs, table associations, creation timestamps, and current status. This operation helps you discover and manage all active data streams in your Amazon Keyspaces environment.
     ///
-    /// - Parameter ListStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamsInput`)
     ///
-    /// - Returns: `ListStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +630,7 @@ extension KeyspacesStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamsInput, ListStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())

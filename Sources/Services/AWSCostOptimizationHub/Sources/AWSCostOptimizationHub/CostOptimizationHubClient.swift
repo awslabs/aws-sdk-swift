@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CostOptimizationHubClient: ClientRuntime.Client {
+public class CostOptimizationHubClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CostOptimizationHubClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CostOptimizationHubClient.CostOptimizationHubClientConfiguration
     let serviceName = "Cost Optimization Hub"
@@ -373,9 +373,9 @@ extension CostOptimizationHubClient {
     ///
     /// Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
     ///
-    /// - Parameter GetPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPreferencesInput`)
     ///
-    /// - Returns: `GetPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +410,7 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPreferencesInput, GetPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPreferencesOutput>(GetPreferencesOutput.httpOutput(from:), GetPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPreferencesInput, GetPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPreferencesOutput>())
@@ -444,9 +445,9 @@ extension CostOptimizationHubClient {
     ///
     /// Returns both the current and recommended resource configuration and the estimated cost impact for a recommendation. The recommendationId is only valid for up to a maximum of 24 hours as recommendations are refreshed daily. To retrieve the recommendationId, use the ListRecommendations API.
     ///
-    /// - Parameter GetRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationInput`)
     ///
-    /// - Returns: `GetRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +483,7 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecommendationInput, GetRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationOutput>(GetRecommendationOutput.httpOutput(from:), GetRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationInput, GetRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationOutput>())
@@ -512,13 +514,85 @@ extension CostOptimizationHubClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListEfficiencyMetrics` operation on the `CostOptimizationHub` service.
+    ///
+    /// Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spending, and measures how effectively you're optimizing your Cloud resources. The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEfficiencyMetricsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEfficiencyMetricsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `InternalServerException` : An error on the server occurred during the processing of your request. Try again later.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func listEfficiencyMetrics(input: ListEfficiencyMetricsInput) async throws -> ListEfficiencyMetricsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEfficiencyMetrics")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cost-optimization-hub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(ListEfficiencyMetricsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEfficiencyMetricsOutput>(ListEfficiencyMetricsOutput.httpOutput(from:), ListEfficiencyMetricsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEfficiencyMetricsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Cost Optimization Hub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEfficiencyMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(xAmzTarget: "CostOptimizationHubService.ListEfficiencyMetrics"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEfficiencyMetricsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEfficiencyMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(serviceID: serviceName, version: CostOptimizationHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CostOptimizationHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEfficiencyMetrics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEnrollmentStatuses` operation on the `CostOptimizationHub` service.
     ///
     /// Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
     ///
-    /// - Parameter ListEnrollmentStatusesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnrollmentStatusesInput`)
     ///
-    /// - Returns: `ListEnrollmentStatusesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnrollmentStatusesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,6 +627,7 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnrollmentStatusesOutput>(ListEnrollmentStatusesOutput.httpOutput(from:), ListEnrollmentStatusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnrollmentStatusesInput, ListEnrollmentStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnrollmentStatusesOutput>())
@@ -587,9 +662,9 @@ extension CostOptimizationHubClient {
     ///
     /// Returns a concise representation of savings estimates for resources. Also returns de-duped savings across different types of recommendations. The following filters are not supported for this API: recommendationIds, resourceArns, and resourceIds.
     ///
-    /// - Parameter ListRecommendationSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationSummariesInput`)
     ///
-    /// - Returns: `ListRecommendationSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,6 +699,7 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendationSummariesOutput>(ListRecommendationSummariesOutput.httpOutput(from:), ListRecommendationSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationSummariesInput, ListRecommendationSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationSummariesOutput>())
@@ -658,9 +734,9 @@ extension CostOptimizationHubClient {
     ///
     /// Returns a list of recommendations.
     ///
-    /// - Parameter ListRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationsInput`)
     ///
-    /// - Returns: `ListRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,6 +771,7 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendationsInput, ListRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendationsOutput>(ListRecommendationsOutput.httpOutput(from:), ListRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationsOutput>())
@@ -727,11 +804,11 @@ extension CostOptimizationHubClient {
 
     /// Performs the `UpdateEnrollmentStatus` operation on the `CostOptimizationHub` service.
     ///
-    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account or delegated administrator of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
+    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
     ///
-    /// - Parameter UpdateEnrollmentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnrollmentStatusInput`)
     ///
-    /// - Returns: `UpdateEnrollmentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnrollmentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,6 +843,7 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnrollmentStatusOutput>(UpdateEnrollmentStatusOutput.httpOutput(from:), UpdateEnrollmentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnrollmentStatusInput, UpdateEnrollmentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnrollmentStatusOutput>())
@@ -800,9 +878,9 @@ extension CostOptimizationHubClient {
     ///
     /// Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented.
     ///
-    /// - Parameter UpdatePreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePreferencesInput`)
     ///
-    /// - Returns: `UpdatePreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,6 +915,7 @@ extension CostOptimizationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePreferencesOutput>(UpdatePreferencesOutput.httpOutput(from:), UpdatePreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePreferencesInput, UpdatePreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePreferencesOutput>())

@@ -21,6 +21,15 @@ class InternalModelIntegration : SwiftIntegration {
         listOf(
             "com.amazonaws.ssooidc#CreateToken",
         )
+    private val cognitoOps =
+        listOf(
+            "com.amazonaws.cognitoidentity#GetId",
+            "com.amazonaws.cognitoidentity#GetCredentialsForIdentity",
+        )
+    private val signinOps =
+        listOf(
+            "com.amazonaws.signin#CreateOAuth2Token",
+        )
 
     override fun enabledForService(
         model: Model,
@@ -48,6 +57,8 @@ class InternalModelIntegration : SwiftIntegration {
             "STS" -> stsOps
             "SSO" -> ssoOps
             "SSO OIDC" -> ssoOIDCOps
+            "Cognito Identity" -> cognitoOps
+            "Signin" -> signinOps
             else -> emptyList()
         }
 }

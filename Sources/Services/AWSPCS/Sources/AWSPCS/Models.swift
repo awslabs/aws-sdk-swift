@@ -26,17 +26,6 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-
-public struct TagResourceOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct UntagResourceOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 /// You don't have permission to perform the action. Examples
 ///
 /// * The launch template instance profile doesn't pass iam:PassRole verification.
@@ -104,7 +93,7 @@ extension PCSClientTypes {
     public struct Accounting: Swift.Sendable {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
         public var defaultPurgeTimeInDays: Swift.Int?
-        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
         /// This member is required.
         public var mode: PCSClientTypes.AccountingMode?
 
@@ -124,7 +113,7 @@ extension PCSClientTypes {
     public struct AccountingRequest: Swift.Sendable {
         /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
         public var defaultPurgeTimeInDays: Swift.Int?
-        /// The default value for mode is STANDARD. A value of STANDARD means Slurm accounting is enabled.
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
         /// This member is required.
         public var mode: PCSClientTypes.AccountingMode?
 
@@ -180,7 +169,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// Amazon Web Services PCS can't process your request right now. Try again later.
+/// PCS can't process your request right now. Try again later.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -412,7 +401,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension PCSClientTypes {
 
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     public struct CustomLaunchTemplate: Swift.Sendable {
         /// The ID of the EC2 launch template to use to provision instances. Example: lt-xxxx
         /// This member is required.
@@ -433,9 +422,9 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
-    /// An EC2 instance configuration Amazon Web Services PCS uses to launch compute nodes.
+    /// An EC2 instance configuration PCS uses to launch compute nodes.
     public struct InstanceConfig: Swift.Sendable {
-        /// The EC2 instance type that Amazon Web Services PCS can provision in the compute node group. Example: t2.xlarge
+        /// The EC2 instance type that PCS can provision in the compute node group. Example: t2.xlarge
         public var instanceType: Swift.String?
 
         public init(
@@ -449,12 +438,14 @@ extension PCSClientTypes {
 extension PCSClientTypes {
 
     public enum PurchaseOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityBlock
         case ondemand
         case spot
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PurchaseOption] {
             return [
+                .capacityBlock,
                 .ondemand,
                 .spot
             ]
@@ -467,6 +458,7 @@ extension PCSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .capacityBlock: return "CAPACITY_BLOCK"
             case .ondemand: return "ONDEMAND"
             case .spot: return "SPOT"
             case let .sdkUnknown(s): return s
@@ -498,26 +490,9 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
-    /// Additional settings that directly map to Slurm settings.
+    /// Additional settings that directly map to Slurm settings. PCS supports a subset of Slurm settings. For more information, see [Configuring custom Slurm settings in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-custom-settings.html) in the PCS User Guide.
     public struct SlurmCustomSetting: Swift.Sendable {
-        /// Amazon Web Services PCS supports configuration of the following Slurm parameters:
-        ///
-        /// * For clusters
-        ///
-        /// * [Prolog](https://slurm.schedmd.com/slurm.conf.html#OPT_Prolog_1)
-        ///
-        /// * [Epilog](https://slurm.schedmd.com/slurm.conf.html#OPT_Epilog_1)
-        ///
-        /// * [SelectTypeParameters](https://slurm.schedmd.com/slurm.conf.html#OPT_SelectTypeParameters)
-        ///
-        ///
-        ///
-        ///
-        /// * For compute node groups
-        ///
-        /// * [Weight](https://slurm.schedmd.com/slurm.conf.html#OPT_Weight)
-        ///
-        /// * [RealMemory](https://slurm.schedmd.com/slurm.conf.html#OPT_Weight)
+        /// PCS supports custom Slurm settings for clusters, compute node groups, and queues. For more information, see [Configuring custom Slurm settings in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-custom-settings.html) in the PCS User Guide.
         /// This member is required.
         public var parameterName: Swift.String?
         /// The values for the configured Slurm settings.
@@ -585,7 +560,7 @@ extension PCSClientTypes {
 
     /// Additional configuration when you specify SPOT as the purchaseOption for the CreateComputeNodeGroup API action.
     public struct SpotOptions: Swift.Sendable {
-        /// The Amazon EC2 allocation strategy Amazon Web Services PCS uses to provision EC2 instances. Amazon Web Services PCS supports lowest price, capacity optimized, and price capacity optimized. For more information, see [Use allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-allocation-strategy.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
+        /// The Amazon EC2 allocation strategy PCS uses to provision EC2 instances. PCS supports lowest price, capacity optimized, and price capacity optimized. For more information, see [Use allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-allocation-strategy.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
         public var allocationStrategy: PCSClientTypes.SpotAllocationStrategy?
 
         public init(
@@ -597,7 +572,7 @@ extension PCSClientTypes {
 }
 
 public struct CreateComputeNodeGroupInput: Swift.Sendable {
-    /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+    /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, PCS uses the AMI ID specified in the custom launch template.
     public var amiId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     public var clientToken: Swift.String?
@@ -607,16 +582,16 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
     /// A name to identify the cluster. Example: MyCluster
     /// This member is required.
     public var computeNodeGroupName: Swift.String?
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     /// This member is required.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
     /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     /// This member is required.
     public var iamInstanceProfileArn: Swift.String?
-    /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
+    /// A list of EC2 instance configurations that PCS can provision in the compute node group.
     /// This member is required.
     public var instanceConfigs: [PCSClientTypes.InstanceConfig]?
-    /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+    /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?
     /// Specifies the boundaries of the compute node group auto scaling.
     /// This member is required.
@@ -774,7 +749,7 @@ extension PCSClientTypes {
 
     /// A compute node group associated with a cluster.
     public struct ComputeNodeGroup: Swift.Sendable {
-        /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
         public var amiId: Swift.String?
         /// The unique Amazon Resource Name (ARN) of the compute node group.
         /// This member is required.
@@ -785,7 +760,7 @@ extension PCSClientTypes {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+        /// An Amazon EC2 launch template PCS uses to launch compute nodes.
         /// This member is required.
         public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
         /// The list of errors that occurred during compute node group provisioning.
@@ -796,7 +771,7 @@ extension PCSClientTypes {
         /// The generated unique ID of the compute node group.
         /// This member is required.
         public var id: Swift.String?
-        /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
+        /// A list of EC2 instance configurations that PCS can provision in the compute node group.
         /// This member is required.
         public var instanceConfigs: [PCSClientTypes.InstanceConfig]?
         /// The date and time the resource was modified.
@@ -805,7 +780,7 @@ extension PCSClientTypes {
         /// The name that identifies the compute node group.
         /// This member is required.
         public var name: Swift.String?
-        /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+        /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
         public var purchaseOption: PCSClientTypes.PurchaseOption?
         /// Specifies the boundaries of the compute node group auto scaling.
         /// This member is required.
@@ -1024,7 +999,7 @@ extension PCSClientTypes {
 }
 
 public struct UpdateComputeNodeGroupInput: Swift.Sendable {
-    /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+    /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
     public var amiId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     public var clientToken: Swift.String?
@@ -1034,11 +1009,11 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
     /// The name or ID of the compute node group.
     /// This member is required.
     public var computeNodeGroupIdentifier: Swift.String?
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
     /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     public var iamInstanceProfileArn: Swift.String?
-    /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
+    /// Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see [Amazon EC2 billing and purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see [Using Amazon EC2 Capacity Blocks for ML with PCS](https://docs.aws.amazon.com/pcs/latest/userguide/capacity-blocks.html) in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?
     /// Specifies the boundaries of the compute node group auto scaling.
     public var scalingConfiguration: PCSClientTypes.ScalingConfigurationRequest?
@@ -1124,7 +1099,7 @@ extension PCSClientTypes {
         public var networkType: PCSClientTypes.NetworkType?
         /// A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.
         public var securityGroupIds: [Swift.String]?
-        /// The list of subnet IDs where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone. Amazon Web Services PCS currently supports only 1 subnet in this list.
+        /// The list of subnet IDs where PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone. PCS currently supports only 1 subnet in this list.
         public var subnetIds: [Swift.String]?
 
         public init(
@@ -1169,10 +1144,10 @@ extension PCSClientTypes {
 
     /// The cluster management and job scheduling software associated with the cluster.
     public struct SchedulerRequest: Swift.Sendable {
-        /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in Amazon Web Services PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -1220,6 +1195,51 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
+    public enum SlurmRestMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlurmRestMode] {
+            return [
+                .none,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API. It's a property of the ClusterSlurmConfiguration object.
+    public struct SlurmRestRequest: Swift.Sendable {
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
+        /// This member is required.
+        public var mode: PCSClientTypes.SlurmRestMode?
+
+        public init(
+            mode: PCSClientTypes.SlurmRestMode? = nil
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfigurationRequest: Swift.Sendable {
         /// The accounting configuration includes configurable settings for Slurm accounting.
@@ -1228,15 +1248,19 @@ extension PCSClientTypes {
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public var slurmRest: PCSClientTypes.SlurmRestRequest?
 
         public init(
             accounting: PCSClientTypes.AccountingRequest? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
-            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
+            slurmRest: PCSClientTypes.SlurmRestRequest? = nil
         ) {
             self.accounting = accounting
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
         }
     }
 }
@@ -1291,12 +1315,14 @@ extension PCSClientTypes {
     public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case slurmctld
         case slurmdbd
+        case slurmrestd
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EndpointType] {
             return [
                 .slurmctld,
-                .slurmdbd
+                .slurmdbd,
+                .slurmrestd
             ]
         }
 
@@ -1309,6 +1335,7 @@ extension PCSClientTypes {
             switch self {
             case .slurmctld: return "SLURMCTLD"
             case .slurmdbd: return "SLURMDBD"
+            case .slurmrestd: return "SLURMRESTD"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1387,7 +1414,7 @@ extension PCSClientTypes {
         ///
         /// * Destination: Self
         public var securityGroupIds: [Swift.String]?
-        /// The ID of the subnet where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. The subnet must have an available IP address, cannot reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone. Example: subnet-abcd1234
+        /// The ID of the subnet where PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and PCS resources. The subnet must have an available IP address, cannot reside in Outposts, Wavelength, or an Amazon Web Services Local Zone. Example: subnet-abcd1234
         public var subnetIds: [Swift.String]?
 
         public init(
@@ -1406,10 +1433,10 @@ extension PCSClientTypes {
 
     /// The cluster management and job scheduling software associated with the cluster.
     public struct Scheduler: Swift.Sendable {
-        /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in Amazon Web Services PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -1427,7 +1454,7 @@ extension PCSClientTypes {
 
     /// The shared Slurm key for authentication, also known as the cluster secret.
     public struct SlurmAuthKey: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the the shared Slurm key.
+        /// The Amazon Resource Name (ARN) of the shared Slurm key.
         /// This member is required.
         public var secretArn: Swift.String?
         /// The version of the shared Slurm key.
@@ -1446,27 +1473,87 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
+    /// The JWT key stored in Amazon Web Services Secrets Manager for Slurm REST API authentication.
+    public struct JwtKey: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the JWT key.
+        /// This member is required.
+        public var secretArn: Swift.String?
+        /// The version of the Amazon Web Services Secrets Manager secret containing the JWT key.
+        /// This member is required.
+        public var secretVersion: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil,
+            secretVersion: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+            self.secretVersion = secretVersion
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The JWT authentication configuration for Slurm REST API access.
+    public struct JwtAuth: Swift.Sendable {
+        /// The JWT key for Slurm REST API authentication.
+        public var jwtKey: PCSClientTypes.JwtKey?
+
+        public init(
+            jwtKey: PCSClientTypes.JwtKey? = nil
+        ) {
+            self.jwtKey = jwtKey
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API. It's a property of the ClusterSlurmConfiguration object.
+    public struct SlurmRest: Swift.Sendable {
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
+        /// This member is required.
+        public var mode: PCSClientTypes.SlurmRestMode?
+
+        public init(
+            mode: PCSClientTypes.SlurmRestMode? = nil
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// Additional options related to the Slurm scheduler.
     public struct ClusterSlurmConfiguration: Swift.Sendable {
         /// The accounting configuration includes configurable settings for Slurm accounting.
         public var accounting: PCSClientTypes.Accounting?
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public var authKey: PCSClientTypes.SlurmAuthKey?
+        /// The JWT authentication configuration for Slurm REST API access.
+        public var jwtAuth: PCSClientTypes.JwtAuth?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public var scaleDownIdleTimeInSeconds: Swift.Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public var slurmRest: PCSClientTypes.SlurmRest?
 
         public init(
             accounting: PCSClientTypes.Accounting? = nil,
             authKey: PCSClientTypes.SlurmAuthKey? = nil,
+            jwtAuth: PCSClientTypes.JwtAuth? = nil,
             scaleDownIdleTimeInSeconds: Swift.Int? = nil,
-            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
+            slurmRest: PCSClientTypes.SlurmRest? = nil
         ) {
             self.accounting = accounting
             self.authKey = authKey
+            self.jwtAuth = jwtAuth
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
         }
     }
 }
@@ -1628,7 +1715,7 @@ public struct DeleteClusterOutput: Swift.Sendable {
 }
 
 public struct GetClusterInput: Swift.Sendable {
-    /// The name or ID of the cluster of the queue.
+    /// The name or ID of the cluster.
     /// This member is required.
     public var clusterIdentifier: Swift.String?
 
@@ -1737,6 +1824,21 @@ extension PCSClientTypes {
     }
 }
 
+extension PCSClientTypes {
+
+    /// Additional options related to the Slurm scheduler.
+    public struct QueueSlurmConfigurationRequest: Swift.Sendable {
+        /// Additional Slurm-specific configuration that directly maps to Slurm settings.
+        public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+
+        public init(
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
+        ) {
+            self.slurmCustomSettings = slurmCustomSettings
+        }
+    }
+}
+
 public struct CreateQueueInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     public var clientToken: Swift.String?
@@ -1748,6 +1850,8 @@ public struct CreateQueueInput: Swift.Sendable {
     /// A name to identify the queue.
     /// This member is required.
     public var queueName: Swift.String?
+    /// Additional options related to the Slurm scheduler.
+    public var slurmConfiguration: PCSClientTypes.QueueSlurmConfigurationRequest?
     /// 1 or more tags added to the resource. Each tag consists of a tag key and tag value. The tag value is optional and can be an empty string.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1756,13 +1860,30 @@ public struct CreateQueueInput: Swift.Sendable {
         clusterIdentifier: Swift.String? = nil,
         computeNodeGroupConfigurations: [PCSClientTypes.ComputeNodeGroupConfiguration]? = nil,
         queueName: Swift.String? = nil,
+        slurmConfiguration: PCSClientTypes.QueueSlurmConfigurationRequest? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.computeNodeGroupConfigurations = computeNodeGroupConfigurations
         self.queueName = queueName
+        self.slurmConfiguration = slurmConfiguration
         self.tags = tags
+    }
+}
+
+extension PCSClientTypes {
+
+    /// Additional options related to the Slurm scheduler.
+    public struct QueueSlurmConfiguration: Swift.Sendable {
+        /// Additional Slurm-specific configuration that directly maps to Slurm settings.
+        public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+
+        public init(
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
+        ) {
+            self.slurmCustomSettings = slurmCustomSettings
+        }
     }
 }
 
@@ -1843,6 +1964,8 @@ extension PCSClientTypes {
         /// The name that identifies the queue.
         /// This member is required.
         public var name: Swift.String?
+        /// Additional options related to the Slurm scheduler.
+        public var slurmConfiguration: PCSClientTypes.QueueSlurmConfiguration?
         /// The provisioning status of the queue. The provisioning status doesn't indicate the overall health of the queue. The resource enters the SUSPENDING and SUSPENDED states when the scheduler is beyond end of life and we have suspended the cluster. When in these states, you can't use the cluster. The cluster controller is down and all compute instances are terminated. The resources still count toward your service quotas. You can delete a resource if its status is SUSPENDED. For more information, see [Frequently asked questions about Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions_faq.html) in the PCS User Guide.
         /// This member is required.
         public var status: PCSClientTypes.QueueStatus?
@@ -1856,6 +1979,7 @@ extension PCSClientTypes {
             id: Swift.String? = nil,
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            slurmConfiguration: PCSClientTypes.QueueSlurmConfiguration? = nil,
             status: PCSClientTypes.QueueStatus? = nil
         ) {
             self.arn = arn
@@ -1866,6 +1990,7 @@ extension PCSClientTypes {
             self.id = id
             self.modifiedAt = modifiedAt
             self.name = name
+            self.slurmConfiguration = slurmConfiguration
             self.status = status
         }
     }
@@ -2018,6 +2143,21 @@ public struct ListQueuesOutput: Swift.Sendable {
     }
 }
 
+extension PCSClientTypes {
+
+    /// Additional options related to the Slurm scheduler.
+    public struct UpdateQueueSlurmConfigurationRequest: Swift.Sendable {
+        /// Additional Slurm-specific configuration that directly maps to Slurm settings.
+        public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+
+        public init(
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil
+        ) {
+            self.slurmCustomSettings = slurmCustomSettings
+        }
+    }
+}
+
 public struct UpdateQueueInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     public var clientToken: Swift.String?
@@ -2029,17 +2169,21 @@ public struct UpdateQueueInput: Swift.Sendable {
     /// The name or ID of the queue.
     /// This member is required.
     public var queueIdentifier: Swift.String?
+    /// Additional options related to the Slurm scheduler.
+    public var slurmConfiguration: PCSClientTypes.UpdateQueueSlurmConfigurationRequest?
 
     public init(
         clientToken: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         computeNodeGroupConfigurations: [PCSClientTypes.ComputeNodeGroupConfiguration]? = nil,
-        queueIdentifier: Swift.String? = nil
+        queueIdentifier: Swift.String? = nil,
+        slurmConfiguration: PCSClientTypes.UpdateQueueSlurmConfigurationRequest? = nil
     ) {
         self.clientToken = clientToken
         self.clusterIdentifier = clusterIdentifier
         self.computeNodeGroupConfigurations = computeNodeGroupConfigurations
         self.queueIdentifier = queueIdentifier
+        self.slurmConfiguration = slurmConfiguration
     }
 }
 
@@ -2098,6 +2242,98 @@ extension RegisterComputeNodeGroupInstanceOutput: Swift.CustomDebugStringConvert
         "RegisterComputeNodeGroupInstanceOutput(endpoints: \(Swift.String(describing: endpoints)), nodeID: \(Swift.String(describing: nodeID)), sharedSecret: \"CONTENT_REDACTED\")"}
 }
 
+extension PCSClientTypes {
+
+    /// The accounting configuration includes configurable settings for Slurm accounting.
+    public struct UpdateAccountingRequest: Swift.Sendable {
+        /// The default value for all purge settings for slurmdbd.conf. For more information, see the [slurmdbd.conf documentation at SchedMD](https://slurm.schedmd.com/slurmdbd.conf.html). The default value for defaultPurgeTimeInDays is -1. A value of -1 means there is no purge time and records persist as long as the cluster exists. 0 isn't a valid value.
+        public var defaultPurgeTimeInDays: Swift.Int?
+        /// The default value for mode is NONE. A value of STANDARD means Slurm accounting is enabled.
+        public var mode: PCSClientTypes.AccountingMode?
+
+        public init(
+            defaultPurgeTimeInDays: Swift.Int? = nil,
+            mode: PCSClientTypes.AccountingMode? = nil
+        ) {
+            self.defaultPurgeTimeInDays = defaultPurgeTimeInDays
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// The Slurm REST API configuration includes settings for enabling and configuring the Slurm REST API.
+    public struct UpdateSlurmRestRequest: Swift.Sendable {
+        /// The default value for mode is NONE. A value of STANDARD means the Slurm REST API is enabled.
+        public var mode: PCSClientTypes.SlurmRestMode?
+
+        public init(
+            mode: PCSClientTypes.SlurmRestMode? = nil
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension PCSClientTypes {
+
+    /// Additional options related to the Slurm scheduler.
+    public struct UpdateClusterSlurmConfigurationRequest: Swift.Sendable {
+        /// The accounting configuration includes configurable settings for Slurm accounting.
+        public var accounting: PCSClientTypes.UpdateAccountingRequest?
+        /// The time (in seconds) before an idle node is scaled down. Default: 600
+        public var scaleDownIdleTimeInSeconds: Swift.Int?
+        /// Additional Slurm-specific configuration that directly maps to Slurm settings.
+        public var slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public var slurmRest: PCSClientTypes.UpdateSlurmRestRequest?
+
+        public init(
+            accounting: PCSClientTypes.UpdateAccountingRequest? = nil,
+            scaleDownIdleTimeInSeconds: Swift.Int? = nil,
+            slurmCustomSettings: [PCSClientTypes.SlurmCustomSetting]? = nil,
+            slurmRest: PCSClientTypes.UpdateSlurmRestRequest? = nil
+        ) {
+            self.accounting = accounting
+            self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
+            self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
+        }
+    }
+}
+
+public struct UpdateClusterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
+    public var clientToken: Swift.String?
+    /// The name or ID of the cluster to update.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// Additional options related to the Slurm scheduler.
+    public var slurmConfiguration: PCSClientTypes.UpdateClusterSlurmConfigurationRequest?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterIdentifier: Swift.String? = nil,
+        slurmConfiguration: PCSClientTypes.UpdateClusterSlurmConfigurationRequest? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterIdentifier = clusterIdentifier
+        self.slurmConfiguration = slurmConfiguration
+    }
+}
+
+public struct UpdateClusterOutput: Swift.Sendable {
+    /// The cluster resource and configuration.
+    public var cluster: PCSClientTypes.Cluster?
+
+    public init(
+        cluster: PCSClientTypes.Cluster? = nil
+    ) {
+        self.cluster = cluster
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource for which to list tags.
     /// This member is required.
@@ -2138,6 +2374,11 @@ public struct TagResourceInput: Swift.Sendable {
     }
 }
 
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -2153,6 +2394,11 @@ public struct UntagResourceInput: Swift.Sendable {
         self.resourceArn = resourceArn
         self.tagKeys = tagKeys
     }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension CreateClusterInput {
@@ -2267,6 +2513,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateClusterInput {
+
+    static func urlPathProvider(_ value: UpdateClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateComputeNodeGroupInput {
 
     static func urlPathProvider(_ value: UpdateComputeNodeGroupInput) -> Swift.String? {
@@ -2323,6 +2576,7 @@ extension CreateQueueInput {
         try writer["clusterIdentifier"].write(value.clusterIdentifier)
         try writer["computeNodeGroupConfigurations"].writeList(value.computeNodeGroupConfigurations, memberWritingClosure: PCSClientTypes.ComputeNodeGroupConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["queueName"].write(value.queueName)
+        try writer["slurmConfiguration"].write(value.slurmConfiguration, with: PCSClientTypes.QueueSlurmConfigurationRequest.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2446,6 +2700,16 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateClusterInput {
+
+    static func write(value: UpdateClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["clusterIdentifier"].write(value.clusterIdentifier)
+        try writer["slurmConfiguration"].write(value.slurmConfiguration, with: PCSClientTypes.UpdateClusterSlurmConfigurationRequest.write(value:to:))
+    }
+}
+
 extension UpdateComputeNodeGroupInput {
 
     static func write(value: UpdateComputeNodeGroupInput?, to writer: SmithyJSON.Writer) throws {
@@ -2472,6 +2736,7 @@ extension UpdateQueueInput {
         try writer["clusterIdentifier"].write(value.clusterIdentifier)
         try writer["computeNodeGroupConfigurations"].writeList(value.computeNodeGroupConfigurations, memberWritingClosure: PCSClientTypes.ComputeNodeGroupConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["queueIdentifier"].write(value.queueIdentifier)
+        try writer["slurmConfiguration"].write(value.slurmConfiguration, with: PCSClientTypes.UpdateQueueSlurmConfigurationRequest.write(value:to:))
     }
 }
 
@@ -2644,6 +2909,18 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateClusterOutput()
+        value.cluster = try reader["cluster"].readIfPresent(with: PCSClientTypes.Cluster.read(from:))
+        return value
     }
 }
 
@@ -2959,6 +3236,25 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateComputeNodeGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3170,7 +3466,19 @@ extension PCSClientTypes.ClusterSlurmConfiguration {
         value.scaleDownIdleTimeInSeconds = try reader["scaleDownIdleTimeInSeconds"].readIfPresent()
         value.slurmCustomSettings = try reader["slurmCustomSettings"].readListIfPresent(memberReadingClosure: PCSClientTypes.SlurmCustomSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.authKey = try reader["authKey"].readIfPresent(with: PCSClientTypes.SlurmAuthKey.read(from:))
+        value.jwtAuth = try reader["jwtAuth"].readIfPresent(with: PCSClientTypes.JwtAuth.read(from:))
         value.accounting = try reader["accounting"].readIfPresent(with: PCSClientTypes.Accounting.read(from:))
+        value.slurmRest = try reader["slurmRest"].readIfPresent(with: PCSClientTypes.SlurmRest.read(from:))
+        return value
+    }
+}
+
+extension PCSClientTypes.SlurmRest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmRest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.SlurmRest()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3180,8 +3488,29 @@ extension PCSClientTypes.Accounting {
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Accounting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PCSClientTypes.Accounting()
-        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         value.defaultPurgeTimeInDays = try reader["defaultPurgeTimeInDays"].readIfPresent()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PCSClientTypes.JwtAuth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.JwtAuth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.JwtAuth()
+        value.jwtKey = try reader["jwtKey"].readIfPresent(with: PCSClientTypes.JwtKey.read(from:))
+        return value
+    }
+}
+
+extension PCSClientTypes.JwtKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.JwtKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.JwtKey()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.secretVersion = try reader["secretVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3332,7 +3661,18 @@ extension PCSClientTypes.Queue {
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.computeNodeGroupConfigurations = try reader["computeNodeGroupConfigurations"].readListIfPresent(memberReadingClosure: PCSClientTypes.ComputeNodeGroupConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.slurmConfiguration = try reader["slurmConfiguration"].readIfPresent(with: PCSClientTypes.QueueSlurmConfiguration.read(from:))
         value.errorInfo = try reader["errorInfo"].readListIfPresent(memberReadingClosure: PCSClientTypes.ErrorInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PCSClientTypes.QueueSlurmConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.QueueSlurmConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.QueueSlurmConfiguration()
+        value.slurmCustomSettings = try reader["slurmCustomSettings"].readListIfPresent(memberReadingClosure: PCSClientTypes.SlurmCustomSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3436,6 +3776,15 @@ extension PCSClientTypes.ClusterSlurmConfigurationRequest {
         try writer["accounting"].write(value.accounting, with: PCSClientTypes.AccountingRequest.write(value:to:))
         try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.SlurmRestRequest.write(value:to:))
+    }
+}
+
+extension PCSClientTypes.SlurmRestRequest {
+
+    static func write(value: PCSClientTypes.SlurmRestRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
     }
 }
 
@@ -3465,9 +3814,53 @@ extension PCSClientTypes.ComputeNodeGroupSlurmConfigurationRequest {
     }
 }
 
+extension PCSClientTypes.QueueSlurmConfigurationRequest {
+
+    static func write(value: PCSClientTypes.QueueSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PCSClientTypes.UpdateClusterSlurmConfigurationRequest {
+
+    static func write(value: PCSClientTypes.UpdateClusterSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accounting"].write(value.accounting, with: PCSClientTypes.UpdateAccountingRequest.write(value:to:))
+        try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
+        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.UpdateSlurmRestRequest.write(value:to:))
+    }
+}
+
+extension PCSClientTypes.UpdateSlurmRestRequest {
+
+    static func write(value: PCSClientTypes.UpdateSlurmRestRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+    }
+}
+
+extension PCSClientTypes.UpdateAccountingRequest {
+
+    static func write(value: PCSClientTypes.UpdateAccountingRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultPurgeTimeInDays"].write(value.defaultPurgeTimeInDays)
+        try writer["mode"].write(value.mode)
+    }
+}
+
 extension PCSClientTypes.UpdateComputeNodeGroupSlurmConfigurationRequest {
 
     static func write(value: PCSClientTypes.UpdateComputeNodeGroupSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PCSClientTypes.UpdateQueueSlurmConfigurationRequest {
+
+    static func write(value: PCSClientTypes.UpdateQueueSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

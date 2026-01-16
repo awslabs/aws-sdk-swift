@@ -370,6 +370,76 @@ extension PaginatorSequence where OperationStackInput == GetLogEventsInput, Oper
     }
 }
 extension CloudWatchLogsClient {
+    /// Paginate over `[GetScheduledQueryHistoryOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetScheduledQueryHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetScheduledQueryHistoryOutput`
+    public func getScheduledQueryHistoryPaginated(input: GetScheduledQueryHistoryInput) -> ClientRuntime.PaginatorSequence<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput> {
+        return ClientRuntime.PaginatorSequence<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getScheduledQueryHistory(input:))
+    }
+}
+
+extension GetScheduledQueryHistoryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetScheduledQueryHistoryInput {
+        return GetScheduledQueryHistoryInput(
+            endTime: self.endTime,
+            executionStatuses: self.executionStatuses,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetScheduledQueryHistoryInput, OperationStackOutput == GetScheduledQueryHistoryOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getScheduledQueryHistoryPaginated`
+    /// to access the nested member `[CloudWatchLogsClientTypes.TriggerHistoryRecord]`
+    /// - Returns: `[CloudWatchLogsClientTypes.TriggerHistoryRecord]`
+    public func triggerHistory() async throws -> [CloudWatchLogsClientTypes.TriggerHistoryRecord] {
+        return try await self.asyncCompactMap { item in item.triggerHistory }
+    }
+}
+extension CloudWatchLogsClient {
+    /// Paginate over `[ListAggregateLogGroupSummariesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAggregateLogGroupSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAggregateLogGroupSummariesOutput`
+    public func listAggregateLogGroupSummariesPaginated(input: ListAggregateLogGroupSummariesInput) -> ClientRuntime.PaginatorSequence<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAggregateLogGroupSummaries(input:))
+    }
+}
+
+extension ListAggregateLogGroupSummariesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAggregateLogGroupSummariesInput {
+        return ListAggregateLogGroupSummariesInput(
+            accountIdentifiers: self.accountIdentifiers,
+            dataSources: self.dataSources,
+            groupBy: self.groupBy,
+            includeLinkedAccounts: self.includeLinkedAccounts,
+            limit: self.limit,
+            logGroupClass: self.logGroupClass,
+            logGroupNamePattern: self.logGroupNamePattern,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAggregateLogGroupSummariesInput, OperationStackOutput == ListAggregateLogGroupSummariesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAggregateLogGroupSummariesPaginated`
+    /// to access the nested member `[CloudWatchLogsClientTypes.AggregateLogGroupSummary]`
+    /// - Returns: `[CloudWatchLogsClientTypes.AggregateLogGroupSummary]`
+    public func aggregateLogGroupSummaries() async throws -> [CloudWatchLogsClientTypes.AggregateLogGroupSummary] {
+        return try await self.asyncCompactMap { item in item.aggregateLogGroupSummaries }
+    }
+}
+extension CloudWatchLogsClient {
     /// Paginate over `[ListAnomaliesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -461,5 +531,67 @@ extension PaginatorSequence where OperationStackInput == ListLogGroupsForQueryIn
     /// - Returns: `[Swift.String]`
     public func logGroupIdentifiers() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.logGroupIdentifiers }
+    }
+}
+extension CloudWatchLogsClient {
+    /// Paginate over `[ListScheduledQueriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListScheduledQueriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListScheduledQueriesOutput`
+    public func listScheduledQueriesPaginated(input: ListScheduledQueriesInput) -> ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutput> {
+        return ClientRuntime.PaginatorSequence<ListScheduledQueriesInput, ListScheduledQueriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listScheduledQueries(input:))
+    }
+}
+
+extension ListScheduledQueriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListScheduledQueriesInput {
+        return ListScheduledQueriesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            state: self.state
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListScheduledQueriesInput, OperationStackOutput == ListScheduledQueriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listScheduledQueriesPaginated`
+    /// to access the nested member `[CloudWatchLogsClientTypes.ScheduledQuerySummary]`
+    /// - Returns: `[CloudWatchLogsClientTypes.ScheduledQuerySummary]`
+    public func scheduledQueries() async throws -> [CloudWatchLogsClientTypes.ScheduledQuerySummary] {
+        return try await self.asyncCompactMap { item in item.scheduledQueries }
+    }
+}
+extension CloudWatchLogsClient {
+    /// Paginate over `[ListSourcesForS3TableIntegrationOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSourcesForS3TableIntegrationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSourcesForS3TableIntegrationOutput`
+    public func listSourcesForS3TableIntegrationPaginated(input: ListSourcesForS3TableIntegrationInput) -> ClientRuntime.PaginatorSequence<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput> {
+        return ClientRuntime.PaginatorSequence<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSourcesForS3TableIntegration(input:))
+    }
+}
+
+extension ListSourcesForS3TableIntegrationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSourcesForS3TableIntegrationInput {
+        return ListSourcesForS3TableIntegrationInput(
+            integrationArn: self.integrationArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSourcesForS3TableIntegrationInput, OperationStackOutput == ListSourcesForS3TableIntegrationOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSourcesForS3TableIntegrationPaginated`
+    /// to access the nested member `[CloudWatchLogsClientTypes.S3TableIntegrationSource]`
+    /// - Returns: `[CloudWatchLogsClientTypes.S3TableIntegrationSource]`
+    public func sources() async throws -> [CloudWatchLogsClientTypes.S3TableIntegrationSource] {
+        return try await self.asyncCompactMap { item in item.sources }
     }
 }

@@ -175,12 +175,14 @@ extension ECRClientTypes {
 extension ECRClientTypes {
 
     public enum LayerAvailability: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archived
         case available
         case unavailable
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LayerAvailability] {
             return [
+                .archived,
                 .available,
                 .unavailable
             ]
@@ -193,6 +195,7 @@ extension ECRClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .archived: return "ARCHIVED"
             case .available: return "AVAILABLE"
             case .unavailable: return "UNAVAILABLE"
             case let .sdkUnknown(s): return s
@@ -287,6 +290,7 @@ public struct BatchDeleteImageInput: Swift.Sendable {
 extension ECRClientTypes {
 
     public enum ImageFailureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case imageinaccessible
         case imagenotfound
         case imagereferencedbymanifestlist
         case imagetagdoesnotmatchdigest
@@ -301,6 +305,7 @@ extension ECRClientTypes {
 
         public static var allCases: [ImageFailureCode] {
             return [
+                .imageinaccessible,
                 .imagenotfound,
                 .imagereferencedbymanifestlist,
                 .imagetagdoesnotmatchdigest,
@@ -321,6 +326,7 @@ extension ECRClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .imageinaccessible: return "ImageInaccessible"
             case .imagenotfound: return "ImageNotFound"
             case .imagereferencedbymanifestlist: return "ImageReferencedByManifestList"
             case .imagetagdoesnotmatchdigest: return "ImageTagDoesNotMatchDigest"
@@ -1352,12 +1358,12 @@ extension ECRClientTypes {
 
 extension ECRClientTypes {
 
-    /// Overrides the default image tag mutability setting of the repository for image tags that match the specified filters.
+    /// A filter that specifies which image tags should be excluded from the repository's image tag mutability setting.
     public struct ImageTagMutabilityExclusionFilter: Swift.Sendable {
-        /// The value to use when filtering image tags. Must be either a regular expression pattern or a tag prefix value based on the specified filter type.
+        /// The filter value used to match image tags for exclusion from mutability settings.
         /// This member is required.
         public var filter: Swift.String?
-        /// Specifies the type of filter to use for excluding image tags from the repository's mutability setting.
+        /// The type of filter to apply for excluding image tags from mutability settings.
         /// This member is required.
         public var filterType: ECRClientTypes.ImageTagMutabilityExclusionFilterType?
 
@@ -1395,11 +1401,11 @@ extension ECRClientTypes {
 public struct CreateRepositoryInput: Swift.Sendable {
     /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
     public var encryptionConfiguration: ECRClientTypes.EncryptionConfiguration?
-    /// The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
+    /// The imageScanningConfiguration parameter is being deprecated, in favor of specifying the image scanning configuration at the registry level. For more information, see PutRegistryScanningConfiguration. The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
     public var imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration?
     /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
-    /// Creates a repository with a list of filters that define which image tags can override the default image tag mutability setting.
+    /// A list of filters that specify which image tags should be excluded from the repository's image tag mutability setting.
     public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
@@ -1440,7 +1446,7 @@ extension ECRClientTypes {
         public var imageScanningConfiguration: ECRClientTypes.ImageScanningConfiguration?
         /// The tag mutability setting for the repository.
         public var imageTagMutability: ECRClientTypes.ImageTagMutability?
-        /// The image tag mutability exclusion filters associated with the repository. These filters specify which image tags can override the repository's default image tag mutability setting.
+        /// A list of filters that specify which image tags are excluded from the repository's image tag mutability setting.
         public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public var registryId: Swift.String?
@@ -1512,12 +1518,14 @@ public struct TemplateAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 extension ECRClientTypes {
 
     public enum RCTAppliedFor: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createOnPush
         case pullThroughCache
         case replication
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RCTAppliedFor] {
             return [
+                .createOnPush,
                 .pullThroughCache,
                 .replication
             ]
@@ -1530,6 +1538,7 @@ extension ECRClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .createOnPush: return "CREATE_ON_PUSH"
             case .pullThroughCache: return "PULL_THROUGH_CACHE"
             case .replication: return "REPLICATION"
             case let .sdkUnknown(s): return s
@@ -1559,7 +1568,7 @@ extension ECRClientTypes {
 }
 
 public struct CreateRepositoryCreationTemplateInput: Swift.Sendable {
-    /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+    /// A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
     /// This member is required.
     public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
     /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
@@ -1570,7 +1579,7 @@ public struct CreateRepositoryCreationTemplateInput: Swift.Sendable {
     public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
     /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
-    /// Creates a repository creation template with a list of filters that define which image tags can override the default image tag mutability setting.
+    /// A list of filters that specify which image tags should be excluded from the repository creation template's image tag mutability setting.
     public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// The lifecycle policy to use for repositories created using the template.
     public var lifecyclePolicy: Swift.String?
@@ -1611,7 +1620,7 @@ extension ECRClientTypes {
 
     /// The details of the repository creation template associated with the request.
     public struct RepositoryCreationTemplate: Swift.Sendable {
-        /// A list of enumerable Strings representing the repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+        /// A list of enumerable Strings representing the repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
         public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
         /// The date and time, in JavaScript date format, when the repository creation template was created.
         public var createdAt: Foundation.Date?
@@ -1623,7 +1632,7 @@ extension ECRClientTypes {
         public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public var imageTagMutability: ECRClientTypes.ImageTagMutability?
-        /// Defines the image tag mutability exclusion filters to apply when creating repositories from this template. These filters specify which image tags can override the repository's default image tag mutability setting.
+        /// A list of filters that specify which image tags are excluded from the repository creation template's image tag mutability setting.
         public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
         /// The lifecycle policy to use for repositories created using the template.
         public var lifecyclePolicy: Swift.String?
@@ -2024,6 +2033,186 @@ public struct DeleteRepositoryPolicyOutput: Swift.Sendable {
     }
 }
 
+/// The specified signing configuration was not found. This occurs when attempting to retrieve or delete a signing configuration that does not exist.
+public struct SigningConfigurationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message associated with the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SigningConfigurationNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteSigningConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension ECRClientTypes {
+
+    /// The type of filter to use when determining which repositories should have their images automatically signed.
+    public enum SigningRepositoryFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case wildcardMatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SigningRepositoryFilterType] {
+            return [
+                .wildcardMatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .wildcardMatch: return "WILDCARD_MATCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// A repository filter used to determine which repositories have their images automatically signed on push. Each filter consists of a filter type and filter value.
+    public struct SigningRepositoryFilter: Swift.Sendable {
+        /// The filter value used to match repository names. When using WILDCARD_MATCH, the * character matches any sequence of characters. Examples:
+        ///
+        /// * myapp/* - Matches all repositories starting with myapp/
+        ///
+        /// * */production - Matches all repositories ending with /production
+        ///
+        /// * *prod* - Matches all repositories containing prod
+        /// This member is required.
+        public var filter: Swift.String?
+        /// The type of filter to apply. Currently, only WILDCARD_MATCH is supported, which uses wildcard patterns to match repository names.
+        /// This member is required.
+        public var filterType: ECRClientTypes.SigningRepositoryFilterType?
+
+        public init(
+            filter: Swift.String? = nil,
+            filterType: ECRClientTypes.SigningRepositoryFilterType? = nil
+        ) {
+            self.filter = filter
+            self.filterType = filterType
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// A signing rule that specifies a signing profile and optional repository filters. When an image is pushed to a matching repository, a signing job is created using the specified profile.
+    public struct SigningRule: Swift.Sendable {
+        /// A list of repository filters that determine which repositories have their images signed on push. If no filters are specified, all images pushed to the registry are signed using the rule's signing profile. Maximum of 100 filters per rule.
+        public var repositoryFilters: [ECRClientTypes.SigningRepositoryFilter]?
+        /// The ARN of the Amazon Web Services Signer signing profile to use for signing images that match this rule. For more information about signing profiles, see [Signing profiles](https://docs.aws.amazon.com/signer/latest/developerguide/signing-profiles.html) in the Amazon Web Services Signer Developer Guide.
+        /// This member is required.
+        public var signingProfileArn: Swift.String?
+
+        public init(
+            repositoryFilters: [ECRClientTypes.SigningRepositoryFilter]? = nil,
+            signingProfileArn: Swift.String? = nil
+        ) {
+            self.repositoryFilters = repositoryFilters
+            self.signingProfileArn = signingProfileArn
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// The signing configuration for a registry, which specifies rules for automatically signing images when pushed.
+    public struct SigningConfiguration: Swift.Sendable {
+        /// A list of signing rules. Each rule defines a signing profile and optional repository filters that determine which images are automatically signed. Maximum of 10 rules.
+        /// This member is required.
+        public var rules: [ECRClientTypes.SigningRule]?
+
+        public init(
+            rules: [ECRClientTypes.SigningRule]? = nil
+        ) {
+            self.rules = rules
+        }
+    }
+}
+
+public struct DeleteSigningConfigurationOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID associated with the registry.
+    public var registryId: Swift.String?
+    /// The registry's deleted signing configuration.
+    public var signingConfiguration: ECRClientTypes.SigningConfiguration?
+
+    public init(
+        registryId: Swift.String? = nil,
+        signingConfiguration: ECRClientTypes.SigningConfiguration? = nil
+    ) {
+        self.registryId = registryId
+        self.signingConfiguration = signingConfiguration
+    }
+}
+
+/// The specified pull time update exclusion was not found.
+public struct ExclusionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ExclusionNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeregisterPullTimeUpdateExclusionInput: Swift.Sendable {
+    /// The ARN of the IAM principal to remove from the pull time update exclusion list.
+    /// This member is required.
+    public var principalArn: Swift.String?
+
+    public init(
+        principalArn: Swift.String? = nil
+    ) {
+        self.principalArn = principalArn
+    }
+}
+
+public struct DeregisterPullTimeUpdateExclusionOutput: Swift.Sendable {
+    /// The ARN of the IAM principal that was removed from the pull time update exclusion list.
+    public var principalArn: Swift.String?
+
+    public init(
+        principalArn: Swift.String? = nil
+    ) {
+        self.principalArn = principalArn
+    }
+}
+
 /// The image requested does not exist in the specified repository.
 public struct ImageNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2148,6 +2337,41 @@ public struct DescribeImageReplicationStatusOutput: Swift.Sendable {
 
 extension ECRClientTypes {
 
+    public enum ImageStatusFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activating
+        case active
+        case any
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageStatusFilter] {
+            return [
+                .activating,
+                .active,
+                .any,
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activating: return "ACTIVATING"
+            case .active: return "ACTIVE"
+            case .any: return "ANY"
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
     public enum TagStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case any
         case tagged
@@ -2182,12 +2406,16 @@ extension ECRClientTypes {
 
     /// An object representing a filter on a [DescribeImages] operation.
     public struct DescribeImagesFilter: Swift.Sendable {
+        /// The image status with which to filter your [DescribeImages] results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        public var imageStatus: ECRClientTypes.ImageStatusFilter?
         /// The tag status with which to filter your [DescribeImages] results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public var tagStatus: ECRClientTypes.TagStatus?
 
         public init(
+            imageStatus: ECRClientTypes.ImageStatusFilter? = nil,
             tagStatus: ECRClientTypes.TagStatus? = nil
         ) {
+            self.imageStatus = imageStatus
             self.tagStatus = tagStatus
         }
     }
@@ -2296,6 +2524,7 @@ extension ECRClientTypes {
         case complete
         case failed
         case findingsUnavailable
+        case imageArchived
         case inProgress
         case limitExceeded
         case pending
@@ -2309,6 +2538,7 @@ extension ECRClientTypes {
                 .complete,
                 .failed,
                 .findingsUnavailable,
+                .imageArchived,
                 .inProgress,
                 .limitExceeded,
                 .pending,
@@ -2328,6 +2558,7 @@ extension ECRClientTypes {
             case .complete: return "COMPLETE"
             case .failed: return "FAILED"
             case .findingsUnavailable: return "FINDINGS_UNAVAILABLE"
+            case .imageArchived: return "IMAGE_ARCHIVED"
             case .inProgress: return "IN_PROGRESS"
             case .limitExceeded: return "LIMIT_EXCEEDED"
             case .pending: return "PENDING"
@@ -2360,6 +2591,38 @@ extension ECRClientTypes {
 
 extension ECRClientTypes {
 
+    public enum ImageStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activating
+        case active
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageStatus] {
+            return [
+                .activating,
+                .active,
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activating: return "ACTIVATING"
+            case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
     /// An object that describes an image returned by a [DescribeImages] operation.
     public struct ImageDetail: Swift.Sendable {
         /// The artifact media type of the image.
@@ -2376,14 +2639,22 @@ extension ECRClientTypes {
         public var imageScanStatus: ECRClientTypes.ImageScanStatus?
         /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
         public var imageSizeInBytes: Swift.Int?
+        /// The current status of the image.
+        public var imageStatus: ECRClientTypes.ImageStatus?
         /// The list of tags associated with this image.
         public var imageTags: [Swift.String]?
+        /// The date and time, expressed in standard JavaScript date format, when the image was last restored from Amazon ECR archive to Amazon ECR standard.
+        public var lastActivatedAt: Foundation.Date?
+        /// The date and time, expressed in standard JavaScript date format, when the image was last transitioned to Amazon ECR archive.
+        public var lastArchivedAt: Foundation.Date?
         /// The date and time, expressed in standard JavaScript date format, when Amazon ECR recorded the last image pull. Amazon ECR refreshes the last image pull timestamp at least once every 24 hours. For example, if you pull an image once a day then the lastRecordedPullTime timestamp will indicate the exact time that the image was last pulled. However, if you pull an image once an hour, because Amazon ECR refreshes the lastRecordedPullTime timestamp at least once every 24 hours, the result may not be the exact time that the image was last pulled.
         public var lastRecordedPullTime: Foundation.Date?
         /// The Amazon Web Services account ID associated with the registry to which this image belongs.
         public var registryId: Swift.String?
         /// The name of the repository to which this image belongs.
         public var repositoryName: Swift.String?
+        /// The digest of the subject manifest for images that are referrers.
+        public var subjectManifestDigest: Swift.String?
 
         public init(
             artifactMediaType: Swift.String? = nil,
@@ -2393,10 +2664,14 @@ extension ECRClientTypes {
             imageScanFindingsSummary: ECRClientTypes.ImageScanFindingsSummary? = nil,
             imageScanStatus: ECRClientTypes.ImageScanStatus? = nil,
             imageSizeInBytes: Swift.Int? = nil,
+            imageStatus: ECRClientTypes.ImageStatus? = nil,
             imageTags: [Swift.String]? = nil,
+            lastActivatedAt: Foundation.Date? = nil,
+            lastArchivedAt: Foundation.Date? = nil,
             lastRecordedPullTime: Foundation.Date? = nil,
             registryId: Swift.String? = nil,
-            repositoryName: Swift.String? = nil
+            repositoryName: Swift.String? = nil,
+            subjectManifestDigest: Swift.String? = nil
         ) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
@@ -2405,10 +2680,14 @@ extension ECRClientTypes {
             self.imageScanFindingsSummary = imageScanFindingsSummary
             self.imageScanStatus = imageScanStatus
             self.imageSizeInBytes = imageSizeInBytes
+            self.imageStatus = imageStatus
             self.imageTags = imageTags
+            self.lastActivatedAt = lastActivatedAt
+            self.lastArchivedAt = lastArchivedAt
             self.lastRecordedPullTime = lastRecordedPullTime
             self.registryId = registryId
             self.repositoryName = repositoryName
+            self.subjectManifestDigest = subjectManifestDigest
         }
     }
 }
@@ -2989,6 +3268,116 @@ public struct DescribeImageScanFindingsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeImageSigningStatusInput: Swift.Sendable {
+    /// An object containing identifying information for an image.
+    /// This member is required.
+    public var imageId: ECRClientTypes.ImageIdentifier?
+    /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+    /// The name of the repository that contains the image.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+
+    public init(
+        imageId: ECRClientTypes.ImageIdentifier? = nil,
+        registryId: Swift.String? = nil,
+        repositoryName: Swift.String? = nil
+    ) {
+        self.imageId = imageId
+        self.registryId = registryId
+        self.repositoryName = repositoryName
+    }
+}
+
+extension ECRClientTypes {
+
+    /// The image signing status. Possible values include IN_PROGRESS, COMPLETE, and FAILED.
+    public enum SigningStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SigningStatus] {
+            return [
+                .complete,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// The signing status for an image. Each status corresponds to a signing profile.
+    public struct ImageSigningStatus: Swift.Sendable {
+        /// The failure code, which is only present if status is FAILED.
+        public var failureCode: Swift.String?
+        /// A description of why signing the image failed. This field is only present if status is FAILED.
+        public var failureReason: Swift.String?
+        /// The ARN of the Amazon Web Services Signer signing profile used to sign the image.
+        public var signingProfileArn: Swift.String?
+        /// The image's signing status. Possible values are:
+        ///
+        /// * IN_PROGRESS - Signing is currently in progress.
+        ///
+        /// * COMPLETE - The signature was successfully generated.
+        ///
+        /// * FAILED - Signing failed. See failureCode and failureReason for details.
+        public var status: ECRClientTypes.SigningStatus?
+
+        public init(
+            failureCode: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            signingProfileArn: Swift.String? = nil,
+            status: ECRClientTypes.SigningStatus? = nil
+        ) {
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.signingProfileArn = signingProfileArn
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeImageSigningStatusOutput: Swift.Sendable {
+    /// An object with identifying information for the image.
+    public var imageId: ECRClientTypes.ImageIdentifier?
+    /// The Amazon Web Services account ID associated with the registry.
+    public var registryId: Swift.String?
+    /// The name of the repository.
+    public var repositoryName: Swift.String?
+    /// A list of signing statuses for the specified image. Each status corresponds to a signing profile.
+    public var signingStatuses: [ECRClientTypes.ImageSigningStatus]?
+
+    public init(
+        imageId: ECRClientTypes.ImageIdentifier? = nil,
+        registryId: Swift.String? = nil,
+        repositoryName: Swift.String? = nil,
+        signingStatuses: [ECRClientTypes.ImageSigningStatus]? = nil
+    ) {
+        self.imageId = imageId
+        self.registryId = registryId
+        self.repositoryName = repositoryName
+        self.signingStatuses = signingStatuses
+    }
+}
+
 public struct DescribePullThroughCacheRulesInput: Swift.Sendable {
     /// The Amazon ECR repository prefixes associated with the pull through cache rules to return. If no repository prefix value is specified, all pull through cache rules are returned.
     public var ecrRepositoryPrefixes: [Swift.String]?
@@ -3565,13 +3954,41 @@ public struct GetLifecyclePolicyPreviewInput: Swift.Sendable {
 
 extension ECRClientTypes {
 
+    public enum LifecyclePolicyTargetStorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LifecyclePolicyTargetStorageClass] {
+            return [
+                .archive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archive: return "ARCHIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
     public enum ImageActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case expire
+        case transition
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImageActionType] {
             return [
-                .expire
+                .expire,
+                .transition
             ]
         }
 
@@ -3583,6 +4000,7 @@ extension ECRClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .expire: return "EXPIRE"
+            case .transition: return "TRANSITION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3593,13 +4011,46 @@ extension ECRClientTypes {
 
     /// The type of action to be taken.
     public struct LifecyclePolicyRuleAction: Swift.Sendable {
+        /// The target storage class for the action. This is only present when the type is TRANSITION.
+        public var targetStorageClass: ECRClientTypes.LifecyclePolicyTargetStorageClass?
         /// The type of action to be taken.
         public var type: ECRClientTypes.ImageActionType?
 
         public init(
+            targetStorageClass: ECRClientTypes.LifecyclePolicyTargetStorageClass? = nil,
             type: ECRClientTypes.ImageActionType? = nil
         ) {
+            self.targetStorageClass = targetStorageClass
             self.type = type
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    public enum LifecyclePolicyStorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archive
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LifecyclePolicyStorageClass] {
+            return [
+                .archive,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archive: return "ARCHIVE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -3618,19 +4069,23 @@ extension ECRClientTypes {
         public var imagePushedAt: Foundation.Date?
         /// The list of tags associated with this image.
         public var imageTags: [Swift.String]?
+        /// The storage class of the image.
+        public var storageClass: ECRClientTypes.LifecyclePolicyStorageClass?
 
         public init(
             action: ECRClientTypes.LifecyclePolicyRuleAction? = nil,
             appliedRulePriority: Swift.Int? = nil,
             imageDigest: Swift.String? = nil,
             imagePushedAt: Foundation.Date? = nil,
-            imageTags: [Swift.String]? = nil
+            imageTags: [Swift.String]? = nil,
+            storageClass: ECRClientTypes.LifecyclePolicyStorageClass? = nil
         ) {
             self.action = action
             self.appliedRulePriority = appliedRulePriority
             self.imageDigest = imageDigest
             self.imagePushedAt = imagePushedAt
             self.imageTags = imageTags
+            self.storageClass = storageClass
         }
     }
 }
@@ -3672,15 +4127,38 @@ extension ECRClientTypes {
 
 extension ECRClientTypes {
 
+    /// The total count of images transitioning to a storage class.
+    public struct TransitioningImageTotalCount: Swift.Sendable {
+        /// The total number of images transitioning to the storage class.
+        public var imageTotalCount: Swift.Int?
+        /// The target storage class.
+        public var targetStorageClass: ECRClientTypes.LifecyclePolicyTargetStorageClass?
+
+        public init(
+            imageTotalCount: Swift.Int? = nil,
+            targetStorageClass: ECRClientTypes.LifecyclePolicyTargetStorageClass? = nil
+        ) {
+            self.imageTotalCount = imageTotalCount
+            self.targetStorageClass = targetStorageClass
+        }
+    }
+}
+
+extension ECRClientTypes {
+
     /// The summary of the lifecycle policy preview request.
     public struct LifecyclePolicyPreviewSummary: Swift.Sendable {
         /// The number of expiring images.
         public var expiringImageTotalCount: Swift.Int?
+        /// The total count of images that will be transitioned to each storage class. This field is only present if at least one image will be transitoned in the summary.
+        public var transitioningImageTotalCounts: [ECRClientTypes.TransitioningImageTotalCount]?
 
         public init(
-            expiringImageTotalCount: Swift.Int? = nil
+            expiringImageTotalCount: Swift.Int? = nil,
+            transitioningImageTotalCounts: [ECRClientTypes.TransitioningImageTotalCount]? = nil
         ) {
             self.expiringImageTotalCount = expiringImageTotalCount
+            self.transitioningImageTotalCounts = transitioningImageTotalCounts
         }
     }
 }
@@ -3864,6 +4342,26 @@ public struct GetRepositoryPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct GetSigningConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetSigningConfigurationOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID associated with the registry.
+    public var registryId: Swift.String?
+    /// The registry's signing configuration.
+    public var signingConfiguration: ECRClientTypes.SigningConfiguration?
+
+    public init(
+        registryId: Swift.String? = nil,
+        signingConfiguration: ECRClientTypes.SigningConfiguration? = nil
+    ) {
+        self.registryId = registryId
+        self.signingConfiguration = signingConfiguration
+    }
+}
+
 public struct InitiateLayerUploadInput: Swift.Sendable {
     /// The Amazon Web Services account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
@@ -3897,14 +4395,206 @@ public struct InitiateLayerUploadOutput: Swift.Sendable {
 
 extension ECRClientTypes {
 
+    public enum ArtifactStatusFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activating
+        case active
+        case any
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ArtifactStatusFilter] {
+            return [
+                .activating,
+                .active,
+                .any,
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activating: return "ACTIVATING"
+            case .active: return "ACTIVE"
+            case .any: return "ANY"
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// An object representing a filter on a [ListImageReferrers] operation.
+    public struct ListImageReferrersFilter: Swift.Sendable {
+        /// The artifact status with which to filter your [ListImageReferrers] results. Valid values are ACTIVE, ARCHIVED, ACTIVATING, or ANY. If not specified, only artifacts with ACTIVE status are returned.
+        public var artifactStatus: ECRClientTypes.ArtifactStatusFilter?
+        /// The artifact types with which to filter your [ListImageReferrers] results.
+        public var artifactTypes: [Swift.String]?
+
+        public init(
+            artifactStatus: ECRClientTypes.ArtifactStatusFilter? = nil,
+            artifactTypes: [Swift.String]? = nil
+        ) {
+            self.artifactStatus = artifactStatus
+            self.artifactTypes = artifactTypes
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// An object that identifies an image subject.
+    public struct SubjectIdentifier: Swift.Sendable {
+        /// The digest of the image.
+        /// This member is required.
+        public var imageDigest: Swift.String?
+
+        public init(
+            imageDigest: Swift.String? = nil
+        ) {
+            self.imageDigest = imageDigest
+        }
+    }
+}
+
+public struct ListImageReferrersInput: Swift.Sendable {
+    /// The filter key and value with which to filter your ListImageReferrers results. If no filter is specified, only artifacts with ACTIVE status are returned.
+    public var filter: ECRClientTypes.ListImageReferrersFilter?
+    /// The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 50 results and a nextToken value, if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListImageReferrers request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services account ID associated with the registry that contains the repository in which to list image referrers. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+    /// The name of the repository that contains the subject image.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+    /// An object containing the image digest of the subject image for which to retrieve associated artifacts.
+    /// This member is required.
+    public var subjectId: ECRClientTypes.SubjectIdentifier?
+
+    public init(
+        filter: ECRClientTypes.ListImageReferrersFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        repositoryName: Swift.String? = nil,
+        subjectId: ECRClientTypes.SubjectIdentifier? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registryId = registryId
+        self.repositoryName = repositoryName
+        self.subjectId = subjectId
+    }
+}
+
+extension ECRClientTypes {
+
+    public enum ArtifactStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activating
+        case active
+        case archived
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ArtifactStatus] {
+            return [
+                .activating,
+                .active,
+                .archived
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activating: return "ACTIVATING"
+            case .active: return "ACTIVE"
+            case .archived: return "ARCHIVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// An object representing an artifact associated with a subject image.
+    public struct ImageReferrer: Swift.Sendable {
+        /// A map of annotations associated with the artifact.
+        public var annotations: [Swift.String: Swift.String]?
+        /// The status of the artifact. Valid values are ACTIVE, ARCHIVED, or ACTIVATING.
+        public var artifactStatus: ECRClientTypes.ArtifactStatus?
+        /// A string identifying the type of artifact.
+        public var artifactType: Swift.String?
+        /// The digest of the artifact manifest.
+        /// This member is required.
+        public var digest: Swift.String?
+        /// The media type of the artifact manifest.
+        /// This member is required.
+        public var mediaType: Swift.String?
+        /// The size, in bytes, of the artifact.
+        /// This member is required.
+        public var size: Swift.Int?
+
+        public init(
+            annotations: [Swift.String: Swift.String]? = nil,
+            artifactStatus: ECRClientTypes.ArtifactStatus? = nil,
+            artifactType: Swift.String? = nil,
+            digest: Swift.String? = nil,
+            mediaType: Swift.String? = nil,
+            size: Swift.Int? = nil
+        ) {
+            self.annotations = annotations
+            self.artifactStatus = artifactStatus
+            self.artifactType = artifactType
+            self.digest = digest
+            self.mediaType = mediaType
+            self.size = size
+        }
+    }
+}
+
+public struct ListImageReferrersOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListImageReferrers request. When the results of a ListImageReferrers request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The list of artifacts associated with the subject image.
+    public var referrers: [ECRClientTypes.ImageReferrer]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        referrers: [ECRClientTypes.ImageReferrer]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.referrers = referrers
+    }
+}
+
+extension ECRClientTypes {
+
     /// An object representing a filter on a [ListImages] operation.
     public struct ListImagesFilter: Swift.Sendable {
-        /// The tag status with which to filter your [ListImages] results. You can filter results based on whether they are TAGGED or UNTAGGED.
+        /// The image status with which to filter your [ListImages] results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        public var imageStatus: ECRClientTypes.ImageStatusFilter?
+        /// The tag status with which to filter your [ListImages] results.
         public var tagStatus: ECRClientTypes.TagStatus?
 
         public init(
+            imageStatus: ECRClientTypes.ImageStatusFilter? = nil,
             tagStatus: ECRClientTypes.TagStatus? = nil
         ) {
+            self.imageStatus = imageStatus
             self.tagStatus = tagStatus
         }
     }
@@ -3950,6 +4640,36 @@ public struct ListImagesOutput: Swift.Sendable {
     ) {
         self.imageIds = imageIds
         self.nextToken = nextToken
+    }
+}
+
+public struct ListPullTimeUpdateExclusionsInput: Swift.Sendable {
+    /// The maximum number of pull time update exclusion results returned by ListPullTimeUpdateExclusions in paginated output. When this parameter is used, ListPullTimeUpdateExclusions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListPullTimeUpdateExclusions request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListPullTimeUpdateExclusions returns up to 100 results and a nextToken value, if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListPullTimeUpdateExclusions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListPullTimeUpdateExclusionsOutput: Swift.Sendable {
+    /// The nextToken value to include in a future ListPullTimeUpdateExclusions request. When the results of a ListPullTimeUpdateExclusions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The list of IAM principal ARNs that are excluded from having their image pull times recorded.
+    public var pullTimeUpdateExclusions: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pullTimeUpdateExclusions: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pullTimeUpdateExclusions = pullTimeUpdateExclusions
     }
 }
 
@@ -4109,7 +4829,7 @@ public struct PutImageInput: Swift.Sendable {
     public var imageManifest: Swift.String?
     /// The media type of the image manifest. If you push an image manifest that does not contain the mediaType field, you must specify the imageManifestMediaType in the request.
     public var imageManifestMediaType: Swift.String?
-    /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
+    /// The tag to associate with the image. This parameter is optional.
     public var imageTag: Swift.String?
     /// The Amazon Web Services account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
@@ -4189,7 +4909,7 @@ public struct PutImageTagMutabilityInput: Swift.Sendable {
     /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     /// This member is required.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
-    /// Creates or updates a repository with filters that define which image tags can override the default image tag mutability setting.
+    /// A list of filters that specify which image tags should be excluded from the image tag mutability setting being applied.
     public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
@@ -4213,7 +4933,7 @@ public struct PutImageTagMutabilityInput: Swift.Sendable {
 public struct PutImageTagMutabilityOutput: Swift.Sendable {
     /// The image tag mutability setting for the repository.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
-    /// Returns a list of filters that were defined for a repository. These filters determine which image tags can override the default image tag mutability setting of the repository.
+    /// The list of filters that specify which image tags are excluded from the repository's image tag mutability setting.
     public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// The registry ID associated with the request.
     public var registryId: Swift.String?
@@ -4300,6 +5020,29 @@ public struct PutRegistryPolicyOutput: Swift.Sendable {
     }
 }
 
+/// The operation did not succeed because the account is managed by a organization policy.
+public struct BlockedByOrganizationPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BlockedByOrganizationPolicyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct PutRegistryScanningConfigurationInput: Swift.Sendable {
     /// The scanning rules to use for the registry. A scanning rule is used to determine which repository filters are used and at what frequency scanning will occur.
     public var rules: [ECRClientTypes.RegistryScanningRule]?
@@ -4349,6 +5092,79 @@ public struct PutReplicationConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct PutSigningConfigurationInput: Swift.Sendable {
+    /// The signing configuration to assign to the registry.
+    /// This member is required.
+    public var signingConfiguration: ECRClientTypes.SigningConfiguration?
+
+    public init(
+        signingConfiguration: ECRClientTypes.SigningConfiguration? = nil
+    ) {
+        self.signingConfiguration = signingConfiguration
+    }
+}
+
+public struct PutSigningConfigurationOutput: Swift.Sendable {
+    /// The registry's updated signing configuration.
+    public var signingConfiguration: ECRClientTypes.SigningConfiguration?
+
+    public init(
+        signingConfiguration: ECRClientTypes.SigningConfiguration? = nil
+    ) {
+        self.signingConfiguration = signingConfiguration
+    }
+}
+
+/// The specified pull time update exclusion already exists for the registry.
+public struct ExclusionAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ExclusionAlreadyExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct RegisterPullTimeUpdateExclusionInput: Swift.Sendable {
+    /// The ARN of the IAM principal to exclude from having image pull times recorded.
+    /// This member is required.
+    public var principalArn: Swift.String?
+
+    public init(
+        principalArn: Swift.String? = nil
+    ) {
+        self.principalArn = principalArn
+    }
+}
+
+public struct RegisterPullTimeUpdateExclusionOutput: Swift.Sendable {
+    /// The date and time, expressed in standard JavaScript date format, when the exclusion was created.
+    public var createdAt: Foundation.Date?
+    /// The ARN of the IAM principal that was added to the pull time update exclusion list.
+    public var principalArn: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        principalArn: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.principalArn = principalArn
+    }
+}
+
 public struct SetRepositoryPolicyInput: Swift.Sendable {
     /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the [SetRepositoryPolicy] operation. This is intended to prevent accidental repository lock outs.
     public var force: Swift.Bool?
@@ -4390,6 +5206,29 @@ public struct SetRepositoryPolicyOutput: Swift.Sendable {
         self.policyText = policyText
         self.registryId = registryId
         self.repositoryName = repositoryName
+    }
+}
+
+/// The specified image is archived and cannot be scanned.
+public struct ImageArchivedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ImageArchivedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -4570,6 +5409,107 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+/// The requested image storage class update is not supported.
+public struct ImageStorageClassUpdateNotSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ImageStorageClassUpdateNotSupportedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECRClientTypes {
+
+    public enum TargetStorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case archive
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetStorageClass] {
+            return [
+                .archive,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archive: return "ARCHIVE"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateImageStorageClassInput: Swift.Sendable {
+    /// An object with identifying information for an image in an Amazon ECR repository.
+    /// This member is required.
+    public var imageId: ECRClientTypes.ImageIdentifier?
+    /// The Amazon Web Services account ID associated with the registry that contains the image to transition. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+    /// The name of the repository that contains the image to transition.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+    /// The target storage class for the image.
+    /// This member is required.
+    public var targetStorageClass: ECRClientTypes.TargetStorageClass?
+
+    public init(
+        imageId: ECRClientTypes.ImageIdentifier? = nil,
+        registryId: Swift.String? = nil,
+        repositoryName: Swift.String? = nil,
+        targetStorageClass: ECRClientTypes.TargetStorageClass? = nil
+    ) {
+        self.imageId = imageId
+        self.registryId = registryId
+        self.repositoryName = repositoryName
+        self.targetStorageClass = targetStorageClass
+    }
+}
+
+public struct UpdateImageStorageClassOutput: Swift.Sendable {
+    /// An object with identifying information for an image in an Amazon ECR repository.
+    public var imageId: ECRClientTypes.ImageIdentifier?
+    /// The current status of the image after the call to UpdateImageStorageClass is complete. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+    public var imageStatus: ECRClientTypes.ImageStatus?
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The repository name associated with the request.
+    public var repositoryName: Swift.String?
+
+    public init(
+        imageId: ECRClientTypes.ImageIdentifier? = nil,
+        imageStatus: ECRClientTypes.ImageStatus? = nil,
+        registryId: Swift.String? = nil,
+        repositoryName: Swift.String? = nil
+    ) {
+        self.imageId = imageId
+        self.imageStatus = imageStatus
+        self.registryId = registryId
+        self.repositoryName = repositoryName
+    }
+}
+
 public struct UpdatePullThroughCacheRuleInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
     public var credentialArn: Swift.String?
@@ -4626,7 +5566,7 @@ public struct UpdatePullThroughCacheRuleOutput: Swift.Sendable {
 }
 
 public struct UpdateRepositoryCreationTemplateInput: Swift.Sendable {
-    /// Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+    /// Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
     public var appliedFor: [ECRClientTypes.RCTAppliedFor]?
     /// The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
     public var customRoleArn: Swift.String?
@@ -4636,7 +5576,7 @@ public struct UpdateRepositoryCreationTemplateInput: Swift.Sendable {
     public var encryptionConfiguration: ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate?
     /// Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
-    /// Updates a repository with filters that define which image tags can override the default image tag mutability setting.
+    /// A list of filters that specify which image tags should be excluded from the repository creation template's image tag mutability setting.
     public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
     /// Updates the lifecycle policy associated with the specified repository creation template.
     public var lifecyclePolicy: Swift.String?
@@ -4940,6 +5880,20 @@ extension DeleteRepositoryPolicyInput {
     }
 }
 
+extension DeleteSigningConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteSigningConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeregisterPullTimeUpdateExclusionInput {
+
+    static func urlPathProvider(_ value: DeregisterPullTimeUpdateExclusionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeImageReplicationStatusInput {
 
     static func urlPathProvider(_ value: DescribeImageReplicationStatusInput) -> Swift.String? {
@@ -4957,6 +5911,13 @@ extension DescribeImagesInput {
 extension DescribeImageScanFindingsInput {
 
     static func urlPathProvider(_ value: DescribeImageScanFindingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeImageSigningStatusInput {
+
+    static func urlPathProvider(_ value: DescribeImageSigningStatusInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5045,6 +6006,13 @@ extension GetRepositoryPolicyInput {
     }
 }
 
+extension GetSigningConfigurationInput {
+
+    static func urlPathProvider(_ value: GetSigningConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension InitiateLayerUploadInput {
 
     static func urlPathProvider(_ value: InitiateLayerUploadInput) -> Swift.String? {
@@ -5052,9 +6020,23 @@ extension InitiateLayerUploadInput {
     }
 }
 
+extension ListImageReferrersInput {
+
+    static func urlPathProvider(_ value: ListImageReferrersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListImagesInput {
 
     static func urlPathProvider(_ value: ListImagesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListPullTimeUpdateExclusionsInput {
+
+    static func urlPathProvider(_ value: ListPullTimeUpdateExclusionsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5122,6 +6104,20 @@ extension PutReplicationConfigurationInput {
     }
 }
 
+extension PutSigningConfigurationInput {
+
+    static func urlPathProvider(_ value: PutSigningConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension RegisterPullTimeUpdateExclusionInput {
+
+    static func urlPathProvider(_ value: RegisterPullTimeUpdateExclusionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension SetRepositoryPolicyInput {
 
     static func urlPathProvider(_ value: SetRepositoryPolicyInput) -> Swift.String? {
@@ -5153,6 +6149,13 @@ extension TagResourceInput {
 extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateImageStorageClassInput {
+
+    static func urlPathProvider(_ value: UpdateImageStorageClassInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5333,6 +6336,22 @@ extension DeleteRepositoryPolicyInput {
     }
 }
 
+extension DeleteSigningConfigurationInput {
+
+    static func write(value: DeleteSigningConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
+extension DeregisterPullTimeUpdateExclusionInput {
+
+    static func write(value: DeregisterPullTimeUpdateExclusionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["principalArn"].write(value.principalArn)
+    }
+}
+
 extension DescribeImageReplicationStatusInput {
 
     static func write(value: DescribeImageReplicationStatusInput?, to writer: SmithyJSON.Writer) throws {
@@ -5363,6 +6382,16 @@ extension DescribeImageScanFindingsInput {
         try writer["imageId"].write(value.imageId, with: ECRClientTypes.ImageIdentifier.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+        try writer["registryId"].write(value.registryId)
+        try writer["repositoryName"].write(value.repositoryName)
+    }
+}
+
+extension DescribeImageSigningStatusInput {
+
+    static func write(value: DescribeImageSigningStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageId"].write(value.imageId, with: ECRClientTypes.ImageIdentifier.write(value:to:))
         try writer["registryId"].write(value.registryId)
         try writer["repositoryName"].write(value.repositoryName)
     }
@@ -5481,12 +6510,33 @@ extension GetRepositoryPolicyInput {
     }
 }
 
+extension GetSigningConfigurationInput {
+
+    static func write(value: GetSigningConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension InitiateLayerUploadInput {
 
     static func write(value: InitiateLayerUploadInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["registryId"].write(value.registryId)
         try writer["repositoryName"].write(value.repositoryName)
+    }
+}
+
+extension ListImageReferrersInput {
+
+    static func write(value: ListImageReferrersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter, with: ECRClientTypes.ListImageReferrersFilter.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["registryId"].write(value.registryId)
+        try writer["repositoryName"].write(value.repositoryName)
+        try writer["subjectId"].write(value.subjectId, with: ECRClientTypes.SubjectIdentifier.write(value:to:))
     }
 }
 
@@ -5499,6 +6549,15 @@ extension ListImagesInput {
         try writer["nextToken"].write(value.nextToken)
         try writer["registryId"].write(value.registryId)
         try writer["repositoryName"].write(value.repositoryName)
+    }
+}
+
+extension ListPullTimeUpdateExclusionsInput {
+
+    static func write(value: ListPullTimeUpdateExclusionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -5588,6 +6647,22 @@ extension PutReplicationConfigurationInput {
     }
 }
 
+extension PutSigningConfigurationInput {
+
+    static func write(value: PutSigningConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["signingConfiguration"].write(value.signingConfiguration, with: ECRClientTypes.SigningConfiguration.write(value:to:))
+    }
+}
+
+extension RegisterPullTimeUpdateExclusionInput {
+
+    static func write(value: RegisterPullTimeUpdateExclusionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["principalArn"].write(value.principalArn)
+    }
+}
+
 extension SetRepositoryPolicyInput {
 
     static func write(value: SetRepositoryPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -5634,6 +6709,17 @@ extension UntagResourceInput {
         guard let value else { return }
         try writer["resourceArn"].write(value.resourceArn)
         try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateImageStorageClassInput {
+
+    static func write(value: UpdateImageStorageClassInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageId"].write(value.imageId, with: ECRClientTypes.ImageIdentifier.write(value:to:))
+        try writer["registryId"].write(value.registryId)
+        try writer["repositoryName"].write(value.repositoryName)
+        try writer["targetStorageClass"].write(value.targetStorageClass)
     }
 }
 
@@ -5883,6 +6969,31 @@ extension DeleteRepositoryPolicyOutput {
     }
 }
 
+extension DeleteSigningConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSigningConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteSigningConfigurationOutput()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.signingConfiguration = try reader["signingConfiguration"].readIfPresent(with: ECRClientTypes.SigningConfiguration.read(from:))
+        return value
+    }
+}
+
+extension DeregisterPullTimeUpdateExclusionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterPullTimeUpdateExclusionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeregisterPullTimeUpdateExclusionOutput()
+        value.principalArn = try reader["principalArn"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeImageReplicationStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeImageReplicationStatusOutput {
@@ -5923,6 +7034,21 @@ extension DescribeImageScanFindingsOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.registryId = try reader["registryId"].readIfPresent()
         value.repositoryName = try reader["repositoryName"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeImageSigningStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeImageSigningStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeImageSigningStatusOutput()
+        value.imageId = try reader["imageId"].readIfPresent(with: ECRClientTypes.ImageIdentifier.read(from:))
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        value.signingStatuses = try reader["signingStatuses"].readListIfPresent(memberReadingClosure: ECRClientTypes.ImageSigningStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6091,6 +7217,19 @@ extension GetRepositoryPolicyOutput {
     }
 }
 
+extension GetSigningConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSigningConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSigningConfigurationOutput()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.signingConfiguration = try reader["signingConfiguration"].readIfPresent(with: ECRClientTypes.SigningConfiguration.read(from:))
+        return value
+    }
+}
+
 extension InitiateLayerUploadOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InitiateLayerUploadOutput {
@@ -6104,6 +7243,19 @@ extension InitiateLayerUploadOutput {
     }
 }
 
+extension ListImageReferrersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListImageReferrersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListImageReferrersOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.referrers = try reader["referrers"].readListIfPresent(memberReadingClosure: ECRClientTypes.ImageReferrer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListImagesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListImagesOutput {
@@ -6113,6 +7265,19 @@ extension ListImagesOutput {
         var value = ListImagesOutput()
         value.imageIds = try reader["imageIds"].readListIfPresent(memberReadingClosure: ECRClientTypes.ImageIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListPullTimeUpdateExclusionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPullTimeUpdateExclusionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPullTimeUpdateExclusionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.pullTimeUpdateExclusions = try reader["pullTimeUpdateExclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6234,6 +7399,31 @@ extension PutReplicationConfigurationOutput {
     }
 }
 
+extension PutSigningConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutSigningConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutSigningConfigurationOutput()
+        value.signingConfiguration = try reader["signingConfiguration"].readIfPresent(with: ECRClientTypes.SigningConfiguration.read(from:))
+        return value
+    }
+}
+
+extension RegisterPullTimeUpdateExclusionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterPullTimeUpdateExclusionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterPullTimeUpdateExclusionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.principalArn = try reader["principalArn"].readIfPresent()
+        return value
+    }
+}
+
 extension SetRepositoryPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SetRepositoryPolicyOutput {
@@ -6289,6 +7479,21 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateImageStorageClassOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateImageStorageClassOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateImageStorageClassOutput()
+        value.imageId = try reader["imageId"].readIfPresent(with: ECRClientTypes.ImageIdentifier.read(from:))
+        value.imageStatus = try reader["imageStatus"].readIfPresent()
+        value.registryId = try reader["registryId"].readIfPresent()
+        value.repositoryName = try reader["repositoryName"].readIfPresent()
+        return value
     }
 }
 
@@ -6609,6 +7814,40 @@ enum DeleteRepositoryPolicyOutputError {
     }
 }
 
+enum DeleteSigningConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "SigningConfigurationNotFoundException": return try SigningConfigurationNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeregisterPullTimeUpdateExclusionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ExclusionNotFoundException": return try ExclusionNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeImageReplicationStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6656,6 +7895,24 @@ enum DescribeImageScanFindingsOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ScanNotFoundException": return try ScanNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeImageSigningStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ImageNotFoundException": return try ImageNotFoundException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6864,6 +8121,23 @@ enum GetRepositoryPolicyOutputError {
     }
 }
 
+enum GetSigningConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "SigningConfigurationNotFoundException": return try SigningConfigurationNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum InitiateLayerUploadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6881,6 +8155,23 @@ enum InitiateLayerUploadOutputError {
     }
 }
 
+enum ListImageReferrersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListImagesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6892,6 +8183,23 @@ enum ListImagesOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListPullTimeUpdateExclusionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7027,6 +8335,7 @@ enum PutRegistryScanningConfigurationOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BlockedByOrganizationPolicyException": return try BlockedByOrganizationPolicyException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -7044,6 +8353,40 @@ enum PutReplicationConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutSigningConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterPullTimeUpdateExclusionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ExclusionAlreadyExistsException": return try ExclusionAlreadyExistsException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -7075,6 +8418,7 @@ enum StartImageScanOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ImageArchivedException": return try ImageArchivedException.makeError(baseError: baseError)
             case "ImageNotFoundException": return try ImageNotFoundException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
@@ -7137,6 +8481,25 @@ enum UntagResourceOutputError {
             case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateImageStorageClassOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ImageNotFoundException": return try ImageNotFoundException.makeError(baseError: baseError)
+            case "ImageStorageClassUpdateNotSupportedException": return try ImageStorageClassUpdateNotSupportedException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "RepositoryNotFoundException": return try RepositoryNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7568,6 +8931,32 @@ extension RepositoryPolicyNotFoundException {
     }
 }
 
+extension SigningConfigurationNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SigningConfigurationNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = SigningConfigurationNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ExclusionNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExclusionNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ExclusionNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ImageNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageNotFoundException {
@@ -7698,6 +9087,45 @@ extension ReferencedImagesNotFoundException {
     }
 }
 
+extension BlockedByOrganizationPolicyException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BlockedByOrganizationPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = BlockedByOrganizationPolicyException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ExclusionAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExclusionAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ExclusionAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ImageArchivedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageArchivedException {
+        let reader = baseError.errorBodyReader
+        var value = ImageArchivedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UnsupportedImageTypeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedImageTypeException {
@@ -7716,6 +9144,19 @@ extension LifecyclePolicyPreviewInProgressException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LifecyclePolicyPreviewInProgressException {
         let reader = baseError.errorBodyReader
         var value = LifecyclePolicyPreviewInProgressException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ImageStorageClassUpdateNotSupportedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageStorageClassUpdateNotSupportedException {
+        let reader = baseError.errorBodyReader
+        var value = ImageStorageClassUpdateNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7974,6 +9415,55 @@ extension ECRClientTypes.EncryptionConfigurationForRepositoryCreationTemplate {
     }
 }
 
+extension ECRClientTypes.SigningConfiguration {
+
+    static func write(value: ECRClientTypes.SigningConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["rules"].writeList(value.rules, memberWritingClosure: ECRClientTypes.SigningRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.SigningConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.SigningConfiguration()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: ECRClientTypes.SigningRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ECRClientTypes.SigningRule {
+
+    static func write(value: ECRClientTypes.SigningRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["repositoryFilters"].writeList(value.repositoryFilters, memberWritingClosure: ECRClientTypes.SigningRepositoryFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["signingProfileArn"].write(value.signingProfileArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.SigningRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.SigningRule()
+        value.signingProfileArn = try reader["signingProfileArn"].readIfPresent() ?? ""
+        value.repositoryFilters = try reader["repositoryFilters"].readListIfPresent(memberReadingClosure: ECRClientTypes.SigningRepositoryFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECRClientTypes.SigningRepositoryFilter {
+
+    static func write(value: ECRClientTypes.SigningRepositoryFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filter"].write(value.filter)
+        try writer["filterType"].write(value.filterType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.SigningRepositoryFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.SigningRepositoryFilter()
+        value.filter = try reader["filter"].readIfPresent() ?? ""
+        value.filterType = try reader["filterType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension ECRClientTypes.ImageReplicationStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageReplicationStatus {
@@ -8003,6 +9493,10 @@ extension ECRClientTypes.ImageDetail {
         value.imageManifestMediaType = try reader["imageManifestMediaType"].readIfPresent()
         value.artifactMediaType = try reader["artifactMediaType"].readIfPresent()
         value.lastRecordedPullTime = try reader["lastRecordedPullTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.subjectManifestDigest = try reader["subjectManifestDigest"].readIfPresent()
+        value.imageStatus = try reader["imageStatus"].readIfPresent()
+        value.lastArchivedAt = try reader["lastArchivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastActivatedAt = try reader["lastActivatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -8243,6 +9737,19 @@ extension ECRClientTypes.Attribute {
     }
 }
 
+extension ECRClientTypes.ImageSigningStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageSigningStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.ImageSigningStatus()
+        value.signingProfileArn = try reader["signingProfileArn"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension ECRClientTypes.PullThroughCacheRule {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.PullThroughCacheRule {
@@ -8349,6 +9856,7 @@ extension ECRClientTypes.LifecyclePolicyPreviewResult {
         value.imagePushedAt = try reader["imagePushedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.action = try reader["action"].readIfPresent(with: ECRClientTypes.LifecyclePolicyRuleAction.read(from:))
         value.appliedRulePriority = try reader["appliedRulePriority"].readIfPresent()
+        value.storageClass = try reader["storageClass"].readIfPresent()
         return value
     }
 }
@@ -8359,6 +9867,7 @@ extension ECRClientTypes.LifecyclePolicyRuleAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.LifecyclePolicyRuleAction()
         value.type = try reader["type"].readIfPresent()
+        value.targetStorageClass = try reader["targetStorageClass"].readIfPresent()
         return value
     }
 }
@@ -8369,6 +9878,18 @@ extension ECRClientTypes.LifecyclePolicyPreviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ECRClientTypes.LifecyclePolicyPreviewSummary()
         value.expiringImageTotalCount = try reader["expiringImageTotalCount"].readIfPresent()
+        value.transitioningImageTotalCounts = try reader["transitioningImageTotalCounts"].readListIfPresent(memberReadingClosure: ECRClientTypes.TransitioningImageTotalCount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECRClientTypes.TransitioningImageTotalCount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.TransitioningImageTotalCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.TransitioningImageTotalCount()
+        value.targetStorageClass = try reader["targetStorageClass"].readIfPresent()
+        value.imageTotalCount = try reader["imageTotalCount"].readIfPresent()
         return value
     }
 }
@@ -8401,10 +9922,26 @@ extension ECRClientTypes.RegistryScanningRule {
     }
 }
 
+extension ECRClientTypes.ImageReferrer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECRClientTypes.ImageReferrer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECRClientTypes.ImageReferrer()
+        value.digest = try reader["digest"].readIfPresent() ?? ""
+        value.mediaType = try reader["mediaType"].readIfPresent() ?? ""
+        value.artifactType = try reader["artifactType"].readIfPresent()
+        value.size = try reader["size"].readIfPresent() ?? 0
+        value.annotations = try reader["annotations"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.artifactStatus = try reader["artifactStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension ECRClientTypes.DescribeImagesFilter {
 
     static func write(value: ECRClientTypes.DescribeImagesFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["imageStatus"].write(value.imageStatus)
         try writer["tagStatus"].write(value.tagStatus)
     }
 }
@@ -8417,10 +9954,28 @@ extension ECRClientTypes.LifecyclePolicyPreviewFilter {
     }
 }
 
+extension ECRClientTypes.SubjectIdentifier {
+
+    static func write(value: ECRClientTypes.SubjectIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageDigest"].write(value.imageDigest)
+    }
+}
+
+extension ECRClientTypes.ListImageReferrersFilter {
+
+    static func write(value: ECRClientTypes.ListImageReferrersFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["artifactStatus"].write(value.artifactStatus)
+        try writer["artifactTypes"].writeList(value.artifactTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ECRClientTypes.ListImagesFilter {
 
     static func write(value: ECRClientTypes.ListImagesFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["imageStatus"].write(value.imageStatus)
         try writer["tagStatus"].write(value.tagStatus)
     }
 }

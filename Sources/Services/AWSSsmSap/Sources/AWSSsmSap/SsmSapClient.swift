@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SsmSapClient: ClientRuntime.Client {
+public class SsmSapClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SsmSapClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SsmSapClient.SsmSapClientConfiguration
     let serviceName = "Ssm Sap"
@@ -372,9 +372,9 @@ extension SsmSapClient {
     ///
     /// Removes permissions associated with the target database.
     ///
-    /// - Parameter DeleteResourcePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePermissionInput`)
     ///
-    /// - Returns: `DeleteResourcePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +410,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePermissionInput, DeleteResourcePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePermissionOutput>(DeleteResourcePermissionOutput.httpOutput(from:), DeleteResourcePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePermissionInput, DeleteResourcePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePermissionOutput>())
@@ -441,9 +442,9 @@ extension SsmSapClient {
     ///
     /// Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect the existing setup of your SAP workloads on Amazon EC2.
     ///
-    /// - Parameter DeregisterApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterApplicationInput`)
     ///
-    /// - Returns: `DeregisterApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,6 +480,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterApplicationInput, DeregisterApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterApplicationOutput>(DeregisterApplicationOutput.httpOutput(from:), DeregisterApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterApplicationInput, DeregisterApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterApplicationOutput>())
@@ -510,9 +512,9 @@ extension SsmSapClient {
     ///
     /// Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -547,6 +549,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationOutput>(GetApplicationOutput.httpOutput(from:), GetApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
@@ -578,9 +581,9 @@ extension SsmSapClient {
     ///
     /// Gets the component of an application registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter GetComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentInput`)
     ///
-    /// - Returns: `GetComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -616,6 +619,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComponentInput, GetComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComponentOutput>(GetComponentOutput.httpOutput(from:), GetComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComponentInput, GetComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComponentOutput>())
@@ -643,13 +647,82 @@ extension SsmSapClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetConfigurationCheckOperation` operation on the `SsmSap` service.
+    ///
+    /// Gets the details of a configuration check operation by specifying the operation ID.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetConfigurationCheckOperationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetConfigurationCheckOperationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func getConfigurationCheckOperation(input: GetConfigurationCheckOperationInput) async throws -> GetConfigurationCheckOperationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getConfigurationCheckOperation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm-sap")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput>(GetConfigurationCheckOperationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetConfigurationCheckOperationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigurationCheckOperationOutput>(GetConfigurationCheckOperationOutput.httpOutput(from:), GetConfigurationCheckOperationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigurationCheckOperationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Ssm Sap", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetConfigurationCheckOperationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetConfigurationCheckOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetConfigurationCheckOperationInput, GetConfigurationCheckOperationOutput>(serviceID: serviceName, version: SsmSapClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SsmSap")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetConfigurationCheckOperation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDatabase` operation on the `SsmSap` service.
     ///
     /// Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter GetDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatabaseInput`)
     ///
-    /// - Returns: `GetDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -684,6 +757,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatabaseInput, GetDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDatabaseOutput>(GetDatabaseOutput.httpOutput(from:), GetDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatabaseInput, GetDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatabaseOutput>())
@@ -715,9 +789,9 @@ extension SsmSapClient {
     ///
     /// Gets the details of an operation by specifying the operation ID.
     ///
-    /// - Parameter GetOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOperationInput`)
     ///
-    /// - Returns: `GetOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,6 +826,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOperationInput, GetOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOperationOutput>(GetOperationOutput.httpOutput(from:), GetOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOperationInput, GetOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOperationOutput>())
@@ -783,9 +858,9 @@ extension SsmSapClient {
     ///
     /// Gets permissions associated with the target database.
     ///
-    /// - Parameter GetResourcePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePermissionInput`)
     ///
-    /// - Returns: `GetResourcePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -821,6 +896,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePermissionInput, GetResourcePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePermissionOutput>(GetResourcePermissionOutput.httpOutput(from:), GetResourcePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePermissionInput, GetResourcePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePermissionOutput>())
@@ -852,9 +928,9 @@ extension SsmSapClient {
     ///
     /// Lists all the applications registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,6 +966,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -921,9 +998,9 @@ extension SsmSapClient {
     ///
     /// Lists all the components registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,6 +1037,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentsInput, ListComponentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentsOutput>(ListComponentsOutput.httpOutput(from:), ListComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentsInput, ListComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentsOutput>())
@@ -987,13 +1065,152 @@ extension SsmSapClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListConfigurationCheckDefinitions` operation on the `SsmSap` service.
+    ///
+    /// Lists all configuration check types supported by AWS Systems Manager for SAP.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationCheckDefinitionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListConfigurationCheckDefinitionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func listConfigurationCheckDefinitions(input: ListConfigurationCheckDefinitionsInput) async throws -> ListConfigurationCheckDefinitionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConfigurationCheckDefinitions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm-sap")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>(ListConfigurationCheckDefinitionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConfigurationCheckDefinitionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationCheckDefinitionsOutput>(ListConfigurationCheckDefinitionsOutput.httpOutput(from:), ListConfigurationCheckDefinitionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationCheckDefinitionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Ssm Sap", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConfigurationCheckDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationCheckDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>(serviceID: serviceName, version: SsmSapClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SsmSap")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConfigurationCheckDefinitions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListConfigurationCheckOperations` operation on the `SsmSap` service.
+    ///
+    /// Lists the configuration check operations performed by AWS Systems Manager for SAP.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationCheckOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListConfigurationCheckOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func listConfigurationCheckOperations(input: ListConfigurationCheckOperationsInput) async throws -> ListConfigurationCheckOperationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listConfigurationCheckOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm-sap")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>(ListConfigurationCheckOperationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConfigurationCheckOperationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationCheckOperationsOutput>(ListConfigurationCheckOperationsOutput.httpOutput(from:), ListConfigurationCheckOperationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationCheckOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Ssm Sap", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListConfigurationCheckOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListConfigurationCheckOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>(serviceID: serviceName, version: SsmSapClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SsmSap")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListConfigurationCheckOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListDatabases` operation on the `SsmSap` service.
     ///
     /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatabasesInput`)
     ///
-    /// - Returns: `ListDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1029,6 +1246,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatabasesInput, ListDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatabasesOutput>(ListDatabasesOutput.httpOutput(from:), ListDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatabasesInput, ListDatabasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatabasesOutput>())
@@ -1060,9 +1278,9 @@ extension SsmSapClient {
     ///
     /// Returns a list of operations events. Available parameters include OperationID, as well as optional parameters MaxResults, NextToken, and Filters.
     ///
-    /// - Parameter ListOperationEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOperationEventsInput`)
     ///
-    /// - Returns: `ListOperationEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOperationEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1097,6 +1315,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOperationEventsInput, ListOperationEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOperationEventsOutput>(ListOperationEventsOutput.httpOutput(from:), ListOperationEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOperationEventsInput, ListOperationEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOperationEventsOutput>())
@@ -1128,9 +1347,9 @@ extension SsmSapClient {
     ///
     /// Lists the operations performed by AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOperationsInput`)
     ///
-    /// - Returns: `ListOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1165,6 +1384,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOperationsInput, ListOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOperationsOutput>(ListOperationsOutput.httpOutput(from:), ListOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOperationsInput, ListOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOperationsOutput>())
@@ -1192,13 +1412,151 @@ extension SsmSapClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListSubCheckResults` operation on the `SsmSap` service.
+    ///
+    /// Lists the sub-check results of a specified configuration check operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSubCheckResultsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSubCheckResultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func listSubCheckResults(input: ListSubCheckResultsInput) async throws -> ListSubCheckResultsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSubCheckResults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm-sap")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSubCheckResultsInput, ListSubCheckResultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput>(ListSubCheckResultsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSubCheckResultsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubCheckResultsOutput>(ListSubCheckResultsOutput.httpOutput(from:), ListSubCheckResultsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSubCheckResultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Ssm Sap", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSubCheckResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSubCheckResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSubCheckResultsInput, ListSubCheckResultsOutput>(serviceID: serviceName, version: SsmSapClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SsmSap")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSubCheckResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSubCheckRuleResults` operation on the `SsmSap` service.
+    ///
+    /// Lists the rules of a specified sub-check belonging to a configuration check operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSubCheckRuleResultsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSubCheckRuleResultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func listSubCheckRuleResults(input: ListSubCheckRuleResultsInput) async throws -> ListSubCheckRuleResultsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSubCheckRuleResults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm-sap")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>(ListSubCheckRuleResultsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSubCheckRuleResultsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubCheckRuleResultsOutput>(ListSubCheckRuleResultsOutput.httpOutput(from:), ListSubCheckRuleResultsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSubCheckRuleResultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Ssm Sap", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSubCheckRuleResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSubCheckRuleResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>(serviceID: serviceName, version: SsmSapClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SsmSap")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSubCheckRuleResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `SsmSap` service.
     ///
     /// Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1231,6 +1589,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1262,9 +1621,9 @@ extension SsmSapClient {
     ///
     /// Adds permissions to the target database.
     ///
-    /// - Parameter PutResourcePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePermissionInput`)
     ///
-    /// - Returns: `PutResourcePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1300,6 +1659,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePermissionInput, PutResourcePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePermissionOutput>(PutResourcePermissionOutput.httpOutput(from:), PutResourcePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePermissionInput, PutResourcePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePermissionOutput>())
@@ -1331,9 +1691,9 @@ extension SsmSapClient {
     ///
     /// Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering. The SAP application you want to register with AWS Systems Manager for SAP is running on Amazon EC2. AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required IAM permissions. Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
     ///
-    /// - Parameter RegisterApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterApplicationInput`)
     ///
-    /// - Returns: `RegisterApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1370,6 +1730,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterApplicationInput, RegisterApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterApplicationOutput>(RegisterApplicationOutput.httpOutput(from:), RegisterApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterApplicationInput, RegisterApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterApplicationOutput>())
@@ -1401,9 +1762,9 @@ extension SsmSapClient {
     ///
     /// Request is an operation which starts an application. Parameter ApplicationId is required.
     ///
-    /// - Parameter StartApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartApplicationInput`)
     ///
-    /// - Returns: `StartApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1440,6 +1801,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartApplicationInput, StartApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartApplicationOutput>(StartApplicationOutput.httpOutput(from:), StartApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartApplicationInput, StartApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartApplicationOutput>())
@@ -1471,9 +1833,9 @@ extension SsmSapClient {
     ///
     /// Refreshes a registered application.
     ///
-    /// - Parameter StartApplicationRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartApplicationRefreshInput`)
     ///
-    /// - Returns: `StartApplicationRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartApplicationRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1511,6 +1873,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartApplicationRefreshInput, StartApplicationRefreshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartApplicationRefreshOutput>(StartApplicationRefreshOutput.httpOutput(from:), StartApplicationRefreshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartApplicationRefreshInput, StartApplicationRefreshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartApplicationRefreshOutput>())
@@ -1538,13 +1901,84 @@ extension SsmSapClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartConfigurationChecks` operation on the `SsmSap` service.
+    ///
+    /// Initiates configuration check operations against a specified application.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartConfigurationChecksInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartConfigurationChecksOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A conflict has occurred.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func startConfigurationChecks(input: StartConfigurationChecksInput) async throws -> StartConfigurationChecksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startConfigurationChecks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm-sap")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartConfigurationChecksInput, StartConfigurationChecksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput>(StartConfigurationChecksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartConfigurationChecksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConfigurationChecksOutput>(StartConfigurationChecksOutput.httpOutput(from:), StartConfigurationChecksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationChecksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Ssm Sap", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartConfigurationChecksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartConfigurationChecksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartConfigurationChecksInput, StartConfigurationChecksOutput>(serviceID: serviceName, version: SsmSapClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SsmSap")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartConfigurationChecks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopApplication` operation on the `SsmSap` service.
     ///
     /// Request is an operation to stop an application. Parameter ApplicationId is required. Parameters StopConnectedEntity and IncludeEc2InstanceShutdown are optional.
     ///
-    /// - Parameter StopApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopApplicationInput`)
     ///
-    /// - Returns: `StopApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1581,6 +2015,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopApplicationInput, StopApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopApplicationOutput>(StopApplicationOutput.httpOutput(from:), StopApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopApplicationInput, StopApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopApplicationOutput>())
@@ -1612,9 +2047,9 @@ extension SsmSapClient {
     ///
     /// Creates tag for a resource by specifying the ARN.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1650,6 +2085,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1681,9 +2117,9 @@ extension SsmSapClient {
     ///
     /// Delete the tags for a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,6 +2153,7 @@ extension SsmSapClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1748,9 +2185,9 @@ extension SsmSapClient {
     ///
     /// Updates the settings of an application registered with AWS Systems Manager for SAP.
     ///
-    /// - Parameter UpdateApplicationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationSettingsInput`)
     ///
-    /// - Returns: `UpdateApplicationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,6 +2225,7 @@ extension SsmSapClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationSettingsInput, UpdateApplicationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationSettingsOutput>(UpdateApplicationSettingsOutput.httpOutput(from:), UpdateApplicationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationSettingsInput, UpdateApplicationSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationSettingsOutput>())

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Route53Client: ClientRuntime.Client {
+public class Route53Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Route53Client"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53Client.Route53ClientConfiguration
     let serviceName = "Route 53"
@@ -373,9 +373,9 @@ extension Route53Client {
     ///
     /// Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE.
     ///
-    /// - Parameter ActivateKeySigningKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateKeySigningKeyInput`)
     ///
-    /// - Returns: `ActivateKeySigningKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateKeySigningKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateKeySigningKeyOutput>(ActivateKeySigningKeyOutput.httpOutput(from:), ActivateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateKeySigningKeyOutput>())
@@ -452,9 +453,9 @@ extension Route53Client {
     ///
     /// For more information, see [Access Management](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter AssociateVPCWithHostedZoneInput : A complex type that contains information about the request to associate a VPC with a private hosted zone.
+    /// - Parameter input: A complex type that contains information about the request to associate a VPC with a private hosted zone. (Type: `AssociateVPCWithHostedZoneInput`)
     ///
-    /// - Returns: `AssociateVPCWithHostedZoneOutput` : A complex type that contains the response information for the AssociateVPCWithHostedZone request.
+    /// - Returns: A complex type that contains the response information for the AssociateVPCWithHostedZone request. (Type: `AssociateVPCWithHostedZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,6 +503,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateVPCWithHostedZoneOutput>(AssociateVPCWithHostedZoneOutput.httpOutput(from:), AssociateVPCWithHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVPCWithHostedZoneOutput>())
@@ -537,9 +539,9 @@ extension Route53Client {
     ///
     /// * DELETE_IF_EXISTS: Delete an existing CIDR block from the collection.
     ///
-    /// - Parameter ChangeCidrCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ChangeCidrCollectionInput`)
     ///
-    /// - Returns: `ChangeCidrCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ChangeCidrCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -578,6 +580,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeCidrCollectionOutput>(ChangeCidrCollectionOutput.httpOutput(from:), ChangeCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeCidrCollectionInput, ChangeCidrCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeCidrCollectionOutput>())
@@ -618,9 +621,9 @@ extension Route53Client {
     ///
     /// Syntaxes for Creating, Updating, and Deleting Resource Record Sets The syntax for a request depends on the type of resource record set that you want to create, delete, or update, such as weighted, alias, or failover. The XML elements in your request must appear in the order listed in the syntax. For an example for each type of resource record set, see "Examples." Don't refer to the syntax in the "Parameter Syntax" section, which includes all of the elements for every kind of resource record set that you can create, delete, or update by using ChangeResourceRecordSets. Change Propagation to Route 53 DNS Servers When you submit a ChangeResourceRecordSets request, Route 53 propagates your changes to all of the Route 53 authoritative DNS servers managing the hosted zone. While your changes are propagating, GetChange returns a status of PENDING. When propagation is complete, GetChange returns a status of INSYNC. Changes generally propagate to all Route 53 name servers managing the hosted zone within 60 seconds. For more information, see [GetChange](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html). Limits on ChangeResourceRecordSets Requests For information about the limits on a ChangeResourceRecordSets request, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide.
     ///
-    /// - Parameter ChangeResourceRecordSetsInput : A complex type that contains change information for the resource record set.
+    /// - Parameter input: A complex type that contains change information for the resource record set. (Type: `ChangeResourceRecordSetsInput`)
     ///
-    /// - Returns: `ChangeResourceRecordSetsOutput` : A complex type containing the response for the request.
+    /// - Returns: A complex type containing the response for the request. (Type: `ChangeResourceRecordSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -659,6 +662,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeResourceRecordSetsOutput>(ChangeResourceRecordSetsOutput.httpOutput(from:), ChangeResourceRecordSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeResourceRecordSetsOutput>())
@@ -690,9 +694,9 @@ extension Route53Client {
     ///
     /// Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
     ///
-    /// - Parameter ChangeTagsForResourceInput : A complex type that contains information about the tags that you want to add, edit, or delete.
+    /// - Parameter input: A complex type that contains information about the tags that you want to add, edit, or delete. (Type: `ChangeTagsForResourceInput`)
     ///
-    /// - Returns: `ChangeTagsForResourceOutput` : Empty response for the request.
+    /// - Returns: Empty response for the request. (Type: `ChangeTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,6 +734,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeTagsForResourceOutput>(ChangeTagsForResourceOutput.httpOutput(from:), ChangeTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeTagsForResourceInput, ChangeTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeTagsForResourceOutput>())
@@ -761,9 +766,9 @@ extension Route53Client {
     ///
     /// Creates a CIDR collection in the current Amazon Web Services account.
     ///
-    /// - Parameter CreateCidrCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCidrCollectionInput`)
     ///
-    /// - Returns: `CreateCidrCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCidrCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -800,6 +805,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCidrCollectionOutput>(CreateCidrCollectionOutput.httpOutput(from:), CreateCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCidrCollectionInput, CreateCidrCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCidrCollectionOutput>())
@@ -837,9 +843,9 @@ extension Route53Client {
     ///
     /// * You can create a CloudWatch metric, associate an alarm with the metric, and then create a health check that is based on the state of the alarm. For example, you might create a CloudWatch metric that checks the status of the Amazon EC2 StatusCheckFailed metric, add an alarm to the metric, and then create a health check that is based on the state of the alarm. For information about creating CloudWatch metrics and alarms by using the CloudWatch console, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatch.html).
     ///
-    /// - Parameter CreateHealthCheckInput : A complex type that contains the health check request information.
+    /// - Parameter input: A complex type that contains the health check request information. (Type: `CreateHealthCheckInput`)
     ///
-    /// - Returns: `CreateHealthCheckOutput` : A complex type containing the response information for the new health check.
+    /// - Returns: A complex type containing the response information for the new health check. (Type: `CreateHealthCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -879,6 +885,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHealthCheckOutput>(CreateHealthCheckOutput.httpOutput(from:), CreateHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHealthCheckInput, CreateHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHealthCheckOutput>())
@@ -928,9 +935,9 @@ extension Route53Client {
     ///
     /// For more information, see [Access Management](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter CreateHostedZoneInput : A complex type that contains information about the request to create a public or private hosted zone.
+    /// - Parameter input: A complex type that contains information about the request to create a public or private hosted zone. (Type: `CreateHostedZoneInput`)
     ///
-    /// - Returns: `CreateHostedZoneOutput` : A complex type containing the response information for the hosted zone.
+    /// - Returns: A complex type containing the response information for the hosted zone. (Type: `CreateHostedZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -978,6 +985,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHostedZoneOutput>(CreateHostedZoneOutput.httpOutput(from:), CreateHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHostedZoneInput, CreateHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHostedZoneOutput>())
@@ -1009,9 +1017,9 @@ extension Route53Client {
     ///
     /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone.
     ///
-    /// - Parameter CreateKeySigningKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeySigningKeyInput`)
     ///
-    /// - Returns: `CreateKeySigningKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeySigningKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,6 +1062,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeySigningKeyOutput>(CreateKeySigningKeyOutput.httpOutput(from:), CreateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeySigningKeyInput, CreateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeySigningKeyOutput>())
@@ -1126,9 +1135,9 @@ extension Route53Client {
     ///
     /// The name of each log stream is in the following format:  hosted zone ID/edge location code  The edge location code is a three-letter code and an arbitrarily assigned number, for example, DFW3. The three-letter code typically corresponds with the International Air Transport Association airport code for an airport near the edge location. (These abbreviations might change in the future.) For a list of edge locations, see "The Route 53 Global Network" on the [Route 53 Product Details](http://aws.amazon.com/route53/details/) page. Queries That Are Logged Query logs contain only the queries that DNS resolvers forward to Route 53. If a DNS resolver has already cached the response to a query (such as the IP address for a load balancer for example.com), the resolver will continue to return the cached response. It doesn't forward another query to Route 53 until the TTL for the corresponding resource record set expires. Depending on how many DNS queries are submitted for a resource record set, and depending on the TTL for that resource record set, query logs might contain information about only one query out of every several thousand queries that are submitted to DNS. For more information about how DNS works, see [Routing Internet Traffic to Your Website or Web Application](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-dns-service.html) in the Amazon Route 53 Developer Guide. Log File Format For a list of the values in each query log and the format of each value, see [Logging DNS Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html) in the Amazon Route 53 Developer Guide. Pricing For information about charges for query logs, see [Amazon CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). How to Stop Logging If you want Route 53 to stop sending query logs to CloudWatch Logs, delete the query logging configuration. For more information, see [DeleteQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteQueryLoggingConfig.html).
     ///
-    /// - Parameter CreateQueryLoggingConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueryLoggingConfigInput`)
     ///
-    /// - Returns: `CreateQueryLoggingConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueryLoggingConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1177,6 +1186,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueryLoggingConfigOutput>(CreateQueryLoggingConfigOutput.httpOutput(from:), CreateQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueryLoggingConfigInput, CreateQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueryLoggingConfigOutput>())
@@ -1229,9 +1239,9 @@ extension Route53Client {
     ///
     /// * For larger numbers of hosted zones, you can also migrate hosted zones that have overlapping name servers to hosted zones that don't have overlapping name servers, then migrate the hosted zones again to use the reusable delegation set.
     ///
-    /// - Parameter CreateReusableDelegationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReusableDelegationSetInput`)
     ///
-    /// - Returns: `CreateReusableDelegationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReusableDelegationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1271,6 +1281,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReusableDelegationSetOutput>(CreateReusableDelegationSetOutput.httpOutput(from:), CreateReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReusableDelegationSetInput, CreateReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReusableDelegationSetOutput>())
@@ -1302,9 +1313,9 @@ extension Route53Client {
     ///
     /// Creates a traffic policy, which you use to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com).
     ///
-    /// - Parameter CreateTrafficPolicyInput : A complex type that contains information about the traffic policy that you want to create.
+    /// - Parameter input: A complex type that contains information about the traffic policy that you want to create. (Type: `CreateTrafficPolicyInput`)
     ///
-    /// - Returns: `CreateTrafficPolicyOutput` : A complex type that contains the response information for the CreateTrafficPolicy request.
+    /// - Returns: A complex type that contains the response information for the CreateTrafficPolicy request. (Type: `CreateTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,6 +1352,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyOutput>(CreateTrafficPolicyOutput.httpOutput(from:), CreateTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficPolicyOutput>())
@@ -1372,9 +1384,9 @@ extension Route53Client {
     ///
     /// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, CreateTrafficPolicyInstance associates the resource record sets with a specified domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the domain or subdomain name by using the resource record sets that CreateTrafficPolicyInstance created. After you submit an CreateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance request completed successfully. For more information, see the State response element.
     ///
-    /// - Parameter CreateTrafficPolicyInstanceInput : A complex type that contains information about the resource record sets that you want to create based on a specified traffic policy.
+    /// - Parameter input: A complex type that contains information about the resource record sets that you want to create based on a specified traffic policy. (Type: `CreateTrafficPolicyInstanceInput`)
     ///
-    /// - Returns: `CreateTrafficPolicyInstanceOutput` : A complex type that contains the response information for the CreateTrafficPolicyInstance request.
+    /// - Returns: A complex type that contains the response information for the CreateTrafficPolicyInstance request. (Type: `CreateTrafficPolicyInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1412,6 +1424,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyInstanceOutput>(CreateTrafficPolicyInstanceOutput.httpOutput(from:), CreateTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInstanceInput, CreateTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficPolicyInstanceOutput>())
@@ -1443,9 +1456,9 @@ extension Route53Client {
     ///
     /// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic policy that you want to update and a JSON-formatted document that describes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create another version, you'll need to start a new traffic policy.
     ///
-    /// - Parameter CreateTrafficPolicyVersionInput : A complex type that contains information about the traffic policy that you want to create a new version for.
+    /// - Parameter input: A complex type that contains information about the traffic policy that you want to create a new version for. (Type: `CreateTrafficPolicyVersionInput`)
     ///
-    /// - Returns: `CreateTrafficPolicyVersionOutput` : A complex type that contains the response information for the CreateTrafficPolicyVersion request.
+    /// - Returns: A complex type that contains the response information for the CreateTrafficPolicyVersion request. (Type: `CreateTrafficPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1483,6 +1496,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyVersionOutput>(CreateTrafficPolicyVersionOutput.httpOutput(from:), CreateTrafficPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyVersionInput, CreateTrafficPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficPolicyVersionOutput>())
@@ -1514,9 +1528,9 @@ extension Route53Client {
     ///
     /// Authorizes the Amazon Web Services account that created a specified VPC to submit an AssociateVPCWithHostedZone request to associate the VPC with a specified hosted zone that was created by a different account. To submit a CreateVPCAssociationAuthorization request, you must use the account that created the hosted zone. After you authorize the association, use the account that created the VPC to submit an AssociateVPCWithHostedZone request. If you want to associate multiple VPCs that you created by using one account with a hosted zone that you created by using a different account, you must submit one authorization request for each VPC.
     ///
-    /// - Parameter CreateVPCAssociationAuthorizationInput : A complex type that contains information about the request to authorize associating a VPC with your private hosted zone. Authorization is only required when a private hosted zone and a VPC were created by using different accounts.
+    /// - Parameter input: A complex type that contains information about the request to authorize associating a VPC with your private hosted zone. Authorization is only required when a private hosted zone and a VPC were created by using different accounts. (Type: `CreateVPCAssociationAuthorizationInput`)
     ///
-    /// - Returns: `CreateVPCAssociationAuthorizationOutput` : A complex type that contains the response information from a CreateVPCAssociationAuthorization request.
+    /// - Returns: A complex type that contains the response information from a CreateVPCAssociationAuthorization request. (Type: `CreateVPCAssociationAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1555,6 +1569,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVPCAssociationAuthorizationOutput>(CreateVPCAssociationAuthorizationOutput.httpOutput(from:), CreateVPCAssociationAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVPCAssociationAuthorizationOutput>())
@@ -1586,9 +1601,9 @@ extension Route53Client {
     ///
     /// Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC. This operation changes the KSK status to INACTIVE.
     ///
-    /// - Parameter DeactivateKeySigningKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateKeySigningKeyInput`)
     ///
-    /// - Returns: `DeactivateKeySigningKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateKeySigningKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,6 +1641,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateKeySigningKeyOutput>(DeactivateKeySigningKeyOutput.httpOutput(from:), DeactivateKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateKeySigningKeyOutput>())
@@ -1657,9 +1673,9 @@ extension Route53Client {
     ///
     /// Deletes a CIDR collection in the current Amazon Web Services account. The collection must be empty before it can be deleted.
     ///
-    /// - Parameter DeleteCidrCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCidrCollectionInput`)
     ///
-    /// - Returns: `DeleteCidrCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCidrCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1693,6 +1709,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCidrCollectionOutput>(DeleteCidrCollectionOutput.httpOutput(from:), DeleteCidrCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCidrCollectionInput, DeleteCidrCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCidrCollectionOutput>())
@@ -1724,9 +1741,9 @@ extension Route53Client {
     ///
     /// Deletes a health check. Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the routing of DNS queries for your DNS failover configuration. For more information, see [Replacing and Deleting Health Checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html#health-checks-deleting.html) in the Amazon Route 53 Developer Guide. If you're using Cloud Map and you configured Cloud Map to create a Route 53 health check when you register an instance, you can't use the Route 53 DeleteHealthCheck command to delete the health check. The health check is deleted automatically when you deregister the instance; there can be a delay of several hours before the health check is deleted from Route 53.
     ///
-    /// - Parameter DeleteHealthCheckInput : This action deletes a health check.
+    /// - Parameter input: This action deletes a health check. (Type: `DeleteHealthCheckInput`)
     ///
-    /// - Returns: `DeleteHealthCheckOutput` : An empty element.
+    /// - Returns: An empty element. (Type: `DeleteHealthCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1759,6 +1776,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHealthCheckOutput>(DeleteHealthCheckOutput.httpOutput(from:), DeleteHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHealthCheckInput, DeleteHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHealthCheckOutput>())
@@ -1788,15 +1806,15 @@ extension Route53Client {
 
     /// Performs the `DeleteHostedZone` operation on the `Route53` service.
     ///
-    /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see [Deleting Public Hosted Zones That Were Created by Another Service](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service) in the Amazon Route 53 Developer Guide for information about how to delete it. (The process is the same for public and private hosted zones that were created by another service.) If you want to keep your domain registration but you want to stop routing internet traffic to your website or web application, we recommend that you delete resource record sets in the hosted zone instead of deleting the hosted zone. If you delete a hosted zone, you can't undelete it. You must create a new hosted zone and update the name servers for your domain registration, which can require up to 48 hours to take effect. (If you delegated responsibility for a subdomain to a hosted zone and you delete the child hosted zone, you must update the name servers in the parent hosted zone.) In addition, if you delete a hosted zone, someone could hijack the domain and route traffic to their own resources using your domain name. If you want to avoid the monthly charge for the hosted zone, you can transfer DNS service for the domain to a free DNS service. When you transfer DNS service, you have to update the name servers for the domain registration. If the domain is registered with Route 53, see [UpdateDomainNameservers](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html) for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is registered with another registrar, use the method provided by the registrar to update name servers for the domain registration. For more information, perform an internet search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA record and NS resource record sets. If the hosted zone contains other resource record sets, you must delete them before you can delete the hosted zone. If you try to delete a hosted zone that contains other resource record sets, the request fails, and Route 53 returns a HostedZoneNotEmpty error. For information about deleting records from your hosted zone, see [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). To verify that the hosted zone has been deleted, do one of the following:
+    /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see [Deleting Public Hosted Zones That Were Created by Another Service](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service) in the Amazon Route 53 Developer Guide for information about how to delete it. (The process is the same for public and private hosted zones that were created by another service.) If you want to keep your domain registration but you want to stop routing internet traffic to your website or web application, we recommend that you delete resource record sets in the hosted zone instead of deleting the hosted zone. If you delete a hosted zone, you can't undelete it. You must create a new hosted zone and update the name servers for your domain registration, which can require up to 48 hours to take effect. (If you delegated responsibility for a subdomain to a hosted zone and you delete the child hosted zone, you must update the name servers in the parent hosted zone.) In addition, if you delete a hosted zone, someone could hijack the domain and route traffic to their own resources using your domain name. If you want to avoid the monthly charge for the hosted zone, you can transfer DNS service for the domain to a free DNS service. When you transfer DNS service, you have to update the name servers for the domain registration. If the domain is registered with Route 53, see [UpdateDomainNameservers](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html) for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is registered with another registrar, use the method provided by the registrar to update name servers for the domain registration. For more information, perform an internet search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA and NS records and has DNSSEC signing disabled. If the hosted zone contains other records or has DNSSEC enabled, you must delete the records and disable DNSSEC before deletion. Attempting to delete a hosted zone with additional records or DNSSEC enabled returns a HostedZoneNotEmpty error. For information about deleting records, see [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). To verify that the hosted zone has been deleted, do one of the following:
     ///
     /// * Use the GetHostedZone action to request information about the hosted zone.
     ///
     /// * Use the ListHostedZones action to get a list of the hosted zones associated with the current Amazon Web Services account.
     ///
-    /// - Parameter DeleteHostedZoneInput : A request to delete a hosted zone.
+    /// - Parameter input: A request to delete a hosted zone. (Type: `DeleteHostedZoneInput`)
     ///
-    /// - Returns: `DeleteHostedZoneOutput` : A complex type that contains the response to a DeleteHostedZone request.
+    /// - Returns: A complex type that contains the response to a DeleteHostedZone request. (Type: `DeleteHostedZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1832,6 +1850,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHostedZoneOutput>(DeleteHostedZoneOutput.httpOutput(from:), DeleteHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHostedZoneInput, DeleteHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHostedZoneOutput>())
@@ -1863,9 +1882,9 @@ extension Route53Client {
     ///
     /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing. You can use [DeactivateKeySigningKey](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeactivateKeySigningKey.html) to deactivate the key before you delete it. Use [GetDNSSEC](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetDNSSEC.html) to verify that the KSK is in an INACTIVE status.
     ///
-    /// - Parameter DeleteKeySigningKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeySigningKeyInput`)
     ///
-    /// - Returns: `DeleteKeySigningKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeySigningKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1902,6 +1921,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeySigningKeyOutput>(DeleteKeySigningKeyOutput.httpOutput(from:), DeleteKeySigningKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeySigningKeyOutput>())
@@ -1933,9 +1953,9 @@ extension Route53Client {
     ///
     /// Deletes a configuration for DNS query logging. If you delete a configuration, Amazon Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs that are already in CloudWatch Logs. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html).
     ///
-    /// - Parameter DeleteQueryLoggingConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueryLoggingConfigInput`)
     ///
-    /// - Returns: `DeleteQueryLoggingConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueryLoggingConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1968,6 +1988,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueryLoggingConfigOutput>(DeleteQueryLoggingConfigOutput.httpOutput(from:), DeleteQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueryLoggingConfigInput, DeleteQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueryLoggingConfigOutput>())
@@ -1999,9 +2020,9 @@ extension Route53Client {
     ///
     /// Deletes a reusable delegation set. You can delete a reusable delegation set only if it isn't associated with any hosted zones. To verify that the reusable delegation set is not associated with any hosted zones, submit a [GetReusableDelegationSet](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSet.html) request and specify the ID of the reusable delegation set that you want to delete.
     ///
-    /// - Parameter DeleteReusableDelegationSetInput : A request to delete a reusable delegation set.
+    /// - Parameter input: A request to delete a reusable delegation set. (Type: `DeleteReusableDelegationSetInput`)
     ///
-    /// - Returns: `DeleteReusableDelegationSetOutput` : An empty element.
+    /// - Returns: An empty element. (Type: `DeleteReusableDelegationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2036,6 +2057,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReusableDelegationSetOutput>(DeleteReusableDelegationSetOutput.httpOutput(from:), DeleteReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReusableDelegationSetInput, DeleteReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReusableDelegationSetOutput>())
@@ -2073,9 +2095,9 @@ extension Route53Client {
     ///
     /// * If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running [GetTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetTrafficPolicy.html).
     ///
-    /// - Parameter DeleteTrafficPolicyInput : A request to delete a specified traffic policy version.
+    /// - Parameter input: A request to delete a specified traffic policy version. (Type: `DeleteTrafficPolicyInput`)
     ///
-    /// - Returns: `DeleteTrafficPolicyOutput` : An empty element.
+    /// - Returns: An empty element. (Type: `DeleteTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2109,6 +2131,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyOutput>(DeleteTrafficPolicyOutput.httpOutput(from:), DeleteTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficPolicyOutput>())
@@ -2140,9 +2163,9 @@ extension Route53Client {
     ///
     /// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. In the Route 53 console, traffic policy instances are known as policy records.
     ///
-    /// - Parameter DeleteTrafficPolicyInstanceInput : A request to delete a specified traffic policy instance.
+    /// - Parameter input: A request to delete a specified traffic policy instance. (Type: `DeleteTrafficPolicyInstanceInput`)
     ///
-    /// - Returns: `DeleteTrafficPolicyInstanceOutput` : An empty element.
+    /// - Returns: An empty element. (Type: `DeleteTrafficPolicyInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2175,6 +2198,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyInstanceOutput>(DeleteTrafficPolicyInstanceOutput.httpOutput(from:), DeleteTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInstanceInput, DeleteTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficPolicyInstanceOutput>())
@@ -2206,9 +2230,9 @@ extension Route53Client {
     ///
     /// Removes authorization to submit an AssociateVPCWithHostedZone request to associate a specified VPC with a hosted zone that was created by a different account. You must use the account that created the hosted zone to submit a DeleteVPCAssociationAuthorization request. Sending this request only prevents the Amazon Web Services account that created the VPC from associating the VPC with the Amazon Route 53 hosted zone in the future. If the VPC is already associated with the hosted zone, DeleteVPCAssociationAuthorization won't disassociate the VPC from the hosted zone. If you want to delete an existing association, use DisassociateVPCFromHostedZone.
     ///
-    /// - Parameter DeleteVPCAssociationAuthorizationInput : A complex type that contains information about the request to remove authorization to associate a VPC that was created by one Amazon Web Services account with a hosted zone that was created with a different Amazon Web Services account.
+    /// - Parameter input: A complex type that contains information about the request to remove authorization to associate a VPC that was created by one Amazon Web Services account with a hosted zone that was created with a different Amazon Web Services account. (Type: `DeleteVPCAssociationAuthorizationInput`)
     ///
-    /// - Returns: `DeleteVPCAssociationAuthorizationOutput` : Empty response for the request.
+    /// - Returns: Empty response for the request. (Type: `DeleteVPCAssociationAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2247,6 +2271,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVPCAssociationAuthorizationOutput>(DeleteVPCAssociationAuthorizationOutput.httpOutput(from:), DeleteVPCAssociationAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVPCAssociationAuthorizationOutput>())
@@ -2278,9 +2303,9 @@ extension Route53Client {
     ///
     /// Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any key-signing keys (KSKs) that are active in the hosted zone.
     ///
-    /// - Parameter DisableHostedZoneDNSSECInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableHostedZoneDNSSECInput`)
     ///
-    /// - Returns: `DisableHostedZoneDNSSECOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableHostedZoneDNSSECOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2319,6 +2344,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableHostedZoneDNSSECOutput>(DisableHostedZoneDNSSECOutput.httpOutput(from:), DisableHostedZoneDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableHostedZoneDNSSECOutput>())
@@ -2370,9 +2396,9 @@ extension Route53Client {
     ///
     /// For more information, see [Access Management](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter DisassociateVPCFromHostedZoneInput : A complex type that contains information about the VPC that you want to disassociate from a specified private hosted zone.
+    /// - Parameter input: A complex type that contains information about the VPC that you want to disassociate from a specified private hosted zone. (Type: `DisassociateVPCFromHostedZoneInput`)
     ///
-    /// - Returns: `DisassociateVPCFromHostedZoneOutput` : A complex type that contains the response information for the disassociate request.
+    /// - Returns: A complex type that contains the response information for the disassociate request. (Type: `DisassociateVPCFromHostedZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2411,6 +2437,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateVPCFromHostedZoneOutput>(DisassociateVPCFromHostedZoneOutput.httpOutput(from:), DisassociateVPCFromHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateVPCFromHostedZoneOutput>())
@@ -2442,9 +2469,9 @@ extension Route53Client {
     ///
     /// Enables DNSSEC signing in a specific hosted zone.
     ///
-    /// - Parameter EnableHostedZoneDNSSECInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableHostedZoneDNSSECInput`)
     ///
-    /// - Returns: `EnableHostedZoneDNSSECOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableHostedZoneDNSSECOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2484,6 +2511,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableHostedZoneDNSSECOutput>(EnableHostedZoneDNSSECOutput.httpOutput(from:), EnableHostedZoneDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableHostedZoneDNSSECOutput>())
@@ -2515,9 +2543,9 @@ extension Route53Client {
     ///
     /// Gets the specified limit for the current account, for example, the maximum number of health checks that you can create using the account. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53). You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at [https://console.aws.amazon.com/trustedadvisor/](https://console.aws.amazon.com/trustedadvisor). Then choose Service limits in the navigation pane.
     ///
-    /// - Parameter GetAccountLimitInput : A complex type that contains information about the request to create a hosted zone.
+    /// - Parameter input: A complex type that contains information about the request to create a hosted zone. (Type: `GetAccountLimitInput`)
     ///
-    /// - Returns: `GetAccountLimitOutput` : A complex type that contains the requested limit.
+    /// - Returns: A complex type that contains the requested limit. (Type: `GetAccountLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2548,6 +2576,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountLimitInput, GetAccountLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountLimitOutput>(GetAccountLimitOutput.httpOutput(from:), GetAccountLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountLimitInput, GetAccountLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountLimitOutput>())
@@ -2583,9 +2612,9 @@ extension Route53Client {
     ///
     /// * INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone.
     ///
-    /// - Parameter GetChangeInput : The input for a GetChange request.
+    /// - Parameter input: The input for a GetChange request. (Type: `GetChangeInput`)
     ///
-    /// - Returns: `GetChangeOutput` : A complex type that contains the ChangeInfo element.
+    /// - Returns: A complex type that contains the ChangeInfo element. (Type: `GetChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2617,6 +2646,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChangeInput, GetChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChangeOutput>(GetChangeOutput.httpOutput(from:), GetChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChangeInput, GetChangeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChangeOutput>())
@@ -2648,9 +2678,9 @@ extension Route53Client {
     ///
     /// Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. GetCheckerIpRanges still works, but we recommend that you download ip-ranges.json, which includes IP address ranges for all Amazon Web Services services. For more information, see [IP Address Ranges of Amazon Route 53 Servers](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html) in the Amazon Route 53 Developer Guide.
     ///
-    /// - Parameter GetCheckerIpRangesInput : Empty request.
+    /// - Parameter input: Empty request. (Type: `GetCheckerIpRangesInput`)
     ///
-    /// - Returns: `GetCheckerIpRangesOutput` : A complex type that contains the CheckerIpRanges element.
+    /// - Returns: A complex type that contains the CheckerIpRanges element. (Type: `GetCheckerIpRangesOutput`)
     public func getCheckerIpRanges(input: GetCheckerIpRangesInput) async throws -> GetCheckerIpRangesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2676,6 +2706,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCheckerIpRangesOutput>(GetCheckerIpRangesOutput.httpOutput(from:), GetCheckerIpRangesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCheckerIpRangesInput, GetCheckerIpRangesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCheckerIpRangesOutput>())
@@ -2707,9 +2738,9 @@ extension Route53Client {
     ///
     /// Returns information about DNSSEC for a specific hosted zone, including the key-signing keys (KSKs) in the hosted zone.
     ///
-    /// - Parameter GetDNSSECInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDNSSECInput`)
     ///
-    /// - Returns: `GetDNSSECOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDNSSECOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2743,6 +2774,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDNSSECInput, GetDNSSECOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDNSSECOutput>(GetDNSSECOutput.httpOutput(from:), GetDNSSECOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDNSSECInput, GetDNSSECOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDNSSECOutput>())
@@ -2774,9 +2806,9 @@ extension Route53Client {
     ///
     /// Gets information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. Use the following syntax to determine whether a continent is supported for geolocation: GET /2013-04-01/geolocation?continentcode=two-letter abbreviation for a continent  Use the following syntax to determine whether a country is supported for geolocation: GET /2013-04-01/geolocation?countrycode=two-character country code  Use the following syntax to determine whether a subdivision of a country is supported for geolocation: GET /2013-04-01/geolocation?countrycode=two-character country code&subdivisioncode=subdivision code
     ///
-    /// - Parameter GetGeoLocationInput : A request for information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets.
+    /// - Parameter input: A request for information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets. (Type: `GetGeoLocationInput`)
     ///
-    /// - Returns: `GetGeoLocationOutput` : A complex type that contains the response information for the specified geolocation code.
+    /// - Returns: A complex type that contains the response information for the specified geolocation code. (Type: `GetGeoLocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2809,6 +2841,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetGeoLocationInput, GetGeoLocationOutput>(GetGeoLocationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGeoLocationOutput>(GetGeoLocationOutput.httpOutput(from:), GetGeoLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGeoLocationInput, GetGeoLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGeoLocationOutput>())
@@ -2840,9 +2873,9 @@ extension Route53Client {
     ///
     /// Gets information about a specified health check.
     ///
-    /// - Parameter GetHealthCheckInput : A request to get information about a specified health check.
+    /// - Parameter input: A request to get information about a specified health check. (Type: `GetHealthCheckInput`)
     ///
-    /// - Returns: `GetHealthCheckOutput` : A complex type that contains the response to a GetHealthCheck request.
+    /// - Returns: A complex type that contains the response to a GetHealthCheck request. (Type: `GetHealthCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2875,6 +2908,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckInput, GetHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckOutput>(GetHealthCheckOutput.httpOutput(from:), GetHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckInput, GetHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckOutput>())
@@ -2906,9 +2940,9 @@ extension Route53Client {
     ///
     /// Retrieves the number of health checks that are associated with the current Amazon Web Services account.
     ///
-    /// - Parameter GetHealthCheckCountInput : A request for the number of health checks that are associated with the current Amazon Web Services account.
+    /// - Parameter input: A request for the number of health checks that are associated with the current Amazon Web Services account. (Type: `GetHealthCheckCountInput`)
     ///
-    /// - Returns: `GetHealthCheckCountOutput` : A complex type that contains the response to a GetHealthCheckCount request.
+    /// - Returns: A complex type that contains the response to a GetHealthCheckCount request. (Type: `GetHealthCheckCountOutput`)
     public func getHealthCheckCount(input: GetHealthCheckCountInput) async throws -> GetHealthCheckCountOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2934,6 +2968,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckCountOutput>(GetHealthCheckCountOutput.httpOutput(from:), GetHealthCheckCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckCountInput, GetHealthCheckCountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckCountOutput>())
@@ -2965,9 +3000,9 @@ extension Route53Client {
     ///
     /// Gets the reason that a specified health check failed most recently.
     ///
-    /// - Parameter GetHealthCheckLastFailureReasonInput : A request for the reason that a health check failed most recently.
+    /// - Parameter input: A request for the reason that a health check failed most recently. (Type: `GetHealthCheckLastFailureReasonInput`)
     ///
-    /// - Returns: `GetHealthCheckLastFailureReasonOutput` : A complex type that contains the response to a GetHealthCheckLastFailureReason request.
+    /// - Returns: A complex type that contains the response to a GetHealthCheckLastFailureReason request. (Type: `GetHealthCheckLastFailureReasonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2999,6 +3034,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckLastFailureReasonOutput>(GetHealthCheckLastFailureReasonOutput.httpOutput(from:), GetHealthCheckLastFailureReasonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckLastFailureReasonInput, GetHealthCheckLastFailureReasonOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckLastFailureReasonOutput>())
@@ -3030,9 +3066,9 @@ extension Route53Client {
     ///
     /// Gets status of a specified health check. This API is intended for use during development to diagnose behavior. It doesn’t support production use-cases with high query rates that require immediate and actionable responses.
     ///
-    /// - Parameter GetHealthCheckStatusInput : A request to get the status for a health check.
+    /// - Parameter input: A request to get the status for a health check. (Type: `GetHealthCheckStatusInput`)
     ///
-    /// - Returns: `GetHealthCheckStatusOutput` : A complex type that contains the response to a GetHealthCheck request.
+    /// - Returns: A complex type that contains the response to a GetHealthCheck request. (Type: `GetHealthCheckStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3064,6 +3100,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHealthCheckStatusOutput>(GetHealthCheckStatusOutput.httpOutput(from:), GetHealthCheckStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHealthCheckStatusInput, GetHealthCheckStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHealthCheckStatusOutput>())
@@ -3095,9 +3132,9 @@ extension Route53Client {
     ///
     /// Gets information about a specified hosted zone including the four name servers assigned to the hosted zone.  returns the VPCs associated with the specified hosted zone and does not reflect the VPC associations by Route 53 Profiles. To get the associations to a Profile, call the [ListProfileAssociations](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53profiles_ListProfileAssociations.html) API.
     ///
-    /// - Parameter GetHostedZoneInput : A request to get information about a specified hosted zone.
+    /// - Parameter input: A request to get information about a specified hosted zone. (Type: `GetHostedZoneInput`)
     ///
-    /// - Returns: `GetHostedZoneOutput` : A complex type that contain the response to a GetHostedZone request.
+    /// - Returns: A complex type that contain the response to a GetHostedZone request. (Type: `GetHostedZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3130,6 +3167,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneInput, GetHostedZoneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneOutput>(GetHostedZoneOutput.httpOutput(from:), GetHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneInput, GetHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostedZoneOutput>())
@@ -3161,9 +3199,9 @@ extension Route53Client {
     ///
     /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
     ///
-    /// - Parameter GetHostedZoneCountInput : A request to retrieve a count of all the hosted zones that are associated with the current Amazon Web Services account.
+    /// - Parameter input: A request to retrieve a count of all the hosted zones that are associated with the current Amazon Web Services account. (Type: `GetHostedZoneCountInput`)
     ///
-    /// - Returns: `GetHostedZoneCountOutput` : A complex type that contains the response to a GetHostedZoneCount request.
+    /// - Returns: A complex type that contains the response to a GetHostedZoneCount request. (Type: `GetHostedZoneCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3194,6 +3232,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneCountOutput>(GetHostedZoneCountOutput.httpOutput(from:), GetHostedZoneCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneCountInput, GetHostedZoneCountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostedZoneCountOutput>())
@@ -3225,9 +3264,9 @@ extension Route53Client {
     ///
     /// Gets the specified limit for a specified hosted zone, for example, the maximum number of records that you can create in the hosted zone. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
     ///
-    /// - Parameter GetHostedZoneLimitInput : A complex type that contains information about the request to create a hosted zone.
+    /// - Parameter input: A complex type that contains information about the request to create a hosted zone. (Type: `GetHostedZoneLimitInput`)
     ///
-    /// - Returns: `GetHostedZoneLimitOutput` : A complex type that contains the requested limit.
+    /// - Returns: A complex type that contains the requested limit. (Type: `GetHostedZoneLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3261,6 +3300,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHostedZoneLimitOutput>(GetHostedZoneLimitOutput.httpOutput(from:), GetHostedZoneLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHostedZoneLimitOutput>())
@@ -3292,9 +3332,9 @@ extension Route53Client {
     ///
     /// Gets information about a specified configuration for DNS query logging. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html) and [Logging DNS Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html).
     ///
-    /// - Parameter GetQueryLoggingConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryLoggingConfigInput`)
     ///
-    /// - Returns: `GetQueryLoggingConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryLoggingConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3326,6 +3366,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryLoggingConfigOutput>(GetQueryLoggingConfigOutput.httpOutput(from:), GetQueryLoggingConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryLoggingConfigInput, GetQueryLoggingConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryLoggingConfigOutput>())
@@ -3357,9 +3398,9 @@ extension Route53Client {
     ///
     /// Retrieves information about a specified reusable delegation set, including the four name servers that are assigned to the delegation set.
     ///
-    /// - Parameter GetReusableDelegationSetInput : A request to get information about a specified reusable delegation set.
+    /// - Parameter input: A request to get information about a specified reusable delegation set. (Type: `GetReusableDelegationSetInput`)
     ///
-    /// - Returns: `GetReusableDelegationSetOutput` : A complex type that contains the response to the GetReusableDelegationSet request.
+    /// - Returns: A complex type that contains the response to the GetReusableDelegationSet request. (Type: `GetReusableDelegationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3393,6 +3434,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetOutput>(GetReusableDelegationSetOutput.httpOutput(from:), GetReusableDelegationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReusableDelegationSetInput, GetReusableDelegationSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReusableDelegationSetOutput>())
@@ -3424,9 +3466,9 @@ extension Route53Client {
     ///
     /// Gets the maximum number of hosted zones that you can associate with the specified reusable delegation set. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
     ///
-    /// - Parameter GetReusableDelegationSetLimitInput : A complex type that contains information about the request to create a hosted zone.
+    /// - Parameter input: A complex type that contains information about the request to create a hosted zone. (Type: `GetReusableDelegationSetLimitInput`)
     ///
-    /// - Returns: `GetReusableDelegationSetLimitOutput` : A complex type that contains the requested limit.
+    /// - Returns: A complex type that contains the requested limit. (Type: `GetReusableDelegationSetLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3459,6 +3501,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReusableDelegationSetLimitOutput>(GetReusableDelegationSetLimitOutput.httpOutput(from:), GetReusableDelegationSetLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReusableDelegationSetLimitInput, GetReusableDelegationSetLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReusableDelegationSetLimitOutput>())
@@ -3490,9 +3533,9 @@ extension Route53Client {
     ///
     /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from GetTrafficPolicy, see [DeleteTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html).
     ///
-    /// - Parameter GetTrafficPolicyInput : Gets information about a specific traffic policy version.
+    /// - Parameter input: Gets information about a specific traffic policy version. (Type: `GetTrafficPolicyInput`)
     ///
-    /// - Returns: `GetTrafficPolicyOutput` : A complex type that contains the response information for the request.
+    /// - Returns: A complex type that contains the response information for the request. (Type: `GetTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3524,6 +3567,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyOutput>(GetTrafficPolicyOutput.httpOutput(from:), GetTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficPolicyOutput>())
@@ -3555,9 +3599,9 @@ extension Route53Client {
     ///
     /// Gets information about a specified traffic policy instance. Use GetTrafficPolicyInstance with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request completed successfully. For more information, see the State response element. In the Route 53 console, traffic policy instances are known as policy records.
     ///
-    /// - Parameter GetTrafficPolicyInstanceInput : Gets information about a specified traffic policy instance.
+    /// - Parameter input: Gets information about a specified traffic policy instance. (Type: `GetTrafficPolicyInstanceInput`)
     ///
-    /// - Returns: `GetTrafficPolicyInstanceOutput` : A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
+    /// - Returns: A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy. (Type: `GetTrafficPolicyInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3589,6 +3633,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceOutput>(GetTrafficPolicyInstanceOutput.httpOutput(from:), GetTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceInput, GetTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficPolicyInstanceOutput>())
@@ -3620,9 +3665,9 @@ extension Route53Client {
     ///
     /// Gets the number of traffic policy instances that are associated with the current Amazon Web Services account.
     ///
-    /// - Parameter GetTrafficPolicyInstanceCountInput : Request to get the number of traffic policy instances that are associated with the current Amazon Web Services account.
+    /// - Parameter input: Request to get the number of traffic policy instances that are associated with the current Amazon Web Services account. (Type: `GetTrafficPolicyInstanceCountInput`)
     ///
-    /// - Returns: `GetTrafficPolicyInstanceCountOutput` : A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
+    /// - Returns: A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy. (Type: `GetTrafficPolicyInstanceCountOutput`)
     public func getTrafficPolicyInstanceCount(input: GetTrafficPolicyInstanceCountInput) async throws -> GetTrafficPolicyInstanceCountOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3648,6 +3693,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyInstanceCountOutput>(GetTrafficPolicyInstanceCountOutput.httpOutput(from:), GetTrafficPolicyInstanceCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInstanceCountInput, GetTrafficPolicyInstanceCountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficPolicyInstanceCountOutput>())
@@ -3679,9 +3725,9 @@ extension Route53Client {
     ///
     /// Returns a paginated list of location objects and their CIDR blocks.
     ///
-    /// - Parameter ListCidrBlocksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCidrBlocksInput`)
     ///
-    /// - Returns: `ListCidrBlocksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCidrBlocksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3715,6 +3761,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>(ListCidrBlocksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrBlocksOutput>(ListCidrBlocksOutput.httpOutput(from:), ListCidrBlocksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrBlocksInput, ListCidrBlocksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCidrBlocksOutput>())
@@ -3746,9 +3793,9 @@ extension Route53Client {
     ///
     /// Returns a paginated list of CIDR collections in the Amazon Web Services account (metadata only).
     ///
-    /// - Parameter ListCidrCollectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCidrCollectionsInput`)
     ///
-    /// - Returns: `ListCidrCollectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCidrCollectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3780,6 +3827,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>(ListCidrCollectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrCollectionsOutput>(ListCidrCollectionsOutput.httpOutput(from:), ListCidrCollectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrCollectionsInput, ListCidrCollectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCidrCollectionsOutput>())
@@ -3811,9 +3859,9 @@ extension Route53Client {
     ///
     /// Returns a paginated list of CIDR locations for the given collection (metadata only, does not include CIDR blocks).
     ///
-    /// - Parameter ListCidrLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCidrLocationsInput`)
     ///
-    /// - Returns: `ListCidrLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCidrLocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3846,6 +3894,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>(ListCidrLocationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCidrLocationsOutput>(ListCidrLocationsOutput.httpOutput(from:), ListCidrLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCidrLocationsInput, ListCidrLocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCidrLocationsOutput>())
@@ -3877,9 +3926,9 @@ extension Route53Client {
     ///
     /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabetical order immediately after the corresponding country. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. For a list of supported geolocation codes, see the [GeoLocation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html) data type.
     ///
-    /// - Parameter ListGeoLocationsInput : A request to get a list of geographic locations that Amazon Route 53 supports for geolocation resource record sets.
+    /// - Parameter input: A request to get a list of geographic locations that Amazon Route 53 supports for geolocation resource record sets. (Type: `ListGeoLocationsInput`)
     ///
-    /// - Returns: `ListGeoLocationsOutput` : A complex type containing the response information for the request.
+    /// - Returns: A complex type containing the response information for the request. (Type: `ListGeoLocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3911,6 +3960,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>(ListGeoLocationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGeoLocationsOutput>(ListGeoLocationsOutput.httpOutput(from:), ListGeoLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGeoLocationsInput, ListGeoLocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGeoLocationsOutput>())
@@ -3942,9 +3992,9 @@ extension Route53Client {
     ///
     /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
     ///
-    /// - Parameter ListHealthChecksInput : A request to retrieve a list of the health checks that are associated with the current Amazon Web Services account.
+    /// - Parameter input: A request to retrieve a list of the health checks that are associated with the current Amazon Web Services account. (Type: `ListHealthChecksInput`)
     ///
-    /// - Returns: `ListHealthChecksOutput` : A complex type that contains the response to a ListHealthChecks request.
+    /// - Returns: A complex type that contains the response to a ListHealthChecks request. (Type: `ListHealthChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3977,6 +4027,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHealthChecksInput, ListHealthChecksOutput>(ListHealthChecksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHealthChecksOutput>(ListHealthChecksOutput.httpOutput(from:), ListHealthChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHealthChecksInput, ListHealthChecksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHealthChecksOutput>())
@@ -4008,9 +4059,9 @@ extension Route53Client {
     ///
     /// Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account. The response includes a HostedZones child element for each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up to 100.
     ///
-    /// - Parameter ListHostedZonesInput : A request to retrieve a list of the public and private hosted zones that are associated with the current Amazon Web Services account.
+    /// - Parameter input: A request to retrieve a list of the public and private hosted zones that are associated with the current Amazon Web Services account. (Type: `ListHostedZonesInput`)
     ///
-    /// - Returns: `ListHostedZonesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHostedZonesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4044,6 +4095,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHostedZonesInput, ListHostedZonesOutput>(ListHostedZonesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesOutput>(ListHostedZonesOutput.httpOutput(from:), ListHostedZonesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesInput, ListHostedZonesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostedZonesOutput>())
@@ -4083,9 +4135,9 @@ extension Route53Client {
     ///
     /// * The NextDNSName and NextHostedZoneId elements in the response contain the domain name and the hosted zone ID of the next hosted zone that is associated with the current Amazon Web Services account. If you want to list more hosted zones, make another call to ListHostedZonesByName, and specify the value of NextDNSName and NextHostedZoneId in the dnsname and hostedzoneid parameters, respectively.
     ///
-    /// - Parameter ListHostedZonesByNameInput : Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account in ASCII order by domain name.
+    /// - Parameter input: Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account in ASCII order by domain name. (Type: `ListHostedZonesByNameInput`)
     ///
-    /// - Returns: `ListHostedZonesByNameOutput` : A complex type that contains the response information for the request.
+    /// - Returns: A complex type that contains the response information for the request. (Type: `ListHostedZonesByNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4118,6 +4170,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>(ListHostedZonesByNameInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesByNameOutput>(ListHostedZonesByNameOutput.httpOutput(from:), ListHostedZonesByNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesByNameInput, ListHostedZonesByNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostedZonesByNameOutput>())
@@ -4165,9 +4218,9 @@ extension Route53Client {
     ///
     /// For more information, see [Access Management](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter ListHostedZonesByVPCInput : Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account created the hosted zones.
+    /// - Parameter input: Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account created the hosted zones. (Type: `ListHostedZonesByVPCInput`)
     ///
-    /// - Returns: `ListHostedZonesByVPCOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHostedZonesByVPCOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4200,6 +4253,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>(ListHostedZonesByVPCInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHostedZonesByVPCOutput>(ListHostedZonesByVPCOutput.httpOutput(from:), ListHostedZonesByVPCOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHostedZonesByVPCInput, ListHostedZonesByVPCOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHostedZonesByVPCOutput>())
@@ -4231,9 +4285,9 @@ extension Route53Client {
     ///
     /// Lists the configurations for DNS query logging that are associated with the current Amazon Web Services account or the configuration that is associated with a specified hosted zone. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html). Additional information, including the format of DNS query logs, appears in [Logging DNS Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html) in the Amazon Route 53 Developer Guide.
     ///
-    /// - Parameter ListQueryLoggingConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueryLoggingConfigsInput`)
     ///
-    /// - Returns: `ListQueryLoggingConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueryLoggingConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4267,6 +4321,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(ListQueryLoggingConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueryLoggingConfigsOutput>(ListQueryLoggingConfigsOutput.httpOutput(from:), ListQueryLoggingConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueryLoggingConfigsInput, ListQueryLoggingConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueryLoggingConfigsOutput>())
@@ -4298,9 +4353,9 @@ extension Route53Client {
     ///
     /// Lists the resource record sets in a specified hosted zone. ListResourceRecordSets returns up to 300 resource record sets at a time in ASCII order, beginning at a position specified by the name and type elements. Sort order ListResourceRecordSets sorts results first by DNS name with the labels reversed, for example: com.example.www. Note the trailing dot, which can change the sort order when the record name contains characters that appear before . (decimal 46) in the ASCII table. These characters include the following: ! " # $ % & ' ( ) * + , - When multiple records have the same DNS name, ListResourceRecordSets sorts results by the record type. Specifying where to start listing records You can use the name and type elements to specify the resource record set that the list begins with: If you do not specify Name or Type The results begin with the first resource record set that the hosted zone contains. If you specify Name but not Type The results begin with the first resource record set in the list whose name is greater than or equal to Name. If you specify Type but not Name Amazon Route 53 returns the InvalidInput error. If you specify both Name and Type The results begin with the first resource record set in the list whose name is greater than or equal to Name, and whose type is greater than or equal to Type. Type is only used to sort between records with the same record Name. Resource record sets that are PENDING This action returns the most current version of the records. This includes records that are PENDING, and that are not yet available on all Route 53 DNS servers. Changing resource record sets To ensure that you get an accurate listing of the resource record sets for a hosted zone at a point in time, do not submit a ChangeResourceRecordSets request while you're paging through the results of a ListResourceRecordSets request. If you do, some pages may display results without the latest changes while other pages display results with the latest changes. Displaying the next page of results If a ListResourceRecordSets command returns more than one page of results, the value of IsTruncated is true. To display the next page of results, get the values of NextRecordName, NextRecordType, and NextRecordIdentifier (if any) from the response. Then submit another ListResourceRecordSets request, and specify those values for StartRecordName, StartRecordType, and StartRecordIdentifier.
     ///
-    /// - Parameter ListResourceRecordSetsInput : A request for the resource record sets that are associated with a specified hosted zone.
+    /// - Parameter input: A request for the resource record sets that are associated with a specified hosted zone. (Type: `ListResourceRecordSetsInput`)
     ///
-    /// - Returns: `ListResourceRecordSetsOutput` : A complex type that contains list information for the resource record set.
+    /// - Returns: A complex type that contains list information for the resource record set. (Type: `ListResourceRecordSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4334,6 +4389,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>(ListResourceRecordSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceRecordSetsOutput>(ListResourceRecordSetsOutput.httpOutput(from:), ListResourceRecordSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceRecordSetsOutput>())
@@ -4365,9 +4421,9 @@ extension Route53Client {
     ///
     /// Retrieves a list of the reusable delegation sets that are associated with the current Amazon Web Services account.
     ///
-    /// - Parameter ListReusableDelegationSetsInput : A request to get a list of the reusable delegation sets that are associated with the current Amazon Web Services account.
+    /// - Parameter input: A request to get a list of the reusable delegation sets that are associated with the current Amazon Web Services account. (Type: `ListReusableDelegationSetsInput`)
     ///
-    /// - Returns: `ListReusableDelegationSetsOutput` : A complex type that contains information about the reusable delegation sets that are associated with the current Amazon Web Services account.
+    /// - Returns: A complex type that contains information about the reusable delegation sets that are associated with the current Amazon Web Services account. (Type: `ListReusableDelegationSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4399,6 +4455,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>(ListReusableDelegationSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReusableDelegationSetsOutput>(ListReusableDelegationSetsOutput.httpOutput(from:), ListReusableDelegationSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReusableDelegationSetsInput, ListReusableDelegationSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReusableDelegationSetsOutput>())
@@ -4430,9 +4487,9 @@ extension Route53Client {
     ///
     /// Lists tags for one health check or hosted zone. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : A complex type containing information about a request for a list of the tags that are associated with an individual resource.
+    /// - Parameter input: A complex type containing information about a request for a list of the tags that are associated with an individual resource. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : A complex type that contains information about the health checks or hosted zones for which you want to list tags.
+    /// - Returns: A complex type that contains information about the health checks or hosted zones for which you want to list tags. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4467,6 +4524,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4498,9 +4556,9 @@ extension Route53Client {
     ///
     /// Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
     ///
-    /// - Parameter ListTagsForResourcesInput : A complex type that contains information about the health checks or hosted zones for which you want to list tags.
+    /// - Parameter input: A complex type that contains information about the health checks or hosted zones for which you want to list tags. (Type: `ListTagsForResourcesInput`)
     ///
-    /// - Returns: `ListTagsForResourcesOutput` : A complex type containing tags for the specified resources.
+    /// - Returns: A complex type containing tags for the specified resources. (Type: `ListTagsForResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4538,6 +4596,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourcesOutput>(ListTagsForResourcesOutput.httpOutput(from:), ListTagsForResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourcesOutput>())
@@ -4569,9 +4628,9 @@ extension Route53Client {
     ///
     /// Gets information about the latest version for every traffic policy that is associated with the current Amazon Web Services account. Policies are listed in the order that they were created in. For information about how of deleting a traffic policy affects the response from ListTrafficPolicies, see [DeleteTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html).
     ///
-    /// - Parameter ListTrafficPoliciesInput : A complex type that contains the information about the request to list the traffic policies that are associated with the current Amazon Web Services account.
+    /// - Parameter input: A complex type that contains the information about the request to list the traffic policies that are associated with the current Amazon Web Services account. (Type: `ListTrafficPoliciesInput`)
     ///
-    /// - Returns: `ListTrafficPoliciesOutput` : A complex type that contains the response information for the request.
+    /// - Returns: A complex type that contains the response information for the request. (Type: `ListTrafficPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4603,6 +4662,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(ListTrafficPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPoliciesOutput>(ListTrafficPoliciesOutput.httpOutput(from:), ListTrafficPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPoliciesOutput>())
@@ -4634,9 +4694,9 @@ extension Route53Client {
     ///
     /// Gets information about the traffic policy instances that you created by using the current Amazon Web Services account. After you submit an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
     ///
-    /// - Parameter ListTrafficPolicyInstancesInput : A request to get information about the traffic policy instances that you created by using the current Amazon Web Services account.
+    /// - Parameter input: A request to get information about the traffic policy instances that you created by using the current Amazon Web Services account. (Type: `ListTrafficPolicyInstancesInput`)
     ///
-    /// - Returns: `ListTrafficPolicyInstancesOutput` : A complex type that contains the response information for the request.
+    /// - Returns: A complex type that contains the response information for the request. (Type: `ListTrafficPolicyInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4669,6 +4729,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>(ListTrafficPolicyInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesOutput>(ListTrafficPolicyInstancesOutput.httpOutput(from:), ListTrafficPolicyInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesInput, ListTrafficPolicyInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPolicyInstancesOutput>())
@@ -4700,9 +4761,9 @@ extension Route53Client {
     ///
     /// Gets information about the traffic policy instances that you created in a specified hosted zone. After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
     ///
-    /// - Parameter ListTrafficPolicyInstancesByHostedZoneInput : A request for the traffic policy instances that you created in a specified hosted zone.
+    /// - Parameter input: A request for the traffic policy instances that you created in a specified hosted zone. (Type: `ListTrafficPolicyInstancesByHostedZoneInput`)
     ///
-    /// - Returns: `ListTrafficPolicyInstancesByHostedZoneOutput` : A complex type that contains the response information for the request.
+    /// - Returns: A complex type that contains the response information for the request. (Type: `ListTrafficPolicyInstancesByHostedZoneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4736,6 +4797,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>(ListTrafficPolicyInstancesByHostedZoneInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByHostedZoneOutput>(ListTrafficPolicyInstancesByHostedZoneOutput.httpOutput(from:), ListTrafficPolicyInstancesByHostedZoneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByHostedZoneInput, ListTrafficPolicyInstancesByHostedZoneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPolicyInstancesByHostedZoneOutput>())
@@ -4767,9 +4829,9 @@ extension Route53Client {
     ///
     /// Gets information about the traffic policy instances that you created by using a specify traffic policy version. After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
     ///
-    /// - Parameter ListTrafficPolicyInstancesByPolicyInput : A complex type that contains the information about the request to list your traffic policy instances.
+    /// - Parameter input: A complex type that contains the information about the request to list your traffic policy instances. (Type: `ListTrafficPolicyInstancesByPolicyInput`)
     ///
-    /// - Returns: `ListTrafficPolicyInstancesByPolicyOutput` : A complex type that contains the response information for the request.
+    /// - Returns: A complex type that contains the response information for the request. (Type: `ListTrafficPolicyInstancesByPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4803,6 +4865,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>(ListTrafficPolicyInstancesByPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyInstancesByPolicyOutput>(ListTrafficPolicyInstancesByPolicyOutput.httpOutput(from:), ListTrafficPolicyInstancesByPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyInstancesByPolicyInput, ListTrafficPolicyInstancesByPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPolicyInstancesByPolicyOutput>())
@@ -4834,9 +4897,9 @@ extension Route53Client {
     ///
     /// Gets information about all of the versions for a specified traffic policy. Traffic policy versions are listed in numerical order by VersionNumber.
     ///
-    /// - Parameter ListTrafficPolicyVersionsInput : A complex type that contains the information about the request to list your traffic policies.
+    /// - Parameter input: A complex type that contains the information about the request to list your traffic policies. (Type: `ListTrafficPolicyVersionsInput`)
     ///
-    /// - Returns: `ListTrafficPolicyVersionsOutput` : A complex type that contains the response information for the request.
+    /// - Returns: A complex type that contains the response information for the request. (Type: `ListTrafficPolicyVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4869,6 +4932,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>(ListTrafficPolicyVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPolicyVersionsOutput>(ListTrafficPolicyVersionsOutput.httpOutput(from:), ListTrafficPolicyVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPolicyVersionsInput, ListTrafficPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPolicyVersionsOutput>())
@@ -4900,9 +4964,9 @@ extension Route53Client {
     ///
     /// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone.
     ///
-    /// - Parameter ListVPCAssociationAuthorizationsInput : A complex type that contains information about that can be associated with your hosted zone.
+    /// - Parameter input: A complex type that contains information about that can be associated with your hosted zone. (Type: `ListVPCAssociationAuthorizationsInput`)
     ///
-    /// - Returns: `ListVPCAssociationAuthorizationsOutput` : A complex type that contains the response information for the request.
+    /// - Returns: A complex type that contains the response information for the request. (Type: `ListVPCAssociationAuthorizationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4937,6 +5001,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>(ListVPCAssociationAuthorizationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVPCAssociationAuthorizationsOutput>(ListVPCAssociationAuthorizationsOutput.httpOutput(from:), ListVPCAssociationAuthorizationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVPCAssociationAuthorizationsOutput>())
@@ -4968,9 +5033,9 @@ extension Route53Client {
     ///
     /// Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. This call only supports querying public hosted zones. The TestDnsAnswer  returns information similar to what you would expect from the answer section of the dig command. Therefore, if you query for the name servers of a subdomain that point to the parent name servers, those will not be returned.
     ///
-    /// - Parameter TestDNSAnswerInput : Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask.
+    /// - Parameter input: Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. (Type: `TestDNSAnswerInput`)
     ///
-    /// - Returns: `TestDNSAnswerOutput` : A complex type that contains the response to a TestDNSAnswer request.
+    /// - Returns: A complex type that contains the response to a TestDNSAnswer request. (Type: `TestDNSAnswerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5003,6 +5068,7 @@ extension Route53Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>(TestDNSAnswerInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestDNSAnswerOutput>(TestDNSAnswerOutput.httpOutput(from:), TestDNSAnswerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestDNSAnswerInput, TestDNSAnswerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestDNSAnswerOutput>())
@@ -5034,9 +5100,9 @@ extension Route53Client {
     ///
     /// Updates an existing health check. Note that some values can't be updated. For more information about updating health checks, see [Creating, Updating, and Deleting Health Checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html) in the Amazon Route 53 Developer Guide.
     ///
-    /// - Parameter UpdateHealthCheckInput : A complex type that contains information about a request to update a health check.
+    /// - Parameter input: A complex type that contains information about a request to update a health check. (Type: `UpdateHealthCheckInput`)
     ///
-    /// - Returns: `UpdateHealthCheckOutput` : A complex type that contains the response to the UpdateHealthCheck request.
+    /// - Returns: A complex type that contains the response to the UpdateHealthCheck request. (Type: `UpdateHealthCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5072,6 +5138,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHealthCheckOutput>(UpdateHealthCheckOutput.httpOutput(from:), UpdateHealthCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHealthCheckInput, UpdateHealthCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHealthCheckOutput>())
@@ -5103,9 +5170,9 @@ extension Route53Client {
     ///
     /// Updates the comment for a specified hosted zone.
     ///
-    /// - Parameter UpdateHostedZoneCommentInput : A request to update the comment for a hosted zone.
+    /// - Parameter input: A request to update the comment for a hosted zone. (Type: `UpdateHostedZoneCommentInput`)
     ///
-    /// - Returns: `UpdateHostedZoneCommentOutput` : A complex type that contains the response to the UpdateHostedZoneComment request.
+    /// - Returns: A complex type that contains the response to the UpdateHostedZoneComment request. (Type: `UpdateHostedZoneCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5142,6 +5209,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostedZoneCommentOutput>(UpdateHostedZoneCommentOutput.httpOutput(from:), UpdateHostedZoneCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostedZoneCommentInput, UpdateHostedZoneCommentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHostedZoneCommentOutput>())
@@ -5169,13 +5237,85 @@ extension Route53Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateHostedZoneFeatures` operation on the `Route53` service.
+    ///
+    /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateHostedZoneFeaturesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateHostedZoneFeaturesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    public func updateHostedZoneFeatures(input: UpdateHostedZoneFeaturesInput) async throws -> UpdateHostedZoneFeaturesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateHostedZoneFeatures")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(UpdateHostedZoneFeaturesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput, SmithyXML.Writer>(rootNodeInfo: .init("UpdateHostedZoneFeaturesRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: UpdateHostedZoneFeaturesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHostedZoneFeaturesOutput>(UpdateHostedZoneFeaturesOutput.httpOutput(from:), UpdateHostedZoneFeaturesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHostedZoneFeaturesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHostedZoneFeaturesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHostedZoneFeaturesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateHostedZoneFeaturesInput, UpdateHostedZoneFeaturesOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateHostedZoneFeatures")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateTrafficPolicyComment` operation on the `Route53` service.
     ///
     /// Updates the comment for a specified traffic policy version.
     ///
-    /// - Parameter UpdateTrafficPolicyCommentInput : A complex type that contains information about the traffic policy that you want to update the comment for.
+    /// - Parameter input: A complex type that contains information about the traffic policy that you want to update the comment for. (Type: `UpdateTrafficPolicyCommentInput`)
     ///
-    /// - Returns: `UpdateTrafficPolicyCommentOutput` : A complex type that contains the response information for the traffic policy.
+    /// - Returns: A complex type that contains the response information for the traffic policy. (Type: `UpdateTrafficPolicyCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5211,6 +5351,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyCommentOutput>(UpdateTrafficPolicyCommentOutput.httpOutput(from:), UpdateTrafficPolicyCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyCommentInput, UpdateTrafficPolicyCommentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrafficPolicyCommentOutput>())
@@ -5248,9 +5389,9 @@ extension Route53Client {
     ///
     /// * Route 53 deletes the old group of resource record sets that are associated with the root resource record set name.
     ///
-    /// - Parameter UpdateTrafficPolicyInstanceInput : A complex type that contains information about the resource record sets that you want to update based on a specified traffic policy instance.
+    /// - Parameter input: A complex type that contains information about the resource record sets that you want to update based on a specified traffic policy instance. (Type: `UpdateTrafficPolicyInstanceInput`)
     ///
-    /// - Returns: `UpdateTrafficPolicyInstanceOutput` : A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
+    /// - Returns: A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy. (Type: `UpdateTrafficPolicyInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5288,6 +5429,7 @@ extension Route53Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyInstanceOutput>(UpdateTrafficPolicyInstanceOutput.httpOutput(from:), UpdateTrafficPolicyInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyInstanceInput, UpdateTrafficPolicyInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrafficPolicyInstanceOutput>())

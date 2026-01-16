@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -25,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
@@ -887,13 +889,13 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Describes the IAM federation options configured for the domain.
+    /// Output parameters showing the current IAM identity federation configuration.
     public struct IAMFederationOptionsOutput: Swift.Sendable {
-        /// True if IAM federation is enabled.
+        /// Indicates whether IAM identity federation is currently enabled for the domain.
         public var enabled: Swift.Bool?
-        /// The key used for matching the IAM federation roles attribute.
+        /// The configured key in the SAML assertion for the user's role information.
         public var rolesKey: Swift.String?
-        /// The key used for matching the IAM federation subject attribute.
+        /// The configured key in the SAML assertion for the user's subject identifier.
         public var subjectKey: Swift.String?
 
         public init(
@@ -997,7 +999,7 @@ extension OpenSearchClientTypes {
         public var anonymousAuthEnabled: Swift.Bool?
         /// True if fine-grained access control is enabled.
         public var enabled: Swift.Bool?
-        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        /// Configuration options for IAM identity federation in advanced security settings.
         public var iamFederationOptions: OpenSearchClientTypes.IAMFederationOptionsOutput?
         /// True if the internal user database is enabled.
         public var internalUserDatabaseEnabled: Swift.Bool?
@@ -1028,13 +1030,13 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// The IAM federation authentication configuration for an Amazon OpenSearch Service domain.
+    /// Input parameters for configuring IAM identity federation settings.
     public struct IAMFederationOptionsInput: Swift.Sendable {
-        /// True to enable IAM federation authentication for a domain.
+        /// Specifies whether IAM identity federation is enabled for the OpenSearch domain.
         public var enabled: Swift.Bool?
-        /// Element of the IAM federation assertion to use for backend roles. Default is roles.
+        /// The key in the SAML assertion that contains the user's role information.
         public var rolesKey: Swift.String?
-        /// Element of the IAM federation assertion to use for the user name. Default is sub.
+        /// The key in the SAML assertion that contains the user's subject identifier.
         public var subjectKey: Swift.String?
 
         public init(
@@ -1156,7 +1158,7 @@ extension OpenSearchClientTypes {
         public var anonymousAuthEnabled: Swift.Bool?
         /// True to enable fine-grained access control.
         public var enabled: Swift.Bool?
-        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        /// Input configuration for IAM identity federation within advanced security options.
         public var iamFederationOptions: OpenSearchClientTypes.IAMFederationOptionsInput?
         /// True to enable the internal user database.
         public var internalUserDatabaseEnabled: Swift.Bool?
@@ -1269,19 +1271,38 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Configuration for serverless vector acceleration, which provides [GPU-accelerated](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/gpu-acceleration-vector-index.html) vector search capabilities for improved performance on vector workloads.
+    public struct ServerlessVectorAcceleration: Swift.Sendable {
+        /// Specifies whether serverless vector acceleration is enabled for the domain.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Container for parameters required to enable all machine learning features.
     public struct AIMLOptionsInput: Swift.Sendable {
         /// Container for parameters required for natural language query generation on the specified domain.
         public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput?
         /// Container for parameters required to enable S3 vectors engine features on the specified domain.
         public var s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine?
+        /// Specifies whether to enable serverless vector acceleration for the domain. When enabled, provides [GPU-accelerated](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/gpu-acceleration-vector-index.html) vector search capabilities for improved performance on vector workloads.
+        public var serverlessVectorAcceleration: OpenSearchClientTypes.ServerlessVectorAcceleration?
 
         public init(
             naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput? = nil,
-            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil
+            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil,
+            serverlessVectorAcceleration: OpenSearchClientTypes.ServerlessVectorAcceleration? = nil
         ) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
             self.s3VectorsEngine = s3VectorsEngine
+            self.serverlessVectorAcceleration = serverlessVectorAcceleration
         }
     }
 }
@@ -1357,13 +1378,17 @@ extension OpenSearchClientTypes {
         public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput?
         /// Container for parameters representing the state of S3 vectors engine features on the specified domain.
         public var s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine?
+        /// The current serverless vector acceleration configuration for the domain.
+        public var serverlessVectorAcceleration: OpenSearchClientTypes.ServerlessVectorAcceleration?
 
         public init(
             naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput? = nil,
-            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil
+            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil,
+            serverlessVectorAcceleration: OpenSearchClientTypes.ServerlessVectorAcceleration? = nil
         ) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
             self.s3VectorsEngine = s3VectorsEngine
+            self.serverlessVectorAcceleration = serverlessVectorAcceleration
         }
     }
 }
@@ -1984,7 +2009,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Configuration settings for an OpenSearch application. For more information, see see [Using the OpenSearch user interface in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html).
+    /// Configuration settings for an OpenSearch application. For more information, see [Using the OpenSearch user interface in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html).
     public struct AppConfig: Swift.Sendable {
         /// The configuration item to set, such as the admin role for the OpenSearch application.
         public var key: OpenSearchClientTypes.AppConfigType?
@@ -2052,6 +2077,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var dataSources: [OpenSearchClientTypes.DataSource]?
     /// Configuration settings for integrating Amazon Web Services IAM Identity Center with the OpenSearch application.
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest. If provided, the application uses your customer-managed key for encryption. If omitted, the application uses an AWS-managed key. The KMS key must be in the same region as the application.
+    public var kmsKeyArn: Swift.String?
     /// The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account.
     /// This member is required.
     public var name: Swift.String?
@@ -2063,6 +2090,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         dataSources: [OpenSearchClientTypes.DataSource]? = nil,
         iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptionsInput? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil
     ) {
@@ -2070,6 +2098,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         self.clientToken = clientToken
         self.dataSources = dataSources
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.tagList = tagList
     }
@@ -2115,6 +2144,8 @@ public struct CreateApplicationOutput: Swift.Sendable {
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
     /// The unique identifier assigned to the OpenSearch application.
     public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest.
+    public var kmsKeyArn: Swift.String?
     /// The name of the OpenSearch application.
     public var name: Swift.String?
     /// A list of tags attached to a domain.
@@ -2127,6 +2158,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         dataSources: [OpenSearchClientTypes.DataSource]? = nil,
         iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions? = nil,
         id: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil
     ) {
@@ -2136,6 +2168,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
         self.dataSources = dataSources
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.id = id
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.tagList = tagList
     }
@@ -3784,7 +3817,7 @@ extension OpenSearchClientTypes {
         public var advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptions?
         /// Container for parameters required to enable all machine learning features.
         public var aimlOptions: OpenSearchClientTypes.AIMLOptionsOutput?
-        /// The Amazon Resource Name (ARN) of the domain. For more information, see [IAM identifiers ](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the AWS Identity and Access Management User Guide.
+        /// The Amazon Resource Name (ARN) of the domain. For more information, see [IAM identifiers ](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the Amazon Web Services Identity and Access Management User Guide.
         /// This member is required.
         public var arn: Swift.String?
         /// Auto-Tune settings for the domain.
@@ -3936,6 +3969,96 @@ public struct CreateDomainOutput: Swift.Sendable {
         domainStatus: OpenSearchClientTypes.DomainStatus? = nil
     ) {
         self.domainStatus = domainStatus
+    }
+}
+
+/// The request was denied due to request throttling. Reduce the frequency of your requests and try again.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateIndexInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the index to create. Must be between 1 and 255 characters and follow OpenSearch naming conventions.
+    /// This member is required.
+    public var indexName: Swift.String?
+    /// The JSON schema defining index mappings, settings, and semantic enrichment configuration. The schema specifies which text fields should be automatically enriched for semantic search capabilities and includes OpenSearch index configuration parameters.
+    /// This member is required.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        domainName: Swift.String? = nil,
+        indexName: Swift.String? = nil,
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.domainName = domainName
+        self.indexName = indexName
+        self.indexSchema = indexSchema
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum IndexStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case deleted
+        case updated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndexStatus] {
+            return [
+                .created,
+                .deleted,
+                .updated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .deleted: return "DELETED"
+            case .updated: return "UPDATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateIndexOutput: Swift.Sendable {
+    /// The status of the index creation operation.
+    /// This member is required.
+    public var status: OpenSearchClientTypes.IndexStatus?
+
+    public init(
+        status: OpenSearchClientTypes.IndexStatus? = nil
+    ) {
+        self.status = status
     }
 }
 
@@ -4708,6 +4831,35 @@ public struct DeleteInboundConnectionOutput: Swift.Sendable {
         connection: OpenSearchClientTypes.InboundConnection? = nil
     ) {
         self.connection = connection
+    }
+}
+
+public struct DeleteIndexInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the index to delete.
+    /// This member is required.
+    public var indexName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        indexName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.indexName = indexName
+    }
+}
+
+public struct DeleteIndexOutput: Swift.Sendable {
+    /// The status of the index deletion operation.
+    /// This member is required.
+    public var status: OpenSearchClientTypes.IndexStatus?
+
+    public init(
+        status: OpenSearchClientTypes.IndexStatus? = nil
+    ) {
+        self.status = status
     }
 }
 
@@ -6055,13 +6207,15 @@ extension OpenSearchClientTypes {
         case data
         case master
         case ultrawarm
+        case warm
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NodeType] {
             return [
                 .data,
                 .master,
-                .ultrawarm
+                .ultrawarm,
+                .warm
             ]
         }
 
@@ -6075,6 +6229,7 @@ extension OpenSearchClientTypes {
             case .data: return "Data"
             case .master: return "Master"
             case .ultrawarm: return "Ultrawarm"
+            case .warm: return "Warm"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7075,6 +7230,8 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions?
     /// The unique identifier of the OpenSearch application.
     public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest.
+    public var kmsKeyArn: Swift.String?
     /// The timestamp of the last update to the OpenSearch application.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the OpenSearch application.
@@ -7090,6 +7247,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         endpoint: Swift.String? = nil,
         iamIdentityCenterOptions: OpenSearchClientTypes.IamIdentityCenterOptions? = nil,
         id: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: OpenSearchClientTypes.ApplicationStatus? = nil
@@ -7101,6 +7259,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         self.endpoint = endpoint
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.id = id
+        self.kmsKeyArn = kmsKeyArn
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.status = status
@@ -7218,6 +7377,22 @@ public struct GetDataSourceOutput: Swift.Sendable {
         self.description = description
         self.name = name
         self.status = status
+    }
+}
+
+public struct GetDefaultApplicationSettingInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetDefaultApplicationSettingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    ) {
+        self.applicationArn = applicationArn
     }
 }
 
@@ -7377,6 +7552,35 @@ public struct GetDomainMaintenanceStatusOutput: Swift.Sendable {
         self.status = status
         self.statusMessage = statusMessage
         self.updatedAt = updatedAt
+    }
+}
+
+public struct GetIndexInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the index to retrieve information about.
+    /// This member is required.
+    public var indexName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        indexName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.indexName = indexName
+    }
+}
+
+public struct GetIndexOutput: Swift.Sendable {
+    /// The JSON schema of the index including mappings, settings, and semantic enrichment configuration.
+    /// This member is required.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.indexSchema = indexSchema
     }
 }
 
@@ -8479,6 +8683,34 @@ public struct PurchaseReservedInstanceOfferingOutput: Swift.Sendable {
     }
 }
 
+public struct PutDefaultApplicationSettingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Set to true to set the specified ARN as the default application. Set to false to clear the default application.
+    /// This member is required.
+    public var setAsDefault: Swift.Bool?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        setAsDefault: Swift.Bool? = nil
+    ) {
+        self.applicationArn = applicationArn
+        self.setAsDefault = setAsDefault
+    }
+}
+
+public struct PutDefaultApplicationSettingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    ) {
+        self.applicationArn = applicationArn
+    }
+}
+
 /// Container for the request parameters to the RejectInboundConnection operation.
 public struct RejectInboundConnectionInput: Swift.Sendable {
     /// The unique identifier of the inbound connection to reject.
@@ -8950,6 +9182,40 @@ public struct UpdateDomainConfigOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateIndexInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The name of the index to update.
+    /// This member is required.
+    public var indexName: Swift.String?
+    /// The updated JSON schema for the index including any changes to mappings, settings, and semantic enrichment configuration.
+    /// This member is required.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        domainName: Swift.String? = nil,
+        indexName: Swift.String? = nil,
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.domainName = domainName
+        self.indexName = indexName
+        self.indexSchema = indexSchema
+    }
+}
+
+public struct UpdateIndexOutput: Swift.Sendable {
+    /// The status of the index update operation.
+    /// This member is required.
+    public var status: OpenSearchClientTypes.IndexStatus?
+
+    public init(
+        status: OpenSearchClientTypes.IndexStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 /// Container for request parameters to the UpdatePackage operation.
 public struct UpdatePackageInput: Swift.Sendable {
     /// Commit message for the updated file, which is shown as part of GetPackageVersionHistoryResponse.
@@ -9327,6 +9593,16 @@ extension CreateDomainInput {
     }
 }
 
+extension CreateIndexInput {
+
+    static func urlPathProvider(_ value: CreateIndexInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/index"
+    }
+}
+
 extension CreateOutboundConnectionInput {
 
     static func urlPathProvider(_ value: CreateOutboundConnectionInput) -> Swift.String? {
@@ -9398,6 +9674,19 @@ extension DeleteInboundConnectionInput {
             return nil
         }
         return "/2021-01-01/opensearch/cc/inboundConnection/\(connectionId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteIndexInput {
+
+    static func urlPathProvider(_ value: DeleteIndexInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let indexName = value.indexName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/index/\(indexName.urlPercentEncoding())"
     }
 }
 
@@ -9705,6 +9994,13 @@ extension GetDataSourceInput {
     }
 }
 
+extension GetDefaultApplicationSettingInput {
+
+    static func urlPathProvider(_ value: GetDefaultApplicationSettingInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/defaultApplicationSetting"
+    }
+}
+
 extension GetDirectQueryDataSourceInput {
 
     static func urlPathProvider(_ value: GetDirectQueryDataSourceInput) -> Swift.String? {
@@ -9736,6 +10032,19 @@ extension GetDomainMaintenanceStatusInput {
         let maintenanceIdQueryItem = Smithy.URIQueryItem(name: "maintenanceId".urlPercentEncoding(), value: Swift.String(maintenanceId).urlPercentEncoding())
         items.append(maintenanceIdQueryItem)
         return items
+    }
+}
+
+extension GetIndexInput {
+
+    static func urlPathProvider(_ value: GetIndexInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let indexName = value.indexName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/index/\(indexName.urlPercentEncoding())"
     }
 }
 
@@ -10142,6 +10451,13 @@ extension PurchaseReservedInstanceOfferingInput {
     }
 }
 
+extension PutDefaultApplicationSettingInput {
+
+    static func urlPathProvider(_ value: PutDefaultApplicationSettingInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/defaultApplicationSetting"
+    }
+}
+
 extension RejectInboundConnectionInput {
 
     static func urlPathProvider(_ value: RejectInboundConnectionInput) -> Swift.String? {
@@ -10226,6 +10542,19 @@ extension UpdateDomainConfigInput {
             return nil
         }
         return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/config"
+    }
+}
+
+extension UpdateIndexInput {
+
+    static func urlPathProvider(_ value: UpdateIndexInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let indexName = value.indexName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/index/\(indexName.urlPercentEncoding())"
     }
 }
 
@@ -10349,6 +10678,7 @@ extension CreateApplicationInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: OpenSearchClientTypes.DataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchClientTypes.IamIdentityCenterOptionsInput.write(value:to:))
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
         try writer["tagList"].writeList(value.tagList, memberWritingClosure: OpenSearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -10379,6 +10709,15 @@ extension CreateDomainInput {
         try writer["SoftwareUpdateOptions"].write(value.softwareUpdateOptions, with: OpenSearchClientTypes.SoftwareUpdateOptions.write(value:to:))
         try writer["TagList"].writeList(value.tagList, memberWritingClosure: OpenSearchClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VPCOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCOptions.write(value:to:))
+    }
+}
+
+extension CreateIndexInput {
+
+    static func write(value: CreateIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+        try writer["IndexSchema"].write(value.indexSchema)
     }
 }
 
@@ -10493,6 +10832,15 @@ extension PurchaseReservedInstanceOfferingInput {
     }
 }
 
+extension PutDefaultApplicationSettingInput {
+
+    static func write(value: PutDefaultApplicationSettingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationArn"].write(value.applicationArn)
+        try writer["setAsDefault"].write(value.setAsDefault)
+    }
+}
+
 extension RemoveTagsInput {
 
     static func write(value: RemoveTagsInput?, to writer: SmithyJSON.Writer) throws {
@@ -10583,6 +10931,14 @@ extension UpdateDomainConfigInput {
         try writer["SnapshotOptions"].write(value.snapshotOptions, with: OpenSearchClientTypes.SnapshotOptions.write(value:to:))
         try writer["SoftwareUpdateOptions"].write(value.softwareUpdateOptions, with: OpenSearchClientTypes.SoftwareUpdateOptions.write(value:to:))
         try writer["VPCOptions"].write(value.vpcOptions, with: OpenSearchClientTypes.VPCOptions.write(value:to:))
+    }
+}
+
+extension UpdateIndexInput {
+
+    static func write(value: UpdateIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexSchema"].write(value.indexSchema)
     }
 }
 
@@ -10758,6 +11114,7 @@ extension CreateApplicationOutput {
         value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DataSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IamIdentityCenterOptions.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.tagList = try reader["tagList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -10772,6 +11129,18 @@ extension CreateDomainOutput {
         let reader = responseReader
         var value = CreateDomainOutput()
         value.domainStatus = try reader["DomainStatus"].readIfPresent(with: OpenSearchClientTypes.DomainStatus.read(from:))
+        return value
+    }
+}
+
+extension CreateIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIndexOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIndexOutput()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -10864,6 +11233,18 @@ extension DeleteInboundConnectionOutput {
         let reader = responseReader
         var value = DeleteInboundConnectionOutput()
         value.connection = try reader["Connection"].readIfPresent(with: OpenSearchClientTypes.InboundConnection.read(from:))
+        return value
+    }
+}
+
+extension DeleteIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIndexOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteIndexOutput()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11143,6 +11524,7 @@ extension GetApplicationOutput {
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchClientTypes.IamIdentityCenterOptions.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -11177,6 +11559,18 @@ extension GetDataSourceOutput {
     }
 }
 
+extension GetDefaultApplicationSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDefaultApplicationSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDefaultApplicationSettingOutput()
+        value.applicationArn = try reader["applicationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension GetDirectQueryDataSourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDirectQueryDataSourceOutput {
@@ -11206,6 +11600,18 @@ extension GetDomainMaintenanceStatusOutput {
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GetIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIndexOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIndexOutput()
+        value.indexSchema = try reader["IndexSchema"].readIfPresent() ?? [:]
         return value
     }
 }
@@ -11443,6 +11849,18 @@ extension PurchaseReservedInstanceOfferingOutput {
     }
 }
 
+extension PutDefaultApplicationSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutDefaultApplicationSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutDefaultApplicationSettingOutput()
+        value.applicationArn = try reader["applicationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension RejectInboundConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectInboundConnectionOutput {
@@ -11546,6 +11964,18 @@ extension UpdateDomainConfigOutput {
         value.domainConfig = try reader["DomainConfig"].readIfPresent(with: OpenSearchClientTypes.DomainConfig.read(from:))
         value.dryRunProgressStatus = try reader["DryRunProgressStatus"].readIfPresent(with: OpenSearchClientTypes.DryRunProgressStatus.read(from:))
         value.dryRunResults = try reader["DryRunResults"].readIfPresent(with: OpenSearchClientTypes.DryRunResults.read(from:))
+        return value
+    }
+}
+
+extension UpdateIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIndexOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateIndexOutput()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11820,6 +12250,27 @@ enum CreateDomainOutputError {
     }
 }
 
+enum CreateIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateOutboundConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11960,6 +12411,26 @@ enum DeleteInboundConnectionOutputError {
         switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12367,6 +12838,23 @@ enum GetDataSourceOutputError {
     }
 }
 
+enum GetDefaultApplicationSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDirectQueryDataSourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12397,6 +12885,26 @@ enum GetDomainMaintenanceStatusOutputError {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12720,6 +13228,23 @@ enum PurchaseReservedInstanceOfferingOutputError {
     }
 }
 
+enum PutDefaultApplicationSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RejectInboundConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12874,6 +13399,26 @@ enum UpdateDomainConfigOutputError {
             case "InvalidTypeException": return try InvalidTypeException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DependencyFailureException": return try DependencyFailureException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -13110,6 +13655,19 @@ extension ResourceAlreadyExistsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13421,6 +13979,22 @@ extension OpenSearchClientTypes.AIMLOptionsOutput {
         var value = OpenSearchClientTypes.AIMLOptionsOutput()
         value.naturalLanguageQueryGenerationOptions = try reader["NaturalLanguageQueryGenerationOptions"].readIfPresent(with: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput.read(from:))
         value.s3VectorsEngine = try reader["S3VectorsEngine"].readIfPresent(with: OpenSearchClientTypes.S3VectorsEngine.read(from:))
+        value.serverlessVectorAcceleration = try reader["ServerlessVectorAcceleration"].readIfPresent(with: OpenSearchClientTypes.ServerlessVectorAcceleration.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ServerlessVectorAcceleration {
+
+    static func write(value: OpenSearchClientTypes.ServerlessVectorAcceleration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ServerlessVectorAcceleration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ServerlessVectorAcceleration()
+        value.enabled = try reader["Enabled"].readIfPresent()
         return value
     }
 }
@@ -15039,6 +15613,7 @@ extension OpenSearchClientTypes.AIMLOptionsInput {
         guard let value else { return }
         try writer["NaturalLanguageQueryGenerationOptions"].write(value.naturalLanguageQueryGenerationOptions, with: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput.write(value:to:))
         try writer["S3VectorsEngine"].write(value.s3VectorsEngine, with: OpenSearchClientTypes.S3VectorsEngine.write(value:to:))
+        try writer["ServerlessVectorAcceleration"].write(value.serverlessVectorAcceleration, with: OpenSearchClientTypes.ServerlessVectorAcceleration.write(value:to:))
     }
 }
 

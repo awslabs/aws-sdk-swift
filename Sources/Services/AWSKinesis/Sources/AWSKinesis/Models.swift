@@ -110,6 +110,11 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateMaxRecordSizeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateStreamModeOutput: Swift.Sendable {
 
     public init() { }
@@ -401,6 +406,29 @@ extension KinesisClientTypes {
     }
 }
 
+/// Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension KinesisClientTypes {
 
     public enum StreamMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -448,6 +476,8 @@ extension KinesisClientTypes {
 
 /// Represents the input for CreateStream.
 public struct CreateStreamInput: Swift.Sendable {
+    /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream.
+    public var maxRecordSizeInKiB: Swift.Int?
     /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput.
     public var shardCount: Swift.Int?
     /// Indicates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
@@ -457,17 +487,23 @@ public struct CreateStreamInput: Swift.Sendable {
     public var streamName: Swift.String?
     /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value.
     public var tags: [Swift.String: Swift.String]?
+    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations.
+    public var warmThroughputMiBps: Swift.Int?
 
     public init(
+        maxRecordSizeInKiB: Swift.Int? = nil,
         shardCount: Swift.Int? = nil,
         streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
         streamName: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        warmThroughputMiBps: Swift.Int? = nil
     ) {
+        self.maxRecordSizeInKiB = maxRecordSizeInKiB
         self.shardCount = shardCount
         self.streamModeDetails = streamModeDetails
         self.streamName = streamName
         self.tags = tags
+        self.warmThroughputMiBps = warmThroughputMiBps
     }
 }
 
@@ -540,6 +576,82 @@ public struct DeregisterStreamConsumerInput: Swift.Sendable {
         self.consumerARN = consumerARN
         self.consumerName = consumerName
         self.streamARN = streamARN
+    }
+}
+
+public struct DescribeAccountSettingsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension KinesisClientTypes {
+
+    public enum MinimumThroughputBillingCommitmentOutputStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case enabledUntilEarliestAllowedEnd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MinimumThroughputBillingCommitmentOutputStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .enabledUntilEarliestAllowedEnd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .enabledUntilEarliestAllowedEnd: return "ENABLED_UNTIL_EARLIEST_ALLOWED_END"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Represents the current status of minimum throughput billing commitment for an account.
+    public struct MinimumThroughputBillingCommitmentOutput: Swift.Sendable {
+        /// The earliest timestamp when the commitment can be ended.
+        public var earliestAllowedEndAt: Foundation.Date?
+        /// The timestamp when the commitment was ended.
+        public var endedAt: Foundation.Date?
+        /// The timestamp when the commitment was started.
+        public var startedAt: Foundation.Date?
+        /// The current status of the minimum throughput billing commitment.
+        /// This member is required.
+        public var status: KinesisClientTypes.MinimumThroughputBillingCommitmentOutputStatus?
+
+        public init(
+            earliestAllowedEndAt: Foundation.Date? = nil,
+            endedAt: Foundation.Date? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: KinesisClientTypes.MinimumThroughputBillingCommitmentOutputStatus? = nil
+        ) {
+            self.earliestAllowedEndAt = earliestAllowedEndAt
+            self.endedAt = endedAt
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeAccountSettingsOutput: Swift.Sendable {
+    /// The current configuration of the minimum throughput billing commitment for your Amazon Web Services account.
+    public var minimumThroughputBillingCommitment: KinesisClientTypes.MinimumThroughputBillingCommitmentOutput?
+
+    public init(
+        minimumThroughputBillingCommitment: KinesisClientTypes.MinimumThroughputBillingCommitmentOutput? = nil
+    ) {
+        self.minimumThroughputBillingCommitment = minimumThroughputBillingCommitment
     }
 }
 
@@ -944,6 +1056,25 @@ public struct DescribeStreamSummaryInput: Swift.Sendable {
 
 extension KinesisClientTypes {
 
+    /// Represents the warm throughput configuration on the stream. This is only present for On-Demand Kinesis Data Streams in accounts that have MinimumThroughputBillingCommitment enabled.
+    public struct WarmThroughputObject: Swift.Sendable {
+        /// The current warm throughput value on the stream. This is the write throughput in MiBps that the stream is currently scaled to handle.
+        public var currentMiBps: Swift.Int?
+        /// The target warm throughput value on the stream. This indicates that the stream is currently scaling towards this target value.
+        public var targetMiBps: Swift.Int?
+
+        public init(
+            currentMiBps: Swift.Int? = nil,
+            targetMiBps: Swift.Int? = nil
+        ) {
+            self.currentMiBps = currentMiBps
+            self.targetMiBps = targetMiBps
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
     /// Represents the output for [DescribeStreamSummary]
     public struct StreamDescriptionSummary: Swift.Sendable {
         /// The number of enhanced fan-out consumers registered with the stream.
@@ -969,6 +1100,8 @@ extension KinesisClientTypes {
         ///
         /// * Master key owned by Kinesis Data Streams: alias/aws/kinesis
         public var keyId: Swift.String?
+        /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream.
+        public var maxRecordSizeInKiB: Swift.Int?
         /// The number of open shards in the stream.
         /// This member is required.
         public var openShardCount: Swift.Int?
@@ -997,24 +1130,29 @@ extension KinesisClientTypes {
         /// * UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.
         /// This member is required.
         public var streamStatus: KinesisClientTypes.StreamStatus?
+        /// The warm throughput in MB/s for the stream. This represents the throughput capacity that will be immediately available for write operations.
+        public var warmThroughput: KinesisClientTypes.WarmThroughputObject?
 
         public init(
             consumerCount: Swift.Int? = nil,
             encryptionType: KinesisClientTypes.EncryptionType? = nil,
             enhancedMonitoring: [KinesisClientTypes.EnhancedMetrics]? = nil,
             keyId: Swift.String? = nil,
+            maxRecordSizeInKiB: Swift.Int? = nil,
             openShardCount: Swift.Int? = nil,
             retentionPeriodHours: Swift.Int? = nil,
             streamARN: Swift.String? = nil,
             streamCreationTimestamp: Foundation.Date? = nil,
             streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
             streamName: Swift.String? = nil,
-            streamStatus: KinesisClientTypes.StreamStatus? = nil
+            streamStatus: KinesisClientTypes.StreamStatus? = nil,
+            warmThroughput: KinesisClientTypes.WarmThroughputObject? = nil
         ) {
             self.consumerCount = consumerCount
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
             self.keyId = keyId
+            self.maxRecordSizeInKiB = maxRecordSizeInKiB
             self.openShardCount = openShardCount
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
@@ -1022,6 +1160,7 @@ extension KinesisClientTypes {
             self.streamModeDetails = streamModeDetails
             self.streamName = streamName
             self.streamStatus = streamStatus
+            self.warmThroughput = warmThroughput
         }
     }
 }
@@ -1958,29 +2097,6 @@ public struct ListTagsForStreamOutput: Swift.Sendable {
     }
 }
 
-/// Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// Represents the input for MergeShards.
 public struct MergeShardsInput: Swift.Sendable {
     /// The shard ID of the adjacent shard for the merge.
@@ -2466,6 +2582,98 @@ public struct UntagResourceInput: Swift.Sendable {
 
 extension KinesisClientTypes {
 
+    public enum MinimumThroughputBillingCommitmentInputStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MinimumThroughputBillingCommitmentInputStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KinesisClientTypes {
+
+    /// Represents the request parameters for configuring minimum throughput billing commitment.
+    ///
+    /// * Minimum throughput billing commitments provide cost savings on on-demand data streams in exchange for committing to a minimum level of throughput usage.
+    ///
+    /// * Commitments have a minimum duration of 24 hours that must be honored before they can be disabled.
+    ///
+    /// * If you attempt to disable a commitment before the minimum commitment period ends, the commitment will be scheduled for automatic disable at the earliest allowed end time.
+    ///
+    /// * You can cancel a pending disable by enabling the commitment again before the earliest allowed end time.
+    public struct MinimumThroughputBillingCommitmentInput: Swift.Sendable {
+        /// The desired status of the minimum throughput billing commitment.
+        /// This member is required.
+        public var status: KinesisClientTypes.MinimumThroughputBillingCommitmentInputStatus?
+
+        public init(
+            status: KinesisClientTypes.MinimumThroughputBillingCommitmentInputStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+public struct UpdateAccountSettingsInput: Swift.Sendable {
+    /// Specifies the minimum throughput billing commitment configuration for your account.
+    /// This member is required.
+    public var minimumThroughputBillingCommitment: KinesisClientTypes.MinimumThroughputBillingCommitmentInput?
+
+    public init(
+        minimumThroughputBillingCommitment: KinesisClientTypes.MinimumThroughputBillingCommitmentInput? = nil
+    ) {
+        self.minimumThroughputBillingCommitment = minimumThroughputBillingCommitment
+    }
+}
+
+public struct UpdateAccountSettingsOutput: Swift.Sendable {
+    /// The updated configuration of the minimum throughput billing commitment for your account.
+    public var minimumThroughputBillingCommitment: KinesisClientTypes.MinimumThroughputBillingCommitmentOutput?
+
+    public init(
+        minimumThroughputBillingCommitment: KinesisClientTypes.MinimumThroughputBillingCommitmentOutput? = nil
+    ) {
+        self.minimumThroughputBillingCommitment = minimumThroughputBillingCommitment
+    }
+}
+
+public struct UpdateMaxRecordSizeInput: Swift.Sendable {
+    /// The maximum record size of a single record in KiB that you can write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10 MiB). If you specify a value that is out of this range, UpdateMaxRecordSize sends back an ValidationException message.
+    /// This member is required.
+    public var maxRecordSizeInKiB: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the stream for the MaxRecordSize update.
+    public var streamARN: Swift.String?
+
+    public init(
+        maxRecordSizeInKiB: Swift.Int? = nil,
+        streamARN: Swift.String? = nil
+    ) {
+        self.maxRecordSizeInKiB = maxRecordSizeInKiB
+        self.streamARN = streamARN
+    }
+}
+
+extension KinesisClientTypes {
+
     public enum ScalingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case uniformScaling
         case sdkUnknown(Swift.String)
@@ -2553,13 +2761,56 @@ public struct UpdateStreamModeInput: Swift.Sendable {
     /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
     /// This member is required.
     public var streamModeDetails: KinesisClientTypes.StreamModeDetails?
+    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations. This field is only valid when the stream mode is being updated to on-demand.
+    public var warmThroughputMiBps: Swift.Int?
 
     public init(
         streamARN: Swift.String? = nil,
-        streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil
+        streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
+        warmThroughputMiBps: Swift.Int? = nil
     ) {
         self.streamARN = streamARN
         self.streamModeDetails = streamModeDetails
+        self.warmThroughputMiBps = warmThroughputMiBps
+    }
+}
+
+public struct UpdateStreamWarmThroughputInput: Swift.Sendable {
+    /// The ARN of the stream to be updated.
+    public var streamARN: Swift.String?
+    /// The name of the stream to be updated.
+    public var streamName: Swift.String?
+    /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations.
+    /// This member is required.
+    public var warmThroughputMiBps: Swift.Int?
+
+    public init(
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil,
+        warmThroughputMiBps: Swift.Int? = nil
+    ) {
+        self.streamARN = streamARN
+        self.streamName = streamName
+        self.warmThroughputMiBps = warmThroughputMiBps
+    }
+}
+
+public struct UpdateStreamWarmThroughputOutput: Swift.Sendable {
+    /// The ARN of the stream that was updated.
+    public var streamARN: Swift.String?
+    /// The name of the stream that was updated.
+    public var streamName: Swift.String?
+    /// Specifies the updated warm throughput configuration for your data stream.
+    public var warmThroughput: KinesisClientTypes.WarmThroughputObject?
+
+    public init(
+        streamARN: Swift.String? = nil,
+        streamName: Swift.String? = nil,
+        warmThroughput: KinesisClientTypes.WarmThroughputObject? = nil
+    ) {
+        self.streamARN = streamARN
+        self.streamName = streamName
+        self.warmThroughput = warmThroughput
     }
 }
 
@@ -2601,6 +2852,13 @@ extension DeleteStreamInput {
 extension DeregisterStreamConsumerInput {
 
     static func urlPathProvider(_ value: DeregisterStreamConsumerInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeAccountSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeAccountSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2794,6 +3052,20 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAccountSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateAccountSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateMaxRecordSizeInput {
+
+    static func urlPathProvider(_ value: UpdateMaxRecordSizeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateShardCountInput {
 
     static func urlPathProvider(_ value: UpdateShardCountInput) -> Swift.String? {
@@ -2804,6 +3076,13 @@ extension UpdateShardCountInput {
 extension UpdateStreamModeInput {
 
     static func urlPathProvider(_ value: UpdateStreamModeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateStreamWarmThroughputInput {
+
+    static func urlPathProvider(_ value: UpdateStreamWarmThroughputInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2822,10 +3101,12 @@ extension CreateStreamInput {
 
     static func write(value: CreateStreamInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["MaxRecordSizeInKiB"].write(value.maxRecordSizeInKiB)
         try writer["ShardCount"].write(value.shardCount)
         try writer["StreamModeDetails"].write(value.streamModeDetails, with: KinesisClientTypes.StreamModeDetails.write(value:to:))
         try writer["StreamName"].write(value.streamName)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["WarmThroughputMiBps"].write(value.warmThroughputMiBps)
     }
 }
 
@@ -2864,6 +3145,14 @@ extension DeregisterStreamConsumerInput {
         try writer["ConsumerARN"].write(value.consumerARN)
         try writer["ConsumerName"].write(value.consumerName)
         try writer["StreamARN"].write(value.streamARN)
+    }
+}
+
+extension DescribeAccountSettingsInput {
+
+    static func write(value: DescribeAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -3144,6 +3433,23 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAccountSettingsInput {
+
+    static func write(value: UpdateAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MinimumThroughputBillingCommitment"].write(value.minimumThroughputBillingCommitment, with: KinesisClientTypes.MinimumThroughputBillingCommitmentInput.write(value:to:))
+    }
+}
+
+extension UpdateMaxRecordSizeInput {
+
+    static func write(value: UpdateMaxRecordSizeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxRecordSizeInKiB"].write(value.maxRecordSizeInKiB)
+        try writer["StreamARN"].write(value.streamARN)
+    }
+}
+
 extension UpdateShardCountInput {
 
     static func write(value: UpdateShardCountInput?, to writer: SmithyJSON.Writer) throws {
@@ -3161,6 +3467,17 @@ extension UpdateStreamModeInput {
         guard let value else { return }
         try writer["StreamARN"].write(value.streamARN)
         try writer["StreamModeDetails"].write(value.streamModeDetails, with: KinesisClientTypes.StreamModeDetails.write(value:to:))
+        try writer["WarmThroughputMiBps"].write(value.warmThroughputMiBps)
+    }
+}
+
+extension UpdateStreamWarmThroughputInput {
+
+    static func write(value: UpdateStreamWarmThroughputInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamName"].write(value.streamName)
+        try writer["WarmThroughputMiBps"].write(value.warmThroughputMiBps)
     }
 }
 
@@ -3203,6 +3520,18 @@ extension DeregisterStreamConsumerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterStreamConsumerOutput {
         return DeregisterStreamConsumerOutput()
+    }
+}
+
+extension DescribeAccountSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAccountSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAccountSettingsOutput()
+        value.minimumThroughputBillingCommitment = try reader["MinimumThroughputBillingCommitment"].readIfPresent(with: KinesisClientTypes.MinimumThroughputBillingCommitmentOutput.read(from:))
+        return value
     }
 }
 
@@ -3508,6 +3837,25 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateAccountSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAccountSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAccountSettingsOutput()
+        value.minimumThroughputBillingCommitment = try reader["MinimumThroughputBillingCommitment"].readIfPresent(with: KinesisClientTypes.MinimumThroughputBillingCommitmentOutput.read(from:))
+        return value
+    }
+}
+
+extension UpdateMaxRecordSizeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMaxRecordSizeOutput {
+        return UpdateMaxRecordSizeOutput()
+    }
+}
+
 extension UpdateShardCountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateShardCountOutput {
@@ -3527,6 +3875,20 @@ extension UpdateStreamModeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateStreamModeOutput {
         return UpdateStreamModeOutput()
+    }
+}
+
+extension UpdateStreamWarmThroughputOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateStreamWarmThroughputOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateStreamWarmThroughputOutput()
+        value.streamARN = try reader["StreamARN"].readIfPresent()
+        value.streamName = try reader["StreamName"].readIfPresent()
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: KinesisClientTypes.WarmThroughputObject.read(from:))
+        return value
     }
 }
 
@@ -3559,6 +3921,7 @@ enum CreateStreamOutputError {
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -3629,6 +3992,20 @@ enum DeregisterStreamConsumerOutputError {
             case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAccountSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -4136,6 +4513,41 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateAccountSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateMaxRecordSizeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateShardCountOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4167,6 +4579,26 @@ enum UpdateStreamModeOutputError {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateStreamWarmThroughputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -4229,6 +4661,19 @@ extension ResourceNotFoundException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4367,19 +4812,6 @@ extension ExpiredNextTokenException {
     }
 }
 
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension KinesisClientTypes.SubscribeToShardEventStream {
     static var unmarshal: SmithyEventStreamsAPI.UnmarshalClosure<KinesisClientTypes.SubscribeToShardEventStream> {
         { message in
@@ -4436,6 +4868,19 @@ extension KinesisClientTypes.SubscribeToShardEventStream {
                 throw Smithy.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
             }
         }
+    }
+}
+
+extension KinesisClientTypes.MinimumThroughputBillingCommitmentOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.MinimumThroughputBillingCommitmentOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.MinimumThroughputBillingCommitmentOutput()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.earliestAllowedEndAt = try reader["EarliestAllowedEndAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 
@@ -4550,6 +4995,19 @@ extension KinesisClientTypes.StreamDescriptionSummary {
         value.keyId = try reader["KeyId"].readIfPresent()
         value.openShardCount = try reader["OpenShardCount"].readIfPresent() ?? 0
         value.consumerCount = try reader["ConsumerCount"].readIfPresent()
+        value.warmThroughput = try reader["WarmThroughput"].readIfPresent(with: KinesisClientTypes.WarmThroughputObject.read(from:))
+        value.maxRecordSizeInKiB = try reader["MaxRecordSizeInKiB"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisClientTypes.WarmThroughputObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.WarmThroughputObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.WarmThroughputObject()
+        value.targetMiBps = try reader["TargetMiBps"].readIfPresent()
+        value.currentMiBps = try reader["CurrentMiBps"].readIfPresent()
         return value
     }
 }
@@ -4761,6 +5219,14 @@ extension KinesisClientTypes.StartingPosition {
         try writer["SequenceNumber"].write(value.sequenceNumber)
         try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["Type"].write(value.type)
+    }
+}
+
+extension KinesisClientTypes.MinimumThroughputBillingCommitmentInput {
+
+    static func write(value: KinesisClientTypes.MinimumThroughputBillingCommitmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
     }
 }
 

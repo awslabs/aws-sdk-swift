@@ -58,9 +58,9 @@ extension BraketClientTypes {
         /// The type of action associated with the quantum task.
         /// This member is required.
         public var actionType: Swift.String?
-        /// The number of executables in a program set. This is only available for a Program Set.
+        /// The number of executables in a program set. This is only available for a program set.
         public var executableCount: Swift.Int?
-        /// The number of programs in a program set. This is only available for a Program Set.
+        /// The number of programs in a program set. This is only available for a program set.
         public var programCount: Swift.Int?
 
         public init(
@@ -1669,6 +1669,45 @@ public struct CancelQuantumTaskOutput: Swift.Sendable {
     }
 }
 
+extension BraketClientTypes {
+
+    public enum ExperimentalCapabilitiesEnablementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExperimentalCapabilitiesEnablementType] {
+            return [
+                .all,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BraketClientTypes {
+
+    /// Enabled experimental capabilities for quantum hardware. Note that the use of these features may impact device capabilities and performance beyond its standard specifications.
+    public enum ExperimentalCapabilities: Swift.Sendable {
+        /// Enabled experimental capabilities.
+        case enabled(BraketClientTypes.ExperimentalCapabilitiesEnablementType)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct CreateQuantumTaskInput: Swift.Sendable {
     /// The action associated with the quantum task.
     /// This member is required.
@@ -1683,6 +1722,8 @@ public struct CreateQuantumTaskInput: Swift.Sendable {
     public var deviceArn: Swift.String?
     /// The parameters for the device to run the quantum task on.
     public var deviceParameters: Swift.String?
+    /// Enable experimental capabilities for the quantum task.
+    public var experimentalCapabilities: BraketClientTypes.ExperimentalCapabilities?
     /// The token for an Amazon Braket hybrid job that associates it with the quantum task.
     public var jobToken: Swift.String?
     /// The S3 bucket to store quantum task result files in.
@@ -1703,6 +1744,7 @@ public struct CreateQuantumTaskInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deviceArn: Swift.String? = nil,
         deviceParameters: Swift.String? = nil,
+        experimentalCapabilities: BraketClientTypes.ExperimentalCapabilities? = nil,
         jobToken: Swift.String? = nil,
         outputS3Bucket: Swift.String? = nil,
         outputS3KeyPrefix: Swift.String? = nil,
@@ -1714,6 +1756,7 @@ public struct CreateQuantumTaskInput: Swift.Sendable {
         self.clientToken = clientToken
         self.deviceArn = deviceArn
         self.deviceParameters = deviceParameters
+        self.experimentalCapabilities = experimentalCapabilities
         self.jobToken = jobToken
         self.outputS3Bucket = outputS3Bucket
         self.outputS3KeyPrefix = outputS3KeyPrefix
@@ -1865,6 +1908,8 @@ public struct GetQuantumTaskOutput: Swift.Sendable {
     public var deviceParameters: Swift.String?
     /// The time at which the quantum task ended.
     public var endedAt: Foundation.Date?
+    /// Enabled experimental capabilities for the quantum task, if any.
+    public var experimentalCapabilities: BraketClientTypes.ExperimentalCapabilities?
     /// The reason that a quantum task failed.
     public var failureReason: Swift.String?
     /// The ARN of the Amazon Braket job associated with the quantum task.
@@ -1898,6 +1943,7 @@ public struct GetQuantumTaskOutput: Swift.Sendable {
         deviceArn: Swift.String? = nil,
         deviceParameters: Swift.String? = nil,
         endedAt: Foundation.Date? = nil,
+        experimentalCapabilities: BraketClientTypes.ExperimentalCapabilities? = nil,
         failureReason: Swift.String? = nil,
         jobArn: Swift.String? = nil,
         numSuccessfulShots: Swift.Int? = nil,
@@ -1915,6 +1961,7 @@ public struct GetQuantumTaskOutput: Swift.Sendable {
         self.deviceArn = deviceArn
         self.deviceParameters = deviceParameters
         self.endedAt = endedAt
+        self.experimentalCapabilities = experimentalCapabilities
         self.failureReason = failureReason
         self.jobArn = jobArn
         self.numSuccessfulShots = numSuccessfulShots
@@ -2085,6 +2132,258 @@ public struct SearchQuantumTasksOutput: Swift.Sendable {
     }
 }
 
+extension BraketClientTypes {
+
+    /// Defines a time range for spending limits, specifying when the limit is active.
+    public struct TimePeriod: Swift.Sendable {
+        /// The end date and time for the spending limit period, in epoch seconds.
+        /// This member is required.
+        public var endAt: Foundation.Date?
+        /// The start date and time for the spending limit period, in epoch seconds.
+        /// This member is required.
+        public var startAt: Foundation.Date?
+
+        public init(
+            endAt: Foundation.Date? = nil,
+            startAt: Foundation.Date? = nil
+        ) {
+            self.endAt = endAt
+            self.startAt = startAt
+        }
+    }
+}
+
+public struct CreateSpendingLimitInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to.
+    /// This member is required.
+    public var deviceArn: Swift.String?
+    /// The maximum amount that can be spent on the specified device, in USD.
+    /// This member is required.
+    public var spendingLimit: Swift.String?
+    /// The tags to apply to the spending limit. Each tag consists of a key and an optional value.
+    public var tags: [Swift.String: Swift.String]?
+    /// The time period during which the spending limit is active, including start and end dates.
+    public var timePeriod: BraketClientTypes.TimePeriod?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        deviceArn: Swift.String? = nil,
+        spendingLimit: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timePeriod: BraketClientTypes.TimePeriod? = nil
+    ) {
+        self.clientToken = clientToken
+        self.deviceArn = deviceArn
+        self.spendingLimit = spendingLimit
+        self.tags = tags
+        self.timePeriod = timePeriod
+    }
+}
+
+public struct CreateSpendingLimitOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created spending limit.
+    /// This member is required.
+    public var spendingLimitArn: Swift.String?
+
+    public init(
+        spendingLimitArn: Swift.String? = nil
+    ) {
+        self.spendingLimitArn = spendingLimitArn
+    }
+}
+
+public struct DeleteSpendingLimitInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the spending limit to delete.
+    /// This member is required.
+    public var spendingLimitArn: Swift.String?
+
+    public init(
+        spendingLimitArn: Swift.String? = nil
+    ) {
+        self.spendingLimitArn = spendingLimitArn
+    }
+}
+
+public struct DeleteSpendingLimitOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension BraketClientTypes {
+
+    public enum SearchSpendingLimitsFilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equal
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchSpendingLimitsFilterOperator] {
+            return [
+                .equal
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equal: return "EQUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BraketClientTypes {
+
+    /// Specifies filter criteria for searching spending limits. Use filters to narrow down results based on specific attributes.
+    public struct SearchSpendingLimitsFilter: Swift.Sendable {
+        /// The name of the field to filter on. Currently only supports deviceArn.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The comparison operator to use when filtering.
+        /// This member is required.
+        public var `operator`: BraketClientTypes.SearchSpendingLimitsFilterOperator?
+        /// An array of values to match against the specified field.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            `operator`: BraketClientTypes.SearchSpendingLimitsFilterOperator? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+    }
+}
+
+public struct SearchSpendingLimitsInput: Swift.Sendable {
+    /// The filters to apply when searching for spending limits. Use filters to narrow down the results based on specific criteria.
+    public var filters: [BraketClientTypes.SearchSpendingLimitsFilter]?
+    /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next page of results. This value is returned from a previous call to SearchSpendingLimits when there are more results available.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [BraketClientTypes.SearchSpendingLimitsFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BraketClientTypes {
+
+    /// Contains summary information about a spending limit, including current spending status and configuration details.
+    public struct SpendingLimitSummary: Swift.Sendable {
+        /// The date and time when the spending limit was created, in epoch seconds.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the quantum device associated with this spending limit.
+        /// This member is required.
+        public var deviceArn: Swift.String?
+        /// The amount currently queued for spending on the device, in USD.
+        /// This member is required.
+        public var queuedSpend: Swift.String?
+        /// The maximum spending amount allowed for the device during the specified time period, in USD.
+        /// This member is required.
+        public var spendingLimit: Swift.String?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the spending limit.
+        /// This member is required.
+        public var spendingLimitArn: Swift.String?
+        /// The tags associated with the spending limit. Each tag consists of a key and an optional value.
+        public var tags: [Swift.String: Swift.String]?
+        /// The time period during which the spending limit is active.
+        /// This member is required.
+        public var timePeriod: BraketClientTypes.TimePeriod?
+        /// The total amount spent on the device so far during the current time period, in USD.
+        /// This member is required.
+        public var totalSpend: Swift.String?
+        /// The date and time when the spending limit was last modified, in epoch seconds.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            deviceArn: Swift.String? = nil,
+            queuedSpend: Swift.String? = nil,
+            spendingLimit: Swift.String? = nil,
+            spendingLimitArn: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            timePeriod: BraketClientTypes.TimePeriod? = nil,
+            totalSpend: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.deviceArn = deviceArn
+            self.queuedSpend = queuedSpend
+            self.spendingLimit = spendingLimit
+            self.spendingLimitArn = spendingLimitArn
+            self.tags = tags
+            self.timePeriod = timePeriod
+            self.totalSpend = totalSpend
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct SearchSpendingLimitsOutput: Swift.Sendable {
+    /// The token to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// An array of spending limit summaries that match the specified filters.
+    /// This member is required.
+    public var spendingLimits: [BraketClientTypes.SpendingLimitSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        spendingLimits: [BraketClientTypes.SpendingLimitSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.spendingLimits = spendingLimits
+    }
+}
+
+public struct UpdateSpendingLimitInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The new maximum amount that can be spent on the specified device, in USD.
+    public var spendingLimit: Swift.String?
+    /// The Amazon Resource Name (ARN) of the spending limit to update.
+    /// This member is required.
+    public var spendingLimitArn: Swift.String?
+    /// The new time period during which the spending limit is active, including start and end dates.
+    public var timePeriod: BraketClientTypes.TimePeriod?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        spendingLimit: Swift.String? = nil,
+        spendingLimitArn: Swift.String? = nil,
+        timePeriod: BraketClientTypes.TimePeriod? = nil
+    ) {
+        self.clientToken = clientToken
+        self.spendingLimit = spendingLimit
+        self.spendingLimitArn = spendingLimitArn
+        self.timePeriod = timePeriod
+    }
+}
+
+public struct UpdateSpendingLimitOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// Specify the resourceArn of the resource to which a tag will be added.
     /// This member is required.
@@ -2160,6 +2459,23 @@ extension CreateQuantumTaskInput {
 
     static func urlPathProvider(_ value: CreateQuantumTaskInput) -> Swift.String? {
         return "/quantum-task"
+    }
+}
+
+extension CreateSpendingLimitInput {
+
+    static func urlPathProvider(_ value: CreateSpendingLimitInput) -> Swift.String? {
+        return "/spending-limit"
+    }
+}
+
+extension DeleteSpendingLimitInput {
+
+    static func urlPathProvider(_ value: DeleteSpendingLimitInput) -> Swift.String? {
+        guard let spendingLimitArn = value.spendingLimitArn else {
+            return nil
+        }
+        return "/spending-limit/\(spendingLimitArn.urlPercentEncoding())/delete"
     }
 }
 
@@ -2252,6 +2568,13 @@ extension SearchQuantumTasksInput {
     }
 }
 
+extension SearchSpendingLimitsInput {
+
+    static func urlPathProvider(_ value: SearchSpendingLimitsInput) -> Swift.String? {
+        return "/spending-limits"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -2285,6 +2608,16 @@ extension UntagResourceInput {
             items.append(queryItem)
         }
         return items
+    }
+}
+
+extension UpdateSpendingLimitInput {
+
+    static func urlPathProvider(_ value: UpdateSpendingLimitInput) -> Swift.String? {
+        guard let spendingLimitArn = value.spendingLimitArn else {
+            return nil
+        }
+        return "/spending-limit/\(spendingLimitArn.urlPercentEncoding())/update"
     }
 }
 
@@ -2325,11 +2658,24 @@ extension CreateQuantumTaskInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["deviceArn"].write(value.deviceArn)
         try writer["deviceParameters"].write(value.deviceParameters)
+        try writer["experimentalCapabilities"].write(value.experimentalCapabilities, with: BraketClientTypes.ExperimentalCapabilities.write(value:to:))
         try writer["jobToken"].write(value.jobToken)
         try writer["outputS3Bucket"].write(value.outputS3Bucket)
         try writer["outputS3KeyPrefix"].write(value.outputS3KeyPrefix)
         try writer["shots"].write(value.shots)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateSpendingLimitInput {
+
+    static func write(value: CreateSpendingLimitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["deviceArn"].write(value.deviceArn)
+        try writer["spendingLimit"].write(value.spendingLimit)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["timePeriod"].write(value.timePeriod, with: BraketClientTypes.TimePeriod.write(value:to:))
     }
 }
 
@@ -2363,11 +2709,31 @@ extension SearchQuantumTasksInput {
     }
 }
 
+extension SearchSpendingLimitsInput {
+
+    static func write(value: SearchSpendingLimitsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: BraketClientTypes.SearchSpendingLimitsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateSpendingLimitInput {
+
+    static func write(value: UpdateSpendingLimitInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["spendingLimit"].write(value.spendingLimit)
+        try writer["timePeriod"].write(value.timePeriod, with: BraketClientTypes.TimePeriod.write(value:to:))
     }
 }
 
@@ -2418,6 +2784,25 @@ extension CreateQuantumTaskOutput {
         var value = CreateQuantumTaskOutput()
         value.quantumTaskArn = try reader["quantumTaskArn"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension CreateSpendingLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSpendingLimitOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSpendingLimitOutput()
+        value.spendingLimitArn = try reader["spendingLimitArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteSpendingLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSpendingLimitOutput {
+        return DeleteSpendingLimitOutput()
     }
 }
 
@@ -2484,6 +2869,7 @@ extension GetQuantumTaskOutput {
         value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
         value.deviceParameters = try reader["deviceParameters"].readIfPresent() ?? ""
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.experimentalCapabilities = try reader["experimentalCapabilities"].readIfPresent(with: BraketClientTypes.ExperimentalCapabilities.read(from:))
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.numSuccessfulShots = try reader["numSuccessfulShots"].readIfPresent()
@@ -2549,6 +2935,19 @@ extension SearchQuantumTasksOutput {
     }
 }
 
+extension SearchSpendingLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchSpendingLimitsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchSpendingLimitsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.spendingLimits = try reader["spendingLimits"].readListIfPresent(memberReadingClosure: BraketClientTypes.SpendingLimitSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -2560,6 +2959,13 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateSpendingLimitOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSpendingLimitOutput {
+        return UpdateSpendingLimitOutput()
     }
 }
 
@@ -2635,6 +3041,42 @@ enum CreateQuantumTaskOutputError {
             case "DeviceRetiredException": return try DeviceRetiredException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateSpendingLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DeviceRetiredException": return try DeviceRetiredException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteSpendingLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2763,6 +3205,23 @@ enum SearchQuantumTasksOutputError {
     }
 }
 
+enum SearchSpendingLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2789,6 +3248,24 @@ enum UntagResourceOutputError {
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSpendingLimitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3175,6 +3652,30 @@ extension BraketClientTypes.ActionMetadata {
     }
 }
 
+extension BraketClientTypes.ExperimentalCapabilities {
+
+    static func write(value: BraketClientTypes.ExperimentalCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .enabled(enabled):
+                try writer["enabled"].write(enabled)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ExperimentalCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "enabled":
+                return .enabled(try reader["enabled"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BraketClientTypes.DeviceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.DeviceSummary {
@@ -3224,6 +3725,41 @@ extension BraketClientTypes.QuantumTaskSummary {
     }
 }
 
+extension BraketClientTypes.SpendingLimitSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.SpendingLimitSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.SpendingLimitSummary()
+        value.spendingLimitArn = try reader["spendingLimitArn"].readIfPresent() ?? ""
+        value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
+        value.timePeriod = try reader["timePeriod"].readIfPresent(with: BraketClientTypes.TimePeriod.read(from:))
+        value.spendingLimit = try reader["spendingLimit"].readIfPresent() ?? ""
+        value.queuedSpend = try reader["queuedSpend"].readIfPresent() ?? ""
+        value.totalSpend = try reader["totalSpend"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BraketClientTypes.TimePeriod {
+
+    static func write(value: BraketClientTypes.TimePeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endAt"].writeTimestamp(value.endAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["startAt"].writeTimestamp(value.startAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.TimePeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BraketClientTypes.TimePeriod()
+        value.startAt = try reader["startAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endAt = try reader["endAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension BraketClientTypes.ProgramSetValidationFailure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ProgramSetValidationFailure {
@@ -3258,6 +3794,16 @@ extension BraketClientTypes.SearchJobsFilter {
 extension BraketClientTypes.SearchQuantumTasksFilter {
 
     static func write(value: BraketClientTypes.SearchQuantumTasksFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BraketClientTypes.SearchSpendingLimitsFilter {
+
+    static func write(value: BraketClientTypes.SearchSpendingLimitsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
         try writer["operator"].write(value.`operator`)

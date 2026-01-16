@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GroundStationClient: ClientRuntime.Client {
+public class GroundStationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GroundStationClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: GroundStationClient.GroundStationClientConfiguration
     let serviceName = "GroundStation"
@@ -373,9 +373,9 @@ extension GroundStationClient {
     ///
     /// Cancels a contact with a specified contact ID.
     ///
-    /// - Parameter CancelContactInput :
+    /// - Parameter input: (Type: `CancelContactInput`)
     ///
-    /// - Returns: `CancelContactOutput` :
+    /// - Returns: (Type: `CancelContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +408,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelContactInput, CancelContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelContactOutput>(CancelContactOutput.httpOutput(from:), CancelContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelContactInput, CancelContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelContactOutput>())
@@ -439,9 +440,9 @@ extension GroundStationClient {
     ///
     /// Creates a Config with the specified configData parameters. Only one type of configData can be specified.
     ///
-    /// - Parameter CreateConfigInput :
+    /// - Parameter input: (Type: `CreateConfigInput`)
     ///
-    /// - Returns: `CreateConfigOutput` :
+    /// - Returns: (Type: `CreateConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,6 +479,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigInput, CreateConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigOutput>(CreateConfigOutput.httpOutput(from:), CreateConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigInput, CreateConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigOutput>())
@@ -509,9 +511,9 @@ extension GroundStationClient {
     ///
     /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
     ///
-    /// - Parameter CreateDataflowEndpointGroupInput :
+    /// - Parameter input: (Type: `CreateDataflowEndpointGroupInput`)
     ///
-    /// - Returns: `CreateDataflowEndpointGroupOutput` :
+    /// - Returns: (Type: `CreateDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -547,6 +549,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataflowEndpointGroupInput, CreateDataflowEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataflowEndpointGroupOutput>(CreateDataflowEndpointGroupOutput.httpOutput(from:), CreateDataflowEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataflowEndpointGroupInput, CreateDataflowEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataflowEndpointGroupOutput>())
@@ -574,13 +577,84 @@ extension GroundStationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateDataflowEndpointGroupV2` operation on the `GroundStation` service.
+    ///
+    /// Creates a DataflowEndpointGroupV2 containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateDataflowEndpointGroupV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateDataflowEndpointGroupV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    public func createDataflowEndpointGroupV2(input: CreateDataflowEndpointGroupV2Input) async throws -> CreateDataflowEndpointGroupV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDataflowEndpointGroupV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(CreateDataflowEndpointGroupV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataflowEndpointGroupV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataflowEndpointGroupV2Output>(CreateDataflowEndpointGroupV2Output.httpOutput(from:), CreateDataflowEndpointGroupV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataflowEndpointGroupV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataflowEndpointGroupV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataflowEndpointGroupV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDataflowEndpointGroupV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEphemeris` operation on the `GroundStation` service.
     ///
-    /// Creates an Ephemeris with the specified EphemerisData.
+    /// Create an ephemeris with your specified [EphemerisData].
     ///
-    /// - Parameter CreateEphemerisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEphemerisInput`)
     ///
-    /// - Returns: `CreateEphemerisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEphemerisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -616,6 +690,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEphemerisInput, CreateEphemerisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEphemerisOutput>(CreateEphemerisOutput.httpOutput(from:), CreateEphemerisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEphemerisInput, CreateEphemerisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEphemerisOutput>())
@@ -647,9 +722,9 @@ extension GroundStationClient {
     ///
     /// Creates a mission profile. dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     ///
-    /// - Parameter CreateMissionProfileInput :
+    /// - Parameter input: (Type: `CreateMissionProfileInput`)
     ///
-    /// - Returns: `CreateMissionProfileOutput` :
+    /// - Returns: (Type: `CreateMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,6 +760,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMissionProfileInput, CreateMissionProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMissionProfileOutput>(CreateMissionProfileOutput.httpOutput(from:), CreateMissionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMissionProfileInput, CreateMissionProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMissionProfileOutput>())
@@ -716,9 +792,9 @@ extension GroundStationClient {
     ///
     /// Deletes a Config.
     ///
-    /// - Parameter DeleteConfigInput :
+    /// - Parameter input: (Type: `DeleteConfigInput`)
     ///
-    /// - Returns: `DeleteConfigOutput` :
+    /// - Returns: (Type: `DeleteConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -751,6 +827,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigInput, DeleteConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigOutput>(DeleteConfigOutput.httpOutput(from:), DeleteConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigInput, DeleteConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigOutput>())
@@ -782,9 +859,9 @@ extension GroundStationClient {
     ///
     /// Deletes a dataflow endpoint group.
     ///
-    /// - Parameter DeleteDataflowEndpointGroupInput :
+    /// - Parameter input: (Type: `DeleteDataflowEndpointGroupInput`)
     ///
-    /// - Returns: `DeleteDataflowEndpointGroupOutput` :
+    /// - Returns: (Type: `DeleteDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -817,6 +894,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataflowEndpointGroupInput, DeleteDataflowEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataflowEndpointGroupOutput>(DeleteDataflowEndpointGroupOutput.httpOutput(from:), DeleteDataflowEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataflowEndpointGroupInput, DeleteDataflowEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataflowEndpointGroupOutput>())
@@ -846,17 +924,18 @@ extension GroundStationClient {
 
     /// Performs the `DeleteEphemeris` operation on the `GroundStation` service.
     ///
-    /// Deletes an ephemeris
+    /// Delete an ephemeris.
     ///
-    /// - Parameter DeleteEphemerisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEphemerisInput`)
     ///
-    /// - Returns: `DeleteEphemerisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEphemerisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DependencyException` : Dependency encountered an error.
     /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceInUseException` : The specified resource is in use by non-terminal state contacts and cannot be modified or deleted.
     /// - `ResourceNotFoundException` : Resource was not found.
     public func deleteEphemeris(input: DeleteEphemerisInput) async throws -> DeleteEphemerisOutput {
         let context = Smithy.ContextBuilder()
@@ -883,6 +962,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEphemerisInput, DeleteEphemerisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEphemerisOutput>(DeleteEphemerisOutput.httpOutput(from:), DeleteEphemerisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEphemerisInput, DeleteEphemerisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEphemerisOutput>())
@@ -914,9 +994,9 @@ extension GroundStationClient {
     ///
     /// Deletes a mission profile.
     ///
-    /// - Parameter DeleteMissionProfileInput :
+    /// - Parameter input: (Type: `DeleteMissionProfileInput`)
     ///
-    /// - Returns: `DeleteMissionProfileOutput` :
+    /// - Returns: (Type: `DeleteMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -949,6 +1029,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMissionProfileInput, DeleteMissionProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMissionProfileOutput>(DeleteMissionProfileOutput.httpOutput(from:), DeleteMissionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMissionProfileInput, DeleteMissionProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMissionProfileOutput>())
@@ -980,9 +1061,9 @@ extension GroundStationClient {
     ///
     /// Describes an existing contact.
     ///
-    /// - Parameter DescribeContactInput :
+    /// - Parameter input: (Type: `DescribeContactInput`)
     ///
-    /// - Returns: `DescribeContactOutput` :
+    /// - Returns: (Type: `DescribeContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,6 +1096,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContactInput, DescribeContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContactOutput>(DescribeContactOutput.httpOutput(from:), DescribeContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContactInput, DescribeContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContactOutput>())
@@ -1044,11 +1126,11 @@ extension GroundStationClient {
 
     /// Performs the `DescribeEphemeris` operation on the `GroundStation` service.
     ///
-    /// Describes an existing ephemeris.
+    /// Retrieve information about an existing ephemeris.
     ///
-    /// - Parameter DescribeEphemerisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEphemerisInput`)
     ///
-    /// - Returns: `DescribeEphemerisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEphemerisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,6 +1163,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEphemerisInput, DescribeEphemerisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEphemerisOutput>(DescribeEphemerisOutput.httpOutput(from:), DescribeEphemerisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEphemerisInput, DescribeEphemerisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEphemerisOutput>())
@@ -1112,9 +1195,9 @@ extension GroundStationClient {
     ///
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Gets the latest configuration information for a registered agent.
     ///
-    /// - Parameter GetAgentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgentConfigurationInput`)
     ///
-    /// - Returns: `GetAgentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,6 +1230,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentConfigurationInput, GetAgentConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentConfigurationOutput>(GetAgentConfigurationOutput.httpOutput(from:), GetAgentConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentConfigurationInput, GetAgentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentConfigurationOutput>())
@@ -1174,13 +1258,80 @@ extension GroundStationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAgentTaskResponseUrl` operation on the `GroundStation` service.
+    ///
+    /// For use by AWS Ground Station Agent and shouldn't be called directly. Gets a presigned URL for uploading agent task response logs.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentTaskResponseUrlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentTaskResponseUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
+    public func getAgentTaskResponseUrl(input: GetAgentTaskResponseUrlInput) async throws -> GetAgentTaskResponseUrlOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentTaskResponseUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>(GetAgentTaskResponseUrlInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentTaskResponseUrlOutput>(GetAgentTaskResponseUrlOutput.httpOutput(from:), GetAgentTaskResponseUrlOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentTaskResponseUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentTaskResponseUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentTaskResponseUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentTaskResponseUrl")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetConfig` operation on the `GroundStation` service.
     ///
     /// Returns Config information. Only one Config response can be returned.
     ///
-    /// - Parameter GetConfigInput :
+    /// - Parameter input: (Type: `GetConfigInput`)
     ///
-    /// - Returns: `GetConfigOutput` :
+    /// - Returns: (Type: `GetConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1213,6 +1364,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfigInput, GetConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfigOutput>(GetConfigOutput.httpOutput(from:), GetConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfigInput, GetConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfigOutput>())
@@ -1244,9 +1396,9 @@ extension GroundStationClient {
     ///
     /// Returns the dataflow endpoint group.
     ///
-    /// - Parameter GetDataflowEndpointGroupInput :
+    /// - Parameter input: (Type: `GetDataflowEndpointGroupInput`)
     ///
-    /// - Returns: `GetDataflowEndpointGroupOutput` :
+    /// - Returns: (Type: `GetDataflowEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1279,6 +1431,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataflowEndpointGroupInput, GetDataflowEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataflowEndpointGroupOutput>(GetDataflowEndpointGroupOutput.httpOutput(from:), GetDataflowEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataflowEndpointGroupInput, GetDataflowEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataflowEndpointGroupOutput>())
@@ -1310,9 +1463,9 @@ extension GroundStationClient {
     ///
     /// Returns the number of reserved minutes used by account.
     ///
-    /// - Parameter GetMinuteUsageInput :
+    /// - Parameter input: (Type: `GetMinuteUsageInput`)
     ///
-    /// - Returns: `GetMinuteUsageOutput` :
+    /// - Returns: (Type: `GetMinuteUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1348,6 +1501,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMinuteUsageInput, GetMinuteUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMinuteUsageOutput>(GetMinuteUsageOutput.httpOutput(from:), GetMinuteUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMinuteUsageInput, GetMinuteUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMinuteUsageOutput>())
@@ -1379,9 +1533,9 @@ extension GroundStationClient {
     ///
     /// Returns a mission profile.
     ///
-    /// - Parameter GetMissionProfileInput :
+    /// - Parameter input: (Type: `GetMissionProfileInput`)
     ///
-    /// - Returns: `GetMissionProfileOutput` :
+    /// - Returns: (Type: `GetMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1414,6 +1568,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMissionProfileInput, GetMissionProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMissionProfileOutput>(GetMissionProfileOutput.httpOutput(from:), GetMissionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMissionProfileInput, GetMissionProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMissionProfileOutput>())
@@ -1445,9 +1600,9 @@ extension GroundStationClient {
     ///
     /// Returns a satellite.
     ///
-    /// - Parameter GetSatelliteInput :
+    /// - Parameter input: (Type: `GetSatelliteInput`)
     ///
-    /// - Returns: `GetSatelliteOutput` :
+    /// - Returns: (Type: `GetSatelliteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,6 +1635,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSatelliteInput, GetSatelliteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSatelliteOutput>(GetSatelliteOutput.httpOutput(from:), GetSatelliteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSatelliteInput, GetSatelliteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSatelliteOutput>())
@@ -1511,9 +1667,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of Config objects.
     ///
-    /// - Parameter ListConfigsInput :
+    /// - Parameter input: (Type: `ListConfigsInput`)
     ///
-    /// - Returns: `ListConfigsOutput` :
+    /// - Returns: (Type: `ListConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1547,6 +1703,7 @@ extension GroundStationClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigsInput, ListConfigsOutput>(ListConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigsOutput>(ListConfigsOutput.httpOutput(from:), ListConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigsInput, ListConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigsOutput>())
@@ -1578,9 +1735,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
     ///
-    /// - Parameter ListContactsInput :
+    /// - Parameter input: (Type: `ListContactsInput`)
     ///
-    /// - Returns: `ListContactsOutput` :
+    /// - Returns: (Type: `ListContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1616,6 +1773,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContactsInput, ListContactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactsOutput>(ListContactsOutput.httpOutput(from:), ListContactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactsInput, ListContactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContactsOutput>())
@@ -1647,9 +1805,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of DataflowEndpoint groups.
     ///
-    /// - Parameter ListDataflowEndpointGroupsInput :
+    /// - Parameter input: (Type: `ListDataflowEndpointGroupsInput`)
     ///
-    /// - Returns: `ListDataflowEndpointGroupsOutput` :
+    /// - Returns: (Type: `ListDataflowEndpointGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,6 +1841,7 @@ extension GroundStationClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataflowEndpointGroupsInput, ListDataflowEndpointGroupsOutput>(ListDataflowEndpointGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataflowEndpointGroupsOutput>(ListDataflowEndpointGroupsOutput.httpOutput(from:), ListDataflowEndpointGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataflowEndpointGroupsInput, ListDataflowEndpointGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataflowEndpointGroupsOutput>())
@@ -1712,11 +1871,11 @@ extension GroundStationClient {
 
     /// Performs the `ListEphemerides` operation on the `GroundStation` service.
     ///
-    /// List existing ephemerides.
+    /// List your existing ephemerides.
     ///
-    /// - Parameter ListEphemeridesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEphemeridesInput`)
     ///
-    /// - Returns: `ListEphemeridesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEphemeridesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1753,6 +1912,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEphemeridesInput, ListEphemeridesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEphemeridesOutput>(ListEphemeridesOutput.httpOutput(from:), ListEphemeridesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEphemeridesInput, ListEphemeridesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEphemeridesOutput>())
@@ -1784,9 +1944,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of ground stations.
     ///
-    /// - Parameter ListGroundStationsInput :
+    /// - Parameter input: (Type: `ListGroundStationsInput`)
     ///
-    /// - Returns: `ListGroundStationsOutput` :
+    /// - Returns: (Type: `ListGroundStationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,6 +1980,7 @@ extension GroundStationClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGroundStationsInput, ListGroundStationsOutput>(ListGroundStationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroundStationsOutput>(ListGroundStationsOutput.httpOutput(from:), ListGroundStationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroundStationsInput, ListGroundStationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroundStationsOutput>())
@@ -1851,9 +2012,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of mission profiles.
     ///
-    /// - Parameter ListMissionProfilesInput :
+    /// - Parameter input: (Type: `ListMissionProfilesInput`)
     ///
-    /// - Returns: `ListMissionProfilesOutput` :
+    /// - Returns: (Type: `ListMissionProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1887,6 +2048,7 @@ extension GroundStationClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMissionProfilesInput, ListMissionProfilesOutput>(ListMissionProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMissionProfilesOutput>(ListMissionProfilesOutput.httpOutput(from:), ListMissionProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMissionProfilesInput, ListMissionProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMissionProfilesOutput>())
@@ -1918,9 +2080,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of satellites.
     ///
-    /// - Parameter ListSatellitesInput :
+    /// - Parameter input: (Type: `ListSatellitesInput`)
     ///
-    /// - Returns: `ListSatellitesOutput` :
+    /// - Returns: (Type: `ListSatellitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1954,6 +2116,7 @@ extension GroundStationClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSatellitesInput, ListSatellitesOutput>(ListSatellitesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSatellitesOutput>(ListSatellitesOutput.httpOutput(from:), ListSatellitesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSatellitesInput, ListSatellitesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSatellitesOutput>())
@@ -1985,9 +2148,9 @@ extension GroundStationClient {
     ///
     /// Returns a list of tags for a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput :
+    /// - Parameter input: (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` :
+    /// - Returns: (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,6 +2183,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2051,9 +2215,9 @@ extension GroundStationClient {
     ///
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Registers a new agent with AWS Ground Station.
     ///
-    /// - Parameter RegisterAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAgentInput`)
     ///
-    /// - Returns: `RegisterAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2089,6 +2253,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterAgentInput, RegisterAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterAgentOutput>(RegisterAgentOutput.httpOutput(from:), RegisterAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterAgentInput, RegisterAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterAgentOutput>())
@@ -2120,15 +2285,16 @@ extension GroundStationClient {
     ///
     /// Reserves a contact using specified parameters.
     ///
-    /// - Parameter ReserveContactInput :
+    /// - Parameter input: (Type: `ReserveContactInput`)
     ///
-    /// - Returns: `ReserveContactOutput` :
+    /// - Returns: (Type: `ReserveContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DependencyException` : Dependency encountered an error.
     /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceLimitExceededException` : Account limits for this resource have been exceeded.
     /// - `ResourceNotFoundException` : Resource was not found.
     public func reserveContact(input: ReserveContactInput) async throws -> ReserveContactOutput {
         let context = Smithy.ContextBuilder()
@@ -2158,6 +2324,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReserveContactInput, ReserveContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReserveContactOutput>(ReserveContactOutput.httpOutput(from:), ReserveContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReserveContactInput, ReserveContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReserveContactOutput>())
@@ -2189,9 +2356,9 @@ extension GroundStationClient {
     ///
     /// Assigns a tag to a resource.
     ///
-    /// - Parameter TagResourceInput :
+    /// - Parameter input: (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` :
+    /// - Returns: (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,6 +2394,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2258,9 +2426,9 @@ extension GroundStationClient {
     ///
     /// Deassigns a resource tag.
     ///
-    /// - Parameter UntagResourceInput :
+    /// - Parameter input: (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` :
+    /// - Returns: (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2294,6 +2462,7 @@ extension GroundStationClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2325,9 +2494,9 @@ extension GroundStationClient {
     ///
     /// For use by AWS Ground Station Agent and shouldn't be called directly. Update the status of the agent.
     ///
-    /// - Parameter UpdateAgentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAgentStatusInput`)
     ///
-    /// - Returns: `UpdateAgentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAgentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2363,6 +2532,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAgentStatusInput, UpdateAgentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAgentStatusOutput>(UpdateAgentStatusOutput.httpOutput(from:), UpdateAgentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAgentStatusInput, UpdateAgentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAgentStatusOutput>())
@@ -2394,9 +2564,9 @@ extension GroundStationClient {
     ///
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     ///
-    /// - Parameter UpdateConfigInput :
+    /// - Parameter input: (Type: `UpdateConfigInput`)
     ///
-    /// - Returns: `UpdateConfigOutput` :
+    /// - Returns: (Type: `UpdateConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2432,6 +2602,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigInput, UpdateConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigOutput>(UpdateConfigOutput.httpOutput(from:), UpdateConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigInput, UpdateConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigOutput>())
@@ -2461,11 +2632,11 @@ extension GroundStationClient {
 
     /// Performs the `UpdateEphemeris` operation on the `GroundStation` service.
     ///
-    /// Updates an existing ephemeris
+    /// Update an existing ephemeris.
     ///
-    /// - Parameter UpdateEphemerisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEphemerisInput`)
     ///
-    /// - Returns: `UpdateEphemerisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEphemerisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2501,6 +2672,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEphemerisInput, UpdateEphemerisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEphemerisOutput>(UpdateEphemerisOutput.httpOutput(from:), UpdateEphemerisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEphemerisInput, UpdateEphemerisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEphemerisOutput>())
@@ -2532,9 +2704,9 @@ extension GroundStationClient {
     ///
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     ///
-    /// - Parameter UpdateMissionProfileInput :
+    /// - Parameter input: (Type: `UpdateMissionProfileInput`)
     ///
-    /// - Returns: `UpdateMissionProfileOutput` :
+    /// - Returns: (Type: `UpdateMissionProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2570,6 +2742,7 @@ extension GroundStationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMissionProfileInput, UpdateMissionProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMissionProfileOutput>(UpdateMissionProfileOutput.httpOutput(from:), UpdateMissionProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMissionProfileInput, UpdateMissionProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMissionProfileOutput>())

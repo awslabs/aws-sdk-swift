@@ -1614,6 +1614,33 @@
                     "method": "GET",
                     "uri": "/languagemodels/{ModelName}",
                     "code": 200
+                },
+                "smithy.waiters#waitable": {
+                    "LanguageModelCompleted": {
+                        "acceptors": [
+                            {
+                                "state": "success",
+                                "matcher": {
+                                    "output": {
+                                        "path": "LanguageModel.ModelStatus",
+                                        "expected": "COMPLETED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            },
+                            {
+                                "state": "failure",
+                                "matcher": {
+                                    "output": {
+                                        "path": "LanguageModel.ModelStatus",
+                                        "expected": "FAILED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            }
+                        ],
+                        "minDelay": 120
+                    }
                 }
             }
         },
@@ -1742,6 +1769,33 @@
                     "method": "GET",
                     "uri": "/callanalyticsjobs/{CallAnalyticsJobName}",
                     "code": 200
+                },
+                "smithy.waiters#waitable": {
+                    "CallAnalyticsJobCompleted": {
+                        "acceptors": [
+                            {
+                                "state": "success",
+                                "matcher": {
+                                    "output": {
+                                        "path": "CallAnalyticsJob.CallAnalyticsJobStatus",
+                                        "expected": "COMPLETED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            },
+                            {
+                                "state": "failure",
+                                "matcher": {
+                                    "output": {
+                                        "path": "CallAnalyticsJob.CallAnalyticsJobStatus",
+                                        "expected": "FAILED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            }
+                        ],
+                        "minDelay": 10
+                    }
                 }
             }
         },
@@ -1803,6 +1857,33 @@
                     "method": "GET",
                     "uri": "/medicalscribejobs/{MedicalScribeJobName}",
                     "code": 200
+                },
+                "smithy.waiters#waitable": {
+                    "MedicalScribeJobCompleted": {
+                        "acceptors": [
+                            {
+                                "state": "success",
+                                "matcher": {
+                                    "output": {
+                                        "path": "MedicalScribeJob.MedicalScribeJobStatus",
+                                        "expected": "COMPLETED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            },
+                            {
+                                "state": "failure",
+                                "matcher": {
+                                    "output": {
+                                        "path": "MedicalScribeJob.MedicalScribeJobStatus",
+                                        "expected": "FAILED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            }
+                        ],
+                        "minDelay": 10
+                    }
                 }
             }
         },
@@ -1864,6 +1945,33 @@
                     "method": "GET",
                     "uri": "/medicaltranscriptionjobs/{MedicalTranscriptionJobName}",
                     "code": 200
+                },
+                "smithy.waiters#waitable": {
+                    "MedicalTranscriptionJobCompleted": {
+                        "acceptors": [
+                            {
+                                "state": "success",
+                                "matcher": {
+                                    "output": {
+                                        "path": "MedicalTranscriptionJob.TranscriptionJobStatus",
+                                        "expected": "COMPLETED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            },
+                            {
+                                "state": "failure",
+                                "matcher": {
+                                    "output": {
+                                        "path": "MedicalTranscriptionJob.TranscriptionJobStatus",
+                                        "expected": "FAILED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            }
+                        ],
+                        "minDelay": 10
+                    }
                 }
             }
         },
@@ -1925,6 +2033,33 @@
                     "method": "GET",
                     "uri": "/medicalvocabularies/{VocabularyName}",
                     "code": 200
+                },
+                "smithy.waiters#waitable": {
+                    "MedicalVocabularyReady": {
+                        "acceptors": [
+                            {
+                                "state": "success",
+                                "matcher": {
+                                    "output": {
+                                        "path": "VocabularyState",
+                                        "expected": "READY",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            },
+                            {
+                                "state": "failure",
+                                "matcher": {
+                                    "output": {
+                                        "path": "VocabularyState",
+                                        "expected": "FAILED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            }
+                        ],
+                        "minDelay": 10
+                    }
                 }
             }
         },
@@ -2016,6 +2151,33 @@
                     "method": "GET",
                     "uri": "/transcriptionjobs/{TranscriptionJobName}",
                     "code": 200
+                },
+                "smithy.waiters#waitable": {
+                    "TranscriptionJobCompleted": {
+                        "acceptors": [
+                            {
+                                "state": "success",
+                                "matcher": {
+                                    "output": {
+                                        "path": "TranscriptionJob.TranscriptionJobStatus",
+                                        "expected": "COMPLETED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            },
+                            {
+                                "state": "failure",
+                                "matcher": {
+                                    "output": {
+                                        "path": "TranscriptionJob.TranscriptionJobStatus",
+                                        "expected": "FAILED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            }
+                        ],
+                        "minDelay": 10
+                    }
                 }
             }
         },
@@ -2077,6 +2239,33 @@
                     "method": "GET",
                     "uri": "/vocabularies/{VocabularyName}",
                     "code": 200
+                },
+                "smithy.waiters#waitable": {
+                    "VocabularyReady": {
+                        "acceptors": [
+                            {
+                                "state": "success",
+                                "matcher": {
+                                    "output": {
+                                        "path": "VocabularyState",
+                                        "expected": "READY",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            },
+                            {
+                                "state": "failure",
+                                "matcher": {
+                                    "output": {
+                                        "path": "VocabularyState",
+                                        "expected": "FAILED",
+                                        "comparator": "stringEquals"
+                                    }
+                                }
+                            }
+                        ],
+                        "minDelay": 10
+                    }
                 }
             }
         },
@@ -5417,7 +5606,7 @@
                 "OutputEncryptionKMSKeyId": {
                     "target": "com.amazonaws.transcribe#KMSKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The KMS key you want to use to encrypt your Call Analytics\n            output.</p>\n         <p>If using a key located in the <b>current</b>\n            Amazon Web Services account, you can specify your KMS key in one of four\n            ways:</p>\n         <ol>\n            <li>\n               <p>Use the KMS key ID itself. For example,\n                        <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use an alias for the KMS key ID. For example,\n                        <code>alias/ExampleAlias</code>.</p>\n            </li>\n            <li>\n               <p>Use the Amazon Resource Name (ARN) for the KMS key ID. For\n                    example,\n                        <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use the ARN for the KMS key alias. For example,\n                        <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.</p>\n            </li>\n         </ol>\n         <p>If using a key located in a <b>different</b>\n            Amazon Web Services account than the current Amazon Web Services account, you can specify\n            your KMS key in one of two ways:</p>\n         <ol>\n            <li>\n               <p>Use the ARN for the KMS key ID. For example,\n                        <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use the ARN for the KMS key alias. For example,\n                        <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.</p>\n            </li>\n         </ol>\n         <p>If you do not specify an encryption key, your output is encrypted with the default\n                Amazon S3 key (SSE-S3).</p>\n         <p>If you specify a KMS key to encrypt your output, you must also specify\n            an output location using the <code>OutputLocation</code> parameter.</p>\n         <p>Note that the role making the  request must\n            have permission to use the specified KMS key.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a KMS key that you want to use to\n            encrypt your Call Analytics output.</p>\n         <p>KMS key ARNs have the format <code>arn:partition:kms:region:account:key/key-id</code>. For example:\n    \t<code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.\n            For more information, see <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN\">\n                KMS key ARNs</a>.</p>\n         <p>If you do not specify an encryption key, your output is encrypted with the default\n            Amazon S3 key (SSE-S3).</p>\n         <p>Note that the role making the  request and the role specified in \n\t\tthe <code>DataAccessRoleArn</code> request parameter (if present) must have permission to use the \n\t\tspecified KMS key.</p>"
                     }
                 },
                 "DataAccessRoleArn": {
@@ -5521,7 +5710,7 @@
                 "OutputEncryptionKMSKeyId": {
                     "target": "com.amazonaws.transcribe#KMSKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The KMS key you want to use to encrypt your Medical Scribe\n            output.</p>\n         <p>If using a key located in the <b>current</b>\n            Amazon Web Services account, you can specify your KMS key in one of four\n            ways:</p>\n         <ol>\n            <li>\n               <p>Use the KMS key ID itself. For example,\n                        <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use an alias for the KMS key ID. For example,\n                        <code>alias/ExampleAlias</code>.</p>\n            </li>\n            <li>\n               <p>Use the Amazon Resource Name (ARN) for the KMS key ID. For\n                    example,\n                        <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use the ARN for the KMS key alias. For example,\n                        <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.</p>\n            </li>\n         </ol>\n         <p>If using a key located in a <b>different</b>\n            Amazon Web Services account than the current Amazon Web Services account, you can specify\n            your KMS key in one of two ways:</p>\n         <ol>\n            <li>\n               <p>Use the ARN for the KMS key ID. For example,\n                        <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use the ARN for the KMS key alias. For example,\n                        <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.</p>\n            </li>\n         </ol>\n         <p>If you do not specify an encryption key, your output is encrypted with the default\n                Amazon S3 key (SSE-S3).</p>\n         <p>Note that the role specified in the <code>DataAccessRoleArn</code> request parameter \n            must have permission to use the specified KMS key.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a KMS key that you want to use to\n            encrypt your Medical Scribe output.</p>\n         <p>KMS key ARNs have the format <code>arn:partition:kms:region:account:key/key-id</code>. For example:\n\t\t<code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.\n            \tFor more information, see <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN\">\n                KMS key ARNs</a>.</p>\n         <p>If you do not specify an encryption key, your output is encrypted with the default\n                Amazon S3 key (SSE-S3).</p>\n         <p>Note that the role making the  request and the role specified in \n\t\tthe <code>DataAccessRoleArn</code> request parameter (if present) \n\t\tmust have permission to use the specified KMS key.</p>"
                     }
                 },
                 "KMSEncryptionContext": {
@@ -5664,7 +5853,7 @@
                 "OutputEncryptionKMSKeyId": {
                     "target": "com.amazonaws.transcribe#KMSKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The KMS key you want to use to encrypt your medical transcription\n            output.</p>\n         <p>If using a key located in the <b>current</b>\n            Amazon Web Services account, you can specify your KMS key in one of four\n            ways:</p>\n         <ol>\n            <li>\n               <p>Use the KMS key ID itself. For example,\n                        <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use an alias for the KMS key ID. For example,\n                        <code>alias/ExampleAlias</code>.</p>\n            </li>\n            <li>\n               <p>Use the Amazon Resource Name (ARN) for the KMS key ID. For\n                    example,\n                        <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use the ARN for the KMS key alias. For example,\n                        <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.</p>\n            </li>\n         </ol>\n         <p>If using a key located in a <b>different</b>\n            Amazon Web Services account than the current Amazon Web Services account, you can specify\n            your KMS key in one of two ways:</p>\n         <ol>\n            <li>\n               <p>Use the ARN for the KMS key ID. For example,\n                        <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use the ARN for the KMS key alias. For example,\n                        <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.</p>\n            </li>\n         </ol>\n         <p>If you do not specify an encryption key, your output is encrypted with the default\n                Amazon S3 key (SSE-S3).</p>\n         <p>If you specify a KMS key to encrypt your output, you must also specify\n            an output location using the <code>OutputLocation</code> parameter.</p>\n         <p>Note that the role making the  request must\n            have permission to use the specified KMS key.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a KMS key that you want to use to\n            encrypt your medical transcription output.</p>\n         <p>KMS key ARNs have the format <code>arn:partition:kms:region:account:key/key-id</code>. For example:\n    \t<code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.\n            For more information, see <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN\">\n                KMS key ARNs</a>.</p>\n         <p>If you do not specify an encryption key, your output is encrypted with the default\n            Amazon S3 key (SSE-S3).</p>\n         <p>Note that the role making the  request and the role specified \n    \t\tin the <code>DataAccessRoleArn</code> request parameter (if present) must have permission to use the \n\t\tspecified KMS key.</p>"
                     }
                 },
                 "KMSEncryptionContext": {
@@ -5806,7 +5995,7 @@
                 "OutputEncryptionKMSKeyId": {
                     "target": "com.amazonaws.transcribe#KMSKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The KMS key you want to use to encrypt your transcription\n            output.</p>\n         <p>If using a key located in the <b>current</b>\n            Amazon Web Services account, you can specify your KMS key in one of four\n            ways:</p>\n         <ol>\n            <li>\n               <p>Use the KMS key ID itself. For example,\n                        <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use an alias for the KMS key ID. For example,\n                        <code>alias/ExampleAlias</code>.</p>\n            </li>\n            <li>\n               <p>Use the Amazon Resource Name (ARN) for the KMS key ID. For\n                    example,\n                        <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use the ARN for the KMS key alias. For example,\n                        <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.</p>\n            </li>\n         </ol>\n         <p>If using a key located in a <b>different</b>\n            Amazon Web Services account than the current Amazon Web Services account, you can specify\n            your KMS key in one of two ways:</p>\n         <ol>\n            <li>\n               <p>Use the ARN for the KMS key ID. For example,\n                        <code>arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.</p>\n            </li>\n            <li>\n               <p>Use the ARN for the KMS key alias. For example,\n                        <code>arn:aws:kms:region:account-ID:alias/ExampleAlias</code>.</p>\n            </li>\n         </ol>\n         <p>If you do not specify an encryption key, your output is encrypted with the default\n                Amazon S3 key (SSE-S3).</p>\n         <p>If you specify a KMS key to encrypt your output, you must also specify\n            an output location using the <code>OutputLocation</code> parameter.</p>\n         <p>Note that the role making the  request must\n            have permission to use the specified KMS key.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a KMS key that you want to use to\n            encrypt your transcription output.</p>\n         <p>KMS key ARNs have the format <code>arn:partition:kms:region:account:key/key-id</code>. For example:\n    \t<code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>.\n            For more information, see <a href=\"https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN\">\n                KMS key ARNs</a>.</p>\n         <p>If you do not specify an encryption key, your output is encrypted with the default\n            Amazon S3 key (SSE-S3).</p>\n         <p>Note that the role making the  request and the role specified in the \n\t\t<code>DataAccessRoleArn</code> request parameter (if present) must have permission to use the specified \n\t\tKMS key.</p>"
                     }
                 },
                 "KMSEncryptionContext": {
@@ -6355,27 +6544,27 @@
                             "builtIn": "AWS::Region",
                             "required": false,
                             "documentation": "The AWS region used to dispatch the request.",
-                            "type": "String"
+                            "type": "string"
                         },
                         "UseDualStack": {
                             "builtIn": "AWS::UseDualStack",
                             "required": true,
                             "default": false,
                             "documentation": "When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.",
-                            "type": "Boolean"
+                            "type": "boolean"
                         },
                         "UseFIPS": {
                             "builtIn": "AWS::UseFIPS",
                             "required": true,
                             "default": false,
                             "documentation": "When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.",
-                            "type": "Boolean"
+                            "type": "boolean"
                         },
                         "Endpoint": {
                             "builtIn": "SDK::Endpoint",
                             "required": false,
                             "documentation": "Override the endpoint used to send this request",
-                            "type": "String"
+                            "type": "string"
                         }
                     },
                     "rules": [
@@ -7247,17 +7436,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -7271,28 +7449,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -7303,17 +7459,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -7836,6 +7981,7 @@
                     "target": "com.amazonaws.transcribe#TagKeyList",
                     "traits": {
                         "smithy.api#documentation": "<p>Removes the specified tag keys from the specified Amazon Transcribe resource.</p>",
+                        "smithy.api#httpQuery": "tagKeys",
                         "smithy.api#required": {}
                     }
                 }

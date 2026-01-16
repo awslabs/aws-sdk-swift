@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BillingconductorClient: ClientRuntime.Client {
+public class BillingconductorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BillingconductorClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: BillingconductorClient.BillingconductorClientConfiguration
     let serviceName = "billingconductor"
@@ -374,9 +374,9 @@ extension BillingconductorClient {
     ///
     /// Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
     ///
-    /// - Parameter AssociateAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAccountsInput`)
     ///
-    /// - Returns: `AssociateAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -387,7 +387,7 @@ extension BillingconductorClient {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func associateAccounts(input: AssociateAccountsInput) async throws -> AssociateAccountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -416,6 +416,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAccountsInput, AssociateAccountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAccountsOutput>(AssociateAccountsOutput.httpOutput(from:), AssociateAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAccountsInput, AssociateAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAccountsOutput>())
@@ -447,9 +448,9 @@ extension BillingconductorClient {
     ///
     /// Connects an array of PricingRuleArns to a defined PricingPlan. The maximum number PricingRuleArn that can be associated in one call is 30.
     ///
-    /// - Parameter AssociatePricingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePricingRulesInput`)
     ///
-    /// - Returns: `AssociatePricingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePricingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,7 +461,7 @@ extension BillingconductorClient {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func associatePricingRules(input: AssociatePricingRulesInput) async throws -> AssociatePricingRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -489,6 +490,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePricingRulesInput, AssociatePricingRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePricingRulesOutput>(AssociatePricingRulesOutput.httpOutput(from:), AssociatePricingRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePricingRulesInput, AssociatePricingRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePricingRulesOutput>())
@@ -520,9 +522,9 @@ extension BillingconductorClient {
     ///
     /// Associates a batch of resources to a percentage custom line item.
     ///
-    /// - Parameter BatchAssociateResourcesToCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateResourcesToCustomLineItemInput`)
     ///
-    /// - Returns: `BatchAssociateResourcesToCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateResourcesToCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -533,7 +535,7 @@ extension BillingconductorClient {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func batchAssociateResourcesToCustomLineItem(input: BatchAssociateResourcesToCustomLineItemInput) async throws -> BatchAssociateResourcesToCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -562,6 +564,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAssociateResourcesToCustomLineItemInput, BatchAssociateResourcesToCustomLineItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAssociateResourcesToCustomLineItemOutput>(BatchAssociateResourcesToCustomLineItemOutput.httpOutput(from:), BatchAssociateResourcesToCustomLineItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAssociateResourcesToCustomLineItemInput, BatchAssociateResourcesToCustomLineItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAssociateResourcesToCustomLineItemOutput>())
@@ -593,9 +596,9 @@ extension BillingconductorClient {
     ///
     /// Disassociates a batch of resources from a percentage custom line item.
     ///
-    /// - Parameter BatchDisassociateResourcesFromCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateResourcesFromCustomLineItemInput`)
     ///
-    /// - Returns: `BatchDisassociateResourcesFromCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateResourcesFromCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -605,7 +608,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func batchDisassociateResourcesFromCustomLineItem(input: BatchDisassociateResourcesFromCustomLineItemInput) async throws -> BatchDisassociateResourcesFromCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -634,6 +637,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateResourcesFromCustomLineItemInput, BatchDisassociateResourcesFromCustomLineItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisassociateResourcesFromCustomLineItemOutput>(BatchDisassociateResourcesFromCustomLineItemOutput.httpOutput(from:), BatchDisassociateResourcesFromCustomLineItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateResourcesFromCustomLineItemInput, BatchDisassociateResourcesFromCustomLineItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateResourcesFromCustomLineItemOutput>())
@@ -665,9 +669,9 @@ extension BillingconductorClient {
     ///
     /// Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
     ///
-    /// - Parameter CreateBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBillingGroupInput`)
     ///
-    /// - Returns: `CreateBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -677,7 +681,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -708,6 +712,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBillingGroupInput, CreateBillingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBillingGroupOutput>(CreateBillingGroupOutput.httpOutput(from:), CreateBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBillingGroupInput, CreateBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillingGroupOutput>())
@@ -739,9 +744,9 @@ extension BillingconductorClient {
     ///
     /// Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
     ///
-    /// - Parameter CreateCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomLineItemInput`)
     ///
-    /// - Returns: `CreateCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -751,7 +756,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func createCustomLineItem(input: CreateCustomLineItemInput) async throws -> CreateCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -782,6 +787,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomLineItemInput, CreateCustomLineItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomLineItemOutput>(CreateCustomLineItemOutput.httpOutput(from:), CreateCustomLineItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomLineItemInput, CreateCustomLineItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomLineItemOutput>())
@@ -813,9 +819,9 @@ extension BillingconductorClient {
     ///
     /// Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
     ///
-    /// - Parameter CreatePricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePricingPlanInput`)
     ///
-    /// - Returns: `CreatePricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -826,7 +832,7 @@ extension BillingconductorClient {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func createPricingPlan(input: CreatePricingPlanInput) async throws -> CreatePricingPlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -857,6 +863,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePricingPlanInput, CreatePricingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePricingPlanOutput>(CreatePricingPlanOutput.httpOutput(from:), CreatePricingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePricingPlanInput, CreatePricingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePricingPlanOutput>())
@@ -888,9 +895,9 @@ extension BillingconductorClient {
     ///
     /// Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
     ///
-    /// - Parameter CreatePricingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePricingRuleInput`)
     ///
-    /// - Returns: `CreatePricingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePricingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -900,7 +907,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func createPricingRule(input: CreatePricingRuleInput) async throws -> CreatePricingRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -931,6 +938,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePricingRuleInput, CreatePricingRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePricingRuleOutput>(CreatePricingRuleOutput.httpOutput(from:), CreatePricingRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePricingRuleInput, CreatePricingRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePricingRuleOutput>())
@@ -962,9 +970,9 @@ extension BillingconductorClient {
     ///
     /// Deletes a billing group.
     ///
-    /// - Parameter DeleteBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBillingGroupInput`)
     ///
-    /// - Returns: `DeleteBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,7 +980,7 @@ extension BillingconductorClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1001,6 +1009,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBillingGroupInput, DeleteBillingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBillingGroupOutput>(DeleteBillingGroupOutput.httpOutput(from:), DeleteBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBillingGroupInput, DeleteBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBillingGroupOutput>())
@@ -1032,9 +1041,9 @@ extension BillingconductorClient {
     ///
     /// Deletes the custom line item identified by the given ARN in the current, or previous billing period.
     ///
-    /// - Parameter DeleteCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomLineItemInput`)
     ///
-    /// - Returns: `DeleteCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,7 +1052,7 @@ extension BillingconductorClient {
     /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func deleteCustomLineItem(input: DeleteCustomLineItemInput) async throws -> DeleteCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1072,6 +1081,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomLineItemInput, DeleteCustomLineItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomLineItemOutput>(DeleteCustomLineItemOutput.httpOutput(from:), DeleteCustomLineItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomLineItemInput, DeleteCustomLineItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomLineItemOutput>())
@@ -1103,9 +1113,9 @@ extension BillingconductorClient {
     ///
     /// Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
     ///
-    /// - Parameter DeletePricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePricingPlanInput`)
     ///
-    /// - Returns: `DeletePricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,7 +1124,7 @@ extension BillingconductorClient {
     /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func deletePricingPlan(input: DeletePricingPlanInput) async throws -> DeletePricingPlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1143,6 +1153,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePricingPlanInput, DeletePricingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePricingPlanOutput>(DeletePricingPlanOutput.httpOutput(from:), DeletePricingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePricingPlanInput, DeletePricingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePricingPlanOutput>())
@@ -1174,9 +1185,9 @@ extension BillingconductorClient {
     ///
     /// Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
     ///
-    /// - Parameter DeletePricingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePricingRuleInput`)
     ///
-    /// - Returns: `DeletePricingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePricingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1185,7 +1196,7 @@ extension BillingconductorClient {
     /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func deletePricingRule(input: DeletePricingRuleInput) async throws -> DeletePricingRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1214,6 +1225,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePricingRuleInput, DeletePricingRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePricingRuleOutput>(DeletePricingRuleOutput.httpOutput(from:), DeletePricingRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePricingRuleInput, DeletePricingRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePricingRuleOutput>())
@@ -1245,9 +1257,9 @@ extension BillingconductorClient {
     ///
     /// Removes the specified list of account IDs from the given billing group.
     ///
-    /// - Parameter DisassociateAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAccountsInput`)
     ///
-    /// - Returns: `DisassociateAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1257,7 +1269,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func disassociateAccounts(input: DisassociateAccountsInput) async throws -> DisassociateAccountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1286,6 +1298,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAccountsOutput>(DisassociateAccountsOutput.httpOutput(from:), DisassociateAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAccountsInput, DisassociateAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAccountsOutput>())
@@ -1317,9 +1330,9 @@ extension BillingconductorClient {
     ///
     /// Disassociates a list of pricing rules from a pricing plan.
     ///
-    /// - Parameter DisassociatePricingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePricingRulesInput`)
     ///
-    /// - Returns: `DisassociatePricingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePricingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,7 +1342,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func disassociatePricingRules(input: DisassociatePricingRulesInput) async throws -> DisassociatePricingRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -1358,6 +1371,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociatePricingRulesInput, DisassociatePricingRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePricingRulesOutput>(DisassociatePricingRulesOutput.httpOutput(from:), DisassociatePricingRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePricingRulesInput, DisassociatePricingRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePricingRulesOutput>())
@@ -1387,11 +1401,11 @@ extension BillingconductorClient {
 
     /// Performs the `GetBillingGroupCostReport` operation on the `Billingconductor` service.
     ///
-    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Service for a specific billing group.
+    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group.
     ///
-    /// - Parameter GetBillingGroupCostReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBillingGroupCostReportInput`)
     ///
-    /// - Returns: `GetBillingGroupCostReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBillingGroupCostReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1400,7 +1414,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func getBillingGroupCostReport(input: GetBillingGroupCostReportInput) async throws -> GetBillingGroupCostReportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1429,6 +1443,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillingGroupCostReportInput, GetBillingGroupCostReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBillingGroupCostReportOutput>(GetBillingGroupCostReportOutput.httpOutput(from:), GetBillingGroupCostReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBillingGroupCostReportInput, GetBillingGroupCostReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillingGroupCostReportOutput>())
@@ -1460,9 +1475,9 @@ extension BillingconductorClient {
     ///
     /// This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
     ///
-    /// - Parameter ListAccountAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssociationsInput`)
     ///
-    /// - Returns: `ListAccountAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1471,7 +1486,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listAccountAssociations(input: ListAccountAssociationsInput) async throws -> ListAccountAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1500,6 +1515,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountAssociationsInput, ListAccountAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssociationsOutput>(ListAccountAssociationsOutput.httpOutput(from:), ListAccountAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssociationsInput, ListAccountAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssociationsOutput>())
@@ -1531,9 +1547,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
     ///
-    /// - Parameter ListBillingGroupCostReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillingGroupCostReportsInput`)
     ///
-    /// - Returns: `ListBillingGroupCostReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillingGroupCostReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1542,7 +1558,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listBillingGroupCostReports(input: ListBillingGroupCostReportsInput) async throws -> ListBillingGroupCostReportsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1571,6 +1587,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBillingGroupCostReportsOutput>(ListBillingGroupCostReportsOutput.httpOutput(from:), ListBillingGroupCostReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillingGroupCostReportsInput, ListBillingGroupCostReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillingGroupCostReportsOutput>())
@@ -1602,9 +1619,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
     ///
-    /// - Parameter ListBillingGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillingGroupsInput`)
     ///
-    /// - Returns: `ListBillingGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillingGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1613,7 +1630,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1642,6 +1659,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillingGroupsInput, ListBillingGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBillingGroupsOutput>(ListBillingGroupsOutput.httpOutput(from:), ListBillingGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillingGroupsInput, ListBillingGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillingGroupsOutput>())
@@ -1673,9 +1691,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to get a list of all custom line item versions.
     ///
-    /// - Parameter ListCustomLineItemVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomLineItemVersionsInput`)
     ///
-    /// - Returns: `ListCustomLineItemVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomLineItemVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,7 +1701,7 @@ extension BillingconductorClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listCustomLineItemVersions(input: ListCustomLineItemVersionsInput) async throws -> ListCustomLineItemVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1712,6 +1730,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomLineItemVersionsInput, ListCustomLineItemVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomLineItemVersionsOutput>(ListCustomLineItemVersionsOutput.httpOutput(from:), ListCustomLineItemVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomLineItemVersionsInput, ListCustomLineItemVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomLineItemVersionsOutput>())
@@ -1743,9 +1762,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
-    /// - Parameter ListCustomLineItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomLineItemsInput`)
     ///
-    /// - Returns: `ListCustomLineItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomLineItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1754,7 +1773,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listCustomLineItems(input: ListCustomLineItemsInput) async throws -> ListCustomLineItemsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1783,6 +1802,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomLineItemsInput, ListCustomLineItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomLineItemsOutput>(ListCustomLineItemsOutput.httpOutput(from:), ListCustomLineItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomLineItemsInput, ListCustomLineItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomLineItemsOutput>())
@@ -1814,9 +1834,9 @@ extension BillingconductorClient {
     ///
     /// A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
     ///
-    /// - Parameter ListPricingPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricingPlansInput`)
     ///
-    /// - Returns: `ListPricingPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricingPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1824,7 +1844,7 @@ extension BillingconductorClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listPricingPlans(input: ListPricingPlansInput) async throws -> ListPricingPlansOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1853,6 +1873,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPricingPlansInput, ListPricingPlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPricingPlansOutput>(ListPricingPlansOutput.httpOutput(from:), ListPricingPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPricingPlansInput, ListPricingPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPricingPlansOutput>())
@@ -1884,9 +1905,9 @@ extension BillingconductorClient {
     ///
     /// A list of the pricing plans that are associated with a pricing rule.
     ///
-    /// - Parameter ListPricingPlansAssociatedWithPricingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricingPlansAssociatedWithPricingRuleInput`)
     ///
-    /// - Returns: `ListPricingPlansAssociatedWithPricingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricingPlansAssociatedWithPricingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1895,7 +1916,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listPricingPlansAssociatedWithPricingRule(input: ListPricingPlansAssociatedWithPricingRuleInput) async throws -> ListPricingPlansAssociatedWithPricingRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1924,6 +1945,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPricingPlansAssociatedWithPricingRuleInput, ListPricingPlansAssociatedWithPricingRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPricingPlansAssociatedWithPricingRuleOutput>(ListPricingPlansAssociatedWithPricingRuleOutput.httpOutput(from:), ListPricingPlansAssociatedWithPricingRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPricingPlansAssociatedWithPricingRuleInput, ListPricingPlansAssociatedWithPricingRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPricingPlansAssociatedWithPricingRuleOutput>())
@@ -1955,9 +1977,9 @@ extension BillingconductorClient {
     ///
     /// Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
     ///
-    /// - Parameter ListPricingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricingRulesInput`)
     ///
-    /// - Returns: `ListPricingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,7 +1987,7 @@ extension BillingconductorClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listPricingRules(input: ListPricingRulesInput) async throws -> ListPricingRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1994,6 +2016,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPricingRulesInput, ListPricingRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPricingRulesOutput>(ListPricingRulesOutput.httpOutput(from:), ListPricingRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPricingRulesInput, ListPricingRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPricingRulesOutput>())
@@ -2025,9 +2048,9 @@ extension BillingconductorClient {
     ///
     /// Lists the pricing rules that are associated with a pricing plan.
     ///
-    /// - Parameter ListPricingRulesAssociatedToPricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPricingRulesAssociatedToPricingPlanInput`)
     ///
-    /// - Returns: `ListPricingRulesAssociatedToPricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPricingRulesAssociatedToPricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2036,7 +2059,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listPricingRulesAssociatedToPricingPlan(input: ListPricingRulesAssociatedToPricingPlanInput) async throws -> ListPricingRulesAssociatedToPricingPlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2065,6 +2088,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPricingRulesAssociatedToPricingPlanInput, ListPricingRulesAssociatedToPricingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPricingRulesAssociatedToPricingPlanOutput>(ListPricingRulesAssociatedToPricingPlanOutput.httpOutput(from:), ListPricingRulesAssociatedToPricingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPricingRulesAssociatedToPricingPlanInput, ListPricingRulesAssociatedToPricingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPricingRulesAssociatedToPricingPlanOutput>())
@@ -2096,9 +2120,9 @@ extension BillingconductorClient {
     ///
     /// List the resources that are associated to a custom line item.
     ///
-    /// - Parameter ListResourcesAssociatedToCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesAssociatedToCustomLineItemInput`)
     ///
-    /// - Returns: `ListResourcesAssociatedToCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesAssociatedToCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2107,7 +2131,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listResourcesAssociatedToCustomLineItem(input: ListResourcesAssociatedToCustomLineItemInput) async throws -> ListResourcesAssociatedToCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2136,6 +2160,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcesAssociatedToCustomLineItemInput, ListResourcesAssociatedToCustomLineItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcesAssociatedToCustomLineItemOutput>(ListResourcesAssociatedToCustomLineItemOutput.httpOutput(from:), ListResourcesAssociatedToCustomLineItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcesAssociatedToCustomLineItemInput, ListResourcesAssociatedToCustomLineItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcesAssociatedToCustomLineItemOutput>())
@@ -2167,9 +2192,9 @@ extension BillingconductorClient {
     ///
     /// A list the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2178,7 +2203,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2204,6 +2229,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2235,9 +2261,9 @@ extension BillingconductorClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2246,7 +2272,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2275,6 +2301,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2306,9 +2333,9 @@ extension BillingconductorClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2317,7 +2344,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2344,6 +2371,7 @@ extension BillingconductorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2375,9 +2403,9 @@ extension BillingconductorClient {
     ///
     /// This updates an existing billing group.
     ///
-    /// - Parameter UpdateBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBillingGroupInput`)
     ///
-    /// - Returns: `UpdateBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2387,7 +2415,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2416,6 +2444,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBillingGroupInput, UpdateBillingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBillingGroupOutput>(UpdateBillingGroupOutput.httpOutput(from:), UpdateBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBillingGroupInput, UpdateBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBillingGroupOutput>())
@@ -2447,9 +2476,9 @@ extension BillingconductorClient {
     ///
     /// Update an existing custom line item in the current or previous billing period.
     ///
-    /// - Parameter UpdateCustomLineItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomLineItemInput`)
     ///
-    /// - Returns: `UpdateCustomLineItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomLineItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2458,7 +2487,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func updateCustomLineItem(input: UpdateCustomLineItemInput) async throws -> UpdateCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2487,6 +2516,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomLineItemInput, UpdateCustomLineItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomLineItemOutput>(UpdateCustomLineItemOutput.httpOutput(from:), UpdateCustomLineItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomLineItemInput, UpdateCustomLineItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomLineItemOutput>())
@@ -2518,9 +2548,9 @@ extension BillingconductorClient {
     ///
     /// This updates an existing pricing plan.
     ///
-    /// - Parameter UpdatePricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePricingPlanInput`)
     ///
-    /// - Returns: `UpdatePricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2530,7 +2560,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2559,6 +2589,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePricingPlanInput, UpdatePricingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePricingPlanOutput>(UpdatePricingPlanOutput.httpOutput(from:), UpdatePricingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePricingPlanInput, UpdatePricingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePricingPlanOutput>())
@@ -2590,9 +2621,9 @@ extension BillingconductorClient {
     ///
     /// Updates an existing pricing rule.
     ///
-    /// - Parameter UpdatePricingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePricingRuleInput`)
     ///
-    /// - Returns: `UpdatePricingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePricingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2602,7 +2633,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func updatePricingRule(input: UpdatePricingRuleInput) async throws -> UpdatePricingRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2631,6 +2662,7 @@ extension BillingconductorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePricingRuleInput, UpdatePricingRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePricingRuleOutput>(UpdatePricingRuleOutput.httpOutput(from:), UpdatePricingRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePricingRuleInput, UpdatePricingRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePricingRuleOutput>())

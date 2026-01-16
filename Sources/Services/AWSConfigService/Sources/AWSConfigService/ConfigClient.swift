@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ConfigClient: ClientRuntime.Client {
+public class ConfigClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ConfigClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ConfigClient.ConfigClientConfiguration
     let serviceName = "Config"
@@ -373,9 +373,9 @@ extension ConfigClient {
     ///
     /// Adds all resource types specified in the ResourceTypes list to the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) of specified configuration recorder and includes those resource types when recording. For this operation, the specified configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
     ///
-    /// - Parameter AssociateResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceTypesInput`)
     ///
-    /// - Returns: `AssociateResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,6 +435,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResourceTypesOutput>(AssociateResourceTypesOutput.httpOutput(from:), AssociateResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResourceTypesInput, AssociateResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResourceTypesOutput>())
@@ -473,9 +474,9 @@ extension ConfigClient {
     ///
     /// * The API does not return tags and relationships.
     ///
-    /// - Parameter BatchGetAggregateResourceConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetAggregateResourceConfigInput`)
     ///
-    /// - Returns: `BatchGetAggregateResourceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetAggregateResourceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -530,6 +531,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAggregateResourceConfigOutput>(BatchGetAggregateResourceConfigOutput.httpOutput(from:), BatchGetAggregateResourceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAggregateResourceConfigInput, BatchGetAggregateResourceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAggregateResourceConfigOutput>())
@@ -568,9 +570,9 @@ extension ConfigClient {
     ///
     /// * The API does not return any tags for the requested resources. This information is filtered out of the supplementaryConfiguration section of the API response.
     ///
-    /// - Parameter BatchGetResourceConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetResourceConfigInput`)
     ///
-    /// - Returns: `BatchGetResourceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetResourceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,6 +627,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetResourceConfigOutput>(BatchGetResourceConfigOutput.httpOutput(from:), BatchGetResourceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetResourceConfigInput, BatchGetResourceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetResourceConfigOutput>())
@@ -659,9 +662,9 @@ extension ConfigClient {
     ///
     /// Deletes the authorization granted to the specified configuration aggregator account in a specified region.
     ///
-    /// - Parameter DeleteAggregationAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAggregationAuthorizationInput`)
     ///
-    /// - Returns: `DeleteAggregationAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAggregationAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,6 +696,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAggregationAuthorizationOutput>(DeleteAggregationAuthorizationOutput.httpOutput(from:), DeleteAggregationAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAggregationAuthorizationInput, DeleteAggregationAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAggregationAuthorizationOutput>())
@@ -727,9 +731,9 @@ extension ConfigClient {
     ///
     /// Deletes the specified Config rule and all of its evaluation results. Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException. You can check the state of a rule by using the DescribeConfigRules request. Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types, this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     ///
-    /// - Parameter DeleteConfigRuleInput :
+    /// - Parameter input: (Type: `DeleteConfigRuleInput`)
     ///
-    /// - Returns: `DeleteConfigRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -776,6 +780,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigRuleOutput>(DeleteConfigRuleOutput.httpOutput(from:), DeleteConfigRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigRuleInput, DeleteConfigRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigRuleOutput>())
@@ -810,9 +815,9 @@ extension ConfigClient {
     ///
     /// Deletes the specified configuration aggregator and the aggregated data associated with the aggregator.
     ///
-    /// - Parameter DeleteConfigurationAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationAggregatorInput`)
     ///
-    /// - Returns: `DeleteConfigurationAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,6 +849,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationAggregatorOutput>(DeleteConfigurationAggregatorOutput.httpOutput(from:), DeleteConfigurationAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationAggregatorInput, DeleteConfigurationAggregatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationAggregatorOutput>())
@@ -878,9 +884,9 @@ extension ConfigClient {
     ///
     /// Deletes the customer managed configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html) operation, but you will not be able to access this information in the Config console until you have created a new customer managed configuration recorder.
     ///
-    /// - Parameter DeleteConfigurationRecorderInput : The request object for the DeleteConfigurationRecorder operation.
+    /// - Parameter input: The request object for the DeleteConfigurationRecorder operation. (Type: `DeleteConfigurationRecorderInput`)
     ///
-    /// - Returns: `DeleteConfigurationRecorderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationRecorderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -913,6 +919,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationRecorderOutput>(DeleteConfigurationRecorderOutput.httpOutput(from:), DeleteConfigurationRecorderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationRecorderInput, DeleteConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationRecorderOutput>())
@@ -947,9 +954,9 @@ extension ConfigClient {
     ///
     /// Deletes the specified conformance pack and all the Config rules, remediation actions, and all evaluation results within that conformance pack. Config sets the conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state. Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types, this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     ///
-    /// - Parameter DeleteConformancePackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConformancePackInput`)
     ///
-    /// - Returns: `DeleteConformancePackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConformancePackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,6 +1003,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConformancePackOutput>(DeleteConformancePackOutput.httpOutput(from:), DeleteConformancePackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConformancePackInput, DeleteConformancePackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConformancePackOutput>())
@@ -1030,9 +1038,9 @@ extension ConfigClient {
     ///
     /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the [StopConfigurationRecorder] operation to stop the customer managed configuration recorder.
     ///
-    /// - Parameter DeleteDeliveryChannelInput : The input for the [DeleteDeliveryChannel] action. The action accepts the following data, in JSON format.
+    /// - Parameter input: The input for the [DeleteDeliveryChannel] action. The action accepts the following data, in JSON format. (Type: `DeleteDeliveryChannelInput`)
     ///
-    /// - Returns: `DeleteDeliveryChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeliveryChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,6 +1073,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeliveryChannelOutput>(DeleteDeliveryChannelOutput.httpOutput(from:), DeleteDeliveryChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryChannelInput, DeleteDeliveryChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryChannelOutput>())
@@ -1099,9 +1108,9 @@ extension ConfigClient {
     ///
     /// Deletes the evaluation results for the specified Config rule. You can specify one Config rule per request. After you delete the evaluation results, you can call the [StartConfigRulesEvaluation] API to start evaluating your Amazon Web Services resources against the rule.
     ///
-    /// - Parameter DeleteEvaluationResultsInput :
+    /// - Parameter input: (Type: `DeleteEvaluationResultsInput`)
     ///
-    /// - Returns: `DeleteEvaluationResultsOutput` : The output when you delete the evaluation results for the specified Config rule.
+    /// - Returns: The output when you delete the evaluation results for the specified Config rule. (Type: `DeleteEvaluationResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,6 +1157,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEvaluationResultsOutput>(DeleteEvaluationResultsOutput.httpOutput(from:), DeleteEvaluationResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEvaluationResultsInput, DeleteEvaluationResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEvaluationResultsOutput>())
@@ -1182,9 +1192,9 @@ extension ConfigClient {
     ///
     /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization. Only a management account and a delegated administrator account can delete an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a rule while it is in this state. Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types, this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     ///
-    /// - Parameter DeleteOrganizationConfigRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOrganizationConfigRuleInput`)
     ///
-    /// - Returns: `DeleteOrganizationConfigRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOrganizationConfigRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1243,6 +1253,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOrganizationConfigRuleOutput>(DeleteOrganizationConfigRuleOutput.httpOutput(from:), DeleteOrganizationConfigRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOrganizationConfigRuleInput, DeleteOrganizationConfigRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationConfigRuleOutput>())
@@ -1277,9 +1288,9 @@ extension ConfigClient {
     ///
     /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from all member accounts in that organization. Only a management account or a delegated administrator account can delete an organization conformance pack. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. Config sets the state of a conformance pack to DELETE_IN_PROGRESS until the deletion is complete. You cannot update a conformance pack while it is in this state. Recommendation: Consider excluding the AWS::Config::ResourceCompliance resource type from recording before deleting rules Deleting rules creates configuration items (CIs) for AWS::Config::ResourceCompliance that can affect your costs for the configuration recorder. If you are deleting rules which evaluate a large number of resource types, this can lead to a spike in the number of CIs recorded. To avoid the associated costs, you can opt to disable recording for the AWS::Config::ResourceCompliance resource type before deleting rules, and re-enable recording after the rules have been deleted. However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time when recording is disabled for AWS::Config::ResourceCompliance, rule evaluations will not be recorded in the associated resource’s history.
     ///
-    /// - Parameter DeleteOrganizationConformancePackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOrganizationConformancePackInput`)
     ///
-    /// - Returns: `DeleteOrganizationConformancePackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOrganizationConformancePackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,6 +1349,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOrganizationConformancePackOutput>(DeleteOrganizationConformancePackOutput.httpOutput(from:), DeleteOrganizationConformancePackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOrganizationConformancePackInput, DeleteOrganizationConformancePackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOrganizationConformancePackOutput>())
@@ -1372,9 +1384,9 @@ extension ConfigClient {
     ///
     /// Deletes pending authorization requests for a specified aggregator account in a specified region.
     ///
-    /// - Parameter DeletePendingAggregationRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePendingAggregationRequestInput`)
     ///
-    /// - Returns: `DeletePendingAggregationRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePendingAggregationRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1406,6 +1418,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePendingAggregationRequestOutput>(DeletePendingAggregationRequestOutput.httpOutput(from:), DeletePendingAggregationRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePendingAggregationRequestInput, DeletePendingAggregationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePendingAggregationRequestOutput>())
@@ -1440,9 +1453,9 @@ extension ConfigClient {
     ///
     /// Deletes the remediation configuration.
     ///
-    /// - Parameter DeleteRemediationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRemediationConfigurationInput`)
     ///
-    /// - Returns: `DeleteRemediationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRemediationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1494,6 +1507,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRemediationConfigurationOutput>(DeleteRemediationConfigurationOutput.httpOutput(from:), DeleteRemediationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRemediationConfigurationInput, DeleteRemediationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRemediationConfigurationOutput>())
@@ -1528,9 +1542,9 @@ extension ConfigClient {
     ///
     /// Deletes one or more remediation exceptions mentioned in the resource keys. Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared.
     ///
-    /// - Parameter DeleteRemediationExceptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRemediationExceptionsInput`)
     ///
-    /// - Returns: `DeleteRemediationExceptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRemediationExceptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1562,6 +1576,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRemediationExceptionsOutput>(DeleteRemediationExceptionsOutput.httpOutput(from:), DeleteRemediationExceptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRemediationExceptionsInput, DeleteRemediationExceptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRemediationExceptionsOutput>())
@@ -1596,9 +1611,9 @@ extension ConfigClient {
     ///
     /// Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
     ///
-    /// - Parameter DeleteResourceConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceConfigInput`)
     ///
-    /// - Returns: `DeleteResourceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1653,6 +1668,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceConfigOutput>(DeleteResourceConfigOutput.httpOutput(from:), DeleteResourceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceConfigInput, DeleteResourceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceConfigOutput>())
@@ -1687,9 +1703,9 @@ extension ConfigClient {
     ///
     /// Deletes the retention configuration.
     ///
-    /// - Parameter DeleteRetentionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRetentionConfigurationInput`)
     ///
-    /// - Returns: `DeleteRetentionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRetentionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1722,6 +1738,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRetentionConfigurationOutput>(DeleteRetentionConfigurationOutput.httpOutput(from:), DeleteRetentionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRetentionConfigurationInput, DeleteRetentionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetentionConfigurationOutput>())
@@ -1756,9 +1773,9 @@ extension ConfigClient {
     ///
     /// Deletes an existing service-linked configuration recorder. This operation does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the [GetResourceConfigHistory](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceConfigHistory.html) operation, but you will not be able to access this information in the Config console until you have created a new service-linked configuration recorder for the same service. The recording scope determines if you receive configuration items The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
     ///
-    /// - Parameter DeleteServiceLinkedConfigurationRecorderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceLinkedConfigurationRecorderInput`)
     ///
-    /// - Returns: `DeleteServiceLinkedConfigurationRecorderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceLinkedConfigurationRecorderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1818,6 +1835,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>(DeleteServiceLinkedConfigurationRecorderOutput.httpOutput(from:), DeleteServiceLinkedConfigurationRecorderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceLinkedConfigurationRecorderInput, DeleteServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceLinkedConfigurationRecorderOutput>())
@@ -1852,9 +1870,9 @@ extension ConfigClient {
     ///
     /// Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
     ///
-    /// - Parameter DeleteStoredQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStoredQueryInput`)
     ///
-    /// - Returns: `DeleteStoredQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStoredQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1909,6 +1927,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStoredQueryOutput>(DeleteStoredQueryOutput.httpOutput(from:), DeleteStoredQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStoredQueryInput, DeleteStoredQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStoredQueryOutput>())
@@ -1949,9 +1968,9 @@ extension ConfigClient {
     ///
     /// * Notification of delivery failure, if the delivery failed.
     ///
-    /// - Parameter DeliverConfigSnapshotInput : The input for the [DeliverConfigSnapshot] action.
+    /// - Parameter input: The input for the [DeliverConfigSnapshot] action. (Type: `DeliverConfigSnapshotInput`)
     ///
-    /// - Returns: `DeliverConfigSnapshotOutput` : The output for the [DeliverConfigSnapshot] action, in JSON format.
+    /// - Returns: The output for the [DeliverConfigSnapshot] action, in JSON format. (Type: `DeliverConfigSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1985,6 +2004,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeliverConfigSnapshotOutput>(DeliverConfigSnapshotOutput.httpOutput(from:), DeliverConfigSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeliverConfigSnapshotInput, DeliverConfigSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeliverConfigSnapshotOutput>())
@@ -2019,9 +2039,9 @@ extension ConfigClient {
     ///
     /// Returns a list of compliant and noncompliant rules with the number of resources for compliant and noncompliant rules. Does not display rules that do not have compliance results. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
-    /// - Parameter DescribeAggregateComplianceByConfigRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAggregateComplianceByConfigRulesInput`)
     ///
-    /// - Returns: `DescribeAggregateComplianceByConfigRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAggregateComplianceByConfigRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2078,6 +2098,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAggregateComplianceByConfigRulesOutput>(DescribeAggregateComplianceByConfigRulesOutput.httpOutput(from:), DescribeAggregateComplianceByConfigRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregateComplianceByConfigRulesOutput>())
@@ -2112,9 +2133,9 @@ extension ConfigClient {
     ///
     /// Returns a list of the existing and deleted conformance packs and their associated compliance status with the count of compliant and noncompliant Config rules within each conformance pack. Also returns the total rule count which includes compliant rules, noncompliant rules, and rules that cannot be evaluated due to insufficient data. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
-    /// - Parameter DescribeAggregateComplianceByConformancePacksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAggregateComplianceByConformancePacksInput`)
     ///
-    /// - Returns: `DescribeAggregateComplianceByConformancePacksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAggregateComplianceByConformancePacksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2171,6 +2192,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAggregateComplianceByConformancePacksOutput>(DescribeAggregateComplianceByConformancePacksOutput.httpOutput(from:), DescribeAggregateComplianceByConformancePacksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregateComplianceByConformancePacksOutput>())
@@ -2205,9 +2227,9 @@ extension ConfigClient {
     ///
     /// Returns a list of authorizations granted to various aggregator accounts and regions.
     ///
-    /// - Parameter DescribeAggregationAuthorizationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAggregationAuthorizationsInput`)
     ///
-    /// - Returns: `DescribeAggregationAuthorizationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAggregationAuthorizationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2241,6 +2263,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAggregationAuthorizationsOutput>(DescribeAggregationAuthorizationsOutput.httpOutput(from:), DescribeAggregationAuthorizationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAggregationAuthorizationsOutput>())
@@ -2281,9 +2304,9 @@ extension ConfigClient {
     ///
     /// * The rule's Lambda function has returned NOT_APPLICABLE for all evaluation results. This can occur if the resources were deleted or removed from the rule's scope.
     ///
-    /// - Parameter DescribeComplianceByConfigRuleInput :
+    /// - Parameter input: (Type: `DescribeComplianceByConfigRuleInput`)
     ///
-    /// - Returns: `DescribeComplianceByConfigRuleOutput` :
+    /// - Returns: (Type: `DescribeComplianceByConfigRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2317,6 +2340,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComplianceByConfigRuleOutput>(DescribeComplianceByConfigRuleOutput.httpOutput(from:), DescribeComplianceByConfigRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComplianceByConfigRuleOutput>())
@@ -2357,9 +2381,9 @@ extension ConfigClient {
     ///
     /// * The rule's Lambda function has returned NOT_APPLICABLE for all evaluation results. This can occur if the resources were deleted or removed from the rule's scope.
     ///
-    /// - Parameter DescribeComplianceByResourceInput :
+    /// - Parameter input: (Type: `DescribeComplianceByResourceInput`)
     ///
-    /// - Returns: `DescribeComplianceByResourceOutput` :
+    /// - Returns: (Type: `DescribeComplianceByResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2392,6 +2416,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComplianceByResourceOutput>(DescribeComplianceByResourceOutput.httpOutput(from:), DescribeComplianceByResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComplianceByResourceOutput>())
@@ -2426,9 +2451,9 @@ extension ConfigClient {
     ///
     /// Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke the rule, and the related error for the last failure.
     ///
-    /// - Parameter DescribeConfigRuleEvaluationStatusInput :
+    /// - Parameter input: (Type: `DescribeConfigRuleEvaluationStatusInput`)
     ///
-    /// - Returns: `DescribeConfigRuleEvaluationStatusOutput` :
+    /// - Returns: (Type: `DescribeConfigRuleEvaluationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2462,6 +2487,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigRuleEvaluationStatusOutput>(DescribeConfigRuleEvaluationStatusOutput.httpOutput(from:), DescribeConfigRuleEvaluationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigRuleEvaluationStatusOutput>())
@@ -2496,9 +2522,9 @@ extension ConfigClient {
     ///
     /// Returns details about your Config rules.
     ///
-    /// - Parameter DescribeConfigRulesInput :
+    /// - Parameter input: (Type: `DescribeConfigRulesInput`)
     ///
-    /// - Returns: `DescribeConfigRulesOutput` :
+    /// - Returns: (Type: `DescribeConfigRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2532,6 +2558,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigRulesOutput>(DescribeConfigRulesOutput.httpOutput(from:), DescribeConfigRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigRulesInput, DescribeConfigRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigRulesOutput>())
@@ -2566,9 +2593,9 @@ extension ConfigClient {
     ///
     /// Returns status information for sources within an aggregator. The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
     ///
-    /// - Parameter DescribeConfigurationAggregatorSourcesStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationAggregatorSourcesStatusInput`)
     ///
-    /// - Returns: `DescribeConfigurationAggregatorSourcesStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationAggregatorSourcesStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2603,6 +2630,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput>(DescribeConfigurationAggregatorSourcesStatusOutput.httpOutput(from:), DescribeConfigurationAggregatorSourcesStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationAggregatorSourcesStatusOutput>())
@@ -2637,9 +2665,9 @@ extension ConfigClient {
     ///
     /// Returns the details of one or more configuration aggregators. If the configuration aggregator is not specified, this operation returns the details for all the configuration aggregators associated with the account.
     ///
-    /// - Parameter DescribeConfigurationAggregatorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationAggregatorsInput`)
     ///
-    /// - Returns: `DescribeConfigurationAggregatorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationAggregatorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2674,6 +2702,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationAggregatorsOutput>(DescribeConfigurationAggregatorsOutput.httpOutput(from:), DescribeConfigurationAggregatorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationAggregatorsOutput>())
@@ -2708,9 +2737,9 @@ extension ConfigClient {
     ///
     /// Returns the current status of the configuration recorder you specify as well as the status of the last recording event for the configuration recorders. For a detailed status of recording events over time, add your Config events to Amazon CloudWatch metrics and use CloudWatch metrics. If a configuration recorder is not specified, this operation returns the status for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     ///
-    /// - Parameter DescribeConfigurationRecorderStatusInput : The input for the [DescribeConfigurationRecorderStatus] action.
+    /// - Parameter input: The input for the [DescribeConfigurationRecorderStatus] action. (Type: `DescribeConfigurationRecorderStatusInput`)
     ///
-    /// - Returns: `DescribeConfigurationRecorderStatusOutput` : The output for the [DescribeConfigurationRecorderStatus] action, in JSON format.
+    /// - Returns: The output for the [DescribeConfigurationRecorderStatus] action, in JSON format. (Type: `DescribeConfigurationRecorderStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2765,6 +2794,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationRecorderStatusOutput>(DescribeConfigurationRecorderStatusOutput.httpOutput(from:), DescribeConfigurationRecorderStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationRecorderStatusInput, DescribeConfigurationRecorderStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationRecorderStatusOutput>())
@@ -2799,9 +2829,9 @@ extension ConfigClient {
     ///
     /// Returns details for the configuration recorder you specify. If a configuration recorder is not specified, this operation returns details for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     ///
-    /// - Parameter DescribeConfigurationRecordersInput : The input for the [DescribeConfigurationRecorders] action.
+    /// - Parameter input: The input for the [DescribeConfigurationRecorders] action. (Type: `DescribeConfigurationRecordersInput`)
     ///
-    /// - Returns: `DescribeConfigurationRecordersOutput` : The output for the [DescribeConfigurationRecorders] action.
+    /// - Returns: The output for the [DescribeConfigurationRecorders] action. (Type: `DescribeConfigurationRecordersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2856,6 +2886,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationRecordersOutput>(DescribeConfigurationRecordersOutput.httpOutput(from:), DescribeConfigurationRecordersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationRecordersInput, DescribeConfigurationRecordersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationRecordersOutput>())
@@ -2890,9 +2921,9 @@ extension ConfigClient {
     ///
     /// Returns compliance details for each rule in that conformance pack. You must provide exact rule names.
     ///
-    /// - Parameter DescribeConformancePackComplianceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConformancePackComplianceInput`)
     ///
-    /// - Returns: `DescribeConformancePackComplianceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConformancePackComplianceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2928,6 +2959,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConformancePackComplianceOutput>(DescribeConformancePackComplianceOutput.httpOutput(from:), DescribeConformancePackComplianceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePackComplianceOutput>())
@@ -2962,9 +2994,9 @@ extension ConfigClient {
     ///
     /// Provides one or more conformance packs deployment status. If there are no conformance packs then you will see an empty result.
     ///
-    /// - Parameter DescribeConformancePackStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConformancePackStatusInput`)
     ///
-    /// - Returns: `DescribeConformancePackStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConformancePackStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2998,6 +3030,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConformancePackStatusOutput>(DescribeConformancePackStatusOutput.httpOutput(from:), DescribeConformancePackStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePackStatusOutput>())
@@ -3032,9 +3065,9 @@ extension ConfigClient {
     ///
     /// Returns a list of one or more conformance packs.
     ///
-    /// - Parameter DescribeConformancePacksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConformancePacksInput`)
     ///
-    /// - Returns: `DescribeConformancePacksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConformancePacksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3069,6 +3102,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConformancePacksOutput>(DescribeConformancePacksOutput.httpOutput(from:), DescribeConformancePacksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConformancePacksInput, DescribeConformancePacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConformancePacksOutput>())
@@ -3103,9 +3137,9 @@ extension ConfigClient {
     ///
     /// Returns the current status of the specified delivery channel. If a delivery channel is not specified, this operation returns the current status of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
-    /// - Parameter DescribeDeliveryChannelStatusInput : The input for the [DeliveryChannelStatus] action.
+    /// - Parameter input: The input for the [DeliveryChannelStatus] action. (Type: `DescribeDeliveryChannelStatusInput`)
     ///
-    /// - Returns: `DescribeDeliveryChannelStatusOutput` : The output for the [DescribeDeliveryChannelStatus] action.
+    /// - Returns: The output for the [DescribeDeliveryChannelStatus] action. (Type: `DescribeDeliveryChannelStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3137,6 +3171,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeliveryChannelStatusOutput>(DescribeDeliveryChannelStatusOutput.httpOutput(from:), DescribeDeliveryChannelStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveryChannelStatusInput, DescribeDeliveryChannelStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryChannelStatusOutput>())
@@ -3171,9 +3206,9 @@ extension ConfigClient {
     ///
     /// Returns details about the specified delivery channel. If a delivery channel is not specified, this operation returns the details of all delivery channels associated with the account. Currently, you can specify only one delivery channel per region in your account.
     ///
-    /// - Parameter DescribeDeliveryChannelsInput : The input for the [DescribeDeliveryChannels] action.
+    /// - Parameter input: The input for the [DescribeDeliveryChannels] action. (Type: `DescribeDeliveryChannelsInput`)
     ///
-    /// - Returns: `DescribeDeliveryChannelsOutput` : The output for the [DescribeDeliveryChannels] action.
+    /// - Returns: The output for the [DescribeDeliveryChannels] action. (Type: `DescribeDeliveryChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3205,6 +3240,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeliveryChannelsOutput>(DescribeDeliveryChannelsOutput.httpOutput(from:), DescribeDeliveryChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveryChannelsInput, DescribeDeliveryChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryChannelsOutput>())
@@ -3239,9 +3275,9 @@ extension ConfigClient {
     ///
     /// Provides organization Config rule deployment status for an organization. The status is not considered successful until organization Config rule is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules.
     ///
-    /// - Parameter DescribeOrganizationConfigRuleStatusesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigRuleStatusesInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigRuleStatusesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigRuleStatusesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3287,6 +3323,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigRuleStatusesOutput>(DescribeOrganizationConfigRuleStatusesOutput.httpOutput(from:), DescribeOrganizationConfigRuleStatusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigRuleStatusesOutput>())
@@ -3321,9 +3358,9 @@ extension ConfigClient {
     ///
     /// Returns a list of organization Config rules. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization Config rule names. It is only applicable, when you request all the organization Config rules. For accounts within an organization If you deploy an organizational rule or conformance pack in an organization administrator account, and then establish a delegated administrator and deploy an organizational rule or conformance pack in the delegated administrator account, you won't be able to see the organizational rule or conformance pack in the organization administrator account from the delegated administrator account or see the organizational rule or conformance pack in the delegated administrator account from organization administrator account. The DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see and interact with the organization-related resource that were deployed from within the account calling those APIs.
     ///
-    /// - Parameter DescribeOrganizationConfigRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigRulesInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3369,6 +3406,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigRulesOutput>(DescribeOrganizationConfigRulesOutput.httpOutput(from:), DescribeOrganizationConfigRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigRulesOutput>())
@@ -3403,9 +3441,9 @@ extension ConfigClient {
     ///
     /// Provides organization conformance pack deployment status for an organization. The status is not considered successful until organization conformance pack is successfully deployed in all the member accounts with an exception of excluded accounts. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance pack names. They are only applicable, when you request all the organization conformance packs.
     ///
-    /// - Parameter DescribeOrganizationConformancePackStatusesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConformancePackStatusesInput`)
     ///
-    /// - Returns: `DescribeOrganizationConformancePackStatusesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConformancePackStatusesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3451,6 +3489,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConformancePackStatusesOutput>(DescribeOrganizationConformancePackStatusesOutput.httpOutput(from:), DescribeOrganizationConformancePackStatusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConformancePackStatusesOutput>())
@@ -3485,9 +3524,9 @@ extension ConfigClient {
     ///
     /// Returns a list of organization conformance packs. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you specify organization conformance packs names. They are only applicable, when you request all the organization conformance packs. For accounts within an organization If you deploy an organizational rule or conformance pack in an organization administrator account, and then establish a delegated administrator and deploy an organizational rule or conformance pack in the delegated administrator account, you won't be able to see the organizational rule or conformance pack in the organization administrator account from the delegated administrator account or see the organizational rule or conformance pack in the delegated administrator account from organization administrator account. The DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see and interact with the organization-related resource that were deployed from within the account calling those APIs.
     ///
-    /// - Parameter DescribeOrganizationConformancePacksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConformancePacksInput`)
     ///
-    /// - Returns: `DescribeOrganizationConformancePacksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConformancePacksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3533,6 +3572,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConformancePacksOutput>(DescribeOrganizationConformancePacksOutput.httpOutput(from:), DescribeOrganizationConformancePacksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConformancePacksOutput>())
@@ -3567,9 +3607,9 @@ extension ConfigClient {
     ///
     /// Returns a list of all pending aggregation requests.
     ///
-    /// - Parameter DescribePendingAggregationRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePendingAggregationRequestsInput`)
     ///
-    /// - Returns: `DescribePendingAggregationRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePendingAggregationRequestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3603,6 +3643,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePendingAggregationRequestsOutput>(DescribePendingAggregationRequestsOutput.httpOutput(from:), DescribePendingAggregationRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePendingAggregationRequestsOutput>())
@@ -3637,9 +3678,9 @@ extension ConfigClient {
     ///
     /// Returns the details of one or more remediation configurations.
     ///
-    /// - Parameter DescribeRemediationConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRemediationConfigurationsInput`)
     ///
-    /// - Returns: `DescribeRemediationConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRemediationConfigurationsOutput`)
     public func describeRemediationConfigurations(input: DescribeRemediationConfigurationsInput) async throws -> DescribeRemediationConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3666,6 +3707,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRemediationConfigurationsOutput>(DescribeRemediationConfigurationsOutput.httpOutput(from:), DescribeRemediationConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRemediationConfigurationsInput, DescribeRemediationConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationConfigurationsOutput>())
@@ -3700,9 +3742,9 @@ extension ConfigClient {
     ///
     /// Returns the details of one or more remediation exceptions. A detailed view of a remediation exception for a set of resources that includes an explanation of an exception and the time when the exception will be deleted. When you specify the limit and the next token, you receive a paginated response. Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource. Remediation exceptions blocks auto-remediation until the exception is cleared. When you specify the limit and the next token, you receive a paginated response. Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
     ///
-    /// - Parameter DescribeRemediationExceptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRemediationExceptionsInput`)
     ///
-    /// - Returns: `DescribeRemediationExceptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRemediationExceptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3735,6 +3777,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRemediationExceptionsOutput>(DescribeRemediationExceptionsOutput.httpOutput(from:), DescribeRemediationExceptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationExceptionsOutput>())
@@ -3769,9 +3812,9 @@ extension ConfigClient {
     ///
     /// Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed. When you specify the limit and the next token, you receive a paginated response.
     ///
-    /// - Parameter DescribeRemediationExecutionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRemediationExecutionStatusInput`)
     ///
-    /// - Returns: `DescribeRemediationExecutionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRemediationExecutionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3805,6 +3848,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRemediationExecutionStatusOutput>(DescribeRemediationExecutionStatusOutput.httpOutput(from:), DescribeRemediationExecutionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRemediationExecutionStatusOutput>())
@@ -3839,9 +3883,9 @@ extension ConfigClient {
     ///
     /// Returns the details of one or more retention configurations. If the retention configuration name is not specified, this operation returns the details for all the retention configurations for that account. Currently, Config supports only one retention configuration per region in your account.
     ///
-    /// - Parameter DescribeRetentionConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRetentionConfigurationsInput`)
     ///
-    /// - Returns: `DescribeRetentionConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRetentionConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3875,6 +3919,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRetentionConfigurationsOutput>(DescribeRetentionConfigurationsOutput.httpOutput(from:), DescribeRetentionConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRetentionConfigurationsOutput>())
@@ -3909,9 +3954,9 @@ extension ConfigClient {
     ///
     /// Removes all resource types specified in the ResourceTypes list from the [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) of configuration recorder and excludes these resource types when recording. For this operation, the configuration recorder must use a [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) that is either INCLUSION_BY_RESOURCE_TYPES or EXCLUSION_BY_RESOURCE_TYPES.
     ///
-    /// - Parameter DisassociateResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceTypesInput`)
     ///
-    /// - Returns: `DisassociateResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3971,6 +4016,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResourceTypesOutput>(DisassociateResourceTypesOutput.httpOutput(from:), DisassociateResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResourceTypesInput, DisassociateResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResourceTypesOutput>())
@@ -4005,9 +4051,9 @@ extension ConfigClient {
     ///
     /// Returns the evaluation results for the specified Config rule for a specific resource in a rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule. The results can return an empty result page. But if you have a nextToken, the results are displayed on the next page.
     ///
-    /// - Parameter GetAggregateComplianceDetailsByConfigRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAggregateComplianceDetailsByConfigRuleInput`)
     ///
-    /// - Returns: `GetAggregateComplianceDetailsByConfigRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAggregateComplianceDetailsByConfigRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4064,6 +4110,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput>(GetAggregateComplianceDetailsByConfigRuleOutput.httpOutput(from:), GetAggregateComplianceDetailsByConfigRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateComplianceDetailsByConfigRuleOutput>())
@@ -4098,9 +4145,9 @@ extension ConfigClient {
     ///
     /// Returns the number of compliant and noncompliant rules for one or more accounts and regions in an aggregator. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
-    /// - Parameter GetAggregateConfigRuleComplianceSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAggregateConfigRuleComplianceSummaryInput`)
     ///
-    /// - Returns: `GetAggregateConfigRuleComplianceSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAggregateConfigRuleComplianceSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4157,6 +4204,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAggregateConfigRuleComplianceSummaryOutput>(GetAggregateConfigRuleComplianceSummaryOutput.httpOutput(from:), GetAggregateConfigRuleComplianceSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateConfigRuleComplianceSummaryOutput>())
@@ -4191,9 +4239,9 @@ extension ConfigClient {
     ///
     /// Returns the count of compliant and noncompliant conformance packs across all Amazon Web Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on Amazon Web Services account ID or Amazon Web Services Region. The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
     ///
-    /// - Parameter GetAggregateConformancePackComplianceSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAggregateConformancePackComplianceSummaryInput`)
     ///
-    /// - Returns: `GetAggregateConformancePackComplianceSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAggregateConformancePackComplianceSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4250,6 +4298,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAggregateConformancePackComplianceSummaryOutput>(GetAggregateConformancePackComplianceSummaryOutput.httpOutput(from:), GetAggregateConformancePackComplianceSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateConformancePackComplianceSummaryOutput>())
@@ -4284,9 +4333,9 @@ extension ConfigClient {
     ///
     /// Returns the resource counts across accounts and regions that are present in your Config aggregator. You can request the resource counts by providing filters and GroupByKey. For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1. If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
     ///
-    /// - Parameter GetAggregateDiscoveredResourceCountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAggregateDiscoveredResourceCountsInput`)
     ///
-    /// - Returns: `GetAggregateDiscoveredResourceCountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAggregateDiscoveredResourceCountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4343,6 +4392,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAggregateDiscoveredResourceCountsOutput>(GetAggregateDiscoveredResourceCountsOutput.httpOutput(from:), GetAggregateDiscoveredResourceCountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateDiscoveredResourceCountsOutput>())
@@ -4377,9 +4427,9 @@ extension ConfigClient {
     ///
     /// Returns configuration item that is aggregated for your specific resource in a specific source account and region. The API does not return results for deleted resources.
     ///
-    /// - Parameter GetAggregateResourceConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAggregateResourceConfigInput`)
     ///
-    /// - Returns: `GetAggregateResourceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAggregateResourceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4436,6 +4486,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAggregateResourceConfigOutput>(GetAggregateResourceConfigOutput.httpOutput(from:), GetAggregateResourceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAggregateResourceConfigInput, GetAggregateResourceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAggregateResourceConfigOutput>())
@@ -4470,9 +4521,9 @@ extension ConfigClient {
     ///
     /// Returns the evaluation results for the specified Config rule. The results indicate which Amazon Web Services resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.
     ///
-    /// - Parameter GetComplianceDetailsByConfigRuleInput :
+    /// - Parameter input: (Type: `GetComplianceDetailsByConfigRuleInput`)
     ///
-    /// - Returns: `GetComplianceDetailsByConfigRuleOutput` :
+    /// - Returns: (Type: `GetComplianceDetailsByConfigRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4506,6 +4557,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComplianceDetailsByConfigRuleOutput>(GetComplianceDetailsByConfigRuleOutput.httpOutput(from:), GetComplianceDetailsByConfigRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceDetailsByConfigRuleOutput>())
@@ -4540,9 +4592,9 @@ extension ConfigClient {
     ///
     /// Returns the evaluation results for the specified Amazon Web Services resource. The results indicate which Config rules were used to evaluate the resource, when each rule was last invoked, and whether the resource complies with each rule.
     ///
-    /// - Parameter GetComplianceDetailsByResourceInput :
+    /// - Parameter input: (Type: `GetComplianceDetailsByResourceInput`)
     ///
-    /// - Returns: `GetComplianceDetailsByResourceOutput` :
+    /// - Returns: (Type: `GetComplianceDetailsByResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4574,6 +4626,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComplianceDetailsByResourceOutput>(GetComplianceDetailsByResourceOutput.httpOutput(from:), GetComplianceDetailsByResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceDetailsByResourceOutput>())
@@ -4608,9 +4661,9 @@ extension ConfigClient {
     ///
     /// Returns the number of Config rules that are compliant and noncompliant, up to a maximum of 25 for each.
     ///
-    /// - Parameter GetComplianceSummaryByConfigRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComplianceSummaryByConfigRuleInput`)
     ///
-    /// - Returns: `GetComplianceSummaryByConfigRuleOutput` :
+    /// - Returns: (Type: `GetComplianceSummaryByConfigRuleOutput`)
     public func getComplianceSummaryByConfigRule(input: GetComplianceSummaryByConfigRuleInput) async throws -> GetComplianceSummaryByConfigRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4637,6 +4690,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComplianceSummaryByConfigRuleOutput>(GetComplianceSummaryByConfigRuleOutput.httpOutput(from:), GetComplianceSummaryByConfigRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceSummaryByConfigRuleInput, GetComplianceSummaryByConfigRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceSummaryByConfigRuleOutput>())
@@ -4671,9 +4725,9 @@ extension ConfigClient {
     ///
     /// Returns the number of resources that are compliant and the number that are noncompliant. You can specify one or more resource types to get these numbers for each resource type. The maximum number returned is 100.
     ///
-    /// - Parameter GetComplianceSummaryByResourceTypeInput :
+    /// - Parameter input: (Type: `GetComplianceSummaryByResourceTypeInput`)
     ///
-    /// - Returns: `GetComplianceSummaryByResourceTypeOutput` :
+    /// - Returns: (Type: `GetComplianceSummaryByResourceTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4705,6 +4759,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComplianceSummaryByResourceTypeOutput>(GetComplianceSummaryByResourceTypeOutput.httpOutput(from:), GetComplianceSummaryByResourceTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComplianceSummaryByResourceTypeInput, GetComplianceSummaryByResourceTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComplianceSummaryByResourceTypeOutput>())
@@ -4739,9 +4794,9 @@ extension ConfigClient {
     ///
     /// Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
     ///
-    /// - Parameter GetConformancePackComplianceDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConformancePackComplianceDetailsInput`)
     ///
-    /// - Returns: `GetConformancePackComplianceDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConformancePackComplianceDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4777,6 +4832,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConformancePackComplianceDetailsOutput>(GetConformancePackComplianceDetailsOutput.httpOutput(from:), GetConformancePackComplianceDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConformancePackComplianceDetailsOutput>())
@@ -4811,9 +4867,9 @@ extension ConfigClient {
     ///
     /// Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
     ///
-    /// - Parameter GetConformancePackComplianceSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConformancePackComplianceSummaryInput`)
     ///
-    /// - Returns: `GetConformancePackComplianceSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConformancePackComplianceSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4847,6 +4903,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConformancePackComplianceSummaryOutput>(GetConformancePackComplianceSummaryOutput.httpOutput(from:), GetConformancePackComplianceSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConformancePackComplianceSummaryOutput>())
@@ -4881,9 +4938,9 @@ extension ConfigClient {
     ///
     /// Returns the policy definition containing the logic for your Config Custom Policy rule.
     ///
-    /// - Parameter GetCustomRulePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomRulePolicyInput`)
     ///
-    /// - Returns: `GetCustomRulePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomRulePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4915,6 +4972,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomRulePolicyOutput>(GetCustomRulePolicyOutput.httpOutput(from:), GetCustomRulePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomRulePolicyInput, GetCustomRulePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomRulePolicyOutput>())
@@ -4974,9 +5032,9 @@ extension ConfigClient {
     ///
     /// It might take a few minutes for Config to record and count your resources. Wait a few minutes and then retry the [GetDiscoveredResourceCounts] action.
     ///
-    /// - Parameter GetDiscoveredResourceCountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDiscoveredResourceCountsInput`)
     ///
-    /// - Returns: `GetDiscoveredResourceCountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDiscoveredResourceCountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5032,6 +5090,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDiscoveredResourceCountsOutput>(GetDiscoveredResourceCountsOutput.httpOutput(from:), GetDiscoveredResourceCountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDiscoveredResourceCountsOutput>())
@@ -5066,9 +5125,9 @@ extension ConfigClient {
     ///
     /// Returns detailed status for each member account within an organization for a given organization Config rule.
     ///
-    /// - Parameter GetOrganizationConfigRuleDetailedStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrganizationConfigRuleDetailedStatusInput`)
     ///
-    /// - Returns: `GetOrganizationConfigRuleDetailedStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrganizationConfigRuleDetailedStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5114,6 +5173,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOrganizationConfigRuleDetailedStatusOutput>(GetOrganizationConfigRuleDetailedStatusOutput.httpOutput(from:), GetOrganizationConfigRuleDetailedStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationConfigRuleDetailedStatusOutput>())
@@ -5148,9 +5208,9 @@ extension ConfigClient {
     ///
     /// Returns detailed status for each member account within an organization for a given organization conformance pack.
     ///
-    /// - Parameter GetOrganizationConformancePackDetailedStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrganizationConformancePackDetailedStatusInput`)
     ///
-    /// - Returns: `GetOrganizationConformancePackDetailedStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrganizationConformancePackDetailedStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5196,6 +5256,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOrganizationConformancePackDetailedStatusOutput>(GetOrganizationConformancePackDetailedStatusOutput.httpOutput(from:), GetOrganizationConformancePackDetailedStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationConformancePackDetailedStatusOutput>())
@@ -5230,9 +5291,9 @@ extension ConfigClient {
     ///
     /// Returns the policy definition containing the logic for your organization Config Custom Policy rule.
     ///
-    /// - Parameter GetOrganizationCustomRulePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOrganizationCustomRulePolicyInput`)
     ///
-    /// - Returns: `GetOrganizationCustomRulePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOrganizationCustomRulePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5276,6 +5337,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOrganizationCustomRulePolicyOutput>(GetOrganizationCustomRulePolicyOutput.httpOutput(from:), GetOrganizationCustomRulePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOrganizationCustomRulePolicyInput, GetOrganizationCustomRulePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOrganizationCustomRulePolicyOutput>())
@@ -5310,9 +5372,9 @@ extension ConfigClient {
     ///
     /// For accurate reporting on the compliance status, you must record the AWS::Config::ResourceCompliance resource type. For more information, see [Recording Amazon Web Services Resources](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html) in the Config Resources Developer Guide. Returns a list of configurations items (CIs) for the specified resource. Contents The list contains details about each state of the resource during the specified time interval. If you specified a retention period to retain your CIs between a minimum of 30 days and a maximum of 7 years (2557 days), Config returns the CIs for the specified retention period. Pagination The response is paginated. By default, Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string. To get the next page of results, run the request again and specify the string for the nextToken parameter. Each call to the API is limited to span a duration of seven days. It is likely that the number of records returned is smaller than the specified limit. In such cases, you can make another call, using the nextToken.
     ///
-    /// - Parameter GetResourceConfigHistoryInput : The input for the [GetResourceConfigHistory] action.
+    /// - Parameter input: The input for the [GetResourceConfigHistory] action. (Type: `GetResourceConfigHistoryInput`)
     ///
-    /// - Returns: `GetResourceConfigHistoryOutput` : The output for the [GetResourceConfigHistory] action.
+    /// - Returns: The output for the [GetResourceConfigHistory] action. (Type: `GetResourceConfigHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5371,6 +5433,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceConfigHistoryOutput>(GetResourceConfigHistoryOutput.httpOutput(from:), GetResourceConfigHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceConfigHistoryOutput>())
@@ -5405,9 +5468,9 @@ extension ConfigClient {
     ///
     /// Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run. The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated, the evaluation mode that was run, and whether the resource details comply with the configuration of the proactive rules. To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the [GetComplianceDetailsByResource](https://docs.aws.amazon.com/config/latest/APIReference/API_GetComplianceDetailsByResource.html) API. For more information, see the [Examples](https://docs.aws.amazon.com/config/latest/APIReference/API_GetResourceEvaluationSummary.html#API_GetResourceEvaluationSummary_Examples) section.
     ///
-    /// - Parameter GetResourceEvaluationSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceEvaluationSummaryInput`)
     ///
-    /// - Returns: `GetResourceEvaluationSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceEvaluationSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5439,6 +5502,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceEvaluationSummaryOutput>(GetResourceEvaluationSummaryOutput.httpOutput(from:), GetResourceEvaluationSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceEvaluationSummaryInput, GetResourceEvaluationSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceEvaluationSummaryOutput>())
@@ -5473,9 +5537,9 @@ extension ConfigClient {
     ///
     /// Returns the details of a specific stored query.
     ///
-    /// - Parameter GetStoredQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStoredQueryInput`)
     ///
-    /// - Returns: `GetStoredQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStoredQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5530,6 +5594,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStoredQueryInput, GetStoredQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStoredQueryOutput>(GetStoredQueryOutput.httpOutput(from:), GetStoredQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStoredQueryInput, GetStoredQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStoredQueryOutput>())
@@ -5564,9 +5629,9 @@ extension ConfigClient {
     ///
     /// Accepts a resource type and returns a list of resource identifiers that are aggregated for a specific resource type across accounts and regions. A resource identifier includes the resource type, ID, (if available) the custom resource name, source account, and source region. You can narrow the results to include only resources that have specific resource IDs, or a resource name, or source account ID, or source region. For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type AWS::EC2::Instance then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
     ///
-    /// - Parameter ListAggregateDiscoveredResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAggregateDiscoveredResourcesInput`)
     ///
-    /// - Returns: `ListAggregateDiscoveredResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAggregateDiscoveredResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5623,6 +5688,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAggregateDiscoveredResourcesOutput>(ListAggregateDiscoveredResourcesOutput.httpOutput(from:), ListAggregateDiscoveredResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregateDiscoveredResourcesOutput>())
@@ -5657,9 +5723,9 @@ extension ConfigClient {
     ///
     /// Returns a list of configuration recorders depending on the filters you specify.
     ///
-    /// - Parameter ListConfigurationRecordersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationRecordersInput`)
     ///
-    /// - Returns: `ListConfigurationRecordersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationRecordersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5713,6 +5779,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationRecordersOutput>(ListConfigurationRecordersOutput.httpOutput(from:), ListConfigurationRecordersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationRecordersInput, ListConfigurationRecordersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationRecordersOutput>())
@@ -5747,9 +5814,9 @@ extension ConfigClient {
     ///
     /// Returns a list of conformance pack compliance scores. A compliance score is the percentage of the number of compliant rule-resource combinations in a conformance pack compared to the number of total possible rule-resource combinations in the conformance pack. This metric provides you with a high-level view of the compliance state of your conformance packs. You can use it to identify, investigate, and understand the level of compliance in your conformance packs. Conformance packs with no evaluation results will have a compliance score of INSUFFICIENT_DATA.
     ///
-    /// - Parameter ListConformancePackComplianceScoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConformancePackComplianceScoresInput`)
     ///
-    /// - Returns: `ListConformancePackComplianceScoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConformancePackComplianceScoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5783,6 +5850,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConformancePackComplianceScoresOutput>(ListConformancePackComplianceScoresOutput.httpOutput(from:), ListConformancePackComplianceScoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConformancePackComplianceScoresOutput>())
@@ -5832,9 +5900,9 @@ extension ConfigClient {
     ///
     /// Because no CI is created for a failed stack creation, you won't see configuration history for that stack in Config, even after the stack is deleted. This helps make sure that Config only tracks resources that were successfully provisioned.
     ///
-    /// - Parameter ListDiscoveredResourcesInput :
+    /// - Parameter input: (Type: `ListDiscoveredResourcesInput`)
     ///
-    /// - Returns: `ListDiscoveredResourcesOutput` :
+    /// - Returns: (Type: `ListDiscoveredResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5891,6 +5959,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDiscoveredResourcesOutput>(ListDiscoveredResourcesOutput.httpOutput(from:), ListDiscoveredResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveredResourcesOutput>())
@@ -5925,9 +5994,9 @@ extension ConfigClient {
     ///
     /// Returns a list of proactive resource evaluations.
     ///
-    /// - Parameter ListResourceEvaluationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceEvaluationsInput`)
     ///
-    /// - Returns: `ListResourceEvaluationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceEvaluationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5961,6 +6030,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceEvaluationsOutput>(ListResourceEvaluationsOutput.httpOutput(from:), ListResourceEvaluationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceEvaluationsInput, ListResourceEvaluationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceEvaluationsOutput>())
@@ -5995,9 +6065,9 @@ extension ConfigClient {
     ///
     /// Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
     ///
-    /// - Parameter ListStoredQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStoredQueriesInput`)
     ///
-    /// - Returns: `ListStoredQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStoredQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6052,6 +6122,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStoredQueriesOutput>(ListStoredQueriesOutput.httpOutput(from:), ListStoredQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStoredQueriesInput, ListStoredQueriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStoredQueriesOutput>())
@@ -6086,9 +6157,9 @@ extension ConfigClient {
     ///
     /// List the tags for Config resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6145,6 +6216,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -6179,9 +6251,9 @@ extension ConfigClient {
     ///
     /// Authorizes the aggregator account and region to collect data from the source account and region. Tags are added at creation and cannot be updated with this operation PutAggregationAuthorization is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
-    /// - Parameter PutAggregationAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAggregationAuthorizationInput`)
     ///
-    /// - Returns: `PutAggregationAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAggregationAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6213,6 +6285,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAggregationAuthorizationOutput>(PutAggregationAuthorizationOutput.httpOutput(from:), PutAggregationAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAggregationAuthorizationInput, PutAggregationAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAggregationAuthorizationOutput>())
@@ -6247,9 +6320,9 @@ extension ConfigClient {
     ///
     /// Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the SourceIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function that the rule invokes to evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You specify the ARN in the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object. For any new Config rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for new rules. If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use in this request. For more information about developing and using Config rules, see [Evaluating Resources with Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config.html) in the Config Developer Guide. Tags are added at creation and cannot be updated with this operation PutConfigRule is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
-    /// - Parameter PutConfigRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutConfigRuleInput`)
     ///
-    /// - Returns: `PutConfigRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutConfigRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6316,6 +6389,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConfigRuleInput, PutConfigRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutConfigRuleOutput>(PutConfigRuleOutput.httpOutput(from:), PutConfigRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConfigRuleInput, PutConfigRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigRuleOutput>())
@@ -6350,9 +6424,9 @@ extension ConfigClient {
     ///
     /// Creates and updates the configuration aggregator with the selected source accounts and regions. The source account can be individual account(s) or an organization. accountIds that are passed will be replaced with existing accounts. If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones. Config should be enabled in source accounts and regions you want to aggregate. If your source type is an organization, you must be signed in to the management account or a registered delegated administrator and all the features must be enabled in your organization. If the caller is a management account, Config calls EnableAwsServiceAccess API to enable integration between Config and Organizations. If the caller is a registered delegated administrator, Config calls ListDelegatedAdministrators API to verify whether the caller is a valid delegated administrator. To register a delegated administrator, see [Register a Delegated Administrator](https://docs.aws.amazon.com/config/latest/developerguide/set-up-aggregator-cli.html#register-a-delegated-administrator-cli) in the Config developer guide. Tags are added at creation and cannot be updated with this operation PutConfigurationAggregator is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
-    /// - Parameter PutConfigurationAggregatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutConfigurationAggregatorInput`)
     ///
-    /// - Returns: `PutConfigurationAggregatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutConfigurationAggregatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6400,6 +6474,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutConfigurationAggregatorOutput>(PutConfigurationAggregatorOutput.httpOutput(from:), PutConfigurationAggregatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConfigurationAggregatorInput, PutConfigurationAggregatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigurationAggregatorOutput>())
@@ -6434,9 +6509,9 @@ extension ConfigClient {
     ///
     /// Creates or updates the customer managed configuration recorder. You can use this operation to create a new customer managed configuration recorder or to update the roleARN and the recordingGroup for an existing customer managed configuration recorder. To start the customer managed configuration recorder and begin recording configuration changes for the resource types you specify, use the [StartConfigurationRecorder](https://docs.aws.amazon.com/config/latest/APIReference/API_StartConfigurationRecorder.html) operation. For more information, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. One customer managed configuration recorder per account per Region You can create only one customer managed configuration recorder for each account for each Amazon Web Services Region. Default is to record all supported resource types, excluding the global IAM resource types If you have not specified values for the recordingGroup field, the default for the customer managed configuration recorder is to record all supported resource types, excluding the global IAM resource types: AWS::IAM::Group, AWS::IAM::Policy, AWS::IAM::Role, and AWS::IAM::User. Tags are added at creation and cannot be updated PutConfigurationRecorder is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different. Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
-    /// - Parameter PutConfigurationRecorderInput : The input for the [PutConfigurationRecorder] action.
+    /// - Parameter input: The input for the [PutConfigurationRecorder] action. (Type: `PutConfigurationRecorderInput`)
     ///
-    /// - Returns: `PutConfigurationRecorderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutConfigurationRecorderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6510,6 +6585,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutConfigurationRecorderOutput>(PutConfigurationRecorderOutput.httpOutput(from:), PutConfigurationRecorderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConfigurationRecorderInput, PutConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfigurationRecorderOutput>())
@@ -6544,9 +6620,9 @@ extension ConfigClient {
     ///
     /// Creates or updates a conformance pack. A conformance pack is a collection of Config rules that can be easily deployed in an account and a region and across an organization. For information on how many conformance packs you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. When you use PutConformancePack to deploy conformance packs in your account, the operation can create Config rules and remediation actions without requiring config:PutConfigRule or config:PutRemediationConfigurations permissions in your account IAM policies. This API uses the AWSServiceRoleForConfigConforms service-linked role in your account to create conformance pack resources. This service-linked role includes the permissions to create Config rules and remediation configurations, even if your account IAM policies explicitly deny these actions. This API creates a service-linked role AWSServiceRoleForConfigConforms in your account. The service-linked role is created only when the role does not exist in your account. You must specify only one of the follow parameters: TemplateS3Uri, TemplateBody or TemplateSSMDocumentDetails.
     ///
-    /// - Parameter PutConformancePackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutConformancePackInput`)
     ///
-    /// - Returns: `PutConformancePackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutConformancePackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6613,6 +6689,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConformancePackInput, PutConformancePackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutConformancePackOutput>(PutConformancePackOutput.httpOutput(from:), PutConformancePackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConformancePackInput, PutConformancePackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConformancePackOutput>())
@@ -6647,9 +6724,9 @@ extension ConfigClient {
     ///
     /// Creates or updates a delivery channel to deliver configuration information and other compliance information. You can use this operation to create a new delivery channel or to update the Amazon S3 bucket and the Amazon SNS topic of an existing delivery channel. For more information, see [ Working with the Delivery Channel ](https://docs.aws.amazon.com/config/latest/developerguide/manage-delivery-channel.html) in the Config Developer Guide. One delivery channel per account per Region You can have only one delivery channel for each account for each Amazon Web Services Region.
     ///
-    /// - Parameter PutDeliveryChannelInput : The input for the [PutDeliveryChannel] action.
+    /// - Parameter input: The input for the [PutDeliveryChannel] action. (Type: `PutDeliveryChannelInput`)
     ///
-    /// - Returns: `PutDeliveryChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDeliveryChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6688,6 +6765,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDeliveryChannelOutput>(PutDeliveryChannelOutput.httpOutput(from:), PutDeliveryChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDeliveryChannelInput, PutDeliveryChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliveryChannelOutput>())
@@ -6722,9 +6800,9 @@ extension ConfigClient {
     ///
     /// Used by an Lambda function to deliver evaluation results to Config. This operation is required in every Lambda function that is invoked by an Config rule.
     ///
-    /// - Parameter PutEvaluationsInput :
+    /// - Parameter input: (Type: `PutEvaluationsInput`)
     ///
-    /// - Returns: `PutEvaluationsOutput` :
+    /// - Returns: (Type: `PutEvaluationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6758,6 +6836,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEvaluationsInput, PutEvaluationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEvaluationsOutput>(PutEvaluationsOutput.httpOutput(from:), PutEvaluationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEvaluationsInput, PutEvaluationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEvaluationsOutput>())
@@ -6792,9 +6871,9 @@ extension ConfigClient {
     ///
     /// Add or updates the evaluations for process checks. This API checks if the rule is a process check when the name of the Config rule is provided.
     ///
-    /// - Parameter PutExternalEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutExternalEvaluationInput`)
     ///
-    /// - Returns: `PutExternalEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutExternalEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6827,6 +6906,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutExternalEvaluationOutput>(PutExternalEvaluationOutput.httpOutput(from:), PutExternalEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutExternalEvaluationInput, PutExternalEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutExternalEvaluationOutput>())
@@ -6861,9 +6941,9 @@ extension ConfigClient {
     ///
     /// Adds or updates an Config rule for your entire organization to evaluate if your Amazon Web Services resources comply with your desired configurations. For information on how many organization Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. Only a management account and a delegated administrator can create or update an organization Config rule. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. This API enables organization service access through the EnableAWSServiceAccess action and creates a service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization. The service-linked role is created only when the role does not exist in the caller account. Config verifies the existence of role with GetRole action. To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization register-delegated-administrator for config-multiaccountsetup.amazonaws.com. There are two types of rules: Config Managed Rules and Config Custom Rules. You can use PutOrganizationConfigRule to create both Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable rules created by Config. For a list of managed rules, see [List of Config Managed Rules](https://docs.aws.amazon.com/config/latest/developerguide/managed-rules-by-aws-config.html). If you are adding an Config managed rule, you must specify the rule's identifier for the RuleIdentifier key. Config Custom Rules are rules that you create from scratch. There are two ways to create Config custom rules: with Lambda functions ([ Lambda Developer Guide](https://docs.aws.amazon.com/config/latest/developerguide/gettingstarted-concepts.html#gettingstarted-concepts-function)) and with Guard ([Guard GitHub Repository](https://github.com/aws-cloudformation/cloudformation-guard)), a policy-as-code language. Config custom rules created with Lambda are called Config Custom Lambda Rules and Config custom rules created with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom Lambda rule, you first need to create an Lambda function in the management account or a delegated administrator that the rule invokes to evaluate your resources. You also need to create an IAM role in the managed account that can be assumed by the Lambda function. When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. Make sure to specify one of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules, OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata for managed rules.
     ///
-    /// - Parameter PutOrganizationConfigRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutOrganizationConfigRuleInput`)
     ///
-    /// - Returns: `PutOrganizationConfigRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutOrganizationConfigRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6966,6 +7046,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutOrganizationConfigRuleOutput>(PutOrganizationConfigRuleOutput.httpOutput(from:), PutOrganizationConfigRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOrganizationConfigRuleInput, PutOrganizationConfigRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOrganizationConfigRuleOutput>())
@@ -7000,9 +7081,9 @@ extension ConfigClient {
     ///
     /// Deploys conformance packs across member accounts in an Amazon Web Services Organization. For information on how many organization conformance packs and how many Config rules you can have per account, see [ Service Limits ](https://docs.aws.amazon.com/config/latest/developerguide/configlimits.html) in the Config Developer Guide. Only a management account and a delegated administrator can call this API. When calling this API with a delegated administrator, you must ensure Organizations ListDelegatedAdministrator permissions are added. An organization can have up to 3 delegated administrators. When you use PutOrganizationConformancePack to deploy conformance packs across member accounts, the operation can create Config rules and remediation actions without requiring config:PutConfigRule or config:PutRemediationConfigurations permissions in member account IAM policies. This API uses the AWSServiceRoleForConfigConforms service-linked role in each member account to create conformance pack resources. This service-linked role includes the permissions to create Config rules and remediation configurations, even if member account IAM policies explicitly deny these actions. This API enables organization service access for config-multiaccountsetup.amazonaws.com through the EnableAWSServiceAccess action and creates a service-linked role AWSServiceRoleForConfigMultiAccountSetup in the management or delegated administrator account of your organization. The service-linked role is created only when the role does not exist in the caller account. To use this API with delegated administrator, register a delegated administrator by calling Amazon Web Services Organization register-delegate-admin for config-multiaccountsetup.amazonaws.com. Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization. You must specify either the TemplateS3Uri or the TemplateBody parameter, but not both. If you provide both Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or updated. You cannot update a conformance pack while it is in this state.
     ///
-    /// - Parameter PutOrganizationConformancePackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutOrganizationConformancePackInput`)
     ///
-    /// - Returns: `PutOrganizationConformancePackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutOrganizationConformancePackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7105,6 +7186,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutOrganizationConformancePackOutput>(PutOrganizationConformancePackOutput.httpOutput(from:), PutOrganizationConformancePackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOrganizationConformancePackInput, PutOrganizationConformancePackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOrganizationConformancePackOutput>())
@@ -7139,9 +7221,9 @@ extension ConfigClient {
     ///
     /// Adds or updates the remediation configuration with a specific Config rule with the selected target or action. The API creates the RemediationConfiguration object for the Config rule. The Config rule must already exist for you to add a remediation configuration. The target (SSM document) must exist and have permissions to use the target. Be aware of backward incompatible changes If you make backward incompatible changes to the SSM document, you must call this again to ensure the remediations can run. This API does not support adding remediation configurations for service-linked Config Rules such as Organization Config rules, the rules deployed by conformance packs, and rules deployed by Amazon Web Services Security Hub. Required fields For manual remediation configuration, you need to provide a value for automationAssumeRole or use a value in the assumeRolefield to remediate your resources. The SSM automation document can use either as long as it maps to a valid parameter. However, for automatic remediation configuration, the only valid assumeRole field value is AutomationAssumeRole and you need to provide a value for AutomationAssumeRole to remediate your resources. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     ///
-    /// - Parameter PutRemediationConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRemediationConfigurationsInput`)
     ///
-    /// - Returns: `PutRemediationConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRemediationConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7191,6 +7273,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRemediationConfigurationsOutput>(PutRemediationConfigurationsOutput.httpOutput(from:), PutRemediationConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRemediationConfigurationsInput, PutRemediationConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRemediationConfigurationsOutput>())
@@ -7225,9 +7308,9 @@ extension ConfigClient {
     ///
     /// A remediation exception is when a specified resource is no longer considered for auto-remediation. This API adds a new exception or updates an existing exception for a specified resource with a specified Config rule. Exceptions block auto remediation Config generates a remediation exception when a problem occurs running a remediation action for a specified resource. Remediation exceptions blocks auto-remediation until the exception is cleared. Manual remediation is recommended when placing an exception When placing an exception on an Amazon Web Services resource, it is recommended that remediation is set as manual remediation until the given Config rule for the specified resource evaluates the resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT evaluation result can delete resources before the exception is applied. Exceptions can only be performed on non-compliant resources Placing an exception can only be performed on resources that are NON_COMPLIANT. If you use this API for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will not be generated. For more information on the conditions that initiate the possible Config evaluation results, see [Concepts | Config Rules](https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html#aws-config-rules) in the Config Developer Guide. Exceptions cannot be placed on service-linked remediation actions You cannot place an exception on service-linked remediation actions, such as remediation actions put by an organizational conformance pack. Auto remediation can be initiated even for compliant resources If you enable auto remediation for a specific Config rule using the [PutRemediationConfigurations](https://docs.aws.amazon.com/config/latest/APIReference/emAPI_PutRemediationConfigurations.html) API or the Config console, it initiates the remediation process for all non-compliant resources for that specific rule. The auto remediation process relies on the compliance data snapshot which is captured on a periodic basis. Any non-compliant resource that is updated between the snapshot schedule will continue to be remediated based on the last known compliance data snapshot. This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
     ///
-    /// - Parameter PutRemediationExceptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRemediationExceptionsInput`)
     ///
-    /// - Returns: `PutRemediationExceptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRemediationExceptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7277,6 +7360,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRemediationExceptionsOutput>(PutRemediationExceptionsOutput.httpOutput(from:), PutRemediationExceptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRemediationExceptionsInput, PutRemediationExceptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRemediationExceptionsOutput>())
@@ -7311,9 +7395,9 @@ extension ConfigClient {
     ///
     /// Records the configuration state for the resource provided in the request. The configuration state of a resource is represented in Config as Configuration Items. Once this API records the configuration item, you can retrieve the list of configuration items for the custom resource type using existing Config APIs. The custom resource type must be registered with CloudFormation. This API accepts the configuration item registered with CloudFormation. When you call this API, Config only stores configuration state of the resource provided in the request. This API does not change or remediate the configuration of the resource. Write-only schema properites are not recorded as part of the published configuration item.
     ///
-    /// - Parameter PutResourceConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourceConfigInput`)
     ///
-    /// - Returns: `PutResourceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7387,6 +7471,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourceConfigInput, PutResourceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourceConfigOutput>(PutResourceConfigOutput.httpOutput(from:), PutResourceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourceConfigInput, PutResourceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourceConfigOutput>())
@@ -7421,9 +7506,9 @@ extension ConfigClient {
     ///
     /// Creates and updates the retention configuration with details about retention period (number of days) that Config stores your historical information. The API creates the RetentionConfiguration object and names the object as default. When you have a RetentionConfiguration object named default, calling the API modifies the default object. Currently, Config supports only one retention configuration per region in your account.
     ///
-    /// - Parameter PutRetentionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRetentionConfigurationInput`)
     ///
-    /// - Returns: `PutRetentionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRetentionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7456,6 +7541,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRetentionConfigurationOutput>(PutRetentionConfigurationOutput.httpOutput(from:), PutRetentionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRetentionConfigurationInput, PutRetentionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRetentionConfigurationOutput>())
@@ -7490,9 +7576,9 @@ extension ConfigClient {
     ///
     /// Creates a service-linked configuration recorder that is linked to a specific Amazon Web Services service based on the ServicePrincipal you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. For more information and a list of supported services/service principals, see [ Working with the Configuration Recorder ](https://docs.aws.amazon.com/config/latest/developerguide/stop-start-recorder.html) in the Config Developer Guide. This API creates a service-linked role AWSServiceRoleForConfig in your account. The service-linked role is created only when the role does not exist in your account. The recording scope determines if you receive configuration items The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel. Tags are added at creation and cannot be updated with this operation Use [TagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_TagResource.html) and [UntagResource](https://docs.aws.amazon.com/config/latest/APIReference/API_UntagResource.html) to update tags after creation.
     ///
-    /// - Parameter PutServiceLinkedConfigurationRecorderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutServiceLinkedConfigurationRecorderInput`)
     ///
-    /// - Returns: `PutServiceLinkedConfigurationRecorderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutServiceLinkedConfigurationRecorderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7570,6 +7656,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutServiceLinkedConfigurationRecorderOutput>(PutServiceLinkedConfigurationRecorderOutput.httpOutput(from:), PutServiceLinkedConfigurationRecorderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutServiceLinkedConfigurationRecorderInput, PutServiceLinkedConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutServiceLinkedConfigurationRecorderOutput>())
@@ -7604,9 +7691,9 @@ extension ConfigClient {
     ///
     /// Saves a new query or updates an existing saved query. The QueryName must be unique for a single Amazon Web Services account and a single Amazon Web Services Region. You can create upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services Region. Tags are added at creation and cannot be updated PutStoredQuery is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different tags values, Config will ignore these differences and treat it as an idempotent request of the previous. In this case, tags will not be updated, even if they are different.
     ///
-    /// - Parameter PutStoredQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutStoredQueryInput`)
     ///
-    /// - Returns: `PutStoredQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutStoredQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7662,6 +7749,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStoredQueryInput, PutStoredQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutStoredQueryOutput>(PutStoredQueryOutput.httpOutput(from:), PutStoredQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStoredQueryInput, PutStoredQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutStoredQueryOutput>())
@@ -7696,9 +7784,9 @@ extension ConfigClient {
     ///
     /// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the [ Query Components ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html) section in the Config Developer Guide. If you run an aggregation query (i.e., using GROUP BY or using aggregate functions such as COUNT; e.g., SELECT resourceId, COUNT(*) WHERE resourceType = 'AWS::IAM::Role' GROUP BY resourceId) and do not specify the MaxResults or the Limit query parameters, the default page size is set to 500. If you run a non-aggregation query (i.e., not using GROUP BY or aggregate function; e.g., SELECT * WHERE resourceType = 'AWS::IAM::Role') and do not specify the MaxResults or the Limit query parameters, the default page size is set to 25.
     ///
-    /// - Parameter SelectAggregateResourceConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SelectAggregateResourceConfigInput`)
     ///
-    /// - Returns: `SelectAggregateResourceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SelectAggregateResourceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7733,6 +7821,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SelectAggregateResourceConfigOutput>(SelectAggregateResourceConfigOutput.httpOutput(from:), SelectAggregateResourceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SelectAggregateResourceConfigOutput>())
@@ -7767,9 +7856,9 @@ extension ConfigClient {
     ///
     /// Accepts a structured query language (SQL) SELECT command, performs the corresponding search, and returns resource configurations matching the properties. For more information about query components, see the [ Query Components ](https://docs.aws.amazon.com/config/latest/developerguide/query-components.html) section in the Config Developer Guide.
     ///
-    /// - Parameter SelectResourceConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SelectResourceConfigInput`)
     ///
-    /// - Returns: `SelectResourceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SelectResourceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7803,6 +7892,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SelectResourceConfigOutput>(SelectResourceConfigOutput.httpOutput(from:), SelectResourceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SelectResourceConfigInput, SelectResourceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SelectResourceConfigOutput>())
@@ -7847,9 +7937,9 @@ extension ConfigClient {
     ///
     /// * Your custom rule will still run periodic evaluations every 24 hours.
     ///
-    /// - Parameter StartConfigRulesEvaluationInput :
+    /// - Parameter input: (Type: `StartConfigRulesEvaluationInput`)
     ///
-    /// - Returns: `StartConfigRulesEvaluationOutput` : The output when you start the evaluation for the specified Config rule.
+    /// - Returns: The output when you start the evaluation for the specified Config rule. (Type: `StartConfigRulesEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7898,6 +7988,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConfigRulesEvaluationOutput>(StartConfigRulesEvaluationOutput.httpOutput(from:), StartConfigRulesEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigRulesEvaluationInput, StartConfigRulesEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigRulesEvaluationOutput>())
@@ -7932,9 +8023,9 @@ extension ConfigClient {
     ///
     /// Starts the customer managed configuration recorder. The customer managed configuration recorder will begin recording configuration changes for the resource types you specify. You must have created a delivery channel to successfully start the customer managed configuration recorder. You can use the [PutDeliveryChannel](https://docs.aws.amazon.com/config/latest/APIReference/API_PutDeliveryChannel.html) operation to create a delivery channel.
     ///
-    /// - Parameter StartConfigurationRecorderInput : The input for the [StartConfigurationRecorder] operation.
+    /// - Parameter input: The input for the [StartConfigurationRecorder] operation. (Type: `StartConfigurationRecorderInput`)
     ///
-    /// - Returns: `StartConfigurationRecorderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConfigurationRecorderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7968,6 +8059,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConfigurationRecorderOutput>(StartConfigurationRecorderOutput.httpOutput(from:), StartConfigurationRecorderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigurationRecorderInput, StartConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationRecorderOutput>())
@@ -8002,9 +8094,9 @@ extension ConfigClient {
     ///
     /// Runs an on-demand remediation for the specified Config rules against the last known remediation configuration. It runs an execution against the current state of your resources. Remediation execution is asynchronous. You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
     ///
-    /// - Parameter StartRemediationExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRemediationExecutionInput`)
     ///
-    /// - Returns: `StartRemediationExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRemediationExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8055,6 +8147,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRemediationExecutionOutput>(StartRemediationExecutionOutput.httpOutput(from:), StartRemediationExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRemediationExecutionInput, StartRemediationExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRemediationExecutionOutput>())
@@ -8089,9 +8182,9 @@ extension ConfigClient {
     ///
     /// Runs an on-demand evaluation for the specified resource to determine whether the resource details will comply with configured Config rules. You can also use it for evaluation purposes. Config recommends using an evaluation context. It runs an execution against the resource details with all of the Config rules in your account that match with the specified proactive mode and resource type. Ensure you have the cloudformation:DescribeType role setup to validate the resource type schema. You can find the [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html) in "Amazon Web Services public extensions" within the CloudFormation registry or with the following CLI commmand: aws cloudformation describe-type --type-name "AWS::S3::Bucket" --type RESOURCE. For more information, see [Managing extensions through the CloudFormation registry](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-view) and [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter StartResourceEvaluationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartResourceEvaluationInput`)
     ///
-    /// - Returns: `StartResourceEvaluationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartResourceEvaluationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8124,6 +8217,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartResourceEvaluationOutput>(StartResourceEvaluationOutput.httpOutput(from:), StartResourceEvaluationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartResourceEvaluationInput, StartResourceEvaluationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartResourceEvaluationOutput>())
@@ -8158,9 +8252,9 @@ extension ConfigClient {
     ///
     /// Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
     ///
-    /// - Parameter StopConfigurationRecorderInput : The input for the [StopConfigurationRecorder] operation.
+    /// - Parameter input: The input for the [StopConfigurationRecorder] operation. (Type: `StopConfigurationRecorderInput`)
     ///
-    /// - Returns: `StopConfigurationRecorderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopConfigurationRecorderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8193,6 +8287,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopConfigurationRecorderOutput>(StopConfigurationRecorderOutput.httpOutput(from:), StopConfigurationRecorderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopConfigurationRecorderInput, StopConfigurationRecorderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopConfigurationRecorderOutput>())
@@ -8227,9 +8322,9 @@ extension ConfigClient {
     ///
     /// Associates the specified tags to a resource with the specified ResourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8285,6 +8380,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -8319,9 +8415,9 @@ extension ConfigClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8376,6 +8472,7 @@ extension ConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

@@ -59,6 +59,139 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension BedrockClientTypes {
 
+    public enum InputTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case honor
+        case ignore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputTags] {
+            return [
+                .honor,
+                .ignore
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .honor: return "HONOR"
+            case .ignore: return "IGNORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Account-level enforced guardrail input configuration.
+    public struct AccountEnforcedGuardrailInferenceInputConfiguration: Swift.Sendable {
+        /// Identifier for the guardrail, could be the ID or the ARN.
+        /// This member is required.
+        public var guardrailIdentifier: Swift.String?
+        /// Numerical guardrail version.
+        /// This member is required.
+        public var guardrailVersion: Swift.String?
+        /// Whether to honor or ignore input tags at runtime.
+        /// This member is required.
+        public var inputTags: BedrockClientTypes.InputTags?
+
+        public init(
+            guardrailIdentifier: Swift.String? = nil,
+            guardrailVersion: Swift.String? = nil,
+            inputTags: BedrockClientTypes.InputTags? = nil
+        ) {
+            self.guardrailIdentifier = guardrailIdentifier
+            self.guardrailVersion = guardrailVersion
+            self.inputTags = inputTags
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum ConfigurationOwner: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Configuration owned by the account
+        case account
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationOwner] {
+            return [
+                .account
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Account enforced guardrail output configuration.
+    public struct AccountEnforcedGuardrailOutputConfiguration: Swift.Sendable {
+        /// Unique ID for the account enforced configuration.
+        public var configId: Swift.String?
+        /// Timestamp.
+        public var createdAt: Foundation.Date?
+        /// The ARN of the role used to update the configuration.
+        public var createdBy: Swift.String?
+        /// ARN representation for the guardrail.
+        public var guardrailArn: Swift.String?
+        /// Unique ID for the guardrail.
+        public var guardrailId: Swift.String?
+        /// Numerical guardrail version.
+        public var guardrailVersion: Swift.String?
+        /// Whether to honor or ignore input tags at runtime.
+        public var inputTags: BedrockClientTypes.InputTags?
+        /// Configuration owner type.
+        public var owner: BedrockClientTypes.ConfigurationOwner?
+        /// Timestamp.
+        public var updatedAt: Foundation.Date?
+        /// The ARN of the role used to update the configuration.
+        public var updatedBy: Swift.String?
+
+        public init(
+            configId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            guardrailArn: Swift.String? = nil,
+            guardrailId: Swift.String? = nil,
+            guardrailVersion: Swift.String? = nil,
+            inputTags: BedrockClientTypes.InputTags? = nil,
+            owner: BedrockClientTypes.ConfigurationOwner? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.configId = configId
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.guardrailVersion = guardrailVersion
+            self.inputTags = inputTags
+            self.owner = owner
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     public enum AgreementStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case error
@@ -502,6 +635,8 @@ public struct CreateAutomatedReasoningPolicyInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// A description of the Automated Reasoning policy. Use this to provide context about the policy's purpose and the types of validations it performs.
     public var description: Swift.String?
+    /// The identifier of the KMS key to use for encrypting the automated reasoning policy and its associated artifacts. If you don't specify a KMS key, Amazon Bedrock uses an KMS managed key for encryption. For enhanced security and control, you can specify a customer managed KMS key.
+    public var kmsKeyId: Swift.String?
     /// A unique name for the Automated Reasoning policy. The name must be between 1 and 63 characters and can contain letters, numbers, hyphens, and underscores.
     /// This member is required.
     public var name: Swift.String?
@@ -513,12 +648,14 @@ public struct CreateAutomatedReasoningPolicyInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         policyDefinition: BedrockClientTypes.AutomatedReasoningPolicyDefinition? = nil,
         tags: [BedrockClientTypes.Tag]? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
+        self.kmsKeyId = kmsKeyId
         self.name = name
         self.policyDefinition = policyDefinition
         self.tags = tags
@@ -527,7 +664,7 @@ public struct CreateAutomatedReasoningPolicyInput: Swift.Sendable {
 
 extension CreateAutomatedReasoningPolicyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAutomatedReasoningPolicyInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), policyDefinition: \(Swift.String(describing: policyDefinition)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAutomatedReasoningPolicyInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), policyDefinition: \(Swift.String(describing: policyDefinition)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAutomatedReasoningPolicyOutput: Swift.Sendable {
@@ -755,14 +892,41 @@ extension CreateAutomatedReasoningPolicyVersionOutput: Swift.CustomDebugStringCo
         "CreateAutomatedReasoningPolicyVersionOutput(createdAt: \(Swift.String(describing: createdAt)), definitionHash: \(Swift.String(describing: definitionHash)), policyArn: \(Swift.String(describing: policyArn)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
+/// Thrown when attempting to delete or modify a resource that is currently being used by other resources or operations. For example, trying to delete an Automated Reasoning policy that is referenced by an active guardrail.
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct DeleteAutomatedReasoningPolicyInput: Swift.Sendable {
+    /// Specifies whether to force delete the automated reasoning policy even if it has active resources. When false, Amazon Bedrock validates if all artifacts have been deleted (e.g. policy version, test case, test result) for a policy before deletion. When true, Amazon Bedrock will delete the policy and all its artifacts without validation. Default is false.
+    public var force: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to delete.
     /// This member is required.
     public var policyArn: Swift.String?
 
     public init(
+        force: Swift.Bool? = nil,
         policyArn: Swift.String? = nil
     ) {
+        self.force = force
         self.policyArn = policyArn
     }
 }
@@ -797,29 +961,6 @@ public struct DeleteAutomatedReasoningPolicyBuildWorkflowInput: Swift.Sendable {
 public struct DeleteAutomatedReasoningPolicyBuildWorkflowOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// Thrown when attempting to delete or modify a resource that is currently being used by other resources or operations. For example, trying to delete an Automated Reasoning policy that is referenced by an active guardrail.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceInUseException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct DeleteAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
@@ -893,6 +1034,8 @@ public struct GetAutomatedReasoningPolicyOutput: Swift.Sendable {
     public var definitionHash: Swift.String?
     /// The description of the policy.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the automated reasoning policy and its associated artifacts. If a KMS key is not provided during the initial CreateAutomatedReasoningPolicyRequest, the kmsKeyArn won't be included in the GetAutomatedReasoningPolicyResponse.
+    public var kmsKeyArn: Swift.String?
     /// The name of the policy.
     /// This member is required.
     public var name: Swift.String?
@@ -913,6 +1056,7 @@ public struct GetAutomatedReasoningPolicyOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         definitionHash: Swift.String? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         policyArn: Swift.String? = nil,
         policyId: Swift.String? = nil,
@@ -922,6 +1066,7 @@ public struct GetAutomatedReasoningPolicyOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.definitionHash = definitionHash
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.policyArn = policyArn
         self.policyId = policyId
@@ -932,7 +1077,7 @@ public struct GetAutomatedReasoningPolicyOutput: Swift.Sendable {
 
 extension GetAutomatedReasoningPolicyOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAutomatedReasoningPolicyOutput(createdAt: \(Swift.String(describing: createdAt)), definitionHash: \(Swift.String(describing: definitionHash)), policyArn: \(Swift.String(describing: policyArn)), policyId: \(Swift.String(describing: policyId)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetAutomatedReasoningPolicyOutput(createdAt: \(Swift.String(describing: createdAt)), definitionHash: \(Swift.String(describing: definitionHash)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), policyArn: \(Swift.String(describing: policyArn)), policyId: \(Swift.String(describing: policyId)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetAutomatedReasoningPolicyAnnotationsInput: Swift.Sendable {
@@ -1621,14 +1766,18 @@ extension BedrockClientTypes {
 
     public enum AutomatedReasoningPolicyBuildResultAssetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case buildLog
+        case generatedTestCases
         case policyDefinition
+        case policyScenarios
         case qualityReport
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutomatedReasoningPolicyBuildResultAssetType] {
             return [
                 .buildLog,
+                .generatedTestCases,
                 .policyDefinition,
+                .policyScenarios,
                 .qualityReport
             ]
         }
@@ -1641,7 +1790,9 @@ extension BedrockClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .buildLog: return "BUILD_LOG"
+            case .generatedTestCases: return "GENERATED_TEST_CASES"
             case .policyDefinition: return "POLICY_DEFINITION"
+            case .policyScenarios: return "POLICY_SCENARIOS"
             case .qualityReport: return "QUALITY_REPORT"
             case let .sdkUnknown(s): return s
             }
@@ -2037,6 +2188,113 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Represents a generated test case, consisting of query content, guard content, and expected results.
+    public struct AutomatedReasoningPolicyGeneratedTestCase: Swift.Sendable {
+        /// The expected results of the generated test case. Possible values include:
+        ///
+        /// * VALID - The claims are true. The claims are implied by the premises and the Automated Reasoning policy. Given the Automated Reasoning policy and premises, it is not possible for these claims to be false. In other words, there are no alternative answers that are true that contradict the claims.
+        ///
+        /// * INVALID - The claims are false. The claims are not implied by the premises and Automated Reasoning policy. Furthermore, there exists different claims that are consistent with the premises and Automated Reasoning policy.
+        ///
+        /// * SATISFIABLE - The claims can be true or false. It depends on what assumptions are made for the claim to be implied from the premises and Automated Reasoning policy rules. In this situation, different assumptions can make input claims false and alternative claims true.
+        ///
+        /// * IMPOSSIBLE - Automated Reasoning can’t make a statement about the claims. This can happen if the premises are logically incorrect, or if there is a conflict within the Automated Reasoning policy itself.
+        /// This member is required.
+        public var expectedAggregatedFindingsResult: BedrockClientTypes.AutomatedReasoningCheckResult?
+        /// The output content that's validated by the Automated Reasoning policy. This represents the foundation model response that will be checked for accuracy.
+        /// This member is required.
+        public var guardContent: Swift.String?
+        /// The input query or prompt that generated the content. This provides context for the validation.
+        /// This member is required.
+        public var queryContent: Swift.String?
+
+        public init(
+            expectedAggregatedFindingsResult: BedrockClientTypes.AutomatedReasoningCheckResult? = nil,
+            guardContent: Swift.String? = nil,
+            queryContent: Swift.String? = nil
+        ) {
+            self.expectedAggregatedFindingsResult = expectedAggregatedFindingsResult
+            self.guardContent = guardContent
+            self.queryContent = queryContent
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyGeneratedTestCase(expectedAggregatedFindingsResult: \(Swift.String(describing: expectedAggregatedFindingsResult)), guardContent: \"CONTENT_REDACTED\", queryContent: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Contains a comprehensive test suite generated by the build workflow, providing validation capabilities for automated reasoning policies.
+    public struct AutomatedReasoningPolicyGeneratedTestCases: Swift.Sendable {
+        /// Represents a collection of generated test cases.
+        /// This member is required.
+        public var generatedTestCases: [BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase]?
+
+        public init(
+            generatedTestCases: [BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase]? = nil
+        ) {
+            self.generatedTestCases = generatedTestCases
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Represents a test scenario used to validate an Automated Reasoning policy, including the test conditions and expected outcomes.
+    public struct AutomatedReasoningPolicyScenario: Swift.Sendable {
+        /// An alternative way to express the same test scenario, used for validation and comparison purposes.
+        /// This member is required.
+        public var alternateExpression: Swift.String?
+        /// The expected outcome when this scenario is evaluated against the policy (e.g., PASS, FAIL, VIOLATION).
+        /// This member is required.
+        public var expectedResult: BedrockClientTypes.AutomatedReasoningCheckResult?
+        /// The logical expression or condition that defines this test scenario.
+        /// This member is required.
+        public var expression: Swift.String?
+        /// The list of rule identifiers that are expected to be triggered or evaluated by this test scenario.
+        /// This member is required.
+        public var ruleIds: [Swift.String]?
+
+        public init(
+            alternateExpression: Swift.String? = nil,
+            expectedResult: BedrockClientTypes.AutomatedReasoningCheckResult? = nil,
+            expression: Swift.String? = nil,
+            ruleIds: [Swift.String]? = nil
+        ) {
+            self.alternateExpression = alternateExpression
+            self.expectedResult = expectedResult
+            self.expression = expression
+            self.ruleIds = ruleIds
+        }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyScenario: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AutomatedReasoningPolicyScenario(expectedResult: \(Swift.String(describing: expectedResult)), ruleIds: \(Swift.String(describing: ruleIds)), alternateExpression: \"CONTENT_REDACTED\", expression: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
+    /// Contains a comprehensive entity encompassing all the scenarios generated by the build workflow, which can be used to validate an Automated Reasoning policy.
+    public struct AutomatedReasoningPolicyScenarios: Swift.Sendable {
+        /// Represents a collection of generated policy scenarios.
+        /// This member is required.
+        public var policyScenarios: [BedrockClientTypes.AutomatedReasoningPolicyScenario]?
+
+        public init(
+            policyScenarios: [BedrockClientTypes.AutomatedReasoningPolicyScenario]? = nil
+        ) {
+            self.policyScenarios = policyScenarios
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// Represents a set of rules that operate on completely separate variables, indicating they address different concerns or domains within the policy.
     public struct AutomatedReasoningPolicyDisjointRuleSet: Swift.Sendable {
         /// The list of rules that form this disjoint set, all operating on the same set of variables.
@@ -2145,7 +2403,7 @@ extension BedrockClientTypes.AutomatedReasoningPolicyDefinitionQualityReport: Sw
 
 extension BedrockClientTypes {
 
-    /// Contains the various assets generated during a policy build workflow, including logs, quality reports, and the final policy definition.
+    /// Contains the various assets generated during a policy build workflow, including logs, quality reports, test cases, and the final policy definition.
     public enum AutomatedReasoningPolicyBuildResultAssets: Swift.Sendable {
         /// The complete policy definition generated by the build workflow, containing all rules, variables, and custom types extracted from the source documents.
         case policydefinition(BedrockClientTypes.AutomatedReasoningPolicyDefinition)
@@ -2153,6 +2411,10 @@ extension BedrockClientTypes {
         case qualityreport(BedrockClientTypes.AutomatedReasoningPolicyDefinitionQualityReport)
         /// The complete build log containing detailed information about each step in the policy generation process.
         case buildlog(BedrockClientTypes.AutomatedReasoningPolicyBuildLog)
+        /// A comprehensive test suite generated by the build workflow, providing validation capabilities for automated reasoning policies.
+        case generatedtestcases(BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases)
+        /// An entity encompassing all the policy scenarios generated by the build workflow, which can be used to validate an Automated Reasoning policy.
+        case policyscenarios(BedrockClientTypes.AutomatedReasoningPolicyScenarios)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2193,42 +2455,6 @@ public struct GetAutomatedReasoningPolicyNextScenarioInput: Swift.Sendable {
         self.buildWorkflowId = buildWorkflowId
         self.policyArn = policyArn
     }
-}
-
-extension BedrockClientTypes {
-
-    /// Represents a test scenario used to validate an Automated Reasoning policy, including the test conditions and expected outcomes.
-    public struct AutomatedReasoningPolicyScenario: Swift.Sendable {
-        /// An alternative way to express the same test scenario, used for validation and comparison purposes.
-        /// This member is required.
-        public var alternateExpression: Swift.String?
-        /// The expected outcome when this scenario is evaluated against the policy (e.g., PASS, FAIL, VIOLATION).
-        /// This member is required.
-        public var expectedResult: BedrockClientTypes.AutomatedReasoningCheckResult?
-        /// The logical expression or condition that defines this test scenario.
-        /// This member is required.
-        public var expression: Swift.String?
-        /// The list of rule identifiers that are expected to be triggered or evaluated by this test scenario.
-        /// This member is required.
-        public var ruleIds: [Swift.String]?
-
-        public init(
-            alternateExpression: Swift.String? = nil,
-            expectedResult: BedrockClientTypes.AutomatedReasoningCheckResult? = nil,
-            expression: Swift.String? = nil,
-            ruleIds: [Swift.String]? = nil
-        ) {
-            self.alternateExpression = alternateExpression
-            self.expectedResult = expectedResult
-            self.expression = expression
-            self.ruleIds = ruleIds
-        }
-    }
-}
-
-extension BedrockClientTypes.AutomatedReasoningPolicyScenario: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "AutomatedReasoningPolicyScenario(expectedResult: \(Swift.String(describing: expectedResult)), ruleIds: \(Swift.String(describing: ruleIds)), alternateExpression: \"CONTENT_REDACTED\", expression: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetAutomatedReasoningPolicyNextScenarioOutput: Swift.Sendable {
@@ -3082,7 +3308,7 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes.AutomatedReasoningPolicyBuildWorkflowDocument: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AutomatedReasoningPolicyBuildWorkflowDocument(document: \(Swift.String(describing: document)), documentContentType: \(Swift.String(describing: documentContentType)), documentDescription: \"CONTENT_REDACTED\", documentName: \"CONTENT_REDACTED\")"}
+        "AutomatedReasoningPolicyBuildWorkflowDocument(documentContentType: \(Swift.String(describing: documentContentType)), document: \"CONTENT_REDACTED\", documentDescription: \"CONTENT_REDACTED\", documentName: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -3339,8 +3565,6 @@ public struct UpdateAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
     /// The updated content to be validated by the Automated Reasoning policy.
     /// This member is required.
     public var guardContent: Swift.String?
-    /// The KMS key ARN for encrypting the test at rest. If not provided, the key will not be updated. Use DISCARD to remove the key.
-    public var kmsKeyArn: Swift.String?
     /// The timestamp when the test was last updated. This is used as a concurrency token to prevent conflicting modifications.
     /// This member is required.
     public var lastUpdatedAt: Foundation.Date?
@@ -3358,7 +3582,6 @@ public struct UpdateAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
         confidenceThreshold: Swift.Double? = nil,
         expectedAggregatedFindingsResult: BedrockClientTypes.AutomatedReasoningCheckResult? = nil,
         guardContent: Swift.String? = nil,
-        kmsKeyArn: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         policyArn: Swift.String? = nil,
         queryContent: Swift.String? = nil,
@@ -3368,7 +3591,6 @@ public struct UpdateAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
         self.confidenceThreshold = confidenceThreshold
         self.expectedAggregatedFindingsResult = expectedAggregatedFindingsResult
         self.guardContent = guardContent
-        self.kmsKeyArn = kmsKeyArn
         self.lastUpdatedAt = lastUpdatedAt
         self.policyArn = policyArn
         self.queryContent = queryContent
@@ -3378,7 +3600,7 @@ public struct UpdateAutomatedReasoningPolicyTestCaseInput: Swift.Sendable {
 
 extension UpdateAutomatedReasoningPolicyTestCaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAutomatedReasoningPolicyTestCaseInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), confidenceThreshold: \(Swift.String(describing: confidenceThreshold)), expectedAggregatedFindingsResult: \(Swift.String(describing: expectedAggregatedFindingsResult)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), policyArn: \(Swift.String(describing: policyArn)), testCaseId: \(Swift.String(describing: testCaseId)), guardContent: \"CONTENT_REDACTED\", queryContent: \"CONTENT_REDACTED\")"}
+        "UpdateAutomatedReasoningPolicyTestCaseInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), confidenceThreshold: \(Swift.String(describing: confidenceThreshold)), expectedAggregatedFindingsResult: \(Swift.String(describing: expectedAggregatedFindingsResult)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), policyArn: \(Swift.String(describing: policyArn)), testCaseId: \(Swift.String(describing: testCaseId)), guardContent: \"CONTENT_REDACTED\", queryContent: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAutomatedReasoningPolicyTestCaseOutput: Swift.Sendable {
@@ -3908,6 +4130,59 @@ extension BedrockClientTypes {
     }
 }
 
+extension BedrockClientTypes {
+
+    public enum CustomModelDeploymentUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case updateCompleted
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomModelDeploymentUpdateStatus] {
+            return [
+                .updateCompleted,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .updateCompleted: return "UpdateCompleted"
+            case .updateFailed: return "UpdateFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Details about an update to a custom model deployment, including the new custom model resource ARN and current update status.
+    public struct CustomModelDeploymentUpdateDetails: Swift.Sendable {
+        /// ARN of the new custom model being deployed as part of the update.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// Current status of the deployment update.
+        /// This member is required.
+        public var updateStatus: BedrockClientTypes.CustomModelDeploymentUpdateStatus?
+
+        public init(
+            modelArn: Swift.String? = nil,
+            updateStatus: BedrockClientTypes.CustomModelDeploymentUpdateStatus? = nil
+        ) {
+            self.modelArn = modelArn
+            self.updateStatus = updateStatus
+        }
+    }
+}
+
 public struct GetCustomModelDeploymentOutput: Swift.Sendable {
     /// The date and time when the custom model deployment was created.
     /// This member is required.
@@ -3936,6 +4211,8 @@ public struct GetCustomModelDeploymentOutput: Swift.Sendable {
     /// * FAILED - The deployment failed to be created or became unavailable.
     /// This member is required.
     public var status: BedrockClientTypes.CustomModelDeploymentStatus?
+    /// Details about any pending or completed updates to the custom model deployment, including the new model ARN and update status.
+    public var updateDetails: BedrockClientTypes.CustomModelDeploymentUpdateDetails?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -3945,7 +4222,8 @@ public struct GetCustomModelDeploymentOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         modelArn: Swift.String? = nil,
         modelDeploymentName: Swift.String? = nil,
-        status: BedrockClientTypes.CustomModelDeploymentStatus? = nil
+        status: BedrockClientTypes.CustomModelDeploymentStatus? = nil,
+        updateDetails: BedrockClientTypes.CustomModelDeploymentUpdateDetails? = nil
     ) {
         self.createdAt = createdAt
         self.customModelDeploymentArn = customModelDeploymentArn
@@ -3955,6 +4233,7 @@ public struct GetCustomModelDeploymentOutput: Swift.Sendable {
         self.modelArn = modelArn
         self.modelDeploymentName = modelDeploymentName
         self.status = status
+        self.updateDetails = updateDetails
     }
 }
 
@@ -4115,6 +4394,35 @@ public struct ListCustomModelDeploymentsOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateCustomModelDeploymentInput: Swift.Sendable {
+    /// Identifier of the custom model deployment to update with the new custom model.
+    /// This member is required.
+    public var customModelDeploymentIdentifier: Swift.String?
+    /// ARN of the new custom model to deploy. This replaces the currently deployed model.
+    /// This member is required.
+    public var modelArn: Swift.String?
+
+    public init(
+        customModelDeploymentIdentifier: Swift.String? = nil,
+        modelArn: Swift.String? = nil
+    ) {
+        self.customModelDeploymentIdentifier = customModelDeploymentIdentifier
+        self.modelArn = modelArn
+    }
+}
+
+public struct UpdateCustomModelDeploymentOutput: Swift.Sendable {
+    /// ARN of the custom model deployment being updated.
+    /// This member is required.
+    public var customModelDeploymentArn: Swift.String?
+
+    public init(
+        customModelDeploymentArn: Swift.String? = nil
+    ) {
+        self.customModelDeploymentArn = customModelDeploymentArn
+    }
+}
+
 extension BedrockClientTypes {
 
     /// The Amazon S3 data source of the model to import.
@@ -4253,10 +4561,132 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    /// Configuration for using an AWS Lambda function to grade model responses during reinforcement fine-tuning training.
+    public struct LambdaGraderConfig: Swift.Sendable {
+        /// ARN of the AWS Lambda function that will evaluate model responses and return reward scores for RFT training.
+        /// This member is required.
+        public var lambdaArn: Swift.String?
+
+        public init(
+            lambdaArn: Swift.String? = nil
+        ) {
+            self.lambdaArn = lambdaArn
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for the grader used in reinforcement fine-tuning to evaluate model responses and provide reward signals.
+    public enum GraderConfig: Swift.Sendable {
+        /// Configuration for using an AWS Lambda function as the grader for evaluating model responses and provide reward signals in reinforcement fine-tuning.
+        case lambdagrader(BedrockClientTypes.LambdaGraderConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum ReasoningEffort: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReasoningEffort] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "high"
+            case .low: return "low"
+            case .medium: return "medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Hyperparameters for controlling the reinforcement fine-tuning training process, including learning settings and evaluation intervals.
+    public struct RFTHyperParameters: Swift.Sendable {
+        /// Number of training samples processed in each batch during reinforcement fine-tuning (RFT) training. Larger batches may improve training stability.
+        public var batchSize: Swift.Int?
+        /// Number of training epochs to run during reinforcement fine-tuning. Higher values may improve performance but increase training time.
+        public var epochCount: Swift.Int?
+        /// Interval between evaluation runs during RFT training, measured in training steps. More frequent evaluation provides better monitoring.
+        public var evalInterval: Swift.Int?
+        /// Maximum number of tokens the model can generate in response to each prompt during RFT training.
+        public var inferenceMaxTokens: Swift.Int?
+        /// Learning rate for the reinforcement fine-tuning. Controls how quickly the model adapts to reward signals.
+        public var learningRate: Swift.Float?
+        /// Maximum length of input prompts during RFT training, measured in tokens. Longer prompts allow more context but increase memory usage and training-time.
+        public var maxPromptLength: Swift.Int?
+        /// Level of reasoning effort applied during RFT training. Higher values may improve response quality but increase training time.
+        public var reasoningEffort: BedrockClientTypes.ReasoningEffort?
+        /// Number of response samples generated per prompt during RFT training. More samples provide better reward signal estimation.
+        public var trainingSamplePerPrompt: Swift.Int?
+
+        public init(
+            batchSize: Swift.Int? = nil,
+            epochCount: Swift.Int? = nil,
+            evalInterval: Swift.Int? = nil,
+            inferenceMaxTokens: Swift.Int? = nil,
+            learningRate: Swift.Float? = nil,
+            maxPromptLength: Swift.Int? = nil,
+            reasoningEffort: BedrockClientTypes.ReasoningEffort? = nil,
+            trainingSamplePerPrompt: Swift.Int? = nil
+        ) {
+            self.batchSize = batchSize
+            self.epochCount = epochCount
+            self.evalInterval = evalInterval
+            self.inferenceMaxTokens = inferenceMaxTokens
+            self.learningRate = learningRate
+            self.maxPromptLength = maxPromptLength
+            self.reasoningEffort = reasoningEffort
+            self.trainingSamplePerPrompt = trainingSamplePerPrompt
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration settings for reinforcement fine-tuning (RFT), including grader configuration and training hyperparameters.
+    public struct RFTConfig: Swift.Sendable {
+        /// Configuration for the grader that evaluates model responses and provides reward signals during RFT training.
+        public var graderConfig: BedrockClientTypes.GraderConfig?
+        /// Hyperparameters that control the reinforcement fine-tuning training process, including learning rate, batch size, and epoch count.
+        public var hyperParameters: BedrockClientTypes.RFTHyperParameters?
+
+        public init(
+            graderConfig: BedrockClientTypes.GraderConfig? = nil,
+            hyperParameters: BedrockClientTypes.RFTHyperParameters? = nil
+        ) {
+            self.graderConfig = graderConfig
+            self.hyperParameters = hyperParameters
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
     /// A model customization configuration
     public enum CustomizationConfig: Swift.Sendable {
         /// The Distillation configuration for the custom model.
         case distillationconfig(BedrockClientTypes.DistillationConfig)
+        /// Configuration settings for reinforcement fine-tuning (RFT) model customization, including grader configuration and hyperparameters.
+        case rftconfig(BedrockClientTypes.RFTConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4268,6 +4698,7 @@ extension BedrockClientTypes {
         case distillation
         case fineTuning
         case imported
+        case reinforcementFineTuning
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CustomizationType] {
@@ -4275,7 +4706,8 @@ extension BedrockClientTypes {
                 .continuedPreTraining,
                 .distillation,
                 .fineTuning,
-                .imported
+                .imported,
+                .reinforcementFineTuning
             ]
         }
 
@@ -4290,6 +4722,7 @@ extension BedrockClientTypes {
             case .distillation: return "DISTILLATION"
             case .fineTuning: return "FINE_TUNING"
             case .imported: return "IMPORTED"
+            case .reinforcementFineTuning: return "REINFORCEMENT_FINE_TUNING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4709,6 +5142,85 @@ public struct ListCustomModelsOutput: Swift.Sendable {
     ) {
         self.modelSummaries = modelSummaries
         self.nextToken = nextToken
+    }
+}
+
+public struct DeleteEnforcedGuardrailConfigurationInput: Swift.Sendable {
+    /// Unique ID for the account enforced configuration.
+    /// This member is required.
+    public var configId: Swift.String?
+
+    public init(
+        configId: Swift.String? = nil
+    ) {
+        self.configId = configId
+    }
+}
+
+public struct DeleteEnforcedGuardrailConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ListEnforcedGuardrailsConfigurationInput: Swift.Sendable {
+    /// Opaque continuation token of previous paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListEnforcedGuardrailsConfigurationOutput: Swift.Sendable {
+    /// Array of AccountEnforcedGuardrailOutputConfiguration objects.
+    /// This member is required.
+    public var guardrailsConfig: [BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration]?
+    /// Opaque continuation token of previous paginated response.
+    public var nextToken: Swift.String?
+
+    public init(
+        guardrailsConfig: [BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.guardrailsConfig = guardrailsConfig
+        self.nextToken = nextToken
+    }
+}
+
+public struct PutEnforcedGuardrailConfigurationInput: Swift.Sendable {
+    /// Unique ID for the account enforced configuration.
+    public var configId: Swift.String?
+    /// Account-level enforced guardrail input configuration.
+    /// This member is required.
+    public var guardrailInferenceConfig: BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration?
+
+    public init(
+        configId: Swift.String? = nil,
+        guardrailInferenceConfig: BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration? = nil
+    ) {
+        self.configId = configId
+        self.guardrailInferenceConfig = guardrailInferenceConfig
+    }
+}
+
+public struct PutEnforcedGuardrailConfigurationOutput: Swift.Sendable {
+    /// Unique ID for the account enforced configuration.
+    public var configId: Swift.String?
+    /// Timestamp.
+    public var updatedAt: Foundation.Date?
+    /// The ARN of the role used to update the configuration.
+    public var updatedBy: Swift.String?
+
+    public init(
+        configId: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.configId = configId
+        self.updatedAt = updatedAt
+        self.updatedBy = updatedBy
     }
 }
 
@@ -8944,6 +9456,8 @@ extension BedrockClientTypes {
 
     /// Configuration fields for invocation logging.
     public struct LoggingConfig: Swift.Sendable {
+        /// Set to include audio data in the log delivery.
+        public var audioDataDeliveryEnabled: Swift.Bool?
         /// CloudWatch logging configuration.
         public var cloudWatchConfig: BedrockClientTypes.CloudWatchConfig?
         /// Set to include embeddings data in the log delivery.
@@ -8958,6 +9472,7 @@ extension BedrockClientTypes {
         public var videoDataDeliveryEnabled: Swift.Bool?
 
         public init(
+            audioDataDeliveryEnabled: Swift.Bool? = nil,
             cloudWatchConfig: BedrockClientTypes.CloudWatchConfig? = nil,
             embeddingDataDeliveryEnabled: Swift.Bool? = nil,
             imageDataDeliveryEnabled: Swift.Bool? = nil,
@@ -8965,6 +9480,7 @@ extension BedrockClientTypes {
             textDataDeliveryEnabled: Swift.Bool? = nil,
             videoDataDeliveryEnabled: Swift.Bool? = nil
         ) {
+            self.audioDataDeliveryEnabled = audioDataDeliveryEnabled
             self.cloudWatchConfig = cloudWatchConfig
             self.embeddingDataDeliveryEnabled = embeddingDataDeliveryEnabled
             self.imageDataDeliveryEnabled = imageDataDeliveryEnabled
@@ -9984,7 +10500,7 @@ public struct GetModelInvocationJobOutput: Swift.Sendable {
     ///
     /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
     ///
-    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
     ///
     /// * Stopped – This job was stopped by a user.
     ///
@@ -10074,7 +10590,7 @@ public struct ListModelInvocationJobsInput: Swift.Sendable {
     ///
     /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
     ///
-    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
+    /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
     ///
     /// * Stopped – This job was stopped by a user.
     ///
@@ -10163,7 +10679,7 @@ extension BedrockClientTypes {
         ///
         /// * PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.
         ///
-        /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home/).
+        /// * Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home/).
         ///
         /// * Stopped – This job was stopped by a user.
         ///
@@ -12768,6 +13284,18 @@ extension DeleteAutomatedReasoningPolicyInput {
     }
 }
 
+extension DeleteAutomatedReasoningPolicyInput {
+
+    static func queryItemProvider(_ value: DeleteAutomatedReasoningPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let force = value.force {
+            let forceQueryItem = Smithy.URIQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
+            items.append(forceQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteAutomatedReasoningPolicyBuildWorkflowInput {
 
     static func urlPathProvider(_ value: DeleteAutomatedReasoningPolicyBuildWorkflowInput) -> Swift.String? {
@@ -12839,6 +13367,16 @@ extension DeleteCustomModelDeploymentInput {
             return nil
         }
         return "/model-customization/custom-model-deployments/\(customModelDeploymentIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteEnforcedGuardrailConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteEnforcedGuardrailConfigurationInput) -> Swift.String? {
+        guard let configId = value.configId else {
+            return nil
+        }
+        return "/enforcedGuardrailsConfiguration/\(configId.urlPercentEncoding())"
     }
 }
 
@@ -13447,6 +13985,25 @@ extension ListCustomModelsInput {
     }
 }
 
+extension ListEnforcedGuardrailsConfigurationInput {
+
+    static func urlPathProvider(_ value: ListEnforcedGuardrailsConfigurationInput) -> Swift.String? {
+        return "/enforcedGuardrailsConfiguration"
+    }
+}
+
+extension ListEnforcedGuardrailsConfigurationInput {
+
+    static func queryItemProvider(_ value: ListEnforcedGuardrailsConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListEvaluationJobsInput {
 
     static func urlPathProvider(_ value: ListEvaluationJobsInput) -> Swift.String? {
@@ -13956,6 +14513,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension PutEnforcedGuardrailConfigurationInput {
+
+    static func urlPathProvider(_ value: PutEnforcedGuardrailConfigurationInput) -> Swift.String? {
+        return "/enforcedGuardrailsConfiguration"
+    }
+}
+
 extension PutModelInvocationLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: PutModelInvocationLoggingConfigurationInput) -> Swift.String? {
@@ -14097,6 +14661,16 @@ extension UpdateAutomatedReasoningPolicyTestCaseInput {
     }
 }
 
+extension UpdateCustomModelDeploymentInput {
+
+    static func urlPathProvider(_ value: UpdateCustomModelDeploymentInput) -> Swift.String? {
+        guard let customModelDeploymentIdentifier = value.customModelDeploymentIdentifier else {
+            return nil
+        }
+        return "/model-customization/custom-model-deployments/\(customModelDeploymentIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateGuardrailInput {
 
     static func urlPathProvider(_ value: UpdateGuardrailInput) -> Swift.String? {
@@ -14141,6 +14715,7 @@ extension CreateAutomatedReasoningPolicyInput {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["description"].write(value.description)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
         try writer["policyDefinition"].write(value.policyDefinition, with: BedrockClientTypes.AutomatedReasoningPolicyDefinition.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -14384,6 +14959,15 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension PutEnforcedGuardrailConfigurationInput {
+
+    static func write(value: PutEnforcedGuardrailConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configId"].write(value.configId)
+        try writer["guardrailInferenceConfig"].write(value.guardrailInferenceConfig, with: BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration.write(value:to:))
+    }
+}
+
 extension PutModelInvocationLoggingConfigurationInput {
 
     static func write(value: PutModelInvocationLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -14470,9 +15054,16 @@ extension UpdateAutomatedReasoningPolicyTestCaseInput {
         try writer["confidenceThreshold"].write(value.confidenceThreshold)
         try writer["expectedAggregatedFindingsResult"].write(value.expectedAggregatedFindingsResult)
         try writer["guardContent"].write(value.guardContent)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["lastUpdatedAt"].writeTimestamp(value.lastUpdatedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["queryContent"].write(value.queryContent)
+    }
+}
+
+extension UpdateCustomModelDeploymentInput {
+
+    static func write(value: UpdateCustomModelDeploymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelArn"].write(value.modelArn)
     }
 }
 
@@ -14789,6 +15380,13 @@ extension DeleteCustomModelDeploymentOutput {
     }
 }
 
+extension DeleteEnforcedGuardrailConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteEnforcedGuardrailConfigurationOutput {
+        return DeleteEnforcedGuardrailConfigurationOutput()
+    }
+}
+
 extension DeleteFoundationModelAgreementOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFoundationModelAgreementOutput {
@@ -14874,6 +15472,7 @@ extension GetAutomatedReasoningPolicyOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.definitionHash = try reader["definitionHash"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
         value.policyId = try reader["policyId"].readIfPresent() ?? ""
@@ -15015,6 +15614,7 @@ extension GetCustomModelDeploymentOutput {
         value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
         value.modelDeploymentName = try reader["modelDeploymentName"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updateDetails = try reader["updateDetails"].readIfPresent(with: BedrockClientTypes.CustomModelDeploymentUpdateDetails.read(from:))
         return value
     }
 }
@@ -15409,6 +16009,19 @@ extension ListCustomModelsOutput {
     }
 }
 
+extension ListEnforcedGuardrailsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEnforcedGuardrailsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEnforcedGuardrailsConfigurationOutput()
+        value.guardrailsConfig = try reader["guardrailsConfig"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListEvaluationJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEvaluationJobsOutput {
@@ -15589,6 +16202,20 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension PutEnforcedGuardrailConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutEnforcedGuardrailConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutEnforcedGuardrailConfigurationOutput()
+        value.configId = try reader["configId"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension PutModelInvocationLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutModelInvocationLoggingConfigurationOutput {
@@ -15714,6 +16341,18 @@ extension UpdateAutomatedReasoningPolicyTestCaseOutput {
         var value = UpdateAutomatedReasoningPolicyTestCaseOutput()
         value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
         value.testCaseId = try reader["testCaseId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateCustomModelDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCustomModelDeploymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCustomModelDeploymentOutput()
+        value.customModelDeploymentArn = try reader["customModelDeploymentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16142,7 +16781,9 @@ enum DeleteAutomatedReasoningPolicyOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -16162,6 +16803,7 @@ enum DeleteAutomatedReasoningPolicyBuildWorkflowOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -16219,6 +16861,24 @@ enum DeleteCustomModelDeploymentOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteEnforcedGuardrailConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -16948,6 +17608,24 @@ enum ListCustomModelsOutputError {
     }
 }
 
+enum ListEnforcedGuardrailsConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListEvaluationJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17182,6 +17860,25 @@ enum ListTagsForResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutEnforcedGuardrailConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -17429,6 +18126,24 @@ enum UpdateAutomatedReasoningPolicyTestCaseOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCustomModelDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -18214,9 +18929,58 @@ extension BedrockClientTypes.AutomatedReasoningPolicyBuildResultAssets {
                 return .qualityreport(try reader["qualityReport"].read(with: BedrockClientTypes.AutomatedReasoningPolicyDefinitionQualityReport.read(from:)))
             case "buildLog":
                 return .buildlog(try reader["buildLog"].read(with: BedrockClientTypes.AutomatedReasoningPolicyBuildLog.read(from:)))
+            case "generatedTestCases":
+                return .generatedtestcases(try reader["generatedTestCases"].read(with: BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases.read(from:)))
+            case "policyScenarios":
+                return .policyscenarios(try reader["policyScenarios"].read(with: BedrockClientTypes.AutomatedReasoningPolicyScenarios.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyScenarios {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyScenarios {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyScenarios()
+        value.policyScenarios = try reader["policyScenarios"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyScenario.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyScenario {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyScenario {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyScenario()
+        value.expression = try reader["expression"].readIfPresent() ?? ""
+        value.alternateExpression = try reader["alternateExpression"].readIfPresent() ?? ""
+        value.expectedResult = try reader["expectedResult"].readIfPresent() ?? .sdkUnknown("")
+        value.ruleIds = try reader["ruleIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCases()
+        value.generatedTestCases = try reader["generatedTestCases"].readListIfPresent(memberReadingClosure: BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AutomatedReasoningPolicyGeneratedTestCase()
+        value.queryContent = try reader["queryContent"].readIfPresent() ?? ""
+        value.guardContent = try reader["guardContent"].readIfPresent() ?? ""
+        value.expectedAggregatedFindingsResult = try reader["expectedAggregatedFindingsResult"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -18462,19 +19226,6 @@ extension BedrockClientTypes.AutomatedReasoningPolicyDefinitionTypeValuePair {
         var value = BedrockClientTypes.AutomatedReasoningPolicyDefinitionTypeValuePair()
         value.typeName = try reader["typeName"].readIfPresent() ?? ""
         value.valueName = try reader["valueName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BedrockClientTypes.AutomatedReasoningPolicyScenario {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AutomatedReasoningPolicyScenario {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockClientTypes.AutomatedReasoningPolicyScenario()
-        value.expression = try reader["expression"].readIfPresent() ?? ""
-        value.alternateExpression = try reader["alternateExpression"].readIfPresent() ?? ""
-        value.ruleIds = try reader["ruleIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.expectedResult = try reader["expectedResult"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -18877,6 +19628,8 @@ extension BedrockClientTypes.CustomizationConfig {
         switch value {
             case let .distillationconfig(distillationconfig):
                 try writer["distillationConfig"].write(distillationconfig, with: BedrockClientTypes.DistillationConfig.write(value:to:))
+            case let .rftconfig(rftconfig):
+                try writer["rftConfig"].write(rftconfig, with: BedrockClientTypes.RFTConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -18888,9 +19641,96 @@ extension BedrockClientTypes.CustomizationConfig {
         switch name {
             case "distillationConfig":
                 return .distillationconfig(try reader["distillationConfig"].read(with: BedrockClientTypes.DistillationConfig.read(from:)))
+            case "rftConfig":
+                return .rftconfig(try reader["rftConfig"].read(with: BedrockClientTypes.RFTConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockClientTypes.RFTConfig {
+
+    static func write(value: BedrockClientTypes.RFTConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["graderConfig"].write(value.graderConfig, with: BedrockClientTypes.GraderConfig.write(value:to:))
+        try writer["hyperParameters"].write(value.hyperParameters, with: BedrockClientTypes.RFTHyperParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RFTConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RFTConfig()
+        value.graderConfig = try reader["graderConfig"].readIfPresent(with: BedrockClientTypes.GraderConfig.read(from:))
+        value.hyperParameters = try reader["hyperParameters"].readIfPresent(with: BedrockClientTypes.RFTHyperParameters.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.RFTHyperParameters {
+
+    static func write(value: BedrockClientTypes.RFTHyperParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["batchSize"].write(value.batchSize)
+        try writer["epochCount"].write(value.epochCount)
+        try writer["evalInterval"].write(value.evalInterval)
+        try writer["inferenceMaxTokens"].write(value.inferenceMaxTokens)
+        try writer["learningRate"].write(value.learningRate)
+        try writer["maxPromptLength"].write(value.maxPromptLength)
+        try writer["reasoningEffort"].write(value.reasoningEffort)
+        try writer["trainingSamplePerPrompt"].write(value.trainingSamplePerPrompt)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RFTHyperParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.RFTHyperParameters()
+        value.epochCount = try reader["epochCount"].readIfPresent()
+        value.batchSize = try reader["batchSize"].readIfPresent()
+        value.learningRate = try reader["learningRate"].readIfPresent()
+        value.maxPromptLength = try reader["maxPromptLength"].readIfPresent()
+        value.trainingSamplePerPrompt = try reader["trainingSamplePerPrompt"].readIfPresent()
+        value.inferenceMaxTokens = try reader["inferenceMaxTokens"].readIfPresent()
+        value.reasoningEffort = try reader["reasoningEffort"].readIfPresent()
+        value.evalInterval = try reader["evalInterval"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.GraderConfig {
+
+    static func write(value: BedrockClientTypes.GraderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .lambdagrader(lambdagrader):
+                try writer["lambdaGrader"].write(lambdagrader, with: BedrockClientTypes.LambdaGraderConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GraderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "lambdaGrader":
+                return .lambdagrader(try reader["lambdaGrader"].read(with: BedrockClientTypes.LambdaGraderConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.LambdaGraderConfig {
+
+    static func write(value: BedrockClientTypes.LambdaGraderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lambdaArn"].write(value.lambdaArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.LambdaGraderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.LambdaGraderConfig()
+        value.lambdaArn = try reader["lambdaArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -18922,6 +19762,17 @@ extension BedrockClientTypes.TeacherModelConfig {
         var value = BedrockClientTypes.TeacherModelConfig()
         value.teacherModelIdentifier = try reader["teacherModelIdentifier"].readIfPresent() ?? ""
         value.maxResponseLengthForInference = try reader["maxResponseLengthForInference"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomModelDeploymentUpdateDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomModelDeploymentUpdateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomModelDeploymentUpdateDetails()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.updateStatus = try reader["updateStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -20502,6 +21353,7 @@ extension BedrockClientTypes.LoggingConfig {
 
     static func write(value: BedrockClientTypes.LoggingConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioDataDeliveryEnabled"].write(value.audioDataDeliveryEnabled)
         try writer["cloudWatchConfig"].write(value.cloudWatchConfig, with: BedrockClientTypes.CloudWatchConfig.write(value:to:))
         try writer["embeddingDataDeliveryEnabled"].write(value.embeddingDataDeliveryEnabled)
         try writer["imageDataDeliveryEnabled"].write(value.imageDataDeliveryEnabled)
@@ -20519,6 +21371,7 @@ extension BedrockClientTypes.LoggingConfig {
         value.imageDataDeliveryEnabled = try reader["imageDataDeliveryEnabled"].readIfPresent()
         value.embeddingDataDeliveryEnabled = try reader["embeddingDataDeliveryEnabled"].readIfPresent()
         value.videoDataDeliveryEnabled = try reader["videoDataDeliveryEnabled"].readIfPresent()
+        value.audioDataDeliveryEnabled = try reader["audioDataDeliveryEnabled"].readIfPresent()
         return value
     }
 }
@@ -20649,6 +21502,25 @@ extension BedrockClientTypes.CustomModelSummary {
         value.customizationType = try reader["customizationType"].readIfPresent()
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
         value.modelStatus = try reader["modelStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.AccountEnforcedGuardrailOutputConfiguration()
+        value.configId = try reader["configId"].readIfPresent()
+        value.guardrailArn = try reader["guardrailArn"].readIfPresent()
+        value.guardrailId = try reader["guardrailId"].readIfPresent()
+        value.inputTags = try reader["inputTags"].readIfPresent()
+        value.guardrailVersion = try reader["guardrailVersion"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.owner = try reader["owner"].readIfPresent()
         return value
     }
 }
@@ -21171,6 +22043,16 @@ extension BedrockClientTypes.InferenceProfileModelSource {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration {
+
+    static func write(value: BedrockClientTypes.AccountEnforcedGuardrailInferenceInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["guardrailIdentifier"].write(value.guardrailIdentifier)
+        try writer["guardrailVersion"].write(value.guardrailVersion)
+        try writer["inputTags"].write(value.inputTags)
     }
 }
 

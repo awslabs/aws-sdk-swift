@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WorkDocsClient: ClientRuntime.Client {
+public class WorkDocsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WorkDocsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkDocsClient.WorkDocsClientConfiguration
     let serviceName = "WorkDocs"
@@ -374,9 +374,9 @@ extension WorkDocsClient {
     ///
     /// Aborts the upload of the specified document version that was previously initiated by [InitiateDocumentVersionUpload]. The client should make this call only when it no longer intends to upload the document version, or fails to do so.
     ///
-    /// - Parameter AbortDocumentVersionUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AbortDocumentVersionUploadInput`)
     ///
-    /// - Returns: `AbortDocumentVersionUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortDocumentVersionUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<AbortDocumentVersionUploadInput, AbortDocumentVersionUploadOutput>(AbortDocumentVersionUploadInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AbortDocumentVersionUploadOutput>(AbortDocumentVersionUploadOutput.httpOutput(from:), AbortDocumentVersionUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AbortDocumentVersionUploadInput, AbortDocumentVersionUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AbortDocumentVersionUploadOutput>())
@@ -445,9 +446,9 @@ extension WorkDocsClient {
     ///
     /// Activates the specified user. Only active users can access Amazon WorkDocs.
     ///
-    /// - Parameter ActivateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateUserInput`)
     ///
-    /// - Returns: `ActivateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<ActivateUserInput, ActivateUserOutput>(ActivateUserInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateUserOutput>(ActivateUserOutput.httpOutput(from:), ActivateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateUserInput, ActivateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateUserOutput>())
@@ -514,9 +516,9 @@ extension WorkDocsClient {
     ///
     /// Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
     ///
-    /// - Parameter AddResourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddResourcePermissionsInput`)
     ///
-    /// - Returns: `AddResourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddResourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +557,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddResourcePermissionsInput, AddResourcePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddResourcePermissionsOutput>(AddResourcePermissionsOutput.httpOutput(from:), AddResourcePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddResourcePermissionsInput, AddResourcePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddResourcePermissionsOutput>())
@@ -586,9 +589,9 @@ extension WorkDocsClient {
     ///
     /// Adds a new comment to the specified document version.
     ///
-    /// - Parameter CreateCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCommentInput`)
     ///
-    /// - Returns: `CreateCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,6 +633,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCommentInput, CreateCommentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCommentOutput>(CreateCommentOutput.httpOutput(from:), CreateCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCommentInput, CreateCommentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCommentOutput>())
@@ -661,9 +665,9 @@ extension WorkDocsClient {
     ///
     /// Adds one or more custom properties to the specified resource (a folder, document, or version).
     ///
-    /// - Parameter CreateCustomMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomMetadataInput`)
     ///
-    /// - Returns: `CreateCustomMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -705,6 +709,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomMetadataInput, CreateCustomMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomMetadataOutput>(CreateCustomMetadataOutput.httpOutput(from:), CreateCustomMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomMetadataInput, CreateCustomMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomMetadataOutput>())
@@ -736,9 +741,9 @@ extension WorkDocsClient {
     ///
     /// Creates a folder with the specified name and parent folder.
     ///
-    /// - Parameter CreateFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFolderInput`)
     ///
-    /// - Returns: `CreateFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,6 +787,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFolderInput, CreateFolderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFolderOutput>(CreateFolderOutput.httpOutput(from:), CreateFolderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFolderInput, CreateFolderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFolderOutput>())
@@ -813,9 +819,9 @@ extension WorkDocsClient {
     ///
     /// Adds the specified list of labels to the given resource (a document or folder)
     ///
-    /// - Parameter CreateLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLabelsInput`)
     ///
-    /// - Returns: `CreateLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,6 +861,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLabelsInput, CreateLabelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLabelsOutput>(CreateLabelsOutput.httpOutput(from:), CreateLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLabelsInput, CreateLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLabelsOutput>())
@@ -886,9 +893,9 @@ extension WorkDocsClient {
     ///
     /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint receives a confirmation message, and must confirm the subscription. For more information, see [Setting up notifications for an IAM user or role](https://docs.aws.amazon.com/workdocs/latest/developerguide/manage-notifications.html) in the Amazon WorkDocs Developer Guide.
     ///
-    /// - Parameter CreateNotificationSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotificationSubscriptionInput`)
     ///
-    /// - Returns: `CreateNotificationSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotificationSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -925,6 +932,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotificationSubscriptionInput, CreateNotificationSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotificationSubscriptionOutput>(CreateNotificationSubscriptionOutput.httpOutput(from:), CreateNotificationSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotificationSubscriptionInput, CreateNotificationSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotificationSubscriptionOutput>())
@@ -956,9 +964,9 @@ extension WorkDocsClient {
     ///
     /// Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,6 +1005,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -1028,9 +1037,9 @@ extension WorkDocsClient {
     ///
     /// Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
     ///
-    /// - Parameter DeactivateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateUserInput`)
     ///
-    /// - Returns: `DeactivateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1066,6 +1075,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeactivateUserInput, DeactivateUserOutput>(DeactivateUserInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateUserOutput>(DeactivateUserOutput.httpOutput(from:), DeactivateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateUserInput, DeactivateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateUserOutput>())
@@ -1097,9 +1107,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the specified comment from the document version.
     ///
-    /// - Parameter DeleteCommentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCommentInput`)
     ///
-    /// - Returns: `DeleteCommentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCommentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1137,6 +1147,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteCommentInput, DeleteCommentOutput>(DeleteCommentInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCommentOutput>(DeleteCommentOutput.httpOutput(from:), DeleteCommentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCommentInput, DeleteCommentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCommentOutput>())
@@ -1168,9 +1179,9 @@ extension WorkDocsClient {
     ///
     /// Deletes custom metadata from the specified resource.
     ///
-    /// - Parameter DeleteCustomMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomMetadataInput`)
     ///
-    /// - Returns: `DeleteCustomMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,6 +1219,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteCustomMetadataInput, DeleteCustomMetadataOutput>(DeleteCustomMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomMetadataOutput>(DeleteCustomMetadataOutput.httpOutput(from:), DeleteCustomMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomMetadataInput, DeleteCustomMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomMetadataOutput>())
@@ -1239,9 +1251,9 @@ extension WorkDocsClient {
     ///
     /// Permanently deletes the specified document and its associated metadata.
     ///
-    /// - Parameter DeleteDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDocumentInput`)
     ///
-    /// - Returns: `DeleteDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,6 +1293,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteDocumentInput, DeleteDocumentOutput>(DeleteDocumentInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDocumentOutput>(DeleteDocumentOutput.httpOutput(from:), DeleteDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDocumentInput, DeleteDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDocumentOutput>())
@@ -1312,9 +1325,9 @@ extension WorkDocsClient {
     ///
     /// Deletes a specific version of a document.
     ///
-    /// - Parameter DeleteDocumentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDocumentVersionInput`)
     ///
-    /// - Returns: `DeleteDocumentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDocumentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1354,6 +1367,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDocumentVersionInput, DeleteDocumentVersionOutput>(DeleteDocumentVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDocumentVersionOutput>(DeleteDocumentVersionOutput.httpOutput(from:), DeleteDocumentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDocumentVersionInput, DeleteDocumentVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDocumentVersionOutput>())
@@ -1385,9 +1399,9 @@ extension WorkDocsClient {
     ///
     /// Permanently deletes the specified folder and its contents.
     ///
-    /// - Parameter DeleteFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFolderInput`)
     ///
-    /// - Returns: `DeleteFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1427,6 +1441,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFolderInput, DeleteFolderOutput>(DeleteFolderInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFolderOutput>(DeleteFolderOutput.httpOutput(from:), DeleteFolderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFolderInput, DeleteFolderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFolderOutput>())
@@ -1458,9 +1473,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the contents of the specified folder.
     ///
-    /// - Parameter DeleteFolderContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFolderContentsInput`)
     ///
-    /// - Returns: `DeleteFolderContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFolderContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1498,6 +1513,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFolderContentsInput, DeleteFolderContentsOutput>(DeleteFolderContentsInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFolderContentsOutput>(DeleteFolderContentsOutput.httpOutput(from:), DeleteFolderContentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFolderContentsInput, DeleteFolderContentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFolderContentsOutput>())
@@ -1529,9 +1545,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the specified list of labels from a resource.
     ///
-    /// - Parameter DeleteLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLabelsInput`)
     ///
-    /// - Returns: `DeleteLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,6 +1585,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteLabelsInput, DeleteLabelsOutput>(DeleteLabelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLabelsOutput>(DeleteLabelsOutput.httpOutput(from:), DeleteLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLabelsInput, DeleteLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLabelsOutput>())
@@ -1600,9 +1617,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the specified subscription from the specified organization.
     ///
-    /// - Parameter DeleteNotificationSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotificationSubscriptionInput`)
     ///
-    /// - Returns: `DeleteNotificationSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotificationSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1636,6 +1653,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNotificationSubscriptionInput, DeleteNotificationSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotificationSubscriptionOutput>(DeleteNotificationSubscriptionOutput.httpOutput(from:), DeleteNotificationSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotificationSubscriptionInput, DeleteNotificationSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotificationSubscriptionOutput>())
@@ -1667,9 +1685,9 @@ extension WorkDocsClient {
     ///
     /// Deletes the specified user from a Simple AD or Microsoft AD directory. Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1705,6 +1723,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteUserInput, DeleteUserOutput>(DeleteUserInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -1736,9 +1755,9 @@ extension WorkDocsClient {
     ///
     /// Describes the user activities in a specified time period.
     ///
-    /// - Parameter DescribeActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActivitiesInput`)
     ///
-    /// - Returns: `DescribeActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1775,6 +1794,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeActivitiesInput, DescribeActivitiesOutput>(DescribeActivitiesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActivitiesOutput>(DescribeActivitiesOutput.httpOutput(from:), DescribeActivitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActivitiesInput, DescribeActivitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActivitiesOutput>())
@@ -1806,9 +1826,9 @@ extension WorkDocsClient {
     ///
     /// List all the comments for the specified document version.
     ///
-    /// - Parameter DescribeCommentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCommentsInput`)
     ///
-    /// - Returns: `DescribeCommentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCommentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1846,6 +1866,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeCommentsInput, DescribeCommentsOutput>(DescribeCommentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCommentsOutput>(DescribeCommentsOutput.httpOutput(from:), DescribeCommentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCommentsInput, DescribeCommentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCommentsOutput>())
@@ -1877,9 +1898,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves the document versions for the specified document. By default, only active versions are returned.
     ///
-    /// - Parameter DescribeDocumentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDocumentVersionsInput`)
     ///
-    /// - Returns: `DescribeDocumentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDocumentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1919,6 +1940,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDocumentVersionsInput, DescribeDocumentVersionsOutput>(DescribeDocumentVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDocumentVersionsOutput>(DescribeDocumentVersionsOutput.httpOutput(from:), DescribeDocumentVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDocumentVersionsInput, DescribeDocumentVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDocumentVersionsOutput>())
@@ -1950,9 +1972,9 @@ extension WorkDocsClient {
     ///
     /// Describes the contents of the specified folder, including its documents and subfolders. By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     ///
-    /// - Parameter DescribeFolderContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFolderContentsInput`)
     ///
-    /// - Returns: `DescribeFolderContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFolderContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1990,6 +2012,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeFolderContentsInput, DescribeFolderContentsOutput>(DescribeFolderContentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFolderContentsOutput>(DescribeFolderContentsOutput.httpOutput(from:), DescribeFolderContentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFolderContentsInput, DescribeFolderContentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFolderContentsOutput>())
@@ -2021,9 +2044,9 @@ extension WorkDocsClient {
     ///
     /// Describes the groups specified by the query. Groups are defined by the underlying Active Directory.
     ///
-    /// - Parameter DescribeGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGroupsInput`)
     ///
-    /// - Returns: `DescribeGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2059,6 +2082,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeGroupsInput, DescribeGroupsOutput>(DescribeGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGroupsOutput>(DescribeGroupsOutput.httpOutput(from:), DescribeGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGroupsInput, DescribeGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGroupsOutput>())
@@ -2090,9 +2114,9 @@ extension WorkDocsClient {
     ///
     /// Lists the specified notification subscriptions.
     ///
-    /// - Parameter DescribeNotificationSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNotificationSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeNotificationSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNotificationSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2126,6 +2150,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeNotificationSubscriptionsInput, DescribeNotificationSubscriptionsOutput>(DescribeNotificationSubscriptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotificationSubscriptionsOutput>(DescribeNotificationSubscriptionsOutput.httpOutput(from:), DescribeNotificationSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotificationSubscriptionsInput, DescribeNotificationSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNotificationSubscriptionsOutput>())
@@ -2157,9 +2182,9 @@ extension WorkDocsClient {
     ///
     /// Describes the permissions of a specified resource.
     ///
-    /// - Parameter DescribeResourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePermissionsInput`)
     ///
-    /// - Returns: `DescribeResourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2196,6 +2221,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeResourcePermissionsInput, DescribeResourcePermissionsOutput>(DescribeResourcePermissionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourcePermissionsOutput>(DescribeResourcePermissionsOutput.httpOutput(from:), DescribeResourcePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePermissionsInput, DescribeResourcePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePermissionsOutput>())
@@ -2227,9 +2253,9 @@ extension WorkDocsClient {
     ///
     /// Describes the current user's special folders; the RootFolder and the RecycleBin. RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
     ///
-    /// - Parameter DescribeRootFoldersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRootFoldersInput`)
     ///
-    /// - Returns: `DescribeRootFoldersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRootFoldersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2266,6 +2292,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeRootFoldersInput, DescribeRootFoldersOutput>(DescribeRootFoldersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRootFoldersOutput>(DescribeRootFoldersOutput.httpOutput(from:), DescribeRootFoldersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRootFoldersInput, DescribeRootFoldersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRootFoldersOutput>())
@@ -2297,9 +2324,9 @@ extension WorkDocsClient {
     ///
     /// Describes the specified users. You can describe all users or filter the results (for example, by status or organization). By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
     ///
-    /// - Parameter DescribeUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsersInput`)
     ///
-    /// - Returns: `DescribeUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2338,6 +2365,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeUsersInput, DescribeUsersOutput>(DescribeUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUsersOutput>(DescribeUsersOutput.httpOutput(from:), DescribeUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUsersInput, DescribeUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUsersOutput>())
@@ -2369,9 +2397,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients. This action requires an authentication token. To get an authentication token, register an application with Amazon WorkDocs. For more information, see [Authentication and Access Control for User Applications](https://docs.aws.amazon.com/workdocs/latest/developerguide/wd-auth-user.html) in the Amazon WorkDocs Developer Guide.
     ///
-    /// - Parameter GetCurrentUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCurrentUserInput`)
     ///
-    /// - Returns: `GetCurrentUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCurrentUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2407,6 +2435,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetCurrentUserInput, GetCurrentUserOutput>(GetCurrentUserInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCurrentUserOutput>(GetCurrentUserOutput.httpOutput(from:), GetCurrentUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCurrentUserInput, GetCurrentUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCurrentUserOutput>())
@@ -2438,9 +2467,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves details of a document.
     ///
-    /// - Parameter GetDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentInput`)
     ///
-    /// - Returns: `GetDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2479,6 +2508,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDocumentInput, GetDocumentOutput>(GetDocumentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentOutput>(GetDocumentOutput.httpOutput(from:), GetDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentInput, GetDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentOutput>())
@@ -2510,9 +2540,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves the path information (the hierarchy from the root folder) for the requested document. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
     ///
-    /// - Parameter GetDocumentPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentPathInput`)
     ///
-    /// - Returns: `GetDocumentPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2549,6 +2579,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDocumentPathInput, GetDocumentPathOutput>(GetDocumentPathInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentPathOutput>(GetDocumentPathOutput.httpOutput(from:), GetDocumentPathOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentPathInput, GetDocumentPathOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentPathOutput>())
@@ -2580,9 +2611,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves version metadata for the specified document.
     ///
-    /// - Parameter GetDocumentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentVersionInput`)
     ///
-    /// - Returns: `GetDocumentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2621,6 +2652,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDocumentVersionInput, GetDocumentVersionOutput>(GetDocumentVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentVersionOutput>(GetDocumentVersionOutput.httpOutput(from:), GetDocumentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentVersionInput, GetDocumentVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentVersionOutput>())
@@ -2652,9 +2684,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves the metadata of the specified folder.
     ///
-    /// - Parameter GetFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFolderInput`)
     ///
-    /// - Returns: `GetFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2693,6 +2725,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFolderInput, GetFolderOutput>(GetFolderInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFolderOutput>(GetFolderOutput.httpOutput(from:), GetFolderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFolderInput, GetFolderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFolderOutput>())
@@ -2724,9 +2757,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves the path information (the hierarchy from the root folder) for the specified folder. By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
     ///
-    /// - Parameter GetFolderPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFolderPathInput`)
     ///
-    /// - Returns: `GetFolderPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFolderPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2763,6 +2796,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFolderPathInput, GetFolderPathOutput>(GetFolderPathInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFolderPathOutput>(GetFolderPathOutput.httpOutput(from:), GetFolderPathOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFolderPathInput, GetFolderPathOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFolderPathOutput>())
@@ -2794,9 +2828,9 @@ extension WorkDocsClient {
     ///
     /// Retrieves a collection of resources, including folders and documents. The only CollectionType supported is SHARED_WITH_ME.
     ///
-    /// - Parameter GetResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcesInput`)
     ///
-    /// - Returns: `GetResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2833,6 +2867,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetResourcesInput, GetResourcesOutput>(GetResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesOutput>(GetResourcesOutput.httpOutput(from:), GetResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesInput, GetResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesOutput>())
@@ -2864,9 +2899,9 @@ extension WorkDocsClient {
     ///
     /// Creates a new document object and version object. The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call [UpdateDocumentVersion]. To cancel the document upload, call [AbortDocumentVersionUpload].
     ///
-    /// - Parameter InitiateDocumentVersionUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitiateDocumentVersionUploadInput`)
     ///
-    /// - Returns: `InitiateDocumentVersionUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitiateDocumentVersionUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2914,6 +2949,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateDocumentVersionUploadInput, InitiateDocumentVersionUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateDocumentVersionUploadOutput>(InitiateDocumentVersionUploadOutput.httpOutput(from:), InitiateDocumentVersionUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateDocumentVersionUploadInput, InitiateDocumentVersionUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateDocumentVersionUploadOutput>())
@@ -2945,9 +2981,9 @@ extension WorkDocsClient {
     ///
     /// Removes all the permissions from the specified resource.
     ///
-    /// - Parameter RemoveAllResourcePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveAllResourcePermissionsInput`)
     ///
-    /// - Returns: `RemoveAllResourcePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAllResourcePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2982,6 +3018,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<RemoveAllResourcePermissionsInput, RemoveAllResourcePermissionsOutput>(RemoveAllResourcePermissionsInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveAllResourcePermissionsOutput>(RemoveAllResourcePermissionsOutput.httpOutput(from:), RemoveAllResourcePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveAllResourcePermissionsInput, RemoveAllResourcePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveAllResourcePermissionsOutput>())
@@ -3013,9 +3050,9 @@ extension WorkDocsClient {
     ///
     /// Removes the permission for the specified principal from the specified resource.
     ///
-    /// - Parameter RemoveResourcePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveResourcePermissionInput`)
     ///
-    /// - Returns: `RemoveResourcePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveResourcePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3051,6 +3088,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RemoveResourcePermissionInput, RemoveResourcePermissionOutput>(RemoveResourcePermissionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveResourcePermissionOutput>(RemoveResourcePermissionOutput.httpOutput(from:), RemoveResourcePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveResourcePermissionInput, RemoveResourcePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveResourcePermissionOutput>())
@@ -3082,9 +3120,9 @@ extension WorkDocsClient {
     ///
     /// Recovers a deleted version of an Amazon WorkDocs document.
     ///
-    /// - Parameter RestoreDocumentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreDocumentVersionsInput`)
     ///
-    /// - Returns: `RestoreDocumentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDocumentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3123,6 +3161,7 @@ extension WorkDocsClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<RestoreDocumentVersionsInput, RestoreDocumentVersionsOutput>(RestoreDocumentVersionsInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDocumentVersionsOutput>(RestoreDocumentVersionsOutput.httpOutput(from:), RestoreDocumentVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDocumentVersionsInput, RestoreDocumentVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDocumentVersionsOutput>())
@@ -3154,9 +3193,9 @@ extension WorkDocsClient {
     ///
     /// Searches metadata and the content of folders, documents, document versions, and comments.
     ///
-    /// - Parameter SearchResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchResourcesInput`)
     ///
-    /// - Returns: `SearchResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3194,6 +3233,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchResourcesInput, SearchResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchResourcesOutput>(SearchResourcesOutput.httpOutput(from:), SearchResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchResourcesInput, SearchResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchResourcesOutput>())
@@ -3225,9 +3265,9 @@ extension WorkDocsClient {
     ///
     /// Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     ///
-    /// - Parameter UpdateDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDocumentInput`)
     ///
-    /// - Returns: `UpdateDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3271,6 +3311,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentInput, UpdateDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDocumentOutput>(UpdateDocumentOutput.httpOutput(from:), UpdateDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentInput, UpdateDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentOutput>())
@@ -3302,9 +3343,9 @@ extension WorkDocsClient {
     ///
     /// Changes the status of the document version to ACTIVE. Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by [InitiateDocumentVersionUpload].
     ///
-    /// - Parameter UpdateDocumentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDocumentVersionInput`)
     ///
-    /// - Returns: `UpdateDocumentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDocumentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3346,6 +3387,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentVersionInput, UpdateDocumentVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDocumentVersionOutput>(UpdateDocumentVersionOutput.httpOutput(from:), UpdateDocumentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentVersionInput, UpdateDocumentVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentVersionOutput>())
@@ -3377,9 +3419,9 @@ extension WorkDocsClient {
     ///
     /// Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
     ///
-    /// - Parameter UpdateFolderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFolderInput`)
     ///
-    /// - Returns: `UpdateFolderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFolderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3423,6 +3465,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFolderInput, UpdateFolderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFolderOutput>(UpdateFolderOutput.httpOutput(from:), UpdateFolderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFolderInput, UpdateFolderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFolderOutput>())
@@ -3454,9 +3497,9 @@ extension WorkDocsClient {
     ///
     /// Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3499,6 +3542,7 @@ extension WorkDocsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())

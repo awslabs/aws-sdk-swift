@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PartnerCentralSellingClient: ClientRuntime.Client {
+public class PartnerCentralSellingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PartnerCentralSellingClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: PartnerCentralSellingClient.PartnerCentralSellingClientConfiguration
     let serviceName = "PartnerCentral Selling"
@@ -374,9 +374,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use the AcceptEngagementInvitation action to accept an engagement invitation shared by AWS. Accepting the invitation indicates your willingness to participate in the engagement, granting you access to all engagement-related data.
     ///
-    /// - Parameter AcceptEngagementInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptEngagementInvitationInput`)
     ///
-    /// - Returns: `AcceptEngagementInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptEngagementInvitationInput, AcceptEngagementInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptEngagementInvitationOutput>(AcceptEngagementInvitationOutput.httpOutput(from:), AcceptEngagementInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptEngagementInvitationInput, AcceptEngagementInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptEngagementInvitationOutput>())
@@ -447,9 +448,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Enables you to reassign an existing Opportunity to another user within your Partner Central account. The specified user receives the opportunity, and it appears on their Partner Central dashboard, allowing them to take necessary actions or proceed with the opportunity. This is useful for distributing opportunities to the appropriate team members or departments within your organization, ensuring that each opportunity is handled by the right person. By default, the opportunity owner is the one who creates it. Currently, there's no API to enumerate the list of available users.
     ///
-    /// - Parameter AssignOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssignOpportunityInput`)
     ///
-    /// - Returns: `AssignOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssignOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +486,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssignOpportunityInput, AssignOpportunityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssignOpportunityOutput>(AssignOpportunityOutput.httpOutput(from:), AssignOpportunityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssignOpportunityInput, AssignOpportunityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssignOpportunityOutput>())
@@ -534,9 +536,9 @@ extension PartnerCentralSellingClient {
     ///
     /// * Amazon Web Services Marketplace private offer: Use the [Using the Amazon Web Services Marketplace Catalog API](https://docs.aws.amazon.com/marketplace/latest/APIReference/catalog-apis.html) to list entities. Specifically, use the ListEntities operation to retrieve a list of private offers. The request returns the details of available private offers. For more information, see [ListEntities](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_ListEntities.html).
     ///
-    /// - Parameter AssociateOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateOpportunityInput`)
     ///
-    /// - Returns: `AssociateOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -572,6 +574,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateOpportunityInput, AssociateOpportunityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateOpportunityOutput>(AssociateOpportunityOutput.httpOutput(from:), AssociateOpportunityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateOpportunityInput, AssociateOpportunityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateOpportunityOutput>())
@@ -606,15 +609,16 @@ extension PartnerCentralSellingClient {
     ///
     /// The CreateEngagement action allows you to create an Engagement, which serves as a collaborative space between different parties such as AWS Partners and AWS Sellers. This action automatically adds the caller's AWS account as an active member of the newly created Engagement.
     ///
-    /// - Parameter CreateEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEngagementInput`)
     ///
-    /// - Returns: `CreateEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -646,6 +650,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEngagementInput, CreateEngagementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEngagementOutput>(CreateEngagementOutput.httpOutput(from:), CreateEngagementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEngagementInput, CreateEngagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEngagementOutput>())
@@ -676,19 +681,96 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `CreateEngagementInvitation` operation on the `PartnerCentralSelling` service.
+    /// Performs the `CreateEngagementContext` operation on the `PartnerCentralSelling` service.
     ///
-    /// This action creates an invitation from a sender to a single receiver to join an engagement.
+    /// Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members.
     ///
-    /// - Parameter CreateEngagementInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEngagementContextInput`)
     ///
-    /// - Returns: `CreateEngagementInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEngagementContextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func createEngagementContext(input: CreateEngagementContextInput) async throws -> CreateEngagementContextOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createEngagementContext")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateEngagementContextInput, CreateEngagementContextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(CreateEngagementContextInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEngagementContextOutput>(CreateEngagementContextOutput.httpOutput(from:), CreateEngagementContextOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateEngagementContextOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateEngagementContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(xAmzTarget: "AWSPartnerCentralSelling.CreateEngagementContext"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateEngagementContextInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateEngagementContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateEngagementContextInput, CreateEngagementContextOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateEngagementContext")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateEngagementInvitation` operation on the `PartnerCentralSelling` service.
+    ///
+    /// This action creates an invitation from a sender to a single receiver to join an engagement.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateEngagementInvitationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateEngagementInvitationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -720,6 +802,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEngagementInvitationInput, CreateEngagementInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEngagementInvitationOutput>(CreateEngagementInvitationOutput.httpOutput(from:), CreateEngagementInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEngagementInvitationInput, CreateEngagementInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEngagementInvitationOutput>())
@@ -763,9 +846,9 @@ extension PartnerCentralSellingClient {
     ///
     /// After submission, you can't edit the opportunity until the review is complete. But opportunities in the Pending Submission state must have complete details. You can update the opportunity while it's in the Pending Submission state. There's a set of mandatory fields to create opportunities, but consider providing optional fields to enrich the opportunity record.
     ///
-    /// - Parameter CreateOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOpportunityInput`)
     ///
-    /// - Returns: `CreateOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -803,6 +886,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOpportunityInput, CreateOpportunityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOpportunityOutput>(CreateOpportunityOutput.httpOutput(from:), CreateOpportunityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOpportunityInput, CreateOpportunityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOpportunityOutput>())
@@ -837,15 +921,16 @@ extension PartnerCentralSellingClient {
     ///
     /// This action allows you to create an immutable snapshot of a specific resource, such as an opportunity, within the context of an engagement. The snapshot captures a subset of the resource's data based on the schema defined by the provided template.
     ///
-    /// - Parameter CreateResourceSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceSnapshotInput`)
     ///
-    /// - Returns: `CreateResourceSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -877,6 +962,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceSnapshotInput, CreateResourceSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceSnapshotOutput>(CreateResourceSnapshotOutput.httpOutput(from:), CreateResourceSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceSnapshotInput, CreateResourceSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceSnapshotOutput>())
@@ -911,15 +997,16 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to create a job to generate a snapshot of the specified resource within an engagement. It initiates an asynchronous process to create a resource snapshot. The job creates a new snapshot only if the resource state has changed, adhering to the same access control and immutability rules as direct snapshot creation.
     ///
-    /// - Parameter CreateResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceSnapshotJobInput`)
     ///
-    /// - Returns: `CreateResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
@@ -951,6 +1038,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceSnapshotJobInput, CreateResourceSnapshotJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceSnapshotJobOutput>(CreateResourceSnapshotJobOutput.httpOutput(from:), CreateResourceSnapshotJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceSnapshotJobInput, CreateResourceSnapshotJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceSnapshotJobOutput>())
@@ -985,15 +1073,16 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to deletes a previously created resource snapshot job. The job must be in a stopped state before it can be deleted.
     ///
-    /// - Parameter DeleteResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceSnapshotJobInput`)
     ///
-    /// - Returns: `DeleteResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1023,6 +1112,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceSnapshotJobInput, DeleteResourceSnapshotJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceSnapshotJobOutput>(DeleteResourceSnapshotJobOutput.httpOutput(from:), DeleteResourceSnapshotJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceSnapshotJobInput, DeleteResourceSnapshotJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceSnapshotJobOutput>())
@@ -1057,9 +1147,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Allows you to remove an existing association between an Opportunity and related entities, such as a Partner Solution, Amazon Web Services product, or an Amazon Web Services Marketplace offer. This operation is the counterpart to AssociateOpportunity, and it provides flexibility to manage associations as business needs change. Use this operation to update the associations of an Opportunity due to changes in the related entities, or if an association was made in error. Ensuring accurate associations helps maintain clarity and accuracy to track and manage business opportunities. When you replace an entity, first attach the new entity and then disassociate the one to be removed, especially if it's the last remaining entity that's required.
     ///
-    /// - Parameter DisassociateOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateOpportunityInput`)
     ///
-    /// - Returns: `DisassociateOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1095,6 +1185,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateOpportunityInput, DisassociateOpportunityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateOpportunityOutput>(DisassociateOpportunityOutput.httpOutput(from:), DisassociateOpportunityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateOpportunityInput, DisassociateOpportunityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateOpportunityOutput>())
@@ -1129,9 +1220,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves a summary of an AWS Opportunity. This summary includes high-level details about the opportunity sourced from AWS, such as lifecycle information, customer details, and involvement type. It is useful for tracking updates on the AWS opportunity corresponding to an opportunity in the partner's account.
     ///
-    /// - Parameter GetAwsOpportunitySummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAwsOpportunitySummaryInput`)
     ///
-    /// - Returns: `GetAwsOpportunitySummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAwsOpportunitySummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1167,6 +1258,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAwsOpportunitySummaryInput, GetAwsOpportunitySummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAwsOpportunitySummaryOutput>(GetAwsOpportunitySummaryOutput.httpOutput(from:), GetAwsOpportunitySummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAwsOpportunitySummaryInput, GetAwsOpportunitySummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAwsOpportunitySummaryOutput>())
@@ -1201,14 +1293,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to retrieve the engagement record for a given EngagementIdentifier.
     ///
-    /// - Parameter GetEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEngagementInput`)
     ///
-    /// - Returns: `GetEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1238,6 +1331,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEngagementInput, GetEngagementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEngagementOutput>(GetEngagementOutput.httpOutput(from:), GetEngagementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEngagementInput, GetEngagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEngagementOutput>())
@@ -1272,9 +1366,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the details of an engagement invitation shared by AWS with a partner. The information includes aspects such as customer, project details, and lifecycle information. To connect an engagement invitation with an opportunity, match the invitation’s Payload.Project.Title with opportunity Project.Title.
     ///
-    /// - Parameter GetEngagementInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEngagementInvitationInput`)
     ///
-    /// - Returns: `GetEngagementInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,6 +1404,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEngagementInvitationInput, GetEngagementInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEngagementInvitationOutput>(GetEngagementInvitationOutput.httpOutput(from:), GetEngagementInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEngagementInvitationInput, GetEngagementInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEngagementInvitationOutput>())
@@ -1344,9 +1439,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Fetches the Opportunity record from Partner Central by a given Identifier. Use the ListOpportunities action or the event notification (from Amazon EventBridge) to obtain this identifier.
     ///
-    /// - Parameter GetOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOpportunityInput`)
     ///
-    /// - Returns: `GetOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1382,6 +1477,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpportunityInput, GetOpportunityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOpportunityOutput>(GetOpportunityOutput.httpOutput(from:), GetOpportunityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpportunityInput, GetOpportunityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpportunityOutput>())
@@ -1416,14 +1512,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to retrieve a specific snapshot record.
     ///
-    /// - Parameter GetResourceSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSnapshotInput`)
     ///
-    /// - Returns: `GetResourceSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1453,6 +1550,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceSnapshotInput, GetResourceSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceSnapshotOutput>(GetResourceSnapshotOutput.httpOutput(from:), GetResourceSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceSnapshotInput, GetResourceSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceSnapshotOutput>())
@@ -1487,14 +1585,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to retrieves information about a specific resource snapshot job.
     ///
-    /// - Parameter GetResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSnapshotJobInput`)
     ///
-    /// - Returns: `GetResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1524,6 +1623,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceSnapshotJobInput, GetResourceSnapshotJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceSnapshotJobOutput>(GetResourceSnapshotJobOutput.httpOutput(from:), GetResourceSnapshotJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceSnapshotJobInput, GetResourceSnapshotJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceSnapshotJobOutput>())
@@ -1558,14 +1658,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the currently set system settings, which include the IAM Role used for resource snapshot jobs.
     ///
-    /// - Parameter GetSellingSystemSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSellingSystemSettingsInput`)
     ///
-    /// - Returns: `GetSellingSystemSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSellingSystemSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1595,6 +1696,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSellingSystemSettingsInput, GetSellingSystemSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSellingSystemSettingsOutput>(GetSellingSystemSettingsOutput.httpOutput(from:), GetSellingSystemSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSellingSystemSettingsInput, GetSellingSystemSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSellingSystemSettingsOutput>())
@@ -1629,14 +1731,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists all in-progress, completed, or failed StartEngagementByAcceptingInvitationTask tasks that were initiated by the caller's account.
     ///
-    /// - Parameter ListEngagementByAcceptingInvitationTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementByAcceptingInvitationTasksInput`)
     ///
-    /// - Returns: `ListEngagementByAcceptingInvitationTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementByAcceptingInvitationTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1666,6 +1769,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngagementByAcceptingInvitationTasksInput, ListEngagementByAcceptingInvitationTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEngagementByAcceptingInvitationTasksOutput>(ListEngagementByAcceptingInvitationTasksOutput.httpOutput(from:), ListEngagementByAcceptingInvitationTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngagementByAcceptingInvitationTasksInput, ListEngagementByAcceptingInvitationTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEngagementByAcceptingInvitationTasksOutput>())
@@ -1700,14 +1804,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists all in-progress, completed, or failed EngagementFromOpportunity tasks that were initiated by the caller's account.
     ///
-    /// - Parameter ListEngagementFromOpportunityTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementFromOpportunityTasksInput`)
     ///
-    /// - Returns: `ListEngagementFromOpportunityTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementFromOpportunityTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1737,6 +1842,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngagementFromOpportunityTasksInput, ListEngagementFromOpportunityTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEngagementFromOpportunityTasksOutput>(ListEngagementFromOpportunityTasksOutput.httpOutput(from:), ListEngagementFromOpportunityTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngagementFromOpportunityTasksInput, ListEngagementFromOpportunityTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEngagementFromOpportunityTasksOutput>())
@@ -1771,9 +1877,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves a list of engagement invitations sent to the partner. This allows partners to view all pending or past engagement invitations, helping them track opportunities shared by AWS.
     ///
-    /// - Parameter ListEngagementInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementInvitationsInput`)
     ///
-    /// - Returns: `ListEngagementInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1809,6 +1915,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngagementInvitationsInput, ListEngagementInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEngagementInvitationsOutput>(ListEngagementInvitationsOutput.httpOutput(from:), ListEngagementInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngagementInvitationsInput, ListEngagementInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEngagementInvitationsOutput>())
@@ -1843,14 +1950,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves the details of member partners in an Engagement. This operation can only be invoked by members of the Engagement. The ListEngagementMembers operation allows you to fetch information about the members of a specific Engagement. This action is restricted to members of the Engagement being queried.
     ///
-    /// - Parameter ListEngagementMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementMembersInput`)
     ///
-    /// - Returns: `ListEngagementMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1880,6 +1988,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngagementMembersInput, ListEngagementMembersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEngagementMembersOutput>(ListEngagementMembersOutput.httpOutput(from:), ListEngagementMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngagementMembersInput, ListEngagementMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEngagementMembersOutput>())
@@ -1914,14 +2023,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Lists the associations between resources and engagements where the caller is a member and has at least one snapshot in the engagement.
     ///
-    /// - Parameter ListEngagementResourceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementResourceAssociationsInput`)
     ///
-    /// - Returns: `ListEngagementResourceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementResourceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -1951,6 +2061,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngagementResourceAssociationsInput, ListEngagementResourceAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEngagementResourceAssociationsOutput>(ListEngagementResourceAssociationsOutput.httpOutput(from:), ListEngagementResourceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngagementResourceAssociationsInput, ListEngagementResourceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEngagementResourceAssociationsOutput>())
@@ -1985,14 +2096,15 @@ extension PartnerCentralSellingClient {
     ///
     /// This action allows users to retrieve a list of Engagement records from Partner Central. This action can be used to manage and track various engagements across different stages of the partner selling process.
     ///
-    /// - Parameter ListEngagementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementsInput`)
     ///
-    /// - Returns: `ListEngagementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2022,6 +2134,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngagementsInput, ListEngagementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEngagementsOutput>(ListEngagementsOutput.httpOutput(from:), ListEngagementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngagementsInput, ListEngagementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEngagementsOutput>())
@@ -2062,9 +2175,9 @@ extension PartnerCentralSellingClient {
     ///
     /// * Amazon Web Services only returns opportunities created or updated on or after that date and time. Use NextToken to iterate over all pages.
     ///
-    /// - Parameter ListOpportunitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpportunitiesInput`)
     ///
-    /// - Returns: `ListOpportunitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOpportunitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2100,6 +2213,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpportunitiesInput, ListOpportunitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpportunitiesOutput>(ListOpportunitiesOutput.httpOutput(from:), ListOpportunitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpportunitiesInput, ListOpportunitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpportunitiesOutput>())
@@ -2130,18 +2244,92 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `ListResourceSnapshotJobs` operation on the `PartnerCentralSelling` service.
+    /// Performs the `ListOpportunityFromEngagementTasks` operation on the `PartnerCentralSelling` service.
     ///
-    /// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
+    /// Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account.
     ///
-    /// - Parameter ListResourceSnapshotJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpportunityFromEngagementTasksInput`)
     ///
-    /// - Returns: `ListResourceSnapshotJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOpportunityFromEngagementTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func listOpportunityFromEngagementTasks(input: ListOpportunityFromEngagementTasksInput) async throws -> ListOpportunityFromEngagementTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOpportunityFromEngagementTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(ListOpportunityFromEngagementTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpportunityFromEngagementTasksOutput>(ListOpportunityFromEngagementTasksOutput.httpOutput(from:), ListOpportunityFromEngagementTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOpportunityFromEngagementTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOpportunityFromEngagementTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(xAmzTarget: "AWSPartnerCentralSelling.ListOpportunityFromEngagementTasks"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOpportunityFromEngagementTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOpportunityFromEngagementTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOpportunityFromEngagementTasksInput, ListOpportunityFromEngagementTasksOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOpportunityFromEngagementTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListResourceSnapshotJobs` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSnapshotJobsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListResourceSnapshotJobsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2171,6 +2359,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceSnapshotJobsInput, ListResourceSnapshotJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceSnapshotJobsOutput>(ListResourceSnapshotJobsOutput.httpOutput(from:), ListResourceSnapshotJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceSnapshotJobsInput, ListResourceSnapshotJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceSnapshotJobsOutput>())
@@ -2215,14 +2404,15 @@ extension PartnerCentralSellingClient {
     ///
     /// * Filtering snapshots by resource owner.
     ///
-    /// - Parameter ListResourceSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSnapshotsInput`)
     ///
-    /// - Returns: `ListResourceSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2252,6 +2442,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceSnapshotsInput, ListResourceSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceSnapshotsOutput>(ListResourceSnapshotsOutput.httpOutput(from:), ListResourceSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceSnapshotsInput, ListResourceSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceSnapshotsOutput>())
@@ -2286,9 +2477,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
     ///
-    /// - Parameter ListSolutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolutionsInput`)
     ///
-    /// - Returns: `ListSolutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2296,6 +2487,7 @@ extension PartnerCentralSellingClient {
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
     /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
     public func listSolutions(input: ListSolutionsInput) async throws -> ListSolutionsOutput {
         let context = Smithy.ContextBuilder()
@@ -2323,6 +2515,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSolutionsInput, ListSolutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolutionsOutput>(ListSolutionsOutput.httpOutput(from:), ListSolutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolutionsInput, ListSolutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSolutionsOutput>())
@@ -2357,9 +2550,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2395,6 +2588,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2429,14 +2623,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Updates the currently set system settings, which include the IAM Role used for resource snapshot jobs.
     ///
-    /// - Parameter PutSellingSystemSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSellingSystemSettingsInput`)
     ///
-    /// - Returns: `PutSellingSystemSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSellingSystemSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2466,6 +2661,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSellingSystemSettingsInput, PutSellingSystemSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSellingSystemSettingsOutput>(PutSellingSystemSettingsOutput.httpOutput(from:), PutSellingSystemSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSellingSystemSettingsInput, PutSellingSystemSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSellingSystemSettingsOutput>())
@@ -2500,9 +2696,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action rejects an EngagementInvitation that AWS shared. Rejecting an invitation indicates that the partner doesn't want to pursue the opportunity, and all related data will become inaccessible thereafter.
     ///
-    /// - Parameter RejectEngagementInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectEngagementInvitationInput`)
     ///
-    /// - Returns: `RejectEngagementInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectEngagementInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2539,6 +2735,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectEngagementInvitationInput, RejectEngagementInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectEngagementInvitationOutput>(RejectEngagementInvitationOutput.httpOutput(from:), RejectEngagementInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectEngagementInvitationInput, RejectEngagementInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectEngagementInvitationOutput>())
@@ -2573,9 +2770,9 @@ extension PartnerCentralSellingClient {
     ///
     /// This action starts the engagement by accepting an EngagementInvitation. The task is asynchronous and involves the following steps: accepting the invitation, creating an opportunity in the partner’s account from the AWS opportunity, and copying details for tracking. When completed, an Opportunity Created event is generated, indicating that the opportunity has been successfully created in the partner's account.
     ///
-    /// - Parameter StartEngagementByAcceptingInvitationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEngagementByAcceptingInvitationTaskInput`)
     ///
-    /// - Returns: `StartEngagementByAcceptingInvitationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEngagementByAcceptingInvitationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2614,6 +2811,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEngagementByAcceptingInvitationTaskInput, StartEngagementByAcceptingInvitationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEngagementByAcceptingInvitationTaskOutput>(StartEngagementByAcceptingInvitationTaskOutput.httpOutput(from:), StartEngagementByAcceptingInvitationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEngagementByAcceptingInvitationTaskInput, StartEngagementByAcceptingInvitationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEngagementByAcceptingInvitationTaskOutput>())
@@ -2648,9 +2846,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Similar to StartEngagementByAcceptingInvitationTask, this action is asynchronous and performs multiple steps before completion. This action orchestrates a comprehensive workflow that combines multiple API operations into a single task to create and initiate an engagement from an existing opportunity. It automatically executes a sequence of operations including GetOpportunity, CreateEngagement (if it doesn't exist), CreateResourceSnapshot, CreateResourceSnapshotJob, CreateEngagementInvitation (if not already invited/accepted), and SubmitOpportunity.
     ///
-    /// - Parameter StartEngagementFromOpportunityTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEngagementFromOpportunityTaskInput`)
     ///
-    /// - Returns: `StartEngagementFromOpportunityTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEngagementFromOpportunityTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2689,6 +2887,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEngagementFromOpportunityTaskInput, StartEngagementFromOpportunityTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEngagementFromOpportunityTaskOutput>(StartEngagementFromOpportunityTaskOutput.httpOutput(from:), StartEngagementFromOpportunityTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEngagementFromOpportunityTaskInput, StartEngagementFromOpportunityTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEngagementFromOpportunityTaskOutput>())
@@ -2719,18 +2918,95 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
-    /// Performs the `StartResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
+    /// Performs the `StartOpportunityFromEngagementTask` operation on the `PartnerCentralSelling` service.
     ///
-    /// Starts a resource snapshot job that has been previously created.
+    /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account.
     ///
-    /// - Parameter StartResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartOpportunityFromEngagementTaskInput`)
     ///
-    /// - Returns: `StartResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartOpportunityFromEngagementTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func startOpportunityFromEngagementTask(input: StartOpportunityFromEngagementTaskInput) async throws -> StartOpportunityFromEngagementTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startOpportunityFromEngagementTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(StartOpportunityFromEngagementTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartOpportunityFromEngagementTaskOutput>(StartOpportunityFromEngagementTaskOutput.httpOutput(from:), StartOpportunityFromEngagementTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartOpportunityFromEngagementTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartOpportunityFromEngagementTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(xAmzTarget: "AWSPartnerCentralSelling.StartOpportunityFromEngagementTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartOpportunityFromEngagementTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartOpportunityFromEngagementTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartOpportunityFromEngagementTaskInput, StartOpportunityFromEngagementTaskOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartOpportunityFromEngagementTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartResourceSnapshotJob` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Starts a resource snapshot job that has been previously created.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartResourceSnapshotJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartResourceSnapshotJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2760,6 +3036,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartResourceSnapshotJobInput, StartResourceSnapshotJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartResourceSnapshotJobOutput>(StartResourceSnapshotJobOutput.httpOutput(from:), StartResourceSnapshotJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartResourceSnapshotJobInput, StartResourceSnapshotJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartResourceSnapshotJobOutput>())
@@ -2794,14 +3071,15 @@ extension PartnerCentralSellingClient {
     ///
     /// Stops a resource snapshot job. The job must be started prior to being stopped.
     ///
-    /// - Parameter StopResourceSnapshotJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopResourceSnapshotJobInput`)
     ///
-    /// - Returns: `StopResourceSnapshotJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopResourceSnapshotJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
     /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
     /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
@@ -2831,6 +3109,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopResourceSnapshotJobInput, StopResourceSnapshotJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopResourceSnapshotJobOutput>(StopResourceSnapshotJobOutput.httpOutput(from:), StopResourceSnapshotJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopResourceSnapshotJobInput, StopResourceSnapshotJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopResourceSnapshotJobOutput>())
@@ -2865,9 +3144,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Use this action to submit an Opportunity that was previously created by partner for AWS review. After you perform this action, the Opportunity becomes non-editable until it is reviewed by AWS and has  LifeCycle.ReviewStatus  as either Approved or Action Required.
     ///
-    /// - Parameter SubmitOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SubmitOpportunityInput`)
     ///
-    /// - Returns: `SubmitOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2903,6 +3182,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitOpportunityInput, SubmitOpportunityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitOpportunityOutput>(SubmitOpportunityOutput.httpOutput(from:), SubmitOpportunityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitOpportunityInput, SubmitOpportunityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitOpportunityOutput>())
@@ -2937,9 +3217,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2976,6 +3256,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3010,9 +3291,9 @@ extension PartnerCentralSellingClient {
     ///
     /// Removes a tag or tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3049,6 +3330,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3079,13 +3361,88 @@ extension PartnerCentralSellingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateEngagementContext` operation on the `PartnerCentralSelling` service.
+    ///
+    /// Updates the context information for an existing engagement with new or modified data.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateEngagementContextInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateEngagementContextOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
+    /// - `ConflictException` : This error occurs when the request can’t be processed due to a conflict with the target resource's current state, which could result from updating or deleting the resource. Suggested action: Fetch the latest state of the resource, verify the state, and retry the request.
+    /// - `InternalServerException` : This error occurs when the specified resource can’t be found or doesn't exist. Resource ID and type might be incorrect. Suggested action: This is usually a transient error. Retry after the provided retry delay or a short interval. If the problem persists, contact AWS support.
+    /// - `ResourceNotFoundException` : This error occurs when the specified resource can't be found. The resource might not exist, or isn't visible with the current credentials. Suggested action: Verify that the resource ID is correct and the resource is in the expected AWS region. Check IAM permissions for accessing the resource.
+    /// - `ServiceQuotaExceededException` : This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
+    /// - `ThrottlingException` : This error occurs when there are too many requests sent. Review the provided quotas and adapt your usage to avoid throttling. This error occurs when there are too many requests sent. Review the provided [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) and retry after the provided delay.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service or business validation rules. Suggested action: Review the error message, including the failed fields and reasons, to correct the request payload.
+    public func updateEngagementContext(input: UpdateEngagementContextInput) async throws -> UpdateEngagementContextOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateEngagementContext")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "partnercentral-selling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateEngagementContextInput, UpdateEngagementContextOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(UpdateEngagementContextInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEngagementContextOutput>(UpdateEngagementContextOutput.httpOutput(from:), UpdateEngagementContextOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEngagementContextOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("PartnerCentral Selling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateEngagementContextOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(xAmzTarget: "AWSPartnerCentralSelling.UpdateEngagementContext"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateEngagementContextInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateEngagementContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateEngagementContextInput, UpdateEngagementContextOutput>(serviceID: serviceName, version: PartnerCentralSellingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "PartnerCentralSelling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateEngagementContext")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateOpportunity` operation on the `PartnerCentralSelling` service.
     ///
     /// Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
     ///
-    /// - Parameter UpdateOpportunityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOpportunityInput`)
     ///
-    /// - Returns: `UpdateOpportunityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOpportunityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3122,6 +3479,7 @@ extension PartnerCentralSellingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOpportunityInput, UpdateOpportunityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOpportunityOutput>(UpdateOpportunityOutput.httpOutput(from:), UpdateOpportunityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOpportunityInput, UpdateOpportunityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOpportunityOutput>())

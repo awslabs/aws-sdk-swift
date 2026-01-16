@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CleanRoomsClient: ClientRuntime.Client {
+public class CleanRoomsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CleanRoomsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsClient.CleanRoomsClientConfiguration
     let serviceName = "CleanRooms"
@@ -372,9 +372,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
     ///
-    /// - Parameter BatchGetCollaborationAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCollaborationAnalysisTemplateInput`)
     ///
-    /// - Returns: `BatchGetCollaborationAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCollaborationAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCollaborationAnalysisTemplateInput, BatchGetCollaborationAnalysisTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCollaborationAnalysisTemplateOutput>(BatchGetCollaborationAnalysisTemplateOutput.httpOutput(from:), BatchGetCollaborationAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCollaborationAnalysisTemplateInput, BatchGetCollaborationAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCollaborationAnalysisTemplateOutput>())
@@ -443,9 +444,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves multiple schemas by their identifiers.
     ///
-    /// - Parameter BatchGetSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSchemaInput`)
     ///
-    /// - Returns: `BatchGetSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSchemaInput, BatchGetSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSchemaOutput>(BatchGetSchemaOutput.httpOutput(from:), BatchGetSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSchemaInput, BatchGetSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSchemaOutput>())
@@ -514,9 +516,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves multiple analysis rule schemas.
     ///
-    /// - Parameter BatchGetSchemaAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetSchemaAnalysisRuleInput`)
     ///
-    /// - Returns: `BatchGetSchemaAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetSchemaAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,6 +556,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSchemaAnalysisRuleInput, BatchGetSchemaAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetSchemaAnalysisRuleOutput>(BatchGetSchemaAnalysisRuleOutput.httpOutput(from:), BatchGetSchemaAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSchemaAnalysisRuleInput, BatchGetSchemaAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSchemaAnalysisRuleOutput>())
@@ -585,9 +588,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new analysis template.
     ///
-    /// - Parameter CreateAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnalysisTemplateInput`)
     ///
-    /// - Returns: `CreateAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +630,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnalysisTemplateInput, CreateAnalysisTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnalysisTemplateOutput>(CreateAnalysisTemplateOutput.httpOutput(from:), CreateAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnalysisTemplateInput, CreateAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnalysisTemplateOutput>())
@@ -658,9 +662,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new collaboration.
     ///
-    /// - Parameter CreateCollaborationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCollaborationInput`)
     ///
-    /// - Returns: `CreateCollaborationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCollaborationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +702,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCollaborationInput, CreateCollaborationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollaborationOutput>(CreateCollaborationOutput.httpOutput(from:), CreateCollaborationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollaborationInput, CreateCollaborationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCollaborationOutput>())
@@ -725,13 +730,87 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateCollaborationChangeRequest` operation on the `CleanRooms` service.
+    ///
+    /// Creates a new change request to modify an existing collaboration. This enables post-creation modifications to collaborations through a structured API-driven approach.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCollaborationChangeRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCollaborationChangeRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func createCollaborationChangeRequest(input: CreateCollaborationChangeRequestInput) async throws -> CreateCollaborationChangeRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCollaborationChangeRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>(CreateCollaborationChangeRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCollaborationChangeRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCollaborationChangeRequestOutput>(CreateCollaborationChangeRequestOutput.httpOutput(from:), CreateCollaborationChangeRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCollaborationChangeRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCollaborationChangeRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCollaborationChangeRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCollaborationChangeRequestInput, CreateCollaborationChangeRequestOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCollaborationChangeRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateConfiguredAudienceModelAssociation` operation on the `CleanRooms` service.
     ///
     /// Provides the details necessary to create a configured audience model association.
     ///
-    /// - Parameter CreateConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `CreateConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,6 +850,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfiguredAudienceModelAssociationInput, CreateConfiguredAudienceModelAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredAudienceModelAssociationOutput>(CreateConfiguredAudienceModelAssociationOutput.httpOutput(from:), CreateConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredAudienceModelAssociationInput, CreateConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredAudienceModelAssociationOutput>())
@@ -802,9 +882,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new configured table resource.
     ///
-    /// - Parameter CreateConfiguredTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredTableInput`)
     ///
-    /// - Returns: `CreateConfiguredTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,6 +924,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfiguredTableInput, CreateConfiguredTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredTableOutput>(CreateConfiguredTableOutput.httpOutput(from:), CreateConfiguredTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredTableInput, CreateConfiguredTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredTableOutput>())
@@ -875,9 +956,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
     ///
-    /// - Parameter CreateConfiguredTableAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredTableAnalysisRuleInput`)
     ///
-    /// - Returns: `CreateConfiguredTableAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredTableAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -917,6 +998,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredTableAnalysisRuleOutput>(CreateConfiguredTableAnalysisRuleOutput.httpOutput(from:), CreateConfiguredTableAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredTableAnalysisRuleInput, CreateConfiguredTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredTableAnalysisRuleOutput>())
@@ -948,9 +1030,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a configured table association. A configured table association links a configured table with a collaboration.
     ///
-    /// - Parameter CreateConfiguredTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredTableAssociationInput`)
     ///
-    /// - Returns: `CreateConfiguredTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredTableAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,6 +1072,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredTableAssociationOutput>(CreateConfiguredTableAssociationOutput.httpOutput(from:), CreateConfiguredTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredTableAssociationInput, CreateConfiguredTableAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredTableAssociationOutput>())
@@ -1021,9 +1104,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a new analysis rule for an associated configured table.
     ///
-    /// - Parameter CreateConfiguredTableAssociationAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredTableAssociationAnalysisRuleInput`)
     ///
-    /// - Returns: `CreateConfiguredTableAssociationAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredTableAssociationAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,6 +1145,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfiguredTableAssociationAnalysisRuleInput, CreateConfiguredTableAssociationAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredTableAssociationAnalysisRuleOutput>(CreateConfiguredTableAssociationAnalysisRuleOutput.httpOutput(from:), CreateConfiguredTableAssociationAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredTableAssociationAnalysisRuleInput, CreateConfiguredTableAssociationAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredTableAssociationAnalysisRuleOutput>())
@@ -1093,9 +1177,9 @@ extension CleanRoomsClient {
     ///
     /// Creates an ID mapping table.
     ///
-    /// - Parameter CreateIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdMappingTableInput`)
     ///
-    /// - Returns: `CreateIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1135,6 +1219,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdMappingTableInput, CreateIdMappingTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdMappingTableOutput>(CreateIdMappingTableOutput.httpOutput(from:), CreateIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdMappingTableInput, CreateIdMappingTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdMappingTableOutput>())
@@ -1166,9 +1251,9 @@ extension CleanRoomsClient {
     ///
     /// Creates an ID namespace association.
     ///
-    /// - Parameter CreateIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `CreateIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,6 +1293,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdNamespaceAssociationInput, CreateIdNamespaceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdNamespaceAssociationOutput>(CreateIdNamespaceAssociationOutput.httpOutput(from:), CreateIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdNamespaceAssociationInput, CreateIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdNamespaceAssociationOutput>())
@@ -1239,9 +1325,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
     ///
-    /// - Parameter CreateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMembershipInput`)
     ///
-    /// - Returns: `CreateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1281,6 +1367,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMembershipInput, CreateMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMembershipOutput>(CreateMembershipOutput.httpOutput(from:), CreateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMembershipInput, CreateMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMembershipOutput>())
@@ -1312,9 +1399,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the [UpdatePrivacyBudgetTemplate] operation.
     ///
-    /// - Parameter CreatePrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `CreatePrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1323,6 +1410,7 @@ extension CleanRoomsClient {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     public func createPrivacyBudgetTemplate(input: CreatePrivacyBudgetTemplateInput) async throws -> CreatePrivacyBudgetTemplateOutput {
@@ -1353,6 +1441,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePrivacyBudgetTemplateInput, CreatePrivacyBudgetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePrivacyBudgetTemplateOutput>(CreatePrivacyBudgetTemplateOutput.httpOutput(from:), CreatePrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePrivacyBudgetTemplateInput, CreatePrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePrivacyBudgetTemplateOutput>())
@@ -1384,9 +1473,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes an analysis template.
     ///
-    /// - Parameter DeleteAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnalysisTemplateInput`)
     ///
-    /// - Returns: `DeleteAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1421,6 +1510,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAnalysisTemplateInput, DeleteAnalysisTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnalysisTemplateOutput>(DeleteAnalysisTemplateOutput.httpOutput(from:), DeleteAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnalysisTemplateInput, DeleteAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnalysisTemplateOutput>())
@@ -1452,9 +1542,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a collaboration. It can only be called by the collaboration owner.
     ///
-    /// - Parameter DeleteCollaborationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCollaborationInput`)
     ///
-    /// - Returns: `DeleteCollaborationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCollaborationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1488,6 +1578,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCollaborationInput, DeleteCollaborationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCollaborationOutput>(DeleteCollaborationOutput.httpOutput(from:), DeleteCollaborationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCollaborationInput, DeleteCollaborationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCollaborationOutput>())
@@ -1519,9 +1610,9 @@ extension CleanRoomsClient {
     ///
     /// Provides the information necessary to delete a configured audience model association.
     ///
-    /// - Parameter DeleteConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `DeleteConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1556,6 +1647,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredAudienceModelAssociationInput, DeleteConfiguredAudienceModelAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredAudienceModelAssociationOutput>(DeleteConfiguredAudienceModelAssociationOutput.httpOutput(from:), DeleteConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredAudienceModelAssociationInput, DeleteConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredAudienceModelAssociationOutput>())
@@ -1587,9 +1679,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a configured table.
     ///
-    /// - Parameter DeleteConfiguredTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredTableInput`)
     ///
-    /// - Returns: `DeleteConfiguredTableOutput` : The empty output for a successful deletion.
+    /// - Returns: The empty output for a successful deletion. (Type: `DeleteConfiguredTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1625,6 +1717,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredTableInput, DeleteConfiguredTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableOutput>(DeleteConfiguredTableOutput.httpOutput(from:), DeleteConfiguredTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredTableInput, DeleteConfiguredTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredTableOutput>())
@@ -1656,9 +1749,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a configured table analysis rule.
     ///
-    /// - Parameter DeleteConfiguredTableAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredTableAnalysisRuleInput`)
     ///
-    /// - Returns: `DeleteConfiguredTableAnalysisRuleOutput` : An empty response that indicates a successful delete.
+    /// - Returns: An empty response that indicates a successful delete. (Type: `DeleteConfiguredTableAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1694,6 +1787,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableAnalysisRuleOutput>(DeleteConfiguredTableAnalysisRuleOutput.httpOutput(from:), DeleteConfiguredTableAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredTableAnalysisRuleInput, DeleteConfiguredTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredTableAnalysisRuleOutput>())
@@ -1725,9 +1819,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a configured table association.
     ///
-    /// - Parameter DeleteConfiguredTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredTableAssociationInput`)
     ///
-    /// - Returns: `DeleteConfiguredTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredTableAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1763,6 +1857,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableAssociationOutput>(DeleteConfiguredTableAssociationOutput.httpOutput(from:), DeleteConfiguredTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredTableAssociationInput, DeleteConfiguredTableAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredTableAssociationOutput>())
@@ -1794,9 +1889,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes an analysis rule for a configured table association.
     ///
-    /// - Parameter DeleteConfiguredTableAssociationAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredTableAssociationAnalysisRuleInput`)
     ///
-    /// - Returns: `DeleteConfiguredTableAssociationAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredTableAssociationAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1832,6 +1927,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredTableAssociationAnalysisRuleInput, DeleteConfiguredTableAssociationAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredTableAssociationAnalysisRuleOutput>(DeleteConfiguredTableAssociationAnalysisRuleOutput.httpOutput(from:), DeleteConfiguredTableAssociationAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredTableAssociationAnalysisRuleInput, DeleteConfiguredTableAssociationAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredTableAssociationAnalysisRuleOutput>())
@@ -1863,9 +1959,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes an ID mapping table.
     ///
-    /// - Parameter DeleteIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdMappingTableInput`)
     ///
-    /// - Returns: `DeleteIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1900,6 +1996,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIdMappingTableInput, DeleteIdMappingTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdMappingTableOutput>(DeleteIdMappingTableOutput.httpOutput(from:), DeleteIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdMappingTableInput, DeleteIdMappingTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdMappingTableOutput>())
@@ -1931,9 +2028,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes an ID namespace association.
     ///
-    /// - Parameter DeleteIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `DeleteIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1968,6 +2065,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIdNamespaceAssociationInput, DeleteIdNamespaceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdNamespaceAssociationOutput>(DeleteIdNamespaceAssociationOutput.httpOutput(from:), DeleteIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdNamespaceAssociationInput, DeleteIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdNamespaceAssociationOutput>())
@@ -1999,9 +2097,9 @@ extension CleanRoomsClient {
     ///
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
     ///
-    /// - Parameter DeleteMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemberInput`)
     ///
-    /// - Returns: `DeleteMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2037,6 +2135,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMemberInput, DeleteMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMemberOutput>(DeleteMemberOutput.httpOutput(from:), DeleteMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMemberInput, DeleteMemberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMemberOutput>())
@@ -2068,9 +2167,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a specified membership. All resources under a membership must be deleted.
     ///
-    /// - Parameter DeleteMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMembershipInput`)
     ///
-    /// - Returns: `DeleteMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2106,6 +2205,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMembershipInput, DeleteMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMembershipOutput>(DeleteMembershipOutput.httpOutput(from:), DeleteMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMembershipInput, DeleteMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMembershipOutput>())
@@ -2137,9 +2237,9 @@ extension CleanRoomsClient {
     ///
     /// Deletes a privacy budget template for a specified collaboration.
     ///
-    /// - Parameter DeletePrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `DeletePrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2174,6 +2274,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePrivacyBudgetTemplateInput, DeletePrivacyBudgetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePrivacyBudgetTemplateOutput>(DeletePrivacyBudgetTemplateOutput.httpOutput(from:), DeletePrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePrivacyBudgetTemplateInput, DeletePrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePrivacyBudgetTemplateOutput>())
@@ -2205,9 +2306,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an analysis template.
     ///
-    /// - Parameter GetAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnalysisTemplateInput`)
     ///
-    /// - Returns: `GetAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2242,6 +2343,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnalysisTemplateInput, GetAnalysisTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnalysisTemplateOutput>(GetAnalysisTemplateOutput.httpOutput(from:), GetAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnalysisTemplateInput, GetAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnalysisTemplateOutput>())
@@ -2273,9 +2375,9 @@ extension CleanRoomsClient {
     ///
     /// Returns metadata about a collaboration.
     ///
-    /// - Parameter GetCollaborationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationInput`)
     ///
-    /// - Returns: `GetCollaborationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2309,6 +2411,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationInput, GetCollaborationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationOutput>(GetCollaborationOutput.httpOutput(from:), GetCollaborationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationInput, GetCollaborationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationOutput>())
@@ -2340,9 +2443,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an analysis template within a collaboration.
     ///
-    /// - Parameter GetCollaborationAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationAnalysisTemplateInput`)
     ///
-    /// - Returns: `GetCollaborationAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2377,6 +2480,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationAnalysisTemplateInput, GetCollaborationAnalysisTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationAnalysisTemplateOutput>(GetCollaborationAnalysisTemplateOutput.httpOutput(from:), GetCollaborationAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationAnalysisTemplateInput, GetCollaborationAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationAnalysisTemplateOutput>())
@@ -2404,13 +2508,82 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetCollaborationChangeRequest` operation on the `CleanRooms` service.
+    ///
+    /// Retrieves detailed information about a specific collaboration change request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationChangeRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCollaborationChangeRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func getCollaborationChangeRequest(input: GetCollaborationChangeRequestInput) async throws -> GetCollaborationChangeRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCollaborationChangeRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>(GetCollaborationChangeRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationChangeRequestOutput>(GetCollaborationChangeRequestOutput.httpOutput(from:), GetCollaborationChangeRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationChangeRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCollaborationChangeRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCollaborationChangeRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCollaborationChangeRequestInput, GetCollaborationChangeRequestOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCollaborationChangeRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCollaborationConfiguredAudienceModelAssociation` operation on the `CleanRooms` service.
     ///
     /// Retrieves a configured audience model association within a collaboration.
     ///
-    /// - Parameter GetCollaborationConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `GetCollaborationConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2445,6 +2618,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationConfiguredAudienceModelAssociationInput, GetCollaborationConfiguredAudienceModelAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationConfiguredAudienceModelAssociationOutput>(GetCollaborationConfiguredAudienceModelAssociationOutput.httpOutput(from:), GetCollaborationConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationConfiguredAudienceModelAssociationInput, GetCollaborationConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationConfiguredAudienceModelAssociationOutput>())
@@ -2476,9 +2650,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an ID namespace association from a specific collaboration.
     ///
-    /// - Parameter GetCollaborationIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `GetCollaborationIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2513,6 +2687,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationIdNamespaceAssociationInput, GetCollaborationIdNamespaceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationIdNamespaceAssociationOutput>(GetCollaborationIdNamespaceAssociationOutput.httpOutput(from:), GetCollaborationIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationIdNamespaceAssociationInput, GetCollaborationIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationIdNamespaceAssociationOutput>())
@@ -2544,9 +2719,9 @@ extension CleanRoomsClient {
     ///
     /// Returns details about a specified privacy budget template.
     ///
-    /// - Parameter GetCollaborationPrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationPrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `GetCollaborationPrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationPrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2581,6 +2756,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationPrivacyBudgetTemplateInput, GetCollaborationPrivacyBudgetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationPrivacyBudgetTemplateOutput>(GetCollaborationPrivacyBudgetTemplateOutput.httpOutput(from:), GetCollaborationPrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationPrivacyBudgetTemplateInput, GetCollaborationPrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationPrivacyBudgetTemplateOutput>())
@@ -2612,9 +2788,9 @@ extension CleanRoomsClient {
     ///
     /// Returns information about a configured audience model association.
     ///
-    /// - Parameter GetConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `GetConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2649,6 +2825,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredAudienceModelAssociationInput, GetConfiguredAudienceModelAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredAudienceModelAssociationOutput>(GetConfiguredAudienceModelAssociationOutput.httpOutput(from:), GetConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredAudienceModelAssociationInput, GetConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredAudienceModelAssociationOutput>())
@@ -2680,9 +2857,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a configured table.
     ///
-    /// - Parameter GetConfiguredTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredTableInput`)
     ///
-    /// - Returns: `GetConfiguredTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2717,6 +2894,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredTableInput, GetConfiguredTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredTableOutput>(GetConfiguredTableOutput.httpOutput(from:), GetConfiguredTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredTableInput, GetConfiguredTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredTableOutput>())
@@ -2748,9 +2926,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a configured table analysis rule.
     ///
-    /// - Parameter GetConfiguredTableAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredTableAnalysisRuleInput`)
     ///
-    /// - Returns: `GetConfiguredTableAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredTableAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2785,6 +2963,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredTableAnalysisRuleOutput>(GetConfiguredTableAnalysisRuleOutput.httpOutput(from:), GetConfiguredTableAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredTableAnalysisRuleInput, GetConfiguredTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredTableAnalysisRuleOutput>())
@@ -2816,9 +2995,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a configured table association.
     ///
-    /// - Parameter GetConfiguredTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredTableAssociationInput`)
     ///
-    /// - Returns: `GetConfiguredTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredTableAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2853,6 +3032,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredTableAssociationOutput>(GetConfiguredTableAssociationOutput.httpOutput(from:), GetConfiguredTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredTableAssociationInput, GetConfiguredTableAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredTableAssociationOutput>())
@@ -2884,9 +3064,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves the analysis rule for a configured table association.
     ///
-    /// - Parameter GetConfiguredTableAssociationAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredTableAssociationAnalysisRuleInput`)
     ///
-    /// - Returns: `GetConfiguredTableAssociationAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredTableAssociationAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2921,6 +3101,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredTableAssociationAnalysisRuleInput, GetConfiguredTableAssociationAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredTableAssociationAnalysisRuleOutput>(GetConfiguredTableAssociationAnalysisRuleOutput.httpOutput(from:), GetConfiguredTableAssociationAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredTableAssociationAnalysisRuleInput, GetConfiguredTableAssociationAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredTableAssociationAnalysisRuleOutput>())
@@ -2952,9 +3133,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an ID mapping table.
     ///
-    /// - Parameter GetIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdMappingTableInput`)
     ///
-    /// - Returns: `GetIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2989,6 +3170,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdMappingTableInput, GetIdMappingTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdMappingTableOutput>(GetIdMappingTableOutput.httpOutput(from:), GetIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdMappingTableInput, GetIdMappingTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdMappingTableOutput>())
@@ -3020,9 +3202,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves an ID namespace association.
     ///
-    /// - Parameter GetIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `GetIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3057,6 +3239,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdNamespaceAssociationInput, GetIdNamespaceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdNamespaceAssociationOutput>(GetIdNamespaceAssociationOutput.httpOutput(from:), GetIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdNamespaceAssociationInput, GetIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdNamespaceAssociationOutput>())
@@ -3088,9 +3271,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a specified membership for an identifier.
     ///
-    /// - Parameter GetMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMembershipInput`)
     ///
-    /// - Returns: `GetMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3125,6 +3308,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMembershipInput, GetMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMembershipOutput>(GetMembershipOutput.httpOutput(from:), GetMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMembershipInput, GetMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMembershipOutput>())
@@ -3156,9 +3340,9 @@ extension CleanRoomsClient {
     ///
     /// Returns details for a specified privacy budget template.
     ///
-    /// - Parameter GetPrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `GetPrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3193,6 +3377,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPrivacyBudgetTemplateInput, GetPrivacyBudgetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPrivacyBudgetTemplateOutput>(GetPrivacyBudgetTemplateOutput.httpOutput(from:), GetPrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPrivacyBudgetTemplateInput, GetPrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPrivacyBudgetTemplateOutput>())
@@ -3224,9 +3409,9 @@ extension CleanRoomsClient {
     ///
     /// Returns job processing metadata.
     ///
-    /// - Parameter GetProtectedJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProtectedJobInput`)
     ///
-    /// - Returns: `GetProtectedJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProtectedJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3261,6 +3446,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProtectedJobInput, GetProtectedJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProtectedJobOutput>(GetProtectedJobOutput.httpOutput(from:), GetProtectedJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProtectedJobInput, GetProtectedJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProtectedJobOutput>())
@@ -3292,9 +3478,9 @@ extension CleanRoomsClient {
     ///
     /// Returns query processing metadata.
     ///
-    /// - Parameter GetProtectedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProtectedQueryInput`)
     ///
-    /// - Returns: `GetProtectedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProtectedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3329,6 +3515,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProtectedQueryInput, GetProtectedQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProtectedQueryOutput>(GetProtectedQueryOutput.httpOutput(from:), GetProtectedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProtectedQueryInput, GetProtectedQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProtectedQueryOutput>())
@@ -3360,9 +3547,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves the schema for a relation within a collaboration.
     ///
-    /// - Parameter GetSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaInput`)
     ///
-    /// - Returns: `GetSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3397,6 +3584,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSchemaInput, GetSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaOutput>(GetSchemaOutput.httpOutput(from:), GetSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaInput, GetSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaOutput>())
@@ -3428,9 +3616,9 @@ extension CleanRoomsClient {
     ///
     /// Retrieves a schema analysis rule.
     ///
-    /// - Parameter GetSchemaAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaAnalysisRuleInput`)
     ///
-    /// - Returns: `GetSchemaAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3465,6 +3653,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaAnalysisRuleOutput>(GetSchemaAnalysisRuleOutput.httpOutput(from:), GetSchemaAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaAnalysisRuleInput, GetSchemaAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaAnalysisRuleOutput>())
@@ -3496,9 +3685,9 @@ extension CleanRoomsClient {
     ///
     /// Lists analysis templates that the caller owns.
     ///
-    /// - Parameter ListAnalysisTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnalysisTemplatesInput`)
     ///
-    /// - Returns: `ListAnalysisTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnalysisTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3534,6 +3723,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAnalysisTemplatesInput, ListAnalysisTemplatesOutput>(ListAnalysisTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalysisTemplatesOutput>(ListAnalysisTemplatesOutput.httpOutput(from:), ListAnalysisTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalysisTemplatesInput, ListAnalysisTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalysisTemplatesOutput>())
@@ -3565,9 +3755,9 @@ extension CleanRoomsClient {
     ///
     /// Lists analysis templates within a collaboration.
     ///
-    /// - Parameter ListCollaborationAnalysisTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationAnalysisTemplatesInput`)
     ///
-    /// - Returns: `ListCollaborationAnalysisTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationAnalysisTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3603,6 +3793,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationAnalysisTemplatesInput, ListCollaborationAnalysisTemplatesOutput>(ListCollaborationAnalysisTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationAnalysisTemplatesOutput>(ListCollaborationAnalysisTemplatesOutput.httpOutput(from:), ListCollaborationAnalysisTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationAnalysisTemplatesInput, ListCollaborationAnalysisTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationAnalysisTemplatesOutput>())
@@ -3630,13 +3821,83 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListCollaborationChangeRequests` operation on the `CleanRooms` service.
+    ///
+    /// Lists all change requests for a collaboration with pagination support. Returns change requests sorted by creation time.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationChangeRequestsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListCollaborationChangeRequestsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func listCollaborationChangeRequests(input: ListCollaborationChangeRequestsInput) async throws -> ListCollaborationChangeRequestsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCollaborationChangeRequests")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>(ListCollaborationChangeRequestsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>(ListCollaborationChangeRequestsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationChangeRequestsOutput>(ListCollaborationChangeRequestsOutput.httpOutput(from:), ListCollaborationChangeRequestsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationChangeRequestsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCollaborationChangeRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCollaborationChangeRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListCollaborationChangeRequestsInput, ListCollaborationChangeRequestsOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListCollaborationChangeRequests")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListCollaborationConfiguredAudienceModelAssociations` operation on the `CleanRooms` service.
     ///
     /// Lists configured audience model associations within a collaboration.
     ///
-    /// - Parameter ListCollaborationConfiguredAudienceModelAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationConfiguredAudienceModelAssociationsInput`)
     ///
-    /// - Returns: `ListCollaborationConfiguredAudienceModelAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationConfiguredAudienceModelAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3672,6 +3933,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationConfiguredAudienceModelAssociationsInput, ListCollaborationConfiguredAudienceModelAssociationsOutput>(ListCollaborationConfiguredAudienceModelAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationConfiguredAudienceModelAssociationsOutput>(ListCollaborationConfiguredAudienceModelAssociationsOutput.httpOutput(from:), ListCollaborationConfiguredAudienceModelAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationConfiguredAudienceModelAssociationsInput, ListCollaborationConfiguredAudienceModelAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationConfiguredAudienceModelAssociationsOutput>())
@@ -3703,9 +3965,9 @@ extension CleanRoomsClient {
     ///
     /// Returns a list of the ID namespace associations in a collaboration.
     ///
-    /// - Parameter ListCollaborationIdNamespaceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationIdNamespaceAssociationsInput`)
     ///
-    /// - Returns: `ListCollaborationIdNamespaceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationIdNamespaceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3741,6 +4003,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationIdNamespaceAssociationsInput, ListCollaborationIdNamespaceAssociationsOutput>(ListCollaborationIdNamespaceAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationIdNamespaceAssociationsOutput>(ListCollaborationIdNamespaceAssociationsOutput.httpOutput(from:), ListCollaborationIdNamespaceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationIdNamespaceAssociationsInput, ListCollaborationIdNamespaceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationIdNamespaceAssociationsOutput>())
@@ -3772,9 +4035,9 @@ extension CleanRoomsClient {
     ///
     /// Returns an array that summarizes each privacy budget template in a specified collaboration.
     ///
-    /// - Parameter ListCollaborationPrivacyBudgetTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationPrivacyBudgetTemplatesInput`)
     ///
-    /// - Returns: `ListCollaborationPrivacyBudgetTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationPrivacyBudgetTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3810,6 +4073,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationPrivacyBudgetTemplatesInput, ListCollaborationPrivacyBudgetTemplatesOutput>(ListCollaborationPrivacyBudgetTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationPrivacyBudgetTemplatesOutput>(ListCollaborationPrivacyBudgetTemplatesOutput.httpOutput(from:), ListCollaborationPrivacyBudgetTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationPrivacyBudgetTemplatesInput, ListCollaborationPrivacyBudgetTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationPrivacyBudgetTemplatesOutput>())
@@ -3841,9 +4105,9 @@ extension CleanRoomsClient {
     ///
     /// Returns an array that summarizes each privacy budget in a specified collaboration. The summary includes the collaboration ARN, creation time, creating account, and privacy budget details.
     ///
-    /// - Parameter ListCollaborationPrivacyBudgetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationPrivacyBudgetsInput`)
     ///
-    /// - Returns: `ListCollaborationPrivacyBudgetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationPrivacyBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3879,6 +4143,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationPrivacyBudgetsInput, ListCollaborationPrivacyBudgetsOutput>(ListCollaborationPrivacyBudgetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationPrivacyBudgetsOutput>(ListCollaborationPrivacyBudgetsOutput.httpOutput(from:), ListCollaborationPrivacyBudgetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationPrivacyBudgetsInput, ListCollaborationPrivacyBudgetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationPrivacyBudgetsOutput>())
@@ -3910,9 +4175,9 @@ extension CleanRoomsClient {
     ///
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     ///
-    /// - Parameter ListCollaborationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationsInput`)
     ///
-    /// - Returns: `ListCollaborationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3947,6 +4212,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationsInput, ListCollaborationsOutput>(ListCollaborationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationsOutput>(ListCollaborationsOutput.httpOutput(from:), ListCollaborationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationsInput, ListCollaborationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationsOutput>())
@@ -3978,9 +4244,9 @@ extension CleanRoomsClient {
     ///
     /// Lists information about requested configured audience model associations.
     ///
-    /// - Parameter ListConfiguredAudienceModelAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredAudienceModelAssociationsInput`)
     ///
-    /// - Returns: `ListConfiguredAudienceModelAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredAudienceModelAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4016,6 +4282,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfiguredAudienceModelAssociationsInput, ListConfiguredAudienceModelAssociationsOutput>(ListConfiguredAudienceModelAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredAudienceModelAssociationsOutput>(ListConfiguredAudienceModelAssociationsOutput.httpOutput(from:), ListConfiguredAudienceModelAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredAudienceModelAssociationsInput, ListConfiguredAudienceModelAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredAudienceModelAssociationsOutput>())
@@ -4047,9 +4314,9 @@ extension CleanRoomsClient {
     ///
     /// Lists configured table associations for a membership.
     ///
-    /// - Parameter ListConfiguredTableAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredTableAssociationsInput`)
     ///
-    /// - Returns: `ListConfiguredTableAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredTableAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4085,6 +4352,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutput>(ListConfiguredTableAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredTableAssociationsOutput>(ListConfiguredTableAssociationsOutput.httpOutput(from:), ListConfiguredTableAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredTableAssociationsInput, ListConfiguredTableAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredTableAssociationsOutput>())
@@ -4116,9 +4384,9 @@ extension CleanRoomsClient {
     ///
     /// Lists configured tables.
     ///
-    /// - Parameter ListConfiguredTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredTablesInput`)
     ///
-    /// - Returns: `ListConfiguredTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4153,6 +4421,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfiguredTablesInput, ListConfiguredTablesOutput>(ListConfiguredTablesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredTablesOutput>(ListConfiguredTablesOutput.httpOutput(from:), ListConfiguredTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredTablesInput, ListConfiguredTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredTablesOutput>())
@@ -4184,9 +4453,9 @@ extension CleanRoomsClient {
     ///
     /// Returns a list of ID mapping tables.
     ///
-    /// - Parameter ListIdMappingTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdMappingTablesInput`)
     ///
-    /// - Returns: `ListIdMappingTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdMappingTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4222,6 +4491,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdMappingTablesInput, ListIdMappingTablesOutput>(ListIdMappingTablesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdMappingTablesOutput>(ListIdMappingTablesOutput.httpOutput(from:), ListIdMappingTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdMappingTablesInput, ListIdMappingTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdMappingTablesOutput>())
@@ -4253,9 +4523,9 @@ extension CleanRoomsClient {
     ///
     /// Returns a list of ID namespace associations.
     ///
-    /// - Parameter ListIdNamespaceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdNamespaceAssociationsInput`)
     ///
-    /// - Returns: `ListIdNamespaceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdNamespaceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4291,6 +4561,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdNamespaceAssociationsInput, ListIdNamespaceAssociationsOutput>(ListIdNamespaceAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdNamespaceAssociationsOutput>(ListIdNamespaceAssociationsOutput.httpOutput(from:), ListIdNamespaceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdNamespaceAssociationsInput, ListIdNamespaceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdNamespaceAssociationsOutput>())
@@ -4322,9 +4593,9 @@ extension CleanRoomsClient {
     ///
     /// Lists all members within a collaboration.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4360,6 +4631,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMembersInput, ListMembersOutput>(ListMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOutput>(ListMembersOutput.httpOutput(from:), ListMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersInput, ListMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOutput>())
@@ -4391,9 +4663,9 @@ extension CleanRoomsClient {
     ///
     /// Lists all memberships resources within the caller's account.
     ///
-    /// - Parameter ListMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembershipsInput`)
     ///
-    /// - Returns: `ListMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4428,6 +4700,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMembershipsInput, ListMembershipsOutput>(ListMembershipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembershipsOutput>(ListMembershipsOutput.httpOutput(from:), ListMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembershipsInput, ListMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembershipsOutput>())
@@ -4459,9 +4732,9 @@ extension CleanRoomsClient {
     ///
     /// Returns detailed information about the privacy budget templates in a specified membership.
     ///
-    /// - Parameter ListPrivacyBudgetTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrivacyBudgetTemplatesInput`)
     ///
-    /// - Returns: `ListPrivacyBudgetTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrivacyBudgetTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4497,6 +4770,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPrivacyBudgetTemplatesInput, ListPrivacyBudgetTemplatesOutput>(ListPrivacyBudgetTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrivacyBudgetTemplatesOutput>(ListPrivacyBudgetTemplatesOutput.httpOutput(from:), ListPrivacyBudgetTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrivacyBudgetTemplatesInput, ListPrivacyBudgetTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrivacyBudgetTemplatesOutput>())
@@ -4528,9 +4802,9 @@ extension CleanRoomsClient {
     ///
     /// Returns detailed information about the privacy budgets in a specified membership.
     ///
-    /// - Parameter ListPrivacyBudgetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrivacyBudgetsInput`)
     ///
-    /// - Returns: `ListPrivacyBudgetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrivacyBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4566,6 +4840,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPrivacyBudgetsInput, ListPrivacyBudgetsOutput>(ListPrivacyBudgetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrivacyBudgetsOutput>(ListPrivacyBudgetsOutput.httpOutput(from:), ListPrivacyBudgetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrivacyBudgetsInput, ListPrivacyBudgetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrivacyBudgetsOutput>())
@@ -4597,9 +4872,9 @@ extension CleanRoomsClient {
     ///
     /// Lists protected jobs, sorted by most recent job.
     ///
-    /// - Parameter ListProtectedJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProtectedJobsInput`)
     ///
-    /// - Returns: `ListProtectedJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProtectedJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4635,6 +4910,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProtectedJobsInput, ListProtectedJobsOutput>(ListProtectedJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectedJobsOutput>(ListProtectedJobsOutput.httpOutput(from:), ListProtectedJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectedJobsInput, ListProtectedJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectedJobsOutput>())
@@ -4666,9 +4942,9 @@ extension CleanRoomsClient {
     ///
     /// Lists protected queries, sorted by the most recent query.
     ///
-    /// - Parameter ListProtectedQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProtectedQueriesInput`)
     ///
-    /// - Returns: `ListProtectedQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProtectedQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4704,6 +4980,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProtectedQueriesInput, ListProtectedQueriesOutput>(ListProtectedQueriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProtectedQueriesOutput>(ListProtectedQueriesOutput.httpOutput(from:), ListProtectedQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProtectedQueriesInput, ListProtectedQueriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProtectedQueriesOutput>())
@@ -4735,9 +5012,9 @@ extension CleanRoomsClient {
     ///
     /// Lists the schemas for relations within a collaboration.
     ///
-    /// - Parameter ListSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemasInput`)
     ///
-    /// - Returns: `ListSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4773,6 +5050,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSchemasInput, ListSchemasOutput>(ListSchemasInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemasOutput>(ListSchemasOutput.httpOutput(from:), ListSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemasInput, ListSchemasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemasOutput>())
@@ -4804,9 +5082,9 @@ extension CleanRoomsClient {
     ///
     /// Lists all of the tags that have been added to a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4838,6 +5116,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4869,9 +5148,9 @@ extension CleanRoomsClient {
     ///
     /// Defines the information that's necessary to populate an ID mapping table.
     ///
-    /// - Parameter PopulateIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PopulateIdMappingTableInput`)
     ///
-    /// - Returns: `PopulateIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PopulateIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4906,8 +5185,12 @@ extension CleanRoomsClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(PopulateIdMappingTableInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PopulateIdMappingTableInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PopulateIdMappingTableOutput>(PopulateIdMappingTableOutput.httpOutput(from:), PopulateIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PopulateIdMappingTableInput, PopulateIdMappingTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PopulateIdMappingTableOutput>())
@@ -4939,9 +5222,9 @@ extension CleanRoomsClient {
     ///
     /// An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
     ///
-    /// - Parameter PreviewPrivacyImpactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PreviewPrivacyImpactInput`)
     ///
-    /// - Returns: `PreviewPrivacyImpactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PreviewPrivacyImpactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4979,6 +5262,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PreviewPrivacyImpactInput, PreviewPrivacyImpactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PreviewPrivacyImpactOutput>(PreviewPrivacyImpactOutput.httpOutput(from:), PreviewPrivacyImpactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PreviewPrivacyImpactInput, PreviewPrivacyImpactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PreviewPrivacyImpactOutput>())
@@ -5010,9 +5294,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a protected job that is started by Clean Rooms.
     ///
-    /// - Parameter StartProtectedJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartProtectedJobInput`)
     ///
-    /// - Returns: `StartProtectedJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartProtectedJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5051,6 +5335,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartProtectedJobInput, StartProtectedJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProtectedJobOutput>(StartProtectedJobOutput.httpOutput(from:), StartProtectedJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProtectedJobInput, StartProtectedJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartProtectedJobOutput>())
@@ -5082,9 +5367,9 @@ extension CleanRoomsClient {
     ///
     /// Creates a protected query that is started by Clean Rooms.
     ///
-    /// - Parameter StartProtectedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartProtectedQueryInput`)
     ///
-    /// - Returns: `StartProtectedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartProtectedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5123,6 +5408,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartProtectedQueryInput, StartProtectedQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProtectedQueryOutput>(StartProtectedQueryOutput.httpOutput(from:), StartProtectedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProtectedQueryInput, StartProtectedQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartProtectedQueryOutput>())
@@ -5154,9 +5440,9 @@ extension CleanRoomsClient {
     ///
     /// Tags a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5191,6 +5477,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5222,9 +5509,9 @@ extension CleanRoomsClient {
     ///
     /// Removes a tag or list of tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5257,6 +5544,7 @@ extension CleanRoomsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5288,9 +5576,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the analysis template metadata.
     ///
-    /// - Parameter UpdateAnalysisTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnalysisTemplateInput`)
     ///
-    /// - Returns: `UpdateAnalysisTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnalysisTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5328,6 +5616,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnalysisTemplateInput, UpdateAnalysisTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnalysisTemplateOutput>(UpdateAnalysisTemplateOutput.httpOutput(from:), UpdateAnalysisTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnalysisTemplateInput, UpdateAnalysisTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnalysisTemplateOutput>())
@@ -5359,9 +5648,9 @@ extension CleanRoomsClient {
     ///
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     ///
-    /// - Parameter UpdateCollaborationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCollaborationInput`)
     ///
-    /// - Returns: `UpdateCollaborationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCollaborationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5398,6 +5687,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCollaborationInput, UpdateCollaborationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCollaborationOutput>(UpdateCollaborationOutput.httpOutput(from:), UpdateCollaborationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCollaborationInput, UpdateCollaborationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCollaborationOutput>())
@@ -5425,13 +5715,86 @@ extension CleanRoomsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateCollaborationChangeRequest` operation on the `CleanRooms` service.
+    ///
+    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCollaborationChangeRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCollaborationChangeRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
+    public func updateCollaborationChangeRequest(input: UpdateCollaborationChangeRequestInput) async throws -> UpdateCollaborationChangeRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCollaborationChangeRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>(UpdateCollaborationChangeRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCollaborationChangeRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCollaborationChangeRequestOutput>(UpdateCollaborationChangeRequestOutput.httpOutput(from:), UpdateCollaborationChangeRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCollaborationChangeRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRooms", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCollaborationChangeRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCollaborationChangeRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCollaborationChangeRequestInput, UpdateCollaborationChangeRequestOutput>(serviceID: serviceName, version: CleanRoomsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRooms")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCollaborationChangeRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateConfiguredAudienceModelAssociation` operation on the `CleanRooms` service.
     ///
     /// Provides the details necessary to update a configured audience model association.
     ///
-    /// - Parameter UpdateConfiguredAudienceModelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredAudienceModelAssociationInput`)
     ///
-    /// - Returns: `UpdateConfiguredAudienceModelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredAudienceModelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5469,6 +5832,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfiguredAudienceModelAssociationInput, UpdateConfiguredAudienceModelAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredAudienceModelAssociationOutput>(UpdateConfiguredAudienceModelAssociationOutput.httpOutput(from:), UpdateConfiguredAudienceModelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredAudienceModelAssociationInput, UpdateConfiguredAudienceModelAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredAudienceModelAssociationOutput>())
@@ -5500,9 +5864,9 @@ extension CleanRoomsClient {
     ///
     /// Updates a configured table.
     ///
-    /// - Parameter UpdateConfiguredTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredTableInput`)
     ///
-    /// - Returns: `UpdateConfiguredTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5542,6 +5906,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfiguredTableInput, UpdateConfiguredTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableOutput>(UpdateConfiguredTableOutput.httpOutput(from:), UpdateConfiguredTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredTableInput, UpdateConfiguredTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredTableOutput>())
@@ -5573,9 +5938,9 @@ extension CleanRoomsClient {
     ///
     /// Updates a configured table analysis rule.
     ///
-    /// - Parameter UpdateConfiguredTableAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredTableAnalysisRuleInput`)
     ///
-    /// - Returns: `UpdateConfiguredTableAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredTableAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5614,6 +5979,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableAnalysisRuleOutput>(UpdateConfiguredTableAnalysisRuleOutput.httpOutput(from:), UpdateConfiguredTableAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredTableAnalysisRuleInput, UpdateConfiguredTableAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredTableAnalysisRuleOutput>())
@@ -5645,9 +6011,9 @@ extension CleanRoomsClient {
     ///
     /// Updates a configured table association.
     ///
-    /// - Parameter UpdateConfiguredTableAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredTableAssociationInput`)
     ///
-    /// - Returns: `UpdateConfiguredTableAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredTableAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5686,6 +6052,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableAssociationOutput>(UpdateConfiguredTableAssociationOutput.httpOutput(from:), UpdateConfiguredTableAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredTableAssociationInput, UpdateConfiguredTableAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredTableAssociationOutput>())
@@ -5717,9 +6084,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the analysis rule for a configured table association.
     ///
-    /// - Parameter UpdateConfiguredTableAssociationAnalysisRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredTableAssociationAnalysisRuleInput`)
     ///
-    /// - Returns: `UpdateConfiguredTableAssociationAnalysisRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredTableAssociationAnalysisRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5758,6 +6125,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfiguredTableAssociationAnalysisRuleInput, UpdateConfiguredTableAssociationAnalysisRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredTableAssociationAnalysisRuleOutput>(UpdateConfiguredTableAssociationAnalysisRuleOutput.httpOutput(from:), UpdateConfiguredTableAssociationAnalysisRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredTableAssociationAnalysisRuleInput, UpdateConfiguredTableAssociationAnalysisRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredTableAssociationAnalysisRuleOutput>())
@@ -5789,9 +6157,9 @@ extension CleanRoomsClient {
     ///
     /// Provides the details that are necessary to update an ID mapping table.
     ///
-    /// - Parameter UpdateIdMappingTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdMappingTableInput`)
     ///
-    /// - Returns: `UpdateIdMappingTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdMappingTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5829,6 +6197,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdMappingTableInput, UpdateIdMappingTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdMappingTableOutput>(UpdateIdMappingTableOutput.httpOutput(from:), UpdateIdMappingTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdMappingTableInput, UpdateIdMappingTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdMappingTableOutput>())
@@ -5860,9 +6229,9 @@ extension CleanRoomsClient {
     ///
     /// Provides the details that are necessary to update an ID namespace association.
     ///
-    /// - Parameter UpdateIdNamespaceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdNamespaceAssociationInput`)
     ///
-    /// - Returns: `UpdateIdNamespaceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdNamespaceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5900,6 +6269,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdNamespaceAssociationInput, UpdateIdNamespaceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdNamespaceAssociationOutput>(UpdateIdNamespaceAssociationOutput.httpOutput(from:), UpdateIdNamespaceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdNamespaceAssociationInput, UpdateIdNamespaceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdNamespaceAssociationOutput>())
@@ -5931,9 +6301,9 @@ extension CleanRoomsClient {
     ///
     /// Updates a membership.
     ///
-    /// - Parameter UpdateMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMembershipInput`)
     ///
-    /// - Returns: `UpdateMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5972,6 +6342,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMembershipInput, UpdateMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMembershipOutput>(UpdateMembershipOutput.httpOutput(from:), UpdateMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMembershipInput, UpdateMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMembershipOutput>())
@@ -6003,9 +6374,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the privacy budget template for the specified collaboration.
     ///
-    /// - Parameter UpdatePrivacyBudgetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePrivacyBudgetTemplateInput`)
     ///
-    /// - Returns: `UpdatePrivacyBudgetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePrivacyBudgetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6044,6 +6415,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePrivacyBudgetTemplateInput, UpdatePrivacyBudgetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePrivacyBudgetTemplateOutput>(UpdatePrivacyBudgetTemplateOutput.httpOutput(from:), UpdatePrivacyBudgetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePrivacyBudgetTemplateInput, UpdatePrivacyBudgetTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePrivacyBudgetTemplateOutput>())
@@ -6075,9 +6447,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the processing of a currently running job.
     ///
-    /// - Parameter UpdateProtectedJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProtectedJobInput`)
     ///
-    /// - Returns: `UpdateProtectedJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProtectedJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6116,6 +6488,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProtectedJobInput, UpdateProtectedJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProtectedJobOutput>(UpdateProtectedJobOutput.httpOutput(from:), UpdateProtectedJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProtectedJobInput, UpdateProtectedJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProtectedJobOutput>())
@@ -6147,9 +6520,9 @@ extension CleanRoomsClient {
     ///
     /// Updates the processing of a currently running query.
     ///
-    /// - Parameter UpdateProtectedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProtectedQueryInput`)
     ///
-    /// - Returns: `UpdateProtectedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProtectedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6188,6 +6561,7 @@ extension CleanRoomsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProtectedQueryInput, UpdateProtectedQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProtectedQueryOutput>(UpdateProtectedQueryOutput.httpOutput(from:), UpdateProtectedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProtectedQueryInput, UpdateProtectedQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProtectedQueryOutput>())

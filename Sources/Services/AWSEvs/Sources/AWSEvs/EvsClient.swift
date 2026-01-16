@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class EvsClient: ClientRuntime.Client {
+public class EvsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EvsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: EvsClient.EvsClientConfiguration
     let serviceName = "evs"
@@ -369,13 +369,85 @@ extension EvsClient {
 }
 
 extension EvsClient {
+    /// Performs the `AssociateEipToVlan` operation on the `Evs` service.
+    ///
+    /// Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateEipToVlanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateEipToVlanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func associateEipToVlan(input: AssociateEipToVlanInput) async throws -> AssociateEipToVlanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateEipToVlan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateEipToVlanInput, AssociateEipToVlanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(AssociateEipToVlanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEipToVlanOutput>(AssociateEipToVlanOutput.httpOutput(from:), AssociateEipToVlanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEipToVlanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateEipToVlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(xAmzTarget: "AmazonElasticVMwareService.AssociateEipToVlan"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEipToVlanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateEipToVlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateEipToVlanInput, AssociateEipToVlanOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateEipToVlan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEnvironment` operation on the `Evs` service.
     ///
-    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
+    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs. When creating a new environment, the default ESX version for the selected VCF version will be used, you cannot choose a specific ESX version in CreateEnvironment action. When a host has been added with a specific ESX version, it can only be upgraded using vCenter Lifecycle Manager. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +480,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
@@ -440,16 +513,16 @@ extension EvsClient {
 
     /// Performs the `CreateEnvironmentHost` operation on the `Evs` service.
     ///
-    /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
+    /// Creates an ESX host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESX host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. If you don't specify an ESX version when adding hosts using CreateEnvironmentHost action, Amazon EVS automatically uses the default ESX version associated with your environment's VCF version. To find the default ESX version for a particular VCF version, use the GetVersions action. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     ///
-    /// - Parameter CreateEnvironmentHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentHostInput`)
     ///
-    /// - Returns: `CreateEnvironmentHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ThrottlingException` : The CreateEnvironmentHost operation couldn't be performed because the service is throttling requests. This exception is thrown when the CreateEnvironmentHost request exceeds concurrency of 1 transaction per second (TPS).
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
     /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
     public func createEnvironmentHost(input: CreateEnvironmentHostInput) async throws -> CreateEnvironmentHostOutput {
         let context = Smithy.ContextBuilder()
@@ -478,6 +551,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentHostInput, CreateEnvironmentHostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentHostOutput>(CreateEnvironmentHostOutput.httpOutput(from:), CreateEnvironmentHostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentHostInput, CreateEnvironmentHostOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentHostOutput>())
@@ -512,9 +586,9 @@ extension EvsClient {
     ///
     /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -548,6 +622,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -582,9 +657,9 @@ extension EvsClient {
     ///
     /// Deletes a host from an Amazon EVS environment. Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
     ///
-    /// - Parameter DeleteEnvironmentHostInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentHostInput`)
     ///
-    /// - Returns: `DeleteEnvironmentHostOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentHostOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -618,6 +693,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentHostInput, DeleteEnvironmentHostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentHostOutput>(DeleteEnvironmentHostOutput.httpOutput(from:), DeleteEnvironmentHostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentHostInput, DeleteEnvironmentHostOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentHostOutput>())
@@ -648,13 +724,85 @@ extension EvsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateEipFromVlan` operation on the `Evs` service.
+    ///
+    /// Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateEipFromVlanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateEipFromVlanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints. You will see this exception if invalid inputs are provided for any of the Amazon EVS environment operations, or if a list operation is performed on an environment resource that is still initializing.
+    public func disassociateEipFromVlan(input: DisassociateEipFromVlanInput) async throws -> DisassociateEipFromVlanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateEipFromVlan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(DisassociateEipFromVlanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEipFromVlanOutput>(DisassociateEipFromVlanOutput.httpOutput(from:), DisassociateEipFromVlanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEipFromVlanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateEipFromVlanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(xAmzTarget: "AmazonElasticVMwareService.DisassociateEipFromVlan"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEipFromVlanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateEipFromVlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateEipFromVlanInput, DisassociateEipFromVlanOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateEipFromVlan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetEnvironment` operation on the `Evs` service.
     ///
     /// Returns a description of the specified environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,6 +835,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentOutput>(GetEnvironmentOutput.httpOutput(from:), GetEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentOutput>())
@@ -717,13 +866,83 @@ extension EvsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetVersions` operation on the `Evs` service.
+    ///
+    /// Returns information about VCF versions, ESX versions and EC2 instance types provided by Amazon EVS. For each VCF version, the response also includes the default ESX version and provided EC2 instance types.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
+    public func getVersions(input: GetVersionsInput) async throws -> GetVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "evs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetVersionsInput, GetVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetVersionsInput, GetVersionsOutput>(GetVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVersionsInput, GetVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVersionsInput, GetVersionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVersionsOutput>(GetVersionsOutput.httpOutput(from:), GetVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVersionsInput, GetVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("evs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetVersionsInput, GetVersionsOutput>(xAmzTarget: "AmazonElasticVMwareService.GetVersions"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetVersionsInput, GetVersionsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetVersionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVersionsInput, GetVersionsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVersionsInput, GetVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVersionsInput, GetVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetVersionsInput, GetVersionsOutput>(serviceID: serviceName, version: EvsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Evs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEnvironmentHosts` operation on the `Evs` service.
     ///
     /// List the hosts within an environment.
     ///
-    /// - Parameter ListEnvironmentHostsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentHostsInput`)
     ///
-    /// - Returns: `ListEnvironmentHostsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentHostsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,6 +975,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentHostsInput, ListEnvironmentHostsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentHostsOutput>(ListEnvironmentHostsOutput.httpOutput(from:), ListEnvironmentHostsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentHostsInput, ListEnvironmentHostsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentHostsOutput>())
@@ -790,9 +1010,9 @@ extension EvsClient {
     ///
     /// Lists environment VLANs that are associated with the specified environment.
     ///
-    /// - Parameter ListEnvironmentVlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentVlansInput`)
     ///
-    /// - Returns: `ListEnvironmentVlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentVlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,6 +1045,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentVlansInput, ListEnvironmentVlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentVlansOutput>(ListEnvironmentVlansOutput.httpOutput(from:), ListEnvironmentVlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentVlansInput, ListEnvironmentVlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentVlansOutput>())
@@ -859,9 +1080,9 @@ extension EvsClient {
     ///
     /// Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,6 +1114,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -927,9 +1149,9 @@ extension EvsClient {
     ///
     /// Lists the tags for an Amazon EVS resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -961,6 +1183,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -995,9 +1218,9 @@ extension EvsClient {
     ///
     /// Associates the specified tags to an Amazon EVS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1032,6 +1255,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1066,9 +1290,9 @@ extension EvsClient {
     ///
     /// Deletes specified tags from an Amazon EVS resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1101,6 +1325,7 @@ extension EvsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

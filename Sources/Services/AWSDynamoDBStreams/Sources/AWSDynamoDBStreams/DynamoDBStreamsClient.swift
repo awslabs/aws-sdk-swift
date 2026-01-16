@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DynamoDBStreamsClient: ClientRuntime.Client {
+public class DynamoDBStreamsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DynamoDBStreamsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: DynamoDBStreamsClient.DynamoDBStreamsClientConfiguration
     let serviceName = "DynamoDB Streams"
@@ -372,9 +372,9 @@ extension DynamoDBStreamsClient {
     ///
     /// Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table. You can call DescribeStream at a maximum rate of 10 times per second. Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no EndingSequenceNumber, then the shard is still open (able to receive more stream records). If both StartingSequenceNumber and EndingSequenceNumber are present, then that shard is closed and can no longer receive more data.
     ///
-    /// - Parameter DescribeStreamInput : Represents the input of a DescribeStream operation.
+    /// - Parameter input: Represents the input of a DescribeStream operation. (Type: `DescribeStreamInput`)
     ///
-    /// - Returns: `DescribeStreamOutput` : Represents the output of a DescribeStream operation.
+    /// - Returns: Represents the output of a DescribeStream operation. (Type: `DescribeStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,6 +407,7 @@ extension DynamoDBStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStreamInput, DescribeStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamOutput>(DescribeStreamOutput.httpOutput(from:), DescribeStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamInput, DescribeStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamOutput>())
@@ -441,9 +442,9 @@ extension DynamoDBStreamsClient {
     ///
     /// Retrieves the stream records from a given shard. Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading stream records sequentially. If there are no stream records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. Note that it might take multiple calls to get to a portion of the shard that contains stream records. GetRecords can retrieve a maximum of 1 MB of data or 1000 stream records, whichever comes first.
     ///
-    /// - Parameter GetRecordsInput : Represents the input of a GetRecords operation.
+    /// - Parameter input: Represents the input of a GetRecords operation. (Type: `GetRecordsInput`)
     ///
-    /// - Returns: `GetRecordsOutput` : Represents the output of a GetRecords operation.
+    /// - Returns: Represents the output of a GetRecords operation. (Type: `GetRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension DynamoDBStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecordsInput, GetRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecordsOutput>(GetRecordsOutput.httpOutput(from:), GetRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecordsInput, GetRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecordsOutput>())
@@ -517,9 +519,9 @@ extension DynamoDBStreamsClient {
     ///
     /// Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard. A shard iterator expires 15 minutes after it is returned to the requester.
     ///
-    /// - Parameter GetShardIteratorInput : Represents the input of a GetShardIterator operation.
+    /// - Parameter input: Represents the input of a GetShardIterator operation. (Type: `GetShardIteratorInput`)
     ///
-    /// - Returns: `GetShardIteratorOutput` : Represents the output of a GetShardIterator operation.
+    /// - Returns: Represents the output of a GetShardIterator operation. (Type: `GetShardIteratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +559,7 @@ extension DynamoDBStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetShardIteratorInput, GetShardIteratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetShardIteratorOutput>(GetShardIteratorOutput.httpOutput(from:), GetShardIteratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetShardIteratorInput, GetShardIteratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetShardIteratorOutput>())
@@ -591,9 +594,9 @@ extension DynamoDBStreamsClient {
     ///
     /// Returns an array of stream ARNs associated with the current account and endpoint. If the TableName parameter is present, then ListStreams will return only the streams ARNs for that table. You can call ListStreams at a maximum rate of 5 times per second.
     ///
-    /// - Parameter ListStreamsInput : Represents the input of a ListStreams operation.
+    /// - Parameter input: Represents the input of a ListStreams operation. (Type: `ListStreamsInput`)
     ///
-    /// - Returns: `ListStreamsOutput` : Represents the output of a ListStreams operation.
+    /// - Returns: Represents the output of a ListStreams operation. (Type: `ListStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,6 +629,7 @@ extension DynamoDBStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStreamsInput, ListStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -54,6 +55,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
@@ -65,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class InvoicingClient: ClientRuntime.Client {
+public class InvoicingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "InvoicingClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: InvoicingClient.InvoicingClientConfiguration
     let serviceName = "Invoicing"
@@ -373,9 +374,9 @@ extension InvoicingClient {
     ///
     /// This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
     ///
-    /// - Parameter BatchGetInvoiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetInvoiceProfileInput`)
     ///
-    /// - Returns: `BatchGetInvoiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetInvoiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +412,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetInvoiceProfileOutput>(BatchGetInvoiceProfileOutput.httpOutput(from:), BatchGetInvoiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetInvoiceProfileInput, BatchGetInvoiceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetInvoiceProfileOutput>())
@@ -445,9 +447,9 @@ extension InvoicingClient {
     ///
     /// This creates a new invoice unit with the provided definition.
     ///
-    /// - Parameter CreateInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvoiceUnitInput`)
     ///
-    /// - Returns: `CreateInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +484,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvoiceUnitOutput>(CreateInvoiceUnitOutput.httpOutput(from:), CreateInvoiceUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvoiceUnitInput, CreateInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvoiceUnitOutput>())
@@ -512,13 +515,88 @@ extension InvoicingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateProcurementPortalPreference` operation on the `Invoicing` service.
+    ///
+    /// Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateProcurementPortalPreferenceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateProcurementPortalPreferenceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This exception occurs when a concurrent modification is detected during an update operation, or when attempting to create a resource that already exists.
+    /// - `InternalServerException` : The processing request failed because of an unknown error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func createProcurementPortalPreference(input: CreateProcurementPortalPreferenceInput) async throws -> CreateProcurementPortalPreferenceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createProcurementPortalPreference")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "invoicing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(CreateProcurementPortalPreferenceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProcurementPortalPreferenceOutput>(CreateProcurementPortalPreferenceOutput.httpOutput(from:), CreateProcurementPortalPreferenceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProcurementPortalPreferenceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProcurementPortalPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(xAmzTarget: "Invoicing.CreateProcurementPortalPreference"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProcurementPortalPreferenceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProcurementPortalPreferenceInput, CreateProcurementPortalPreferenceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProcurementPortalPreference")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteInvoiceUnit` operation on the `Invoicing` service.
     ///
     /// This deletes an invoice unit with the provided invoice unit ARN.
     ///
-    /// - Parameter DeleteInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvoiceUnitInput`)
     ///
-    /// - Returns: `DeleteInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,6 +632,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvoiceUnitOutput>(DeleteInvoiceUnitOutput.httpOutput(from:), DeleteInvoiceUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvoiceUnitInput, DeleteInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvoiceUnitOutput>())
@@ -584,13 +663,160 @@ extension InvoicingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteProcurementPortalPreference` operation on the `Invoicing` service.
+    ///
+    /// Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProcurementPortalPreferenceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProcurementPortalPreferenceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `InternalServerException` : The processing request failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func deleteProcurementPortalPreference(input: DeleteProcurementPortalPreferenceInput) async throws -> DeleteProcurementPortalPreferenceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProcurementPortalPreference")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "invoicing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(DeleteProcurementPortalPreferenceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProcurementPortalPreferenceOutput>(DeleteProcurementPortalPreferenceOutput.httpOutput(from:), DeleteProcurementPortalPreferenceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProcurementPortalPreferenceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProcurementPortalPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(xAmzTarget: "Invoicing.DeleteProcurementPortalPreference"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProcurementPortalPreferenceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProcurementPortalPreferenceInput, DeleteProcurementPortalPreferenceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProcurementPortalPreference")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetInvoicePDF` operation on the `Invoicing` service.
+    ///
+    /// Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the invoicing:GetInvoicePDF policy action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetInvoicePDFInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetInvoicePDFOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `InternalServerException` : The processing request failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func getInvoicePDF(input: GetInvoicePDFInput) async throws -> GetInvoicePDFOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getInvoicePDF")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "invoicing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetInvoicePDFInput, GetInvoicePDFOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(GetInvoicePDFInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvoicePDFOutput>(GetInvoicePDFOutput.httpOutput(from:), GetInvoicePDFOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetInvoicePDFOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetInvoicePDFOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(xAmzTarget: "Invoicing.GetInvoicePDF"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetInvoicePDFInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetInvoicePDFOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetInvoicePDFInput, GetInvoicePDFOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetInvoicePDF")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetInvoiceUnit` operation on the `Invoicing` service.
     ///
     /// This retrieves the invoice unit definition.
     ///
-    /// - Parameter GetInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvoiceUnitInput`)
     ///
-    /// - Returns: `GetInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,6 +852,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvoiceUnitOutput>(GetInvoiceUnitOutput.httpOutput(from:), GetInvoiceUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvoiceUnitInput, GetInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvoiceUnitOutput>())
@@ -656,13 +883,88 @@ extension InvoicingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetProcurementPortalPreference` operation on the `Invoicing` service.
+    ///
+    /// Retrieves the details of a specific procurement portal preference configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetProcurementPortalPreferenceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetProcurementPortalPreferenceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This exception occurs when a concurrent modification is detected during an update operation, or when attempting to create a resource that already exists.
+    /// - `InternalServerException` : The processing request failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func getProcurementPortalPreference(input: GetProcurementPortalPreferenceInput) async throws -> GetProcurementPortalPreferenceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getProcurementPortalPreference")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "invoicing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(GetProcurementPortalPreferenceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProcurementPortalPreferenceOutput>(GetProcurementPortalPreferenceOutput.httpOutput(from:), GetProcurementPortalPreferenceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetProcurementPortalPreferenceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetProcurementPortalPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(xAmzTarget: "Invoicing.GetProcurementPortalPreference"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetProcurementPortalPreferenceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetProcurementPortalPreferenceInput, GetProcurementPortalPreferenceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetProcurementPortalPreference")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListInvoiceSummaries` operation on the `Invoicing` service.
     ///
     /// Retrieves your invoice details programmatically, without line item details.
     ///
-    /// - Parameter ListInvoiceSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvoiceSummariesInput`)
     ///
-    /// - Returns: `ListInvoiceSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvoiceSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +1000,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvoiceSummariesOutput>(ListInvoiceSummariesOutput.httpOutput(from:), ListInvoiceSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvoiceSummariesInput, ListInvoiceSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvoiceSummariesOutput>())
@@ -732,9 +1035,9 @@ extension InvoicingClient {
     ///
     /// This fetches a list of all invoice unit definitions for a given account, as of the provided AsOf date.
     ///
-    /// - Parameter ListInvoiceUnitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvoiceUnitsInput`)
     ///
-    /// - Returns: `ListInvoiceUnitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvoiceUnitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,6 +1072,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvoiceUnitsOutput>(ListInvoiceUnitsOutput.httpOutput(from:), ListInvoiceUnitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvoiceUnitsInput, ListInvoiceUnitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvoiceUnitsOutput>())
@@ -799,13 +1103,87 @@ extension InvoicingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListProcurementPortalPreferences` operation on the `Invoicing` service.
+    ///
+    /// Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListProcurementPortalPreferencesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListProcurementPortalPreferencesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This exception occurs when a concurrent modification is detected during an update operation, or when attempting to create a resource that already exists.
+    /// - `InternalServerException` : The processing request failed because of an unknown error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func listProcurementPortalPreferences(input: ListProcurementPortalPreferencesInput) async throws -> ListProcurementPortalPreferencesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProcurementPortalPreferences")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "invoicing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(ListProcurementPortalPreferencesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProcurementPortalPreferencesOutput>(ListProcurementPortalPreferencesOutput.httpOutput(from:), ListProcurementPortalPreferencesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProcurementPortalPreferencesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProcurementPortalPreferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(xAmzTarget: "Invoicing.ListProcurementPortalPreferences"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListProcurementPortalPreferencesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProcurementPortalPreferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProcurementPortalPreferencesInput, ListProcurementPortalPreferencesOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProcurementPortalPreferences")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `Invoicing` service.
     ///
     /// Lists the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -841,6 +1219,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -871,13 +1250,88 @@ extension InvoicingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutProcurementPortalPreference` operation on the `Invoicing` service.
+    ///
+    /// Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutProcurementPortalPreferenceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutProcurementPortalPreferenceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This exception occurs when a concurrent modification is detected during an update operation, or when attempting to create a resource that already exists.
+    /// - `InternalServerException` : The processing request failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func putProcurementPortalPreference(input: PutProcurementPortalPreferenceInput) async throws -> PutProcurementPortalPreferenceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putProcurementPortalPreference")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "invoicing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(PutProcurementPortalPreferenceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProcurementPortalPreferenceOutput>(PutProcurementPortalPreferenceOutput.httpOutput(from:), PutProcurementPortalPreferenceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutProcurementPortalPreferenceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutProcurementPortalPreferenceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(xAmzTarget: "Invoicing.PutProcurementPortalPreference"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutProcurementPortalPreferenceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutProcurementPortalPreferenceInput, PutProcurementPortalPreferenceOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutProcurementPortalPreference")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `Invoicing` service.
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,6 +1368,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -948,9 +1403,9 @@ extension InvoicingClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -986,6 +1441,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1020,9 +1476,9 @@ extension InvoicingClient {
     ///
     /// You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
     ///
-    /// - Parameter UpdateInvoiceUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInvoiceUnitInput`)
     ///
-    /// - Returns: `UpdateInvoiceUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInvoiceUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1058,6 +1514,7 @@ extension InvoicingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInvoiceUnitOutput>(UpdateInvoiceUnitOutput.httpOutput(from:), UpdateInvoiceUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInvoiceUnitInput, UpdateInvoiceUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInvoiceUnitOutput>())
@@ -1076,6 +1533,81 @@ extension InvoicingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateInvoiceUnit")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProcurementPortalPreferenceStatus` operation on the `Invoicing` service.
+    ///
+    /// Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateProcurementPortalPreferenceStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProcurementPortalPreferenceStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource. This exception occurs when a concurrent modification is detected during an update operation, or when attempting to create a resource that already exists.
+    /// - `InternalServerException` : The processing request failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceQuotaExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func updateProcurementPortalPreferenceStatus(input: UpdateProcurementPortalPreferenceStatusInput) async throws -> UpdateProcurementPortalPreferenceStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProcurementPortalPreferenceStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "invoicing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(UpdateProcurementPortalPreferenceStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProcurementPortalPreferenceStatusOutput>(UpdateProcurementPortalPreferenceStatusOutput.httpOutput(from:), UpdateProcurementPortalPreferenceStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProcurementPortalPreferenceStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Invoicing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProcurementPortalPreferenceStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(xAmzTarget: "Invoicing.UpdateProcurementPortalPreferenceStatus"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProcurementPortalPreferenceStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProcurementPortalPreferenceStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProcurementPortalPreferenceStatusInput, UpdateProcurementPortalPreferenceStatusOutput>(serviceID: serviceName, version: InvoicingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Invoicing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProcurementPortalPreferenceStatus")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

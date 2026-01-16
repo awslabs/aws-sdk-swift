@@ -59,7 +59,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
+/// The request couldn't be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -105,7 +105,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The resource could not be found.
+/// The resource couldn't be found.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -357,12 +357,12 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
-    /// The Delete Unique Id error.
+    /// The error information provided when the delete unique ID operation doesn't complete.
     public struct DeleteUniqueIdError: Swift.Sendable {
-        /// The error type for the batch delete unique ID operation.
+        /// The error type for the delete unique ID operation. The SERVICE_ERROR value indicates that an internal service-side problem occurred during the deletion operation. The VALIDATION_ERROR value indicates that the deletion operation couldn't complete because of invalid input parameters or data.
         /// This member is required.
         public var errorType: EntityResolutionClientTypes.DeleteUniqueIdErrorType?
-        /// The unique ID that could not be deleted.
+        /// The unique ID that couldn't be deleted.
         /// This member is required.
         public var uniqueId: Swift.String?
 
@@ -667,6 +667,47 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
+    public enum IdMappingIncrementalRunType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdMappingIncrementalRunType] {
+            return [
+                .onDemand
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "ON_DEMAND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
+    /// Incremental run configuration for an ID mapping workflow.
+    public struct IdMappingIncrementalRunConfig: Swift.Sendable {
+        /// The incremental run type for an ID mapping workflow. It takes only one value: ON_DEMAND. This setting runs the ID mapping workflow when it's manually triggered through the StartIdMappingJob API.
+        public var incrementalRunType: EntityResolutionClientTypes.IdMappingIncrementalRunType?
+
+        public init(
+            incrementalRunType: EntityResolutionClientTypes.IdMappingIncrementalRunType? = nil
+        ) {
+            self.incrementalRunType = incrementalRunType
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
     public enum IdNamespaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case source
         case target
@@ -744,6 +785,8 @@ public struct CreateIdMappingWorkflowInput: Swift.Sendable {
     /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// The incremental run configuration for the ID mapping workflow.
+    public var incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
     public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
@@ -760,6 +803,7 @@ public struct CreateIdMappingWorkflowInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
         roleArn: Swift.String? = nil,
@@ -768,6 +812,7 @@ public struct CreateIdMappingWorkflowInput: Swift.Sendable {
     ) {
         self.description = description
         self.idMappingTechniques = idMappingTechniques
+        self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
         self.outputSourceConfig = outputSourceConfig
         self.roleArn = roleArn
@@ -782,6 +827,8 @@ public struct CreateIdMappingWorkflowOutput: Swift.Sendable {
     /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// The incremental run configuration for the ID mapping workflow.
+    public var incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
     public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
@@ -799,6 +846,7 @@ public struct CreateIdMappingWorkflowOutput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
         roleArn: Swift.String? = "",
@@ -807,6 +855,7 @@ public struct CreateIdMappingWorkflowOutput: Swift.Sendable {
     ) {
         self.description = description
         self.idMappingTechniques = idMappingTechniques
+        self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
         self.outputSourceConfig = outputSourceConfig
         self.roleArn = roleArn
@@ -1023,9 +1072,9 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
-    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING, incremental processing is not supported.
+    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     public struct IncrementalRunConfig: Swift.Sendable {
-        /// The type of incremental run. The only valid value is IMMEDIATE. This appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING, incremental processing is not supported.
+        /// The type of incremental run. The only valid value is IMMEDIATE. This appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
         public var incrementalRunType: EntityResolutionClientTypes.IncrementalRunType?
 
         public init(
@@ -1063,6 +1112,27 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
+    /// Specifies the configuration for integrating with Customer Profiles. This configuration enables Entity Resolution to send matched output directly to Customer Profiles instead of Amazon S3, creating a unified customer view by automatically updating customer profiles based on match clusters.
+    public struct CustomerProfilesIntegrationConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Customer Profiles domain where the matched output will be sent.
+        /// This member is required.
+        public var domainArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Customer Profiles object type that defines the structure for the matched customer data.
+        /// This member is required.
+        public var objectTypeArn: Swift.String?
+
+        public init(
+            domainArn: Swift.String? = nil,
+            objectTypeArn: Swift.String? = nil
+        ) {
+            self.domainArn = domainArn
+            self.objectTypeArn = objectTypeArn
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
     /// A list of OutputAttribute objects, each of which have the fields Name and Hashed. Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed.
     public struct OutputAttribute: Swift.Sendable {
         /// Enables the ability to hash the column values in the output.
@@ -1087,22 +1157,25 @@ extension EntityResolutionClientTypes {
     public struct OutputSource: Swift.Sendable {
         /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
         public var applyNormalization: Swift.Bool?
+        /// Specifies the Customer Profiles integration configuration for sending matched output directly to Customer Profiles. When configured, Entity Resolution automatically creates and updates customer profiles based on match clusters, eliminating the need for manual Amazon S3 integration setup.
+        public var customerProfilesIntegrationConfig: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig?
         /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
         public var kmsArn: Swift.String?
         /// A list of OutputAttribute objects, each of which have the fields Name and Hashed. Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed.
         /// This member is required.
         public var output: [EntityResolutionClientTypes.OutputAttribute]?
         /// The S3 path to which Entity Resolution will write the output table.
-        /// This member is required.
         public var outputS3Path: Swift.String?
 
         public init(
             applyNormalization: Swift.Bool? = nil,
+            customerProfilesIntegrationConfig: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig? = nil,
             kmsArn: Swift.String? = nil,
             output: [EntityResolutionClientTypes.OutputAttribute]? = nil,
-            outputS3Path: Swift.String? = nil
+            outputS3Path: Swift.String? = ""
         ) {
             self.applyNormalization = applyNormalization
+            self.customerProfilesIntegrationConfig = customerProfilesIntegrationConfig
             self.kmsArn = kmsArn
             self.output = output
             self.outputS3Path = outputS3Path
@@ -1239,7 +1312,13 @@ extension EntityResolutionClientTypes {
     public struct ResolutionTechniques: Swift.Sendable {
         /// The properties of the provider service.
         public var providerProperties: EntityResolutionClientTypes.ProviderProperties?
-        /// The type of matching. There are three types of matching: RULE_MATCHING, ML_MATCHING, and PROVIDER.
+        /// The type of matching workflow to create. Specify one of the following types:
+        ///
+        /// * RULE_MATCHING: Match records using configurable rule-based criteria
+        ///
+        /// * ML_MATCHING: Match records using machine learning models
+        ///
+        /// * PROVIDER: Match records using a third-party matching provider
         /// This member is required.
         public var resolutionType: EntityResolutionClientTypes.ResolutionType?
         /// An object which defines the list of matching rules to run and has a field rules, which is a list of rule objects.
@@ -1264,7 +1343,7 @@ extension EntityResolutionClientTypes {
 public struct CreateMatchingWorkflowInput: Swift.Sendable {
     /// A description of the workflow.
     public var description: Swift.String?
-    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING, incremental processing is not supported.
+    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     public var incrementalRunConfig: EntityResolutionClientTypes.IncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
@@ -1873,10 +1952,58 @@ extension EntityResolutionClientTypes {
 
 extension EntityResolutionClientTypes {
 
+    public enum JobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case batch
+        case deleteOnly
+        case incremental
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobType] {
+            return [
+                .batch,
+                .deleteOnly,
+                .incremental
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .batch: return "BATCH"
+            case .deleteOnly: return "DELETE_ONLY"
+            case .incremental: return "INCREMENTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EntityResolutionClientTypes {
+
     /// An object that contains metrics about an ID mapping job, including counts of input records, processed records, and mapped records between source and target identifiers.
     public struct IdMappingJobMetrics: Swift.Sendable {
+        /// The number of records processed that were marked for deletion in the input file using the DELETE schema mapping field. These are the records to be removed from the ID mapping table.
+        public var deleteRecordsProcessed: Swift.Int?
         /// The total number of records that were input for processing.
         public var inputRecords: Swift.Int?
+        /// The number of mapped records removed.
+        public var mappedRecordsRemoved: Swift.Int?
+        /// The number of source records removed due to ID mapping.
+        public var mappedSourceRecordsRemoved: Swift.Int?
+        /// The number of mapped target records removed.
+        public var mappedTargetRecordsRemoved: Swift.Int?
+        /// The number of new mapped records.
+        public var newMappedRecords: Swift.Int?
+        /// The number of new source records mapped.
+        public var newMappedSourceRecords: Swift.Int?
+        /// The number of new mapped target records.
+        public var newMappedTargetRecords: Swift.Int?
+        /// The number of new unique records processed in the current job run, after removing duplicates. This metric excludes deletion-related records. Duplicates are determined by the field marked as UNIQUE_ID in your schema mapping. Records sharing the same value in this field are considered duplicates. For example, if your current run processes five new records with the same UNIQUE_ID value, they would count as one new unique record in this metric.
+        public var newUniqueRecordsLoaded: Swift.Int?
         /// The total number of records that did not get processed.
         public var recordsNotProcessed: Swift.Int?
         /// The total number of records that were mapped.
@@ -1887,11 +2014,19 @@ extension EntityResolutionClientTypes {
         public var totalMappedTargetRecords: Swift.Int?
         /// The total number of records that were processed.
         public var totalRecordsProcessed: Swift.Int?
-        /// The number of records remaining after loading and aggregating duplicate records. Duplicates are determined by the field marked as UNIQUE_ID in your schema mapping - records sharing the same value in this field are considered duplicates. For example, if you specified "customer_id" as a UNIQUE_ID field and had three records with the same customer_id value, they would count as one unique record in this metric.
+        /// The number of de-duplicated processed records across all runs, excluding deletion-related records. Duplicates are determined by the field marked as UNIQUE_ID in your schema mapping. Records sharing the same value in this field are considered duplicates. For example, if you specified "customer_id" as a UNIQUE_ID field and had three records with the same customer_id value, they would count as one unique record in this metric.
         public var uniqueRecordsLoaded: Swift.Int?
 
         public init(
+            deleteRecordsProcessed: Swift.Int? = nil,
             inputRecords: Swift.Int? = nil,
+            mappedRecordsRemoved: Swift.Int? = nil,
+            mappedSourceRecordsRemoved: Swift.Int? = nil,
+            mappedTargetRecordsRemoved: Swift.Int? = nil,
+            newMappedRecords: Swift.Int? = nil,
+            newMappedSourceRecords: Swift.Int? = nil,
+            newMappedTargetRecords: Swift.Int? = nil,
+            newUniqueRecordsLoaded: Swift.Int? = nil,
             recordsNotProcessed: Swift.Int? = nil,
             totalMappedRecords: Swift.Int? = nil,
             totalMappedSourceRecords: Swift.Int? = nil,
@@ -1899,7 +2034,15 @@ extension EntityResolutionClientTypes {
             totalRecordsProcessed: Swift.Int? = nil,
             uniqueRecordsLoaded: Swift.Int? = nil
         ) {
+            self.deleteRecordsProcessed = deleteRecordsProcessed
             self.inputRecords = inputRecords
+            self.mappedRecordsRemoved = mappedRecordsRemoved
+            self.mappedSourceRecordsRemoved = mappedSourceRecordsRemoved
+            self.mappedTargetRecordsRemoved = mappedTargetRecordsRemoved
+            self.newMappedRecords = newMappedRecords
+            self.newMappedSourceRecords = newMappedSourceRecords
+            self.newMappedTargetRecords = newMappedTargetRecords
+            self.newUniqueRecordsLoaded = newUniqueRecordsLoaded
             self.recordsNotProcessed = recordsNotProcessed
             self.totalMappedRecords = totalMappedRecords
             self.totalMappedSourceRecords = totalMappedSourceRecords
@@ -1978,6 +2121,8 @@ public struct GetIdMappingJobOutput: Swift.Sendable {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
+    /// The job type of the ID mapping job. A value of INCREMENTAL indicates that only new or changed data was processed since the last job run. This is the default job type if the workflow was created with an incrementalRunConfig. A value of BATCH indicates that all data was processed from the input source, regardless of previous job runs. This is the default job type if the workflow wasn't created with an incrementalRunConfig. A value of DELETE_ONLY indicates that only deletion requests from BatchDeleteUniqueIds were processed.
+    public var jobType: EntityResolutionClientTypes.JobType?
     /// Metrics associated with the execution, specifically total records processed, unique IDs generated, and records the execution skipped.
     public var metrics: EntityResolutionClientTypes.IdMappingJobMetrics?
     /// A list of OutputSource objects.
@@ -1993,6 +2138,7 @@ public struct GetIdMappingJobOutput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         errorDetails: EntityResolutionClientTypes.ErrorDetails? = nil,
         jobId: Swift.String? = nil,
+        jobType: EntityResolutionClientTypes.JobType? = nil,
         metrics: EntityResolutionClientTypes.IdMappingJobMetrics? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]? = nil,
         startTime: Foundation.Date? = nil,
@@ -2001,6 +2147,7 @@ public struct GetIdMappingJobOutput: Swift.Sendable {
         self.endTime = endTime
         self.errorDetails = errorDetails
         self.jobId = jobId
+        self.jobType = jobType
         self.metrics = metrics
         self.outputSourceConfig = outputSourceConfig
         self.startTime = startTime
@@ -2029,6 +2176,8 @@ public struct GetIdMappingWorkflowOutput: Swift.Sendable {
     /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// The incremental run configuration for the ID mapping workflow.
+    public var incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
     public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
@@ -2052,6 +2201,7 @@ public struct GetIdMappingWorkflowOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
         roleArn: Swift.String? = "",
@@ -2063,6 +2213,7 @@ public struct GetIdMappingWorkflowOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.description = description
         self.idMappingTechniques = idMappingTechniques
+        self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
         self.outputSourceConfig = outputSourceConfig
         self.roleArn = roleArn
@@ -2199,6 +2350,8 @@ extension EntityResolutionClientTypes {
 
     /// An object containing inputRecords, totalRecordsProcessed, matchIDs, and recordsNotProcessed.
     public struct JobMetrics: Swift.Sendable {
+        /// The number of records processed that were marked for deletion (DELETE = True) in the input file. This metric tracks records flagged for removal during the job execution.
+        public var deleteRecordsProcessed: Swift.Int?
         /// The total number of input records.
         public var inputRecords: Swift.Int?
         /// The total number of matchIDs generated.
@@ -2209,11 +2362,13 @@ extension EntityResolutionClientTypes {
         public var totalRecordsProcessed: Swift.Int?
 
         public init(
+            deleteRecordsProcessed: Swift.Int? = nil,
             inputRecords: Swift.Int? = nil,
             matchIDs: Swift.Int? = nil,
             recordsNotProcessed: Swift.Int? = nil,
             totalRecordsProcessed: Swift.Int? = nil
         ) {
+            self.deleteRecordsProcessed = deleteRecordsProcessed
             self.inputRecords = inputRecords
             self.matchIDs = matchIDs
             self.recordsNotProcessed = recordsNotProcessed
@@ -3210,6 +3365,8 @@ public struct PutPolicyOutput: Swift.Sendable {
 }
 
 public struct StartIdMappingJobInput: Swift.Sendable {
+    /// The job type for the ID mapping job. If the jobType value is set to INCREMENTAL, only new or changed data is processed since the last job run. This is the default value if the CreateIdMappingWorkflow API is configured with an incrementalRunConfig. If the jobType value is set to BATCH, all data is processed from the input source, regardless of previous job runs. This is the default value if the CreateIdMappingWorkflow API isn't configured with an incrementalRunConfig. If the jobType value is set to DELETE_ONLY, only deletion requests from BatchDeleteUniqueIds are processed.
+    public var jobType: EntityResolutionClientTypes.JobType?
     /// A list of OutputSource objects.
     public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]?
     /// The name of the ID mapping job to be retrieved.
@@ -3217,9 +3374,11 @@ public struct StartIdMappingJobInput: Swift.Sendable {
     public var workflowName: Swift.String?
 
     public init(
+        jobType: EntityResolutionClientTypes.JobType? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]? = nil,
         workflowName: Swift.String? = nil
     ) {
+        self.jobType = jobType
         self.outputSourceConfig = outputSourceConfig
         self.workflowName = workflowName
     }
@@ -3229,14 +3388,18 @@ public struct StartIdMappingJobOutput: Swift.Sendable {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
+    /// The job type for the started ID mapping job. A value of INCREMENTAL indicates that only new or changed data was processed since the last job run. This is the default job type if the workflow was created with an incrementalRunConfig. A value of BATCH indicates that all data was processed from the input source, regardless of previous job runs. This is the default job type if the workflow wasn't created with an incrementalRunConfig. A value of DELETE_ONLY indicates that only deletion requests from BatchDeleteUniqueIds were processed.
+    public var jobType: EntityResolutionClientTypes.JobType?
     /// A list of OutputSource objects.
     public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]?
 
     public init(
         jobId: Swift.String? = nil,
+        jobType: EntityResolutionClientTypes.JobType? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]? = nil
     ) {
         self.jobId = jobId
+        self.jobType = jobType
         self.outputSourceConfig = outputSourceConfig
     }
 }
@@ -3315,6 +3478,8 @@ public struct UpdateIdMappingWorkflowInput: Swift.Sendable {
     /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// The incremental run configuration for the update ID mapping workflow.
+    public var incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
     public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
@@ -3329,6 +3494,7 @@ public struct UpdateIdMappingWorkflowInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
         roleArn: Swift.String? = nil,
@@ -3336,6 +3502,7 @@ public struct UpdateIdMappingWorkflowInput: Swift.Sendable {
     ) {
         self.description = description
         self.idMappingTechniques = idMappingTechniques
+        self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
         self.outputSourceConfig = outputSourceConfig
         self.roleArn = roleArn
@@ -3349,6 +3516,8 @@ public struct UpdateIdMappingWorkflowOutput: Swift.Sendable {
     /// An object which defines the ID mapping technique and any additional configurations.
     /// This member is required.
     public var idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques?
+    /// The incremental run configuration for the update ID mapping workflow output.
+    public var incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
     public var inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
@@ -3366,6 +3535,7 @@ public struct UpdateIdMappingWorkflowOutput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         idMappingTechniques: EntityResolutionClientTypes.IdMappingTechniques? = nil,
+        incrementalRunConfig: EntityResolutionClientTypes.IdMappingIncrementalRunConfig? = nil,
         inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]? = nil,
         outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]? = nil,
         roleArn: Swift.String? = "",
@@ -3374,6 +3544,7 @@ public struct UpdateIdMappingWorkflowOutput: Swift.Sendable {
     ) {
         self.description = description
         self.idMappingTechniques = idMappingTechniques
+        self.incrementalRunConfig = incrementalRunConfig
         self.inputSourceConfig = inputSourceConfig
         self.outputSourceConfig = outputSourceConfig
         self.roleArn = roleArn
@@ -3461,7 +3632,7 @@ public struct UpdateIdNamespaceOutput: Swift.Sendable {
 public struct UpdateMatchingWorkflowInput: Swift.Sendable {
     /// A description of the workflow.
     public var description: Swift.String?
-    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING, incremental processing is not supported.
+    /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     public var incrementalRunConfig: EntityResolutionClientTypes.IncrementalRunConfig?
     /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
     /// This member is required.
@@ -4121,6 +4292,7 @@ extension CreateIdMappingWorkflowInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["idMappingTechniques"].write(value.idMappingTechniques, with: EntityResolutionClientTypes.IdMappingTechniques.write(value:to:))
+        try writer["incrementalRunConfig"].write(value.incrementalRunConfig, with: EntityResolutionClientTypes.IdMappingIncrementalRunConfig.write(value:to:))
         try writer["inputSourceConfig"].writeList(value.inputSourceConfig, memberWritingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["outputSourceConfig"].writeList(value.outputSourceConfig, memberWritingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
@@ -4200,6 +4372,7 @@ extension StartIdMappingJobInput {
 
     static func write(value: StartIdMappingJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["jobType"].write(value.jobType)
         try writer["outputSourceConfig"].writeList(value.outputSourceConfig, memberWritingClosure: EntityResolutionClientTypes.IdMappingJobOutputSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4218,6 +4391,7 @@ extension UpdateIdMappingWorkflowInput {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["idMappingTechniques"].write(value.idMappingTechniques, with: EntityResolutionClientTypes.IdMappingTechniques.write(value:to:))
+        try writer["incrementalRunConfig"].write(value.incrementalRunConfig, with: EntityResolutionClientTypes.IdMappingIncrementalRunConfig.write(value:to:))
         try writer["inputSourceConfig"].writeList(value.inputSourceConfig, memberWritingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["outputSourceConfig"].writeList(value.outputSourceConfig, memberWritingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
@@ -4295,6 +4469,7 @@ extension CreateIdMappingWorkflowOutput {
         var value = CreateIdMappingWorkflowOutput()
         value.description = try reader["description"].readIfPresent()
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
+        value.incrementalRunConfig = try reader["incrementalRunConfig"].readIfPresent(with: EntityResolutionClientTypes.IdMappingIncrementalRunConfig.read(from:))
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
@@ -4444,6 +4619,7 @@ extension GetIdMappingJobOutput {
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.errorDetails = try reader["errorDetails"].readIfPresent(with: EntityResolutionClientTypes.ErrorDetails.read(from:))
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobType = try reader["jobType"].readIfPresent()
         value.metrics = try reader["metrics"].readIfPresent(with: EntityResolutionClientTypes.IdMappingJobMetrics.read(from:))
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingJobOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -4462,6 +4638,7 @@ extension GetIdMappingWorkflowOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
+        value.incrementalRunConfig = try reader["incrementalRunConfig"].readIfPresent(with: EntityResolutionClientTypes.IdMappingIncrementalRunConfig.read(from:))
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
@@ -4729,6 +4906,7 @@ extension StartIdMappingJobOutput {
         let reader = responseReader
         var value = StartIdMappingJobOutput()
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobType = try reader["jobType"].readIfPresent()
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingJobOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -4769,6 +4947,7 @@ extension UpdateIdMappingWorkflowOutput {
         var value = UpdateIdMappingWorkflowOutput()
         value.description = try reader["description"].readIfPresent()
         value.idMappingTechniques = try reader["idMappingTechniques"].readIfPresent(with: EntityResolutionClientTypes.IdMappingTechniques.read(from:))
+        value.incrementalRunConfig = try reader["incrementalRunConfig"].readIfPresent(with: EntityResolutionClientTypes.IdMappingIncrementalRunConfig.read(from:))
         value.inputSourceConfig = try reader["inputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowInputSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.outputSourceConfig = try reader["outputSourceConfig"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.IdMappingWorkflowOutputSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
@@ -5656,8 +5835,8 @@ extension EntityResolutionClientTypes.IdMappingWorkflowOutputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingWorkflowOutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.IdMappingWorkflowOutputSource()
-        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.kmsArn = try reader["KMSArn"].readIfPresent()
+        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5749,6 +5928,21 @@ extension EntityResolutionClientTypes.Rule {
         var value = EntityResolutionClientTypes.Rule()
         value.ruleName = try reader["ruleName"].readIfPresent() ?? ""
         value.matchingKeys = try reader["matchingKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EntityResolutionClientTypes.IdMappingIncrementalRunConfig {
+
+    static func write(value: EntityResolutionClientTypes.IdMappingIncrementalRunConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["incrementalRunType"].write(value.incrementalRunType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.IdMappingIncrementalRunConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.IdMappingIncrementalRunConfig()
+        value.incrementalRunType = try reader["incrementalRunType"].readIfPresent()
         return value
     }
 }
@@ -5852,6 +6046,7 @@ extension EntityResolutionClientTypes.OutputSource {
         guard let value else { return }
         try writer["KMSArn"].write(value.kmsArn)
         try writer["applyNormalization"].write(value.applyNormalization)
+        try writer["customerProfilesIntegrationConfig"].write(value.customerProfilesIntegrationConfig, with: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig.write(value:to:))
         try writer["output"].writeList(value.output, memberWritingClosure: EntityResolutionClientTypes.OutputAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["outputS3Path"].write(value.outputS3Path)
     }
@@ -5859,10 +6054,28 @@ extension EntityResolutionClientTypes.OutputSource {
     static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.OutputSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EntityResolutionClientTypes.OutputSource()
-        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.kmsArn = try reader["KMSArn"].readIfPresent()
+        value.outputS3Path = try reader["outputS3Path"].readIfPresent() ?? ""
         value.output = try reader["output"].readListIfPresent(memberReadingClosure: EntityResolutionClientTypes.OutputAttribute.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.applyNormalization = try reader["applyNormalization"].readIfPresent()
+        value.customerProfilesIntegrationConfig = try reader["customerProfilesIntegrationConfig"].readIfPresent(with: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig.read(from:))
+        return value
+    }
+}
+
+extension EntityResolutionClientTypes.CustomerProfilesIntegrationConfig {
+
+    static func write(value: EntityResolutionClientTypes.CustomerProfilesIntegrationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainArn"].write(value.domainArn)
+        try writer["objectTypeArn"].write(value.objectTypeArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EntityResolutionClientTypes.CustomerProfilesIntegrationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EntityResolutionClientTypes.CustomerProfilesIntegrationConfig()
+        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
+        value.objectTypeArn = try reader["objectTypeArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6039,10 +6252,18 @@ extension EntityResolutionClientTypes.IdMappingJobMetrics {
         value.inputRecords = try reader["inputRecords"].readIfPresent()
         value.totalRecordsProcessed = try reader["totalRecordsProcessed"].readIfPresent()
         value.recordsNotProcessed = try reader["recordsNotProcessed"].readIfPresent()
+        value.deleteRecordsProcessed = try reader["deleteRecordsProcessed"].readIfPresent()
         value.totalMappedRecords = try reader["totalMappedRecords"].readIfPresent()
         value.totalMappedSourceRecords = try reader["totalMappedSourceRecords"].readIfPresent()
         value.totalMappedTargetRecords = try reader["totalMappedTargetRecords"].readIfPresent()
         value.uniqueRecordsLoaded = try reader["uniqueRecordsLoaded"].readIfPresent()
+        value.newMappedRecords = try reader["newMappedRecords"].readIfPresent()
+        value.newMappedSourceRecords = try reader["newMappedSourceRecords"].readIfPresent()
+        value.newMappedTargetRecords = try reader["newMappedTargetRecords"].readIfPresent()
+        value.newUniqueRecordsLoaded = try reader["newUniqueRecordsLoaded"].readIfPresent()
+        value.mappedRecordsRemoved = try reader["mappedRecordsRemoved"].readIfPresent()
+        value.mappedSourceRecordsRemoved = try reader["mappedSourceRecordsRemoved"].readIfPresent()
+        value.mappedTargetRecordsRemoved = try reader["mappedTargetRecordsRemoved"].readIfPresent()
         return value
     }
 }
@@ -6084,6 +6305,7 @@ extension EntityResolutionClientTypes.JobMetrics {
         value.inputRecords = try reader["inputRecords"].readIfPresent()
         value.totalRecordsProcessed = try reader["totalRecordsProcessed"].readIfPresent()
         value.recordsNotProcessed = try reader["recordsNotProcessed"].readIfPresent()
+        value.deleteRecordsProcessed = try reader["deleteRecordsProcessed"].readIfPresent()
         value.matchIDs = try reader["matchIDs"].readIfPresent()
         return value
     }

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -63,9 +64,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KinesisVideoWebRTCStorageClient: ClientRuntime.Client {
+public class KinesisVideoWebRTCStorageClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KinesisVideoWebRTCStorageClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration
     let serviceName = "Kinesis Video WebRTC Storage"
@@ -384,9 +384,9 @@ extension KinesisVideoWebRTCStorageClient {
     ///
     /// * Concurrent calls - Concurrent calls are allowed. An offer is sent once per each call.
     ///
-    /// - Parameter JoinStorageSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `JoinStorageSessionInput`)
     ///
-    /// - Returns: `JoinStorageSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `JoinStorageSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -423,6 +423,7 @@ extension KinesisVideoWebRTCStorageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<JoinStorageSessionOutput>(JoinStorageSessionOutput.httpOutput(from:), JoinStorageSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<JoinStorageSessionInput, JoinStorageSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<JoinStorageSessionOutput>())
@@ -454,9 +455,9 @@ extension KinesisVideoWebRTCStorageClient {
     ///
     /// Join the ongoing one way-video and/or multi-way audio WebRTC session as a viewer for an input channel. If there’s no existing session for the channel, create a new streaming session and provide the Amazon Resource Name (ARN) of the signaling channel (channelArn) and client id (clientId). Currently for SINGLE_MASTER type, a video producing device is able to ingest both audio and video media into a stream, while viewers can only ingest audio. Both a video producing device and viewers can join a session first and wait for other participants. While participants are having peer to peer conversations through WebRTC, the ingested media session will be stored into the Kinesis Video Stream. Multiple viewers are able to playback real-time media. Customers can also use existing Kinesis Video Streams features like HLS or DASH playback, Image generation, and more with ingested WebRTC media. If there’s an existing session with the same clientId that's found in the join session request, the new request takes precedence.
     ///
-    /// - Parameter JoinStorageSessionAsViewerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `JoinStorageSessionAsViewerInput`)
     ///
-    /// - Returns: `JoinStorageSessionAsViewerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `JoinStorageSessionAsViewerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,6 +494,7 @@ extension KinesisVideoWebRTCStorageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<JoinStorageSessionAsViewerOutput>(JoinStorageSessionAsViewerOutput.httpOutput(from:), JoinStorageSessionAsViewerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<JoinStorageSessionAsViewerInput, JoinStorageSessionAsViewerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<JoinStorageSessionAsViewerOutput>())

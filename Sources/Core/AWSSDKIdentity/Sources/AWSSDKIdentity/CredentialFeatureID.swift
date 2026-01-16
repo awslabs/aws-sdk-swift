@@ -29,4 +29,7 @@ public enum CredentialFeatureID: String {
 //    case CREDENTIALS_AWS_SDK_STORE = "y"
     case CREDENTIALS_HTTP = "z"
     case CREDENTIALS_IMDS = "0"
+    case CREDENTIALS_COGNITO = "8"
+    case CREDENTIALS_PROFILE_LOGIN = "AC"
+    case CREDENTIALS_LOGIN = "AD"
 }

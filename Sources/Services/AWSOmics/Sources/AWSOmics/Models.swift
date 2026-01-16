@@ -2404,6 +2404,71 @@ public struct CompleteMultipartReadSetUploadOutput: Swift.Sendable {
 
 extension OmicsClientTypes {
 
+    /// Specifies image mappings that workflow tasks can use. For example, you can replace all the task references of a public image to use an equivalent image in your private ECR repository. You can use image mappings with upstream registries that don't support pull through cache. You need to manually synchronize the upstream registry with your private repository.
+    public struct ImageMapping: Swift.Sendable {
+        /// Specifies the URI of the corresponding image in the private ECR registry.
+        public var destinationImage: Swift.String?
+        /// Specifies the URI of the source image in the upstream registry.
+        public var sourceImage: Swift.String?
+
+        public init(
+            destinationImage: Swift.String? = nil,
+            sourceImage: Swift.String? = nil
+        ) {
+            self.destinationImage = destinationImage
+            self.sourceImage = sourceImage
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// If you are using the ECR pull through cache feature, the registry mapping maps between the ECR repository and the upstream registry where container images are pulled and synchronized.
+    public struct RegistryMapping: Swift.Sendable {
+        /// Account ID of the account that owns the upstream container image.
+        public var ecrAccountId: Swift.String?
+        /// The repository prefix to use in the ECR private repository.
+        public var ecrRepositoryPrefix: Swift.String?
+        /// The URI of the upstream registry.
+        public var upstreamRegistryUrl: Swift.String?
+        /// The repository prefix of the corresponding repository in the upstream registry.
+        public var upstreamRepositoryPrefix: Swift.String?
+
+        public init(
+            ecrAccountId: Swift.String? = nil,
+            ecrRepositoryPrefix: Swift.String? = nil,
+            upstreamRegistryUrl: Swift.String? = nil,
+            upstreamRepositoryPrefix: Swift.String? = nil
+        ) {
+            self.ecrAccountId = ecrAccountId
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.upstreamRegistryUrl = upstreamRegistryUrl
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
+    /// Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries. For more information, see [Container images](https://docs.aws.amazon.com/omics/latest/dev/workflows-ecr.html) in the Amazon Web Services HealthOmics User Guide.
+    public struct ContainerRegistryMap: Swift.Sendable {
+        /// Image mappings specify path mappings between the ECR private repository and their corresponding external repositories.
+        public var imageMappings: [OmicsClientTypes.ImageMapping]?
+        /// Mapping that provides the ECR repository path where upstream container images are pulled and synchronized.
+        public var registryMappings: [OmicsClientTypes.RegistryMapping]?
+
+        public init(
+            imageMappings: [OmicsClientTypes.ImageMapping]? = nil,
+            registryMappings: [OmicsClientTypes.RegistryMapping]? = nil
+        ) {
+            self.imageMappings = imageMappings
+            self.registryMappings = registryMappings
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
     public enum FileType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bam
         case cram
@@ -2804,24 +2869,24 @@ extension OmicsClientTypes {
 }
 
 public struct CreateSequenceStoreInput: Swift.Sendable {
-    /// To ensure that requests don't run multiple times, specify a unique token for each request.
+    /// An idempotency token used to dedupe retry requests so that duplicate runs are not created.
     public var clientToken: Swift.String?
     /// A description for the store.
     public var description: Swift.String?
-    /// The ETag algorithm family to use for ingested read sets.
+    /// The ETag algorithm family to use for ingested read sets. The default value is MD5up. For more information on ETags, see [ETags and data provenance](https://docs.aws.amazon.com/omics/latest/dev/etags-and-provenance.html) in the Amazon Web Services HealthOmics User Guide.
     public var eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
-    /// An S3 location that is used to store files that have failed a direct upload.
+    /// An S3 location that is used to store files that have failed a direct upload. You can add or change the fallbackLocation after creating a sequence store. This is not required if you are uploading files from a different S3 bucket.
     public var fallbackLocation: Swift.String?
     /// A name for the store.
     /// This member is required.
     public var name: Swift.String?
-    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store.
+    /// The tags keys to propagate to the S3 objects associated with read sets in the sequence store. These tags can be used as input to add metadata to your read sets.
     public var propagatedSetLevelTags: [Swift.String]?
-    /// S3 access configuration parameters
+    /// S3 access configuration parameters. This specifies the parameters needed to access logs stored in S3 buckets. The S3 bucket must be in the same region and account as the sequence store.
     public var s3AccessConfig: OmicsClientTypes.S3AccessConfig?
     /// Server-side encryption (SSE) settings for the store.
     public var sseConfig: OmicsClientTypes.SseConfig?
-    /// Tags for the store.
+    /// Tags for the store. You can configure up to 50 tags.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
@@ -2930,7 +2995,7 @@ public struct CreateSequenceStoreOutput: Swift.Sendable {
     public var propagatedSetLevelTags: [Swift.String]?
     /// The S3 access metadata of the sequence store.
     public var s3Access: OmicsClientTypes.SequenceStoreS3Access?
-    /// The store's SSE settings.
+    /// Server-side encryption (SSE) settings for the store. This contains the KMS key ARN that is used to encrypt read set objects.
     public var sseConfig: OmicsClientTypes.SseConfig?
     /// The status of the sequence store.
     public var status: OmicsClientTypes.SequenceStoreStatus?
@@ -3153,13 +3218,15 @@ extension OmicsClientTypes {
         case cwl
         case nextflow
         case wdl
+        case wdlLenient
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkflowEngine] {
             return [
                 .cwl,
                 .nextflow,
-                .wdl
+                .wdl,
+                .wdlLenient
             ]
         }
 
@@ -3173,6 +3240,7 @@ extension OmicsClientTypes {
             case .cwl: return "CWL"
             case .nextflow: return "NEXTFLOW"
             case .wdl: return "WDL"
+            case .wdlLenient: return "WDL_LENIENT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3230,6 +3298,10 @@ extension OmicsClientTypes {
 public struct CreateWorkflowInput: Swift.Sendable {
     /// The computational accelerator specified to run the workflow.
     public var accelerators: OmicsClientTypes.Accelerators?
+    /// (Optional) Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries. For more information, see [Container images](https://docs.aws.amazon.com/omics/latest/dev/workflows-ecr.html) in the Amazon Web Services HealthOmics User Guide.
+    public var containerRegistryMap: OmicsClientTypes.ContainerRegistryMap?
+    /// (Optional) URI of the S3 location for the registry mapping file.
+    public var containerRegistryMapUri: Swift.String?
     /// The repository information for the workflow definition. This allows you to source your workflow definition directly from a code repository.
     public var definitionRepository: OmicsClientTypes.DefinitionRepository?
     /// The S3 URI of a definition for the workflow. The S3 bucket must be in the same region as the workflow.
@@ -3274,6 +3346,8 @@ public struct CreateWorkflowInput: Swift.Sendable {
 
     public init(
         accelerators: OmicsClientTypes.Accelerators? = nil,
+        containerRegistryMap: OmicsClientTypes.ContainerRegistryMap? = nil,
+        containerRegistryMapUri: Swift.String? = nil,
         definitionRepository: OmicsClientTypes.DefinitionRepository? = nil,
         definitionUri: Swift.String? = nil,
         definitionZip: Foundation.Data? = nil,
@@ -3293,6 +3367,8 @@ public struct CreateWorkflowInput: Swift.Sendable {
         workflowBucketOwnerId: Swift.String? = nil
     ) {
         self.accelerators = accelerators
+        self.containerRegistryMap = containerRegistryMap
+        self.containerRegistryMapUri = containerRegistryMapUri
         self.definitionRepository = definitionRepository
         self.definitionUri = definitionUri
         self.definitionZip = definitionZip
@@ -3384,19 +3460,23 @@ public struct CreateWorkflowOutput: Swift.Sendable {
 public struct CreateWorkflowVersionInput: Swift.Sendable {
     /// The computational accelerator for this workflow version.
     public var accelerators: OmicsClientTypes.Accelerators?
+    /// (Optional) Use a container registry map to specify mappings between the ECR private repository and one or more upstream registries. For more information, see [Container images](https://docs.aws.amazon.com/omics/latest/dev/workflows-ecr.html) in the Amazon Web Services HealthOmics User Guide.
+    public var containerRegistryMap: OmicsClientTypes.ContainerRegistryMap?
+    /// (Optional) URI of the S3 location for the registry mapping file.
+    public var containerRegistryMapUri: Swift.String?
     /// The repository information for the workflow version definition. This allows you to source your workflow version definition directly from a code repository.
     public var definitionRepository: OmicsClientTypes.DefinitionRepository?
-    /// The URI specifies the location of the workflow definition for this workflow version.
+    /// The S3 URI of a definition for this workflow version. The S3 bucket must be in the same region as this workflow version.
     public var definitionUri: Swift.String?
-    /// A zip archive containing the workflow definition for this workflow version.
+    /// A ZIP archive containing the main workflow definition file and dependencies that it imports for this workflow version. You can use a file with a ://fileb prefix instead of the Base64 string. For more information, see Workflow definition requirements in the Amazon Web Services HealthOmics User Guide.
     public var definitionZip: Foundation.Data?
     /// A description for this workflow version.
     public var description: Swift.String?
-    /// The workflow engine for this workflow version.
+    /// The workflow engine for this workflow version. This is only required if you have workflow definition files from more than one engine in your zip file. Otherwise, the service can detect the engine automatically from your workflow definition.
     public var engine: OmicsClientTypes.WorkflowEngine?
-    /// The path of the main definition file for this workflow version.
+    /// The path of the main definition file for this workflow version. This parameter is not required if the ZIP archive contains only one workflow definition file, or if the main definition file is named “main”. An example path is: workflow-definition/main-file.wdl.
     public var main: Swift.String?
-    /// The parameter template defines the input parameters for runs that use this workflow version.
+    /// A parameter template for this workflow version. If this field is blank, Amazon Web Services HealthOmics will automatically parse the parameter template values from your workflow definition file. To override these service generated default values, provide a parameter template. To view an example of a parameter template, see [Parameter template files](https://docs.aws.amazon.com/omics/latest/dev/parameter-templates.html) in the Amazon Web Services HealthOmics User Guide.
     public var parameterTemplate: [Swift.String: OmicsClientTypes.WorkflowParameter]?
     /// The path to the workflow version parameter template JSON file within the repository. This file defines the input parameters for runs that use this workflow version. If not specified, the workflow version will be created without a parameter template.
     public var parameterTemplatePath: Swift.String?
@@ -3412,26 +3492,28 @@ public struct CreateWorkflowVersionInput: Swift.Sendable {
     ///
     /// * The max README content length is 500 KiB.
     public var readmeUri: Swift.String?
-    /// To ensure that requests don't run multiple times, specify a unique ID for each request.
+    /// An idempotency token to ensure that duplicate workflows are not created when Amazon Web Services HealthOmics submits retry requests.
     /// This member is required.
     public var requestId: Swift.String?
-    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow version. The storageCapacity can be overwritten at run time. The storage capacity is not required for runs with a DYNAMIC storage type.
     public var storageCapacity: Swift.Int?
-    /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html) in the Amazon Web Services HealthOmics User Guide.
+    /// The default storage type for runs that use this workflow version. The storageType can be overridden at run time. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. STATIC storage allocates a fixed amount of storage. For more information about dynamic and static storage types, see [Run storage types](https://docs.aws.amazon.com/omics/latest/dev/workflows-run-types.html) in the Amazon Web Services HealthOmics User Guide.
     public var storageType: OmicsClientTypes.StorageType?
-    /// Optional tags to associate with this workflow version.
+    /// Tags for this workflow version. You can define up to 50 tags for the workflow. For more information, see [Adding a tag](https://docs.aws.amazon.com/omics/latest/dev/add-a-tag.html) in the Amazon Web Services HealthOmics User Guide.
     public var tags: [Swift.String: Swift.String]?
     /// A name for the workflow version. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. The version name must start with a letter or number and it can include upper-case and lower-case letters, numbers, hyphens, periods and underscores. The maximum length is 64 characters. You can use a simple naming scheme, such as version1, version2, version3. You can also match your workflow versions with your own internal versioning conventions, such as 2.7.0, 2.7.1, 2.7.2.
     /// This member is required.
     public var versionName: Swift.String?
     /// Amazon Web Services Id of the owner of the S3 bucket that contains the workflow definition. You need to specify this parameter if your account is not the bucket owner.
     public var workflowBucketOwnerId: Swift.String?
-    /// The ID of the workflow where you are creating the new version.
+    /// The ID of the workflow where you are creating the new version. The workflowId is not the UUID.
     /// This member is required.
     public var workflowId: Swift.String?
 
     public init(
         accelerators: OmicsClientTypes.Accelerators? = nil,
+        containerRegistryMap: OmicsClientTypes.ContainerRegistryMap? = nil,
+        containerRegistryMapUri: Swift.String? = nil,
         definitionRepository: OmicsClientTypes.DefinitionRepository? = nil,
         definitionUri: Swift.String? = nil,
         definitionZip: Foundation.Data? = nil,
@@ -3452,6 +3534,8 @@ public struct CreateWorkflowVersionInput: Swift.Sendable {
         workflowId: Swift.String? = nil
     ) {
         self.accelerators = accelerators
+        self.containerRegistryMap = containerRegistryMap
+        self.containerRegistryMapUri = containerRegistryMapUri
         self.definitionRepository = definitionRepository
         self.definitionUri = definitionUri
         self.definitionZip = definitionZip
@@ -5673,6 +5757,29 @@ public struct GetRunTaskInput: Swift.Sendable {
 
 extension OmicsClientTypes {
 
+    /// Information about the container image used for a task.
+    public struct ImageDetails: Swift.Sendable {
+        /// The URI of the container image.
+        public var image: Swift.String?
+        /// The container image digest. If the image URI was transformed, this will be the digest of the container image referenced by the transformed URI.
+        public var imageDigest: Swift.String?
+        /// URI of the source registry. If the URI is from a third-party registry, Amazon Web Services HealthOmics transforms the URI to the corresponding ECR path, using the pull-through cache mapping rules.
+        public var sourceImage: Swift.String?
+
+        public init(
+            image: Swift.String? = nil,
+            imageDigest: Swift.String? = nil,
+            sourceImage: Swift.String? = nil
+        ) {
+            self.image = image
+            self.imageDigest = imageDigest
+            self.sourceImage = sourceImage
+        }
+    }
+}
+
+extension OmicsClientTypes {
+
     public enum TaskStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case completed
@@ -5728,6 +5835,8 @@ public struct GetRunTaskOutput: Swift.Sendable {
     public var failureReason: Swift.String?
     /// The number of Graphics Processing Units (GPU) specified in the task.
     public var gpus: Swift.Int?
+    /// Details about the container image that this task uses.
+    public var imageDetails: OmicsClientTypes.ImageDetails?
     /// The instance type for a task.
     public var instanceType: Swift.String?
     /// The task's log stream.
@@ -5754,6 +5863,7 @@ public struct GetRunTaskOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         gpus: Swift.Int? = nil,
+        imageDetails: OmicsClientTypes.ImageDetails? = nil,
         instanceType: Swift.String? = nil,
         logStream: Swift.String? = nil,
         memory: Swift.Int? = nil,
@@ -5770,6 +5880,7 @@ public struct GetRunTaskOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.gpus = gpus
+        self.imageDetails = imageDetails
         self.instanceType = instanceType
         self.logStream = logStream
         self.memory = memory
@@ -6233,6 +6344,8 @@ public struct GetWorkflowOutput: Swift.Sendable {
     public var accelerators: OmicsClientTypes.Accelerators?
     /// The workflow's ARN.
     public var arn: Swift.String?
+    /// The registry map that this workflow is using.
+    public var containerRegistryMap: OmicsClientTypes.ContainerRegistryMap?
     /// When the workflow was created.
     public var creationTime: Foundation.Date?
     /// The workflow's definition.
@@ -6277,6 +6390,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
     public init(
         accelerators: OmicsClientTypes.Accelerators? = nil,
         arn: Swift.String? = nil,
+        containerRegistryMap: OmicsClientTypes.ContainerRegistryMap? = nil,
         creationTime: Foundation.Date? = nil,
         definition: Swift.String? = nil,
         definitionRepositoryDetails: OmicsClientTypes.DefinitionRepositoryDetails? = nil,
@@ -6300,6 +6414,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
     ) {
         self.accelerators = accelerators
         self.arn = arn
+        self.containerRegistryMap = containerRegistryMap
         self.creationTime = creationTime
         self.definition = definition
         self.definitionRepositoryDetails = definitionRepositoryDetails
@@ -6331,10 +6446,10 @@ public struct GetWorkflowVersionInput: Swift.Sendable {
     /// The workflow version name.
     /// This member is required.
     public var versionName: Swift.String?
-    /// The workflow's ID.
+    /// The workflow's ID. The workflowId is not the UUID.
     /// This member is required.
     public var workflowId: Swift.String?
-    /// Amazon Web Services Id of the owner of the workflow.
+    /// The 12-digit account ID of the workflow owner. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID.
     public var workflowOwnerId: Swift.String?
 
     public init(
@@ -6357,6 +6472,8 @@ public struct GetWorkflowVersionOutput: Swift.Sendable {
     public var accelerators: OmicsClientTypes.Accelerators?
     /// ARN of the workflow version.
     public var arn: Swift.String?
+    /// The registry map that this workflow version uses.
+    public var containerRegistryMap: OmicsClientTypes.ContainerRegistryMap?
     /// When the workflow version was created.
     public var creationTime: Foundation.Date?
     /// Definition of the workflow version.
@@ -6403,6 +6520,7 @@ public struct GetWorkflowVersionOutput: Swift.Sendable {
     public init(
         accelerators: OmicsClientTypes.Accelerators? = nil,
         arn: Swift.String? = nil,
+        containerRegistryMap: OmicsClientTypes.ContainerRegistryMap? = nil,
         creationTime: Foundation.Date? = nil,
         definition: Swift.String? = nil,
         definitionRepositoryDetails: OmicsClientTypes.DefinitionRepositoryDetails? = nil,
@@ -6427,6 +6545,7 @@ public struct GetWorkflowVersionOutput: Swift.Sendable {
     ) {
         self.accelerators = accelerators
         self.arn = arn
+        self.containerRegistryMap = containerRegistryMap
         self.creationTime = creationTime
         self.definition = definition
         self.definitionRepositoryDetails = definitionRepositoryDetails
@@ -8203,10 +8322,10 @@ public struct ListWorkflowVersionsInput: Swift.Sendable {
     public var startingToken: Swift.String?
     /// The workflow type.
     public var type: OmicsClientTypes.WorkflowType?
-    /// The workflow's ID.
+    /// The workflow's ID. The workflowId is not the UUID.
     /// This member is required.
     public var workflowId: Swift.String?
-    /// Amazon Web Services Id of the owner of the workflow.
+    /// The 12-digit account ID of the workflow owner. The workflow owner ID can be retrieved using the GetShare API operation. If you are the workflow owner, you do not need to include this ID.
     public var workflowOwnerId: Swift.String?
 
     public init(
@@ -8475,6 +8594,7 @@ public struct StartRunInput: Swift.Sendable {
     /// A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs.
     public var name: Swift.String?
     /// An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket.
+    /// This member is required.
     public var outputUri: Swift.String?
     /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation.
     public var parameters: Smithy.Document?
@@ -9156,14 +9276,14 @@ public struct UpdateWorkflowVersionInput: Swift.Sendable {
     public var description: Swift.String?
     /// The markdown content for the workflow version's README file. This provides documentation and usage information for users of this specific workflow version.
     public var readmeMarkdown: Swift.String?
-    /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+    /// The default static storage capacity (in gibibytes) for runs that use this workflow version. The storageCapacity can be overwritten at run time. The storage capacity is not required for runs with a DYNAMIC storage type.
     public var storageCapacity: Swift.Int?
-    /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html) in the Amazon Web Services HealthOmics User Guide.
+    /// The default storage type for runs that use this workflow version. The storageType can be overridden at run time. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. STATIC storage allocates a fixed amount of storage. For more information about dynamic and static storage types, see [Run storage types](https://docs.aws.amazon.com/omics/latest/dev/workflows-run-types.html) in the in the Amazon Web Services HealthOmics User Guide .
     public var storageType: OmicsClientTypes.StorageType?
     /// The name of the workflow version.
     /// This member is required.
     public var versionName: Swift.String?
-    /// The workflow's ID.
+    /// The workflow's ID. The workflowId is not the UUID.
     /// This member is required.
     public var workflowId: Swift.String?
 
@@ -10841,6 +10961,8 @@ extension CreateWorkflowInput {
     static func write(value: CreateWorkflowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accelerators"].write(value.accelerators)
+        try writer["containerRegistryMap"].write(value.containerRegistryMap, with: OmicsClientTypes.ContainerRegistryMap.write(value:to:))
+        try writer["containerRegistryMapUri"].write(value.containerRegistryMapUri)
         try writer["definitionRepository"].write(value.definitionRepository, with: OmicsClientTypes.DefinitionRepository.write(value:to:))
         try writer["definitionUri"].write(value.definitionUri)
         try writer["definitionZip"].write(value.definitionZip)
@@ -10866,6 +10988,8 @@ extension CreateWorkflowVersionInput {
     static func write(value: CreateWorkflowVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accelerators"].write(value.accelerators)
+        try writer["containerRegistryMap"].write(value.containerRegistryMap, with: OmicsClientTypes.ContainerRegistryMap.write(value:to:))
+        try writer["containerRegistryMapUri"].write(value.containerRegistryMapUri)
         try writer["definitionRepository"].write(value.definitionRepository, with: OmicsClientTypes.DefinitionRepository.write(value:to:))
         try writer["definitionUri"].write(value.definitionUri)
         try writer["definitionZip"].write(value.definitionZip)
@@ -11934,6 +12058,7 @@ extension GetRunTaskOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.gpus = try reader["gpus"].readIfPresent()
+        value.imageDetails = try reader["imageDetails"].readIfPresent(with: OmicsClientTypes.ImageDetails.read(from:))
         value.instanceType = try reader["instanceType"].readIfPresent()
         value.logStream = try reader["logStream"].readIfPresent()
         value.memory = try reader["memory"].readIfPresent()
@@ -12053,6 +12178,7 @@ extension GetWorkflowOutput {
         var value = GetWorkflowOutput()
         value.accelerators = try reader["accelerators"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
+        value.containerRegistryMap = try reader["containerRegistryMap"].readIfPresent(with: OmicsClientTypes.ContainerRegistryMap.read(from:))
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.definition = try reader["definition"].readIfPresent()
         value.definitionRepositoryDetails = try reader["definitionRepositoryDetails"].readIfPresent(with: OmicsClientTypes.DefinitionRepositoryDetails.read(from:))
@@ -12086,6 +12212,7 @@ extension GetWorkflowVersionOutput {
         var value = GetWorkflowVersionOutput()
         value.accelerators = try reader["accelerators"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
+        value.containerRegistryMap = try reader["containerRegistryMap"].readIfPresent(with: OmicsClientTypes.ContainerRegistryMap.read(from:))
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.definition = try reader["definition"].readIfPresent()
         value.definitionRepositoryDetails = try reader["definitionRepositoryDetails"].readIfPresent(with: OmicsClientTypes.DefinitionRepositoryDetails.read(from:))
@@ -15118,6 +15245,18 @@ extension OmicsClientTypes.RunLogLocation {
     }
 }
 
+extension OmicsClientTypes.ImageDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImageDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.ImageDetails()
+        value.image = try reader["image"].readIfPresent()
+        value.imageDigest = try reader["imageDigest"].readIfPresent()
+        value.sourceImage = try reader["sourceImage"].readIfPresent()
+        return value
+    }
+}
+
 extension OmicsClientTypes.ShareDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ShareDetails {
@@ -15162,6 +15301,61 @@ extension OmicsClientTypes.WorkflowParameter {
         var value = OmicsClientTypes.WorkflowParameter()
         value.description = try reader["description"].readIfPresent()
         value.`optional` = try reader["optional"].readIfPresent()
+        return value
+    }
+}
+
+extension OmicsClientTypes.ContainerRegistryMap {
+
+    static func write(value: OmicsClientTypes.ContainerRegistryMap?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageMappings"].writeList(value.imageMappings, memberWritingClosure: OmicsClientTypes.ImageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["registryMappings"].writeList(value.registryMappings, memberWritingClosure: OmicsClientTypes.RegistryMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ContainerRegistryMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.ContainerRegistryMap()
+        value.registryMappings = try reader["registryMappings"].readListIfPresent(memberReadingClosure: OmicsClientTypes.RegistryMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageMappings = try reader["imageMappings"].readListIfPresent(memberReadingClosure: OmicsClientTypes.ImageMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OmicsClientTypes.ImageMapping {
+
+    static func write(value: OmicsClientTypes.ImageMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationImage"].write(value.destinationImage)
+        try writer["sourceImage"].write(value.sourceImage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.ImageMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.ImageMapping()
+        value.sourceImage = try reader["sourceImage"].readIfPresent()
+        value.destinationImage = try reader["destinationImage"].readIfPresent()
+        return value
+    }
+}
+
+extension OmicsClientTypes.RegistryMapping {
+
+    static func write(value: OmicsClientTypes.RegistryMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ecrAccountId"].write(value.ecrAccountId)
+        try writer["ecrRepositoryPrefix"].write(value.ecrRepositoryPrefix)
+        try writer["upstreamRegistryUrl"].write(value.upstreamRegistryUrl)
+        try writer["upstreamRepositoryPrefix"].write(value.upstreamRepositoryPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RegistryMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OmicsClientTypes.RegistryMapping()
+        value.upstreamRegistryUrl = try reader["upstreamRegistryUrl"].readIfPresent()
+        value.ecrRepositoryPrefix = try reader["ecrRepositoryPrefix"].readIfPresent()
+        value.upstreamRepositoryPrefix = try reader["upstreamRepositoryPrefix"].readIfPresent()
+        value.ecrAccountId = try reader["ecrAccountId"].readIfPresent()
         return value
     }
 }

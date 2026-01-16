@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ResourceGroupsClient: ClientRuntime.Client {
+public class ResourceGroupsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ResourceGroupsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceGroupsClient.ResourceGroupsClientConfiguration
     let serviceName = "Resource Groups"
@@ -377,9 +377,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:DeleteGroup
     ///
-    /// - Parameter CancelTagSyncTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTagSyncTaskInput`)
     ///
-    /// - Returns: `CancelTagSyncTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTagSyncTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +418,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelTagSyncTaskInput, CancelTagSyncTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelTagSyncTaskOutput>(CancelTagSyncTaskOutput.httpOutput(from:), CancelTagSyncTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelTagSyncTaskInput, CancelTagSyncTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelTagSyncTaskOutput>())
@@ -451,9 +452,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:CreateGroup
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,6 +492,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -524,9 +526,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:DeleteGroup
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,6 +567,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -596,9 +599,9 @@ extension ResourceGroupsClient {
     ///
     /// Retrieves the current status of optional features in Resource Groups.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +636,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingsOutput>())
@@ -666,9 +670,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetGroup
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,6 +711,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupInput, GetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupOutput>(GetGroupOutput.httpOutput(from:), GetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupInput, GetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupOutput>())
@@ -740,9 +745,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetGroupConfiguration
     ///
-    /// - Parameter GetGroupConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupConfigurationInput`)
     ///
-    /// - Returns: `GetGroupConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,6 +786,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupConfigurationInput, GetGroupConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupConfigurationOutput>(GetGroupConfigurationOutput.httpOutput(from:), GetGroupConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupConfigurationInput, GetGroupConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupConfigurationOutput>())
@@ -814,9 +820,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetGroupQuery
     ///
-    /// - Parameter GetGroupQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupQueryInput`)
     ///
-    /// - Returns: `GetGroupQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,6 +861,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupQueryInput, GetGroupQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupQueryOutput>(GetGroupQueryOutput.httpOutput(from:), GetGroupQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupQueryInput, GetGroupQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupQueryOutput>())
@@ -888,9 +895,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetTagSyncTask on the application group
     ///
-    /// - Parameter GetTagSyncTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagSyncTaskInput`)
     ///
-    /// - Returns: `GetTagSyncTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagSyncTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,6 +937,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTagSyncTaskInput, GetTagSyncTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagSyncTaskOutput>(GetTagSyncTaskOutput.httpOutput(from:), GetTagSyncTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagSyncTaskInput, GetTagSyncTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagSyncTaskOutput>())
@@ -963,9 +971,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GetTags
     ///
-    /// - Parameter GetTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagsInput`)
     ///
-    /// - Returns: `GetTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1001,6 +1009,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTagsInput, GetTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagsOutput>(GetTagsOutput.httpOutput(from:), GetTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagsInput, GetTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagsOutput>())
@@ -1043,9 +1052,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:GroupResources
     ///
-    /// - Parameter GroupResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GroupResourcesInput`)
     ///
-    /// - Returns: `GroupResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GroupResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1084,6 +1093,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GroupResourcesInput, GroupResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GroupResourcesOutput>(GroupResourcesOutput.httpOutput(from:), GroupResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GroupResourcesInput, GroupResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GroupResourcesOutput>())
@@ -1123,9 +1133,9 @@ extension ResourceGroupsClient {
     ///
     /// * tag:GetResources
     ///
-    /// - Parameter ListGroupResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupResourcesInput`)
     ///
-    /// - Returns: `ListGroupResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1165,6 +1175,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupResourcesInput, ListGroupResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupResourcesOutput>(ListGroupResourcesOutput.httpOutput(from:), ListGroupResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupResourcesInput, ListGroupResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupResourcesOutput>())
@@ -1196,9 +1207,9 @@ extension ResourceGroupsClient {
     ///
     /// Returns the status of the last grouping or ungrouping action for each resource in the specified application group.
     ///
-    /// - Parameter ListGroupingStatusesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupingStatusesInput`)
     ///
-    /// - Returns: `ListGroupingStatusesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupingStatusesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1236,6 +1247,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupingStatusesInput, ListGroupingStatusesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupingStatusesOutput>(ListGroupingStatusesOutput.httpOutput(from:), ListGroupingStatusesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupingStatusesInput, ListGroupingStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupingStatusesOutput>())
@@ -1269,9 +1281,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:ListGroups
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,6 +1322,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -1343,9 +1356,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:ListTagSyncTasks with the group passed in the filters as the resource or * if using no filters
     ///
-    /// - Parameter ListTagSyncTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagSyncTasksInput`)
     ///
-    /// - Returns: `ListTagSyncTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagSyncTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1384,6 +1397,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagSyncTasksInput, ListTagSyncTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagSyncTasksOutput>(ListTagSyncTasksOutput.httpOutput(from:), ListTagSyncTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagSyncTasksInput, ListTagSyncTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagSyncTasksOutput>())
@@ -1417,9 +1431,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:PutGroupConfiguration
     ///
-    /// - Parameter PutGroupConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutGroupConfigurationInput`)
     ///
-    /// - Returns: `PutGroupConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutGroupConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1458,6 +1472,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutGroupConfigurationInput, PutGroupConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutGroupConfigurationOutput>(PutGroupConfigurationOutput.httpOutput(from:), PutGroupConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutGroupConfigurationInput, PutGroupConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutGroupConfigurationOutput>())
@@ -1497,9 +1512,9 @@ extension ResourceGroupsClient {
     ///
     /// * tag:GetResources
     ///
-    /// - Parameter SearchResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchResourcesInput`)
     ///
-    /// - Returns: `SearchResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1538,6 +1553,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchResourcesInput, SearchResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchResourcesOutput>(SearchResourcesOutput.httpOutput(from:), SearchResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchResourcesInput, SearchResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchResourcesOutput>())
@@ -1575,9 +1591,9 @@ extension ResourceGroupsClient {
     ///
     /// * iam:PassRole on the role provided in the request
     ///
-    /// - Parameter StartTagSyncTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTagSyncTaskInput`)
     ///
-    /// - Returns: `StartTagSyncTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTagSyncTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,6 +1633,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTagSyncTaskInput, StartTagSyncTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTagSyncTaskOutput>(StartTagSyncTaskOutput.httpOutput(from:), StartTagSyncTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTagSyncTaskInput, StartTagSyncTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTagSyncTaskOutput>())
@@ -1650,9 +1667,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:Tag
     ///
-    /// - Parameter TagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagInput`)
     ///
-    /// - Returns: `TagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,6 +1708,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagInput, TagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagOutput>(TagOutput.httpOutput(from:), TagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagInput, TagOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagOutput>())
@@ -1724,9 +1742,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:UngroupResources
     ///
-    /// - Parameter UngroupResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UngroupResourcesInput`)
     ///
-    /// - Returns: `UngroupResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UngroupResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1765,6 +1783,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UngroupResourcesInput, UngroupResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UngroupResourcesOutput>(UngroupResourcesOutput.httpOutput(from:), UngroupResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UngroupResourcesInput, UngroupResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UngroupResourcesOutput>())
@@ -1798,9 +1817,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:Untag
     ///
-    /// - Parameter UntagInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagInput`)
     ///
-    /// - Returns: `UntagOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1839,6 +1858,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagInput, UntagOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagOutput>(UntagOutput.httpOutput(from:), UntagOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagInput, UntagOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagOutput>())
@@ -1870,9 +1890,9 @@ extension ResourceGroupsClient {
     ///
     /// Turns on or turns off optional features in Resource Groups. The preceding example shows that the request to turn on group lifecycle events is IN_PROGRESS. You can call the [GetAccountSettings] operation to check for completion by looking for GroupLifecycleEventsStatus to change to ACTIVE.
     ///
-    /// - Parameter UpdateAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
     ///
-    /// - Returns: `UpdateAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1910,6 +1930,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(UpdateAccountSettingsOutput.httpOutput(from:), UpdateAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountSettingsOutput>())
@@ -1943,9 +1964,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:UpdateGroup
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1984,6 +2005,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(UpdateGroupOutput.httpOutput(from:), UpdateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
@@ -2017,9 +2039,9 @@ extension ResourceGroupsClient {
     ///
     /// * resource-groups:UpdateGroupQuery
     ///
-    /// - Parameter UpdateGroupQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupQueryInput`)
     ///
-    /// - Returns: `UpdateGroupQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2058,6 +2080,7 @@ extension ResourceGroupsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupQueryInput, UpdateGroupQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupQueryOutput>(UpdateGroupQueryOutput.httpOutput(from:), UpdateGroupQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupQueryInput, UpdateGroupQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupQueryOutput>())

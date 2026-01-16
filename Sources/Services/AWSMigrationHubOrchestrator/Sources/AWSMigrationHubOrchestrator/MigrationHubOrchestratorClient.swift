@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MigrationHubOrchestratorClient: ClientRuntime.Client {
+public class MigrationHubOrchestratorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MigrationHubOrchestratorClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfiguration
     let serviceName = "MigrationHubOrchestrator"
@@ -374,9 +374,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Creates a migration workflow template.
     ///
-    /// - Parameter CreateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +415,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTemplateInput, CreateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTemplateOutput>(CreateTemplateOutput.httpOutput(from:), CreateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTemplateInput, CreateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTemplateOutput>())
@@ -446,9 +447,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Create a workflow to orchestrate your migrations.
     ///
-    /// - Parameter CreateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
-    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +486,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkflowOutput>(CreateWorkflowOutput.httpOutput(from:), CreateWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkflowOutput>())
@@ -516,9 +518,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Create a step in the migration workflow.
     ///
-    /// - Parameter CreateWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowStepInput`)
     ///
-    /// - Returns: `CreateWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +557,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowStepInput, CreateWorkflowStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkflowStepOutput>(CreateWorkflowStepOutput.httpOutput(from:), CreateWorkflowStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowStepInput, CreateWorkflowStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkflowStepOutput>())
@@ -586,9 +589,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Create a step group in a migration workflow.
     ///
-    /// - Parameter CreateWorkflowStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowStepGroupInput`)
     ///
-    /// - Returns: `CreateWorkflowStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,6 +628,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowStepGroupInput, CreateWorkflowStepGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkflowStepGroupOutput>(CreateWorkflowStepGroupOutput.httpOutput(from:), CreateWorkflowStepGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowStepGroupInput, CreateWorkflowStepGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkflowStepGroupOutput>())
@@ -656,9 +660,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Deletes a migration workflow template.
     ///
-    /// - Parameter DeleteTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,6 +697,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTemplateInput, DeleteTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTemplateOutput>(DeleteTemplateOutput.httpOutput(from:), DeleteTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTemplateInput, DeleteTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTemplateOutput>())
@@ -724,9 +729,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,6 +766,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowOutput>(DeleteWorkflowOutput.httpOutput(from:), DeleteWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowOutput>())
@@ -792,9 +798,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step.
     ///
-    /// - Parameter DeleteWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowStepInput`)
     ///
-    /// - Returns: `DeleteWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,6 +836,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWorkflowStepInput, DeleteWorkflowStepOutput>(DeleteWorkflowStepInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowStepOutput>(DeleteWorkflowStepOutput.httpOutput(from:), DeleteWorkflowStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowStepInput, DeleteWorkflowStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowStepOutput>())
@@ -861,9 +868,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Delete a step group in a migration workflow.
     ///
-    /// - Parameter DeleteWorkflowStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowStepGroupInput`)
     ///
-    /// - Returns: `DeleteWorkflowStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,6 +906,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWorkflowStepGroupInput, DeleteWorkflowStepGroupOutput>(DeleteWorkflowStepGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowStepGroupOutput>(DeleteWorkflowStepGroupOutput.httpOutput(from:), DeleteWorkflowStepGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowStepGroupInput, DeleteWorkflowStepGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowStepGroupOutput>())
@@ -930,9 +938,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get the template you want to use for creating a migration workflow.
     ///
-    /// - Parameter GetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateInput`)
     ///
-    /// - Returns: `GetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -966,6 +974,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemplateInput, GetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateOutput>(GetTemplateOutput.httpOutput(from:), GetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateInput, GetTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateOutput>())
@@ -997,9 +1006,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get a specific step in a template.
     ///
-    /// - Parameter GetTemplateStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateStepInput`)
     ///
-    /// - Returns: `GetTemplateStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,6 +1044,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTemplateStepInput, GetTemplateStepOutput>(GetTemplateStepInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateStepOutput>(GetTemplateStepOutput.httpOutput(from:), GetTemplateStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateStepInput, GetTemplateStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateStepOutput>())
@@ -1066,9 +1076,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get a step group in a template.
     ///
-    /// - Parameter GetTemplateStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateStepGroupInput`)
     ///
-    /// - Returns: `GetTemplateStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1103,6 +1113,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemplateStepGroupInput, GetTemplateStepGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateStepGroupOutput>(GetTemplateStepGroupOutput.httpOutput(from:), GetTemplateStepGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateStepGroupInput, GetTemplateStepGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateStepGroupOutput>())
@@ -1134,9 +1145,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get migration workflow.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1171,6 +1182,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWorkflowInput, GetWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowOutput>(GetWorkflowOutput.httpOutput(from:), GetWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowInput, GetWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowOutput>())
@@ -1202,9 +1214,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get a step in the migration workflow.
     ///
-    /// - Parameter GetWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowStepInput`)
     ///
-    /// - Returns: `GetWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,6 +1251,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWorkflowStepInput, GetWorkflowStepOutput>(GetWorkflowStepInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowStepOutput>(GetWorkflowStepOutput.httpOutput(from:), GetWorkflowStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowStepInput, GetWorkflowStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowStepOutput>())
@@ -1270,9 +1283,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Get the step group of a migration workflow.
     ///
-    /// - Parameter GetWorkflowStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowStepGroupInput`)
     ///
-    /// - Returns: `GetWorkflowStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1308,6 +1321,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWorkflowStepGroupInput, GetWorkflowStepGroupOutput>(GetWorkflowStepGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowStepGroupOutput>(GetWorkflowStepGroupOutput.httpOutput(from:), GetWorkflowStepGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowStepGroupInput, GetWorkflowStepGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowStepGroupOutput>())
@@ -1339,9 +1353,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List AWS Migration Hub Orchestrator plugins.
     ///
-    /// - Parameter ListPluginsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPluginsInput`)
     ///
-    /// - Returns: `ListPluginsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPluginsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1375,6 +1389,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPluginsInput, ListPluginsOutput>(ListPluginsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPluginsOutput>(ListPluginsOutput.httpOutput(from:), ListPluginsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPluginsInput, ListPluginsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPluginsOutput>())
@@ -1406,9 +1421,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the tags added to a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1440,6 +1455,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1471,9 +1487,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the step groups in a template.
     ///
-    /// - Parameter ListTemplateStepGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateStepGroupsInput`)
     ///
-    /// - Returns: `ListTemplateStepGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateStepGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1508,6 +1524,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplateStepGroupsInput, ListTemplateStepGroupsOutput>(ListTemplateStepGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplateStepGroupsOutput>(ListTemplateStepGroupsOutput.httpOutput(from:), ListTemplateStepGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplateStepGroupsInput, ListTemplateStepGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplateStepGroupsOutput>())
@@ -1539,9 +1556,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the steps in a template.
     ///
-    /// - Parameter ListTemplateStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateStepsInput`)
     ///
-    /// - Returns: `ListTemplateStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,6 +1594,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplateStepsInput, ListTemplateStepsOutput>(ListTemplateStepsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplateStepsOutput>(ListTemplateStepsOutput.httpOutput(from:), ListTemplateStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplateStepsInput, ListTemplateStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplateStepsOutput>())
@@ -1608,9 +1626,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1644,6 +1662,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplatesInput, ListTemplatesOutput>(ListTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplatesOutput>(ListTemplatesOutput.httpOutput(from:), ListTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplatesInput, ListTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplatesOutput>())
@@ -1675,9 +1694,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the step groups in a migration workflow.
     ///
-    /// - Parameter ListWorkflowStepGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowStepGroupsInput`)
     ///
-    /// - Returns: `ListWorkflowStepGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowStepGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,6 +1732,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkflowStepGroupsInput, ListWorkflowStepGroupsOutput>(ListWorkflowStepGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowStepGroupsOutput>(ListWorkflowStepGroupsOutput.httpOutput(from:), ListWorkflowStepGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowStepGroupsInput, ListWorkflowStepGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowStepGroupsOutput>())
@@ -1744,9 +1764,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the steps in a workflow.
     ///
-    /// - Parameter ListWorkflowStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowStepsInput`)
     ///
-    /// - Returns: `ListWorkflowStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1781,6 +1801,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkflowStepsInput, ListWorkflowStepsOutput>(ListWorkflowStepsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowStepsOutput>(ListWorkflowStepsOutput.httpOutput(from:), ListWorkflowStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowStepsInput, ListWorkflowStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowStepsOutput>())
@@ -1812,9 +1833,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// List the migration workflows.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1850,6 +1871,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(ListWorkflowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowsOutput>(ListWorkflowsOutput.httpOutput(from:), ListWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowsOutput>())
@@ -1881,9 +1903,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Retry a failed step in a migration workflow.
     ///
-    /// - Parameter RetryWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryWorkflowStepInput`)
     ///
-    /// - Returns: `RetryWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1918,6 +1940,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RetryWorkflowStepInput, RetryWorkflowStepOutput>(RetryWorkflowStepInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryWorkflowStepOutput>(RetryWorkflowStepOutput.httpOutput(from:), RetryWorkflowStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryWorkflowStepInput, RetryWorkflowStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetryWorkflowStepOutput>())
@@ -1949,9 +1972,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Start a migration workflow.
     ///
-    /// - Parameter StartWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkflowInput`)
     ///
-    /// - Returns: `StartWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1986,6 +2009,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartWorkflowInput, StartWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWorkflowOutput>(StartWorkflowOutput.httpOutput(from:), StartWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWorkflowInput, StartWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWorkflowOutput>())
@@ -2017,9 +2041,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Stop an ongoing migration workflow.
     ///
-    /// - Parameter StopWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopWorkflowInput`)
     ///
-    /// - Returns: `StopWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2054,6 +2078,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopWorkflowInput, StopWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopWorkflowOutput>(StopWorkflowOutput.httpOutput(from:), StopWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopWorkflowInput, StopWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopWorkflowOutput>())
@@ -2085,9 +2110,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Tag a resource by specifying its Amazon Resource Name (ARN).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2122,6 +2147,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2153,9 +2179,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Deletes the tags for a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2188,6 +2214,7 @@ extension MigrationHubOrchestratorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2219,9 +2246,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Updates a migration workflow template.
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2260,6 +2287,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateInput, UpdateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateOutput>(UpdateTemplateOutput.httpOutput(from:), UpdateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateInput, UpdateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplateOutput>())
@@ -2291,9 +2319,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Update a migration workflow.
     ///
-    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowInput`)
     ///
-    /// - Returns: `UpdateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2331,6 +2359,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkflowOutput>(UpdateWorkflowOutput.httpOutput(from:), UpdateWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkflowOutput>())
@@ -2362,9 +2391,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Update a step in a migration workflow.
     ///
-    /// - Parameter UpdateWorkflowStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowStepInput`)
     ///
-    /// - Returns: `UpdateWorkflowStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2401,6 +2430,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkflowStepInput, UpdateWorkflowStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkflowStepOutput>(UpdateWorkflowStepOutput.httpOutput(from:), UpdateWorkflowStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkflowStepInput, UpdateWorkflowStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkflowStepOutput>())
@@ -2432,9 +2462,9 @@ extension MigrationHubOrchestratorClient {
     ///
     /// Update the step group in a migration workflow.
     ///
-    /// - Parameter UpdateWorkflowStepGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowStepGroupInput`)
     ///
-    /// - Returns: `UpdateWorkflowStepGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowStepGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2473,6 +2503,7 @@ extension MigrationHubOrchestratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkflowStepGroupInput, UpdateWorkflowStepGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkflowStepGroupOutput>(UpdateWorkflowStepGroupOutput.httpOutput(from:), UpdateWorkflowStepGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkflowStepGroupInput, UpdateWorkflowStepGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkflowStepGroupOutput>())

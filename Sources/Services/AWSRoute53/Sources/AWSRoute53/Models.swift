@@ -32,6 +32,53 @@ import struct Smithy.URIQueryItem
 
 extension Route53ClientTypes {
 
+    public enum AcceleratedRecoveryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disableFailed
+        case disabling
+        case disablingHostedZoneLocked
+        case enabled
+        case enableFailed
+        case enabling
+        case enablingHostedZoneLocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AcceleratedRecoveryStatus] {
+            return [
+                .disabled,
+                .disableFailed,
+                .disabling,
+                .disablingHostedZoneLocked,
+                .enabled,
+                .enableFailed,
+                .enabling,
+                .enablingHostedZoneLocked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disableFailed: return "DISABLE_FAILED"
+            case .disabling: return "DISABLING"
+            case .disablingHostedZoneLocked: return "DISABLING_HOSTED_ZONE_LOCKED"
+            case .enabled: return "ENABLED"
+            case .enableFailed: return "ENABLE_FAILED"
+            case .enabling: return "ENABLING"
+            case .enablingHostedZoneLocked: return "ENABLING_HOSTED_ZONE_LOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
     public enum AccountLimitType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case maxHealthChecksByOwner
         case maxHostedZonesByOwner
@@ -343,6 +390,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
         case apSoutheast7
         case caCentral1
         case caWest1
@@ -357,6 +405,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case euscDeEast1
         case ilCentral1
         case meCentral1
         case meSouth1
@@ -369,6 +418,7 @@ extension Route53ClientTypes {
         case usIsoEast1
         case usIsoWest1
         case usIsobEast1
+        case usIsobWest1
         case usIsofEast1
         case usIsofSouth1
         case usWest1
@@ -390,6 +440,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
                 .apSoutheast7,
                 .caCentral1,
                 .caWest1,
@@ -404,6 +455,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .euscDeEast1,
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
@@ -416,6 +468,7 @@ extension Route53ClientTypes {
                 .usIsoEast1,
                 .usIsoWest1,
                 .usIsobEast1,
+                .usIsobWest1,
                 .usIsofEast1,
                 .usIsofSouth1,
                 .usWest1,
@@ -443,6 +496,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
             case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
@@ -457,6 +511,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .euscDeEast1: return "eusc-de-east-1"
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
@@ -469,6 +524,7 @@ extension Route53ClientTypes {
             case .usIsoEast1: return "us-iso-east-1"
             case .usIsoWest1: return "us-iso-west-1"
             case .usIsobEast1: return "us-isob-east-1"
+            case .usIsobWest1: return "us-isob-west-1"
             case .usIsofEast1: return "us-isof-east-1"
             case .usIsofSouth1: return "us-isof-south-1"
             case .usWest1: return "us-west-1"
@@ -573,7 +629,7 @@ extension Route53ClientTypes {
         ///
         ///
         ///
-        /// When you create a load balancer, you configure settings for Elastic Load Balancing health checks; they're not Route 53 health checks, but they perform a similar function. Do not create Route 53 health checks for the EC2 instances that you register with an ELB load balancer. S3 buckets There are no special requirements for setting EvaluateTargetHealth to true when the alias target is an S3 bucket. Other records in the same hosted zone If the Amazon Web Services resource that you specify in DNSName is a record or a group of records (for example, a group of weighted records) but is not another alias record, we recommend that you associate a health check with all of the records in the alias target. For more information, see [What Happens When You Omit Health Checks?](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting) in the Amazon Route 53 Developer Guide. For more information and examples, see [Amazon Route 53 Health Checks and DNS Failover](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) in the Amazon Route 53 Developer Guide.
+        /// When you create a load balancer, you configure settings for Elastic Load Balancing health checks; they're not Route 53 health checks, but they perform a similar function. Do not create Route 53 health checks for the EC2 instances that you register with an ELB load balancer. API Gateway APIs There are no special requirements for setting EvaluateTargetHealth to true when the alias target is an API Gateway API. However, because API Gateway is highly available by design, EvaluateTargetHealth provides no operational benefit and [Route 53 health checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) are recommended instead for failover scenarios. S3 buckets There are no special requirements for setting EvaluateTargetHealth to true when the alias target is an S3 bucket. However, because S3 buckets are highly available by design, EvaluateTargetHealth provides no operational benefit and [Route 53 health checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) are recommended instead for failover scenarios. VPC interface endpoints There are no special requirements for setting EvaluateTargetHealth to true when the alias target is a VPC interface endpoint. However, because VPC interface endpoints are highly available by design, EvaluateTargetHealth provides no operational benefit and [Route 53 health checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) are recommended instead for failover scenarios. Other records in the same hosted zone If the Amazon Web Services resource that you specify in DNSName is a record or a group of records (for example, a group of weighted records) but is not another alias record, we recommend that you associate a health check with all of the records in the alias target. For more information, see [What Happens When You Omit Health Checks?](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting) in the Amazon Route 53 Developer Guide. While EvaluateTargetHealth can be set to true for highly available Amazon Web Services services (such as S3 buckets, VPC interface endpoints, and API Gateway), these services are designed for high availability and rarely experience outages that would be detected by this feature. For failover scenarios with these services, consider using [Route 53 health checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) that monitor your application's ability to access the service instead. For more information and examples, see [Amazon Route 53 Health Checks and DNS Failover](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) in the Amazon Route 53 Developer Guide.
         /// This member is required.
         public var evaluateTargetHealth: Swift.Bool
         /// Alias resource records sets only: The value used depends on where you want to route traffic: Amazon API Gateway custom regional APIs and edge-optimized APIs Specify the hosted zone ID for your API. You can get the applicable value using the CLI command [get-domain-names](https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html):
@@ -812,6 +868,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
         case apSoutheast7
         case caCentral1
         case caWest1
@@ -826,6 +883,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case euscDeEast1
         case ilCentral1
         case meCentral1
         case meSouth1
@@ -838,6 +896,7 @@ extension Route53ClientTypes {
         case usIsoEast1
         case usIsoWest1
         case usIsobEast1
+        case usIsobWest1
         case usIsofEast1
         case usIsofSouth1
         case usWest1
@@ -859,6 +918,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
                 .apSoutheast7,
                 .caCentral1,
                 .caWest1,
@@ -873,6 +933,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .euscDeEast1,
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
@@ -885,6 +946,7 @@ extension Route53ClientTypes {
                 .usIsoEast1,
                 .usIsoWest1,
                 .usIsobEast1,
+                .usIsobWest1,
                 .usIsofEast1,
                 .usIsofSouth1,
                 .usWest1,
@@ -912,6 +974,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
             case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
@@ -926,6 +989,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .euscDeEast1: return "eusc-de-east-1"
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
@@ -938,6 +1002,7 @@ extension Route53ClientTypes {
             case .usIsoEast1: return "us-iso-east-1"
             case .usIsoWest1: return "us-iso-west-1"
             case .usIsobEast1: return "us-isob-east-1"
+            case .usIsobWest1: return "us-isob-west-1"
             case .usIsofEast1: return "us-isof-east-1"
             case .usIsofSouth1: return "us-isof-south-1"
             case .usWest1: return "us-west-1"
@@ -1404,6 +1469,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
         case apSoutheast7
         case caCentral1
         case caWest1
@@ -1417,6 +1483,7 @@ extension Route53ClientTypes {
         case euWest1
         case euWest2
         case euWest3
+        case euscDeEast1
         case ilCentral1
         case meCentral1
         case meSouth1
@@ -1445,6 +1512,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
                 .apSoutheast7,
                 .caCentral1,
                 .caWest1,
@@ -1458,6 +1526,7 @@ extension Route53ClientTypes {
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .euscDeEast1,
                 .ilCentral1,
                 .meCentral1,
                 .meSouth1,
@@ -1492,6 +1561,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
             case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
@@ -1505,6 +1575,7 @@ extension Route53ClientTypes {
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .euscDeEast1: return "eusc-de-east-1"
             case .ilCentral1: return "il-central-1"
             case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
@@ -2289,7 +2360,7 @@ extension Route53ClientTypes {
         public var disabled: Swift.Bool?
         /// Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure. A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName. If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName, a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
         public var enableSNI: Swift.Bool?
-        /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see [How Amazon Route 53 Determines Whether an Endpoint Is Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html) in the Amazon Route 53 Developer Guide. If you don't specify a value for FailureThreshold, the default value is three health checks.
+        /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see [How Amazon Route 53 Determines Whether an Endpoint Is Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html) in the Amazon Route 53 Developer Guide. FailureThreshold is not supported when you specify a value for Type of RECOVERY_CONTROL. Otherwise, if you don't specify a value for FailureThreshold, the default value is three health checks.
         public var failureThreshold: Swift.Int?
         /// Amazon Route 53 behavior depends on whether you specify a value for IPAddress. If you specify a value for IPAddress: Amazon Route 53 sends health check requests to the specified IPv4 or IPv6 address and passes the value of FullyQualifiedDomainName in the Host header for all health checks except TCP health checks. This is typically the fully qualified DNS name of the endpoint on which you want Route 53 to perform health checks. When Route 53 checks the health of an endpoint, here is how it constructs the Host header:
         ///
@@ -2336,13 +2407,13 @@ extension Route53ClientTypes {
         ///
         /// When the value of Type is CALCULATED or CLOUDWATCH_METRIC, omit IPAddress.
         public var ipAddress: Swift.String?
-        /// Specify whether you want Amazon Route 53 to measure the latency between health checkers in multiple Amazon Web Services regions and your endpoint, and to display CloudWatch latency graphs on the Health Checks page in the Route 53 console. You can't change the value of MeasureLatency after you create a health check.
+        /// Specify whether you want Amazon Route 53 to measure the latency between health checkers in multiple Amazon Web Services regions and your endpoint, and to display CloudWatch latency graphs on the Health Checks page in the Route 53 console. MeasureLatency is not supported when you specify a value for Type of RECOVERY_CONTROL. You can't change the value of MeasureLatency after you create a health check.
         public var measureLatency: Swift.Bool?
         /// The port on the endpoint that you want Amazon Route 53 to perform health checks on. Don't specify a value for Port when you specify a value for Type of CLOUDWATCH_METRIC or CALCULATED.
         public var port: Swift.Int?
         /// A complex type that contains one Region element for each region from which you want Amazon Route 53 health checkers to check the specified endpoint. If you don't specify any regions, Route 53 health checkers automatically performs checks from all of the regions that are listed under Valid Values. If you update a health check to remove a region that has been performing health checks, Route 53 will briefly continue to perform checks from that region to ensure that some health checkers are always checking the endpoint (for example, if you replace three regions with four different regions).
         public var regions: [Route53ClientTypes.HealthCheckRegion]?
-        /// The number of seconds between the time that Amazon Route 53 gets a response from your endpoint and the time that it sends the next health check request. Each Route 53 health checker makes requests at this interval. You can't change the value of RequestInterval after you create a health check. If you don't specify a value for RequestInterval, the default value is 30 seconds.
+        /// The number of seconds between the time that Amazon Route 53 gets a response from your endpoint and the time that it sends the next health check request. Each Route 53 health checker makes requests at this interval. RequestInterval is not supported when you specify a value for Type of RECOVERY_CONTROL. You can't change the value of RequestInterval after you create a health check. If you don't specify a value for RequestInterval, the default value is 30 seconds.
         public var requestInterval: Swift.Int?
         /// The path, if any, that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example, the file /docs/route53-health-check.html. You can also include query string parameters, for example, /welcome.html?language=jp&login=y.
         public var resourcePath: Swift.String?
@@ -2419,7 +2490,7 @@ extension Route53ClientTypes {
 public struct CreateHealthCheckInput: Swift.Sendable {
     /// A unique string that identifies the request and that allows you to retry a failed CreateHealthCheck request without the risk of creating two identical health checks:
     ///
-    /// * If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Route 53 returns the settings for the existing health check.
+    /// * If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Route 53 returns the health check configuration in the response.
     ///
     /// * If you send a CreateHealthCheck request with the same CallerReference as a deleted health check, regardless of the settings, Route 53 returns a HealthCheckAlreadyExists error.
     ///
@@ -2890,6 +2961,40 @@ extension Route53ClientTypes {
 
 extension Route53ClientTypes {
 
+    /// Contains information about why certain features failed to be enabled or configured for the hosted zone.
+    public struct HostedZoneFailureReasons: Swift.Sendable {
+        /// The reason why accelerated recovery failed to be enabled or disabled for the hosted zone, if applicable.
+        public var acceleratedRecovery: Swift.String?
+
+        public init(
+            acceleratedRecovery: Swift.String? = nil
+        ) {
+            self.acceleratedRecovery = acceleratedRecovery
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// Represents the features configuration for a hosted zone, including the status of various features and any associated failure reasons.
+    public struct HostedZoneFeatures: Swift.Sendable {
+        /// The current status of accelerated recovery for the hosted zone.
+        public var acceleratedRecoveryStatus: Route53ClientTypes.AcceleratedRecoveryStatus?
+        /// Information about any failures that occurred when attempting to enable or configure features for the hosted zone.
+        public var failureReasons: Route53ClientTypes.HostedZoneFailureReasons?
+
+        public init(
+            acceleratedRecoveryStatus: Route53ClientTypes.AcceleratedRecoveryStatus? = nil,
+            failureReasons: Route53ClientTypes.HostedZoneFailureReasons? = nil
+        ) {
+            self.acceleratedRecoveryStatus = acceleratedRecoveryStatus
+            self.failureReasons = failureReasons
+        }
+    }
+}
+
+extension Route53ClientTypes {
+
     /// A complex type that contains general information about the hosted zone.
     public struct HostedZone: Swift.Sendable {
         /// The value that you specified for CallerReference when you created the hosted zone.
@@ -2897,6 +3002,8 @@ extension Route53ClientTypes {
         public var callerReference: Swift.String?
         /// A complex type that includes the Comment and PrivateZone elements. If you omitted the HostedZoneConfig and Comment elements from the request, the Config and Comment elements don't appear in the response.
         public var config: Route53ClientTypes.HostedZoneConfig?
+        /// The features configuration for the hosted zone, including accelerated recovery settings and status information.
+        public var features: Route53ClientTypes.HostedZoneFeatures?
         /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
         /// This member is required.
         public var id: Swift.String?
@@ -2911,6 +3018,7 @@ extension Route53ClientTypes {
         public init(
             callerReference: Swift.String? = nil,
             config: Route53ClientTypes.HostedZoneConfig? = nil,
+            features: Route53ClientTypes.HostedZoneFeatures? = nil,
             id: Swift.String? = nil,
             linkedService: Route53ClientTypes.LinkedService? = nil,
             name: Swift.String? = nil,
@@ -2918,6 +3026,7 @@ extension Route53ClientTypes {
         ) {
             self.callerReference = callerReference
             self.config = config
+            self.features = features
             self.id = id
             self.linkedService = linkedService
             self.name = name
@@ -6689,11 +6798,11 @@ public struct UpdateHealthCheckInput: Swift.Sendable {
     /// * Health checks that monitor CloudWatch alarms: Route 53 stops monitoring the corresponding CloudWatch metrics.
     ///
     ///
-    /// After you disable a health check, Route 53 considers the status of the health check to always be healthy. If you configured DNS failover, Route 53 continues to route traffic to the corresponding resources. If you want to stop routing traffic to a resource, change the value of [Inverted](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted). Charges for a health check still apply when the health check is disabled. For more information, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
+    /// After you disable a health check, Route 53 considers the status of the health check to always be healthy. If you configured DNS failover, Route 53 continues to route traffic to the corresponding resources. Additionally, in disabled state, you can also invert the status of the health check to route traffic differently. For more information, see [Inverted](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted). Charges for a health check still apply when the health check is disabled. For more information, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
     public var disabled: Swift.Bool?
     /// Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure. A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName. If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName, a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
     public var enableSNI: Swift.Bool?
-    /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see [How Amazon Route 53 Determines Whether an Endpoint Is Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html) in the Amazon Route 53 Developer Guide. If you don't specify a value for FailureThreshold, the default value is three health checks.
+    /// The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see [How Amazon Route 53 Determines Whether an Endpoint Is Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html) in the Amazon Route 53 Developer Guide. Otherwise, if you don't specify a value for FailureThreshold, the default value is three health checks.
     public var failureThreshold: Swift.Int?
     /// Amazon Route 53 behavior depends on whether you specify a value for IPAddress. If a health check already has a value for IPAddress, you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress. If you specify a value for IPAddress: Route 53 sends health check requests to the specified IPv4 or IPv6 address and passes the value of FullyQualifiedDomainName in the Host header for all health checks except TCP health checks. This is typically the fully qualified DNS name of the endpoint on which you want Route 53 to perform health checks. When Route 53 checks the health of an endpoint, here is how it constructs the Host header:
     ///
@@ -6852,6 +6961,27 @@ public struct UpdateHostedZoneCommentOutput: Swift.Sendable {
     ) {
         self.hostedZone = hostedZone
     }
+}
+
+public struct UpdateHostedZoneFeaturesInput: Swift.Sendable {
+    /// Specifies whether to enable accelerated recovery for the hosted zone. Set to true to enable accelerated recovery, or false to disable it.
+    public var enableAcceleratedRecovery: Swift.Bool?
+    /// The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone.
+    /// This member is required.
+    public var hostedZoneId: Swift.String?
+
+    public init(
+        enableAcceleratedRecovery: Swift.Bool? = nil,
+        hostedZoneId: Swift.String? = nil
+    ) {
+        self.enableAcceleratedRecovery = enableAcceleratedRecovery
+        self.hostedZoneId = hostedZoneId
+    }
+}
+
+public struct UpdateHostedZoneFeaturesOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// A complex type that contains information about the traffic policy that you want to update the comment for.
@@ -8000,6 +8130,16 @@ extension UpdateHostedZoneCommentInput {
     }
 }
 
+extension UpdateHostedZoneFeaturesInput {
+
+    static func urlPathProvider(_ value: UpdateHostedZoneFeaturesInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
+            return nil
+        }
+        return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/features"
+    }
+}
+
 extension UpdateTrafficPolicyCommentInput {
 
     static func urlPathProvider(_ value: UpdateTrafficPolicyCommentInput) -> Swift.String? {
@@ -8210,6 +8350,14 @@ extension UpdateHostedZoneCommentInput {
     static func write(value: UpdateHostedZoneCommentInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Comment"].write(value.comment)
+    }
+}
+
+extension UpdateHostedZoneFeaturesInput {
+
+    static func write(value: UpdateHostedZoneFeaturesInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["EnableAcceleratedRecovery"].write(value.enableAcceleratedRecovery)
     }
 }
 
@@ -9103,6 +9251,13 @@ extension UpdateHostedZoneCommentOutput {
         var value = UpdateHostedZoneCommentOutput()
         value.hostedZone = try reader["HostedZone"].readIfPresent(with: Route53ClientTypes.HostedZone.read(from:))
         return value
+    }
+}
+
+extension UpdateHostedZoneFeaturesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHostedZoneFeaturesOutput {
+        return UpdateHostedZoneFeaturesOutput()
     }
 }
 
@@ -10254,6 +10409,23 @@ enum UpdateHostedZoneCommentOutputError {
     }
 }
 
+enum UpdateHostedZoneFeaturesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "LimitsExceeded": return try LimitsExceeded.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateTrafficPolicyCommentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11343,6 +11515,28 @@ extension Route53ClientTypes.HostedZone {
         value.config = try reader["Config"].readIfPresent(with: Route53ClientTypes.HostedZoneConfig.read(from:))
         value.resourceRecordSetCount = try reader["ResourceRecordSetCount"].readIfPresent()
         value.linkedService = try reader["LinkedService"].readIfPresent(with: Route53ClientTypes.LinkedService.read(from:))
+        value.features = try reader["Features"].readIfPresent(with: Route53ClientTypes.HostedZoneFeatures.read(from:))
+        return value
+    }
+}
+
+extension Route53ClientTypes.HostedZoneFeatures {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneFeatures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneFeatures()
+        value.acceleratedRecoveryStatus = try reader["AcceleratedRecoveryStatus"].readIfPresent()
+        value.failureReasons = try reader["FailureReasons"].readIfPresent(with: Route53ClientTypes.HostedZoneFailureReasons.read(from:))
+        return value
+    }
+}
+
+extension Route53ClientTypes.HostedZoneFailureReasons {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneFailureReasons {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneFailureReasons()
+        value.acceleratedRecovery = try reader["AcceleratedRecovery"].readIfPresent()
         return value
     }
 }

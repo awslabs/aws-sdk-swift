@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Access is denied.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -630,11 +631,142 @@ extension WorkSpacesWebClientTypes.Tag: Swift.CustomDebugStringConvertible {
     }
 }
 
+extension WorkSpacesWebClientTypes {
+
+    public enum Category: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chat
+        case criminalActivity
+        case cults
+        case downloadSites
+        case gambling
+        case games
+        case generativeAi
+        case hacking
+        case hateAndIntolerance
+        case illegalDrug
+        case illegalSoftware
+        case imageSharing
+        case instantMessaging
+        case nudity
+        case parkedDomains
+        case peerToPeer
+        case pornography
+        case professionalNetwork
+        case schoolCheating
+        case selfHarm
+        case sexEducation
+        case socialNetworking
+        case streamingMediaAndDownloads
+        case tasteless
+        case violence
+        case weapons
+        case webBasedEmail
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Category] {
+            return [
+                .chat,
+                .criminalActivity,
+                .cults,
+                .downloadSites,
+                .gambling,
+                .games,
+                .generativeAi,
+                .hacking,
+                .hateAndIntolerance,
+                .illegalDrug,
+                .illegalSoftware,
+                .imageSharing,
+                .instantMessaging,
+                .nudity,
+                .parkedDomains,
+                .peerToPeer,
+                .pornography,
+                .professionalNetwork,
+                .schoolCheating,
+                .selfHarm,
+                .sexEducation,
+                .socialNetworking,
+                .streamingMediaAndDownloads,
+                .tasteless,
+                .violence,
+                .weapons,
+                .webBasedEmail
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chat: return "Chat"
+            case .criminalActivity: return "CriminalActivity"
+            case .cults: return "Cults"
+            case .downloadSites: return "DownloadSites"
+            case .gambling: return "Gambling"
+            case .games: return "Games"
+            case .generativeAi: return "GenerativeAI"
+            case .hacking: return "Hacking"
+            case .hateAndIntolerance: return "HateAndIntolerance"
+            case .illegalDrug: return "IllegalDrug"
+            case .illegalSoftware: return "IllegalSoftware"
+            case .imageSharing: return "ImageSharing"
+            case .instantMessaging: return "InstantMessaging"
+            case .nudity: return "Nudity"
+            case .parkedDomains: return "ParkedDomains"
+            case .peerToPeer: return "PeerToPeer"
+            case .pornography: return "Pornography"
+            case .professionalNetwork: return "ProfessionalNetwork"
+            case .schoolCheating: return "SchoolCheating"
+            case .selfHarm: return "SelfHarm"
+            case .sexEducation: return "SexEducation"
+            case .socialNetworking: return "SocialNetworking"
+            case .streamingMediaAndDownloads: return "StreamingMediaAndDownloads"
+            case .tasteless: return "Tasteless"
+            case .violence: return "Violence"
+            case .weapons: return "Weapons"
+            case .webBasedEmail: return "WebBasedEmail"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The policy that specifies which URLs end users are allowed to access or which URLs or domain categories they are restricted from accessing for enhanced security.
+    public struct WebContentFilteringPolicy: Swift.Sendable {
+        /// URLs and domains that are always accessible to end users.
+        public var allowedUrls: [Swift.String]?
+        /// Categories of websites that are blocked on the end user’s browsers.
+        public var blockedCategories: [WorkSpacesWebClientTypes.Category]?
+        /// URLs and domains that end users cannot access.
+        public var blockedUrls: [Swift.String]?
+
+        public init(
+            allowedUrls: [Swift.String]? = nil,
+            blockedCategories: [WorkSpacesWebClientTypes.Category]? = nil,
+            blockedUrls: [Swift.String]? = nil
+        ) {
+            self.allowedUrls = allowedUrls
+            self.blockedCategories = blockedCategories
+            self.blockedUrls = blockedUrls
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.WebContentFilteringPolicy: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WebContentFilteringPolicy(blockedCategories: \(Swift.String(describing: blockedCategories)), allowedUrls: \"CONTENT_REDACTED\", blockedUrls: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateBrowserSettingsInput: Swift.Sendable {
     /// Additional encryption context of the browser settings.
     public var additionalEncryptionContext: [Swift.String: Swift.String]?
     /// A JSON string containing Chrome Enterprise policies that will be applied to all streaming sessions.
-    /// This member is required.
     public var browserPolicy: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
@@ -642,25 +774,29 @@ public struct CreateBrowserSettingsInput: Swift.Sendable {
     public var customerManagedKey: Swift.String?
     /// The tags to add to the browser settings resource. A tag is a key-value pair.
     public var tags: [WorkSpacesWebClientTypes.Tag]?
+    /// The policy that specifies which URLs end users are allowed to access or which URLs or domain categories they are restricted from accessing for enhanced security.
+    public var webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy?
 
     public init(
         additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
         browserPolicy: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         customerManagedKey: Swift.String? = nil,
-        tags: [WorkSpacesWebClientTypes.Tag]? = nil
+        tags: [WorkSpacesWebClientTypes.Tag]? = nil,
+        webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy? = nil
     ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.browserPolicy = browserPolicy
         self.clientToken = clientToken
         self.customerManagedKey = customerManagedKey
         self.tags = tags
+        self.webContentFilteringPolicy = webContentFilteringPolicy
     }
 }
 
 extension CreateBrowserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBrowserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), browserPolicy: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateBrowserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), webContentFilteringPolicy: \(Swift.String(describing: webContentFilteringPolicy)), browserPolicy: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateBrowserSettingsOutput: Swift.Sendable {
@@ -719,26 +855,30 @@ extension WorkSpacesWebClientTypes {
         public var browserSettingsArn: Swift.String?
         /// The customer managed key used to encrypt sensitive information in the browser settings.
         public var customerManagedKey: Swift.String?
+        /// The policy that specifies which URLs end users are allowed to access or which URLs or domain categories they are restricted from accessing for enhanced security.
+        public var webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy?
 
         public init(
             additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
             associatedPortalArns: [Swift.String]? = nil,
             browserPolicy: Swift.String? = nil,
             browserSettingsArn: Swift.String? = nil,
-            customerManagedKey: Swift.String? = nil
+            customerManagedKey: Swift.String? = nil,
+            webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy? = nil
         ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.browserPolicy = browserPolicy
             self.browserSettingsArn = browserSettingsArn
             self.customerManagedKey = customerManagedKey
+            self.webContentFilteringPolicy = webContentFilteringPolicy
         }
     }
 }
 
 extension WorkSpacesWebClientTypes.BrowserSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BrowserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), browserPolicy: \"CONTENT_REDACTED\")"}
+        "BrowserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), webContentFilteringPolicy: \(Swift.String(describing: webContentFilteringPolicy)), browserPolicy: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetBrowserSettingsOutput: Swift.Sendable {
@@ -806,21 +946,25 @@ public struct UpdateBrowserSettingsInput: Swift.Sendable {
     public var browserSettingsArn: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
+    /// The policy that specifies which URLs end users are allowed to access or which URLs or domain categories they are restricted from accessing for enhanced security.
+    public var webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy?
 
     public init(
         browserPolicy: Swift.String? = nil,
         browserSettingsArn: Swift.String? = nil,
-        clientToken: Swift.String? = nil
+        clientToken: Swift.String? = nil,
+        webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy? = nil
     ) {
         self.browserPolicy = browserPolicy
         self.browserSettingsArn = browserSettingsArn
         self.clientToken = clientToken
+        self.webContentFilteringPolicy = webContentFilteringPolicy
     }
 }
 
 extension UpdateBrowserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBrowserSettingsInput(browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), clientToken: \(Swift.String(describing: clientToken)), browserPolicy: \"CONTENT_REDACTED\")"}
+        "UpdateBrowserSettingsInput(browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), clientToken: \(Swift.String(describing: clientToken)), webContentFilteringPolicy: \(Swift.String(describing: webContentFilteringPolicy)), browserPolicy: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateBrowserSettingsOutput: Swift.Sendable {
@@ -3171,6 +3315,7 @@ extension WorkSpacesWebClientTypes {
         case sessionStart
         case tabClose
         case tabOpen
+        case urlBlockByContentFilter
         case urlLoad
         case websiteInteract
         case sdkUnknown(Swift.String)
@@ -3191,6 +3336,7 @@ extension WorkSpacesWebClientTypes {
                 .sessionStart,
                 .tabClose,
                 .tabOpen,
+                .urlBlockByContentFilter,
                 .urlLoad,
                 .websiteInteract
             ]
@@ -3217,6 +3363,7 @@ extension WorkSpacesWebClientTypes {
             case .sessionStart: return "SessionStart"
             case .tabClose: return "TabClose"
             case .tabOpen: return "TabOpen"
+            case .urlBlockByContentFilter: return "UrlBlockByContentFilter"
             case .urlLoad: return "UrlLoad"
             case .websiteInteract: return "WebsiteInteract"
             case let .sdkUnknown(s): return s
@@ -4183,6 +4330,239 @@ public struct UpdateUserAccessLoggingSettingsOutput: Swift.Sendable {
 
 extension WorkSpacesWebClientTypes {
 
+    public enum ColorTheme: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dark
+        case light
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ColorTheme] {
+            return [
+                .dark,
+                .light
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dark: return "Dark"
+            case .light: return "Light"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum MimeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ico
+        case jpeg
+        case png
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MimeType] {
+            return [
+                .ico,
+                .jpeg,
+                .png
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ico: return "image/x-icon"
+            case .jpeg: return "image/jpeg"
+            case .png: return "image/png"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// Metadata information about an uploaded image file.
+    public struct ImageMetadata: Swift.Sendable {
+        /// The file extension of the image.
+        /// This member is required.
+        public var fileExtension: Swift.String?
+        /// The timestamp when the image was last uploaded.
+        /// This member is required.
+        public var lastUploadTimestamp: Foundation.Date?
+        /// The MIME type of the image.
+        /// This member is required.
+        public var mimeType: WorkSpacesWebClientTypes.MimeType?
+
+        public init(
+            fileExtension: Swift.String? = nil,
+            lastUploadTimestamp: Foundation.Date? = nil,
+            mimeType: WorkSpacesWebClientTypes.MimeType? = nil
+        ) {
+            self.fileExtension = fileExtension
+            self.lastUploadTimestamp = lastUploadTimestamp
+            self.mimeType = mimeType
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum Locale: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case br
+        case cn
+        case de
+        case en
+        case es
+        case fr
+        case id
+        case it
+        case jp
+        case kr
+        case tw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Locale] {
+            return [
+                .br,
+                .cn,
+                .de,
+                .en,
+                .es,
+                .fr,
+                .id,
+                .it,
+                .jp,
+                .kr,
+                .tw
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .br: return "pt-BR"
+            case .cn: return "zh-CN"
+            case .de: return "de-DE"
+            case .en: return "en-US"
+            case .es: return "es-ES"
+            case .fr: return "fr-FR"
+            case .id: return "id-ID"
+            case .it: return "it-IT"
+            case .jp: return "ja-JP"
+            case .kr: return "ko-KR"
+            case .tw: return "zh-TW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// Localized text strings for a specific language that customize the web portal.
+    public struct LocalizedBrandingStrings: Swift.Sendable {
+        /// The text displayed in the browser tab title.
+        /// This member is required.
+        public var browserTabTitle: Swift.String?
+        /// The text displayed on the contact button. This field is optional and defaults to "Contact us".
+        public var contactButtonText: Swift.String?
+        /// A contact link URL. The URL must start with https:// or mailto:. If not provided, the contact button will be hidden from the web portal screen.
+        public var contactLink: Swift.String?
+        /// The text displayed during session loading. This field is optional and defaults to "Loading your session".
+        public var loadingText: Swift.String?
+        /// The text displayed on the login button. This field is optional and defaults to "Sign In".
+        public var loginButtonText: Swift.String?
+        /// The description text for the login section. This field is optional and defaults to "Sign in to your session".
+        public var loginDescription: Swift.String?
+        /// The title text for the login section. This field is optional and defaults to "Sign In".
+        public var loginTitle: Swift.String?
+        /// The welcome text displayed on the sign-in page.
+        /// This member is required.
+        public var welcomeText: Swift.String?
+
+        public init(
+            browserTabTitle: Swift.String? = nil,
+            contactButtonText: Swift.String? = nil,
+            contactLink: Swift.String? = nil,
+            loadingText: Swift.String? = nil,
+            loginButtonText: Swift.String? = nil,
+            loginDescription: Swift.String? = nil,
+            loginTitle: Swift.String? = nil,
+            welcomeText: Swift.String? = nil
+        ) {
+            self.browserTabTitle = browserTabTitle
+            self.contactButtonText = contactButtonText
+            self.contactLink = contactLink
+            self.loadingText = loadingText
+            self.loginButtonText = loginButtonText
+            self.loginDescription = loginDescription
+            self.loginTitle = loginTitle
+            self.welcomeText = welcomeText
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The branding configuration output including custom images metadata, localized strings, color theme, and terms of service.
+    public struct BrandingConfiguration: Swift.Sendable {
+        /// The color theme for components on the web portal.
+        /// This member is required.
+        public var colorTheme: WorkSpacesWebClientTypes.ColorTheme?
+        /// Metadata for the favicon image file, including the MIME type, file extension, and upload timestamp.
+        /// This member is required.
+        public var favicon: WorkSpacesWebClientTypes.ImageMetadata?
+        /// A map of localized text strings for different languages, allowing the portal to display content in the user's preferred language.
+        /// This member is required.
+        public var localizedStrings: [Swift.String: WorkSpacesWebClientTypes.LocalizedBrandingStrings]?
+        /// Metadata for the logo image file, including the MIME type, file extension, and upload timestamp.
+        /// This member is required.
+        public var logo: WorkSpacesWebClientTypes.ImageMetadata?
+        /// The terms of service text in Markdown format that users must accept before accessing the portal.
+        public var termsOfService: Swift.String?
+        /// Metadata for the wallpaper image file, including the MIME type, file extension, and upload timestamp.
+        /// This member is required.
+        public var wallpaper: WorkSpacesWebClientTypes.ImageMetadata?
+
+        public init(
+            colorTheme: WorkSpacesWebClientTypes.ColorTheme? = nil,
+            favicon: WorkSpacesWebClientTypes.ImageMetadata? = nil,
+            localizedStrings: [Swift.String: WorkSpacesWebClientTypes.LocalizedBrandingStrings]? = nil,
+            logo: WorkSpacesWebClientTypes.ImageMetadata? = nil,
+            termsOfService: Swift.String? = nil,
+            wallpaper: WorkSpacesWebClientTypes.ImageMetadata? = nil
+        ) {
+            self.colorTheme = colorTheme
+            self.favicon = favicon
+            self.localizedStrings = localizedStrings
+            self.logo = logo
+            self.termsOfService = termsOfService
+            self.wallpaper = wallpaper
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.BrandingConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BrandingConfiguration(colorTheme: \(Swift.String(describing: colorTheme)), favicon: \(Swift.String(describing: favicon)), localizedStrings: \(Swift.String(describing: localizedStrings)), logo: \(Swift.String(describing: logo)), wallpaper: \(Swift.String(describing: wallpaper)), termsOfService: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+
     /// Specifies a single cookie or set of cookies in an end user's browser.
     public struct CookieSpecification: Swift.Sendable {
         /// The domain of the cookie.
@@ -4234,6 +4614,75 @@ extension WorkSpacesWebClientTypes.CookieSynchronizationConfiguration: Swift.Cus
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
     }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The input for an icon image (logo or favicon). Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+    public enum IconImageInput: Swift.Sendable {
+        /// The image provided as a binary image file.
+        case blob(Foundation.Data)
+        /// The S3 URI pointing to the image file. The URI must use the format s3://bucket-name/key-name. You must have read access to the S3 object.
+        case s3uri(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The input for a wallpaper image. Provide the image as either a binary image file or an S3 URI. Maximum 5 MB in JPEG or PNG format.
+    public enum WallpaperImageInput: Swift.Sendable {
+        /// The image provided as a binary image file.
+        case blob(Foundation.Data)
+        /// The S3 URI pointing to the image file. The URI must use the format s3://bucket-name/key-name. You must have read access to the S3 object.
+        case s3uri(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The input configuration for creating branding settings.
+    public struct BrandingConfigurationCreateInput: Swift.Sendable {
+        /// The color theme for components on the web portal. Choose Light if you upload a dark wallpaper, or Dark for a light wallpaper.
+        /// This member is required.
+        public var colorTheme: WorkSpacesWebClientTypes.ColorTheme?
+        /// The favicon image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+        /// This member is required.
+        public var favicon: WorkSpacesWebClientTypes.IconImageInput?
+        /// A map of localized text strings for different supported languages. Each locale must provide the required fields browserTabTitle and welcomeText.
+        /// This member is required.
+        public var localizedStrings: [Swift.String: WorkSpacesWebClientTypes.LocalizedBrandingStrings]?
+        /// The logo image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+        /// This member is required.
+        public var logo: WorkSpacesWebClientTypes.IconImageInput?
+        /// The terms of service text in Markdown format. Users will be presented with the terms of service after successfully signing in.
+        public var termsOfService: Swift.String?
+        /// The wallpaper image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 5 MB in JPEG or PNG format.
+        /// This member is required.
+        public var wallpaper: WorkSpacesWebClientTypes.WallpaperImageInput?
+
+        public init(
+            colorTheme: WorkSpacesWebClientTypes.ColorTheme? = nil,
+            favicon: WorkSpacesWebClientTypes.IconImageInput? = nil,
+            localizedStrings: [Swift.String: WorkSpacesWebClientTypes.LocalizedBrandingStrings]? = nil,
+            logo: WorkSpacesWebClientTypes.IconImageInput? = nil,
+            termsOfService: Swift.String? = nil,
+            wallpaper: WorkSpacesWebClientTypes.WallpaperImageInput? = nil
+        ) {
+            self.colorTheme = colorTheme
+            self.favicon = favicon
+            self.localizedStrings = localizedStrings
+            self.logo = logo
+            self.termsOfService = termsOfService
+            self.wallpaper = wallpaper
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.BrandingConfigurationCreateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BrandingConfigurationCreateInput(colorTheme: \(Swift.String(describing: colorTheme)), favicon: \(Swift.String(describing: favicon)), localizedStrings: \(Swift.String(describing: localizedStrings)), logo: \(Swift.String(describing: logo)), wallpaper: \(Swift.String(describing: wallpaper)), termsOfService: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
@@ -4438,6 +4887,8 @@ extension WorkSpacesWebClientTypes {
 public struct CreateUserSettingsInput: Swift.Sendable {
     /// The additional encryption context of the user settings.
     public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// The branding configuration input that customizes the appearance of the web portal for end users. This includes a custom logo, favicon, wallpaper, localized strings, color theme, and an optional terms of service.
+    public var brandingConfigurationInput: WorkSpacesWebClientTypes.BrandingConfigurationCreateInput?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
@@ -4469,9 +4920,12 @@ public struct CreateUserSettingsInput: Swift.Sendable {
     /// Specifies whether the user can upload files from the local device to the streaming session.
     /// This member is required.
     public var uploadAllowed: WorkSpacesWebClientTypes.EnabledType?
+    /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+    public var webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType?
 
     public init(
         additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        brandingConfigurationInput: WorkSpacesWebClientTypes.BrandingConfigurationCreateInput? = nil,
         clientToken: Swift.String? = nil,
         cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
         copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
@@ -4484,9 +4938,11 @@ public struct CreateUserSettingsInput: Swift.Sendable {
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil,
         toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
-        uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
+        uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+        webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
     ) {
         self.additionalEncryptionContext = additionalEncryptionContext
+        self.brandingConfigurationInput = brandingConfigurationInput
         self.clientToken = clientToken
         self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
         self.copyAllowed = copyAllowed
@@ -4500,12 +4956,13 @@ public struct CreateUserSettingsInput: Swift.Sendable {
         self.tags = tags
         self.toolbarConfiguration = toolbarConfiguration
         self.uploadAllowed = uploadAllowed
+        self.webAuthnAllowed = webAuthnAllowed
     }
 }
 
 extension CreateUserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), brandingConfigurationInput: \(Swift.String(describing: brandingConfigurationInput)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), webAuthnAllowed: \(Swift.String(describing: webAuthnAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateUserSettingsOutput: Swift.Sendable {
@@ -4557,6 +5014,8 @@ extension WorkSpacesWebClientTypes {
         public var additionalEncryptionContext: [Swift.String: Swift.String]?
         /// A list of web portal ARNs that this user settings is associated with.
         public var associatedPortalArns: [Swift.String]?
+        /// The branding configuration output that customizes the appearance of the web portal for end users.
+        public var brandingConfiguration: WorkSpacesWebClientTypes.BrandingConfiguration?
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
         public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
@@ -4582,10 +5041,13 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the user settings.
         /// This member is required.
         public var userSettingsArn: Swift.String?
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public var webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType?
 
         public init(
             additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
             associatedPortalArns: [Swift.String]? = nil,
+            brandingConfiguration: WorkSpacesWebClientTypes.BrandingConfiguration? = nil,
             cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
             copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             customerManagedKey: Swift.String? = nil,
@@ -4597,10 +5059,12 @@ extension WorkSpacesWebClientTypes {
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
-            userSettingsArn: Swift.String? = nil
+            userSettingsArn: Swift.String? = nil,
+            webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
         ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
+            self.brandingConfiguration = brandingConfiguration
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.customerManagedKey = customerManagedKey
@@ -4613,13 +5077,14 @@ extension WorkSpacesWebClientTypes {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
     }
 }
 
 extension WorkSpacesWebClientTypes.UserSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), brandingConfiguration: \(Swift.String(describing: brandingConfiguration)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), webAuthnAllowed: \(Swift.String(describing: webAuthnAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetUserSettingsOutput: Swift.Sendable {
@@ -4652,6 +5117,8 @@ extension WorkSpacesWebClientTypes {
 
     /// The summary of user settings.
     public struct UserSettingsSummary: Swift.Sendable {
+        /// The branding configuration output that customizes the appearance of the web portal for end users.
+        public var brandingConfiguration: WorkSpacesWebClientTypes.BrandingConfiguration?
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
         public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
@@ -4675,8 +5142,11 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the user settings.
         /// This member is required.
         public var userSettingsArn: Swift.String?
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public var webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType?
 
         public init(
+            brandingConfiguration: WorkSpacesWebClientTypes.BrandingConfiguration? = nil,
             cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
             copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             deepLinkAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
@@ -4687,8 +5157,10 @@ extension WorkSpacesWebClientTypes {
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
-            userSettingsArn: Swift.String? = nil
+            userSettingsArn: Swift.String? = nil,
+            webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
         ) {
+            self.brandingConfiguration = brandingConfiguration
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.deepLinkAllowed = deepLinkAllowed
@@ -4700,13 +5172,14 @@ extension WorkSpacesWebClientTypes {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
     }
 }
 
 extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettingsSummary(copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettingsSummary(brandingConfiguration: \(Swift.String(describing: brandingConfiguration)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), webAuthnAllowed: \(Swift.String(describing: webAuthnAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListUserSettingsOutput: Swift.Sendable {
@@ -4724,7 +5197,49 @@ public struct ListUserSettingsOutput: Swift.Sendable {
     }
 }
 
+extension WorkSpacesWebClientTypes {
+
+    /// The input configuration for updating branding settings. All fields are optional when updating existing branding.
+    public struct BrandingConfigurationUpdateInput: Swift.Sendable {
+        /// The color theme for components on the web portal. Choose Light if you upload a dark wallpaper, or Dark for a light wallpaper.
+        public var colorTheme: WorkSpacesWebClientTypes.ColorTheme?
+        /// The favicon image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+        public var favicon: WorkSpacesWebClientTypes.IconImageInput?
+        /// A map of localized text strings for different supported languages. Each locale must provide the required fields browserTabTitle and welcomeText.
+        public var localizedStrings: [Swift.String: WorkSpacesWebClientTypes.LocalizedBrandingStrings]?
+        /// The logo image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+        public var logo: WorkSpacesWebClientTypes.IconImageInput?
+        /// The terms of service text in Markdown format. To remove existing terms of service, provide an empty string.
+        public var termsOfService: Swift.String?
+        /// The wallpaper image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 5 MB in JPEG or PNG format.
+        public var wallpaper: WorkSpacesWebClientTypes.WallpaperImageInput?
+
+        public init(
+            colorTheme: WorkSpacesWebClientTypes.ColorTheme? = nil,
+            favicon: WorkSpacesWebClientTypes.IconImageInput? = nil,
+            localizedStrings: [Swift.String: WorkSpacesWebClientTypes.LocalizedBrandingStrings]? = nil,
+            logo: WorkSpacesWebClientTypes.IconImageInput? = nil,
+            termsOfService: Swift.String? = nil,
+            wallpaper: WorkSpacesWebClientTypes.WallpaperImageInput? = nil
+        ) {
+            self.colorTheme = colorTheme
+            self.favicon = favicon
+            self.localizedStrings = localizedStrings
+            self.logo = logo
+            self.termsOfService = termsOfService
+            self.wallpaper = wallpaper
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.BrandingConfigurationUpdateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BrandingConfigurationUpdateInput(colorTheme: \(Swift.String(describing: colorTheme)), favicon: \(Swift.String(describing: favicon)), localizedStrings: \(Swift.String(describing: localizedStrings)), logo: \(Swift.String(describing: logo)), wallpaper: \(Swift.String(describing: wallpaper)), termsOfService: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateUserSettingsInput: Swift.Sendable {
+    /// The branding configuration that customizes the appearance of the web portal for end users. When updating user settings without an existing branding configuration, all fields (logo, favicon, wallpaper, localized strings, and color theme) are required except for terms of service. When updating user settings with an existing branding configuration, all fields are optional.
+    public var brandingConfigurationInput: WorkSpacesWebClientTypes.BrandingConfigurationUpdateInput?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
     /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser. If the allowlist and blocklist are empty, the configuration becomes null.
@@ -4750,8 +5265,11 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
     /// The ARN of the user settings.
     /// This member is required.
     public var userSettingsArn: Swift.String?
+    /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+    public var webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType?
 
     public init(
+        brandingConfigurationInput: WorkSpacesWebClientTypes.BrandingConfigurationUpdateInput? = nil,
         clientToken: Swift.String? = nil,
         cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
         copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
@@ -4763,8 +5281,10 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
-        userSettingsArn: Swift.String? = nil
+        userSettingsArn: Swift.String? = nil,
+        webAuthnAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
     ) {
+        self.brandingConfigurationInput = brandingConfigurationInput
         self.clientToken = clientToken
         self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
         self.copyAllowed = copyAllowed
@@ -4777,12 +5297,13 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         self.toolbarConfiguration = toolbarConfiguration
         self.uploadAllowed = uploadAllowed
         self.userSettingsArn = userSettingsArn
+        self.webAuthnAllowed = webAuthnAllowed
     }
 }
 
 extension UpdateUserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateUserSettingsInput(clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UpdateUserSettingsInput(brandingConfigurationInput: \(Swift.String(describing: brandingConfigurationInput)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), webAuthnAllowed: \(Swift.String(describing: webAuthnAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateUserSettingsOutput: Swift.Sendable {
@@ -5855,6 +6376,7 @@ extension CreateBrowserSettingsInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["customerManagedKey"].write(value.customerManagedKey)
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["webContentFilteringPolicy"].write(value.webContentFilteringPolicy, with: WorkSpacesWebClientTypes.WebContentFilteringPolicy.write(value:to:))
     }
 }
 
@@ -5965,6 +6487,7 @@ extension CreateUserSettingsInput {
     static func write(value: CreateUserSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["additionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["brandingConfigurationInput"].write(value.brandingConfigurationInput, with: WorkSpacesWebClientTypes.BrandingConfigurationCreateInput.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["cookieSynchronizationConfiguration"].write(value.cookieSynchronizationConfiguration, with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.write(value:to:))
         try writer["copyAllowed"].write(value.copyAllowed)
@@ -5978,6 +6501,7 @@ extension CreateUserSettingsInput {
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["toolbarConfiguration"].write(value.toolbarConfiguration, with: WorkSpacesWebClientTypes.ToolbarConfiguration.write(value:to:))
         try writer["uploadAllowed"].write(value.uploadAllowed)
+        try writer["webAuthnAllowed"].write(value.webAuthnAllowed)
     }
 }
 
@@ -5996,6 +6520,7 @@ extension UpdateBrowserSettingsInput {
         guard let value else { return }
         try writer["browserPolicy"].write(value.browserPolicy)
         try writer["clientToken"].write(value.clientToken)
+        try writer["webContentFilteringPolicy"].write(value.webContentFilteringPolicy, with: WorkSpacesWebClientTypes.WebContentFilteringPolicy.write(value:to:))
     }
 }
 
@@ -6087,6 +6612,7 @@ extension UpdateUserSettingsInput {
 
     static func write(value: UpdateUserSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["brandingConfigurationInput"].write(value.brandingConfigurationInput, with: WorkSpacesWebClientTypes.BrandingConfigurationUpdateInput.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["cookieSynchronizationConfiguration"].write(value.cookieSynchronizationConfiguration, with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.write(value:to:))
         try writer["copyAllowed"].write(value.copyAllowed)
@@ -6098,6 +6624,7 @@ extension UpdateUserSettingsInput {
         try writer["printAllowed"].write(value.printAllowed)
         try writer["toolbarConfiguration"].write(value.toolbarConfiguration, with: WorkSpacesWebClientTypes.ToolbarConfiguration.write(value:to:))
         try writer["uploadAllowed"].write(value.uploadAllowed)
+        try writer["webAuthnAllowed"].write(value.webAuthnAllowed)
     }
 }
 
@@ -7258,6 +7785,7 @@ enum CreateUserSettingsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -8428,6 +8956,26 @@ extension WorkSpacesWebClientTypes.BrowserSettings {
         value.browserPolicy = try reader["browserPolicy"].readIfPresent()
         value.customerManagedKey = try reader["customerManagedKey"].readIfPresent()
         value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.webContentFilteringPolicy = try reader["webContentFilteringPolicy"].readIfPresent(with: WorkSpacesWebClientTypes.WebContentFilteringPolicy.read(from:))
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.WebContentFilteringPolicy {
+
+    static func write(value: WorkSpacesWebClientTypes.WebContentFilteringPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedUrls"].writeList(value.allowedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["blockedCategories"].writeList(value.blockedCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkSpacesWebClientTypes.Category>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["blockedUrls"].writeList(value.blockedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.WebContentFilteringPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.WebContentFilteringPolicy()
+        value.blockedCategories = try reader["blockedCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkSpacesWebClientTypes.Category>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedUrls = try reader["allowedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.blockedUrls = try reader["blockedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8793,6 +9341,64 @@ extension WorkSpacesWebClientTypes.UserSettings {
         value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.deepLinkAllowed = try reader["deepLinkAllowed"].readIfPresent()
         value.toolbarConfiguration = try reader["toolbarConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.ToolbarConfiguration.read(from:))
+        value.brandingConfiguration = try reader["brandingConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.BrandingConfiguration.read(from:))
+        value.webAuthnAllowed = try reader["webAuthnAllowed"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.BrandingConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.BrandingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.BrandingConfiguration()
+        value.logo = try reader["logo"].readIfPresent(with: WorkSpacesWebClientTypes.ImageMetadata.read(from:))
+        value.wallpaper = try reader["wallpaper"].readIfPresent(with: WorkSpacesWebClientTypes.ImageMetadata.read(from:))
+        value.favicon = try reader["favicon"].readIfPresent(with: WorkSpacesWebClientTypes.ImageMetadata.read(from:))
+        value.localizedStrings = try reader["localizedStrings"].readMapIfPresent(valueReadingClosure: WorkSpacesWebClientTypes.LocalizedBrandingStrings.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.colorTheme = try reader["colorTheme"].readIfPresent() ?? .sdkUnknown("")
+        value.termsOfService = try reader["termsOfService"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.LocalizedBrandingStrings {
+
+    static func write(value: WorkSpacesWebClientTypes.LocalizedBrandingStrings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["browserTabTitle"].write(value.browserTabTitle)
+        try writer["contactButtonText"].write(value.contactButtonText)
+        try writer["contactLink"].write(value.contactLink)
+        try writer["loadingText"].write(value.loadingText)
+        try writer["loginButtonText"].write(value.loginButtonText)
+        try writer["loginDescription"].write(value.loginDescription)
+        try writer["loginTitle"].write(value.loginTitle)
+        try writer["welcomeText"].write(value.welcomeText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.LocalizedBrandingStrings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.LocalizedBrandingStrings()
+        value.browserTabTitle = try reader["browserTabTitle"].readIfPresent() ?? ""
+        value.welcomeText = try reader["welcomeText"].readIfPresent() ?? ""
+        value.loginTitle = try reader["loginTitle"].readIfPresent()
+        value.loginDescription = try reader["loginDescription"].readIfPresent()
+        value.loginButtonText = try reader["loginButtonText"].readIfPresent()
+        value.contactLink = try reader["contactLink"].readIfPresent()
+        value.contactButtonText = try reader["contactButtonText"].readIfPresent()
+        value.loadingText = try reader["loadingText"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.ImageMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.ImageMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.ImageMetadata()
+        value.mimeType = try reader["mimeType"].readIfPresent() ?? .sdkUnknown("")
+        value.fileExtension = try reader["fileExtension"].readIfPresent() ?? ""
+        value.lastUploadTimestamp = try reader["lastUploadTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -9036,6 +9642,8 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary {
         value.cookieSynchronizationConfiguration = try reader["cookieSynchronizationConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.read(from:))
         value.deepLinkAllowed = try reader["deepLinkAllowed"].readIfPresent()
         value.toolbarConfiguration = try reader["toolbarConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.ToolbarConfiguration.read(from:))
+        value.brandingConfiguration = try reader["brandingConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.BrandingConfiguration.read(from:))
+        value.webAuthnAllowed = try reader["webAuthnAllowed"].readIfPresent()
         return value
     }
 }
@@ -9048,6 +9656,62 @@ extension WorkSpacesWebClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.BrandingConfigurationCreateInput {
+
+    static func write(value: WorkSpacesWebClientTypes.BrandingConfigurationCreateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["colorTheme"].write(value.colorTheme)
+        try writer["favicon"].write(value.favicon, with: WorkSpacesWebClientTypes.IconImageInput.write(value:to:))
+        try writer["localizedStrings"].writeMap(value.localizedStrings, valueWritingClosure: WorkSpacesWebClientTypes.LocalizedBrandingStrings.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["logo"].write(value.logo, with: WorkSpacesWebClientTypes.IconImageInput.write(value:to:))
+        try writer["termsOfService"].write(value.termsOfService)
+        try writer["wallpaper"].write(value.wallpaper, with: WorkSpacesWebClientTypes.WallpaperImageInput.write(value:to:))
+    }
+}
+
+extension WorkSpacesWebClientTypes.IconImageInput {
+
+    static func write(value: WorkSpacesWebClientTypes.IconImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .blob(blob):
+                try writer["blob"].write(blob)
+            case let .s3uri(s3uri):
+                try writer["s3Uri"].write(s3uri)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.WallpaperImageInput {
+
+    static func write(value: WorkSpacesWebClientTypes.WallpaperImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .blob(blob):
+                try writer["blob"].write(blob)
+            case let .s3uri(s3uri):
+                try writer["s3Uri"].write(s3uri)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.BrandingConfigurationUpdateInput {
+
+    static func write(value: WorkSpacesWebClientTypes.BrandingConfigurationUpdateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["colorTheme"].write(value.colorTheme)
+        try writer["favicon"].write(value.favicon, with: WorkSpacesWebClientTypes.IconImageInput.write(value:to:))
+        try writer["localizedStrings"].writeMap(value.localizedStrings, valueWritingClosure: WorkSpacesWebClientTypes.LocalizedBrandingStrings.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["logo"].write(value.logo, with: WorkSpacesWebClientTypes.IconImageInput.write(value:to:))
+        try writer["termsOfService"].write(value.termsOfService)
+        try writer["wallpaper"].write(value.wallpaper, with: WorkSpacesWebClientTypes.WallpaperImageInput.write(value:to:))
     }
 }
 

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudWatchLogsClient: ClientRuntime.Client {
+public class CloudWatchLogsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudWatchLogsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudWatchLogsClient.CloudWatchLogsClientConfiguration
     let serviceName = "CloudWatch Logs"
@@ -380,9 +380,9 @@ extension CloudWatchLogsClient {
     ///
     /// If you delete the key that is used to encrypt log events or log group query results, then all the associated stored log events or query results that were encrypted with that key will be unencryptable and unusable. CloudWatch Logs supports only symmetric KMS keys. Do not associate an asymmetric KMS key with your log group or query results. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html). It can take up to 5 minutes for this operation to take effect. If you attempt to associate a KMS key with a log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error.
     ///
-    /// - Parameter AssociateKmsKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateKmsKeyInput`)
     ///
-    /// - Returns: `AssociateKmsKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateKmsKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,6 +417,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateKmsKeyInput, AssociateKmsKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateKmsKeyOutput>(AssociateKmsKeyOutput.httpOutput(from:), AssociateKmsKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateKmsKeyInput, AssociateKmsKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateKmsKeyOutput>())
@@ -447,13 +448,86 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateSourceToS3TableIntegration` operation on the `CloudWatchLogs` service.
+    ///
+    /// Associates a data source with an S3 Table Integration for query access in the 'logs' namespace. This enables querying log data using analytics engines that support Iceberg such as Amazon Athena, Amazon Redshift, and Apache Spark.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceToS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateSourceToS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func associateSourceToS3TableIntegration(input: AssociateSourceToS3TableIntegrationInput) async throws -> AssociateSourceToS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateSourceToS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(AssociateSourceToS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSourceToS3TableIntegrationOutput>(AssociateSourceToS3TableIntegrationOutput.httpOutput(from:), AssociateSourceToS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceToS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateSourceToS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(xAmzTarget: "Logs_20140328.AssociateSourceToS3TableIntegration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateSourceToS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSourceToS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateSourceToS3TableIntegrationInput, AssociateSourceToS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateSourceToS3TableIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CancelExportTask` operation on the `CloudWatchLogs` service.
     ///
     /// Cancels the specified export task. The task must be in the PENDING or RUNNING state.
     ///
-    /// - Parameter CancelExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelExportTaskInput`)
     ///
-    /// - Returns: `CancelExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +562,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelExportTaskInput, CancelExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelExportTaskOutput>(CancelExportTaskOutput.httpOutput(from:), CancelExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelExportTaskInput, CancelExportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelExportTaskOutput>())
@@ -518,6 +593,79 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CancelImportTask` operation on the `CloudWatchLogs` service.
+    ///
+    /// Cancels an active import task and stops importing data from the CloudTrail Lake Event Data Store.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelImportTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelImportTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    public func cancelImportTask(input: CancelImportTaskInput) async throws -> CancelImportTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelImportTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelImportTaskInput, CancelImportTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(CancelImportTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelImportTaskInput, CancelImportTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelImportTaskInput, CancelImportTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelImportTaskOutput>(CancelImportTaskOutput.httpOutput(from:), CancelImportTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelImportTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelImportTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(xAmzTarget: "Logs_20140328.CancelImportTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelImportTaskInput, CancelImportTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelImportTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelImportTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelImportTaskInput, CancelImportTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelImportTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateDelivery` operation on the `CloudWatchLogs` service.
     ///
     /// Creates a delivery. A delivery is a connection between a logical delivery source and a logical delivery destination that you have already created. Only some Amazon Web Services services support being configured as a delivery source using this operation. These services are listed as Supported [V2 Permissions] in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) A delivery destination can represent a log group in CloudWatch Logs, an Amazon S3 bucket, a delivery stream in Firehose, or X-Ray. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
@@ -533,9 +681,9 @@ extension CloudWatchLogsClient {
     ///
     /// You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. To update an existing delivery configuration, use [UpdateDeliveryConfiguration](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateDeliveryConfiguration.html).
     ///
-    /// - Parameter CreateDeliveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeliveryInput`)
     ///
-    /// - Returns: `CreateDeliveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeliveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -573,6 +721,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeliveryInput, CreateDeliveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeliveryOutput>(CreateDeliveryOutput.httpOutput(from:), CreateDeliveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeliveryInput, CreateDeliveryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeliveryOutput>())
@@ -607,9 +756,9 @@ extension CloudWatchLogsClient {
     ///
     /// Creates an export task so that you can efficiently export data from a log group to an Amazon S3 bucket. When you perform a CreateExportTask operation, you must use credentials that have permission to write to the S3 bucket that you specify as the destination. Exporting log data to S3 buckets that are encrypted by KMS is supported. Exporting log data to Amazon S3 buckets that have S3 Object Lock enabled with a retention period is also supported. Exporting to S3 buckets that are encrypted with AES-256 is supported. This is an asynchronous call. If all the required information is provided, this operation initiates an export task and responds with the ID of the task. After the task has started, you can use [DescribeExportTasks](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeExportTasks.html) to get the status of the export task. Each account can only have one active (RUNNING or PENDING) export task at a time. To cancel an export task, use [CancelExportTask](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CancelExportTask.html). You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate log data for each export task, specify a prefix to be used as the Amazon S3 key prefix for all exported objects. We recommend that you don't regularly export to Amazon S3 as a way to continuously archive your logs. For that use case, we instead recommend that you use subscriptions. For more information about subscriptions, see [Real-time processing of log data with subscriptions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions.html). Time-based sorting on chunks of log data inside an exported file is not guaranteed. You can sort the exported log field data by using Linux utilities.
     ///
-    /// - Parameter CreateExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExportTaskInput`)
     ///
-    /// - Returns: `CreateExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -646,6 +795,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExportTaskInput, CreateExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExportTaskOutput>(CreateExportTaskOutput.httpOutput(from:), CreateExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExportTaskInput, CreateExportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExportTaskOutput>())
@@ -676,13 +826,117 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateImportTask` operation on the `CloudWatchLogs` service.
+    ///
+    /// Starts an import from a data source to CloudWatch Log and creates a managed log group as the destination for the imported data. Currently, [CloudTrail Event Data Store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html) is the only supported data source. The import task must satisfy the following constraints:
+    ///
+    /// * The specified source must be in an ACTIVE state.
+    ///
+    /// * The API caller must have permissions to access the data in the provided source and to perform iam:PassRole on the provided import role which has the same permissions, as described below.
+    ///
+    /// * The provided IAM role must trust the "cloudtrail.amazonaws.com" principal and have the following permissions:
+    ///
+    /// * cloudtrail:GetEventDataStoreData
+    ///
+    /// * logs:CreateLogGroup
+    ///
+    /// * logs:CreateLogStream
+    ///
+    /// * logs:PutResourcePolicy
+    ///
+    /// * (If source has an associated AWS KMS Key) kms:Decrypt
+    ///
+    /// * (If source has an associated AWS KMS Key) kms:GenerateDataKey
+    ///
+    ///
+    /// Example IAM policy for provided import role: [ { "Effect": "Allow", "Action": "iam:PassRole", "Resource": "arn:aws:iam::123456789012:role/apiCallerCredentials", "Condition": { "StringLike": { "iam:AssociatedResourceARN": "arn:aws:logs:us-east-1:123456789012:log-group:aws/cloudtrail/f1d45bff-d0e3-4868-b5d9-2eb678aa32fb:*" } } }, { "Effect": "Allow", "Action": [ "cloudtrail:GetEventDataStoreData" ], "Resource": [ "arn:aws:cloudtrail:us-east-1:123456789012:eventdatastore/f1d45bff-d0e3-4868-b5d9-2eb678aa32fb" ] }, { "Effect": "Allow", "Action": [ "logs:CreateImportTask", "logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutResourcePolicy" ], "Resource": [ "arn:aws:logs:us-east-1:123456789012:log-group:/aws/cloudtrail/*" ] }, { "Effect": "Allow", "Action": [ "kms:Decrypt", "kms:GenerateDataKey" ], "Resource": [ "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012" ] } ]
+    ///
+    /// * If the import source has a customer managed key, the "cloudtrail.amazonaws.com" principal needs permissions to perform kms:Decrypt and kms:GenerateDataKey.
+    ///
+    /// * There can be no more than 3 active imports per account at a given time.
+    ///
+    /// * The startEventTime must be less than or equal to endEventTime.
+    ///
+    /// * The data being imported must be within the specified source's retention period.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateImportTaskInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateImportTaskOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `ConflictException` : This operation attempted to create a resource that already exists.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func createImportTask(input: CreateImportTaskInput) async throws -> CreateImportTaskOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createImportTask")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateImportTaskInput, CreateImportTaskOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(CreateImportTaskInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateImportTaskInput, CreateImportTaskOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImportTaskInput, CreateImportTaskOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImportTaskOutput>(CreateImportTaskOutput.httpOutput(from:), CreateImportTaskOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateImportTaskOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImportTaskOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(xAmzTarget: "Logs_20140328.CreateImportTask"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateImportTaskInput, CreateImportTaskOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateImportTaskInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImportTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateImportTaskInput, CreateImportTaskOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateImportTaskInput, CreateImportTaskOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateImportTask")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateLogAnomalyDetector` operation on the `CloudWatchLogs` service.
     ///
     /// Creates an anomaly detector that regularly scans one or more log groups and look for patterns and anomalies in the logs. An anomaly detector can help surface issues by automatically discovering anomalies in your log event traffic. An anomaly detector uses machine learning algorithms to scan log events and find patterns. A pattern is a shared text structure that recurs among your log fields. Patterns provide a useful tool for analyzing large sets of logs because a large number of log events can often be compressed into a few patterns. The anomaly detector uses pattern recognition to find anomalies, which are unusual log events. It uses the evaluationFrequency to compare current log events and patterns with trained baselines. Fields within a pattern are called tokens. Fields that vary within a pattern, such as a request ID or timestamp, are referred to as dynamic tokens and represented by <*>. The following is an example of a pattern: [INFO] Request time: <*> ms This pattern represents log events like [INFO] Request time: 327 ms and other similar log events that differ only by the number, in this csse 327. When the pattern is displayed, the different numbers are replaced by <*> Any parts of log events that are masked as sensitive data are not scanned for anomalies. For more information about masking sensitive data, see [Help protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html).
     ///
-    /// - Parameter CreateLogAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLogAnomalyDetectorInput`)
     ///
-    /// - Returns: `CreateLogAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLogAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,6 +972,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLogAnomalyDetectorInput, CreateLogAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLogAnomalyDetectorOutput>(CreateLogAnomalyDetectorOutput.httpOutput(from:), CreateLogAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLogAnomalyDetectorInput, CreateLogAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLogAnomalyDetectorOutput>())
@@ -763,9 +1018,9 @@ extension CloudWatchLogsClient {
     ///
     /// When you create a log group, by default the log events in the log group do not expire. To set a retention policy so that events expire and are deleted after a specified time, use [PutRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutRetentionPolicy.html). If you associate an KMS key with the log group, ingested data is encrypted using the KMS key. This association is stored as long as the data encrypted with the KMS key is still within CloudWatch Logs. This enables CloudWatch Logs to decrypt this data whenever it is requested. If you attempt to associate a KMS key with the log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error. CloudWatch Logs supports only symmetric KMS keys. Do not associate an asymmetric KMS key with your log group. For more information, see [Using Symmetric and Asymmetric Keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html).
     ///
-    /// - Parameter CreateLogGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLogGroupInput`)
     ///
-    /// - Returns: `CreateLogGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLogGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -801,6 +1056,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLogGroupInput, CreateLogGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLogGroupOutput>(CreateLogGroupOutput.httpOutput(from:), CreateLogGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLogGroupInput, CreateLogGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLogGroupOutput>())
@@ -841,9 +1097,9 @@ extension CloudWatchLogsClient {
     ///
     /// * Don't use ':' (colon) or '*' (asterisk) characters.
     ///
-    /// - Parameter CreateLogStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLogStreamInput`)
     ///
-    /// - Returns: `CreateLogStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLogStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,6 +1134,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLogStreamInput, CreateLogStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLogStreamOutput>(CreateLogStreamOutput.httpOutput(from:), CreateLogStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLogStreamInput, CreateLogStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLogStreamOutput>())
@@ -908,9 +1165,84 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateScheduledQuery` operation on the `CloudWatchLogs` service.
+    ///
+    /// Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals. Scheduled queries enable proactive monitoring by automatically executing queries to detect patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis or further processing.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduledQueryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateScheduledQueryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `ConflictException` : This operation attempted to create a resource that already exists.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : This request exceeds a service quota.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func createScheduledQuery(input: CreateScheduledQueryInput) async throws -> CreateScheduledQueryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createScheduledQuery")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateScheduledQueryInput, CreateScheduledQueryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(CreateScheduledQueryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScheduledQueryOutput>(CreateScheduledQueryOutput.httpOutput(from:), CreateScheduledQueryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateScheduledQueryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateScheduledQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(xAmzTarget: "Logs_20140328.CreateScheduledQuery"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateScheduledQueryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateScheduledQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateScheduledQueryInput, CreateScheduledQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateScheduledQuery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAccountPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are deleting.
+    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This operation supports deletion of data source-based field index policies, including facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are deleting.
     ///
     /// * To delete a data protection policy, you must have the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.
     ///
@@ -918,14 +1250,14 @@ extension CloudWatchLogsClient {
     ///
     /// * To delete a transformer policy, you must have the logs:DeleteTransformer and logs:DeleteAccountPolicy permissions.
     ///
-    /// * To delete a field index policy, you must have the logs:DeleteIndexPolicy and logs:DeleteAccountPolicy permissions.
+    /// * To delete a field index policy, you must have the logs:DeleteIndexPolicy and logs:DeleteAccountPolicy permissions. If you delete a field index policy that included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console. However, facet data is retained for up to 30 days.
     ///
     ///
     /// If you delete a field index policy, the indexing of the log events that happened before you deleted the policy will still be used for up to 30 days to improve CloudWatch Logs Insights queries.
     ///
-    /// - Parameter DeleteAccountPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountPolicyInput`)
     ///
-    /// - Returns: `DeleteAccountPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,6 +1292,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountPolicyInput, DeleteAccountPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountPolicyOutput>(DeleteAccountPolicyOutput.httpOutput(from:), DeleteAccountPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountPolicyInput, DeleteAccountPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountPolicyOutput>())
@@ -994,9 +1327,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the data protection policy from the specified log group. For more information about data protection policies, see [PutDataProtectionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html).
     ///
-    /// - Parameter DeleteDataProtectionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataProtectionPolicyInput`)
     ///
-    /// - Returns: `DeleteDataProtectionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataProtectionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1031,6 +1364,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataProtectionPolicyInput, DeleteDataProtectionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataProtectionPolicyOutput>(DeleteDataProtectionPolicyOutput.httpOutput(from:), DeleteDataProtectionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataProtectionPolicyInput, DeleteDataProtectionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataProtectionPolicyOutput>())
@@ -1065,9 +1399,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes a delivery. A delivery is a connection between a logical delivery source and a logical delivery destination. Deleting a delivery only deletes the connection between the delivery source and delivery destination. It does not delete the delivery destination or the delivery source.
     ///
-    /// - Parameter DeleteDeliveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeliveryInput`)
     ///
-    /// - Returns: `DeleteDeliveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeliveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1104,6 +1438,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryInput, DeleteDeliveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeliveryOutput>(DeleteDeliveryOutput.httpOutput(from:), DeleteDeliveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryInput, DeleteDeliveryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryOutput>())
@@ -1138,9 +1473,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes a delivery destination. A delivery is a connection between a logical delivery source and a logical delivery destination. You can't delete a delivery destination if any current deliveries are associated with it. To find whether any deliveries are associated with this delivery destination, use the [DescribeDeliveries](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html) operation and check the deliveryDestinationArn field in the results.
     ///
-    /// - Parameter DeleteDeliveryDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeliveryDestinationInput`)
     ///
-    /// - Returns: `DeleteDeliveryDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeliveryDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1177,6 +1512,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryDestinationInput, DeleteDeliveryDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeliveryDestinationOutput>(DeleteDeliveryDestinationOutput.httpOutput(from:), DeleteDeliveryDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryDestinationInput, DeleteDeliveryDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryDestinationOutput>())
@@ -1211,9 +1547,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes a delivery destination policy. For more information about these policies, see [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html).
     ///
-    /// - Parameter DeleteDeliveryDestinationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeliveryDestinationPolicyInput`)
     ///
-    /// - Returns: `DeleteDeliveryDestinationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeliveryDestinationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,6 +1584,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliveryDestinationPolicyInput, DeleteDeliveryDestinationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeliveryDestinationPolicyOutput>(DeleteDeliveryDestinationPolicyOutput.httpOutput(from:), DeleteDeliveryDestinationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliveryDestinationPolicyInput, DeleteDeliveryDestinationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliveryDestinationPolicyOutput>())
@@ -1282,9 +1619,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes a delivery source. A delivery is a connection between a logical delivery source and a logical delivery destination. You can't delete a delivery source if any current deliveries are associated with it. To find whether any deliveries are associated with this delivery source, use the [DescribeDeliveries](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html) operation and check the deliverySourceName field in the results.
     ///
-    /// - Parameter DeleteDeliverySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeliverySourceInput`)
     ///
-    /// - Returns: `DeleteDeliverySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeliverySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1321,6 +1658,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeliverySourceInput, DeleteDeliverySourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeliverySourceOutput>(DeleteDeliverySourceOutput.httpOutput(from:), DeleteDeliverySourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeliverySourceInput, DeleteDeliverySourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeliverySourceOutput>())
@@ -1355,9 +1693,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the specified destination, and eventually disables all the subscription filters that publish to it. This operation does not delete the physical resource encapsulated by the destination.
     ///
-    /// - Parameter DeleteDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDestinationInput`)
     ///
-    /// - Returns: `DeleteDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1392,6 +1730,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDestinationInput, DeleteDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDestinationOutput>(DeleteDestinationOutput.httpOutput(from:), DeleteDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDestinationInput, DeleteDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDestinationOutput>())
@@ -1424,11 +1763,11 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DeleteIndexPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. You can't use this operation to delete an account-level index policy. Instead, use [DeletAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteAccountPolicy.html). If you delete a log-group level field index policy and there is an account-level field index policy, in a few minutes the log group begins using that account-wide policy to index new incoming log events.
+    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is retained for up to 30 days. You can't use this operation to delete an account-level index policy. Instead, use [DeleteAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteAccountPolicy.html). If you delete a log-group level field index policy and there is an account-level field index policy, in a few minutes the log group begins using that account-wide policy to index new incoming log events. This operation only affects log group-level policies, including any facet configurations, and preserves any data source-based account policies that may apply to the log group.
     ///
-    /// - Parameter DeleteIndexPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexPolicyInput`)
     ///
-    /// - Returns: `DeleteIndexPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIndexPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1464,6 +1803,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexPolicyInput, DeleteIndexPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexPolicyOutput>(DeleteIndexPolicyOutput.httpOutput(from:), DeleteIndexPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexPolicyInput, DeleteIndexPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexPolicyOutput>())
@@ -1498,9 +1838,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the integration between CloudWatch Logs and OpenSearch Service. If your integration has active vended logs dashboards, you must specify true for the force parameter, otherwise the operation will fail. If you delete the integration by setting force to true, all your vended logs dashboards powered by OpenSearch Service will be deleted and the data that was on them will no longer be accessible.
     ///
-    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1535,6 +1875,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutput>(DeleteIntegrationOutput.httpOutput(from:), DeleteIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
@@ -1569,9 +1910,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the specified CloudWatch Logs anomaly detector.
     ///
-    /// - Parameter DeleteLogAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLogAnomalyDetectorInput`)
     ///
-    /// - Returns: `DeleteLogAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLogAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1606,6 +1947,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLogAnomalyDetectorInput, DeleteLogAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLogAnomalyDetectorOutput>(DeleteLogAnomalyDetectorOutput.httpOutput(from:), DeleteLogAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLogAnomalyDetectorInput, DeleteLogAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLogAnomalyDetectorOutput>())
@@ -1640,9 +1982,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the specified log group and permanently deletes all the archived log events associated with the log group.
     ///
-    /// - Parameter DeleteLogGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLogGroupInput`)
     ///
-    /// - Returns: `DeleteLogGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLogGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1651,6 +1993,7 @@ extension CloudWatchLogsClient {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
     public func deleteLogGroup(input: DeleteLogGroupInput) async throws -> DeleteLogGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1677,6 +2020,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLogGroupInput, DeleteLogGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLogGroupOutput>(DeleteLogGroupOutput.httpOutput(from:), DeleteLogGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLogGroupInput, DeleteLogGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLogGroupOutput>())
@@ -1711,9 +2055,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the specified log stream and permanently deletes all the archived log events associated with the log stream.
     ///
-    /// - Parameter DeleteLogStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLogStreamInput`)
     ///
-    /// - Returns: `DeleteLogStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLogStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1722,6 +2066,7 @@ extension CloudWatchLogsClient {
     /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
     public func deleteLogStream(input: DeleteLogStreamInput) async throws -> DeleteLogStreamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1748,6 +2093,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLogStreamInput, DeleteLogStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLogStreamOutput>(DeleteLogStreamOutput.httpOutput(from:), DeleteLogStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLogStreamInput, DeleteLogStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLogStreamOutput>())
@@ -1782,9 +2128,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the specified metric filter.
     ///
-    /// - Parameter DeleteMetricFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMetricFilterInput`)
     ///
-    /// - Returns: `DeleteMetricFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMetricFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1819,6 +2165,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricFilterInput, DeleteMetricFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMetricFilterOutput>(DeleteMetricFilterOutput.httpOutput(from:), DeleteMetricFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricFilterInput, DeleteMetricFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricFilterOutput>())
@@ -1853,9 +2200,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes a saved CloudWatch Logs Insights query definition. A query definition contains details about a saved CloudWatch Logs Insights query. Each DeleteQueryDefinition operation can delete one query definition. You must have the logs:DeleteQueryDefinition permission to be able to perform this operation.
     ///
-    /// - Parameter DeleteQueryDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueryDefinitionInput`)
     ///
-    /// - Returns: `DeleteQueryDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueryDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1889,6 +2236,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueryDefinitionInput, DeleteQueryDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueryDefinitionOutput>(DeleteQueryDefinitionOutput.httpOutput(from:), DeleteQueryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueryDefinitionInput, DeleteQueryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueryDefinitionOutput>())
@@ -1923,9 +2271,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes a resource policy from this account. This revokes the access of the identities in that policy to put log events to this account.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1960,6 +2308,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1994,9 +2343,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the specified retention policy. Log events do not expire if they belong to log groups without a retention policy.
     ///
-    /// - Parameter DeleteRetentionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRetentionPolicyInput`)
     ///
-    /// - Returns: `DeleteRetentionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRetentionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2031,6 +2380,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRetentionPolicyOutput>(DeleteRetentionPolicyOutput.httpOutput(from:), DeleteRetentionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRetentionPolicyInput, DeleteRetentionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetentionPolicyOutput>())
@@ -2061,13 +2411,86 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteScheduledQuery` operation on the `CloudWatchLogs` service.
+    ///
+    /// Deletes a scheduled query and stops all future executions. This operation also removes any configured actions and associated resources.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduledQueryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteScheduledQueryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func deleteScheduledQuery(input: DeleteScheduledQueryInput) async throws -> DeleteScheduledQueryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteScheduledQuery")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteScheduledQueryInput, DeleteScheduledQueryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(DeleteScheduledQueryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScheduledQueryOutput>(DeleteScheduledQueryOutput.httpOutput(from:), DeleteScheduledQueryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduledQueryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteScheduledQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(xAmzTarget: "Logs_20140328.DeleteScheduledQuery"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteScheduledQueryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteScheduledQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteScheduledQueryInput, DeleteScheduledQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteScheduledQuery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteSubscriptionFilter` operation on the `CloudWatchLogs` service.
     ///
     /// Deletes the specified subscription filter.
     ///
-    /// - Parameter DeleteSubscriptionFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubscriptionFilterInput`)
     ///
-    /// - Returns: `DeleteSubscriptionFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubscriptionFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2102,6 +2525,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSubscriptionFilterInput, DeleteSubscriptionFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubscriptionFilterOutput>(DeleteSubscriptionFilterOutput.httpOutput(from:), DeleteSubscriptionFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubscriptionFilterInput, DeleteSubscriptionFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubscriptionFilterOutput>())
@@ -2136,9 +2560,9 @@ extension CloudWatchLogsClient {
     ///
     /// Deletes the log transformer for the specified log group. As soon as you do this, the transformation of incoming log events according to that transformer stops. If this account has an account-level transformer that applies to this log group, the log group begins using that account-level transformer when this log-group level transformer is deleted. After you delete a transformer, be sure to edit any metric filters or subscription filters that relied on the transformed versions of the log events.
     ///
-    /// - Parameter DeleteTransformerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransformerInput`)
     ///
-    /// - Returns: `DeleteTransformerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTransformerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2174,6 +2598,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTransformerInput, DeleteTransformerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransformerOutput>(DeleteTransformerOutput.httpOutput(from:), DeleteTransformerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransformerInput, DeleteTransformerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransformerOutput>())
@@ -2216,9 +2641,9 @@ extension CloudWatchLogsClient {
     ///
     /// * To see field index policies, you must have the logs:DescribeIndexPolicies and logs:DescribeAccountPolicies permissions.
     ///
-    /// - Parameter DescribeAccountPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountPoliciesInput`)
     ///
-    /// - Returns: `DescribeAccountPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2253,6 +2678,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountPoliciesInput, DescribeAccountPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountPoliciesOutput>(DescribeAccountPoliciesOutput.httpOutput(from:), DescribeAccountPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountPoliciesInput, DescribeAccountPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountPoliciesOutput>())
@@ -2287,9 +2713,9 @@ extension CloudWatchLogsClient {
     ///
     /// Use this operation to return the valid and default values that are used when creating delivery sources, delivery destinations, and deliveries. For more information about deliveries, see [CreateDelivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html).
     ///
-    /// - Parameter DescribeConfigurationTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationTemplatesInput`)
     ///
-    /// - Returns: `DescribeConfigurationTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2324,6 +2750,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationTemplatesOutput>(DescribeConfigurationTemplatesOutput.httpOutput(from:), DescribeConfigurationTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationTemplatesInput, DescribeConfigurationTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationTemplatesOutput>())
@@ -2358,9 +2785,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves a list of the deliveries that have been created in the account. A delivery is a connection between a [ delivery source ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html) and a [ delivery destination ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html). A delivery source represents an Amazon Web Services resource that sends logs to an logs delivery destination. The destination can be CloudWatch Logs, Amazon S3, Firehose or X-Ray. Only some Amazon Web Services services support being configured as a delivery source. These services are listed in [Enable logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html)
     ///
-    /// - Parameter DescribeDeliveriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeliveriesInput`)
     ///
-    /// - Returns: `DescribeDeliveriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeliveriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2395,6 +2822,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveriesInput, DescribeDeliveriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeliveriesOutput>(DescribeDeliveriesOutput.httpOutput(from:), DescribeDeliveriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveriesInput, DescribeDeliveriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveriesOutput>())
@@ -2429,9 +2857,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves a list of the delivery destinations that have been created in the account.
     ///
-    /// - Parameter DescribeDeliveryDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeliveryDestinationsInput`)
     ///
-    /// - Returns: `DescribeDeliveryDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeliveryDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2466,6 +2894,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliveryDestinationsInput, DescribeDeliveryDestinationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeliveryDestinationsOutput>(DescribeDeliveryDestinationsOutput.httpOutput(from:), DescribeDeliveryDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliveryDestinationsInput, DescribeDeliveryDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliveryDestinationsOutput>())
@@ -2500,9 +2929,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves a list of the delivery sources that have been created in the account.
     ///
-    /// - Parameter DescribeDeliverySourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeliverySourcesInput`)
     ///
-    /// - Returns: `DescribeDeliverySourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeliverySourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2537,6 +2966,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeliverySourcesInput, DescribeDeliverySourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeliverySourcesOutput>(DescribeDeliverySourcesOutput.httpOutput(from:), DescribeDeliverySourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeliverySourcesInput, DescribeDeliverySourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeliverySourcesOutput>())
@@ -2571,9 +3001,9 @@ extension CloudWatchLogsClient {
     ///
     /// Lists all your destinations. The results are ASCII-sorted by destination name.
     ///
-    /// - Parameter DescribeDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDestinationsInput`)
     ///
-    /// - Returns: `DescribeDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2606,6 +3036,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDestinationsInput, DescribeDestinationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDestinationsOutput>(DescribeDestinationsOutput.httpOutput(from:), DescribeDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDestinationsInput, DescribeDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDestinationsOutput>())
@@ -2640,9 +3071,9 @@ extension CloudWatchLogsClient {
     ///
     /// Lists the specified export tasks. You can list all your export tasks or filter the results based on task ID or task status.
     ///
-    /// - Parameter DescribeExportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportTasksInput`)
     ///
-    /// - Returns: `DescribeExportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2675,6 +3106,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExportTasksOutput>(DescribeExportTasksOutput.httpOutput(from:), DescribeExportTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportTasksInput, DescribeExportTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportTasksOutput>())
@@ -2707,11 +3139,11 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DescribeFieldIndexes` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns a list of field indexes listed in the field index policies of one or more log groups. For more information about field index policies, see [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html).
+    /// Returns a list of custom and default field indexes which are discovered in log data. For more information about field index policies, see [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html).
     ///
-    /// - Parameter DescribeFieldIndexesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFieldIndexesInput`)
     ///
-    /// - Returns: `DescribeFieldIndexesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFieldIndexesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2747,6 +3179,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFieldIndexesInput, DescribeFieldIndexesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFieldIndexesOutput>(DescribeFieldIndexesOutput.httpOutput(from:), DescribeFieldIndexesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFieldIndexesInput, DescribeFieldIndexesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFieldIndexesOutput>())
@@ -2777,13 +3210,159 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeImportTaskBatches` operation on the `CloudWatchLogs` service.
+    ///
+    /// Gets detailed information about the individual batches within an import task, including their status and any error messages. For CloudTrail Event Data Store sources, a batch refers to a subset of stored events grouped by their eventTime.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeImportTaskBatchesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeImportTaskBatchesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    public func describeImportTaskBatches(input: DescribeImportTaskBatchesInput) async throws -> DescribeImportTaskBatchesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeImportTaskBatches")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(DescribeImportTaskBatchesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImportTaskBatchesOutput>(DescribeImportTaskBatchesOutput.httpOutput(from:), DescribeImportTaskBatchesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportTaskBatchesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImportTaskBatchesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(xAmzTarget: "Logs_20140328.DescribeImportTaskBatches"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImportTaskBatchesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImportTaskBatchesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImportTaskBatchesInput, DescribeImportTaskBatchesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImportTaskBatches")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeImportTasks` operation on the `CloudWatchLogs` service.
+    ///
+    /// Lists and describes import tasks, with optional filtering by import status and source ARN.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeImportTasksInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeImportTasksOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    public func describeImportTasks(input: DescribeImportTasksInput) async throws -> DescribeImportTasksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeImportTasks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeImportTasksInput, DescribeImportTasksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(DescribeImportTasksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImportTasksOutput>(DescribeImportTasksOutput.httpOutput(from:), DescribeImportTasksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportTasksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImportTasksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(xAmzTarget: "Logs_20140328.DescribeImportTasks"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImportTasksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImportTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImportTasksInput, DescribeImportTasksOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImportTasks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeIndexPolicies` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns the field index policies of one or more log groups. For more information about field index policies, see [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html). If a specified log group has a log-group level index policy, that policy is returned by this operation. If a specified log group doesn't have a log-group level index policy, but an account-wide index policy applies to it, that account-wide policy is returned by this operation. To find information about only account-level policies, use [DescribeAccountPolicies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeAccountPolicies.html) instead.
+    /// Returns the field index policies of the specified log group. For more information about field index policies, see [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html). If a specified log group has a log-group level index policy, that policy is returned by this operation. If a specified log group doesn't have a log-group level index policy, but an account-wide index policy applies to it, that account-wide policy is returned by this operation. To find information about only account-level policies, use [DescribeAccountPolicies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeAccountPolicies.html) instead.
     ///
-    /// - Parameter DescribeIndexPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIndexPoliciesInput`)
     ///
-    /// - Returns: `DescribeIndexPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIndexPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2819,6 +3398,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIndexPoliciesInput, DescribeIndexPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIndexPoliciesOutput>(DescribeIndexPoliciesOutput.httpOutput(from:), DescribeIndexPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIndexPoliciesInput, DescribeIndexPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIndexPoliciesOutput>())
@@ -2851,11 +3431,11 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DescribeLogGroups` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns information about log groups. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name  condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name  condition key to control access. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html). If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+    /// Returns information about log groups, including data sources that ingest into each log group. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name  condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name  condition key to control access. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html). If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
-    /// - Parameter DescribeLogGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLogGroupsInput`)
     ///
-    /// - Returns: `DescribeLogGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLogGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2888,6 +3468,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLogGroupsInput, DescribeLogGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLogGroupsOutput>(DescribeLogGroupsOutput.httpOutput(from:), DescribeLogGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLogGroupsInput, DescribeLogGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLogGroupsOutput>())
@@ -2922,9 +3503,9 @@ extension CloudWatchLogsClient {
     ///
     /// Lists the log streams for the specified log group. You can list all the log streams or filter the results by prefix. You can also control how the results are ordered. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both. This operation has a limit of 25 transactions per second, after which transactions are throttled. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
-    /// - Parameter DescribeLogStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLogStreamsInput`)
     ///
-    /// - Returns: `DescribeLogStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLogStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2958,6 +3539,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLogStreamsInput, DescribeLogStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLogStreamsOutput>(DescribeLogStreamsOutput.httpOutput(from:), DescribeLogStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLogStreamsInput, DescribeLogStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLogStreamsOutput>())
@@ -2992,9 +3574,9 @@ extension CloudWatchLogsClient {
     ///
     /// Lists the specified metric filters. You can list all of the metric filters or filter the results by log name, prefix, metric name, or metric namespace. The results are ASCII-sorted by filter name.
     ///
-    /// - Parameter DescribeMetricFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetricFiltersInput`)
     ///
-    /// - Returns: `DescribeMetricFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetricFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3028,6 +3610,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetricFiltersInput, DescribeMetricFiltersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetricFiltersOutput>(DescribeMetricFiltersOutput.httpOutput(from:), DescribeMetricFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetricFiltersInput, DescribeMetricFiltersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetricFiltersOutput>())
@@ -3060,11 +3643,11 @@ extension CloudWatchLogsClient {
 
     /// Performs the `DescribeQueries` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status.
+    /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status. This operation includes both interactive queries started directly by users and automated queries executed by scheduled query configurations. Scheduled query executions appear in the results alongside manually initiated queries, providing visibility into all query activity in your account.
     ///
-    /// - Parameter DescribeQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQueriesInput`)
     ///
-    /// - Returns: `DescribeQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3098,6 +3681,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQueriesInput, DescribeQueriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQueriesOutput>(DescribeQueriesOutput.httpOutput(from:), DescribeQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQueriesInput, DescribeQueriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQueriesOutput>())
@@ -3132,9 +3716,9 @@ extension CloudWatchLogsClient {
     ///
     /// This operation returns a paginated list of your saved CloudWatch Logs Insights query definitions. You can retrieve query definitions from the current account or from a source account that is linked to the current account. You can use the queryDefinitionNamePrefix parameter to limit the results to only the query definitions that have names that start with a certain string.
     ///
-    /// - Parameter DescribeQueryDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeQueryDefinitionsInput`)
     ///
-    /// - Returns: `DescribeQueryDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeQueryDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3167,6 +3751,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeQueryDefinitionsInput, DescribeQueryDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeQueryDefinitionsOutput>(DescribeQueryDefinitionsOutput.httpOutput(from:), DescribeQueryDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeQueryDefinitionsInput, DescribeQueryDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeQueryDefinitionsOutput>())
@@ -3201,9 +3786,9 @@ extension CloudWatchLogsClient {
     ///
     /// Lists the resource policies in this account.
     ///
-    /// - Parameter DescribeResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePoliciesInput`)
     ///
-    /// - Returns: `DescribeResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3236,6 +3821,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePoliciesInput, DescribeResourcePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourcePoliciesOutput>(DescribeResourcePoliciesOutput.httpOutput(from:), DescribeResourcePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePoliciesInput, DescribeResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePoliciesOutput>())
@@ -3270,9 +3856,9 @@ extension CloudWatchLogsClient {
     ///
     /// Lists the subscription filters for the specified log group. You can list all the subscription filters or filter the results by prefix. The results are ASCII-sorted by filter name.
     ///
-    /// - Parameter DescribeSubscriptionFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSubscriptionFiltersInput`)
     ///
-    /// - Returns: `DescribeSubscriptionFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSubscriptionFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3306,6 +3892,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSubscriptionFiltersOutput>(DescribeSubscriptionFiltersOutput.httpOutput(from:), DescribeSubscriptionFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSubscriptionFiltersInput, DescribeSubscriptionFiltersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSubscriptionFiltersOutput>())
@@ -3347,9 +3934,9 @@ extension CloudWatchLogsClient {
     ///
     /// It can take up to 5 minutes for this operation to take effect.
     ///
-    /// - Parameter DisassociateKmsKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateKmsKeyInput`)
     ///
-    /// - Returns: `DisassociateKmsKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateKmsKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3384,6 +3971,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateKmsKeyInput, DisassociateKmsKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateKmsKeyOutput>(DisassociateKmsKeyOutput.httpOutput(from:), DisassociateKmsKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateKmsKeyInput, DisassociateKmsKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateKmsKeyOutput>())
@@ -3414,6 +4002,79 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateSourceFromS3TableIntegration` operation on the `CloudWatchLogs` service.
+    ///
+    /// Disassociates a data source from an S3 Table Integration, removing query access and deleting all associated data from the integration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceFromS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceFromS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func disassociateSourceFromS3TableIntegration(input: DisassociateSourceFromS3TableIntegrationInput) async throws -> DisassociateSourceFromS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateSourceFromS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(DisassociateSourceFromS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSourceFromS3TableIntegrationOutput>(DisassociateSourceFromS3TableIntegrationOutput.httpOutput(from:), DisassociateSourceFromS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceFromS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateSourceFromS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(xAmzTarget: "Logs_20140328.DisassociateSourceFromS3TableIntegration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateSourceFromS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSourceFromS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateSourceFromS3TableIntegrationInput, DisassociateSourceFromS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateSourceFromS3TableIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `FilterLogEvents` operation on the `CloudWatchLogs` service.
     ///
     /// Lists log events from the specified log group. You can list all the log events or filter the results using one or more of the following:
@@ -3422,14 +4083,14 @@ extension CloudWatchLogsClient {
     ///
     /// * A time range
     ///
-    /// * The log stream name, or a log stream name prefix that matches mutltiple log streams
+    /// * The log stream name, or a log stream name prefix that matches multiple log streams
     ///
     ///
     /// You must have the logs:FilterLogEvents permission to perform this operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both. FilterLogEvents is a paginated operation. Each page returned can contain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't necessarily mean that pagination is finished. If the results include a nextToken, there might be more log events available. You can return these additional log events by providing the nextToken in a subsequent FilterLogEvents operation. If the results don't include a nextToken, then pagination is finished. Specifying the limit parameter only guarantees that a single page doesn't return more log events than the specified limit, but it might return fewer events than the limit. This is the expected API behavior. The returned log events are sorted by event timestamp, the timestamp when the event was ingested by CloudWatch Logs, and the ID of the PutLogEvents request. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). If you are using [log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html), the FilterLogEvents operation returns only the original versions of log events, before they were transformed. To view the transformed versions, you must use a [CloudWatch Logs query.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html)
     ///
-    /// - Parameter FilterLogEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FilterLogEventsInput`)
     ///
-    /// - Returns: `FilterLogEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FilterLogEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3463,6 +4124,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FilterLogEventsInput, FilterLogEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FilterLogEventsOutput>(FilterLogEventsOutput.httpOutput(from:), FilterLogEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FilterLogEventsInput, FilterLogEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FilterLogEventsOutput>())
@@ -3497,9 +4159,9 @@ extension CloudWatchLogsClient {
     ///
     /// Returns information about a log group data protection policy.
     ///
-    /// - Parameter GetDataProtectionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataProtectionPolicyInput`)
     ///
-    /// - Returns: `GetDataProtectionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataProtectionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3534,6 +4196,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataProtectionPolicyOutput>(GetDataProtectionPolicyOutput.httpOutput(from:), GetDataProtectionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataProtectionPolicyInput, GetDataProtectionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataProtectionPolicyOutput>())
@@ -3568,9 +4231,9 @@ extension CloudWatchLogsClient {
     ///
     /// Returns complete information about one logical delivery. A delivery is a connection between a [ delivery source ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html) and a [ delivery destination ](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html). A delivery source represents an Amazon Web Services resource that sends logs to an logs delivery destination. The destination can be CloudWatch Logs, Amazon S3, or Firehose. Only some Amazon Web Services services support being configured as a delivery source. These services are listed in [Enable logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) You need to specify the delivery id in this operation. You can find the IDs of the deliveries in your account with the [DescribeDeliveries](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html) operation.
     ///
-    /// - Parameter GetDeliveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeliveryInput`)
     ///
-    /// - Returns: `GetDeliveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeliveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3606,6 +4269,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeliveryInput, GetDeliveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeliveryOutput>(GetDeliveryOutput.httpOutput(from:), GetDeliveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeliveryInput, GetDeliveryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeliveryOutput>())
@@ -3640,9 +4304,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves complete information about one delivery destination.
     ///
-    /// - Parameter GetDeliveryDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeliveryDestinationInput`)
     ///
-    /// - Returns: `GetDeliveryDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeliveryDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3678,6 +4342,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeliveryDestinationInput, GetDeliveryDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeliveryDestinationOutput>(GetDeliveryDestinationOutput.httpOutput(from:), GetDeliveryDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeliveryDestinationInput, GetDeliveryDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeliveryDestinationOutput>())
@@ -3712,9 +4377,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves the delivery destination policy assigned to the delivery destination that you specify. For more information about delivery destinations and their policies, see [PutDeliveryDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html).
     ///
-    /// - Parameter GetDeliveryDestinationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeliveryDestinationPolicyInput`)
     ///
-    /// - Returns: `GetDeliveryDestinationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeliveryDestinationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3748,6 +4413,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeliveryDestinationPolicyInput, GetDeliveryDestinationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeliveryDestinationPolicyOutput>(GetDeliveryDestinationPolicyOutput.httpOutput(from:), GetDeliveryDestinationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeliveryDestinationPolicyInput, GetDeliveryDestinationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeliveryDestinationPolicyOutput>())
@@ -3782,9 +4448,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves complete information about one delivery source.
     ///
-    /// - Parameter GetDeliverySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeliverySourceInput`)
     ///
-    /// - Returns: `GetDeliverySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeliverySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3820,6 +4486,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeliverySourceInput, GetDeliverySourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeliverySourceOutput>(GetDeliverySourceOutput.httpOutput(from:), GetDeliverySourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeliverySourceInput, GetDeliverySourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeliverySourceOutput>())
@@ -3854,9 +4521,9 @@ extension CloudWatchLogsClient {
     ///
     /// Returns information about one integration between CloudWatch Logs and OpenSearch Service.
     ///
-    /// - Parameter GetIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationInput`)
     ///
-    /// - Returns: `GetIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3890,6 +4557,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIntegrationInput, GetIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationOutput>(GetIntegrationOutput.httpOutput(from:), GetIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationInput, GetIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationOutput>())
@@ -3924,9 +4592,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves information about the log anomaly detector that you specify. The KMS key ARN detected is valid.
     ///
-    /// - Parameter GetLogAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLogAnomalyDetectorInput`)
     ///
-    /// - Returns: `GetLogAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLogAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3961,6 +4629,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogAnomalyDetectorInput, GetLogAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogAnomalyDetectorOutput>(GetLogAnomalyDetectorOutput.httpOutput(from:), GetLogAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogAnomalyDetectorInput, GetLogAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogAnomalyDetectorOutput>())
@@ -3995,9 +4664,9 @@ extension CloudWatchLogsClient {
     ///
     /// Lists log events from the specified log stream. You can list all of the log events or filter using a time range. GetLogEvents is a paginated operation. Each page returned can contain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't necessarily mean that pagination is finished. As long as the nextBackwardToken or nextForwardToken returned is NOT equal to the nextToken that you passed into the API call, there might be more log events available. The token that you use depends on the direction you want to move in along the log stream. The returned tokens are never null. If you set startFromHead to true and you don’t include endTime in your request, you can end up in a situation where the pagination doesn't terminate. This can happen when the new log events are being added to the target log streams faster than they are being read. This situation is a good use case for the CloudWatch Logs [Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs_LiveTail.html) feature. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both. If you are using [log transformation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html), the GetLogEvents operation returns only the original versions of log events, before they were transformed. To view the transformed versions, you must use a [CloudWatch Logs query.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html)
     ///
-    /// - Parameter GetLogEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLogEventsInput`)
     ///
-    /// - Returns: `GetLogEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLogEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4031,6 +4700,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogEventsInput, GetLogEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogEventsOutput>(GetLogEventsOutput.httpOutput(from:), GetLogEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogEventsInput, GetLogEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogEventsOutput>())
@@ -4061,13 +4731,85 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetLogFields` operation on the `CloudWatchLogs` service.
+    ///
+    /// Discovers available fields for a specific data source and type. The response includes any field modifications introduced through pipelines, such as new fields or changed field types.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetLogFieldsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetLogFieldsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    public func getLogFields(input: GetLogFieldsInput) async throws -> GetLogFieldsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getLogFields")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetLogFieldsInput, GetLogFieldsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(GetLogFieldsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLogFieldsInput, GetLogFieldsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogFieldsInput, GetLogFieldsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogFieldsOutput>(GetLogFieldsOutput.httpOutput(from:), GetLogFieldsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetLogFieldsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetLogFieldsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(xAmzTarget: "Logs_20140328.GetLogFields"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetLogFieldsInput, GetLogFieldsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetLogFieldsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetLogFieldsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetLogFieldsInput, GetLogFieldsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetLogFieldsInput, GetLogFieldsOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLogFields")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetLogGroupFields` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both. In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see [Supported Logs and Discovered Fields](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData-discoverable-fields.html). The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+    /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. This operation is used for discovering fields within log group events. For discovering fields across data sources, use the GetLogFields operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both. In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see [Supported Logs and Discovered Fields](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData-discoverable-fields.html). The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
-    /// - Parameter GetLogGroupFieldsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLogGroupFieldsInput`)
     ///
-    /// - Returns: `GetLogGroupFieldsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLogGroupFieldsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4102,6 +4844,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogGroupFieldsInput, GetLogGroupFieldsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogGroupFieldsOutput>(GetLogGroupFieldsOutput.httpOutput(from:), GetLogGroupFieldsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogGroupFieldsInput, GetLogGroupFieldsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogGroupFieldsOutput>())
@@ -4136,9 +4879,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves a large logging object (LLO) and streams it back. This API is used to fetch the content of large portions of log events that have been ingested through the PutOpenTelemetryLogs API. When log events contain fields that would cause the total event size to exceed 1MB, CloudWatch Logs automatically processes up to 10 fields, starting with the largest fields. Each field is truncated as needed to keep the total event size as close to 1MB as possible. The excess portions are stored as Large Log Objects (LLOs) and these fields are processed separately and LLO reference system fields (in the format @ptr.$[path.to.field]) are added. The path in the reference field reflects the original JSON structure where the large field was located. For example, this could be @ptr.$['input']['message'], @ptr.$['AAA']['BBB']['CCC']['DDD'], @ptr.$['AAA'], or any other path matching your log structure.
     ///
-    /// - Parameter GetLogObjectInput : The parameters for the GetLogObject operation.
+    /// - Parameter input: The parameters for the GetLogObject operation. (Type: `GetLogObjectInput`)
     ///
-    /// - Returns: `GetLogObjectOutput` : The response from the GetLogObject operation.
+    /// - Returns: The response from the GetLogObject operation. (Type: `GetLogObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4174,6 +4917,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogObjectInput, GetLogObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogObjectOutput>(GetLogObjectOutput.httpOutput(from:), GetLogObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogObjectInput, GetLogObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogObjectOutput>())
@@ -4208,9 +4952,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves all of the fields and values of a single log event. All fields are retrieved, even if the original query that produced the logRecordPointer retrieved only a subset of fields. Fields are returned as field name/field value pairs. The full unparsed log event is returned within @message.
     ///
-    /// - Parameter GetLogRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLogRecordInput`)
     ///
-    /// - Returns: `GetLogRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLogRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4245,6 +4989,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogRecordInput, GetLogRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogRecordOutput>(GetLogRecordOutput.httpOutput(from:), GetLogRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogRecordInput, GetLogRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogRecordOutput>())
@@ -4277,11 +5022,11 @@ extension CloudWatchLogsClient {
 
     /// Performs the `GetQueryResults` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a [GetLogRecord](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html) operation to get the full log record. GetQueryResults does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html). For more information about how long results of previous queries are available, see [CloudWatch Logs quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html). If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a [GetLogRecord](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html) operation to get the full log record. GetQueryResults does not start running a query. To run a query, use [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html). For more information about how long results of previous queries are available, see [CloudWatch Logs quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html). If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results. This operation is used both for retrieving results from interactive queries and from automated scheduled query executions. Scheduled queries use GetQueryResults internally to retrieve query results for processing and delivery to configured destinations. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
-    /// - Parameter GetQueryResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsInput`)
     ///
-    /// - Returns: `GetQueryResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4315,6 +5060,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueryResultsInput, GetQueryResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryResultsOutput>(GetQueryResultsOutput.httpOutput(from:), GetQueryResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryResultsOutput>())
@@ -4345,13 +5091,159 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetScheduledQuery` operation on the `CloudWatchLogs` service.
+    ///
+    /// Retrieves details about a specific scheduled query, including its configuration, execution status, and metadata.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetScheduledQueryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetScheduledQueryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func getScheduledQuery(input: GetScheduledQueryInput) async throws -> GetScheduledQueryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getScheduledQuery")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetScheduledQueryInput, GetScheduledQueryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(GetScheduledQueryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScheduledQueryOutput>(GetScheduledQueryOutput.httpOutput(from:), GetScheduledQueryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetScheduledQueryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetScheduledQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(xAmzTarget: "Logs_20140328.GetScheduledQuery"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetScheduledQueryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetScheduledQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetScheduledQueryInput, GetScheduledQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetScheduledQuery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetScheduledQueryHistory` operation on the `CloudWatchLogs` service.
+    ///
+    /// Retrieves the execution history of a scheduled query within a specified time range, including query results and destination processing status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetScheduledQueryHistoryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetScheduledQueryHistoryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func getScheduledQueryHistory(input: GetScheduledQueryHistoryInput) async throws -> GetScheduledQueryHistoryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getScheduledQueryHistory")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(GetScheduledQueryHistoryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScheduledQueryHistoryOutput>(GetScheduledQueryHistoryOutput.httpOutput(from:), GetScheduledQueryHistoryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetScheduledQueryHistoryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetScheduledQueryHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(xAmzTarget: "Logs_20140328.GetScheduledQueryHistory"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetScheduledQueryHistoryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetScheduledQueryHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetScheduledQueryHistoryInput, GetScheduledQueryHistoryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetScheduledQueryHistory")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTransformer` operation on the `CloudWatchLogs` service.
     ///
     /// Returns the information about the log transformer associated with this log group. This operation returns data only for transformers created at the log group level. To get information for an account-level transformer, use [DescribeAccountPolicies](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeAccountPolicies.html).
     ///
-    /// - Parameter GetTransformerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransformerInput`)
     ///
-    /// - Returns: `GetTransformerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransformerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4386,6 +5278,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTransformerInput, GetTransformerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransformerOutput>(GetTransformerOutput.httpOutput(from:), GetTransformerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransformerInput, GetTransformerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransformerOutput>())
@@ -4416,13 +5309,84 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAggregateLogGroupSummaries` operation on the `CloudWatchLogs` service.
+    ///
+    /// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated summaries of log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). The operation aggregates log groups by data source name and type and optionally format, providing counts of log groups that share these characteristics. The operation paginates results. By default, it returns up to 50 results and includes a token to retrieve more results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAggregateLogGroupSummariesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAggregateLogGroupSummariesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func listAggregateLogGroupSummaries(input: ListAggregateLogGroupSummariesInput) async throws -> ListAggregateLogGroupSummariesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAggregateLogGroupSummaries")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(ListAggregateLogGroupSummariesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAggregateLogGroupSummariesOutput>(ListAggregateLogGroupSummariesOutput.httpOutput(from:), ListAggregateLogGroupSummariesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregateLogGroupSummariesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAggregateLogGroupSummariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(xAmzTarget: "Logs_20140328.ListAggregateLogGroupSummaries"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAggregateLogGroupSummariesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAggregateLogGroupSummariesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAggregateLogGroupSummariesInput, ListAggregateLogGroupSummariesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAggregateLogGroupSummaries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAnomalies` operation on the `CloudWatchLogs` service.
     ///
     /// Returns a list of anomalies that log anomaly detectors have found. For details about the structure format of each anomaly object that is returned, see the example in this section.
     ///
-    /// - Parameter ListAnomaliesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnomaliesInput`)
     ///
-    /// - Returns: `ListAnomaliesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnomaliesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4457,6 +5421,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnomaliesInput, ListAnomaliesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnomaliesOutput>(ListAnomaliesOutput.httpOutput(from:), ListAnomaliesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnomaliesInput, ListAnomaliesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnomaliesOutput>())
@@ -4491,9 +5456,9 @@ extension CloudWatchLogsClient {
     ///
     /// Returns a list of integrations between CloudWatch Logs and other services in this account. Currently, only one integration can be created in an account, and this integration must be with OpenSearch Service.
     ///
-    /// - Parameter ListIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIntegrationsInput`)
     ///
-    /// - Returns: `ListIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4526,6 +5491,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntegrationsInput, ListIntegrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntegrationsOutput>(ListIntegrationsOutput.httpOutput(from:), ListIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntegrationsInput, ListIntegrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntegrationsOutput>())
@@ -4560,9 +5526,9 @@ extension CloudWatchLogsClient {
     ///
     /// Retrieves a list of the log anomaly detectors in the account.
     ///
-    /// - Parameter ListLogAnomalyDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLogAnomalyDetectorsInput`)
     ///
-    /// - Returns: `ListLogAnomalyDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLogAnomalyDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4597,6 +5563,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLogAnomalyDetectorsInput, ListLogAnomalyDetectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLogAnomalyDetectorsOutput>(ListLogAnomalyDetectorsOutput.httpOutput(from:), ListLogAnomalyDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLogAnomalyDetectorsInput, ListLogAnomalyDetectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLogAnomalyDetectorsOutput>())
@@ -4629,11 +5596,11 @@ extension CloudWatchLogsClient {
 
     /// Performs the `ListLogGroups` operation on the `CloudWatchLogs` service.
     ///
-    /// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see [ CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). You can optionally filter the list by log group class and by using regular expressions in your request to match strings in the log group names. This operation is paginated. By default, your first use of this operation returns 50 results, and includes a token to use in a subsequent operation to return more results.
+    /// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see [ CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). You can optionally filter the list by log group class, by using regular expressions in your request to match strings in the log group names, by using the fieldIndexes parameter to filter log groups based on which field indexes are configured, by using the dataSources parameter to filter log groups by data source types, and by using the fieldIndexNames parameter to filter by specific field index names. This operation is paginated. By default, your first use of this operation returns 50 results, and includes a token to use in a subsequent operation to return more results.
     ///
-    /// - Parameter ListLogGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLogGroupsInput`)
     ///
-    /// - Returns: `ListLogGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLogGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4666,6 +5633,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLogGroupsInput, ListLogGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLogGroupsOutput>(ListLogGroupsOutput.httpOutput(from:), ListLogGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLogGroupsInput, ListLogGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLogGroupsOutput>())
@@ -4700,9 +5668,9 @@ extension CloudWatchLogsClient {
     ///
     /// Returns a list of the log groups that were analyzed during a single CloudWatch Logs Insights query. This can be useful for queries that use log group name prefixes or the filterIndex command, because the log groups are dynamically selected in these cases. For more information about field indexes, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html).
     ///
-    /// - Parameter ListLogGroupsForQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLogGroupsForQueryInput`)
     ///
-    /// - Returns: `ListLogGroupsForQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLogGroupsForQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4737,6 +5705,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLogGroupsForQueryOutput>(ListLogGroupsForQueryOutput.httpOutput(from:), ListLogGroupsForQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLogGroupsForQueryInput, ListLogGroupsForQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLogGroupsForQueryOutput>())
@@ -4767,13 +5736,158 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListScheduledQueries` operation on the `CloudWatchLogs` service.
+    ///
+    /// Lists all scheduled queries in your account and region. You can filter results by state to show only enabled or disabled queries.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListScheduledQueriesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListScheduledQueriesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func listScheduledQueries(input: ListScheduledQueriesInput) async throws -> ListScheduledQueriesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listScheduledQueries")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListScheduledQueriesInput, ListScheduledQueriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(ListScheduledQueriesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScheduledQueriesOutput>(ListScheduledQueriesOutput.httpOutput(from:), ListScheduledQueriesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListScheduledQueriesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListScheduledQueriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(xAmzTarget: "Logs_20140328.ListScheduledQueries"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListScheduledQueriesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListScheduledQueriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListScheduledQueriesInput, ListScheduledQueriesOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListScheduledQueries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSourcesForS3TableIntegration` operation on the `CloudWatchLogs` service.
+    ///
+    /// Returns a list of data source associations for a specified S3 Table Integration, showing which data sources are currently associated for query access.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSourcesForS3TableIntegrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSourcesForS3TableIntegrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func listSourcesForS3TableIntegration(input: ListSourcesForS3TableIntegrationInput) async throws -> ListSourcesForS3TableIntegrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSourcesForS3TableIntegration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(ListSourcesForS3TableIntegrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourcesForS3TableIntegrationOutput>(ListSourcesForS3TableIntegrationOutput.httpOutput(from:), ListSourcesForS3TableIntegrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSourcesForS3TableIntegrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSourcesForS3TableIntegrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(xAmzTarget: "Logs_20140328.ListSourcesForS3TableIntegration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSourcesForS3TableIntegrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSourcesForS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSourcesForS3TableIntegrationInput, ListSourcesForS3TableIntegrationOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSourcesForS3TableIntegration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `CloudWatchLogs` service.
     ///
     /// Displays the tags associated with a CloudWatch Logs resource. Currently, log groups and destinations support tagging.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4807,6 +5921,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4842,9 +5957,9 @@ extension CloudWatchLogsClient {
     /// The ListTagsLogGroup operation is on the path to deprecation. We recommend that you use [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html) instead. Lists the tags for the specified log group.
     @available(*, deprecated, message: "Please use the generic tagging API ListTagsForResource")
     ///
-    /// - Parameter ListTagsLogGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsLogGroupInput`)
     ///
-    /// - Returns: `ListTagsLogGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsLogGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4877,6 +5992,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsLogGroupInput, ListTagsLogGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsLogGroupOutput>(ListTagsLogGroupOutput.httpOutput(from:), ListTagsLogGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsLogGroupInput, ListTagsLogGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsLogGroupOutput>())
@@ -4909,7 +6025,7 @@ extension CloudWatchLogsClient {
 
     /// Performs the `PutAccountPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups or a subset of log groups in the account. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.
+    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups, a subset of log groups, or a data source name and type combination in the account. For field index policies, you can configure indexed fields as facets to enable interactive exploration of your logs. Facets provide value distributions and counts for indexed fields in the CloudWatch Logs Insights console without requiring query execution. For more information, see [Use facets to group and explore logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Facets.html). To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.
     ///
     /// * To create a data protection policy, you must have the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions.
     ///
@@ -4918,6 +6034,8 @@ extension CloudWatchLogsClient {
     /// * To create a transformer policy, you must have the logs:PutTransformer and logs:PutAccountPolicy permissions.
     ///
     /// * To create a field index policy, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.
+    ///
+    /// * To configure facets for field index policies, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.
     ///
     /// * To create a metric extraction policy, you must have the logs:PutMetricExtractionPolicy and logs:PutAccountPolicy permissions.
     ///
@@ -4933,15 +6051,94 @@ extension CloudWatchLogsClient {
     /// * A logical destination in a different account created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html), for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.
     ///
     ///
-    /// Each account can have one account-level subscription filter policy per Region. If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda function, you must also have the iam:PassRole permission. Transformer policy Creates or updates a log transformer policy for your account. You use log transformers to transform log events into a different format, making them easier for you to process and analyze. You can also transform logs from different sources into standardized formats that contain relevant, source-specific information. After you have created a transformer, CloudWatch Logs performs this transformation at the time of log ingestion. You can then refer to the transformed versions of the logs during operations such as querying with CloudWatch Logs Insights or creating metric filters or subscription filters. You can also use a transformer to copy metadata from metadata keys into the log events themselves. This metadata can include log group name, log stream name, account ID and Region. A transformer for a log group is a series of processors, where each processor applies one type of transformation to the log events ingested into this log group. For more information about the available processors to use in a transformer, see [ Processors that you can use](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Processors). Having log events in standardized format enables visibility across your applications for your log analysis, reporting, and alarming needs. CloudWatch Logs provides transformation for common log types with out-of-the-box transformation templates for major Amazon Web Services log sources such as VPC flow logs, Lambda, and Amazon RDS. You can use pre-built transformation templates or create custom transformation policies. You can create transformers only for the log groups in the Standard log class. You can have one account-level transformer policy that applies to all log groups in the account. Or you can create as many as 20 account-level transformer policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level transformer policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. You can also set up a transformer at the log-group level. For more information, see [PutTransformer](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html). If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer. Field index policy You can use field index policies to create indexes on fields found in log events in the log group. Creating field indexes can help lower the scan volume for CloudWatch Logs Insights queries that reference those fields, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, user IDs, or instance IDs. For more information, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html) To find the fields that are in your log group events, use the [GetLogGroupFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html) operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value  or requestId in [value, value, ...] will attempt to process only the log events where the indexed field matches the specified value. Matches of log events to the names of indexed fields are case-sensitive. For example, an indexed field of RequestId won't match a log event containing requestId. You can have one account-level field index policy that applies to all log groups in the account. Or you can create as many as 20 account-level field index policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level index policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. If you create an account-level field index policy in a monitoring account in cross-account observability, the policy is applied only to the monitoring account and not to any source accounts. If you want to create a field index policy for a single log group, you can use [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html) instead of PutAccountPolicy. If you do so, that log group will use only that log-group level policy, and will ignore the account-level policy that you create with [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html). Metric extraction policy A metric extraction policy controls whether CloudWatch Metrics can be created through the Embedded Metrics Format (EMF) for log groups in your account. By default, EMF metric creation is enabled for all log groups. You can use metric extraction policies to disable EMF metric creation for your entire account or specific log groups. When a policy disables EMF metric creation for a log group, log events in the EMF format are still ingested, but no CloudWatch Metrics are created from them. Creating a policy disables metrics for AWS features that use EMF to create metrics, such as CloudWatch Container Insights and CloudWatch Application Signals. To prevent turning off those features by accident, we recommend that you exclude the underlying log-groups through a selection-criteria such as LogGroupNamePrefix NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights", "/aws/application-signals/data"]. Each account can have either one account-level metric extraction policy that applies to all log groups, or up to 5 policies that are each scoped to a subset of log groups with the selectionCriteria parameter. The selection criteria supports filtering by LogGroupName and LogGroupNamePrefix using the operators IN and NOT IN. You can specify up to 50 values in each IN or NOT IN list. The selection criteria can be specified in these formats: LogGroupName IN ["log-group-1", "log-group-2"]LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"] If you have multiple account-level metric extraction policies with selection criteria, no two of them can have overlapping criteria. For example, if you have one policy with selection criteria LogGroupNamePrefix IN ["my-log"], you can't have another metric extraction policy with selection criteria LogGroupNamePrefix IN ["/my-log-prod"] or LogGroupNamePrefix IN ["/my-logging"], as the set of log groups matching these prefixes would be a subset of the log groups matching the first policy's prefix, creating an overlap. When using NOT IN, only one policy with this operator is allowed per account. When combining policies with IN and NOT IN operators, the overlap check ensures that policies don't have conflicting effects. Two policies with IN and NOT IN operators do not overlap if and only if every value in the IN policy is completely contained within some value in the NOT IN policy. For example:
+    /// Each account can have one account-level subscription filter policy per Region. If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda function, you must also have the iam:PassRole permission. Transformer policy Creates or updates a log transformer policy for your account. You use log transformers to transform log events into a different format, making them easier for you to process and analyze. You can also transform logs from different sources into standardized formats that contain relevant, source-specific information. After you have created a transformer, CloudWatch Logs performs this transformation at the time of log ingestion. You can then refer to the transformed versions of the logs during operations such as querying with CloudWatch Logs Insights or creating metric filters or subscription filters. You can also use a transformer to copy metadata from metadata keys into the log events themselves. This metadata can include log group name, log stream name, account ID and Region. A transformer for a log group is a series of processors, where each processor applies one type of transformation to the log events ingested into this log group. For more information about the available processors to use in a transformer, see [ Processors that you can use](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Processors). Having log events in standardized format enables visibility across your applications for your log analysis, reporting, and alarming needs. CloudWatch Logs provides transformation for common log types with out-of-the-box transformation templates for major Amazon Web Services log sources such as VPC flow logs, Lambda, and Amazon RDS. You can use pre-built transformation templates or create custom transformation policies. You can create transformers only for the log groups in the Standard log class. You can have one account-level transformer policy that applies to all log groups in the account. Or you can create as many as 20 account-level transformer policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level transformer policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another transformer policy filtered to my-logpprod or my-logging. You can also set up a transformer at the log-group level. For more information, see [PutTransformer](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html). If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer. Field index policy You can use field index policies to create indexes on fields found in log events for a log group or data source name and type combination. Creating field indexes can help lower the scan volume for CloudWatch Logs Insights queries that reference those fields, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, user IDs, or instance IDs. For more information, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html) To find the fields that are in your log group events, use the [GetLogGroupFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html) operation. To find the fields for a data source use the [GetLogFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogFields.html) operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value  or requestId in [value, value, ...] will attempt to process only the log events where the indexed field matches the specified value. Matches of log events to the names of indexed fields are case-sensitive. For example, an indexed field of RequestId won't match a log event containing requestId. You can have one account-level field index policy that applies to all log groups in the account. Or you can create as many as 20 account-level field index policies that are each scoped to a subset of log groups using LogGroupNamePrefix with the selectionCriteria parameter. You can have another 20 account-level field index policies using DataSourceName and DataSourceType for the selectionCriteria parameter. If you have multiple account-level index policies with LogGroupNamePrefix selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. Similarly, if you have multiple account-level index policies with DataSourceName and DataSourceType selection criteria, no two of them can use the same data source name and type combination. For example, if you have one policy filtered to the data source name amazon_vpc and data source type flow you cannot create another policy with this combination. If you create an account-level field index policy in a monitoring account in cross-account observability, the policy is applied only to the monitoring account and not to any source accounts. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:
+    ///
+    /// * @logStream
+    ///
+    /// * @aws.region
+    ///
+    /// * @aws.account
+    ///
+    /// * @source.log
+    ///
+    /// * @data_source_name
+    ///
+    /// * @data_source_type
+    ///
+    /// * @data_format
+    ///
+    /// * traceId
+    ///
+    /// * severityText
+    ///
+    /// * attributes.session.id
+    ///
+    ///
+    /// CloudWatch Logs provides default field indexes for certain data source name and type combinations as well. Default field indexes are automatically available for the following data source name and type combinations as identified in the following list: amazon_vpc.flow
+    ///
+    /// * action
+    ///
+    /// * logStatus
+    ///
+    /// * region
+    ///
+    /// * flowDirection
+    ///
+    /// * type
+    ///
+    ///
+    ///
+    ///     amazon_route53.resolver_query
+    ///
+    ///
+    ///
+    /// * transport
+    ///
+    /// * rcode
+    ///
+    ///
+    ///
+    ///     aws_waf.access
+    ///
+    ///
+    ///
+    /// * action
+    ///
+    /// * httpRequest.country
+    ///
+    ///
+    /// aws_cloudtrail.data, aws_cloudtrail.management
+    ///
+    /// * eventSource
+    ///
+    /// * eventName
+    ///
+    /// * awsRegion
+    ///
+    /// * userAgent
+    ///
+    /// * errorCode
+    ///
+    /// * eventType
+    ///
+    /// * managementEvent
+    ///
+    /// * readOnly
+    ///
+    /// * eventCategory
+    ///
+    /// * requestId
+    ///
+    ///
+    /// Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your [field index quota](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing-Syntax). If you want to create a field index policy for a single log group, you can use [PutIndexPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html) instead of PutAccountPolicy. If you do so, that log group will use that log-group level policy and any account-level policies that match at the data source level; any account-level policy that matches at the log group level (for example, no selection criteria or log group name prefix selection criteria) will be ignored. Metric extraction policy A metric extraction policy controls whether CloudWatch Metrics can be created through the Embedded Metrics Format (EMF) for log groups in your account. By default, EMF metric creation is enabled for all log groups. You can use metric extraction policies to disable EMF metric creation for your entire account or specific log groups. When a policy disables EMF metric creation for a log group, log events in the EMF format are still ingested, but no CloudWatch Metrics are created from them. Creating a policy disables metrics for AWS features that use EMF to create metrics, such as CloudWatch Container Insights and CloudWatch Application Signals. To prevent turning off those features by accident, we recommend that you exclude the underlying log-groups through a selection-criteria such as LogGroupNamePrefix NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights", "/aws/application-signals/data"]. Each account can have either one account-level metric extraction policy that applies to all log groups, or up to 5 policies that are each scoped to a subset of log groups with the selectionCriteria parameter. The selection criteria supports filtering by LogGroupName and LogGroupNamePrefix using the operators IN and NOT IN. You can specify up to 50 values in each IN or NOT IN list. The selection criteria can be specified in these formats: LogGroupName IN ["log-group-1", "log-group-2"]LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"] If you have multiple account-level metric extraction policies with selection criteria, no two of them can have overlapping criteria. For example, if you have one policy with selection criteria LogGroupNamePrefix IN ["my-log"], you can't have another metric extraction policy with selection criteria LogGroupNamePrefix IN ["/my-log-prod"] or LogGroupNamePrefix IN ["/my-logging"], as the set of log groups matching these prefixes would be a subset of the log groups matching the first policy's prefix, creating an overlap. When using NOT IN, only one policy with this operator is allowed per account. When combining policies with IN and NOT IN operators, the overlap check ensures that policies don't have conflicting effects. Two policies with IN and NOT IN operators do not overlap if and only if every value in the IN policy is completely contained within some value in the NOT IN policy. For example:
     ///
     /// * If you have a NOT IN policy for prefix "/aws/lambda", you can create an IN policy for the exact log group name "/aws/lambda/function1" because the set of log groups matching "/aws/lambda/function1" is a subset of the log groups matching "/aws/lambda".
     ///
     /// * If you have a NOT IN policy for prefix "/aws/lambda", you cannot create an IN policy for prefix "/aws" because the set of log groups matching "/aws" is not a subset of the log groups matching "/aws/lambda".
     ///
-    /// - Parameter PutAccountPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountPolicyInput`)
     ///
-    /// - Returns: `PutAccountPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4976,6 +6173,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountPolicyInput, PutAccountPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountPolicyOutput>(PutAccountPolicyOutput.httpOutput(from:), PutAccountPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountPolicyInput, PutAccountPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountPolicyOutput>())
@@ -5010,9 +6208,9 @@ extension CloudWatchLogsClient {
     ///
     /// Creates a data protection policy for the specified log group. A data protection policy can help safeguard sensitive data that's ingested by the log group by auditing and masking the sensitive log data. Sensitive data is detected and masked when it is ingested into the log group. When you set a data protection policy, log events ingested into the log group before that time are not masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html) or [FilterLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html) operation with the unmask parameter set to true to view the unmasked log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see [Protect sensitive log data with masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html). The PutDataProtectionPolicy operation applies to only the specified log group. You can also use [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html) to create an account-level data protection policy that applies to all log groups in the account, including both existing log groups and log groups that are created level. If a log group has its own data protection policy and the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.
     ///
-    /// - Parameter PutDataProtectionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDataProtectionPolicyInput`)
     ///
-    /// - Returns: `PutDataProtectionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDataProtectionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5048,6 +6246,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDataProtectionPolicyOutput>(PutDataProtectionPolicyOutput.httpOutput(from:), PutDataProtectionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDataProtectionPolicyInput, PutDataProtectionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDataProtectionPolicyOutput>())
@@ -5093,9 +6292,9 @@ extension CloudWatchLogsClient {
     ///
     /// You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) If you use this operation to update an existing delivery destination, all the current delivery destination parameters are overwritten with the new parameter values that you specify.
     ///
-    /// - Parameter PutDeliveryDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDeliveryDestinationInput`)
     ///
-    /// - Returns: `PutDeliveryDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDeliveryDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5132,6 +6331,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDeliveryDestinationInput, PutDeliveryDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDeliveryDestinationOutput>(PutDeliveryDestinationOutput.httpOutput(from:), PutDeliveryDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDeliveryDestinationInput, PutDeliveryDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliveryDestinationOutput>())
@@ -5177,9 +6377,9 @@ extension CloudWatchLogsClient {
     ///
     /// Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) The contents of the policy must include two statements. One statement enables general logs delivery, and the other allows delivery to the chosen destination. See the examples for the needed policies.
     ///
-    /// - Parameter PutDeliveryDestinationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDeliveryDestinationPolicyInput`)
     ///
-    /// - Returns: `PutDeliveryDestinationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDeliveryDestinationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5214,6 +6414,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDeliveryDestinationPolicyInput, PutDeliveryDestinationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDeliveryDestinationPolicyOutput>(PutDeliveryDestinationPolicyOutput.httpOutput(from:), PutDeliveryDestinationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDeliveryDestinationPolicyInput, PutDeliveryDestinationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliveryDestinationPolicyOutput>())
@@ -5259,9 +6460,9 @@ extension CloudWatchLogsClient {
     ///
     /// You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) If you use this operation to update an existing delivery source, all the current delivery source parameters are overwritten with the new parameter values that you specify.
     ///
-    /// - Parameter PutDeliverySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDeliverySourceInput`)
     ///
-    /// - Returns: `PutDeliverySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDeliverySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5298,6 +6499,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDeliverySourceInput, PutDeliverySourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDeliverySourceOutput>(PutDeliverySourceOutput.httpOutput(from:), PutDeliverySourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDeliverySourceInput, PutDeliverySourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDeliverySourceOutput>())
@@ -5332,9 +6534,9 @@ extension CloudWatchLogsClient {
     ///
     /// Creates or updates a destination. This operation is used only to create destinations for cross-account subscriptions. A destination encapsulates a physical resource (such as an Amazon Kinesis stream). With a destination, you can subscribe to a real-time stream of log events for a different account, ingested using [PutLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html). Through an access policy, a destination controls what is written to it. By default, PutDestination does not set any access policy with the destination, which means a cross-account user cannot call [PutSubscriptionFilter](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutSubscriptionFilter.html) against this destination. To enable this, the destination owner must call [PutDestinationPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestinationPolicy.html) after PutDestination. To perform a PutDestination operation, you must also have the iam:PassRole permission.
     ///
-    /// - Parameter PutDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDestinationInput`)
     ///
-    /// - Returns: `PutDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5368,6 +6570,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDestinationInput, PutDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDestinationOutput>(PutDestinationOutput.httpOutput(from:), PutDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDestinationInput, PutDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDestinationOutput>())
@@ -5402,9 +6605,9 @@ extension CloudWatchLogsClient {
     ///
     /// Creates or updates an access policy associated with an existing destination. An access policy is an [IAM policy document](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies_overview.html) that is used to authorize claims to register a subscription filter against a given destination.
     ///
-    /// - Parameter PutDestinationPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDestinationPolicyInput`)
     ///
-    /// - Returns: `PutDestinationPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDestinationPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5438,6 +6641,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDestinationPolicyInput, PutDestinationPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDestinationPolicyOutput>(PutDestinationPolicyOutput.httpOutput(from:), PutDestinationPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDestinationPolicyInput, PutDestinationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDestinationPolicyOutput>())
@@ -5470,18 +6674,31 @@ extension CloudWatchLogsClient {
 
     /// Performs the `PutIndexPolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html). You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, userID, and instance IDs. For more information, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html). To find the fields that are in your log group events, use the [GetLogGroupFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html) operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value  or requestId IN [value, value, ...] will process fewer log events to reduce costs, and have improved performance. Each index policy has the following quotas and restrictions:
+    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html). You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, userID, and instance IDs. For more information, see [Create field indexes to improve query performance and reduce costs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html). You can configure indexed fields as facets to enable interactive exploration and filtering of your logs in the CloudWatch Logs Insights console. Facets allow you to view value distributions and counts for indexed fields without running queries. When you create a field index, you can optionally set it as a facet to enable this interactive analysis capability. For more information, see [Use facets to group and explore logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Facets.html). To find the fields that are in your log group events, use the [GetLogGroupFields](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html) operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value  or requestId IN [value, value, ...] will process fewer log events to reduce costs, and have improved performance. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:
+    ///
+    /// * @logStream
+    ///
+    /// * @aws.region
+    ///
+    /// * @aws.account
+    ///
+    /// * @source.log
+    ///
+    /// * traceId
+    ///
+    ///
+    /// Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota. Each index policy has the following quotas and restrictions:
     ///
     /// * As many as 20 fields can be included in the policy.
     ///
     /// * Each field name can include as many as 100 characters.
     ///
     ///
-    /// Matches of log events to the names of indexed fields are case-sensitive. For example, a field index of RequestId won't match a log event containing requestId. Log group-level field index policies created with PutIndexPolicy override account-level field index policies created with [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html). If you use PutIndexPolicy to create a field index policy for a log group, that log group uses only that policy. The log group ignores any account-wide field index policy that you might have created.
+    /// Matches of log events to the names of indexed fields are case-sensitive. For example, a field index of RequestId won't match a log event containing requestId. Log group-level field index policies created with PutIndexPolicy override account-level field index policies created with [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html) that apply to log groups. If you use PutIndexPolicy to create a field index policy for a log group, that log group uses only that policy for log group-level indexing, including any facet configurations. The log group ignores any account-wide field index policy that applies to log groups, but data source-based account policies may still apply.
     ///
-    /// - Parameter PutIndexPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutIndexPolicyInput`)
     ///
-    /// - Returns: `PutIndexPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutIndexPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5517,6 +6734,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIndexPolicyInput, PutIndexPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutIndexPolicyOutput>(PutIndexPolicyOutput.httpOutput(from:), PutIndexPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIndexPolicyInput, PutIndexPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIndexPolicyOutput>())
@@ -5551,9 +6769,9 @@ extension CloudWatchLogsClient {
     ///
     /// Creates an integration between CloudWatch Logs and another service in this account. Currently, only integrations with OpenSearch Service are supported, and currently you can have only one integration in your account. Integrating with OpenSearch Service makes it possible for you to create curated vended logs dashboards, powered by OpenSearch Service analytics. For more information, see [Vended log dashboards powered by Amazon OpenSearch Service](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-OpenSearch-Dashboards.html). You can use this operation only to create a new integration. You can't modify an existing integration.
     ///
-    /// - Parameter PutIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutIntegrationInput`)
     ///
-    /// - Returns: `PutIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5588,6 +6806,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIntegrationInput, PutIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutIntegrationOutput>(PutIntegrationOutput.httpOutput(from:), PutIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIntegrationInput, PutIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIntegrationOutput>())
@@ -5641,9 +6860,9 @@ extension CloudWatchLogsClient {
     ///
     /// The quota of five requests per second per log stream has been removed. Instead, PutLogEvents actions are throttled based on a per-second per-account quota. You can request an increase to the per-second throttling quota by using the Service Quotas service. If a call to PutLogEvents returns "UnrecognizedClientException" the most likely cause is a non-valid Amazon Web Services access key ID or secret key.
     ///
-    /// - Parameter PutLogEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLogEventsInput`)
     ///
-    /// - Returns: `PutLogEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLogEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5680,6 +6899,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogEventsInput, PutLogEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLogEventsOutput>(PutLogEventsOutput.httpOutput(from:), PutLogEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLogEventsInput, PutLogEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLogEventsOutput>())
@@ -5710,13 +6930,87 @@ extension CloudWatchLogsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutLogGroupDeletionProtection` operation on the `CloudWatchLogs` service.
+    ///
+    /// Enables or disables deletion protection for the specified log group. When enabled on a log group, deletion protection blocks all deletion operations until it is explicitly disabled. For information about the parameters that are common to all actions, see [Common Parameters](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/CommonParameters.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutLogGroupDeletionProtectionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutLogGroupDeletionProtectionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InvalidOperationException` : The operation is not valid on the specified resource.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `OperationAbortedException` : Multiple concurrent requests to update the same resource were in conflict.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    public func putLogGroupDeletionProtection(input: PutLogGroupDeletionProtectionInput) async throws -> PutLogGroupDeletionProtectionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putLogGroupDeletionProtection")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(PutLogGroupDeletionProtectionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLogGroupDeletionProtectionOutput>(PutLogGroupDeletionProtectionOutput.httpOutput(from:), PutLogGroupDeletionProtectionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutLogGroupDeletionProtectionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLogGroupDeletionProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(xAmzTarget: "Logs_20140328.PutLogGroupDeletionProtection"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutLogGroupDeletionProtectionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLogGroupDeletionProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutLogGroupDeletionProtectionInput, PutLogGroupDeletionProtectionOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutLogGroupDeletionProtection")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutMetricFilter` operation on the `CloudWatchLogs` service.
     ///
     /// Creates or updates a metric filter and associates it with the specified log group. With metric filters, you can configure rules to extract metric data from log events ingested through [PutLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html). The maximum number of metric filters that can be associated with a log group is 100. Using regular expressions in filter patterns is supported. For these filters, there is a quota of two regular expression patterns within a single filter pattern. There is also a quota of five regular expression patterns per log group. For more information about using regular expressions in filter patterns, see [ Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html). When you create a metric filter, you can also optionally assign a unit and dimensions to the metric that is created. Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as IPAddress or requestID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric. CloudWatch Logs might disable a metric filter if it generates 1,000 different name/value pairs for your specified dimensions within one hour. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see [ Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html).
     ///
-    /// - Parameter PutMetricFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMetricFilterInput`)
     ///
-    /// - Returns: `PutMetricFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMetricFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5753,6 +7047,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricFilterInput, PutMetricFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetricFilterOutput>(PutMetricFilterOutput.httpOutput(from:), PutMetricFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricFilterInput, PutMetricFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricFilterOutput>())
@@ -5787,9 +7082,9 @@ extension CloudWatchLogsClient {
     ///
     /// Creates or updates a query definition for CloudWatch Logs Insights. For more information, see [Analyzing Log Data with CloudWatch Logs Insights](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html). To update a query definition, specify its queryDefinitionId in your request. The values of name, queryString, and logGroupNames are changed to the values that you specify in your update operation. No current values are retained from the current query definition. For example, imagine updating a current query definition that includes log groups. If you don't specify the logGroupNames parameter in your update operation, the query definition changes to contain no log groups. You must have the logs:PutQueryDefinition permission to be able to perform this operation.
     ///
-    /// - Parameter PutQueryDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutQueryDefinitionInput`)
     ///
-    /// - Returns: `PutQueryDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutQueryDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5825,6 +7120,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutQueryDefinitionInput, PutQueryDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutQueryDefinitionOutput>(PutQueryDefinitionOutput.httpOutput(from:), PutQueryDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutQueryDefinitionInput, PutQueryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutQueryDefinitionOutput>())
@@ -5857,11 +7153,20 @@ extension CloudWatchLogsClient {
 
     /// Performs the `PutResourcePolicy` operation on the `CloudWatchLogs` service.
     ///
-    /// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. An account can have up to 10 resource policies per Amazon Web Services Region.
+    /// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. This API has the following restrictions:
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// * Supported actions - Policy only supports logs:PutLogEvents and logs:CreateLogStream  actions
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// * Supported principals - Policy only applies when operations are invoked by Amazon Web Services service principals (not IAM users, roles, or cross-account principals
+    ///
+    /// * Policy limits - An account can have a maximum of 10 policies without resourceARN and one per LogGroup resourceARN
+    ///
+    ///
+    /// Resource policies with actions invoked by non-Amazon Web Services service principals (such as IAM users, roles, or other Amazon Web Services accounts) will not be enforced. For access control involving these principals, use the IAM policies.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5897,6 +7202,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -5931,9 +7237,9 @@ extension CloudWatchLogsClient {
     ///
     /// Sets the retention of the specified log group. With a retention policy, you can configure the number of days for which to retain log events in the specified log group. CloudWatch Logs doesn't immediately delete log events when they reach their retention setting. It typically takes up to 72 hours after that before log events are deleted, but in rare situations might take longer. To illustrate, imagine that you change a log group to have a longer retention setting when it contains log events that are past the expiration date, but haven't been deleted. Those log events will take up to 72 hours to be deleted after the new retention date is reached. To make sure that log data is deleted permanently, keep a log group at its lower retention setting until 72 hours after the previous retention period ends. Alternatively, wait to change the retention setting until you confirm that the earlier log events are deleted. When log events reach their retention setting they are marked for deletion. After they are marked for deletion, they do not add to your archival storage costs anymore, even if they are not actually deleted until later. These log events marked for deletion are also not included when you use an API to retrieve the storedBytes value to see how many bytes a log group is storing.
     ///
-    /// - Parameter PutRetentionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRetentionPolicyInput`)
     ///
-    /// - Returns: `PutRetentionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRetentionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5968,6 +7274,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRetentionPolicyOutput>(PutRetentionPolicyOutput.httpOutput(from:), PutRetentionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRetentionPolicyInput, PutRetentionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRetentionPolicyOutput>())
@@ -6013,9 +7320,9 @@ extension CloudWatchLogsClient {
     ///
     /// Each log group can have up to two subscription filters associated with it. If you are updating an existing filter, you must specify the correct name in filterName. Using regular expressions in filter patterns is supported. For these filters, there is a quotas of quota of two regular expression patterns within a single filter pattern. There is also a quota of five regular expression patterns per log group. For more information about using regular expressions in filter patterns, see [ Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html). To perform a PutSubscriptionFilter operation for any destination except a Lambda function, you must also have the iam:PassRole permission.
     ///
-    /// - Parameter PutSubscriptionFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSubscriptionFilterInput`)
     ///
-    /// - Returns: `PutSubscriptionFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSubscriptionFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6052,6 +7359,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSubscriptionFilterInput, PutSubscriptionFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSubscriptionFilterOutput>(PutSubscriptionFilterOutput.httpOutput(from:), PutSubscriptionFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSubscriptionFilterInput, PutSubscriptionFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSubscriptionFilterOutput>())
@@ -6086,9 +7394,9 @@ extension CloudWatchLogsClient {
     ///
     /// Creates or updates a log transformer for a single log group. You use log transformers to transform log events into a different format, making them easier for you to process and analyze. You can also transform logs from different sources into standardized formats that contains relevant, source-specific information. After you have created a transformer, CloudWatch Logs performs the transformations at the time of log ingestion. You can then refer to the transformed versions of the logs during operations such as querying with CloudWatch Logs Insights or creating metric filters or subscription filers. You can also use a transformer to copy metadata from metadata keys into the log events themselves. This metadata can include log group name, log stream name, account ID and Region. A transformer for a log group is a series of processors, where each processor applies one type of transformation to the log events ingested into this log group. The processors work one after another, in the order that you list them, like a pipeline. For more information about the available processors to use in a transformer, see [ Processors that you can use](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Processors). Having log events in standardized format enables visibility across your applications for your log analysis, reporting, and alarming needs. CloudWatch Logs provides transformation for common log types with out-of-the-box transformation templates for major Amazon Web Services log sources such as VPC flow logs, Lambda, and Amazon RDS. You can use pre-built transformation templates or create custom transformation policies. You can create transformers only for the log groups in the Standard log class. You can also set up a transformer at the account level. For more information, see [PutAccountPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html). If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer.
     ///
-    /// - Parameter PutTransformerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTransformerInput`)
     ///
-    /// - Returns: `PutTransformerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTransformerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6125,6 +7433,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTransformerInput, PutTransformerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTransformerOutput>(PutTransformerOutput.httpOutput(from:), PutTransformerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTransformerInput, PutTransformerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTransformerOutput>())
@@ -6170,9 +7479,9 @@ extension CloudWatchLogsClient {
     ///
     /// The StartLiveTail API routes requests to streaming-logs.Region.amazonaws.com using SDK host prefix injection. VPC endpoint support is not available for this API. You can end a session before it times out by closing the session stream or by closing the client that is receiving the stream. The session also ends if the established connection between the client and the server breaks. For examples of using an SDK to start a Live Tail session, see [ Start a Live Tail session using an Amazon Web Services SDK](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html).
     ///
-    /// - Parameter StartLiveTailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartLiveTailInput`)
     ///
-    /// - Returns: `StartLiveTailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartLiveTailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6208,6 +7517,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLiveTailInput, StartLiveTailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLiveTailOutput>(StartLiveTailOutput.httpOutput(from:), StartLiveTailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLiveTailInput, StartLiveTailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartLiveTailOutput>())
@@ -6240,18 +7550,18 @@ extension CloudWatchLogsClient {
 
     /// Performs the `StartQuery` operation on the `CloudWatchLogs` service.
     ///
-    /// Starts a query of one or more log groups using CloudWatch Logs Insights. You specify the log groups and time range to query and the query string to use. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html). After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html) to retrieve the results of a query, using the queryId that StartQuery returns. To specify the log groups to query, a StartQuery operation must include one of the following:
+    /// Starts a query of one or more log groups or data sources using CloudWatch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see [CloudWatch Logs Insights Query Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html). After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use [GetQueryResults](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html) to retrieve the results of a query, using the queryId that StartQuery returns. Interactive queries started with StartQuery share concurrency limits with automated scheduled query executions. Both types of queries count toward the same regional concurrent query quota, so high scheduled query activity may affect the availability of concurrent slots for interactive queries. To specify the log groups to query, a StartQuery operation must include one of the following:
     ///
     /// * Either exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers
     ///
-    /// * Or the queryString must include a SOURCE command to select log groups for the query. The SOURCE command can select log groups based on log group name prefix, account ID, and log class. For more information about the SOURCE command, see [SOURCE](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-Source.html).
+    /// * Or the queryString must include a SOURCE command to select log groups for the query. The SOURCE command can select log groups based on log group name prefix, account ID, and log class, or select data sources using dataSource syntax in LogsQL, PPL, and SQL. For more information about the SOURCE command, see [SOURCE](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-Source.html).
     ///
     ///
     /// If you have associated a KMS key with the query results in this account, then [StartQuery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html) uses that key to encrypt the results when it stores them. If no key is associated with query results, the query results are encrypted with the default CloudWatch Logs encryption method. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
     ///
-    /// - Parameter StartQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryInput`)
     ///
-    /// - Returns: `StartQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6287,6 +7597,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryInput, StartQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQueryOutput>(StartQueryOutput.httpOutput(from:), StartQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryInput, StartQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryOutput>())
@@ -6319,11 +7630,11 @@ extension CloudWatchLogsClient {
 
     /// Performs the `StopQuery` operation on the `CloudWatchLogs` service.
     ///
-    /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running.
+    /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running. This operation can be used to cancel both interactive queries and individual scheduled query executions. When used with scheduled queries, StopQuery cancels only the specific execution identified by the query ID, not the scheduled query configuration itself.
     ///
-    /// - Parameter StopQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryInput`)
     ///
-    /// - Returns: `StopQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6357,6 +7668,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopQueryInput, StopQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopQueryOutput>(StopQueryOutput.httpOutput(from:), StopQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopQueryInput, StopQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopQueryOutput>())
@@ -6392,9 +7704,9 @@ extension CloudWatchLogsClient {
     /// The TagLogGroup operation is on the path to deprecation. We recommend that you use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html) instead. Adds or updates the specified tags for the specified log group. To list the tags for a log group, use [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html). To remove tags, use [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html). For more information about tags, see [Tag Log Groups in Amazon CloudWatch Logs](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html#log-group-tagging) in the Amazon CloudWatch Logs User Guide. CloudWatch Logs doesn't support IAM policies that prevent users from assigning specified tags to log groups using the aws:Resource/key-name  or aws:TagKeys condition keys. For more information about using tags to control access, see [Controlling access to Amazon Web Services resources using tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html).
     @available(*, deprecated, message: "Please use the generic tagging API TagResource")
     ///
-    /// - Parameter TagLogGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagLogGroupInput`)
     ///
-    /// - Returns: `TagLogGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagLogGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6427,6 +7739,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagLogGroupInput, TagLogGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagLogGroupOutput>(TagLogGroupOutput.httpOutput(from:), TagLogGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagLogGroupInput, TagLogGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagLogGroupOutput>())
@@ -6461,9 +7774,9 @@ extension CloudWatchLogsClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch Logs resource. Currently, the only CloudWatch Logs resources that can be tagged are log groups and destinations. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch Logs resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6498,6 +7811,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6532,9 +7846,9 @@ extension CloudWatchLogsClient {
     ///
     /// Tests the filter pattern of a metric filter against a sample of log event messages. You can use this operation to validate the correctness of a metric filter pattern.
     ///
-    /// - Parameter TestMetricFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestMetricFilterInput`)
     ///
-    /// - Returns: `TestMetricFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestMetricFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6567,6 +7881,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestMetricFilterInput, TestMetricFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestMetricFilterOutput>(TestMetricFilterOutput.httpOutput(from:), TestMetricFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestMetricFilterInput, TestMetricFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestMetricFilterOutput>())
@@ -6601,9 +7916,9 @@ extension CloudWatchLogsClient {
     ///
     /// Use this operation to test a log transformer. You enter the transformer configuration and a set of log events to test with. The operation responds with an array that includes the original log events and the transformed versions.
     ///
-    /// - Parameter TestTransformerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestTransformerInput`)
     ///
-    /// - Returns: `TestTransformerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestTransformerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6637,6 +7952,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestTransformerInput, TestTransformerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestTransformerOutput>(TestTransformerOutput.httpOutput(from:), TestTransformerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestTransformerInput, TestTransformerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestTransformerOutput>())
@@ -6672,9 +7988,9 @@ extension CloudWatchLogsClient {
     /// The UntagLogGroup operation is on the path to deprecation. We recommend that you use [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html) instead. Removes the specified tags from the specified log group. To list the tags for a log group, use [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html). To add tags, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html). When using IAM policies to control tag management for CloudWatch Logs log groups, the condition keys aws:Resource/key-name and aws:TagKeys cannot be used to restrict which tags users can assign.
     @available(*, deprecated, message: "Please use the generic tagging API UntagResource")
     ///
-    /// - Parameter UntagLogGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagLogGroupInput`)
     ///
-    /// - Returns: `UntagLogGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagLogGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6706,6 +8022,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagLogGroupInput, UntagLogGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagLogGroupOutput>(UntagLogGroupOutput.httpOutput(from:), UntagLogGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagLogGroupInput, UntagLogGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagLogGroupOutput>())
@@ -6740,9 +8057,9 @@ extension CloudWatchLogsClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6776,6 +8093,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6810,9 +8128,9 @@ extension CloudWatchLogsClient {
     ///
     /// Use this operation to suppress anomaly detection for a specified anomaly or pattern. If you suppress an anomaly, CloudWatch Logs won't report new occurrences of that anomaly and won't update that anomaly with new data. If you suppress a pattern, CloudWatch Logs won't report any anomalies related to that pattern. You must specify either anomalyId or patternId, but you can't specify both parameters in the same operation. If you have previously used this operation to suppress detection of a pattern or anomaly, you can use it again to cause CloudWatch Logs to end the suppression. To do this, use this operation and specify the anomaly or pattern to stop suppressing, and omit the suppressionType and suppressionPeriod parameters.
     ///
-    /// - Parameter UpdateAnomalyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnomalyInput`)
     ///
-    /// - Returns: `UpdateAnomalyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnomalyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6847,6 +8165,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnomalyInput, UpdateAnomalyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnomalyOutput>(UpdateAnomalyOutput.httpOutput(from:), UpdateAnomalyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnomalyInput, UpdateAnomalyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnomalyOutput>())
@@ -6881,9 +8200,9 @@ extension CloudWatchLogsClient {
     ///
     /// Use this operation to update the configuration of a [delivery](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_Delivery.html) to change either the S3 path pattern or the format of the delivered logs. You can't use this operation to change the source or destination of the delivery.
     ///
-    /// - Parameter UpdateDeliveryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeliveryConfigurationInput`)
     ///
-    /// - Returns: `UpdateDeliveryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeliveryConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6920,6 +8239,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeliveryConfigurationInput, UpdateDeliveryConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeliveryConfigurationOutput>(UpdateDeliveryConfigurationOutput.httpOutput(from:), UpdateDeliveryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeliveryConfigurationInput, UpdateDeliveryConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeliveryConfigurationOutput>())
@@ -6954,9 +8274,9 @@ extension CloudWatchLogsClient {
     ///
     /// Updates an existing log anomaly detector.
     ///
-    /// - Parameter UpdateLogAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLogAnomalyDetectorInput`)
     ///
-    /// - Returns: `UpdateLogAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLogAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6991,6 +8311,7 @@ extension CloudWatchLogsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLogAnomalyDetectorInput, UpdateLogAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLogAnomalyDetectorOutput>(UpdateLogAnomalyDetectorOutput.httpOutput(from:), UpdateLogAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLogAnomalyDetectorInput, UpdateLogAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLogAnomalyDetectorOutput>())
@@ -7009,6 +8330,79 @@ extension CloudWatchLogsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLogAnomalyDetector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateScheduledQuery` operation on the `CloudWatchLogs` service.
+    ///
+    /// Updates an existing scheduled query with new configuration. This operation uses PUT semantics, allowing modification of query parameters, schedule, and destinations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduledQueryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateScheduledQueryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permissions to perform this action.
+    /// - `InternalServerException` : An internal server error occurred while processing the request. This exception is returned when the service encounters an unexpected condition that prevents it from fulfilling the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The request was throttled because of quota limits.
+    /// - `ValidationException` : One of the parameters for the request is not valid.
+    public func updateScheduledQuery(input: UpdateScheduledQueryInput) async throws -> UpdateScheduledQueryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateScheduledQuery")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "logs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateScheduledQueryInput, UpdateScheduledQueryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(UpdateScheduledQueryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScheduledQueryOutput>(UpdateScheduledQueryOutput.httpOutput(from:), UpdateScheduledQueryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScheduledQueryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch Logs", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateScheduledQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(xAmzTarget: "Logs_20140328.UpdateScheduledQuery"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateScheduledQueryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateScheduledQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateScheduledQueryInput, UpdateScheduledQueryOutput>(serviceID: serviceName, version: CloudWatchLogsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatchLogs")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateScheduledQuery")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

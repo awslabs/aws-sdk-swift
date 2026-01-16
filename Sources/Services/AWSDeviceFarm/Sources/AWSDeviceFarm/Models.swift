@@ -1040,6 +1040,27 @@ public struct TagOperationException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension DeviceFarmClientTypes {
 
+    /// Information about an environment variable for a project or a run.
+    public struct EnvironmentVariable: Swift.Sendable {
+        /// The name of the environment variable.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value of the environment variable.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
     /// Contains the VPC configuration data necessary to interface with AWS Device Farm's services.
     public struct VpcConfig: Swift.Sendable {
         /// An array of one or more security groups IDs in your Amazon VPC.
@@ -1068,6 +1089,10 @@ extension DeviceFarmClientTypes {
 public struct CreateProjectInput: Swift.Sendable {
     /// Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
     public var defaultJobTimeoutMinutes: Swift.Int?
+    /// A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file. For more information about using test spec files, please see [Custom test environments ](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html) in AWS Device Farm.
+    public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
+    /// An IAM role to be assumed by the test host for all runs in the project.
+    public var executionRoleArn: Swift.String?
     /// The project's name.
     /// This member is required.
     public var name: Swift.String?
@@ -1076,10 +1101,14 @@ public struct CreateProjectInput: Swift.Sendable {
 
     public init(
         defaultJobTimeoutMinutes: Swift.Int? = nil,
+        environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
+        executionRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
     ) {
         self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+        self.environmentVariables = environmentVariables
+        self.executionRoleArn = executionRoleArn
         self.name = name
         self.vpcConfig = vpcConfig
     }
@@ -1095,6 +1124,10 @@ extension DeviceFarmClientTypes {
         public var created: Foundation.Date?
         /// The default number of minutes (at the project level) a test run executes before it times out. The default value is 150 minutes.
         public var defaultJobTimeoutMinutes: Swift.Int?
+        /// Environment variables associated with the project.
+        public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
+        /// The IAM execution role associated with the project.
+        public var executionRoleArn: Swift.String?
         /// The project's name.
         public var name: Swift.String?
         /// The VPC security groups and subnets that are attached to a project.
@@ -1104,12 +1137,16 @@ extension DeviceFarmClientTypes {
             arn: Swift.String? = nil,
             created: Foundation.Date? = nil,
             defaultJobTimeoutMinutes: Swift.Int? = nil,
+            environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
+            executionRoleArn: Swift.String? = nil,
             name: Swift.String? = nil,
             vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
         ) {
             self.arn = arn
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
             self.name = name
             self.vpcConfig = vpcConfig
         }
@@ -1153,6 +1190,8 @@ extension DeviceFarmClientTypes {
 
     /// Configuration settings for a remote access session, including billing method.
     public struct CreateRemoteAccessSessionConfiguration: Swift.Sendable {
+        /// A list of upload ARNs for app packages to be installed onto your device. (Maximum 3)
+        public var auxiliaryApps: [Swift.String]?
         /// The billing method for the remote access session.
         public var billingMethod: DeviceFarmClientTypes.BillingMethod?
         /// The device proxy to be configured on the device for the remote access session.
@@ -1161,10 +1200,12 @@ extension DeviceFarmClientTypes {
         public var vpceConfigurationArns: [Swift.String]?
 
         public init(
+            auxiliaryApps: [Swift.String]? = nil,
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
             deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             vpceConfigurationArns: [Swift.String]? = nil
         ) {
+            self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.deviceProxy = deviceProxy
             self.vpceConfigurationArns = vpceConfigurationArns
@@ -1172,42 +1213,10 @@ extension DeviceFarmClientTypes {
     }
 }
 
-extension DeviceFarmClientTypes {
-
-    public enum InteractionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case interactive
-        case noVideo
-        case videoOnly
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InteractionMode] {
-            return [
-                .interactive,
-                .noVideo,
-                .videoOnly
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .interactive: return "INTERACTIVE"
-            case .noVideo: return "NO_VIDEO"
-            case .videoOnly: return "VIDEO_ONLY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 /// Creates and submits a request to start a remote access session.
 public struct CreateRemoteAccessSessionInput: Swift.Sendable {
-    /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This identifier is required only if remoteDebugEnabled is set to true. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
-    public var clientId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the app to create the remote access session.
+    public var appArn: Swift.String?
     /// The configuration information for the remote access session request.
     public var configuration: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration?
     /// The ARN of the device for which you want to create a remote access session.
@@ -1215,56 +1224,30 @@ public struct CreateRemoteAccessSessionInput: Swift.Sendable {
     public var deviceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the device instance for which you want to create a remote access session.
     public var instanceArn: Swift.String?
-    /// The interaction mode of the remote access session. Valid values are:
-    ///
-    /// * INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the screen. You cannot run XCUITest framework-based tests in this mode.
-    ///
-    /// * NO_VIDEO: You are connected to the device, but cannot interact with it or view the screen. This mode has the fastest test execution speed. You can run XCUITest framework-based tests in this mode.
-    ///
-    /// * VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run XCUITest framework-based tests and watch the screen in this mode.
-    public var interactionMode: DeviceFarmClientTypes.InteractionMode?
     /// The name of the remote access session to create.
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
     /// This member is required.
     public var projectArn: Swift.String?
-    /// Set to true if you want to access devices remotely for debugging in your remote access session. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
-    public var remoteDebugEnabled: Swift.Bool?
-    /// The Amazon Resource Name (ARN) for the app to be recorded in the remote access session.
-    public var remoteRecordAppArn: Swift.String?
-    /// Set to true to enable remote recording for the remote access session.
-    public var remoteRecordEnabled: Swift.Bool?
     /// When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information on how Device Farm modifies your uploads during tests, see [Do you modify my app?](http://aws.amazon.com/device-farm/faqs/)
     public var skipAppResign: Swift.Bool?
-    /// Ignored. The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This key is required only if remoteDebugEnabled is set to true. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
-    public var sshPublicKey: Swift.String?
 
     public init(
-        clientId: Swift.String? = nil,
+        appArn: Swift.String? = nil,
         configuration: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration? = nil,
         deviceArn: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
-        interactionMode: DeviceFarmClientTypes.InteractionMode? = nil,
         name: Swift.String? = nil,
         projectArn: Swift.String? = nil,
-        remoteDebugEnabled: Swift.Bool? = nil,
-        remoteRecordAppArn: Swift.String? = nil,
-        remoteRecordEnabled: Swift.Bool? = nil,
-        skipAppResign: Swift.Bool? = nil,
-        sshPublicKey: Swift.String? = nil
+        skipAppResign: Swift.Bool? = nil
     ) {
-        self.clientId = clientId
+        self.appArn = appArn
         self.configuration = configuration
         self.deviceArn = deviceArn
         self.instanceArn = instanceArn
-        self.interactionMode = interactionMode
         self.name = name
         self.projectArn = projectArn
-        self.remoteDebugEnabled = remoteDebugEnabled
-        self.remoteRecordAppArn = remoteRecordAppArn
-        self.remoteRecordEnabled = remoteRecordEnabled
         self.skipAppResign = skipAppResign
-        self.sshPublicKey = sshPublicKey
     }
 }
 
@@ -1471,8 +1454,6 @@ extension DeviceFarmClientTypes {
         public var radio: Swift.String?
         /// Specifies whether remote access has been enabled for the specified device.
         public var remoteAccessEnabled: Swift.Bool?
-        /// This flag is set to true if remote debugging is enabled for the device. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
-        public var remoteDebugEnabled: Swift.Bool?
         /// The resolution of the device.
         public var resolution: DeviceFarmClientTypes.Resolution?
 
@@ -1496,7 +1477,6 @@ extension DeviceFarmClientTypes {
             platform: DeviceFarmClientTypes.DevicePlatform? = nil,
             radio: Swift.String? = nil,
             remoteAccessEnabled: Swift.Bool? = nil,
-            remoteDebugEnabled: Swift.Bool? = nil,
             resolution: DeviceFarmClientTypes.Resolution? = nil
         ) {
             self.arn = arn
@@ -1518,7 +1498,6 @@ extension DeviceFarmClientTypes {
             self.platform = platform
             self.radio = radio
             self.remoteAccessEnabled = remoteAccessEnabled
-            self.remoteDebugEnabled = remoteDebugEnabled
             self.resolution = resolution
         }
     }
@@ -1545,6 +1524,30 @@ extension DeviceFarmClientTypes {
             self.unmetered = unmetered
         }
     }
+}
+
+extension DeviceFarmClientTypes {
+
+    /// Represents the remote endpoints for viewing and controlling a device during a remote access session.
+    public struct RemoteAccessEndpoints: Swift.Sendable {
+        /// URL for viewing and interacting with the device during the remote access session.
+        public var interactiveEndpoint: Swift.String?
+        /// URL for controlling the device using WebDriver-compliant clients, like Appium, during the remote access session.
+        public var remoteDriverEndpoint: Swift.String?
+
+        public init(
+            interactiveEndpoint: Swift.String? = nil,
+            remoteDriverEndpoint: Swift.String? = nil
+        ) {
+            self.interactiveEndpoint = interactiveEndpoint
+            self.remoteDriverEndpoint = remoteDriverEndpoint
+        }
+    }
+}
+
+extension DeviceFarmClientTypes.RemoteAccessEndpoints: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteAccessEndpoints(interactiveEndpoint: \"CONTENT_REDACTED\", remoteDriverEndpoint: \"CONTENT_REDACTED\")"}
 }
 
 extension DeviceFarmClientTypes {
@@ -1645,12 +1648,12 @@ extension DeviceFarmClientTypes {
 
     /// Represents information about the remote access session.
     public struct RemoteAccessSession: Swift.Sendable {
+        /// The ARN for the app to be installed onto your device.
+        public var appUpload: Swift.String?
         /// The Amazon Resource Name (ARN) of the remote access session.
         public var arn: Swift.String?
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see [AWS Device Farm terminology](https://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology).
         public var billingMethod: DeviceFarmClientTypes.BillingMethod?
-        /// Unique identifier of your client for the remote access session. Only returned if remote debugging is enabled for the remote access session. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
-        public var clientId: Swift.String?
         /// The date and time the remote access session was created.
         public var created: Foundation.Date?
         /// The device (phone or tablet) used in the remote access session.
@@ -1661,30 +1664,17 @@ extension DeviceFarmClientTypes {
         public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
         /// Unique device identifier for the remote device. Only returned if remote debugging is enabled for the remote access session. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
         public var deviceUdid: Swift.String?
-        /// The endpoint for the remote access sesssion.
+        /// The endpoint for the remote access session. This field is deprecated, and is replaced by the new endpoints.interactiveEndpoint field.
+        @available(*, deprecated, message: "This field is deprecated, and is replaced by the new endpoints.interactiveEndpoint field. API deprecated since 2025-11-17")
         public var endpoint: Swift.String?
-        /// IP address of the EC2 host where you need to connect to remotely debug devices. Only returned if remote debugging is enabled for the remote access session. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
-        public var hostAddress: Swift.String?
+        /// Represents the remote endpoints for viewing and controlling a device during a remote access session.
+        public var endpoints: DeviceFarmClientTypes.RemoteAccessEndpoints?
         /// The ARN of the instance.
         public var instanceArn: Swift.String?
-        /// The interaction mode of the remote access session. Valid values are:
-        ///
-        /// * INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the screen. You cannot run XCUITest framework-based tests in this mode.
-        ///
-        /// * NO_VIDEO: You are connected to the device, but cannot interact with it or view the screen. This mode has the fastest test execution speed. You can run XCUITest framework-based tests in this mode.
-        ///
-        /// * VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run XCUITest framework-based tests and watch the screen in this mode.
-        public var interactionMode: DeviceFarmClientTypes.InteractionMode?
         /// A message about the remote access session.
         public var message: Swift.String?
         /// The name of the remote access session.
         public var name: Swift.String?
-        /// This flag is set to true if remote debugging is enabled for the remote access session. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
-        public var remoteDebugEnabled: Swift.Bool?
-        /// The ARN for the app to be recorded in the remote access session.
-        public var remoteRecordAppArn: Swift.String?
-        /// This flag is set to true if remote recording is enabled for the remote access session.
-        public var remoteRecordEnabled: Swift.Bool?
         /// The result of the remote access session. Can be any of the following:
         ///
         /// * PENDING.
@@ -1731,23 +1721,19 @@ extension DeviceFarmClientTypes {
         public var vpcConfig: DeviceFarmClientTypes.VpcConfig?
 
         public init(
+            appUpload: Swift.String? = nil,
             arn: Swift.String? = nil,
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
-            clientId: Swift.String? = nil,
             created: Foundation.Date? = nil,
             device: DeviceFarmClientTypes.Device? = nil,
             deviceMinutes: DeviceFarmClientTypes.DeviceMinutes? = nil,
             deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             deviceUdid: Swift.String? = nil,
             endpoint: Swift.String? = nil,
-            hostAddress: Swift.String? = nil,
+            endpoints: DeviceFarmClientTypes.RemoteAccessEndpoints? = nil,
             instanceArn: Swift.String? = nil,
-            interactionMode: DeviceFarmClientTypes.InteractionMode? = nil,
             message: Swift.String? = nil,
             name: Swift.String? = nil,
-            remoteDebugEnabled: Swift.Bool? = nil,
-            remoteRecordAppArn: Swift.String? = nil,
-            remoteRecordEnabled: Swift.Bool? = nil,
             result: DeviceFarmClientTypes.ExecutionResult? = nil,
             skipAppResign: Swift.Bool? = nil,
             started: Foundation.Date? = nil,
@@ -1755,23 +1741,19 @@ extension DeviceFarmClientTypes {
             stopped: Foundation.Date? = nil,
             vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
         ) {
+            self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
-            self.clientId = clientId
             self.created = created
             self.device = device
             self.deviceMinutes = deviceMinutes
             self.deviceProxy = deviceProxy
             self.deviceUdid = deviceUdid
             self.endpoint = endpoint
-            self.hostAddress = hostAddress
+            self.endpoints = endpoints
             self.instanceArn = instanceArn
-            self.interactionMode = interactionMode
             self.message = message
             self.name = name
-            self.remoteDebugEnabled = remoteDebugEnabled
-            self.remoteRecordAppArn = remoteRecordAppArn
-            self.remoteRecordEnabled = remoteRecordEnabled
             self.result = result
             self.skipAppResign = skipAppResign
             self.started = started
@@ -2805,6 +2787,10 @@ extension DeviceFarmClientTypes {
         public var customerArtifactPaths: DeviceFarmClientTypes.CustomerArtifactPaths?
         /// The device proxy to be configured on the device for the run.
         public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
+        /// Environment variables associated with the run.
+        public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
+        /// An IAM role to be assumed by the test host for the run.
+        public var executionRoleArn: Swift.String?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
         public var extraDataPackageArn: Swift.String?
         /// Information about the locale that is used for the run.
@@ -2823,6 +2809,8 @@ extension DeviceFarmClientTypes {
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
             customerArtifactPaths: DeviceFarmClientTypes.CustomerArtifactPaths? = nil,
             deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
+            environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
+            executionRoleArn: Swift.String? = nil,
             extraDataPackageArn: Swift.String? = nil,
             locale: Swift.String? = nil,
             location: DeviceFarmClientTypes.Location? = nil,
@@ -2834,6 +2822,8 @@ extension DeviceFarmClientTypes {
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
             self.deviceProxy = deviceProxy
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
             self.extraDataPackageArn = extraDataPackageArn
             self.locale = locale
             self.location = location
@@ -3831,8 +3821,12 @@ extension DeviceFarmClientTypes {
         public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
         /// The results of a device filter used to select the devices for a test run.
         public var deviceSelectionResult: DeviceFarmClientTypes.DeviceSelectionResult?
+        /// Environment variables associated with the run.
+        public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
         /// For fuzz tests, this is the number of events, between 1 and 10000, that the UI fuzz test should perform.
         public var eventCount: Swift.Int?
+        /// The IAM role associated with the run.
+        public var executionRoleArn: Swift.String?
         /// The number of minutes the job executes before it times out.
         public var jobTimeoutMinutes: Swift.Int?
         /// Information about the locale that is used for the run.
@@ -3952,7 +3946,9 @@ extension DeviceFarmClientTypes {
             devicePoolArn: Swift.String? = nil,
             deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             deviceSelectionResult: DeviceFarmClientTypes.DeviceSelectionResult? = nil,
+            environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
             eventCount: Swift.Int? = nil,
+            executionRoleArn: Swift.String? = nil,
             jobTimeoutMinutes: Swift.Int? = nil,
             locale: Swift.String? = nil,
             location: DeviceFarmClientTypes.Location? = nil,
@@ -3986,7 +3982,9 @@ extension DeviceFarmClientTypes {
             self.devicePoolArn = devicePoolArn
             self.deviceProxy = deviceProxy
             self.deviceSelectionResult = deviceSelectionResult
+            self.environmentVariables = environmentVariables
             self.eventCount = eventCount
+            self.executionRoleArn = executionRoleArn
             self.jobTimeoutMinutes = jobTimeoutMinutes
             self.locale = locale
             self.location = location
@@ -5229,7 +5227,7 @@ public struct ListSuitesOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -6226,7 +6224,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
@@ -6248,7 +6246,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The keys of the tags to be removed.
@@ -6462,6 +6460,10 @@ public struct UpdateProjectInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The number of minutes a test run in the project executes before it times out.
     public var defaultJobTimeoutMinutes: Swift.Int?
+    /// A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file. For more information about using test spec files, please see [Custom test environments ](https://docs.aws.amazon.com/devicefarm/latest/developerguide/custom-test-environments.html) in AWS Device Farm.
+    public var environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]?
+    /// An IAM role to be assumed by the test host for all runs in the project.
+    public var executionRoleArn: Swift.String?
     /// A string that represents the new name of the project that you are updating.
     public var name: Swift.String?
     /// The VPC security groups and subnets that are attached to a project.
@@ -6470,11 +6472,15 @@ public struct UpdateProjectInput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         defaultJobTimeoutMinutes: Swift.Int? = nil,
+        environmentVariables: [DeviceFarmClientTypes.EnvironmentVariable]? = nil,
+        executionRoleArn: Swift.String? = nil,
         name: Swift.String? = nil,
         vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
     ) {
         self.arn = arn
         self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+        self.environmentVariables = environmentVariables
+        self.executionRoleArn = executionRoleArn
         self.name = name
         self.vpcConfig = vpcConfig
     }
@@ -7188,6 +7194,8 @@ extension CreateProjectInput {
     static func write(value: CreateProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["defaultJobTimeoutMinutes"].write(value.defaultJobTimeoutMinutes)
+        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: DeviceFarmClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["name"].write(value.name)
         try writer["vpcConfig"].write(value.vpcConfig, with: DeviceFarmClientTypes.VpcConfig.write(value:to:))
     }
@@ -7197,18 +7205,13 @@ extension CreateRemoteAccessSessionInput {
 
     static func write(value: CreateRemoteAccessSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["clientId"].write(value.clientId)
+        try writer["appArn"].write(value.appArn)
         try writer["configuration"].write(value.configuration, with: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration.write(value:to:))
         try writer["deviceArn"].write(value.deviceArn)
         try writer["instanceArn"].write(value.instanceArn)
-        try writer["interactionMode"].write(value.interactionMode)
         try writer["name"].write(value.name)
         try writer["projectArn"].write(value.projectArn)
-        try writer["remoteDebugEnabled"].write(value.remoteDebugEnabled)
-        try writer["remoteRecordAppArn"].write(value.remoteRecordAppArn)
-        try writer["remoteRecordEnabled"].write(value.remoteRecordEnabled)
         try writer["skipAppResign"].write(value.skipAppResign)
-        try writer["sshPublicKey"].write(value.sshPublicKey)
     }
 }
 
@@ -7848,6 +7851,8 @@ extension UpdateProjectInput {
         guard let value else { return }
         try writer["arn"].write(value.arn)
         try writer["defaultJobTimeoutMinutes"].write(value.defaultJobTimeoutMinutes)
+        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: DeviceFarmClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["name"].write(value.name)
         try writer["vpcConfig"].write(value.vpcConfig, with: DeviceFarmClientTypes.VpcConfig.write(value:to:))
     }
@@ -10325,6 +10330,25 @@ extension DeviceFarmClientTypes.Project {
         value.defaultJobTimeoutMinutes = try reader["defaultJobTimeoutMinutes"].readIfPresent()
         value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
+        value.environmentVariables = try reader["environmentVariables"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.EnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.EnvironmentVariable {
+
+    static func write(value: DeviceFarmClientTypes.EnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.EnvironmentVariable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.EnvironmentVariable()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10363,19 +10387,26 @@ extension DeviceFarmClientTypes.RemoteAccessSession {
         value.stopped = try reader["stopped"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.device = try reader["device"].readIfPresent(with: DeviceFarmClientTypes.Device.read(from:))
         value.instanceArn = try reader["instanceArn"].readIfPresent()
-        value.remoteDebugEnabled = try reader["remoteDebugEnabled"].readIfPresent()
-        value.remoteRecordEnabled = try reader["remoteRecordEnabled"].readIfPresent()
-        value.remoteRecordAppArn = try reader["remoteRecordAppArn"].readIfPresent()
-        value.hostAddress = try reader["hostAddress"].readIfPresent()
-        value.clientId = try reader["clientId"].readIfPresent()
         value.billingMethod = try reader["billingMethod"].readIfPresent()
         value.deviceMinutes = try reader["deviceMinutes"].readIfPresent(with: DeviceFarmClientTypes.DeviceMinutes.read(from:))
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.deviceUdid = try reader["deviceUdid"].readIfPresent()
-        value.interactionMode = try reader["interactionMode"].readIfPresent()
         value.skipAppResign = try reader["skipAppResign"].readIfPresent()
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
         value.deviceProxy = try reader["deviceProxy"].readIfPresent(with: DeviceFarmClientTypes.DeviceProxy.read(from:))
+        value.appUpload = try reader["appUpload"].readIfPresent()
+        value.endpoints = try reader["endpoints"].readIfPresent(with: DeviceFarmClientTypes.RemoteAccessEndpoints.read(from:))
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.RemoteAccessEndpoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.RemoteAccessEndpoints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.RemoteAccessEndpoints()
+        value.remoteDriverEndpoint = try reader["remoteDriverEndpoint"].readIfPresent()
+        value.interactiveEndpoint = try reader["interactiveEndpoint"].readIfPresent()
         return value
     }
 }
@@ -10430,7 +10461,6 @@ extension DeviceFarmClientTypes.Device {
         value.carrier = try reader["carrier"].readIfPresent()
         value.radio = try reader["radio"].readIfPresent()
         value.remoteAccessEnabled = try reader["remoteAccessEnabled"].readIfPresent()
-        value.remoteDebugEnabled = try reader["remoteDebugEnabled"].readIfPresent()
         value.fleetType = try reader["fleetType"].readIfPresent()
         value.fleetName = try reader["fleetName"].readIfPresent()
         value.instances = try reader["instances"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.DeviceInstance.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -10721,6 +10751,8 @@ extension DeviceFarmClientTypes.Run {
         value.testSpecArn = try reader["testSpecArn"].readIfPresent()
         value.deviceSelectionResult = try reader["deviceSelectionResult"].readIfPresent(with: DeviceFarmClientTypes.DeviceSelectionResult.read(from:))
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
+        value.environmentVariables = try reader["environmentVariables"].readListIfPresent(memberReadingClosure: DeviceFarmClientTypes.EnvironmentVariable.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11004,6 +11036,7 @@ extension DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration {
 
     static func write(value: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["auxiliaryApps"].writeList(value.auxiliaryApps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["billingMethod"].write(value.billingMethod)
         try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
         try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11030,6 +11063,8 @@ extension DeviceFarmClientTypes.ScheduleRunConfiguration {
         try writer["billingMethod"].write(value.billingMethod)
         try writer["customerArtifactPaths"].write(value.customerArtifactPaths, with: DeviceFarmClientTypes.CustomerArtifactPaths.write(value:to:))
         try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
+        try writer["environmentVariables"].writeList(value.environmentVariables, memberWritingClosure: DeviceFarmClientTypes.EnvironmentVariable.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["executionRoleArn"].write(value.executionRoleArn)
         try writer["extraDataPackageArn"].write(value.extraDataPackageArn)
         try writer["locale"].write(value.locale)
         try writer["location"].write(value.location, with: DeviceFarmClientTypes.Location.write(value:to:))

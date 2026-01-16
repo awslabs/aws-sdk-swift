@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -54,6 +55,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
@@ -65,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MarketplaceMeteringClient: ClientRuntime.Client {
+public class MarketplaceMeteringClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MarketplaceMeteringClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceMeteringClient.MarketplaceMeteringClientConfiguration
     let serviceName = "Marketplace Metering"
@@ -371,11 +372,11 @@ extension MarketplaceMeteringClient {
 extension MarketplaceMeteringClient {
     /// Performs the `BatchMeterUsage` operation on the `MarketplaceMetering` service.
     ///
-    /// The CustomerIdentifier parameter is scheduled for deprecation. Use CustomerAWSAccountID instead. These parameters are mutually exclusive. You can't specify both CustomerIdentifier and CustomerAWSAccountID in the same request. To post metering records for customers, SaaS applications call BatchMeterUsage, which is used for metering SaaS flexible consumption pricing (FCP). Identical requests are idempotent and can be retried with the same records or a subset of records. Each BatchMeterUsage request is for only one product. If you want to meter usage for multiple products, you must make multiple BatchMeterUsage calls. Usage records should be submitted in quick succession following a recorded event. Usage records aren't accepted 6 hours or more after an event. BatchMeterUsage can process up to 25 UsageRecords at a time, and each request must be less than 1 MB in size. Optionally, you can have multiple usage allocations for usage data that's split into buckets according to predefined tags. BatchMeterUsage returns a list of UsageRecordResult objects, which have each UsageRecord. It also returns a list of UnprocessedRecords, which indicate errors on the service side that should be retried. For Amazon Web Services Regions that support BatchMeterUsage, see [BatchMeterUsage Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#batchmeterusage-region-support). For an example of BatchMeterUsage, see [ BatchMeterUsage code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-batchmeterusage-example) in the Amazon Web Services Marketplace Seller Guide.
+    /// The CustomerIdentifier parameter is scheduled for deprecation on March 31, 2026. Use CustomerAWSAccountID instead. These parameters are mutually exclusive. You can't specify both CustomerIdentifier and CustomerAWSAccountID in the same request. To post metering records for customers, SaaS applications call BatchMeterUsage, which is used for metering SaaS flexible consumption pricing (FCP). Identical requests are idempotent and can be retried with the same records or a subset of records. Each BatchMeterUsage request is for only one product. If you want to meter usage for multiple products, you must make multiple BatchMeterUsage calls. Usage records should be submitted in quick succession following a recorded event. Usage records aren't accepted 6 hours or more after an event. BatchMeterUsage can process up to 25 UsageRecords at a time, and each request must be less than 1 MB in size. Optionally, you can have multiple usage allocations for usage data that's split into buckets according to predefined tags. BatchMeterUsage returns a list of UsageRecordResult objects, which have each UsageRecord. It also returns a list of UnprocessedRecords, which indicate errors on the service side that should be retried. For Amazon Web Services Regions that support BatchMeterUsage, see [BatchMeterUsage Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#batchmeterusage-region-support). For an example of BatchMeterUsage, see [ BatchMeterUsage code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-batchmeterusage-example) in the Amazon Web Services Marketplace Seller Guide.
     ///
-    /// - Parameter BatchMeterUsageInput : A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of usage within your application.
+    /// - Parameter input: A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of usage within your application. (Type: `BatchMeterUsageInput`)
     ///
-    /// - Returns: `BatchMeterUsageOutput` : Contains the UsageRecords processed by BatchMeterUsage and any records that have failed due to transient error.
+    /// - Returns: Contains the UsageRecords processed by BatchMeterUsage and any records that have failed due to transient error. (Type: `BatchMeterUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension MarketplaceMeteringClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchMeterUsageOutput>(BatchMeterUsageOutput.httpOutput(from:), BatchMeterUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchMeterUsageInput, BatchMeterUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchMeterUsageOutput>())
@@ -447,17 +449,18 @@ extension MarketplaceMeteringClient {
 
     /// Performs the `MeterUsage` operation on the `MarketplaceMetering` service.
     ///
-    /// API to emit metering records. For identical requests, the API is idempotent and returns the metering record ID. This is used for metering flexible consumption pricing (FCP) Amazon Machine Images (AMI) and container products. MeterUsage is authenticated on the buyer's Amazon Web Services account using credentials from the Amazon EC2 instance, Amazon ECS task, or Amazon EKS pod. MeterUsage can optionally include multiple usage allocations, to provide customers with usage data split into buckets by tags that you define (or allow the customer to define). Usage records are expected to be submitted as quickly as possible after the event that is being recorded, and are not accepted more than 6 hours after the event. For Amazon Web Services Regions that support MeterUsage, see [MeterUsage Region support for Amazon EC2](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#meterusage-region-support-ec2) and [MeterUsage Region support for Amazon ECS and Amazon EKS](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#meterusage-region-support-ecs-eks).
+    /// API to emit metering records. For identical requests, the API is idempotent and returns the metering record ID. This is used for metering flexible consumption pricing (FCP) Amazon Machine Images (AMI) and container products. MeterUsage is authenticated on the buyer's Amazon Web Services account using credentials from the Amazon EC2 instance, Amazon ECS task, or Amazon EKS pod. MeterUsage can optionally include multiple usage allocations, to provide customers with usage data split into buckets by tags that you define (or allow the customer to define). Submit usage records to report events from the previous hour. If you submit records that are greater than six hours after events occur, the records won’t be accepted. The timestamp in your request determines when an event is recorded. You can only report usage once per hour for each dimension. For AMI-based products, this is per dimension and per EC2 instance. For container products, this is per dimension and per ECS task or EKS pod. You can’t modify values after they’re recorded. If you report usage before the current hour ends, you will be unable to report additional usage until the next hour begins. For Amazon Web Services Regions that support MeterUsage, see [MeterUsage Region support for Amazon EC2](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#meterusage-region-support-ec2) and [MeterUsage Region support for Amazon ECS and Amazon EKS](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#meterusage-region-support-ecs-eks).
     ///
-    /// - Parameter MeterUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MeterUsageInput`)
     ///
-    /// - Returns: `MeterUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MeterUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `CustomerNotEntitledException` : Exception thrown when the customer does not have a valid subscription for the product.
     /// - `DuplicateRequestException` : A metering record has already been emitted by the same EC2 instance, ECS task, or EKS pod for the given {usageDimension, timestamp} with a different usageQuantity.
+    /// - `IdempotencyConflictException` : The ClientToken is being used for multiple requests.
     /// - `InternalServiceErrorException` : An internal error has occurred. Retry your request. If the problem persists, post a message with details on the Amazon Web Services forums.
     /// - `InvalidEndpointRegionException` : The endpoint being called is in a Amazon Web Services Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the Amazon Web Services Region of the resource must match.
     /// - `InvalidProductCodeException` : The product code passed does not match the product code used for publishing the product.
@@ -487,11 +490,13 @@ extension MarketplaceMeteringClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<MeterUsageInput, MeterUsageOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<MeterUsageInput, MeterUsageOutput>(MeterUsageInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<MeterUsageInput, MeterUsageOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MeterUsageInput, MeterUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MeterUsageOutput>(MeterUsageOutput.httpOutput(from:), MeterUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MeterUsageInput, MeterUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MeterUsageOutput>())
@@ -530,9 +535,9 @@ extension MarketplaceMeteringClient {
     ///
     /// * Metering: RegisterUsage meters software use per ECS task, per hour, or per pod for Amazon EKS with usage prorated to the second. A minimum of 1 minute of usage applies to tasks that are short lived. For example, if a customer has a 10 node Amazon ECS or Amazon EKS cluster and a service configured as a Daemon Set, then Amazon ECS or Amazon EKS will launch a task on all 10 cluster nodes and the customer will be charged for 10 tasks. Software metering is handled by the Amazon Web Services Marketplace metering control plane—your software is not required to perform metering-specific actions other than to call RegisterUsage to commence metering. The Amazon Web Services Marketplace metering control plane will also bill customers for running ECS tasks and Amazon EKS pods, regardless of the customer's subscription state, which removes the need for your software to run entitlement checks at runtime. For containers, RegisterUsage should be called immediately at launch. If you don’t register the container within the first 6 hours of the launch, Amazon Web Services Marketplace Metering Service doesn’t provide any metering guarantees for previous months. Metering will continue, however, for the current month forward until the container ends. RegisterUsage is for metering paid hourly container products. For Amazon Web Services Regions that support RegisterUsage, see [RegisterUsage Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#registerusage-region-support).
     ///
-    /// - Parameter RegisterUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterUsageInput`)
     ///
-    /// - Returns: `RegisterUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,6 +576,7 @@ extension MarketplaceMeteringClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterUsageInput, RegisterUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterUsageOutput>(RegisterUsageOutput.httpOutput(from:), RegisterUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterUsageInput, RegisterUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterUsageOutput>())
@@ -605,9 +611,9 @@ extension MarketplaceMeteringClient {
     ///
     /// ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode. To successfully resolve the token, the API must be called from the account that was used to publish the SaaS application. For an example of using ResolveCustomer, see [ ResolveCustomer code example](https://docs.aws.amazon.com/marketplace/latest/userguide/saas-code-examples.html#saas-resolvecustomer-example) in the Amazon Web Services Marketplace Seller Guide. Permission is required for this operation. Your IAM role or user performing this operation requires a policy to allow the aws-marketplace:ResolveCustomer action. For more information, see [Actions, resources, and condition keys for Amazon Web Services Marketplace Metering Service](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsmarketplacemeteringservice.html) in the Service Authorization Reference. For Amazon Web Services Regions that support ResolveCustomer, see [ResolveCustomer Region support](https://docs.aws.amazon.com/marketplace/latest/APIReference/metering-regions.html#resolvecustomer-region-support).
     ///
-    /// - Parameter ResolveCustomerInput : Contains input to the ResolveCustomer operation.
+    /// - Parameter input: Contains input to the ResolveCustomer operation. (Type: `ResolveCustomerInput`)
     ///
-    /// - Returns: `ResolveCustomerOutput` : The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
+    /// - Returns: The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId and ProductCode. (Type: `ResolveCustomerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,6 +649,7 @@ extension MarketplaceMeteringClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResolveCustomerInput, ResolveCustomerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResolveCustomerOutput>(ResolveCustomerOutput.httpOutput(from:), ResolveCustomerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResolveCustomerInput, ResolveCustomerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResolveCustomerOutput>())

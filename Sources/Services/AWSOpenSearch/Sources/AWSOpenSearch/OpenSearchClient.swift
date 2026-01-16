@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -60,15 +61,15 @@ import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
+import struct Smithy.Document
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class OpenSearchClient: ClientRuntime.Client {
+public class OpenSearchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "OpenSearchClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: OpenSearchClient.OpenSearchClientConfiguration
     let serviceName = "OpenSearch"
@@ -374,9 +375,9 @@ extension OpenSearchClient {
     ///
     /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
-    /// - Parameter AcceptInboundConnectionInput : Container for the parameters to the AcceptInboundConnection operation.
+    /// - Parameter input: Container for the parameters to the AcceptInboundConnection operation. (Type: `AcceptInboundConnectionInput`)
     ///
-    /// - Returns: `AcceptInboundConnectionOutput` : Contains details about the accepted inbound connection.
+    /// - Returns: Contains details about the accepted inbound connection. (Type: `AcceptInboundConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +410,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptInboundConnectionInput, AcceptInboundConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptInboundConnectionOutput>(AcceptInboundConnectionOutput.httpOutput(from:), AcceptInboundConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptInboundConnectionInput, AcceptInboundConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptInboundConnectionOutput>())
@@ -440,9 +442,9 @@ extension OpenSearchClient {
     ///
     /// Creates a new direct-query data source to the specified domain. For more information, see [Creating Amazon OpenSearch Service data source integrations with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html).
     ///
-    /// - Parameter AddDataSourceInput : Container for the parameters to the AddDataSource operation.
+    /// - Parameter input: Container for the parameters to the AddDataSource operation. (Type: `AddDataSourceInput`)
     ///
-    /// - Returns: `AddDataSourceOutput` : The result of an AddDataSource operation.
+    /// - Returns: The result of an AddDataSource operation. (Type: `AddDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +484,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddDataSourceInput, AddDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddDataSourceOutput>(AddDataSourceOutput.httpOutput(from:), AddDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddDataSourceInput, AddDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddDataSourceOutput>())
@@ -513,9 +516,9 @@ extension OpenSearchClient {
     ///
     /// Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data.
     ///
-    /// - Parameter AddDirectQueryDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddDirectQueryDataSourceInput`)
     ///
-    /// - Returns: `AddDirectQueryDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddDirectQueryDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,6 +557,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddDirectQueryDataSourceInput, AddDirectQueryDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddDirectQueryDataSourceOutput>(AddDirectQueryDataSourceOutput.httpOutput(from:), AddDirectQueryDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddDirectQueryDataSourceInput, AddDirectQueryDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddDirectQueryDataSourceOutput>())
@@ -585,9 +589,9 @@ extension OpenSearchClient {
     ///
     /// Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application. Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can have up to 10 tags. For more information, see [Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
     ///
-    /// - Parameter AddTagsInput : Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain, data source, or application.
+    /// - Parameter input: Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain, data source, or application. (Type: `AddTagsInput`)
     ///
-    /// - Returns: `AddTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,6 +628,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsOutput>())
@@ -655,9 +660,9 @@ extension OpenSearchClient {
     ///
     /// Associates a package with an Amazon OpenSearch Service domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter AssociatePackageInput : Container for the request parameters to the AssociatePackage operation.
+    /// - Parameter input: Container for the request parameters to the AssociatePackage operation. (Type: `AssociatePackageInput`)
     ///
-    /// - Returns: `AssociatePackageOutput` : Container for the response returned by the AssociatePackage operation.
+    /// - Returns: Container for the response returned by the AssociatePackage operation. (Type: `AssociatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,6 +701,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePackageInput, AssociatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePackageOutput>(AssociatePackageOutput.httpOutput(from:), AssociatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePackageInput, AssociatePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePackageOutput>())
@@ -727,9 +733,9 @@ extension OpenSearchClient {
     ///
     /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously.
     ///
-    /// - Parameter AssociatePackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePackagesInput`)
     ///
-    /// - Returns: `AssociatePackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,6 +774,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePackagesInput, AssociatePackagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePackagesOutput>(AssociatePackagesOutput.httpOutput(from:), AssociatePackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePackagesInput, AssociatePackagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePackagesOutput>())
@@ -799,9 +806,9 @@ extension OpenSearchClient {
     ///
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
-    /// - Parameter AuthorizeVpcEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AuthorizeVpcEndpointAccessInput`)
     ///
-    /// - Returns: `AuthorizeVpcEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +847,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AuthorizeVpcEndpointAccessInput, AuthorizeVpcEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeVpcEndpointAccessOutput>(AuthorizeVpcEndpointAccessOutput.httpOutput(from:), AuthorizeVpcEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeVpcEndpointAccessInput, AuthorizeVpcEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeVpcEndpointAccessOutput>())
@@ -871,9 +879,9 @@ extension OpenSearchClient {
     ///
     /// Cancels a pending configuration change on an Amazon OpenSearch Service domain.
     ///
-    /// - Parameter CancelDomainConfigChangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelDomainConfigChangeInput`)
     ///
-    /// - Returns: `CancelDomainConfigChangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelDomainConfigChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,6 +919,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDomainConfigChangeInput, CancelDomainConfigChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDomainConfigChangeOutput>(CancelDomainConfigChangeOutput.httpOutput(from:), CancelDomainConfigChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDomainConfigChangeInput, CancelDomainConfigChangeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDomainConfigChangeOutput>())
@@ -942,9 +951,9 @@ extension OpenSearchClient {
     ///
     /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
     ///
-    /// - Parameter CancelServiceSoftwareUpdateInput : Container for the request parameters to cancel a service software update.
+    /// - Parameter input: Container for the request parameters to cancel a service software update. (Type: `CancelServiceSoftwareUpdateInput`)
     ///
-    /// - Returns: `CancelServiceSoftwareUpdateOutput` : Container for the response to a CancelServiceSoftwareUpdate operation. Contains the status of the update.
+    /// - Returns: Container for the response to a CancelServiceSoftwareUpdate operation. Contains the status of the update. (Type: `CancelServiceSoftwareUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -981,6 +990,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelServiceSoftwareUpdateInput, CancelServiceSoftwareUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelServiceSoftwareUpdateOutput>(CancelServiceSoftwareUpdateOutput.httpOutput(from:), CancelServiceSoftwareUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelServiceSoftwareUpdateInput, CancelServiceSoftwareUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelServiceSoftwareUpdateOutput>())
@@ -1012,9 +1022,9 @@ extension OpenSearchClient {
     ///
     /// Creates an OpenSearch UI application. For more information, see [Using the OpenSearch user interface in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/application.html).
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,6 +1064,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -1085,9 +1096,9 @@ extension OpenSearchClient {
     ///
     /// Creates an Amazon OpenSearch Service domain. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html).
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : The result of a CreateDomain operation. Contains the status of the newly created domain.
+    /// - Returns: The result of a CreateDomain operation. Contains the status of the newly created domain. (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,6 +1138,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -1154,13 +1166,88 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateIndex` operation on the `OpenSearch` service.
+    ///
+    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see [Automatic semantic enrichment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/opensearch-semantic-enrichment.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `DependencyFailureException` : An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and try again.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createIndex")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateIndexInput, CreateIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateIndexInput, CreateIndexOutput>(CreateIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateIndexInput, CreateIndexOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateIndexInput, CreateIndexOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateIndexInput, CreateIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateIndexInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateIndexInput, CreateIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateIndexInput, CreateIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateIndexInput, CreateIndexOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateOutboundConnection` operation on the `OpenSearch` service.
     ///
     /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
-    /// - Parameter CreateOutboundConnectionInput : Container for the parameters to the CreateOutboundConnection operation.
+    /// - Parameter input: Container for the parameters to the CreateOutboundConnection operation. (Type: `CreateOutboundConnectionInput`)
     ///
-    /// - Returns: `CreateOutboundConnectionOutput` : The result of a CreateOutboundConnection request. Contains details about the newly created cross-cluster connection.
+    /// - Returns: The result of a CreateOutboundConnection request. Contains details about the newly created cross-cluster connection. (Type: `CreateOutboundConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,6 +1284,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOutboundConnectionInput, CreateOutboundConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOutboundConnectionOutput>(CreateOutboundConnectionOutput.httpOutput(from:), CreateOutboundConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOutboundConnectionInput, CreateOutboundConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOutboundConnectionOutput>())
@@ -1228,9 +1316,9 @@ extension OpenSearchClient {
     ///
     /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter CreatePackageInput : Container for request parameters to the CreatePackage operation.
+    /// - Parameter input: Container for request parameters to the CreatePackage operation. (Type: `CreatePackageInput`)
     ///
-    /// - Returns: `CreatePackageOutput` : Container for the response returned by the CreatePackage operation.
+    /// - Returns: Container for the response returned by the CreatePackage operation. (Type: `CreatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1270,6 +1358,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackageInput, CreatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackageOutput>(CreatePackageOutput.httpOutput(from:), CreatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackageInput, CreatePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackageOutput>())
@@ -1301,9 +1390,9 @@ extension OpenSearchClient {
     ///
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
     ///
-    /// - Parameter CreateVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcEndpointInput`)
     ///
-    /// - Returns: `CreateVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1342,6 +1431,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcEndpointOutput>(CreateVpcEndpointOutput.httpOutput(from:), CreateVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointInput, CreateVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointOutput>())
@@ -1373,9 +1463,9 @@ extension OpenSearchClient {
     ///
     /// Deletes a specified OpenSearch application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1412,6 +1502,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -1443,9 +1534,9 @@ extension OpenSearchClient {
     ///
     /// Deletes a direct-query data source. For more information, see [Deleting an Amazon OpenSearch Service data source with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-delete.html).
     ///
-    /// - Parameter DeleteDataSourceInput : Container for the parameters to the DeleteDataSource operation.
+    /// - Parameter input: Container for the parameters to the DeleteDataSource operation. (Type: `DeleteDataSourceInput`)
     ///
-    /// - Returns: `DeleteDataSourceOutput` : The result of a GetDataSource operation.
+    /// - Returns: The result of a GetDataSource operation. (Type: `DeleteDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1481,6 +1572,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutput>(DeleteDataSourceOutput.httpOutput(from:), DeleteDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSourceOutput>())
@@ -1512,9 +1604,9 @@ extension OpenSearchClient {
     ///
     /// Deletes a previously configured direct query data source from Amazon OpenSearch Service.
     ///
-    /// - Parameter DeleteDirectQueryDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectQueryDataSourceInput`)
     ///
-    /// - Returns: `DeleteDirectQueryDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectQueryDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1549,6 +1641,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDirectQueryDataSourceInput, DeleteDirectQueryDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDirectQueryDataSourceOutput>(DeleteDirectQueryDataSourceOutput.httpOutput(from:), DeleteDirectQueryDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectQueryDataSourceInput, DeleteDirectQueryDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectQueryDataSourceOutput>())
@@ -1580,9 +1673,9 @@ extension OpenSearchClient {
     ///
     /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain after you delete it.
     ///
-    /// - Parameter DeleteDomainInput : Container for the parameters to the DeleteDomain operation.
+    /// - Parameter input: Container for the parameters to the DeleteDomain operation. (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : The results of a DeleteDomain request. Contains the status of the pending deletion, or a "domain not found" error if the domain and all of its resources have been deleted.
+    /// - Returns: The results of a DeleteDomain request. Contains the status of the pending deletion, or a "domain not found" error if the domain and all of its resources have been deleted. (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1616,6 +1709,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -1647,9 +1741,9 @@ extension OpenSearchClient {
     ///
     /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
-    /// - Parameter DeleteInboundConnectionInput : Container for the parameters to the DeleteInboundConnection operation.
+    /// - Parameter input: Container for the parameters to the DeleteInboundConnection operation. (Type: `DeleteInboundConnectionInput`)
     ///
-    /// - Returns: `DeleteInboundConnectionOutput` : The results of a DeleteInboundConnection operation. Contains details about the deleted inbound connection.
+    /// - Returns: The results of a DeleteInboundConnection operation. Contains details about the deleted inbound connection. (Type: `DeleteInboundConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1681,6 +1775,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInboundConnectionInput, DeleteInboundConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInboundConnectionOutput>(DeleteInboundConnectionOutput.httpOutput(from:), DeleteInboundConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInboundConnectionInput, DeleteInboundConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInboundConnectionOutput>())
@@ -1708,13 +1803,84 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteIndex` operation on the `OpenSearch` service.
+    ///
+    /// Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteIndexOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `DependencyFailureException` : An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and try again.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteIndex")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteIndexInput, DeleteIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteIndexInput, DeleteIndexOutput>(DeleteIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIndexInput, DeleteIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteIndexInput, DeleteIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteIndexInput, DeleteIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteIndexInput, DeleteIndexOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteOutboundConnection` operation on the `OpenSearch` service.
     ///
     /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
-    /// - Parameter DeleteOutboundConnectionInput : Container for the parameters to the DeleteOutboundConnection operation.
+    /// - Parameter input: Container for the parameters to the DeleteOutboundConnection operation. (Type: `DeleteOutboundConnectionInput`)
     ///
-    /// - Returns: `DeleteOutboundConnectionOutput` : Details about the deleted outbound connection.
+    /// - Returns: Details about the deleted outbound connection. (Type: `DeleteOutboundConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1746,6 +1912,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOutboundConnectionInput, DeleteOutboundConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOutboundConnectionOutput>(DeleteOutboundConnectionOutput.httpOutput(from:), DeleteOutboundConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOutboundConnectionInput, DeleteOutboundConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOutboundConnectionOutput>())
@@ -1777,9 +1944,9 @@ extension OpenSearchClient {
     ///
     /// Deletes an Amazon OpenSearch Service package. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter DeletePackageInput : Deletes a package from OpenSearch Service. The package can't be associated with any OpenSearch Service domain.
+    /// - Parameter input: Deletes a package from OpenSearch Service. The package can't be associated with any OpenSearch Service domain. (Type: `DeletePackageInput`)
     ///
-    /// - Returns: `DeletePackageOutput` : Container for the response parameters to the DeletePackage operation.
+    /// - Returns: Container for the response parameters to the DeletePackage operation. (Type: `DeletePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1815,6 +1982,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePackageInput, DeletePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackageOutput>(DeletePackageOutput.httpOutput(from:), DeletePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackageInput, DeletePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackageOutput>())
@@ -1846,9 +2014,9 @@ extension OpenSearchClient {
     ///
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
-    /// - Parameter DeleteVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcEndpointInput`)
     ///
-    /// - Returns: `DeleteVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1882,6 +2050,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcEndpointInput, DeleteVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcEndpointOutput>(DeleteVpcEndpointOutput.httpOutput(from:), DeleteVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointInput, DeleteVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointOutput>())
@@ -1913,9 +2082,9 @@ extension OpenSearchClient {
     ///
     /// Describes the domain configuration for the specified Amazon OpenSearch Service domain, including the domain ID, domain service endpoint, and domain ARN.
     ///
-    /// - Parameter DescribeDomainInput : Container for the parameters to the DescribeDomain operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomain operation. (Type: `DescribeDomainInput`)
     ///
-    /// - Returns: `DescribeDomainOutput` : Contains the status of the domain specified in the request.
+    /// - Returns: Contains the status of the domain specified in the request. (Type: `DescribeDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1949,6 +2118,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainInput, DescribeDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainOutput>(DescribeDomainOutput.httpOutput(from:), DescribeDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainInput, DescribeDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainOutput>())
@@ -1980,9 +2150,9 @@ extension OpenSearchClient {
     ///
     /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
     ///
-    /// - Parameter DescribeDomainAutoTunesInput : Container for the parameters to the DescribeDomainAutoTunes operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomainAutoTunes operation. (Type: `DescribeDomainAutoTunesInput`)
     ///
-    /// - Returns: `DescribeDomainAutoTunesOutput` : The result of a DescribeDomainAutoTunes request.
+    /// - Returns: The result of a DescribeDomainAutoTunes request. (Type: `DescribeDomainAutoTunesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2019,6 +2189,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainAutoTunesOutput>(DescribeDomainAutoTunesOutput.httpOutput(from:), DescribeDomainAutoTunesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainAutoTunesOutput>())
@@ -2050,9 +2221,9 @@ extension OpenSearchClient {
     ///
     /// Returns information about the current blue/green deployment happening on an Amazon OpenSearch Service domain. For more information, see [Making configuration changes in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes.html).
     ///
-    /// - Parameter DescribeDomainChangeProgressInput : Container for the parameters to the DescribeDomainChangeProgress operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomainChangeProgress operation. (Type: `DescribeDomainChangeProgressInput`)
     ///
-    /// - Returns: `DescribeDomainChangeProgressOutput` : The result of a DescribeDomainChangeProgress request. Contains progress information for the requested domain change.
+    /// - Returns: The result of a DescribeDomainChangeProgress request. Contains progress information for the requested domain change. (Type: `DescribeDomainChangeProgressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,6 +2258,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDomainChangeProgressInput, DescribeDomainChangeProgressOutput>(DescribeDomainChangeProgressInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainChangeProgressOutput>(DescribeDomainChangeProgressOutput.httpOutput(from:), DescribeDomainChangeProgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainChangeProgressInput, DescribeDomainChangeProgressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainChangeProgressOutput>())
@@ -2118,9 +2290,9 @@ extension OpenSearchClient {
     ///
     /// Returns the configuration of an Amazon OpenSearch Service domain.
     ///
-    /// - Parameter DescribeDomainConfigInput : Container for the parameters to the DescribeDomainConfig operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomainConfig operation. (Type: `DescribeDomainConfigInput`)
     ///
-    /// - Returns: `DescribeDomainConfigOutput` : Contains the configuration information of the requested domain.
+    /// - Returns: Contains the configuration information of the requested domain. (Type: `DescribeDomainConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2154,6 +2326,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainConfigInput, DescribeDomainConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainConfigOutput>(DescribeDomainConfigOutput.httpOutput(from:), DescribeDomainConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainConfigInput, DescribeDomainConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainConfigOutput>())
@@ -2185,9 +2358,9 @@ extension OpenSearchClient {
     ///
     /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node.
     ///
-    /// - Parameter DescribeDomainHealthInput : Container for the parameters to the DescribeDomainHealth operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomainHealth operation. (Type: `DescribeDomainHealthInput`)
     ///
-    /// - Returns: `DescribeDomainHealthOutput` : The result of a DescribeDomainHealth request. Contains health information for the requested domain.
+    /// - Returns: The result of a DescribeDomainHealth request. Contains health information for the requested domain. (Type: `DescribeDomainHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2222,6 +2395,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainHealthInput, DescribeDomainHealthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainHealthOutput>(DescribeDomainHealthOutput.httpOutput(from:), DescribeDomainHealthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainHealthInput, DescribeDomainHealthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainHealthOutput>())
@@ -2253,9 +2427,9 @@ extension OpenSearchClient {
     ///
     /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states.
     ///
-    /// - Parameter DescribeDomainNodesInput : Container for the parameters to the DescribeDomainNodes operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomainNodes operation. (Type: `DescribeDomainNodesInput`)
     ///
-    /// - Returns: `DescribeDomainNodesOutput` : The result of a DescribeDomainNodes request. Contains information about the nodes on the requested domain.
+    /// - Returns: The result of a DescribeDomainNodes request. Contains information about the nodes on the requested domain. (Type: `DescribeDomainNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2291,6 +2465,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainNodesInput, DescribeDomainNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainNodesOutput>(DescribeDomainNodesOutput.httpOutput(from:), DescribeDomainNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainNodesInput, DescribeDomainNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainNodesOutput>())
@@ -2322,9 +2497,9 @@ extension OpenSearchClient {
     ///
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
     ///
-    /// - Parameter DescribeDomainsInput : Container for the parameters to the DescribeDomains operation.
+    /// - Parameter input: Container for the parameters to the DescribeDomains operation. (Type: `DescribeDomainsInput`)
     ///
-    /// - Returns: `DescribeDomainsOutput` : Contains the status of the specified domains or all domains owned by the account.
+    /// - Returns: Contains the status of the specified domains or all domains owned by the account. (Type: `DescribeDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,6 +2535,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainsInput, DescribeDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainsOutput>(DescribeDomainsOutput.httpOutput(from:), DescribeDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainsInput, DescribeDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainsOutput>())
@@ -2391,9 +2567,9 @@ extension OpenSearchClient {
     ///
     /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see [Determining whether a change will cause a blue/green deployment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#dryrun).
     ///
-    /// - Parameter DescribeDryRunProgressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDryRunProgressInput`)
     ///
-    /// - Returns: `DescribeDryRunProgressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDryRunProgressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2429,6 +2605,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDryRunProgressInput, DescribeDryRunProgressOutput>(DescribeDryRunProgressInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDryRunProgressOutput>(DescribeDryRunProgressOutput.httpOutput(from:), DescribeDryRunProgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDryRunProgressInput, DescribeDryRunProgressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDryRunProgressOutput>())
@@ -2460,9 +2637,9 @@ extension OpenSearchClient {
     ///
     /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
-    /// - Parameter DescribeInboundConnectionsInput : Container for the parameters to the DescribeInboundConnections operation.
+    /// - Parameter input: Container for the parameters to the DescribeInboundConnections operation. (Type: `DescribeInboundConnectionsInput`)
     ///
-    /// - Returns: `DescribeInboundConnectionsOutput` : Contains a list of connections matching the filter criteria.
+    /// - Returns: Contains a list of connections matching the filter criteria. (Type: `DescribeInboundConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2497,6 +2674,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInboundConnectionsOutput>(DescribeInboundConnectionsOutput.httpOutput(from:), DescribeInboundConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInboundConnectionsInput, DescribeInboundConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInboundConnectionsOutput>())
@@ -2528,9 +2706,9 @@ extension OpenSearchClient {
     ///
     /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type.
     ///
-    /// - Parameter DescribeInstanceTypeLimitsInput : Container for the parameters to the DescribeInstanceTypeLimits operation.
+    /// - Parameter input: Container for the parameters to the DescribeInstanceTypeLimits operation. (Type: `DescribeInstanceTypeLimitsInput`)
     ///
-    /// - Returns: `DescribeInstanceTypeLimitsOutput` : Container for the parameters received from the DescribeInstanceTypeLimits operation.
+    /// - Returns: Container for the parameters received from the DescribeInstanceTypeLimits operation. (Type: `DescribeInstanceTypeLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2567,6 +2745,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeInstanceTypeLimitsInput, DescribeInstanceTypeLimitsOutput>(DescribeInstanceTypeLimitsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceTypeLimitsOutput>(DescribeInstanceTypeLimitsOutput.httpOutput(from:), DescribeInstanceTypeLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceTypeLimitsInput, DescribeInstanceTypeLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceTypeLimitsOutput>())
@@ -2598,9 +2777,9 @@ extension OpenSearchClient {
     ///
     /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
     ///
-    /// - Parameter DescribeOutboundConnectionsInput : Container for the parameters to the DescribeOutboundConnections operation.
+    /// - Parameter input: Container for the parameters to the DescribeOutboundConnections operation. (Type: `DescribeOutboundConnectionsInput`)
     ///
-    /// - Returns: `DescribeOutboundConnectionsOutput` : Contains a list of connections matching the filter criteria.
+    /// - Returns: Contains a list of connections matching the filter criteria. (Type: `DescribeOutboundConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2635,6 +2814,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOutboundConnectionsOutput>(DescribeOutboundConnectionsOutput.httpOutput(from:), DescribeOutboundConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOutboundConnectionsInput, DescribeOutboundConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOutboundConnectionsOutput>())
@@ -2666,9 +2846,9 @@ extension OpenSearchClient {
     ///
     /// Describes all packages available to OpenSearch Service. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter DescribePackagesInput : Container for the request parameters to the DescribePackage operation.
+    /// - Parameter input: Container for the request parameters to the DescribePackage operation. (Type: `DescribePackagesInput`)
     ///
-    /// - Returns: `DescribePackagesOutput` : Container for the response returned by the DescribePackages operation.
+    /// - Returns: Container for the response returned by the DescribePackages operation. (Type: `DescribePackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2706,6 +2886,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePackagesInput, DescribePackagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackagesOutput>(DescribePackagesOutput.httpOutput(from:), DescribePackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackagesInput, DescribePackagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackagesOutput>())
@@ -2737,9 +2918,9 @@ extension OpenSearchClient {
     ///
     /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see [Reserved Instances in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html).
     ///
-    /// - Parameter DescribeReservedInstanceOfferingsInput : Container for the request parameters to a DescribeReservedInstanceOfferings operation.
+    /// - Parameter input: Container for the request parameters to a DescribeReservedInstanceOfferings operation. (Type: `DescribeReservedInstanceOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedInstanceOfferingsOutput` : Container for results of a DescribeReservedInstanceOfferings request.
+    /// - Returns: Container for results of a DescribeReservedInstanceOfferings request. (Type: `DescribeReservedInstanceOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2774,6 +2955,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutput>(DescribeReservedInstanceOfferingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedInstanceOfferingsOutput>(DescribeReservedInstanceOfferingsOutput.httpOutput(from:), DescribeReservedInstanceOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedInstanceOfferingsInput, DescribeReservedInstanceOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedInstanceOfferingsOutput>())
@@ -2805,9 +2987,9 @@ extension OpenSearchClient {
     ///
     /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see [Reserved Instances in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html).
     ///
-    /// - Parameter DescribeReservedInstancesInput : Container for the request parameters to the DescribeReservedInstances operation.
+    /// - Parameter input: Container for the request parameters to the DescribeReservedInstances operation. (Type: `DescribeReservedInstancesInput`)
     ///
-    /// - Returns: `DescribeReservedInstancesOutput` : Container for results from DescribeReservedInstances
+    /// - Returns: Container for results from DescribeReservedInstances (Type: `DescribeReservedInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2842,6 +3024,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeReservedInstancesInput, DescribeReservedInstancesOutput>(DescribeReservedInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedInstancesOutput>(DescribeReservedInstancesOutput.httpOutput(from:), DescribeReservedInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedInstancesInput, DescribeReservedInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedInstancesOutput>())
@@ -2873,9 +3056,9 @@ extension OpenSearchClient {
     ///
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
     ///
-    /// - Parameter DescribeVpcEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcEndpointsInput`)
     ///
-    /// - Returns: `DescribeVpcEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2912,6 +3095,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcEndpointsOutput>(DescribeVpcEndpointsOutput.httpOutput(from:), DescribeVpcEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointsInput, DescribeVpcEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointsOutput>())
@@ -2943,9 +3127,9 @@ extension OpenSearchClient {
     ///
     /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter DissociatePackageInput : Container for the request parameters to the DissociatePackage operation.
+    /// - Parameter input: Container for the request parameters to the DissociatePackage operation. (Type: `DissociatePackageInput`)
     ///
-    /// - Returns: `DissociatePackageOutput` : Container for the response returned by an DissociatePackage operation.
+    /// - Returns: Container for the response returned by an DissociatePackage operation. (Type: `DissociatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2981,6 +3165,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DissociatePackageInput, DissociatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DissociatePackageOutput>(DissociatePackageOutput.httpOutput(from:), DissociatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DissociatePackageInput, DissociatePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DissociatePackageOutput>())
@@ -3010,11 +3195,11 @@ extension OpenSearchClient {
 
     /// Performs the `DissociatePackages` operation on the `OpenSearch` service.
     ///
-    /// Dissociates multiple packages from a domain simulatneously.
+    /// Dissociates multiple packages from a domain simultaneously.
     ///
-    /// - Parameter DissociatePackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DissociatePackagesInput`)
     ///
-    /// - Returns: `DissociatePackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DissociatePackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3053,6 +3238,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DissociatePackagesInput, DissociatePackagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DissociatePackagesOutput>(DissociatePackagesOutput.httpOutput(from:), DissociatePackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DissociatePackagesInput, DissociatePackagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DissociatePackagesOutput>())
@@ -3084,9 +3270,9 @@ extension OpenSearchClient {
     ///
     /// Retrieves the configuration and status of an existing OpenSearch application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3122,6 +3308,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationOutput>(GetApplicationOutput.httpOutput(from:), GetApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
@@ -3153,9 +3340,9 @@ extension OpenSearchClient {
     ///
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
     ///
-    /// - Parameter GetCompatibleVersionsInput : Container for the request parameters to GetCompatibleVersions operation.
+    /// - Parameter input: Container for the request parameters to GetCompatibleVersions operation. (Type: `GetCompatibleVersionsInput`)
     ///
-    /// - Returns: `GetCompatibleVersionsOutput` : Container for the response returned by the GetCompatibleVersions operation.
+    /// - Returns: Container for the response returned by the GetCompatibleVersions operation. (Type: `GetCompatibleVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3191,6 +3378,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCompatibleVersionsInput, GetCompatibleVersionsOutput>(GetCompatibleVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCompatibleVersionsOutput>(GetCompatibleVersionsOutput.httpOutput(from:), GetCompatibleVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCompatibleVersionsInput, GetCompatibleVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCompatibleVersionsOutput>())
@@ -3222,9 +3410,9 @@ extension OpenSearchClient {
     ///
     /// Retrieves information about a direct query data source.
     ///
-    /// - Parameter GetDataSourceInput : Container for the parameters to the GetDataSource operation.
+    /// - Parameter input: Container for the parameters to the GetDataSource operation. (Type: `GetDataSourceInput`)
     ///
-    /// - Returns: `GetDataSourceOutput` : The result of a GetDataSource operation.
+    /// - Returns: The result of a GetDataSource operation. (Type: `GetDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3260,6 +3448,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataSourceInput, GetDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataSourceOutput>(GetDataSourceOutput.httpOutput(from:), GetDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataSourceInput, GetDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataSourceOutput>())
@@ -3287,13 +3476,81 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetDefaultApplicationSetting` operation on the `OpenSearch` service.
+    ///
+    /// Gets the ARN of the current default application. If the default application isn't set, the operation returns a resource not found error.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetDefaultApplicationSettingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetDefaultApplicationSettingOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func getDefaultApplicationSetting(input: GetDefaultApplicationSettingInput) async throws -> GetDefaultApplicationSettingOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDefaultApplicationSetting")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetDefaultApplicationSettingInput, GetDefaultApplicationSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetDefaultApplicationSettingInput, GetDefaultApplicationSettingOutput>(GetDefaultApplicationSettingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDefaultApplicationSettingInput, GetDefaultApplicationSettingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultApplicationSettingOutput>(GetDefaultApplicationSettingOutput.httpOutput(from:), GetDefaultApplicationSettingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultApplicationSettingInput, GetDefaultApplicationSettingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultApplicationSettingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDefaultApplicationSettingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDefaultApplicationSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDefaultApplicationSettingInput, GetDefaultApplicationSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDefaultApplicationSettingInput, GetDefaultApplicationSettingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDefaultApplicationSettingInput, GetDefaultApplicationSettingOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDefaultApplicationSetting")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDirectQueryDataSource` operation on the `OpenSearch` service.
     ///
     /// Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service.
     ///
-    /// - Parameter GetDirectQueryDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDirectQueryDataSourceInput`)
     ///
-    /// - Returns: `GetDirectQueryDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDirectQueryDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3328,6 +3585,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDirectQueryDataSourceInput, GetDirectQueryDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDirectQueryDataSourceOutput>(GetDirectQueryDataSourceOutput.httpOutput(from:), GetDirectQueryDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDirectQueryDataSourceInput, GetDirectQueryDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDirectQueryDataSourceOutput>())
@@ -3359,9 +3617,9 @@ extension OpenSearchClient {
     ///
     /// The status of the maintenance action.
     ///
-    /// - Parameter GetDomainMaintenanceStatusInput : Container for the parameters to the GetDomainMaintenanceStatus operation.
+    /// - Parameter input: Container for the parameters to the GetDomainMaintenanceStatus operation. (Type: `GetDomainMaintenanceStatusInput`)
     ///
-    /// - Returns: `GetDomainMaintenanceStatusOutput` : The result of a GetDomainMaintenanceStatus request that information about the requested action.
+    /// - Returns: The result of a GetDomainMaintenanceStatus request that information about the requested action. (Type: `GetDomainMaintenanceStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3397,6 +3655,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDomainMaintenanceStatusInput, GetDomainMaintenanceStatusOutput>(GetDomainMaintenanceStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainMaintenanceStatusOutput>(GetDomainMaintenanceStatusOutput.httpOutput(from:), GetDomainMaintenanceStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainMaintenanceStatusInput, GetDomainMaintenanceStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainMaintenanceStatusOutput>())
@@ -3424,13 +3683,84 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetIndex` operation on the `OpenSearch` service.
+    ///
+    /// Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIndexInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIndexOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `DependencyFailureException` : An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and try again.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func getIndex(input: GetIndexInput) async throws -> GetIndexOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIndex")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIndexInput, GetIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIndexInput, GetIndexOutput>(GetIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIndexInput, GetIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIndexOutput>(GetIndexOutput.httpOutput(from:), GetIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIndexInput, GetIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIndexOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIndexInput, GetIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIndexInput, GetIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIndexInput, GetIndexOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetPackageVersionHistory` operation on the `OpenSearch` service.
     ///
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter GetPackageVersionHistoryInput : Container for the request parameters to the GetPackageVersionHistory operation.
+    /// - Parameter input: Container for the request parameters to the GetPackageVersionHistory operation. (Type: `GetPackageVersionHistoryInput`)
     ///
-    /// - Returns: `GetPackageVersionHistoryOutput` : Container for response returned by GetPackageVersionHistory operation.
+    /// - Returns: Container for response returned by GetPackageVersionHistory operation. (Type: `GetPackageVersionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3466,6 +3796,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(GetPackageVersionHistoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPackageVersionHistoryOutput>(GetPackageVersionHistoryOutput.httpOutput(from:), GetPackageVersionHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPackageVersionHistoryOutput>())
@@ -3497,9 +3828,9 @@ extension OpenSearchClient {
     ///
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
     ///
-    /// - Parameter GetUpgradeHistoryInput : Container for the request parameters to the GetUpgradeHistory operation.
+    /// - Parameter input: Container for the request parameters to the GetUpgradeHistory operation. (Type: `GetUpgradeHistoryInput`)
     ///
-    /// - Returns: `GetUpgradeHistoryOutput` : Container for the response returned by the GetUpgradeHistory operation.
+    /// - Returns: Container for the response returned by the GetUpgradeHistory operation. (Type: `GetUpgradeHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3535,6 +3866,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(GetUpgradeHistoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUpgradeHistoryOutput>(GetUpgradeHistoryOutput.httpOutput(from:), GetUpgradeHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUpgradeHistoryInput, GetUpgradeHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUpgradeHistoryOutput>())
@@ -3566,9 +3898,9 @@ extension OpenSearchClient {
     ///
     /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain.
     ///
-    /// - Parameter GetUpgradeStatusInput : Container for the request parameters to the GetUpgradeStatus operation.
+    /// - Parameter input: Container for the request parameters to the GetUpgradeStatus operation. (Type: `GetUpgradeStatusInput`)
     ///
-    /// - Returns: `GetUpgradeStatusOutput` : Container for the response returned by the GetUpgradeStatus operation.
+    /// - Returns: Container for the response returned by the GetUpgradeStatus operation. (Type: `GetUpgradeStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3603,6 +3935,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUpgradeStatusInput, GetUpgradeStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUpgradeStatusOutput>(GetUpgradeStatusOutput.httpOutput(from:), GetUpgradeStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUpgradeStatusInput, GetUpgradeStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUpgradeStatusOutput>())
@@ -3634,9 +3967,9 @@ extension OpenSearchClient {
     ///
     /// Lists all OpenSearch applications under your account.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3673,6 +4006,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationsInput, ListApplicationsOutput>(ListApplicationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -3704,9 +4038,9 @@ extension OpenSearchClient {
     ///
     /// Lists direct-query data sources for a specific domain. For more information, see For more information, see [Working with Amazon OpenSearch Service direct queries with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3.html).
     ///
-    /// - Parameter ListDataSourcesInput : Container for the parameters to the ListDataSources operation.
+    /// - Parameter input: Container for the parameters to the ListDataSources operation. (Type: `ListDataSourcesInput`)
     ///
-    /// - Returns: `ListDataSourcesOutput` : The result of a ListDataSources operation.
+    /// - Returns: The result of a ListDataSources operation. (Type: `ListDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3742,6 +4076,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDataSourcesInput, ListDataSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourcesOutput>(ListDataSourcesOutput.httpOutput(from:), ListDataSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourcesOutput>())
@@ -3773,9 +4108,9 @@ extension OpenSearchClient {
     ///
     /// Lists an inventory of all the direct query data sources that you have configured within Amazon OpenSearch Service.
     ///
-    /// - Parameter ListDirectQueryDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDirectQueryDataSourcesInput`)
     ///
-    /// - Returns: `ListDirectQueryDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDirectQueryDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3811,6 +4146,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDirectQueryDataSourcesInput, ListDirectQueryDataSourcesOutput>(ListDirectQueryDataSourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDirectQueryDataSourcesOutput>(ListDirectQueryDataSourcesOutput.httpOutput(from:), ListDirectQueryDataSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDirectQueryDataSourcesInput, ListDirectQueryDataSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDirectQueryDataSourcesOutput>())
@@ -3842,9 +4178,9 @@ extension OpenSearchClient {
     ///
     /// A list of maintenance actions for the domain.
     ///
-    /// - Parameter ListDomainMaintenancesInput : Container for the parameters to the ListDomainMaintenances operation.
+    /// - Parameter input: Container for the parameters to the ListDomainMaintenances operation. (Type: `ListDomainMaintenancesInput`)
     ///
-    /// - Returns: `ListDomainMaintenancesOutput` : The result of a ListDomainMaintenances request that contains information about the requested actions.
+    /// - Returns: The result of a ListDomainMaintenances request that contains information about the requested actions. (Type: `ListDomainMaintenancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3880,6 +4216,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainMaintenancesInput, ListDomainMaintenancesOutput>(ListDomainMaintenancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainMaintenancesOutput>(ListDomainMaintenancesOutput.httpOutput(from:), ListDomainMaintenancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainMaintenancesInput, ListDomainMaintenancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainMaintenancesOutput>())
@@ -3911,9 +4248,9 @@ extension OpenSearchClient {
     ///
     /// Returns the names of all Amazon OpenSearch Service domains owned by the current user in the active Region.
     ///
-    /// - Parameter ListDomainNamesInput : Container for the parameters to the ListDomainNames operation.
+    /// - Parameter input: Container for the parameters to the ListDomainNames operation. (Type: `ListDomainNamesInput`)
     ///
-    /// - Returns: `ListDomainNamesOutput` : The results of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types.
+    /// - Returns: The results of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types. (Type: `ListDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3946,6 +4283,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainNamesInput, ListDomainNamesOutput>(ListDomainNamesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainNamesOutput>(ListDomainNamesOutput.httpOutput(from:), ListDomainNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainNamesInput, ListDomainNamesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainNamesOutput>())
@@ -3977,9 +4315,9 @@ extension OpenSearchClient {
     ///
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter ListDomainsForPackageInput : Container for the request parameters to the ListDomainsForPackage operation.
+    /// - Parameter input: Container for the request parameters to the ListDomainsForPackage operation. (Type: `ListDomainsForPackageInput`)
     ///
-    /// - Returns: `ListDomainsForPackageOutput` : Container for the response parameters to the ListDomainsForPackage operation.
+    /// - Returns: Container for the response parameters to the ListDomainsForPackage operation. (Type: `ListDomainsForPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4015,6 +4353,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainsForPackageInput, ListDomainsForPackageOutput>(ListDomainsForPackageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsForPackageOutput>(ListDomainsForPackageOutput.httpOutput(from:), ListDomainsForPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsForPackageInput, ListDomainsForPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsForPackageOutput>())
@@ -4046,9 +4385,9 @@ extension OpenSearchClient {
     ///
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
     ///
-    /// - Parameter ListInstanceTypeDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInstanceTypeDetailsInput`)
     ///
-    /// - Returns: `ListInstanceTypeDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInstanceTypeDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4083,6 +4422,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutput>(ListInstanceTypeDetailsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceTypeDetailsOutput>(ListInstanceTypeDetailsOutput.httpOutput(from:), ListInstanceTypeDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceTypeDetailsInput, ListInstanceTypeDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceTypeDetailsOutput>())
@@ -4114,9 +4454,9 @@ extension OpenSearchClient {
     ///
     /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter ListPackagesForDomainInput : Container for the request parameters to the ListPackagesForDomain operation.
+    /// - Parameter input: Container for the request parameters to the ListPackagesForDomain operation. (Type: `ListPackagesForDomainInput`)
     ///
-    /// - Returns: `ListPackagesForDomainOutput` : Container for the response parameters to the ListPackagesForDomain operation.
+    /// - Returns: Container for the response parameters to the ListPackagesForDomain operation. (Type: `ListPackagesForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4152,6 +4492,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackagesForDomainInput, ListPackagesForDomainOutput>(ListPackagesForDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackagesForDomainOutput>(ListPackagesForDomainOutput.httpOutput(from:), ListPackagesForDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackagesForDomainInput, ListPackagesForDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackagesForDomainOutput>())
@@ -4183,9 +4524,9 @@ extension OpenSearchClient {
     ///
     /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be [service software updates](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or [blue/green Auto-Tune enhancements](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
     ///
-    /// - Parameter ListScheduledActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScheduledActionsInput`)
     ///
-    /// - Returns: `ListScheduledActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScheduledActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4221,6 +4562,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListScheduledActionsInput, ListScheduledActionsOutput>(ListScheduledActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScheduledActionsOutput>(ListScheduledActionsOutput.httpOutput(from:), ListScheduledActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScheduledActionsInput, ListScheduledActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScheduledActionsOutput>())
@@ -4252,9 +4594,9 @@ extension OpenSearchClient {
     ///
     /// Returns all resource tags for an Amazon OpenSearch Service domain, data source, or application. For more information, see [Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
     ///
-    /// - Parameter ListTagsInput : Container for the parameters to the ListTags operation.
+    /// - Parameter input: Container for the parameters to the ListTags operation. (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : The results of a ListTags operation.
+    /// - Returns: The results of a ListTags operation. (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4289,6 +4631,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsInput, ListTagsOutput>(ListTagsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -4320,9 +4663,9 @@ extension OpenSearchClient {
     ///
     /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
     ///
-    /// - Parameter ListVersionsInput : Container for the request parameters to the ListVersions operation.
+    /// - Parameter input: Container for the request parameters to the ListVersions operation. (Type: `ListVersionsInput`)
     ///
-    /// - Returns: `ListVersionsOutput` : Container for the parameters for response received from the ListVersions operation.
+    /// - Returns: Container for the parameters for response received from the ListVersions operation. (Type: `ListVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4357,6 +4700,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVersionsInput, ListVersionsOutput>(ListVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVersionsOutput>(ListVersionsOutput.httpOutput(from:), ListVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVersionsInput, ListVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVersionsOutput>())
@@ -4388,9 +4732,9 @@ extension OpenSearchClient {
     ///
     /// Retrieves information about each Amazon Web Services principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     ///
-    /// - Parameter ListVpcEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcEndpointAccessInput`)
     ///
-    /// - Returns: `ListVpcEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4425,6 +4769,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcEndpointAccessInput, ListVpcEndpointAccessOutput>(ListVpcEndpointAccessInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcEndpointAccessOutput>(ListVpcEndpointAccessOutput.httpOutput(from:), ListVpcEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointAccessInput, ListVpcEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointAccessOutput>())
@@ -4456,9 +4801,9 @@ extension OpenSearchClient {
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
     ///
-    /// - Parameter ListVpcEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcEndpointsInput`)
     ///
-    /// - Returns: `ListVpcEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4492,6 +4837,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutput>(ListVpcEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcEndpointsOutput>(ListVpcEndpointsOutput.httpOutput(from:), ListVpcEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointsInput, ListVpcEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointsOutput>())
@@ -4523,9 +4869,9 @@ extension OpenSearchClient {
     ///
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
     ///
-    /// - Parameter ListVpcEndpointsForDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcEndpointsForDomainInput`)
     ///
-    /// - Returns: `ListVpcEndpointsForDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcEndpointsForDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4560,6 +4906,7 @@ extension OpenSearchClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcEndpointsForDomainInput, ListVpcEndpointsForDomainOutput>(ListVpcEndpointsForDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcEndpointsForDomainOutput>(ListVpcEndpointsForDomainOutput.httpOutput(from:), ListVpcEndpointsForDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointsForDomainInput, ListVpcEndpointsForDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointsForDomainOutput>())
@@ -4591,9 +4938,9 @@ extension OpenSearchClient {
     ///
     /// Allows you to purchase Amazon OpenSearch Service Reserved Instances.
     ///
-    /// - Parameter PurchaseReservedInstanceOfferingInput : Container for request parameters to the PurchaseReservedInstanceOffering operation.
+    /// - Parameter input: Container for request parameters to the PurchaseReservedInstanceOffering operation. (Type: `PurchaseReservedInstanceOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedInstanceOfferingOutput` : Represents the output of a PurchaseReservedInstanceOffering operation.
+    /// - Returns: Represents the output of a PurchaseReservedInstanceOffering operation. (Type: `PurchaseReservedInstanceOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4632,6 +4979,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseReservedInstanceOfferingInput, PurchaseReservedInstanceOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseReservedInstanceOfferingOutput>(PurchaseReservedInstanceOfferingOutput.httpOutput(from:), PurchaseReservedInstanceOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseReservedInstanceOfferingInput, PurchaseReservedInstanceOfferingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseReservedInstanceOfferingOutput>())
@@ -4659,13 +5007,84 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutDefaultApplicationSetting` operation on the `OpenSearch` service.
+    ///
+    /// Sets the default application to the application with the specified ARN. To remove the default application, use the GetDefaultApplicationSetting operation to get the current default and then call the PutDefaultApplicationSetting with the current applications ARN and the setAsDefault parameter set to false.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutDefaultApplicationSettingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutDefaultApplicationSettingOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func putDefaultApplicationSetting(input: PutDefaultApplicationSettingInput) async throws -> PutDefaultApplicationSettingOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putDefaultApplicationSetting")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput>(PutDefaultApplicationSettingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutDefaultApplicationSettingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDefaultApplicationSettingOutput>(PutDefaultApplicationSettingOutput.httpOutput(from:), PutDefaultApplicationSettingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutDefaultApplicationSettingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutDefaultApplicationSettingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutDefaultApplicationSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutDefaultApplicationSettingInput, PutDefaultApplicationSettingOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutDefaultApplicationSetting")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RejectInboundConnection` operation on the `OpenSearch` service.
     ///
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request.
     ///
-    /// - Parameter RejectInboundConnectionInput : Container for the request parameters to the RejectInboundConnection operation.
+    /// - Parameter input: Container for the request parameters to the RejectInboundConnection operation. (Type: `RejectInboundConnectionInput`)
     ///
-    /// - Returns: `RejectInboundConnectionOutput` : Represents the output of a RejectInboundConnection operation.
+    /// - Returns: Represents the output of a RejectInboundConnection operation. (Type: `RejectInboundConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4697,6 +5116,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectInboundConnectionInput, RejectInboundConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectInboundConnectionOutput>(RejectInboundConnectionOutput.httpOutput(from:), RejectInboundConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectInboundConnectionInput, RejectInboundConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectInboundConnectionOutput>())
@@ -4728,9 +5148,9 @@ extension OpenSearchClient {
     ///
     /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see [ Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
     ///
-    /// - Parameter RemoveTagsInput : Container for the request parameters to the RemoveTags operation.
+    /// - Parameter input: Container for the request parameters to the RemoveTags operation. (Type: `RemoveTagsInput`)
     ///
-    /// - Returns: `RemoveTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4766,6 +5186,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsInput, RemoveTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsOutput>(RemoveTagsOutput.httpOutput(from:), RemoveTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsInput, RemoveTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsOutput>())
@@ -4797,9 +5218,9 @@ extension OpenSearchClient {
     ///
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
     ///
-    /// - Parameter RevokeVpcEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeVpcEndpointAccessInput`)
     ///
-    /// - Returns: `RevokeVpcEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeVpcEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4837,6 +5258,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeVpcEndpointAccessInput, RevokeVpcEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeVpcEndpointAccessOutput>(RevokeVpcEndpointAccessOutput.httpOutput(from:), RevokeVpcEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeVpcEndpointAccessInput, RevokeVpcEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeVpcEndpointAccessOutput>())
@@ -4868,9 +5290,9 @@ extension OpenSearchClient {
     ///
     /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart.
     ///
-    /// - Parameter StartDomainMaintenanceInput : Container for the parameters to the StartDomainMaintenance operation.
+    /// - Parameter input: Container for the parameters to the StartDomainMaintenance operation. (Type: `StartDomainMaintenanceInput`)
     ///
-    /// - Returns: `StartDomainMaintenanceOutput` : The result of a StartDomainMaintenance request that information about the requested action.
+    /// - Returns: The result of a StartDomainMaintenance request that information about the requested action. (Type: `StartDomainMaintenanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4908,6 +5330,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDomainMaintenanceInput, StartDomainMaintenanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDomainMaintenanceOutput>(StartDomainMaintenanceOutput.httpOutput(from:), StartDomainMaintenanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDomainMaintenanceInput, StartDomainMaintenanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDomainMaintenanceOutput>())
@@ -4939,9 +5362,9 @@ extension OpenSearchClient {
     ///
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
     ///
-    /// - Parameter StartServiceSoftwareUpdateInput : Container for the request parameters to the StartServiceSoftwareUpdate operation.
+    /// - Parameter input: Container for the request parameters to the StartServiceSoftwareUpdate operation. (Type: `StartServiceSoftwareUpdateInput`)
     ///
-    /// - Returns: `StartServiceSoftwareUpdateOutput` : Represents the output of a StartServiceSoftwareUpdate operation. Contains the status of the update.
+    /// - Returns: Represents the output of a StartServiceSoftwareUpdate operation. Contains the status of the update. (Type: `StartServiceSoftwareUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4978,6 +5401,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartServiceSoftwareUpdateInput, StartServiceSoftwareUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartServiceSoftwareUpdateOutput>(StartServiceSoftwareUpdateOutput.httpOutput(from:), StartServiceSoftwareUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartServiceSoftwareUpdateInput, StartServiceSoftwareUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartServiceSoftwareUpdateOutput>())
@@ -5009,9 +5433,9 @@ extension OpenSearchClient {
     ///
     /// Updates the configuration and settings of an existing OpenSearch application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5051,6 +5475,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -5082,9 +5507,9 @@ extension OpenSearchClient {
     ///
     /// Updates a direct-query data source. For more information, see [Working with Amazon OpenSearch Service data source integrations with Amazon S3](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html).
     ///
-    /// - Parameter UpdateDataSourceInput : Container for the parameters to the UpdateDataSource operation.
+    /// - Parameter input: Container for the parameters to the UpdateDataSource operation. (Type: `UpdateDataSourceInput`)
     ///
-    /// - Returns: `UpdateDataSourceOutput` : The result of an UpdateDataSource operation.
+    /// - Returns: The result of an UpdateDataSource operation. (Type: `UpdateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5123,6 +5548,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutput>(UpdateDataSourceOutput.httpOutput(from:), UpdateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSourceOutput>())
@@ -5154,9 +5580,9 @@ extension OpenSearchClient {
     ///
     /// Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service.
     ///
-    /// - Parameter UpdateDirectQueryDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDirectQueryDataSourceInput`)
     ///
-    /// - Returns: `UpdateDirectQueryDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDirectQueryDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5194,6 +5620,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectQueryDataSourceInput, UpdateDirectQueryDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDirectQueryDataSourceOutput>(UpdateDirectQueryDataSourceOutput.httpOutput(from:), UpdateDirectQueryDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectQueryDataSourceInput, UpdateDirectQueryDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectQueryDataSourceOutput>())
@@ -5225,9 +5652,9 @@ extension OpenSearchClient {
     ///
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
     ///
-    /// - Parameter UpdateDomainConfigInput : Container for the request parameters to the UpdateDomain operation.
+    /// - Parameter input: Container for the request parameters to the UpdateDomain operation. (Type: `UpdateDomainConfigInput`)
     ///
-    /// - Returns: `UpdateDomainConfigOutput` : The results of an UpdateDomain request. Contains the status of the domain being updated.
+    /// - Returns: The results of an UpdateDomain request. Contains the status of the domain being updated. (Type: `UpdateDomainConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5266,6 +5693,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainConfigInput, UpdateDomainConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainConfigOutput>(UpdateDomainConfigOutput.httpOutput(from:), UpdateDomainConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainConfigInput, UpdateDomainConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainConfigOutput>())
@@ -5293,13 +5721,87 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateIndex` operation on the `OpenSearch` service.
+    ///
+    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateIndexOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `DependencyFailureException` : An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Reduce the frequency of your requests and try again.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func updateIndex(input: UpdateIndexInput) async throws -> UpdateIndexOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateIndex")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateIndexInput, UpdateIndexOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateIndexInput, UpdateIndexOutput>(UpdateIndexInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateIndexInput, UpdateIndexOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateIndexInput, UpdateIndexOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateIndexInput, UpdateIndexOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateIndexInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIndexInput, UpdateIndexOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIndexOutput>(UpdateIndexOutput.httpOutput(from:), UpdateIndexOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIndexInput, UpdateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIndexOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateIndexOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateIndexInput, UpdateIndexOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateIndexInput, UpdateIndexOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateIndexInput, UpdateIndexOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateIndex")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdatePackage` operation on the `OpenSearch` service.
     ///
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
     ///
-    /// - Parameter UpdatePackageInput : Container for request parameters to the UpdatePackage operation.
+    /// - Parameter input: Container for request parameters to the UpdatePackage operation. (Type: `UpdatePackageInput`)
     ///
-    /// - Returns: `UpdatePackageOutput` : Container for the response returned by the UpdatePackage operation.
+    /// - Returns: Container for the response returned by the UpdatePackage operation. (Type: `UpdatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5338,6 +5840,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageInput, UpdatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageOutput>(UpdatePackageOutput.httpOutput(from:), UpdatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageInput, UpdatePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageOutput>())
@@ -5369,9 +5872,9 @@ extension OpenSearchClient {
     ///
     /// Updates the scope of a package. Scope of the package defines users who can view and associate a package.
     ///
-    /// - Parameter UpdatePackageScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePackageScopeInput`)
     ///
-    /// - Returns: `UpdatePackageScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePackageScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5409,6 +5912,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageScopeInput, UpdatePackageScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageScopeOutput>(UpdatePackageScopeOutput.httpOutput(from:), UpdatePackageScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageScopeInput, UpdatePackageScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageScopeOutput>())
@@ -5440,9 +5944,9 @@ extension OpenSearchClient {
     ///
     /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled [service software update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
     ///
-    /// - Parameter UpdateScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduledActionInput`)
     ///
-    /// - Returns: `UpdateScheduledActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5482,6 +5986,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScheduledActionInput, UpdateScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScheduledActionOutput>(UpdateScheduledActionOutput.httpOutput(from:), UpdateScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScheduledActionInput, UpdateScheduledActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScheduledActionOutput>())
@@ -5513,9 +6018,9 @@ extension OpenSearchClient {
     ///
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
     ///
-    /// - Parameter UpdateVpcEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVpcEndpointInput`)
     ///
-    /// - Returns: `UpdateVpcEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVpcEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5554,6 +6059,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcEndpointInput, UpdateVpcEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcEndpointOutput>(UpdateVpcEndpointOutput.httpOutput(from:), UpdateVpcEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcEndpointInput, UpdateVpcEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVpcEndpointOutput>())
@@ -5585,9 +6091,9 @@ extension OpenSearchClient {
     ///
     /// Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
     ///
-    /// - Parameter UpgradeDomainInput : Container for the request parameters to the UpgradeDomain operation.
+    /// - Parameter input: Container for the request parameters to the UpgradeDomain operation. (Type: `UpgradeDomainInput`)
     ///
-    /// - Returns: `UpgradeDomainOutput` : Container for the response returned by UpgradeDomain operation.
+    /// - Returns: Container for the response returned by UpgradeDomain operation. (Type: `UpgradeDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5626,6 +6132,7 @@ extension OpenSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpgradeDomainInput, UpgradeDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpgradeDomainOutput>(UpgradeDomainOutput.httpOutput(from:), UpgradeDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpgradeDomainInput, UpgradeDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpgradeDomainOutput>())

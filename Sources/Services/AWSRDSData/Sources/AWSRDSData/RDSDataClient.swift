@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -63,9 +64,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RDSDataClient: ClientRuntime.Client {
+public class RDSDataClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RDSDataClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: RDSDataClient.RDSDataClientConfiguration
     let serviceName = "RDS Data"
@@ -371,9 +371,9 @@ extension RDSDataClient {
     ///
     /// Runs a batch SQL statement over an array of data. You can run bulk update and insert operations for multiple records using a DML statement with different parameter sets. Bulk operations can provide a significant performance improvement over individual insert and update operations. If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. There isn't a fixed upper limit on the number of parameter sets. However, the maximum size of the HTTP request submitted through the Data API is 4 MiB. If the request exceeds this limit, the Data API returns an error and doesn't process the request. This 4-MiB limit includes the size of the HTTP headers and the JSON notation in the request. Thus, the number of parameter sets that you can include depends on a combination of factors, such as the size of the SQL statement and the size of each parameter set. The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
     ///
-    /// - Parameter BatchExecuteStatementInput : The request parameters represent the input of a SQL statement over an array of data.
+    /// - Parameter input: The request parameters represent the input of a SQL statement over an array of data. (Type: `BatchExecuteStatementInput`)
     ///
-    /// - Returns: `BatchExecuteStatementOutput` : The response elements represent the output of a SQL statement over an array of data.
+    /// - Returns: The response elements represent the output of a SQL statement over an array of data. (Type: `BatchExecuteStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -427,6 +427,7 @@ extension RDSDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchExecuteStatementOutput>(BatchExecuteStatementOutput.httpOutput(from:), BatchExecuteStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchExecuteStatementInput, BatchExecuteStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchExecuteStatementOutput>())
@@ -458,9 +459,9 @@ extension RDSDataClient {
     ///
     /// Starts a SQL transaction. A transaction can run for a maximum of 24 hours. A transaction is terminated and rolled back automatically after 24 hours. A transaction times out if no calls use its transaction ID in three minutes. If a transaction times out before it's committed, it's rolled back automatically. For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate ExecuteStatement call with continueAfterTimeout enabled.
     ///
-    /// - Parameter BeginTransactionInput : The request parameters represent the input of a request to start a SQL transaction.
+    /// - Parameter input: The request parameters represent the input of a request to start a SQL transaction. (Type: `BeginTransactionInput`)
     ///
-    /// - Returns: `BeginTransactionOutput` : The response elements represent the output of a request to start a SQL transaction.
+    /// - Returns: The response elements represent the output of a request to start a SQL transaction. (Type: `BeginTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -514,6 +515,7 @@ extension RDSDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BeginTransactionInput, BeginTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BeginTransactionOutput>(BeginTransactionOutput.httpOutput(from:), BeginTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BeginTransactionInput, BeginTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BeginTransactionOutput>())
@@ -545,9 +547,9 @@ extension RDSDataClient {
     ///
     /// Ends a SQL transaction started with the BeginTransaction operation and commits the changes.
     ///
-    /// - Parameter CommitTransactionInput : The request parameters represent the input of a commit transaction request.
+    /// - Parameter input: The request parameters represent the input of a commit transaction request. (Type: `CommitTransactionInput`)
     ///
-    /// - Returns: `CommitTransactionOutput` : The response elements represent the output of a commit transaction request.
+    /// - Returns: The response elements represent the output of a commit transaction request. (Type: `CommitTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -601,6 +603,7 @@ extension RDSDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CommitTransactionInput, CommitTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CommitTransactionOutput>(CommitTransactionOutput.httpOutput(from:), CommitTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CommitTransactionInput, CommitTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CommitTransactionOutput>())
@@ -632,9 +635,9 @@ extension RDSDataClient {
     ///
     /// Runs a SQL statement against a database. If a call isn't part of a transaction because it doesn't include the transactionID parameter, changes that result from the call are committed automatically. If the binary response data from the database is more than 1 MB, the call is terminated.
     ///
-    /// - Parameter ExecuteStatementInput : The request parameters represent the input of a request to run a SQL statement against a database.
+    /// - Parameter input: The request parameters represent the input of a request to run a SQL statement against a database. (Type: `ExecuteStatementInput`)
     ///
-    /// - Returns: `ExecuteStatementOutput` : The response elements represent the output of a request to run a SQL statement against a database.
+    /// - Returns: The response elements represent the output of a request to run a SQL statement against a database. (Type: `ExecuteStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,6 +698,7 @@ extension RDSDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteStatementInput, ExecuteStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteStatementOutput>(ExecuteStatementOutput.httpOutput(from:), ExecuteStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteStatementInput, ExecuteStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteStatementOutput>())
@@ -726,9 +730,9 @@ extension RDSDataClient {
     ///
     /// Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
     ///
-    /// - Parameter RollbackTransactionInput : The request parameters represent the input of a request to perform a rollback of a transaction.
+    /// - Parameter input: The request parameters represent the input of a request to perform a rollback of a transaction. (Type: `RollbackTransactionInput`)
     ///
-    /// - Returns: `RollbackTransactionOutput` : The response elements represent the output of a request to perform a rollback of a transaction.
+    /// - Returns: The response elements represent the output of a request to perform a rollback of a transaction. (Type: `RollbackTransactionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,6 +786,7 @@ extension RDSDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RollbackTransactionInput, RollbackTransactionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RollbackTransactionOutput>(RollbackTransactionOutput.httpOutput(from:), RollbackTransactionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RollbackTransactionInput, RollbackTransactionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RollbackTransactionOutput>())

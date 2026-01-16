@@ -22,6 +22,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SageMakerRuntimeClient: ClientRuntime.Client {
+public class SageMakerRuntimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerRuntimeClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerRuntimeClient.SageMakerRuntimeClientConfiguration
     let serviceName = "SageMaker Runtime"
@@ -370,11 +370,11 @@ extension SageMakerRuntimeClient {
 extension SageMakerRuntimeClient {
     /// Performs the `InvokeEndpoint` operation on the `SageMakerRuntime` service.
     ///
-    /// After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html). Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpoint are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference. A customer's model containers must respond to requests within 60 seconds. The model itself can have a maximum processing time of 60 seconds before responding to invocations. If your model is going to take 50-60 seconds of processing time, the SDK socket timeout should be set to be 70 seconds. Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker determines the account ID from the authentication token that is supplied by the caller.
+    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html). Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpoint are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference. A customer's model containers must respond to requests within 60 seconds. The model itself can have a maximum processing time of 60 seconds before responding to invocations. If your model is going to take 50-60 seconds of processing time, the SDK socket timeout should be set to be 70 seconds. Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker AI determines the account ID from the authentication token that is supplied by the caller.
     ///
-    /// - Parameter InvokeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeEndpointInput`)
     ///
-    /// - Returns: `InvokeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension SageMakerRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeEndpointInput, InvokeEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeEndpointOutput>(InvokeEndpointOutput.httpOutput(from:), InvokeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeEndpointInput, InvokeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeEndpointOutput>())
@@ -443,11 +444,11 @@ extension SageMakerRuntimeClient {
 
     /// Performs the `InvokeEndpointAsync` operation on the `SageMakerRuntime` service.
     ///
-    /// After you deploy a model into production using Amazon SageMaker hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain information about where you can locate it. Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointAsync are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference.
+    /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain information about where you can locate it. Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointAsync are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference.
     ///
-    /// - Parameter InvokeEndpointAsyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeEndpointAsyncInput`)
     ///
-    /// - Returns: `InvokeEndpointAsyncOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeEndpointAsyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +482,7 @@ extension SageMakerRuntimeClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<InvokeEndpointAsyncInput, InvokeEndpointAsyncOutput>(InvokeEndpointAsyncInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeEndpointAsyncOutput>(InvokeEndpointAsyncOutput.httpOutput(from:), InvokeEndpointAsyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeEndpointAsyncInput, InvokeEndpointAsyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeEndpointAsyncOutput>())
@@ -510,18 +512,18 @@ extension SageMakerRuntimeClient {
 
     /// Performs the `InvokeEndpointWithResponseStream` operation on the `SageMakerRuntime` service.
     ///
-    /// Invokes a model at the specified endpoint to return the inference response as a stream. The inference stream provides the response payload incrementally as a series of parts. Before you can get an inference stream, you must have access to a model that's deployed using Amazon SageMaker hosting services, and the container for that model must support inference streaming. For more information that can help you use this API, see the following sections in the Amazon SageMaker Developer Guide:
+    /// Invokes a model at the specified endpoint to return the inference response as a stream. The inference stream provides the response payload incrementally as a series of parts. Before you can get an inference stream, you must have access to a model that's deployed using Amazon SageMaker AI hosting services, and the container for that model must support inference streaming. For more information that can help you use this API, see the following sections in the Amazon SageMaker AI Developer Guide:
     ///
     /// * For information about how to add streaming support to a model, see [How Containers Serve Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-code-how-containe-serves-requests).
     ///
     /// * For information about how to process the streaming response, see [Invoke real-time endpoints](https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints-test-endpoints.html).
     ///
     ///
-    /// Before you can use this operation, your IAM permissions must allow the sagemaker:InvokeEndpoint action. For more information about Amazon SageMaker actions for IAM policies, see [Actions, resources, and condition keys for Amazon SageMaker](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonsagemaker.html) in the IAM Service Authorization Reference. Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointWithResponseStream are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference.
+    /// Before you can use this operation, your IAM permissions must allow the sagemaker:InvokeEndpoint action. For more information about Amazon SageMaker AI actions for IAM policies, see [Actions, resources, and condition keys for Amazon SageMaker AI](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonsagemaker.html) in the IAM Service Authorization Reference. Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointWithResponseStream are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference.
     ///
-    /// - Parameter InvokeEndpointWithResponseStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeEndpointWithResponseStreamInput`)
     ///
-    /// - Returns: `InvokeEndpointWithResponseStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeEndpointWithResponseStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -529,7 +531,7 @@ extension SageMakerRuntimeClient {
     /// - `InternalFailure` : An internal failure occurred.
     /// - `InternalStreamFailure` : The stream processing failed because of an unknown error, exception or failure. Try your request again.
     /// - `ModelError` : Model (owned by the customer in the container) returned 4xx or 5xx error code.
-    /// - `ModelStreamError` : An error occurred while streaming the response body. This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+    /// - `ModelStreamError` : An error occurred while streaming the response body. This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker AI. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
     /// - `ServiceUnavailable` : The service is unavailable. Try your call again.
     /// - `ValidationError` : Inspect your request and try again.
     public func invokeEndpointWithResponseStream(input: InvokeEndpointWithResponseStreamInput) async throws -> InvokeEndpointWithResponseStreamOutput {
@@ -561,6 +563,7 @@ extension SageMakerRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeEndpointWithResponseStreamInput, InvokeEndpointWithResponseStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeEndpointWithResponseStreamOutput>(InvokeEndpointWithResponseStreamOutput.httpOutput(from:), InvokeEndpointWithResponseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeEndpointWithResponseStreamInput, InvokeEndpointWithResponseStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeEndpointWithResponseStreamOutput>())

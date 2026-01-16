@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -32,7 +33,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -68,9 +69,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MediaLiveClient: ClientRuntime.Client {
+public class MediaLiveClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MediaLiveClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaLiveClient.MediaLiveClientConfiguration
     let serviceName = "MediaLive"
@@ -376,9 +376,9 @@ extension MediaLiveClient {
     ///
     /// Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
     ///
-    /// - Parameter AcceptInputDeviceTransferInput : Placeholder documentation for AcceptInputDeviceTransferRequest
+    /// - Parameter input: Placeholder documentation for AcceptInputDeviceTransferRequest (Type: `AcceptInputDeviceTransferInput`)
     ///
-    /// - Returns: `AcceptInputDeviceTransferOutput` : Placeholder documentation for AcceptInputDeviceTransferResponse
+    /// - Returns: Placeholder documentation for AcceptInputDeviceTransferResponse (Type: `AcceptInputDeviceTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,6 +417,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptInputDeviceTransferInput, AcceptInputDeviceTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptInputDeviceTransferOutput>(AcceptInputDeviceTransferOutput.httpOutput(from:), AcceptInputDeviceTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptInputDeviceTransferInput, AcceptInputDeviceTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptInputDeviceTransferOutput>())
@@ -448,9 +449,9 @@ extension MediaLiveClient {
     ///
     /// Starts delete of resources.
     ///
-    /// - Parameter BatchDeleteInput : A request to delete resources
+    /// - Parameter input: A request to delete resources (Type: `BatchDeleteInput`)
     ///
-    /// - Returns: `BatchDeleteOutput` : Placeholder documentation for BatchDeleteResponse
+    /// - Returns: Placeholder documentation for BatchDeleteResponse (Type: `BatchDeleteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,6 +492,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteInput, BatchDeleteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteOutput>(BatchDeleteOutput.httpOutput(from:), BatchDeleteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteInput, BatchDeleteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteOutput>())
@@ -522,9 +524,9 @@ extension MediaLiveClient {
     ///
     /// Starts existing resources
     ///
-    /// - Parameter BatchStartInput : A request to start resources
+    /// - Parameter input: A request to start resources (Type: `BatchStartInput`)
     ///
-    /// - Returns: `BatchStartOutput` : Placeholder documentation for BatchStartResponse
+    /// - Returns: Placeholder documentation for BatchStartResponse (Type: `BatchStartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,6 +567,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchStartInput, BatchStartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchStartOutput>(BatchStartOutput.httpOutput(from:), BatchStartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchStartInput, BatchStartOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchStartOutput>())
@@ -596,9 +599,9 @@ extension MediaLiveClient {
     ///
     /// Stops running resources
     ///
-    /// - Parameter BatchStopInput : A request to stop resources
+    /// - Parameter input: A request to stop resources (Type: `BatchStopInput`)
     ///
-    /// - Returns: `BatchStopOutput` : Placeholder documentation for BatchStopResponse
+    /// - Returns: Placeholder documentation for BatchStopResponse (Type: `BatchStopOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -639,6 +642,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchStopInput, BatchStopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchStopOutput>(BatchStopOutput.httpOutput(from:), BatchStopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchStopInput, BatchStopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchStopOutput>())
@@ -670,9 +674,9 @@ extension MediaLiveClient {
     ///
     /// Update a channel schedule
     ///
-    /// - Parameter BatchUpdateScheduleInput : List of actions to create and list of actions to delete.
+    /// - Parameter input: List of actions to create and list of actions to delete. (Type: `BatchUpdateScheduleInput`)
     ///
-    /// - Returns: `BatchUpdateScheduleOutput` : Placeholder documentation for BatchUpdateScheduleResponse
+    /// - Returns: Placeholder documentation for BatchUpdateScheduleResponse (Type: `BatchUpdateScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,6 +717,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateScheduleOutput>(BatchUpdateScheduleOutput.httpOutput(from:), BatchUpdateScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateScheduleInput, BatchUpdateScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateScheduleOutput>())
@@ -744,9 +749,9 @@ extension MediaLiveClient {
     ///
     /// Cancel an input device transfer that you have requested.
     ///
-    /// - Parameter CancelInputDeviceTransferInput : Placeholder documentation for CancelInputDeviceTransferRequest
+    /// - Parameter input: Placeholder documentation for CancelInputDeviceTransferRequest (Type: `CancelInputDeviceTransferInput`)
     ///
-    /// - Returns: `CancelInputDeviceTransferOutput` : Placeholder documentation for CancelInputDeviceTransferResponse
+    /// - Returns: Placeholder documentation for CancelInputDeviceTransferResponse (Type: `CancelInputDeviceTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -785,6 +790,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelInputDeviceTransferInput, CancelInputDeviceTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelInputDeviceTransferOutput>(CancelInputDeviceTransferOutput.httpOutput(from:), CancelInputDeviceTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelInputDeviceTransferInput, CancelInputDeviceTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelInputDeviceTransferOutput>())
@@ -816,9 +822,9 @@ extension MediaLiveClient {
     ///
     /// Send a request to claim an AWS Elemental device that you have purchased from a third-party vendor. After the request succeeds, you will own the device.
     ///
-    /// - Parameter ClaimDeviceInput : A request to claim an AWS Elemental device that you have purchased from a third-party vendor.
+    /// - Parameter input: A request to claim an AWS Elemental device that you have purchased from a third-party vendor. (Type: `ClaimDeviceInput`)
     ///
-    /// - Returns: `ClaimDeviceOutput` : Placeholder documentation for ClaimDeviceResponse
+    /// - Returns: Placeholder documentation for ClaimDeviceResponse (Type: `ClaimDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,6 +865,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ClaimDeviceInput, ClaimDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ClaimDeviceOutput>(ClaimDeviceOutput.httpOutput(from:), ClaimDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ClaimDeviceInput, ClaimDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ClaimDeviceOutput>())
@@ -890,9 +897,9 @@ extension MediaLiveClient {
     ///
     /// Creates a new channel
     ///
-    /// - Parameter CreateChannelInput : A request to create a channel
+    /// - Parameter input: A request to create a channel (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : Placeholder documentation for CreateChannelResponse
+    /// - Returns: Placeholder documentation for CreateChannelResponse (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,6 +941,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -965,9 +973,9 @@ extension MediaLiveClient {
     ///
     /// Create a ChannelPlacementGroup in the specified Cluster. As part of the create operation, you specify the Nodes to attach the group to.After you create a ChannelPlacementGroup, you add Channels to the group (you do this by modifying the Channels to add them to a specific group). You now have an association of Channels to ChannelPlacementGroup, and ChannelPlacementGroup to Nodes. This association means that all the Channels in the group are able to run on any of the Nodes associated with the group.
     ///
-    /// - Parameter CreateChannelPlacementGroupInput : A request to create a channel placement group.
+    /// - Parameter input: A request to create a channel placement group. (Type: `CreateChannelPlacementGroupInput`)
     ///
-    /// - Returns: `CreateChannelPlacementGroupOutput` : Placeholder documentation for CreateChannelPlacementGroupResponse
+    /// - Returns: Placeholder documentation for CreateChannelPlacementGroupResponse (Type: `CreateChannelPlacementGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1008,6 +1016,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelPlacementGroupInput, CreateChannelPlacementGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelPlacementGroupOutput>(CreateChannelPlacementGroupOutput.httpOutput(from:), CreateChannelPlacementGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelPlacementGroupInput, CreateChannelPlacementGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelPlacementGroupOutput>())
@@ -1039,9 +1048,9 @@ extension MediaLiveClient {
     ///
     /// Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
     ///
-    /// - Parameter CreateCloudWatchAlarmTemplateInput : Placeholder documentation for CreateCloudWatchAlarmTemplateRequest
+    /// - Parameter input: Placeholder documentation for CreateCloudWatchAlarmTemplateRequest (Type: `CreateCloudWatchAlarmTemplateInput`)
     ///
-    /// - Returns: `CreateCloudWatchAlarmTemplateOutput` : Placeholder documentation for CreateCloudWatchAlarmTemplateResponse
+    /// - Returns: Placeholder documentation for CreateCloudWatchAlarmTemplateResponse (Type: `CreateCloudWatchAlarmTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,6 +1090,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudWatchAlarmTemplateOutput>(CreateCloudWatchAlarmTemplateOutput.httpOutput(from:), CreateCloudWatchAlarmTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudWatchAlarmTemplateOutput>())
@@ -1112,9 +1122,9 @@ extension MediaLiveClient {
     ///
     /// Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
     ///
-    /// - Parameter CreateCloudWatchAlarmTemplateGroupInput : Placeholder documentation for CreateCloudWatchAlarmTemplateGroupRequest
+    /// - Parameter input: Placeholder documentation for CreateCloudWatchAlarmTemplateGroupRequest (Type: `CreateCloudWatchAlarmTemplateGroupInput`)
     ///
-    /// - Returns: `CreateCloudWatchAlarmTemplateGroupOutput` : Placeholder documentation for CreateCloudWatchAlarmTemplateGroupResponse
+    /// - Returns: Placeholder documentation for CreateCloudWatchAlarmTemplateGroupResponse (Type: `CreateCloudWatchAlarmTemplateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1154,6 +1164,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudWatchAlarmTemplateGroupOutput>(CreateCloudWatchAlarmTemplateGroupOutput.httpOutput(from:), CreateCloudWatchAlarmTemplateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudWatchAlarmTemplateGroupOutput>())
@@ -1185,9 +1196,9 @@ extension MediaLiveClient {
     ///
     /// Create a new Cluster.
     ///
-    /// - Parameter CreateClusterInput : Create as many Clusters as you want, but create at least one. Each Cluster groups together Nodes that you want to treat as a collection. Within the Cluster, you will set up some Nodes as active Nodes, and some as backup Nodes, for Node failover purposes. Each Node can belong to only one Cluster.
+    /// - Parameter input: Create as many Clusters as you want, but create at least one. Each Cluster groups together Nodes that you want to treat as a collection. Within the Cluster, you will set up some Nodes as active Nodes, and some as backup Nodes, for Node failover purposes. Each Node can belong to only one Cluster. (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : Placeholder documentation for CreateClusterResponse
+    /// - Returns: Placeholder documentation for CreateClusterResponse (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,6 +1239,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -1259,9 +1271,9 @@ extension MediaLiveClient {
     ///
     /// Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
     ///
-    /// - Parameter CreateEventBridgeRuleTemplateInput : Placeholder documentation for CreateEventBridgeRuleTemplateRequest
+    /// - Parameter input: Placeholder documentation for CreateEventBridgeRuleTemplateRequest (Type: `CreateEventBridgeRuleTemplateInput`)
     ///
-    /// - Returns: `CreateEventBridgeRuleTemplateOutput` : Placeholder documentation for CreateEventBridgeRuleTemplateResponse
+    /// - Returns: Placeholder documentation for CreateEventBridgeRuleTemplateResponse (Type: `CreateEventBridgeRuleTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,6 +1313,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventBridgeRuleTemplateOutput>(CreateEventBridgeRuleTemplateOutput.httpOutput(from:), CreateEventBridgeRuleTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventBridgeRuleTemplateOutput>())
@@ -1332,9 +1345,9 @@ extension MediaLiveClient {
     ///
     /// Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
     ///
-    /// - Parameter CreateEventBridgeRuleTemplateGroupInput : Placeholder documentation for CreateEventBridgeRuleTemplateGroupRequest
+    /// - Parameter input: Placeholder documentation for CreateEventBridgeRuleTemplateGroupRequest (Type: `CreateEventBridgeRuleTemplateGroupInput`)
     ///
-    /// - Returns: `CreateEventBridgeRuleTemplateGroupOutput` : Placeholder documentation for CreateEventBridgeRuleTemplateGroupResponse
+    /// - Returns: Placeholder documentation for CreateEventBridgeRuleTemplateGroupResponse (Type: `CreateEventBridgeRuleTemplateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1374,6 +1387,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventBridgeRuleTemplateGroupOutput>(CreateEventBridgeRuleTemplateGroupOutput.httpOutput(from:), CreateEventBridgeRuleTemplateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventBridgeRuleTemplateGroupOutput>())
@@ -1405,9 +1419,9 @@ extension MediaLiveClient {
     ///
     /// Create an input
     ///
-    /// - Parameter CreateInputInput : The name of the input
+    /// - Parameter input: The name of the input (Type: `CreateInputInput`)
     ///
-    /// - Returns: `CreateInputOutput` : Placeholder documentation for CreateInputResponse
+    /// - Returns: Placeholder documentation for CreateInputResponse (Type: `CreateInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1447,6 +1461,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInputInput, CreateInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInputOutput>(CreateInputOutput.httpOutput(from:), CreateInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInputInput, CreateInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInputOutput>())
@@ -1478,9 +1493,9 @@ extension MediaLiveClient {
     ///
     /// Creates a Input Security Group
     ///
-    /// - Parameter CreateInputSecurityGroupInput : The IPv4 CIDRs to whitelist for this Input Security Group
+    /// - Parameter input: The IPv4 CIDRs to whitelist for this Input Security Group (Type: `CreateInputSecurityGroupInput`)
     ///
-    /// - Returns: `CreateInputSecurityGroupOutput` : Placeholder documentation for CreateInputSecurityGroupResponse
+    /// - Returns: Placeholder documentation for CreateInputSecurityGroupResponse (Type: `CreateInputSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,6 +1534,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInputSecurityGroupOutput>(CreateInputSecurityGroupOutput.httpOutput(from:), CreateInputSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInputSecurityGroupInput, CreateInputSecurityGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInputSecurityGroupOutput>())
@@ -1550,9 +1566,9 @@ extension MediaLiveClient {
     ///
     /// Create a new multiplex.
     ///
-    /// - Parameter CreateMultiplexInput : A request to create a multiplex.
+    /// - Parameter input: A request to create a multiplex. (Type: `CreateMultiplexInput`)
     ///
-    /// - Returns: `CreateMultiplexOutput` : Placeholder documentation for CreateMultiplexResponse
+    /// - Returns: Placeholder documentation for CreateMultiplexResponse (Type: `CreateMultiplexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,6 +1610,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMultiplexInput, CreateMultiplexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultiplexOutput>(CreateMultiplexOutput.httpOutput(from:), CreateMultiplexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultiplexInput, CreateMultiplexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMultiplexOutput>())
@@ -1625,9 +1642,9 @@ extension MediaLiveClient {
     ///
     /// Create a new program in the multiplex.
     ///
-    /// - Parameter CreateMultiplexProgramInput : A request to create a program in a multiplex.
+    /// - Parameter input: A request to create a program in a multiplex. (Type: `CreateMultiplexProgramInput`)
     ///
-    /// - Returns: `CreateMultiplexProgramOutput` : Placeholder documentation for CreateMultiplexProgramResponse
+    /// - Returns: Placeholder documentation for CreateMultiplexProgramResponse (Type: `CreateMultiplexProgramOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1669,6 +1686,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultiplexProgramOutput>(CreateMultiplexProgramOutput.httpOutput(from:), CreateMultiplexProgramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultiplexProgramInput, CreateMultiplexProgramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMultiplexProgramOutput>())
@@ -1700,9 +1718,9 @@ extension MediaLiveClient {
     ///
     /// Create as many Networks as you need. You will associate one or more Clusters with each Network.Each Network provides MediaLive Anywhere with required information about the network in your organization that you are using for video encoding using MediaLive.
     ///
-    /// - Parameter CreateNetworkInput : A request to create a Network.
+    /// - Parameter input: A request to create a Network. (Type: `CreateNetworkInput`)
     ///
-    /// - Returns: `CreateNetworkOutput` : Placeholder documentation for CreateNetworkResponse
+    /// - Returns: Placeholder documentation for CreateNetworkResponse (Type: `CreateNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1743,6 +1761,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNetworkInput, CreateNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkOutput>(CreateNetworkOutput.httpOutput(from:), CreateNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkInput, CreateNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkOutput>())
@@ -1774,9 +1793,9 @@ extension MediaLiveClient {
     ///
     /// Create a Node in the specified Cluster. You can also create Nodes using the CreateNodeRegistrationScript. Note that you can't move a Node to another Cluster.
     ///
-    /// - Parameter CreateNodeInput : A request to create a node
+    /// - Parameter input: A request to create a node (Type: `CreateNodeInput`)
     ///
-    /// - Returns: `CreateNodeOutput` : Placeholder documentation for CreateNodeResponse
+    /// - Returns: Placeholder documentation for CreateNodeResponse (Type: `CreateNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1817,6 +1836,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNodeInput, CreateNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNodeOutput>(CreateNodeOutput.httpOutput(from:), CreateNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNodeInput, CreateNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNodeOutput>())
@@ -1848,9 +1868,9 @@ extension MediaLiveClient {
     ///
     /// Create the Register Node script for all the nodes intended for a specific Cluster. You will then run the script on each hardware unit that is intended for that Cluster. The script creates a Node in the specified Cluster. It then binds the Node to this hardware unit, and activates the node hardware for use with MediaLive Anywhere.
     ///
-    /// - Parameter CreateNodeRegistrationScriptInput : A request to create a new node registration script.
+    /// - Parameter input: A request to create a new node registration script. (Type: `CreateNodeRegistrationScriptInput`)
     ///
-    /// - Returns: `CreateNodeRegistrationScriptOutput` : Placeholder documentation for CreateNodeRegistrationScriptResponse
+    /// - Returns: Placeholder documentation for CreateNodeRegistrationScriptResponse (Type: `CreateNodeRegistrationScriptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1891,6 +1911,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNodeRegistrationScriptInput, CreateNodeRegistrationScriptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNodeRegistrationScriptOutput>(CreateNodeRegistrationScriptOutput.httpOutput(from:), CreateNodeRegistrationScriptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNodeRegistrationScriptInput, CreateNodeRegistrationScriptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNodeRegistrationScriptOutput>())
@@ -1922,9 +1943,9 @@ extension MediaLiveClient {
     ///
     /// Create a partner input
     ///
-    /// - Parameter CreatePartnerInputInput : A request to create a partner input
+    /// - Parameter input: A request to create a partner input (Type: `CreatePartnerInputInput`)
     ///
-    /// - Returns: `CreatePartnerInputOutput` : Placeholder documentation for CreatePartnerInputResponse
+    /// - Returns: Placeholder documentation for CreatePartnerInputResponse (Type: `CreatePartnerInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1964,6 +1985,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartnerInputInput, CreatePartnerInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePartnerInputOutput>(CreatePartnerInputOutput.httpOutput(from:), CreatePartnerInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartnerInputInput, CreatePartnerInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartnerInputOutput>())
@@ -1995,9 +2017,9 @@ extension MediaLiveClient {
     ///
     /// Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
     ///
-    /// - Parameter CreateSdiSourceInput : A request to create a SdiSource.
+    /// - Parameter input: A request to create a SdiSource. (Type: `CreateSdiSourceInput`)
     ///
-    /// - Returns: `CreateSdiSourceOutput` : Placeholder documentation for CreateSdiSourceResponse
+    /// - Returns: Placeholder documentation for CreateSdiSourceResponse (Type: `CreateSdiSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2038,6 +2060,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSdiSourceInput, CreateSdiSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSdiSourceOutput>(CreateSdiSourceOutput.httpOutput(from:), CreateSdiSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSdiSourceInput, CreateSdiSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSdiSourceOutput>())
@@ -2069,9 +2092,9 @@ extension MediaLiveClient {
     ///
     /// Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
     ///
-    /// - Parameter CreateSignalMapInput : Placeholder documentation for CreateSignalMapRequest
+    /// - Parameter input: Placeholder documentation for CreateSignalMapRequest (Type: `CreateSignalMapInput`)
     ///
-    /// - Returns: `CreateSignalMapOutput` : Placeholder documentation for CreateSignalMapResponse
+    /// - Returns: Placeholder documentation for CreateSignalMapResponse (Type: `CreateSignalMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2111,6 +2134,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSignalMapInput, CreateSignalMapOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSignalMapOutput>(CreateSignalMapOutput.httpOutput(from:), CreateSignalMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSignalMapInput, CreateSignalMapOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSignalMapOutput>())
@@ -2142,9 +2166,9 @@ extension MediaLiveClient {
     ///
     /// Create tags for a resource
     ///
-    /// - Parameter CreateTagsInput : Placeholder documentation for CreateTagsRequest
+    /// - Parameter input: Placeholder documentation for CreateTagsRequest (Type: `CreateTagsInput`)
     ///
-    /// - Returns: `CreateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2181,6 +2205,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTagsInput, CreateTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTagsOutput>(CreateTagsOutput.httpOutput(from:), CreateTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTagsInput, CreateTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTagsOutput>())
@@ -2212,9 +2237,9 @@ extension MediaLiveClient {
     ///
     /// Starts deletion of channel. The associated outputs are also deleted.
     ///
-    /// - Parameter DeleteChannelInput : Placeholder documentation for DeleteChannelRequest
+    /// - Parameter input: Placeholder documentation for DeleteChannelRequest (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : Placeholder documentation for DeleteChannelResponse
+    /// - Returns: Placeholder documentation for DeleteChannelResponse (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2252,6 +2277,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(DeleteChannelOutput.httpOutput(from:), DeleteChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelInput, DeleteChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
@@ -2283,9 +2309,9 @@ extension MediaLiveClient {
     ///
     /// Delete the specified ChannelPlacementGroup that exists in the specified Cluster.
     ///
-    /// - Parameter DeleteChannelPlacementGroupInput : Placeholder documentation for DeleteChannelPlacementGroupRequest
+    /// - Parameter input: Placeholder documentation for DeleteChannelPlacementGroupRequest (Type: `DeleteChannelPlacementGroupInput`)
     ///
-    /// - Returns: `DeleteChannelPlacementGroupOutput` : Placeholder documentation for DeleteChannelPlacementGroupResponse
+    /// - Returns: Placeholder documentation for DeleteChannelPlacementGroupResponse (Type: `DeleteChannelPlacementGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2323,6 +2349,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelPlacementGroupInput, DeleteChannelPlacementGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelPlacementGroupOutput>(DeleteChannelPlacementGroupOutput.httpOutput(from:), DeleteChannelPlacementGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelPlacementGroupInput, DeleteChannelPlacementGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelPlacementGroupOutput>())
@@ -2354,9 +2381,9 @@ extension MediaLiveClient {
     ///
     /// Deletes a cloudwatch alarm template.
     ///
-    /// - Parameter DeleteCloudWatchAlarmTemplateInput : Placeholder documentation for DeleteCloudWatchAlarmTemplateRequest
+    /// - Parameter input: Placeholder documentation for DeleteCloudWatchAlarmTemplateRequest (Type: `DeleteCloudWatchAlarmTemplateInput`)
     ///
-    /// - Returns: `DeleteCloudWatchAlarmTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudWatchAlarmTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2392,6 +2419,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCloudWatchAlarmTemplateInput, DeleteCloudWatchAlarmTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudWatchAlarmTemplateOutput>(DeleteCloudWatchAlarmTemplateOutput.httpOutput(from:), DeleteCloudWatchAlarmTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudWatchAlarmTemplateInput, DeleteCloudWatchAlarmTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCloudWatchAlarmTemplateOutput>())
@@ -2423,9 +2451,9 @@ extension MediaLiveClient {
     ///
     /// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
     ///
-    /// - Parameter DeleteCloudWatchAlarmTemplateGroupInput : Placeholder documentation for DeleteCloudWatchAlarmTemplateGroupRequest
+    /// - Parameter input: Placeholder documentation for DeleteCloudWatchAlarmTemplateGroupRequest (Type: `DeleteCloudWatchAlarmTemplateGroupInput`)
     ///
-    /// - Returns: `DeleteCloudWatchAlarmTemplateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudWatchAlarmTemplateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2461,6 +2489,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCloudWatchAlarmTemplateGroupInput, DeleteCloudWatchAlarmTemplateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudWatchAlarmTemplateGroupOutput>(DeleteCloudWatchAlarmTemplateGroupOutput.httpOutput(from:), DeleteCloudWatchAlarmTemplateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudWatchAlarmTemplateGroupInput, DeleteCloudWatchAlarmTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCloudWatchAlarmTemplateGroupOutput>())
@@ -2492,9 +2521,9 @@ extension MediaLiveClient {
     ///
     /// Delete a Cluster. The Cluster must be idle.
     ///
-    /// - Parameter DeleteClusterInput : Placeholder documentation for DeleteClusterRequest
+    /// - Parameter input: Placeholder documentation for DeleteClusterRequest (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : Placeholder documentation for DeleteClusterResponse
+    /// - Returns: Placeholder documentation for DeleteClusterResponse (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2532,6 +2561,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -2563,9 +2593,9 @@ extension MediaLiveClient {
     ///
     /// Deletes an eventbridge rule template.
     ///
-    /// - Parameter DeleteEventBridgeRuleTemplateInput : Placeholder documentation for DeleteEventBridgeRuleTemplateRequest
+    /// - Parameter input: Placeholder documentation for DeleteEventBridgeRuleTemplateRequest (Type: `DeleteEventBridgeRuleTemplateInput`)
     ///
-    /// - Returns: `DeleteEventBridgeRuleTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventBridgeRuleTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,6 +2631,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventBridgeRuleTemplateInput, DeleteEventBridgeRuleTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventBridgeRuleTemplateOutput>(DeleteEventBridgeRuleTemplateOutput.httpOutput(from:), DeleteEventBridgeRuleTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventBridgeRuleTemplateInput, DeleteEventBridgeRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventBridgeRuleTemplateOutput>())
@@ -2632,9 +2663,9 @@ extension MediaLiveClient {
     ///
     /// Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
     ///
-    /// - Parameter DeleteEventBridgeRuleTemplateGroupInput : Placeholder documentation for DeleteEventBridgeRuleTemplateGroupRequest
+    /// - Parameter input: Placeholder documentation for DeleteEventBridgeRuleTemplateGroupRequest (Type: `DeleteEventBridgeRuleTemplateGroupInput`)
     ///
-    /// - Returns: `DeleteEventBridgeRuleTemplateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventBridgeRuleTemplateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2670,6 +2701,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventBridgeRuleTemplateGroupInput, DeleteEventBridgeRuleTemplateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventBridgeRuleTemplateGroupOutput>(DeleteEventBridgeRuleTemplateGroupOutput.httpOutput(from:), DeleteEventBridgeRuleTemplateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventBridgeRuleTemplateGroupInput, DeleteEventBridgeRuleTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventBridgeRuleTemplateGroupOutput>())
@@ -2701,9 +2733,9 @@ extension MediaLiveClient {
     ///
     /// Deletes the input end point
     ///
-    /// - Parameter DeleteInputInput : Placeholder documentation for DeleteInputRequest
+    /// - Parameter input: Placeholder documentation for DeleteInputRequest (Type: `DeleteInputInput`)
     ///
-    /// - Returns: `DeleteInputOutput` : Placeholder documentation for DeleteInputResponse
+    /// - Returns: Placeholder documentation for DeleteInputResponse (Type: `DeleteInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2741,6 +2773,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInputInput, DeleteInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInputOutput>(DeleteInputOutput.httpOutput(from:), DeleteInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInputInput, DeleteInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInputOutput>())
@@ -2772,9 +2805,9 @@ extension MediaLiveClient {
     ///
     /// Deletes an Input Security Group
     ///
-    /// - Parameter DeleteInputSecurityGroupInput : Placeholder documentation for DeleteInputSecurityGroupRequest
+    /// - Parameter input: Placeholder documentation for DeleteInputSecurityGroupRequest (Type: `DeleteInputSecurityGroupInput`)
     ///
-    /// - Returns: `DeleteInputSecurityGroupOutput` : Placeholder documentation for DeleteInputSecurityGroupResponse
+    /// - Returns: Placeholder documentation for DeleteInputSecurityGroupResponse (Type: `DeleteInputSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2811,6 +2844,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInputSecurityGroupInput, DeleteInputSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInputSecurityGroupOutput>(DeleteInputSecurityGroupOutput.httpOutput(from:), DeleteInputSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInputSecurityGroupInput, DeleteInputSecurityGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInputSecurityGroupOutput>())
@@ -2842,9 +2876,9 @@ extension MediaLiveClient {
     ///
     /// Delete a multiplex. The multiplex must be idle.
     ///
-    /// - Parameter DeleteMultiplexInput : Placeholder documentation for DeleteMultiplexRequest
+    /// - Parameter input: Placeholder documentation for DeleteMultiplexRequest (Type: `DeleteMultiplexInput`)
     ///
-    /// - Returns: `DeleteMultiplexOutput` : Placeholder documentation for DeleteMultiplexResponse
+    /// - Returns: Placeholder documentation for DeleteMultiplexResponse (Type: `DeleteMultiplexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2882,6 +2916,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMultiplexInput, DeleteMultiplexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMultiplexOutput>(DeleteMultiplexOutput.httpOutput(from:), DeleteMultiplexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMultiplexInput, DeleteMultiplexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMultiplexOutput>())
@@ -2913,9 +2948,9 @@ extension MediaLiveClient {
     ///
     /// Delete a program from a multiplex.
     ///
-    /// - Parameter DeleteMultiplexProgramInput : Placeholder documentation for DeleteMultiplexProgramRequest
+    /// - Parameter input: Placeholder documentation for DeleteMultiplexProgramRequest (Type: `DeleteMultiplexProgramInput`)
     ///
-    /// - Returns: `DeleteMultiplexProgramOutput` : Placeholder documentation for DeleteMultiplexProgramResponse
+    /// - Returns: Placeholder documentation for DeleteMultiplexProgramResponse (Type: `DeleteMultiplexProgramOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2953,6 +2988,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMultiplexProgramInput, DeleteMultiplexProgramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMultiplexProgramOutput>(DeleteMultiplexProgramOutput.httpOutput(from:), DeleteMultiplexProgramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMultiplexProgramInput, DeleteMultiplexProgramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMultiplexProgramOutput>())
@@ -2984,9 +3020,9 @@ extension MediaLiveClient {
     ///
     /// Delete a Network. The Network must have no resources associated with it.
     ///
-    /// - Parameter DeleteNetworkInput : Placeholder documentation for DeleteNetworkRequest
+    /// - Parameter input: Placeholder documentation for DeleteNetworkRequest (Type: `DeleteNetworkInput`)
     ///
-    /// - Returns: `DeleteNetworkOutput` : Placeholder documentation for DeleteNetworkResponse
+    /// - Returns: Placeholder documentation for DeleteNetworkResponse (Type: `DeleteNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3024,6 +3060,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNetworkInput, DeleteNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkOutput>(DeleteNetworkOutput.httpOutput(from:), DeleteNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkInput, DeleteNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkOutput>())
@@ -3055,9 +3092,9 @@ extension MediaLiveClient {
     ///
     /// Delete a Node. The Node must be IDLE.
     ///
-    /// - Parameter DeleteNodeInput : Placeholder documentation for DeleteNodeRequest
+    /// - Parameter input: Placeholder documentation for DeleteNodeRequest (Type: `DeleteNodeInput`)
     ///
-    /// - Returns: `DeleteNodeOutput` : Placeholder documentation for DeleteNodeResponse
+    /// - Returns: Placeholder documentation for DeleteNodeResponse (Type: `DeleteNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3095,6 +3132,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNodeInput, DeleteNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNodeOutput>(DeleteNodeOutput.httpOutput(from:), DeleteNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNodeInput, DeleteNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNodeOutput>())
@@ -3126,9 +3164,9 @@ extension MediaLiveClient {
     ///
     /// Delete an expired reservation.
     ///
-    /// - Parameter DeleteReservationInput : Placeholder documentation for DeleteReservationRequest
+    /// - Parameter input: Placeholder documentation for DeleteReservationRequest (Type: `DeleteReservationInput`)
     ///
-    /// - Returns: `DeleteReservationOutput` : Placeholder documentation for DeleteReservationResponse
+    /// - Returns: Placeholder documentation for DeleteReservationResponse (Type: `DeleteReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3166,6 +3204,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReservationInput, DeleteReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReservationOutput>(DeleteReservationOutput.httpOutput(from:), DeleteReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReservationInput, DeleteReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReservationOutput>())
@@ -3197,9 +3236,9 @@ extension MediaLiveClient {
     ///
     /// Delete all schedule actions on a channel.
     ///
-    /// - Parameter DeleteScheduleInput : Placeholder documentation for DeleteScheduleRequest
+    /// - Parameter input: Placeholder documentation for DeleteScheduleRequest (Type: `DeleteScheduleInput`)
     ///
-    /// - Returns: `DeleteScheduleOutput` : Placeholder documentation for DeleteScheduleResponse
+    /// - Returns: Placeholder documentation for DeleteScheduleResponse (Type: `DeleteScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3236,6 +3275,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScheduleInput, DeleteScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScheduleOutput>(DeleteScheduleOutput.httpOutput(from:), DeleteScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduleInput, DeleteScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduleOutput>())
@@ -3267,9 +3307,9 @@ extension MediaLiveClient {
     ///
     /// Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
     ///
-    /// - Parameter DeleteSdiSourceInput : Placeholder documentation for DeleteSdiSourceRequest
+    /// - Parameter input: Placeholder documentation for DeleteSdiSourceRequest (Type: `DeleteSdiSourceInput`)
     ///
-    /// - Returns: `DeleteSdiSourceOutput` : Placeholder documentation for DeleteSdiSourceResponse
+    /// - Returns: Placeholder documentation for DeleteSdiSourceResponse (Type: `DeleteSdiSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3307,6 +3347,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSdiSourceInput, DeleteSdiSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSdiSourceOutput>(DeleteSdiSourceOutput.httpOutput(from:), DeleteSdiSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSdiSourceInput, DeleteSdiSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSdiSourceOutput>())
@@ -3338,9 +3379,9 @@ extension MediaLiveClient {
     ///
     /// Deletes the specified signal map.
     ///
-    /// - Parameter DeleteSignalMapInput : Placeholder documentation for DeleteSignalMapRequest
+    /// - Parameter input: Placeholder documentation for DeleteSignalMapRequest (Type: `DeleteSignalMapInput`)
     ///
-    /// - Returns: `DeleteSignalMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSignalMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3376,6 +3417,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSignalMapInput, DeleteSignalMapOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSignalMapOutput>(DeleteSignalMapOutput.httpOutput(from:), DeleteSignalMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSignalMapInput, DeleteSignalMapOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSignalMapOutput>())
@@ -3407,9 +3449,9 @@ extension MediaLiveClient {
     ///
     /// Removes tags for a resource
     ///
-    /// - Parameter DeleteTagsInput : Placeholder documentation for DeleteTagsRequest
+    /// - Parameter input: Placeholder documentation for DeleteTagsRequest (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3444,6 +3486,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTagsInput, DeleteTagsOutput>(DeleteTagsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTagsOutput>(DeleteTagsOutput.httpOutput(from:), DeleteTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTagsInput, DeleteTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTagsOutput>())
@@ -3475,9 +3518,9 @@ extension MediaLiveClient {
     ///
     /// Describe account configuration
     ///
-    /// - Parameter DescribeAccountConfigurationInput : Placeholder documentation for DescribeAccountConfigurationRequest
+    /// - Parameter input: Placeholder documentation for DescribeAccountConfigurationRequest (Type: `DescribeAccountConfigurationInput`)
     ///
-    /// - Returns: `DescribeAccountConfigurationOutput` : Placeholder documentation for DescribeAccountConfigurationResponse
+    /// - Returns: Placeholder documentation for DescribeAccountConfigurationResponse (Type: `DescribeAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3513,6 +3556,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountConfigurationInput, DescribeAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountConfigurationOutput>(DescribeAccountConfigurationOutput.httpOutput(from:), DescribeAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountConfigurationInput, DescribeAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountConfigurationOutput>())
@@ -3544,9 +3588,9 @@ extension MediaLiveClient {
     ///
     /// Gets details about a channel
     ///
-    /// - Parameter DescribeChannelInput : Placeholder documentation for DescribeChannelRequest
+    /// - Parameter input: Placeholder documentation for DescribeChannelRequest (Type: `DescribeChannelInput`)
     ///
-    /// - Returns: `DescribeChannelOutput` : Placeholder documentation for DescribeChannelResponse
+    /// - Returns: Placeholder documentation for DescribeChannelResponse (Type: `DescribeChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3583,6 +3627,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChannelOutput>(DescribeChannelOutput.httpOutput(from:), DescribeChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChannelInput, DescribeChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChannelOutput>())
@@ -3614,9 +3659,9 @@ extension MediaLiveClient {
     ///
     /// Get details about a ChannelPlacementGroup.
     ///
-    /// - Parameter DescribeChannelPlacementGroupInput : Placeholder documentation for DescribeChannelPlacementGroupRequest
+    /// - Parameter input: Placeholder documentation for DescribeChannelPlacementGroupRequest (Type: `DescribeChannelPlacementGroupInput`)
     ///
-    /// - Returns: `DescribeChannelPlacementGroupOutput` : Placeholder documentation for DescribeChannelPlacementGroupResponse
+    /// - Returns: Placeholder documentation for DescribeChannelPlacementGroupResponse (Type: `DescribeChannelPlacementGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3653,6 +3698,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChannelPlacementGroupOutput>(DescribeChannelPlacementGroupOutput.httpOutput(from:), DescribeChannelPlacementGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChannelPlacementGroupInput, DescribeChannelPlacementGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChannelPlacementGroupOutput>())
@@ -3684,9 +3730,9 @@ extension MediaLiveClient {
     ///
     /// Get details about a Cluster.
     ///
-    /// - Parameter DescribeClusterInput : Placeholder documentation for DescribeClusterRequest
+    /// - Parameter input: Placeholder documentation for DescribeClusterRequest (Type: `DescribeClusterInput`)
     ///
-    /// - Returns: `DescribeClusterOutput` : Placeholder documentation for DescribeClusterResponse
+    /// - Returns: Placeholder documentation for DescribeClusterResponse (Type: `DescribeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3723,6 +3769,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOutput>(DescribeClusterOutput.httpOutput(from:), DescribeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterInput, DescribeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterOutput>())
@@ -3754,9 +3801,9 @@ extension MediaLiveClient {
     ///
     /// Produces details about an input
     ///
-    /// - Parameter DescribeInputInput : Placeholder documentation for DescribeInputRequest
+    /// - Parameter input: Placeholder documentation for DescribeInputRequest (Type: `DescribeInputInput`)
     ///
-    /// - Returns: `DescribeInputOutput` : Placeholder documentation for DescribeInputResponse
+    /// - Returns: Placeholder documentation for DescribeInputResponse (Type: `DescribeInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3793,6 +3840,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInputInput, DescribeInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInputOutput>(DescribeInputOutput.httpOutput(from:), DescribeInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInputInput, DescribeInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInputOutput>())
@@ -3824,9 +3872,9 @@ extension MediaLiveClient {
     ///
     /// Gets the details for the input device
     ///
-    /// - Parameter DescribeInputDeviceInput : Placeholder documentation for DescribeInputDeviceRequest
+    /// - Parameter input: Placeholder documentation for DescribeInputDeviceRequest (Type: `DescribeInputDeviceInput`)
     ///
-    /// - Returns: `DescribeInputDeviceOutput` : Placeholder documentation for DescribeInputDeviceResponse
+    /// - Returns: Placeholder documentation for DescribeInputDeviceResponse (Type: `DescribeInputDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3863,6 +3911,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInputDeviceInput, DescribeInputDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInputDeviceOutput>(DescribeInputDeviceOutput.httpOutput(from:), DescribeInputDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInputDeviceInput, DescribeInputDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInputDeviceOutput>())
@@ -3894,9 +3943,9 @@ extension MediaLiveClient {
     ///
     /// Get the latest thumbnail data for the input device.
     ///
-    /// - Parameter DescribeInputDeviceThumbnailInput : Placeholder documentation for DescribeInputDeviceThumbnailRequest
+    /// - Parameter input: Placeholder documentation for DescribeInputDeviceThumbnailRequest (Type: `DescribeInputDeviceThumbnailInput`)
     ///
-    /// - Returns: `DescribeInputDeviceThumbnailOutput` : Placeholder documentation for DescribeInputDeviceThumbnailResponse
+    /// - Returns: Placeholder documentation for DescribeInputDeviceThumbnailResponse (Type: `DescribeInputDeviceThumbnailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3934,6 +3983,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutput>(DescribeInputDeviceThumbnailInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInputDeviceThumbnailOutput>(DescribeInputDeviceThumbnailOutput.httpOutput(from:), DescribeInputDeviceThumbnailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInputDeviceThumbnailInput, DescribeInputDeviceThumbnailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInputDeviceThumbnailOutput>())
@@ -3965,9 +4015,9 @@ extension MediaLiveClient {
     ///
     /// Produces a summary of an Input Security Group
     ///
-    /// - Parameter DescribeInputSecurityGroupInput : Placeholder documentation for DescribeInputSecurityGroupRequest
+    /// - Parameter input: Placeholder documentation for DescribeInputSecurityGroupRequest (Type: `DescribeInputSecurityGroupInput`)
     ///
-    /// - Returns: `DescribeInputSecurityGroupOutput` : Placeholder documentation for DescribeInputSecurityGroupResponse
+    /// - Returns: Placeholder documentation for DescribeInputSecurityGroupResponse (Type: `DescribeInputSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4004,6 +4054,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInputSecurityGroupInput, DescribeInputSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInputSecurityGroupOutput>(DescribeInputSecurityGroupOutput.httpOutput(from:), DescribeInputSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInputSecurityGroupInput, DescribeInputSecurityGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInputSecurityGroupOutput>())
@@ -4035,9 +4086,9 @@ extension MediaLiveClient {
     ///
     /// Gets details about a multiplex.
     ///
-    /// - Parameter DescribeMultiplexInput : Placeholder documentation for DescribeMultiplexRequest
+    /// - Parameter input: Placeholder documentation for DescribeMultiplexRequest (Type: `DescribeMultiplexInput`)
     ///
-    /// - Returns: `DescribeMultiplexOutput` : Placeholder documentation for DescribeMultiplexResponse
+    /// - Returns: Placeholder documentation for DescribeMultiplexResponse (Type: `DescribeMultiplexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4074,6 +4125,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMultiplexInput, DescribeMultiplexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiplexOutput>(DescribeMultiplexOutput.httpOutput(from:), DescribeMultiplexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiplexInput, DescribeMultiplexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiplexOutput>())
@@ -4105,9 +4157,9 @@ extension MediaLiveClient {
     ///
     /// Get the details for a program in a multiplex.
     ///
-    /// - Parameter DescribeMultiplexProgramInput : Placeholder documentation for DescribeMultiplexProgramRequest
+    /// - Parameter input: Placeholder documentation for DescribeMultiplexProgramRequest (Type: `DescribeMultiplexProgramInput`)
     ///
-    /// - Returns: `DescribeMultiplexProgramOutput` : Placeholder documentation for DescribeMultiplexProgramResponse
+    /// - Returns: Placeholder documentation for DescribeMultiplexProgramResponse (Type: `DescribeMultiplexProgramOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4144,6 +4196,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMultiplexProgramInput, DescribeMultiplexProgramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiplexProgramOutput>(DescribeMultiplexProgramOutput.httpOutput(from:), DescribeMultiplexProgramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiplexProgramInput, DescribeMultiplexProgramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiplexProgramOutput>())
@@ -4175,9 +4228,9 @@ extension MediaLiveClient {
     ///
     /// Get details about a Network.
     ///
-    /// - Parameter DescribeNetworkInput : Placeholder documentation for DescribeNetworkRequest
+    /// - Parameter input: Placeholder documentation for DescribeNetworkRequest (Type: `DescribeNetworkInput`)
     ///
-    /// - Returns: `DescribeNetworkOutput` : Placeholder documentation for DescribeNetworkResponse
+    /// - Returns: Placeholder documentation for DescribeNetworkResponse (Type: `DescribeNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4214,6 +4267,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNetworkInput, DescribeNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkOutput>(DescribeNetworkOutput.httpOutput(from:), DescribeNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkInput, DescribeNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkOutput>())
@@ -4245,9 +4299,9 @@ extension MediaLiveClient {
     ///
     /// Get details about a Node in the specified Cluster.
     ///
-    /// - Parameter DescribeNodeInput : Placeholder documentation for DescribeNodeRequest
+    /// - Parameter input: Placeholder documentation for DescribeNodeRequest (Type: `DescribeNodeInput`)
     ///
-    /// - Returns: `DescribeNodeOutput` : Placeholder documentation for DescribeNodeResponse
+    /// - Returns: Placeholder documentation for DescribeNodeResponse (Type: `DescribeNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4284,6 +4338,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNodeInput, DescribeNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNodeOutput>(DescribeNodeOutput.httpOutput(from:), DescribeNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNodeInput, DescribeNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNodeOutput>())
@@ -4315,9 +4370,9 @@ extension MediaLiveClient {
     ///
     /// Get details for an offering.
     ///
-    /// - Parameter DescribeOfferingInput : Placeholder documentation for DescribeOfferingRequest
+    /// - Parameter input: Placeholder documentation for DescribeOfferingRequest (Type: `DescribeOfferingInput`)
     ///
-    /// - Returns: `DescribeOfferingOutput` : Placeholder documentation for DescribeOfferingResponse
+    /// - Returns: Placeholder documentation for DescribeOfferingResponse (Type: `DescribeOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4354,6 +4409,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOfferingInput, DescribeOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOfferingOutput>(DescribeOfferingOutput.httpOutput(from:), DescribeOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOfferingInput, DescribeOfferingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOfferingOutput>())
@@ -4385,9 +4441,9 @@ extension MediaLiveClient {
     ///
     /// Get details for a reservation.
     ///
-    /// - Parameter DescribeReservationInput : Placeholder documentation for DescribeReservationRequest
+    /// - Parameter input: Placeholder documentation for DescribeReservationRequest (Type: `DescribeReservationInput`)
     ///
-    /// - Returns: `DescribeReservationOutput` : Placeholder documentation for DescribeReservationResponse
+    /// - Returns: Placeholder documentation for DescribeReservationResponse (Type: `DescribeReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4424,6 +4480,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReservationInput, DescribeReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservationOutput>(DescribeReservationOutput.httpOutput(from:), DescribeReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservationInput, DescribeReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservationOutput>())
@@ -4455,9 +4512,9 @@ extension MediaLiveClient {
     ///
     /// Get a channel schedule
     ///
-    /// - Parameter DescribeScheduleInput : Placeholder documentation for DescribeScheduleRequest
+    /// - Parameter input: Placeholder documentation for DescribeScheduleRequest (Type: `DescribeScheduleInput`)
     ///
-    /// - Returns: `DescribeScheduleOutput` : Placeholder documentation for DescribeScheduleResponse
+    /// - Returns: Placeholder documentation for DescribeScheduleResponse (Type: `DescribeScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4495,6 +4552,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeScheduleInput, DescribeScheduleOutput>(DescribeScheduleInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScheduleOutput>(DescribeScheduleOutput.httpOutput(from:), DescribeScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScheduleInput, DescribeScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScheduleOutput>())
@@ -4526,9 +4584,9 @@ extension MediaLiveClient {
     ///
     /// Gets details about a SdiSource.
     ///
-    /// - Parameter DescribeSdiSourceInput : Placeholder documentation for DescribeSdiSourceRequest
+    /// - Parameter input: Placeholder documentation for DescribeSdiSourceRequest (Type: `DescribeSdiSourceInput`)
     ///
-    /// - Returns: `DescribeSdiSourceOutput` : Placeholder documentation for DescribeSdiSourceResponse
+    /// - Returns: Placeholder documentation for DescribeSdiSourceResponse (Type: `DescribeSdiSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4565,6 +4623,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSdiSourceInput, DescribeSdiSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSdiSourceOutput>(DescribeSdiSourceOutput.httpOutput(from:), DescribeSdiSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSdiSourceInput, DescribeSdiSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSdiSourceOutput>())
@@ -4596,9 +4655,9 @@ extension MediaLiveClient {
     ///
     /// Describe the latest thumbnails data.
     ///
-    /// - Parameter DescribeThumbnailsInput : Placeholder documentation for DescribeThumbnailsRequest
+    /// - Parameter input: Placeholder documentation for DescribeThumbnailsRequest (Type: `DescribeThumbnailsInput`)
     ///
-    /// - Returns: `DescribeThumbnailsOutput` : Placeholder documentation for DescribeThumbnailsResponse
+    /// - Returns: Placeholder documentation for DescribeThumbnailsResponse (Type: `DescribeThumbnailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4637,6 +4696,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeThumbnailsInput, DescribeThumbnailsOutput>(DescribeThumbnailsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThumbnailsOutput>(DescribeThumbnailsOutput.httpOutput(from:), DescribeThumbnailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThumbnailsInput, DescribeThumbnailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThumbnailsOutput>())
@@ -4668,9 +4728,9 @@ extension MediaLiveClient {
     ///
     /// Retrieves the specified cloudwatch alarm template.
     ///
-    /// - Parameter GetCloudWatchAlarmTemplateInput : Placeholder documentation for GetCloudWatchAlarmTemplateRequest
+    /// - Parameter input: Placeholder documentation for GetCloudWatchAlarmTemplateRequest (Type: `GetCloudWatchAlarmTemplateInput`)
     ///
-    /// - Returns: `GetCloudWatchAlarmTemplateOutput` : Placeholder documentation for GetCloudWatchAlarmTemplateResponse
+    /// - Returns: Placeholder documentation for GetCloudWatchAlarmTemplateResponse (Type: `GetCloudWatchAlarmTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4705,6 +4765,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudWatchAlarmTemplateInput, GetCloudWatchAlarmTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudWatchAlarmTemplateOutput>(GetCloudWatchAlarmTemplateOutput.httpOutput(from:), GetCloudWatchAlarmTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudWatchAlarmTemplateInput, GetCloudWatchAlarmTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudWatchAlarmTemplateOutput>())
@@ -4736,9 +4797,9 @@ extension MediaLiveClient {
     ///
     /// Retrieves the specified cloudwatch alarm template group.
     ///
-    /// - Parameter GetCloudWatchAlarmTemplateGroupInput : Placeholder documentation for GetCloudWatchAlarmTemplateGroupRequest
+    /// - Parameter input: Placeholder documentation for GetCloudWatchAlarmTemplateGroupRequest (Type: `GetCloudWatchAlarmTemplateGroupInput`)
     ///
-    /// - Returns: `GetCloudWatchAlarmTemplateGroupOutput` : Placeholder documentation for GetCloudWatchAlarmTemplateGroupResponse
+    /// - Returns: Placeholder documentation for GetCloudWatchAlarmTemplateGroupResponse (Type: `GetCloudWatchAlarmTemplateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4773,6 +4834,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudWatchAlarmTemplateGroupInput, GetCloudWatchAlarmTemplateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudWatchAlarmTemplateGroupOutput>(GetCloudWatchAlarmTemplateGroupOutput.httpOutput(from:), GetCloudWatchAlarmTemplateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudWatchAlarmTemplateGroupInput, GetCloudWatchAlarmTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudWatchAlarmTemplateGroupOutput>())
@@ -4804,9 +4866,9 @@ extension MediaLiveClient {
     ///
     /// Retrieves the specified eventbridge rule template.
     ///
-    /// - Parameter GetEventBridgeRuleTemplateInput : Placeholder documentation for GetEventBridgeRuleTemplateRequest
+    /// - Parameter input: Placeholder documentation for GetEventBridgeRuleTemplateRequest (Type: `GetEventBridgeRuleTemplateInput`)
     ///
-    /// - Returns: `GetEventBridgeRuleTemplateOutput` : Placeholder documentation for GetEventBridgeRuleTemplateResponse
+    /// - Returns: Placeholder documentation for GetEventBridgeRuleTemplateResponse (Type: `GetEventBridgeRuleTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4841,6 +4903,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventBridgeRuleTemplateInput, GetEventBridgeRuleTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventBridgeRuleTemplateOutput>(GetEventBridgeRuleTemplateOutput.httpOutput(from:), GetEventBridgeRuleTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventBridgeRuleTemplateInput, GetEventBridgeRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventBridgeRuleTemplateOutput>())
@@ -4872,9 +4935,9 @@ extension MediaLiveClient {
     ///
     /// Retrieves the specified eventbridge rule template group.
     ///
-    /// - Parameter GetEventBridgeRuleTemplateGroupInput : Placeholder documentation for GetEventBridgeRuleTemplateGroupRequest
+    /// - Parameter input: Placeholder documentation for GetEventBridgeRuleTemplateGroupRequest (Type: `GetEventBridgeRuleTemplateGroupInput`)
     ///
-    /// - Returns: `GetEventBridgeRuleTemplateGroupOutput` : Placeholder documentation for GetEventBridgeRuleTemplateGroupResponse
+    /// - Returns: Placeholder documentation for GetEventBridgeRuleTemplateGroupResponse (Type: `GetEventBridgeRuleTemplateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4909,6 +4972,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventBridgeRuleTemplateGroupInput, GetEventBridgeRuleTemplateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventBridgeRuleTemplateGroupOutput>(GetEventBridgeRuleTemplateGroupOutput.httpOutput(from:), GetEventBridgeRuleTemplateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventBridgeRuleTemplateGroupInput, GetEventBridgeRuleTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventBridgeRuleTemplateGroupOutput>())
@@ -4940,9 +5004,9 @@ extension MediaLiveClient {
     ///
     /// Retrieves the specified signal map.
     ///
-    /// - Parameter GetSignalMapInput : Placeholder documentation for GetSignalMapRequest
+    /// - Parameter input: Placeholder documentation for GetSignalMapRequest (Type: `GetSignalMapInput`)
     ///
-    /// - Returns: `GetSignalMapOutput` : Placeholder documentation for GetSignalMapResponse
+    /// - Returns: Placeholder documentation for GetSignalMapResponse (Type: `GetSignalMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4977,6 +5041,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSignalMapInput, GetSignalMapOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSignalMapOutput>(GetSignalMapOutput.httpOutput(from:), GetSignalMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSignalMapInput, GetSignalMapOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSignalMapOutput>())
@@ -5004,13 +5069,85 @@ extension MediaLiveClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAlerts` operation on the `MediaLive` service.
+    ///
+    /// List the alerts for a channel with optional filtering based on alert state.
+    ///
+    /// - Parameter input: Placeholder documentation for ListAlertsRequest (Type: `ListAlertsInput`)
+    ///
+    /// - Returns: Placeholder documentation for ListAlertsResponse (Type: `ListAlertsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAlerts")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAlertsInput, ListAlertsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAlertsInput, ListAlertsOutput>(ListAlertsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAlertsInput, ListAlertsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListAlertsInput, ListAlertsOutput>(ListAlertsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAlertsOutput>(ListAlertsOutput.httpOutput(from:), ListAlertsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlertsInput, ListAlertsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAlertsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaLive", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAlertsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAlertsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAlertsInput, ListAlertsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAlertsInput, ListAlertsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAlertsInput, ListAlertsOutput>(serviceID: serviceName, version: MediaLiveClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaLive")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAlerts")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListChannelPlacementGroups` operation on the `MediaLive` service.
     ///
     /// Retrieve the list of ChannelPlacementGroups in the specified Cluster.
     ///
-    /// - Parameter ListChannelPlacementGroupsInput : Placeholder documentation for ListChannelPlacementGroupsRequest
+    /// - Parameter input: Placeholder documentation for ListChannelPlacementGroupsRequest (Type: `ListChannelPlacementGroupsInput`)
     ///
-    /// - Returns: `ListChannelPlacementGroupsOutput` : Placeholder documentation for ListChannelPlacementGroupsResponse
+    /// - Returns: Placeholder documentation for ListChannelPlacementGroupsResponse (Type: `ListChannelPlacementGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5047,6 +5184,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelPlacementGroupsInput, ListChannelPlacementGroupsOutput>(ListChannelPlacementGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelPlacementGroupsOutput>(ListChannelPlacementGroupsOutput.httpOutput(from:), ListChannelPlacementGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelPlacementGroupsInput, ListChannelPlacementGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelPlacementGroupsOutput>())
@@ -5078,9 +5216,9 @@ extension MediaLiveClient {
     ///
     /// Produces list of channels that have been created
     ///
-    /// - Parameter ListChannelsInput : Placeholder documentation for ListChannelsRequest
+    /// - Parameter input: Placeholder documentation for ListChannelsRequest (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : Placeholder documentation for ListChannelsResponse
+    /// - Returns: Placeholder documentation for ListChannelsResponse (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5117,6 +5255,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -5148,9 +5287,9 @@ extension MediaLiveClient {
     ///
     /// Lists cloudwatch alarm template groups.
     ///
-    /// - Parameter ListCloudWatchAlarmTemplateGroupsInput : Placeholder documentation for ListCloudWatchAlarmTemplateGroupsRequest
+    /// - Parameter input: Placeholder documentation for ListCloudWatchAlarmTemplateGroupsRequest (Type: `ListCloudWatchAlarmTemplateGroupsInput`)
     ///
-    /// - Returns: `ListCloudWatchAlarmTemplateGroupsOutput` : Placeholder documentation for ListCloudWatchAlarmTemplateGroupsResponse
+    /// - Returns: Placeholder documentation for ListCloudWatchAlarmTemplateGroupsResponse (Type: `ListCloudWatchAlarmTemplateGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5186,6 +5325,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCloudWatchAlarmTemplateGroupsInput, ListCloudWatchAlarmTemplateGroupsOutput>(ListCloudWatchAlarmTemplateGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudWatchAlarmTemplateGroupsOutput>(ListCloudWatchAlarmTemplateGroupsOutput.httpOutput(from:), ListCloudWatchAlarmTemplateGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudWatchAlarmTemplateGroupsInput, ListCloudWatchAlarmTemplateGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCloudWatchAlarmTemplateGroupsOutput>())
@@ -5217,9 +5357,9 @@ extension MediaLiveClient {
     ///
     /// Lists cloudwatch alarm templates.
     ///
-    /// - Parameter ListCloudWatchAlarmTemplatesInput : Placeholder documentation for ListCloudWatchAlarmTemplatesRequest
+    /// - Parameter input: Placeholder documentation for ListCloudWatchAlarmTemplatesRequest (Type: `ListCloudWatchAlarmTemplatesInput`)
     ///
-    /// - Returns: `ListCloudWatchAlarmTemplatesOutput` : Placeholder documentation for ListCloudWatchAlarmTemplatesResponse
+    /// - Returns: Placeholder documentation for ListCloudWatchAlarmTemplatesResponse (Type: `ListCloudWatchAlarmTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5255,6 +5395,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCloudWatchAlarmTemplatesInput, ListCloudWatchAlarmTemplatesOutput>(ListCloudWatchAlarmTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudWatchAlarmTemplatesOutput>(ListCloudWatchAlarmTemplatesOutput.httpOutput(from:), ListCloudWatchAlarmTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudWatchAlarmTemplatesInput, ListCloudWatchAlarmTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCloudWatchAlarmTemplatesOutput>())
@@ -5282,13 +5423,85 @@ extension MediaLiveClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListClusterAlerts` operation on the `MediaLive` service.
+    ///
+    /// List the alerts for a cluster with optional filtering based on alert state.
+    ///
+    /// - Parameter input: Placeholder documentation for ListClusterAlertsRequest (Type: `ListClusterAlertsInput`)
+    ///
+    /// - Returns: Placeholder documentation for ListClusterAlertsResponse (Type: `ListClusterAlertsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func listClusterAlerts(input: ListClusterAlertsInput) async throws -> ListClusterAlertsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listClusterAlerts")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListClusterAlertsInput, ListClusterAlertsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListClusterAlertsInput, ListClusterAlertsOutput>(ListClusterAlertsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListClusterAlertsInput, ListClusterAlertsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListClusterAlertsInput, ListClusterAlertsOutput>(ListClusterAlertsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterAlertsOutput>(ListClusterAlertsOutput.httpOutput(from:), ListClusterAlertsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterAlertsInput, ListClusterAlertsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterAlertsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaLive", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListClusterAlertsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListClusterAlertsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListClusterAlertsInput, ListClusterAlertsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListClusterAlertsInput, ListClusterAlertsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListClusterAlertsInput, ListClusterAlertsOutput>(serviceID: serviceName, version: MediaLiveClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaLive")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListClusterAlerts")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListClusters` operation on the `MediaLive` service.
     ///
     /// Retrieve the list of Clusters.
     ///
-    /// - Parameter ListClustersInput : Placeholder documentation for ListClustersRequest
+    /// - Parameter input: Placeholder documentation for ListClustersRequest (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : Placeholder documentation for ListClustersResponse
+    /// - Returns: Placeholder documentation for ListClustersResponse (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5325,6 +5538,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -5356,9 +5570,9 @@ extension MediaLiveClient {
     ///
     /// Lists eventbridge rule template groups.
     ///
-    /// - Parameter ListEventBridgeRuleTemplateGroupsInput : Placeholder documentation for ListEventBridgeRuleTemplateGroupsRequest
+    /// - Parameter input: Placeholder documentation for ListEventBridgeRuleTemplateGroupsRequest (Type: `ListEventBridgeRuleTemplateGroupsInput`)
     ///
-    /// - Returns: `ListEventBridgeRuleTemplateGroupsOutput` : Placeholder documentation for ListEventBridgeRuleTemplateGroupsResponse
+    /// - Returns: Placeholder documentation for ListEventBridgeRuleTemplateGroupsResponse (Type: `ListEventBridgeRuleTemplateGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5394,6 +5608,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventBridgeRuleTemplateGroupsInput, ListEventBridgeRuleTemplateGroupsOutput>(ListEventBridgeRuleTemplateGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventBridgeRuleTemplateGroupsOutput>(ListEventBridgeRuleTemplateGroupsOutput.httpOutput(from:), ListEventBridgeRuleTemplateGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventBridgeRuleTemplateGroupsInput, ListEventBridgeRuleTemplateGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventBridgeRuleTemplateGroupsOutput>())
@@ -5425,9 +5640,9 @@ extension MediaLiveClient {
     ///
     /// Lists eventbridge rule templates.
     ///
-    /// - Parameter ListEventBridgeRuleTemplatesInput : Placeholder documentation for ListEventBridgeRuleTemplatesRequest
+    /// - Parameter input: Placeholder documentation for ListEventBridgeRuleTemplatesRequest (Type: `ListEventBridgeRuleTemplatesInput`)
     ///
-    /// - Returns: `ListEventBridgeRuleTemplatesOutput` : Placeholder documentation for ListEventBridgeRuleTemplatesResponse
+    /// - Returns: Placeholder documentation for ListEventBridgeRuleTemplatesResponse (Type: `ListEventBridgeRuleTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5463,6 +5678,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventBridgeRuleTemplatesInput, ListEventBridgeRuleTemplatesOutput>(ListEventBridgeRuleTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventBridgeRuleTemplatesOutput>(ListEventBridgeRuleTemplatesOutput.httpOutput(from:), ListEventBridgeRuleTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventBridgeRuleTemplatesInput, ListEventBridgeRuleTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventBridgeRuleTemplatesOutput>())
@@ -5494,9 +5710,9 @@ extension MediaLiveClient {
     ///
     /// List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
     ///
-    /// - Parameter ListInputDeviceTransfersInput : Placeholder documentation for ListInputDeviceTransfersRequest
+    /// - Parameter input: Placeholder documentation for ListInputDeviceTransfersRequest (Type: `ListInputDeviceTransfersInput`)
     ///
-    /// - Returns: `ListInputDeviceTransfersOutput` : Placeholder documentation for ListInputDeviceTransfersResponse
+    /// - Returns: Placeholder documentation for ListInputDeviceTransfersResponse (Type: `ListInputDeviceTransfersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5534,6 +5750,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput>(ListInputDeviceTransfersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInputDeviceTransfersOutput>(ListInputDeviceTransfersOutput.httpOutput(from:), ListInputDeviceTransfersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInputDeviceTransfersInput, ListInputDeviceTransfersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInputDeviceTransfersOutput>())
@@ -5565,9 +5782,9 @@ extension MediaLiveClient {
     ///
     /// List input devices
     ///
-    /// - Parameter ListInputDevicesInput : Placeholder documentation for ListInputDevicesRequest
+    /// - Parameter input: Placeholder documentation for ListInputDevicesRequest (Type: `ListInputDevicesInput`)
     ///
-    /// - Returns: `ListInputDevicesOutput` : Placeholder documentation for ListInputDevicesResponse
+    /// - Returns: Placeholder documentation for ListInputDevicesResponse (Type: `ListInputDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5604,6 +5821,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInputDevicesInput, ListInputDevicesOutput>(ListInputDevicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInputDevicesOutput>(ListInputDevicesOutput.httpOutput(from:), ListInputDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInputDevicesInput, ListInputDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInputDevicesOutput>())
@@ -5635,9 +5853,9 @@ extension MediaLiveClient {
     ///
     /// Produces a list of Input Security Groups for an account
     ///
-    /// - Parameter ListInputSecurityGroupsInput : Placeholder documentation for ListInputSecurityGroupsRequest
+    /// - Parameter input: Placeholder documentation for ListInputSecurityGroupsRequest (Type: `ListInputSecurityGroupsInput`)
     ///
-    /// - Returns: `ListInputSecurityGroupsOutput` : Placeholder documentation for ListInputSecurityGroupsResponse
+    /// - Returns: Placeholder documentation for ListInputSecurityGroupsResponse (Type: `ListInputSecurityGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5674,6 +5892,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput>(ListInputSecurityGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInputSecurityGroupsOutput>(ListInputSecurityGroupsOutput.httpOutput(from:), ListInputSecurityGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInputSecurityGroupsInput, ListInputSecurityGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInputSecurityGroupsOutput>())
@@ -5705,9 +5924,9 @@ extension MediaLiveClient {
     ///
     /// Produces list of inputs that have been created
     ///
-    /// - Parameter ListInputsInput : Placeholder documentation for ListInputsRequest
+    /// - Parameter input: Placeholder documentation for ListInputsRequest (Type: `ListInputsInput`)
     ///
-    /// - Returns: `ListInputsOutput` : Placeholder documentation for ListInputsResponse
+    /// - Returns: Placeholder documentation for ListInputsResponse (Type: `ListInputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5744,6 +5963,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInputsInput, ListInputsOutput>(ListInputsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInputsOutput>(ListInputsOutput.httpOutput(from:), ListInputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInputsInput, ListInputsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInputsOutput>())
@@ -5771,13 +5991,85 @@ extension MediaLiveClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListMultiplexAlerts` operation on the `MediaLive` service.
+    ///
+    /// List the alerts for a multiplex with optional filtering based on alert state.
+    ///
+    /// - Parameter input: Placeholder documentation for ListMultiplexAlertsRequest (Type: `ListMultiplexAlertsInput`)
+    ///
+    /// - Returns: Placeholder documentation for ListMultiplexAlertsResponse (Type: `ListMultiplexAlertsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func listMultiplexAlerts(input: ListMultiplexAlertsInput) async throws -> ListMultiplexAlertsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMultiplexAlerts")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMultiplexAlertsInput, ListMultiplexAlertsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMultiplexAlertsInput, ListMultiplexAlertsOutput>(ListMultiplexAlertsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMultiplexAlertsInput, ListMultiplexAlertsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultiplexAlertsInput, ListMultiplexAlertsOutput>(ListMultiplexAlertsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultiplexAlertsOutput>(ListMultiplexAlertsOutput.httpOutput(from:), ListMultiplexAlertsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultiplexAlertsInput, ListMultiplexAlertsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMultiplexAlertsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaLive", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMultiplexAlertsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMultiplexAlertsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMultiplexAlertsInput, ListMultiplexAlertsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMultiplexAlertsInput, ListMultiplexAlertsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMultiplexAlertsInput, ListMultiplexAlertsOutput>(serviceID: serviceName, version: MediaLiveClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaLive")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMultiplexAlerts")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListMultiplexPrograms` operation on the `MediaLive` service.
     ///
     /// List the programs that currently exist for a specific multiplex.
     ///
-    /// - Parameter ListMultiplexProgramsInput : Placeholder documentation for ListMultiplexProgramsRequest
+    /// - Parameter input: Placeholder documentation for ListMultiplexProgramsRequest (Type: `ListMultiplexProgramsInput`)
     ///
-    /// - Returns: `ListMultiplexProgramsOutput` : Placeholder documentation for ListMultiplexProgramsResponse
+    /// - Returns: Placeholder documentation for ListMultiplexProgramsResponse (Type: `ListMultiplexProgramsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5815,6 +6107,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultiplexProgramsInput, ListMultiplexProgramsOutput>(ListMultiplexProgramsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultiplexProgramsOutput>(ListMultiplexProgramsOutput.httpOutput(from:), ListMultiplexProgramsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultiplexProgramsInput, ListMultiplexProgramsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMultiplexProgramsOutput>())
@@ -5846,9 +6139,9 @@ extension MediaLiveClient {
     ///
     /// Retrieve a list of the existing multiplexes.
     ///
-    /// - Parameter ListMultiplexesInput : Placeholder documentation for ListMultiplexesRequest
+    /// - Parameter input: Placeholder documentation for ListMultiplexesRequest (Type: `ListMultiplexesInput`)
     ///
-    /// - Returns: `ListMultiplexesOutput` : Placeholder documentation for ListMultiplexesResponse
+    /// - Returns: Placeholder documentation for ListMultiplexesResponse (Type: `ListMultiplexesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5885,6 +6178,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultiplexesInput, ListMultiplexesOutput>(ListMultiplexesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultiplexesOutput>(ListMultiplexesOutput.httpOutput(from:), ListMultiplexesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultiplexesInput, ListMultiplexesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMultiplexesOutput>())
@@ -5916,9 +6210,9 @@ extension MediaLiveClient {
     ///
     /// Retrieve the list of Networks.
     ///
-    /// - Parameter ListNetworksInput : Placeholder documentation for ListNetworksRequest
+    /// - Parameter input: Placeholder documentation for ListNetworksRequest (Type: `ListNetworksInput`)
     ///
-    /// - Returns: `ListNetworksOutput` : Placeholder documentation for ListNetworksResponse
+    /// - Returns: Placeholder documentation for ListNetworksResponse (Type: `ListNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5955,6 +6249,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNetworksInput, ListNetworksOutput>(ListNetworksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNetworksOutput>(ListNetworksOutput.httpOutput(from:), ListNetworksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNetworksInput, ListNetworksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNetworksOutput>())
@@ -5986,9 +6281,9 @@ extension MediaLiveClient {
     ///
     /// Retrieve the list of Nodes.
     ///
-    /// - Parameter ListNodesInput : Placeholder documentation for ListNodesRequest
+    /// - Parameter input: Placeholder documentation for ListNodesRequest (Type: `ListNodesInput`)
     ///
-    /// - Returns: `ListNodesOutput` : Placeholder documentation for ListNodesResponse
+    /// - Returns: Placeholder documentation for ListNodesResponse (Type: `ListNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6025,6 +6320,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNodesInput, ListNodesOutput>(ListNodesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNodesOutput>(ListNodesOutput.httpOutput(from:), ListNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodesInput, ListNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodesOutput>())
@@ -6056,9 +6352,9 @@ extension MediaLiveClient {
     ///
     /// List offerings available for purchase.
     ///
-    /// - Parameter ListOfferingsInput : Placeholder documentation for ListOfferingsRequest
+    /// - Parameter input: Placeholder documentation for ListOfferingsRequest (Type: `ListOfferingsInput`)
     ///
-    /// - Returns: `ListOfferingsOutput` : Placeholder documentation for ListOfferingsResponse
+    /// - Returns: Placeholder documentation for ListOfferingsResponse (Type: `ListOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6095,6 +6391,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOfferingsInput, ListOfferingsOutput>(ListOfferingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOfferingsOutput>(ListOfferingsOutput.httpOutput(from:), ListOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOfferingsInput, ListOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOfferingsOutput>())
@@ -6126,9 +6423,9 @@ extension MediaLiveClient {
     ///
     /// List purchased reservations.
     ///
-    /// - Parameter ListReservationsInput : Placeholder documentation for ListReservationsRequest
+    /// - Parameter input: Placeholder documentation for ListReservationsRequest (Type: `ListReservationsInput`)
     ///
-    /// - Returns: `ListReservationsOutput` : Placeholder documentation for ListReservationsResponse
+    /// - Returns: Placeholder documentation for ListReservationsResponse (Type: `ListReservationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6165,6 +6462,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReservationsInput, ListReservationsOutput>(ListReservationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReservationsOutput>(ListReservationsOutput.httpOutput(from:), ListReservationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReservationsInput, ListReservationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReservationsOutput>())
@@ -6196,9 +6494,9 @@ extension MediaLiveClient {
     ///
     /// List all the SdiSources in the AWS account.
     ///
-    /// - Parameter ListSdiSourcesInput : Placeholder documentation for ListSdiSourcesRequest
+    /// - Parameter input: Placeholder documentation for ListSdiSourcesRequest (Type: `ListSdiSourcesInput`)
     ///
-    /// - Returns: `ListSdiSourcesOutput` : Placeholder documentation for ListSdiSourcesResponse
+    /// - Returns: Placeholder documentation for ListSdiSourcesResponse (Type: `ListSdiSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6235,6 +6533,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSdiSourcesInput, ListSdiSourcesOutput>(ListSdiSourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSdiSourcesOutput>(ListSdiSourcesOutput.httpOutput(from:), ListSdiSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSdiSourcesInput, ListSdiSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSdiSourcesOutput>())
@@ -6266,9 +6565,9 @@ extension MediaLiveClient {
     ///
     /// Lists signal maps.
     ///
-    /// - Parameter ListSignalMapsInput : Placeholder documentation for ListSignalMapsRequest
+    /// - Parameter input: Placeholder documentation for ListSignalMapsRequest (Type: `ListSignalMapsInput`)
     ///
-    /// - Returns: `ListSignalMapsOutput` : Placeholder documentation for ListSignalMapsResponse
+    /// - Returns: Placeholder documentation for ListSignalMapsResponse (Type: `ListSignalMapsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6304,6 +6603,7 @@ extension MediaLiveClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSignalMapsInput, ListSignalMapsOutput>(ListSignalMapsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSignalMapsOutput>(ListSignalMapsOutput.httpOutput(from:), ListSignalMapsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSignalMapsInput, ListSignalMapsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSignalMapsOutput>())
@@ -6335,9 +6635,9 @@ extension MediaLiveClient {
     ///
     /// Produces list of tags that have been created for a resource
     ///
-    /// - Parameter ListTagsForResourceInput : Placeholder documentation for ListTagsForResourceRequest
+    /// - Parameter input: Placeholder documentation for ListTagsForResourceRequest (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : Placeholder documentation for ListTagsForResourceResponse
+    /// - Returns: Placeholder documentation for ListTagsForResourceResponse (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6371,6 +6671,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -6402,9 +6703,9 @@ extension MediaLiveClient {
     ///
     /// Retrieves an array of all the encoder engine versions that are available in this AWS account.
     ///
-    /// - Parameter ListVersionsInput : Placeholder documentation for ListVersionsRequest
+    /// - Parameter input: Placeholder documentation for ListVersionsRequest (Type: `ListVersionsInput`)
     ///
-    /// - Returns: `ListVersionsOutput` : Placeholder documentation for ListVersionsResponse
+    /// - Returns: Placeholder documentation for ListVersionsResponse (Type: `ListVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6442,6 +6743,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVersionsInput, ListVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVersionsOutput>(ListVersionsOutput.httpOutput(from:), ListVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVersionsInput, ListVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVersionsOutput>())
@@ -6473,9 +6775,9 @@ extension MediaLiveClient {
     ///
     /// Purchase an offering and create a reservation.
     ///
-    /// - Parameter PurchaseOfferingInput : Placeholder documentation for PurchaseOfferingRequest
+    /// - Parameter input: Placeholder documentation for PurchaseOfferingRequest (Type: `PurchaseOfferingInput`)
     ///
-    /// - Returns: `PurchaseOfferingOutput` : Placeholder documentation for PurchaseOfferingResponse
+    /// - Returns: Placeholder documentation for PurchaseOfferingResponse (Type: `PurchaseOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6517,6 +6819,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutput>(PurchaseOfferingOutput.httpOutput(from:), PurchaseOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseOfferingOutput>())
@@ -6548,9 +6851,9 @@ extension MediaLiveClient {
     ///
     /// Send a reboot command to the specified input device. The device will begin rebooting within a few seconds of sending the command. When the reboot is complete, the device’s connection status will change to connected.
     ///
-    /// - Parameter RebootInputDeviceInput : A request to reboot an AWS Elemental device.
+    /// - Parameter input: A request to reboot an AWS Elemental device. (Type: `RebootInputDeviceInput`)
     ///
-    /// - Returns: `RebootInputDeviceOutput` : Placeholder documentation for RebootInputDeviceResponse
+    /// - Returns: Placeholder documentation for RebootInputDeviceResponse (Type: `RebootInputDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6591,6 +6894,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootInputDeviceInput, RebootInputDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootInputDeviceOutput>(RebootInputDeviceOutput.httpOutput(from:), RebootInputDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootInputDeviceInput, RebootInputDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootInputDeviceOutput>())
@@ -6622,9 +6926,9 @@ extension MediaLiveClient {
     ///
     /// Reject the transfer of the specified input device to your AWS account.
     ///
-    /// - Parameter RejectInputDeviceTransferInput : Placeholder documentation for RejectInputDeviceTransferRequest
+    /// - Parameter input: Placeholder documentation for RejectInputDeviceTransferRequest (Type: `RejectInputDeviceTransferInput`)
     ///
-    /// - Returns: `RejectInputDeviceTransferOutput` : Placeholder documentation for RejectInputDeviceTransferResponse
+    /// - Returns: Placeholder documentation for RejectInputDeviceTransferResponse (Type: `RejectInputDeviceTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6663,6 +6967,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectInputDeviceTransferInput, RejectInputDeviceTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectInputDeviceTransferOutput>(RejectInputDeviceTransferOutput.httpOutput(from:), RejectInputDeviceTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectInputDeviceTransferInput, RejectInputDeviceTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectInputDeviceTransferOutput>())
@@ -6694,9 +6999,9 @@ extension MediaLiveClient {
     ///
     /// Restart pipelines in one channel that is currently running.
     ///
-    /// - Parameter RestartChannelPipelinesInput : Pipelines to restart.
+    /// - Parameter input: Pipelines to restart. (Type: `RestartChannelPipelinesInput`)
     ///
-    /// - Returns: `RestartChannelPipelinesOutput` : Placeholder documentation for RestartChannelPipelinesResponse
+    /// - Returns: Placeholder documentation for RestartChannelPipelinesResponse (Type: `RestartChannelPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6737,6 +7042,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestartChannelPipelinesInput, RestartChannelPipelinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestartChannelPipelinesOutput>(RestartChannelPipelinesOutput.httpOutput(from:), RestartChannelPipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestartChannelPipelinesInput, RestartChannelPipelinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestartChannelPipelinesOutput>())
@@ -6768,9 +7074,9 @@ extension MediaLiveClient {
     ///
     /// Starts an existing channel
     ///
-    /// - Parameter StartChannelInput : Placeholder documentation for StartChannelRequest
+    /// - Parameter input: Placeholder documentation for StartChannelRequest (Type: `StartChannelInput`)
     ///
-    /// - Returns: `StartChannelOutput` : Placeholder documentation for StartChannelResponse
+    /// - Returns: Placeholder documentation for StartChannelResponse (Type: `StartChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6808,6 +7114,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartChannelInput, StartChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartChannelOutput>(StartChannelOutput.httpOutput(from:), StartChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartChannelInput, StartChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartChannelOutput>())
@@ -6839,9 +7146,9 @@ extension MediaLiveClient {
     ///
     /// Initiates a deployment to delete the monitor of the specified signal map.
     ///
-    /// - Parameter StartDeleteMonitorDeploymentInput : Placeholder documentation for StartDeleteMonitorDeploymentRequest
+    /// - Parameter input: Placeholder documentation for StartDeleteMonitorDeploymentRequest (Type: `StartDeleteMonitorDeploymentInput`)
     ///
-    /// - Returns: `StartDeleteMonitorDeploymentOutput` : Placeholder documentation for StartDeleteMonitorDeploymentResponse
+    /// - Returns: Placeholder documentation for StartDeleteMonitorDeploymentResponse (Type: `StartDeleteMonitorDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6877,6 +7184,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDeleteMonitorDeploymentInput, StartDeleteMonitorDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeleteMonitorDeploymentOutput>(StartDeleteMonitorDeploymentOutput.httpOutput(from:), StartDeleteMonitorDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeleteMonitorDeploymentInput, StartDeleteMonitorDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDeleteMonitorDeploymentOutput>())
@@ -6908,9 +7216,9 @@ extension MediaLiveClient {
     ///
     /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
     ///
-    /// - Parameter StartInputDeviceInput : Placeholder documentation for StartInputDeviceRequest
+    /// - Parameter input: Placeholder documentation for StartInputDeviceRequest (Type: `StartInputDeviceInput`)
     ///
-    /// - Returns: `StartInputDeviceOutput` : Placeholder documentation for StartInputDeviceResponse
+    /// - Returns: Placeholder documentation for StartInputDeviceResponse (Type: `StartInputDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6948,6 +7256,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartInputDeviceInput, StartInputDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartInputDeviceOutput>(StartInputDeviceOutput.httpOutput(from:), StartInputDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartInputDeviceInput, StartInputDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartInputDeviceOutput>())
@@ -6979,9 +7288,9 @@ extension MediaLiveClient {
     ///
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
     ///
-    /// - Parameter StartInputDeviceMaintenanceWindowInput : Placeholder documentation for StartInputDeviceMaintenanceWindowRequest
+    /// - Parameter input: Placeholder documentation for StartInputDeviceMaintenanceWindowRequest (Type: `StartInputDeviceMaintenanceWindowInput`)
     ///
-    /// - Returns: `StartInputDeviceMaintenanceWindowOutput` : Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
+    /// - Returns: Placeholder documentation for StartInputDeviceMaintenanceWindowResponse (Type: `StartInputDeviceMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7019,6 +7328,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartInputDeviceMaintenanceWindowInput, StartInputDeviceMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartInputDeviceMaintenanceWindowOutput>(StartInputDeviceMaintenanceWindowOutput.httpOutput(from:), StartInputDeviceMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartInputDeviceMaintenanceWindowInput, StartInputDeviceMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartInputDeviceMaintenanceWindowOutput>())
@@ -7050,9 +7360,9 @@ extension MediaLiveClient {
     ///
     /// Initiates a deployment to deploy the latest monitor of the specified signal map.
     ///
-    /// - Parameter StartMonitorDeploymentInput : Placeholder documentation for StartMonitorDeploymentRequest
+    /// - Parameter input: Placeholder documentation for StartMonitorDeploymentRequest (Type: `StartMonitorDeploymentInput`)
     ///
-    /// - Returns: `StartMonitorDeploymentOutput` : Placeholder documentation for StartMonitorDeploymentResponse
+    /// - Returns: Placeholder documentation for StartMonitorDeploymentResponse (Type: `StartMonitorDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7091,6 +7401,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMonitorDeploymentOutput>(StartMonitorDeploymentOutput.httpOutput(from:), StartMonitorDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMonitorDeploymentOutput>())
@@ -7122,9 +7433,9 @@ extension MediaLiveClient {
     ///
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
     ///
-    /// - Parameter StartMultiplexInput : Placeholder documentation for StartMultiplexRequest
+    /// - Parameter input: Placeholder documentation for StartMultiplexRequest (Type: `StartMultiplexInput`)
     ///
-    /// - Returns: `StartMultiplexOutput` : Placeholder documentation for StartMultiplexResponse
+    /// - Returns: Placeholder documentation for StartMultiplexResponse (Type: `StartMultiplexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7162,6 +7473,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMultiplexInput, StartMultiplexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMultiplexOutput>(StartMultiplexOutput.httpOutput(from:), StartMultiplexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMultiplexInput, StartMultiplexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMultiplexOutput>())
@@ -7193,9 +7505,9 @@ extension MediaLiveClient {
     ///
     /// Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
     ///
-    /// - Parameter StartUpdateSignalMapInput : Placeholder documentation for StartUpdateSignalMapRequest
+    /// - Parameter input: Placeholder documentation for StartUpdateSignalMapRequest (Type: `StartUpdateSignalMapInput`)
     ///
-    /// - Returns: `StartUpdateSignalMapOutput` : Placeholder documentation for StartUpdateSignalMapResponse
+    /// - Returns: Placeholder documentation for StartUpdateSignalMapResponse (Type: `StartUpdateSignalMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7234,6 +7546,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartUpdateSignalMapInput, StartUpdateSignalMapOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartUpdateSignalMapOutput>(StartUpdateSignalMapOutput.httpOutput(from:), StartUpdateSignalMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartUpdateSignalMapInput, StartUpdateSignalMapOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartUpdateSignalMapOutput>())
@@ -7265,9 +7578,9 @@ extension MediaLiveClient {
     ///
     /// Stops a running channel
     ///
-    /// - Parameter StopChannelInput : Placeholder documentation for StopChannelRequest
+    /// - Parameter input: Placeholder documentation for StopChannelRequest (Type: `StopChannelInput`)
     ///
-    /// - Returns: `StopChannelOutput` : Placeholder documentation for StopChannelResponse
+    /// - Returns: Placeholder documentation for StopChannelResponse (Type: `StopChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7305,6 +7618,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopChannelInput, StopChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopChannelOutput>(StopChannelOutput.httpOutput(from:), StopChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopChannelInput, StopChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopChannelOutput>())
@@ -7336,9 +7650,9 @@ extension MediaLiveClient {
     ///
     /// Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
     ///
-    /// - Parameter StopInputDeviceInput : Placeholder documentation for StopInputDeviceRequest
+    /// - Parameter input: Placeholder documentation for StopInputDeviceRequest (Type: `StopInputDeviceInput`)
     ///
-    /// - Returns: `StopInputDeviceOutput` : Placeholder documentation for StopInputDeviceResponse
+    /// - Returns: Placeholder documentation for StopInputDeviceResponse (Type: `StopInputDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7376,6 +7690,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopInputDeviceInput, StopInputDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopInputDeviceOutput>(StopInputDeviceOutput.httpOutput(from:), StopInputDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopInputDeviceInput, StopInputDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopInputDeviceOutput>())
@@ -7407,9 +7722,9 @@ extension MediaLiveClient {
     ///
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
     ///
-    /// - Parameter StopMultiplexInput : Placeholder documentation for StopMultiplexRequest
+    /// - Parameter input: Placeholder documentation for StopMultiplexRequest (Type: `StopMultiplexInput`)
     ///
-    /// - Returns: `StopMultiplexOutput` : Placeholder documentation for StopMultiplexResponse
+    /// - Returns: Placeholder documentation for StopMultiplexResponse (Type: `StopMultiplexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7447,6 +7762,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopMultiplexInput, StopMultiplexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMultiplexOutput>(StopMultiplexOutput.httpOutput(from:), StopMultiplexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMultiplexInput, StopMultiplexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMultiplexOutput>())
@@ -7478,9 +7794,9 @@ extension MediaLiveClient {
     ///
     /// Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
     ///
-    /// - Parameter TransferInputDeviceInput : A request to transfer an input device.
+    /// - Parameter input: A request to transfer an input device. (Type: `TransferInputDeviceInput`)
     ///
-    /// - Returns: `TransferInputDeviceOutput` : Placeholder documentation for TransferInputDeviceResponse
+    /// - Returns: Placeholder documentation for TransferInputDeviceResponse (Type: `TransferInputDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7522,6 +7838,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransferInputDeviceInput, TransferInputDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TransferInputDeviceOutput>(TransferInputDeviceOutput.httpOutput(from:), TransferInputDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TransferInputDeviceInput, TransferInputDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TransferInputDeviceOutput>())
@@ -7553,9 +7870,9 @@ extension MediaLiveClient {
     ///
     /// Update account configuration
     ///
-    /// - Parameter UpdateAccountConfigurationInput : List of account configuration parameters to update.
+    /// - Parameter input: List of account configuration parameters to update. (Type: `UpdateAccountConfigurationInput`)
     ///
-    /// - Returns: `UpdateAccountConfigurationOutput` : Placeholder documentation for UpdateAccountConfigurationResponse
+    /// - Returns: Placeholder documentation for UpdateAccountConfigurationResponse (Type: `UpdateAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7595,6 +7912,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountConfigurationOutput>(UpdateAccountConfigurationOutput.httpOutput(from:), UpdateAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountConfigurationInput, UpdateAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountConfigurationOutput>())
@@ -7626,9 +7944,9 @@ extension MediaLiveClient {
     ///
     /// Updates a channel.
     ///
-    /// - Parameter UpdateChannelInput : A request to update a channel.
+    /// - Parameter input: A request to update a channel. (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : Placeholder documentation for UpdateChannelResponse
+    /// - Returns: Placeholder documentation for UpdateChannelResponse (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7668,6 +7986,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -7699,9 +8018,9 @@ extension MediaLiveClient {
     ///
     /// Changes the class of the channel.
     ///
-    /// - Parameter UpdateChannelClassInput : Channel class that the channel should be updated to.
+    /// - Parameter input: Channel class that the channel should be updated to. (Type: `UpdateChannelClassInput`)
     ///
-    /// - Returns: `UpdateChannelClassOutput` : Placeholder documentation for UpdateChannelClassResponse
+    /// - Returns: Placeholder documentation for UpdateChannelClassResponse (Type: `UpdateChannelClassOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7743,6 +8062,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelClassInput, UpdateChannelClassOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelClassOutput>(UpdateChannelClassOutput.httpOutput(from:), UpdateChannelClassOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelClassInput, UpdateChannelClassOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelClassOutput>())
@@ -7774,9 +8094,9 @@ extension MediaLiveClient {
     ///
     /// Change the settings for a ChannelPlacementGroup.
     ///
-    /// - Parameter UpdateChannelPlacementGroupInput : A request to update the channel placement group
+    /// - Parameter input: A request to update the channel placement group (Type: `UpdateChannelPlacementGroupInput`)
     ///
-    /// - Returns: `UpdateChannelPlacementGroupOutput` : Placeholder documentation for UpdateChannelPlacementGroupResponse
+    /// - Returns: Placeholder documentation for UpdateChannelPlacementGroupResponse (Type: `UpdateChannelPlacementGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7817,6 +8137,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelPlacementGroupInput, UpdateChannelPlacementGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelPlacementGroupOutput>(UpdateChannelPlacementGroupOutput.httpOutput(from:), UpdateChannelPlacementGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelPlacementGroupInput, UpdateChannelPlacementGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelPlacementGroupOutput>())
@@ -7848,9 +8169,9 @@ extension MediaLiveClient {
     ///
     /// Updates the specified cloudwatch alarm template.
     ///
-    /// - Parameter UpdateCloudWatchAlarmTemplateInput : Placeholder documentation for UpdateCloudWatchAlarmTemplateRequest
+    /// - Parameter input: Placeholder documentation for UpdateCloudWatchAlarmTemplateRequest (Type: `UpdateCloudWatchAlarmTemplateInput`)
     ///
-    /// - Returns: `UpdateCloudWatchAlarmTemplateOutput` : Placeholder documentation for UpdateCloudWatchAlarmTemplateResponse
+    /// - Returns: Placeholder documentation for UpdateCloudWatchAlarmTemplateResponse (Type: `UpdateCloudWatchAlarmTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7889,6 +8210,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudWatchAlarmTemplateInput, UpdateCloudWatchAlarmTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCloudWatchAlarmTemplateOutput>(UpdateCloudWatchAlarmTemplateOutput.httpOutput(from:), UpdateCloudWatchAlarmTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudWatchAlarmTemplateInput, UpdateCloudWatchAlarmTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudWatchAlarmTemplateOutput>())
@@ -7920,9 +8242,9 @@ extension MediaLiveClient {
     ///
     /// Updates the specified cloudwatch alarm template group.
     ///
-    /// - Parameter UpdateCloudWatchAlarmTemplateGroupInput : Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupRequest
+    /// - Parameter input: Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupRequest (Type: `UpdateCloudWatchAlarmTemplateGroupInput`)
     ///
-    /// - Returns: `UpdateCloudWatchAlarmTemplateGroupOutput` : Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupResponse
+    /// - Returns: Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupResponse (Type: `UpdateCloudWatchAlarmTemplateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7961,6 +8283,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudWatchAlarmTemplateGroupInput, UpdateCloudWatchAlarmTemplateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCloudWatchAlarmTemplateGroupOutput>(UpdateCloudWatchAlarmTemplateGroupOutput.httpOutput(from:), UpdateCloudWatchAlarmTemplateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudWatchAlarmTemplateGroupInput, UpdateCloudWatchAlarmTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudWatchAlarmTemplateGroupOutput>())
@@ -7992,9 +8315,9 @@ extension MediaLiveClient {
     ///
     /// Change the settings for a Cluster.
     ///
-    /// - Parameter UpdateClusterInput : A request to update the cluster.
+    /// - Parameter input: A request to update the cluster. (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : Placeholder documentation for UpdateClusterResponse
+    /// - Returns: Placeholder documentation for UpdateClusterResponse (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8034,6 +8357,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
@@ -8065,9 +8389,9 @@ extension MediaLiveClient {
     ///
     /// Updates the specified eventbridge rule template.
     ///
-    /// - Parameter UpdateEventBridgeRuleTemplateInput : Placeholder documentation for UpdateEventBridgeRuleTemplateRequest
+    /// - Parameter input: Placeholder documentation for UpdateEventBridgeRuleTemplateRequest (Type: `UpdateEventBridgeRuleTemplateInput`)
     ///
-    /// - Returns: `UpdateEventBridgeRuleTemplateOutput` : Placeholder documentation for UpdateEventBridgeRuleTemplateResponse
+    /// - Returns: Placeholder documentation for UpdateEventBridgeRuleTemplateResponse (Type: `UpdateEventBridgeRuleTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8106,6 +8430,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventBridgeRuleTemplateInput, UpdateEventBridgeRuleTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventBridgeRuleTemplateOutput>(UpdateEventBridgeRuleTemplateOutput.httpOutput(from:), UpdateEventBridgeRuleTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventBridgeRuleTemplateInput, UpdateEventBridgeRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventBridgeRuleTemplateOutput>())
@@ -8137,9 +8462,9 @@ extension MediaLiveClient {
     ///
     /// Updates the specified eventbridge rule template group.
     ///
-    /// - Parameter UpdateEventBridgeRuleTemplateGroupInput : Placeholder documentation for UpdateEventBridgeRuleTemplateGroupRequest
+    /// - Parameter input: Placeholder documentation for UpdateEventBridgeRuleTemplateGroupRequest (Type: `UpdateEventBridgeRuleTemplateGroupInput`)
     ///
-    /// - Returns: `UpdateEventBridgeRuleTemplateGroupOutput` : Placeholder documentation for UpdateEventBridgeRuleTemplateGroupResponse
+    /// - Returns: Placeholder documentation for UpdateEventBridgeRuleTemplateGroupResponse (Type: `UpdateEventBridgeRuleTemplateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8178,6 +8503,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventBridgeRuleTemplateGroupInput, UpdateEventBridgeRuleTemplateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventBridgeRuleTemplateGroupOutput>(UpdateEventBridgeRuleTemplateGroupOutput.httpOutput(from:), UpdateEventBridgeRuleTemplateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventBridgeRuleTemplateGroupInput, UpdateEventBridgeRuleTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventBridgeRuleTemplateGroupOutput>())
@@ -8209,9 +8535,9 @@ extension MediaLiveClient {
     ///
     /// Updates an input.
     ///
-    /// - Parameter UpdateInputInput : A request to update an input.
+    /// - Parameter input: A request to update an input. (Type: `UpdateInputInput`)
     ///
-    /// - Returns: `UpdateInputOutput` : Placeholder documentation for UpdateInputResponse
+    /// - Returns: Placeholder documentation for UpdateInputResponse (Type: `UpdateInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8251,6 +8577,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInputInput, UpdateInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInputOutput>(UpdateInputOutput.httpOutput(from:), UpdateInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInputInput, UpdateInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInputOutput>())
@@ -8282,9 +8609,9 @@ extension MediaLiveClient {
     ///
     /// Updates the parameters for the input device.
     ///
-    /// - Parameter UpdateInputDeviceInput : A request to update an input device.
+    /// - Parameter input: A request to update an input device. (Type: `UpdateInputDeviceInput`)
     ///
-    /// - Returns: `UpdateInputDeviceOutput` : Placeholder documentation for UpdateInputDeviceResponse
+    /// - Returns: Placeholder documentation for UpdateInputDeviceResponse (Type: `UpdateInputDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8325,6 +8652,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInputDeviceOutput>(UpdateInputDeviceOutput.httpOutput(from:), UpdateInputDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInputDeviceInput, UpdateInputDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInputDeviceOutput>())
@@ -8356,9 +8684,9 @@ extension MediaLiveClient {
     ///
     /// Update an Input Security Group's Whilelists.
     ///
-    /// - Parameter UpdateInputSecurityGroupInput : The request to update some combination of the Input Security Group name and the IPv4 CIDRs the Input Security Group should allow.
+    /// - Parameter input: The request to update some combination of the Input Security Group name and the IPv4 CIDRs the Input Security Group should allow. (Type: `UpdateInputSecurityGroupInput`)
     ///
-    /// - Returns: `UpdateInputSecurityGroupOutput` : Placeholder documentation for UpdateInputSecurityGroupResponse
+    /// - Returns: Placeholder documentation for UpdateInputSecurityGroupResponse (Type: `UpdateInputSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8398,6 +8726,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInputSecurityGroupOutput>(UpdateInputSecurityGroupOutput.httpOutput(from:), UpdateInputSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInputSecurityGroupInput, UpdateInputSecurityGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInputSecurityGroupOutput>())
@@ -8429,9 +8758,9 @@ extension MediaLiveClient {
     ///
     /// Updates a multiplex.
     ///
-    /// - Parameter UpdateMultiplexInput : A request to update a multiplex.
+    /// - Parameter input: A request to update a multiplex. (Type: `UpdateMultiplexInput`)
     ///
-    /// - Returns: `UpdateMultiplexOutput` : Placeholder documentation for UpdateMultiplexResponse
+    /// - Returns: Placeholder documentation for UpdateMultiplexResponse (Type: `UpdateMultiplexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8472,6 +8801,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMultiplexInput, UpdateMultiplexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMultiplexOutput>(UpdateMultiplexOutput.httpOutput(from:), UpdateMultiplexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMultiplexInput, UpdateMultiplexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMultiplexOutput>())
@@ -8503,9 +8833,9 @@ extension MediaLiveClient {
     ///
     /// Update a program in a multiplex.
     ///
-    /// - Parameter UpdateMultiplexProgramInput : A request to update a program in a multiplex.
+    /// - Parameter input: A request to update a program in a multiplex. (Type: `UpdateMultiplexProgramInput`)
     ///
-    /// - Returns: `UpdateMultiplexProgramOutput` : Placeholder documentation for UpdateMultiplexProgramResponse
+    /// - Returns: Placeholder documentation for UpdateMultiplexProgramResponse (Type: `UpdateMultiplexProgramOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8546,6 +8876,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMultiplexProgramOutput>(UpdateMultiplexProgramOutput.httpOutput(from:), UpdateMultiplexProgramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMultiplexProgramInput, UpdateMultiplexProgramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMultiplexProgramOutput>())
@@ -8577,9 +8908,9 @@ extension MediaLiveClient {
     ///
     /// Change the settings for a Network.
     ///
-    /// - Parameter UpdateNetworkInput : A request to update the network.
+    /// - Parameter input: A request to update the network. (Type: `UpdateNetworkInput`)
     ///
-    /// - Returns: `UpdateNetworkOutput` : Placeholder documentation for UpdateNetworkResponse
+    /// - Returns: Placeholder documentation for UpdateNetworkResponse (Type: `UpdateNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8619,6 +8950,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNetworkInput, UpdateNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNetworkOutput>(UpdateNetworkOutput.httpOutput(from:), UpdateNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNetworkInput, UpdateNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNetworkOutput>())
@@ -8650,9 +8982,9 @@ extension MediaLiveClient {
     ///
     /// Change the settings for a Node.
     ///
-    /// - Parameter UpdateNodeInput : A request to update the node.
+    /// - Parameter input: A request to update the node. (Type: `UpdateNodeInput`)
     ///
-    /// - Returns: `UpdateNodeOutput` : Placeholder documentation for UpdateNodeResponse
+    /// - Returns: Placeholder documentation for UpdateNodeResponse (Type: `UpdateNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8692,6 +9024,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNodeInput, UpdateNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNodeOutput>(UpdateNodeOutput.httpOutput(from:), UpdateNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNodeInput, UpdateNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNodeOutput>())
@@ -8723,9 +9056,9 @@ extension MediaLiveClient {
     ///
     /// Update the state of a node.
     ///
-    /// - Parameter UpdateNodeStateInput : A request to update the state of a node.
+    /// - Parameter input: A request to update the state of a node. (Type: `UpdateNodeStateInput`)
     ///
-    /// - Returns: `UpdateNodeStateOutput` : Placeholder documentation for UpdateNodeStateResponse
+    /// - Returns: Placeholder documentation for UpdateNodeStateResponse (Type: `UpdateNodeStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8766,6 +9099,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNodeStateInput, UpdateNodeStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNodeStateOutput>(UpdateNodeStateOutput.httpOutput(from:), UpdateNodeStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNodeStateInput, UpdateNodeStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNodeStateOutput>())
@@ -8797,9 +9131,9 @@ extension MediaLiveClient {
     ///
     /// Update reservation.
     ///
-    /// - Parameter UpdateReservationInput : Request to update a reservation
+    /// - Parameter input: Request to update a reservation (Type: `UpdateReservationInput`)
     ///
-    /// - Returns: `UpdateReservationOutput` : Placeholder documentation for UpdateReservationResponse
+    /// - Returns: Placeholder documentation for UpdateReservationResponse (Type: `UpdateReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8840,6 +9174,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReservationInput, UpdateReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReservationOutput>(UpdateReservationOutput.httpOutput(from:), UpdateReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReservationInput, UpdateReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReservationOutput>())
@@ -8871,9 +9206,9 @@ extension MediaLiveClient {
     ///
     /// Change some of the settings in an SdiSource.
     ///
-    /// - Parameter UpdateSdiSourceInput : A request to update the SdiSource.
+    /// - Parameter input: A request to update the SdiSource. (Type: `UpdateSdiSourceInput`)
     ///
-    /// - Returns: `UpdateSdiSourceOutput` : Placeholder documentation for UpdateSdiSourceResponse
+    /// - Returns: Placeholder documentation for UpdateSdiSourceResponse (Type: `UpdateSdiSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8913,6 +9248,7 @@ extension MediaLiveClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSdiSourceInput, UpdateSdiSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSdiSourceOutput>(UpdateSdiSourceOutput.httpOutput(from:), UpdateSdiSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSdiSourceInput, UpdateSdiSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSdiSourceOutput>())

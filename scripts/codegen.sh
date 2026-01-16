@@ -24,6 +24,7 @@ rm -rf ServiceClients/*
 rm -rf Sources/Services/*
 rm -rf Tests/Services/*
 rm -rf SmokeTests/*
+rm -rf Sources/Core/AWSSDKIdentity/InternalClients/*
 
 # Regenerate code
 ./gradlew -p codegen/sdk-codegen build
@@ -37,6 +38,10 @@ unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
 swift run AWSSDKSwiftCLI generate-package-manifest "$@" ..
 swift run AWSSDKSwiftCLI generate-smoke-tests-package-manifest ..
 swift run AWSSDKSwiftCLI generate-doc-index ..
+swift run AWSSDKSwiftCLI generate-partitions ..
+# Updating package version not needed for development, and clutters PR diffs
+# Uncomment for development if testing versioning
+# swift run AWSSDKSwiftCLI generate-package-version ..
 cd ..
 
 # If on Mac, open Xcode to the newly refreshed SDK

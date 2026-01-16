@@ -469,6 +469,7 @@ extension GetTablesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> GetTablesInput {
         return GetTablesInput(
             attributesToGet: self.attributesToGet,
+            auditContext: self.auditContext,
             catalogId: self.catalogId,
             databaseName: self.databaseName,
             expression: self.expression,
@@ -583,6 +584,7 @@ extension GetUserDefinedFunctionsInput: ClientRuntime.PaginateToken {
         return GetUserDefinedFunctionsInput(
             catalogId: self.catalogId,
             databaseName: self.databaseName,
+            functionType: self.functionType,
             maxResults: self.maxResults,
             nextToken: token,
             pattern: self.pattern
@@ -919,6 +921,39 @@ extension PaginatorSequence where OperationStackInput == ListJobsInput, Operatio
     /// - Returns: `[Swift.String]`
     public func jobNames() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.jobNames }
+    }
+}
+extension GlueClient {
+    /// Paginate over `[ListMaterializedViewRefreshTaskRunsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMaterializedViewRefreshTaskRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMaterializedViewRefreshTaskRunsOutput`
+    public func listMaterializedViewRefreshTaskRunsPaginated(input: ListMaterializedViewRefreshTaskRunsInput) -> ClientRuntime.PaginatorSequence<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMaterializedViewRefreshTaskRunsInput, ListMaterializedViewRefreshTaskRunsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMaterializedViewRefreshTaskRuns(input:))
+    }
+}
+
+extension ListMaterializedViewRefreshTaskRunsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMaterializedViewRefreshTaskRunsInput {
+        return ListMaterializedViewRefreshTaskRunsInput(
+            catalogId: self.catalogId,
+            databaseName: self.databaseName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            tableName: self.tableName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMaterializedViewRefreshTaskRunsInput, OperationStackOutput == ListMaterializedViewRefreshTaskRunsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMaterializedViewRefreshTaskRunsPaginated`
+    /// to access the nested member `[GlueClientTypes.MaterializedViewRefreshTaskRun]`
+    /// - Returns: `[GlueClientTypes.MaterializedViewRefreshTaskRun]`
+    public func materializedViewRefreshTaskRuns() async throws -> [GlueClientTypes.MaterializedViewRefreshTaskRun] {
+        return try await self.asyncCompactMap { item in item.materializedViewRefreshTaskRuns }
     }
 }
 extension GlueClient {

@@ -794,7 +794,7 @@ public struct CopyDBClusterSnapshotInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// Not currently supported.
     public var preSignedUrl: Swift.String?
-    /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. Constraints:
+    /// The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive. If the source DB cluster snapshot is in a different region or owned by another account, specify the snapshot ARN. Constraints:
     ///
     /// * Must specify a valid system snapshot in the "available" state.
     ///
@@ -2429,8 +2429,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var preferredMaintenanceWindow: Swift.String?
     /// A value that specifies the order in which an Read Replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid Values: 0 - 15
     public var promotionTier: Swift.Int?
-    /// This flag should no longer be used.
-    @available(*, deprecated)
+    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
     public var publiclyAccessible: Swift.Bool?
     /// Specifies whether the DB instance is encrypted. Not applicable. The encryption for DB instances is managed by the DB cluster. For more information, see [CreateDBCluster]. Default: false
     public var storageEncrypted: Swift.Bool?
@@ -2913,8 +2912,7 @@ extension NeptuneClientTypes {
         public var preferredMaintenanceWindow: Swift.String?
         /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance.
         public var promotionTier: Swift.Int?
-        /// This flag should no longer be used.
-        @available(*, deprecated)
+        /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
         public var publiclyAccessible: Swift.Bool?
         /// Contains one or more identifiers of DB clusters that are Read Replicas of this DB instance.
         public var readReplicaDBClusterIdentifiers: [Swift.String]?
@@ -6124,8 +6122,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var preferredMaintenanceWindow: Swift.String?
     /// A value that specifies the order in which a Read Replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid Values: 0 - 15
     public var promotionTier: Swift.Int?
-    /// This flag should no longer be used.
-    @available(*, deprecated)
+    /// Indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address.
     public var publiclyAccessible: Swift.Bool?
     /// Not applicable. In Neptune the storage type is managed at the DB Cluster level.
     public var storageType: Swift.String?

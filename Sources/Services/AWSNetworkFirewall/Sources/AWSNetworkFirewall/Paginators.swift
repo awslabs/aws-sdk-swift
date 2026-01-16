@@ -208,6 +208,96 @@ extension PaginatorSequence where OperationStackInput == ListFlowOperationsInput
     }
 }
 extension NetworkFirewallClient {
+    /// Paginate over `[ListProxiesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProxiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProxiesOutput`
+    public func listProxiesPaginated(input: ListProxiesInput) -> ClientRuntime.PaginatorSequence<ListProxiesInput, ListProxiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListProxiesInput, ListProxiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProxies(input:))
+    }
+}
+
+extension ListProxiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProxiesInput {
+        return ListProxiesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProxiesInput, OperationStackOutput == ListProxiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProxiesPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.ProxyMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.ProxyMetadata]`
+    public func proxies() async throws -> [NetworkFirewallClientTypes.ProxyMetadata] {
+        return try await self.asyncCompactMap { item in item.proxies }
+    }
+}
+extension NetworkFirewallClient {
+    /// Paginate over `[ListProxyConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProxyConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProxyConfigurationsOutput`
+    public func listProxyConfigurationsPaginated(input: ListProxyConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListProxyConfigurationsInput, ListProxyConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProxyConfigurations(input:))
+    }
+}
+
+extension ListProxyConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProxyConfigurationsInput {
+        return ListProxyConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProxyConfigurationsInput, OperationStackOutput == ListProxyConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProxyConfigurationsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.ProxyConfigurationMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.ProxyConfigurationMetadata]`
+    public func proxyConfigurations() async throws -> [NetworkFirewallClientTypes.ProxyConfigurationMetadata] {
+        return try await self.asyncCompactMap { item in item.proxyConfigurations }
+    }
+}
+extension NetworkFirewallClient {
+    /// Paginate over `[ListProxyRuleGroupsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProxyRuleGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProxyRuleGroupsOutput`
+    public func listProxyRuleGroupsPaginated(input: ListProxyRuleGroupsInput) -> ClientRuntime.PaginatorSequence<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listProxyRuleGroups(input:))
+    }
+}
+
+extension ListProxyRuleGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProxyRuleGroupsInput {
+        return ListProxyRuleGroupsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListProxyRuleGroupsInput, OperationStackOutput == ListProxyRuleGroupsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProxyRuleGroupsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.ProxyRuleGroupMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.ProxyRuleGroupMetadata]`
+    public func proxyRuleGroups() async throws -> [NetworkFirewallClientTypes.ProxyRuleGroupMetadata] {
+        return try await self.asyncCompactMap { item in item.proxyRuleGroups }
+    }
+}
+extension NetworkFirewallClient {
     /// Paginate over `[ListRuleGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -228,6 +318,7 @@ extension ListRuleGroupsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             scope: self.scope,
+            subscriptionStatus: self.subscriptionStatus,
             type: self.type
         )}
 }

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudDirectoryClient: ClientRuntime.Client {
+public class CloudDirectoryClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudDirectoryClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudDirectoryClient.CloudDirectoryClientConfiguration
     let serviceName = "CloudDirectory"
@@ -372,9 +372,9 @@ extension CloudDirectoryClient {
     ///
     /// Adds a new [Facet] to an object. An object can have more than one facet applied on it.
     ///
-    /// - Parameter AddFacetToObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFacetToObjectInput`)
     ///
-    /// - Returns: `AddFacetToObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFacetToObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,6 +417,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFacetToObjectInput, AddFacetToObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFacetToObjectOutput>(AddFacetToObjectOutput.httpOutput(from:), AddFacetToObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFacetToObjectInput, AddFacetToObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFacetToObjectOutput>())
@@ -448,9 +449,9 @@ extension CloudDirectoryClient {
     ///
     /// Copies the input published schema, at the specified version, into the [Directory] with the same name and version as that of the published schema.
     ///
-    /// - Parameter ApplySchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApplySchemaInput`)
     ///
-    /// - Returns: `ApplySchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplySchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,6 +494,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplySchemaInput, ApplySchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplySchemaOutput>(ApplySchemaOutput.httpOutput(from:), ApplySchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplySchemaInput, ApplySchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplySchemaOutput>())
@@ -528,9 +530,9 @@ extension CloudDirectoryClient {
     ///
     /// * Using ObjectIdentifier
     ///
-    /// - Parameter AttachObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachObjectInput`)
     ///
-    /// - Returns: `AttachObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -575,6 +577,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachObjectInput, AttachObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachObjectOutput>(AttachObjectOutput.httpOutput(from:), AttachObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachObjectInput, AttachObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachObjectOutput>())
@@ -606,9 +609,9 @@ extension CloudDirectoryClient {
     ///
     /// Attaches a policy object to a regular object. An object can have a limited number of attached policies.
     ///
-    /// - Parameter AttachPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachPolicyInput`)
     ///
-    /// - Returns: `AttachPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -651,6 +654,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachPolicyInput, AttachPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachPolicyOutput>(AttachPolicyOutput.httpOutput(from:), AttachPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachPolicyInput, AttachPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachPolicyOutput>())
@@ -682,9 +686,9 @@ extension CloudDirectoryClient {
     ///
     /// Attaches the specified object to the specified index.
     ///
-    /// - Parameter AttachToIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachToIndexInput`)
     ///
-    /// - Returns: `AttachToIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachToIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -730,6 +734,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachToIndexInput, AttachToIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachToIndexOutput>(AttachToIndexOutput.httpOutput(from:), AttachToIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachToIndexInput, AttachToIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachToIndexOutput>())
@@ -761,9 +766,9 @@ extension CloudDirectoryClient {
     ///
     /// Attaches a typed link to a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter AttachTypedLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachTypedLinkInput`)
     ///
-    /// - Returns: `AttachTypedLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachTypedLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -807,6 +812,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachTypedLinkInput, AttachTypedLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachTypedLinkOutput>(AttachTypedLinkOutput.httpOutput(from:), AttachTypedLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachTypedLinkInput, AttachTypedLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachTypedLinkOutput>())
@@ -838,9 +844,9 @@ extension CloudDirectoryClient {
     ///
     /// Performs all the read operations in a batch.
     ///
-    /// - Parameter BatchReadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchReadInput`)
     ///
-    /// - Returns: `BatchReadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchReadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,6 +887,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchReadInput, BatchReadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchReadOutput>(BatchReadOutput.httpOutput(from:), BatchReadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchReadInput, BatchReadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchReadOutput>())
@@ -912,9 +919,9 @@ extension CloudDirectoryClient {
     ///
     /// Performs all the write operations in a batch. Either all the operations succeed or none.
     ///
-    /// - Parameter BatchWriteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchWriteInput`)
     ///
-    /// - Returns: `BatchWriteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchWriteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -956,6 +963,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchWriteInput, BatchWriteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchWriteOutput>(BatchWriteOutput.httpOutput(from:), BatchWriteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchWriteInput, BatchWriteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchWriteOutput>())
@@ -987,9 +995,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates a [Directory] by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema. For more information, see [Managed Schema](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_managed.html) in the Amazon Cloud Directory Developer Guide.
     ///
-    /// - Parameter CreateDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectoryInput`)
     ///
-    /// - Returns: `CreateDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1031,6 +1039,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectoryInput, CreateDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDirectoryOutput>(CreateDirectoryOutput.httpOutput(from:), CreateDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectoryInput, CreateDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectoryOutput>())
@@ -1062,9 +1071,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates a new [Facet] in a schema. Facet creation is allowed only in development or applied schemas.
     ///
-    /// - Parameter CreateFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFacetInput`)
     ///
-    /// - Returns: `CreateFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1108,6 +1117,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFacetInput, CreateFacetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFacetOutput>(CreateFacetOutput.httpOutput(from:), CreateFacetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFacetInput, CreateFacetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFacetOutput>())
@@ -1139,9 +1149,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates an index object. See [Indexing and search](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/indexing_search.html) for more information.
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1186,6 +1196,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
@@ -1217,9 +1228,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates an object in a [Directory]. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of [Facet] attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet.
     ///
-    /// - Parameter CreateObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateObjectInput`)
     ///
-    /// - Returns: `CreateObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1264,6 +1275,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateObjectInput, CreateObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateObjectOutput>(CreateObjectOutput.httpOutput(from:), CreateObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateObjectInput, CreateObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateObjectOutput>())
@@ -1301,9 +1313,9 @@ extension CloudDirectoryClient {
     ///
     /// * Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.
     ///
-    /// - Parameter CreateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSchemaInput`)
     ///
-    /// - Returns: `CreateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,6 +1355,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSchemaInput, CreateSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSchemaOutput>(CreateSchemaOutput.httpOutput(from:), CreateSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSchemaInput, CreateSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSchemaOutput>())
@@ -1374,9 +1387,9 @@ extension CloudDirectoryClient {
     ///
     /// Creates a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter CreateTypedLinkFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTypedLinkFacetInput`)
     ///
-    /// - Returns: `CreateTypedLinkFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTypedLinkFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1420,6 +1433,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTypedLinkFacetInput, CreateTypedLinkFacetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTypedLinkFacetOutput>(CreateTypedLinkFacetOutput.httpOutput(from:), CreateTypedLinkFacetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTypedLinkFacetInput, CreateTypedLinkFacetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTypedLinkFacetOutput>())
@@ -1451,9 +1465,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme caution when deleting directories.
     ///
-    /// - Parameter DeleteDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDirectoryInput`)
     ///
-    /// - Returns: `DeleteDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1493,6 +1507,7 @@ extension CloudDirectoryClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput>(DeleteDirectoryInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDirectoryOutput>(DeleteDirectoryOutput.httpOutput(from:), DeleteDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectoryOutput>())
@@ -1524,9 +1539,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes a given [Facet]. All attributes and [Rule]s that are associated with the facet will be deleted. Only development schema facets are allowed deletion.
     ///
-    /// - Parameter DeleteFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFacetInput`)
     ///
-    /// - Returns: `DeleteFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,6 +1584,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFacetInput, DeleteFacetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFacetOutput>(DeleteFacetOutput.httpOutput(from:), DeleteFacetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFacetInput, DeleteFacetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFacetOutput>())
@@ -1600,9 +1616,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see [Amazon Cloud Directory Limits](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/limits.html).
     ///
-    /// - Parameter DeleteObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteObjectInput`)
     ///
-    /// - Returns: `DeleteObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1645,6 +1661,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteObjectInput, DeleteObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteObjectOutput>(DeleteObjectOutput.httpOutput(from:), DeleteObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteObjectInput, DeleteObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteObjectOutput>())
@@ -1676,9 +1693,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes a given schema. Schemas in a development and published state can only be deleted.
     ///
-    /// - Parameter DeleteSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaInput`)
     ///
-    /// - Returns: `DeleteSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,6 +1734,7 @@ extension CloudDirectoryClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(DeleteSchemaInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSchemaOutput>(DeleteSchemaOutput.httpOutput(from:), DeleteSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSchemaOutput>())
@@ -1748,9 +1766,9 @@ extension CloudDirectoryClient {
     ///
     /// Deletes a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter DeleteTypedLinkFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTypedLinkFacetInput`)
     ///
-    /// - Returns: `DeleteTypedLinkFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTypedLinkFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1792,6 +1810,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTypedLinkFacetInput, DeleteTypedLinkFacetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTypedLinkFacetOutput>(DeleteTypedLinkFacetOutput.httpOutput(from:), DeleteTypedLinkFacetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTypedLinkFacetInput, DeleteTypedLinkFacetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTypedLinkFacetOutput>())
@@ -1823,9 +1842,9 @@ extension CloudDirectoryClient {
     ///
     /// Detaches the specified object from the specified index.
     ///
-    /// - Parameter DetachFromIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachFromIndexInput`)
     ///
-    /// - Returns: `DetachFromIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachFromIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1869,6 +1888,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachFromIndexInput, DetachFromIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachFromIndexOutput>(DetachFromIndexOutput.httpOutput(from:), DetachFromIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachFromIndexInput, DetachFromIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachFromIndexOutput>())
@@ -1900,9 +1920,9 @@ extension CloudDirectoryClient {
     ///
     /// Detaches a given object from the parent object. The object that is to be detached from the parent is specified by the link name.
     ///
-    /// - Parameter DetachObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachObjectInput`)
     ///
-    /// - Returns: `DetachObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1945,6 +1965,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachObjectInput, DetachObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachObjectOutput>(DetachObjectOutput.httpOutput(from:), DetachObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachObjectInput, DetachObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachObjectOutput>())
@@ -1976,9 +1997,9 @@ extension CloudDirectoryClient {
     ///
     /// Detaches a policy from an object.
     ///
-    /// - Parameter DetachPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachPolicyInput`)
     ///
-    /// - Returns: `DetachPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,6 +2042,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachPolicyInput, DetachPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachPolicyOutput>(DetachPolicyOutput.httpOutput(from:), DetachPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachPolicyInput, DetachPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachPolicyOutput>())
@@ -2052,9 +2074,9 @@ extension CloudDirectoryClient {
     ///
     /// Detaches a typed link from a specified source and target object. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter DetachTypedLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachTypedLinkInput`)
     ///
-    /// - Returns: `DetachTypedLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachTypedLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2097,6 +2119,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachTypedLinkInput, DetachTypedLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachTypedLinkOutput>(DetachTypedLinkOutput.httpOutput(from:), DetachTypedLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachTypedLinkInput, DetachTypedLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachTypedLinkOutput>())
@@ -2128,9 +2151,9 @@ extension CloudDirectoryClient {
     ///
     /// Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.
     ///
-    /// - Parameter DisableDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableDirectoryInput`)
     ///
-    /// - Returns: `DisableDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2169,6 +2192,7 @@ extension CloudDirectoryClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DisableDirectoryInput, DisableDirectoryOutput>(DisableDirectoryInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableDirectoryOutput>(DisableDirectoryOutput.httpOutput(from:), DisableDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableDirectoryInput, DisableDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableDirectoryOutput>())
@@ -2200,9 +2224,9 @@ extension CloudDirectoryClient {
     ///
     /// Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to.
     ///
-    /// - Parameter EnableDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableDirectoryInput`)
     ///
-    /// - Returns: `EnableDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2241,6 +2265,7 @@ extension CloudDirectoryClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<EnableDirectoryInput, EnableDirectoryOutput>(EnableDirectoryInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableDirectoryOutput>(EnableDirectoryOutput.httpOutput(from:), EnableDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableDirectoryInput, EnableDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableDirectoryOutput>())
@@ -2272,9 +2297,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns current applied schema version ARN, including the minor version in use.
     ///
-    /// - Parameter GetAppliedSchemaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAppliedSchemaVersionInput`)
     ///
-    /// - Returns: `GetAppliedSchemaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAppliedSchemaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2314,6 +2339,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAppliedSchemaVersionInput, GetAppliedSchemaVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAppliedSchemaVersionOutput>(GetAppliedSchemaVersionOutput.httpOutput(from:), GetAppliedSchemaVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAppliedSchemaVersionInput, GetAppliedSchemaVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAppliedSchemaVersionOutput>())
@@ -2345,9 +2371,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves metadata about a directory.
     ///
-    /// - Parameter GetDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDirectoryInput`)
     ///
-    /// - Returns: `GetDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2384,6 +2410,7 @@ extension CloudDirectoryClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetDirectoryInput, GetDirectoryOutput>(GetDirectoryInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDirectoryOutput>(GetDirectoryOutput.httpOutput(from:), GetDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDirectoryInput, GetDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDirectoryOutput>())
@@ -2415,9 +2442,9 @@ extension CloudDirectoryClient {
     ///
     /// Gets details of the [Facet], such as facet name, attributes, [Rule]s, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
     ///
-    /// - Parameter GetFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFacetInput`)
     ///
-    /// - Returns: `GetFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2459,6 +2486,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFacetInput, GetFacetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFacetOutput>(GetFacetOutput.httpOutput(from:), GetFacetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFacetInput, GetFacetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFacetOutput>())
@@ -2490,9 +2518,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves attributes that are associated with a typed link.
     ///
-    /// - Parameter GetLinkAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinkAttributesInput`)
     ///
-    /// - Returns: `GetLinkAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinkAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2535,6 +2563,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLinkAttributesInput, GetLinkAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLinkAttributesOutput>(GetLinkAttributesOutput.httpOutput(from:), GetLinkAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLinkAttributesInput, GetLinkAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLinkAttributesOutput>())
@@ -2566,9 +2595,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves attributes within a facet that are associated with an object.
     ///
-    /// - Parameter GetObjectAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectAttributesInput`)
     ///
-    /// - Returns: `GetObjectAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2611,6 +2640,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectAttributesOutput>(GetObjectAttributesOutput.httpOutput(from:), GetObjectAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectAttributesInput, GetObjectAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectAttributesOutput>())
@@ -2642,9 +2672,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves metadata about an object.
     ///
-    /// - Parameter GetObjectInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetObjectInformationInput`)
     ///
-    /// - Returns: `GetObjectInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetObjectInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2686,6 +2716,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetObjectInformationInput, GetObjectInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetObjectInformationOutput>(GetObjectInformationOutput.httpOutput(from:), GetObjectInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetObjectInformationInput, GetObjectInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetObjectInformationOutput>())
@@ -2717,9 +2748,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves a JSON representation of the schema. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
     ///
-    /// - Parameter GetSchemaAsJsonInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaAsJsonInput`)
     ///
-    /// - Returns: `GetSchemaAsJsonOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaAsJsonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2757,6 +2788,7 @@ extension CloudDirectoryClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetSchemaAsJsonInput, GetSchemaAsJsonOutput>(GetSchemaAsJsonInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaAsJsonOutput>(GetSchemaAsJsonOutput.httpOutput(from:), GetSchemaAsJsonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaAsJsonInput, GetSchemaAsJsonOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaAsJsonOutput>())
@@ -2788,9 +2820,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns the identity attribute order for a specific [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter GetTypedLinkFacetInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTypedLinkFacetInformationInput`)
     ///
-    /// - Returns: `GetTypedLinkFacetInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTypedLinkFacetInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2833,6 +2865,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTypedLinkFacetInformationInput, GetTypedLinkFacetInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTypedLinkFacetInformationOutput>(GetTypedLinkFacetInformationOutput.httpOutput(from:), GetTypedLinkFacetInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTypedLinkFacetInformationInput, GetTypedLinkFacetInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTypedLinkFacetInformationOutput>())
@@ -2864,9 +2897,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
     ///
-    /// - Parameter ListAppliedSchemaArnsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppliedSchemaArnsInput`)
     ///
-    /// - Returns: `ListAppliedSchemaArnsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppliedSchemaArnsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2907,6 +2940,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppliedSchemaArnsOutput>(ListAppliedSchemaArnsOutput.httpOutput(from:), ListAppliedSchemaArnsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppliedSchemaArnsInput, ListAppliedSchemaArnsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppliedSchemaArnsOutput>())
@@ -2938,9 +2972,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists indices attached to the specified object.
     ///
-    /// - Parameter ListAttachedIndicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachedIndicesInput`)
     ///
-    /// - Returns: `ListAttachedIndicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttachedIndicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2982,6 +3016,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAttachedIndicesInput, ListAttachedIndicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachedIndicesOutput>(ListAttachedIndicesOutput.httpOutput(from:), ListAttachedIndicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachedIndicesInput, ListAttachedIndicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachedIndicesOutput>())
@@ -3013,9 +3048,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
     ///
-    /// - Parameter ListDevelopmentSchemaArnsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevelopmentSchemaArnsInput`)
     ///
-    /// - Returns: `ListDevelopmentSchemaArnsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevelopmentSchemaArnsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3056,6 +3091,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevelopmentSchemaArnsOutput>(ListDevelopmentSchemaArnsOutput.httpOutput(from:), ListDevelopmentSchemaArnsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevelopmentSchemaArnsInput, ListDevelopmentSchemaArnsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevelopmentSchemaArnsOutput>())
@@ -3087,9 +3123,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists directories created within an account.
     ///
-    /// - Parameter ListDirectoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDirectoriesInput`)
     ///
-    /// - Returns: `ListDirectoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDirectoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3129,6 +3165,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDirectoriesInput, ListDirectoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDirectoriesOutput>(ListDirectoriesOutput.httpOutput(from:), ListDirectoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDirectoriesInput, ListDirectoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDirectoriesOutput>())
@@ -3160,9 +3197,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves attributes attached to the facet.
     ///
-    /// - Parameter ListFacetAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFacetAttributesInput`)
     ///
-    /// - Returns: `ListFacetAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFacetAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3205,6 +3242,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFacetAttributesInput, ListFacetAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFacetAttributesOutput>(ListFacetAttributesOutput.httpOutput(from:), ListFacetAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFacetAttributesInput, ListFacetAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFacetAttributesOutput>())
@@ -3236,9 +3274,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves the names of facets that exist in a schema.
     ///
-    /// - Parameter ListFacetNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFacetNamesInput`)
     ///
-    /// - Returns: `ListFacetNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFacetNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3280,6 +3318,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFacetNamesInput, ListFacetNamesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFacetNamesOutput>(ListFacetNamesOutput.httpOutput(from:), ListFacetNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFacetNamesInput, ListFacetNamesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFacetNamesOutput>())
@@ -3311,9 +3350,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of all the incoming [TypedLinkSpecifier] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter ListIncomingTypedLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIncomingTypedLinksInput`)
     ///
-    /// - Returns: `ListIncomingTypedLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIncomingTypedLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3357,6 +3396,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIncomingTypedLinksInput, ListIncomingTypedLinksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIncomingTypedLinksOutput>(ListIncomingTypedLinksOutput.httpOutput(from:), ListIncomingTypedLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIncomingTypedLinksInput, ListIncomingTypedLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIncomingTypedLinksOutput>())
@@ -3388,9 +3428,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists objects attached to the specified index.
     ///
-    /// - Parameter ListIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndexInput`)
     ///
-    /// - Returns: `ListIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3435,6 +3475,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIndexInput, ListIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndexOutput>(ListIndexOutput.httpOutput(from:), ListIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndexInput, ListIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndexOutput>())
@@ -3466,9 +3507,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
     ///
-    /// - Parameter ListManagedSchemaArnsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedSchemaArnsInput`)
     ///
-    /// - Returns: `ListManagedSchemaArnsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedSchemaArnsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3507,6 +3548,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedSchemaArnsOutput>(ListManagedSchemaArnsOutput.httpOutput(from:), ListManagedSchemaArnsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedSchemaArnsInput, ListManagedSchemaArnsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedSchemaArnsOutput>())
@@ -3538,9 +3580,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists all attributes that are associated with an object.
     ///
-    /// - Parameter ListObjectAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectAttributesInput`)
     ///
-    /// - Returns: `ListObjectAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3584,6 +3626,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObjectAttributesInput, ListObjectAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectAttributesOutput>(ListObjectAttributesOutput.httpOutput(from:), ListObjectAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectAttributesInput, ListObjectAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectAttributesOutput>())
@@ -3615,9 +3658,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of child objects that are associated with a given object.
     ///
-    /// - Parameter ListObjectChildrenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectChildrenInput`)
     ///
-    /// - Returns: `ListObjectChildrenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectChildrenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3661,6 +3704,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObjectChildrenInput, ListObjectChildrenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectChildrenOutput>(ListObjectChildrenOutput.httpOutput(from:), ListObjectChildrenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectChildrenInput, ListObjectChildrenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectChildrenOutput>())
@@ -3692,9 +3736,9 @@ extension CloudDirectoryClient {
     ///
     /// Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see [Directory Structure](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directorystructure.html). Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
     ///
-    /// - Parameter ListObjectParentPathsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectParentPathsInput`)
     ///
-    /// - Returns: `ListObjectParentPathsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectParentPathsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3737,6 +3781,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObjectParentPathsInput, ListObjectParentPathsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectParentPathsOutput>(ListObjectParentPathsOutput.httpOutput(from:), ListObjectParentPathsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectParentPathsInput, ListObjectParentPathsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectParentPathsOutput>())
@@ -3768,9 +3813,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists parent objects that are associated with a given object in pagination fashion.
     ///
-    /// - Parameter ListObjectParentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectParentsInput`)
     ///
-    /// - Returns: `ListObjectParentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectParentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3814,6 +3859,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObjectParentsInput, ListObjectParentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectParentsOutput>(ListObjectParentsOutput.httpOutput(from:), ListObjectParentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectParentsInput, ListObjectParentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectParentsOutput>())
@@ -3845,9 +3891,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns policies attached to an object in pagination fashion.
     ///
-    /// - Parameter ListObjectPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListObjectPoliciesInput`)
     ///
-    /// - Returns: `ListObjectPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListObjectPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3890,6 +3936,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListObjectPoliciesInput, ListObjectPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListObjectPoliciesOutput>(ListObjectPoliciesOutput.httpOutput(from:), ListObjectPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListObjectPoliciesInput, ListObjectPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListObjectPoliciesOutput>())
@@ -3921,9 +3968,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of all the outgoing [TypedLinkSpecifier] information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter ListOutgoingTypedLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOutgoingTypedLinksInput`)
     ///
-    /// - Returns: `ListOutgoingTypedLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOutgoingTypedLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3967,6 +4014,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOutgoingTypedLinksInput, ListOutgoingTypedLinksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOutgoingTypedLinksOutput>(ListOutgoingTypedLinksOutput.httpOutput(from:), ListOutgoingTypedLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOutgoingTypedLinksInput, ListOutgoingTypedLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOutgoingTypedLinksOutput>())
@@ -3998,9 +4046,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns all of the ObjectIdentifiers to which a given policy is attached.
     ///
-    /// - Parameter ListPolicyAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyAttachmentsInput`)
     ///
-    /// - Returns: `ListPolicyAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4044,6 +4092,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyAttachmentsOutput>(ListPolicyAttachmentsOutput.httpOutput(from:), ListPolicyAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyAttachmentsInput, ListPolicyAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyAttachmentsOutput>())
@@ -4075,9 +4124,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
     ///
-    /// - Parameter ListPublishedSchemaArnsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPublishedSchemaArnsInput`)
     ///
-    /// - Returns: `ListPublishedSchemaArnsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPublishedSchemaArnsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4118,6 +4167,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPublishedSchemaArnsOutput>(ListPublishedSchemaArnsOutput.httpOutput(from:), ListPublishedSchemaArnsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPublishedSchemaArnsInput, ListPublishedSchemaArnsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPublishedSchemaArnsOutput>())
@@ -4149,9 +4199,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4192,6 +4242,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4223,9 +4274,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of all attribute definitions for a particular [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter ListTypedLinkFacetAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypedLinkFacetAttributesInput`)
     ///
-    /// - Returns: `ListTypedLinkFacetAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypedLinkFacetAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4268,6 +4319,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypedLinkFacetAttributesOutput>(ListTypedLinkFacetAttributesOutput.httpOutput(from:), ListTypedLinkFacetAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypedLinkFacetAttributesInput, ListTypedLinkFacetAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypedLinkFacetAttributesOutput>())
@@ -4299,9 +4351,9 @@ extension CloudDirectoryClient {
     ///
     /// Returns a paginated list of TypedLink facet names for a particular schema. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter ListTypedLinkFacetNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypedLinkFacetNamesInput`)
     ///
-    /// - Returns: `ListTypedLinkFacetNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypedLinkFacetNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4343,6 +4395,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypedLinkFacetNamesOutput>(ListTypedLinkFacetNamesOutput.httpOutput(from:), ListTypedLinkFacetNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypedLinkFacetNamesInput, ListTypedLinkFacetNamesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypedLinkFacetNamesOutput>())
@@ -4374,9 +4427,9 @@ extension CloudDirectoryClient {
     ///
     /// Lists all policies from the root of the [Directory] to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
     ///
-    /// - Parameter LookupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `LookupPolicyInput`)
     ///
-    /// - Returns: `LookupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `LookupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4419,6 +4472,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<LookupPolicyInput, LookupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<LookupPolicyOutput>(LookupPolicyOutput.httpOutput(from:), LookupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LookupPolicyInput, LookupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<LookupPolicyOutput>())
@@ -4450,9 +4504,9 @@ extension CloudDirectoryClient {
     ///
     /// Publishes a development schema with a major version and a recommended minor version.
     ///
-    /// - Parameter PublishSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishSchemaInput`)
     ///
-    /// - Returns: `PublishSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4494,6 +4548,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishSchemaInput, PublishSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishSchemaOutput>(PublishSchemaOutput.httpOutput(from:), PublishSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishSchemaInput, PublishSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PublishSchemaOutput>())
@@ -4525,9 +4580,9 @@ extension CloudDirectoryClient {
     ///
     /// Allows a schema to be updated using JSON upload. Only available for development schemas. See [JSON Schema Format](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/schemas_jsonformat.html#schemas_json) for more information.
     ///
-    /// - Parameter PutSchemaFromJsonInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSchemaFromJsonInput`)
     ///
-    /// - Returns: `PutSchemaFromJsonOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSchemaFromJsonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4569,6 +4624,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSchemaFromJsonInput, PutSchemaFromJsonOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSchemaFromJsonOutput>(PutSchemaFromJsonOutput.httpOutput(from:), PutSchemaFromJsonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSchemaFromJsonInput, PutSchemaFromJsonOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSchemaFromJsonOutput>())
@@ -4600,9 +4656,9 @@ extension CloudDirectoryClient {
     ///
     /// Removes the specified facet from the specified object.
     ///
-    /// - Parameter RemoveFacetFromObjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFacetFromObjectInput`)
     ///
-    /// - Returns: `RemoveFacetFromObjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFacetFromObjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4645,6 +4701,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveFacetFromObjectInput, RemoveFacetFromObjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFacetFromObjectOutput>(RemoveFacetFromObjectOutput.httpOutput(from:), RemoveFacetFromObjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFacetFromObjectInput, RemoveFacetFromObjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFacetFromObjectOutput>())
@@ -4676,9 +4733,9 @@ extension CloudDirectoryClient {
     ///
     /// An API operation for adding tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4719,6 +4776,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4750,9 +4808,9 @@ extension CloudDirectoryClient {
     ///
     /// An API operation for removing tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4793,6 +4851,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4830,9 +4889,9 @@ extension CloudDirectoryClient {
     ///
     /// * Deletes existing Attributes, Rules, or ObjectTypes.
     ///
-    /// - Parameter UpdateFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFacetInput`)
     ///
-    /// - Returns: `UpdateFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4877,6 +4936,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFacetInput, UpdateFacetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFacetOutput>(UpdateFacetOutput.httpOutput(from:), UpdateFacetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFacetInput, UpdateFacetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFacetOutput>())
@@ -4908,9 +4968,9 @@ extension CloudDirectoryClient {
     ///
     /// Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its IdentityAttributeOrder.
     ///
-    /// - Parameter UpdateLinkAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLinkAttributesInput`)
     ///
-    /// - Returns: `UpdateLinkAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLinkAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4953,6 +5013,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLinkAttributesInput, UpdateLinkAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLinkAttributesOutput>(UpdateLinkAttributesOutput.httpOutput(from:), UpdateLinkAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLinkAttributesInput, UpdateLinkAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLinkAttributesOutput>())
@@ -4984,9 +5045,9 @@ extension CloudDirectoryClient {
     ///
     /// Updates a given object's attributes.
     ///
-    /// - Parameter UpdateObjectAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateObjectAttributesInput`)
     ///
-    /// - Returns: `UpdateObjectAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateObjectAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5030,6 +5091,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateObjectAttributesInput, UpdateObjectAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateObjectAttributesOutput>(UpdateObjectAttributesOutput.httpOutput(from:), UpdateObjectAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateObjectAttributesInput, UpdateObjectAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateObjectAttributesOutput>())
@@ -5061,9 +5123,9 @@ extension CloudDirectoryClient {
     ///
     /// Updates the schema name with a new name. Only development schema names can be updated.
     ///
-    /// - Parameter UpdateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSchemaInput`)
     ///
-    /// - Returns: `UpdateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5104,6 +5166,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSchemaInput, UpdateSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSchemaOutput>(UpdateSchemaOutput.httpOutput(from:), UpdateSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSchemaInput, UpdateSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSchemaOutput>())
@@ -5135,9 +5198,9 @@ extension CloudDirectoryClient {
     ///
     /// Updates a [TypedLinkFacet]. For more information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
     ///
-    /// - Parameter UpdateTypedLinkFacetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTypedLinkFacetInput`)
     ///
-    /// - Returns: `UpdateTypedLinkFacetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTypedLinkFacetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5182,6 +5245,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTypedLinkFacetInput, UpdateTypedLinkFacetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTypedLinkFacetOutput>(UpdateTypedLinkFacetOutput.httpOutput(from:), UpdateTypedLinkFacetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTypedLinkFacetInput, UpdateTypedLinkFacetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTypedLinkFacetOutput>())
@@ -5213,9 +5277,9 @@ extension CloudDirectoryClient {
     ///
     /// Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
     ///
-    /// - Parameter UpgradeAppliedSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradeAppliedSchemaInput`)
     ///
-    /// - Returns: `UpgradeAppliedSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradeAppliedSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5257,6 +5321,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpgradeAppliedSchemaInput, UpgradeAppliedSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpgradeAppliedSchemaOutput>(UpgradeAppliedSchemaOutput.httpOutput(from:), UpgradeAppliedSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpgradeAppliedSchemaInput, UpgradeAppliedSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpgradeAppliedSchemaOutput>())
@@ -5288,9 +5353,9 @@ extension CloudDirectoryClient {
     ///
     /// Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn.
     ///
-    /// - Parameter UpgradePublishedSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradePublishedSchemaInput`)
     ///
-    /// - Returns: `UpgradePublishedSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradePublishedSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5332,6 +5397,7 @@ extension CloudDirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpgradePublishedSchemaInput, UpgradePublishedSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpgradePublishedSchemaOutput>(UpgradePublishedSchemaOutput.httpOutput(from:), UpgradePublishedSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpgradePublishedSchemaInput, UpgradePublishedSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpgradePublishedSchemaOutput>())

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -63,9 +64,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SageMakerMetricsClient: ClientRuntime.Client {
+public class SageMakerMetricsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerMetricsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerMetricsClient.SageMakerMetricsClientConfiguration
     let serviceName = "SageMaker Metrics"
@@ -371,9 +371,9 @@ extension SageMakerMetricsClient {
     ///
     /// Used to retrieve training metrics from SageMaker.
     ///
-    /// - Parameter BatchGetMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetMetricsInput`)
     ///
-    /// - Returns: `BatchGetMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetMetricsOutput`)
     public func batchGetMetrics(input: BatchGetMetricsInput) async throws -> BatchGetMetricsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -402,6 +402,7 @@ extension SageMakerMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetMetricsOutput>(BatchGetMetricsOutput.httpOutput(from:), BatchGetMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetMetricsInput, BatchGetMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetMetricsOutput>())
@@ -433,9 +434,9 @@ extension SageMakerMetricsClient {
     ///
     /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
     ///
-    /// - Parameter BatchPutMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutMetricsInput`)
     ///
-    /// - Returns: `BatchPutMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutMetricsOutput`)
     public func batchPutMetrics(input: BatchPutMetricsInput) async throws -> BatchPutMetricsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -464,6 +465,7 @@ extension SageMakerMetricsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutMetricsInput, BatchPutMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutMetricsOutput>(BatchPutMetricsOutput.httpOutput(from:), BatchPutMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutMetricsInput, BatchPutMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutMetricsOutput>())

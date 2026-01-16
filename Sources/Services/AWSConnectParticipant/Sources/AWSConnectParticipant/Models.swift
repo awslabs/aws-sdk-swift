@@ -317,7 +317,7 @@ extension ConnectParticipantClientTypes.Attendee: Swift.CustomDebugStringConvert
 extension ConnectParticipantClientTypes {
 
     /// A set of endpoints used by clients to connect to the media service group for an Amazon Chime SDK meeting.
-    public struct MediaPlacement: Swift.Sendable {
+    public struct WebRTCMediaPlacement: Swift.Sendable {
         /// The audio fallback URL.
         public var audioFallbackUrl: Swift.String?
         /// The audio host URL.
@@ -326,21 +326,17 @@ extension ConnectParticipantClientTypes {
         public var eventIngestionUrl: Swift.String?
         /// The signaling URL.
         public var signalingUrl: Swift.String?
-        /// The turn control URL.
-        public var turnControlUrl: Swift.String?
 
         public init(
             audioFallbackUrl: Swift.String? = nil,
             audioHostUrl: Swift.String? = nil,
             eventIngestionUrl: Swift.String? = nil,
-            signalingUrl: Swift.String? = nil,
-            turnControlUrl: Swift.String? = nil
+            signalingUrl: Swift.String? = nil
         ) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
             self.eventIngestionUrl = eventIngestionUrl
             self.signalingUrl = signalingUrl
-            self.turnControlUrl = turnControlUrl
         }
     }
 }
@@ -407,24 +403,20 @@ extension ConnectParticipantClientTypes {
 extension ConnectParticipantClientTypes {
 
     /// A meeting created using the Amazon Chime SDK.
-    public struct Meeting: Swift.Sendable {
+    public struct WebRTCMeeting: Swift.Sendable {
         /// The media placement for the meeting.
-        public var mediaPlacement: ConnectParticipantClientTypes.MediaPlacement?
-        /// The Amazon Web Services Region in which you create the meeting.
-        public var mediaRegion: Swift.String?
+        public var mediaPlacement: ConnectParticipantClientTypes.WebRTCMediaPlacement?
         /// The configuration settings of the features available to a meeting.
         public var meetingFeatures: ConnectParticipantClientTypes.MeetingFeaturesConfiguration?
         /// The Amazon Chime SDK meeting ID.
         public var meetingId: Swift.String?
 
         public init(
-            mediaPlacement: ConnectParticipantClientTypes.MediaPlacement? = nil,
-            mediaRegion: Swift.String? = nil,
+            mediaPlacement: ConnectParticipantClientTypes.WebRTCMediaPlacement? = nil,
             meetingFeatures: ConnectParticipantClientTypes.MeetingFeaturesConfiguration? = nil,
             meetingId: Swift.String? = nil
         ) {
             self.mediaPlacement = mediaPlacement
-            self.mediaRegion = mediaRegion
             self.meetingFeatures = meetingFeatures
             self.meetingId = meetingId
         }
@@ -433,16 +425,16 @@ extension ConnectParticipantClientTypes {
 
 extension ConnectParticipantClientTypes {
 
-    /// Information required to join the call.
-    public struct ConnectionData: Swift.Sendable {
+    /// Creates the participant’s WebRTC connection data required for the client application (mobile or web) to connect to the call.
+    public struct WebRTCConnection: Swift.Sendable {
         /// The attendee information, including attendee ID and join token.
         public var attendee: ConnectParticipantClientTypes.Attendee?
         /// A meeting created using the Amazon Chime SDK.
-        public var meeting: ConnectParticipantClientTypes.Meeting?
+        public var meeting: ConnectParticipantClientTypes.WebRTCMeeting?
 
         public init(
             attendee: ConnectParticipantClientTypes.Attendee? = nil,
-            meeting: ConnectParticipantClientTypes.Meeting? = nil
+            meeting: ConnectParticipantClientTypes.WebRTCMeeting? = nil
         ) {
             self.attendee = attendee
             self.meeting = meeting
@@ -473,13 +465,13 @@ public struct CreateParticipantConnectionOutput: Swift.Sendable {
     /// Creates the participant's connection credentials. The authentication token associated with the participant's connection.
     public var connectionCredentials: ConnectParticipantClientTypes.ConnectionCredentials?
     /// Creates the participant's WebRTC connection data required for the client application (mobile application or website) to connect to the call.
-    public var webRTCConnection: ConnectParticipantClientTypes.ConnectionData?
+    public var webRTCConnection: ConnectParticipantClientTypes.WebRTCConnection?
     /// Creates the participant's websocket connection.
     public var websocket: ConnectParticipantClientTypes.Websocket?
 
     public init(
         connectionCredentials: ConnectParticipantClientTypes.ConnectionCredentials? = nil,
-        webRTCConnection: ConnectParticipantClientTypes.ConnectionData? = nil,
+        webRTCConnection: ConnectParticipantClientTypes.WebRTCConnection? = nil,
         websocket: ConnectParticipantClientTypes.Websocket? = nil
     ) {
         self.connectionCredentials = connectionCredentials
@@ -931,6 +923,38 @@ extension ConnectParticipantClientTypes {
 
 extension ConnectParticipantClientTypes {
 
+    public enum MessageProcessingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case processing
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MessageProcessingStatus] {
+            return [
+                .failed,
+                .processing,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes {
+
     /// The receipt for the message delivered to the recipient.
     public struct Receipt: Swift.Sendable {
         /// The time when the message was delivered to the recipient.
@@ -958,14 +982,18 @@ extension ConnectParticipantClientTypes {
     public struct MessageMetadata: Swift.Sendable {
         /// The identifier of the message that contains the metadata information.
         public var messageId: Swift.String?
+        /// The status of Message Processing for the message.
+        public var messageProcessingStatus: ConnectParticipantClientTypes.MessageProcessingStatus?
         /// The list of receipt information for a message for different recipients.
         public var receipts: [ConnectParticipantClientTypes.Receipt]?
 
         public init(
             messageId: Swift.String? = nil,
+            messageProcessingStatus: ConnectParticipantClientTypes.MessageProcessingStatus? = nil,
             receipts: [ConnectParticipantClientTypes.Receipt]? = nil
         ) {
             self.messageId = messageId
+            self.messageProcessingStatus = messageProcessingStatus
             self.receipts = receipts
         }
     }
@@ -1226,18 +1254,37 @@ public struct SendMessageInput: Swift.Sendable {
     }
 }
 
+extension ConnectParticipantClientTypes {
+
+    /// Contains metadata for chat messages.
+    public struct MessageProcessingMetadata: Swift.Sendable {
+        /// The status of Message Processing for the message.
+        public var messageProcessingStatus: ConnectParticipantClientTypes.MessageProcessingStatus?
+
+        public init(
+            messageProcessingStatus: ConnectParticipantClientTypes.MessageProcessingStatus? = nil
+        ) {
+            self.messageProcessingStatus = messageProcessingStatus
+        }
+    }
+}
+
 public struct SendMessageOutput: Swift.Sendable {
     /// The time when the message was sent. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
     public var absoluteTime: Swift.String?
     /// The ID of the message.
     public var id: Swift.String?
+    /// Contains metadata for the message.
+    public var messageMetadata: ConnectParticipantClientTypes.MessageProcessingMetadata?
 
     public init(
         absoluteTime: Swift.String? = nil,
-        id: Swift.String? = nil
+        id: Swift.String? = nil,
+        messageMetadata: ConnectParticipantClientTypes.MessageProcessingMetadata? = nil
     ) {
         self.absoluteTime = absoluteTime
         self.id = id
+        self.messageMetadata = messageMetadata
     }
 }
 
@@ -1630,7 +1677,7 @@ extension CreateParticipantConnectionOutput {
         let reader = responseReader
         var value = CreateParticipantConnectionOutput()
         value.connectionCredentials = try reader["ConnectionCredentials"].readIfPresent(with: ConnectParticipantClientTypes.ConnectionCredentials.read(from:))
-        value.webRTCConnection = try reader["WebRTCConnection"].readIfPresent(with: ConnectParticipantClientTypes.ConnectionData.read(from:))
+        value.webRTCConnection = try reader["WebRTCConnection"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCConnection.read(from:))
         value.websocket = try reader["Websocket"].readIfPresent(with: ConnectParticipantClientTypes.Websocket.read(from:))
         return value
     }
@@ -1717,6 +1764,7 @@ extension SendMessageOutput {
         var value = SendMessageOutput()
         value.absoluteTime = try reader["AbsoluteTime"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
+        value.messageMetadata = try reader["MessageMetadata"].readIfPresent(with: ConnectParticipantClientTypes.MessageProcessingMetadata.read(from:))
         return value
     }
 }
@@ -2041,24 +2089,23 @@ extension ConnectParticipantClientTypes.ConnectionCredentials {
     }
 }
 
-extension ConnectParticipantClientTypes.ConnectionData {
+extension ConnectParticipantClientTypes.WebRTCConnection {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.ConnectionData {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.ConnectionData()
+        var value = ConnectParticipantClientTypes.WebRTCConnection()
         value.attendee = try reader["Attendee"].readIfPresent(with: ConnectParticipantClientTypes.Attendee.read(from:))
-        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.Meeting.read(from:))
+        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMeeting.read(from:))
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.Meeting {
+extension ConnectParticipantClientTypes.WebRTCMeeting {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Meeting {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMeeting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Meeting()
-        value.mediaRegion = try reader["MediaRegion"].readIfPresent()
-        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.MediaPlacement.read(from:))
+        var value = ConnectParticipantClientTypes.WebRTCMeeting()
+        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMediaPlacement.read(from:))
         value.meetingFeatures = try reader["MeetingFeatures"].readIfPresent(with: ConnectParticipantClientTypes.MeetingFeaturesConfiguration.read(from:))
         value.meetingId = try reader["MeetingId"].readIfPresent()
         return value
@@ -2085,15 +2132,14 @@ extension ConnectParticipantClientTypes.AudioFeatures {
     }
 }
 
-extension ConnectParticipantClientTypes.MediaPlacement {
+extension ConnectParticipantClientTypes.WebRTCMediaPlacement {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MediaPlacement {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMediaPlacement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.MediaPlacement()
+        var value = ConnectParticipantClientTypes.WebRTCMediaPlacement()
         value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
         value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
         value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
-        value.turnControlUrl = try reader["TurnControlUrl"].readIfPresent()
         value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
         return value
     }
@@ -2164,6 +2210,7 @@ extension ConnectParticipantClientTypes.MessageMetadata {
         var value = ConnectParticipantClientTypes.MessageMetadata()
         value.messageId = try reader["MessageId"].readIfPresent()
         value.receipts = try reader["Receipts"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.Receipt.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
         return value
     }
 }
@@ -2189,6 +2236,16 @@ extension ConnectParticipantClientTypes.AttachmentItem {
         value.attachmentId = try reader["AttachmentId"].readIfPresent()
         value.attachmentName = try reader["AttachmentName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.MessageProcessingMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageProcessingMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.MessageProcessingMetadata()
+        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
         return value
     }
 }

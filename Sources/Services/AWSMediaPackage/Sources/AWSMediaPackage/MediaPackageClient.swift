@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MediaPackageClient: ClientRuntime.Client {
+public class MediaPackageClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MediaPackageClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageClient.MediaPackageClientConfiguration
     let serviceName = "MediaPackage"
@@ -372,9 +372,9 @@ extension MediaPackageClient {
     ///
     /// Changes the Channel's properities to configure log subscription
     ///
-    /// - Parameter ConfigureLogsInput : the option to configure log subscription.
+    /// - Parameter input: the option to configure log subscription. (Type: `ConfigureLogsInput`)
     ///
-    /// - Returns: `ConfigureLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfigureLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfigureLogsInput, ConfigureLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfigureLogsOutput>(ConfigureLogsOutput.httpOutput(from:), ConfigureLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfigureLogsInput, ConfigureLogsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfigureLogsOutput>())
@@ -444,9 +445,9 @@ extension MediaPackageClient {
     ///
     /// Creates a new Channel.
     ///
-    /// - Parameter CreateChannelInput : A new Channel configuration.
+    /// - Parameter input: A new Channel configuration. (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +486,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -516,9 +518,9 @@ extension MediaPackageClient {
     ///
     /// Creates a new HarvestJob record.
     ///
-    /// - Parameter CreateHarvestJobInput : Configuration parameters used to create a new HarvestJob.
+    /// - Parameter input: Configuration parameters used to create a new HarvestJob. (Type: `CreateHarvestJobInput`)
     ///
-    /// - Returns: `CreateHarvestJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHarvestJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +559,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHarvestJobInput, CreateHarvestJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHarvestJobOutput>(CreateHarvestJobOutput.httpOutput(from:), CreateHarvestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHarvestJobInput, CreateHarvestJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHarvestJobOutput>())
@@ -588,9 +591,9 @@ extension MediaPackageClient {
     ///
     /// Creates a new OriginEndpoint record.
     ///
-    /// - Parameter CreateOriginEndpointInput : Configuration parameters used to create a new OriginEndpoint.
+    /// - Parameter input: Configuration parameters used to create a new OriginEndpoint. (Type: `CreateOriginEndpointInput`)
     ///
-    /// - Returns: `CreateOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,6 +632,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOriginEndpointOutput>(CreateOriginEndpointOutput.httpOutput(from:), CreateOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOriginEndpointOutput>())
@@ -660,9 +664,9 @@ extension MediaPackageClient {
     ///
     /// Deletes an existing Channel.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +702,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(DeleteChannelOutput.httpOutput(from:), DeleteChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelInput, DeleteChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
@@ -729,9 +734,9 @@ extension MediaPackageClient {
     ///
     /// Deletes an existing OriginEndpoint.
     ///
-    /// - Parameter DeleteOriginEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOriginEndpointInput`)
     ///
-    /// - Returns: `DeleteOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,6 +772,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointOutput>(DeleteOriginEndpointOutput.httpOutput(from:), DeleteOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOriginEndpointOutput>())
@@ -798,9 +804,9 @@ extension MediaPackageClient {
     ///
     /// Gets details about a Channel.
     ///
-    /// - Parameter DescribeChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelInput`)
     ///
-    /// - Returns: `DescribeChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,6 +842,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChannelOutput>(DescribeChannelOutput.httpOutput(from:), DescribeChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChannelInput, DescribeChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChannelOutput>())
@@ -867,9 +874,9 @@ extension MediaPackageClient {
     ///
     /// Gets details about an existing HarvestJob.
     ///
-    /// - Parameter DescribeHarvestJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHarvestJobInput`)
     ///
-    /// - Returns: `DescribeHarvestJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHarvestJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -905,6 +912,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeHarvestJobInput, DescribeHarvestJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHarvestJobOutput>(DescribeHarvestJobOutput.httpOutput(from:), DescribeHarvestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHarvestJobInput, DescribeHarvestJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHarvestJobOutput>())
@@ -936,9 +944,9 @@ extension MediaPackageClient {
     ///
     /// Gets details about an existing OriginEndpoint.
     ///
-    /// - Parameter DescribeOriginEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOriginEndpointInput`)
     ///
-    /// - Returns: `DescribeOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -974,6 +982,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOriginEndpointInput, DescribeOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOriginEndpointOutput>(DescribeOriginEndpointOutput.httpOutput(from:), DescribeOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOriginEndpointInput, DescribeOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOriginEndpointOutput>())
@@ -1005,9 +1014,9 @@ extension MediaPackageClient {
     ///
     /// Returns a collection of Channels.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,6 +1053,7 @@ extension MediaPackageClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1075,9 +1085,9 @@ extension MediaPackageClient {
     ///
     /// Returns a collection of HarvestJob records.
     ///
-    /// - Parameter ListHarvestJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHarvestJobsInput`)
     ///
-    /// - Returns: `ListHarvestJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHarvestJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,6 +1124,7 @@ extension MediaPackageClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHarvestJobsInput, ListHarvestJobsOutput>(ListHarvestJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHarvestJobsOutput>(ListHarvestJobsOutput.httpOutput(from:), ListHarvestJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHarvestJobsInput, ListHarvestJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHarvestJobsOutput>())
@@ -1145,9 +1156,9 @@ extension MediaPackageClient {
     ///
     /// Returns a collection of OriginEndpoint records.
     ///
-    /// - Parameter ListOriginEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOriginEndpointsInput`)
     ///
-    /// - Returns: `ListOriginEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOriginEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1184,6 +1195,7 @@ extension MediaPackageClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>(ListOriginEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOriginEndpointsOutput>(ListOriginEndpointsOutput.httpOutput(from:), ListOriginEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOriginEndpointsOutput>())
@@ -1214,9 +1226,9 @@ extension MediaPackageClient {
     /// Performs the `ListTagsForResource` operation on the `MediaPackage` service.
     ///
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1242,6 +1254,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1274,9 +1287,9 @@ extension MediaPackageClient {
     /// Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
     @available(*, deprecated, message: "This API is deprecated. Please use RotateIngestEndpointCredentials instead")
     ///
-    /// - Parameter RotateChannelCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RotateChannelCredentialsInput`)
     ///
-    /// - Returns: `RotateChannelCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RotateChannelCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1312,6 +1325,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RotateChannelCredentialsInput, RotateChannelCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateChannelCredentialsOutput>(RotateChannelCredentialsOutput.httpOutput(from:), RotateChannelCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateChannelCredentialsInput, RotateChannelCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateChannelCredentialsOutput>())
@@ -1343,9 +1357,9 @@ extension MediaPackageClient {
     ///
     /// Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
     ///
-    /// - Parameter RotateIngestEndpointCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RotateIngestEndpointCredentialsInput`)
     ///
-    /// - Returns: `RotateIngestEndpointCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RotateIngestEndpointCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1381,6 +1395,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RotateIngestEndpointCredentialsInput, RotateIngestEndpointCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateIngestEndpointCredentialsOutput>(RotateIngestEndpointCredentialsOutput.httpOutput(from:), RotateIngestEndpointCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateIngestEndpointCredentialsInput, RotateIngestEndpointCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateIngestEndpointCredentialsOutput>())
@@ -1411,9 +1426,9 @@ extension MediaPackageClient {
     /// Performs the `TagResource` operation on the `MediaPackage` service.
     ///
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1442,6 +1457,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1472,9 +1488,9 @@ extension MediaPackageClient {
     /// Performs the `UntagResource` operation on the `MediaPackage` service.
     ///
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1501,6 +1517,7 @@ extension MediaPackageClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1532,9 +1549,9 @@ extension MediaPackageClient {
     ///
     /// Updates an existing Channel.
     ///
-    /// - Parameter UpdateChannelInput : Configuration parameters used to update the Channel.
+    /// - Parameter input: Configuration parameters used to update the Channel. (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1573,6 +1590,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -1604,9 +1622,9 @@ extension MediaPackageClient {
     ///
     /// Updates an existing OriginEndpoint.
     ///
-    /// - Parameter UpdateOriginEndpointInput : Configuration parameters used to update an existing OriginEndpoint.
+    /// - Parameter input: Configuration parameters used to update an existing OriginEndpoint. (Type: `UpdateOriginEndpointInput`)
     ///
-    /// - Returns: `UpdateOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1645,6 +1663,7 @@ extension MediaPackageClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOriginEndpointOutput>(UpdateOriginEndpointOutput.httpOutput(from:), UpdateOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOriginEndpointOutput>())

@@ -848,10 +848,10 @@ public struct AssociateOriginationIdentityInput: Swift.Sendable {
     /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity.
     /// This member is required.
     public var isoCountryCode: Swift.String?
-    /// The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use [DescribePhoneNumbers] to find the values for PhoneNumberId and PhoneNumberArn, while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use [DescribePhoneNumbers] to find the values for PhoneNumberId and PhoneNumberArn, while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
-    /// The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using [DescribePools]. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using [DescribePools](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_DescribePools.html). If you are using a shared End User Messaging SMS; resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var poolId: Swift.String?
 
@@ -997,6 +997,94 @@ extension PinpointSMSVoiceV2ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+public struct CarrierLookupInput: Swift.Sendable {
+    /// The phone number that you want to retrieve information about. You can provide the phone number in various formats including special characters such as parentheses, brackets, spaces, hyphens, periods, and commas. The service automatically converts the input to E164 format for processing.
+    /// This member is required.
+    public var phoneNumber: Swift.String?
+
+    public init(
+        phoneNumber: Swift.String? = nil
+    ) {
+        self.phoneNumber = phoneNumber
+    }
+}
+
+extension PinpointSMSVoiceV2ClientTypes {
+
+    public enum PhoneNumberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalid
+        case landline
+        case mobile
+        case other
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PhoneNumberType] {
+            return [
+                .invalid,
+                .landline,
+                .mobile,
+                .other
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalid: return "INVALID"
+            case .landline: return "LANDLINE"
+            case .mobile: return "MOBILE"
+            case .other: return "OTHER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CarrierLookupOutput: Swift.Sendable {
+    /// The carrier or service provider that the phone number is currently registered with. In some countries and regions, this value may be the carrier or service provider that the phone number was originally registered with.
+    public var carrier: Swift.String?
+    /// The name of the country or region for the phone number.
+    public var country: Swift.String?
+    /// The country or region numeric dialing code for the phone number.
+    public var dialingCountryCode: Swift.String?
+    /// The phone number in E164 format, sanitized from the original input by removing any formatting characters.
+    /// This member is required.
+    public var e164PhoneNumber: Swift.String?
+    /// The two-character country or region code, in ISO 3166-1 alpha-2 format, for the phone number.
+    public var isoCountryCode: Swift.String?
+    /// The phone number's mobile country code, for mobile phone number types
+    public var mcc: Swift.String?
+    /// The phone number's mobile network code, for mobile phone number types.
+    public var mnc: Swift.String?
+    /// Describes the type of phone number. Valid values are: MOBILE, LANDLINE, OTHER, and INVALID. Avoid sending SMS or voice messages to INVALID phone numbers, as these numbers are unlikely to belong to actual recipients.
+    /// This member is required.
+    public var phoneNumberType: PinpointSMSVoiceV2ClientTypes.PhoneNumberType?
+
+    public init(
+        carrier: Swift.String? = nil,
+        country: Swift.String? = nil,
+        dialingCountryCode: Swift.String? = nil,
+        e164PhoneNumber: Swift.String? = nil,
+        isoCountryCode: Swift.String? = nil,
+        mcc: Swift.String? = nil,
+        mnc: Swift.String? = nil,
+        phoneNumberType: PinpointSMSVoiceV2ClientTypes.PhoneNumberType? = nil
+    ) {
+        self.carrier = carrier
+        self.country = country
+        self.dialingCountryCode = dialingCountryCode
+        self.e164PhoneNumber = e164PhoneNumber
+        self.isoCountryCode = isoCountryCode
+        self.mcc = mcc
+        self.mnc = mnc
+        self.phoneNumberType = phoneNumberType
     }
 }
 
@@ -1463,7 +1551,7 @@ public struct CreateEventDestinationInput: Swift.Sendable {
     public var eventDestinationName: Swift.String?
     /// An object that contains information about an event destination for logging to Amazon Data Firehose.
     public var kinesisFirehoseDestination: PinpointSMSVoiceV2ClientTypes.KinesisFirehoseDestination?
-    /// An array of event types that determine which events to log. If "ALL" is used, then AWS End User Messaging SMS and Voice logs every event type. The TEXT_SENT event type is not supported.
+    /// An array of event types that determine which events to log. If "ALL" is used, then End User Messaging SMS logs every event type. The TEXT_SENT event type is not supported.
     /// This member is required.
     public var matchingEventTypes: [PinpointSMSVoiceV2ClientTypes.EventType]?
     /// An object that contains information about an event destination for logging to Amazon SNS.
@@ -1553,7 +1641,7 @@ public struct CreateOptOutListOutput: Swift.Sendable {
 public struct CreatePoolInput: Swift.Sendable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
-    /// By default this is set to false. When set to true the pool can't be deleted. You can change this value using the [UpdatePool] action.
+    /// By default this is set to false. When set to true the pool can't be deleted. You can change this value using the [UpdatePool](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_UpdatePool.html) action.
     public var deletionProtectionEnabled: Swift.Bool?
     /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool.
     /// This member is required.
@@ -1561,7 +1649,7 @@ public struct CreatePoolInput: Swift.Sendable {
     /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed.
     /// This member is required.
     public var messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
-    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] to find the values for PhoneNumberId and PhoneNumberArn while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using [AssociateOriginationIdentity](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_AssociateOriginationIdentity.html). If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_DescribePhoneNumbers.html) to find the values for PhoneNumberId and PhoneNumberArn, and use [DescribeSenderIds](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_DescribeSenderIds.html) can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using [AssociateOriginationIdentity](https://docs.aws.amazon.com/pinpoint/latest/apireference_smsvoicev2/API_AssociateOriginationIdentity.html). If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
     /// An array of tags (key and value pairs) associated with the pool.
@@ -1629,7 +1717,7 @@ public struct CreatePoolOutput: Swift.Sendable {
     public var poolArn: Swift.String?
     /// The unique identifier for the pool.
     public var poolId: Swift.String?
-    /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// By default this is set to false. When set to false, and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool
     /// Indicates whether shared routes are enabled for the pool. Set to false and only origination identities in this pool are used to send messages.
     public var sharedRoutesEnabled: Swift.Bool
@@ -1759,6 +1847,7 @@ public struct CreateRegistrationInput: Swift.Sendable {
 extension PinpointSMSVoiceV2ClientTypes {
 
     public enum RegistrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsReviewing
         case closed
         case complete
         case created
@@ -1772,6 +1861,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public static var allCases: [RegistrationStatus] {
             return [
+                .awsReviewing,
                 .closed,
                 .complete,
                 .created,
@@ -1791,6 +1881,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .awsReviewing: return "AWS_REVIEWING"
             case .closed: return "CLOSED"
             case .complete: return "COMPLETE"
             case .created: return "CREATED"
@@ -2010,6 +2101,7 @@ extension PinpointSMSVoiceV2ClientTypes {
     public enum RegistrationVersionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case approved
         case archived
+        case awsReviewing
         case denied
         case discarded
         case draft
@@ -2023,6 +2115,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             return [
                 .approved,
                 .archived,
+                .awsReviewing,
                 .denied,
                 .discarded,
                 .draft,
@@ -2042,6 +2135,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             switch self {
             case .approved: return "APPROVED"
             case .archived: return "ARCHIVED"
+            case .awsReviewing: return "AWS_REVIEWING"
             case .denied: return "DENIED"
             case .discarded: return "DISCARDED"
             case .draft: return "DRAFT"
@@ -2063,6 +2157,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var approvedTimestamp: Foundation.Date?
         /// The time when the registration was in the archived state, in [UNIX epoch time](https://www.epochconverter.com/) format.
         public var archivedTimestamp: Foundation.Date?
+        /// The time when the registration was in the AWS reviewing state, in [UNIX epoch time](https://www.epochconverter.com/) format.
+        public var awsReviewingTimestamp: Foundation.Date?
         /// The time when the registration was in the denied state, in [UNIX epoch time](https://www.epochconverter.com/) format.
         public var deniedTimestamp: Foundation.Date?
         /// The time when the registration was in the discarded state, in [UNIX epoch time](https://www.epochconverter.com/) format.
@@ -2082,6 +2178,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public init(
             approvedTimestamp: Foundation.Date? = nil,
             archivedTimestamp: Foundation.Date? = nil,
+            awsReviewingTimestamp: Foundation.Date? = nil,
             deniedTimestamp: Foundation.Date? = nil,
             discardedTimestamp: Foundation.Date? = nil,
             draftTimestamp: Foundation.Date? = nil,
@@ -2092,6 +2189,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         ) {
             self.approvedTimestamp = approvedTimestamp
             self.archivedTimestamp = archivedTimestamp
+            self.awsReviewingTimestamp = awsReviewingTimestamp
             self.deniedTimestamp = deniedTimestamp
             self.discardedTimestamp = discardedTimestamp
             self.draftTimestamp = draftTimestamp
@@ -2413,7 +2511,7 @@ public struct DeleteKeywordInput: Swift.Sendable {
     /// The keyword to delete.
     /// This member is required.
     public var keyword: Swift.String?
-    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use [DescribePhoneNumbers] to find the values for PhoneNumberId and PhoneNumberArn and [DescribePools] to find the values of PoolId and PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use [DescribePhoneNumbers] to find the values for PhoneNumberId and PhoneNumberArn and [DescribePools] to find the values of PoolId and PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
 
@@ -2502,7 +2600,7 @@ public struct DeleteMediaMessageSpendLimitOverrideOutput: Swift.Sendable {
 }
 
 public struct DeleteOptedOutNumberInput: Swift.Sendable {
-    /// The OptOutListName or OptOutListArn to remove the phone number from. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The OptOutListName or OptOutListArn to remove the phone number from. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var optOutListName: Swift.String?
     /// The phone number, in E.164 format, to remove from the OptOutList.
@@ -2546,7 +2644,7 @@ public struct DeleteOptedOutNumberOutput: Swift.Sendable {
 }
 
 public struct DeleteOptOutListInput: Swift.Sendable {
-    /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use [DescribeOptOutLists] to find the values for OptOutListName and OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use [DescribeOptOutLists] to find the values for OptOutListName and OptOutListArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var optOutListName: Swift.String?
 
@@ -2577,7 +2675,7 @@ public struct DeleteOptOutListOutput: Swift.Sendable {
 }
 
 public struct DeletePoolInput: Swift.Sendable {
-    /// The PoolId or PoolArn of the pool to delete. You can use [DescribePools] to find the values for PoolId and PoolArn . If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The PoolId or PoolArn of the pool to delete. You can use [DescribePools] to find the values for PoolId and PoolArn . If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var poolId: Swift.String?
 
@@ -2599,7 +2697,7 @@ public struct DeletePoolOutput: Swift.Sendable {
     public var poolArn: Swift.String?
     /// The PoolId of the pool that was deleted.
     public var poolId: Swift.String?
-    /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool
     /// Indicates whether shared routes are enabled for the pool.
     public var sharedRoutesEnabled: Swift.Bool
@@ -2962,7 +3060,7 @@ public struct DeleteRegistrationFieldValueOutput: Swift.Sendable {
 }
 
 public struct DeleteResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource you're deleting the resource-based policy from.
+    /// The Amazon Resource Name (ARN) of the End User Messaging SMS resource you're deleting the resource-based policy from.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -2978,7 +3076,7 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
     public var createdTimestamp: Foundation.Date?
     /// The JSON formatted resource-based policy that was deleted.
     public var policy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource that the resource-based policy was deleted from.
+    /// The Amazon Resource Name (ARN) of the End User Messaging SMS resource that the resource-based policy was deleted from.
     public var resourceArn: Swift.String?
 
     public init(
@@ -3217,7 +3315,7 @@ public struct DescribeKeywordsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
-    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] to find the values for PhoneNumberId and PhoneNumberArn while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] to find the values for PhoneNumberId and PhoneNumberArn while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
 
@@ -3339,7 +3437,7 @@ public struct DescribeOptedOutNumbersInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
-    /// The OptOutListName or OptOutListArn of the OptOutList. You can use [DescribeOptOutLists] to find the values for OptOutListName and OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The OptOutListName or OptOutListArn of the OptOutList. You can use [DescribeOptOutLists] to find the values for OptOutListName and OptOutListArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var optOutListName: Swift.String?
     /// An array of phone numbers to search for in the OptOutList. If you specify an opted out number that isn't valid, an exception is returned.
@@ -3443,7 +3541,7 @@ public struct DescribeOptOutListsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
-    /// The OptOutLists to show the details of. This is an array of strings that can be either the OptOutListName or OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The OptOutLists to show the details of. This is an array of strings that can be either the OptOutListName or OptOutListArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var optOutListNames: [Swift.String]?
     /// Use SELF to filter the list of Opt-Out List to ones your account owns or use SHARED to filter on Opt-Out List shared with your account. The Owner and OptOutListNames parameters can't be used at the same time.
     public var owner: PinpointSMSVoiceV2ClientTypes.Owner?
@@ -3585,7 +3683,7 @@ public struct DescribePhoneNumbersInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Use SELF to filter the list of phone numbers to ones your account owns or use SHARED to filter on phone numbers shared with your account. The Owner and PhoneNumberIds parameters can't be used at the same time.
     public var owner: PinpointSMSVoiceV2ClientTypes.Owner?
-    /// The unique identifier of phone numbers to find information about. This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The unique identifier of phone numbers to find information about. This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var phoneNumberIds: [Swift.String]?
 
     public init(
@@ -3753,7 +3851,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var poolId: Swift.String?
         /// The unique identifier for the registration.
         public var registrationId: Swift.String?
-        /// When set to false an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out request. For more information see [Self-managed opt-outs](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-sms-managing.html#settings-account-sms-self-managed-opt-out)
+        /// When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out request. For more information see [Self-managed opt-outs](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-sms-managing.html#settings-account-sms-self-managed-opt-out)
         /// This member is required.
         public var selfManagedOptOutsEnabled: Swift.Bool
         /// The current status of the phone number.
@@ -3903,7 +4001,7 @@ public struct DescribePoolsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Use SELF to filter the list of Pools to ones your account owns or use SHARED to filter on Pools shared with your account. The Owner and PoolIds parameters can't be used at the same time.
     public var owner: PinpointSMSVoiceV2ClientTypes.Owner?
-    /// The unique identifier of pools to find. This is an array of strings that can be either the PoolId or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The unique identifier of pools to find. This is an array of strings that can be either the PoolId or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var poolIds: [Swift.String]?
 
     public init(
@@ -3943,7 +4041,7 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// The unique identifier for the pool.
         /// This member is required.
         public var poolId: Swift.String?
-        /// When set to false, an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests. For more information see [Self-managed opt-outs](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-sms-managing.html#settings-account-sms-self-managed-opt-out)
+        /// When set to false, an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests. For more information see [Self-managed opt-outs](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-sms-managing.html#settings-account-sms-self-managed-opt-out)
         /// This member is required.
         public var selfManagedOptOutsEnabled: Swift.Bool
         /// Allows you to enable shared routes on your pool. By default, this is set to False. If you set this value to True, your messages are sent using phone numbers or sender IDs (depending on the country) that are shared with other users. In some countries, such as the United States, senders aren't allowed to use shared routes and must use a dedicated phone number or short code.
@@ -4574,6 +4672,8 @@ extension PinpointSMSVoiceV2ClientTypes {
     public struct RegistrationFieldValueInformation: Swift.Sendable {
         /// A description of why the registration was denied.
         public var deniedReason: Swift.String?
+        /// Feedback provided for this specific field during the registration review process. This may include validation errors, suggestions for improvement, or additional requirements.
+        public var feedback: Swift.String?
         /// The path to the registration form field. You can use [DescribeRegistrationFieldDefinitions] for a list of FieldPaths.
         /// This member is required.
         public var fieldPath: Swift.String?
@@ -4586,12 +4686,14 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public init(
             deniedReason: Swift.String? = nil,
+            feedback: Swift.String? = nil,
             fieldPath: Swift.String? = nil,
             registrationAttachmentId: Swift.String? = nil,
             selectChoices: [Swift.String]? = nil,
             textValue: Swift.String? = nil
         ) {
             self.deniedReason = deniedReason
+            self.feedback = feedback
             self.fieldPath = fieldPath
             self.registrationAttachmentId = registrationAttachmentId
             self.selectChoices = selectChoices
@@ -5256,6 +5358,8 @@ extension PinpointSMSVoiceV2ClientTypes {
     public struct RegistrationVersionInformation: Swift.Sendable {
         /// An array of RegistrationDeniedReasonInformation objects.
         public var deniedReasons: [PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]?
+        /// Feedback information provided during the registration review process. This includes comments, suggestions, or additional requirements.
+        public var feedback: Swift.String?
         /// The status of the registration.
         ///
         /// * APPROVED: Your registration has been approved.
@@ -5286,11 +5390,13 @@ extension PinpointSMSVoiceV2ClientTypes {
 
         public init(
             deniedReasons: [PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation]? = nil,
+            feedback: Swift.String? = nil,
             registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
             registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
             versionNumber: Swift.Int? = nil
         ) {
             self.deniedReasons = deniedReasons
+            self.feedback = feedback
             self.registrationVersionStatus = registrationVersionStatus
             self.registrationVersionStatusHistory = registrationVersionStatusHistory
             self.versionNumber = versionNumber
@@ -5385,7 +5491,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    /// The alphanumeric sender ID in a specific country that you want to describe. For more information on sender IDs see [Requesting sender IDs ](https://docs.aws.amazon.com/sms-voice/latest/userguide/sender-id-request.html) in the AWS End User Messaging SMS User Guide.
+    /// The alphanumeric sender ID in a specific country that you want to describe. For more information on sender IDs see [Requesting sender IDs ](https://docs.aws.amazon.com/sms-voice/latest/userguide/sender-id-request.html) in the End User Messaging SMS User Guide.
     public struct SenderIdAndCountry: Swift.Sendable {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
         /// This member is required.
@@ -5413,7 +5519,7 @@ public struct DescribeSenderIdsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Use SELF to filter the list of Sender Ids to ones your account owns or use SHARED to filter on Sender Ids shared with your account. The Owner and SenderIds parameters can't be used at the same time.
     public var owner: PinpointSMSVoiceV2ClientTypes.Owner?
-    /// An array of SenderIdAndCountry objects to search for. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// An array of SenderIdAndCountry objects to search for. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var senderIds: [PinpointSMSVoiceV2ClientTypes.SenderIdAndCountry]?
 
     public init(
@@ -5545,7 +5651,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    /// Describes the current monthly spend limits for sending voice and text messages. For more information on increasing your monthly spend limit, see [ Requesting a spending quota increase ](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html) in the AWS End User Messaging SMS User Guide.
+    /// Describes the current monthly spend limits for sending voice and text messages. For more information on increasing your monthly spend limit, see [ Requesting a spending quota increase ](https://docs.aws.amazon.com/sms-voice/latest/userguide/awssupport-spend-threshold.html) in the End User Messaging SMS User Guide.
     public struct SpendLimit: Swift.Sendable {
         /// The maximum amount of money, in US dollars, that you want to be able to spend sending messages each month. This value has to be less than or equal to the amount in MaxLimit. To use this custom limit, Overridden must be set to true.
         /// This member is required.
@@ -5754,10 +5860,10 @@ public struct DisassociateOriginationIdentityInput: Swift.Sendable {
     /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
     /// This member is required.
     public var isoCountryCode: Swift.String?
-    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] find the values for PhoneNumberId and PhoneNumberArn, or use [DescribeSenderIds] to get the values for SenderId and SenderIdArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] find the values for PhoneNumberId and PhoneNumberArn, or use [DescribeSenderIds] to get the values for SenderId and SenderIdArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
-    /// The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var poolId: Swift.String?
 
@@ -5976,7 +6082,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 public struct GetProtectConfigurationCountryRuleSetOutput: Swift.Sendable {
-    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the AWS End User Messaging SMS User Guide.
+    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the End User Messaging SMS User Guide.
     /// This member is required.
     public var countryRuleSet: [Swift.String: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation]?
     /// The capability type associated with the returned ProtectConfigurationCountryRuleSetInformation objects.
@@ -6003,7 +6109,7 @@ public struct GetProtectConfigurationCountryRuleSetOutput: Swift.Sendable {
 }
 
 public struct GetResourcePolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource attached to the resource-based policy.
+    /// The Amazon Resource Name (ARN) of the End User Messaging SMS resource attached to the resource-based policy.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -6017,9 +6123,9 @@ public struct GetResourcePolicyInput: Swift.Sendable {
 public struct GetResourcePolicyOutput: Swift.Sendable {
     /// The time when the resource-based policy was created, in [UNIX epoch time](https://www.epochconverter.com/) format.
     public var createdTimestamp: Foundation.Date?
-    /// The JSON formatted string that contains the resource-based policy attached to the AWS End User Messaging SMS and Voice resource.
+    /// The JSON formatted string that contains the resource-based policy attached to the End User Messaging SMS resource.
     public var policy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource attached to the resource-based policy.
+    /// The Amazon Resource Name (ARN) of the End User Messaging SMS resource attached to the resource-based policy.
     public var resourceArn: Swift.String?
 
     public init(
@@ -6152,7 +6258,7 @@ public struct ListPoolOriginationIdentitiesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     public var nextToken: Swift.String?
-    /// The unique identifier for the pool. This value can be either the PoolId or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The unique identifier for the pool. This value can be either the PoolId or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var poolId: Swift.String?
 
@@ -6585,7 +6691,7 @@ public struct PutKeywordInput: Swift.Sendable {
     /// The message associated with the keyword.
     /// This member is required.
     public var keywordMessage: Swift.String?
-    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] get the values for PhoneNumberId and PhoneNumberArn while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use [DescribePhoneNumbers] get the values for PhoneNumberId and PhoneNumberArn while [DescribeSenderIds] can be used to get the values for SenderId and SenderIdArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
 
@@ -6664,7 +6770,7 @@ public struct PutMessageFeedbackOutput: Swift.Sendable {
 }
 
 public struct PutOptedOutNumberInput: Swift.Sendable {
-    /// The OptOutListName or OptOutListArn to add the phone number to. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The OptOutListName or OptOutListArn to add the phone number to. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var optOutListName: Swift.String?
     /// The phone number to add to the OptOutList in E.164 format.
@@ -6849,7 +6955,7 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     /// The JSON formatted resource-based policy to attach.
     /// This member is required.
     public var policy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource to attach the resource-based policy to.
+    /// The Amazon Resource Name (ARN) of the End User Messaging SMS resource to attach the resource-based policy to.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -6867,7 +6973,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public var createdTimestamp: Foundation.Date?
     /// The JSON formatted Resource Policy.
     public var policy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource attached to the resource-based policy.
+    /// The Amazon Resource Name (ARN) of the End User Messaging SMS resource attached to the resource-based policy.
     public var resourceArn: Swift.String?
 
     public init(
@@ -6882,7 +6988,7 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
 }
 
 public struct ReleasePhoneNumberInput: Swift.Sendable {
-    /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use [DescribePhoneNumbers] to get the values for PhoneNumberId and PhoneNumberArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use [DescribePhoneNumbers] to get the values for PhoneNumberId and PhoneNumberArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var phoneNumberId: Swift.String?
 
@@ -6916,7 +7022,7 @@ public struct ReleasePhoneNumberOutput: Swift.Sendable {
     public var phoneNumberId: Swift.String?
     /// The unique identifier for the registration.
     public var registrationId: Swift.String?
-    /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool
     /// The current status of the request.
     public var status: PinpointSMSVoiceV2ClientTypes.NumberStatus?
@@ -7076,13 +7182,13 @@ public struct RequestPhoneNumberInput: Swift.Sendable {
     /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
     /// This member is required.
     public var numberType: PinpointSMSVoiceV2ClientTypes.RequestableNumberType?
-    /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var optOutListName: Swift.String?
-    /// The pool to associated with the phone number. You can use the PoolId or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The pool to associated with the phone number. You can use the PoolId or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var poolId: Swift.String?
     /// Use this field to attach your phone number for an external registration process.
     public var registrationId: Swift.String?
-    /// An array of tags (key and value pairs) associate with the requested phone number.
+    /// An array of tags (key and value pairs) to associate with the requested phone number.
     public var tags: [PinpointSMSVoiceV2ClientTypes.Tag]?
 
     public init(
@@ -7141,7 +7247,7 @@ public struct RequestPhoneNumberOutput: Swift.Sendable {
     public var poolId: Swift.String?
     /// The unique identifier for the registration.
     public var registrationId: Swift.String?
-    /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool
     /// The current status of the request.
     public var status: PinpointSMSVoiceV2ClientTypes.NumberStatus?
@@ -7316,7 +7422,7 @@ public struct SendDestinationNumberVerificationCodeInput: Swift.Sendable {
     public var destinationCountryParameters: [Swift.String: Swift.String]?
     /// Choose the language to use for the message.
     public var languageCode: PinpointSMSVoiceV2ClientTypes.LanguageCode?
-    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var originationIdentity: Swift.String?
     /// Choose to send the verification code as an SMS or voice message.
     /// This member is required.
@@ -7374,7 +7480,7 @@ public struct SendMediaMessageInput: Swift.Sendable {
     public var messageBody: Swift.String?
     /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using [PutMessageFeedback].
     public var messageFeedbackEnabled: Swift.Bool?
-    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
     /// The unique identifier of the protect configuration to use.
@@ -7434,7 +7540,7 @@ public struct SendTextMessageInput: Swift.Sendable {
     /// The destination phone number in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
-    /// When set to true, the message is checked and validated, but isn't sent to the end recipient. You are not charged for using DryRun. The Message Parts per Second (MPS) limit when using DryRun is five. If your origination identity has a lower MPS limit then the lower MPS limit is used. For more information about MPS limits, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the AWS End User Messaging SMS User Guide..
+    /// When set to true, the message is checked and validated, but isn't sent to the end recipient. You are not charged for using DryRun. The Message Parts per Second (MPS) limit when using DryRun is five. If your origination identity has a lower MPS limit then the lower MPS limit is used. For more information about MPS limits, see [Message Parts per Second (MPS) limits](https://docs.aws.amazon.com/sms-voice/latest/userguide/sms-limitations-mps.html) in the End User Messaging SMS User Guide..
     public var dryRun: Swift.Bool?
     /// When you register a short code in the US, you must specify a program name. If you don’t have a US short code, omit this attribute.
     public var keyword: Swift.String?
@@ -7446,7 +7552,7 @@ public struct SendTextMessageInput: Swift.Sendable {
     public var messageFeedbackEnabled: Swift.Bool?
     /// The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     public var messageType: PinpointSMSVoiceV2ClientTypes.MessageType?
-    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var originationIdentity: Swift.String?
     /// The unique identifier for the protect configuration.
     public var protectConfigurationId: Swift.String?
@@ -7746,7 +7852,7 @@ public struct SendVoiceMessageInput: Swift.Sendable {
     public var messageBodyTextType: PinpointSMSVoiceV2ClientTypes.VoiceMessageBodyTextType?
     /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using [PutMessageFeedback].
     public var messageFeedbackEnabled: Swift.Bool?
-    /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var originationIdentity: Swift.String?
     /// The unique identifier for the protect configuration.
@@ -8003,18 +8109,25 @@ public struct SetVoiceMessageSpendLimitOverrideOutput: Swift.Sendable {
 }
 
 public struct SubmitRegistrationVersionInput: Swift.Sendable {
+    /// Set to true to request AWS review of the registration. When enabled, AWS will perform additional validation and review of the registration submission before processing.
+    public var awsReview: Swift.Bool?
     /// The unique identifier for the registration.
     /// This member is required.
     public var registrationId: Swift.String?
 
     public init(
+        awsReview: Swift.Bool? = false,
         registrationId: Swift.String? = nil
     ) {
+        self.awsReview = awsReview
         self.registrationId = registrationId
     }
 }
 
 public struct SubmitRegistrationVersionOutput: Swift.Sendable {
+    /// Indicates whether AWS review was requested for this registration submission.
+    /// This member is required.
+    public var awsReview: Swift.Bool
     /// The Amazon Resource Name (ARN) for the registration.
     /// This member is required.
     public var registrationArn: Swift.String?
@@ -8050,12 +8163,14 @@ public struct SubmitRegistrationVersionOutput: Swift.Sendable {
     public var versionNumber: Swift.Int?
 
     public init(
+        awsReview: Swift.Bool = false,
         registrationArn: Swift.String? = nil,
         registrationId: Swift.String? = nil,
         registrationVersionStatus: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatus? = nil,
         registrationVersionStatusHistory: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory? = nil,
         versionNumber: Swift.Int? = nil
     ) {
+        self.awsReview = awsReview
         self.registrationArn = registrationArn
         self.registrationId = registrationId
         self.registrationVersionStatus = registrationVersionStatus
@@ -8169,12 +8284,12 @@ public struct UpdatePhoneNumberInput: Swift.Sendable {
     public var deletionProtectionEnabled: Swift.Bool?
     /// By default this is set to false. When set to true the international sending of phone number is Enabled.
     public var internationalSendingEnabled: Swift.Bool?
-    /// The OptOutList to add the phone number to. Valid values for this field can be either the OutOutListName or OutOutListArn.
+    /// The OptOutList to add the phone number to. You can use either the opt out list name or the opt out list ARN.
     public var optOutListName: Swift.String?
-    /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var phoneNumberId: Swift.String?
-    /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the two way channel.
     public var twoWayChannelArn: Swift.String?
@@ -8286,12 +8401,12 @@ public struct UpdatePhoneNumberOutput: Swift.Sendable {
 public struct UpdatePoolInput: Swift.Sendable {
     /// When set to true the pool can't be deleted.
     public var deletionProtectionEnabled: Swift.Bool?
-    /// The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     public var optOutListName: Swift.String?
-    /// The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn. If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    /// The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn. If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
     /// This member is required.
     public var poolId: Swift.String?
-    /// By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool?
     /// Indicates whether shared routes are enabled for the pool.
     public var sharedRoutesEnabled: Swift.Bool?
@@ -8336,7 +8451,7 @@ public struct UpdatePoolOutput: Swift.Sendable {
     public var poolArn: Swift.String?
     /// The unique identifier of the pool.
     public var poolId: Swift.String?
-    /// When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    /// When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     public var selfManagedOptOutsEnabled: Swift.Bool
     /// Indicates whether shared routes are enabled for the pool.
     public var sharedRoutesEnabled: Swift.Bool
@@ -8427,7 +8542,7 @@ public struct UpdateProtectConfigurationOutput: Swift.Sendable {
 }
 
 public struct UpdateProtectConfigurationCountryRuleSetInput: Swift.Sendable {
-    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the AWS End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } }
+    /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see [Supported countries and regions (SMS channel)](https://docs.aws.amazon.com/sms-voice/latest/userguide/phone-numbers-sms-by-country.html) in the End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } }
     /// This member is required.
     public var countryRuleSetUpdates: [Swift.String: PinpointSMSVoiceV2ClientTypes.ProtectConfigurationCountryRuleSetInformation]?
     /// The number capability to apply the CountryRuleSetUpdates updates to.
@@ -8601,6 +8716,13 @@ extension AssociateOriginationIdentityInput {
 extension AssociateProtectConfigurationInput {
 
     static func urlPathProvider(_ value: AssociateProtectConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CarrierLookupInput {
+
+    static func urlPathProvider(_ value: CarrierLookupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9238,6 +9360,14 @@ extension AssociateProtectConfigurationInput {
         guard let value else { return }
         try writer["ConfigurationSetName"].write(value.configurationSetName)
         try writer["ProtectConfigurationId"].write(value.protectConfigurationId)
+    }
+}
+
+extension CarrierLookupInput {
+
+    static func write(value: CarrierLookupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PhoneNumber"].write(value.phoneNumber)
     }
 }
 
@@ -10046,6 +10176,7 @@ extension SubmitRegistrationVersionInput {
 
     static func write(value: SubmitRegistrationVersionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AwsReview"].write(value.awsReview)
         try writer["RegistrationId"].write(value.registrationId)
     }
 }
@@ -10177,6 +10308,25 @@ extension AssociateProtectConfigurationOutput {
         value.configurationSetName = try reader["ConfigurationSetName"].readIfPresent() ?? ""
         value.protectConfigurationArn = try reader["ProtectConfigurationArn"].readIfPresent() ?? ""
         value.protectConfigurationId = try reader["ProtectConfigurationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CarrierLookupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CarrierLookupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CarrierLookupOutput()
+        value.carrier = try reader["Carrier"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent()
+        value.dialingCountryCode = try reader["DialingCountryCode"].readIfPresent()
+        value.e164PhoneNumber = try reader["E164PhoneNumber"].readIfPresent() ?? ""
+        value.isoCountryCode = try reader["IsoCountryCode"].readIfPresent()
+        value.mcc = try reader["MCC"].readIfPresent()
+        value.mnc = try reader["MNC"].readIfPresent()
+        value.phoneNumberType = try reader["PhoneNumberType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11376,6 +11526,7 @@ extension SubmitRegistrationVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SubmitRegistrationVersionOutput()
+        value.awsReview = try reader["AwsReview"].readIfPresent() ?? false
         value.registrationArn = try reader["RegistrationArn"].readIfPresent() ?? ""
         value.registrationId = try reader["RegistrationId"].readIfPresent() ?? ""
         value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent() ?? .sdkUnknown("")
@@ -11563,6 +11714,24 @@ enum AssociateProtectConfigurationOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CarrierLookupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13380,6 +13549,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory {
         var value = PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory()
         value.draftTimestamp = try reader["DraftTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.submittedTimestamp = try reader["SubmittedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.awsReviewingTimestamp = try reader["AwsReviewingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.reviewingTimestamp = try reader["ReviewingTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.requiresAuthenticationTimestamp = try reader["RequiresAuthenticationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.approvedTimestamp = try reader["ApprovedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -13623,6 +13793,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationFieldValueInformation {
         value.textValue = try reader["TextValue"].readIfPresent()
         value.registrationAttachmentId = try reader["RegistrationAttachmentId"].readIfPresent()
         value.deniedReason = try reader["DeniedReason"].readIfPresent()
+        value.feedback = try reader["Feedback"].readIfPresent()
         return value
     }
 }
@@ -13718,6 +13889,7 @@ extension PinpointSMSVoiceV2ClientTypes.RegistrationVersionInformation {
         value.registrationVersionStatus = try reader["RegistrationVersionStatus"].readIfPresent() ?? .sdkUnknown("")
         value.registrationVersionStatusHistory = try reader["RegistrationVersionStatusHistory"].readIfPresent(with: PinpointSMSVoiceV2ClientTypes.RegistrationVersionStatusHistory.read(from:))
         value.deniedReasons = try reader["DeniedReasons"].readListIfPresent(memberReadingClosure: PinpointSMSVoiceV2ClientTypes.RegistrationDeniedReasonInformation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.feedback = try reader["Feedback"].readIfPresent()
         return value
     }
 }

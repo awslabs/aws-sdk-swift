@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KMSClient: ClientRuntime.Client {
+public class KMSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KMSClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: KMSClient.KMSClientConfiguration
     let serviceName = "KMS"
@@ -373,9 +373,9 @@ extension KMSClient {
     ///
     /// Cancels the deletion of a KMS key. When this operation succeeds, the key state of the KMS key is Disabled. To enable the KMS key, use [EnableKey]. For more information about scheduling and canceling deletion of a KMS key, see [Deleting KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/deleting-keys.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:CancelKeyDeletion](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [ScheduleKeyDeletion] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CancelKeyDeletionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelKeyDeletionInput`)
     ///
-    /// - Returns: `CancelKeyDeletionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelKeyDeletionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +415,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelKeyDeletionOutput>(CancelKeyDeletionOutput.httpOutput(from:), CancelKeyDeletionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelKeyDeletionInput, CancelKeyDeletionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelKeyDeletionOutput>())
@@ -462,9 +463,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ConnectCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConnectCustomKeyStoreInput`)
     ///
-    /// - Returns: `ConnectCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConnectCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -519,6 +520,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConnectCustomKeyStoreOutput>(ConnectCustomKeyStoreOutput.httpOutput(from:), ConnectCustomKeyStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConnectCustomKeyStoreInput, ConnectCustomKeyStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConnectCustomKeyStoreOutput>())
@@ -569,9 +571,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CreateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAliasInput`)
     ///
-    /// - Returns: `CreateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,6 +615,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAliasOutput>(CreateAliasOutput.httpOutput(from:), CreateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAliasInput, CreateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAliasOutput>())
@@ -667,9 +670,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CreateCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomKeyStoreInput`)
     ///
-    /// - Returns: `CreateCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -726,6 +729,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomKeyStoreOutput>(CreateCustomKeyStoreOutput.httpOutput(from:), CreateCustomKeyStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomKeyStoreInput, CreateCustomKeyStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomKeyStoreOutput>())
@@ -778,9 +782,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CreateGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGrantInput`)
     ///
-    /// - Returns: `CreateGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -824,6 +828,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGrantInput, CreateGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGrantOutput>(CreateGrantOutput.httpOutput(from:), CreateGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGrantInput, CreateGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGrantOutput>())
@@ -856,7 +861,7 @@ extension KMSClient {
 
     /// Performs the `CreateKey` operation on the `KMS` service.
     ///
-    /// Creates a unique customer managed [KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#kms-keys) in your Amazon Web Services account and Region. You can use a KMS key in cryptographic operations, such as encryption and signing. Some Amazon Web Services services let you use KMS keys that you create and manage to protect your service resources. A KMS key is a logical representation of a cryptographic key. In addition to the key material used in cryptographic operations, a KMS key includes metadata, such as the key ID, key policy, creation date, description, and key state. Use the parameters of CreateKey to specify the type of KMS key, the source of its key material, its key policy, description, tags, and other properties. KMS has replaced the term customer master key (CMK) with Key Management Service key and KMS key. The concept has not changed. To prevent breaking changes, KMS is keeping some variations of this term. To create different types of KMS keys, use the following guidance: Symmetric encryption KMS key By default, CreateKey creates a symmetric encryption KMS key with key material that KMS generates. This is the basic and most widely used type of KMS key, and provides the best performance. To create a symmetric encryption KMS key, you don't need to specify any parameters. The default value for KeySpec, SYMMETRIC_DEFAULT, the default value for KeyUsage, ENCRYPT_DECRYPT, and the default value for Origin, AWS_KMS, create a symmetric encryption KMS key with KMS key material. If you need a key for basic encryption and decryption or you are creating a KMS key to protect your resources in an Amazon Web Services service, create a symmetric encryption KMS key. The key material in a symmetric encryption key never leaves KMS unencrypted. You can use a symmetric encryption KMS key to encrypt and decrypt data up to 4,096 bytes, but they are typically used to generate data keys and data keys pairs. For details, see [GenerateDataKey] and [GenerateDataKeyPair]. Asymmetric KMS keys To create an asymmetric KMS key, use the KeySpec parameter to specify the type of key material in the KMS key. Then, use the KeyUsage parameter to determine whether the KMS key will be used to encrypt and decrypt or sign and verify. You can't change these properties after the KMS key is created. Asymmetric KMS keys contain an RSA key pair, Elliptic Curve (ECC) key pair, ML-DSA key pair or an SM2 key pair (China Regions only). The private key in an asymmetric KMS key never leaves KMS unencrypted. However, you can use the [GetPublicKey] operation to download the public key so it can be used outside of KMS. Each KMS key can have only one key usage. KMS keys with RSA key pairs can be used to encrypt and decrypt data or sign and verify messages (but not both). KMS keys with NIST-recommended ECC key pairs can be used to sign and verify messages or derive shared secrets (but not both). KMS keys with ECC_SECG_P256K1 can be used only to sign and verify messages. KMS keys with ML-DSA key pairs can be used to sign and verify messages. KMS keys with SM2 key pairs (China Regions only) can be used to either encrypt and decrypt data, sign and verify messages, or derive shared secrets (you must choose one key usage type). For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide. HMAC KMS key To create an HMAC KMS key, set the KeySpec parameter to a key spec value for HMAC KMS keys. Then set the KeyUsage parameter to GENERATE_VERIFY_MAC. You must set the key usage even though GENERATE_VERIFY_MAC is the only valid key usage value for HMAC KMS keys. You can't change these properties after the KMS key is created. HMAC KMS keys are symmetric keys that never leave KMS unencrypted. You can use HMAC keys to generate ([GenerateMac]) and verify ([VerifyMac]) HMAC codes for messages up to 4096 bytes. Multi-Region primary keys Imported key material To create a multi-Region primary key in the local Amazon Web Services Region, use the MultiRegion parameter with a value of True. To create a multi-Region replica key, that is, a KMS key with the same key ID and key material as a primary key, but in a different Amazon Web Services Region, use the [ReplicateKey] operation. To change a replica key to a primary key, and its primary key to a replica key, use the [UpdatePrimaryRegion] operation. You can create multi-Region KMS keys for all supported KMS key types: symmetric encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS keys, and asymmetric signing KMS keys. You can also create multi-Region keys with imported key material. However, you can't create multi-Region keys in a custom key store. This operation supports multi-Region keys, an KMS feature that lets you create multiple interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. To import your own key material into a KMS key, begin by creating a KMS key with no key material. To do this, use the Origin parameter of CreateKey with a value of EXTERNAL. Next, use [GetParametersForImport] operation to get a public key and import token. Use the wrapping public key to encrypt your key material. Then, use [ImportKeyMaterial] with your import token to import the key material. For step-by-step instructions, see [Importing Key Material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html) in the Key Management Service Developer Guide . You can import key material into KMS keys of all supported KMS key types: symmetric encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS keys, and asymmetric signing KMS keys. You can also create multi-Region keys with imported key material. However, you can't import key material into a KMS key in a custom key store. To create a multi-Region primary key with imported key material, use the Origin parameter of CreateKey with a value of EXTERNAL and the MultiRegion parameter with a value of True. To create replicas of the multi-Region primary key, use the [ReplicateKey] operation. For instructions, see [Importing key material step 1](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-create-cmk.html). For more information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Custom key store A [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html) lets you protect your Amazon Web Services resources using keys in a backing key store that you own and manage. When you request a cryptographic operation with a KMS key in a custom key store, the operation is performed in the backing key store using its cryptographic keys. KMS supports [CloudHSM key stores](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-cloudhsm.html) backed by an CloudHSM cluster and [external key stores](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html) backed by an external key manager outside of Amazon Web Services. When you create a KMS key in an CloudHSM key store, KMS generates an encryption key in the CloudHSM cluster and associates it with the KMS key. When you create a KMS key in an external key store, you specify an existing encryption key in the external key manager. Some external key managers provide a simpler method for creating a KMS key in an external key store. For details, see your external key manager documentation. Before you create a KMS key in a custom key store, the ConnectionState of the key store must be CONNECTED. To connect the custom key store, use the [ConnectCustomKeyStore] operation. To find the ConnectionState, use the [DescribeCustomKeyStores] operation. To create a KMS key in a custom key store, use the CustomKeyStoreId. Use the default KeySpec value, SYMMETRIC_DEFAULT, and the default KeyUsage value, ENCRYPT_DECRYPT to create a symmetric encryption key. No other key type is supported in a custom key store. To create a KMS key in an [CloudHSM key store](https://docs.aws.amazon.com/kms/latest/developerguide/create-cmk-keystore.html), use the Origin parameter with a value of AWS_CLOUDHSM. The CloudHSM cluster that is associated with the custom key store must have at least two active HSMs in different Availability Zones in the Amazon Web Services Region. To create a KMS key in an [external key store](https://docs.aws.amazon.com/kms/latest/developerguide/create-xks-keys.html), use the Origin parameter with a value of EXTERNAL_KEY_STORE and an XksKeyId parameter that identifies an existing external key. Some external key managers provide a simpler method for creating a KMS key in an external key store. For details, see your external key manager documentation. Cross-account use: No. You cannot use this operation to create a KMS key in a different Amazon Web Services account. Required permissions: [kms:CreateKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (IAM policy). To use the Tags parameter, [kms:TagResource](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (IAM policy). For examples and information about related permissions, see [Allow a user to create KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/customer-managed-policies.html#iam-policy-example-create-key) in the Key Management Service Developer Guide. Related operations:
+    /// Creates a unique customer managed [KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#kms-keys) in your Amazon Web Services account and Region. You can use a KMS key in cryptographic operations, such as encryption and signing. Some Amazon Web Services services let you use KMS keys that you create and manage to protect your service resources. A KMS key is a logical representation of a cryptographic key. In addition to the key material used in cryptographic operations, a KMS key includes metadata, such as the key ID, key policy, creation date, description, and key state. Use the parameters of CreateKey to specify the type of KMS key, the source of its key material, its key policy, description, tags, and other properties. KMS has replaced the term customer master key (CMK) with Key Management Service key and KMS key. The concept has not changed. To prevent breaking changes, KMS is keeping some variations of this term. To create different types of KMS keys, use the following guidance: Symmetric encryption KMS key By default, CreateKey creates a symmetric encryption KMS key with key material that KMS generates. This is the basic and most widely used type of KMS key, and provides the best performance. To create a symmetric encryption KMS key, you don't need to specify any parameters. The default value for KeySpec, SYMMETRIC_DEFAULT, the default value for KeyUsage, ENCRYPT_DECRYPT, and the default value for Origin, AWS_KMS, create a symmetric encryption KMS key with KMS key material. If you need a key for basic encryption and decryption or you are creating a KMS key to protect your resources in an Amazon Web Services service, create a symmetric encryption KMS key. The key material in a symmetric encryption key never leaves KMS unencrypted. You can use a symmetric encryption KMS key to encrypt and decrypt data up to 4,096 bytes, but they are typically used to generate data keys and data keys pairs. For details, see [GenerateDataKey] and [GenerateDataKeyPair]. Asymmetric KMS keys To create an asymmetric KMS key, use the KeySpec parameter to specify the type of key material in the KMS key. Then, use the KeyUsage parameter to determine whether the KMS key will be used to encrypt and decrypt or sign and verify. You can't change these properties after the KMS key is created. Asymmetric KMS keys contain an RSA key pair, Elliptic Curve (ECC) key pair, ML-DSA key pair or an SM2 key pair (China Regions only). The private key in an asymmetric KMS key never leaves KMS unencrypted. However, you can use the [GetPublicKey] operation to download the public key so it can be used outside of KMS. Each KMS key can have only one key usage. KMS keys with RSA key pairs can be used to encrypt and decrypt data or sign and verify messages (but not both). KMS keys with NIST-standard ECC key pairs can be used to sign and verify messages or derive shared secrets (but not both). KMS keys with ECC_SECG_P256K1 can be used only to sign and verify messages. KMS keys with ML-DSA key pairs can be used to sign and verify messages. KMS keys with SM2 key pairs (China Regions only) can be used to either encrypt and decrypt data, sign and verify messages, or derive shared secrets (you must choose one key usage type). For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide. HMAC KMS key To create an HMAC KMS key, set the KeySpec parameter to a key spec value for HMAC KMS keys. Then set the KeyUsage parameter to GENERATE_VERIFY_MAC. You must set the key usage even though GENERATE_VERIFY_MAC is the only valid key usage value for HMAC KMS keys. You can't change these properties after the KMS key is created. HMAC KMS keys are symmetric keys that never leave KMS unencrypted. You can use HMAC keys to generate ([GenerateMac]) and verify ([VerifyMac]) HMAC codes for messages up to 4096 bytes. Multi-Region primary keys Imported key material To create a multi-Region primary key in the local Amazon Web Services Region, use the MultiRegion parameter with a value of True. To create a multi-Region replica key, that is, a KMS key with the same key ID and key material as a primary key, but in a different Amazon Web Services Region, use the [ReplicateKey] operation. To change a replica key to a primary key, and its primary key to a replica key, use the [UpdatePrimaryRegion] operation. You can create multi-Region KMS keys for all supported KMS key types: symmetric encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS keys, and asymmetric signing KMS keys. You can also create multi-Region keys with imported key material. However, you can't create multi-Region keys in a custom key store. This operation supports multi-Region keys, an KMS feature that lets you create multiple interoperable KMS keys in different Amazon Web Services Regions. Because these KMS keys have the same key ID, key material, and other metadata, you can use them interchangeably to encrypt data in one Amazon Web Services Region and decrypt it in a different Amazon Web Services Region without re-encrypting the data or making a cross-Region call. For more information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. To import your own key material into a KMS key, begin by creating a KMS key with no key material. To do this, use the Origin parameter of CreateKey with a value of EXTERNAL. Next, use [GetParametersForImport] operation to get a public key and import token. Use the wrapping public key to encrypt your key material. Then, use [ImportKeyMaterial] with your import token to import the key material. For step-by-step instructions, see [Importing Key Material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html) in the Key Management Service Developer Guide . You can import key material into KMS keys of all supported KMS key types: symmetric encryption KMS keys, HMAC KMS keys, asymmetric encryption KMS keys, and asymmetric signing KMS keys. You can also create multi-Region keys with imported key material. However, you can't import key material into a KMS key in a custom key store. To create a multi-Region primary key with imported key material, use the Origin parameter of CreateKey with a value of EXTERNAL and the MultiRegion parameter with a value of True. To create replicas of the multi-Region primary key, use the [ReplicateKey] operation. For instructions, see [Importing key material step 1](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-create-cmk.html). For more information about multi-Region keys, see [Multi-Region keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Custom key store A [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html) lets you protect your Amazon Web Services resources using keys in a backing key store that you own and manage. When you request a cryptographic operation with a KMS key in a custom key store, the operation is performed in the backing key store using its cryptographic keys. KMS supports [CloudHSM key stores](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-cloudhsm.html) backed by an CloudHSM cluster and [external key stores](https://docs.aws.amazon.com/kms/latest/developerguide/keystore-external.html) backed by an external key manager outside of Amazon Web Services. When you create a KMS key in an CloudHSM key store, KMS generates an encryption key in the CloudHSM cluster and associates it with the KMS key. When you create a KMS key in an external key store, you specify an existing encryption key in the external key manager. Some external key managers provide a simpler method for creating a KMS key in an external key store. For details, see your external key manager documentation. Before you create a KMS key in a custom key store, the ConnectionState of the key store must be CONNECTED. To connect the custom key store, use the [ConnectCustomKeyStore] operation. To find the ConnectionState, use the [DescribeCustomKeyStores] operation. To create a KMS key in a custom key store, use the CustomKeyStoreId. Use the default KeySpec value, SYMMETRIC_DEFAULT, and the default KeyUsage value, ENCRYPT_DECRYPT to create a symmetric encryption key. No other key type is supported in a custom key store. To create a KMS key in an [CloudHSM key store](https://docs.aws.amazon.com/kms/latest/developerguide/create-cmk-keystore.html), use the Origin parameter with a value of AWS_CLOUDHSM. The CloudHSM cluster that is associated with the custom key store must have at least two active HSMs in different Availability Zones in the Amazon Web Services Region. To create a KMS key in an [external key store](https://docs.aws.amazon.com/kms/latest/developerguide/create-xks-keys.html), use the Origin parameter with a value of EXTERNAL_KEY_STORE and an XksKeyId parameter that identifies an existing external key. Some external key managers provide a simpler method for creating a KMS key in an external key store. For details, see your external key manager documentation. Cross-account use: No. You cannot use this operation to create a KMS key in a different Amazon Web Services account. Required permissions: [kms:CreateKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (IAM policy). To use the Tags parameter, [kms:TagResource](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (IAM policy). For examples and information about related permissions, see [Allow a user to create KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/customer-managed-policies.html#iam-policy-example-create-key) in the Key Management Service Developer Guide. Related operations:
     ///
     /// * [DescribeKey]
     ///
@@ -867,9 +872,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter CreateKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyInput`)
     ///
-    /// - Returns: `CreateKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,6 +937,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyInput, CreateKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyOutput>(CreateKeyOutput.httpOutput(from:), CreateKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyInput, CreateKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeyOutput>())
@@ -977,7 +983,7 @@ extension KMSClient {
     /// * [GenerateDataKeyPairWithoutPlaintext]
     ///
     ///
-    /// You can use this operation to decrypt ciphertext that was encrypted under a symmetric encryption KMS key or an asymmetric encryption KMS key. When the KMS key is asymmetric, you must specify the KMS key and the encryption algorithm that was used to encrypt the ciphertext. For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide. The Decrypt operation also decrypts ciphertext that was encrypted outside of KMS by the public key in an KMS asymmetric KMS key. However, it cannot decrypt symmetric ciphertext produced by other libraries, such as the [Amazon Web Services Encryption SDK](https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/) or [Amazon S3 client-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html). These libraries return a ciphertext format that is incompatible with KMS. If the ciphertext was encrypted under a symmetric encryption KMS key, the KeyId parameter is optional. KMS can get this information from metadata that it adds to the symmetric ciphertext blob. This feature adds durability to your implementation by ensuring that authorized users can decrypt ciphertext decades after it was encrypted, even if they've lost track of the key ID. However, specifying the KMS key is always recommended as a best practice. When you use the KeyId parameter to specify a KMS key, KMS only uses the KMS key you specify. If the ciphertext was encrypted under a different KMS key, the Decrypt operation fails. This practice ensures that you use the KMS key that you intend. Whenever possible, use key policies to give users permission to call the Decrypt operation on a particular KMS key, instead of using IAM policies. Otherwise, you might create an IAM policy that gives the user Decrypt permission on all KMS keys. This user could decrypt ciphertext that was encrypted by KMS keys in other accounts if the key policy for the cross-account KMS key permits it. If you must use an IAM policy for Decrypt permissions, limit the user to particular KMS keys or particular trusted accounts. For details, see [Best practices for IAM policies](https://docs.aws.amazon.com/kms/latest/developerguide/iam-policies.html#iam-policies-best-practices) in the Key Management Service Developer Guide. Decrypt also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call Decrypt for a Nitro enclave, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the enclave. Instead of the plaintext data, the response includes the plaintext data encrypted with the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. If you use the KeyId parameter to identify a KMS key in a different Amazon Web Services account, specify the key ARN or the alias ARN of the KMS key. Required permissions: [kms:Decrypt](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// You can use this operation to decrypt ciphertext that was encrypted under a symmetric encryption KMS key or an asymmetric encryption KMS key. When the KMS key is asymmetric, you must specify the KMS key and the encryption algorithm that was used to encrypt the ciphertext. For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide. The Decrypt operation also decrypts ciphertext that was encrypted outside of KMS by the public key in an KMS asymmetric KMS key. However, it cannot decrypt symmetric ciphertext produced by other libraries, such as the [Amazon Web Services Encryption SDK](https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/) or [Amazon S3 client-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html). These libraries return a ciphertext format that is incompatible with KMS. If the ciphertext was encrypted under a symmetric encryption KMS key, the KeyId parameter is optional. KMS can get this information from metadata that it adds to the symmetric ciphertext blob. This feature adds durability to your implementation by ensuring that authorized users can decrypt ciphertext decades after it was encrypted, even if they've lost track of the key ID. However, specifying the KMS key is always recommended as a best practice. When you use the KeyId parameter to specify a KMS key, KMS only uses the KMS key you specify. If the ciphertext was encrypted under a different KMS key, the Decrypt operation fails. This practice ensures that you use the KMS key that you intend. Whenever possible, use key policies to give users permission to call the Decrypt operation on a particular KMS key, instead of using IAM policies. Otherwise, you might create an IAM policy that gives the user Decrypt permission on all KMS keys. This user could decrypt ciphertext that was encrypted by KMS keys in other accounts if the key policy for the cross-account KMS key permits it. If you must use an IAM policy for Decrypt permissions, limit the user to particular KMS keys or particular trusted accounts. For details, see [Best practices for IAM policies](https://docs.aws.amazon.com/kms/latest/developerguide/iam-policies.html#iam-policies-best-practices) in the Key Management Service Developer Guide. Decrypt also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html) and NitroTPM, which provide attested environments in Amazon EC2. To call Decrypt for a Nitro enclave or NitroTPM, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the attested environment. Instead of the plaintext data, the response includes the plaintext data encrypted with the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. If you use the KeyId parameter to identify a KMS key in a different Amazon Web Services account, specify the key ARN or the alias ARN of the KMS key. Required permissions: [kms:Decrypt](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [Encrypt]
     ///
@@ -990,9 +996,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DecryptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DecryptInput`)
     ///
-    /// - Returns: `DecryptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DecryptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,6 +1051,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DecryptInput, DecryptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DecryptOutput>(DecryptOutput.httpOutput(from:), DecryptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecryptInput, DecryptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DecryptOutput>())
@@ -1095,9 +1102,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DeleteAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAliasInput`)
     ///
-    /// - Returns: `DeleteAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,6 +1143,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAliasOutput>(DeleteAliasOutput.httpOutput(from:), DeleteAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAliasInput, DeleteAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAliasOutput>())
@@ -1183,9 +1191,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DeleteCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomKeyStoreInput`)
     ///
-    /// - Returns: `DeleteCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1230,6 +1238,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomKeyStoreOutput>(DeleteCustomKeyStoreOutput.httpOutput(from:), DeleteCustomKeyStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomKeyStoreInput, DeleteCustomKeyStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomKeyStoreOutput>())
@@ -1262,7 +1271,14 @@ extension KMSClient {
 
     /// Performs the `DeleteImportedKeyMaterial` operation on the `KMS` service.
     ///
-    /// Deletes key material that was previously imported. This operation makes the specified KMS key temporarily unusable. To restore the usability of the KMS key, reimport the same key material. For more information about importing key material into KMS, see [Importing Key Material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html) in the Key Management Service Developer Guide. When the specified KMS key is in the PendingDeletion state, this operation does not change the KMS key's state. Otherwise, it changes the KMS key's state to PendingImport. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:DeleteImportedKeyMaterial](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// Deletes key material that was previously imported. This operation makes the specified KMS key temporarily unusable. To restore the usability of the KMS key, reimport the same key material. For more information about importing key material into KMS, see [Importing Key Material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html) in the Key Management Service Developer Guide. When the specified KMS key is in the PendingDeletion state, this operation does not change the KMS key's state. Otherwise, it changes the KMS key's state to PendingImport. Considerations for multi-Region symmetric encryption keys
+    ///
+    /// * When you delete the key material of a primary Region key that is in PENDING_ROTATION or PENDING_MULTI_REGION_IMPORT_AND_ROTATIONstate, you'll also be deleting the key materials for the replica Region keys.
+    ///
+    /// * If you delete any key material of a replica Region key, the primary Region key and other replica Region keys remain unchanged.
+    ///
+    ///
+    /// The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:DeleteImportedKeyMaterial](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [GetParametersForImport]
     ///
@@ -1273,9 +1289,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DeleteImportedKeyMaterialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImportedKeyMaterialInput`)
     ///
-    /// - Returns: `DeleteImportedKeyMaterialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImportedKeyMaterialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1316,6 +1332,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImportedKeyMaterialOutput>(DeleteImportedKeyMaterialOutput.httpOutput(from:), DeleteImportedKeyMaterialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImportedKeyMaterialInput, DeleteImportedKeyMaterialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImportedKeyMaterialOutput>())
@@ -1348,11 +1365,11 @@ extension KMSClient {
 
     /// Performs the `DeriveSharedSecret` operation on the `KMS` service.
     ///
-    /// Derives a shared secret using a key agreement algorithm. You must use an asymmetric NIST-recommended elliptic curve (ECC) or SM2 (China Regions only) KMS key pair with a KeyUsage value of KEY_AGREEMENT to call DeriveSharedSecret. DeriveSharedSecret uses the [Elliptic Curve Cryptography Cofactor Diffie-Hellman Primitive](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#page=60) (ECDH) to establish a key agreement between two peers by deriving a shared secret from their elliptic curve public-private key pairs. You can use the raw shared secret that DeriveSharedSecret returns to derive a symmetric key that can encrypt and decrypt data that is sent between the two peers, or that can generate and verify HMACs. KMS recommends that you follow [NIST recommendations for key derivation](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr2.pdf) when using the raw shared secret to derive a symmetric key. The following workflow demonstrates how to establish key agreement over an insecure communication channel using DeriveSharedSecret.
+    /// Derives a shared secret using a key agreement algorithm. You must use an asymmetric NIST-standard elliptic curve (ECC) or SM2 (China Regions only) KMS key pair with a KeyUsage value of KEY_AGREEMENT to call DeriveSharedSecret. DeriveSharedSecret uses the [Elliptic Curve Cryptography Cofactor Diffie-Hellman Primitive](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Ar3.pdf#page=60) (ECDH) to establish a key agreement between two peers by deriving a shared secret from their elliptic curve public-private key pairs. You can use the raw shared secret that DeriveSharedSecret returns to derive a symmetric key that can encrypt and decrypt data that is sent between the two peers, or that can generate and verify HMACs. KMS recommends that you follow [NIST recommendations for key derivation](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-56Cr2.pdf) when using the raw shared secret to derive a symmetric key. The following workflow demonstrates how to establish key agreement over an insecure communication channel using DeriveSharedSecret.
     ///
-    /// * Alice calls [CreateKey] to create an asymmetric KMS key pair with a KeyUsage value of KEY_AGREEMENT. The asymmetric KMS key must use a NIST-recommended elliptic curve (ECC) or SM2 (China Regions only) key spec.
+    /// * Alice calls [CreateKey] to create an asymmetric KMS key pair with a KeyUsage value of KEY_AGREEMENT. The asymmetric KMS key must use a NIST-standard elliptic curve (ECC) or SM2 (China Regions only) key spec.
     ///
-    /// * Bob creates an elliptic curve key pair. Bob can call [CreateKey] to create an asymmetric KMS key pair or generate a key pair outside of KMS. Bob's key pair must use the same NIST-recommended elliptic curve (ECC) or SM2 (China Regions ony) curve as Alice.
+    /// * Bob creates an elliptic curve key pair. Bob can call [CreateKey] to create an asymmetric KMS key pair or generate a key pair outside of KMS. Bob's key pair must use the same NIST-standard elliptic curve (ECC) or SM2 (China Regions ony) curve as Alice.
     ///
     /// * Alice and Bob exchange their public keys through an insecure communication channel (like the internet). Use [GetPublicKey] to download the public key of your asymmetric KMS key pair. KMS strongly recommends verifying that the public key you receive came from the expected party before using it to derive a shared secret.
     ///
@@ -1361,7 +1378,7 @@ extension KMSClient {
     /// * Bob uses the Elliptic Curve Cryptography Cofactor Diffie-Hellman Primitive to calculate the same raw secret using his private key and Alice's public key.
     ///
     ///
-    /// To derive a shared secret you must provide a key agreement algorithm, the private key of the caller's asymmetric NIST-recommended elliptic curve or SM2 (China Regions only) KMS key pair, and the public key from your peer's NIST-recommended elliptic curve or SM2 (China Regions only) key pair. The public key can be from another asymmetric KMS key pair or from a key pair generated outside of KMS, but both key pairs must be on the same elliptic curve. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:DeriveSharedSecret](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// To derive a shared secret you must provide a key agreement algorithm, the private key of the caller's asymmetric NIST-standard elliptic curve or SM2 (China Regions only) KMS key pair, and the public key from your peer's NIST-standard elliptic curve or SM2 (China Regions only) key pair. The public key can be from another asymmetric KMS key pair or from a key pair generated outside of KMS, but both key pairs must be on the same elliptic curve. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:DeriveSharedSecret](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [CreateKey]
     ///
@@ -1372,9 +1389,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DeriveSharedSecretInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeriveSharedSecretInput`)
     ///
-    /// - Returns: `DeriveSharedSecretOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeriveSharedSecretOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1425,6 +1442,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeriveSharedSecretInput, DeriveSharedSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeriveSharedSecretOutput>(DeriveSharedSecretOutput.httpOutput(from:), DeriveSharedSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeriveSharedSecretInput, DeriveSharedSecretOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeriveSharedSecretOutput>())
@@ -1472,9 +1490,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DescribeCustomKeyStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomKeyStoresInput`)
     ///
-    /// - Returns: `DescribeCustomKeyStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomKeyStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1508,6 +1526,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomKeyStoresOutput>(DescribeCustomKeyStoresOutput.httpOutput(from:), DescribeCustomKeyStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomKeyStoresInput, DescribeCustomKeyStoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomKeyStoresOutput>())
@@ -1570,9 +1589,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DescribeKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyInput`)
     ///
-    /// - Returns: `DescribeKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1607,6 +1626,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeKeyInput, DescribeKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyOutput>(DescribeKeyOutput.httpOutput(from:), DescribeKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeyInput, DescribeKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeyOutput>())
@@ -1641,9 +1661,9 @@ extension KMSClient {
     ///
     /// Sets the state of a KMS key to disabled. This change temporarily prevents use of the KMS key for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations). The KMS key that you use for this operation must be in a compatible key state. For more information about how key state affects the use of a KMS key, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide . Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:DisableKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [EnableKey] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DisableKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableKeyInput`)
     ///
-    /// - Returns: `DisableKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,6 +1703,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableKeyInput, DisableKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableKeyOutput>(DisableKeyOutput.httpOutput(from:), DisableKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableKeyInput, DisableKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableKeyOutput>())
@@ -1728,9 +1749,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DisableKeyRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableKeyRotationInput`)
     ///
-    /// - Returns: `DisableKeyRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableKeyRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1772,6 +1793,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableKeyRotationInput, DisableKeyRotationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableKeyRotationOutput>(DisableKeyRotationOutput.httpOutput(from:), DisableKeyRotationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableKeyRotationInput, DisableKeyRotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableKeyRotationOutput>())
@@ -1819,9 +1841,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter DisconnectCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisconnectCustomKeyStoreInput`)
     ///
-    /// - Returns: `DisconnectCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisconnectCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1865,6 +1887,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisconnectCustomKeyStoreOutput>(DisconnectCustomKeyStoreOutput.httpOutput(from:), DisconnectCustomKeyStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisconnectCustomKeyStoreInput, DisconnectCustomKeyStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisconnectCustomKeyStoreOutput>())
@@ -1899,9 +1922,9 @@ extension KMSClient {
     ///
     /// Sets the key state of a KMS key to enabled. This allows you to use the KMS key for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:EnableKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [DisableKey] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter EnableKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableKeyInput`)
     ///
-    /// - Returns: `EnableKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1942,6 +1965,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableKeyInput, EnableKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableKeyOutput>(EnableKeyOutput.httpOutput(from:), EnableKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableKeyInput, EnableKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableKeyOutput>())
@@ -1987,9 +2011,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter EnableKeyRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableKeyRotationInput`)
     ///
-    /// - Returns: `EnableKeyRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableKeyRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2031,6 +2055,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableKeyRotationInput, EnableKeyRotationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableKeyRotationOutput>(EnableKeyRotationOutput.httpOutput(from:), EnableKeyRotationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableKeyRotationInput, EnableKeyRotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableKeyRotationOutput>())
@@ -2113,9 +2138,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter EncryptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EncryptInput`)
     ///
-    /// - Returns: `EncryptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EncryptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2166,6 +2191,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EncryptInput, EncryptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EncryptOutput>(EncryptOutput.httpOutput(from:), EncryptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EncryptInput, EncryptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EncryptOutput>())
@@ -2198,7 +2224,7 @@ extension KMSClient {
 
     /// Performs the `GenerateDataKey` operation on the `KMS` service.
     ///
-    /// Returns a unique symmetric data key for use outside of KMS. This operation returns a plaintext copy of the data key and a copy that is encrypted under a symmetric encryption KMS key that you specify. The bytes in the plaintext key are random; they are not related to the caller or the KMS key. You can use the plaintext key to encrypt your data outside of KMS and store the encrypted data key with the encrypted data. To generate a data key, specify the symmetric encryption KMS key that will be used to encrypt the data key. You cannot use an asymmetric KMS key to encrypt data keys. To get the type of your KMS key, use the [DescribeKey] operation. You must also specify the length of the data key. Use either the KeySpec or NumberOfBytes parameters (but not both). For 128-bit and 256-bit data keys, use the KeySpec parameter. To generate a 128-bit SM4 data key (China Regions only), specify a KeySpec value of AES_128 or a NumberOfBytes value of 16. The symmetric encryption key used in China Regions to encrypt your data key is an SM4 encryption key. To get only an encrypted copy of the data key, use [GenerateDataKeyWithoutPlaintext]. To generate an asymmetric data key pair, use the [GenerateDataKeyPair] or [GenerateDataKeyPairWithoutPlaintext] operation. To get a cryptographically secure random byte string, use [GenerateRandom]. You can use an optional encryption context to add additional security to the encryption operation. If you specify an EncryptionContext, you must specify the same encryption context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. GenerateDataKey also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateDataKey for an Amazon Web Services Nitro enclave, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the enclave. GenerateDataKey returns a copy of the data key encrypted under the specified KMS key, as usual. But instead of a plaintext copy of the data key, the response includes a copy of the data key encrypted under the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. How to use your data key We recommend that you use the following pattern to encrypt data locally in your application. You can write your own code or use a client-side encryption library, such as the [Amazon Web Services Encryption SDK](https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/), the [Amazon DynamoDB Encryption Client](https://docs.aws.amazon.com/dynamodb-encryption-client/latest/devguide/), or [Amazon S3 client-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html) to do these tasks for you. To encrypt data outside of KMS:
+    /// Returns a unique symmetric data key for use outside of KMS. This operation returns a plaintext copy of the data key and a copy that is encrypted under a symmetric encryption KMS key that you specify. The bytes in the plaintext key are random; they are not related to the caller or the KMS key. You can use the plaintext key to encrypt your data outside of KMS and store the encrypted data key with the encrypted data. To generate a data key, specify the symmetric encryption KMS key that will be used to encrypt the data key. You cannot use an asymmetric KMS key to encrypt data keys. To get the type of your KMS key, use the [DescribeKey] operation. You must also specify the length of the data key. Use either the KeySpec or NumberOfBytes parameters (but not both). For 128-bit and 256-bit data keys, use the KeySpec parameter. To generate a 128-bit SM4 data key (China Regions only), specify a KeySpec value of AES_128 or a NumberOfBytes value of 16. The symmetric encryption key used in China Regions to encrypt your data key is an SM4 encryption key. To get only an encrypted copy of the data key, use [GenerateDataKeyWithoutPlaintext]. To generate an asymmetric data key pair, use the [GenerateDataKeyPair] or [GenerateDataKeyPairWithoutPlaintext] operation. To get a cryptographically secure random byte string, use [GenerateRandom]. You can use an optional encryption context to add additional security to the encryption operation. If you specify an EncryptionContext, you must specify the same encryption context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. GenerateDataKey also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateDataKey for an Amazon Web Services Nitro enclave or NitroTPM, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the attested environment. GenerateDataKey returns a copy of the data key encrypted under the specified KMS key, as usual. But instead of a plaintext copy of the data key, the response includes a copy of the data key encrypted under the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. How to use your data key We recommend that you use the following pattern to encrypt data locally in your application. You can write your own code or use a client-side encryption library, such as the [Amazon Web Services Encryption SDK](https://docs.aws.amazon.com/encryption-sdk/latest/developer-guide/), the [Amazon DynamoDB Encryption Client](https://docs.aws.amazon.com/dynamodb-encryption-client/latest/devguide/), or [Amazon S3 client-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html) to do these tasks for you. To encrypt data outside of KMS:
     ///
     /// * Use the GenerateDataKey operation to get a data key.
     ///
@@ -2229,9 +2255,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateDataKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateDataKeyInput`)
     ///
-    /// - Returns: `GenerateDataKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateDataKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2282,6 +2308,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateDataKeyInput, GenerateDataKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateDataKeyOutput>(GenerateDataKeyOutput.httpOutput(from:), GenerateDataKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateDataKeyInput, GenerateDataKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateDataKeyOutput>())
@@ -2314,7 +2341,7 @@ extension KMSClient {
 
     /// Performs the `GenerateDataKeyPair` operation on the `KMS` service.
     ///
-    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key, a plaintext private key, and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. You can use the data key pair to perform asymmetric cryptography and implement digital signatures outside of KMS. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the public key that GenerateDataKeyPair returns to encrypt data or verify a signature outside of KMS. Then, store the encrypted private key with the data. When you are ready to decrypt data or sign a message, you can use the [Decrypt] operation to decrypt the encrypted private key. To generate a data key pair, you must specify a symmetric encryption KMS key to encrypt the private key in a data key pair. You cannot use an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the [DescribeKey] operation. Use the KeyPairSpec parameter to choose an RSA or Elliptic Curve (ECC) data key pair. In China Regions, you can also choose an SM2 data key pair. KMS recommends that you use ECC key pairs for signing, and use RSA and SM2 key pairs for either encryption or signing, but not both. However, KMS cannot enforce any restrictions on the use of data key pairs outside of KMS. If you are using the data key pair to encrypt data, or for any operation where you don't immediately need a private key, consider using the [GenerateDataKeyPairWithoutPlaintext] operation. GenerateDataKeyPairWithoutPlaintext returns a plaintext public key and an encrypted private key, but omits the plaintext private key that you need only to decrypt ciphertext or sign a message. Later, when you need to decrypt the data or sign a message, use the [Decrypt] operation to decrypt the encrypted private key in the data key pair. GenerateDataKeyPair returns a unique data key pair for each request. The bytes in the keys are random; they are not related to the caller or the KMS key that is used to encrypt the private key. The public key is a DER-encoded X.509 SubjectPublicKeyInfo, as specified in [RFC 5280](https://tools.ietf.org/html/rfc5280). The private key is a DER-encoded PKCS8 PrivateKeyInfo, as specified in [RFC 5958](https://tools.ietf.org/html/rfc5958). GenerateDataKeyPair also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateDataKeyPair for an Amazon Web Services Nitro enclave, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the enclave. GenerateDataKeyPair returns the public data key and a copy of the private data key encrypted under the specified KMS key, as usual. But instead of a plaintext copy of the private data key (PrivateKeyPlaintext), the response includes a copy of the private data key encrypted under the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.. You can use an optional encryption context to add additional security to the encryption operation. If you specify an EncryptionContext, you must specify the same encryption context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateDataKeyPair](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key, a plaintext private key, and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. You can use the data key pair to perform asymmetric cryptography and implement digital signatures outside of KMS. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the public key that GenerateDataKeyPair returns to encrypt data or verify a signature outside of KMS. Then, store the encrypted private key with the data. When you are ready to decrypt data or sign a message, you can use the [Decrypt] operation to decrypt the encrypted private key. To generate a data key pair, you must specify a symmetric encryption KMS key to encrypt the private key in a data key pair. You cannot use an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the [DescribeKey] operation. Use the KeyPairSpec parameter to choose an RSA or Elliptic Curve (ECC) data key pair. In China Regions, you can also choose an SM2 data key pair. KMS recommends that you use ECC key pairs for signing, and use RSA and SM2 key pairs for either encryption or signing, but not both. However, KMS cannot enforce any restrictions on the use of data key pairs outside of KMS. If you are using the data key pair to encrypt data, or for any operation where you don't immediately need a private key, consider using the [GenerateDataKeyPairWithoutPlaintext] operation. GenerateDataKeyPairWithoutPlaintext returns a plaintext public key and an encrypted private key, but omits the plaintext private key that you need only to decrypt ciphertext or sign a message. Later, when you need to decrypt the data or sign a message, use the [Decrypt] operation to decrypt the encrypted private key in the data key pair. GenerateDataKeyPair returns a unique data key pair for each request. The bytes in the keys are random; they are not related to the caller or the KMS key that is used to encrypt the private key. The public key is a DER-encoded X.509 SubjectPublicKeyInfo, as specified in [RFC 5280](https://tools.ietf.org/html/rfc5280). The private key is a DER-encoded PKCS8 PrivateKeyInfo, as specified in [RFC 5958](https://tools.ietf.org/html/rfc5958). GenerateDataKeyPair also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateDataKeyPair for an Amazon Web Services Nitro enclave or NitroTPM, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the attested environment. GenerateDataKeyPair returns the public data key and a copy of the private data key encrypted under the specified KMS key, as usual. But instead of a plaintext copy of the private data key (PrivateKeyPlaintext), the response includes a copy of the private data key encrypted under the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide. You can use an optional encryption context to add additional security to the encryption operation. If you specify an EncryptionContext, you must specify the same encryption context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateDataKeyPair](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [Decrypt]
     ///
@@ -2329,9 +2356,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateDataKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateDataKeyPairInput`)
     ///
-    /// - Returns: `GenerateDataKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateDataKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2383,6 +2410,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateDataKeyPairOutput>(GenerateDataKeyPairOutput.httpOutput(from:), GenerateDataKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateDataKeyPairInput, GenerateDataKeyPairOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateDataKeyPairOutput>())
@@ -2430,9 +2458,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateDataKeyPairWithoutPlaintextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateDataKeyPairWithoutPlaintextInput`)
     ///
-    /// - Returns: `GenerateDataKeyPairWithoutPlaintextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateDataKeyPairWithoutPlaintextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2484,6 +2512,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateDataKeyPairWithoutPlaintextOutput>(GenerateDataKeyPairWithoutPlaintextOutput.httpOutput(from:), GenerateDataKeyPairWithoutPlaintextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateDataKeyPairWithoutPlaintextInput, GenerateDataKeyPairWithoutPlaintextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateDataKeyPairWithoutPlaintextOutput>())
@@ -2531,9 +2560,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateDataKeyWithoutPlaintextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateDataKeyWithoutPlaintextInput`)
     ///
-    /// - Returns: `GenerateDataKeyWithoutPlaintextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateDataKeyWithoutPlaintextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2584,6 +2613,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateDataKeyWithoutPlaintextOutput>(GenerateDataKeyWithoutPlaintextOutput.httpOutput(from:), GenerateDataKeyWithoutPlaintextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateDataKeyWithoutPlaintextInput, GenerateDataKeyWithoutPlaintextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateDataKeyWithoutPlaintextOutput>())
@@ -2618,9 +2648,9 @@ extension KMSClient {
     ///
     /// Generates a hash-based message authentication code (HMAC) for a message using an HMAC KMS key and a MAC algorithm that the key supports. HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104). You can use value that GenerateMac returns in the [VerifyMac] operation to demonstrate that the original message has not changed. Also, because a secret key is used to create the hash, you can verify that the party that generated the hash has the required secret key. You can also use the raw result to implement HMAC-based algorithms such as key derivation functions. This operation is part of KMS support for HMAC KMS keys. For details, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html) in the Key Management Service Developer Guide . Best practices recommend that you limit the time during which any signing mechanism, including an HMAC, is effective. This deters an attack where the actor uses a signed message to establish validity repeatedly or long after the message is superseded. HMAC tags do not include a timestamp, but you can include a timestamp in the token or message to help you detect when its time to refresh the HMAC. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateMac](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [VerifyMac] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateMacInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateMacInput`)
     ///
-    /// - Returns: `GenerateMacOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateMacOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2670,6 +2700,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMacInput, GenerateMacOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMacOutput>(GenerateMacOutput.httpOutput(from:), GenerateMacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMacInput, GenerateMacOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMacOutput>())
@@ -2702,11 +2733,11 @@ extension KMSClient {
 
     /// Performs the `GenerateRandom` operation on the `KMS` service.
     ///
-    /// Returns a random byte string that is cryptographically secure. You must use the NumberOfBytes parameter to specify the length of the random byte string. There is no default value for string length. By default, the random byte string is generated in KMS. To generate the byte string in the CloudHSM cluster associated with an CloudHSM key store, use the CustomKeyStoreId parameter. GenerateRandom also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateRandom for a Nitro enclave, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the enclave. Instead of plaintext bytes, the response includes the plaintext bytes encrypted under the public key from the attestation document (CiphertextForRecipient).For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide. For more information about entropy and random number generation, see [Entropy and random number generation](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#entropy-and-random-numbers) in the Key Management Service Developer Guide. Cross-account use: Not applicable. GenerateRandom does not use any account-specific resources, such as KMS keys. Required permissions: [kms:GenerateRandom](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (IAM policy) Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
+    /// Returns a random byte string that is cryptographically secure. You must use the NumberOfBytes parameter to specify the length of the random byte string. There is no default value for string length. By default, the random byte string is generated in KMS. To generate the byte string in the CloudHSM cluster associated with an CloudHSM key store, use the CustomKeyStoreId parameter. GenerateRandom also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateRandom for a Nitro enclave or NitroTPM, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the attested environment. Instead of plaintext bytes, the response includes the plaintext bytes encrypted under the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide. For more information about entropy and random number generation, see [Entropy and random number generation](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#entropy-and-random-numbers) in the Key Management Service Developer Guide. Cross-account use: Not applicable. GenerateRandom does not use any account-specific resources, such as KMS keys. Required permissions: [kms:GenerateRandom](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (IAM policy) Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GenerateRandomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateRandomInput`)
     ///
-    /// - Returns: `GenerateRandomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateRandomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2752,6 +2783,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateRandomInput, GenerateRandomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateRandomOutput>(GenerateRandomOutput.httpOutput(from:), GenerateRandomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateRandomInput, GenerateRandomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateRandomOutput>())
@@ -2786,9 +2818,9 @@ extension KMSClient {
     ///
     /// Gets a key policy attached to the specified KMS key. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:GetKeyPolicy](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GetKeyPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyPolicyInput`)
     ///
-    /// - Returns: `GetKeyPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2828,6 +2860,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKeyPolicyInput, GetKeyPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyPolicyOutput>(GetKeyPolicyOutput.httpOutput(from:), GetKeyPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyPolicyInput, GetKeyPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyPolicyOutput>())
@@ -2880,9 +2913,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GetKeyRotationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyRotationStatusInput`)
     ///
-    /// - Returns: `GetKeyRotationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyRotationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2923,6 +2956,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyRotationStatusOutput>(GetKeyRotationStatusOutput.httpOutput(from:), GetKeyRotationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyRotationStatusInput, GetKeyRotationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyRotationStatusOutput>())
@@ -2980,9 +3014,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GetParametersForImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParametersForImportInput`)
     ///
-    /// - Returns: `GetParametersForImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParametersForImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3023,6 +3057,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParametersForImportInput, GetParametersForImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParametersForImportOutput>(GetParametersForImportOutput.httpOutput(from:), GetParametersForImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParametersForImportInput, GetParametersForImportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParametersForImportOutput>())
@@ -3066,9 +3101,9 @@ extension KMSClient {
     ///
     /// Although KMS cannot enforce these restrictions on external operations, it is crucial that you use this information to prevent the public key from being used improperly. For example, you can prevent a public signing key from being used encrypt data, or prevent a public key from being used with an encryption algorithm that is not supported by KMS. You can also avoid errors, such as using the wrong signing algorithm in a verification operation. To verify a signature outside of KMS with an SM2 public key (China Regions only), you must specify the distinguishing ID. By default, KMS uses 1234567812345678 as the distinguishing ID. For more information, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GetPublicKey](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [CreateKey] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter GetPublicKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPublicKeyInput`)
     ///
-    /// - Returns: `GetPublicKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3120,6 +3155,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPublicKeyInput, GetPublicKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicKeyOutput>(GetPublicKeyOutput.httpOutput(from:), GetPublicKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicKeyInput, GetPublicKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPublicKeyOutput>())
@@ -3152,7 +3188,14 @@ extension KMSClient {
 
     /// Performs the `ImportKeyMaterial` operation on the `KMS` service.
     ///
-    /// Imports or reimports key material into an existing KMS key that was created without key material. You can also use this operation to set or update the expiration model and expiration date of the imported key material. By default, KMS creates KMS keys with key material that it generates. You can also generate and import your own key material. For more information about importing key material, see [Importing key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html). For asymmetric, HMAC and multi-Region keys, you cannot change the key material after the initial import. You can import multiple key materials into single-Region, symmetric encryption keys and rotate the key material on demand using RotateKeyOnDemand. After you import key material, you can [reimport the same key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-import-key-material.html#reimport-key-material) into that KMS key or, if the key supports on-demand rotation, import new key material. You can use the ImportType parameter to indicate whether you are importing new key material or re-importing previously imported key material. You might reimport key material to replace key material that expired or key material that you deleted. You might also reimport key material to change the expiration model or expiration date of the key material. Each time you import key material into KMS, you can determine whether (ExpirationModel) and when (ValidTo) the key material expires. To change the expiration of your key material, you must import it again, either by calling ImportKeyMaterial or using the [import features](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-import-key-material.html#importing-keys-import-key-material-console) of the KMS console. Before you call ImportKeyMaterial, complete these steps:
+    /// Imports or reimports key material into an existing KMS key that was created without key material. You can also use this operation to set or update the expiration model and expiration date of the imported key material. By default, KMS creates KMS keys with key material that it generates. You can also generate and import your own key material. For more information about importing key material, see [Importing key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html). For asymmetric and HMAC keys, you cannot change the key material after the initial import. You can import multiple key materials into symmetric encryption keys and rotate the key material on demand using RotateKeyOnDemand. You can import new key materials into multi-Region symmetric encryption keys. To do so, you must import the new key material into the primary Region key. Then you can import the same key materials into the replica Region keys. You cannot directly import new key material into the replica Region keys. To import new key material for a multi-Region symmetric key, you’ll need to complete the following:
+    ///
+    /// * Call ImportKeyMaterial on the primary Region key with the ImportTypeset to NEW_KEY_MATERIAL.
+    ///
+    /// * Call ImportKeyMaterial on the replica Region key with the ImportType set to EXISTING_KEY_MATERIAL using the same key material imported to the primary Region key. You must do this for every replica Region key before you can perform the [RotateKeyOnDemand] operation on the primary Region key.
+    ///
+    ///
+    /// After you import key material, you can [reimport the same key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-import-key-material.html#reimport-key-material) into that KMS key or, if the key supports on-demand rotation, import new key material. You can use the ImportType parameter to indicate whether you are importing new key material or re-importing previously imported key material. You might reimport key material to replace key material that expired or key material that you deleted. You might also reimport key material to change the expiration model or expiration date of the key material. Each time you import key material into KMS, you can determine whether (ExpirationModel) and when (ValidTo) the key material expires. To change the expiration of your key material, you must import it again, either by calling ImportKeyMaterial or using the [import features](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-import-key-material.html#importing-keys-import-key-material-console) of the KMS console. Before you call ImportKeyMaterial, complete these steps:
     ///
     /// * Create or identify a KMS key with EXTERNAL origin, which indicates that the KMS key is designed for imported key material. To create a new KMS key for imported key material, call the [CreateKey] operation with an Origin value of EXTERNAL. You can create a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS key, asymmetric key agreement key, or asymmetric signing KMS key. You can also import key material into a [multi-Region key](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) of any supported type. However, you can't import key material into a KMS key in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html).
     ///
@@ -3163,7 +3206,7 @@ extension KMSClient {
     ///
     /// Then, in an ImportKeyMaterial request, you submit your encrypted key material and import token. When calling this operation, you must specify the following values:
     ///
-    /// * The key ID or key ARN of the KMS key to associate with the imported key material. Its Origin must be EXTERNAL and its KeyState must be PendingImport. You cannot perform this operation on a KMS key in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html), or on a KMS key in a different Amazon Web Services account. To get the Origin and KeyState of a KMS key, call [DescribeKey].
+    /// * The key ID or key ARN of the KMS key to associate with the imported key material. Its Origin must be EXTERNAL and its KeyState must be PendingImport or Enabled. You cannot perform this operation on a KMS key in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html), or on a KMS key in a different Amazon Web Services account. To get the Origin and KeyState of a KMS key, call [DescribeKey].
     ///
     /// * The encrypted key material.
     ///
@@ -3172,7 +3215,7 @@ extension KMSClient {
     /// * Whether the key material expires (ExpirationModel) and, if so, when (ValidTo). For help with this choice, see [Setting an expiration time](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-import-key-material.html#importing-keys-expiration) in the Key Management Service Developer Guide. If you set an expiration date, KMS deletes the key material from the KMS key on the specified date, making the KMS key unusable. To use the KMS key in cryptographic operations again, you must reimport the same key material. However, you can delete and reimport the key material at any time, including before the key material expires. Each time you reimport, you can eliminate or reset the expiration time.
     ///
     ///
-    /// When this operation is successful, the key state of the KMS key changes from PendingImport to Enabled, and you can use the KMS key in cryptographic operations. For single-Region, symmetric encryption keys, you will need to import all of the key materials associated with the KMS key to change its state to Enabled. Use the ListKeyRotations operation to list the ID and import state of each key material associated with a KMS key. If this operation fails, use the exception to help determine the problem. If the error is related to the key material, the import token, or wrapping key, use [GetParametersForImport] to get a new public key and import token for the KMS key and repeat the import procedure. For help, see [Create a KMS key with imported key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-conceptual.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:ImportKeyMaterial](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// When this operation is successful, the state of the KMS key changes to Enabled, and you can use the KMS key in cryptographic operations. For symmetric encryption keys, you will need to import all of the key materials associated with the KMS key to change its state to Enabled. Use the ListKeyRotations operation to list the ID and import state of each key material associated with a KMS key. If this operation fails, use the exception to help determine the problem. If the error is related to the key material, the import token, or wrapping key, use [GetParametersForImport] to get a new public key and import token for the KMS key and repeat the import procedure. For help, see [Create a KMS key with imported key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-conceptual.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:ImportKeyMaterial](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [DeleteImportedKeyMaterial]
     ///
@@ -3185,9 +3228,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ImportKeyMaterialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportKeyMaterialInput`)
     ///
-    /// - Returns: `ImportKeyMaterialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportKeyMaterialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3232,6 +3275,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportKeyMaterialOutput>(ImportKeyMaterialOutput.httpOutput(from:), ImportKeyMaterialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportKeyMaterialInput, ImportKeyMaterialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportKeyMaterialOutput>())
@@ -3275,9 +3319,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAliasesInput`)
     ///
-    /// - Returns: `ListAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3313,6 +3357,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAliasesInput, ListAliasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAliasesOutput>(ListAliasesOutput.httpOutput(from:), ListAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAliasesInput, ListAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAliasesOutput>())
@@ -3358,9 +3403,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGrantsInput`)
     ///
-    /// - Returns: `ListGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3402,6 +3447,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGrantsInput, ListGrantsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGrantsOutput>(ListGrantsOutput.httpOutput(from:), ListGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGrantsInput, ListGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGrantsOutput>())
@@ -3443,9 +3489,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListKeyPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyPoliciesInput`)
     ///
-    /// - Returns: `ListKeyPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3485,6 +3531,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyPoliciesOutput>(ListKeyPoliciesOutput.httpOutput(from:), ListKeyPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyPoliciesInput, ListKeyPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeyPoliciesOutput>())
@@ -3534,9 +3581,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListKeyRotationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyRotationsInput`)
     ///
-    /// - Returns: `ListKeyRotationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyRotationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3577,6 +3624,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListKeyRotationsInput, ListKeyRotationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyRotationsOutput>(ListKeyRotationsOutput.httpOutput(from:), ListKeyRotationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyRotationsInput, ListKeyRotationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeyRotationsOutput>())
@@ -3622,9 +3670,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeysInput`)
     ///
-    /// - Returns: `ListKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3658,6 +3706,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListKeysInput, ListKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeysOutput>(ListKeysOutput.httpOutput(from:), ListKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeysInput, ListKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeysOutput>())
@@ -3703,9 +3752,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListResourceTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTagsInput`)
     ///
-    /// - Returns: `ListResourceTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3740,6 +3789,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceTagsInput, ListResourceTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceTagsOutput>(ListResourceTagsOutput.httpOutput(from:), ListResourceTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceTagsInput, ListResourceTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceTagsOutput>())
@@ -3785,9 +3835,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ListRetirableGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRetirableGrantsInput`)
     ///
-    /// - Returns: `ListRetirableGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRetirableGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3823,6 +3873,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRetirableGrantsOutput>(ListRetirableGrantsOutput.httpOutput(from:), ListRetirableGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRetirableGrantsInput, ListRetirableGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRetirableGrantsOutput>())
@@ -3857,9 +3908,9 @@ extension KMSClient {
     ///
     /// Attaches a key policy to the specified KMS key. For more information about key policies, see [Key Policies](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) in the Key Management Service Developer Guide. For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide . For examples of adding a key policy in multiple programming languages, see [Use PutKeyPolicy with an Amazon Web Services SDK or CLI](https://docs.aws.amazon.com/kms/latest/developerguide/example_kms_PutKeyPolicy_section.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [GetKeyPolicy] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter PutKeyPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutKeyPolicyInput`)
     ///
-    /// - Returns: `PutKeyPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutKeyPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3902,6 +3953,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutKeyPolicyInput, PutKeyPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutKeyPolicyOutput>(PutKeyPolicyOutput.httpOutput(from:), PutKeyPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutKeyPolicyInput, PutKeyPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutKeyPolicyOutput>())
@@ -3963,9 +4015,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ReEncryptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReEncryptInput`)
     ///
-    /// - Returns: `ReEncryptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReEncryptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4018,6 +4070,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReEncryptInput, ReEncryptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReEncryptOutput>(ReEncryptOutput.httpOutput(from:), ReEncryptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReEncryptInput, ReEncryptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReEncryptOutput>())
@@ -4068,9 +4121,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ReplicateKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplicateKeyInput`)
     ///
-    /// - Returns: `ReplicateKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplicateKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4115,6 +4168,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplicateKeyInput, ReplicateKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplicateKeyOutput>(ReplicateKeyOutput.httpOutput(from:), ReplicateKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplicateKeyInput, ReplicateKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplicateKeyOutput>())
@@ -4160,9 +4214,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter RetireGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetireGrantInput`)
     ///
-    /// - Returns: `RetireGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetireGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4205,6 +4259,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetireGrantInput, RetireGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetireGrantOutput>(RetireGrantOutput.httpOutput(from:), RetireGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetireGrantInput, RetireGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetireGrantOutput>())
@@ -4250,9 +4305,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter RevokeGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeGrantInput`)
     ///
-    /// - Returns: `RevokeGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4294,6 +4349,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeGrantInput, RevokeGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeGrantOutput>(RevokeGrantOutput.httpOutput(from:), RevokeGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeGrantInput, RevokeGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeGrantOutput>())
@@ -4326,7 +4382,7 @@ extension KMSClient {
 
     /// Performs the `RotateKeyOnDemand` operation on the `KMS` service.
     ///
-    /// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform [on-demand rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotating-keys-on-demand.html) of the key material in customer managed KMS keys, regardless of whether or not [automatic key rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotating-keys-enable-disable.html) is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rotation enabled with a rotation period of 730 days. If the key is scheduled to automatically rotate on April 14, 2024, and you perform an on-demand rotation on April 10, 2024, the key will automatically rotate, as scheduled, on April 14, 2024 and every 730 days thereafter. You can perform on-demand key rotation a maximum of 10 times per KMS key. You can use the KMS console to view the number of remaining on-demand rotations available for a KMS key. You can use [GetKeyRotationStatus] to identify any in progress on-demand rotations. You can use [ListKeyRotations] to identify the date that completed on-demand rotations were performed. You can monitor rotation of the key material for your KMS keys in CloudTrail and Amazon CloudWatch. On-demand key rotation is supported only on symmetric encryption KMS keys. You cannot perform on-demand rotation of [asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html), [HMAC KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html), multi-Region KMS keys with [imported key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html), or KMS keys in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html). When you initiate on-demand key rotation on a symmetric encryption KMS key with imported key material, you must have already imported [new key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-import-key-material.html) and that key material's state should be PENDING_ROTATION. Use the ListKeyRotations operation to check the state of all key materials associated with a KMS key. To perform on-demand rotation of a set of related [multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#multi-region-rotate), invoke the on-demand rotation on the primary key. You cannot initiate on-demand rotation of [Amazon Web Services managed KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-key). KMS always rotates the key material of Amazon Web Services managed keys every year. Rotation of [Amazon Web Services owned KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-key) is managed by the Amazon Web Services service that owns the key. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:RotateKeyOnDemand](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// Immediately initiates rotation of the key material of the specified symmetric encryption KMS key. You can perform [on-demand rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotating-keys-on-demand.html) of the key material in customer managed KMS keys, regardless of whether or not [automatic key rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotating-keys-enable-disable.html) is enabled. On-demand rotations do not change existing automatic rotation schedules. For example, consider a KMS key that has automatic key rotation enabled with a rotation period of 730 days. If the key is scheduled to automatically rotate on April 14, 2024, and you perform an on-demand rotation on April 10, 2024, the key will automatically rotate, as scheduled, on April 14, 2024 and every 730 days thereafter. You can perform on-demand key rotation a maximum of 10 times per KMS key. You can use the KMS console to view the number of remaining on-demand rotations available for a KMS key. You can use [GetKeyRotationStatus] to identify any in progress on-demand rotations. You can use [ListKeyRotations] to identify the date that completed on-demand rotations were performed. You can monitor rotation of the key material for your KMS keys in CloudTrail and Amazon CloudWatch. On-demand key rotation is supported only on symmetric encryption KMS keys. You cannot perform on-demand rotation of [asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html), [HMAC KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html), or KMS keys in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html). When you initiate on-demand key rotation on a symmetric encryption KMS key with imported key material, you must have already imported [new key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys-import-key-material.html) and that key material's state should be PENDING_ROTATION. Use the ListKeyRotations operation to check the state of all key materials associated with a KMS key. To perform on-demand rotation of a set of related [multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#multi-region-rotate), import new key material in the primary Region key, import the same key material in each replica Region key, and invoke the on-demand rotation on the primary Region key. You cannot initiate on-demand rotation of [Amazon Web Services managed KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-key). KMS always rotates the key material of Amazon Web Services managed keys every year. Rotation of [Amazon Web Services owned KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-key) is managed by the Amazon Web Services service that owns the key. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:RotateKeyOnDemand](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [EnableKeyRotation]
     ///
@@ -4341,9 +4397,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter RotateKeyOnDemandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RotateKeyOnDemandInput`)
     ///
-    /// - Returns: `RotateKeyOnDemandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RotateKeyOnDemandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4387,6 +4443,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotateKeyOnDemandInput, RotateKeyOnDemandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateKeyOnDemandOutput>(RotateKeyOnDemandOutput.httpOutput(from:), RotateKeyOnDemandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateKeyOnDemandInput, RotateKeyOnDemandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateKeyOnDemandOutput>())
@@ -4428,9 +4485,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter ScheduleKeyDeletionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ScheduleKeyDeletionInput`)
     ///
-    /// - Returns: `ScheduleKeyDeletionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ScheduleKeyDeletionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4470,6 +4527,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ScheduleKeyDeletionOutput>(ScheduleKeyDeletionOutput.httpOutput(from:), ScheduleKeyDeletionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ScheduleKeyDeletionInput, ScheduleKeyDeletionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ScheduleKeyDeletionOutput>())
@@ -4513,9 +4571,9 @@ extension KMSClient {
     ///
     /// When signing a message, be sure to record the KMS key and the signing algorithm. This information is required to verify the signature. Best practices recommend that you limit the time during which any signature is effective. This deters an attack where the actor uses a signed message to establish validity repeatedly or long after the message is superseded. Signatures do not include a timestamp, but you can include a timestamp in the signed message to help you detect when its time to refresh the signature. To verify the signature that this operation generates, use the [Verify] operation. Or use the [GetPublicKey] operation to download the public key and then use the public key to verify the signature outside of KMS. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:Sign](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [Verify] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter SignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SignInput`)
     ///
-    /// - Returns: `SignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4566,6 +4624,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignInput, SignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SignOutput>(SignOutput.httpOutput(from:), SignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignInput, SignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SignOutput>())
@@ -4611,9 +4670,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4654,6 +4713,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4699,9 +4759,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4741,6 +4801,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4793,9 +4854,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UpdateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAliasInput`)
     ///
-    /// - Returns: `UpdateAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4835,6 +4896,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAliasOutput>(UpdateAliasOutput.httpOutput(from:), UpdateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAliasInput, UpdateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAliasOutput>())
@@ -4882,9 +4944,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UpdateCustomKeyStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomKeyStoreInput`)
     ///
-    /// - Returns: `UpdateCustomKeyStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomKeyStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4951,6 +5013,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomKeyStoreOutput>(UpdateCustomKeyStoreOutput.httpOutput(from:), UpdateCustomKeyStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomKeyStoreInput, UpdateCustomKeyStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomKeyStoreOutput>())
@@ -4992,9 +5055,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UpdateKeyDescriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKeyDescriptionInput`)
     ///
-    /// - Returns: `UpdateKeyDescriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKeyDescriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5034,6 +5097,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKeyDescriptionOutput>(UpdateKeyDescriptionOutput.httpOutput(from:), UpdateKeyDescriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKeyDescriptionInput, UpdateKeyDescriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKeyDescriptionOutput>())
@@ -5082,9 +5146,9 @@ extension KMSClient {
     ///
     /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter UpdatePrimaryRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePrimaryRegionInput`)
     ///
-    /// - Returns: `UpdatePrimaryRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePrimaryRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5125,6 +5189,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePrimaryRegionOutput>(UpdatePrimaryRegionOutput.httpOutput(from:), UpdatePrimaryRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePrimaryRegionInput, UpdatePrimaryRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePrimaryRegionOutput>())
@@ -5159,9 +5224,9 @@ extension KMSClient {
     ///
     /// Verifies a digital signature that was generated by the [Sign] operation. Verification confirms that an authorized user signed the message with the specified KMS key and signing algorithm, and the message hasn't changed since it was signed. If the signature is verified, the value of the SignatureValid field in the response is True. If the signature verification fails, the Verify operation fails with an KMSInvalidSignatureException exception. A digital signature is generated by using the private key in an asymmetric KMS key. The signature is verified by using the public key in the same asymmetric KMS key. For information about asymmetric KMS keys, see [Asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html) in the Key Management Service Developer Guide. To use the Verify operation, specify the same asymmetric KMS key, message, and signing algorithm that were used to produce the signature. The message type does not need to be the same as the one used for signing, but it must indicate whether the value of the Message parameter should be hashed as part of the verification process. You can also verify the digital signature by using the public key of the KMS key outside of KMS. Use the [GetPublicKey] operation to download the public key in the asymmetric KMS key and then use the public key to verify the signature outside of KMS. The advantage of using the Verify operation is that it is performed within KMS. As a result, it's easy to call, the operation is performed within the FIPS boundary, it is logged in CloudTrail, and you can use key policy and IAM policy to determine who is authorized to use the KMS key to verify signatures. To verify a signature outside of KMS with an SM2 public key (China Regions only), you must specify the distinguishing ID. By default, KMS uses 1234567812345678 as the distinguishing ID. For more information, see [Offline verification with SM2 key pairs](https://docs.aws.amazon.com/kms/latest/developerguide/offline-operations.html#key-spec-sm-offline-verification). The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:Verify](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [Sign] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter VerifyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyInput`)
     ///
-    /// - Returns: `VerifyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5213,6 +5278,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyInput, VerifyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyOutput>(VerifyOutput.httpOutput(from:), VerifyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyInput, VerifyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyOutput>())
@@ -5247,9 +5313,9 @@ extension KMSClient {
     ///
     /// Verifies the hash-based message authentication code (HMAC) for a specified message, HMAC KMS key, and MAC algorithm. To verify the HMAC, VerifyMac computes an HMAC using the message, HMAC KMS key, and MAC algorithm that you specify, and compares the computed HMAC to the HMAC that you specify. If the HMACs are identical, the verification succeeds; otherwise, it fails. Verification indicates that the message hasn't changed since the HMAC was calculated, and the specified key was used to generate and verify the HMAC. HMAC KMS keys and the HMAC algorithms that KMS uses conform to industry standards defined in [RFC 2104](https://datatracker.ietf.org/doc/html/rfc2104). This operation is part of KMS support for HMAC KMS keys. For details, see [HMAC keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:VerifyMac](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations: [GenerateMac] Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
     ///
-    /// - Parameter VerifyMacInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifyMacInput`)
     ///
-    /// - Returns: `VerifyMacOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifyMacOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5300,6 +5366,7 @@ extension KMSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyMacInput, VerifyMacOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyMacOutput>(VerifyMacOutput.httpOutput(from:), VerifyMacOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyMacInput, VerifyMacOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyMacOutput>())

@@ -500,7 +500,7 @@ extension LakeFormationClientTypes {
         public var dataLocation: LakeFormationClientTypes.DataLocationResource?
         /// The database for the resource. Unique to the Data Catalog. A database is a set of associated table definitions organized into a logical group. You can Grant and Revoke database permissions to a principal.
         public var database: LakeFormationClientTypes.DatabaseResource?
-        /// The LF-tag key and values attached to a resource.
+        /// The LF-Tag key and values attached to a resource.
         public var lfTag: LakeFormationClientTypes.LFTagKeyResource?
         /// LF-Tag expression resource. A logical expression composed of one or more LF-Tag key:value pairs.
         public var lfTagExpression: LakeFormationClientTypes.LFTagExpressionResource?
@@ -1275,6 +1275,72 @@ extension LakeFormationClientTypes {
     }
 }
 
+extension LakeFormationClientTypes {
+
+    /// Authorization status for service integrations. Specify a value of ENABLED or DISABLED.
+    public enum ServiceAuthorization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceAuthorization] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// Configuration for enabling trusted identity propagation with Redshift Connect.
+    public struct RedshiftConnect: Swift.Sendable {
+        /// The authorization status for Redshift Connect. Valid values are ENABLED or DISABLED.
+        /// This member is required.
+        public var authorization: LakeFormationClientTypes.ServiceAuthorization?
+
+        public init(
+            authorization: LakeFormationClientTypes.ServiceAuthorization? = nil
+        ) {
+            self.authorization = authorization
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A union structure representing different Redshift integration scopes.
+    public enum RedshiftScopeUnion: Swift.Sendable {
+        /// Configuration for Redshift Connect integration.
+        case redshiftconnect(LakeFormationClientTypes.RedshiftConnect)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A union structure representing different service integration types.
+    public enum ServiceIntegrationUnion: Swift.Sendable {
+        /// Redshift service integration configuration.
+        case redshift([LakeFormationClientTypes.RedshiftScopeUnion])
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Sendable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
@@ -1282,6 +1348,8 @@ public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
     /// The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     public var instanceArn: Swift.String?
+    /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+    public var serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]?
     /// A list of Amazon Web Services account IDs and/or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation. If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources. If the ShareRecipients value is null or the list is empty, no resource share is created.
     public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
@@ -1289,11 +1357,13 @@ public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
         catalogId: Swift.String? = nil,
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
         instanceArn: Swift.String? = nil,
+        serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     ) {
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
         self.instanceArn = instanceArn
+        self.serviceIntegrations = serviceIntegrations
         self.shareRecipients = shareRecipients
     }
 }
@@ -1622,6 +1692,8 @@ public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Send
     public var instanceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the RAM share.
     public var resourceShare: Swift.String?
+    /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+    public var serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]?
     /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation. If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources as the ShareRecipients. If the ShareRecipients value is null or the list is empty, no resource share is created.
     public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
@@ -1631,6 +1703,7 @@ public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Send
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
         instanceArn: Swift.String? = nil,
         resourceShare: Swift.String? = nil,
+        serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     ) {
         self.applicationArn = applicationArn
@@ -1638,6 +1711,7 @@ public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Send
         self.externalFiltering = externalFiltering
         self.instanceArn = instanceArn
         self.resourceShare = resourceShare
+        self.serviceIntegrations = serviceIntegrations
         self.shareRecipients = shareRecipients
     }
 }
@@ -1656,8 +1730,42 @@ public struct DescribeResourceInput: Swift.Sendable {
 
 extension LakeFormationClientTypes {
 
+    public enum VerificationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notVerified
+        case verificationFailed
+        case verified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationStatus] {
+            return [
+                .notVerified,
+                .verificationFailed,
+                .verified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notVerified: return "NOT_VERIFIED"
+            case .verificationFailed: return "VERIFICATION_FAILED"
+            case .verified: return "VERIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
     /// A structure containing information about an Lake Formation resource.
     public struct ResourceInfo: Swift.Sendable {
+        /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+        public var expectedResourceOwnerAccount: Swift.String?
         /// Indicates whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
         public var hybridAccessEnabled: Swift.Bool?
         /// The date and time the resource was last modified.
@@ -1666,23 +1774,35 @@ extension LakeFormationClientTypes {
         public var resourceArn: Swift.String?
         /// The IAM role that registered a resource.
         public var roleArn: Swift.String?
+        /// Indicates whether the registered role has sufficient permissions to access registered Amazon S3 location. Verification Status can be one of the following:
+        ///
+        /// * VERIFIED - Registered role has sufficient permissions to access registered Amazon S3 location.
+        ///
+        /// * NOT_VERIFIED - Registered role does not have sufficient permissions to access registered Amazon S3 location.
+        ///
+        /// * VERIFICATION_FAILED - Unable to verify if the registered role can access the registered Amazon S3 location.
+        public var verificationStatus: LakeFormationClientTypes.VerificationStatus?
         /// Whether or not the resource is a federated resource.
         public var withFederation: Swift.Bool?
         /// Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
         public var withPrivilegedAccess: Swift.Bool?
 
         public init(
+            expectedResourceOwnerAccount: Swift.String? = nil,
             hybridAccessEnabled: Swift.Bool? = nil,
             lastModified: Foundation.Date? = nil,
             resourceArn: Swift.String? = nil,
             roleArn: Swift.String? = nil,
+            verificationStatus: LakeFormationClientTypes.VerificationStatus? = nil,
             withFederation: Swift.Bool? = nil,
             withPrivilegedAccess: Swift.Bool? = nil
         ) {
+            self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
             self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
+            self.verificationStatus = verificationStatus
             self.withFederation = withFederation
             self.withPrivilegedAccess = withPrivilegedAccess
         }
@@ -2497,6 +2617,136 @@ public struct GetTableObjectsOutput: Swift.Sendable {
     }
 }
 
+/// Multiple resources exist with the same Amazon S3 location
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    public enum CredentialsScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case read
+        case readwrite
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CredentialsScope] {
+            return [
+                .read,
+                .readwrite
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .read: return "READ"
+            case .readwrite: return "READWRITE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTemporaryDataLocationCredentialsInput: Swift.Sendable {
+    /// A structure used to include auditing information on the privileged API.
+    public var auditContext: LakeFormationClientTypes.AuditContext?
+    /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either:
+    ///
+    /// * READ - Provides read-only access to the data location.
+    ///
+    /// * READ_WRITE - Provides both read and write access to the data location.
+    public var credentialsScope: LakeFormationClientTypes.CredentialsScope?
+    /// The Amazon S3 data location that you want to access.
+    public var dataLocations: [Swift.String]?
+    /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials.
+    public var durationSeconds: Swift.Int?
+
+    public init(
+        auditContext: LakeFormationClientTypes.AuditContext? = nil,
+        credentialsScope: LakeFormationClientTypes.CredentialsScope? = nil,
+        dataLocations: [Swift.String]? = nil,
+        durationSeconds: Swift.Int? = nil
+    ) {
+        self.auditContext = auditContext
+        self.credentialsScope = credentialsScope
+        self.dataLocations = dataLocations
+        self.durationSeconds = durationSeconds
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A temporary set of credentials for an Lake Formation user. These credentials are scoped down to only access the raw data sources that the user has access to. The temporary security credentials consist of an access key and a session token. The access key consists of an access key ID and a secret key. When the credentials are created, they are associated with an IAM access control policy that limits what the user can do when using the credentials.
+    public struct TemporaryCredentials: Swift.Sendable {
+        /// The access key ID for the temporary credentials.
+        public var accessKeyId: Swift.String?
+        /// The date and time when the temporary credentials expire.
+        public var expiration: Foundation.Date?
+        /// The secret key for the temporary credentials.
+        public var secretAccessKey: Swift.String?
+        /// The session token for the temporary credentials.
+        public var sessionToken: Swift.String?
+
+        public init(
+            accessKeyId: Swift.String? = nil,
+            expiration: Foundation.Date? = nil,
+            secretAccessKey: Swift.String? = nil,
+            sessionToken: Swift.String? = nil
+        ) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+    }
+}
+
+public struct GetTemporaryDataLocationCredentialsOutput: Swift.Sendable {
+    /// Refers to the Amazon S3 locations that can be accessed through the GetTemporaryCredentialsForLocation API operation.
+    public var accessibleDataLocations: [Swift.String]?
+    /// A temporary set of credentials for an Lake Formation user. These credentials are scoped down to only access the raw data sources that the user has access to. The temporary security credentials consist of an access key and a session token. The access key consists of an access key ID and a secret key. When the credentials are created, they are associated with an IAM access control policy that limits what the user can do when using the credentials.
+    public var credentials: LakeFormationClientTypes.TemporaryCredentials?
+    /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either:
+    ///
+    /// * READ - Provides read-only access to the data location.
+    ///
+    /// * READ_WRITE - Provides both read and write access to the data location.
+    public var credentialsScope: LakeFormationClientTypes.CredentialsScope?
+
+    public init(
+        accessibleDataLocations: [Swift.String]? = nil,
+        credentials: LakeFormationClientTypes.TemporaryCredentials? = nil,
+        credentialsScope: LakeFormationClientTypes.CredentialsScope? = nil
+    ) {
+        self.accessibleDataLocations = accessibleDataLocations
+        self.credentials = credentials
+        self.credentialsScope = credentialsScope
+    }
+}
+
 /// The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
 public struct PermissionTypeMismatchException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3176,7 +3426,7 @@ extension LakeFormationClientTypes {
 public struct ListPermissionsInput: Swift.Sendable {
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
-    /// Indicates that related permissions should be included in the results.
+    /// Indicates that related permissions should be included in the results when listing permissions on a table resource. Set the field to TRUE to show the cell filters on a table resource. Default is FALSE. The Principal parameter must not be specified when requesting cell filter information.
     public var includeRelated: Swift.String?
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
@@ -3577,6 +3827,8 @@ public struct PutDataLakeSettingsOutput: Swift.Sendable {
 }
 
 public struct RegisterResourceInput: Swift.Sendable {
+    /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+    public var expectedResourceOwnerAccount: Swift.String?
     /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
     public var hybridAccessEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the resource that you want to register.
@@ -3592,6 +3844,7 @@ public struct RegisterResourceInput: Swift.Sendable {
     public var withPrivilegedAccess: Swift.Bool?
 
     public init(
+        expectedResourceOwnerAccount: Swift.String? = nil,
         hybridAccessEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -3599,6 +3852,7 @@ public struct RegisterResourceInput: Swift.Sendable {
         withFederation: Swift.Bool? = nil,
         withPrivilegedAccess: Swift.Bool? = false
     ) {
+        self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
         self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
@@ -3950,6 +4204,8 @@ public struct UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
     public var catalogId: Swift.String?
     /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+    /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+    public var serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]?
     /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation. If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipients and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted.
     public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
@@ -3957,11 +4213,13 @@ public struct UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Sendabl
         applicationStatus: LakeFormationClientTypes.ApplicationStatus? = nil,
         catalogId: Swift.String? = nil,
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
+        serviceIntegrations: [LakeFormationClientTypes.ServiceIntegrationUnion]? = nil,
         shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     ) {
         self.applicationStatus = applicationStatus
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
+        self.serviceIntegrations = serviceIntegrations
         self.shareRecipients = shareRecipients
     }
 }
@@ -4031,6 +4289,8 @@ public struct UpdateLFTagExpressionOutput: Swift.Sendable {
 }
 
 public struct UpdateResourceInput: Swift.Sendable {
+    /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+    public var expectedResourceOwnerAccount: Swift.String?
     /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
     public var hybridAccessEnabled: Swift.Bool?
     /// The resource ARN.
@@ -4043,11 +4303,13 @@ public struct UpdateResourceInput: Swift.Sendable {
     public var withFederation: Swift.Bool?
 
     public init(
+        expectedResourceOwnerAccount: Swift.String? = nil,
         hybridAccessEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         withFederation: Swift.Bool? = nil
     ) {
+        self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
         self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
@@ -4399,6 +4661,13 @@ extension GetTableObjectsInput {
     }
 }
 
+extension GetTemporaryDataLocationCredentialsInput {
+
+    static func urlPathProvider(_ value: GetTemporaryDataLocationCredentialsInput) -> Swift.String? {
+        return "/GetTemporaryDataLocationCredentials"
+    }
+}
+
 extension GetTemporaryGluePartitionCredentialsInput {
 
     static func urlPathProvider(_ value: GetTemporaryGluePartitionCredentialsInput) -> Swift.String? {
@@ -4665,6 +4934,7 @@ extension CreateLakeFormationIdentityCenterConfigurationInput {
         try writer["CatalogId"].write(value.catalogId)
         try writer["ExternalFiltering"].write(value.externalFiltering, with: LakeFormationClientTypes.ExternalFilteringConfiguration.write(value:to:))
         try writer["InstanceArn"].write(value.instanceArn)
+        try writer["ServiceIntegrations"].writeList(value.serviceIntegrations, memberWritingClosure: LakeFormationClientTypes.ServiceIntegrationUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ShareRecipients"].writeList(value.shareRecipients, memberWritingClosure: LakeFormationClientTypes.DataLakePrincipal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4888,6 +5158,17 @@ extension GetTableObjectsInput {
     }
 }
 
+extension GetTemporaryDataLocationCredentialsInput {
+
+    static func write(value: GetTemporaryDataLocationCredentialsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuditContext"].write(value.auditContext, with: LakeFormationClientTypes.AuditContext.write(value:to:))
+        try writer["CredentialsScope"].write(value.credentialsScope)
+        try writer["DataLocations"].writeList(value.dataLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DurationSeconds"].write(value.durationSeconds)
+    }
+}
+
 extension GetTemporaryGluePartitionCredentialsInput {
 
     static func write(value: GetTemporaryGluePartitionCredentialsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5051,6 +5332,7 @@ extension RegisterResourceInput {
 
     static func write(value: RegisterResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ExpectedResourceOwnerAccount"].write(value.expectedResourceOwnerAccount)
         try writer["HybridAccessEnabled"].write(value.hybridAccessEnabled)
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["RoleArn"].write(value.roleArn)
@@ -5137,6 +5419,7 @@ extension UpdateLakeFormationIdentityCenterConfigurationInput {
         try writer["ApplicationStatus"].write(value.applicationStatus)
         try writer["CatalogId"].write(value.catalogId)
         try writer["ExternalFiltering"].write(value.externalFiltering, with: LakeFormationClientTypes.ExternalFilteringConfiguration.write(value:to:))
+        try writer["ServiceIntegrations"].writeList(value.serviceIntegrations, memberWritingClosure: LakeFormationClientTypes.ServiceIntegrationUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ShareRecipients"].writeList(value.shareRecipients, memberWritingClosure: LakeFormationClientTypes.DataLakePrincipal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5167,6 +5450,7 @@ extension UpdateResourceInput {
 
     static func write(value: UpdateResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ExpectedResourceOwnerAccount"].write(value.expectedResourceOwnerAccount)
         try writer["HybridAccessEnabled"].write(value.hybridAccessEnabled)
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["RoleArn"].write(value.roleArn)
@@ -5368,6 +5652,7 @@ extension DescribeLakeFormationIdentityCenterConfigurationOutput {
         value.externalFiltering = try reader["ExternalFiltering"].readIfPresent(with: LakeFormationClientTypes.ExternalFilteringConfiguration.read(from:))
         value.instanceArn = try reader["InstanceArn"].readIfPresent()
         value.resourceShare = try reader["ResourceShare"].readIfPresent()
+        value.serviceIntegrations = try reader["ServiceIntegrations"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.ServiceIntegrationUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.shareRecipients = try reader["ShareRecipients"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.DataLakePrincipal.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -5532,6 +5817,20 @@ extension GetTableObjectsOutput {
         var value = GetTableObjectsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.objects = try reader["Objects"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.PartitionObjects.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetTemporaryDataLocationCredentialsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTemporaryDataLocationCredentialsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTemporaryDataLocationCredentialsOutput()
+        value.accessibleDataLocations = try reader["AccessibleDataLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.credentials = try reader["Credentials"].readIfPresent(with: LakeFormationClientTypes.TemporaryCredentials.read(from:))
+        value.credentialsScope = try reader["CredentialsScope"].readIfPresent()
         return value
     }
 }
@@ -6427,6 +6726,26 @@ enum GetTableObjectsOutputError {
     }
 }
 
+enum GetTemporaryDataLocationCredentialsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTemporaryGluePartitionCredentialsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7133,6 +7452,19 @@ extension GlueEncryptionException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension PermissionTypeMismatchException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PermissionTypeMismatchException {
@@ -7530,6 +7862,69 @@ extension LakeFormationClientTypes.ExternalFilteringConfiguration {
     }
 }
 
+extension LakeFormationClientTypes.ServiceIntegrationUnion {
+
+    static func write(value: LakeFormationClientTypes.ServiceIntegrationUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .redshift(redshift):
+                try writer["Redshift"].writeList(redshift, memberWritingClosure: LakeFormationClientTypes.RedshiftScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ServiceIntegrationUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Redshift":
+                return .redshift(try reader["Redshift"].readList(memberReadingClosure: LakeFormationClientTypes.RedshiftScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension LakeFormationClientTypes.RedshiftScopeUnion {
+
+    static func write(value: LakeFormationClientTypes.RedshiftScopeUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .redshiftconnect(redshiftconnect):
+                try writer["RedshiftConnect"].write(redshiftconnect, with: LakeFormationClientTypes.RedshiftConnect.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RedshiftScopeUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "RedshiftConnect":
+                return .redshiftconnect(try reader["RedshiftConnect"].read(with: LakeFormationClientTypes.RedshiftConnect.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension LakeFormationClientTypes.RedshiftConnect {
+
+    static func write(value: LakeFormationClientTypes.RedshiftConnect?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Authorization"].write(value.authorization)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RedshiftConnect {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.RedshiftConnect()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension LakeFormationClientTypes.ResourceInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.ResourceInfo {
@@ -7541,6 +7936,8 @@ extension LakeFormationClientTypes.ResourceInfo {
         value.withFederation = try reader["WithFederation"].readIfPresent()
         value.hybridAccessEnabled = try reader["HybridAccessEnabled"].readIfPresent()
         value.withPrivilegedAccess = try reader["WithPrivilegedAccess"].readIfPresent()
+        value.verificationStatus = try reader["VerificationStatus"].readIfPresent()
+        value.expectedResourceOwnerAccount = try reader["ExpectedResourceOwnerAccount"].readIfPresent()
         return value
     }
 }
@@ -7753,6 +8150,19 @@ extension LakeFormationClientTypes.TableObject {
     }
 }
 
+extension LakeFormationClientTypes.TemporaryCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.TemporaryCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.TemporaryCredentials()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["SessionToken"].readIfPresent()
+        value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension LakeFormationClientTypes.WorkUnitRange {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.WorkUnitRange {
@@ -7839,19 +8249,19 @@ extension LakeFormationClientTypes.VirtualObject {
     }
 }
 
-extension LakeFormationClientTypes.PartitionValueList {
-
-    static func write(value: LakeFormationClientTypes.PartitionValueList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
 extension LakeFormationClientTypes.AuditContext {
 
     static func write(value: LakeFormationClientTypes.AuditContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdditionalAuditContext"].write(value.additionalAuditContext)
+    }
+}
+
+extension LakeFormationClientTypes.PartitionValueList {
+
+    static func write(value: LakeFormationClientTypes.PartitionValueList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

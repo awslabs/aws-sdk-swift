@@ -666,6 +666,35 @@ public struct AddPartnerOutput: Swift.Sendable {
 
 extension RedshiftClientTypes {
 
+    public enum ApplicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lakehouse
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApplicationType] {
+            return [
+                .lakehouse,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lakehouse: return "Lakehouse"
+            case .none: return "None"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
     public enum AquaConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auto
         case disabled
@@ -2870,6 +2899,8 @@ extension RedshiftClientTypes {
         public var availabilityZone: Swift.String?
         /// Describes the status of the Availability Zone relocation operation.
         public var availabilityZoneRelocationStatus: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Glue data catalog associated with the cluster enabled with Amazon Redshift federated permissions.
+        public var catalogArn: Swift.String?
         /// The availability status of the cluster for queries. Possible values are the following:
         ///
         /// * Available - The cluster is available for queries.
@@ -2978,6 +3009,8 @@ extension RedshiftClientTypes {
         ///
         /// * Pending - The next snapshot is pending to be taken.
         public var expectedNextSnapshotScheduleTimeStatus: Swift.String?
+        /// A boolean value that, if true, indicates that the cluster allocates additional compute resources to run automatic optimization operations. Default: false
+        public var extraComputeForAutomaticOptimization: Swift.String?
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
         public var hsmStatus: RedshiftClientTypes.HsmStatus?
         /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services.
@@ -2986,6 +3019,8 @@ extension RedshiftClientTypes {
         public var ipAddressType: Swift.String?
         /// The Key Management Service (KMS) key ID of the encryption key used to encrypt data in the cluster.
         public var kmsKeyId: Swift.String?
+        /// The status of the lakehouse registration for the cluster. Indicates whether the cluster is successfully registered with Amazon Redshift federated permissions.
+        public var lakehouseRegistrationStatus: Swift.String?
         /// The name of the maintenance track for the cluster.
         public var maintenanceTrackName: Swift.String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
@@ -3045,6 +3080,7 @@ extension RedshiftClientTypes {
             automatedSnapshotRetentionPeriod: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
             availabilityZoneRelocationStatus: Swift.String? = nil,
+            catalogArn: Swift.String? = nil,
             clusterAvailabilityStatus: Swift.String? = nil,
             clusterCreateTime: Foundation.Date? = nil,
             clusterIdentifier: Swift.String? = nil,
@@ -3072,10 +3108,12 @@ extension RedshiftClientTypes {
             enhancedVpcRouting: Swift.Bool? = nil,
             expectedNextSnapshotScheduleTime: Foundation.Date? = nil,
             expectedNextSnapshotScheduleTimeStatus: Swift.String? = nil,
+            extraComputeForAutomaticOptimization: Swift.String? = nil,
             hsmStatus: RedshiftClientTypes.HsmStatus? = nil,
             iamRoles: [RedshiftClientTypes.ClusterIamRole]? = nil,
             ipAddressType: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
+            lakehouseRegistrationStatus: Swift.String? = nil,
             maintenanceTrackName: Swift.String? = nil,
             manualSnapshotRetentionPeriod: Swift.Int? = nil,
             masterPasswordSecretArn: Swift.String? = nil,
@@ -3106,6 +3144,7 @@ extension RedshiftClientTypes {
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
             self.availabilityZoneRelocationStatus = availabilityZoneRelocationStatus
+            self.catalogArn = catalogArn
             self.clusterAvailabilityStatus = clusterAvailabilityStatus
             self.clusterCreateTime = clusterCreateTime
             self.clusterIdentifier = clusterIdentifier
@@ -3133,10 +3172,12 @@ extension RedshiftClientTypes {
             self.enhancedVpcRouting = enhancedVpcRouting
             self.expectedNextSnapshotScheduleTime = expectedNextSnapshotScheduleTime
             self.expectedNextSnapshotScheduleTimeStatus = expectedNextSnapshotScheduleTimeStatus
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.hsmStatus = hsmStatus
             self.iamRoles = iamRoles
             self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
+            self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
             self.maintenanceTrackName = maintenanceTrackName
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.masterPasswordSecretArn = masterPasswordSecretArn
@@ -3748,6 +3789,51 @@ public struct ConflictPolicyUpdateFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension RedshiftClientTypes {
+
+    public enum ServiceAuthorization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceAuthorization] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// A structure that defines the Amazon Redshift connect service integration scope.
+    public struct Connect: Swift.Sendable {
+        /// Determines whether the Amazon Redshift connect integration is enabled or disabled for the application.
+        /// This member is required.
+        public var authorization: RedshiftClientTypes.ServiceAuthorization?
+
+        public init(
+            authorization: RedshiftClientTypes.ServiceAuthorization? = nil
+        ) {
+            self.authorization = authorization
+        }
+    }
+}
+
 ///
 public struct CopyClusterSnapshotInput: Swift.Sendable {
     /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
@@ -3874,6 +3960,29 @@ public struct CreateAuthenticationProfileOutput: Swift.Sendable {
     ) {
         self.authenticationProfileContent = authenticationProfileContent
         self.authenticationProfileName = authenticationProfileName
+    }
+}
+
+/// A dependent service denied access for the integration.
+public struct DependentServiceAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DependentServiceAccessDenied" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -4259,6 +4368,15 @@ public struct CreateClusterInput: Swift.Sendable {
     public var availabilityZone: Swift.String?
     /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is created.
     public var availabilityZoneRelocation: Swift.Bool?
+    /// The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:
+    ///
+    /// * Must contain at least one lowercase letter.
+    ///
+    /// * Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).
+    ///
+    ///
+    /// Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01
+    public var catalogName: Swift.String?
     /// A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints:
     ///
     /// * Must contain from 1 to 63 alphanumeric characters or hyphens.
@@ -4314,6 +4432,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var encrypted: Swift.Bool?
     /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html) in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled. Default: false
     public var enhancedVpcRouting: Swift.Bool?
+    /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+    public var extraComputeForAutomaticOptimization: Swift.Bool?
     /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
     public var hsmClientCertificateIdentifier: Swift.String?
     /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -4392,6 +4512,7 @@ public struct CreateClusterInput: Swift.Sendable {
         automatedSnapshotRetentionPeriod: Swift.Int? = nil,
         availabilityZone: Swift.String? = nil,
         availabilityZoneRelocation: Swift.Bool? = nil,
+        catalogName: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         clusterParameterGroupName: Swift.String? = nil,
         clusterSecurityGroups: [Swift.String]? = nil,
@@ -4403,6 +4524,7 @@ public struct CreateClusterInput: Swift.Sendable {
         elasticIp: Swift.String? = nil,
         encrypted: Swift.Bool? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        extraComputeForAutomaticOptimization: Swift.Bool? = nil,
         hsmClientCertificateIdentifier: Swift.String? = nil,
         hsmConfigurationIdentifier: Swift.String? = nil,
         iamRoles: [Swift.String]? = nil,
@@ -4432,6 +4554,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
         self.availabilityZone = availabilityZone
         self.availabilityZoneRelocation = availabilityZoneRelocation
+        self.catalogName = catalogName
         self.clusterIdentifier = clusterIdentifier
         self.clusterParameterGroupName = clusterParameterGroupName
         self.clusterSecurityGroups = clusterSecurityGroups
@@ -4443,6 +4566,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.elasticIp = elasticIp
         self.encrypted = encrypted
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.iamRoles = iamRoles
@@ -4470,7 +4594,7 @@ public struct CreateClusterInput: Swift.Sendable {
 
 extension CreateClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), redshiftIdcApplicationArn: \(Swift.String(describing: redshiftIdcApplicationArn)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "CreateClusterInput(additionalInfo: \(Swift.String(describing: additionalInfo)), allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), aquaConfigurationStatus: \(Swift.String(describing: aquaConfigurationStatus)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), catalogName: \(Swift.String(describing: catalogName)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterSubnetGroupName: \(Swift.String(describing: clusterSubnetGroupName)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), dbName: \(Swift.String(describing: dbName)), defaultIamRoleArn: \(Swift.String(describing: defaultIamRoleArn)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), extraComputeForAutomaticOptimization: \(Swift.String(describing: extraComputeForAutomaticOptimization)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), iamRoles: \(Swift.String(describing: iamRoles)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), loadSampleData: \(Swift.String(describing: loadSampleData)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), multiAZ: \(Swift.String(describing: multiAZ)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), redshiftIdcApplicationArn: \(Swift.String(describing: redshiftIdcApplicationArn)), snapshotScheduleIdentifier: \(Swift.String(describing: snapshotScheduleIdentifier)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateClusterOutput: Swift.Sendable {
@@ -5706,29 +5830,6 @@ public struct CreateIntegrationOutput: Swift.Sendable {
     }
 }
 
-/// A dependent service denied access for the integration.
-public struct DependentServiceAccessDeniedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "DependentServiceAccessDenied" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The application you attempted to add already exists.
 public struct RedshiftIdcApplicationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5777,35 +5878,6 @@ public struct RedshiftIdcApplicationQuotaExceededFault: ClientRuntime.ModeledErr
 
 extension RedshiftClientTypes {
 
-    public enum ServiceAuthorization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ServiceAuthorization] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "Disabled"
-            case .enabled: return "Enabled"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension RedshiftClientTypes {
-
     /// The Lake Formation scope.
     public struct LakeFormationQuery: Swift.Sendable {
         /// Determines whether the query scope is enabled or disabled.
@@ -5826,6 +5898,16 @@ extension RedshiftClientTypes {
     public enum LakeFormationScopeUnion: Swift.Sendable {
         /// The Lake Formation scope.
         case lakeformationquery(RedshiftClientTypes.LakeFormationQuery)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension RedshiftClientTypes {
+
+    /// A union structure that defines the scope of Amazon Redshift service integrations. Contains configuration for different integration types such as Amazon Redshift.
+    public enum RedshiftScopeUnion: Swift.Sendable {
+        /// The Amazon Redshift connect integration scope configuration. Defines authorization settings for Amazon Redshift connect service integration.
+        case connect(RedshiftClientTypes.Connect)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5864,11 +5946,15 @@ extension RedshiftClientTypes {
         case lakeformation([RedshiftClientTypes.LakeFormationScopeUnion])
         /// A list of scopes set up for S3 Access Grants integration.
         case s3accessgrants([RedshiftClientTypes.S3AccessGrantsScopeUnion])
+        /// A list of scopes set up for Amazon Redshift integration.
+        case redshift([RedshiftClientTypes.RedshiftScopeUnion])
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct CreateRedshiftIdcApplicationInput: Swift.Sendable {
+    /// The type of application being created. Valid values are None or Lakehouse. Use Lakehouse to enable Amazon Redshift federated permissions on cluster.
+    public var applicationType: RedshiftClientTypes.ApplicationType?
     /// The token issuer list for the Amazon Redshift IAM Identity Center application instance.
     public var authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
     /// The IAM role ARN for the Amazon Redshift IAM Identity Center application instance. It has the required permissions to be assumed and invoke the IDC Identity Center API.
@@ -5887,16 +5973,24 @@ public struct CreateRedshiftIdcApplicationInput: Swift.Sendable {
     public var redshiftIdcApplicationName: Swift.String?
     /// A collection of service integrations for the Redshift IAM Identity Center application.
     public var serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+    /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated.
+    public var ssoTagKeys: [Swift.String]?
+    /// A list of tags.
+    public var tags: [RedshiftClientTypes.Tag]?
 
     public init(
+        applicationType: RedshiftClientTypes.ApplicationType? = nil,
         authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]? = nil,
         iamRoleArn: Swift.String? = nil,
         idcDisplayName: Swift.String? = nil,
         idcInstanceArn: Swift.String? = nil,
         identityNamespace: Swift.String? = nil,
         redshiftIdcApplicationName: Swift.String? = nil,
-        serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+        serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil,
+        ssoTagKeys: [Swift.String]? = nil,
+        tags: [RedshiftClientTypes.Tag]? = nil
     ) {
+        self.applicationType = applicationType
         self.authorizedTokenIssuerList = authorizedTokenIssuerList
         self.iamRoleArn = iamRoleArn
         self.idcDisplayName = idcDisplayName
@@ -5904,6 +5998,8 @@ public struct CreateRedshiftIdcApplicationInput: Swift.Sendable {
         self.identityNamespace = identityNamespace
         self.redshiftIdcApplicationName = redshiftIdcApplicationName
         self.serviceIntegrations = serviceIntegrations
+        self.ssoTagKeys = ssoTagKeys
+        self.tags = tags
     }
 }
 
@@ -5911,6 +6007,8 @@ extension RedshiftClientTypes {
 
     /// Contains properties for the Redshift IDC application.
     public struct RedshiftIdcApplication: Swift.Sendable {
+        /// The type of application being created. Valid values are None or Lakehouse. Use Lakehouse to enable Amazon Redshift federated permissions on cluster.
+        public var applicationType: RedshiftClientTypes.ApplicationType?
         /// The authorized token issuer list for the Amazon Redshift IAM Identity Center application.
         public var authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]?
         /// The ARN for the Amazon Redshift IAM Identity Center application. It has the required permissions to be assumed and invoke the IDC Identity Center API.
@@ -5931,8 +6029,13 @@ extension RedshiftClientTypes {
         public var redshiftIdcApplicationName: Swift.String?
         /// A list of service integrations for the Redshift IAM Identity Center application.
         public var serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]?
+        /// A list of tags keys that Redshift Identity Center applications copy to IAM Identity Center. For each input key, the tag corresponding to the key-value pair is propagated.
+        public var ssoTagKeys: [Swift.String]?
+        /// A list of tags.
+        public var tags: [RedshiftClientTypes.Tag]?
 
         public init(
+            applicationType: RedshiftClientTypes.ApplicationType? = nil,
             authorizedTokenIssuerList: [RedshiftClientTypes.AuthorizedTokenIssuer]? = nil,
             iamRoleArn: Swift.String? = nil,
             idcDisplayName: Swift.String? = nil,
@@ -5942,8 +6045,11 @@ extension RedshiftClientTypes {
             identityNamespace: Swift.String? = nil,
             redshiftIdcApplicationArn: Swift.String? = nil,
             redshiftIdcApplicationName: Swift.String? = nil,
-            serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil
+            serviceIntegrations: [RedshiftClientTypes.ServiceIntegrationsUnion]? = nil,
+            ssoTagKeys: [Swift.String]? = nil,
+            tags: [RedshiftClientTypes.Tag]? = nil
         ) {
+            self.applicationType = applicationType
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
             self.idcDisplayName = idcDisplayName
@@ -5954,6 +6060,8 @@ extension RedshiftClientTypes {
             self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
             self.redshiftIdcApplicationName = redshiftIdcApplicationName
             self.serviceIntegrations = serviceIntegrations
+            self.ssoTagKeys = ssoTagKeys
+            self.tags = tags
         }
     }
 }
@@ -6666,6 +6774,7 @@ extension RedshiftClientTypes {
     public enum UsageLimitFeatureType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case concurrencyScaling
         case crossRegionDatasharing
+        case extraComputeForAutomaticOptimization
         case spectrum
         case sdkUnknown(Swift.String)
 
@@ -6673,6 +6782,7 @@ extension RedshiftClientTypes {
             return [
                 .concurrencyScaling,
                 .crossRegionDatasharing,
+                .extraComputeForAutomaticOptimization,
                 .spectrum
             ]
         }
@@ -6686,6 +6796,7 @@ extension RedshiftClientTypes {
             switch self {
             case .concurrencyScaling: return "concurrency-scaling"
             case .crossRegionDatasharing: return "cross-region-datasharing"
+            case .extraComputeForAutomaticOptimization: return "extra-compute-for-automatic-optimization"
             case .spectrum: return "spectrum"
             case let .sdkUnknown(s): return s
             }
@@ -6766,7 +6877,7 @@ public struct CreateUsageLimitInput: Swift.Sendable {
     /// The Amazon Redshift feature that you want to limit.
     /// This member is required.
     public var featureType: RedshiftClientTypes.UsageLimitFeatureType?
-    /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned.
+    /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned. If FeatureType is extra-compute-for-automatic-optimization, then LimitType must be time.
     /// This member is required.
     public var limitType: RedshiftClientTypes.UsageLimitLimitType?
     /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly.
@@ -11550,6 +11661,82 @@ extension GetClusterCredentialsWithIAMOutput: Swift.CustomDebugStringConvertible
         "GetClusterCredentialsWithIAMOutput(dbUser: \(Swift.String(describing: dbUser)), expiration: \(Swift.String(describing: expiration)), nextRefreshTime: \(Swift.String(describing: nextRefreshTime)), dbPassword: \"CONTENT_REDACTED\")"}
 }
 
+/// The request contains one or more invalid parameters. This error occurs when required parameters are missing, parameter values are outside acceptable ranges, or parameter formats are incorrect.
+public struct RedshiftInvalidParameterFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RedshiftInvalidParameter" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request parameters for GetIdentityCenterAuthToken.
+public struct GetIdentityCenterAuthTokenInput: Swift.Sendable {
+    /// A list of cluster identifiers that the generated token can be used with. The token will be scoped to only allow authentication to the specified clusters. Constraints:
+    ///
+    /// * ClusterIds must contain at least 1 cluster identifier.
+    ///
+    /// * ClusterIds can hold a maximum of 20 cluster identifiers.
+    ///
+    /// * Cluster identifiers must be 1 to 63 characters in length.
+    ///
+    /// * The characters accepted for cluster identifiers are the following:
+    ///
+    /// * Alphanumeric characters
+    ///
+    /// * Hyphens
+    ///
+    ///
+    ///
+    ///
+    /// * Cluster identifiers must start with a letter.
+    ///
+    /// * Cluster identifiers can't end with a hyphen or contain two consecutive hyphens.
+    /// This member is required.
+    public var clusterIds: [Swift.String]?
+
+    public init(
+        clusterIds: [Swift.String]? = nil
+    ) {
+        self.clusterIds = clusterIds
+    }
+}
+
+/// The response from GetIdentityCenterAuthToken containing the encrypted authentication token and expiration time.
+public struct GetIdentityCenterAuthTokenOutput: Swift.Sendable {
+    /// The time (UTC) when the token expires. After this timestamp, the token will no longer be valid for authentication.
+    public var expirationTime: Foundation.Date?
+    /// The encrypted authentication token containing the caller's Amazon Web Services IAM Identity Center identity information. This token is encrypted using Key Management Service and can only be decrypted by the specified Amazon Redshift clusters. Use this token with Amazon Redshift drivers to authenticate using your Amazon Web Services IAM Identity Center identity.
+    public var token: Swift.String?
+
+    public init(
+        expirationTime: Foundation.Date? = nil,
+        token: Swift.String? = nil
+    ) {
+        self.expirationTime = expirationTime
+        self.token = token
+    }
+}
+
+extension GetIdentityCenterAuthTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetIdentityCenterAuthTokenOutput(expirationTime: \(Swift.String(describing: expirationTime)), token: \"CONTENT_REDACTED\")"}
+}
+
 extension RedshiftClientTypes {
 
     public enum ReservedNodeExchangeActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -11844,6 +12031,64 @@ public struct InvalidTableRestoreArgumentFault: ClientRuntime.ModeledError, AWSC
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension RedshiftClientTypes {
+
+    public enum LakehouseIdcRegistration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associate
+        case disassociate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LakehouseIdcRegistration] {
+            return [
+                .associate,
+                .disassociate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associate: return "Associate"
+            case .disassociate: return "Disassociate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RedshiftClientTypes {
+
+    public enum LakehouseRegistration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deregister
+        case register
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LakehouseRegistration] {
+            return [
+                .deregister,
+                .register
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deregister: return "Deregister"
+            case .register: return "Register"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -12157,6 +12402,8 @@ public struct ModifyClusterInput: Swift.Sendable {
     public var encrypted: Swift.Bool?
     /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see [Enhanced VPC Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html) in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled. Default: false
     public var enhancedVpcRouting: Swift.Bool?
+    /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+    public var extraComputeForAutomaticOptimization: Swift.Bool?
     /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
     public var hsmClientCertificateIdentifier: Swift.String?
     /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -12232,6 +12479,7 @@ public struct ModifyClusterInput: Swift.Sendable {
         elasticIp: Swift.String? = nil,
         encrypted: Swift.Bool? = nil,
         enhancedVpcRouting: Swift.Bool? = nil,
+        extraComputeForAutomaticOptimization: Swift.Bool? = nil,
         hsmClientCertificateIdentifier: Swift.String? = nil,
         hsmConfigurationIdentifier: Swift.String? = nil,
         ipAddressType: Swift.String? = nil,
@@ -12262,6 +12510,7 @@ public struct ModifyClusterInput: Swift.Sendable {
         self.elasticIp = elasticIp
         self.encrypted = encrypted
         self.enhancedVpcRouting = enhancedVpcRouting
+        self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
         self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
         self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
         self.ipAddressType = ipAddressType
@@ -12284,7 +12533,7 @@ public struct ModifyClusterInput: Swift.Sendable {
 
 extension ModifyClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyClusterInput(allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), newClusterIdentifier: \(Swift.String(describing: newClusterIdentifier)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "ModifyClusterInput(allowVersionUpgrade: \(Swift.String(describing: allowVersionUpgrade)), automatedSnapshotRetentionPeriod: \(Swift.String(describing: automatedSnapshotRetentionPeriod)), availabilityZone: \(Swift.String(describing: availabilityZone)), availabilityZoneRelocation: \(Swift.String(describing: availabilityZoneRelocation)), clusterIdentifier: \(Swift.String(describing: clusterIdentifier)), clusterParameterGroupName: \(Swift.String(describing: clusterParameterGroupName)), clusterSecurityGroups: \(Swift.String(describing: clusterSecurityGroups)), clusterType: \(Swift.String(describing: clusterType)), clusterVersion: \(Swift.String(describing: clusterVersion)), elasticIp: \(Swift.String(describing: elasticIp)), encrypted: \(Swift.String(describing: encrypted)), enhancedVpcRouting: \(Swift.String(describing: enhancedVpcRouting)), extraComputeForAutomaticOptimization: \(Swift.String(describing: extraComputeForAutomaticOptimization)), hsmClientCertificateIdentifier: \(Swift.String(describing: hsmClientCertificateIdentifier)), hsmConfigurationIdentifier: \(Swift.String(describing: hsmConfigurationIdentifier)), ipAddressType: \(Swift.String(describing: ipAddressType)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maintenanceTrackName: \(Swift.String(describing: maintenanceTrackName)), manageMasterPassword: \(Swift.String(describing: manageMasterPassword)), manualSnapshotRetentionPeriod: \(Swift.String(describing: manualSnapshotRetentionPeriod)), masterPasswordSecretKmsKeyId: \(Swift.String(describing: masterPasswordSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), newClusterIdentifier: \(Swift.String(describing: newClusterIdentifier)), nodeType: \(Swift.String(describing: nodeType)), numberOfNodes: \(Swift.String(describing: numberOfNodes)), port: \(Swift.String(describing: port)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyClusterOutput: Swift.Sendable {
@@ -12771,6 +13020,69 @@ public struct ModifyIntegrationOutput: Swift.Sendable {
         self.status = status
         self.tags = tags
         self.targetArn = targetArn
+    }
+}
+
+public struct ModifyLakehouseConfigurationInput: Swift.Sendable {
+    /// The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:
+    ///
+    /// * Must contain at least one lowercase letter.
+    ///
+    /// * Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).
+    ///
+    ///
+    /// Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01
+    public var catalogName: Swift.String?
+    /// The unique identifier of the cluster whose lakehouse configuration you want to modify.
+    /// This member is required.
+    public var clusterIdentifier: Swift.String?
+    /// A boolean value that, if true, validates the request without actually modifying the lakehouse configuration. Use this to check for errors before making changes.
+    public var dryRun: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
+    public var lakehouseIdcApplicationArn: Swift.String?
+    /// Modifies the Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate.
+    public var lakehouseIdcRegistration: RedshiftClientTypes.LakehouseIdcRegistration?
+    /// Specifies whether to register or deregister the cluster with Amazon Redshift federated permissions. Valid values are Register or Deregister.
+    public var lakehouseRegistration: RedshiftClientTypes.LakehouseRegistration?
+
+    public init(
+        catalogName: Swift.String? = nil,
+        clusterIdentifier: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        lakehouseIdcApplicationArn: Swift.String? = nil,
+        lakehouseIdcRegistration: RedshiftClientTypes.LakehouseIdcRegistration? = nil,
+        lakehouseRegistration: RedshiftClientTypes.LakehouseRegistration? = nil
+    ) {
+        self.catalogName = catalogName
+        self.clusterIdentifier = clusterIdentifier
+        self.dryRun = dryRun
+        self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
+        self.lakehouseIdcRegistration = lakehouseIdcRegistration
+        self.lakehouseRegistration = lakehouseRegistration
+    }
+}
+
+/// Contains configuration information for lakehouse integration, including the cluster identifier, catalog ARN, and registration status.
+public struct ModifyLakehouseConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Glue data catalog associated with the lakehouse configuration.
+    public var catalogArn: Swift.String?
+    /// The unique identifier of the cluster associated with this lakehouse configuration.
+    public var clusterIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
+    public var lakehouseIdcApplicationArn: Swift.String?
+    /// The current status of the lakehouse registration. Indicates whether the cluster is successfully registered with the lakehouse.
+    public var lakehouseRegistrationStatus: Swift.String?
+
+    public init(
+        catalogArn: Swift.String? = nil,
+        clusterIdentifier: Swift.String? = nil,
+        lakehouseIdcApplicationArn: Swift.String? = nil,
+        lakehouseRegistrationStatus: Swift.String? = nil
+    ) {
+        self.catalogArn = catalogArn
+        self.clusterIdentifier = clusterIdentifier
+        self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
+        self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
     }
 }
 
@@ -13396,6 +13708,15 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
     public var availabilityZone: Swift.String?
     /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is restored.
     public var availabilityZoneRelocation: Swift.Bool?
+    /// The name of the Glue Data Catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:
+    ///
+    /// * Must contain at least one lowercase letter.
+    ///
+    /// * Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).
+    ///
+    ///
+    /// Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$ Example: my-catalog_01
+    public var catalogName: Swift.String?
     /// The identifier of the cluster that will be created from restoring the snapshot. Constraints:
     ///
     /// * Must contain from 1 to 63 alphanumeric characters or hyphens.
@@ -13461,6 +13782,8 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
     public var preferredMaintenanceWindow: Swift.String?
     /// If true, the cluster can be accessed from a public network. Default: false
     public var publiclyAccessible: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
+    public var redshiftIdcApplicationArn: Swift.String?
     /// The identifier of the target reserved node offering.
     public var reservedNodeId: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier, but not both.
@@ -13483,6 +13806,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
         automatedSnapshotRetentionPeriod: Swift.Int? = nil,
         availabilityZone: Swift.String? = nil,
         availabilityZoneRelocation: Swift.Bool? = nil,
+        catalogName: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
         clusterParameterGroupName: Swift.String? = nil,
         clusterSecurityGroups: [Swift.String]? = nil,
@@ -13507,6 +13831,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
         port: Swift.Int? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        redshiftIdcApplicationArn: Swift.String? = nil,
         reservedNodeId: Swift.String? = nil,
         snapshotArn: Swift.String? = nil,
         snapshotClusterIdentifier: Swift.String? = nil,
@@ -13521,6 +13846,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
         self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
         self.availabilityZone = availabilityZone
         self.availabilityZoneRelocation = availabilityZoneRelocation
+        self.catalogName = catalogName
         self.clusterIdentifier = clusterIdentifier
         self.clusterParameterGroupName = clusterParameterGroupName
         self.clusterSecurityGroups = clusterSecurityGroups
@@ -13545,6 +13871,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Sendable {
         self.port = port
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
+        self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
         self.reservedNodeId = reservedNodeId
         self.snapshotArn = snapshotArn
         self.snapshotClusterIdentifier = snapshotClusterIdentifier
@@ -14564,6 +14891,13 @@ extension GetClusterCredentialsWithIAMInput {
     }
 }
 
+extension GetIdentityCenterAuthTokenInput {
+
+    static func urlPathProvider(_ value: GetIdentityCenterAuthTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetReservedNodeExchangeConfigurationOptionsInput {
 
     static func urlPathProvider(_ value: GetReservedNodeExchangeConfigurationOptionsInput) -> Swift.String? {
@@ -14686,6 +15020,13 @@ extension ModifyEventSubscriptionInput {
 extension ModifyIntegrationInput {
 
     static func urlPathProvider(_ value: ModifyIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyLakehouseConfigurationInput {
+
+    static func urlPathProvider(_ value: ModifyLakehouseConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -14991,6 +15332,7 @@ extension CreateClusterInput {
         try writer["AutomatedSnapshotRetentionPeriod"].write(value.automatedSnapshotRetentionPeriod)
         try writer["AvailabilityZone"].write(value.availabilityZone)
         try writer["AvailabilityZoneRelocation"].write(value.availabilityZoneRelocation)
+        try writer["CatalogName"].write(value.catalogName)
         try writer["ClusterIdentifier"].write(value.clusterIdentifier)
         try writer["ClusterParameterGroupName"].write(value.clusterParameterGroupName)
         try writer["ClusterSecurityGroups"].writeList(value.clusterSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "ClusterSecurityGroupName", isFlattened: false)
@@ -15002,6 +15344,7 @@ extension CreateClusterInput {
         try writer["ElasticIp"].write(value.elasticIp)
         try writer["Encrypted"].write(value.encrypted)
         try writer["EnhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["ExtraComputeForAutomaticOptimization"].write(value.extraComputeForAutomaticOptimization)
         try writer["HsmClientCertificateIdentifier"].write(value.hsmClientCertificateIdentifier)
         try writer["HsmConfigurationIdentifier"].write(value.hsmConfigurationIdentifier)
         try writer["IamRoles"].writeList(value.iamRoles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "IamRoleArn", isFlattened: false)
@@ -15170,6 +15513,7 @@ extension CreateRedshiftIdcApplicationInput {
 
     static func write(value: CreateRedshiftIdcApplicationInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApplicationType"].write(value.applicationType)
         try writer["AuthorizedTokenIssuerList"].writeList(value.authorizedTokenIssuerList, memberWritingClosure: RedshiftClientTypes.AuthorizedTokenIssuer.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["IamRoleArn"].write(value.iamRoleArn)
         try writer["IdcDisplayName"].write(value.idcDisplayName)
@@ -15177,6 +15521,8 @@ extension CreateRedshiftIdcApplicationInput {
         try writer["IdentityNamespace"].write(value.identityNamespace)
         try writer["RedshiftIdcApplicationName"].write(value.redshiftIdcApplicationName)
         try writer["ServiceIntegrations"].writeList(value.serviceIntegrations, memberWritingClosure: RedshiftClientTypes.ServiceIntegrationsUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SsoTagKeys"].writeList(value.ssoTagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "TagKey", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RedshiftClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["Action"].write("CreateRedshiftIdcApplication")
         try writer["Version"].write("2012-12-01")
     }
@@ -16130,6 +16476,16 @@ extension GetClusterCredentialsWithIAMInput {
     }
 }
 
+extension GetIdentityCenterAuthTokenInput {
+
+    static func write(value: GetIdentityCenterAuthTokenInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterIds"].writeList(value.clusterIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "ClusterIdentifier", isFlattened: false)
+        try writer["Action"].write("GetIdentityCenterAuthToken")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
 extension GetReservedNodeExchangeConfigurationOptionsInput {
 
     static func write(value: GetReservedNodeExchangeConfigurationOptionsInput?, to writer: SmithyFormURL.Writer) throws {
@@ -16217,6 +16573,7 @@ extension ModifyClusterInput {
         try writer["ElasticIp"].write(value.elasticIp)
         try writer["Encrypted"].write(value.encrypted)
         try writer["EnhancedVpcRouting"].write(value.enhancedVpcRouting)
+        try writer["ExtraComputeForAutomaticOptimization"].write(value.extraComputeForAutomaticOptimization)
         try writer["HsmClientCertificateIdentifier"].write(value.hsmClientCertificateIdentifier)
         try writer["HsmConfigurationIdentifier"].write(value.hsmConfigurationIdentifier)
         try writer["IpAddressType"].write(value.ipAddressType)
@@ -16372,6 +16729,21 @@ extension ModifyIntegrationInput {
         try writer["IntegrationArn"].write(value.integrationArn)
         try writer["IntegrationName"].write(value.integrationName)
         try writer["Action"].write("ModifyIntegration")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension ModifyLakehouseConfigurationInput {
+
+    static func write(value: ModifyLakehouseConfigurationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogName"].write(value.catalogName)
+        try writer["ClusterIdentifier"].write(value.clusterIdentifier)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["LakehouseIdcApplicationArn"].write(value.lakehouseIdcApplicationArn)
+        try writer["LakehouseIdcRegistration"].write(value.lakehouseIdcRegistration)
+        try writer["LakehouseRegistration"].write(value.lakehouseRegistration)
+        try writer["Action"].write("ModifyLakehouseConfiguration")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -16544,6 +16916,7 @@ extension RestoreFromClusterSnapshotInput {
         try writer["AutomatedSnapshotRetentionPeriod"].write(value.automatedSnapshotRetentionPeriod)
         try writer["AvailabilityZone"].write(value.availabilityZone)
         try writer["AvailabilityZoneRelocation"].write(value.availabilityZoneRelocation)
+        try writer["CatalogName"].write(value.catalogName)
         try writer["ClusterIdentifier"].write(value.clusterIdentifier)
         try writer["ClusterParameterGroupName"].write(value.clusterParameterGroupName)
         try writer["ClusterSecurityGroups"].writeList(value.clusterSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "ClusterSecurityGroupName", isFlattened: false)
@@ -16568,6 +16941,7 @@ extension RestoreFromClusterSnapshotInput {
         try writer["Port"].write(value.port)
         try writer["PreferredMaintenanceWindow"].write(value.preferredMaintenanceWindow)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
+        try writer["RedshiftIdcApplicationArn"].write(value.redshiftIdcApplicationArn)
         try writer["ReservedNodeId"].write(value.reservedNodeId)
         try writer["SnapshotArn"].write(value.snapshotArn)
         try writer["SnapshotClusterIdentifier"].write(value.snapshotClusterIdentifier)
@@ -17982,6 +18356,19 @@ extension GetClusterCredentialsWithIAMOutput {
     }
 }
 
+extension GetIdentityCenterAuthTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdentityCenterAuthTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetIdentityCenterAuthTokenResult"]
+        var value = GetIdentityCenterAuthTokenOutput()
+        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.token = try reader["Token"].readIfPresent()
+        return value
+    }
+}
+
 extension GetReservedNodeExchangeConfigurationOptionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetReservedNodeExchangeConfigurationOptionsOutput {
@@ -18216,6 +18603,21 @@ extension ModifyIntegrationOutput {
         value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         value.targetArn = try reader["TargetArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ModifyLakehouseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyLakehouseConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ModifyLakehouseConfigurationResult"]
+        var value = ModifyLakehouseConfigurationOutput()
+        value.catalogArn = try reader["CatalogArn"].readIfPresent()
+        value.clusterIdentifier = try reader["ClusterIdentifier"].readIfPresent()
+        value.lakehouseIdcApplicationArn = try reader["LakehouseIdcApplicationArn"].readIfPresent()
+        value.lakehouseRegistrationStatus = try reader["LakehouseRegistrationStatus"].readIfPresent()
         return value
     }
 }
@@ -18724,7 +19126,9 @@ enum CreateClusterOutputError {
             case "ClusterQuotaExceeded": return try ClusterQuotaExceededFault.makeError(baseError: baseError)
             case "ClusterSecurityGroupNotFound": return try ClusterSecurityGroupNotFoundFault.makeError(baseError: baseError)
             case "ClusterSubnetGroupNotFoundFault": return try ClusterSubnetGroupNotFoundFault.makeError(baseError: baseError)
+            case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
             case "DependentServiceRequestThrottlingFault": return try DependentServiceRequestThrottlingFault.makeError(baseError: baseError)
+            case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
             case "HsmClientCertificateNotFoundFault": return try HsmClientCertificateNotFoundFault.makeError(baseError: baseError)
             case "HsmConfigurationNotFoundFault": return try HsmConfigurationNotFoundFault.makeError(baseError: baseError)
             case "InsufficientClusterCapacity": return try InsufficientClusterCapacityFault.makeError(baseError: baseError)
@@ -18953,8 +19357,10 @@ enum CreateRedshiftIdcApplicationOutputError {
         switch baseError.code {
             case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
             case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
+            case "InvalidTagFault": return try InvalidTagFault.makeError(baseError: baseError)
             case "RedshiftIdcApplicationAlreadyExists": return try RedshiftIdcApplicationAlreadyExistsFault.makeError(baseError: baseError)
             case "RedshiftIdcApplicationQuotaExceeded": return try RedshiftIdcApplicationQuotaExceededFault.makeError(baseError: baseError)
+            case "TagLimitExceededFault": return try TagLimitExceededFault.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -20150,6 +20556,23 @@ enum GetClusterCredentialsWithIAMOutputError {
     }
 }
 
+enum GetIdentityCenterAuthTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "RedshiftInvalidParameter": return try RedshiftInvalidParameterFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetReservedNodeExchangeConfigurationOptionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20477,6 +20900,26 @@ enum ModifyIntegrationOutputError {
     }
 }
 
+enum ModifyLakehouseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
+            case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
+            case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "RedshiftIdcApplicationNotExists": return try RedshiftIdcApplicationNotExistsFault.makeError(baseError: baseError)
+            case "UnauthorizedOperation": return try UnauthorizedOperation.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyRedshiftIdcApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20717,6 +21160,7 @@ enum RestoreFromClusterSnapshotOutputError {
             case "ClusterSecurityGroupNotFound": return try ClusterSecurityGroupNotFoundFault.makeError(baseError: baseError)
             case "ClusterSnapshotNotFound": return try ClusterSnapshotNotFoundFault.makeError(baseError: baseError)
             case "ClusterSubnetGroupNotFoundFault": return try ClusterSubnetGroupNotFoundFault.makeError(baseError: baseError)
+            case "DependentServiceAccessDenied": return try DependentServiceAccessDeniedFault.makeError(baseError: baseError)
             case "DependentServiceRequestThrottlingFault": return try DependentServiceRequestThrottlingFault.makeError(baseError: baseError)
             case "DependentServiceUnavailableFault": return try DependentServiceUnavailableFault.makeError(baseError: baseError)
             case "HsmClientCertificateNotFoundFault": return try HsmClientCertificateNotFoundFault.makeError(baseError: baseError)
@@ -20735,6 +21179,7 @@ enum RestoreFromClusterSnapshotOutputError {
             case "LimitExceededFault": return try LimitExceededFault.makeError(baseError: baseError)
             case "NumberOfNodesPerClusterLimitExceeded": return try NumberOfNodesPerClusterLimitExceededFault.makeError(baseError: baseError)
             case "NumberOfNodesQuotaExceeded": return try NumberOfNodesQuotaExceededFault.makeError(baseError: baseError)
+            case "RedshiftIdcApplicationNotExists": return try RedshiftIdcApplicationNotExistsFault.makeError(baseError: baseError)
             case "ReservedNodeAlreadyExists": return try ReservedNodeAlreadyExistsFault.makeError(baseError: baseError)
             case "ReservedNodeAlreadyMigrated": return try ReservedNodeAlreadyMigratedFault.makeError(baseError: baseError)
             case "ReservedNodeNotFound": return try ReservedNodeNotFoundFault.makeError(baseError: baseError)
@@ -21353,6 +21798,19 @@ extension ClusterSubnetGroupNotFoundFault {
     }
 }
 
+extension DependentServiceAccessDeniedFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DependentServiceAccessDeniedFault {
+        let reader = baseError.errorBodyReader
+        var value = DependentServiceAccessDeniedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension HsmClientCertificateNotFoundFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HsmClientCertificateNotFoundFault {
@@ -21951,19 +22409,6 @@ extension IntegrationTargetNotFoundFault {
     }
 }
 
-extension DependentServiceAccessDeniedFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> DependentServiceAccessDeniedFault {
-        let reader = baseError.errorBodyReader
-        var value = DependentServiceAccessDeniedFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension RedshiftIdcApplicationAlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RedshiftIdcApplicationAlreadyExistsFault {
@@ -22536,6 +22981,19 @@ extension UnknownSnapshotCopyRegionFault {
     }
 }
 
+extension RedshiftInvalidParameterFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RedshiftInvalidParameterFault {
+        let reader = baseError.errorBodyReader
+        var value = RedshiftInvalidParameterFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidPolicyFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidPolicyFault {
@@ -22958,6 +23416,9 @@ extension RedshiftClientTypes.Cluster {
         value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         value.multiAZ = try reader["MultiAZ"].readIfPresent()
         value.multiAZSecondary = try reader["MultiAZSecondary"].readIfPresent(with: RedshiftClientTypes.SecondaryClusterInfo.read(from:))
+        value.lakehouseRegistrationStatus = try reader["LakehouseRegistrationStatus"].readIfPresent()
+        value.catalogArn = try reader["CatalogArn"].readIfPresent()
+        value.extraComputeForAutomaticOptimization = try reader["ExtraComputeForAutomaticOptimization"].readIfPresent()
         return value
     }
 }
@@ -23352,6 +23813,9 @@ extension RedshiftClientTypes.RedshiftIdcApplication {
         value.idcOnboardStatus = try reader["IdcOnboardStatus"].readIfPresent()
         value.authorizedTokenIssuerList = try reader["AuthorizedTokenIssuerList"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.AuthorizedTokenIssuer.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceIntegrations = try reader["ServiceIntegrations"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.ServiceIntegrationsUnion.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.applicationType = try reader["ApplicationType"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RedshiftClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        value.ssoTagKeys = try reader["SsoTagKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "TagKey", isFlattened: false)
         return value
     }
 }
@@ -23363,6 +23827,8 @@ extension RedshiftClientTypes.ServiceIntegrationsUnion {
         switch value {
             case let .lakeformation(lakeformation):
                 try writer["LakeFormation"].writeList(lakeformation, memberWritingClosure: RedshiftClientTypes.LakeFormationScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .redshift(redshift):
+                try writer["Redshift"].writeList(redshift, memberWritingClosure: RedshiftClientTypes.RedshiftScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .s3accessgrants(s3accessgrants):
                 try writer["S3AccessGrants"].writeList(s3accessgrants, memberWritingClosure: RedshiftClientTypes.S3AccessGrantsScopeUnion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
@@ -23378,9 +23844,50 @@ extension RedshiftClientTypes.ServiceIntegrationsUnion {
                 return .lakeformation(try reader["LakeFormation"].readList(memberReadingClosure: RedshiftClientTypes.LakeFormationScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
             case "S3AccessGrants":
                 return .s3accessgrants(try reader["S3AccessGrants"].readList(memberReadingClosure: RedshiftClientTypes.S3AccessGrantsScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "Redshift":
+                return .redshift(try reader["Redshift"].readList(memberReadingClosure: RedshiftClientTypes.RedshiftScopeUnion.read(from:), memberNodeInfo: "member", isFlattened: false))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension RedshiftClientTypes.RedshiftScopeUnion {
+
+    static func write(value: RedshiftClientTypes.RedshiftScopeUnion?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .connect(connect):
+                try writer["Connect"].write(connect, with: RedshiftClientTypes.Connect.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.RedshiftScopeUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Connect":
+                return .connect(try reader["Connect"].read(with: RedshiftClientTypes.Connect.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RedshiftClientTypes.Connect {
+
+    static func write(value: RedshiftClientTypes.Connect?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Authorization"].write(value.authorization)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> RedshiftClientTypes.Connect {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftClientTypes.Connect()
+        value.authorization = try reader["Authorization"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

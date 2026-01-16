@@ -342,6 +342,7 @@ extension AutoScalingClientTypes {
     public enum ScalingActivityStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cancelled
         case failed
+        case inplaceupdateinprogress
         case inprogress
         case midlifecycleaction
         case pendingspotbidplacement
@@ -349,6 +350,8 @@ extension AutoScalingClientTypes {
         case successful
         case waitingforconnectiondraining
         case waitingforelbconnectiondraining
+        case waitingforinplaceupdatetofinalize
+        case waitingforinplaceupdatetostart
         case waitingforinstanceid
         case waitingforinstancewarmup
         case waitingforspotinstanceid
@@ -359,6 +362,7 @@ extension AutoScalingClientTypes {
             return [
                 .cancelled,
                 .failed,
+                .inplaceupdateinprogress,
                 .inprogress,
                 .midlifecycleaction,
                 .pendingspotbidplacement,
@@ -366,6 +370,8 @@ extension AutoScalingClientTypes {
                 .successful,
                 .waitingforconnectiondraining,
                 .waitingforelbconnectiondraining,
+                .waitingforinplaceupdatetofinalize,
+                .waitingforinplaceupdatetostart,
                 .waitingforinstanceid,
                 .waitingforinstancewarmup,
                 .waitingforspotinstanceid,
@@ -382,6 +388,7 @@ extension AutoScalingClientTypes {
             switch self {
             case .cancelled: return "Cancelled"
             case .failed: return "Failed"
+            case .inplaceupdateinprogress: return "InPlaceUpdateInProgress"
             case .inprogress: return "InProgress"
             case .midlifecycleaction: return "MidLifecycleAction"
             case .pendingspotbidplacement: return "PendingSpotBidPlacement"
@@ -389,6 +396,8 @@ extension AutoScalingClientTypes {
             case .successful: return "Successful"
             case .waitingforconnectiondraining: return "WaitingForConnectionDraining"
             case .waitingforelbconnectiondraining: return "WaitingForELBConnectionDraining"
+            case .waitingforinplaceupdatetofinalize: return "WaitingForInPlaceUpdateToFinalize"
+            case .waitingforinplaceupdatetostart: return "WaitingForInPlaceUpdateToStart"
             case .waitingforinstanceid: return "WaitingForInstanceId"
             case .waitingforinstancewarmup: return "WaitingForInstanceWarmup"
             case .waitingforspotinstanceid: return "WaitingForSpotInstanceId"
@@ -596,6 +605,29 @@ public struct AttachInstancesInput: Swift.Sendable {
     ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.instanceIds = instanceIds
+    }
+}
+
+/// The request failed because an active instance refresh already exists for the specified Auto Scaling group.
+public struct InstanceRefreshInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InstanceRefreshInProgress" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -859,11 +891,15 @@ public struct CancelInstanceRefreshInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
+    /// When cancelling an instance refresh, this indicates whether to wait for in-flight launches and terminations to complete. The default is true. When set to false, Amazon EC2 Auto Scaling cancels the instance refresh without waiting for any pending launches or terminations to complete.
+    public var waitForTransitioningInstances: Swift.Bool?
 
     public init(
-        autoScalingGroupName: Swift.String? = nil
+        autoScalingGroupName: Swift.String? = nil,
+        waitForTransitioningInstances: Swift.Bool? = nil
     ) {
         self.autoScalingGroupName = autoScalingGroupName
+        self.waitForTransitioningInstances = waitForTransitioningInstances
     }
 }
 
@@ -1086,6 +1122,65 @@ extension AutoScalingClientTypes {
         ) {
             self.capacityReservationPreference = capacityReservationPreference
             self.capacityReservationTarget = capacityReservationTarget
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    public enum RetentionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case retain
+        case terminate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetentionAction] {
+            return [
+                .retain,
+                .terminate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .retain: return "retain"
+            case .terminate: return "terminate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Defines the specific triggers that cause instances to be retained in a Retained state rather than terminated. Each trigger corresponds to a different failure scenario during the instance lifecycle. This allows fine-grained control over when to preserve instances for manual intervention.
+    public struct RetentionTriggers: Swift.Sendable {
+        /// Specifies the action when a termination lifecycle hook is abandoned due to failure, timeout, or explicit abandonment (calling CompleteLifecycleAction). Set to Retain to move instances to a Retained state. Set to Terminate for default termination behavior. Retained instances don't count toward desired capacity and remain until you call TerminateInstanceInAutoScalingGroup.
+        public var terminateHookAbandon: AutoScalingClientTypes.RetentionAction?
+
+        public init(
+            terminateHookAbandon: AutoScalingClientTypes.RetentionAction? = nil
+        ) {
+            self.terminateHookAbandon = terminateHookAbandon
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Defines the lifecycle policy for instances in an Auto Scaling group. This policy controls instance behavior when lifecycles transition and operations fail. Use lifecycle policies to ensure graceful shutdown for stateful workloads or applications requiring extended draining periods.
+    public struct InstanceLifecyclePolicy: Swift.Sendable {
+        /// Specifies the conditions that trigger instance retention behavior. These triggers determine when instances should move to a Retained state instead of being terminated. This allows you to maintain control over instance management when lifecycle operations fail.
+        public var retentionTriggers: AutoScalingClientTypes.RetentionTriggers?
+
+        public init(
+            retentionTriggers: AutoScalingClientTypes.RetentionTriggers? = nil
+        ) {
+            self.retentionTriggers = retentionTriggers
         }
     }
 }
@@ -1793,6 +1888,14 @@ extension AutoScalingClientTypes {
     ///
     /// Specify the instance types that you want, or define your instance requirements instead and let Amazon EC2 Auto Scaling provision the available instance types that meet your requirements. This can provide Amazon EC2 Auto Scaling with a larger selection of instance types to choose from when fulfilling Spot and On-Demand capacities. You can view which instance types are matched before you apply the instance requirements to your Auto Scaling group. After you define your instance requirements, you don't have to keep updating these settings to get new EC2 instance types automatically. Amazon EC2 Auto Scaling uses the instance requirements of the Auto Scaling group to determine whether a new EC2 instance type can be used.
     public struct LaunchTemplateOverrides: Swift.Sendable {
+        /// The ID of the Amazon Machine Image (AMI) to use for instances launched with this override. When using Instance Refresh with ReplaceRootVolume strategy, this specifies the AMI for root volume replacement operations. For ReplaceRootVolume operations:
+        ///
+        /// * All overrides in the MixedInstancesPolicy must specify an ImageId
+        ///
+        /// * The AMI must contain only a single root volume
+        ///
+        /// * Root volume replacement doesn't support multi-volume AMIs
+        public var imageId: Swift.String?
         /// The instance requirements. Amazon EC2 Auto Scaling uses your specified requirements to identify instance types. Then, it uses your On-Demand and Spot allocation strategies to launch instances from these instance types. You can specify up to four separate sets of instance requirements per Auto Scaling group. This is useful for provisioning instances from different Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this, create the AMIs and create a new launch template for each AMI. Then, create a compatible set of instance requirements for each launch template. If you specify InstanceRequirements, you can't specify InstanceType.
         public var instanceRequirements: AutoScalingClientTypes.InstanceRequirements?
         /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. You can specify up to 40 instance types per Auto Scaling group.
@@ -1803,11 +1906,13 @@ extension AutoScalingClientTypes {
         public var weightedCapacity: Swift.String?
 
         public init(
+            imageId: Swift.String? = nil,
             instanceRequirements: AutoScalingClientTypes.InstanceRequirements? = nil,
             instanceType: Swift.String? = nil,
             launchTemplateSpecification: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
             weightedCapacity: Swift.String? = nil
         ) {
+            self.imageId = imageId
             self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.launchTemplateSpecification = launchTemplateSpecification
@@ -1916,6 +2021,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var healthCheckType: Swift.String?
     /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html) API operation. For more information, see [Create an Auto Scaling group using parameters from an existing instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceId: Swift.String?
+    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state for manual intervention instead of automatic termination. Instances in a Retained state will continue to incur standard EC2 charges until terminated.
+    public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
     /// An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
     /// The name of the launch configuration to use to launch instances. Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
@@ -1970,6 +2077,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         healthCheckGracePeriod: Swift.Int? = nil,
         healthCheckType: Swift.String? = nil,
         instanceId: Swift.String? = nil,
+        instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy? = nil,
         instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy? = nil,
         launchConfigurationName: Swift.String? = nil,
         launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
@@ -2003,6 +2111,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         self.healthCheckGracePeriod = healthCheckGracePeriod
         self.healthCheckType = healthCheckType
         self.instanceId = instanceId
+        self.instanceLifecyclePolicy = instanceLifecyclePolicy
         self.instanceMaintenancePolicy = instanceMaintenancePolicy
         self.launchConfigurationName = launchConfigurationName
         self.launchTemplate = launchTemplate
@@ -2767,6 +2876,19 @@ extension AutoScalingClientTypes {
         /// The last reported health status of the instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
+        /// The ID of the Amazon Machine Image (AMI) used for the instance's current root volume. This value reflects the most recent AMI applied to the instance, including updates made through root volume replacement operations. This field appears for:
+        ///
+        /// * Instances with root volume replacements through Instance Refresh
+        ///
+        /// * Instances launched with AMI overrides
+        ///
+        ///
+        /// This field won't appear for:
+        ///
+        /// * Existing instances launched from Launch Templates without overrides
+        ///
+        /// * Existing instances that didn’t have their root volume replaced through Instance Refresh
+        public var imageId: Swift.String?
         /// The ID of the instance.
         /// This member is required.
         public var instanceId: Swift.String?
@@ -2788,6 +2910,7 @@ extension AutoScalingClientTypes {
         public init(
             availabilityZone: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
+            imageId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             launchConfigurationName: Swift.String? = nil,
@@ -2798,6 +2921,7 @@ extension AutoScalingClientTypes {
         ) {
             self.availabilityZone = availabilityZone
             self.healthStatus = healthStatus
+            self.imageId = imageId
             self.instanceId = instanceId
             self.instanceType = instanceType
             self.launchConfigurationName = launchConfigurationName
@@ -3005,6 +3129,8 @@ extension AutoScalingClientTypes {
         /// A comma-separated value string of one or more health check types.
         /// This member is required.
         public var healthCheckType: Swift.String?
+        /// The instance lifecycle policy applied to this Auto Scaling group. This policy determines instance behavior when an instance transitions through its lifecycle states. It provides additional control over graceful instance management processes.
+        public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
         /// An instance maintenance policy.
         public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
         /// The EC2 instances associated with the group.
@@ -3069,6 +3195,7 @@ extension AutoScalingClientTypes {
             enabledMetrics: [AutoScalingClientTypes.EnabledMetric]? = nil,
             healthCheckGracePeriod: Swift.Int? = nil,
             healthCheckType: Swift.String? = nil,
+            instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy? = nil,
             instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy? = nil,
             instances: [AutoScalingClientTypes.Instance]? = nil,
             launchConfigurationName: Swift.String? = nil,
@@ -3108,6 +3235,7 @@ extension AutoScalingClientTypes {
             self.enabledMetrics = enabledMetrics
             self.healthCheckGracePeriod = healthCheckGracePeriod
             self.healthCheckType = healthCheckType
+            self.instanceLifecyclePolicy = instanceLifecyclePolicy
             self.instanceMaintenancePolicy = instanceMaintenancePolicy
             self.instances = instances
             self.launchConfigurationName = launchConfigurationName
@@ -3182,6 +3310,19 @@ extension AutoScalingClientTypes {
         /// The last reported health status of this instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
         /// This member is required.
         public var healthStatus: Swift.String?
+        /// The ID of the Amazon Machine Image (AMI) associated with the instance. This field shows the current AMI ID of the instance's root volume. It may differ from the original AMI used when the instance was first launched. This field appears for:
+        ///
+        /// * Instances with root volume replacements through Instance Refresh
+        ///
+        /// * Instances launched with AMI overrides
+        ///
+        ///
+        /// This field won't appear for:
+        ///
+        /// * Existing instances launched from Launch Templates without overrides
+        ///
+        /// * Existing instances that didn’t have their root volume replaced through Instance Refresh
+        public var imageId: Swift.String?
         /// The ID of the instance.
         /// This member is required.
         public var instanceId: Swift.String?
@@ -3204,6 +3345,7 @@ extension AutoScalingClientTypes {
             autoScalingGroupName: Swift.String? = nil,
             availabilityZone: Swift.String? = nil,
             healthStatus: Swift.String? = nil,
+            imageId: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceType: Swift.String? = nil,
             launchConfigurationName: Swift.String? = nil,
@@ -3215,6 +3357,7 @@ extension AutoScalingClientTypes {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZone = availabilityZone
             self.healthStatus = healthStatus
+            self.imageId = imageId
             self.instanceId = instanceId
             self.instanceType = instanceType
             self.launchConfigurationName = launchConfigurationName
@@ -3566,6 +3709,35 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
+    public enum RefreshStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case replacerootvolume
+        case rolling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RefreshStrategy] {
+            return [
+                .replacerootvolume,
+                .rolling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .replacerootvolume: return "ReplaceRootVolume"
+            case .rolling: return "Rolling"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
     /// Describes an instance refresh for an Auto Scaling group.
     public struct InstanceRefresh: Swift.Sendable {
         /// The name of the Auto Scaling group.
@@ -3612,6 +3784,12 @@ extension AutoScalingClientTypes {
         public var status: AutoScalingClientTypes.InstanceRefreshStatus?
         /// The explanation for the specific status assigned to this operation.
         public var statusReason: Swift.String?
+        /// The strategy to use for the instance refresh. This determines how instances in the Auto Scaling group are updated. Default is Rolling.
+        ///
+        /// * Rolling – Terminates instances and launches replacements in batches
+        ///
+        /// * ReplaceRootVolume – Updates instances by replacing only the root volume without terminating the instance
+        public var strategy: AutoScalingClientTypes.RefreshStrategy?
 
         public init(
             autoScalingGroupName: Swift.String? = nil,
@@ -3625,7 +3803,8 @@ extension AutoScalingClientTypes {
             rollbackDetails: AutoScalingClientTypes.RollbackDetails? = nil,
             startTime: Foundation.Date? = nil,
             status: AutoScalingClientTypes.InstanceRefreshStatus? = nil,
-            statusReason: Swift.String? = nil
+            statusReason: Swift.String? = nil,
+            strategy: AutoScalingClientTypes.RefreshStrategy? = nil
         ) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredConfiguration = desiredConfiguration
@@ -3639,6 +3818,7 @@ extension AutoScalingClientTypes {
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
+            self.strategy = strategy
         }
     }
 }
@@ -5828,6 +6008,193 @@ public struct GetPredictiveScalingForecastOutput: Swift.Sendable {
     }
 }
 
+/// Indicates that the parameters in the current request do not match the parameters from a previous request with the same client token within the idempotency window.
+public struct IdempotentParameterMismatchError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IdempotentParameterMismatch" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    public enum RetryStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case retryWithGroupConfiguration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetryStrategy] {
+            return [
+                .none,
+                .retryWithGroupConfiguration
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .retryWithGroupConfiguration: return "retry-with-group-configuration"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct LaunchInstancesInput: Swift.Sendable {
+    /// The name of the Auto Scaling group to launch instances into.
+    /// This member is required.
+    public var autoScalingGroupName: Swift.String?
+    /// A list of Availability Zone IDs where instances should be launched. Must match or be included in the group's AZ configuration. You cannot specify both AvailabilityZones and AvailabilityZoneIds. Required for multi-AZ groups, optional for single-AZ groups.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The Availability Zones for the instance launch. Must match or be included in the Auto Scaling group's Availability Zone configuration. Either AvailabilityZones or SubnetIds must be specified for groups with multiple Availability Zone configurations.
+    public var availabilityZones: [Swift.String]?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The number of instances to launch. Although this value can exceed 100 for instance weights, the actual instance count is limited to 100 instances per launch.
+    /// This member is required.
+    public var requestedCapacity: Swift.Int?
+    /// Specifies whether to retry asynchronously if the synchronous launch fails. Valid values are NONE (default, no async retry) and RETRY_WITH_GROUP_CONFIGURATION (increase desired capacity and retry with group configuration).
+    public var retryStrategy: AutoScalingClientTypes.RetryStrategy?
+    /// The subnet IDs for the instance launch. Either AvailabilityZones or SubnetIds must be specified. If both are specified, the subnets must reside in the specified Availability Zones.
+    public var subnetIds: [Swift.String]?
+
+    public init(
+        autoScalingGroupName: Swift.String? = nil,
+        availabilityZoneIds: [Swift.String]? = nil,
+        availabilityZones: [Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        requestedCapacity: Swift.Int? = nil,
+        retryStrategy: AutoScalingClientTypes.RetryStrategy? = nil,
+        subnetIds: [Swift.String]? = nil
+    ) {
+        self.autoScalingGroupName = autoScalingGroupName
+        self.availabilityZoneIds = availabilityZoneIds
+        self.availabilityZones = availabilityZones
+        self.clientToken = clientToken
+        self.requestedCapacity = requestedCapacity
+        self.retryStrategy = retryStrategy
+        self.subnetIds = subnetIds
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Contains details about errors encountered during instance launch attempts.
+    public struct LaunchInstancesError: Swift.Sendable {
+        /// The Availability Zone where the instance launch was attempted.
+        public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the launch error occurred.
+        public var availabilityZoneId: Swift.String?
+        /// The error code representing the type of error encountered (e.g., InsufficientInstanceCapacity).
+        public var errorCode: Swift.String?
+        /// A descriptive message providing details about the error encountered during the launch attempt.
+        public var errorMessage: Swift.String?
+        /// The instance type that failed to launch.
+        public var instanceType: Swift.String?
+        /// The market type (On-Demand or Spot) that encountered the launch error.
+        public var marketType: Swift.String?
+        /// The subnet ID where the instance launch was attempted.
+        public var subnetId: Swift.String?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            marketType: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.instanceType = instanceType
+            self.marketType = marketType
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
+    /// Contains details about a collection of instances launched in the Auto Scaling group.
+    public struct InstanceCollection: Swift.Sendable {
+        /// The Availability Zone where the instances were launched.
+        public var availabilityZone: Swift.String?
+        /// The Availability Zone ID where the instances in this collection were launched.
+        public var availabilityZoneId: Swift.String?
+        /// A list of instance IDs for the successfully launched instances.
+        public var instanceIds: [Swift.String]?
+        /// The instance type of the launched instances.
+        public var instanceType: Swift.String?
+        /// The market type for the instances (On-Demand or Spot).
+        public var marketType: Swift.String?
+        /// The ID of the subnet where the instances were launched.
+        public var subnetId: Swift.String?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            instanceIds: [Swift.String]? = nil,
+            instanceType: Swift.String? = nil,
+            marketType: Swift.String? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.instanceIds = instanceIds
+            self.instanceType = instanceType
+            self.marketType = marketType
+            self.subnetId = subnetId
+        }
+    }
+}
+
+public struct LaunchInstancesOutput: Swift.Sendable {
+    /// The name of the Auto Scaling group where the instances were launched.
+    public var autoScalingGroupName: Swift.String?
+    /// The idempotency token used for the request, either customer-specified or auto-generated.
+    public var clientToken: Swift.String?
+    /// A list of errors encountered during the launch attempt including details about failed instance launches with their corresponding error codes and messages.
+    public var errors: [AutoScalingClientTypes.LaunchInstancesError]?
+    /// A list of successfully launched instances including details such as instance type, Availability Zone, subnet, lifecycle state, and instance IDs.
+    public var instances: [AutoScalingClientTypes.InstanceCollection]?
+
+    public init(
+        autoScalingGroupName: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        errors: [AutoScalingClientTypes.LaunchInstancesError]? = nil,
+        instances: [AutoScalingClientTypes.InstanceCollection]? = nil
+    ) {
+        self.autoScalingGroupName = autoScalingGroupName
+        self.clientToken = clientToken
+        self.errors = errors
+        self.instances = instances
+    }
+}
+
 public struct PutLifecycleHookInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     /// This member is required.
@@ -6268,55 +6635,6 @@ public struct SetInstanceProtectionOutput: Swift.Sendable {
     public init() { }
 }
 
-/// The request failed because an active instance refresh already exists for the specified Auto Scaling group.
-public struct InstanceRefreshInProgressFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InstanceRefreshInProgress" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-extension AutoScalingClientTypes {
-
-    public enum RefreshStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case rolling
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RefreshStrategy] {
-            return [
-                .rolling
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .rolling: return "Rolling"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct StartInstanceRefreshInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     /// This member is required.
@@ -6455,6 +6773,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var healthCheckGracePeriod: Swift.Int?
     /// A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see [Health checks for instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html) in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
     public var healthCheckType: Swift.String?
+    /// The instance lifecycle policy for the Auto Scaling group. Use this to add, modify, or remove lifecycle policies that control instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when to preserve instances for manual intervention.
+    public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
     /// An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
     /// The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
@@ -6496,6 +6816,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         desiredCapacityType: Swift.String? = nil,
         healthCheckGracePeriod: Swift.Int? = nil,
         healthCheckType: Swift.String? = nil,
+        instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy? = nil,
         instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy? = nil,
         launchConfigurationName: Swift.String? = nil,
         launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification? = nil,
@@ -6523,6 +6844,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         self.desiredCapacityType = desiredCapacityType
         self.healthCheckGracePeriod = healthCheckGracePeriod
         self.healthCheckType = healthCheckType
+        self.instanceLifecyclePolicy = instanceLifecyclePolicy
         self.instanceMaintenancePolicy = instanceMaintenancePolicy
         self.launchConfigurationName = launchConfigurationName
         self.launchTemplate = launchTemplate
@@ -6889,6 +7211,13 @@ extension GetPredictiveScalingForecastInput {
     }
 }
 
+extension LaunchInstancesInput {
+
+    static func urlPathProvider(_ value: LaunchInstancesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PutLifecycleHookInput {
 
     static func urlPathProvider(_ value: PutLifecycleHookInput) -> Swift.String? {
@@ -7066,6 +7395,7 @@ extension CancelInstanceRefreshInput {
     static func write(value: CancelInstanceRefreshInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["WaitForTransitioningInstances"].write(value.waitForTransitioningInstances)
         try writer["Action"].write("CancelInstanceRefresh")
         try writer["Version"].write("2011-01-01")
     }
@@ -7103,6 +7433,7 @@ extension CreateAutoScalingGroupInput {
         try writer["HealthCheckGracePeriod"].write(value.healthCheckGracePeriod)
         try writer["HealthCheckType"].write(value.healthCheckType)
         try writer["InstanceId"].write(value.instanceId)
+        try writer["InstanceLifecyclePolicy"].write(value.instanceLifecyclePolicy, with: AutoScalingClientTypes.InstanceLifecyclePolicy.write(value:to:))
         try writer["InstanceMaintenancePolicy"].write(value.instanceMaintenancePolicy, with: AutoScalingClientTypes.InstanceMaintenancePolicy.write(value:to:))
         try writer["LaunchConfigurationName"].write(value.launchConfigurationName)
         try writer["LaunchTemplate"].write(value.launchTemplate, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
@@ -7616,6 +7947,22 @@ extension GetPredictiveScalingForecastInput {
     }
 }
 
+extension LaunchInstancesInput {
+
+    static func write(value: LaunchInstancesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["AvailabilityZoneIds"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["RequestedCapacity"].write(value.requestedCapacity)
+        try writer["RetryStrategy"].write(value.retryStrategy)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Action"].write("LaunchInstances")
+        try writer["Version"].write("2011-01-01")
+    }
+}
+
 extension PutLifecycleHookInput {
 
     static func write(value: PutLifecycleHookInput?, to writer: SmithyFormURL.Writer) throws {
@@ -7823,6 +8170,7 @@ extension UpdateAutoScalingGroupInput {
         try writer["DesiredCapacityType"].write(value.desiredCapacityType)
         try writer["HealthCheckGracePeriod"].write(value.healthCheckGracePeriod)
         try writer["HealthCheckType"].write(value.healthCheckType)
+        try writer["InstanceLifecyclePolicy"].write(value.instanceLifecyclePolicy, with: AutoScalingClientTypes.InstanceLifecyclePolicy.write(value:to:))
         try writer["InstanceMaintenancePolicy"].write(value.instanceMaintenancePolicy, with: AutoScalingClientTypes.InstanceMaintenancePolicy.write(value:to:))
         try writer["LaunchConfigurationName"].write(value.launchConfigurationName)
         try writer["LaunchTemplate"].write(value.launchTemplate, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
@@ -8351,6 +8699,21 @@ extension GetPredictiveScalingForecastOutput {
     }
 }
 
+extension LaunchInstancesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> LaunchInstancesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["LaunchInstancesResult"]
+        var value = LaunchInstancesOutput()
+        value.autoScalingGroupName = try reader["AutoScalingGroupName"].readIfPresent()
+        value.clientToken = try reader["ClientToken"].readIfPresent()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LaunchInstancesError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instances = try reader["Instances"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.InstanceCollection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension PutLifecycleHookOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutLifecycleHookOutput {
@@ -8500,6 +8863,7 @@ enum AttachLoadBalancersOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleFailure": return try ServiceLinkedRoleFailure.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8515,6 +8879,7 @@ enum AttachLoadBalancerTargetGroupsOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleFailure": return try ServiceLinkedRoleFailure.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8530,6 +8895,7 @@ enum AttachTrafficSourcesOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
             case "ServiceLinkedRoleFailure": return try ServiceLinkedRoleFailure.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9217,6 +9583,21 @@ enum GetPredictiveScalingForecastOutputError {
     }
 }
 
+enum LaunchInstancesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "IdempotentParameterMismatch": return try IdempotentParameterMismatchError.makeError(baseError: baseError)
+            case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutLifecycleHookOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9288,6 +9669,7 @@ enum PutWarmPoolOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InstanceRefreshInProgress": return try InstanceRefreshInProgressFault.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededFault.makeError(baseError: baseError)
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9473,6 +9855,19 @@ extension ServiceLinkedRoleFailure {
     }
 }
 
+extension InstanceRefreshInProgressFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InstanceRefreshInProgressFault {
+        let reader = baseError.errorBodyReader
+        var value = InstanceRefreshInProgressFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension AlreadyExistsFault {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AlreadyExistsFault {
@@ -9551,12 +9946,12 @@ extension InvalidNextToken {
     }
 }
 
-extension IrreversibleInstanceRefreshFault {
+extension IdempotentParameterMismatchError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IrreversibleInstanceRefreshFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IdempotentParameterMismatchError {
         let reader = baseError.errorBodyReader
-        var value = IrreversibleInstanceRefreshFault()
-        value.properties.message = try reader["message"].readIfPresent()
+        var value = IdempotentParameterMismatchError()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9564,11 +9959,11 @@ extension IrreversibleInstanceRefreshFault {
     }
 }
 
-extension InstanceRefreshInProgressFault {
+extension IrreversibleInstanceRefreshFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InstanceRefreshInProgressFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> IrreversibleInstanceRefreshFault {
         let reader = baseError.errorBodyReader
-        var value = InstanceRefreshInProgressFault()
+        var value = IrreversibleInstanceRefreshFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9642,6 +10037,37 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.availabilityZoneDistribution = try reader["AvailabilityZoneDistribution"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneDistribution.read(from:))
         value.availabilityZoneImpairmentPolicy = try reader["AvailabilityZoneImpairmentPolicy"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.read(from:))
         value.capacityReservationSpecification = try reader["CapacityReservationSpecification"].readIfPresent(with: AutoScalingClientTypes.CapacityReservationSpecification.read(from:))
+        value.instanceLifecyclePolicy = try reader["InstanceLifecyclePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceLifecyclePolicy.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.InstanceLifecyclePolicy {
+
+    static func write(value: AutoScalingClientTypes.InstanceLifecyclePolicy?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["RetentionTriggers"].write(value.retentionTriggers, with: AutoScalingClientTypes.RetentionTriggers.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceLifecyclePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.InstanceLifecyclePolicy()
+        value.retentionTriggers = try reader["RetentionTriggers"].readIfPresent(with: AutoScalingClientTypes.RetentionTriggers.read(from:))
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.RetentionTriggers {
+
+    static func write(value: AutoScalingClientTypes.RetentionTriggers?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["TerminateHookAbandon"].write(value.terminateHookAbandon)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.RetentionTriggers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.RetentionTriggers()
+        value.terminateHookAbandon = try reader["TerminateHookAbandon"].readIfPresent()
         return value
     }
 }
@@ -9823,6 +10249,7 @@ extension AutoScalingClientTypes.Instance {
         value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
         value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
+        value.imageId = try reader["ImageId"].readIfPresent()
         value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent() ?? false
         value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         return value
@@ -9911,6 +10338,7 @@ extension AutoScalingClientTypes.LaunchTemplateOverrides {
 
     static func write(value: AutoScalingClientTypes.LaunchTemplateOverrides?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ImageId"].write(value.imageId)
         try writer["InstanceRequirements"].write(value.instanceRequirements, with: AutoScalingClientTypes.InstanceRequirements.write(value:to:))
         try writer["InstanceType"].write(value.instanceType)
         try writer["LaunchTemplateSpecification"].write(value.launchTemplateSpecification, with: AutoScalingClientTypes.LaunchTemplateSpecification.write(value:to:))
@@ -9924,6 +10352,7 @@ extension AutoScalingClientTypes.LaunchTemplateOverrides {
         value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         value.launchTemplateSpecification = try reader["LaunchTemplateSpecification"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
         value.instanceRequirements = try reader["InstanceRequirements"].readIfPresent(with: AutoScalingClientTypes.InstanceRequirements.read(from:))
+        value.imageId = try reader["ImageId"].readIfPresent()
         return value
     }
 }
@@ -10202,6 +10631,7 @@ extension AutoScalingClientTypes.AutoScalingInstanceDetails {
         value.healthStatus = try reader["HealthStatus"].readIfPresent() ?? ""
         value.launchConfigurationName = try reader["LaunchConfigurationName"].readIfPresent()
         value.launchTemplate = try reader["LaunchTemplate"].readIfPresent(with: AutoScalingClientTypes.LaunchTemplateSpecification.read(from:))
+        value.imageId = try reader["ImageId"].readIfPresent()
         value.protectedFromScaleIn = try reader["ProtectedFromScaleIn"].readIfPresent() ?? false
         value.weightedCapacity = try reader["WeightedCapacity"].readIfPresent()
         return value
@@ -10225,6 +10655,7 @@ extension AutoScalingClientTypes.InstanceRefresh {
         value.preferences = try reader["Preferences"].readIfPresent(with: AutoScalingClientTypes.RefreshPreferences.read(from:))
         value.desiredConfiguration = try reader["DesiredConfiguration"].readIfPresent(with: AutoScalingClientTypes.DesiredConfiguration.read(from:))
         value.rollbackDetails = try reader["RollbackDetails"].readIfPresent(with: AutoScalingClientTypes.RollbackDetails.read(from:))
+        value.strategy = try reader["Strategy"].readIfPresent()
         return value
     }
 }
@@ -10999,6 +11430,37 @@ extension AutoScalingClientTypes.CapacityForecast {
         var value = AutoScalingClientTypes.CapacityForecast()
         value.timestamps = try reader["Timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
         value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.InstanceCollection {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.InstanceCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.InstanceCollection()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.marketType = try reader["MarketType"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.LaunchInstancesError {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.LaunchInstancesError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.LaunchInstancesError()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.marketType = try reader["MarketType"].readIfPresent()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }

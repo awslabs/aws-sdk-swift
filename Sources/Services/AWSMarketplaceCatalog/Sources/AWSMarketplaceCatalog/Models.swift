@@ -1448,7 +1448,7 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
-    /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, LastModifiedDate, ProductTitle, and Visibility.
+    /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, astModifiedDate, ProductTitle, and Visibility.
     public struct MachineLearningProductFilters: Swift.Sendable {
         /// Filter machine learning products by their entity IDs.
         public var entityId: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter?
@@ -1586,6 +1586,21 @@ extension MarketplaceCatalogClientTypes {
         ) {
             self.valueList = valueList
             self.wildCardValue = wildCardValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the OfferSetId of an offer.
+    public struct OfferSetIdFilter: Swift.Sendable {
+        /// Allows filtering on the OfferSetId of an offer.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
         }
     }
 }
@@ -1762,6 +1777,8 @@ extension MarketplaceCatalogClientTypes {
         public var lastModifiedDate: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter?
         /// Allows filtering on the Name of an offer.
         public var name: MarketplaceCatalogClientTypes.OfferNameFilter?
+        /// Allows filtering on the OfferSetId of an offer.
+        public var offerSetId: MarketplaceCatalogClientTypes.OfferSetIdFilter?
         /// Allows filtering on the ProductId of an offer.
         public var productId: MarketplaceCatalogClientTypes.OfferProductIdFilter?
         /// Allows filtering on the ReleaseDate of an offer.
@@ -1779,6 +1796,7 @@ extension MarketplaceCatalogClientTypes {
             entityId: MarketplaceCatalogClientTypes.OfferEntityIdFilter? = nil,
             lastModifiedDate: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter? = nil,
             name: MarketplaceCatalogClientTypes.OfferNameFilter? = nil,
+            offerSetId: MarketplaceCatalogClientTypes.OfferSetIdFilter? = nil,
             productId: MarketplaceCatalogClientTypes.OfferProductIdFilter? = nil,
             releaseDate: MarketplaceCatalogClientTypes.OfferReleaseDateFilter? = nil,
             resaleAuthorizationId: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter? = nil,
@@ -1790,11 +1808,223 @@ extension MarketplaceCatalogClientTypes {
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.offerSetId = offerSetId
             self.productId = productId
             self.releaseDate = releaseDate
             self.resaleAuthorizationId = resaleAuthorizationId
             self.state = state
             self.targeting = targeting
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the AssociatedOfferIds of an offer set.
+    public struct OfferSetAssociatedOfferIdsFilter: Swift.Sendable {
+        /// Allows filtering on the AssociatedOfferIds of an offer set with list input.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the entity id of an offer set.
+    public struct OfferSetEntityIdFilter: Swift.Sendable {
+        /// Allows filtering on entity id of an offer set with list input.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the LastModifiedDate of an offer set with date range as input.
+    public struct OfferSetLastModifiedDateFilterDateRange: Swift.Sendable {
+        /// Allows filtering on the LastModifiedDate of an offer set after a date.
+        public var afterValue: Swift.String?
+        /// Allows filtering on the LastModifiedDate of an offer set before a date.
+        public var beforeValue: Swift.String?
+
+        public init(
+            afterValue: Swift.String? = nil,
+            beforeValue: Swift.String? = nil
+        ) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the LastModifiedDate of an offer set.
+    public struct OfferSetLastModifiedDateFilter: Swift.Sendable {
+        /// Allows filtering on the LastModifiedDate of an offer set with date range as input.
+        public var dateRange: MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilterDateRange?
+
+        public init(
+            dateRange: MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilterDateRange? = nil
+        ) {
+            self.dateRange = dateRange
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the Name of an offer set.
+    public struct OfferSetNameFilter: Swift.Sendable {
+        /// Allows filtering on the Name of an offer set with list input.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the ReleaseDate of an offer set with date range as input.
+    public struct OfferSetReleaseDateFilterDateRange: Swift.Sendable {
+        /// Allows filtering on the ReleaseDate of offer set after a date.
+        public var afterValue: Swift.String?
+        /// Allows filtering on the ReleaseDate of offer set before a date.
+        public var beforeValue: Swift.String?
+
+        public init(
+            afterValue: Swift.String? = nil,
+            beforeValue: Swift.String? = nil
+        ) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the ReleaseDate of an offer set.
+    public struct OfferSetReleaseDateFilter: Swift.Sendable {
+        /// Allows filtering on the ReleaseDate of an offer set with date range as input.
+        public var dateRange: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilterDateRange?
+
+        public init(
+            dateRange: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilterDateRange? = nil
+        ) {
+            self.dateRange = dateRange
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the SolutionId of an offer set.
+    public struct OfferSetSolutionIdFilter: Swift.Sendable {
+        /// Allows filtering on the SolutionId of an offer set with list input.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum OfferSetStateString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case draft
+        case released
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OfferSetStateString] {
+            return [
+                .draft,
+                .released
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .draft: return "Draft"
+            case .released: return "Released"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows filtering on the State of an offer set.
+    public struct OfferSetStateFilter: Swift.Sendable {
+        /// Allows filtering on the State of an offer set with list input.
+        public var valueList: [MarketplaceCatalogClientTypes.OfferSetStateString]?
+
+        public init(
+            valueList: [MarketplaceCatalogClientTypes.OfferSetStateString]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Object containing all the filter fields for offer sets entity. Client can add a maximum of 8 filters in a single ListEntities request.
+    public struct OfferSetFilters: Swift.Sendable {
+        /// Allows filtering on the AssociatedOfferIds of an offer set.
+        public var associatedOfferIds: MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter?
+        /// Allows filtering on EntityId of an offer set.
+        public var entityId: MarketplaceCatalogClientTypes.OfferSetEntityIdFilter?
+        /// Allows filtering on the LastModifiedDate of an offer set.
+        public var lastModifiedDate: MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilter?
+        /// Allows filtering on the Name of an offer set.
+        public var name: MarketplaceCatalogClientTypes.OfferSetNameFilter?
+        /// Allows filtering on the ReleaseDate of an offer set.
+        public var releaseDate: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilter?
+        /// Allows filtering on the SolutionId of an offer set.
+        public var solutionId: MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter?
+        /// Allows filtering on the State of an offer set.
+        public var state: MarketplaceCatalogClientTypes.OfferSetStateFilter?
+
+        public init(
+            associatedOfferIds: MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter? = nil,
+            entityId: MarketplaceCatalogClientTypes.OfferSetEntityIdFilter? = nil,
+            lastModifiedDate: MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilter? = nil,
+            name: MarketplaceCatalogClientTypes.OfferSetNameFilter? = nil,
+            releaseDate: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilter? = nil,
+            solutionId: MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter? = nil,
+            state: MarketplaceCatalogClientTypes.OfferSetStateFilter? = nil
+        ) {
+            self.associatedOfferIds = associatedOfferIds
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.releaseDate = releaseDate
+            self.solutionId = solutionId
+            self.state = state
         }
     }
 }
@@ -2343,8 +2573,10 @@ extension MarketplaceCatalogClientTypes {
         case containerproductfilters(MarketplaceCatalogClientTypes.ContainerProductFilters)
         /// A filter for Resale Authorizations.
         case resaleauthorizationfilters(MarketplaceCatalogClientTypes.ResaleAuthorizationFilters)
-        /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, LastModifiedDate, ProductTitle, and Visibility.
+        /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, astModifiedDate, ProductTitle, and Visibility.
         case machinelearningproductfilters(MarketplaceCatalogClientTypes.MachineLearningProductFilters)
+        /// A filter for offer sets.
+        case offersetfilters(MarketplaceCatalogClientTypes.OfferSetFilters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2352,6 +2584,7 @@ extension MarketplaceCatalogClientTypes {
 extension MarketplaceCatalogClientTypes {
 
     public enum ContainerProductSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compatibleawsservices
         case entityid
         case lastmodifieddate
         case producttitle
@@ -2360,6 +2593,7 @@ extension MarketplaceCatalogClientTypes {
 
         public static var allCases: [ContainerProductSortBy] {
             return [
+                .compatibleawsservices,
                 .entityid,
                 .lastmodifieddate,
                 .producttitle,
@@ -2374,6 +2608,7 @@ extension MarketplaceCatalogClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .compatibleawsservices: return "CompatibleAWSServices"
             case .entityid: return "EntityId"
             case .lastmodifieddate: return "LastModifiedDate"
             case .producttitle: return "ProductTitle"
@@ -2514,12 +2749,73 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    public enum OfferSetSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entityid
+        case lastmodifieddate
+        case name
+        case releasedate
+        case solutionid
+        case state
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OfferSetSortBy] {
+            return [
+                .entityid,
+                .lastmodifieddate,
+                .name,
+                .releasedate,
+                .solutionid,
+                .state
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entityid: return "EntityId"
+            case .lastmodifieddate: return "LastModifiedDate"
+            case .name: return "Name"
+            case .releasedate: return "ReleaseDate"
+            case .solutionid: return "SolutionId"
+            case .state: return "State"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Allows to sort offer sets.
+    public struct OfferSetSort: Swift.Sendable {
+        /// Allows to sort offer sets.
+        public var sortBy: MarketplaceCatalogClientTypes.OfferSetSortBy?
+        /// Allows to sort offer sets.
+        public var sortOrder: MarketplaceCatalogClientTypes.SortOrder?
+
+        public init(
+            sortBy: MarketplaceCatalogClientTypes.OfferSetSortBy? = nil,
+            sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
+        ) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     public enum OfferSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case availabilityenddate
         case buyeraccounts
         case entityid
         case lastmodifieddate
         case name
+        case offersetid
         case productid
         case releasedate
         case resaleauthorizationid
@@ -2534,6 +2830,7 @@ extension MarketplaceCatalogClientTypes {
                 .entityid,
                 .lastmodifieddate,
                 .name,
+                .offersetid,
                 .productid,
                 .releasedate,
                 .resaleauthorizationid,
@@ -2554,6 +2851,7 @@ extension MarketplaceCatalogClientTypes {
             case .entityid: return "EntityId"
             case .lastmodifieddate: return "LastModifiedDate"
             case .name: return "Name"
+            case .offersetid: return "OfferSetId"
             case .productid: return "ProductId"
             case .releasedate: return "ReleaseDate"
             case .resaleauthorizationid: return "ResaleAuthorizationId"
@@ -2668,6 +2966,7 @@ extension MarketplaceCatalogClientTypes {
 extension MarketplaceCatalogClientTypes {
 
     public enum SaaSProductSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deliveryoptiontypes
         case entityid
         case lastmodifieddate
         case producttitle
@@ -2676,6 +2975,7 @@ extension MarketplaceCatalogClientTypes {
 
         public static var allCases: [SaaSProductSortBy] {
             return [
+                .deliveryoptiontypes,
                 .entityid,
                 .lastmodifieddate,
                 .producttitle,
@@ -2690,6 +2990,7 @@ extension MarketplaceCatalogClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deliveryoptiontypes: return "DeliveryOptionTypes"
             case .entityid: return "EntityId"
             case .lastmodifieddate: return "LastModifiedDate"
             case .producttitle: return "ProductTitle"
@@ -2737,6 +3038,8 @@ extension MarketplaceCatalogClientTypes {
         case resaleauthorizationsort(MarketplaceCatalogClientTypes.ResaleAuthorizationSort)
         /// The sort options for machine learning products.
         case machinelearningproductsort(MarketplaceCatalogClientTypes.MachineLearningProductSort)
+        /// A sort for offer sets.
+        case offersetsort(MarketplaceCatalogClientTypes.OfferSetSort)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2774,7 +3077,7 @@ public struct ListEntitiesInput: Swift.Sendable {
     /// The catalog related to the request. Fixed value: AWSMarketplace
     /// This member is required.
     public var catalog: Swift.String?
-    /// The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, Seller, ResaleAuthorization.
+    /// The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution.
     /// This member is required.
     public var entityType: Swift.String?
     /// A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
@@ -2874,6 +3177,37 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    /// Summarized information about an offer set.
+    public struct OfferSetSummary: Swift.Sendable {
+        /// The list of offer IDs associated with the offer set.
+        public var associatedOfferIds: [Swift.String]?
+        /// The name of the offer set.
+        public var name: Swift.String?
+        /// The release date of the offer set.
+        public var releaseDate: Swift.String?
+        /// The solution ID associated with the offer set.
+        public var solutionId: Swift.String?
+        /// The state of the offer set.
+        public var state: MarketplaceCatalogClientTypes.OfferSetStateString?
+
+        public init(
+            associatedOfferIds: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            releaseDate: Swift.String? = nil,
+            solutionId: Swift.String? = nil,
+            state: MarketplaceCatalogClientTypes.OfferSetStateString? = nil
+        ) {
+            self.associatedOfferIds = associatedOfferIds
+            self.name = name
+            self.releaseDate = releaseDate
+            self.solutionId = solutionId
+            self.state = state
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// Summarized information about an offer.
     public struct OfferSummary: Swift.Sendable {
         /// The availability end date of the offer.
@@ -2882,6 +3216,8 @@ extension MarketplaceCatalogClientTypes {
         public var buyerAccounts: [Swift.String]?
         /// The name of the offer.
         public var name: Swift.String?
+        /// The offer set ID of the offer.
+        public var offerSetId: Swift.String?
         /// The product ID of the offer.
         public var productId: Swift.String?
         /// The release date of the offer.
@@ -2897,6 +3233,7 @@ extension MarketplaceCatalogClientTypes {
             availabilityEndDate: Swift.String? = nil,
             buyerAccounts: [Swift.String]? = nil,
             name: Swift.String? = nil,
+            offerSetId: Swift.String? = nil,
             productId: Swift.String? = nil,
             releaseDate: Swift.String? = nil,
             resaleAuthorizationId: Swift.String? = nil,
@@ -2906,6 +3243,7 @@ extension MarketplaceCatalogClientTypes {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
             self.name = name
+            self.offerSetId = offerSetId
             self.productId = productId
             self.releaseDate = releaseDate
             self.resaleAuthorizationId = resaleAuthorizationId
@@ -3011,6 +3349,8 @@ extension MarketplaceCatalogClientTypes {
         public var machineLearningProductSummary: MarketplaceCatalogClientTypes.MachineLearningProductSummary?
         /// The name for the entity. This value is not unique. It is defined by the seller.
         public var name: Swift.String?
+        /// An object that contains summary information about the offer set.
+        public var offerSetSummary: MarketplaceCatalogClientTypes.OfferSetSummary?
         /// An object that contains summary information about the offer.
         public var offerSummary: MarketplaceCatalogClientTypes.OfferSummary?
         /// An object that contains summary information about the Resale Authorization.
@@ -3030,6 +3370,7 @@ extension MarketplaceCatalogClientTypes {
             lastModifiedDate: Swift.String? = nil,
             machineLearningProductSummary: MarketplaceCatalogClientTypes.MachineLearningProductSummary? = nil,
             name: Swift.String? = nil,
+            offerSetSummary: MarketplaceCatalogClientTypes.OfferSetSummary? = nil,
             offerSummary: MarketplaceCatalogClientTypes.OfferSummary? = nil,
             resaleAuthorizationSummary: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary? = nil,
             saaSProductSummary: MarketplaceCatalogClientTypes.SaaSProductSummary? = nil,
@@ -3044,6 +3385,7 @@ extension MarketplaceCatalogClientTypes {
             self.lastModifiedDate = lastModifiedDate
             self.machineLearningProductSummary = machineLearningProductSummary
             self.name = name
+            self.offerSetSummary = offerSetSummary
             self.offerSummary = offerSummary
             self.resaleAuthorizationSummary = resaleAuthorizationSummary
             self.saaSProductSummary = saaSProductSummary
@@ -4151,6 +4493,21 @@ extension MarketplaceCatalogClientTypes.EntitySummary {
         value.offerSummary = try reader["OfferSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferSummary.read(from:))
         value.resaleAuthorizationSummary = try reader["ResaleAuthorizationSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary.read(from:))
         value.machineLearningProductSummary = try reader["MachineLearningProductSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.MachineLearningProductSummary.read(from:))
+        value.offerSetSummary = try reader["OfferSetSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferSetSummary.read(from:))
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.OfferSetSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.releaseDate = try reader["ReleaseDate"].readIfPresent()
+        value.associatedOfferIds = try reader["AssociatedOfferIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.solutionId = try reader["SolutionId"].readIfPresent()
         return value
     }
 }
@@ -4199,6 +4556,7 @@ extension MarketplaceCatalogClientTypes.OfferSummary {
         value.buyerAccounts = try reader["BuyerAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["State"].readIfPresent()
         value.targeting = try reader["Targeting"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MarketplaceCatalogClientTypes.OfferTargetingString>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.offerSetId = try reader["OfferSetId"].readIfPresent()
         return value
     }
 }
@@ -4306,6 +4664,8 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters {
                 try writer["MachineLearningProductFilters"].write(machinelearningproductfilters, with: MarketplaceCatalogClientTypes.MachineLearningProductFilters.write(value:to:))
             case let .offerfilters(offerfilters):
                 try writer["OfferFilters"].write(offerfilters, with: MarketplaceCatalogClientTypes.OfferFilters.write(value:to:))
+            case let .offersetfilters(offersetfilters):
+                try writer["OfferSetFilters"].write(offersetfilters, with: MarketplaceCatalogClientTypes.OfferSetFilters.write(value:to:))
             case let .resaleauthorizationfilters(resaleauthorizationfilters):
                 try writer["ResaleAuthorizationFilters"].write(resaleauthorizationfilters, with: MarketplaceCatalogClientTypes.ResaleAuthorizationFilters.write(value:to:))
             case let .saasproductfilters(saasproductfilters):
@@ -4313,6 +4673,94 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssociatedOfferIds"].write(value.associatedOfferIds, with: MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter.write(value:to:))
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.OfferSetEntityIdFilter.write(value:to:))
+        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilter.write(value:to:))
+        try writer["Name"].write(value.name, with: MarketplaceCatalogClientTypes.OfferSetNameFilter.write(value:to:))
+        try writer["ReleaseDate"].write(value.releaseDate, with: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilter.write(value:to:))
+        try writer["SolutionId"].write(value.solutionId, with: MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter.write(value:to:))
+        try writer["State"].write(value.state, with: MarketplaceCatalogClientTypes.OfferSetStateFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetReleaseDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetReleaseDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetStateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetStateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.OfferSetStateString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetNameFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetNameFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4591,11 +5039,20 @@ extension MarketplaceCatalogClientTypes.OfferFilters {
         try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.OfferEntityIdFilter.write(value:to:))
         try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter.write(value:to:))
         try writer["Name"].write(value.name, with: MarketplaceCatalogClientTypes.OfferNameFilter.write(value:to:))
+        try writer["OfferSetId"].write(value.offerSetId, with: MarketplaceCatalogClientTypes.OfferSetIdFilter.write(value:to:))
         try writer["ProductId"].write(value.productId, with: MarketplaceCatalogClientTypes.OfferProductIdFilter.write(value:to:))
         try writer["ReleaseDate"].write(value.releaseDate, with: MarketplaceCatalogClientTypes.OfferReleaseDateFilter.write(value:to:))
         try writer["ResaleAuthorizationId"].write(value.resaleAuthorizationId, with: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter.write(value:to:))
         try writer["State"].write(value.state, with: MarketplaceCatalogClientTypes.OfferStateFilter.write(value:to:))
         try writer["Targeting"].write(value.targeting, with: MarketplaceCatalogClientTypes.OfferTargetingFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4879,6 +5336,8 @@ extension MarketplaceCatalogClientTypes.EntityTypeSort {
                 try writer["DataProductSort"].write(dataproductsort, with: MarketplaceCatalogClientTypes.DataProductSort.write(value:to:))
             case let .machinelearningproductsort(machinelearningproductsort):
                 try writer["MachineLearningProductSort"].write(machinelearningproductsort, with: MarketplaceCatalogClientTypes.MachineLearningProductSort.write(value:to:))
+            case let .offersetsort(offersetsort):
+                try writer["OfferSetSort"].write(offersetsort, with: MarketplaceCatalogClientTypes.OfferSetSort.write(value:to:))
             case let .offersort(offersort):
                 try writer["OfferSort"].write(offersort, with: MarketplaceCatalogClientTypes.OfferSort.write(value:to:))
             case let .resaleauthorizationsort(resaleauthorizationsort):
@@ -4888,6 +5347,15 @@ extension MarketplaceCatalogClientTypes.EntityTypeSort {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
     }
 }
 

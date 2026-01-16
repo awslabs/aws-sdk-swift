@@ -140,3 +140,33 @@ extension PaginatorSequence where OperationStackInput == GetTagValuesInput, Oper
         return try await self.asyncCompactMap { item in item.tagValues }
     }
 }
+extension ResourceGroupsTaggingAPIClient {
+    /// Paginate over `[ListRequiredTagsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRequiredTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRequiredTagsOutput`
+    public func listRequiredTagsPaginated(input: ListRequiredTagsInput) -> ClientRuntime.PaginatorSequence<ListRequiredTagsInput, ListRequiredTagsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRequiredTagsInput, ListRequiredTagsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRequiredTags(input:))
+    }
+}
+
+extension ListRequiredTagsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRequiredTagsInput {
+        return ListRequiredTagsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRequiredTagsInput, OperationStackOutput == ListRequiredTagsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRequiredTagsPaginated`
+    /// to access the nested member `[ResourceGroupsTaggingAPIClientTypes.RequiredTag]`
+    /// - Returns: `[ResourceGroupsTaggingAPIClientTypes.RequiredTag]`
+    public func requiredTags() async throws -> [ResourceGroupsTaggingAPIClientTypes.RequiredTag] {
+        return try await self.asyncCompactMap { item in item.requiredTags }
+    }
+}

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ACMPCAClient: ClientRuntime.Client {
+public class ACMPCAClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ACMPCAClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ACMPCAClient.ACMPCAClientConfiguration
     let serviceName = "ACM PCA"
@@ -373,9 +373,9 @@ extension ACMPCAClient {
     ///
     /// Creates a root or subordinate private certificate authority (CA). You must specify the CA configuration, an optional configuration for Online Certificate Status Protocol (OCSP) and/or a certificate revocation list (CRL), the CA type, and an optional idempotency token to avoid accidental creation of multiple CAs. The CA configuration specifies the name of the algorithm and key size to be used to create the CA private key, the type of signing algorithm that the CA uses, and X.500 subject information. The OCSP configuration can optionally specify a custom URL for the OCSP responder. The CRL configuration specifies the CRL expiration period in days (the validity period of the CRL), the Amazon S3 bucket that will contain the CRL, and a CNAME alias for the S3 bucket that is included in certificates issued by the CA. If successful, this action returns the Amazon Resource Name (ARN) of the CA. Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies). Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#crl-encryption).
     ///
-    /// - Parameter CreateCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCertificateAuthorityInput`)
     ///
-    /// - Returns: `CreateCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +410,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCertificateAuthorityInput, CreateCertificateAuthorityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCertificateAuthorityOutput>(CreateCertificateAuthorityOutput.httpOutput(from:), CreateCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCertificateAuthorityInput, CreateCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCertificateAuthorityOutput>())
@@ -444,9 +445,9 @@ extension ACMPCAClient {
     ///
     /// Creates an audit report that lists every time that your CA private key is used to issue a certificate. The [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html) and [RevokeCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html) actions use the private key. To save the audit report to your designated Amazon S3 bucket, you must create a bucket policy that grants Amazon Web Services Private CA permission to access and write to it. For an example policy, see [Prepare an Amazon S3 bucket for audit reports](https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#s3-access). Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see [Encrypting Your Audit Reports](https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#audit-report-encryption). You can generate a maximum of one report every 30 minutes.
     ///
-    /// - Parameter CreateCertificateAuthorityAuditReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCertificateAuthorityAuditReportInput`)
     ///
-    /// - Returns: `CreateCertificateAuthorityAuditReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCertificateAuthorityAuditReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCertificateAuthorityAuditReportInput, CreateCertificateAuthorityAuditReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCertificateAuthorityAuditReportOutput>(CreateCertificateAuthorityAuditReportOutput.httpOutput(from:), CreateCertificateAuthorityAuditReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCertificateAuthorityAuditReportInput, CreateCertificateAuthorityAuditReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCertificateAuthorityAuditReportOutput>())
@@ -523,9 +525,9 @@ extension ACMPCAClient {
     ///
     /// * If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see [Using a Resource Based Policy with Amazon Web Services Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html).
     ///
-    /// - Parameter CreatePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionInput`)
     ///
-    /// - Returns: `CreatePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +564,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePermissionInput, CreatePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePermissionOutput>(CreatePermissionOutput.httpOutput(from:), CreatePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePermissionInput, CreatePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePermissionOutput>())
@@ -596,9 +599,9 @@ extension ACMPCAClient {
     ///
     /// Deletes a private certificate authority (CA). You must provide the Amazon Resource Name (ARN) of the private CA that you want to delete. You can find the ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. Deleting a CA will invalidate other CAs and certificates below it in your CA hierarchy. Before you can delete a CA that you have created and activated, you must disable it. To do this, call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) action and set the CertificateAuthorityStatus parameter to DISABLED. Additionally, you can delete a CA if you are waiting for it to be created (that is, the status of the CA is CREATING). You can also delete it if the CA has been created but you haven't yet imported the signed certificate into Amazon Web Services Private CA (that is, the status of the CA is PENDING_CERTIFICATE). When you successfully call [DeleteCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthority.html), the CA's status changes to DELETED. However, the CA won't be permanently deleted until the restoration period has passed. By default, if you do not set the PermanentDeletionTimeInDays parameter, the CA remains restorable for 30 days. You can set the parameter from 7 to 30 days. The [DescribeCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DescribeCertificateAuthority.html) action returns the time remaining in the restoration window of a private CA in the DELETED state. To restore an eligible CA, call the [RestoreCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RestoreCertificateAuthority.html) action. A private CA can be deleted if it is in the PENDING_CERTIFICATE, CREATING, EXPIRED, DISABLED, or FAILED state. To delete a CA in the ACTIVE state, you must first disable it, or else the delete request results in an exception. If you are deleting a private CA in the PENDING_CERTIFICATE or DISABLED state, you can set the length of its restoration period to 7-30 days. The default is 30. During this time, the status is set to DELETED and the CA can be restored. A private CA deleted in the CREATING or FAILED state has no assigned restoration period and cannot be restored.
     ///
-    /// - Parameter DeleteCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCertificateAuthorityInput`)
     ///
-    /// - Returns: `DeleteCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +636,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateAuthorityInput, DeleteCertificateAuthorityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateAuthorityOutput>(DeleteCertificateAuthorityOutput.httpOutput(from:), DeleteCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateAuthorityInput, DeleteCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateAuthorityOutput>())
@@ -673,9 +677,9 @@ extension ACMPCAClient {
     ///
     /// * If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see [Using a Resource Based Policy with Amazon Web Services Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html).
     ///
-    /// - Parameter DeletePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionInput`)
     ///
-    /// - Returns: `DeletePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -710,6 +714,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionInput, DeletePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionOutput>(DeletePermissionOutput.httpOutput(from:), DeletePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionInput, DeletePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionOutput>())
@@ -752,9 +757,9 @@ extension ACMPCAClient {
     ///
     /// * Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see [Attach a Policy for Cross-Account Access](https://docs.aws.amazon.com/privateca/latest/userguide/pca-ram.html).
     ///
-    /// - Parameter DeletePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyInput`)
     ///
-    /// - Returns: `DeletePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,6 +796,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(DeletePolicyOutput.httpOutput(from:), DeletePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyInput, DeletePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyOutput>())
@@ -839,9 +845,9 @@ extension ACMPCAClient {
     ///
     /// * DELETED - Your private CA is within the restoration period, after which it is permanently deleted. The length of time remaining in the CA's restoration period is also included in this action's output.
     ///
-    /// - Parameter DescribeCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificateAuthorityInput`)
     ///
-    /// - Returns: `DescribeCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -874,6 +880,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateAuthorityInput, DescribeCertificateAuthorityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateAuthorityOutput>(DescribeCertificateAuthorityOutput.httpOutput(from:), DescribeCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateAuthorityInput, DescribeCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateAuthorityOutput>())
@@ -908,9 +915,9 @@ extension ACMPCAClient {
     ///
     /// Lists information about a specific audit report created by calling the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html) action. Audit information is created every time the certificate authority (CA) private key is used. The private key is used when you call the [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html) action or the [RevokeCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html) action.
     ///
-    /// - Parameter DescribeCertificateAuthorityAuditReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificateAuthorityAuditReportInput`)
     ///
-    /// - Returns: `DescribeCertificateAuthorityAuditReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificateAuthorityAuditReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,6 +951,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateAuthorityAuditReportOutput>(DescribeCertificateAuthorityAuditReportOutput.httpOutput(from:), DescribeCertificateAuthorityAuditReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateAuthorityAuditReportInput, DescribeCertificateAuthorityAuditReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateAuthorityAuditReportOutput>())
@@ -978,9 +986,9 @@ extension ACMPCAClient {
     ///
     /// Retrieves a certificate from your private CA or one that has been shared with you. The ARN of the certificate is returned when you call the [IssueCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html) action. You must specify both the ARN of your private CA and the ARN of the issued certificate when calling the GetCertificate action. You can retrieve the certificate if it is in the ISSUED, EXPIRED, or REVOKED state. You can call the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html) action to create a report that contains information about all of the certificates issued and revoked by your private CA.
     ///
-    /// - Parameter GetCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCertificateInput`)
     ///
-    /// - Returns: `GetCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1016,6 +1024,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateInput, GetCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCertificateOutput>(GetCertificateOutput.httpOutput(from:), GetCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateInput, GetCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateOutput>())
@@ -1050,9 +1059,9 @@ extension ACMPCAClient {
     ///
     /// Retrieves the certificate and certificate chain for your private certificate authority (CA) or one that has been shared with you. Both the certificate and the chain are base64 PEM-encoded. The chain does not include the CA certificate. Each certificate in the chain signs the one before it.
     ///
-    /// - Parameter GetCertificateAuthorityCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCertificateAuthorityCertificateInput`)
     ///
-    /// - Returns: `GetCertificateAuthorityCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCertificateAuthorityCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,6 +1095,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateAuthorityCertificateInput, GetCertificateAuthorityCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCertificateAuthorityCertificateOutput>(GetCertificateAuthorityCertificateOutput.httpOutput(from:), GetCertificateAuthorityCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateAuthorityCertificateInput, GetCertificateAuthorityCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateAuthorityCertificateOutput>())
@@ -1120,9 +1130,9 @@ extension ACMPCAClient {
     ///
     /// Retrieves the certificate signing request (CSR) for your private certificate authority (CA). The CSR is created when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action. Sign the CSR with your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA. Then import the signed certificate back into Amazon Web Services Private CA by calling the [ImportCertificateAuthorityCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html) action. The CSR is returned as a base64 PEM-encoded string.
     ///
-    /// - Parameter GetCertificateAuthorityCsrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCertificateAuthorityCsrInput`)
     ///
-    /// - Returns: `GetCertificateAuthorityCsrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCertificateAuthorityCsrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1158,6 +1168,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCertificateAuthorityCsrOutput>(GetCertificateAuthorityCsrOutput.httpOutput(from:), GetCertificateAuthorityCsrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateAuthorityCsrInput, GetCertificateAuthorityCsrOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateAuthorityCsrOutput>())
@@ -1200,9 +1211,9 @@ extension ACMPCAClient {
     ///
     /// * Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see [Attach a Policy for Cross-Account Access](https://docs.aws.amazon.com/privateca/latest/userguide/pca-ram.html).
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1237,6 +1248,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(GetPolicyOutput.httpOutput(from:), GetPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
@@ -1348,9 +1360,9 @@ extension ACMPCAClient {
     ///
     /// Amazon Web Services Private Certificate Authority will also reject any other extension marked as critical not contained on the preceding list of allowed extensions.
     ///
-    /// - Parameter ImportCertificateAuthorityCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportCertificateAuthorityCertificateInput`)
     ///
-    /// - Returns: `ImportCertificateAuthorityCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportCertificateAuthorityCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1390,6 +1402,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCertificateAuthorityCertificateInput, ImportCertificateAuthorityCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCertificateAuthorityCertificateOutput>(ImportCertificateAuthorityCertificateOutput.httpOutput(from:), ImportCertificateAuthorityCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCertificateAuthorityCertificateInput, ImportCertificateAuthorityCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCertificateAuthorityCertificateOutput>())
@@ -1424,9 +1437,9 @@ extension ACMPCAClient {
     ///
     /// Uses your private certificate authority (CA), or one that has been shared with you, to issue a client certificate. This action returns the Amazon Resource Name (ARN) of the certificate. You can retrieve the certificate by calling the [GetCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificate.html) action and specifying the ARN. You cannot use the ACM ListCertificateAuthorities action to retrieve the ARNs of the certificates that you issue by using Amazon Web Services Private CA.
     ///
-    /// - Parameter IssueCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IssueCertificateInput`)
     ///
-    /// - Returns: `IssueCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IssueCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1463,6 +1476,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IssueCertificateInput, IssueCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<IssueCertificateOutput>(IssueCertificateOutput.httpOutput(from:), IssueCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IssueCertificateInput, IssueCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<IssueCertificateOutput>())
@@ -1497,9 +1511,9 @@ extension ACMPCAClient {
     ///
     /// Lists the private certificate authorities that you created by using the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action.
     ///
-    /// - Parameter ListCertificateAuthoritiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCertificateAuthoritiesInput`)
     ///
-    /// - Returns: `ListCertificateAuthoritiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCertificateAuthoritiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1531,6 +1545,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificateAuthoritiesOutput>(ListCertificateAuthoritiesOutput.httpOutput(from:), ListCertificateAuthoritiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificateAuthoritiesInput, ListCertificateAuthoritiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificateAuthoritiesOutput>())
@@ -1571,9 +1586,9 @@ extension ACMPCAClient {
     ///
     /// * If the private CA and the ACM certificates reside in different accounts, then permissions cannot be used to enable automatic renewals. Instead, the ACM certificate owner must set up a resource-based policy to enable cross-account issuance and renewals. For more information, see [Using a Resource Based Policy with Amazon Web Services Private CA](https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html).
     ///
-    /// - Parameter ListPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionsInput`)
     ///
-    /// - Returns: `ListPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1609,6 +1624,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionsInput, ListPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionsOutput>(ListPermissionsOutput.httpOutput(from:), ListPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionsInput, ListPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionsOutput>())
@@ -1643,9 +1659,9 @@ extension ACMPCAClient {
     ///
     /// Lists the tags, if any, that are associated with your private CA or one that has been shared with you. Tags are labels that you can use to identify and organize your CAs. Each tag consists of a key and an optional value. Call the [TagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html) action to add one or more tags to your CA. Call the [UntagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html) action to remove tags.
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1680,6 +1696,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsInput, ListTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -1722,9 +1739,9 @@ extension ACMPCAClient {
     ///
     /// * Updates made in Amazon Web Services Resource Manager (RAM) are reflected in policies. For more information, see [Attach a Policy for Cross-Account Access](https://docs.aws.amazon.com/privateca/latest/userguide/pca-ram.html).
     ///
-    /// - Parameter PutPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPolicyInput`)
     ///
-    /// - Returns: `PutPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1762,6 +1779,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPolicyInput, PutPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPolicyOutput>(PutPolicyOutput.httpOutput(from:), PutPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPolicyInput, PutPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPolicyOutput>())
@@ -1796,9 +1814,9 @@ extension ACMPCAClient {
     ///
     /// Restores a certificate authority (CA) that is in the DELETED state. You can restore a CA during the period that you defined in the PermanentDeletionTimeInDays parameter of the [DeleteCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthority.html) action. Currently, you can specify 7 to 30 days. If you did not specify a PermanentDeletionTimeInDays value, by default you can restore the CA at any time in a 30 day period. You can check the time remaining in the restoration period of a private CA in the DELETED state by calling the [DescribeCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DescribeCertificateAuthority.html) or [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) actions. The status of a restored CA is set to its pre-deletion status when the RestoreCertificateAuthority action returns. To change its status to ACTIVE, call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) action. If the private CA was in the PENDING_CERTIFICATE state at deletion, you must use the [ImportCertificateAuthorityCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html) action to import a certificate authority into the private CA before it can be activated. You cannot restore a CA after the restoration period has ended.
     ///
-    /// - Parameter RestoreCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreCertificateAuthorityInput`)
     ///
-    /// - Returns: `RestoreCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1832,6 +1850,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreCertificateAuthorityInput, RestoreCertificateAuthorityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreCertificateAuthorityOutput>(RestoreCertificateAuthorityOutput.httpOutput(from:), RestoreCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreCertificateAuthorityInput, RestoreCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreCertificateAuthorityOutput>())
@@ -1866,9 +1885,9 @@ extension ACMPCAClient {
     ///
     /// Revokes a certificate that was issued inside Amazon Web Services Private CA. If you enable a certificate revocation list (CRL) when you create or update your private CA, information about the revoked certificates will be included in the CRL. Amazon Web Services Private CA writes the CRL to an S3 bucket that you specify. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason the CRL update fails, Amazon Web Services Private CA attempts makes further attempts every 15 minutes. With Amazon CloudWatch, you can create alarms for the metrics CRLGenerated and MisconfiguredCRLBucket. For more information, see [Supported CloudWatch Metrics](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCloudWatch.html). Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies). Amazon Web Services Private CA also writes revocation information to the audit report. For more information, see [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html). You cannot revoke a root CA self-signed certificate.
     ///
-    /// - Parameter RevokeCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeCertificateInput`)
     ///
-    /// - Returns: `RevokeCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1908,6 +1927,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeCertificateOutput>(RevokeCertificateOutput.httpOutput(from:), RevokeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeCertificateOutput>())
@@ -1942,9 +1962,9 @@ extension ACMPCAClient {
     ///
     /// Adds one or more tags to your private CA. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the private CA on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. You can apply a tag to just one private CA if you want to identify a specific characteristic of that CA, or you can apply the same tag to multiple private CAs if you want to filter for a common relationship among those CAs. To remove one or more tags, use the [UntagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html) action. Call the [ListTags](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListTags.html) action to see what tags are associated with your CA. To attach tags to a private CA during the creation procedure, a CA administrator must first associate an inline IAM policy with the CreateCertificateAuthority action and explicitly allow tagging. For more information, see [Attaching tags to a CA at the time of creation](https://docs.aws.amazon.com/privateca/latest/userguide/auth-InlinePolicies.html#policy-tag-ca).
     ///
-    /// - Parameter TagCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagCertificateAuthorityInput`)
     ///
-    /// - Returns: `TagCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1980,6 +2000,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagCertificateAuthorityInput, TagCertificateAuthorityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagCertificateAuthorityOutput>(TagCertificateAuthorityOutput.httpOutput(from:), TagCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagCertificateAuthorityInput, TagCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagCertificateAuthorityOutput>())
@@ -2014,9 +2035,9 @@ extension ACMPCAClient {
     ///
     /// Remove one or more tags from your private CA. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this action, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. To add tags to a private CA, use the [TagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html). Call the [ListTags](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListTags.html) action to see what tags are associated with your CA.
     ///
-    /// - Parameter UntagCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagCertificateAuthorityInput`)
     ///
-    /// - Returns: `UntagCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,6 +2072,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagCertificateAuthorityInput, UntagCertificateAuthorityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagCertificateAuthorityOutput>(UntagCertificateAuthorityOutput.httpOutput(from:), UntagCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagCertificateAuthorityInput, UntagCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagCertificateAuthorityOutput>())
@@ -2085,9 +2107,9 @@ extension ACMPCAClient {
     ///
     /// Updates the status or configuration of a private certificate authority (CA). Your private CA must be in the ACTIVE or DISABLED state before you can update it. You can disable a private CA that is in the ACTIVE state or make a CA that is in the DISABLED state active again. Both Amazon Web Services Private CA and the IAM principal must have permission to write to the S3 bucket that you specify. If the IAM principal making the call does not have permission to write to the bucket, then an exception is thrown. For more information, see [Access policies for CRLs in Amazon S3](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies).
     ///
-    /// - Parameter UpdateCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCertificateAuthorityInput`)
     ///
-    /// - Returns: `UpdateCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2124,6 +2146,7 @@ extension ACMPCAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCertificateAuthorityInput, UpdateCertificateAuthorityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCertificateAuthorityOutput>(UpdateCertificateAuthorityOutput.httpOutput(from:), UpdateCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateAuthorityInput, UpdateCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCertificateAuthorityOutput>())

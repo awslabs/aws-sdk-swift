@@ -285,7 +285,7 @@ extension MarketplaceMeteringClientTypes {
         public var dimension: Swift.String?
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public var quantity: Swift.Int?
-        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
+        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
         /// This member is required.
         public var timestamp: Foundation.Date?
         /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
@@ -459,6 +459,29 @@ public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// The ClientToken is being used for multiple requests.
+public struct IdempotencyConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IdempotencyConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The endpoint being called is in a Amazon Web Services Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the Amazon Web Services Region of the resource must match.
 public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -483,6 +506,8 @@ public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSCli
 }
 
 public struct MeterUsageInput: Swift.Sendable {
+    /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotencyConflictException error.
+    public var clientToken: Swift.String?
     /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.
     public var dryRun: Swift.Bool?
     /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
@@ -500,6 +525,7 @@ public struct MeterUsageInput: Swift.Sendable {
     public var usageQuantity: Swift.Int?
 
     public init(
+        clientToken: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
         productCode: Swift.String? = nil,
         timestamp: Foundation.Date? = nil,
@@ -507,6 +533,7 @@ public struct MeterUsageInput: Swift.Sendable {
         usageDimension: Swift.String? = nil,
         usageQuantity: Swift.Int? = nil
     ) {
+        self.clientToken = clientToken
         self.dryRun = dryRun
         self.productCode = productCode
         self.timestamp = timestamp
@@ -752,6 +779,7 @@ extension MeterUsageInput {
 
     static func write(value: MeterUsageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
         try writer["DryRun"].write(value.dryRun)
         try writer["ProductCode"].write(value.productCode)
         try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -863,6 +891,7 @@ enum MeterUsageOutputError {
         switch baseError.code {
             case "CustomerNotEntitledException": return try CustomerNotEntitledException.makeError(baseError: baseError)
             case "DuplicateRequestException": return try DuplicateRequestException.makeError(baseError: baseError)
+            case "IdempotencyConflictException": return try IdempotencyConflictException.makeError(baseError: baseError)
             case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
             case "InvalidEndpointRegionException": return try InvalidEndpointRegionException.makeError(baseError: baseError)
             case "InvalidProductCodeException": return try InvalidProductCodeException.makeError(baseError: baseError)
@@ -1050,6 +1079,19 @@ extension DuplicateRequestException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateRequestException {
         let reader = baseError.errorBodyReader
         var value = DuplicateRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IdempotencyConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IdempotencyConflictException {
+        let reader = baseError.errorBodyReader
+        var value = IdempotencyConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

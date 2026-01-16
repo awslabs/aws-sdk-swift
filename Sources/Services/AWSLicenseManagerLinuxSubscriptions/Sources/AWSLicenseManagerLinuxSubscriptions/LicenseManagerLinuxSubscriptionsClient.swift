@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LicenseManagerLinuxSubscriptionsClient: ClientRuntime.Client {
+public class LicenseManagerLinuxSubscriptionsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LicenseManagerLinuxSubscriptionsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerLinuxSubscriptionsClient.LicenseManagerLinuxSubscriptionsClientConfiguration
     let serviceName = "License Manager Linux Subscriptions"
@@ -372,9 +372,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Remove a third-party subscription provider from the Bring Your Own License (BYOL) subscriptions registered to your account.
     ///
-    /// - Parameter DeregisterSubscriptionProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterSubscriptionProviderInput`)
     ///
-    /// - Returns: `DeregisterSubscriptionProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterSubscriptionProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterSubscriptionProviderInput, DeregisterSubscriptionProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterSubscriptionProviderOutput>(DeregisterSubscriptionProviderOutput.httpOutput(from:), DeregisterSubscriptionProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterSubscriptionProviderInput, DeregisterSubscriptionProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterSubscriptionProviderOutput>())
@@ -442,9 +443,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Get details for a Bring Your Own License (BYOL) subscription that's registered to your account.
     ///
-    /// - Parameter GetRegisteredSubscriptionProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegisteredSubscriptionProviderInput`)
     ///
-    /// - Returns: `GetRegisteredSubscriptionProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegisteredSubscriptionProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +482,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegisteredSubscriptionProviderInput, GetRegisteredSubscriptionProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegisteredSubscriptionProviderOutput>(GetRegisteredSubscriptionProviderOutput.httpOutput(from:), GetRegisteredSubscriptionProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegisteredSubscriptionProviderInput, GetRegisteredSubscriptionProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegisteredSubscriptionProviderOutput>())
@@ -512,9 +514,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Lists the Linux subscriptions service settings for your account.
     ///
-    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSettingsInput`)
     ///
-    /// - Returns: `GetServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -547,6 +549,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSettingsOutput>(GetServiceSettingsOutput.httpOutput(from:), GetServiceSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceSettingsOutput>())
@@ -578,9 +581,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
     ///
-    /// - Parameter ListLinuxSubscriptionInstancesInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    /// - Parameter input: NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases. (Type: `ListLinuxSubscriptionInstancesInput`)
     ///
-    /// - Returns: `ListLinuxSubscriptionInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLinuxSubscriptionInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -616,6 +619,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLinuxSubscriptionInstancesOutput>(ListLinuxSubscriptionInstancesOutput.httpOutput(from:), ListLinuxSubscriptionInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLinuxSubscriptionInstancesOutput>())
@@ -647,9 +651,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
     ///
-    /// - Parameter ListLinuxSubscriptionsInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    /// - Parameter input: NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases. (Type: `ListLinuxSubscriptionsInput`)
     ///
-    /// - Returns: `ListLinuxSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLinuxSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,6 +689,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLinuxSubscriptionsOutput>(ListLinuxSubscriptionsOutput.httpOutput(from:), ListLinuxSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLinuxSubscriptionsOutput>())
@@ -716,9 +721,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// List Bring Your Own License (BYOL) subscription registration resources for your account.
     ///
-    /// - Parameter ListRegisteredSubscriptionProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegisteredSubscriptionProvidersInput`)
     ///
-    /// - Returns: `ListRegisteredSubscriptionProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegisteredSubscriptionProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -754,6 +759,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegisteredSubscriptionProvidersInput, ListRegisteredSubscriptionProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegisteredSubscriptionProvidersOutput>(ListRegisteredSubscriptionProvidersOutput.httpOutput(from:), ListRegisteredSubscriptionProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegisteredSubscriptionProvidersInput, ListRegisteredSubscriptionProvidersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegisteredSubscriptionProvidersOutput>())
@@ -785,9 +791,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// List the metadata tags that are assigned to the specified Amazon Web Services resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,6 +826,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -851,9 +858,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Register the supported third-party subscription provider for your Bring Your Own License (BYOL) subscription.
     ///
-    /// - Parameter RegisterSubscriptionProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterSubscriptionProviderInput`)
     ///
-    /// - Returns: `RegisterSubscriptionProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterSubscriptionProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -889,6 +896,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterSubscriptionProviderInput, RegisterSubscriptionProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterSubscriptionProviderOutput>(RegisterSubscriptionProviderOutput.httpOutput(from:), RegisterSubscriptionProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterSubscriptionProviderInput, RegisterSubscriptionProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterSubscriptionProviderOutput>())
@@ -920,9 +928,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Add metadata tags to the specified Amazon Web Services resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -958,6 +966,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -989,9 +998,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Remove one or more metadata tag from the specified Amazon Web Services resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1024,6 +1033,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1055,9 +1065,9 @@ extension LicenseManagerLinuxSubscriptionsClient {
     ///
     /// Updates the service settings for Linux subscriptions.
     ///
-    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSettingsInput`)
     ///
-    /// - Returns: `UpdateServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1093,6 +1103,7 @@ extension LicenseManagerLinuxSubscriptionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSettingsOutput>(UpdateServiceSettingsOutput.httpOutput(from:), UpdateServiceSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceSettingsOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Macie2Client: ClientRuntime.Client {
+public class Macie2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Macie2Client"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: Macie2Client.Macie2ClientConfiguration
     let serviceName = "Macie2"
@@ -374,9 +374,9 @@ extension Macie2Client {
     ///
     /// Accepts an Amazon Macie membership invitation that was received from a specific account.
     ///
-    /// - Parameter AcceptInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptInvitationInput`)
     ///
-    /// - Returns: `AcceptInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +416,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptInvitationInput, AcceptInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptInvitationOutput>(AcceptInvitationOutput.httpOutput(from:), AcceptInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptInvitationInput, AcceptInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptInvitationOutput>())
@@ -447,9 +448,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about one or more custom data identifiers.
     ///
-    /// - Parameter BatchGetCustomDataIdentifiersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCustomDataIdentifiersInput`)
     ///
-    /// - Returns: `BatchGetCustomDataIdentifiersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCustomDataIdentifiersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,6 +490,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCustomDataIdentifiersInput, BatchGetCustomDataIdentifiersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCustomDataIdentifiersOutput>(BatchGetCustomDataIdentifiersOutput.httpOutput(from:), BatchGetCustomDataIdentifiersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCustomDataIdentifiersInput, BatchGetCustomDataIdentifiersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCustomDataIdentifiersOutput>())
@@ -520,9 +522,9 @@ extension Macie2Client {
     ///
     /// Changes the status of automated sensitive data discovery for one or more accounts.
     ///
-    /// - Parameter BatchUpdateAutomatedDiscoveryAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateAutomatedDiscoveryAccountsInput`)
     ///
-    /// - Returns: `BatchUpdateAutomatedDiscoveryAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateAutomatedDiscoveryAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +562,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateAutomatedDiscoveryAccountsOutput>(BatchUpdateAutomatedDiscoveryAccountsOutput.httpOutput(from:), BatchUpdateAutomatedDiscoveryAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateAutomatedDiscoveryAccountsInput, BatchUpdateAutomatedDiscoveryAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateAutomatedDiscoveryAccountsOutput>())
@@ -591,9 +594,9 @@ extension Macie2Client {
     ///
     /// Creates and defines the settings for an allow list.
     ///
-    /// - Parameter CreateAllowListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAllowListInput`)
     ///
-    /// - Returns: `CreateAllowListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAllowListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +637,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAllowListInput, CreateAllowListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAllowListOutput>(CreateAllowListOutput.httpOutput(from:), CreateAllowListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAllowListInput, CreateAllowListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAllowListOutput>())
@@ -665,9 +669,9 @@ extension Macie2Client {
     ///
     /// Creates and defines the settings for a classification job.
     ///
-    /// - Parameter CreateClassificationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClassificationJobInput`)
     ///
-    /// - Returns: `CreateClassificationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClassificationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,6 +712,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClassificationJobInput, CreateClassificationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClassificationJobOutput>(CreateClassificationJobOutput.httpOutput(from:), CreateClassificationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClassificationJobInput, CreateClassificationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClassificationJobOutput>())
@@ -739,9 +744,9 @@ extension Macie2Client {
     ///
     /// Creates and defines the criteria and other settings for a custom data identifier.
     ///
-    /// - Parameter CreateCustomDataIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomDataIdentifierInput`)
     ///
-    /// - Returns: `CreateCustomDataIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomDataIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,6 +787,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomDataIdentifierInput, CreateCustomDataIdentifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomDataIdentifierOutput>(CreateCustomDataIdentifierOutput.httpOutput(from:), CreateCustomDataIdentifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomDataIdentifierInput, CreateCustomDataIdentifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomDataIdentifierOutput>())
@@ -813,9 +819,9 @@ extension Macie2Client {
     ///
     /// Creates and defines the criteria and other settings for a findings filter.
     ///
-    /// - Parameter CreateFindingsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFindingsFilterInput`)
     ///
-    /// - Returns: `CreateFindingsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFindingsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,6 +862,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFindingsFilterInput, CreateFindingsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFindingsFilterOutput>(CreateFindingsFilterOutput.httpOutput(from:), CreateFindingsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFindingsFilterInput, CreateFindingsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFindingsFilterOutput>())
@@ -887,9 +894,9 @@ extension Macie2Client {
     ///
     /// Sends an Amazon Macie membership invitation to one or more accounts.
     ///
-    /// - Parameter CreateInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvitationsInput`)
     ///
-    /// - Returns: `CreateInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,6 +936,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvitationsInput, CreateInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvitationsOutput>(CreateInvitationsOutput.httpOutput(from:), CreateInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvitationsInput, CreateInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvitationsOutput>())
@@ -960,9 +968,9 @@ extension Macie2Client {
     ///
     /// Associates an account with an Amazon Macie administrator account.
     ///
-    /// - Parameter CreateMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMemberInput`)
     ///
-    /// - Returns: `CreateMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,6 +1010,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMemberInput, CreateMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMemberOutput>(CreateMemberOutput.httpOutput(from:), CreateMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMemberInput, CreateMemberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMemberOutput>())
@@ -1033,9 +1042,9 @@ extension Macie2Client {
     ///
     /// Creates sample findings.
     ///
-    /// - Parameter CreateSampleFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSampleFindingsInput`)
     ///
-    /// - Returns: `CreateSampleFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSampleFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,6 +1084,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSampleFindingsOutput>(CreateSampleFindingsOutput.httpOutput(from:), CreateSampleFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSampleFindingsInput, CreateSampleFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSampleFindingsOutput>())
@@ -1106,9 +1116,9 @@ extension Macie2Client {
     ///
     /// Declines Amazon Macie membership invitations that were received from specific accounts.
     ///
-    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeclineInvitationsInput`)
     ///
-    /// - Returns: `DeclineInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeclineInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,6 +1158,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeclineInvitationsOutput>(DeclineInvitationsOutput.httpOutput(from:), DeclineInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeclineInvitationsInput, DeclineInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeclineInvitationsOutput>())
@@ -1179,9 +1190,9 @@ extension Macie2Client {
     ///
     /// Deletes an allow list.
     ///
-    /// - Parameter DeleteAllowListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAllowListInput`)
     ///
-    /// - Returns: `DeleteAllowListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAllowListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1217,6 +1228,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAllowListInput, DeleteAllowListOutput>(DeleteAllowListInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAllowListOutput>(DeleteAllowListOutput.httpOutput(from:), DeleteAllowListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAllowListInput, DeleteAllowListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAllowListOutput>())
@@ -1248,9 +1260,9 @@ extension Macie2Client {
     ///
     /// Soft deletes a custom data identifier.
     ///
-    /// - Parameter DeleteCustomDataIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomDataIdentifierInput`)
     ///
-    /// - Returns: `DeleteCustomDataIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomDataIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,6 +1299,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomDataIdentifierInput, DeleteCustomDataIdentifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomDataIdentifierOutput>(DeleteCustomDataIdentifierOutput.httpOutput(from:), DeleteCustomDataIdentifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomDataIdentifierInput, DeleteCustomDataIdentifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomDataIdentifierOutput>())
@@ -1318,9 +1331,9 @@ extension Macie2Client {
     ///
     /// Deletes a findings filter.
     ///
-    /// - Parameter DeleteFindingsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFindingsFilterInput`)
     ///
-    /// - Returns: `DeleteFindingsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFindingsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1357,6 +1370,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFindingsFilterInput, DeleteFindingsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFindingsFilterOutput>(DeleteFindingsFilterOutput.httpOutput(from:), DeleteFindingsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFindingsFilterInput, DeleteFindingsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFindingsFilterOutput>())
@@ -1388,9 +1402,9 @@ extension Macie2Client {
     ///
     /// Deletes Amazon Macie membership invitations that were received from specific accounts.
     ///
-    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvitationsInput`)
     ///
-    /// - Returns: `DeleteInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1430,6 +1444,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvitationsOutput>(DeleteInvitationsOutput.httpOutput(from:), DeleteInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvitationsInput, DeleteInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvitationsOutput>())
@@ -1461,9 +1476,9 @@ extension Macie2Client {
     ///
     /// Deletes the association between an Amazon Macie administrator account and an account.
     ///
-    /// - Parameter DeleteMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMemberInput`)
     ///
-    /// - Returns: `DeleteMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1500,6 +1515,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMemberInput, DeleteMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMemberOutput>(DeleteMemberOutput.httpOutput(from:), DeleteMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMemberInput, DeleteMemberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMemberOutput>())
@@ -1531,9 +1547,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
     ///
-    /// - Parameter DescribeBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBucketsInput`)
     ///
-    /// - Returns: `DescribeBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBucketsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1573,6 +1589,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBucketsInput, DescribeBucketsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBucketsOutput>(DescribeBucketsOutput.httpOutput(from:), DescribeBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBucketsInput, DescribeBucketsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBucketsOutput>())
@@ -1604,9 +1621,9 @@ extension Macie2Client {
     ///
     /// Retrieves the status and settings for a classification job.
     ///
-    /// - Parameter DescribeClassificationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClassificationJobInput`)
     ///
-    /// - Returns: `DescribeClassificationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClassificationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1643,6 +1660,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClassificationJobInput, DescribeClassificationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClassificationJobOutput>(DescribeClassificationJobOutput.httpOutput(from:), DescribeClassificationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClassificationJobInput, DescribeClassificationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClassificationJobOutput>())
@@ -1674,9 +1692,9 @@ extension Macie2Client {
     ///
     /// Retrieves the Amazon Macie configuration settings for an organization in Organizations.
     ///
-    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationConfigurationInput`)
     ///
-    /// - Returns: `DescribeOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,6 +1731,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationConfigurationOutput>(DescribeOrganizationConfigurationOutput.httpOutput(from:), DescribeOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationConfigurationInput, DescribeOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationConfigurationOutput>())
@@ -1744,9 +1763,9 @@ extension Macie2Client {
     ///
     /// Disables Amazon Macie and deletes all settings and resources for a Macie account.
     ///
-    /// - Parameter DisableMacieInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableMacieInput`)
     ///
-    /// - Returns: `DisableMacieOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableMacieOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1783,6 +1802,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableMacieInput, DisableMacieOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableMacieOutput>(DisableMacieOutput.httpOutput(from:), DisableMacieOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableMacieInput, DisableMacieOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableMacieOutput>())
@@ -1814,9 +1834,9 @@ extension Macie2Client {
     ///
     /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
-    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `DisableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1854,6 +1874,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(DisableOrganizationAdminAccountInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOrganizationAdminAccountOutput>(DisableOrganizationAdminAccountOutput.httpOutput(from:), DisableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOrganizationAdminAccountInput, DisableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableOrganizationAdminAccountOutput>())
@@ -1885,9 +1906,9 @@ extension Macie2Client {
     ///
     /// Disassociates a member account from its Amazon Macie administrator account.
     ///
-    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromAdministratorAccountInput`)
     ///
-    /// - Returns: `DisassociateFromAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1924,6 +1945,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromAdministratorAccountOutput>(DisassociateFromAdministratorAccountOutput.httpOutput(from:), DisassociateFromAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromAdministratorAccountInput, DisassociateFromAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromAdministratorAccountOutput>())
@@ -1955,9 +1977,9 @@ extension Macie2Client {
     ///
     /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
     ///
-    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFromMasterAccountInput`)
     ///
-    /// - Returns: `DisassociateFromMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFromMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1994,6 +2016,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFromMasterAccountOutput>(DisassociateFromMasterAccountOutput.httpOutput(from:), DisassociateFromMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFromMasterAccountInput, DisassociateFromMasterAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFromMasterAccountOutput>())
@@ -2025,9 +2048,9 @@ extension Macie2Client {
     ///
     /// Disassociates an Amazon Macie administrator account from a member account.
     ///
-    /// - Parameter DisassociateMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMemberInput`)
     ///
-    /// - Returns: `DisassociateMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2064,6 +2087,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateMemberInput, DisassociateMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMemberOutput>(DisassociateMemberOutput.httpOutput(from:), DisassociateMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMemberInput, DisassociateMemberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMemberOutput>())
@@ -2095,9 +2119,9 @@ extension Macie2Client {
     ///
     /// Enables Amazon Macie and specifies the configuration settings for a Macie account.
     ///
-    /// - Parameter EnableMacieInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableMacieInput`)
     ///
-    /// - Returns: `EnableMacieOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableMacieOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2138,6 +2162,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableMacieInput, EnableMacieOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableMacieOutput>(EnableMacieOutput.httpOutput(from:), EnableMacieOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableMacieInput, EnableMacieOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableMacieOutput>())
@@ -2169,9 +2194,9 @@ extension Macie2Client {
     ///
     /// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
-    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableOrganizationAdminAccountInput`)
     ///
-    /// - Returns: `EnableOrganizationAdminAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableOrganizationAdminAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,6 +2237,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOrganizationAdminAccountOutput>(EnableOrganizationAdminAccountOutput.httpOutput(from:), EnableOrganizationAdminAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOrganizationAdminAccountInput, EnableOrganizationAdminAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableOrganizationAdminAccountOutput>())
@@ -2243,9 +2269,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about the Amazon Macie administrator account for an account.
     ///
-    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAdministratorAccountInput`)
     ///
-    /// - Returns: `GetAdministratorAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAdministratorAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2282,6 +2308,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAdministratorAccountOutput>(GetAdministratorAccountOutput.httpOutput(from:), GetAdministratorAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAdministratorAccountInput, GetAdministratorAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAdministratorAccountOutput>())
@@ -2313,9 +2340,9 @@ extension Macie2Client {
     ///
     /// Retrieves the settings and status of an allow list.
     ///
-    /// - Parameter GetAllowListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAllowListInput`)
     ///
-    /// - Returns: `GetAllowListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAllowListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2350,6 +2377,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAllowListInput, GetAllowListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAllowListOutput>(GetAllowListOutput.httpOutput(from:), GetAllowListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAllowListInput, GetAllowListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAllowListOutput>())
@@ -2381,9 +2409,9 @@ extension Macie2Client {
     ///
     /// Retrieves the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     ///
-    /// - Parameter GetAutomatedDiscoveryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedDiscoveryConfigurationInput`)
     ///
-    /// - Returns: `GetAutomatedDiscoveryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedDiscoveryConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2417,6 +2445,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomatedDiscoveryConfigurationInput, GetAutomatedDiscoveryConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomatedDiscoveryConfigurationOutput>(GetAutomatedDiscoveryConfigurationOutput.httpOutput(from:), GetAutomatedDiscoveryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomatedDiscoveryConfigurationInput, GetAutomatedDiscoveryConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomatedDiscoveryConfigurationOutput>())
@@ -2448,9 +2477,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
     ///
-    /// - Parameter GetBucketStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketStatisticsInput`)
     ///
-    /// - Returns: `GetBucketStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,6 +2519,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBucketStatisticsInput, GetBucketStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketStatisticsOutput>(GetBucketStatisticsOutput.httpOutput(from:), GetBucketStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketStatisticsInput, GetBucketStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketStatisticsOutput>())
@@ -2521,9 +2551,9 @@ extension Macie2Client {
     ///
     /// Retrieves the configuration settings for storing data classification results.
     ///
-    /// - Parameter GetClassificationExportConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClassificationExportConfigurationInput`)
     ///
-    /// - Returns: `GetClassificationExportConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClassificationExportConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2560,6 +2590,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClassificationExportConfigurationInput, GetClassificationExportConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClassificationExportConfigurationOutput>(GetClassificationExportConfigurationOutput.httpOutput(from:), GetClassificationExportConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClassificationExportConfigurationInput, GetClassificationExportConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClassificationExportConfigurationOutput>())
@@ -2591,9 +2622,9 @@ extension Macie2Client {
     ///
     /// Retrieves the classification scope settings for an account.
     ///
-    /// - Parameter GetClassificationScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClassificationScopeInput`)
     ///
-    /// - Returns: `GetClassificationScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClassificationScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2628,6 +2659,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClassificationScopeInput, GetClassificationScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClassificationScopeOutput>(GetClassificationScopeOutput.httpOutput(from:), GetClassificationScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClassificationScopeInput, GetClassificationScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClassificationScopeOutput>())
@@ -2659,9 +2691,9 @@ extension Macie2Client {
     ///
     /// Retrieves the criteria and other settings for a custom data identifier.
     ///
-    /// - Parameter GetCustomDataIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomDataIdentifierInput`)
     ///
-    /// - Returns: `GetCustomDataIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomDataIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2698,6 +2730,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomDataIdentifierInput, GetCustomDataIdentifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomDataIdentifierOutput>(GetCustomDataIdentifierOutput.httpOutput(from:), GetCustomDataIdentifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomDataIdentifierInput, GetCustomDataIdentifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomDataIdentifierOutput>())
@@ -2729,9 +2762,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) aggregated statistical data about findings.
     ///
-    /// - Parameter GetFindingStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingStatisticsInput`)
     ///
-    /// - Returns: `GetFindingStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2771,6 +2804,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingStatisticsInput, GetFindingStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingStatisticsOutput>(GetFindingStatisticsOutput.httpOutput(from:), GetFindingStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingStatisticsInput, GetFindingStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingStatisticsOutput>())
@@ -2802,9 +2836,9 @@ extension Macie2Client {
     ///
     /// Retrieves the details of one or more findings.
     ///
-    /// - Parameter GetFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsInput`)
     ///
-    /// - Returns: `GetFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2844,6 +2878,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFindingsInput, GetFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsOutput>(GetFindingsOutput.httpOutput(from:), GetFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsInput, GetFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsOutput>())
@@ -2875,9 +2910,9 @@ extension Macie2Client {
     ///
     /// Retrieves the criteria and other settings for a findings filter.
     ///
-    /// - Parameter GetFindingsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsFilterInput`)
     ///
-    /// - Returns: `GetFindingsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2914,6 +2949,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFindingsFilterInput, GetFindingsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsFilterOutput>(GetFindingsFilterOutput.httpOutput(from:), GetFindingsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsFilterInput, GetFindingsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsFilterOutput>())
@@ -2945,9 +2981,9 @@ extension Macie2Client {
     ///
     /// Retrieves the configuration settings for publishing findings to Security Hub.
     ///
-    /// - Parameter GetFindingsPublicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFindingsPublicationConfigurationInput`)
     ///
-    /// - Returns: `GetFindingsPublicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFindingsPublicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2984,6 +3020,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFindingsPublicationConfigurationInput, GetFindingsPublicationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFindingsPublicationConfigurationOutput>(GetFindingsPublicationConfigurationOutput.httpOutput(from:), GetFindingsPublicationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFindingsPublicationConfigurationInput, GetFindingsPublicationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFindingsPublicationConfigurationOutput>())
@@ -3015,9 +3052,9 @@ extension Macie2Client {
     ///
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
     ///
-    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvitationsCountInput`)
     ///
-    /// - Returns: `GetInvitationsCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvitationsCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3054,6 +3091,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvitationsCountOutput>(GetInvitationsCountOutput.httpOutput(from:), GetInvitationsCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvitationsCountInput, GetInvitationsCountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvitationsCountOutput>())
@@ -3085,9 +3123,9 @@ extension Macie2Client {
     ///
     /// Retrieves the status and configuration settings for an Amazon Macie account.
     ///
-    /// - Parameter GetMacieSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMacieSessionInput`)
     ///
-    /// - Returns: `GetMacieSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMacieSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3124,6 +3162,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMacieSessionInput, GetMacieSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMacieSessionOutput>(GetMacieSessionOutput.httpOutput(from:), GetMacieSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMacieSessionInput, GetMacieSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMacieSessionOutput>())
@@ -3155,9 +3194,9 @@ extension Macie2Client {
     ///
     /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
     ///
-    /// - Parameter GetMasterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMasterAccountInput`)
     ///
-    /// - Returns: `GetMasterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMasterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3194,6 +3233,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMasterAccountInput, GetMasterAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMasterAccountOutput>(GetMasterAccountOutput.httpOutput(from:), GetMasterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMasterAccountInput, GetMasterAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMasterAccountOutput>())
@@ -3225,9 +3265,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
     ///
-    /// - Parameter GetMemberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemberInput`)
     ///
-    /// - Returns: `GetMemberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3264,6 +3304,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMemberInput, GetMemberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemberOutput>(GetMemberOutput.httpOutput(from:), GetMemberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemberInput, GetMemberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMemberOutput>())
@@ -3295,9 +3336,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
     ///
-    /// - Parameter GetResourceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceProfileInput`)
     ///
-    /// - Returns: `GetResourceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3334,6 +3375,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetResourceProfileInput, GetResourceProfileOutput>(GetResourceProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceProfileOutput>(GetResourceProfileOutput.httpOutput(from:), GetResourceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceProfileInput, GetResourceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceProfileOutput>())
@@ -3365,9 +3407,9 @@ extension Macie2Client {
     ///
     /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     ///
-    /// - Parameter GetRevealConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRevealConfigurationInput`)
     ///
-    /// - Returns: `GetRevealConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRevealConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3401,6 +3443,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevealConfigurationInput, GetRevealConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRevealConfigurationOutput>(GetRevealConfigurationOutput.httpOutput(from:), GetRevealConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevealConfigurationInput, GetRevealConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRevealConfigurationOutput>())
@@ -3432,9 +3475,9 @@ extension Macie2Client {
     ///
     /// Retrieves occurrences of sensitive data reported by a finding.
     ///
-    /// - Parameter GetSensitiveDataOccurrencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSensitiveDataOccurrencesInput`)
     ///
-    /// - Returns: `GetSensitiveDataOccurrencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSensitiveDataOccurrencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3470,6 +3513,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSensitiveDataOccurrencesOutput>(GetSensitiveDataOccurrencesOutput.httpOutput(from:), GetSensitiveDataOccurrencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSensitiveDataOccurrencesInput, GetSensitiveDataOccurrencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSensitiveDataOccurrencesOutput>())
@@ -3501,9 +3545,9 @@ extension Macie2Client {
     ///
     /// Checks whether occurrences of sensitive data can be retrieved for a finding.
     ///
-    /// - Parameter GetSensitiveDataOccurrencesAvailabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSensitiveDataOccurrencesAvailabilityInput`)
     ///
-    /// - Returns: `GetSensitiveDataOccurrencesAvailabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSensitiveDataOccurrencesAvailabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3537,6 +3581,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSensitiveDataOccurrencesAvailabilityInput, GetSensitiveDataOccurrencesAvailabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSensitiveDataOccurrencesAvailabilityOutput>(GetSensitiveDataOccurrencesAvailabilityOutput.httpOutput(from:), GetSensitiveDataOccurrencesAvailabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSensitiveDataOccurrencesAvailabilityInput, GetSensitiveDataOccurrencesAvailabilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSensitiveDataOccurrencesAvailabilityOutput>())
@@ -3568,9 +3613,9 @@ extension Macie2Client {
     ///
     /// Retrieves the settings for the sensitivity inspection template for an account.
     ///
-    /// - Parameter GetSensitivityInspectionTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSensitivityInspectionTemplateInput`)
     ///
-    /// - Returns: `GetSensitivityInspectionTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSensitivityInspectionTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3605,6 +3650,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSensitivityInspectionTemplateInput, GetSensitivityInspectionTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSensitivityInspectionTemplateOutput>(GetSensitivityInspectionTemplateOutput.httpOutput(from:), GetSensitivityInspectionTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSensitivityInspectionTemplateInput, GetSensitivityInspectionTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSensitivityInspectionTemplateOutput>())
@@ -3636,9 +3682,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
     ///
-    /// - Parameter GetUsageStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageStatisticsInput`)
     ///
-    /// - Returns: `GetUsageStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3678,6 +3724,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageStatisticsOutput>(GetUsageStatisticsOutput.httpOutput(from:), GetUsageStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageStatisticsInput, GetUsageStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageStatisticsOutput>())
@@ -3709,9 +3756,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) aggregated usage data for an account.
     ///
-    /// - Parameter GetUsageTotalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageTotalsInput`)
     ///
-    /// - Returns: `GetUsageTotalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageTotalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3749,6 +3796,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUsageTotalsInput, GetUsageTotalsOutput>(GetUsageTotalsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageTotalsOutput>(GetUsageTotalsOutput.httpOutput(from:), GetUsageTotalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageTotalsInput, GetUsageTotalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageTotalsOutput>())
@@ -3780,9 +3828,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about all the allow lists for an account.
     ///
-    /// - Parameter ListAllowListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAllowListsInput`)
     ///
-    /// - Returns: `ListAllowListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAllowListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3817,6 +3865,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAllowListsInput, ListAllowListsOutput>(ListAllowListsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAllowListsOutput>(ListAllowListsOutput.httpOutput(from:), ListAllowListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAllowListsInput, ListAllowListsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAllowListsOutput>())
@@ -3848,9 +3897,9 @@ extension Macie2Client {
     ///
     /// Retrieves the status of automated sensitive data discovery for one or more accounts.
     ///
-    /// - Parameter ListAutomatedDiscoveryAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomatedDiscoveryAccountsInput`)
     ///
-    /// - Returns: `ListAutomatedDiscoveryAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomatedDiscoveryAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3886,6 +3935,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>(ListAutomatedDiscoveryAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomatedDiscoveryAccountsOutput>(ListAutomatedDiscoveryAccountsOutput.httpOutput(from:), ListAutomatedDiscoveryAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomatedDiscoveryAccountsInput, ListAutomatedDiscoveryAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomatedDiscoveryAccountsOutput>())
@@ -3917,9 +3967,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about one or more classification jobs.
     ///
-    /// - Parameter ListClassificationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClassificationJobsInput`)
     ///
-    /// - Returns: `ListClassificationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClassificationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3959,6 +4009,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClassificationJobsInput, ListClassificationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClassificationJobsOutput>(ListClassificationJobsOutput.httpOutput(from:), ListClassificationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClassificationJobsInput, ListClassificationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClassificationJobsOutput>())
@@ -3990,9 +4041,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about the classification scope for an account.
     ///
-    /// - Parameter ListClassificationScopesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClassificationScopesInput`)
     ///
-    /// - Returns: `ListClassificationScopesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClassificationScopesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4027,6 +4078,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClassificationScopesInput, ListClassificationScopesOutput>(ListClassificationScopesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClassificationScopesOutput>(ListClassificationScopesOutput.httpOutput(from:), ListClassificationScopesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClassificationScopesInput, ListClassificationScopesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClassificationScopesOutput>())
@@ -4058,9 +4110,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about the custom data identifiers for an account.
     ///
-    /// - Parameter ListCustomDataIdentifiersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomDataIdentifiersInput`)
     ///
-    /// - Returns: `ListCustomDataIdentifiersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomDataIdentifiersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4100,6 +4152,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomDataIdentifiersOutput>(ListCustomDataIdentifiersOutput.httpOutput(from:), ListCustomDataIdentifiersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomDataIdentifiersInput, ListCustomDataIdentifiersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomDataIdentifiersOutput>())
@@ -4131,9 +4184,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about one or more findings.
     ///
-    /// - Parameter ListFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsInput`)
     ///
-    /// - Returns: `ListFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4173,6 +4226,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFindingsInput, ListFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsOutput>(ListFindingsOutput.httpOutput(from:), ListFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsInput, ListFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsOutput>())
@@ -4204,9 +4258,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about all the findings filters for an account.
     ///
-    /// - Parameter ListFindingsFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFindingsFiltersInput`)
     ///
-    /// - Returns: `ListFindingsFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFindingsFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4244,6 +4298,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFindingsFiltersInput, ListFindingsFiltersOutput>(ListFindingsFiltersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFindingsFiltersOutput>(ListFindingsFiltersOutput.httpOutput(from:), ListFindingsFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFindingsFiltersInput, ListFindingsFiltersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFindingsFiltersOutput>())
@@ -4275,9 +4330,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about Amazon Macie membership invitations that were received by an account.
     ///
-    /// - Parameter ListInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvitationsInput`)
     ///
-    /// - Returns: `ListInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4315,6 +4370,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvitationsInput, ListInvitationsOutput>(ListInvitationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvitationsOutput>(ListInvitationsOutput.httpOutput(from:), ListInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvitationsInput, ListInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvitationsOutput>())
@@ -4346,9 +4402,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
     ///
-    /// - Parameter ListManagedDataIdentifiersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedDataIdentifiersInput`)
     ///
-    /// - Returns: `ListManagedDataIdentifiersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedDataIdentifiersOutput`)
     public func listManagedDataIdentifiers(input: ListManagedDataIdentifiersInput) async throws -> ListManagedDataIdentifiersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4377,6 +4433,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedDataIdentifiersOutput>(ListManagedDataIdentifiersOutput.httpOutput(from:), ListManagedDataIdentifiersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedDataIdentifiersInput, ListManagedDataIdentifiersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedDataIdentifiersOutput>())
@@ -4408,9 +4465,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
     ///
-    /// - Parameter ListMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersInput`)
     ///
-    /// - Returns: `ListMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4448,6 +4505,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMembersInput, ListMembersOutput>(ListMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOutput>(ListMembersOutput.httpOutput(from:), ListMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersInput, ListMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOutput>())
@@ -4479,9 +4537,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
-    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationAdminAccountsInput`)
     ///
-    /// - Returns: `ListOrganizationAdminAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationAdminAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4519,6 +4577,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationAdminAccountsOutput>(ListOrganizationAdminAccountsOutput.httpOutput(from:), ListOrganizationAdminAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationAdminAccountsInput, ListOrganizationAdminAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationAdminAccountsOutput>())
@@ -4550,9 +4609,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about objects that Amazon Macie selected from an S3 bucket for automated sensitive data discovery.
     ///
-    /// - Parameter ListResourceProfileArtifactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceProfileArtifactsInput`)
     ///
-    /// - Returns: `ListResourceProfileArtifactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceProfileArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4588,6 +4647,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutput>(ListResourceProfileArtifactsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceProfileArtifactsOutput>(ListResourceProfileArtifactsOutput.httpOutput(from:), ListResourceProfileArtifactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceProfileArtifactsInput, ListResourceProfileArtifactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceProfileArtifactsOutput>())
@@ -4619,9 +4679,9 @@ extension Macie2Client {
     ///
     /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
     ///
-    /// - Parameter ListResourceProfileDetectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceProfileDetectionsInput`)
     ///
-    /// - Returns: `ListResourceProfileDetectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceProfileDetectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4658,6 +4718,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutput>(ListResourceProfileDetectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceProfileDetectionsOutput>(ListResourceProfileDetectionsOutput.httpOutput(from:), ListResourceProfileDetectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceProfileDetectionsInput, ListResourceProfileDetectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceProfileDetectionsOutput>())
@@ -4689,9 +4750,9 @@ extension Macie2Client {
     ///
     /// Retrieves a subset of information about the sensitivity inspection template for an account.
     ///
-    /// - Parameter ListSensitivityInspectionTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSensitivityInspectionTemplatesInput`)
     ///
-    /// - Returns: `ListSensitivityInspectionTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSensitivityInspectionTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4727,6 +4788,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutput>(ListSensitivityInspectionTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSensitivityInspectionTemplatesOutput>(ListSensitivityInspectionTemplatesOutput.httpOutput(from:), ListSensitivityInspectionTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSensitivityInspectionTemplatesInput, ListSensitivityInspectionTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSensitivityInspectionTemplatesOutput>())
@@ -4758,9 +4820,9 @@ extension Macie2Client {
     ///
     /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4786,6 +4848,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4817,9 +4880,9 @@ extension Macie2Client {
     ///
     /// Adds or updates the configuration settings for storing data classification results.
     ///
-    /// - Parameter PutClassificationExportConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutClassificationExportConfigurationInput`)
     ///
-    /// - Returns: `PutClassificationExportConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutClassificationExportConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4859,6 +4922,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutClassificationExportConfigurationInput, PutClassificationExportConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutClassificationExportConfigurationOutput>(PutClassificationExportConfigurationOutput.httpOutput(from:), PutClassificationExportConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutClassificationExportConfigurationInput, PutClassificationExportConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutClassificationExportConfigurationOutput>())
@@ -4890,9 +4954,9 @@ extension Macie2Client {
     ///
     /// Updates the configuration settings for publishing findings to Security Hub.
     ///
-    /// - Parameter PutFindingsPublicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFindingsPublicationConfigurationInput`)
     ///
-    /// - Returns: `PutFindingsPublicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFindingsPublicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4933,6 +4997,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFindingsPublicationConfigurationInput, PutFindingsPublicationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFindingsPublicationConfigurationOutput>(PutFindingsPublicationConfigurationOutput.httpOutput(from:), PutFindingsPublicationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFindingsPublicationConfigurationInput, PutFindingsPublicationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFindingsPublicationConfigurationOutput>())
@@ -4964,9 +5029,9 @@ extension Macie2Client {
     ///
     /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
     ///
-    /// - Parameter SearchResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchResourcesInput`)
     ///
-    /// - Returns: `SearchResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5006,6 +5071,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchResourcesInput, SearchResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchResourcesOutput>(SearchResourcesOutput.httpOutput(from:), SearchResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchResourcesInput, SearchResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchResourcesOutput>())
@@ -5037,9 +5103,9 @@ extension Macie2Client {
     ///
     /// Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5068,6 +5134,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5099,9 +5166,9 @@ extension Macie2Client {
     ///
     /// Tests criteria for a custom data identifier.
     ///
-    /// - Parameter TestCustomDataIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestCustomDataIdentifierInput`)
     ///
-    /// - Returns: `TestCustomDataIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestCustomDataIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5141,6 +5208,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestCustomDataIdentifierInput, TestCustomDataIdentifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestCustomDataIdentifierOutput>(TestCustomDataIdentifierOutput.httpOutput(from:), TestCustomDataIdentifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestCustomDataIdentifierInput, TestCustomDataIdentifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestCustomDataIdentifierOutput>())
@@ -5172,9 +5240,9 @@ extension Macie2Client {
     ///
     /// Removes one or more tags (keys and values) from an Amazon Macie resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -5201,6 +5269,7 @@ extension Macie2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5232,9 +5301,9 @@ extension Macie2Client {
     ///
     /// Updates the settings for an allow list.
     ///
-    /// - Parameter UpdateAllowListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAllowListInput`)
     ///
-    /// - Returns: `UpdateAllowListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAllowListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5272,6 +5341,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAllowListInput, UpdateAllowListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAllowListOutput>(UpdateAllowListOutput.httpOutput(from:), UpdateAllowListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAllowListInput, UpdateAllowListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAllowListOutput>())
@@ -5303,9 +5373,9 @@ extension Macie2Client {
     ///
     /// Changes the configuration settings and status of automated sensitive data discovery for an organization or standalone account.
     ///
-    /// - Parameter UpdateAutomatedDiscoveryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutomatedDiscoveryConfigurationInput`)
     ///
-    /// - Returns: `UpdateAutomatedDiscoveryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAutomatedDiscoveryConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5342,6 +5412,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomatedDiscoveryConfigurationInput, UpdateAutomatedDiscoveryConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutomatedDiscoveryConfigurationOutput>(UpdateAutomatedDiscoveryConfigurationOutput.httpOutput(from:), UpdateAutomatedDiscoveryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomatedDiscoveryConfigurationInput, UpdateAutomatedDiscoveryConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutomatedDiscoveryConfigurationOutput>())
@@ -5373,9 +5444,9 @@ extension Macie2Client {
     ///
     /// Changes the status of a classification job.
     ///
-    /// - Parameter UpdateClassificationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClassificationJobInput`)
     ///
-    /// - Returns: `UpdateClassificationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClassificationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5415,6 +5486,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClassificationJobInput, UpdateClassificationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClassificationJobOutput>(UpdateClassificationJobOutput.httpOutput(from:), UpdateClassificationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClassificationJobInput, UpdateClassificationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClassificationJobOutput>())
@@ -5446,9 +5518,9 @@ extension Macie2Client {
     ///
     /// Updates the classification scope settings for an account.
     ///
-    /// - Parameter UpdateClassificationScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClassificationScopeInput`)
     ///
-    /// - Returns: `UpdateClassificationScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClassificationScopeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5486,6 +5558,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClassificationScopeInput, UpdateClassificationScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClassificationScopeOutput>(UpdateClassificationScopeOutput.httpOutput(from:), UpdateClassificationScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClassificationScopeInput, UpdateClassificationScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClassificationScopeOutput>())
@@ -5517,9 +5590,9 @@ extension Macie2Client {
     ///
     /// Updates the criteria and other settings for a findings filter.
     ///
-    /// - Parameter UpdateFindingsFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFindingsFilterInput`)
     ///
-    /// - Returns: `UpdateFindingsFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFindingsFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5560,6 +5633,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFindingsFilterInput, UpdateFindingsFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFindingsFilterOutput>(UpdateFindingsFilterOutput.httpOutput(from:), UpdateFindingsFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFindingsFilterInput, UpdateFindingsFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFindingsFilterOutput>())
@@ -5591,9 +5665,9 @@ extension Macie2Client {
     ///
     /// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
     ///
-    /// - Parameter UpdateMacieSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMacieSessionInput`)
     ///
-    /// - Returns: `UpdateMacieSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMacieSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5633,6 +5707,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMacieSessionInput, UpdateMacieSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMacieSessionOutput>(UpdateMacieSessionOutput.httpOutput(from:), UpdateMacieSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMacieSessionInput, UpdateMacieSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMacieSessionOutput>())
@@ -5664,9 +5739,9 @@ extension Macie2Client {
     ///
     /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
     ///
-    /// - Parameter UpdateMemberSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMemberSessionInput`)
     ///
-    /// - Returns: `UpdateMemberSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMemberSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5706,6 +5781,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMemberSessionInput, UpdateMemberSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMemberSessionOutput>(UpdateMemberSessionOutput.httpOutput(from:), UpdateMemberSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMemberSessionInput, UpdateMemberSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMemberSessionOutput>())
@@ -5737,9 +5813,9 @@ extension Macie2Client {
     ///
     /// Updates the Amazon Macie configuration settings for an organization in Organizations.
     ///
-    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationConfigurationInput`)
     ///
-    /// - Returns: `UpdateOrganizationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOrganizationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5779,6 +5855,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOrganizationConfigurationOutput>(UpdateOrganizationConfigurationOutput.httpOutput(from:), UpdateOrganizationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOrganizationConfigurationInput, UpdateOrganizationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOrganizationConfigurationOutput>())
@@ -5810,9 +5887,9 @@ extension Macie2Client {
     ///
     /// Updates the sensitivity score for an S3 bucket.
     ///
-    /// - Parameter UpdateResourceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceProfileInput`)
     ///
-    /// - Returns: `UpdateResourceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5852,6 +5929,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceProfileInput, UpdateResourceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceProfileOutput>(UpdateResourceProfileOutput.httpOutput(from:), UpdateResourceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceProfileInput, UpdateResourceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceProfileOutput>())
@@ -5883,9 +5961,9 @@ extension Macie2Client {
     ///
     /// Updates the sensitivity scoring settings for an S3 bucket.
     ///
-    /// - Parameter UpdateResourceProfileDetectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceProfileDetectionsInput`)
     ///
-    /// - Returns: `UpdateResourceProfileDetectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceProfileDetectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5925,6 +6003,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceProfileDetectionsInput, UpdateResourceProfileDetectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceProfileDetectionsOutput>(UpdateResourceProfileDetectionsOutput.httpOutput(from:), UpdateResourceProfileDetectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceProfileDetectionsInput, UpdateResourceProfileDetectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceProfileDetectionsOutput>())
@@ -5956,9 +6035,9 @@ extension Macie2Client {
     ///
     /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
     ///
-    /// - Parameter UpdateRevealConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRevealConfigurationInput`)
     ///
-    /// - Returns: `UpdateRevealConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRevealConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5995,6 +6074,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRevealConfigurationInput, UpdateRevealConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRevealConfigurationOutput>(UpdateRevealConfigurationOutput.httpOutput(from:), UpdateRevealConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRevealConfigurationInput, UpdateRevealConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRevealConfigurationOutput>())
@@ -6026,9 +6106,9 @@ extension Macie2Client {
     ///
     /// Updates the settings for the sensitivity inspection template for an account.
     ///
-    /// - Parameter UpdateSensitivityInspectionTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSensitivityInspectionTemplateInput`)
     ///
-    /// - Returns: `UpdateSensitivityInspectionTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSensitivityInspectionTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6066,6 +6146,7 @@ extension Macie2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSensitivityInspectionTemplateInput, UpdateSensitivityInspectionTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSensitivityInspectionTemplateOutput>(UpdateSensitivityInspectionTemplateOutput.httpOutput(from:), UpdateSensitivityInspectionTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSensitivityInspectionTemplateInput, UpdateSensitivityInspectionTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSensitivityInspectionTemplateOutput>())

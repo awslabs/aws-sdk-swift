@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -32,7 +33,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -67,9 +68,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SageMakerGeospatialClient: ClientRuntime.Client {
+public class SageMakerGeospatialClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerGeospatialClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerGeospatialClient.SageMakerGeospatialClientConfiguration
     let serviceName = "SageMaker Geospatial"
@@ -375,9 +375,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to delete an Earth Observation job.
     ///
-    /// - Parameter DeleteEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEarthObservationJobInput`)
     ///
-    /// - Returns: `DeleteEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEarthObservationJobInput, DeleteEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEarthObservationJobOutput>(DeleteEarthObservationJobOutput.httpOutput(from:), DeleteEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEarthObservationJobInput, DeleteEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEarthObservationJobOutput>())
@@ -444,9 +445,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to delete a Vector Enrichment job.
     ///
-    /// - Parameter DeleteVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `DeleteVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +483,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVectorEnrichmentJobInput, DeleteVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVectorEnrichmentJobOutput>(DeleteVectorEnrichmentJobOutput.httpOutput(from:), DeleteVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVectorEnrichmentJobInput, DeleteVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVectorEnrichmentJobOutput>())
@@ -513,9 +515,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
     ///
-    /// - Parameter ExportEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportEarthObservationJobInput`)
     ///
-    /// - Returns: `ExportEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,6 +558,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportEarthObservationJobInput, ExportEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportEarthObservationJobOutput>(ExportEarthObservationJobOutput.httpOutput(from:), ExportEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportEarthObservationJobInput, ExportEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportEarthObservationJobOutput>())
@@ -587,9 +590,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
     ///
-    /// - Parameter ExportVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `ExportVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,6 +633,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportVectorEnrichmentJobInput, ExportVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportVectorEnrichmentJobOutput>(ExportVectorEnrichmentJobOutput.httpOutput(from:), ExportVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportVectorEnrichmentJobInput, ExportVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportVectorEnrichmentJobOutput>())
@@ -661,9 +665,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Get the details for a previously initiated Earth Observation job.
     ///
-    /// - Parameter GetEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEarthObservationJobInput`)
     ///
-    /// - Returns: `GetEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +702,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEarthObservationJobInput, GetEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEarthObservationJobOutput>(GetEarthObservationJobOutput.httpOutput(from:), GetEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEarthObservationJobInput, GetEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEarthObservationJobOutput>())
@@ -729,9 +734,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to get details of a specific raster data collection.
     ///
-    /// - Parameter GetRasterDataCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRasterDataCollectionInput`)
     ///
-    /// - Returns: `GetRasterDataCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRasterDataCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,6 +771,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRasterDataCollectionInput, GetRasterDataCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRasterDataCollectionOutput>(GetRasterDataCollectionOutput.httpOutput(from:), GetRasterDataCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRasterDataCollectionInput, GetRasterDataCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRasterDataCollectionOutput>())
@@ -797,9 +803,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Gets a web mercator tile for the given Earth Observation job.
     ///
-    /// - Parameter GetTileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTileInput`)
     ///
-    /// - Returns: `GetTileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -835,6 +841,7 @@ extension SageMakerGeospatialClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTileInput, GetTileOutput>(GetTileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTileOutput>(GetTileOutput.httpOutput(from:), GetTileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTileInput, GetTileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTileOutput>())
@@ -866,9 +873,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
     ///
-    /// - Parameter GetVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `GetVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -903,6 +910,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVectorEnrichmentJobInput, GetVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVectorEnrichmentJobOutput>(GetVectorEnrichmentJobOutput.httpOutput(from:), GetVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVectorEnrichmentJobInput, GetVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVectorEnrichmentJobOutput>())
@@ -934,9 +942,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
     ///
-    /// - Parameter ListEarthObservationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEarthObservationJobsInput`)
     ///
-    /// - Returns: `ListEarthObservationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEarthObservationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -974,6 +982,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEarthObservationJobsInput, ListEarthObservationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEarthObservationJobsOutput>(ListEarthObservationJobsOutput.httpOutput(from:), ListEarthObservationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEarthObservationJobsInput, ListEarthObservationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEarthObservationJobsOutput>())
@@ -1005,9 +1014,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to get raster data collections.
     ///
-    /// - Parameter ListRasterDataCollectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRasterDataCollectionsInput`)
     ///
-    /// - Returns: `ListRasterDataCollectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRasterDataCollectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,6 +1052,7 @@ extension SageMakerGeospatialClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRasterDataCollectionsInput, ListRasterDataCollectionsOutput>(ListRasterDataCollectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRasterDataCollectionsOutput>(ListRasterDataCollectionsOutput.httpOutput(from:), ListRasterDataCollectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRasterDataCollectionsInput, ListRasterDataCollectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRasterDataCollectionsOutput>())
@@ -1074,9 +1084,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Lists the tags attached to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1111,6 +1121,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1142,9 +1153,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Retrieves a list of vector enrichment jobs.
     ///
-    /// - Parameter ListVectorEnrichmentJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVectorEnrichmentJobsInput`)
     ///
-    /// - Returns: `ListVectorEnrichmentJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVectorEnrichmentJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1182,6 +1193,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVectorEnrichmentJobsInput, ListVectorEnrichmentJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVectorEnrichmentJobsOutput>(ListVectorEnrichmentJobsOutput.httpOutput(from:), ListVectorEnrichmentJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVectorEnrichmentJobsInput, ListVectorEnrichmentJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVectorEnrichmentJobsOutput>())
@@ -1213,9 +1225,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
     ///
-    /// - Parameter SearchRasterDataCollectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchRasterDataCollectionInput`)
     ///
-    /// - Returns: `SearchRasterDataCollectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchRasterDataCollectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1253,6 +1265,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchRasterDataCollectionInput, SearchRasterDataCollectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchRasterDataCollectionOutput>(SearchRasterDataCollectionOutput.httpOutput(from:), SearchRasterDataCollectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchRasterDataCollectionInput, SearchRasterDataCollectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchRasterDataCollectionOutput>())
@@ -1284,9 +1297,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to create an Earth observation job.
     ///
-    /// - Parameter StartEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEarthObservationJobInput`)
     ///
-    /// - Returns: `StartEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1327,6 +1340,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEarthObservationJobInput, StartEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEarthObservationJobOutput>(StartEarthObservationJobOutput.httpOutput(from:), StartEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEarthObservationJobInput, StartEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEarthObservationJobOutput>())
@@ -1358,9 +1372,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
     ///
-    /// - Parameter StartVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `StartVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1401,6 +1415,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVectorEnrichmentJobInput, StartVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartVectorEnrichmentJobOutput>(StartVectorEnrichmentJobOutput.httpOutput(from:), StartVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVectorEnrichmentJobInput, StartVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartVectorEnrichmentJobOutput>())
@@ -1432,9 +1447,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Use this operation to stop an existing earth observation job.
     ///
-    /// - Parameter StopEarthObservationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEarthObservationJobInput`)
     ///
-    /// - Returns: `StopEarthObservationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEarthObservationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1473,6 +1488,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEarthObservationJobInput, StopEarthObservationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEarthObservationJobOutput>(StopEarthObservationJobOutput.httpOutput(from:), StopEarthObservationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEarthObservationJobInput, StopEarthObservationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEarthObservationJobOutput>())
@@ -1504,9 +1520,9 @@ extension SageMakerGeospatialClient {
     ///
     /// Stops the Vector Enrichment job for a given job ARN.
     ///
-    /// - Parameter StopVectorEnrichmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopVectorEnrichmentJobInput`)
     ///
-    /// - Returns: `StopVectorEnrichmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopVectorEnrichmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1545,6 +1561,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopVectorEnrichmentJobInput, StopVectorEnrichmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopVectorEnrichmentJobOutput>(StopVectorEnrichmentJobOutput.httpOutput(from:), StopVectorEnrichmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopVectorEnrichmentJobInput, StopVectorEnrichmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopVectorEnrichmentJobOutput>())
@@ -1576,9 +1593,9 @@ extension SageMakerGeospatialClient {
     ///
     /// The resource you want to tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1616,6 +1633,7 @@ extension SageMakerGeospatialClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1647,9 +1665,9 @@ extension SageMakerGeospatialClient {
     ///
     /// The resource you want to untag.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1685,6 +1703,7 @@ extension SageMakerGeospatialClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

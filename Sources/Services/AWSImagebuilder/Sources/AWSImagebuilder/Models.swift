@@ -27,6 +27,29 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
 
+/// You do not have permissions to perform the requested operation.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension ImagebuilderClientTypes {
 
     /// Includes counts by severity level for medium severity and higher level findings, plus a total for all of the findings for the specified filter.
@@ -77,7 +100,7 @@ extension ImagebuilderClientTypes {
 
     /// Contains settings for the Systems Manager agent on your build instance.
     public struct SystemsManagerAgent: Swift.Sendable {
-        /// Controls whether the Systems Manager agent is removed from your final build image, prior to creating the new AMI. If this is set to true, then the agent is removed from the final image. If it's set to false, then the agent is left in, so that it is included in the new AMI. The default value is false.
+        /// Controls whether the Systems Manager agent is removed from your final build image, prior to creating the new AMI. If this is set to true, then the agent is removed from the final image. If it's set to false, then the agent is left in, so that it is included in the new AMI. default value is false. The default behavior of uninstallAfterBuild is to remove the SSM Agent if it was installed by EC2 Image Builder
         public var uninstallAfterBuild: Swift.Bool?
 
         public init(
@@ -255,7 +278,7 @@ extension ImagebuilderClientTypes {
         public var amiTags: [Swift.String: Swift.String]?
         /// The description of the AMI distribution configuration. Minimum and maximum length are in characters.
         public var description: Swift.String?
-        /// The KMS key identifier used to encrypt the distributed image.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt the distributed image. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
         public var kmsKeyId: Swift.String?
         /// Launch permissions can be used to configure which Amazon Web Services accounts can use the AMI to launch instances.
         public var launchPermission: ImagebuilderClientTypes.LaunchPermissionConfiguration?
@@ -278,6 +301,22 @@ extension ImagebuilderClientTypes {
             self.launchPermission = launchPermission
             self.name = name
             self.targetAccountIds = targetAccountIds
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    /// Defines the rules by which an image pipeline is automatically disabled when it fails.
+    public struct AutoDisablePolicy: Swift.Sendable {
+        /// The number of consecutive scheduled image pipeline executions that must fail before Image Builder automatically disables the pipeline.
+        /// This member is required.
+        public var failureCount: Swift.Int?
+
+        public init(
+            failureCount: Swift.Int? = nil
+        ) {
+            self.failureCount = failureCount
         }
     }
 }
@@ -521,7 +560,7 @@ public struct CancelImageCreationInput: Swift.Sendable {
 public struct CancelImageCreationOutput: Swift.Sendable {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
-    /// The ARN of the image whose creation this request canceled.
+    /// The Amazon Resource Name (ARN) of the image whose creation this request canceled.
     public var imageBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -769,7 +808,7 @@ extension ImagebuilderClientTypes {
         public var description: Swift.String?
         /// The encryption status of the component.
         public var encrypted: Swift.Bool?
-        /// The KMS key identifier used to encrypt the component.
+        /// The KMS key identifier used to encrypt the component. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
         public var kmsKeyId: Swift.String?
         /// The name of the component.
         public var name: Swift.String?
@@ -1205,7 +1244,7 @@ extension ImagebuilderClientTypes {
         public var encrypted: Swift.Bool?
         /// Use to configure device IOPS.
         public var iops: Swift.Int?
-        /// Use to configure the KMS key to use when encrypting the device.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key to use when encrypting the device. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
         public var kmsKeyId: Swift.String?
         /// The snapshot that defines the device contents.
         public var snapshotId: Swift.String?
@@ -1310,7 +1349,7 @@ extension ImagebuilderClientTypes {
         public var encrypted: Swift.Bool?
         /// A group of options that can be used to configure an instance for building and testing container images.
         public var instanceConfiguration: ImagebuilderClientTypes.InstanceConfiguration?
-        /// Identifies which KMS key is used to encrypt the container image for distribution to the target Region.
+        /// The Amazon Resource Name (ARN) that uniquely identifies which KMS key is used to encrypt the container image for distribution to the target Region. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
         public var kmsKeyId: Swift.String?
         /// The name of the container recipe.
         public var name: Swift.String?
@@ -1379,6 +1418,8 @@ extension ImagebuilderClientTypes {
         public var containerType: ImagebuilderClientTypes.ContainerType?
         /// The date when this container recipe was created.
         public var dateCreated: Swift.String?
+        /// The base image for a container build and test instance. This can contain an AMI ID or it can specify an Amazon Web Services Systems Manager (SSM) Parameter Store Parameter, prefixed by ssm:, followed by the parameter name or ARN. If not specified, Image Builder uses the appropriate ECS-optimized AMI as a base image.
+        public var instanceImage: Swift.String?
         /// The name of the container recipe.
         public var name: Swift.String?
         /// The owner of the container recipe.
@@ -1394,6 +1435,7 @@ extension ImagebuilderClientTypes {
             arn: Swift.String? = nil,
             containerType: ImagebuilderClientTypes.ContainerType? = nil,
             dateCreated: Swift.String? = nil,
+            instanceImage: Swift.String? = nil,
             name: Swift.String? = nil,
             owner: Swift.String? = nil,
             parentImage: Swift.String? = nil,
@@ -1403,12 +1445,36 @@ extension ImagebuilderClientTypes {
             self.arn = arn
             self.containerType = containerType
             self.dateCreated = dateCreated
+            self.instanceImage = instanceImage
             self.name = name
             self.owner = owner
             self.parentImage = parentImage
             self.platform = platform
             self.tags = tags
         }
+    }
+}
+
+/// The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
+public struct DryRunOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DryRunOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -1491,7 +1557,9 @@ public struct CreateComponentInput: Swift.Sendable {
     public var data: Swift.String?
     /// Describes the contents of the component.
     public var description: Swift.String?
-    /// The ID of the KMS key that is used to encrypt this component.
+    /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+    public var dryRun: Swift.Bool?
+    /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of the component.
     /// This member is required.
@@ -1514,6 +1582,7 @@ public struct CreateComponentInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         data: Swift.String? = nil,
         description: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         platform: ImagebuilderClientTypes.Platform? = nil,
@@ -1526,6 +1595,7 @@ public struct CreateComponentInput: Swift.Sendable {
         self.clientToken = clientToken
         self.data = data
         self.description = description
+        self.dryRun = dryRun
         self.kmsKeyId = kmsKeyId
         self.name = name
         self.platform = platform
@@ -1536,21 +1606,52 @@ public struct CreateComponentInput: Swift.Sendable {
     }
 }
 
+extension ImagebuilderClientTypes {
+
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public struct LatestVersionReferences: Swift.Sendable {
+        /// The latest version Amazon Resource Name (ARN) with the same major version of the Image Builder resource.
+        public var latestMajorVersionArn: Swift.String?
+        /// The latest version Amazon Resource Name (ARN) with the same minor version of the Image Builder resource.
+        public var latestMinorVersionArn: Swift.String?
+        /// The latest version Amazon Resource Name (ARN) with the same patch version of the Image Builder resource.
+        public var latestPatchVersionArn: Swift.String?
+        /// The latest version Amazon Resource Name (ARN) of the Image Builder resource.
+        public var latestVersionArn: Swift.String?
+
+        public init(
+            latestMajorVersionArn: Swift.String? = nil,
+            latestMinorVersionArn: Swift.String? = nil,
+            latestPatchVersionArn: Swift.String? = nil,
+            latestVersionArn: Swift.String? = nil
+        ) {
+            self.latestMajorVersionArn = latestMajorVersionArn
+            self.latestMinorVersionArn = latestMinorVersionArn
+            self.latestPatchVersionArn = latestPatchVersionArn
+            self.latestVersionArn = latestVersionArn
+        }
+    }
+}
+
 public struct CreateComponentOutput: Swift.Sendable {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the component that the request created.
     public var componentBuildVersionArn: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         componentBuildVersionArn: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.componentBuildVersionArn = componentBuildVersionArn
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -1582,8 +1683,7 @@ public struct CreateContainerRecipeInput: Swift.Sendable {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// Components for build and test that are included in the container recipe. Recipes require a minimum of one build component, and can have a maximum of 20 build and test components in any combination.
-    /// This member is required.
+    /// The components included in the container recipe.
     public var components: [ImagebuilderClientTypes.ComponentConfiguration]?
     /// The type of container to create.
     /// This member is required.
@@ -1598,7 +1698,7 @@ public struct CreateContainerRecipeInput: Swift.Sendable {
     public var imageOsVersionOverride: Swift.String?
     /// A group of options that can be used to configure an instance for building and testing container images.
     public var instanceConfiguration: ImagebuilderClientTypes.InstanceConfiguration?
-    /// Identifies which KMS key is used to encrypt the Dockerfile template.
+    /// The Amazon Resource Name (ARN) that uniquely identifies which KMS key is used to encrypt the Dockerfile template. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of the container recipe.
     /// This member is required.
@@ -1661,16 +1761,20 @@ public struct CreateContainerRecipeOutput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Returns the Amazon Resource Name (ARN) of the container recipe that the request created.
     public var containerRecipeArn: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         containerRecipeArn: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.containerRecipeArn = containerRecipeArn
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -2042,6 +2146,21 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
 
+    /// The logging configuration that's defined for the image. Image Builder uses the defined settings to direct execution log output during image creation.
+    public struct ImageLoggingConfiguration: Swift.Sendable {
+        /// The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/imagebuilder/image-name.
+        public var logGroupName: Swift.String?
+
+        public init(
+            logGroupName: Swift.String? = nil
+        ) {
+            self.logGroupName = logGroupName
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
     public enum OnWorkflowFailure: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case abort
         case `continue`
@@ -2139,6 +2258,8 @@ public struct CreateImageInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that defines the environment in which your image will be built and tested.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
+    /// Define logging configuration for the image build process.
+    public var loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration?
     /// The tags of the image.
     public var tags: [Swift.String: Swift.String]?
     /// Contains an array of workflow configuration objects.
@@ -2154,6 +2275,7 @@ public struct CreateImageInput: Swift.Sendable {
         imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
+        loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
     ) {
@@ -2166,6 +2288,7 @@ public struct CreateImageInput: Swift.Sendable {
         self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.loggingConfiguration = loggingConfiguration
         self.tags = tags
         self.workflows = workflows
     }
@@ -2176,17 +2299,40 @@ public struct CreateImageOutput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image that the request created.
     public var imageBuildVersionArn: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         imageBuildVersionArn: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.imageBuildVersionArn = imageBuildVersionArn
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    /// The logging configuration that's defined for pipeline execution.
+    public struct PipelineLoggingConfiguration: Swift.Sendable {
+        /// The log group name that Image Builder uses for image creation. If not specified, the log group name defaults to /aws/imagebuilder/image-name.
+        public var imageLogGroupName: Swift.String?
+        /// The log group name that Image Builder uses for the log output during creation of a new pipeline. If not specified, the pipeline log group name defaults to /aws/imagebuilder/pipeline/pipeline-name.
+        public var pipelineLogGroupName: Swift.String?
+
+        public init(
+            imageLogGroupName: Swift.String? = nil,
+            pipelineLogGroupName: Swift.String? = nil
+        ) {
+            self.imageLogGroupName = imageLogGroupName
+            self.pipelineLogGroupName = pipelineLogGroupName
+        }
     }
 }
 
@@ -2223,6 +2369,8 @@ extension ImagebuilderClientTypes {
 
     /// A schedule configures when and how often a pipeline will automatically create a new image.
     public struct Schedule: Swift.Sendable {
+        /// The policy that configures when Image Builder should automatically disable a pipeline that is failing.
+        public var autoDisablePolicy: ImagebuilderClientTypes.AutoDisablePolicy?
         /// The start condition configures when the pipeline should trigger a new image build, as follows. If no value is set Image Builder defaults to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE.
         ///
         /// * EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE (default) – When you use semantic version filters on the base image or components in your image recipe, EC2 Image Builder builds a new image only when there are new versions of the base image or components in your recipe that match the filter. For semantic version syntax, see [CreateComponent](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html).
@@ -2235,10 +2383,12 @@ extension ImagebuilderClientTypes {
         public var timezone: Swift.String?
 
         public init(
+            autoDisablePolicy: ImagebuilderClientTypes.AutoDisablePolicy? = nil,
             pipelineExecutionStartCondition: ImagebuilderClientTypes.PipelineExecutionStartCondition? = nil,
             scheduleExpression: Swift.String? = nil,
             timezone: Swift.String? = nil
         ) {
+            self.autoDisablePolicy = autoDisablePolicy
             self.pipelineExecutionStartCondition = pipelineExecutionStartCondition
             self.scheduleExpression = scheduleExpression
             self.timezone = timezone
@@ -2298,6 +2448,8 @@ public struct CreateImagePipelineInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images created by this image pipeline.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
+    /// Define logging configuration for the image build process.
+    public var loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration?
     /// The name of the image pipeline.
     /// This member is required.
     public var name: Swift.String?
@@ -2321,6 +2473,7 @@ public struct CreateImagePipelineInput: Swift.Sendable {
         imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
+        loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration? = nil,
         name: Swift.String? = nil,
         schedule: ImagebuilderClientTypes.Schedule? = nil,
         status: ImagebuilderClientTypes.PipelineStatus? = nil,
@@ -2337,6 +2490,7 @@ public struct CreateImagePipelineInput: Swift.Sendable {
         self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.loggingConfiguration = loggingConfiguration
         self.name = name
         self.schedule = schedule
         self.status = status
@@ -2367,13 +2521,14 @@ public struct CreateImagePipelineOutput: Swift.Sendable {
 public struct CreateImageRecipeInput: Swift.Sendable {
     /// Specify additional settings and launch scripts for your build instances.
     public var additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration?
+    /// Tags that are applied to the AMI that Image Builder creates during the Build phase prior to image distribution.
+    public var amiTags: [Swift.String: Swift.String]?
     /// The block device mappings of the image recipe.
     public var blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]?
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
     /// The components included in the image recipe.
-    /// This member is required.
     public var components: [ImagebuilderClientTypes.ComponentConfiguration]?
     /// The description of the image recipe.
     public var description: Swift.String?
@@ -2404,6 +2559,7 @@ public struct CreateImageRecipeInput: Swift.Sendable {
 
     public init(
         additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration? = nil,
+        amiTags: [Swift.String: Swift.String]? = nil,
         blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]? = nil,
         clientToken: Swift.String? = nil,
         components: [ImagebuilderClientTypes.ComponentConfiguration]? = nil,
@@ -2415,6 +2571,7 @@ public struct CreateImageRecipeInput: Swift.Sendable {
         workingDirectory: Swift.String? = nil
     ) {
         self.additionalInstanceConfiguration = additionalInstanceConfiguration
+        self.amiTags = amiTags
         self.blockDeviceMappings = blockDeviceMappings
         self.clientToken = clientToken
         self.components = components
@@ -2432,16 +2589,20 @@ public struct CreateImageRecipeOutput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that was created by this request.
     public var imageRecipeArn: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         imageRecipeArn: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.imageRecipeArn = imageRecipeArn
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -3122,7 +3283,9 @@ public struct CreateWorkflowInput: Swift.Sendable {
     public var data: Swift.String?
     /// Describes the workflow.
     public var description: Swift.String?
-    /// The ID of the KMS key that is used to encrypt this workflow resource.
+    /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+    public var dryRun: Swift.Bool?
+    /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of the workflow to create.
     /// This member is required.
@@ -3143,6 +3306,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         data: Swift.String? = nil,
         description: Swift.String? = nil,
+        dryRun: Swift.Bool? = false,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         semanticVersion: Swift.String? = nil,
@@ -3154,6 +3318,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         self.clientToken = clientToken
         self.data = data
         self.description = description
+        self.dryRun = dryRun
         self.kmsKeyId = kmsKeyId
         self.name = name
         self.semanticVersion = semanticVersion
@@ -3166,14 +3331,18 @@ public struct CreateWorkflowInput: Swift.Sendable {
 public struct CreateWorkflowOutput: Swift.Sendable {
     /// The client token that uniquely identifies the request.
     public var clientToken: Swift.String?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The Amazon Resource Name (ARN) of the workflow resource that the request created.
     public var workflowBuildVersionArn: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         workflowBuildVersionArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
+        self.latestVersionReferences = latestVersionReferences
         self.workflowBuildVersionArn = workflowBuildVersionArn
     }
 }
@@ -3295,7 +3464,7 @@ public struct DeleteComponentInput: Swift.Sendable {
 }
 
 public struct DeleteComponentOutput: Swift.Sendable {
-    /// The ARN of the component build version that this request deleted.
+    /// The Amazon Resource Name (ARN) of the component build version that this request deleted.
     public var componentBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -3376,7 +3545,7 @@ public struct DeleteImageInput: Swift.Sendable {
 }
 
 public struct DeleteImageOutput: Swift.Sendable {
-    /// The ARN of the Image Builder image resource that this request deleted.
+    /// The Amazon Resource Name (ARN) of the Image Builder image resource that this request deleted.
     public var imageBuildVersionArn: Swift.String?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
@@ -3484,7 +3653,7 @@ public struct DeleteLifecyclePolicyInput: Swift.Sendable {
 }
 
 public struct DeleteLifecyclePolicyOutput: Swift.Sendable {
-    /// The ARN of the lifecycle policy that was deleted.
+    /// The Amazon Resource Name (ARN) of the lifecycle policy that was deleted.
     public var lifecyclePolicyArn: Swift.String?
 
     public init(
@@ -3507,13 +3676,109 @@ public struct DeleteWorkflowInput: Swift.Sendable {
 }
 
 public struct DeleteWorkflowOutput: Swift.Sendable {
-    /// The ARN of the workflow resource that this request deleted.
+    /// The Amazon Resource Name (ARN) of the workflow resource that this request deleted.
     public var workflowBuildVersionArn: Swift.String?
 
     public init(
         workflowBuildVersionArn: Swift.String? = nil
     ) {
         self.workflowBuildVersionArn = workflowBuildVersionArn
+    }
+}
+
+/// At least one of the resources referenced by your request does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// You have attempted too many requests for the specific operation.
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DistributeImageInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the distribution configuration to use.
+    /// This member is required.
+    public var distributionConfigurationArn: Swift.String?
+    /// The IAM role to use for the distribution.
+    /// This member is required.
+    public var executionRole: Swift.String?
+    /// The logging configuration for the distribution.
+    public var loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration?
+    /// The source image Amazon Resource Name (ARN) to distribute.
+    /// This member is required.
+    public var sourceImage: Swift.String?
+    /// The tags to apply to the distributed image.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        distributionConfigurationArn: Swift.String? = nil,
+        executionRole: Swift.String? = nil,
+        loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration? = nil,
+        sourceImage: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.distributionConfigurationArn = distributionConfigurationArn
+        self.executionRole = executionRole
+        self.loggingConfiguration = loggingConfiguration
+        self.sourceImage = sourceImage
+        self.tags = tags
+    }
+}
+
+public struct DistributeImageOutput: Swift.Sendable {
+    /// The client token that uniquely identifies the request.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the image to be distributed.
+    public var imageBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
     }
 }
 
@@ -3634,38 +3899,19 @@ public struct GetComponentInput: Swift.Sendable {
 public struct GetComponentOutput: Swift.Sendable {
     /// The component object specified in the request.
     public var component: ImagebuilderClientTypes.Component?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         component: ImagebuilderClientTypes.Component? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.component = component
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
-    }
-}
-
-/// At least one of the resources referenced by your request does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -3711,14 +3957,18 @@ public struct GetContainerRecipeInput: Swift.Sendable {
 public struct GetContainerRecipeOutput: Swift.Sendable {
     /// The container recipe object that is returned.
     public var containerRecipe: ImagebuilderClientTypes.ContainerRecipe?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         containerRecipe: ImagebuilderClientTypes.ContainerRecipe? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.containerRecipe = containerRecipe
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -3824,6 +4074,8 @@ extension ImagebuilderClientTypes {
     public struct ImageRecipe: Swift.Sendable {
         /// Before you create a new AMI, Image Builder launches temporary Amazon EC2 instances to build and test your image configuration. Instance configuration adds a layer of control over those instances. You can define settings and add scripts to run when an instance is launched from your AMI.
         public var additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration?
+        /// Tags that are applied to the AMI that Image Builder creates during the Build phase prior to image distribution.
+        public var amiTags: [Swift.String: Swift.String]?
         /// The Amazon Resource Name (ARN) of the image recipe.
         public var arn: Swift.String?
         /// The block device mappings to apply when creating images from this recipe.
@@ -3861,6 +4113,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             additionalInstanceConfiguration: ImagebuilderClientTypes.AdditionalInstanceConfiguration? = nil,
+            amiTags: [Swift.String: Swift.String]? = nil,
             arn: Swift.String? = nil,
             blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]? = nil,
             components: [ImagebuilderClientTypes.ComponentConfiguration]? = nil,
@@ -3876,6 +4129,7 @@ extension ImagebuilderClientTypes {
             workingDirectory: Swift.String? = nil
         ) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
+            self.amiTags = amiTags
             self.arn = arn
             self.blockDeviceMappings = blockDeviceMappings
             self.components = components
@@ -4091,7 +4345,7 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
 
-    /// An Image Builder image. You must specify exactly one recipe for the image – either a container recipe (containerRecipe), which creates a container image, or an image recipe (imageRecipe), which creates an AMI.
+    /// An Image Builder image resource that keeps track of all of the settings used to create, configure, and distribute output for that image. You must specify exactly one recipe for the image – either a container recipe (containerRecipe), which creates a container image, or an image recipe (imageRecipe), which creates an AMI.
     public struct Image: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the image. Semantic versioning is included in each object's Amazon Resource Name (ARN), at the level that applies to that object as follows:
         ///
@@ -4135,6 +4389,8 @@ extension ImagebuilderClientTypes {
         public var infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration?
         /// Identifies the last runtime instance of the lifecycle policy to take action on the image.
         public var lifecycleExecutionId: Swift.String?
+        /// The logging configuration that's defined for the image. Image Builder uses the defined settings to direct execution log output during image creation.
+        public var loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration?
         /// The name of the image.
         public var name: Swift.String?
         /// The operating system version for instances that launch from this image. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
@@ -4175,6 +4431,7 @@ extension ImagebuilderClientTypes {
             imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
             infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration? = nil,
             lifecycleExecutionId: Swift.String? = nil,
+            loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration? = nil,
             name: Swift.String? = nil,
             osVersion: Swift.String? = nil,
             outputResources: ImagebuilderClientTypes.OutputResources? = nil,
@@ -4202,6 +4459,7 @@ extension ImagebuilderClientTypes {
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfiguration = infrastructureConfiguration
             self.lifecycleExecutionId = lifecycleExecutionId
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.osVersion = osVersion
             self.outputResources = outputResources
@@ -4221,14 +4479,18 @@ extension ImagebuilderClientTypes {
 public struct GetImageOutput: Swift.Sendable {
     /// The image object.
     public var image: ImagebuilderClientTypes.Image?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         image: ImagebuilderClientTypes.Image? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.image = image
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -4251,6 +4513,22 @@ extension ImagebuilderClientTypes {
     public struct ImagePipeline: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the image pipeline.
         public var arn: Swift.String?
+        /// Image Builder tracks the number of consecutive failures for scheduled pipeline executions and takes one of the following actions each time it runs on a schedule:
+        ///
+        /// * If the pipeline execution is successful, the number of consecutive failures resets to zero.
+        ///
+        /// * If the pipeline execution fails, Image Builder increments the number of consecutive failures. If the failure count exceeds the limit defined in the AutoDisablePolicy, Image Builder disables the pipeline.
+        ///
+        ///
+        /// The consecutive failure count is also reset to zero under the following conditions:
+        ///
+        /// * The pipeline runs manually and succeeds.
+        ///
+        /// * The pipeline configuration is updated.
+        ///
+        ///
+        /// If the pipeline runs manually and fails, the count remains the same. The next scheduled run continues to increment where it left off before.
+        public var consecutiveFailures: Swift.Int?
         /// The Amazon Resource Name (ARN) of the container recipe that is used for this pipeline.
         public var containerRecipeArn: Swift.String?
         /// The date on which this image pipeline was created.
@@ -4277,6 +4555,10 @@ extension ImagebuilderClientTypes {
         public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
         /// The Amazon Resource Name (ARN) of the infrastructure configuration associated with this image pipeline.
         public var infrastructureConfigurationArn: Swift.String?
+        /// The status of the last image that this pipeline built, such as BUILDING, TESTING, FAILED, or AVAILABLE.
+        public var lastRunStatus: ImagebuilderClientTypes.ImageStatus?
+        /// Defines logging configuration for the output image.
+        public var loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration?
         /// The name of the image pipeline.
         public var name: Swift.String?
         /// The platform of the image pipeline.
@@ -4292,6 +4574,7 @@ extension ImagebuilderClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            consecutiveFailures: Swift.Int? = nil,
             containerRecipeArn: Swift.String? = nil,
             dateCreated: Swift.String? = nil,
             dateLastRun: Swift.String? = nil,
@@ -4305,6 +4588,8 @@ extension ImagebuilderClientTypes {
             imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
             imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
             infrastructureConfigurationArn: Swift.String? = nil,
+            lastRunStatus: ImagebuilderClientTypes.ImageStatus? = nil,
+            loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration? = nil,
             name: Swift.String? = nil,
             platform: ImagebuilderClientTypes.Platform? = nil,
             schedule: ImagebuilderClientTypes.Schedule? = nil,
@@ -4313,6 +4598,7 @@ extension ImagebuilderClientTypes {
             workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
         ) {
             self.arn = arn
+            self.consecutiveFailures = consecutiveFailures
             self.containerRecipeArn = containerRecipeArn
             self.dateCreated = dateCreated
             self.dateLastRun = dateLastRun
@@ -4326,6 +4612,8 @@ extension ImagebuilderClientTypes {
             self.imageScanningConfiguration = imageScanningConfiguration
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.lastRunStatus = lastRunStatus
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.platform = platform
             self.schedule = schedule
@@ -4393,14 +4681,18 @@ public struct GetImageRecipeInput: Swift.Sendable {
 public struct GetImageRecipeOutput: Swift.Sendable {
     /// The image recipe object.
     public var imageRecipe: ImagebuilderClientTypes.ImageRecipe?
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The request ID that uniquely identifies this request.
     public var requestId: Swift.String?
 
     public init(
         imageRecipe: ImagebuilderClientTypes.ImageRecipe? = nil,
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         requestId: Swift.String? = nil
     ) {
         self.imageRecipe = imageRecipe
+        self.latestVersionReferences = latestVersionReferences
         self.requestId = requestId
     }
 }
@@ -4666,7 +4958,7 @@ extension ImagebuilderClientTypes {
 }
 
 public struct GetLifecyclePolicyOutput: Swift.Sendable {
-    /// The ARN of the image lifecycle policy resource that was returned.
+    /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that was returned.
     public var lifecyclePolicy: ImagebuilderClientTypes.LifecyclePolicy?
 
     public init(
@@ -4845,7 +5137,7 @@ extension ImagebuilderClientTypes {
         public var dateCreated: Swift.String?
         /// The description of the workflow.
         public var description: Swift.String?
-        /// The KMS key identifier used to encrypt the workflow resource.
+        /// The KMS key identifier used to encrypt the workflow resource. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
         public var kmsKeyId: Swift.String?
         /// The name of the workflow resource.
         public var name: Swift.String?
@@ -4895,12 +5187,16 @@ extension ImagebuilderClientTypes {
 }
 
 public struct GetWorkflowOutput: Swift.Sendable {
+    /// The resource ARNs with different wildcard variations of semantic versioning.
+    public var latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences?
     /// The workflow resource specified in the request.
     public var workflow: ImagebuilderClientTypes.Workflow?
 
     public init(
+        latestVersionReferences: ImagebuilderClientTypes.LatestVersionReferences? = nil,
         workflow: ImagebuilderClientTypes.Workflow? = nil
     ) {
+        self.latestVersionReferences = latestVersionReferences
         self.workflow = workflow
     }
 }
@@ -5222,7 +5518,7 @@ public struct ImportComponentInput: Swift.Sendable {
     /// The format of the resource that you want to import as a component.
     /// This member is required.
     public var format: ImagebuilderClientTypes.ComponentFormat?
-    /// The ID of the KMS key that should be used to encrypt this component.
+    /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN) in the Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of the component.
     /// This member is required.
@@ -5300,6 +5596,8 @@ public struct ImportDiskImageInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for launching the EC2 instance on which the ISO image is built.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
+    /// Define logging configuration for the image build process.
+    public var loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration?
     /// The name of the image resource that's created from the import.
     /// This member is required.
     public var name: Swift.String?
@@ -5323,6 +5621,7 @@ public struct ImportDiskImageInput: Swift.Sendable {
         description: Swift.String? = nil,
         executionRole: Swift.String? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
+        loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration? = nil,
         name: Swift.String? = nil,
         osVersion: Swift.String? = nil,
         platform: Swift.String? = nil,
@@ -5334,6 +5633,7 @@ public struct ImportDiskImageInput: Swift.Sendable {
         self.description = description
         self.executionRole = executionRole
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.loggingConfiguration = loggingConfiguration
         self.name = name
         self.osVersion = osVersion
         self.platform = platform
@@ -5364,6 +5664,8 @@ public struct ImportVmImageInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description for the base image that is created by the import process.
     public var description: Swift.String?
+    /// Define logging configuration for the image build process.
+    public var loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration?
     /// The name of the base image that is created by the import process.
     /// This member is required.
     public var name: Swift.String?
@@ -5384,6 +5686,7 @@ public struct ImportVmImageInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration? = nil,
         name: Swift.String? = nil,
         osVersion: Swift.String? = nil,
         platform: ImagebuilderClientTypes.Platform? = nil,
@@ -5393,6 +5696,7 @@ public struct ImportVmImageInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.description = description
+        self.loggingConfiguration = loggingConfiguration
         self.name = name
         self.osVersion = osVersion
         self.platform = platform
@@ -5446,9 +5750,8 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 
 public struct ListComponentBuildVersionsInput: Swift.Sendable {
     /// The component version Amazon Resource Name (ARN) whose versions you want to list.
-    /// This member is required.
     public var componentVersionArn: Swift.String?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -5538,7 +5841,7 @@ public struct ListComponentsInput: Swift.Sendable {
     ///
     /// * version
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -5590,7 +5893,7 @@ public struct ListContainerRecipesInput: Swift.Sendable {
     ///
     /// * platform
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -5632,7 +5935,7 @@ public struct ListContainerRecipesOutput: Swift.Sendable {
 public struct ListDistributionConfigurationsInput: Swift.Sendable {
     /// You can filter on name to streamline results.
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -5681,9 +5984,8 @@ public struct ListImageBuildVersionsInput: Swift.Sendable {
     /// * version
     public var filters: [ImagebuilderClientTypes.Filter]?
     /// The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve.
-    /// This member is required.
     public var imageVersionArn: Swift.String?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -5725,6 +6027,8 @@ extension ImagebuilderClientTypes {
         public var imageSource: ImagebuilderClientTypes.ImageSource?
         /// Identifies the last runtime instance of the lifecycle policy to take action on the image.
         public var lifecycleExecutionId: Swift.String?
+        /// The logging configuration that's defined for the image.
+        public var loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration?
         /// The name of the image.
         public var name: Swift.String?
         /// The operating system version of the instances that launch from this image. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
@@ -5751,6 +6055,7 @@ extension ImagebuilderClientTypes {
             deprecationTime: Foundation.Date? = nil,
             imageSource: ImagebuilderClientTypes.ImageSource? = nil,
             lifecycleExecutionId: Swift.String? = nil,
+            loggingConfiguration: ImagebuilderClientTypes.ImageLoggingConfiguration? = nil,
             name: Swift.String? = nil,
             osVersion: Swift.String? = nil,
             outputResources: ImagebuilderClientTypes.OutputResources? = nil,
@@ -5767,6 +6072,7 @@ extension ImagebuilderClientTypes {
             self.deprecationTime = deprecationTime
             self.imageSource = imageSource
             self.lifecycleExecutionId = lifecycleExecutionId
+            self.loggingConfiguration = loggingConfiguration
             self.name = name
             self.osVersion = osVersion
             self.outputResources = outputResources
@@ -5803,7 +6109,7 @@ public struct ListImagePackagesInput: Swift.Sendable {
     /// Filter results for the ListImagePackages request by the Image Build Version ARN
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -5867,7 +6173,7 @@ public struct ListImagePipelineImagesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view.
     /// This member is required.
     public var imagePipelineArn: Swift.String?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -5919,7 +6225,7 @@ public struct ListImagePipelinesInput: Swift.Sendable {
     ///
     /// * status
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -5963,11 +6269,11 @@ public struct ListImageRecipesInput: Swift.Sendable {
     ///
     /// * platform
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
-    /// The owner defines which image recipes you want to list. By default, this request will only show image recipes owned by your account. You can use this field to specify if you want to view image recipes owned by yourself, by Amazon, or those image recipes that have been shared with you by other customers.
+    /// You can specify the recipe owner to filter results by that owner. By default, this request will only show image recipes owned by your account. To filter by a different owner, specify one of the Valid Values that are listed for this parameter.
     public var owner: ImagebuilderClientTypes.Ownership?
 
     public init(
@@ -6023,7 +6329,7 @@ extension ImagebuilderClientTypes {
 }
 
 public struct ListImageRecipesOutput: Swift.Sendable {
-    /// The list of image pipelines.
+    /// A list of ImageRecipeSummary objects that contain identifying characteristics for the image recipe, such as the name, the Amazon Resource Name (ARN), and the date created, along with other key details.
     public var imageRecipeSummaryList: [ImagebuilderClientTypes.ImageRecipeSummary]?
     /// The next token used for paginated responses. When this field isn't empty, there are additional elements that the service hasn't included in this request. Use this token with the next request to retrieve additional objects.
     public var nextToken: Swift.String?
@@ -6058,7 +6364,7 @@ public struct ListImagesInput: Swift.Sendable {
     public var filters: [ImagebuilderClientTypes.Filter]?
     /// Includes deprecated images in the response list.
     public var includeDeprecated: Swift.Bool?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6313,7 +6619,7 @@ public struct ListImageScanFindingsInput: Swift.Sendable {
     ///
     /// If you don't request a filter, then all findings in your account are listed.
     public var filters: [ImagebuilderClientTypes.ImageScanFindingsFilter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6570,7 +6876,7 @@ public struct ListImageScanFindingsOutput: Swift.Sendable {
 public struct ListInfrastructureConfigurationsInput: Swift.Sendable {
     /// You can filter on name to streamline results.
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6660,7 +6966,7 @@ public struct ListLifecycleExecutionResourcesInput: Swift.Sendable {
     /// Use the unique identifier for a runtime instance of the lifecycle policy to get runtime details.
     /// This member is required.
     public var lifecycleExecutionId: Swift.String?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6884,7 +7190,7 @@ public struct ListLifecycleExecutionResourcesOutput: Swift.Sendable {
 }
 
 public struct ListLifecycleExecutionsInput: Swift.Sendable {
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6921,7 +7227,7 @@ public struct ListLifecycleExecutionsOutput: Swift.Sendable {
 public struct ListLifecyclePoliciesInput: Swift.Sendable {
     /// Streamline results based on one of the following values: Name, Status.
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7050,7 +7356,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct ListWaitingWorkflowStepsInput: Swift.Sendable {
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7078,7 +7384,7 @@ extension ImagebuilderClientTypes {
         public var startTime: Swift.String?
         /// Uniquely identifies the workflow step that ran for the associated image build version.
         public var stepExecutionId: Swift.String?
-        /// The ARN of the workflow resource that ran.
+        /// The Amazon Resource Name (ARN) of the workflow resource that ran.
         public var workflowBuildVersionArn: Swift.String?
         /// Uniquely identifies the runtime instance of the workflow that contains the workflow step that ran for the associated image build version.
         public var workflowExecutionId: Swift.String?
@@ -7119,12 +7425,11 @@ public struct ListWaitingWorkflowStepsOutput: Swift.Sendable {
 }
 
 public struct ListWorkflowBuildVersionsInput: Swift.Sendable {
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the workflow resource for which to get a list of build versions.
-    /// This member is required.
     public var workflowVersionArn: Swift.String?
 
     public init(
@@ -7208,7 +7513,7 @@ public struct ListWorkflowExecutionsInput: Swift.Sendable {
     /// List all workflow runtime instances for the specified image build version resource ARN.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7234,6 +7539,8 @@ extension ImagebuilderClientTypes {
         public var message: Swift.String?
         /// The name of the test group that included the test workflow resource at runtime.
         public var parallelGroup: Swift.String?
+        /// Indicates retry status for this runtime instance of the workflow.
+        public var retried: Swift.Bool?
         /// The timestamp when the runtime instance of this workflow started.
         public var startTime: Swift.String?
         /// The current runtime status for this workflow.
@@ -7257,6 +7564,7 @@ extension ImagebuilderClientTypes {
             endTime: Swift.String? = nil,
             message: Swift.String? = nil,
             parallelGroup: Swift.String? = nil,
+            retried: Swift.Bool? = nil,
             startTime: Swift.String? = nil,
             status: ImagebuilderClientTypes.WorkflowExecutionStatus? = nil,
             totalStepCount: Swift.Int = 0,
@@ -7270,6 +7578,7 @@ extension ImagebuilderClientTypes {
             self.endTime = endTime
             self.message = message
             self.parallelGroup = parallelGroup
+            self.retried = retried
             self.startTime = startTime
             self.status = status
             self.totalStepCount = totalStepCount
@@ -7284,7 +7593,7 @@ extension ImagebuilderClientTypes {
 }
 
 public struct ListWorkflowExecutionsOutput: Swift.Sendable {
-    /// The resource ARN of the image build version for which you requested a list of workflow runtime details.
+    /// The resource Amazon Resource Name (ARN) of the image build version for which you requested a list of workflow runtime details.
     public var imageBuildVersionArn: Swift.String?
     /// The output message from the list action, if applicable.
     public var message: Swift.String?
@@ -7315,7 +7624,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
     public var byName: Swift.Bool?
     /// Used to streamline search results.
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7392,7 +7701,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
 }
 
 public struct ListWorkflowStepExecutionsInput: Swift.Sendable {
-    /// The maximum items to return in a request.
+    /// Specify the maximum number of items to return in a request.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the nextToken from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7467,7 +7776,7 @@ extension ImagebuilderClientTypes {
 }
 
 public struct ListWorkflowStepExecutionsOutput: Swift.Sendable {
-    /// The image build version resource ARN that's associated with the specified runtime instance of the workflow.
+    /// The image build version resource Amazon Resource Name (ARN) that's associated with the specified runtime instance of the workflow.
     public var imageBuildVersionArn: Swift.String?
     /// The output message from the list action, if applicable.
     public var message: Swift.String?
@@ -7477,7 +7786,7 @@ public struct ListWorkflowStepExecutionsOutput: Swift.Sendable {
     public var requestId: Swift.String?
     /// Contains an array of runtime details that represents each step in this runtime instance of the workflow.
     public var steps: [ImagebuilderClientTypes.WorkflowStepMetadata]?
-    /// The build version ARN for the Image Builder workflow resource that defines the steps for this runtime instance of the workflow.
+    /// The build version Amazon Resource Name (ARN) for the Image Builder workflow resource that defines the steps for this runtime instance of the workflow.
     public var workflowBuildVersionArn: Swift.String?
     /// The unique identifier that Image Builder assigned to keep track of runtime details when it ran the workflow.
     public var workflowExecutionId: Swift.String?
@@ -7652,6 +7961,38 @@ public struct PutImageRecipePolicyOutput: Swift.Sendable {
     }
 }
 
+public struct RetryImageInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The source image Amazon Resource Name (ARN) to retry.
+    /// This member is required.
+    public var imageBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
+    }
+}
+
+public struct RetryImageOutput: Swift.Sendable {
+    /// The client token that uniquely identifies the request.
+    public var clientToken: Swift.String?
+    /// The ARN of the image to be retried.
+    public var imageBuildVersionArn: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        imageBuildVersionArn: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.imageBuildVersionArn = imageBuildVersionArn
+    }
+}
+
 extension ImagebuilderClientTypes {
 
     public enum WorkflowStepActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -7738,13 +8079,17 @@ public struct StartImagePipelineExecutionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the image pipeline that you want to manually invoke.
     /// This member is required.
     public var imagePipelineArn: Swift.String?
+    /// Specify tags for Image Builder to apply to the image resource that's created When it starts pipeline execution.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
-        imagePipelineArn: Swift.String? = nil
+        imagePipelineArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.imagePipelineArn = imagePipelineArn
+        self.tags = tags
     }
 }
 
@@ -7865,7 +8210,7 @@ public struct StartResourceStateUpdateInput: Swift.Sendable {
     public var executionRole: Swift.String?
     /// A list of image resources to update state for.
     public var includeResources: ImagebuilderClientTypes.ResourceStateUpdateIncludeResources?
-    /// The ARN of the Image Builder resource that is updated. The state update might also impact associated resources.
+    /// The Amazon Resource Name (ARN) of the Image Builder resource that is updated. The state update might also impact associated resources.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// Indicates the lifecycle action to take for this request.
@@ -7896,7 +8241,7 @@ public struct StartResourceStateUpdateInput: Swift.Sendable {
 public struct StartResourceStateUpdateOutput: Swift.Sendable {
     /// Identifies the lifecycle runtime instance that started the resource state update.
     public var lifecycleExecutionId: Swift.String?
-    /// The requested ARN of the Image Builder resource for the asynchronous update.
+    /// The requested Amazon Resource Name (ARN) of the Image Builder resource for the asynchronous update.
     public var resourceArn: Swift.String?
 
     public init(
@@ -8023,6 +8368,8 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to build images that this image pipeline has updated.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
+    /// Update logging configuration for the output image that's created when the pipeline runs.
+    public var loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration?
     /// The schedule of the image pipeline.
     public var schedule: ImagebuilderClientTypes.Schedule?
     /// The status of the image pipeline.
@@ -8042,6 +8389,7 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
         imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration? = nil,
         imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
+        loggingConfiguration: ImagebuilderClientTypes.PipelineLoggingConfiguration? = nil,
         schedule: ImagebuilderClientTypes.Schedule? = nil,
         status: ImagebuilderClientTypes.PipelineStatus? = nil,
         workflows: [ImagebuilderClientTypes.WorkflowConfiguration]? = nil
@@ -8057,6 +8405,7 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
         self.imageScanningConfiguration = imageScanningConfiguration
         self.imageTestsConfiguration = imageTestsConfiguration
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.loggingConfiguration = loggingConfiguration
         self.schedule = schedule
         self.status = status
         self.workflows = workflows
@@ -8217,7 +8566,7 @@ public struct UpdateLifecyclePolicyInput: Swift.Sendable {
 }
 
 public struct UpdateLifecyclePolicyOutput: Swift.Sendable {
-    /// The ARN of the image lifecycle policy resource that was updated.
+    /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that was updated.
     public var lifecyclePolicyArn: Swift.String?
 
     public init(
@@ -8490,6 +8839,13 @@ extension DeleteWorkflowInput {
         let workflowBuildVersionArnQueryItem = Smithy.URIQueryItem(name: "workflowBuildVersionArn".urlPercentEncoding(), value: Swift.String(workflowBuildVersionArn).urlPercentEncoding())
         items.append(workflowBuildVersionArnQueryItem)
         return items
+    }
+}
+
+extension DistributeImageInput {
+
+    static func urlPathProvider(_ value: DistributeImageInput) -> Swift.String? {
+        return "/DistributeImage"
     }
 }
 
@@ -9042,6 +9398,13 @@ extension PutImageRecipePolicyInput {
     }
 }
 
+extension RetryImageInput {
+
+    static func urlPathProvider(_ value: RetryImageInput) -> Swift.String? {
+        return "/RetryImage"
+    }
+}
+
 extension SendWorkflowStepActionInput {
 
     static func urlPathProvider(_ value: SendWorkflowStepActionInput) -> Swift.String? {
@@ -9153,6 +9516,7 @@ extension CreateComponentInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["data"].write(value.data)
         try writer["description"].write(value.description)
+        try writer["dryRun"].write(value.dryRun)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
         try writer["platform"].write(value.platform)
@@ -9211,6 +9575,7 @@ extension CreateImageInput {
         try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ImagebuilderClientTypes.ImageScanningConfiguration.write(value:to:))
         try writer["imageTestsConfiguration"].write(value.imageTestsConfiguration, with: ImagebuilderClientTypes.ImageTestsConfiguration.write(value:to:))
         try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
+        try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.ImageLoggingConfiguration.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["workflows"].writeList(value.workflows, memberWritingClosure: ImagebuilderClientTypes.WorkflowConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -9230,6 +9595,7 @@ extension CreateImagePipelineInput {
         try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ImagebuilderClientTypes.ImageScanningConfiguration.write(value:to:))
         try writer["imageTestsConfiguration"].write(value.imageTestsConfiguration, with: ImagebuilderClientTypes.ImageTestsConfiguration.write(value:to:))
         try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
+        try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.PipelineLoggingConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["schedule"].write(value.schedule, with: ImagebuilderClientTypes.Schedule.write(value:to:))
         try writer["status"].write(value.status)
@@ -9243,6 +9609,7 @@ extension CreateImageRecipeInput {
     static func write(value: CreateImageRecipeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["additionalInstanceConfiguration"].write(value.additionalInstanceConfiguration, with: ImagebuilderClientTypes.AdditionalInstanceConfiguration.write(value:to:))
+        try writer["amiTags"].writeMap(value.amiTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["blockDeviceMappings"].writeList(value.blockDeviceMappings, memberWritingClosure: ImagebuilderClientTypes.InstanceBlockDeviceMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientToken"].write(value.clientToken)
         try writer["components"].writeList(value.components, memberWritingClosure: ImagebuilderClientTypes.ComponentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9301,12 +9668,26 @@ extension CreateWorkflowInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["data"].write(value.data)
         try writer["description"].write(value.description)
+        try writer["dryRun"].write(value.dryRun)
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
         try writer["semanticVersion"].write(value.semanticVersion)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
         try writer["uri"].write(value.uri)
+    }
+}
+
+extension DistributeImageInput {
+
+    static func write(value: DistributeImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["distributionConfigurationArn"].write(value.distributionConfigurationArn)
+        try writer["executionRole"].write(value.executionRole)
+        try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.ImageLoggingConfiguration.write(value:to:))
+        try writer["sourceImage"].write(value.sourceImage)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9347,6 +9728,7 @@ extension ImportDiskImageInput {
         try writer["description"].write(value.description)
         try writer["executionRole"].write(value.executionRole)
         try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
+        try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.ImageLoggingConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["osVersion"].write(value.osVersion)
         try writer["platform"].write(value.platform)
@@ -9362,6 +9744,7 @@ extension ImportVmImageInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.ImageLoggingConfiguration.write(value:to:))
         try writer["name"].write(value.name)
         try writer["osVersion"].write(value.osVersion)
         try writer["platform"].write(value.platform)
@@ -9627,6 +10010,15 @@ extension PutImageRecipePolicyInput {
     }
 }
 
+extension RetryImageInput {
+
+    static func write(value: RetryImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["imageBuildVersionArn"].write(value.imageBuildVersionArn)
+    }
+}
+
 extension SendWorkflowStepActionInput {
 
     static func write(value: SendWorkflowStepActionInput?, to writer: SmithyJSON.Writer) throws {
@@ -9645,6 +10037,7 @@ extension StartImagePipelineExecutionInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["imagePipelineArn"].write(value.imagePipelineArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -9696,6 +10089,7 @@ extension UpdateImagePipelineInput {
         try writer["imageScanningConfiguration"].write(value.imageScanningConfiguration, with: ImagebuilderClientTypes.ImageScanningConfiguration.write(value:to:))
         try writer["imageTestsConfiguration"].write(value.imageTestsConfiguration, with: ImagebuilderClientTypes.ImageTestsConfiguration.write(value:to:))
         try writer["infrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
+        try writer["loggingConfiguration"].write(value.loggingConfiguration, with: ImagebuilderClientTypes.PipelineLoggingConfiguration.write(value:to:))
         try writer["schedule"].write(value.schedule, with: ImagebuilderClientTypes.Schedule.write(value:to:))
         try writer["status"].write(value.status)
         try writer["workflows"].writeList(value.workflows, memberWritingClosure: ImagebuilderClientTypes.WorkflowConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9773,6 +10167,7 @@ extension CreateComponentOutput {
         var value = CreateComponentOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.componentBuildVersionArn = try reader["componentBuildVersionArn"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -9787,6 +10182,7 @@ extension CreateContainerRecipeOutput {
         var value = CreateContainerRecipeOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.containerRecipeArn = try reader["containerRecipeArn"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -9815,6 +10211,7 @@ extension CreateImageOutput {
         var value = CreateImageOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.imageBuildVersionArn = try reader["imageBuildVersionArn"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -9843,6 +10240,7 @@ extension CreateImageRecipeOutput {
         var value = CreateImageRecipeOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
         value.imageRecipeArn = try reader["imageRecipeArn"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -9883,6 +10281,7 @@ extension CreateWorkflowOutput {
         let reader = responseReader
         var value = CreateWorkflowOutput()
         value.clientToken = try reader["clientToken"].readIfPresent()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.workflowBuildVersionArn = try reader["workflowBuildVersionArn"].readIfPresent()
         return value
     }
@@ -10003,6 +10402,19 @@ extension DeleteWorkflowOutput {
     }
 }
 
+extension DistributeImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DistributeImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DistributeImageOutput()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.imageBuildVersionArn = try reader["imageBuildVersionArn"].readIfPresent()
+        return value
+    }
+}
+
 extension GetComponentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetComponentOutput {
@@ -10011,6 +10423,7 @@ extension GetComponentOutput {
         let reader = responseReader
         var value = GetComponentOutput()
         value.component = try reader["component"].readIfPresent(with: ImagebuilderClientTypes.Component.read(from:))
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10037,6 +10450,7 @@ extension GetContainerRecipeOutput {
         let reader = responseReader
         var value = GetContainerRecipeOutput()
         value.containerRecipe = try reader["containerRecipe"].readIfPresent(with: ImagebuilderClientTypes.ContainerRecipe.read(from:))
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10076,6 +10490,7 @@ extension GetImageOutput {
         let reader = responseReader
         var value = GetImageOutput()
         value.image = try reader["image"].readIfPresent(with: ImagebuilderClientTypes.Image.read(from:))
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10115,6 +10530,7 @@ extension GetImageRecipeOutput {
         let reader = responseReader
         var value = GetImageRecipeOutput()
         value.imageRecipe = try reader["imageRecipe"].readIfPresent(with: ImagebuilderClientTypes.ImageRecipe.read(from:))
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.requestId = try reader["requestId"].readIfPresent()
         return value
     }
@@ -10191,6 +10607,7 @@ extension GetWorkflowOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetWorkflowOutput()
+        value.latestVersionReferences = try reader["latestVersionReferences"].readIfPresent(with: ImagebuilderClientTypes.LatestVersionReferences.read(from:))
         value.workflow = try reader["workflow"].readIfPresent(with: ImagebuilderClientTypes.Workflow.read(from:))
         return value
     }
@@ -10651,6 +11068,19 @@ extension PutImageRecipePolicyOutput {
     }
 }
 
+extension RetryImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RetryImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RetryImageOutput()
+        value.clientToken = try reader["clientToken"].readIfPresent()
+        value.imageBuildVersionArn = try reader["imageBuildVersionArn"].readIfPresent()
+        return value
+    }
+}
+
 extension SendWorkflowStepActionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendWorkflowStepActionOutput {
@@ -10812,6 +11242,7 @@ enum CreateComponentOutputError {
         switch baseError.code {
             case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DryRunOperationException": return try DryRunOperationException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
             case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -10999,6 +11430,7 @@ enum CreateWorkflowOutputError {
         switch baseError.code {
             case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DryRunOperationException": return try DryRunOperationException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
             case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
@@ -11188,6 +11620,31 @@ enum DeleteWorkflowOutputError {
             case "ResourceDependencyException": return try ResourceDependencyException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DistributeImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -12093,6 +12550,27 @@ enum PutImageRecipePolicyOutputError {
     }
 }
 
+enum RetryImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CallRateLimitExceededException": return try CallRateLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "IdempotentParameterMismatchException": return try IdempotentParameterMismatchException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SendWorkflowStepActionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12382,6 +12860,19 @@ extension ServiceUnavailableException {
     }
 }
 
+extension DryRunOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DryRunOperationException {
+        let reader = baseError.errorBodyReader
+        var value = DryRunOperationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidParameterCombinationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterCombinationException {
@@ -12447,11 +12938,37 @@ extension ResourceDependencyException {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12495,6 +13012,19 @@ extension InvalidParameterValueException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.LatestVersionReferences {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.LatestVersionReferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.LatestVersionReferences()
+        value.latestVersionArn = try reader["latestVersionArn"].readIfPresent()
+        value.latestMajorVersionArn = try reader["latestMajorVersionArn"].readIfPresent()
+        value.latestMinorVersionArn = try reader["latestMinorVersionArn"].readIfPresent()
+        value.latestPatchVersionArn = try reader["latestPatchVersionArn"].readIfPresent()
         return value
     }
 }
@@ -12964,6 +13494,22 @@ extension ImagebuilderClientTypes.Image {
         value.lifecycleExecutionId = try reader["lifecycleExecutionId"].readIfPresent()
         value.executionRole = try reader["executionRole"].readIfPresent()
         value.workflows = try reader["workflows"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.WorkflowConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.loggingConfiguration = try reader["loggingConfiguration"].readIfPresent(with: ImagebuilderClientTypes.ImageLoggingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.ImageLoggingConfiguration {
+
+    static func write(value: ImagebuilderClientTypes.ImageLoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageLoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.ImageLoggingConfiguration()
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
         return value
     }
 }
@@ -13231,6 +13777,7 @@ extension ImagebuilderClientTypes.ImageRecipe {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.workingDirectory = try reader["workingDirectory"].readIfPresent()
         value.additionalInstanceConfiguration = try reader["additionalInstanceConfiguration"].readIfPresent(with: ImagebuilderClientTypes.AdditionalInstanceConfiguration.read(from:))
+        value.amiTags = try reader["amiTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -13287,11 +13834,31 @@ extension ImagebuilderClientTypes.ImagePipeline {
         value.dateCreated = try reader["dateCreated"].readIfPresent()
         value.dateUpdated = try reader["dateUpdated"].readIfPresent()
         value.dateLastRun = try reader["dateLastRun"].readIfPresent()
+        value.lastRunStatus = try reader["lastRunStatus"].readIfPresent()
         value.dateNextRun = try reader["dateNextRun"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.imageScanningConfiguration = try reader["imageScanningConfiguration"].readIfPresent(with: ImagebuilderClientTypes.ImageScanningConfiguration.read(from:))
         value.executionRole = try reader["executionRole"].readIfPresent()
         value.workflows = try reader["workflows"].readListIfPresent(memberReadingClosure: ImagebuilderClientTypes.WorkflowConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.loggingConfiguration = try reader["loggingConfiguration"].readIfPresent(with: ImagebuilderClientTypes.PipelineLoggingConfiguration.read(from:))
+        value.consecutiveFailures = try reader["consecutiveFailures"].readIfPresent()
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.PipelineLoggingConfiguration {
+
+    static func write(value: ImagebuilderClientTypes.PipelineLoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["imageLogGroupName"].write(value.imageLogGroupName)
+        try writer["pipelineLogGroupName"].write(value.pipelineLogGroupName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.PipelineLoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.PipelineLoggingConfiguration()
+        value.imageLogGroupName = try reader["imageLogGroupName"].readIfPresent()
+        value.pipelineLogGroupName = try reader["pipelineLogGroupName"].readIfPresent()
         return value
     }
 }
@@ -13300,6 +13867,7 @@ extension ImagebuilderClientTypes.Schedule {
 
     static func write(value: ImagebuilderClientTypes.Schedule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoDisablePolicy"].write(value.autoDisablePolicy, with: ImagebuilderClientTypes.AutoDisablePolicy.write(value:to:))
         try writer["pipelineExecutionStartCondition"].write(value.pipelineExecutionStartCondition)
         try writer["scheduleExpression"].write(value.scheduleExpression)
         try writer["timezone"].write(value.timezone)
@@ -13311,6 +13879,22 @@ extension ImagebuilderClientTypes.Schedule {
         value.scheduleExpression = try reader["scheduleExpression"].readIfPresent()
         value.timezone = try reader["timezone"].readIfPresent()
         value.pipelineExecutionStartCondition = try reader["pipelineExecutionStartCondition"].readIfPresent()
+        value.autoDisablePolicy = try reader["autoDisablePolicy"].readIfPresent(with: ImagebuilderClientTypes.AutoDisablePolicy.read(from:))
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.AutoDisablePolicy {
+
+    static func write(value: ImagebuilderClientTypes.AutoDisablePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["failureCount"].write(value.failureCount)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.AutoDisablePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.AutoDisablePolicy()
+        value.failureCount = try reader["failureCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -13640,6 +14224,7 @@ extension ImagebuilderClientTypes.ContainerRecipeSummary {
         value.owner = try reader["owner"].readIfPresent()
         value.parentImage = try reader["parentImage"].readIfPresent()
         value.dateCreated = try reader["dateCreated"].readIfPresent()
+        value.instanceImage = try reader["instanceImage"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -13681,6 +14266,7 @@ extension ImagebuilderClientTypes.ImageSummary {
         value.imageSource = try reader["imageSource"].readIfPresent()
         value.deprecationTime = try reader["deprecationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lifecycleExecutionId = try reader["lifecycleExecutionId"].readIfPresent()
+        value.loggingConfiguration = try reader["loggingConfiguration"].readIfPresent(with: ImagebuilderClientTypes.ImageLoggingConfiguration.read(from:))
         return value
     }
 }
@@ -14073,6 +14659,7 @@ extension ImagebuilderClientTypes.WorkflowExecutionMetadata {
         value.startTime = try reader["startTime"].readIfPresent()
         value.endTime = try reader["endTime"].readIfPresent()
         value.parallelGroup = try reader["parallelGroup"].readIfPresent()
+        value.retried = try reader["retried"].readIfPresent()
         return value
     }
 }

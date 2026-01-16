@@ -726,6 +726,7 @@ extension WorkSpacesClientTypes {
 extension WorkSpacesClientTypes {
 
     public enum AssociationErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationOldversionexistFailure
         case insufficientDiskspace
         case insufficientMemory
         case internalServerError
@@ -735,6 +736,7 @@ extension WorkSpacesClientTypes {
 
         public static var allCases: [AssociationErrorCode] {
             return [
+                .applicationOldversionexistFailure,
                 .insufficientDiskspace,
                 .insufficientMemory,
                 .internalServerError,
@@ -750,6 +752,7 @@ extension WorkSpacesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .applicationOldversionexistFailure: return "ValidationError.ApplicationOldVersionExists"
             case .insufficientDiskspace: return "ValidationError.InsufficientDiskSpace"
             case .insufficientMemory: return "ValidationError.InsufficientMemory"
             case .internalServerError: return "DeploymentError.InternalServerError"
@@ -2975,6 +2978,8 @@ extension WorkSpacesClientTypes {
         /// The identifier of the Directory Service directory for the WorkSpace. You can use [DescribeWorkspaceDirectories] to list the available directories.
         /// This member is required.
         public var directoryId: Swift.String?
+        /// The IPv6 address for the WorkSpace.
+        public var ipv6Address: Swift.String?
         /// Indicates whether the data stored on the root volume is encrypted.
         public var rootVolumeEncryptionEnabled: Swift.Bool?
         /// The tags for the WorkSpace.
@@ -2994,6 +2999,7 @@ extension WorkSpacesClientTypes {
         public init(
             bundleId: Swift.String? = nil,
             directoryId: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
             rootVolumeEncryptionEnabled: Swift.Bool? = nil,
             tags: [WorkSpacesClientTypes.Tag]? = nil,
             userName: Swift.String? = nil,
@@ -3004,6 +3010,7 @@ extension WorkSpacesClientTypes {
         ) {
             self.bundleId = bundleId
             self.directoryId = directoryId
+            self.ipv6Address = ipv6Address
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
             self.tags = tags
             self.userName = userName
@@ -3246,6 +3253,8 @@ extension WorkSpacesClientTypes {
         public var errorMessage: Swift.String?
         /// The IP address of the WorkSpace.
         public var ipAddress: Swift.String?
+        /// The IPv6 address of the WorkSpace.
+        public var ipv6Address: Swift.String?
         /// The modification states of the WorkSpace.
         public var modificationStates: [WorkSpacesClientTypes.ModificationState]?
         /// The standby WorkSpace or primary WorkSpace related to the specified WorkSpace.
@@ -3316,6 +3325,7 @@ extension WorkSpacesClientTypes {
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
             ipAddress: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
             modificationStates: [WorkSpacesClientTypes.ModificationState]? = nil,
             relatedWorkspaces: [WorkSpacesClientTypes.RelatedWorkspaceProperties]? = nil,
             rootVolumeEncryptionEnabled: Swift.Bool? = nil,
@@ -3336,6 +3346,7 @@ extension WorkSpacesClientTypes {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.ipAddress = ipAddress
+            self.ipv6Address = ipv6Address
             self.modificationStates = modificationStates
             self.relatedWorkspaces = relatedWorkspaces
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
@@ -3811,17 +3822,37 @@ extension WorkSpacesClientTypes {
 
     public enum CustomWorkspaceImageImportState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
+        case creatingTestInstance
         case error
+        case generalizing
+        case imageCompatibilityChecking
+        case imageTestingGeneralization
+        case imageTestingStart
+        case installingComponents
         case inProgress
         case pending
+        case processingSourceImage
+        case publishing
+        case updatingOperatingSystem
+        case validating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CustomWorkspaceImageImportState] {
             return [
                 .completed,
+                .creatingTestInstance,
                 .error,
+                .generalizing,
+                .imageCompatibilityChecking,
+                .imageTestingGeneralization,
+                .imageTestingStart,
+                .installingComponents,
                 .inProgress,
-                .pending
+                .pending,
+                .processingSourceImage,
+                .publishing,
+                .updatingOperatingSystem,
+                .validating
             ]
         }
 
@@ -3833,9 +3864,19 @@ extension WorkSpacesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .completed: return "COMPLETED"
+            case .creatingTestInstance: return "CREATING_TEST_INSTANCE"
             case .error: return "ERROR"
+            case .generalizing: return "GENERALIZING"
+            case .imageCompatibilityChecking: return "IMAGE_COMPATIBILITY_CHECKING"
+            case .imageTestingGeneralization: return "IMAGE_TESTING_GENERALIZATION"
+            case .imageTestingStart: return "IMAGE_TESTING_START"
+            case .installingComponents: return "INSTALLING_COMPONENTS"
             case .inProgress: return "IN_PROGRESS"
             case .pending: return "PENDING"
+            case .processingSourceImage: return "PROCESSING_SOURCE_IMAGE"
+            case .publishing: return "PUBLISHING"
+            case .updatingOperatingSystem: return "UPDATING_OPERATING_SYSTEM"
+            case .validating: return "VALIDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4833,8 +4874,12 @@ public struct DescribeCustomWorkspaceImageImportOutput: Swift.Sendable {
     public var infrastructureConfigurationArn: Swift.String?
     /// The timestamp when the WorkSpace image import was last updated.
     public var lastUpdatedTime: Foundation.Date?
+    /// The estimated progress percentage of the WorkSpace image import workflow.
+    public var progressPercentage: Swift.Int?
     /// The state of the WorkSpace image.
     public var state: WorkSpacesClientTypes.CustomWorkspaceImageImportState?
+    /// The state message of the WorkSpace image import workflow.
+    public var stateMessage: Swift.String?
 
     public init(
         created: Foundation.Date? = nil,
@@ -4844,7 +4889,9 @@ public struct DescribeCustomWorkspaceImageImportOutput: Swift.Sendable {
         imageSource: WorkSpacesClientTypes.ImageSourceIdentifier? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         lastUpdatedTime: Foundation.Date? = nil,
-        state: WorkSpacesClientTypes.CustomWorkspaceImageImportState? = nil
+        progressPercentage: Swift.Int? = nil,
+        state: WorkSpacesClientTypes.CustomWorkspaceImageImportState? = nil,
+        stateMessage: Swift.String? = nil
     ) {
         self.created = created
         self.errorDetails = errorDetails
@@ -4853,7 +4900,9 @@ public struct DescribeCustomWorkspaceImageImportOutput: Swift.Sendable {
         self.imageSource = imageSource
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.lastUpdatedTime = lastUpdatedTime
+        self.progressPercentage = progressPercentage
         self.state = state
+        self.stateMessage = stateMessage
     }
 }
 
@@ -5807,6 +5856,8 @@ extension WorkSpacesClientTypes {
         public var directoryType: WorkSpacesClientTypes.WorkspaceDirectoryType?
         /// The IP addresses of the DNS servers for the directory.
         public var dnsIpAddresses: [Swift.String]?
+        /// The IPv6 addresses of the DNS servers for the directory.
+        public var dnsIpv6Addresses: [Swift.String]?
         /// Endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
         public var endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode?
         /// The error message returned.
@@ -5857,6 +5908,7 @@ extension WorkSpacesClientTypes {
             directoryName: Swift.String? = nil,
             directoryType: WorkSpacesClientTypes.WorkspaceDirectoryType? = nil,
             dnsIpAddresses: [Swift.String]? = nil,
+            dnsIpv6Addresses: [Swift.String]? = nil,
             endpointEncryptionMode: WorkSpacesClientTypes.EndpointEncryptionMode? = nil,
             errorMessage: Swift.String? = nil,
             iamRoleId: Swift.String? = nil,
@@ -5886,6 +5938,7 @@ extension WorkSpacesClientTypes {
             self.directoryName = directoryName
             self.directoryType = directoryType
             self.dnsIpAddresses = dnsIpAddresses
+            self.dnsIpv6Addresses = dnsIpv6Addresses
             self.endpointEncryptionMode = endpointEncryptionMode
             self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
@@ -10259,7 +10312,9 @@ extension DescribeCustomWorkspaceImageImportOutput {
         value.imageSource = try reader["ImageSource"].readIfPresent(with: WorkSpacesClientTypes.ImageSourceIdentifier.read(from:))
         value.infrastructureConfigurationArn = try reader["InfrastructureConfigurationArn"].readIfPresent()
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.progressPercentage = try reader["ProgressPercentage"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        value.stateMessage = try reader["StateMessage"].readIfPresent()
         return value
     }
 }
@@ -12852,6 +12907,7 @@ extension WorkSpacesClientTypes.WorkspaceRequest {
         guard let value else { return }
         try writer["BundleId"].write(value.bundleId)
         try writer["DirectoryId"].write(value.directoryId)
+        try writer["Ipv6Address"].write(value.ipv6Address)
         try writer["RootVolumeEncryptionEnabled"].write(value.rootVolumeEncryptionEnabled)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkSpacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UserName"].write(value.userName)
@@ -12873,6 +12929,7 @@ extension WorkSpacesClientTypes.WorkspaceRequest {
         value.workspaceProperties = try reader["WorkspaceProperties"].readIfPresent(with: WorkSpacesClientTypes.WorkspaceProperties.read(from:))
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.workspaceName = try reader["WorkspaceName"].readIfPresent()
+        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
         return value
     }
 }
@@ -12932,6 +12989,7 @@ extension WorkSpacesClientTypes.Workspace {
         value.directoryId = try reader["DirectoryId"].readIfPresent()
         value.userName = try reader["UserName"].readIfPresent()
         value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
         value.bundleId = try reader["BundleId"].readIfPresent()
         value.subnetId = try reader["SubnetId"].readIfPresent()
@@ -13365,6 +13423,7 @@ extension WorkSpacesClientTypes.WorkspaceDirectory {
         value.registrationCode = try reader["RegistrationCode"].readIfPresent()
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.dnsIpAddresses = try reader["DnsIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsIpv6Addresses = try reader["DnsIpv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.customerUserName = try reader["CustomerUserName"].readIfPresent()
         value.iamRoleId = try reader["IamRoleId"].readIfPresent()
         value.directoryType = try reader["DirectoryType"].readIfPresent()

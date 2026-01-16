@@ -253,6 +253,285 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
+extension OrganizationsClientTypes {
+
+    public enum ConstraintViolationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountCannotLeaveOrganization
+        case accountCannotLeaveWithoutEula
+        case accountCannotLeaveWithoutPhoneVerification
+        case accountCreationNotComplete
+        case accountCreationRateLimitExceeded
+        case accountNumberLimitExceeded
+        case activeResponsibilityTransferProcess
+        case allFeaturesMigrationOrganizationSizeLimitExceeded
+        case cannotCloseManagementAccount
+        case cannotRegisterMasterAsDelegatedAdministrator
+        case cannotRegisterSuspendedAccountAsDelegatedAdministrator
+        case cannotRemoveDelegatedAdministratorFromOrg
+        case closeAccountQuotaExceeded
+        case closeAccountRequestsLimitExceeded
+        case createOrganizationInBillingModeUnsupportedRegion
+        case delegatedAdministratorExistsForThisService
+        case emailVerificationCodeExpired
+        case handshakeRateLimitExceeded
+        case invalidPaymentInstrument
+        case masterAccountAddressDoesNotMatchMarketplace
+        case masterAccountMissingBusinessLicense
+        case masterAccountMissingContactInfo
+        case masterAccountNotGovcloudEnabled
+        case masterAccountPaymentInstrumentRequired
+        case maxDelegatedAdministratorsForServiceLimitExceeded
+        case maxPolicyTypeAttachmentLimitExceeded
+        case maxTagLimitExceeded
+        case memberAccountPaymentInstrumentRequired
+        case minPolicyTypeAttachmentLimitExceeded
+        case organizationNotInAllFeaturesMode
+        case ouDepthLimitExceeded
+        case ouNumberLimitExceeded
+        case policyContentLimitExceeded
+        case policyNumberLimitExceeded
+        case policyTypeEnabledForThisService
+        case responsibilityTransferMaxInboundQuotaViolation
+        case responsibilityTransferMaxLevelViolation
+        case responsibilityTransferMaxOutboundQuotaViolation
+        case responsibilityTransferMaxTransfersQuotaViolation
+        case serviceAccessNotEnabled
+        case tagPolicyViolation
+        case transferResponsibilitySourceDeletionInProgress
+        case transferResponsibilityTargetDeletionInProgress
+        case unsupportedPricing
+        case waitPeriodActive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConstraintViolationExceptionReason] {
+            return [
+                .accountCannotLeaveOrganization,
+                .accountCannotLeaveWithoutEula,
+                .accountCannotLeaveWithoutPhoneVerification,
+                .accountCreationNotComplete,
+                .accountCreationRateLimitExceeded,
+                .accountNumberLimitExceeded,
+                .activeResponsibilityTransferProcess,
+                .allFeaturesMigrationOrganizationSizeLimitExceeded,
+                .cannotCloseManagementAccount,
+                .cannotRegisterMasterAsDelegatedAdministrator,
+                .cannotRegisterSuspendedAccountAsDelegatedAdministrator,
+                .cannotRemoveDelegatedAdministratorFromOrg,
+                .closeAccountQuotaExceeded,
+                .closeAccountRequestsLimitExceeded,
+                .createOrganizationInBillingModeUnsupportedRegion,
+                .delegatedAdministratorExistsForThisService,
+                .emailVerificationCodeExpired,
+                .handshakeRateLimitExceeded,
+                .invalidPaymentInstrument,
+                .masterAccountAddressDoesNotMatchMarketplace,
+                .masterAccountMissingBusinessLicense,
+                .masterAccountMissingContactInfo,
+                .masterAccountNotGovcloudEnabled,
+                .masterAccountPaymentInstrumentRequired,
+                .maxDelegatedAdministratorsForServiceLimitExceeded,
+                .maxPolicyTypeAttachmentLimitExceeded,
+                .maxTagLimitExceeded,
+                .memberAccountPaymentInstrumentRequired,
+                .minPolicyTypeAttachmentLimitExceeded,
+                .organizationNotInAllFeaturesMode,
+                .ouDepthLimitExceeded,
+                .ouNumberLimitExceeded,
+                .policyContentLimitExceeded,
+                .policyNumberLimitExceeded,
+                .policyTypeEnabledForThisService,
+                .responsibilityTransferMaxInboundQuotaViolation,
+                .responsibilityTransferMaxLevelViolation,
+                .responsibilityTransferMaxOutboundQuotaViolation,
+                .responsibilityTransferMaxTransfersQuotaViolation,
+                .serviceAccessNotEnabled,
+                .tagPolicyViolation,
+                .transferResponsibilitySourceDeletionInProgress,
+                .transferResponsibilityTargetDeletionInProgress,
+                .unsupportedPricing,
+                .waitPeriodActive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountCannotLeaveOrganization: return "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
+            case .accountCannotLeaveWithoutEula: return "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
+            case .accountCannotLeaveWithoutPhoneVerification: return "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
+            case .accountCreationNotComplete: return "ACCOUNT_CREATION_NOT_COMPLETE"
+            case .accountCreationRateLimitExceeded: return "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
+            case .accountNumberLimitExceeded: return "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+            case .activeResponsibilityTransferProcess: return "ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS"
+            case .allFeaturesMigrationOrganizationSizeLimitExceeded: return "ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED"
+            case .cannotCloseManagementAccount: return "CANNOT_CLOSE_MANAGEMENT_ACCOUNT"
+            case .cannotRegisterMasterAsDelegatedAdministrator: return "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR"
+            case .cannotRegisterSuspendedAccountAsDelegatedAdministrator: return "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR"
+            case .cannotRemoveDelegatedAdministratorFromOrg: return "CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG"
+            case .closeAccountQuotaExceeded: return "CLOSE_ACCOUNT_QUOTA_EXCEEDED"
+            case .closeAccountRequestsLimitExceeded: return "CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED"
+            case .createOrganizationInBillingModeUnsupportedRegion: return "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION"
+            case .delegatedAdministratorExistsForThisService: return "DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE"
+            case .emailVerificationCodeExpired: return "EMAIL_VERIFICATION_CODE_EXPIRED"
+            case .handshakeRateLimitExceeded: return "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+            case .invalidPaymentInstrument: return "INVALID_PAYMENT_INSTRUMENT"
+            case .masterAccountAddressDoesNotMatchMarketplace: return "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
+            case .masterAccountMissingBusinessLicense: return "MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE"
+            case .masterAccountMissingContactInfo: return "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
+            case .masterAccountNotGovcloudEnabled: return "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED"
+            case .masterAccountPaymentInstrumentRequired: return "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+            case .maxDelegatedAdministratorsForServiceLimitExceeded: return "MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED"
+            case .maxPolicyTypeAttachmentLimitExceeded: return "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+            case .maxTagLimitExceeded: return "MAX_TAG_LIMIT_EXCEEDED"
+            case .memberAccountPaymentInstrumentRequired: return "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+            case .minPolicyTypeAttachmentLimitExceeded: return "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+            case .organizationNotInAllFeaturesMode: return "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
+            case .ouDepthLimitExceeded: return "OU_DEPTH_LIMIT_EXCEEDED"
+            case .ouNumberLimitExceeded: return "OU_NUMBER_LIMIT_EXCEEDED"
+            case .policyContentLimitExceeded: return "POLICY_CONTENT_LIMIT_EXCEEDED"
+            case .policyNumberLimitExceeded: return "POLICY_NUMBER_LIMIT_EXCEEDED"
+            case .policyTypeEnabledForThisService: return "POLICY_TYPE_ENABLED_FOR_THIS_SERVICE"
+            case .responsibilityTransferMaxInboundQuotaViolation: return "RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION"
+            case .responsibilityTransferMaxLevelViolation: return "RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION"
+            case .responsibilityTransferMaxOutboundQuotaViolation: return "RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION"
+            case .responsibilityTransferMaxTransfersQuotaViolation: return "RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION"
+            case .serviceAccessNotEnabled: return "SERVICE_ACCESS_NOT_ENABLED"
+            case .tagPolicyViolation: return "TAG_POLICY_VIOLATION"
+            case .transferResponsibilitySourceDeletionInProgress: return "TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS"
+            case .transferResponsibilityTargetDeletionInProgress: return "TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS"
+            case .unsupportedPricing: return "UNSUPPORTED_PRICING"
+            case .waitPeriodActive: return "WAIT_PERIOD_ACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
+///
+/// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
+///
+/// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
+///
+/// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
+///
+/// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
+///
+/// * ACTIVE_RESPONSIBILITY_TRANSFER_PROCESS: You cannot delete organization due to an ongoing responsibility transfer process. For example, a pending invitation or an in-progress transfer. To delete the organization, you must resolve the current transfer process.
+///
+/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+///
+/// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
+///
+/// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
+///
+/// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
+///
+/// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
+///
+/// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
+///
+/// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
+///
+/// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
+///
+/// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
+///
+/// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
+///
+/// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verification code.
+///
+/// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
+///
+/// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
+///
+/// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
+///
+/// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+///
+/// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
+///
+/// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
+///
+/// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+///
+/// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
+///
+/// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
+///
+/// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
+///
+/// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
+///
+/// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
+///
+/// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
+///
+/// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
+///
+/// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
+///
+/// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
+///
+/// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
+///
+/// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+///
+/// * RESPONSIBILITY_TRANSFER_MAX_INBOUND_QUOTA_VIOLATION: You have exceeded your inbound transfers limit.
+///
+/// * RESPONSIBILITY_TRANSFER_MAX_LEVEL_VIOLATION: You have exceeded the maximum length of your transfer chain.
+///
+/// * RESPONSIBILITY_TRANSFER_MAX_OUTBOUND_QUOTA_VIOLATION: You have exceeded your outbound transfers limit.
+///
+/// * RESPONSIBILITY_TRANSFER_MAX_TRANSFERS_QUOTA_VIOLATION: You have exceeded the maximum number of inbound transfers allowed in a transfer chain.
+///
+/// * SERVICE_ACCESS_NOT_ENABLED:
+///
+/// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+///
+/// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+///
+///
+///
+///
+/// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
+///
+/// * TRANSFER_RESPONSIBILITY_SOURCE_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because it is marked for deletion.
+///
+/// * TRANSFER_RESPONSIBILITY_TARGET_DELETION_IN_PROGRESS: The source organization cannot accept this transfer invitation because target organization is marked for deletion.
+///
+/// * UNSUPPORTED_PRICING: Your organization has a pricing contract that is unsupported.
+///
+/// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
+public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var reason: OrganizationsClientTypes.ConstraintViolationExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConstraintViolationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reason: OrganizationsClientTypes.ConstraintViolationExceptionReason? = nil
+    ) {
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
 /// The specified handshake is already in the requested state. For example, you can't accept a handshake that was already accepted.
 public struct HandshakeAlreadyInStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -283,12 +562,16 @@ extension OrganizationsClientTypes {
         case alreadyInAnOrganization
         case handshakeRateLimitExceeded
         case inviteDisabledDuringEnableAllFeatures
+        case legacyPermissionsStillInUse
         case managementAccountEmailNotVerified
         case organizationAlreadyHasAllFeatures
         case organizationFromDifferentSellerOfRecord
         case organizationIsAlreadyPendingAllFeaturesMigration
         case organizationMembershipChangeRateLimitExceeded
         case paymentInstrumentRequired
+        case responsibilityTransferAlreadyExists
+        case sourceAndTargetCannotMatch
+        case unusedPrepaymentBalance
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HandshakeConstraintViolationExceptionReason] {
@@ -297,12 +580,16 @@ extension OrganizationsClientTypes {
                 .alreadyInAnOrganization,
                 .handshakeRateLimitExceeded,
                 .inviteDisabledDuringEnableAllFeatures,
+                .legacyPermissionsStillInUse,
                 .managementAccountEmailNotVerified,
                 .organizationAlreadyHasAllFeatures,
                 .organizationFromDifferentSellerOfRecord,
                 .organizationIsAlreadyPendingAllFeaturesMigration,
                 .organizationMembershipChangeRateLimitExceeded,
-                .paymentInstrumentRequired
+                .paymentInstrumentRequired,
+                .responsibilityTransferAlreadyExists,
+                .sourceAndTargetCannotMatch,
+                .unusedPrepaymentBalance
             ]
         }
 
@@ -317,12 +604,16 @@ extension OrganizationsClientTypes {
             case .alreadyInAnOrganization: return "ALREADY_IN_AN_ORGANIZATION"
             case .handshakeRateLimitExceeded: return "HANDSHAKE_RATE_LIMIT_EXCEEDED"
             case .inviteDisabledDuringEnableAllFeatures: return "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES"
+            case .legacyPermissionsStillInUse: return "LEGACY_PERMISSIONS_STILL_IN_USE"
             case .managementAccountEmailNotVerified: return "MANAGEMENT_ACCOUNT_EMAIL_NOT_VERIFIED"
             case .organizationAlreadyHasAllFeatures: return "ORGANIZATION_ALREADY_HAS_ALL_FEATURES"
             case .organizationFromDifferentSellerOfRecord: return "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD"
             case .organizationIsAlreadyPendingAllFeaturesMigration: return "ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION"
             case .organizationMembershipChangeRateLimitExceeded: return "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
             case .paymentInstrumentRequired: return "PAYMENT_INSTRUMENT_REQUIRED"
+            case .responsibilityTransferAlreadyExists: return "RESPONSIBILITY_TRANSFER_ALREADY_EXISTS"
+            case .sourceAndTargetCannotMatch: return "SOURCE_AND_TARGET_CANNOT_MATCH"
+            case .unusedPrepaymentBalance: return "UNUSED_PREPAYMENT_BALANCE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -339,15 +630,23 @@ extension OrganizationsClientTypes {
 ///
 /// * INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES: You can't issue new invitations to join an organization while it's in the process of enabling all features. You can resume inviting accounts after you finalize the process when all accounts have agreed to the change.
 ///
+/// * LEGACY_PERMISSIONS_STILL_IN_USE: Your organization must migrate to use the new IAM fine-grained actions for billing, cost management, and accounts.
+///
 /// * ORGANIZATION_ALREADY_HAS_ALL_FEATURES: The handshake request is invalid because the organization has already enabled all features.
 ///
-/// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
-///
 /// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
+///
+/// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
 ///
 /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
 ///
 /// * PAYMENT_INSTRUMENT_REQUIRED: You can't complete the operation with an account that doesn't have a payment instrument, such as a credit card, associated with it.
+///
+/// * RESPONSIBILITY_TRANSFER_ALREADY_EXISTS: You cannot perform this operation with the current transfer.
+///
+/// * SOURCE_AND_TARGET_CANNOT_MATCH: An account can't accept a transfer invitation if it is both the sender and recipient of the invitation.
+///
+/// * UNUSED_PREPAYMENT_BALANCE: Your organization has an outstanding pre-payment balance.
 public struct HandshakeConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -422,10 +721,14 @@ public struct InvalidHandshakeTransitionException: ClientRuntime.ModeledError, A
 extension OrganizationsClientTypes {
 
     public enum InvalidInputExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case callerRequiredFieldMissing
         case duplicateTagKey
+        case endDateNotEndOfMonth
+        case endDateTooEarly
         case immutablePolicy
         case inputRequired
         case invalidEmailAddressTarget
+        case invalidEndDate
         case invalidEnum
         case invalidEnumPolicyType
         case invalidFullNameTarget
@@ -437,6 +740,7 @@ extension OrganizationsClientTypes {
         case invalidPrincipal
         case invalidResourcePolicyJson
         case invalidRoleName
+        case invalidStartDate
         case invalidSyntaxOrganization
         case invalidSyntaxPolicy
         case invalidSystemTagsParameter
@@ -447,19 +751,28 @@ extension OrganizationsClientTypes {
         case minValueExceeded
         case movingAccountBetweenDifferentRoots
         case nonDetachablePolicy
+        case startDateNotBeginningOfDay
+        case startDateNotBeginningOfMonth
+        case startDateTooEarly
+        case startDateTooLate
         case targetNotSupported
         case unrecognizedServicePrincipal
         case unsupportedActionInResourcePolicy
+        case unsupportedActionInResponsibilityTransfer
         case unsupportedPolicyTypeInResourcePolicy
         case unsupportedResourceInResourcePolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InvalidInputExceptionReason] {
             return [
+                .callerRequiredFieldMissing,
                 .duplicateTagKey,
+                .endDateNotEndOfMonth,
+                .endDateTooEarly,
                 .immutablePolicy,
                 .inputRequired,
                 .invalidEmailAddressTarget,
+                .invalidEndDate,
                 .invalidEnum,
                 .invalidEnumPolicyType,
                 .invalidFullNameTarget,
@@ -471,6 +784,7 @@ extension OrganizationsClientTypes {
                 .invalidPrincipal,
                 .invalidResourcePolicyJson,
                 .invalidRoleName,
+                .invalidStartDate,
                 .invalidSyntaxOrganization,
                 .invalidSyntaxPolicy,
                 .invalidSystemTagsParameter,
@@ -481,9 +795,14 @@ extension OrganizationsClientTypes {
                 .minValueExceeded,
                 .movingAccountBetweenDifferentRoots,
                 .nonDetachablePolicy,
+                .startDateNotBeginningOfDay,
+                .startDateNotBeginningOfMonth,
+                .startDateTooEarly,
+                .startDateTooLate,
                 .targetNotSupported,
                 .unrecognizedServicePrincipal,
                 .unsupportedActionInResourcePolicy,
+                .unsupportedActionInResponsibilityTransfer,
                 .unsupportedPolicyTypeInResourcePolicy,
                 .unsupportedResourceInResourcePolicy
             ]
@@ -496,10 +815,14 @@ extension OrganizationsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .callerRequiredFieldMissing: return "CALLER_REQUIRED_FIELD_MISSING"
             case .duplicateTagKey: return "DUPLICATE_TAG_KEY"
+            case .endDateNotEndOfMonth: return "END_DATE_NOT_END_OF_MONTH"
+            case .endDateTooEarly: return "END_DATE_TOO_EARLY"
             case .immutablePolicy: return "IMMUTABLE_POLICY"
             case .inputRequired: return "INPUT_REQUIRED"
             case .invalidEmailAddressTarget: return "INVALID_EMAIL_ADDRESS_TARGET"
+            case .invalidEndDate: return "INVALID_END_DATE"
             case .invalidEnum: return "INVALID_ENUM"
             case .invalidEnumPolicyType: return "INVALID_ENUM_POLICY_TYPE"
             case .invalidFullNameTarget: return "INVALID_FULL_NAME_TARGET"
@@ -511,6 +834,7 @@ extension OrganizationsClientTypes {
             case .invalidPrincipal: return "INVALID_PRINCIPAL"
             case .invalidResourcePolicyJson: return "INVALID_RESOURCE_POLICY_JSON"
             case .invalidRoleName: return "INVALID_ROLE_NAME"
+            case .invalidStartDate: return "INVALID_START_DATE"
             case .invalidSyntaxOrganization: return "INVALID_SYNTAX_ORGANIZATION_ARN"
             case .invalidSyntaxPolicy: return "INVALID_SYNTAX_POLICY_ID"
             case .invalidSystemTagsParameter: return "INVALID_SYSTEM_TAGS_PARAMETER"
@@ -521,9 +845,14 @@ extension OrganizationsClientTypes {
             case .minValueExceeded: return "MIN_VALUE_EXCEEDED"
             case .movingAccountBetweenDifferentRoots: return "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
             case .nonDetachablePolicy: return "NON_DETACHABLE_POLICY"
+            case .startDateNotBeginningOfDay: return "START_DATE_NOT_BEGINNING_OF_DAY"
+            case .startDateNotBeginningOfMonth: return "START_DATE_NOT_BEGINNING_OF_MONTH"
+            case .startDateTooEarly: return "START_DATE_TOO_EARLY"
+            case .startDateTooLate: return "START_DATE_TOO_LATE"
             case .targetNotSupported: return "TARGET_NOT_SUPPORTED"
             case .unrecognizedServicePrincipal: return "UNRECOGNIZED_SERVICE_PRINCIPAL"
             case .unsupportedActionInResourcePolicy: return "UNSUPPORTED_ACTION_IN_RESOURCE_POLICY"
+            case .unsupportedActionInResponsibilityTransfer: return "UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER"
             case .unsupportedPolicyTypeInResourcePolicy: return "UNSUPPORTED_POLICY_TYPE_IN_RESOURCE_POLICY"
             case .unsupportedResourceInResourcePolicy: return "UNSUPPORTED_RESOURCE_IN_RESOURCE_POLICY"
             case let .sdkUnknown(s): return s
@@ -534,13 +863,21 @@ extension OrganizationsClientTypes {
 
 /// The requested operation failed because you provided invalid values for one or more of the request parameters. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
 ///
+/// * CALLER_REQUIRED_FIELD_MISSING: At least one of the required field is missing: Caller Account Id, Management Account Id or Organization Id.
+///
 /// * DUPLICATE_TAG_KEY: Tag keys must be unique among the tags attached to the same entity.
+///
+/// * END_DATE_NOT_END_OF_MONTH: You provided an invalid end date. The end date must be the end of the last day of the month (23.59.59.999).
+///
+/// * END_DATE_TOO_EARLY: You provided an invalid end date. It is too early for the transfer to end.
 ///
 /// * IMMUTABLE_POLICY: You specified a policy that is managed by Amazon Web Services and can't be modified.
 ///
 /// * INPUT_REQUIRED: You must include a value for all required parameters.
 ///
 /// * INVALID_EMAIL_ADDRESS_TARGET: You specified an invalid email address for the invited account owner.
+///
+/// * INVALID_END_DATE: The selected withdrawal date doesn't meet the terms of your partner agreement. Visit Amazon Web Services Partner Central to view your partner agreements or contact your Amazon Web Services Partner for help.
 ///
 /// * INVALID_ENUM: You specified an invalid value.
 ///
@@ -562,6 +899,8 @@ extension OrganizationsClientTypes {
 ///
 /// * INVALID_ROLE_NAME: You provided a role name that isn't valid. A role name can't begin with the reserved prefix AWSServiceRoleFor.
 ///
+/// * INVALID_START_DATE: The start date doesn't meet the minimum requirements.
+///
 /// * INVALID_SYNTAX_ORGANIZATION_ARN: You specified an invalid Amazon Resource Name (ARN) for the organization.
 ///
 /// * INVALID_SYNTAX_POLICY_ID: You specified an invalid policy ID.
@@ -582,9 +921,19 @@ extension OrganizationsClientTypes {
 ///
 /// * NON_DETACHABLE_POLICY: You can't detach this Amazon Web Services Managed Policy.
 ///
+/// * START_DATE_NOT_BEGINNING_OF_DAY: You provided an invalid start date. The start date must be the beginning of the day (00:00:00.000).
+///
+/// * START_DATE_NOT_BEGINNING_OF_MONTH: You provided an invalid start date. The start date must be the first day of the month.
+///
+/// * START_DATE_TOO_EARLY: You provided an invalid start date. The start date is too early.
+///
+/// * START_DATE_TOO_LATE: You provided an invalid start date. The start date is too late.
+///
 /// * TARGET_NOT_SUPPORTED: You can't perform the specified operation on that target entity.
 ///
 /// * UNRECOGNIZED_SERVICE_PRINCIPAL: You specified a service principal that isn't recognized.
+///
+/// * UNSUPPORTED_ACTION_IN_RESPONSIBILITY_TRANSFER: You provided a value that is not supported by this operation.
 public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -607,6 +956,29 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     ) {
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+/// You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
+public struct MasterCannotLeaveOrganizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MasterCannotLeaveOrganizationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -660,7 +1032,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 }
 
 public struct AcceptHandshakeInput: Swift.Sendable {
-    /// The unique identifier (ID) of the handshake that you want to accept. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
+    /// ID for the handshake that you want to accept. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var handshakeId: Swift.String?
 
@@ -678,6 +1050,7 @@ extension OrganizationsClientTypes {
         case approveAllFeatures
         case enableAllFeatures
         case inviteAccountToOrganization
+        case transferResponsibility
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ActionType] {
@@ -685,7 +1058,8 @@ extension OrganizationsClientTypes {
                 .addOrganizationsServiceLinkedRole,
                 .approveAllFeatures,
                 .enableAllFeatures,
-                .inviteAccountToOrganization
+                .inviteAccountToOrganization,
+                .transferResponsibility
             ]
         }
 
@@ -700,6 +1074,7 @@ extension OrganizationsClientTypes {
             case .approveAllFeatures: return "APPROVE_ALL_FEATURES"
             case .enableAllFeatures: return "ENABLE_ALL_FEATURES"
             case .inviteAccountToOrganization: return "INVITE"
+            case .transferResponsibility: return "TRANSFER_RESPONSIBILITY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -740,12 +1115,12 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes {
 
-    /// Identifies a participant in a handshake.
+    /// Contains details for a participant in a handshake.
     public struct HandshakeParty: Swift.Sendable {
-        /// The unique identifier (ID) for the party. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
+        /// ID for the participant: Acccount ID, organization ID, or email address. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         /// This member is required.
         public var id: Swift.String?
-        /// The type of party.
+        /// The type of ID for the participant.
         /// This member is required.
         public var type: OrganizationsClientTypes.HandshakePartyType?
 
@@ -769,24 +1144,36 @@ extension OrganizationsClientTypes {
     public enum HandshakeResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case account
         case email
+        case managementAccount
+        case managementEmail
+        case managementName
         case masterEmail
         case masterName
         case notes
         case organization
         case organizationFeatureSet
         case parentHandshake
+        case responsibilityTransfer
+        case transferStartTimestamp
+        case transferType
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HandshakeResourceType] {
             return [
                 .account,
                 .email,
+                .managementAccount,
+                .managementEmail,
+                .managementName,
                 .masterEmail,
                 .masterName,
                 .notes,
                 .organization,
                 .organizationFeatureSet,
-                .parentHandshake
+                .parentHandshake,
+                .responsibilityTransfer,
+                .transferStartTimestamp,
+                .transferType
             ]
         }
 
@@ -799,12 +1186,18 @@ extension OrganizationsClientTypes {
             switch self {
             case .account: return "ACCOUNT"
             case .email: return "EMAIL"
+            case .managementAccount: return "MANAGEMENT_ACCOUNT"
+            case .managementEmail: return "MANAGEMENT_EMAIL"
+            case .managementName: return "MANAGEMENT_NAME"
             case .masterEmail: return "MASTER_EMAIL"
             case .masterName: return "MASTER_NAME"
             case .notes: return "NOTES"
             case .organization: return "ORGANIZATION"
             case .organizationFeatureSet: return "ORGANIZATION_FEATURE_SET"
             case .parentHandshake: return "PARENT_HANDSHAKE"
+            case .responsibilityTransfer: return "RESPONSIBILITY_TRANSFER"
+            case .transferStartTimestamp: return "TRANSFER_START_TIMESTAMP"
+            case .transferType: return "TRANSFER_TYPE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -883,6 +1276,44 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes {
 
+    public enum AccountState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case closed
+        case pendingActivation
+        case pendingClosure
+        case suspended
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountState] {
+            return [
+                .active,
+                .closed,
+                .pendingActivation,
+                .pendingClosure,
+                .suspended
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .closed: return "CLOSED"
+            case .pendingActivation: return "PENDING_ACTIVATION"
+            case .pendingClosure: return "PENDING_CLOSURE"
+            case .suspended: return "SUSPENDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OrganizationsClientTypes {
+
     public enum AccountStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case pendingClosure
@@ -929,7 +1360,9 @@ extension OrganizationsClientTypes {
         public var joinedTimestamp: Foundation.Date?
         /// The friendly name of the account. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public var name: Swift.String?
-        /// The status of the account in the organization.
+        /// Each state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. For more information about account states and their implications, see [Monitor the state of your Amazon Web Services accounts ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_account_state.html) in the Organizations User Guide.
+        public var state: OrganizationsClientTypes.AccountState?
+        /// The status of the account in the organization. The Status parameter in the Account object will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
         public var status: OrganizationsClientTypes.AccountStatus?
 
         public init(
@@ -939,6 +1372,7 @@ extension OrganizationsClientTypes {
             joinedMethod: OrganizationsClientTypes.AccountJoinedMethod? = nil,
             joinedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            state: OrganizationsClientTypes.AccountState? = nil,
             status: OrganizationsClientTypes.AccountStatus? = nil
         ) {
             self.arn = arn
@@ -947,6 +1381,7 @@ extension OrganizationsClientTypes {
             self.joinedMethod = joinedMethod
             self.joinedTimestamp = joinedTimestamp
             self.name = name
+            self.state = state
             self.status = status
         }
     }
@@ -954,7 +1389,7 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes.Account: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Account(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Account(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 /// You attempted to close an account that is already closed.
@@ -1092,245 +1527,6 @@ public struct AlreadyInOrganizationException: ClientRuntime.ModeledError, AWSCli
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-extension OrganizationsClientTypes {
-
-    public enum ConstraintViolationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case accountCannotLeaveOrganization
-        case accountCannotLeaveWithoutEula
-        case accountCannotLeaveWithoutPhoneVerification
-        case accountCreationNotComplete
-        case accountCreationRateLimitExceeded
-        case accountNumberLimitExceeded
-        case allFeaturesMigrationOrganizationSizeLimitExceeded
-        case cannotCloseManagementAccount
-        case cannotRegisterMasterAsDelegatedAdministrator
-        case cannotRegisterSuspendedAccountAsDelegatedAdministrator
-        case cannotRemoveDelegatedAdministratorFromOrg
-        case closeAccountQuotaExceeded
-        case closeAccountRequestsLimitExceeded
-        case createOrganizationInBillingModeUnsupportedRegion
-        case delegatedAdministratorExistsForThisService
-        case emailVerificationCodeExpired
-        case handshakeRateLimitExceeded
-        case invalidPaymentInstrument
-        case masterAccountAddressDoesNotMatchMarketplace
-        case masterAccountMissingBusinessLicense
-        case masterAccountMissingContactInfo
-        case masterAccountNotGovcloudEnabled
-        case masterAccountPaymentInstrumentRequired
-        case maxDelegatedAdministratorsForServiceLimitExceeded
-        case maxPolicyTypeAttachmentLimitExceeded
-        case maxTagLimitExceeded
-        case memberAccountPaymentInstrumentRequired
-        case minPolicyTypeAttachmentLimitExceeded
-        case organizationNotInAllFeaturesMode
-        case ouDepthLimitExceeded
-        case ouNumberLimitExceeded
-        case policyContentLimitExceeded
-        case policyNumberLimitExceeded
-        case policyTypeEnabledForThisService
-        case serviceAccessNotEnabled
-        case tagPolicyViolation
-        case waitPeriodActive
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ConstraintViolationExceptionReason] {
-            return [
-                .accountCannotLeaveOrganization,
-                .accountCannotLeaveWithoutEula,
-                .accountCannotLeaveWithoutPhoneVerification,
-                .accountCreationNotComplete,
-                .accountCreationRateLimitExceeded,
-                .accountNumberLimitExceeded,
-                .allFeaturesMigrationOrganizationSizeLimitExceeded,
-                .cannotCloseManagementAccount,
-                .cannotRegisterMasterAsDelegatedAdministrator,
-                .cannotRegisterSuspendedAccountAsDelegatedAdministrator,
-                .cannotRemoveDelegatedAdministratorFromOrg,
-                .closeAccountQuotaExceeded,
-                .closeAccountRequestsLimitExceeded,
-                .createOrganizationInBillingModeUnsupportedRegion,
-                .delegatedAdministratorExistsForThisService,
-                .emailVerificationCodeExpired,
-                .handshakeRateLimitExceeded,
-                .invalidPaymentInstrument,
-                .masterAccountAddressDoesNotMatchMarketplace,
-                .masterAccountMissingBusinessLicense,
-                .masterAccountMissingContactInfo,
-                .masterAccountNotGovcloudEnabled,
-                .masterAccountPaymentInstrumentRequired,
-                .maxDelegatedAdministratorsForServiceLimitExceeded,
-                .maxPolicyTypeAttachmentLimitExceeded,
-                .maxTagLimitExceeded,
-                .memberAccountPaymentInstrumentRequired,
-                .minPolicyTypeAttachmentLimitExceeded,
-                .organizationNotInAllFeaturesMode,
-                .ouDepthLimitExceeded,
-                .ouNumberLimitExceeded,
-                .policyContentLimitExceeded,
-                .policyNumberLimitExceeded,
-                .policyTypeEnabledForThisService,
-                .serviceAccessNotEnabled,
-                .tagPolicyViolation,
-                .waitPeriodActive
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .accountCannotLeaveOrganization: return "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
-            case .accountCannotLeaveWithoutEula: return "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
-            case .accountCannotLeaveWithoutPhoneVerification: return "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
-            case .accountCreationNotComplete: return "ACCOUNT_CREATION_NOT_COMPLETE"
-            case .accountCreationRateLimitExceeded: return "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
-            case .accountNumberLimitExceeded: return "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
-            case .allFeaturesMigrationOrganizationSizeLimitExceeded: return "ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED"
-            case .cannotCloseManagementAccount: return "CANNOT_CLOSE_MANAGEMENT_ACCOUNT"
-            case .cannotRegisterMasterAsDelegatedAdministrator: return "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR"
-            case .cannotRegisterSuspendedAccountAsDelegatedAdministrator: return "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR"
-            case .cannotRemoveDelegatedAdministratorFromOrg: return "CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG"
-            case .closeAccountQuotaExceeded: return "CLOSE_ACCOUNT_QUOTA_EXCEEDED"
-            case .closeAccountRequestsLimitExceeded: return "CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED"
-            case .createOrganizationInBillingModeUnsupportedRegion: return "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION"
-            case .delegatedAdministratorExistsForThisService: return "DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE"
-            case .emailVerificationCodeExpired: return "EMAIL_VERIFICATION_CODE_EXPIRED"
-            case .handshakeRateLimitExceeded: return "HANDSHAKE_RATE_LIMIT_EXCEEDED"
-            case .invalidPaymentInstrument: return "INVALID_PAYMENT_INSTRUMENT"
-            case .masterAccountAddressDoesNotMatchMarketplace: return "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
-            case .masterAccountMissingBusinessLicense: return "MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE"
-            case .masterAccountMissingContactInfo: return "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
-            case .masterAccountNotGovcloudEnabled: return "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED"
-            case .masterAccountPaymentInstrumentRequired: return "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
-            case .maxDelegatedAdministratorsForServiceLimitExceeded: return "MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED"
-            case .maxPolicyTypeAttachmentLimitExceeded: return "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
-            case .maxTagLimitExceeded: return "MAX_TAG_LIMIT_EXCEEDED"
-            case .memberAccountPaymentInstrumentRequired: return "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
-            case .minPolicyTypeAttachmentLimitExceeded: return "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
-            case .organizationNotInAllFeaturesMode: return "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
-            case .ouDepthLimitExceeded: return "OU_DEPTH_LIMIT_EXCEEDED"
-            case .ouNumberLimitExceeded: return "OU_NUMBER_LIMIT_EXCEEDED"
-            case .policyContentLimitExceeded: return "POLICY_CONTENT_LIMIT_EXCEEDED"
-            case .policyNumberLimitExceeded: return "POLICY_NUMBER_LIMIT_EXCEEDED"
-            case .policyTypeEnabledForThisService: return "POLICY_TYPE_ENABLED_FOR_THIS_SERVICE"
-            case .serviceAccessNotEnabled: return "SERVICE_ACCESS_NOT_ENABLED"
-            case .tagPolicyViolation: return "TAG_POLICY_VIOLATION"
-            case .waitPeriodActive: return "WAIT_PERIOD_ACTIVE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// Performing this operation violates a minimum or maximum value limit. For example, attempting to remove the last service control policy (SCP) from an OU or root, inviting or creating too many accounts to the organization, or attaching too many policies to an account, OU, or root. This exception includes a reason that contains additional information about the violated limit: Some of the reasons in the following list might not be applicable to this specific API or operation.
-///
-/// * ACCOUNT_CANNOT_LEAVE_ORGANIZATION: You attempted to remove the management account from the organization. You can't remove the management account. Instead, after you remove all member accounts, delete the organization itself.
-///
-/// * ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION: You attempted to remove an account from the organization that doesn't yet have enough information to exist as a standalone account. This account requires you to first complete phone verification. Follow the steps at [Removing a member account from your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master) in the Organizations User Guide.
-///
-/// * ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can create in one day.
-///
-/// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
-///
-/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
-///
-/// * ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED: Your organization has more than 5000 accounts, and you can only use the standard migration process for organizations with less than 5000 accounts. Use the assisted migration process to enable all features mode, or create a support case for assistance if you are unable to use assisted migration.
-///
-/// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
-///
-/// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
-///
-/// * CANNOT_CLOSE_MANAGEMENT_ACCOUNT: You attempted to close the management account. To close the management account for the organization, you must first either remove or close all member accounts in the organization. Follow standard account closure process using root credentials.
-///
-/// * CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG: You attempted to remove an account that is registered as a delegated administrator for a service integrated with your organization. To complete this operation, you must first deregister this account as a delegated administrator.
-///
-/// * CLOSE_ACCOUNT_QUOTA_EXCEEDED: You have exceeded close account quota for the past 30 days.
-///
-/// * CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED: You attempted to exceed the number of accounts that you can close at a time.
-///
-/// * CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION: To create an organization in the specified region, you must enable all features mode.
-///
-/// * DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE: You attempted to register an Amazon Web Services account as a delegated administrator for an Amazon Web Services service that already has a delegated administrator. To complete this operation, you must first deregister any existing delegated administrators for this service.
-///
-/// * EMAIL_VERIFICATION_CODE_EXPIRED: The email verification code is only valid for a limited period of time. You must resubmit the request and generate a new verfication code.
-///
-/// * HANDSHAKE_RATE_LIMIT_EXCEEDED: You attempted to exceed the number of handshakes that you can send in one day.
-///
-/// * INVALID_PAYMENT_INSTRUMENT: You cannot remove an account because no supported payment method is associated with the account. Amazon Web Services does not support cards issued by financial institutions in Russia or Belarus. For more information, see [Managing your Amazon Web Services payments](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html).
-///
-/// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. All accounts in an organization must be associated with the same marketplace.
-///
-/// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
-///
-/// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
-///
-/// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
-///
-/// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
-///
-/// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
-///
-/// * MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to exceed the number of policies of a certain type that can be attached to an entity at one time.
-///
-/// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
-///
-/// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
-///
-/// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
-///
-/// * ORGANIZATION_NOT_IN_ALL_FEATURES_MODE: You attempted to perform an operation that requires the organization to be configured to support all features. An organization that supports only consolidated billing features can't perform this operation.
-///
-/// * OU_DEPTH_LIMIT_EXCEEDED: You attempted to create an OU tree that is too many levels deep.
-///
-/// * OU_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of OUs that you can have in an organization.
-///
-/// * POLICY_CONTENT_LIMIT_EXCEEDED: You attempted to create a policy that is larger than the maximum size.
-///
-/// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
-///
-/// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
-///
-/// * SERVICE_ACCESS_NOT_ENABLED:
-///
-/// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
-///
-/// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
-///
-///
-///
-///
-/// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
-///
-/// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least seven days after the account was created. Invited accounts aren't subject to this waiting period.
-public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var reason: OrganizationsClientTypes.ConstraintViolationExceptionReason? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConstraintViolationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        reason: OrganizationsClientTypes.ConstraintViolationExceptionReason? = nil
-    ) {
-        self.properties.message = message
-        self.properties.reason = reason
     }
 }
 
@@ -1473,10 +1669,10 @@ public struct UnsupportedAPIEndpointException: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct AttachPolicyInput: Swift.Sendable {
-    /// The unique identifier (ID) of the policy that you want to attach to the target. You can get the ID for the policy by calling the [ListPolicies] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
+    /// ID for the policy that you want to attach to the target. You can get the ID for the policy by calling the [ListPolicies] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
-    /// The unique identifier (ID) of the root, OU, or account that you want to attach the policy to. You can get the ID by calling the [ListRoots], [ListOrganizationalUnitsForParent], or [ListAccounts] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one of the following:
+    /// ID for the root, OU, or account that you want to attach the policy to. You can get the ID by calling the [ListRoots], [ListOrganizationalUnitsForParent], or [ListAccounts] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one of the following:
     ///
     /// * Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.
     ///
@@ -1496,7 +1692,7 @@ public struct AttachPolicyInput: Swift.Sendable {
 }
 
 public struct CancelHandshakeInput: Swift.Sendable {
-    /// The unique identifier (ID) of the handshake that you want to cancel. You can get the ID from the [ListHandshakesForOrganization] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
+    /// ID for the handshake that you want to cancel. You can get the ID from the [ListHandshakesForOrganization] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var handshakeId: Swift.String?
 
@@ -1823,7 +2019,7 @@ extension OrganizationsClientTypes {
         ///
         /// * UNKNOWN_BUSINESS_VALIDATION: The Amazon Web Services account that owns your organization has an unknown issue with business license validation.
         public var failureReason: OrganizationsClientTypes.CreateAccountFailureReason?
-        /// If the account was created successfully, the unique identifier (ID) of the new account in the Amazon Web Services GovCloud (US) Region.
+        /// If the account was created successfully, the ID for the new account in the Amazon Web Services GovCloud (US) Region.
         public var govCloudAccountId: Swift.String?
         /// The unique identifier (ID) that references this request. You get this value from the response of the initial [CreateAccount] request to create the account. The [regex pattern](http://wikipedia.org/wiki/regex) for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits.
         public var id: Swift.String?
@@ -2022,24 +2218,34 @@ extension OrganizationsClientTypes {
     public enum PolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aiservicesOptOutPolicy
         case backupPolicy
+        case bedrockPolicy
         case chatbotPolicy
         case declarativePolicyEc2
+        case inspectorPolicy
+        case networkSecurityDirectorPolicy
         case resourceControlPolicy
+        case s3Policy
         case securityhubPolicy
         case serviceControlPolicy
         case tagPolicy
+        case upgradeRolloutPolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PolicyType] {
             return [
                 .aiservicesOptOutPolicy,
                 .backupPolicy,
+                .bedrockPolicy,
                 .chatbotPolicy,
                 .declarativePolicyEc2,
+                .inspectorPolicy,
+                .networkSecurityDirectorPolicy,
                 .resourceControlPolicy,
+                .s3Policy,
                 .securityhubPolicy,
                 .serviceControlPolicy,
-                .tagPolicy
+                .tagPolicy,
+                .upgradeRolloutPolicy
             ]
         }
 
@@ -2052,12 +2258,17 @@ extension OrganizationsClientTypes {
             switch self {
             case .aiservicesOptOutPolicy: return "AISERVICES_OPT_OUT_POLICY"
             case .backupPolicy: return "BACKUP_POLICY"
+            case .bedrockPolicy: return "BEDROCK_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
+            case .inspectorPolicy: return "INSPECTOR_POLICY"
+            case .networkSecurityDirectorPolicy: return "NETWORK_SECURITY_DIRECTOR_POLICY"
             case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
+            case .s3Policy: return "S3_POLICY"
             case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .serviceControlPolicy: return "SERVICE_CONTROL_POLICY"
             case .tagPolicy: return "TAG_POLICY"
+            case .upgradeRolloutPolicy: return "UPGRADE_ROLLOUT_POLICY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2188,7 +2399,7 @@ public struct CreateOrganizationalUnitInput: Swift.Sendable {
     /// The friendly name to assign to the new OU.
     /// This member is required.
     public var name: Swift.String?
-    /// The unique identifier (ID) of the parent root or OU that you want to create the new OU in. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
+    /// ID for the parent root or OU that you want to create the new OU in. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
     ///
     /// * Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.
     ///
@@ -2341,6 +2552,16 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var type: OrganizationsClientTypes.PolicyType?
 
@@ -2425,7 +2646,7 @@ public struct CreatePolicyOutput: Swift.Sendable {
 }
 
 public struct DeclineHandshakeInput: Swift.Sendable {
-    /// The unique identifier (ID) of the handshake that you want to decline. You can get the ID from the [ListHandshakesForAccount] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
+    /// ID for the handshake that you want to decline. You can get the ID from the [ListHandshakesForAccount] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var handshakeId: Swift.String?
 
@@ -2506,7 +2727,7 @@ public struct OrganizationalUnitNotFoundException: ClientRuntime.ModeledError, A
 }
 
 public struct DeleteOrganizationalUnitInput: Swift.Sendable {
-    /// The unique identifier (ID) of the organizational unit that you want to delete. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
+    /// ID for the organizational unit that you want to delete. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
     /// This member is required.
     public var organizationalUnitId: Swift.String?
 
@@ -2541,7 +2762,7 @@ public struct PolicyInUseException: ClientRuntime.ModeledError, AWSClientRuntime
 }
 
 public struct DeletePolicyInput: Swift.Sendable {
-    /// The unique identifier (ID) of the policy that you want to delete. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
+    /// ID for the policy that you want to delete. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
 
@@ -2605,7 +2826,7 @@ public struct DescribeAccountInput: Swift.Sendable {
 }
 
 public struct DescribeAccountOutput: Swift.Sendable {
-    /// A structure that contains information about the requested account.
+    /// A structure that contains information about the requested account. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var account: OrganizationsClientTypes.Account?
 
     public init(
@@ -2689,20 +2910,30 @@ extension OrganizationsClientTypes {
     public enum EffectivePolicyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aiservicesOptOutPolicy
         case backupPolicy
+        case bedrockPolicy
         case chatbotPolicy
         case declarativePolicyEc2
+        case inspectorPolicy
+        case networkSecurityDirectorPolicy
+        case s3Policy
         case securityhubPolicy
         case tagPolicy
+        case upgradeRolloutPolicy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EffectivePolicyType] {
             return [
                 .aiservicesOptOutPolicy,
                 .backupPolicy,
+                .bedrockPolicy,
                 .chatbotPolicy,
                 .declarativePolicyEc2,
+                .inspectorPolicy,
+                .networkSecurityDirectorPolicy,
+                .s3Policy,
                 .securityhubPolicy,
-                .tagPolicy
+                .tagPolicy,
+                .upgradeRolloutPolicy
             ]
         }
 
@@ -2715,10 +2946,15 @@ extension OrganizationsClientTypes {
             switch self {
             case .aiservicesOptOutPolicy: return "AISERVICES_OPT_OUT_POLICY"
             case .backupPolicy: return "BACKUP_POLICY"
+            case .bedrockPolicy: return "BEDROCK_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
+            case .inspectorPolicy: return "INSPECTOR_POLICY"
+            case .networkSecurityDirectorPolicy: return "NETWORK_SECURITY_DIRECTOR_POLICY"
+            case .s3Policy: return "S3_POLICY"
             case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .tagPolicy: return "TAG_POLICY"
+            case .upgradeRolloutPolicy: return "UPGRADE_ROLLOUT_POLICY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2739,6 +2975,16 @@ public struct DescribeEffectivePolicyInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
     /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
@@ -2792,7 +3038,7 @@ public struct DescribeEffectivePolicyOutput: Swift.Sendable {
 }
 
 public struct DescribeHandshakeInput: Swift.Sendable {
-    /// The unique identifier (ID) of the handshake that you want information about. You can get the ID from the original call to [InviteAccountToOrganization], or from a call to [ListHandshakesForAccount] or [ListHandshakesForOrganization]. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
+    /// ID for the handshake that you want information about. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
     /// This member is required.
     public var handshakeId: Swift.String?
 
@@ -2815,7 +3061,7 @@ public struct DescribeOrganizationOutput: Swift.Sendable {
 }
 
 public struct DescribeOrganizationalUnitInput: Swift.Sendable {
-    /// The unique identifier (ID) of the organizational unit that you want details about. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
+    /// ID for the organizational unit that you want details about. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
     /// This member is required.
     public var organizationalUnitId: Swift.String?
 
@@ -2838,7 +3084,7 @@ public struct DescribeOrganizationalUnitOutput: Swift.Sendable {
 }
 
 public struct DescribePolicyInput: Swift.Sendable {
-    /// The unique identifier (ID) of the policy that you want details about. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
+    /// ID for the policy that you want details about. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
 
@@ -2909,6 +3155,199 @@ public struct DescribeResourcePolicyOutput: Swift.Sendable {
     }
 }
 
+/// We can't find a transfer that you specified.
+public struct ResponsibilityTransferNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResponsibilityTransferNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DescribeResponsibilityTransferInput: Swift.Sendable {
+    /// ID for the transfer.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+extension OrganizationsClientTypes {
+
+    /// Contains details for a participant in a transfer. A transfer is the arrangement between two management accounts where one account designates the other with specified responsibilities for their organization.
+    public struct TransferParticipant: Swift.Sendable {
+        /// Email address for the management account.
+        public var managementAccountEmail: Swift.String?
+        /// ID for the management account.
+        public var managementAccountId: Swift.String?
+
+        public init(
+            managementAccountEmail: Swift.String? = nil,
+            managementAccountId: Swift.String? = nil
+        ) {
+            self.managementAccountEmail = managementAccountEmail
+            self.managementAccountId = managementAccountId
+        }
+    }
+}
+
+extension OrganizationsClientTypes.TransferParticipant: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TransferParticipant(managementAccountId: \(Swift.String(describing: managementAccountId)), managementAccountEmail: \"CONTENT_REDACTED\")"}
+}
+
+extension OrganizationsClientTypes {
+
+    public enum ResponsibilityTransferStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accepted
+        case canceled
+        case declined
+        case expired
+        case requested
+        case withdrawn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponsibilityTransferStatus] {
+            return [
+                .accepted,
+                .canceled,
+                .declined,
+                .expired,
+                .requested,
+                .withdrawn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accepted: return "ACCEPTED"
+            case .canceled: return "CANCELED"
+            case .declined: return "DECLINED"
+            case .expired: return "EXPIRED"
+            case .requested: return "REQUESTED"
+            case .withdrawn: return "WITHDRAWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OrganizationsClientTypes {
+
+    public enum ResponsibilityTransferType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponsibilityTransferType] {
+            return [
+                .billing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billing: return "BILLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OrganizationsClientTypes {
+
+    /// Contains details for a transfer. A transfer is the arrangement between two management accounts where one account designates the other with specified responsibilities for their organization.
+    public struct ResponsibilityTransfer: Swift.Sendable {
+        /// ID for the handshake of the transfer.
+        public var activeHandshakeId: Swift.String?
+        /// Amazon Resource Name (ARN) for the transfer.
+        public var arn: Swift.String?
+        /// Timestamp when the transfer ends.
+        public var endTimestamp: Foundation.Date?
+        /// ID for the transfer.
+        public var id: Swift.String?
+        /// Name assigned to the transfer.
+        public var name: Swift.String?
+        /// Account that allows another account external to its organization to manage the specified responsibilities for the organization.
+        public var source: OrganizationsClientTypes.TransferParticipant?
+        /// Timestamp when the transfer starts.
+        public var startTimestamp: Foundation.Date?
+        /// Status for the transfer.
+        public var status: OrganizationsClientTypes.ResponsibilityTransferStatus?
+        /// Account that manages the specified responsibilities for another organization.
+        public var target: OrganizationsClientTypes.TransferParticipant?
+        /// The type of transfer. Currently, only BILLING is supported.
+        public var type: OrganizationsClientTypes.ResponsibilityTransferType?
+
+        public init(
+            activeHandshakeId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            endTimestamp: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            source: OrganizationsClientTypes.TransferParticipant? = nil,
+            startTimestamp: Foundation.Date? = nil,
+            status: OrganizationsClientTypes.ResponsibilityTransferStatus? = nil,
+            target: OrganizationsClientTypes.TransferParticipant? = nil,
+            type: OrganizationsClientTypes.ResponsibilityTransferType? = nil
+        ) {
+            self.activeHandshakeId = activeHandshakeId
+            self.arn = arn
+            self.endTimestamp = endTimestamp
+            self.id = id
+            self.name = name
+            self.source = source
+            self.startTimestamp = startTimestamp
+            self.status = status
+            self.target = target
+            self.type = type
+        }
+    }
+}
+
+extension OrganizationsClientTypes.ResponsibilityTransfer: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResponsibilityTransfer(activeHandshakeId: \(Swift.String(describing: activeHandshakeId)), arn: \(Swift.String(describing: arn)), endTimestamp: \(Swift.String(describing: endTimestamp)), id: \(Swift.String(describing: id)), source: \(Swift.String(describing: source)), startTimestamp: \(Swift.String(describing: startTimestamp)), status: \(Swift.String(describing: status)), target: \(Swift.String(describing: target)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
+}
+
+public struct DescribeResponsibilityTransferOutput: Swift.Sendable {
+    /// A ResponsibilityTransfer object. Contains details for a transfer.
+    public var responsibilityTransfer: OrganizationsClientTypes.ResponsibilityTransfer?
+
+    public init(
+        responsibilityTransfer: OrganizationsClientTypes.ResponsibilityTransfer? = nil
+    ) {
+        self.responsibilityTransfer = responsibilityTransfer
+    }
+}
+
 /// The policy isn't attached to the specified target in the specified root.
 public struct PolicyNotAttachedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2933,10 +3372,10 @@ public struct PolicyNotAttachedException: ClientRuntime.ModeledError, AWSClientR
 }
 
 public struct DetachPolicyInput: Swift.Sendable {
-    /// The unique identifier (ID) of the policy you want to detach. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
+    /// ID for the policy you want to detach. You can get the ID from the [ListPolicies] or [ListPoliciesForTarget] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
-    /// The unique identifier (ID) of the root, OU, or account that you want to detach the policy from. You can get the ID from the [ListRoots], [ListOrganizationalUnitsForParent], or [ListAccounts] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one of the following:
+    /// ID for the root, OU, or account that you want to detach the policy from. You can get the ID from the [ListRoots], [ListOrganizationalUnitsForParent], or [ListAccounts] operations. The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one of the following:
     ///
     /// * Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.
     ///
@@ -3008,9 +3447,19 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
-    /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
+    /// ID for the root in which you want to disable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
     /// This member is required.
     public var rootId: Swift.String?
 
@@ -3119,9 +3568,19 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
-    /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
+    /// ID for the root in which you want to enable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
     /// This member is required.
     public var rootId: Swift.String?
 
@@ -3193,31 +3652,48 @@ extension InviteAccountToOrganizationInput: Swift.CustomDebugStringConvertible {
         "InviteAccountToOrganizationInput(tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), notes: \"CONTENT_REDACTED\")"}
 }
 
-/// You can't remove a management account from an organization. If you want the management account to become a member account in another organization, you must first delete the current organization of the management account.
-public struct MasterCannotLeaveOrganizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "MasterCannotLeaveOrganizationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+public struct InviteOrganizationToTransferResponsibilityInput: Swift.Sendable {
+    /// Additional information that you want to include in the invitation.
+    public var notes: Swift.String?
+    /// Name you want to assign to the transfer.
+    /// This member is required.
+    public var sourceName: Swift.String?
+    /// Timestamp when the recipient will begin managing the specified responsibilities.
+    /// This member is required.
+    public var startTimestamp: Foundation.Date?
+    /// A list of tags that you want to attach to the transfer. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Any tags in the request are checked for compliance with any applicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is not checked again when the invitation is accepted and the tags are actually attached to the transfer. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant. If any one of the tags is not valid or if you exceed the allowed number of tags for a transfer, then the entire request fails and invitations are not sent.
+    public var tags: [OrganizationsClientTypes.Tag]?
+    /// A HandshakeParty object. Contains details for the account you want to invite. Currently, only ACCOUNT and EMAIL are supported.
+    /// This member is required.
+    public var target: OrganizationsClientTypes.HandshakeParty?
+    /// The type of responsibility you want to designate to your organization. Currently, only BILLING is supported.
+    /// This member is required.
+    public var type: OrganizationsClientTypes.ResponsibilityTransferType?
 
     public init(
-        message: Swift.String? = nil
+        notes: Swift.String? = nil,
+        sourceName: Swift.String? = nil,
+        startTimestamp: Foundation.Date? = nil,
+        tags: [OrganizationsClientTypes.Tag]? = nil,
+        target: OrganizationsClientTypes.HandshakeParty? = nil,
+        type: OrganizationsClientTypes.ResponsibilityTransferType? = nil
     ) {
-        self.properties.message = message
+        self.notes = notes
+        self.sourceName = sourceName
+        self.startTimestamp = startTimestamp
+        self.tags = tags
+        self.target = target
+        self.type = type
     }
 }
 
+extension InviteOrganizationToTransferResponsibilityInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InviteOrganizationToTransferResponsibilityInput(startTimestamp: \(Swift.String(describing: startTimestamp)), tags: \(Swift.String(describing: tags)), target: \(Swift.String(describing: target)), type: \(Swift.String(describing: type)), notes: \"CONTENT_REDACTED\", sourceName: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListAccountsInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3232,7 +3708,7 @@ public struct ListAccountsInput: Swift.Sendable {
 }
 
 public struct ListAccountsOutput: Swift.Sendable {
-    /// A list of objects in the organization.
+    /// A list of objects in the organization. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
@@ -3247,7 +3723,7 @@ public struct ListAccountsOutput: Swift.Sendable {
 }
 
 public struct ListAccountsForParentInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3267,7 +3743,7 @@ public struct ListAccountsForParentInput: Swift.Sendable {
 }
 
 public struct ListAccountsForParentOutput: Swift.Sendable {
-    /// A list of the accounts in the specified root or OU.
+    /// A list of the accounts in the specified root or OU. The Status parameter in the API response will be retired on September 9, 2026. Although both the account State and account Status parameters are currently available in the Organizations APIs (DescribeAccount, ListAccounts, ListAccountsForParent), we recommend that you update your scripts or other code to use the State parameter instead of Status before September 9, 2026.
     public var accounts: [OrganizationsClientTypes.Account]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
@@ -3282,7 +3758,7 @@ public struct ListAccountsForParentOutput: Swift.Sendable {
 }
 
 public struct ListAccountsWithInvalidEffectivePolicyInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3299,6 +3775,16 @@ public struct ListAccountsWithInvalidEffectivePolicyInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
@@ -3331,6 +3817,16 @@ public struct ListAccountsWithInvalidEffectivePolicyOutput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
     public init(
@@ -3345,7 +3841,7 @@ public struct ListAccountsWithInvalidEffectivePolicyOutput: Swift.Sendable {
 }
 
 public struct ListAWSServiceAccessForOrganizationInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3426,7 +3922,7 @@ public struct ListChildrenInput: Swift.Sendable {
     /// Filters the output to include only the specified child type.
     /// This member is required.
     public var childType: OrganizationsClientTypes.ChildType?
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3490,7 +3986,7 @@ public struct ListChildrenOutput: Swift.Sendable {
 }
 
 public struct ListCreateAccountStatusInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3524,7 +4020,7 @@ public struct ListCreateAccountStatusOutput: Swift.Sendable {
 }
 
 public struct ListDelegatedAdministratorsInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3560,6 +4056,8 @@ extension OrganizationsClientTypes {
         public var joinedTimestamp: Foundation.Date?
         /// The friendly name of the delegated administrator's account.
         public var name: Swift.String?
+        /// Each state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. For more information about account states and their implications, see [Monitor the state of your Amazon Web Services accounts ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_account_state.html) in the Organizations User Guide.
+        public var state: OrganizationsClientTypes.AccountState?
         /// The status of the delegated administrator's account in the organization.
         public var status: OrganizationsClientTypes.AccountStatus?
 
@@ -3571,6 +4069,7 @@ extension OrganizationsClientTypes {
             joinedMethod: OrganizationsClientTypes.AccountJoinedMethod? = nil,
             joinedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            state: OrganizationsClientTypes.AccountState? = nil,
             status: OrganizationsClientTypes.AccountStatus? = nil
         ) {
             self.arn = arn
@@ -3580,6 +4079,7 @@ extension OrganizationsClientTypes {
             self.joinedMethod = joinedMethod
             self.joinedTimestamp = joinedTimestamp
             self.name = name
+            self.state = state
             self.status = status
         }
     }
@@ -3587,7 +4087,7 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes.DelegatedAdministrator: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DelegatedAdministrator(arn: \(Swift.String(describing: arn)), delegationEnabledDate: \(Swift.String(describing: delegationEnabledDate)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "DelegatedAdministrator(arn: \(Swift.String(describing: arn)), delegationEnabledDate: \(Swift.String(describing: delegationEnabledDate)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDelegatedAdministratorsOutput: Swift.Sendable {
@@ -3609,7 +4109,7 @@ public struct ListDelegatedServicesForAccountInput: Swift.Sendable {
     /// The account ID number of a delegated administrator account in the organization.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3663,7 +4163,7 @@ public struct ListEffectivePolicyValidationErrorsInput: Swift.Sendable {
     /// The ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3680,6 +4180,16 @@ public struct ListEffectivePolicyValidationErrorsInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
@@ -3747,6 +4257,16 @@ public struct ListEffectivePolicyValidationErrorsOutput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
 
     public init(
@@ -3768,11 +4288,11 @@ public struct ListEffectivePolicyValidationErrorsOutput: Swift.Sendable {
 
 extension OrganizationsClientTypes {
 
-    /// Specifies the criteria that are used to select the handshakes for the operation.
+    /// Contains the filter used to select the handshakes for an operation.
     public struct HandshakeFilter: Swift.Sendable {
-        /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
+        /// The type of handshake. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public var actionType: OrganizationsClientTypes.ActionType?
-        /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
+        /// The parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public var parentHandshakeId: Swift.String?
 
         public init(
@@ -3786,9 +4306,9 @@ extension OrganizationsClientTypes {
 }
 
 public struct ListHandshakesForAccountInput: Swift.Sendable {
-    /// Filters the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member account, you can specify ParentHandshakeId to see only the handshakes that were generated by that parent request.
+    /// A HandshakeFilter object. Contains the filer used to select the handshakes for an operation.
     public var filter: OrganizationsClientTypes.HandshakeFilter?
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3805,9 +4325,9 @@ public struct ListHandshakesForAccountInput: Swift.Sendable {
 }
 
 public struct ListHandshakesForOrganizationInput: Swift.Sendable {
-    /// A filter of the handshakes that you want included in the response. The default is all types. Use the ActionType element to limit the output to only a specified type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member account, you can specify the ParentHandshakeId to see only the handshakes that were generated by that parent request.
+    /// A HandshakeFilter object. Contains the filer used to select the handshakes for an operation.
     public var filter: OrganizationsClientTypes.HandshakeFilter?
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3823,12 +4343,51 @@ public struct ListHandshakesForOrganizationInput: Swift.Sendable {
     }
 }
 
-public struct ListOrganizationalUnitsForParentInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+public struct ListInboundResponsibilityTransfersInput: Swift.Sendable {
+    /// ID for the transfer.
+    public var id: Swift.String?
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// The unique identifier (ID) of the root or OU whose child OUs you want to list. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
+    /// The type of responsibility. Currently, only BILLING is supported.
+    /// This member is required.
+    public var type: OrganizationsClientTypes.ResponsibilityTransferType?
+
+    public init(
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        type: OrganizationsClientTypes.ResponsibilityTransferType? = nil
+    ) {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.type = type
+    }
+}
+
+public struct ListInboundResponsibilityTransfersOutput: Swift.Sendable {
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    public var nextToken: Swift.String?
+    /// A ResponsibilityTransfers object. Contains details for a transfer.
+    public var responsibilityTransfers: [OrganizationsClientTypes.ResponsibilityTransfer]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        responsibilityTransfers: [OrganizationsClientTypes.ResponsibilityTransfer]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.responsibilityTransfers = responsibilityTransfers
+    }
+}
+
+public struct ListOrganizationalUnitsForParentInput: Swift.Sendable {
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    public var nextToken: Swift.String?
+    /// ID for the root or OU whose child OUs you want to list. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
     ///
     /// * Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.
     ///
@@ -3862,6 +4421,41 @@ public struct ListOrganizationalUnitsForParentOutput: Swift.Sendable {
     }
 }
 
+public struct ListOutboundResponsibilityTransfersInput: Swift.Sendable {
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    public var nextToken: Swift.String?
+    /// The type of responsibility. Currently, only BILLING is supported.
+    /// This member is required.
+    public var type: OrganizationsClientTypes.ResponsibilityTransferType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        type: OrganizationsClientTypes.ResponsibilityTransferType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.type = type
+    }
+}
+
+public struct ListOutboundResponsibilityTransfersOutput: Swift.Sendable {
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    public var nextToken: Swift.String?
+    /// An array of ResponsibilityTransfer objects. Contains details for a transfer.
+    public var responsibilityTransfers: [OrganizationsClientTypes.ResponsibilityTransfer]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        responsibilityTransfers: [OrganizationsClientTypes.ResponsibilityTransfer]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.responsibilityTransfers = responsibilityTransfers
+    }
+}
+
 /// We can't find an organizational unit (OU) or Amazon Web Services account with the ChildId that you specified.
 public struct ChildNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3886,14 +4480,14 @@ public struct ChildNotFoundException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 public struct ListParentsInput: Swift.Sendable {
-    /// The unique identifier (ID) of the OU or account whose parent containers you want to list. Don't specify a root. The [regex pattern](http://wikipedia.org/wiki/regex) for a child ID string requires one of the following:
+    /// ID for the OU or account whose parent containers you want to list. Don't specify a root. The [regex pattern](http://wikipedia.org/wiki/regex) for a child ID string requires one of the following:
     ///
     /// * Account - A string that consists of exactly 12 digits.
     ///
     /// * Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
     /// This member is required.
     public var childId: Swift.String?
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -3994,9 +4588,19 @@ public struct ListPoliciesInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -4045,13 +4649,23 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
     ///
     /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    ///
+    /// * [UPGRADE_ROLLOUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_upgrade_rollout.html)
+    ///
+    /// * [INSPECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inspector.html)
+    ///
+    /// * [BEDROCK_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_bedrock.html)
+    ///
+    /// * [S3_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_s3.html)
+    ///
+    /// * [NETWORK_SECURITY_DIRECTOR_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_network_security_director.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// The unique identifier (ID) of the root, organizational unit, or account whose policies you want to list. The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one of the following:
+    /// ID for the root, organizational unit, or account whose policies you want to list. The [regex pattern](http://wikipedia.org/wiki/regex) for a target ID string requires one of the following:
     ///
     /// * Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.
     ///
@@ -4090,7 +4704,7 @@ public struct ListPoliciesForTargetOutput: Swift.Sendable {
 }
 
 public struct ListRootsInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
@@ -4159,11 +4773,11 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct ListTargetsForPolicyInput: Swift.Sendable {
-    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
     public var maxResults: Swift.Int?
     /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// The unique identifier (ID) of the policy whose attachments you want to know. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
+    /// ID for the policy whose attachments you want to know. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
 
@@ -4328,17 +4942,17 @@ public struct SourceParentNotFoundException: ClientRuntime.ModeledError, AWSClie
 }
 
 public struct MoveAccountInput: Swift.Sendable {
-    /// The unique identifier (ID) of the account that you want to move. The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires exactly 12 digits.
+    /// ID for the account that you want to move. The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires exactly 12 digits.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The unique identifier (ID) of the root or organizational unit that you want to move the account to. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
+    /// ID for the root or organizational unit that you want to move the account to. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
     ///
     /// * Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.
     ///
     /// * Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
     /// This member is required.
     public var destinationParentId: Swift.String?
-    /// The unique identifier (ID) of the root or organizational unit that you want to move the account from. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
+    /// ID for the root or organizational unit that you want to move the account from. The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID string requires one of the following:
     ///
     /// * Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.
     ///
@@ -4402,7 +5016,7 @@ public struct RegisterDelegatedAdministratorInput: Swift.Sendable {
 }
 
 public struct RemoveAccountFromOrganizationInput: Swift.Sendable {
-    /// The unique identifier (ID) of the member account that you want to remove from the organization. The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires exactly 12 digits.
+    /// ID for the member account that you want to remove from the organization. The [regex pattern](http://wikipedia.org/wiki/regex) for an account ID string requires exactly 12 digits.
     /// This member is required.
     public var accountId: Swift.String?
 
@@ -4438,6 +5052,79 @@ public struct TagResourceInput: Swift.Sendable {
     }
 }
 
+/// The responsibility transfer can't transition to the requested state because it's not in a valid state for this operation.
+public struct InvalidResponsibilityTransferTransitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResponsibilityTransferTransitionException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The responsibility transfer is already in the status that you specified.
+public struct ResponsibilityTransferAlreadyInStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResponsibilityTransferAlreadyInStatusException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct TerminateResponsibilityTransferInput: Swift.Sendable {
+    /// Timestamp when the responsibility transfer is to end.
+    public var endTimestamp: Foundation.Date?
+    /// ID for the transfer.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        endTimestamp: Foundation.Date? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.endTimestamp = endTimestamp
+        self.id = id
+    }
+}
+
+public struct TerminateResponsibilityTransferOutput: Swift.Sendable {
+    /// A ResponsibilityTransfer object. Contains details for a transfer.
+    public var responsibilityTransfer: OrganizationsClientTypes.ResponsibilityTransfer?
+
+    public init(
+        responsibilityTransfer: OrganizationsClientTypes.ResponsibilityTransfer? = nil
+    ) {
+        self.responsibilityTransfer = responsibilityTransfer
+    }
+}
+
 public struct UntagResourceInput: Swift.Sendable {
     /// The ID of the resource to remove a tag from. You can specify any of the following taggable resources.
     ///
@@ -4466,7 +5153,7 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UpdateOrganizationalUnitInput: Swift.Sendable {
     /// The new name that you want to assign to the OU. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
     public var name: Swift.String?
-    /// The unique identifier (ID) of the OU that you want to rename. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
+    /// ID for the OU that you want to rename. You can get the ID from the [ListOrganizationalUnitsForParent] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
     /// This member is required.
     public var organizationalUnitId: Swift.String?
 
@@ -4497,7 +5184,7 @@ public struct UpdatePolicyInput: Swift.Sendable {
     public var description: Swift.String?
     /// If provided, the new name for the policy. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter is a string of any of the characters in the ASCII character range.
     public var name: Swift.String?
-    /// The unique identifier (ID) of the policy that you want to update. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
+    /// ID for the policy that you want to update. The [regex pattern](http://wikipedia.org/wiki/regex) for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
     /// This member is required.
     public var policyId: Swift.String?
 
@@ -4525,27 +5212,60 @@ public struct UpdatePolicyOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateResponsibilityTransferInput: Swift.Sendable {
+    /// ID for the transfer.
+    /// This member is required.
+    public var id: Swift.String?
+    /// New name you want to assign to the transfer.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.id = id
+        self.name = name
+    }
+}
+
+extension UpdateResponsibilityTransferInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateResponsibilityTransferInput(id: \(Swift.String(describing: id)), name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateResponsibilityTransferOutput: Swift.Sendable {
+    /// Contains details for a transfer. A transfer is the arrangement between two management accounts where one account designates the other with specified responsibilities for their organization.
+    public var responsibilityTransfer: OrganizationsClientTypes.ResponsibilityTransfer?
+
+    public init(
+        responsibilityTransfer: OrganizationsClientTypes.ResponsibilityTransfer? = nil
+    ) {
+        self.responsibilityTransfer = responsibilityTransfer
+    }
+}
+
 extension OrganizationsClientTypes {
 
-    /// Contains additional data that is needed to process a handshake.
+    /// Contains additional details for a handshake.
     public struct HandshakeResource: Swift.Sendable {
-        /// When needed, contains an additional array of HandshakeResource objects.
+        /// An array of HandshakeResource objects. When needed, contains additional details for a handshake. For example, the email address for the sender.
         public var resources: [OrganizationsClientTypes.HandshakeResource]?
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:
         ///
-        /// * ACCOUNT - Specifies an Amazon Web Services account ID number.
+        /// * ACCOUNT: ID for an Amazon Web Services account.
         ///
-        /// * ORGANIZATION - Specifies an organization ID number.
+        /// * ORGANIZATION: ID for an organization.
         ///
-        /// * EMAIL - Specifies the email address that is associated with the account that receives the handshake.
+        /// * EMAIL: Email address for the recipient.
         ///
-        /// * OWNER_EMAIL - Specifies the email address associated with the management account. Included as information about an organization.
+        /// * OWNER_EMAIL: Email address for the sender.
         ///
-        /// * OWNER_NAME - Specifies the name associated with the management account. Included as information about an organization.
+        /// * OWNER_NAME: Name of the sender.
         ///
-        /// * NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.
+        /// * NOTES: Additional text included by the sender for the recipient.
         public var type: OrganizationsClientTypes.HandshakeResourceType?
-        /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
+        /// Additional information for the handshake. The format of the value string must match the requirements of the specified type.
         public var value: Swift.String?
 
         public init(
@@ -4567,41 +5287,43 @@ extension OrganizationsClientTypes.HandshakeResource: Swift.CustomDebugStringCon
 
 extension OrganizationsClientTypes {
 
-    /// Contains information that must be exchanged to securely establish a relationship between two accounts (an originator and a recipient). For example, when a management account (the originator) invites another account (the recipient) to join its organization, the two accounts exchange information as a series of handshake requests and responses. Note: Handshakes that are CANCELED, ACCEPTED, DECLINED, or EXPIRED show up in lists for only 30 days after entering that state After that they are deleted.
+    /// Contains details for a handshake. A handshake is the secure exchange of information between two Amazon Web Services accounts: a sender and a recipient. Note: Handshakes that are CANCELED, ACCEPTED, DECLINED, or EXPIRED show up in lists for only 30 days after entering that state After that they are deleted.
     public struct Handshake: Swift.Sendable {
-        /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:
+        /// The type of handshake:
         ///
-        /// * INVITE: This type of handshake represents a request to join an organization. It is always sent from the management account to only non-member accounts.
+        /// * INVITE: Handshake sent to a standalone account requesting that it to join the sender's organization.
         ///
-        /// * ENABLE_ALL_FEATURES: This type of handshake represents a request to enable all features in an organization. It is always sent from the management account to only invited member accounts. Created accounts do not receive this because those accounts were created by the organization's management account and approval is inferred.
+        /// * ENABLE_ALL_FEATURES: Handshake sent to invited member accounts to enable all features for the organization.
         ///
-        /// * APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations service when all member accounts have approved the ENABLE_ALL_FEATURES invitation. It is sent only to the management account and signals the master that it can finalize the process to enable all features.
+        /// * APPROVE_ALL_FEATURES: Handshake sent to the management account when all invited member accounts have approved to enable all features.
+        ///
+        /// * TRANSFER_RESPONSIBILITY: Handshake sent to another organization's management account requesting that it designate the sender with the specified responsibilities for recipient's organization.
         public var action: OrganizationsClientTypes.ActionType?
-        /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see [ARN Formats Supported by Organizations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies) in the Amazon Web Services Service Authorization Reference.
+        /// Amazon Resource Name (ARN) for the handshake. For more information about ARNs in Organizations, see [ARN Formats Supported by Organizations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies) in the Amazon Web Services Service Authorization Reference.
         public var arn: Swift.String?
-        /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
+        /// Timestamp when the handshake expires.
         public var expirationTimestamp: Foundation.Date?
-        /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
+        /// ID for the handshake. The [regex pattern](http://wikipedia.org/wiki/regex) for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public var id: Swift.String?
-        /// Information about the two accounts that are participating in the handshake.
+        /// An array of HandshakeParty objects. Contains details for participant in a handshake.
         public var parties: [OrganizationsClientTypes.HandshakeParty]?
-        /// The date and time that the handshake request was made.
+        /// Timestamp when the handshake request was made.
         public var requestedTimestamp: Foundation.Date?
-        /// Additional information that is needed to process the handshake.
+        /// An array of HandshakeResource objects. When needed, contains additional details for a handshake. For example, the email address for the sender.
         public var resources: [OrganizationsClientTypes.HandshakeResource]?
-        /// The current state of the handshake. Use the state to trace the flow of the handshake through the process from its creation to its acceptance. The meaning of each of the valid values is as follows:
+        /// Current state for the handshake.
         ///
-        /// * REQUESTED: This handshake was sent to multiple recipients (applicable to only some handshake types) and not all recipients have responded yet. The request stays in this state until all recipients respond.
+        /// * REQUESTED: Handshake awaiting a response from the recipient.
         ///
-        /// * OPEN: This handshake was sent to multiple recipients (applicable to only some policy types) and all recipients have responded, allowing the originator to complete the handshake action.
+        /// * OPEN: Handshake sent to multiple recipients and all recipients have responded. The sender can now complete the handshake action.
         ///
-        /// * CANCELED: This handshake is no longer active because it was canceled by the originating account.
+        /// * CANCELED: Handshake canceled by the sender.
         ///
-        /// * ACCEPTED: This handshake is complete because it has been accepted by the recipient.
+        /// * ACCEPTED: Handshake accepted by the recipient.
         ///
-        /// * DECLINED: This handshake is no longer active because it was declined by the recipient account.
+        /// * DECLINED: Handshake declined by the recipient.
         ///
-        /// * EXPIRED: This handshake is no longer active because the originator did not receive a response of any kind from the recipient before the expiration time (15 days).
+        /// * EXPIRED: Handshake has expired.
         public var state: OrganizationsClientTypes.HandshakeState?
 
         public init(
@@ -4627,7 +5349,7 @@ extension OrganizationsClientTypes {
 }
 
 public struct AcceptHandshakeOutput: Swift.Sendable {
-    /// A structure that contains details about the accepted handshake.
+    /// A Handshake object. Contains details for the handshake.
     public var handshake: OrganizationsClientTypes.Handshake?
 
     public init(
@@ -4638,7 +5360,7 @@ public struct AcceptHandshakeOutput: Swift.Sendable {
 }
 
 public struct CancelHandshakeOutput: Swift.Sendable {
-    /// A structure that contains details about the handshake that you canceled.
+    /// A Handshake object. Contains for the handshake that you canceled.
     public var handshake: OrganizationsClientTypes.Handshake?
 
     public init(
@@ -4649,7 +5371,7 @@ public struct CancelHandshakeOutput: Swift.Sendable {
 }
 
 public struct DeclineHandshakeOutput: Swift.Sendable {
-    /// A structure that contains details about the declined handshake. The state is updated to show the value DECLINED.
+    /// A Handshake object. Contains details for the declined handshake.
     public var handshake: OrganizationsClientTypes.Handshake?
 
     public init(
@@ -4660,7 +5382,7 @@ public struct DeclineHandshakeOutput: Swift.Sendable {
 }
 
 public struct DescribeHandshakeOutput: Swift.Sendable {
-    /// A structure that contains information about the specified handshake.
+    /// A Handshake object. Contains details for the handshake.
     public var handshake: OrganizationsClientTypes.Handshake?
 
     public init(
@@ -4692,8 +5414,19 @@ public struct InviteAccountToOrganizationOutput: Swift.Sendable {
     }
 }
 
+public struct InviteOrganizationToTransferResponsibilityOutput: Swift.Sendable {
+    /// Contains details for a handshake. A handshake is the secure exchange of information between two Amazon Web Services accounts: a sender and a recipient. Note: Handshakes that are CANCELED, ACCEPTED, DECLINED, or EXPIRED show up in lists for only 30 days after entering that state After that they are deleted.
+    public var handshake: OrganizationsClientTypes.Handshake?
+
+    public init(
+        handshake: OrganizationsClientTypes.Handshake? = nil
+    ) {
+        self.handshake = handshake
+    }
+}
+
 public struct ListHandshakesForAccountOutput: Swift.Sendable {
-    /// A list of [Handshake] objects with details about each of the handshakes that is associated with the specified account.
+    /// An array of Handshakeobjects. Contains details for a handshake.
     public var handshakes: [OrganizationsClientTypes.Handshake]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
@@ -4708,7 +5441,7 @@ public struct ListHandshakesForAccountOutput: Swift.Sendable {
 }
 
 public struct ListHandshakesForOrganizationOutput: Swift.Sendable {
-    /// A list of [Handshake] objects with details about each of the handshakes that are associated with an organization.
+    /// An array of Handshakeobjects. Contains details for a handshake.
     public var handshakes: [OrganizationsClientTypes.Handshake]?
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
@@ -4883,6 +5616,13 @@ extension DescribeResourcePolicyInput {
     }
 }
 
+extension DescribeResponsibilityTransferInput {
+
+    static func urlPathProvider(_ value: DescribeResponsibilityTransferInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DetachPolicyInput {
 
     static func urlPathProvider(_ value: DetachPolicyInput) -> Swift.String? {
@@ -4928,6 +5668,13 @@ extension EnablePolicyTypeInput {
 extension InviteAccountToOrganizationInput {
 
     static func urlPathProvider(_ value: InviteAccountToOrganizationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension InviteOrganizationToTransferResponsibilityInput {
+
+    static func urlPathProvider(_ value: InviteOrganizationToTransferResponsibilityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5016,9 +5763,23 @@ extension ListHandshakesForOrganizationInput {
     }
 }
 
+extension ListInboundResponsibilityTransfersInput {
+
+    static func urlPathProvider(_ value: ListInboundResponsibilityTransfersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListOrganizationalUnitsForParentInput {
 
     static func urlPathProvider(_ value: ListOrganizationalUnitsForParentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListOutboundResponsibilityTransfersInput {
+
+    static func urlPathProvider(_ value: ListOutboundResponsibilityTransfersInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5100,6 +5861,13 @@ extension TagResourceInput {
     }
 }
 
+extension TerminateResponsibilityTransferInput {
+
+    static func urlPathProvider(_ value: TerminateResponsibilityTransferInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
@@ -5117,6 +5885,13 @@ extension UpdateOrganizationalUnitInput {
 extension UpdatePolicyInput {
 
     static func urlPathProvider(_ value: UpdatePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateResponsibilityTransferInput {
+
+    static func urlPathProvider(_ value: UpdateResponsibilityTransferInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5322,6 +6097,14 @@ extension DescribeResourcePolicyInput {
     }
 }
 
+extension DescribeResponsibilityTransferInput {
+
+    static func write(value: DescribeResponsibilityTransferInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+    }
+}
+
 extension DetachPolicyInput {
 
     static func write(value: DetachPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -5380,6 +6163,19 @@ extension InviteAccountToOrganizationInput {
         try writer["Notes"].write(value.notes)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: OrganizationsClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Target"].write(value.target, with: OrganizationsClientTypes.HandshakeParty.write(value:to:))
+    }
+}
+
+extension InviteOrganizationToTransferResponsibilityInput {
+
+    static func write(value: InviteOrganizationToTransferResponsibilityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Notes"].write(value.notes)
+        try writer["SourceName"].write(value.sourceName)
+        try writer["StartTimestamp"].writeTimestamp(value.startTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: OrganizationsClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Target"].write(value.target, with: OrganizationsClientTypes.HandshakeParty.write(value:to:))
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -5501,6 +6297,17 @@ extension ListHandshakesForOrganizationInput {
     }
 }
 
+extension ListInboundResponsibilityTransfersInput {
+
+    static func write(value: ListInboundResponsibilityTransfersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Type"].write(value.type)
+    }
+}
+
 extension ListOrganizationalUnitsForParentInput {
 
     static func write(value: ListOrganizationalUnitsForParentInput?, to writer: SmithyJSON.Writer) throws {
@@ -5508,6 +6315,16 @@ extension ListOrganizationalUnitsForParentInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["ParentId"].write(value.parentId)
+    }
+}
+
+extension ListOutboundResponsibilityTransfersInput {
+
+    static func write(value: ListOutboundResponsibilityTransfersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -5615,6 +6432,15 @@ extension TagResourceInput {
     }
 }
 
+extension TerminateResponsibilityTransferInput {
+
+    static func write(value: TerminateResponsibilityTransferInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTimestamp"].writeTimestamp(value.endTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Id"].write(value.id)
+    }
+}
+
 extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -5641,6 +6467,15 @@ extension UpdatePolicyInput {
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
         try writer["PolicyId"].write(value.policyId)
+    }
+}
+
+extension UpdateResponsibilityTransferInput {
+
+    static func write(value: UpdateResponsibilityTransferInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -5885,6 +6720,18 @@ extension DescribeResourcePolicyOutput {
     }
 }
 
+extension DescribeResponsibilityTransferOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeResponsibilityTransferOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeResponsibilityTransferOutput()
+        value.responsibilityTransfer = try reader["ResponsibilityTransfer"].readIfPresent(with: OrganizationsClientTypes.ResponsibilityTransfer.read(from:))
+        return value
+    }
+}
+
 extension DetachPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachPolicyOutput {
@@ -5949,6 +6796,18 @@ extension InviteAccountToOrganizationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = InviteAccountToOrganizationOutput()
+        value.handshake = try reader["Handshake"].readIfPresent(with: OrganizationsClientTypes.Handshake.read(from:))
+        return value
+    }
+}
+
+extension InviteOrganizationToTransferResponsibilityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InviteOrganizationToTransferResponsibilityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InviteOrganizationToTransferResponsibilityOutput()
         value.handshake = try reader["Handshake"].readIfPresent(with: OrganizationsClientTypes.Handshake.read(from:))
         return value
     }
@@ -6109,6 +6968,19 @@ extension ListHandshakesForOrganizationOutput {
     }
 }
 
+extension ListInboundResponsibilityTransfersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInboundResponsibilityTransfersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInboundResponsibilityTransfersOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.responsibilityTransfers = try reader["ResponsibilityTransfers"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.ResponsibilityTransfer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListOrganizationalUnitsForParentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOrganizationalUnitsForParentOutput {
@@ -6118,6 +6990,19 @@ extension ListOrganizationalUnitsForParentOutput {
         var value = ListOrganizationalUnitsForParentOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.organizationalUnits = try reader["OrganizationalUnits"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.OrganizationalUnit.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListOutboundResponsibilityTransfersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOutboundResponsibilityTransfersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListOutboundResponsibilityTransfersOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.responsibilityTransfers = try reader["ResponsibilityTransfers"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.ResponsibilityTransfer.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6240,6 +7125,18 @@ extension TagResourceOutput {
     }
 }
 
+extension TerminateResponsibilityTransferOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TerminateResponsibilityTransferOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = TerminateResponsibilityTransferOutput()
+        value.responsibilityTransfer = try reader["ResponsibilityTransfer"].readIfPresent(with: OrganizationsClientTypes.ResponsibilityTransfer.read(from:))
+        return value
+    }
+}
+
 extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
@@ -6271,6 +7168,18 @@ extension UpdatePolicyOutput {
     }
 }
 
+extension UpdateResponsibilityTransferOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateResponsibilityTransferOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateResponsibilityTransferOutput()
+        value.responsibilityTransfer = try reader["ResponsibilityTransfer"].readIfPresent(with: OrganizationsClientTypes.ResponsibilityTransfer.read(from:))
+        return value
+    }
+}
+
 enum AcceptHandshakeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6283,11 +7192,13 @@ enum AcceptHandshakeOutputError {
             case "AccessDeniedForDependencyException": return try AccessDeniedForDependencyException.makeError(baseError: baseError)
             case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
             case "HandshakeAlreadyInStateException": return try HandshakeAlreadyInStateException.makeError(baseError: baseError)
             case "HandshakeConstraintViolationException": return try HandshakeConstraintViolationException.makeError(baseError: baseError)
             case "HandshakeNotFoundException": return try HandshakeNotFoundException.makeError(baseError: baseError)
             case "InvalidHandshakeTransitionException": return try InvalidHandshakeTransitionException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "MasterCannotLeaveOrganizationException": return try MasterCannotLeaveOrganizationException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6509,6 +7420,7 @@ enum DeleteOrganizationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OrganizationNotEmptyException": return try OrganizationNotEmptyException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -6762,6 +7674,26 @@ enum DescribeResourcePolicyOutputError {
     }
 }
 
+enum DescribeResponsibilityTransferOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResponsibilityTransferNotFoundException": return try ResponsibilityTransferNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DetachPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6918,6 +7850,29 @@ enum InviteAccountToOrganizationOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum InviteOrganizationToTransferResponsibilityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "DuplicateHandshakeException": return try DuplicateHandshakeException.makeError(baseError: baseError)
+            case "HandshakeConstraintViolationException": return try HandshakeConstraintViolationException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7162,6 +8117,27 @@ enum ListHandshakesForOrganizationOutputError {
     }
 }
 
+enum ListInboundResponsibilityTransfersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResponsibilityTransferNotFoundException": return try ResponsibilityTransferNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListOrganizationalUnitsForParentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7176,6 +8152,26 @@ enum ListOrganizationalUnitsForParentOutputError {
             case "ParentNotFoundException": return try ParentNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListOutboundResponsibilityTransfersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -7406,6 +8402,30 @@ enum TagResourceOutputError {
     }
 }
 
+enum TerminateResponsibilityTransferOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "InvalidResponsibilityTransferTransitionException": return try InvalidResponsibilityTransferTransitionException.makeError(baseError: baseError)
+            case "ResponsibilityTransferAlreadyInStatusException": return try ResponsibilityTransferAlreadyInStatusException.makeError(baseError: baseError)
+            case "ResponsibilityTransferNotFoundException": return try ResponsibilityTransferNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UntagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7473,6 +8493,27 @@ enum UpdatePolicyOutputError {
     }
 }
 
+enum UpdateResponsibilityTransferOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ResponsibilityTransferNotFoundException": return try ResponsibilityTransferNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -7519,6 +8560,20 @@ extension ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConstraintViolationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
+        let reader = baseError.errorBodyReader
+        var value = ConstraintViolationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7593,6 +8648,19 @@ extension InvalidInputException {
     }
 }
 
+extension MasterCannotLeaveOrganizationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MasterCannotLeaveOrganizationException {
+        let reader = baseError.errorBodyReader
+        var value = MasterCannotLeaveOrganizationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
@@ -7613,20 +8681,6 @@ extension TooManyRequestsException {
         var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.type = try reader["Type"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConstraintViolationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
-        let reader = baseError.errorBodyReader
-        var value = ConstraintViolationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7946,6 +9000,19 @@ extension EffectivePolicyNotFoundException {
     }
 }
 
+extension ResponsibilityTransferNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResponsibilityTransferNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResponsibilityTransferNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension PolicyNotAttachedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotAttachedException {
@@ -8011,19 +9078,6 @@ extension DuplicateHandshakeException {
     }
 }
 
-extension MasterCannotLeaveOrganizationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MasterCannotLeaveOrganizationException {
-        let reader = baseError.errorBodyReader
-        var value = MasterCannotLeaveOrganizationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ChildNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChildNotFoundException {
@@ -8081,6 +9135,32 @@ extension AccountAlreadyRegisteredException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountAlreadyRegisteredException {
         let reader = baseError.errorBodyReader
         var value = AccountAlreadyRegisteredException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResponsibilityTransferTransitionException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResponsibilityTransferTransitionException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResponsibilityTransferTransitionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResponsibilityTransferAlreadyInStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResponsibilityTransferAlreadyInStatusException {
+        let reader = baseError.errorBodyReader
+        var value = ResponsibilityTransferAlreadyInStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8227,6 +9307,7 @@ extension OrganizationsClientTypes.Account {
         value.email = try reader["Email"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
         value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -8264,6 +9345,36 @@ extension OrganizationsClientTypes.ResourcePolicySummary {
         var value = OrganizationsClientTypes.ResourcePolicySummary()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.ResponsibilityTransfer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.ResponsibilityTransfer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.ResponsibilityTransfer()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent(with: OrganizationsClientTypes.TransferParticipant.read(from:))
+        value.target = try reader["Target"].readIfPresent(with: OrganizationsClientTypes.TransferParticipant.read(from:))
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.activeHandshakeId = try reader["ActiveHandshakeId"].readIfPresent()
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.TransferParticipant {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.TransferParticipant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.TransferParticipant()
+        value.managementAccountId = try reader["ManagementAccountId"].readIfPresent()
+        value.managementAccountEmail = try reader["ManagementAccountEmail"].readIfPresent()
         return value
     }
 }
@@ -8313,6 +9424,7 @@ extension OrganizationsClientTypes.DelegatedAdministrator {
         value.email = try reader["Email"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
         value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

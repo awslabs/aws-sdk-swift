@@ -656,7 +656,7 @@ extension VPCLatticeClientTypes {
 
     /// Describes an action that returns a custom HTTP response.
     public struct FixedResponseAction: Swift.Sendable {
-        /// The HTTP response code.
+        /// The HTTP response code. Only 404 and 500 status codes are supported.
         /// This member is required.
         public var statusCode: Swift.Int?
 
@@ -1171,7 +1171,7 @@ extension VPCLatticeClientTypes {
     public struct DnsResource: Swift.Sendable {
         /// The domain name of the resource.
         public var domainName: Swift.String?
-        /// The type of IP address.
+        /// The type of IP address. Dualstack is currently not supported.
         public var ipAddressType: VPCLatticeClientTypes.ResourceConfigurationIpAddressType?
 
         public init(
@@ -1257,6 +1257,12 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
     public var allowAssociationToShareableServiceNetwork: Swift.Bool?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
+    /// A custom domain name for your resource configuration. Additionally, provide a DomainVerificationID to prove your ownership of a domain.
+    public var customDomainName: Swift.String?
+    /// The domain verification ID of your verified custom domain name. If you don't provide an ID, you must configure the DNS settings yourself.
+    public var domainVerificationIdentifier: Swift.String?
+    /// (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
+    public var groupDomain: Swift.String?
     /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     /// This member is required.
     public var name: Swift.String?
@@ -1264,15 +1270,21 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
     public var portRanges: [Swift.String]?
     /// (SINGLE, GROUP) The protocol accepted by the resource configuration.
     public var `protocol`: VPCLatticeClientTypes.ProtocolType?
-    /// (SINGLE, CHILD, ARN) The resource configuration.
+    /// Identifies the resource configuration in one of the following ways:
+    ///
+    /// * Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.
+    ///
+    /// * Domain name - Any domain name that is publicly resolvable.
+    ///
+    /// * IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
     public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
-    /// (CHILD) The ID or ARN of the parent resource configuration (type is GROUP). This is used to associate a child resource configuration with a group resource configuration.
+    /// (CHILD) The ID or ARN of the parent resource configuration of type GROUP. This is used to associate a child resource configuration with a group resource configuration.
     public var resourceConfigurationGroupIdentifier: Swift.String?
     /// (SINGLE, GROUP, ARN) The ID or ARN of the resource gateway used to connect to the resource configuration. For a child resource configuration, this value is inherited from the parent resource configuration.
     public var resourceGatewayIdentifier: Swift.String?
     /// The tags for the resource configuration.
     public var tags: [Swift.String: Swift.String]?
-    /// The type of resource configuration.
+    /// The type of resource configuration. A resource configuration can be one of the following types:
     ///
     /// * SINGLE - A single resource.
     ///
@@ -1287,6 +1299,9 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
     public init(
         allowAssociationToShareableServiceNetwork: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
+        customDomainName: Swift.String? = nil,
+        domainVerificationIdentifier: Swift.String? = nil,
+        groupDomain: Swift.String? = nil,
         name: Swift.String? = nil,
         portRanges: [Swift.String]? = nil,
         `protocol`: VPCLatticeClientTypes.ProtocolType? = nil,
@@ -1298,6 +1313,9 @@ public struct CreateResourceConfigurationInput: Swift.Sendable {
     ) {
         self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
         self.clientToken = clientToken
+        self.customDomainName = customDomainName
+        self.domainVerificationIdentifier = domainVerificationIdentifier
+        self.groupDomain = groupDomain
         self.name = name
         self.portRanges = portRanges
         self.`protocol` = `protocol`
@@ -1367,8 +1385,16 @@ public struct CreateResourceConfigurationOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The date and time that the resource configuration was created, in ISO-8601 format.
     public var createdAt: Foundation.Date?
+    /// The custom domain name for your resource configuration.
+    public var customDomainName: Swift.String?
+    /// The verification ID ARN
+    public var domainVerificationArn: Swift.String?
+    /// The domain name verification ID.
+    public var domainVerificationId: Swift.String?
     /// The reason that the request failed.
     public var failureReason: Swift.String?
+    /// (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
+    public var groupDomain: Swift.String?
     /// The ID of the resource configuration.
     public var id: Swift.String?
     /// The name of the resource configuration.
@@ -1377,22 +1403,40 @@ public struct CreateResourceConfigurationOutput: Swift.Sendable {
     public var portRanges: [Swift.String]?
     /// The protocol.
     public var `protocol`: VPCLatticeClientTypes.ProtocolType?
-    /// The resource configuration.
+    /// Identifies the resource configuration in one of the following ways:
+    ///
+    /// * Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.
+    ///
+    /// * Domain name - Any domain name that is publicly resolvable.
+    ///
+    /// * IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
     public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
-    /// The ID of the parent resource configuration (type is GROUP).
+    /// The ID of the parent resource configuration of type GROUP.
     public var resourceConfigurationGroupId: Swift.String?
     /// The ID of the resource gateway associated with the resource configuration.
     public var resourceGatewayId: Swift.String?
     /// The current status of the resource configuration.
     public var status: VPCLatticeClientTypes.ResourceConfigurationStatus?
-    /// The type of resource configuration.
+    /// The type of resource configuration. A resource configuration can be one of the following types:
+    ///
+    /// * SINGLE - A single resource.
+    ///
+    /// * GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.
+    ///
+    /// * CHILD - A single resource that is part of a group resource configuration.
+    ///
+    /// * ARN - An Amazon Web Services resource.
     public var type: VPCLatticeClientTypes.ResourceConfigurationType?
 
     public init(
         allowAssociationToShareableServiceNetwork: Swift.Bool? = nil,
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
+        customDomainName: Swift.String? = nil,
+        domainVerificationArn: Swift.String? = nil,
+        domainVerificationId: Swift.String? = nil,
         failureReason: Swift.String? = nil,
+        groupDomain: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         portRanges: [Swift.String]? = nil,
@@ -1406,7 +1450,11 @@ public struct CreateResourceConfigurationOutput: Swift.Sendable {
         self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
         self.arn = arn
         self.createdAt = createdAt
+        self.customDomainName = customDomainName
+        self.domainVerificationArn = domainVerificationArn
+        self.domainVerificationId = domainVerificationId
         self.failureReason = failureReason
+        self.groupDomain = groupDomain
         self.id = id
         self.name = name
         self.portRanges = portRanges
@@ -1457,25 +1505,35 @@ extension VPCLatticeClientTypes {
 public struct CreateResourceGatewayInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
-    /// The type of IP address used by the resource gateway.
+    /// A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP address type of a resource gateway must be compatible with the subnets of the resource gateway and the IP address type of the resource, as described here:
+    ///
+    /// * IPv4Assign IPv4 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have IPv4 address ranges, and the resource also has an IPv4 address.
+    ///
+    /// * IPv6Assign IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets are IPv6 only subnets, and the resource also has an IPv6 address.
+    ///
+    /// * DualstackAssign both IPv4 and IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have both IPv4 and IPv6 address ranges, and the resource either has an IPv4 or IPv6 address.
+    ///
+    ///
+    /// The IP address type of the resource gateway is independent of the IP address type of the client or the VPC endpoint through which the resource is accessed.
     public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The number of IPv4 addresses in each ENI for the resource gateway.
+    public var ipv4AddressesPerEni: Swift.Int?
     /// The name of the resource gateway.
     /// This member is required.
     public var name: Swift.String?
     /// The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
     public var securityGroupIds: [Swift.String]?
     /// The IDs of the VPC subnets in which to create the resource gateway.
-    /// This member is required.
     public var subnetIds: [Swift.String]?
     /// The tags for the resource gateway.
     public var tags: [Swift.String: Swift.String]?
     /// The ID of the VPC for the resource gateway.
-    /// This member is required.
     public var vpcIdentifier: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        ipv4AddressesPerEni: Swift.Int? = nil,
         name: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         subnetIds: [Swift.String]? = nil,
@@ -1484,6 +1542,7 @@ public struct CreateResourceGatewayInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.ipAddressType = ipAddressType
+        self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.name = name
         self.securityGroupIds = securityGroupIds
         self.subnetIds = subnetIds
@@ -1550,6 +1609,8 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The type of IP address for the resource gateway.
     public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The number of IPv4 addresses in each ENI for the resource gateway.
+    public var ipv4AddressesPerEni: Swift.Int?
     /// The name of the resource gateway.
     public var name: Swift.String?
     /// The IDs of the security groups for the resource gateway.
@@ -1565,6 +1626,7 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        ipv4AddressesPerEni: Swift.Int? = nil,
         name: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ResourceGatewayStatus? = nil,
@@ -1574,6 +1636,7 @@ public struct CreateResourceGatewayOutput: Swift.Sendable {
         self.arn = arn
         self.id = id
         self.ipAddressType = ipAddressType
+        self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.name = name
         self.securityGroupIds = securityGroupIds
         self.status = status
@@ -1872,22 +1935,26 @@ public struct CreateServiceNetworkOutput: Swift.Sendable {
 public struct CreateServiceNetworkResourceAssociationInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
+    /// Indicates if private DNS is enabled for the service network resource association.
+    public var privateDnsEnabled: Swift.Bool?
     /// The ID of the resource configuration to associate with the service network.
     /// This member is required.
     public var resourceConfigurationIdentifier: Swift.String?
     /// The ID of the service network to associate with the resource configuration.
     /// This member is required.
     public var serviceNetworkIdentifier: Swift.String?
-    /// The tags for the association.
+    /// A key-value pair to associate with a resource.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
+        privateDnsEnabled: Swift.Bool? = nil,
         resourceConfigurationIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
+        self.privateDnsEnabled = privateDnsEnabled
         self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
         self.tags = tags
@@ -1948,6 +2015,8 @@ public struct CreateServiceNetworkResourceAssociationOutput: Swift.Sendable {
     public var createdBy: Swift.String?
     /// The ID of the association.
     public var id: Swift.String?
+    /// Indicates if private DNS is is enabled for the service network resource association.
+    public var privateDnsEnabled: Swift.Bool?
     /// The status of the association.
     public var status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus?
 
@@ -1955,11 +2024,13 @@ public struct CreateServiceNetworkResourceAssociationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         createdBy: Swift.String? = nil,
         id: Swift.String? = nil,
+        privateDnsEnabled: Swift.Bool? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus? = nil
     ) {
         self.arn = arn
         self.createdBy = createdBy
         self.id = id
+        self.privateDnsEnabled = privateDnsEnabled
         self.status = status
     }
 }
@@ -2063,9 +2134,75 @@ public struct CreateServiceNetworkServiceAssociationOutput: Swift.Sendable {
     }
 }
 
+extension VPCLatticeClientTypes {
+
+    public enum PrivateDnsPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allDomains
+        case specifiedDomainsOnly
+        case verifiedDomainsAndSpecifiedDomains
+        case verifiedDomainsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PrivateDnsPreference] {
+            return [
+                .allDomains,
+                .specifiedDomainsOnly,
+                .verifiedDomainsAndSpecifiedDomains,
+                .verifiedDomainsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allDomains: return "ALL_DOMAINS"
+            case .specifiedDomainsOnly: return "SPECIFIED_DOMAINS_ONLY"
+            case .verifiedDomainsAndSpecifiedDomains: return "VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS"
+            case .verifiedDomainsOnly: return "VERIFIED_DOMAINS_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// The DNS configuration options.
+    public struct DnsOptions: Swift.Sendable {
+        /// The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource.
+        ///
+        /// * ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names.
+        ///
+        /// * VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider.
+        ///
+        /// * VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private hosted zones for all verified custom domain names and other domain names that the resource consumer specifies. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter.
+        ///
+        /// * SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource consumer. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter.
+        public var privateDnsPreference: VPCLatticeClientTypes.PrivateDnsPreference?
+        /// Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS or SPECIFIED_DOMAINS_ONLY.
+        public var privateDnsSpecifiedDomains: [Swift.String]?
+
+        public init(
+            privateDnsPreference: VPCLatticeClientTypes.PrivateDnsPreference? = nil,
+            privateDnsSpecifiedDomains: [Swift.String]? = nil
+        ) {
+            self.privateDnsPreference = privateDnsPreference
+            self.privateDnsSpecifiedDomains = privateDnsSpecifiedDomains
+        }
+    }
+}
+
 public struct CreateServiceNetworkVpcAssociationInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     public var clientToken: Swift.String?
+    /// DNS options for the service network VPC association.
+    public var dnsOptions: VPCLatticeClientTypes.DnsOptions?
+    /// Indicates if private DNS is enabled for the VPC association.
+    public var privateDnsEnabled: Swift.Bool?
     /// The IDs of the security groups. Security groups aren't added by default. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the service network and its services. For more information, see [Control traffic to resources using security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) in the Amazon VPC User Guide.
     public var securityGroupIds: [Swift.String]?
     /// The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
@@ -2079,12 +2216,16 @@ public struct CreateServiceNetworkVpcAssociationInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        dnsOptions: VPCLatticeClientTypes.DnsOptions? = nil,
+        privateDnsEnabled: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         serviceNetworkIdentifier: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcIdentifier: Swift.String? = nil
     ) {
         self.clientToken = clientToken
+        self.dnsOptions = dnsOptions
+        self.privateDnsEnabled = privateDnsEnabled
         self.securityGroupIds = securityGroupIds
         self.serviceNetworkIdentifier = serviceNetworkIdentifier
         self.tags = tags
@@ -2148,8 +2289,12 @@ public struct CreateServiceNetworkVpcAssociationOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The account that created the association.
     public var createdBy: Swift.String?
+    /// The DNS configuration options.
+    public var dnsOptions: VPCLatticeClientTypes.DnsOptions?
     /// The ID of the association.
     public var id: Swift.String?
+    /// Indicates if private DNS is enabled for the VPC association.
+    public var privateDnsEnabled: Swift.Bool?
     /// The IDs of the security groups.
     public var securityGroupIds: [Swift.String]?
     /// The association status.
@@ -2158,13 +2303,17 @@ public struct CreateServiceNetworkVpcAssociationOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         createdBy: Swift.String? = nil,
+        dnsOptions: VPCLatticeClientTypes.DnsOptions? = nil,
         id: Swift.String? = nil,
+        privateDnsEnabled: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         status: VPCLatticeClientTypes.ServiceNetworkVpcAssociationStatus? = nil
     ) {
         self.arn = arn
         self.createdBy = createdBy
+        self.dnsOptions = dnsOptions
         self.id = id
+        self.privateDnsEnabled = privateDnsEnabled
         self.securityGroupIds = securityGroupIds
         self.status = status
     }
@@ -2592,6 +2741,23 @@ public struct DeleteAuthPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteDomainVerificationInput: Swift.Sendable {
+    /// The ID of the domain verification to delete.
+    /// This member is required.
+    public var domainVerificationIdentifier: Swift.String?
+
+    public init(
+        domainVerificationIdentifier: Swift.String? = nil
+    ) {
+        self.domainVerificationIdentifier = domainVerificationIdentifier
+    }
+}
+
+public struct DeleteDomainVerificationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteListenerInput: Swift.Sendable {
     /// The ID or ARN of the listener.
     /// This member is required.
@@ -3004,6 +3170,245 @@ public struct DeregisterTargetsOutput: Swift.Sendable {
     }
 }
 
+public struct GetDomainVerificationInput: Swift.Sendable {
+    /// The ID or ARN of the domain verification to retrieve.
+    /// This member is required.
+    public var domainVerificationIdentifier: Swift.String?
+
+    public init(
+        domainVerificationIdentifier: Swift.String? = nil
+    ) {
+        self.domainVerificationIdentifier = domainVerificationIdentifier
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    public enum VerificationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pending
+        case verificationTimedOut
+        case verified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VerificationStatus] {
+            return [
+                .pending,
+                .verificationTimedOut,
+                .verified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pending: return "PENDING"
+            case .verificationTimedOut: return "VERIFICATION_TIMED_OUT"
+            case .verified: return "VERIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Configuration for TXT record-based domain verification method.
+    public struct TxtMethodConfig: Swift.Sendable {
+        /// The name of the TXT record that must be created for domain verification.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value that must be added to the TXT record for domain verification.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+public struct GetDomainVerificationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain verification.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time that the domain verification was created, in ISO-8601 format.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The domain name being verified.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The ID of the domain verification.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The date and time that the domain was last successfully verified, in ISO-8601 format.
+    public var lastVerifiedTime: Foundation.Date?
+    /// The current status of the domain verification process.
+    /// This member is required.
+    public var status: VPCLatticeClientTypes.VerificationStatus?
+    /// The tags associated with the domain verification.
+    public var tags: [Swift.String: Swift.String]?
+    /// The TXT record configuration used for domain verification.
+    public var txtMethodConfig: VPCLatticeClientTypes.TxtMethodConfig?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        domainName: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastVerifiedTime: Foundation.Date? = nil,
+        status: VPCLatticeClientTypes.VerificationStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        txtMethodConfig: VPCLatticeClientTypes.TxtMethodConfig? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.domainName = domainName
+        self.id = id
+        self.lastVerifiedTime = lastVerifiedTime
+        self.status = status
+        self.tags = tags
+        self.txtMethodConfig = txtMethodConfig
+    }
+}
+
+public struct ListDomainVerificationsInput: Swift.Sendable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension VPCLatticeClientTypes {
+
+    /// Summary information about a domain verification.
+    public struct DomainVerificationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the domain verification.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the domain verification was created, in ISO-8601 format.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The domain name being verified.
+        /// This member is required.
+        public var domainName: Swift.String?
+        /// The ID of the domain verification.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The date and time that the domain was last successfully verified, in ISO-8601 format.
+        public var lastVerifiedTime: Foundation.Date?
+        /// The current status of the domain verification process.
+        /// This member is required.
+        public var status: VPCLatticeClientTypes.VerificationStatus?
+        /// The tags associated with the domain verification.
+        public var tags: [Swift.String: Swift.String]?
+        /// The TXT record configuration used for domain verification.
+        public var txtMethodConfig: VPCLatticeClientTypes.TxtMethodConfig?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            domainName: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastVerifiedTime: Foundation.Date? = nil,
+            status: VPCLatticeClientTypes.VerificationStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            txtMethodConfig: VPCLatticeClientTypes.TxtMethodConfig? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.id = id
+            self.lastVerifiedTime = lastVerifiedTime
+            self.status = status
+            self.tags = tags
+            self.txtMethodConfig = txtMethodConfig
+        }
+    }
+}
+
+public struct ListDomainVerificationsOutput: Swift.Sendable {
+    /// Information about the domain verifications.
+    /// This member is required.
+    public var items: [VPCLatticeClientTypes.DomainVerificationSummary]?
+    /// A pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [VPCLatticeClientTypes.DomainVerificationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct StartDomainVerificationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    public var clientToken: Swift.String?
+    /// The domain name to verify ownership for.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The tags for the domain verification.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.domainName = domainName
+        self.tags = tags
+    }
+}
+
+public struct StartDomainVerificationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain verification.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The domain name being verified.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The ID of the domain verification.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current status of the domain verification process.
+    /// This member is required.
+    public var status: VPCLatticeClientTypes.VerificationStatus?
+    /// The TXT record configuration used for domain verification.
+    public var txtMethodConfig: VPCLatticeClientTypes.TxtMethodConfig?
+
+    public init(
+        arn: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        id: Swift.String? = nil,
+        status: VPCLatticeClientTypes.VerificationStatus? = nil,
+        txtMethodConfig: VPCLatticeClientTypes.TxtMethodConfig? = nil
+    ) {
+        self.arn = arn
+        self.domainName = domainName
+        self.id = id
+        self.status = status
+        self.txtMethodConfig = txtMethodConfig
+    }
+}
+
 public struct GetAuthPolicyInput: Swift.Sendable {
     /// The ID or ARN of the service network or service.
     /// This member is required.
@@ -3126,8 +3531,16 @@ public struct GetResourceConfigurationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The custom domain name of the resource configuration.
     public var customDomainName: Swift.String?
+    /// The ARN of the domain verification.
+    public var domainVerificationArn: Swift.String?
+    /// The domain verification ID.
+    public var domainVerificationId: Swift.String?
+    /// The domain verification status.
+    public var domainVerificationStatus: VPCLatticeClientTypes.VerificationStatus?
     /// The reason the create-resource-configuration request failed.
     public var failureReason: Swift.String?
+    /// (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
+    public var groupDomain: Swift.String?
     /// The ID of the resource configuration.
     public var id: Swift.String?
     /// The most recent date and time that the resource configuration was updated, in ISO-8601 format.
@@ -3163,7 +3576,11 @@ public struct GetResourceConfigurationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         customDomainName: Swift.String? = nil,
+        domainVerificationArn: Swift.String? = nil,
+        domainVerificationId: Swift.String? = nil,
+        domainVerificationStatus: VPCLatticeClientTypes.VerificationStatus? = nil,
         failureReason: Swift.String? = nil,
+        groupDomain: Swift.String? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
@@ -3180,7 +3597,11 @@ public struct GetResourceConfigurationOutput: Swift.Sendable {
         self.arn = arn
         self.createdAt = createdAt
         self.customDomainName = customDomainName
+        self.domainVerificationArn = domainVerificationArn
+        self.domainVerificationId = domainVerificationId
+        self.domainVerificationStatus = domainVerificationStatus
         self.failureReason = failureReason
+        self.groupDomain = groupDomain
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
@@ -3215,6 +3636,8 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The type of IP address for the resource gateway.
     public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+    /// The number of IPv4 addresses in each ENI for the resource gateway.
+    public var ipv4AddressesPerEni: Swift.Int?
     /// The date and time that the resource gateway was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the resource gateway.
@@ -3233,6 +3656,7 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+        ipv4AddressesPerEni: Swift.Int? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         securityGroupIds: [Swift.String]? = nil,
@@ -3244,6 +3668,7 @@ public struct GetResourceGatewayOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.id = id
         self.ipAddressType = ipAddressType
+        self.ipv4AddressesPerEni = ipv4AddressesPerEni
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.securityGroupIds = securityGroupIds
@@ -3484,6 +3909,8 @@ public struct GetServiceNetworkResourceAssociationOutput: Swift.Sendable {
     public var createdBy: Swift.String?
     /// The DNS entry for the service.
     public var dnsEntry: VPCLatticeClientTypes.DnsEntry?
+    /// The domain verification status in the service network resource association.
+    public var domainVerificationStatus: VPCLatticeClientTypes.VerificationStatus?
     /// The failure code.
     public var failureCode: Swift.String?
     /// The reason the association request failed.
@@ -3494,6 +3921,8 @@ public struct GetServiceNetworkResourceAssociationOutput: Swift.Sendable {
     public var isManagedAssociation: Swift.Bool?
     /// The most recent date and time that the association was updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
+    /// Indicates if private DNS is enabled in the service network resource association.
+    public var privateDnsEnabled: Swift.Bool?
     /// The private DNS entry for the service.
     public var privateDnsEntry: VPCLatticeClientTypes.DnsEntry?
     /// The Amazon Resource Name (ARN) of the association.
@@ -3516,11 +3945,13 @@ public struct GetServiceNetworkResourceAssociationOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         dnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
+        domainVerificationStatus: VPCLatticeClientTypes.VerificationStatus? = nil,
         failureCode: Swift.String? = nil,
         failureReason: Swift.String? = nil,
         id: Swift.String? = nil,
         isManagedAssociation: Swift.Bool? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        privateDnsEnabled: Swift.Bool? = nil,
         privateDnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
         resourceConfigurationArn: Swift.String? = nil,
         resourceConfigurationId: Swift.String? = nil,
@@ -3534,11 +3965,13 @@ public struct GetServiceNetworkResourceAssociationOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.dnsEntry = dnsEntry
+        self.domainVerificationStatus = domainVerificationStatus
         self.failureCode = failureCode
         self.failureReason = failureReason
         self.id = id
         self.isManagedAssociation = isManagedAssociation
         self.lastUpdatedAt = lastUpdatedAt
+        self.privateDnsEnabled = privateDnsEnabled
         self.privateDnsEntry = privateDnsEntry
         self.resourceConfigurationArn = resourceConfigurationArn
         self.resourceConfigurationId = resourceConfigurationId
@@ -3648,6 +4081,8 @@ public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The account that created the association.
     public var createdBy: Swift.String?
+    /// DNS options for the service network VPC association.
+    public var dnsOptions: VPCLatticeClientTypes.DnsOptions?
     /// The failure code.
     public var failureCode: Swift.String?
     /// The failure message.
@@ -3656,6 +4091,8 @@ public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The date and time that the association was last updated, in ISO-8601 format.
     public var lastUpdatedAt: Foundation.Date?
+    /// Indicates if private DNS is enabled in the VPC association.
+    public var privateDnsEnabled: Swift.Bool?
     /// The IDs of the security groups.
     public var securityGroupIds: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the service network.
@@ -3673,10 +4110,12 @@ public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
+        dnsOptions: VPCLatticeClientTypes.DnsOptions? = nil,
         failureCode: Swift.String? = nil,
         failureMessage: Swift.String? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
+        privateDnsEnabled: Swift.Bool? = nil,
         securityGroupIds: [Swift.String]? = nil,
         serviceNetworkArn: Swift.String? = nil,
         serviceNetworkId: Swift.String? = nil,
@@ -3687,10 +4126,12 @@ public struct GetServiceNetworkVpcAssociationOutput: Swift.Sendable {
         self.arn = arn
         self.createdAt = createdAt
         self.createdBy = createdBy
+        self.dnsOptions = dnsOptions
         self.failureCode = failureCode
         self.failureMessage = failureMessage
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
+        self.privateDnsEnabled = privateDnsEnabled
         self.securityGroupIds = securityGroupIds
         self.serviceNetworkArn = serviceNetworkArn
         self.serviceNetworkId = serviceNetworkId
@@ -3900,21 +4341,25 @@ public struct UpdateListenerOutput: Swift.Sendable {
 }
 
 public struct ListResourceConfigurationsInput: Swift.Sendable {
+    /// The domain verification ID.
+    public var domainVerificationIdentifier: Swift.String?
     /// The maximum page size.
     public var maxResults: Swift.Int?
     /// A pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID of the group resource configuration.
+    /// The ID of the resource configuration of type Group.
     public var resourceConfigurationGroupIdentifier: Swift.String?
     /// The ID of the resource gateway for the resource configuration.
     public var resourceGatewayIdentifier: Swift.String?
 
     public init(
+        domainVerificationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceConfigurationGroupIdentifier: Swift.String? = nil,
         resourceGatewayIdentifier: Swift.String? = nil
     ) {
+        self.domainVerificationIdentifier = domainVerificationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceConfigurationGroupIdentifier = resourceConfigurationGroupIdentifier
@@ -3932,6 +4377,12 @@ extension VPCLatticeClientTypes {
         public var arn: Swift.String?
         /// The date and time that the resource configuration was created, in ISO-8601 format.
         public var createdAt: Foundation.Date?
+        /// The custom domain name.
+        public var customDomainName: Swift.String?
+        /// The domain verification ID.
+        public var domainVerificationId: Swift.String?
+        /// (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
+        public var groupDomain: Swift.String?
         /// The ID of the resource configuration.
         public var id: Swift.String?
         /// The most recent date and time that the resource configuration was updated, in ISO-8601 format.
@@ -3948,7 +4399,7 @@ extension VPCLatticeClientTypes {
         ///
         /// * SINGLE - A single resource.
         ///
-        /// * GROUP - A group of resources.
+        /// * GROUP - A group of resources. You must create a group resource configuration before you create a child resource configuration.
         ///
         /// * CHILD - A single resource that is part of a group resource configuration.
         ///
@@ -3959,6 +4410,9 @@ extension VPCLatticeClientTypes {
             amazonManaged: Swift.Bool? = nil,
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
+            customDomainName: Swift.String? = nil,
+            domainVerificationId: Swift.String? = nil,
+            groupDomain: Swift.String? = nil,
             id: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -3970,6 +4424,9 @@ extension VPCLatticeClientTypes {
             self.amazonManaged = amazonManaged
             self.arn = arn
             self.createdAt = createdAt
+            self.customDomainName = customDomainName
+            self.domainVerificationId = domainVerificationId
+            self.groupDomain = groupDomain
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -4118,6 +4575,8 @@ extension VPCLatticeClientTypes {
         public var id: Swift.String?
         /// The type of IP address used by the resource gateway.
         public var ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType?
+        /// The number of IPv4 addresses in each ENI for the resource gateway.
+        public var ipv4AddressesPerEni: Swift.Int?
         /// The most recent date and time that the resource gateway was updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
         /// The name of the resource gateway.
@@ -4136,6 +4595,7 @@ extension VPCLatticeClientTypes {
             createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             ipAddressType: VPCLatticeClientTypes.ResourceGatewayIpAddressType? = nil,
+            ipv4AddressesPerEni: Swift.Int? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             securityGroupIds: [Swift.String]? = nil,
@@ -4147,6 +4607,7 @@ extension VPCLatticeClientTypes {
             self.createdAt = createdAt
             self.id = id
             self.ipAddressType = ipAddressType
+            self.ipv4AddressesPerEni = ipv4AddressesPerEni
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.securityGroupIds = securityGroupIds
@@ -4253,21 +4714,25 @@ public struct ListRulesOutput: Swift.Sendable {
 }
 
 public struct ListServiceNetworkResourceAssociationsInput: Swift.Sendable {
+    /// Include service network resource associations of the child resource configuration with the grouped resource configuration. The type is boolean and the default value is false.
+    public var includeChildren: Swift.Bool?
     /// The maximum page size.
     public var maxResults: Swift.Int?
     /// If there are additional results, a pagination token for the next page of results.
     public var nextToken: Swift.String?
-    /// The ID of the resource configurationk.
+    /// The ID of the resource configuration.
     public var resourceConfigurationIdentifier: Swift.String?
     /// The ID of the service network.
     public var serviceNetworkIdentifier: Swift.String?
 
     public init(
+        includeChildren: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceConfigurationIdentifier: Swift.String? = nil,
         serviceNetworkIdentifier: Swift.String? = nil
     ) {
+        self.includeChildren = includeChildren
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
@@ -4293,6 +4758,8 @@ extension VPCLatticeClientTypes {
         public var id: Swift.String?
         /// Specifies whether the association is managed by Amazon.
         public var isManagedAssociation: Swift.Bool?
+        /// Indicates if private DNS is enabled for the service network resource association.
+        public var privateDnsEnabled: Swift.Bool?
         /// The private DNS entry for the service.
         public var privateDnsEntry: VPCLatticeClientTypes.DnsEntry?
         /// The Amazon Resource Name (ARN) of the association.
@@ -4307,7 +4774,7 @@ extension VPCLatticeClientTypes {
         public var serviceNetworkId: Swift.String?
         /// The name of the service network associated with the resource configuration.
         public var serviceNetworkName: Swift.String?
-        /// The status of the service network associated with the resource configuration.
+        /// The status of the service network’s association with the resource configuration. If the deletion fails, try to delete again.
         public var status: VPCLatticeClientTypes.ServiceNetworkResourceAssociationStatus?
 
         public init(
@@ -4318,6 +4785,7 @@ extension VPCLatticeClientTypes {
             failureCode: Swift.String? = nil,
             id: Swift.String? = nil,
             isManagedAssociation: Swift.Bool? = nil,
+            privateDnsEnabled: Swift.Bool? = nil,
             privateDnsEntry: VPCLatticeClientTypes.DnsEntry? = nil,
             resourceConfigurationArn: Swift.String? = nil,
             resourceConfigurationId: Swift.String? = nil,
@@ -4334,6 +4802,7 @@ extension VPCLatticeClientTypes {
             self.failureCode = failureCode
             self.id = id
             self.isManagedAssociation = isManagedAssociation
+            self.privateDnsEnabled = privateDnsEnabled
             self.privateDnsEntry = privateDnsEntry
             self.resourceConfigurationArn = resourceConfigurationArn
             self.resourceConfigurationId = resourceConfigurationId
@@ -4487,7 +4956,7 @@ extension VPCLatticeClientTypes {
         public var serviceNetworkId: Swift.String?
         /// The name of the service network.
         public var serviceNetworkName: Swift.String?
-        /// The status. If the deletion fails, try to delete again.
+        /// The status of the service network’s association with the service. If the deletion fails, try to delete again.
         public var status: VPCLatticeClientTypes.ServiceNetworkServiceAssociationStatus?
 
         public init(
@@ -4571,10 +5040,14 @@ extension VPCLatticeClientTypes {
         public var createdAt: Foundation.Date?
         /// The account that created the association.
         public var createdBy: Swift.String?
+        /// The DNS options for the service network VPC association.
+        public var dnsOptions: VPCLatticeClientTypes.DnsOptions?
         /// The ID of the association.
         public var id: Swift.String?
         /// The date and time that the association was last updated, in ISO-8601 format.
         public var lastUpdatedAt: Foundation.Date?
+        /// Indicates if private DNS is enabled for the service network VPC association.
+        public var privateDnsEnabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the service network.
         public var serviceNetworkArn: Swift.String?
         /// The ID of the service network.
@@ -4590,8 +5063,10 @@ extension VPCLatticeClientTypes {
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
+            dnsOptions: VPCLatticeClientTypes.DnsOptions? = nil,
             id: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
+            privateDnsEnabled: Swift.Bool? = nil,
             serviceNetworkArn: Swift.String? = nil,
             serviceNetworkId: Swift.String? = nil,
             serviceNetworkName: Swift.String? = nil,
@@ -4601,8 +5076,10 @@ extension VPCLatticeClientTypes {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.dnsOptions = dnsOptions
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
+            self.privateDnsEnabled = privateDnsEnabled
             self.serviceNetworkArn = serviceNetworkArn
             self.serviceNetworkId = serviceNetworkId
             self.serviceNetworkName = serviceNetworkName
@@ -5085,7 +5562,13 @@ public struct UpdateResourceConfigurationInput: Swift.Sendable {
     public var allowAssociationToShareableServiceNetwork: Swift.Bool?
     /// The TCP port ranges that a consumer can use to access a resource configuration. You can separate port ranges with a comma. Example: 1-65535 or 1,2,22-30
     public var portRanges: [Swift.String]?
-    /// The resource configuration.
+    /// Identifies the resource configuration in one of the following ways:
+    ///
+    /// * Amazon Resource Name (ARN) - Supported resource-types that are provisioned by Amazon Web Services services, such as RDS databases, can be identified by their ARN.
+    ///
+    /// * Domain name - Any domain name that is publicly resolvable.
+    ///
+    /// * IP address - For IPv4 and IPv6, only IP addresses in the VPC are supported.
     public var resourceConfigurationDefinition: VPCLatticeClientTypes.ResourceConfigurationDefinition?
     /// The ID of the resource configuration.
     /// This member is required.
@@ -5673,6 +6156,16 @@ extension DeleteAuthPolicyInput {
     }
 }
 
+extension DeleteDomainVerificationInput {
+
+    static func urlPathProvider(_ value: DeleteDomainVerificationInput) -> Swift.String? {
+        guard let domainVerificationIdentifier = value.domainVerificationIdentifier else {
+            return nil
+        }
+        return "/domainverifications/\(domainVerificationIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension DeleteListenerInput {
 
     static func urlPathProvider(_ value: DeleteListenerInput) -> Swift.String? {
@@ -5832,6 +6325,16 @@ extension GetAuthPolicyInput {
     }
 }
 
+extension GetDomainVerificationInput {
+
+    static func urlPathProvider(_ value: GetDomainVerificationInput) -> Swift.String? {
+        guard let domainVerificationIdentifier = value.domainVerificationIdentifier else {
+            return nil
+        }
+        return "/domainverifications/\(domainVerificationIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension GetListenerInput {
 
     static func urlPathProvider(_ value: GetListenerInput) -> Swift.String? {
@@ -5980,6 +6483,29 @@ extension ListAccessLogSubscriptionsInput {
     }
 }
 
+extension ListDomainVerificationsInput {
+
+    static func urlPathProvider(_ value: ListDomainVerificationsInput) -> Swift.String? {
+        return "/domainverifications"
+    }
+}
+
+extension ListDomainVerificationsInput {
+
+    static func queryItemProvider(_ value: ListDomainVerificationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListListenersInput {
 
     static func urlPathProvider(_ value: ListListenersInput) -> Swift.String? {
@@ -6017,6 +6543,10 @@ extension ListResourceConfigurationsInput {
 
     static func queryItemProvider(_ value: ListResourceConfigurationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let domainVerificationIdentifier = value.domainVerificationIdentifier {
+            let domainVerificationIdentifierQueryItem = Smithy.URIQueryItem(name: "domainVerificationIdentifier".urlPercentEncoding(), value: Swift.String(domainVerificationIdentifier).urlPercentEncoding())
+            items.append(domainVerificationIdentifierQueryItem)
+        }
         if let resourceConfigurationGroupIdentifier = value.resourceConfigurationGroupIdentifier {
             let resourceConfigurationGroupIdentifierQueryItem = Smithy.URIQueryItem(name: "resourceConfigurationGroupIdentifier".urlPercentEncoding(), value: Swift.String(resourceConfigurationGroupIdentifier).urlPercentEncoding())
             items.append(resourceConfigurationGroupIdentifierQueryItem)
@@ -6141,6 +6671,10 @@ extension ListServiceNetworkResourceAssociationsInput {
 
     static func queryItemProvider(_ value: ListServiceNetworkResourceAssociationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let includeChildren = value.includeChildren {
+            let includeChildrenQueryItem = Smithy.URIQueryItem(name: "includeChildren".urlPercentEncoding(), value: Swift.String(includeChildren).urlPercentEncoding())
+            items.append(includeChildrenQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -6395,6 +6929,13 @@ extension RegisterTargetsInput {
     }
 }
 
+extension StartDomainVerificationInput {
+
+    static func urlPathProvider(_ value: StartDomainVerificationInput) -> Swift.String? {
+        return "/domainverifications"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -6569,6 +7110,9 @@ extension CreateResourceConfigurationInput {
         guard let value else { return }
         try writer["allowAssociationToShareableServiceNetwork"].write(value.allowAssociationToShareableServiceNetwork)
         try writer["clientToken"].write(value.clientToken)
+        try writer["customDomainName"].write(value.customDomainName)
+        try writer["domainVerificationIdentifier"].write(value.domainVerificationIdentifier)
+        try writer["groupDomain"].write(value.groupDomain)
         try writer["name"].write(value.name)
         try writer["portRanges"].writeList(value.portRanges, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["protocol"].write(value.`protocol`)
@@ -6586,6 +7130,7 @@ extension CreateResourceGatewayInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["ipAddressType"].write(value.ipAddressType)
+        try writer["ipv4AddressesPerEni"].write(value.ipv4AddressesPerEni)
         try writer["name"].write(value.name)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6637,6 +7182,7 @@ extension CreateServiceNetworkResourceAssociationInput {
     static func write(value: CreateServiceNetworkResourceAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["privateDnsEnabled"].write(value.privateDnsEnabled)
         try writer["resourceConfigurationIdentifier"].write(value.resourceConfigurationIdentifier)
         try writer["serviceNetworkIdentifier"].write(value.serviceNetworkIdentifier)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -6659,6 +7205,8 @@ extension CreateServiceNetworkVpcAssociationInput {
     static func write(value: CreateServiceNetworkVpcAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["dnsOptions"].write(value.dnsOptions, with: VPCLatticeClientTypes.DnsOptions.write(value:to:))
+        try writer["privateDnsEnabled"].write(value.privateDnsEnabled)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["serviceNetworkIdentifier"].write(value.serviceNetworkIdentifier)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -6715,6 +7263,16 @@ extension RegisterTargetsInput {
     static func write(value: RegisterTargetsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["targets"].writeList(value.targets, memberWritingClosure: VPCLatticeClientTypes.Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension StartDomainVerificationInput {
+
+    static func write(value: StartDomainVerificationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["domainName"].write(value.domainName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -6862,7 +7420,11 @@ extension CreateResourceConfigurationOutput {
         value.allowAssociationToShareableServiceNetwork = try reader["allowAssociationToShareableServiceNetwork"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customDomainName = try reader["customDomainName"].readIfPresent()
+        value.domainVerificationArn = try reader["domainVerificationArn"].readIfPresent()
+        value.domainVerificationId = try reader["domainVerificationId"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
+        value.groupDomain = try reader["groupDomain"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.portRanges = try reader["portRanges"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -6886,6 +7448,7 @@ extension CreateResourceGatewayOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
@@ -6957,6 +7520,7 @@ extension CreateServiceNetworkResourceAssociationOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        value.privateDnsEnabled = try reader["privateDnsEnabled"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -6988,7 +7552,9 @@ extension CreateServiceNetworkVpcAssociationOutput {
         var value = CreateServiceNetworkVpcAssociationOutput()
         value.arn = try reader["arn"].readIfPresent()
         value.createdBy = try reader["createdBy"].readIfPresent()
+        value.dnsOptions = try reader["dnsOptions"].readIfPresent(with: VPCLatticeClientTypes.DnsOptions.read(from:))
         value.id = try reader["id"].readIfPresent()
+        value.privateDnsEnabled = try reader["privateDnsEnabled"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         return value
@@ -7023,6 +7589,13 @@ extension DeleteAuthPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAuthPolicyOutput {
         return DeleteAuthPolicyOutput()
+    }
+}
+
+extension DeleteDomainVerificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainVerificationOutput {
+        return DeleteDomainVerificationOutput()
     }
 }
 
@@ -7210,6 +7783,25 @@ extension GetAuthPolicyOutput {
     }
 }
 
+extension GetDomainVerificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDomainVerificationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDomainVerificationOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastVerifiedTime = try reader["lastVerifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.txtMethodConfig = try reader["txtMethodConfig"].readIfPresent(with: VPCLatticeClientTypes.TxtMethodConfig.read(from:))
+        return value
+    }
+}
+
 extension GetListenerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetListenerOutput {
@@ -7243,7 +7835,11 @@ extension GetResourceConfigurationOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.customDomainName = try reader["customDomainName"].readIfPresent()
+        value.domainVerificationArn = try reader["domainVerificationArn"].readIfPresent()
+        value.domainVerificationId = try reader["domainVerificationId"].readIfPresent()
+        value.domainVerificationStatus = try reader["domainVerificationStatus"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
+        value.groupDomain = try reader["groupDomain"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
@@ -7269,6 +7865,7 @@ extension GetResourceGatewayOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.id = try reader["id"].readIfPresent()
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7365,11 +7962,13 @@ extension GetServiceNetworkResourceAssociationOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.dnsEntry = try reader["dnsEntry"].readIfPresent(with: VPCLatticeClientTypes.DnsEntry.read(from:))
+        value.domainVerificationStatus = try reader["domainVerificationStatus"].readIfPresent()
         value.failureCode = try reader["failureCode"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.isManagedAssociation = try reader["isManagedAssociation"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.privateDnsEnabled = try reader["privateDnsEnabled"].readIfPresent()
         value.privateDnsEntry = try reader["privateDnsEntry"].readIfPresent(with: VPCLatticeClientTypes.DnsEntry.read(from:))
         value.resourceConfigurationArn = try reader["resourceConfigurationArn"].readIfPresent()
         value.resourceConfigurationId = try reader["resourceConfigurationId"].readIfPresent()
@@ -7418,10 +8017,12 @@ extension GetServiceNetworkVpcAssociationOutput {
         value.arn = try reader["arn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent()
+        value.dnsOptions = try reader["dnsOptions"].readIfPresent(with: VPCLatticeClientTypes.DnsOptions.read(from:))
         value.failureCode = try reader["failureCode"].readIfPresent()
         value.failureMessage = try reader["failureMessage"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.privateDnsEnabled = try reader["privateDnsEnabled"].readIfPresent()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
         value.serviceNetworkId = try reader["serviceNetworkId"].readIfPresent()
@@ -7462,6 +8063,19 @@ extension ListAccessLogSubscriptionsOutput {
         let reader = responseReader
         var value = ListAccessLogSubscriptionsOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.AccessLogSubscriptionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDomainVerificationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDomainVerificationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDomainVerificationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.DomainVerificationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -7677,6 +8291,22 @@ extension RegisterTargetsOutput {
         var value = RegisterTargetsOutput()
         value.successful = try reader["successful"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.Target.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.unsuccessful = try reader["unsuccessful"].readListIfPresent(memberReadingClosure: VPCLatticeClientTypes.TargetFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension StartDomainVerificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartDomainVerificationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartDomainVerificationOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.txtMethodConfig = try reader["txtMethodConfig"].readIfPresent(with: VPCLatticeClientTypes.TxtMethodConfig.read(from:))
         return value
     }
 }
@@ -8128,6 +8758,24 @@ enum DeleteAuthPolicyOutputError {
     }
 }
 
+enum DeleteDomainVerificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteListenerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8408,6 +9056,24 @@ enum GetAuthPolicyOutputError {
     }
 }
 
+enum GetDomainVerificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetListenerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8616,6 +9282,24 @@ enum ListAccessLogSubscriptionsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDomainVerificationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8920,6 +9604,25 @@ enum RegisterTargetsOutputError {
     }
 }
 
+enum StartDomainVerificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9022,6 +9725,7 @@ enum UpdateResourceGatewayOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -9587,6 +10291,23 @@ extension VPCLatticeClientTypes.SharingConfig {
     }
 }
 
+extension VPCLatticeClientTypes.DnsOptions {
+
+    static func write(value: VPCLatticeClientTypes.DnsOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["privateDnsPreference"].write(value.privateDnsPreference)
+        try writer["privateDnsSpecifiedDomains"].writeList(value.privateDnsSpecifiedDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.DnsOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.DnsOptions()
+        value.privateDnsPreference = try reader["privateDnsPreference"].readIfPresent()
+        value.privateDnsSpecifiedDomains = try reader["privateDnsSpecifiedDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension VPCLatticeClientTypes.TargetGroupConfig {
 
     static func write(value: VPCLatticeClientTypes.TargetGroupConfig?, to writer: SmithyJSON.Writer) throws {
@@ -9701,6 +10422,17 @@ extension VPCLatticeClientTypes.TargetFailure {
     }
 }
 
+extension VPCLatticeClientTypes.TxtMethodConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.TxtMethodConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.TxtMethodConfig()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension VPCLatticeClientTypes.AccessLogSubscriptionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.AccessLogSubscriptionSummary {
@@ -9714,6 +10446,23 @@ extension VPCLatticeClientTypes.AccessLogSubscriptionSummary {
         value.serviceNetworkLogType = try reader["serviceNetworkLogType"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension VPCLatticeClientTypes.DomainVerificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VPCLatticeClientTypes.DomainVerificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VPCLatticeClientTypes.DomainVerificationSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.domainName = try reader["domainName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.txtMethodConfig = try reader["txtMethodConfig"].readIfPresent(with: VPCLatticeClientTypes.TxtMethodConfig.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastVerifiedTime = try reader["lastVerifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -9749,6 +10498,9 @@ extension VPCLatticeClientTypes.ResourceConfigurationSummary {
         value.amazonManaged = try reader["amazonManaged"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customDomainName = try reader["customDomainName"].readIfPresent()
+        value.domainVerificationId = try reader["domainVerificationId"].readIfPresent()
+        value.groupDomain = try reader["groupDomain"].readIfPresent()
         return value
     }
 }
@@ -9784,6 +10536,7 @@ extension VPCLatticeClientTypes.ResourceGatewaySummary {
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.ipAddressType = try reader["ipAddressType"].readIfPresent()
+        value.ipv4AddressesPerEni = try reader["ipv4AddressesPerEni"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -9826,6 +10579,7 @@ extension VPCLatticeClientTypes.ServiceNetworkResourceAssociationSummary {
         value.privateDnsEntry = try reader["privateDnsEntry"].readIfPresent(with: VPCLatticeClientTypes.DnsEntry.read(from:))
         value.isManagedAssociation = try reader["isManagedAssociation"].readIfPresent()
         value.failureCode = try reader["failureCode"].readIfPresent()
+        value.privateDnsEnabled = try reader["privateDnsEnabled"].readIfPresent()
         return value
     }
 }
@@ -9882,6 +10636,8 @@ extension VPCLatticeClientTypes.ServiceNetworkVpcAssociationSummary {
         value.serviceNetworkId = try reader["serviceNetworkId"].readIfPresent()
         value.serviceNetworkName = try reader["serviceNetworkName"].readIfPresent()
         value.serviceNetworkArn = try reader["serviceNetworkArn"].readIfPresent()
+        value.privateDnsEnabled = try reader["privateDnsEnabled"].readIfPresent()
+        value.dnsOptions = try reader["dnsOptions"].readIfPresent(with: VPCLatticeClientTypes.DnsOptions.read(from:))
         value.vpcId = try reader["vpcId"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value

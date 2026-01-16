@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Route53ProfilesClient: ClientRuntime.Client {
+public class Route53ProfilesClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Route53ProfilesClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53ProfilesClient.Route53ProfilesClientConfiguration
     let serviceName = "Route53Profiles"
@@ -373,9 +373,9 @@ extension Route53ProfilesClient {
     ///
     /// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more information, see [https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities).
     ///
-    /// - Parameter AssociateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateProfileInput`)
     ///
-    /// - Returns: `AssociateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +416,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateProfileInput, AssociateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateProfileOutput>(AssociateProfileOutput.httpOutput(from:), AssociateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateProfileInput, AssociateProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateProfileOutput>())
@@ -447,9 +448,9 @@ extension Route53ProfilesClient {
     ///
     /// Associates a DNS reource configuration to a Route 53 Profile.
     ///
-    /// - Parameter AssociateResourceToProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceToProfileInput`)
     ///
-    /// - Returns: `AssociateResourceToProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceToProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,6 +491,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResourceToProfileInput, AssociateResourceToProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResourceToProfileOutput>(AssociateResourceToProfileOutput.httpOutput(from:), AssociateResourceToProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResourceToProfileInput, AssociateResourceToProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResourceToProfileOutput>())
@@ -521,9 +523,9 @@ extension Route53ProfilesClient {
     ///
     /// Creates an empty Route 53 Profile.
     ///
-    /// - Parameter CreateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileInput`)
     ///
-    /// - Returns: `CreateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +564,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProfileInput, CreateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProfileOutput>(CreateProfileOutput.httpOutput(from:), CreateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProfileInput, CreateProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProfileOutput>())
@@ -593,9 +596,9 @@ extension Route53ProfilesClient {
     ///
     /// Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
     ///
-    /// - Parameter DeleteProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProfileInput`)
     ///
-    /// - Returns: `DeleteProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,6 +633,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProfileInput, DeleteProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProfileOutput>(DeleteProfileOutput.httpOutput(from:), DeleteProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProfileInput, DeleteProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProfileOutput>())
@@ -661,9 +665,9 @@ extension Route53ProfilesClient {
     ///
     /// Dissociates a specified Route 53 Profile from the specified VPC.
     ///
-    /// - Parameter DisassociateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateProfileInput`)
     ///
-    /// - Returns: `DisassociateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -699,6 +703,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateProfileInput, DisassociateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateProfileOutput>(DisassociateProfileOutput.httpOutput(from:), DisassociateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateProfileInput, DisassociateProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateProfileOutput>())
@@ -730,9 +735,9 @@ extension Route53ProfilesClient {
     ///
     /// Dissoaciated a specified resource, from the Route 53 Profile.
     ///
-    /// - Parameter DisassociateResourceFromProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceFromProfileInput`)
     ///
-    /// - Returns: `DisassociateResourceFromProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceFromProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -770,6 +775,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateResourceFromProfileInput, DisassociateResourceFromProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResourceFromProfileOutput>(DisassociateResourceFromProfileOutput.httpOutput(from:), DisassociateResourceFromProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResourceFromProfileInput, DisassociateResourceFromProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResourceFromProfileOutput>())
@@ -801,9 +807,9 @@ extension Route53ProfilesClient {
     ///
     /// Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.
     ///
-    /// - Parameter GetProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileInput`)
     ///
-    /// - Returns: `GetProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,6 +843,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProfileInput, GetProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProfileOutput>(GetProfileOutput.httpOutput(from:), GetProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProfileInput, GetProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProfileOutput>())
@@ -868,9 +875,9 @@ extension Route53ProfilesClient {
     ///
     /// Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
     ///
-    /// - Parameter GetProfileAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileAssociationInput`)
     ///
-    /// - Returns: `GetProfileAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,6 +911,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProfileAssociationInput, GetProfileAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProfileAssociationOutput>(GetProfileAssociationOutput.httpOutput(from:), GetProfileAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProfileAssociationInput, GetProfileAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProfileAssociationOutput>())
@@ -935,9 +943,9 @@ extension Route53ProfilesClient {
     ///
     /// Returns information about a specified Route 53 Profile resource association.
     ///
-    /// - Parameter GetProfileResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProfileResourceAssociationInput`)
     ///
-    /// - Returns: `GetProfileResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProfileResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,6 +980,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProfileResourceAssociationInput, GetProfileResourceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProfileResourceAssociationOutput>(GetProfileResourceAssociationOutput.httpOutput(from:), GetProfileResourceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProfileResourceAssociationInput, GetProfileResourceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProfileResourceAssociationOutput>())
@@ -1003,9 +1012,9 @@ extension Route53ProfilesClient {
     ///
     /// Lists all the VPCs that the specified Route 53 Profile is associated with.
     ///
-    /// - Parameter ListProfileAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileAssociationsInput`)
     ///
-    /// - Returns: `ListProfileAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,6 +1050,7 @@ extension Route53ProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProfileAssociationsInput, ListProfileAssociationsOutput>(ListProfileAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfileAssociationsOutput>(ListProfileAssociationsOutput.httpOutput(from:), ListProfileAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfileAssociationsInput, ListProfileAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfileAssociationsOutput>())
@@ -1072,9 +1082,9 @@ extension Route53ProfilesClient {
     ///
     /// Lists all the resource associations for the specified Route 53 Profile.
     ///
-    /// - Parameter ListProfileResourceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfileResourceAssociationsInput`)
     ///
-    /// - Returns: `ListProfileResourceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfileResourceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,6 +1122,7 @@ extension Route53ProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProfileResourceAssociationsInput, ListProfileResourceAssociationsOutput>(ListProfileResourceAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfileResourceAssociationsOutput>(ListProfileResourceAssociationsOutput.httpOutput(from:), ListProfileResourceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfileResourceAssociationsInput, ListProfileResourceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfileResourceAssociationsOutput>())
@@ -1143,9 +1154,9 @@ extension Route53ProfilesClient {
     ///
     /// Lists all the Route 53 Profiles associated with your Amazon Web Services account.
     ///
-    /// - Parameter ListProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProfilesInput`)
     ///
-    /// - Returns: `ListProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1181,6 +1192,7 @@ extension Route53ProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProfilesInput, ListProfilesOutput>(ListProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProfilesOutput>(ListProfilesOutput.httpOutput(from:), ListProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProfilesInput, ListProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProfilesOutput>())
@@ -1212,9 +1224,9 @@ extension Route53ProfilesClient {
     ///
     /// Lists the tags that you associated with the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1249,6 +1261,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1280,9 +1293,9 @@ extension Route53ProfilesClient {
     ///
     /// Adds one or more tags to a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1319,6 +1332,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1350,9 +1364,9 @@ extension Route53ProfilesClient {
     ///
     /// Removes one or more tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1388,6 +1402,7 @@ extension Route53ProfilesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1419,9 +1434,9 @@ extension Route53ProfilesClient {
     ///
     /// Updates the specified Route 53 Profile resourse association.
     ///
-    /// - Parameter UpdateProfileResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileResourceAssociationInput`)
     ///
-    /// - Returns: `UpdateProfileResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1462,6 +1477,7 @@ extension Route53ProfilesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileResourceAssociationInput, UpdateProfileResourceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProfileResourceAssociationOutput>(UpdateProfileResourceAssociationOutput.httpOutput(from:), UpdateProfileResourceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileResourceAssociationInput, UpdateProfileResourceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProfileResourceAssociationOutput>())

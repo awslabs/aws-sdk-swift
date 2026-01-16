@@ -375,6 +375,51 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Use Slow PAL pitch correction to compensate for audio pitch changes during slow PAL frame rate conversion. This setting only applies when Slow PAL is enabled in your output video codec settings. To automatically apply audio pitch correction: Choose Enabled. MediaConvert automatically applies a pitch correction to your output to match the original content's audio pitch. To not apply audio pitch correction: Keep the default value, Disabled.
+    public enum SlowPalPitchCorrection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlowPalPitchCorrection] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Settings for audio pitch correction during framerate conversion.
+    public struct AudioPitchCorrectionSettings: Swift.Sendable {
+        /// Use Slow PAL pitch correction to compensate for audio pitch changes during slow PAL frame rate conversion. This setting only applies when Slow PAL is enabled in your output video codec settings. To automatically apply audio pitch correction: Choose Enabled. MediaConvert automatically applies a pitch correction to your output to match the original content's audio pitch. To not apply audio pitch correction: Keep the default value, Disabled.
+        public var slowPalPitchCorrection: MediaConvertClientTypes.SlowPalPitchCorrection?
+
+        public init(
+            slowPalPitchCorrection: MediaConvertClientTypes.SlowPalPitchCorrection? = nil
+        ) {
+            self.slowPalPitchCorrection = slowPalPitchCorrection
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// When set to FOLLOW_INPUT, if the input contains an ISO 639 audio_type, then that value is passed through to the output. If the input contains no ISO 639 audio_type, the value in Audio Type is included in the output. Otherwise the value in Audio Type is included in the output. Note that this field and audioType are both ignored if audioDescriptionBroadcasterMix is set to BROADCASTER_MIXED_AD.
     public enum AudioTypeControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case followInput
@@ -435,7 +480,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates.
+    /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates. For improved audio quality at lower bitrates, adaptive audio bitrate switching, and loudness control: Choose XHE.
     public enum AacCodecProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hev1
         case hev2
@@ -672,7 +717,7 @@ extension MediaConvertClientTypes {
         public var audioDescriptionBroadcasterMix: MediaConvertClientTypes.AacAudioDescriptionBroadcasterMix?
         /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile, Bitrate control mode, and Sample rate. Default values depend on Bitrate control mode and Profile.
         public var bitrate: Swift.Int?
-        /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates.
+        /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates. For improved audio quality at lower bitrates, adaptive audio bitrate switching, and loudness control: Choose XHE.
         public var codecProfile: MediaConvertClientTypes.AacCodecProfile?
         /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
         public var codingMode: MediaConvertClientTypes.AacCodingMode?
@@ -2127,8 +2172,40 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and FollowInputAudioType. Choose NONE when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
+    public enum Mp2AudioDescriptionMix: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case broadcasterMixedAd
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Mp2AudioDescriptionMix] {
+            return [
+                .broadcasterMixedAd,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .broadcasterMixedAd: return "BROADCASTER_MIXED_AD"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Required when you set Codec to the value MP2.
     public struct Mp2Settings: Swift.Sendable {
+        /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and FollowInputAudioType. Choose NONE when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
+        public var audioDescriptionMix: MediaConvertClientTypes.Mp2AudioDescriptionMix?
         /// Specify the average bitrate in bits per second.
         public var bitrate: Swift.Int?
         /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
@@ -2137,10 +2214,12 @@ extension MediaConvertClientTypes {
         public var sampleRate: Swift.Int?
 
         public init(
+            audioDescriptionMix: MediaConvertClientTypes.Mp2AudioDescriptionMix? = nil,
             bitrate: Swift.Int? = nil,
             channels: Swift.Int? = nil,
             sampleRate: Swift.Int? = nil
         ) {
+            self.audioDescriptionMix = audioDescriptionMix
             self.bitrate = bitrate
             self.channels = channels
             self.sampleRate = sampleRate
@@ -2376,7 +2455,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify the language, using the ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php.
+    /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
     public enum LanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aar
         case abk
@@ -3077,6 +3156,8 @@ extension MediaConvertClientTypes {
         public var audioChannelTaggingSettings: MediaConvertClientTypes.AudioChannelTaggingSettings?
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
         public var audioNormalizationSettings: MediaConvertClientTypes.AudioNormalizationSettings?
+        /// Settings for audio pitch correction during framerate conversion.
+        public var audioPitchCorrectionSettings: MediaConvertClientTypes.AudioPitchCorrectionSettings?
         /// Specifies which audio data to use from each input. In the simplest case, specify an "Audio Selector":#inputs-audio_selector by name based on its order within each input. For example if you specify "Audio Selector 3", then the third audio selector will be used from each input. If an input does not have an "Audio Selector 3", then the audio selector marked as "default" in that input will be used. If there is no audio selector marked as "default", silence will be inserted for the duration of that input. Alternatively, an "Audio Selector Group":#inputs-audio_selector_group name may be specified, with similar default/silence behavior. If no audio_source_name is specified, then "Audio Selector 1" will be chosen automatically.
         public var audioSourceName: Swift.String?
         /// Applies only if Follow Input Audio Type is unchecked (false). A number between 0 and 255. The following are defined in ISO-IEC 13818-1: 0 = Undefined, 1 = Clean Effects, 2 = Hearing Impaired, 3 = Visually Impaired Commentary, 4-255 = Reserved.
@@ -3087,7 +3168,7 @@ extension MediaConvertClientTypes {
         public var codecSettings: MediaConvertClientTypes.AudioCodecSettings?
         /// Specify the language for this audio output track. The service puts this language code into your output audio track when you set Language code control to Use configured. The service also uses your specified custom language code when you set Language code control to Follow input, but your input file doesn't specify a language code. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public var customLanguageCode: Swift.String?
-        /// Indicates the language of the audio output track. The ISO 639 language specified in the 'Language Code' drop down will be used when 'Follow Input Language Code' is not selected or when 'Follow Input Language Code' is selected but there is no ISO 639 language code specified by the input.
+        /// Specify the language for your output audio track. To follow the input language: Leave blank. When you do, also set Language code control to Follow input. If no input language is detected MediaConvert will not write an output language code. To follow the input langauge, but fall back to a specified language code if there is no input language to follow: Enter an ISO 639-2 three-letter language code in all capital letters. When you do, also set Language code control to Follow input. To specify the language code: Enter an ISO 639 three-letter language code in all capital letters. When you do, also set Language code control to Use configured.
         public var languageCode: MediaConvertClientTypes.LanguageCode?
         /// Specify which source for language code takes precedence for this audio track. When you choose Follow input, the service uses the language code from the input track if it's present. If there's no languge code on the input track, the service uses the code that you specify in the setting Language code. When you choose Use configured, the service uses the language code that you specify.
         public var languageCodeControl: MediaConvertClientTypes.AudioLanguageCodeControl?
@@ -3099,6 +3180,7 @@ extension MediaConvertClientTypes {
         public init(
             audioChannelTaggingSettings: MediaConvertClientTypes.AudioChannelTaggingSettings? = nil,
             audioNormalizationSettings: MediaConvertClientTypes.AudioNormalizationSettings? = nil,
+            audioPitchCorrectionSettings: MediaConvertClientTypes.AudioPitchCorrectionSettings? = nil,
             audioSourceName: Swift.String? = nil,
             audioType: Swift.Int? = nil,
             audioTypeControl: MediaConvertClientTypes.AudioTypeControl? = nil,
@@ -3111,6 +3193,7 @@ extension MediaConvertClientTypes {
         ) {
             self.audioChannelTaggingSettings = audioChannelTaggingSettings
             self.audioNormalizationSettings = audioNormalizationSettings
+            self.audioPitchCorrectionSettings = audioPitchCorrectionSettings
             self.audioSourceName = audioSourceName
             self.audioType = audioType
             self.audioTypeControl = audioTypeControl
@@ -4368,7 +4451,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// If the IMSC captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
+    /// If the IMSC captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.transcribes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
     public enum ImscAccessibilitySubs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -4430,7 +4513,7 @@ extension MediaConvertClientTypes {
 
     /// Settings related to IMSC captions. IMSC is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
     public struct ImscDestinationSettings: Swift.Sendable {
-        /// If the IMSC captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
+        /// If the IMSC captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.transcribes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public var accessibility: MediaConvertClientTypes.ImscAccessibilitySubs?
         /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
         public var stylePassthrough: MediaConvertClientTypes.ImscStylePassthrough?
@@ -4649,7 +4732,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
+    /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.transcribes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
     public enum WebvttAccessibilitySubs: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -4717,7 +4800,7 @@ extension MediaConvertClientTypes {
 
     /// Settings related to WebVTT captions. WebVTT is a sidecar format that holds captions in a file that is separate from the video container. Set up sidecar captions in the same output group, but different output from your video. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
     public struct WebvttDestinationSettings: Swift.Sendable {
-        /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
+        /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.transcribes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public var accessibility: MediaConvertClientTypes.WebvttAccessibilitySubs?
         /// Specify how MediaConvert writes style information in your output WebVTT captions. To use the available style, color, and position information from your input captions: Choose Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Choose Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Keep the default value, Disabled. Or leave blank. To use the available style, color, and position information from your input captions, while merging cues with identical time ranges: Choose merge. This setting can help prevent positioning overlaps for certain players that expect a single single cue for any given time range.
         public var stylePassthrough: MediaConvertClientTypes.WebvttStylePassthrough?
@@ -4985,12 +5068,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+    /// * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
     public enum FrameMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case msSsim
         case psnr
         case psnrHvs
         case qvbr
+        case shotChange
         case ssim
         case vmaf
         case sdkUnknown(Swift.String)
@@ -5001,6 +5085,7 @@ extension MediaConvertClientTypes {
                 .psnr,
                 .psnrHvs,
                 .qvbr,
+                .shotChange,
                 .ssim,
                 .vmaf
             ]
@@ -5017,6 +5102,7 @@ extension MediaConvertClientTypes {
             case .psnr: return "PSNR"
             case .psnrHvs: return "PSNR_HVS"
             case .qvbr: return "QVBR"
+            case .shotChange: return "SHOT_CHANGE"
             case .ssim: return "SSIM"
             case .vmaf: return "VMAF"
             case let .sdkUnknown(s): return s
@@ -5080,9 +5166,9 @@ extension MediaConvertClientTypes {
     public struct HlsCaptionLanguageMapping: Swift.Sendable {
         /// Caption channel.
         public var captionChannel: Swift.Int?
-        /// Specify the language for this captions channel, using the ISO 639-2 or ISO 639-3 three-letter language code
+        /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public var customLanguageCode: Swift.String?
-        /// Specify the language, using the ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php.
+        /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public var languageCode: MediaConvertClientTypes.LanguageCode?
         /// Caption language description.
         public var languageDescription: Swift.String?
@@ -5311,7 +5397,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
+    /// Specify a fallback audio selector for this input. Use to ensure outputs have audio even when the audio selector you specify in your output is missing from the source. DEFAULT (Checked in the MediaConvert console): If your output settings specify an audio selector that does not exist in this input, MediaConvert uses this audio selector instead. This is useful when you have multiple inputs with a different number of audio tracks. NOT_DEFAULT (Unchecked in the MediaConvert console): MediaConvert will not fallback from any missing audio selector. Any output specifying a missing audio selector will be silent.
     public enum AudioDefaultSelection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case notDefault
@@ -5345,7 +5431,7 @@ extension MediaConvertClientTypes {
     public struct HlsRenditionGroupSettings: Swift.Sendable {
         /// Optional. Specify alternative group ID
         public var renditionGroupId: Swift.String?
-        /// Optional. Specify ISO 639-2 or ISO 639-3 code in the language property
+        /// Optionally specify the language, using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public var renditionLanguageCode: MediaConvertClientTypes.LanguageCode?
         /// Optional. Specify media name
         public var renditionName: Swift.String?
@@ -5364,12 +5450,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. Language code: Select audio by language using ISO 639-2 or ISO 639-3 three-letter language codes. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers.
+    /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. If more types of audio data get recognized in the future, these numberings may shift, but the numberings used for Stream mode will not. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers. Stream: Select audio by stream number. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this audio selector context, only the stream number of a track containing audio data may be used. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of audio data get recognized in the future, these numberings will not shift.
     public enum AudioSelectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allPcm
         case hlsRenditionGroup
         case languageCode
         case pid
+        case stream
         case track
         case sdkUnknown(Swift.String)
 
@@ -5379,6 +5466,7 @@ extension MediaConvertClientTypes {
                 .hlsRenditionGroup,
                 .languageCode,
                 .pid,
+                .stream,
                 .track
             ]
         }
@@ -5394,6 +5482,7 @@ extension MediaConvertClientTypes {
             case .hlsRenditionGroup: return "HLS_RENDITION_GROUP"
             case .languageCode: return "LANGUAGE_CODE"
             case .pid: return "PID"
+            case .stream: return "STREAM"
             case .track: return "TRACK"
             case let .sdkUnknown(s): return s
             }
@@ -5409,13 +5498,13 @@ extension MediaConvertClientTypes {
         public var audioDurationCorrection: MediaConvertClientTypes.AudioDurationCorrection?
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
         public var customLanguageCode: Swift.String?
-        /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
+        /// Specify a fallback audio selector for this input. Use to ensure outputs have audio even when the audio selector you specify in your output is missing from the source. DEFAULT (Checked in the MediaConvert console): If your output settings specify an audio selector that does not exist in this input, MediaConvert uses this audio selector instead. This is useful when you have multiple inputs with a different number of audio tracks. NOT_DEFAULT (Unchecked in the MediaConvert console): MediaConvert will not fallback from any missing audio selector. Any output specifying a missing audio selector will be silent.
         public var defaultSelection: MediaConvertClientTypes.AudioDefaultSelection?
         /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
         public var externalAudioFileInput: Swift.String?
         /// Settings specific to audio sources in an HLS alternate rendition group. Specify the properties (renditionGroupId, renditionName or renditionLanguageCode) to identify the unique audio track among the alternative rendition groups present in the HLS manifest. If no unique track is found, or multiple tracks match the properties provided, the job fails. If no properties in hlsRenditionGroupSettings are specified, the default audio track within the video segment is chosen. If there is no audio within video segment, the alternative audio with DEFAULT=YES is chosen instead.
         public var hlsRenditionGroupSettings: MediaConvertClientTypes.HlsRenditionGroupSettings?
-        /// Specify the language to select from your audio input. In the MediaConvert console choose from a list of languages. In your JSON job settings choose from an ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php
+        /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public var languageCode: MediaConvertClientTypes.LanguageCode?
         /// Specify a time delta, in milliseconds, to offset the audio from the input video. To specify no offset: Keep the default value, 0. To specify an offset: Enter an integer from -2147483648 to 2147483647
         public var offset: Swift.Int?
@@ -5425,9 +5514,11 @@ extension MediaConvertClientTypes {
         public var programSelection: Swift.Int?
         /// Use these settings to reorder the audio channels of one input to match those of another input. This allows you to combine the two files into a single output, one after the other.
         public var remixSettings: MediaConvertClientTypes.RemixSettings?
-        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. Language code: Select audio by language using ISO 639-2 or ISO 639-3 three-letter language codes. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers.
+        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. If more types of audio data get recognized in the future, these numberings may shift, but the numberings used for Stream mode will not. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers. Stream: Select audio by stream number. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this audio selector context, only the stream number of a track containing audio data may be used. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of audio data get recognized in the future, these numberings will not shift.
         public var selectorType: MediaConvertClientTypes.AudioSelectorType?
-        /// Identify a track from the input audio to include in this selector by entering the track index number. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
+        /// Identify a track from the input audio to include in this selector by entering the stream index number. These numberings count all tracks in the input file, but only a track containing audio data may be used here. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
+        public var streams: [Swift.Int]?
+        /// Identify a track from the input audio to include in this selector by entering the track index number. These numberings include only tracks recognized as audio. If the service recognizes more types of audio tracks in the future, these numberings may shift. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
         public var tracks: [Swift.Int]?
 
         public init(
@@ -5442,6 +5533,7 @@ extension MediaConvertClientTypes {
             programSelection: Swift.Int? = nil,
             remixSettings: MediaConvertClientTypes.RemixSettings? = nil,
             selectorType: MediaConvertClientTypes.AudioSelectorType? = nil,
+            streams: [Swift.Int]? = nil,
             tracks: [Swift.Int]? = nil
         ) {
             self.audioDurationCorrection = audioDurationCorrection
@@ -5455,6 +5547,7 @@ extension MediaConvertClientTypes {
             self.programSelection = programSelection
             self.remixSettings = remixSettings
             self.selectorType = selectorType
+            self.streams = streams
             self.tracks = tracks
         }
     }
@@ -5874,6 +5967,7 @@ extension MediaConvertClientTypes {
         case stl
         case teletext
         case ttml
+        case tt3gpp
         case webvtt
         case sdkUnknown(Swift.String)
 
@@ -5892,6 +5986,7 @@ extension MediaConvertClientTypes {
                 .stl,
                 .teletext,
                 .ttml,
+                .tt3gpp,
                 .webvtt
             ]
         }
@@ -5916,6 +6011,7 @@ extension MediaConvertClientTypes {
             case .stl: return "STL"
             case .teletext: return "TELETEXT"
             case .ttml: return "TTML"
+            case .tt3gpp: return "TT_3GPP"
             case .webvtt: return "WEBVTT"
             case let .sdkUnknown(s): return s
             }
@@ -5942,12 +6038,16 @@ extension MediaConvertClientTypes {
 
     /// Settings specific to caption sources that are specified by track number. Currently, this is only IMSC captions in an IMF package. If your caption source is IMSC 1.1 in a separate xml file, use FileSourceSettings instead of TrackSourceSettings.
     public struct TrackSourceSettings: Swift.Sendable {
-        /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector.
+        /// Use this setting to select a single captions track from a source. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this caption selector context, only the stream number of a track containing caption data may be used. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one stream per selector. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of caption data get recognized in the future, these numberings will not shift.
+        public var streamNumber: Swift.Int?
+        /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector. If more types of caption data get recognized in the future, these numberings may shift, but the numberings used for streamNumber will not.
         public var trackNumber: Swift.Int?
 
         public init(
+            streamNumber: Swift.Int? = nil,
             trackNumber: Swift.Int? = nil
         ) {
+            self.streamNumber = streamNumber
             self.trackNumber = trackNumber
         }
     }
@@ -5959,7 +6059,7 @@ extension MediaConvertClientTypes {
     public struct WebvttHlsSourceSettings: Swift.Sendable {
         /// Optional. Specify alternative group ID
         public var renditionGroupId: Swift.String?
-        /// Optional. Specify ISO 639-2 or ISO 639-3 code in the language property
+        /// Optionally specify the language, using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public var renditionLanguageCode: MediaConvertClientTypes.LanguageCode?
         /// Optional. Specify media name
         public var renditionName: Swift.String?
@@ -6227,7 +6327,7 @@ extension MediaConvertClientTypes {
         public var audioDurationCorrection: MediaConvertClientTypes.AudioDurationCorrection?
         /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
         public var externalAudioFileInput: Swift.String?
-        /// Specify the language to select from your audio input. In the MediaConvert console choose from a list of languages. In your JSON job settings choose from an ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php
+        /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public var languageCode: MediaConvertClientTypes.LanguageCode?
         /// Specify a time delta, in milliseconds, to offset the audio from the input video. To specify no offset: Keep the default value, 0. To specify an offset: Enter an integer from -2147483648 to 2147483647
         public var offset: Swift.Int?
@@ -6477,13 +6577,13 @@ extension MediaConvertClientTypes {
 
     /// Specify a Time Addressable Media Store (TAMS) server as an input source. TAMS is an open-source API specification that provides access to time-segmented media content. Use TAMS to retrieve specific time ranges from live or archived media streams. When you specify TAMS settings, MediaConvert connects to your TAMS server, retrieves the media segments for your specified time range, and processes them as a single input. This enables workflows like extracting clips from live streams or processing specific portions of archived content. To use TAMS, you must: 1. Have access to a TAMS-compliant server 2. Specify the server URL in the Input file URL field 3. Provide the required SourceId and Timerange parameters 4. Configure authentication, if your TAMS server requires it
     public struct InputTamsSettings: Swift.Sendable {
-        /// Specify the ARN (Amazon Resource Name) of an EventBridge Connection to authenticate with your TAMS server. The EventBridge Connection stores your authentication credentials securely. MediaConvert assumes your job's IAM role to access this connection, so ensure the role has the events:RetrieveConnectionCredentials, secretsmanager:DescribeSecret, and secretsmanager:GetSecretValue permissions. Format: arn:aws:events:region:account-id:connection/connection-name/unique-id
+        /// Specify the ARN (Amazon Resource Name) of an EventBridge Connection to authenticate with your TAMS server. The EventBridge Connection stores your authentication credentials securely. MediaConvert assumes your job's IAM role to access this connection, so ensure the role has the events:RetrieveConnectionCredentials, secretsmanager:DescribeSecret, and secretsmanager:GetSecretValue permissions. Format: arn:aws:events:region:account-id:connection/connection-name/unique-id This setting is required when you include TAMS settings in your job.
         public var authConnectionArn: Swift.String?
         /// Specify how MediaConvert handles gaps between media segments in your TAMS source. Gaps can occur in live streams due to network issues or other interruptions. Choose from the following options: * Skip gaps - Default. Skip over gaps and join segments together. This creates a continuous output with no blank frames, but may cause timeline discontinuities. * Fill with black - Insert black frames to fill gaps between segments. This maintains timeline continuity but adds black frames where content is missing. * Hold last frame - Repeat the last frame before a gap until the next segment begins. This maintains visual continuity during gaps.
         public var gapHandling: MediaConvertClientTypes.TamsGapHandling?
-        /// Specify the unique identifier for the media source in your TAMS server. MediaConvert uses this source ID to locate the appropriate flows containing the media segments you want to process. The source ID corresponds to a specific media source registered in your TAMS server. This source must be of type urn:x-nmos:format:multi, and can can reference multiple flows for audio, video, or combined audio/video content. MediaConvert automatically selects the highest quality flows available for your job. This setting is required when include TAMS settings in your job.
+        /// Specify the unique identifier for the media source in your TAMS server. MediaConvert uses this source ID to locate the appropriate flows containing the media segments you want to process. The source ID corresponds to a specific media source registered in your TAMS server. This source must be of type urn:x-nmos:format:multi, and can can reference multiple flows for audio, video, or combined audio/video content. MediaConvert automatically selects the highest quality flows available for your job. This setting is required when you include TAMS settings in your job.
         public var sourceId: Swift.String?
-        /// Specify the time range of media segments to retrieve from your TAMS server. MediaConvert fetches only the segments that fall within this range. Use the format specified by your TAMS server implementation. This must be two timestamp values with the format {sign?}{seconds}:{nanoseconds}, separated by an underscore, surrounded by either parentheses or square brackets. Example: [15:0_35:0) This setting is required when include TAMS settings in your job.
+        /// Specify the time range of media segments to retrieve from your TAMS server. MediaConvert fetches only the segments that fall within this range. Use the format specified by your TAMS server implementation. This must be two timestamp values with the format {sign?}{seconds}:{nanoseconds}, separated by an underscore, surrounded by either parentheses or square brackets. Example: [15:0_35:0) This setting is required when you include TAMS settings in your job.
         public var timerange: Swift.String?
 
         public init(
@@ -6539,27 +6639,39 @@ extension MediaConvertClientTypes {
     public struct InputVideoGenerator: Swift.Sendable {
         /// Specify the number of audio channels to include in your video generator input. MediaConvert creates these audio channels as silent audio within a single audio track. Enter an integer from 1 to 32.
         public var channels: Swift.Int?
-        /// Specify the duration, in milliseconds, for your video generator input. Enter an integer from 50 to 86400000.
+        /// Specify the duration, in milliseconds, for your video generator input. Enter an integer from 1 to 86400000.
         public var duration: Swift.Int?
         /// Specify the denominator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate numerator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
         public var framerateDenominator: Swift.Int?
         /// Specify the numerator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate denominator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
         public var framerateNumerator: Swift.Int?
+        /// Specify the height, in pixels, for your video generator input. This is useful for positioning when you include one or more video overlays for this input. To use the default resolution 540x360: Leave both width and height blank. To specify a height: Enter an even integer from 32 to 8192. When you do, you must also specify a value for width.
+        public var height: Swift.Int?
+        /// Specify the HTTP, HTTPS, or Amazon S3 location of the image that you want to overlay on the video. Use a PNG or TGA file.
+        public var imageInput: Swift.String?
         /// Specify the audio sample rate, in Hz, for the silent audio in your video generator input. Enter an integer from 32000 to 48000.
         public var sampleRate: Swift.Int?
+        /// Specify the width, in pixels, for your video generator input. This is useful for positioning when you include one or more video overlays for this input. To use the default resolution 540x360: Leave both width and height blank. To specify a width: Enter an even integer from 32 to 8192. When you do, you must also specify a value for height.
+        public var width: Swift.Int?
 
         public init(
             channels: Swift.Int? = nil,
             duration: Swift.Int? = nil,
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
-            sampleRate: Swift.Int? = nil
+            height: Swift.Int? = nil,
+            imageInput: Swift.String? = nil,
+            sampleRate: Swift.Int? = nil,
+            width: Swift.Int? = nil
         ) {
             self.channels = channels
             self.duration = duration
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+            self.height = height
+            self.imageInput = imageInput
             self.sampleRate = sampleRate
+            self.width = width
         }
     }
 }
@@ -6631,6 +6743,8 @@ extension MediaConvertClientTypes {
     public struct VideoOverlayPosition: Swift.Sendable {
         /// To scale your video overlay to the same height as the base input video: Leave blank. To scale the height of your video overlay to a different height: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 360 and choose Pixels, your video overlay will be rendered with a height of 360. When you enter 50, choose Percentage, and your overlay's source has a height of 1080, your video overlay will be rendered with a height of 540. To scale your overlay to a specific height while automatically maintaining its original aspect ratio, enter a value for Height and leave Width blank.
         public var height: Swift.Int?
+        /// Use Opacity to specify how much of the underlying video shows through the overlay video. 0 is transparent and 100 is fully opaque. Default is 100.
+        public var opacity: Swift.Int?
         /// Specify the Unit type to use when you enter a value for X position, Y position, Width, or Height. You can choose Pixels or Percentage. Leave blank to use the default value, Pixels.
         public var unit: MediaConvertClientTypes.VideoOverlayUnit?
         /// To scale your video overlay to the same width as the base input video: Leave blank. To scale the width of your video overlay to a different width: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 640 and choose Pixels, your video overlay will scale to a height of 640 pixels. When you enter 50, choose Percentage, and your overlay's source has a width of 1920, your video overlay will scale to a width of 960. To scale your overlay to a specific width while automatically maintaining its original aspect ratio, enter a value for Width and leave Height blank.
@@ -6642,12 +6756,14 @@ extension MediaConvertClientTypes {
 
         public init(
             height: Swift.Int? = nil,
+            opacity: Swift.Int? = nil,
             unit: MediaConvertClientTypes.VideoOverlayUnit? = nil,
             width: Swift.Int? = nil,
             xPosition: Swift.Int? = nil,
             yPosition: Swift.Int? = nil
         ) {
             self.height = height
+            self.opacity = opacity
             self.unit = unit
             self.width = width
             self.xPosition = xPosition
@@ -6679,6 +6795,8 @@ extension MediaConvertClientTypes {
 
     /// Input settings for Video overlay. You can include one or more video overlays in sequence at different times that you specify.
     public struct VideoOverlayInput: Swift.Sendable {
+        /// Use Audio selectors to specify audio to use during your Video overlay. You can use multiple Audio selectors per Video overlay. When you include an Audio selector within a Video overlay, MediaConvert mutes any Audio selectors with the same name from the underlying input. For example, if your underlying input has Audio selector 1 and Audio selector 2, and your Video overlay only has Audio selector 1, then MediaConvert replaces all audio for Audio selector 1 during the Video overlay. To replace all audio for all Audio selectors from the underlying input by using a single Audio selector in your overlay, set DefaultSelection to DEFAULT (Check "Use as default" in the MediaConvert console).
+        public var audioSelectors: [Swift.String: MediaConvertClientTypes.AudioSelector]?
         /// Specify the input file S3, HTTP, or HTTPS URL for your video overlay. To specify one or more Transitions for your base input video instead: Leave blank.
         public var fileInput: Swift.String?
         /// Specify one or more clips to use from your video overlay. When you include an input clip, you must also specify its start timecode, end timecode, or both start and end timecode.
@@ -6689,11 +6807,13 @@ extension MediaConvertClientTypes {
         public var timecodeStart: Swift.String?
 
         public init(
+            audioSelectors: [Swift.String: MediaConvertClientTypes.AudioSelector]? = nil,
             fileInput: Swift.String? = nil,
             inputClippings: [MediaConvertClientTypes.VideoOverlayInputClipping]? = nil,
             timecodeSource: MediaConvertClientTypes.InputTimecodeSource? = nil,
             timecodeStart: Swift.String? = nil
         ) {
+            self.audioSelectors = audioSelectors
             self.fileInput = fileInput
             self.inputClippings = inputClippings
             self.timecodeSource = timecodeSource
@@ -6734,7 +6854,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify one or more Transitions for your video overlay. Use Transitions to reposition or resize your overlay over time. To use the same position and size for the duration of your video overlay: Leave blank. To specify a Transition: Enter a value for Start timecode, End Timecode, X Position, Y Position, Width, or Height.
+    /// Specify one or more Transitions for your video overlay. Use Transitions to reposition or resize your overlay over time. To use the same position and size for the duration of your video overlay: Leave blank. To specify a Transition: Enter a value for Start timecode, End Timecode, X Position, Y Position, Width, Height, or Opacity
     public struct VideoOverlayTransition: Swift.Sendable {
         /// Specify the ending position for this transition, relative to the base input video's frame. Your video overlay will move smoothly to this position, beginning at this transition's Start timecode and ending at this transition's End timecode.
         public var endPosition: MediaConvertClientTypes.VideoOverlayPosition?
@@ -7047,6 +7167,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Choose the video selector type for your HLS input. Use to specify which video rendition MediaConvert uses from your HLS input. To have MediaConvert automatically use the highest bitrate rendition from your HLS input: Keep the default value, Auto. To manually specify a rendition: Choose Stream. Then enter the unique stream number in the Streams array, starting at 1, corresponding to the stream order in the manifest.
+    public enum VideoSelectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case stream
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoSelectorType] {
+            return [
+                .auto,
+                .stream
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .stream: return "STREAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Input video selectors contain the video settings for the input. Each of your inputs can have up to one video selector.
     public struct VideoSelector: Swift.Sendable {
         /// Ignore this setting unless this input is a QuickTime animation with an alpha channel. Use this setting to create separate Key and Fill outputs. In each output, specify which part of the input MediaConvert uses. Leave this setting at the default value DISCARD to delete the alpha channel and preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the alpha channel to the luma channel of your outputs.
@@ -7081,6 +7231,10 @@ extension MediaConvertClientTypes {
         public var rotate: MediaConvertClientTypes.InputRotate?
         /// If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow, for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.
         public var sampleRange: MediaConvertClientTypes.InputSampleRange?
+        /// Choose the video selector type for your HLS input. Use to specify which video rendition MediaConvert uses from your HLS input. To have MediaConvert automatically use the highest bitrate rendition from your HLS input: Keep the default value, Auto. To manually specify a rendition: Choose Stream. Then enter the unique stream number in the Streams array, starting at 1, corresponding to the stream order in the manifest.
+        public var selectorType: MediaConvertClientTypes.VideoSelectorType?
+        /// Specify one or more video streams for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream number, with the first stream in your HLS multivariant playlist starting at 1.For re-encoding workflows, MediaConvert uses the video stream that you select with the highest bitrate as the input.For video passthrough workflows, you specify whether to passthrough a single video stream or multiple video streams under Video selector source in the output video encoding settings.
+        public var streams: [Swift.Int]?
 
         public init(
             alphaBehavior: MediaConvertClientTypes.AlphaBehavior? = nil,
@@ -7093,7 +7247,9 @@ extension MediaConvertClientTypes {
             pid: Swift.Int? = nil,
             programNumber: Swift.Int? = nil,
             rotate: MediaConvertClientTypes.InputRotate? = nil,
-            sampleRange: MediaConvertClientTypes.InputSampleRange? = nil
+            sampleRange: MediaConvertClientTypes.InputSampleRange? = nil,
+            selectorType: MediaConvertClientTypes.VideoSelectorType? = nil,
+            streams: [Swift.Int]? = nil
         ) {
             self.alphaBehavior = alphaBehavior
             self.colorSpace = colorSpace
@@ -7106,6 +7262,8 @@ extension MediaConvertClientTypes {
             self.programNumber = programNumber
             self.rotate = rotate
             self.sampleRange = sampleRange
+            self.selectorType = selectorType
+            self.streams = streams
         }
     }
 }
@@ -8203,18 +8361,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+    /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
     public enum DashManifestStyle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case compact
         case distinct
+        case full
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DashManifestStyle] {
             return [
                 .basic,
                 .compact,
-                .distinct
+                .distinct,
+                .full
             ]
         }
 
@@ -8228,6 +8388,7 @@ extension MediaConvertClientTypes {
             case .basic: return "BASIC"
             case .compact: return "COMPACT"
             case .distinct: return "DISTINCT"
+            case .full: return "FULL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9228,7 +9389,7 @@ extension MediaConvertClientTypes {
         public var codecSpecification: MediaConvertClientTypes.CmafCodecSpecification?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public var dashIFrameTrickPlayNameModifier: Swift.String?
-        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
         public var dashManifestStyle: MediaConvertClientTypes.DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public var destination: Swift.String?
@@ -9803,7 +9964,7 @@ extension MediaConvertClientTypes {
         public var baseUrl: Swift.String?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public var dashIFrameTrickPlayNameModifier: Swift.String?
-        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
         public var dashManifestStyle: MediaConvertClientTypes.DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public var destination: Swift.String?
@@ -11017,7 +11178,7 @@ extension MediaConvertClientTypes {
         public var hlsGroupSettings: MediaConvertClientTypes.HlsGroupSettings?
         /// Settings related to your Microsoft Smooth Streaming output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public var msSmoothGroupSettings: MediaConvertClientTypes.MsSmoothGroupSettings?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth Streaming, CMAF)
         public var type: MediaConvertClientTypes.OutputGroupType?
@@ -11102,6 +11263,36 @@ extension MediaConvertClientTypes {
             case .alternateAudioAutoSelectDefault: return "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
             case .alternateAudioNotAutoSelect: return "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
             case .audioOnlyVariantStream: return "AUDIO_ONLY_VARIANT_STREAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+    public enum CmfcC2paManifest: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmfcC2paManifest] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11360,6 +11551,10 @@ extension MediaConvertClientTypes {
         public var audioRenditionSets: Swift.String?
         /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. Choose Audio-only variant stream (AUDIO_ONLY_VARIANT_STREAM) for any variant that you want to prohibit the client from playing with video. This causes MediaConvert to represent the variant as an EXT-X-STREAM-INF in the HLS manifest. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
         public var audioTrackType: MediaConvertClientTypes.CmfcAudioTrackType?
+        /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+        public var c2paManifest: MediaConvertClientTypes.CmfcC2paManifest?
+        /// Specify the name or ARN of the AWS Secrets Manager secret that contains your C2PA public certificate chain in PEM format. Provide a valid secret name or ARN. Note that your MediaConvert service role must allow access to this secret. The public certificate chain is added to the COSE header (x5chain) for signature validation. Include the signer's certificate and all intermediate certificates. Do not include the root certificate. For details on COSE, see: https://opensource.contentauthenticity.org/docs/manifest/signing-manifests
+        public var certificateSecret: Swift.String?
         /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
         public var descriptiveVideoServiceFlag: MediaConvertClientTypes.CmfcDescriptiveVideoServiceFlag?
         /// Choose Include to have MediaConvert generate an HLS child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude.
@@ -11372,6 +11567,8 @@ extension MediaConvertClientTypes {
         public var scte35Esam: MediaConvertClientTypes.CmfcScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
         public var scte35Source: MediaConvertClientTypes.CmfcScte35Source?
+        /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
+        public var signingKmsKey: Swift.String?
         /// To include ID3 metadata in this output: Set ID3 metadata to Passthrough. Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
         public var timedMetadata: MediaConvertClientTypes.CmfcTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata to Passthrough.
@@ -11386,12 +11583,15 @@ extension MediaConvertClientTypes {
             audioGroupId: Swift.String? = nil,
             audioRenditionSets: Swift.String? = nil,
             audioTrackType: MediaConvertClientTypes.CmfcAudioTrackType? = nil,
+            c2paManifest: MediaConvertClientTypes.CmfcC2paManifest? = nil,
+            certificateSecret: Swift.String? = nil,
             descriptiveVideoServiceFlag: MediaConvertClientTypes.CmfcDescriptiveVideoServiceFlag? = nil,
             iFrameOnlyManifest: MediaConvertClientTypes.CmfcIFrameOnlyManifest? = nil,
             klvMetadata: MediaConvertClientTypes.CmfcKlvMetadata? = nil,
             manifestMetadataSignaling: MediaConvertClientTypes.CmfcManifestMetadataSignaling? = nil,
             scte35Esam: MediaConvertClientTypes.CmfcScte35Esam? = nil,
             scte35Source: MediaConvertClientTypes.CmfcScte35Source? = nil,
+            signingKmsKey: Swift.String? = nil,
             timedMetadata: MediaConvertClientTypes.CmfcTimedMetadata? = nil,
             timedMetadataBoxVersion: MediaConvertClientTypes.CmfcTimedMetadataBoxVersion? = nil,
             timedMetadataSchemeIdUri: Swift.String? = nil,
@@ -11401,12 +11601,15 @@ extension MediaConvertClientTypes {
             self.audioGroupId = audioGroupId
             self.audioRenditionSets = audioRenditionSets
             self.audioTrackType = audioTrackType
+            self.c2paManifest = c2paManifest
+            self.certificateSecret = certificateSecret
             self.descriptiveVideoServiceFlag = descriptiveVideoServiceFlag
             self.iFrameOnlyManifest = iFrameOnlyManifest
             self.klvMetadata = klvMetadata
             self.manifestMetadataSignaling = manifestMetadataSignaling
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
+            self.signingKmsKey = signingKmsKey
             self.timedMetadata = timedMetadata
             self.timedMetadataBoxVersion = timedMetadataBoxVersion
             self.timedMetadataSchemeIdUri = timedMetadataSchemeIdUri
@@ -13039,7 +13242,37 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
+    /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+    public enum MpdC2paManifest: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MpdC2paManifest] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Use this setting only in DASH output groups that include sidecar TTML, IMSC or WEBVTT captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
     public enum MpdCaptionContainerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fragmentedMp4
         case raw
@@ -13255,8 +13488,12 @@ extension MediaConvertClientTypes {
         public var accessibilityCaptionHints: MediaConvertClientTypes.MpdAccessibilityCaptionHints?
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public var audioDuration: MediaConvertClientTypes.MpdAudioDuration?
-        /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
+        /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+        public var c2paManifest: MediaConvertClientTypes.MpdC2paManifest?
+        /// Use this setting only in DASH output groups that include sidecar TTML, IMSC or WEBVTT captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public var captionContainerType: MediaConvertClientTypes.MpdCaptionContainerType?
+        /// Specify the name or ARN of the AWS Secrets Manager secret that contains your C2PA public certificate chain in PEM format. Provide a valid secret name or ARN. Note that your MediaConvert service role must allow access to this secret. The public certificate chain is added to the COSE header (x5chain) for signature validation. Include the signer's certificate and all intermediate certificates. Do not include the root certificate. For details on COSE, see: https://opensource.contentauthenticity.org/docs/manifest/signing-manifests
+        public var certificateSecret: Swift.String?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public var klvMetadata: MediaConvertClientTypes.MpdKlvMetadata?
         /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata to Passthrough.
@@ -13265,6 +13502,8 @@ extension MediaConvertClientTypes {
         public var scte35Esam: MediaConvertClientTypes.MpdScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
         public var scte35Source: MediaConvertClientTypes.MpdScte35Source?
+        /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
+        public var signingKmsKey: Swift.String?
         /// To include ID3 metadata in this output: Set ID3 metadata to Passthrough. Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
         public var timedMetadata: MediaConvertClientTypes.MpdTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata to Passthrough.
@@ -13277,11 +13516,14 @@ extension MediaConvertClientTypes {
         public init(
             accessibilityCaptionHints: MediaConvertClientTypes.MpdAccessibilityCaptionHints? = nil,
             audioDuration: MediaConvertClientTypes.MpdAudioDuration? = nil,
+            c2paManifest: MediaConvertClientTypes.MpdC2paManifest? = nil,
             captionContainerType: MediaConvertClientTypes.MpdCaptionContainerType? = nil,
+            certificateSecret: Swift.String? = nil,
             klvMetadata: MediaConvertClientTypes.MpdKlvMetadata? = nil,
             manifestMetadataSignaling: MediaConvertClientTypes.MpdManifestMetadataSignaling? = nil,
             scte35Esam: MediaConvertClientTypes.MpdScte35Esam? = nil,
             scte35Source: MediaConvertClientTypes.MpdScte35Source? = nil,
+            signingKmsKey: Swift.String? = nil,
             timedMetadata: MediaConvertClientTypes.MpdTimedMetadata? = nil,
             timedMetadataBoxVersion: MediaConvertClientTypes.MpdTimedMetadataBoxVersion? = nil,
             timedMetadataSchemeIdUri: Swift.String? = nil,
@@ -13289,11 +13531,14 @@ extension MediaConvertClientTypes {
         ) {
             self.accessibilityCaptionHints = accessibilityCaptionHints
             self.audioDuration = audioDuration
+            self.c2paManifest = c2paManifest
             self.captionContainerType = captionContainerType
+            self.certificateSecret = certificateSecret
             self.klvMetadata = klvMetadata
             self.manifestMetadataSignaling = manifestMetadataSignaling
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
+            self.signingKmsKey = signingKmsKey
             self.timedMetadata = timedMetadata
             self.timedMetadataBoxVersion = timedMetadataBoxVersion
             self.timedMetadataSchemeIdUri = timedMetadataSchemeIdUri
@@ -13588,16 +13833,18 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Choose Include to have MediaConvert generate a child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude.
+    /// Generate a variant manifest that lists only the I-frames for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only variant manifest and the regular variant manifest to the multivariant manifest. To have MediaConvert write a variant manifest that references I-frames from your output content using EXT-X-BYTERANGE tags: Choose Include. To have MediaConvert output I-frames as single frame TS files and a corresponding variant manifest that references them: Choose Include as TS. When you don't need the I-frame only variant manifest: Keep the default value, Exclude.
     public enum HlsIFrameOnlyManifest: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case exclude
         case include
+        case includeAsTs
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HlsIFrameOnlyManifest] {
             return [
                 .exclude,
-                .include
+                .include,
+                .includeAsTs
             ]
         }
 
@@ -13610,6 +13857,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .exclude: return "EXCLUDE"
             case .include: return "INCLUDE"
+            case .includeAsTs: return "INCLUDE_AS_TS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13630,7 +13878,7 @@ extension MediaConvertClientTypes {
         public var audioTrackType: MediaConvertClientTypes.HlsAudioTrackType?
         /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
         public var descriptiveVideoServiceFlag: MediaConvertClientTypes.HlsDescriptiveVideoServiceFlag?
-        /// Choose Include to have MediaConvert generate a child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude.
+        /// Generate a variant manifest that lists only the I-frames for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only variant manifest and the regular variant manifest to the multivariant manifest. To have MediaConvert write a variant manifest that references I-frames from your output content using EXT-X-BYTERANGE tags: Choose Include. To have MediaConvert output I-frames as single frame TS files and a corresponding variant manifest that references them: Choose Include as TS. When you don't need the I-frame only variant manifest: Keep the default value, Exclude.
         public var iFrameOnlyManifest: MediaConvertClientTypes.HlsIFrameOnlyManifest?
         /// Use this setting to add an identifying string to the filename of each segment. The service adds this string between the name modifier and segment index number. You can use format identifiers in the string. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html
         public var segmentModifier: Swift.String?
@@ -14034,7 +14282,7 @@ extension MediaConvertClientTypes {
         public var maxBitrate: Swift.Int?
         /// Specify from the number of B-frames, in the range of 0-15. For AV1 encoding, we recommend using 7 or 15. Choose a larger number for a lower bitrate and smaller file size; choose a smaller number for better video quality.
         public var numberBFramesBetweenReferenceFrames: Swift.Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
         public var qvbrSettings: MediaConvertClientTypes.Av1QvbrSettings?
@@ -14375,7 +14623,7 @@ extension MediaConvertClientTypes {
         public var framerateNumerator: Swift.Int?
         /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public var interlaceMode: MediaConvertClientTypes.AvcIntraInterlaceMode?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public var scanTypeConversionMode: MediaConvertClientTypes.AvcIntraScanTypeConversionMode?
@@ -15686,7 +15934,7 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// The Quality tuning level you choose represents a trade-off between the encoding speed of your job and the output video quality. For the fastest encoding speed at the cost of video quality: Choose Single pass. For a good balance between encoding speed and video quality: Leave blank or keep the default value Single pass HQ. For the best video quality, at the cost of encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass on your input followed by an encoding pass. Outputs that use this feature incur pro-tier pricing.
         public var qualityTuningLevel: MediaConvertClientTypes.H264QualityTuningLevel?
@@ -16298,6 +16546,66 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
+    public enum H265MvOverPictureBoundaries: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265MvOverPictureBoundaries] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
+    public enum H265MvTemporalPredictor: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265MvTemporalPredictor] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Optional. Specify how the service determines the pixel aspect ratio (PAR) for this output. The default behavior, Follow source, uses the PAR from your input video for your output. To specify a different PAR, choose any value other than Follow source. When you choose SPECIFIED for this setting, you must also specify values for the parNumerator and parDenominator settings.
     public enum H265ParControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case initializeFromSource
@@ -16666,6 +16974,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Set to "padded" to force MediaConvert to add padding to the frame, to obtain a frame that is a whole multiple of the tile size. If you are setting up the picture as a tile, you must enter "padded". In all other configurations, you typically enter "none".
+    public enum H265TilePadding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case padded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265TilePadding] {
+            return [
+                .none,
+                .padded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .padded: return "PADDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Enable use of tiles, allowing horizontal as well as vertical subdivision of the encoded pictures.
     public enum H265Tiles: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
@@ -16688,6 +17026,36 @@ extension MediaConvertClientTypes {
             switch self {
             case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
+    public enum H265TreeBlockSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case treeSize32x32
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265TreeBlockSize] {
+            return [
+                .auto,
+                .treeSize32x32
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .treeSize32x32: return "TREE_SIZE_32X32"
             case let .sdkUnknown(s): return s
             }
         }
@@ -16806,6 +17174,10 @@ extension MediaConvertClientTypes {
         public var maxBitrate: Swift.Int?
         /// Specify the minimum number of frames allowed between two IDR-frames in your output. This includes frames created at the start of a GOP or a scene change. Use Min I-Interval to improve video compression by varying GOP size when two IDR-frames would be created near each other. For example, if a regular cadence-driven IDR-frame would fall within 5 frames of a scene-change IDR-frame, and you set Min I-interval to 5, then the encoder would only write an IDR-frame for the scene-change. In this way, one GOP is shortened or extended. If a cadence-driven IDR-frame would be further than 5 frames from a scene-change IDR-frame, then the encoder leaves all IDR-frames in place. To use an automatically determined interval: We recommend that you keep this value blank. This allows for MediaConvert to use an optimal setting according to the characteristics of your input video, and results in better video compression. To manually specify an interval: Enter a value from 1 to 30. Use when your downstream systems have specific GOP size requirements. To disable GOP size variance: Enter 0. MediaConvert will only create IDR-frames at the start of your output's cadence-driven GOP. Use when your downstream systems require a regular GOP size.
         public var minIInterval: Swift.Int?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
+        public var mvOverPictureBoundaries: MediaConvertClientTypes.H265MvOverPictureBoundaries?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
+        public var mvTemporalPredictor: MediaConvertClientTypes.H265MvTemporalPredictor?
         /// Specify the number of B-frames between reference frames in this output. For the best video quality: Leave blank. MediaConvert automatically determines the number of B-frames to use based on the characteristics of your input video. To manually specify the number of B-frames between reference frames: Enter an integer from 0 to 7.
         public var numberBFramesBetweenReferenceFrames: Swift.Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
@@ -16816,7 +17188,7 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public var qualityTuningLevel: MediaConvertClientTypes.H265QualityTuningLevel?
@@ -16842,8 +17214,16 @@ extension MediaConvertClientTypes {
         public var temporalAdaptiveQuantization: MediaConvertClientTypes.H265TemporalAdaptiveQuantization?
         /// Enables temporal layer identifiers in the encoded bitstream. Up to 3 layers are supported depending on GOP structure: I- and P-frames form one layer, reference B-frames can form a second layer and non-reference b-frames can form a third layer. Decoders can optionally decode only the lower temporal layers to generate a lower frame rate output. For example, given a bitstream with temporal IDs and with b-frames = 1 (i.e. IbPbPb display order), a decoder could decode all the frames for full frame rate output or only the I and P frames (lowest temporal layer) for a half frame rate output.
         public var temporalIds: MediaConvertClientTypes.H265TemporalIds?
+        /// Set this field to set up the picture as a tile. You must also set TileWidth. The tile height must result in 22 or fewer rows in the frame. The tile width must result in 20 or fewer columns in the frame. And finally, the product of the column count and row count must be 64 or less. If the tile width and height are specified, MediaConvert will override the video codec slices field with a value that MediaConvert calculates.
+        public var tileHeight: Swift.Int?
+        /// Set to "padded" to force MediaConvert to add padding to the frame, to obtain a frame that is a whole multiple of the tile size. If you are setting up the picture as a tile, you must enter "padded". In all other configurations, you typically enter "none".
+        public var tilePadding: MediaConvertClientTypes.H265TilePadding?
+        /// Set this field to set up the picture as a tile. See TileHeight for more information.
+        public var tileWidth: Swift.Int?
         /// Enable use of tiles, allowing horizontal as well as vertical subdivision of the encoded pictures.
         public var tiles: MediaConvertClientTypes.H265Tiles?
+        /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
+        public var treeBlockSize: MediaConvertClientTypes.H265TreeBlockSize?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public var unregisteredSeiTimecode: MediaConvertClientTypes.H265UnregisteredSeiTimecode?
         /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting only with CMAF or DASH outputs, or with standalone file outputs in an MPEG-4 container (MP4 outputs). Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. For MP4 outputs, when you choose HVC1, your output video might not work properly with some downstream systems and video players. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
@@ -16874,6 +17254,8 @@ extension MediaConvertClientTypes {
             interlaceMode: MediaConvertClientTypes.H265InterlaceMode? = nil,
             maxBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
+            mvOverPictureBoundaries: MediaConvertClientTypes.H265MvOverPictureBoundaries? = nil,
+            mvTemporalPredictor: MediaConvertClientTypes.H265MvTemporalPredictor? = nil,
             numberBFramesBetweenReferenceFrames: Swift.Int? = nil,
             numberReferenceFrames: Swift.Int? = nil,
             parControl: MediaConvertClientTypes.H265ParControl? = nil,
@@ -16892,7 +17274,11 @@ extension MediaConvertClientTypes {
             telecine: MediaConvertClientTypes.H265Telecine? = nil,
             temporalAdaptiveQuantization: MediaConvertClientTypes.H265TemporalAdaptiveQuantization? = nil,
             temporalIds: MediaConvertClientTypes.H265TemporalIds? = nil,
+            tileHeight: Swift.Int? = nil,
+            tilePadding: MediaConvertClientTypes.H265TilePadding? = nil,
+            tileWidth: Swift.Int? = nil,
             tiles: MediaConvertClientTypes.H265Tiles? = nil,
+            treeBlockSize: MediaConvertClientTypes.H265TreeBlockSize? = nil,
             unregisteredSeiTimecode: MediaConvertClientTypes.H265UnregisteredSeiTimecode? = nil,
             writeMp4PackagingType: MediaConvertClientTypes.H265WriteMp4PackagingType? = nil
         ) {
@@ -16920,6 +17306,8 @@ extension MediaConvertClientTypes {
             self.interlaceMode = interlaceMode
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.mvOverPictureBoundaries = mvOverPictureBoundaries
+            self.mvTemporalPredictor = mvTemporalPredictor
             self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
             self.numberReferenceFrames = numberReferenceFrames
             self.parControl = parControl
@@ -16938,7 +17326,11 @@ extension MediaConvertClientTypes {
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
             self.temporalIds = temporalIds
+            self.tileHeight = tileHeight
+            self.tilePadding = tilePadding
+            self.tileWidth = tileWidth
             self.tiles = tiles
+            self.treeBlockSize = treeBlockSize
             self.unregisteredSeiTimecode = unregisteredSeiTimecode
             self.writeMp4PackagingType = writeMp4PackagingType
         }
@@ -17607,7 +17999,7 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public var qualityTuningLevel: MediaConvertClientTypes.Mpeg2QualityTuningLevel?
@@ -17700,6 +18092,85 @@ extension MediaConvertClientTypes {
             self.syntax = syntax
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Choose how MediaConvert handles start and end times for input clipping with video passthrough. Your input video codec must be H.264 or H.265 to use IFRAME. To clip at the nearest IDR-frame: Choose Nearest IDR. If an IDR-frame is not found at the frame that you specify, MediaConvert uses the next compatible IDR-frame. Note that your output may be shorter than your input clip duration. To clip at the nearest I-frame: Choose Nearest I-frame. If an I-frame is not found at the frame that you specify, MediaConvert uses the next compatible I-frame. Note that your output may be shorter than your input clip duration. We only recommend this setting for special workflows, and when you choose this setting your output may not be compatible with most players.
+    public enum FrameControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case nearestIdrframe
+        case nearestIframe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FrameControl] {
+            return [
+                .nearestIdrframe,
+                .nearestIframe
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .nearestIdrframe: return "NEAREST_IDRFRAME"
+            case .nearestIframe: return "NEAREST_IFRAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
+    public enum VideoSelectorMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case remuxAll
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoSelectorMode] {
+            return [
+                .auto,
+                .remuxAll
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .remuxAll: return "REMUX_ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Optional settings when you set Codec to the value Passthrough.
+    public struct PassthroughSettings: Swift.Sendable {
+        /// Choose how MediaConvert handles start and end times for input clipping with video passthrough. Your input video codec must be H.264 or H.265 to use IFRAME. To clip at the nearest IDR-frame: Choose Nearest IDR. If an IDR-frame is not found at the frame that you specify, MediaConvert uses the next compatible IDR-frame. Note that your output may be shorter than your input clip duration. To clip at the nearest I-frame: Choose Nearest I-frame. If an I-frame is not found at the frame that you specify, MediaConvert uses the next compatible I-frame. Note that your output may be shorter than your input clip duration. We only recommend this setting for special workflows, and when you choose this setting your output may not be compatible with most players.
+        public var frameControl: MediaConvertClientTypes.FrameControl?
+        /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
+        public var videoSelectorMode: MediaConvertClientTypes.VideoSelectorMode?
+
+        public init(
+            frameControl: MediaConvertClientTypes.FrameControl? = nil,
+            videoSelectorMode: MediaConvertClientTypes.VideoSelectorMode? = nil
+        ) {
+            self.frameControl = frameControl
+            self.videoSelectorMode = videoSelectorMode
         }
     }
 }
@@ -18025,7 +18496,7 @@ extension MediaConvertClientTypes {
         public var parDenominator: Swift.Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public var parNumerator: Swift.Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public var scanTypeConversionMode: MediaConvertClientTypes.ProresScanTypeConversionMode?
@@ -19846,7 +20317,7 @@ extension MediaConvertClientTypes {
         public var framerateDenominator: Swift.Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public var framerateNumerator: Swift.Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
         /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To create an interlaced XAVC output, choose the profile XAVC_HD.
         public var profile: MediaConvertClientTypes.XavcProfile?
@@ -19929,6 +20400,8 @@ extension MediaConvertClientTypes {
         public var h265Settings: MediaConvertClientTypes.H265Settings?
         /// Required when you set Codec to the value MPEG2.
         public var mpeg2Settings: MediaConvertClientTypes.Mpeg2Settings?
+        /// Optional settings when you set Codec to the value Passthrough.
+        public var passthroughSettings: MediaConvertClientTypes.PassthroughSettings?
         /// Required when you set Codec to the value PRORES.
         public var proresSettings: MediaConvertClientTypes.ProresSettings?
         /// Required when you set Codec, under VideoDescription>CodecSettings to the value UNCOMPRESSED.
@@ -19951,6 +20424,7 @@ extension MediaConvertClientTypes {
             h264Settings: MediaConvertClientTypes.H264Settings? = nil,
             h265Settings: MediaConvertClientTypes.H265Settings? = nil,
             mpeg2Settings: MediaConvertClientTypes.Mpeg2Settings? = nil,
+            passthroughSettings: MediaConvertClientTypes.PassthroughSettings? = nil,
             proresSettings: MediaConvertClientTypes.ProresSettings? = nil,
             uncompressedSettings: MediaConvertClientTypes.UncompressedSettings? = nil,
             vc3Settings: MediaConvertClientTypes.Vc3Settings? = nil,
@@ -19966,6 +20440,7 @@ extension MediaConvertClientTypes {
             self.h264Settings = h264Settings
             self.h265Settings = h265Settings
             self.mpeg2Settings = mpeg2Settings
+            self.passthroughSettings = passthroughSettings
             self.proresSettings = proresSettings
             self.uncompressedSettings = uncompressedSettings
             self.vc3Settings = vc3Settings
@@ -21381,6 +21856,38 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    public enum ShareStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case initiated
+        case notShared
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ShareStatus] {
+            return [
+                .initiated,
+                .notShared,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .initiated: return "INITIATED"
+            case .notShared: return "NOT_SHARED"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
     public enum SimulateReservedQueue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
@@ -21595,6 +22102,8 @@ extension MediaConvertClientTypes {
         public var jobPercentComplete: Swift.Int?
         /// The job template that the job is created from, if it is created from a job template.
         public var jobTemplate: Swift.String?
+        /// Contains information about the most recent share attempt for the job. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/creating-resource-share.html
+        public var lastShareDetails: Swift.String?
         /// Provides messages from the service about jobs that you have already successfully submitted.
         public var messages: MediaConvertClientTypes.JobMessages?
         /// List of output group details
@@ -21613,6 +22122,8 @@ extension MediaConvertClientTypes {
         /// JobSettings contains all the transcode settings for a job.
         /// This member is required.
         public var settings: MediaConvertClientTypes.JobSettings?
+        /// A job's share status can be NOT_SHARED, INITIATED, or SHARED
+        public var shareStatus: MediaConvertClientTypes.ShareStatus?
         /// Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
         public var simulateReservedQueue: MediaConvertClientTypes.SimulateReservedQueue?
         /// A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED, or ERROR.
@@ -21642,6 +22153,7 @@ extension MediaConvertClientTypes {
             jobEngineVersionUsed: Swift.String? = nil,
             jobPercentComplete: Swift.Int? = nil,
             jobTemplate: Swift.String? = nil,
+            lastShareDetails: Swift.String? = nil,
             messages: MediaConvertClientTypes.JobMessages? = nil,
             outputGroupDetails: [MediaConvertClientTypes.OutputGroupDetail]? = nil,
             priority: Swift.Int? = nil,
@@ -21650,6 +22162,7 @@ extension MediaConvertClientTypes {
             retryCount: Swift.Int? = nil,
             role: Swift.String? = nil,
             settings: MediaConvertClientTypes.JobSettings? = nil,
+            shareStatus: MediaConvertClientTypes.ShareStatus? = nil,
             simulateReservedQueue: MediaConvertClientTypes.SimulateReservedQueue? = nil,
             status: MediaConvertClientTypes.JobStatus? = nil,
             statusUpdateInterval: MediaConvertClientTypes.StatusUpdateInterval? = nil,
@@ -21672,6 +22185,7 @@ extension MediaConvertClientTypes {
             self.jobEngineVersionUsed = jobEngineVersionUsed
             self.jobPercentComplete = jobPercentComplete
             self.jobTemplate = jobTemplate
+            self.lastShareDetails = lastShareDetails
             self.messages = messages
             self.outputGroupDetails = outputGroupDetails
             self.priority = priority
@@ -21680,6 +22194,7 @@ extension MediaConvertClientTypes {
             self.retryCount = retryCount
             self.role = role
             self.settings = settings
+            self.shareStatus = shareStatus
             self.simulateReservedQueue = simulateReservedQueue
             self.status = status
             self.statusUpdateInterval = statusUpdateInterval
@@ -21696,7 +22211,7 @@ extension MediaConvertClientTypes {
     public struct JobEngineVersion: Swift.Sendable {
         /// The date that this Job engine version expires. Requests to create jobs with an expired version result in a regular job, as if no specific Job engine version was requested.
         public var expirationDate: Foundation.Date?
-        /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions are in a YYYY-MM-DD format.
+        /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions represent periodically grouped MediaConvert releases with new features, updates, improvements, and fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version feature is not publicly available at this time. To request access, contact AWS support.
         public var version: Swift.String?
 
         public init(
@@ -21705,6 +22220,70 @@ extension MediaConvertClientTypes {
         ) {
             self.expirationDate = expirationDate
             self.version = version
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC)
+    public enum JobsQueryFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case audiocodec
+        case fileinput
+        case jobengineversionrequested
+        case jobengineversionused
+        case queue
+        case status
+        case videocodec
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobsQueryFilterKey] {
+            return [
+                .audiocodec,
+                .fileinput,
+                .jobengineversionrequested,
+                .jobengineversionused,
+                .queue,
+                .status,
+                .videocodec
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .audiocodec: return "audioCodec"
+            case .fileinput: return "fileInput"
+            case .jobengineversionrequested: return "jobEngineVersionRequested"
+            case .jobengineversionused: return "jobEngineVersionUsed"
+            case .queue: return "queue"
+            case .status: return "status"
+            case .videocodec: return "videoCodec"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Provide one or more JobsQueryFilter objects, each containing a Key with an associated Values array. Note that MediaConvert queries jobs using OR logic.
+    public struct JobsQueryFilter: Swift.Sendable {
+        /// Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC)
+        public var key: MediaConvertClientTypes.JobsQueryFilterKey?
+        /// A list of values associated with a JobsQueryFilterKey.
+        public var values: [Swift.String]?
+
+        public init(
+            key: MediaConvertClientTypes.JobsQueryFilterKey? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
         }
     }
 }
@@ -21997,7 +22576,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The frame rate of the video or audio track.
+    /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
     public struct FrameRate: Swift.Sendable {
         /// The denominator, or bottom number, in the fractional frame rate. For example, if your frame rate is 24000 / 1001 (23.976 frames per second), then the denominator would be 1001.
         public var denominator: Swift.Int?
@@ -22024,7 +22603,7 @@ extension MediaConvertClientTypes {
         public var bitRate: Swift.Int?
         /// The number of audio channels in the audio track.
         public var channels: Swift.Int?
-        /// The frame rate of the video or audio track.
+        /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
         public var frameRate: MediaConvertClientTypes.FrameRate?
         /// The language code of the audio track, in three character ISO 639-3 format.
         public var languageCode: Swift.String?
@@ -22065,12 +22644,15 @@ extension MediaConvertClientTypes {
         case mjpeg
         case mp3
         case mp4v
+        case mpeg1
         case mpeg2
         case opus
         case pcm
         case prores
+        case qtrle
         case theora
         case unknown
+        case vfw
         case vorbis
         case vp8
         case vp9
@@ -22092,12 +22674,15 @@ extension MediaConvertClientTypes {
                 .mjpeg,
                 .mp3,
                 .mp4v,
+                .mpeg1,
                 .mpeg2,
                 .opus,
                 .pcm,
                 .prores,
+                .qtrle,
                 .theora,
                 .unknown,
+                .vfw,
                 .vorbis,
                 .vp8,
                 .vp9,
@@ -22125,12 +22710,15 @@ extension MediaConvertClientTypes {
             case .mjpeg: return "MJPEG"
             case .mp3: return "MP3"
             case .mp4v: return "MP4V"
+            case .mpeg1: return "MPEG1"
             case .mpeg2: return "MPEG2"
             case .opus: return "OPUS"
             case .pcm: return "PCM"
             case .prores: return "PRORES"
+            case .qtrle: return "QTRLE"
             case .theora: return "THEORA"
             case .unknown: return "UNKNOWN"
+            case .vfw: return "VFW"
             case .vorbis: return "VORBIS"
             case .vp8: return "VP8"
             case .vp9: return "VP9"
@@ -22190,7 +22778,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The color space color primaries of the video track.
+    /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
     public enum ColorPrimaries: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ebu3213E
         case genericFilm
@@ -22262,7 +22850,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The color space matrix coefficients of the video track.
+    /// The color space matrix coefficients of the video track, defining how RGB color values are converted to and from YUV color space. This affects color accuracy during encoding and decoding processes.
     public enum MatrixCoefficients: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cdCl
         case cdNcl
@@ -22340,7 +22928,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The color space transfer characteristics of the video track.
+    /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
     public enum TransferCharacteristics: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aribB67
         case iec6196621
@@ -22421,21 +23009,78 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Codec-specific parameters parsed from the video essence headers. This information provides detailed technical specifications about how the video was encoded, including profile settings, resolution details, and color space information that can help you understand the source video characteristics and make informed encoding decisions.
+    public struct CodecMetadata: Swift.Sendable {
+        /// The number of bits used per color component in the video essence such as 8, 10, or 12 bits. Standard range (SDR) video typically uses 8-bit, while 10-bit is common for high dynamic range (HDR).
+        public var bitDepth: Swift.Int?
+        /// The chroma subsampling format used in the video encoding, such as "4:2:0" or "4:4:4". This describes how color information is sampled relative to brightness information. Different subsampling ratios affect video quality and file size, with "4:4:4" providing the highest color fidelity and "4:2:0" being most common for standard video.
+        public var chromaSubsampling: Swift.String?
+        /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
+        public var codedFrameRate: MediaConvertClientTypes.FrameRate?
+        /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
+        public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
+        /// The height in pixels as coded by the codec. This represents the actual encoded video height as specified in the video stream headers.
+        public var height: Swift.Int?
+        /// The codec level or tier that specifies the maximum processing requirements and capabilities. Levels define constraints such as maximum bit rate, frame rate, and resolution.
+        public var level: Swift.String?
+        /// The color space matrix coefficients of the video track, defining how RGB color values are converted to and from YUV color space. This affects color accuracy during encoding and decoding processes.
+        public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
+        /// The codec profile used to encode the video. Profiles define specific feature sets and capabilities within a codec standard. For example, H.264 profiles include Baseline, Main, and High, each supporting different encoding features and complexity levels.
+        public var profile: Swift.String?
+        /// The scanning method specified in the video essence, indicating whether the video uses progressive or interlaced scanning.
+        public var scanType: Swift.String?
+        /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
+        public var transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics?
+        /// The width in pixels as coded by the codec. This represents the actual encoded video width as specified in the video stream headers.
+        public var width: Swift.Int?
+
+        public init(
+            bitDepth: Swift.Int? = nil,
+            chromaSubsampling: Swift.String? = nil,
+            codedFrameRate: MediaConvertClientTypes.FrameRate? = nil,
+            colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
+            height: Swift.Int? = nil,
+            level: Swift.String? = nil,
+            matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients? = nil,
+            profile: Swift.String? = nil,
+            scanType: Swift.String? = nil,
+            transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics? = nil,
+            width: Swift.Int? = nil
+        ) {
+            self.bitDepth = bitDepth
+            self.chromaSubsampling = chromaSubsampling
+            self.codedFrameRate = codedFrameRate
+            self.colorPrimaries = colorPrimaries
+            self.height = height
+            self.level = level
+            self.matrixCoefficients = matrixCoefficients
+            self.profile = profile
+            self.scanType = scanType
+            self.transferCharacteristics = transferCharacteristics
+            self.width = width
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Details about the media file's video track.
     public struct VideoProperties: Swift.Sendable {
-        /// The bit depth of the video track.
+        /// The number of bits used per color component such as 8, 10, or 12 bits. Standard range (SDR) video typically uses 8-bit, while 10-bit is common for high dynamic range (HDR).
         public var bitDepth: Swift.Int?
         /// The bit rate of the video track, in bits per second.
         public var bitRate: Swift.Int?
-        /// The color space color primaries of the video track.
+        /// Codec-specific parameters parsed from the video essence headers. This information provides detailed technical specifications about how the video was encoded, including profile settings, resolution details, and color space information that can help you understand the source video characteristics and make informed encoding decisions.
+        public var codecMetadata: MediaConvertClientTypes.CodecMetadata?
+        /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
         public var colorPrimaries: MediaConvertClientTypes.ColorPrimaries?
-        /// The frame rate of the video or audio track.
+        /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
         public var frameRate: MediaConvertClientTypes.FrameRate?
         /// The height of the video track, in pixels.
         public var height: Swift.Int?
-        /// The color space matrix coefficients of the video track.
+        /// The color space matrix coefficients of the video track, defining how RGB color values are converted to and from YUV color space. This affects color accuracy during encoding and decoding processes.
         public var matrixCoefficients: MediaConvertClientTypes.MatrixCoefficients?
-        /// The color space transfer characteristics of the video track.
+        /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
         public var transferCharacteristics: MediaConvertClientTypes.TransferCharacteristics?
         /// The width of the video track, in pixels.
         public var width: Swift.Int?
@@ -22443,6 +23088,7 @@ extension MediaConvertClientTypes {
         public init(
             bitDepth: Swift.Int? = nil,
             bitRate: Swift.Int? = nil,
+            codecMetadata: MediaConvertClientTypes.CodecMetadata? = nil,
             colorPrimaries: MediaConvertClientTypes.ColorPrimaries? = nil,
             frameRate: MediaConvertClientTypes.FrameRate? = nil,
             height: Swift.Int? = nil,
@@ -22452,6 +23098,7 @@ extension MediaConvertClientTypes {
         ) {
             self.bitDepth = bitDepth
             self.bitRate = bitRate
+            self.codecMetadata = codecMetadata
             self.colorPrimaries = colorPrimaries
             self.frameRate = frameRate
             self.height = height
@@ -22985,6 +23632,29 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+/// You attempted to create more resources than the service allows based on service quotas.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
 public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -23051,7 +23721,7 @@ public struct CreateJobInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
     public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
-    /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. To specify a Job engine version: Enter a date in a YYYY-MM-DD format. For a list of valid Job engine versions, submit a ListVersions request. To not specify a Job engine version: Leave blank.
+    /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions represent periodically grouped MediaConvert releases with new features, updates, improvements, and fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version feature is not publicly available at this time. To request access, contact AWS support.
     public var jobEngineVersion: Swift.String?
     /// Optional. When you create a job, you can either specify a job template or specify the transcoding settings individually.
     public var jobTemplate: Swift.String?
@@ -23291,6 +23961,28 @@ public struct CreateQueueOutput: Swift.Sendable {
     }
 }
 
+public struct CreateResourceShareInput: Swift.Sendable {
+    /// Specify MediaConvert Job ID or ARN to share
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// AWS Support case identifier
+    /// This member is required.
+    public var supportCaseId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil,
+        supportCaseId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+        self.supportCaseId = supportCaseId
+    }
+}
+
+public struct CreateResourceShareOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteJobTemplateInput: Swift.Sendable {
     /// The name of the job template to be deleted.
     /// This member is required.
@@ -23457,6 +24149,73 @@ public struct GetJobOutput: Swift.Sendable {
         job: MediaConvertClientTypes.Job? = nil
     ) {
         self.job = job
+    }
+}
+
+public struct GetJobsQueryResultsInput: Swift.Sendable {
+    /// The ID of the jobs query.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// A job query's status can be SUBMITTED, PROGRESSING, COMPLETE, or ERROR.
+    public enum JobsQueryStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case error
+        case progressing
+        case submitted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobsQueryStatus] {
+            return [
+                .complete,
+                .error,
+                .progressing,
+                .submitted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .error: return "ERROR"
+            case .progressing: return "PROGRESSING"
+            case .submitted: return "SUBMITTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetJobsQueryResultsOutput: Swift.Sendable {
+    /// List of jobs.
+    public var jobs: [MediaConvertClientTypes.Job]?
+    /// Use this string to request the next batch of jobs via the StartJobsQuery API.
+    public var nextToken: Swift.String?
+    /// The status of the jobs query.
+    public var status: MediaConvertClientTypes.JobsQueryStatus?
+
+    public init(
+        jobs: [MediaConvertClientTypes.Job]? = nil,
+        nextToken: Swift.String? = nil,
+        status: MediaConvertClientTypes.JobsQueryStatus? = nil
+    ) {
+        self.jobs = jobs
+        self.nextToken = nextToken
+        self.status = status
     }
 }
 
@@ -24059,6 +24818,40 @@ public struct SearchJobsOutput: Swift.Sendable {
     }
 }
 
+public struct StartJobsQueryInput: Swift.Sendable {
+    /// Optional. Provide an array of JobsQueryFilters for your StartJobsQuery request.
+    public var filterList: [MediaConvertClientTypes.JobsQueryFilter]?
+    /// Optional. Number of jobs, up to twenty, that will be included in the jobs query.
+    public var maxResults: Swift.Int?
+    /// Use this string to request the next batch of jobs matched by a jobs query.
+    public var nextToken: Swift.String?
+    /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+    public var order: MediaConvertClientTypes.Order?
+
+    public init(
+        filterList: [MediaConvertClientTypes.JobsQueryFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        order: MediaConvertClientTypes.Order? = nil
+    ) {
+        self.filterList = filterList
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.order = order
+    }
+}
+
+public struct StartJobsQueryOutput: Swift.Sendable {
+    /// The ID of the jobs query.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag. To get the ARN, send a GET request with the resource name.
     /// This member is required.
@@ -24276,6 +25069,13 @@ extension CreateQueueInput {
     }
 }
 
+extension CreateResourceShareInput {
+
+    static func urlPathProvider(_ value: CreateResourceShareInput) -> Swift.String? {
+        return "/2017-08-29/resourceShares"
+    }
+}
+
 extension DeleteJobTemplateInput {
 
     static func urlPathProvider(_ value: DeleteJobTemplateInput) -> Swift.String? {
@@ -24337,6 +25137,16 @@ extension GetJobInput {
             return nil
         }
         return "/2017-08-29/jobs/\(id.urlPercentEncoding())"
+    }
+}
+
+extension GetJobsQueryResultsInput {
+
+    static func urlPathProvider(_ value: GetJobsQueryResultsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2017-08-29/jobsQueries/\(id.urlPercentEncoding())"
     }
 }
 
@@ -24599,6 +25409,13 @@ extension SearchJobsInput {
     }
 }
 
+extension StartJobsQueryInput {
+
+    static func urlPathProvider(_ value: StartJobsQueryInput) -> Swift.String? {
+        return "/2017-08-29/jobsQueries"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -24718,6 +25535,15 @@ extension CreateQueueInput {
     }
 }
 
+extension CreateResourceShareInput {
+
+    static func write(value: CreateResourceShareInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobId"].write(value.jobId)
+        try writer["supportCaseId"].write(value.supportCaseId)
+    }
+}
+
 extension DescribeEndpointsInput {
 
     static func write(value: DescribeEndpointsInput?, to writer: SmithyJSON.Writer) throws {
@@ -24741,6 +25567,17 @@ extension PutPolicyInput {
     static func write(value: PutPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["policy"].write(value.policy, with: MediaConvertClientTypes.Policy.write(value:to:))
+    }
+}
+
+extension StartJobsQueryInput {
+
+    static func write(value: StartJobsQueryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterList"].writeList(value.filterList, memberWritingClosure: MediaConvertClientTypes.JobsQueryFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["order"].write(value.order)
     }
 }
 
@@ -24859,6 +25696,13 @@ extension CreateQueueOutput {
     }
 }
 
+extension CreateResourceShareOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateResourceShareOutput {
+        return CreateResourceShareOutput()
+    }
+}
+
 extension DeleteJobTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteJobTemplateOutput {
@@ -24915,6 +25759,20 @@ extension GetJobOutput {
         let reader = responseReader
         var value = GetJobOutput()
         value.job = try reader["job"].readIfPresent(with: MediaConvertClientTypes.Job.read(from:))
+        return value
+    }
+}
+
+extension GetJobsQueryResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetJobsQueryResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetJobsQueryResultsOutput()
+        value.jobs = try reader["jobs"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.Job.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -25083,6 +25941,18 @@ extension SearchJobsOutput {
     }
 }
 
+extension StartJobsQueryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartJobsQueryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartJobsQueryOutput()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -25146,6 +26016,7 @@ enum AssociateCertificateOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25165,6 +26036,7 @@ enum CancelJobOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25184,6 +26056,7 @@ enum CreateJobOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25203,6 +26076,7 @@ enum CreateJobTemplateOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25222,6 +26096,7 @@ enum CreatePresetOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25241,6 +26116,27 @@ enum CreateQueueOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateResourceShareOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25260,6 +26156,7 @@ enum DeleteJobTemplateOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25279,6 +26176,7 @@ enum DeletePolicyOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25298,6 +26196,7 @@ enum DeletePresetOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25317,6 +26216,7 @@ enum DeleteQueueOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25336,6 +26236,7 @@ enum DescribeEndpointsOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25355,6 +26256,7 @@ enum DisassociateCertificateOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25374,6 +26276,27 @@ enum GetJobOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetJobsQueryResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25393,6 +26316,7 @@ enum GetJobTemplateOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25412,6 +26336,7 @@ enum GetPolicyOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25431,6 +26356,7 @@ enum GetPresetOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25450,6 +26376,7 @@ enum GetQueueOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25469,6 +26396,7 @@ enum ListJobsOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25488,6 +26416,7 @@ enum ListJobTemplatesOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25507,6 +26436,7 @@ enum ListPresetsOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25526,6 +26456,7 @@ enum ListQueuesOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25545,6 +26476,7 @@ enum ListTagsForResourceOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25564,6 +26496,7 @@ enum ListVersionsOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25583,6 +26516,7 @@ enum ProbeOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25602,6 +26536,7 @@ enum PutPolicyOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25621,6 +26556,27 @@ enum SearchJobsOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartJobsQueryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25640,6 +26596,7 @@ enum TagResourceOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25659,6 +26616,7 @@ enum UntagResourceOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25678,6 +26636,7 @@ enum UpdateJobTemplateOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25697,6 +26656,7 @@ enum UpdatePresetOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25716,6 +26676,7 @@ enum UpdateQueueOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -25787,6 +26748,19 @@ extension NotFoundException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyRequestsException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
@@ -25820,6 +26794,7 @@ extension MediaConvertClientTypes.Job {
         value.jobEngineVersionUsed = try reader["jobEngineVersionUsed"].readIfPresent()
         value.jobPercentComplete = try reader["jobPercentComplete"].readIfPresent()
         value.jobTemplate = try reader["jobTemplate"].readIfPresent()
+        value.lastShareDetails = try reader["lastShareDetails"].readIfPresent()
         value.messages = try reader["messages"].readIfPresent(with: MediaConvertClientTypes.JobMessages.read(from:))
         value.outputGroupDetails = try reader["outputGroupDetails"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.OutputGroupDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.priority = try reader["priority"].readIfPresent()
@@ -25828,6 +26803,7 @@ extension MediaConvertClientTypes.Job {
         value.retryCount = try reader["retryCount"].readIfPresent()
         value.role = try reader["role"].readIfPresent() ?? ""
         value.settings = try reader["settings"].readIfPresent(with: MediaConvertClientTypes.JobSettings.read(from:))
+        value.shareStatus = try reader["shareStatus"].readIfPresent()
         value.simulateReservedQueue = try reader["simulateReservedQueue"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusUpdateInterval = try reader["statusUpdateInterval"].readIfPresent()
@@ -26468,6 +27444,7 @@ extension MediaConvertClientTypes.VideoCodecSettings {
         try writer["h264Settings"].write(value.h264Settings, with: MediaConvertClientTypes.H264Settings.write(value:to:))
         try writer["h265Settings"].write(value.h265Settings, with: MediaConvertClientTypes.H265Settings.write(value:to:))
         try writer["mpeg2Settings"].write(value.mpeg2Settings, with: MediaConvertClientTypes.Mpeg2Settings.write(value:to:))
+        try writer["passthroughSettings"].write(value.passthroughSettings, with: MediaConvertClientTypes.PassthroughSettings.write(value:to:))
         try writer["proresSettings"].write(value.proresSettings, with: MediaConvertClientTypes.ProresSettings.write(value:to:))
         try writer["uncompressedSettings"].write(value.uncompressedSettings, with: MediaConvertClientTypes.UncompressedSettings.write(value:to:))
         try writer["vc3Settings"].write(value.vc3Settings, with: MediaConvertClientTypes.Vc3Settings.write(value:to:))
@@ -26487,6 +27464,7 @@ extension MediaConvertClientTypes.VideoCodecSettings {
         value.h264Settings = try reader["h264Settings"].readIfPresent(with: MediaConvertClientTypes.H264Settings.read(from:))
         value.h265Settings = try reader["h265Settings"].readIfPresent(with: MediaConvertClientTypes.H265Settings.read(from:))
         value.mpeg2Settings = try reader["mpeg2Settings"].readIfPresent(with: MediaConvertClientTypes.Mpeg2Settings.read(from:))
+        value.passthroughSettings = try reader["passthroughSettings"].readIfPresent(with: MediaConvertClientTypes.PassthroughSettings.read(from:))
         value.proresSettings = try reader["proresSettings"].readIfPresent(with: MediaConvertClientTypes.ProresSettings.read(from:))
         value.uncompressedSettings = try reader["uncompressedSettings"].readIfPresent(with: MediaConvertClientTypes.UncompressedSettings.read(from:))
         value.vc3Settings = try reader["vc3Settings"].readIfPresent(with: MediaConvertClientTypes.Vc3Settings.read(from:))
@@ -26830,6 +27808,23 @@ extension MediaConvertClientTypes.ProresSettings {
     }
 }
 
+extension MediaConvertClientTypes.PassthroughSettings {
+
+    static func write(value: MediaConvertClientTypes.PassthroughSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["frameControl"].write(value.frameControl)
+        try writer["videoSelectorMode"].write(value.videoSelectorMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.PassthroughSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.PassthroughSettings()
+        value.frameControl = try reader["frameControl"].readIfPresent()
+        value.videoSelectorMode = try reader["videoSelectorMode"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.Mpeg2Settings {
 
     static func write(value: MediaConvertClientTypes.Mpeg2Settings?, to writer: SmithyJSON.Writer) throws {
@@ -26939,6 +27934,8 @@ extension MediaConvertClientTypes.H265Settings {
         try writer["interlaceMode"].write(value.interlaceMode)
         try writer["maxBitrate"].write(value.maxBitrate)
         try writer["minIInterval"].write(value.minIInterval)
+        try writer["mvOverPictureBoundaries"].write(value.mvOverPictureBoundaries)
+        try writer["mvTemporalPredictor"].write(value.mvTemporalPredictor)
         try writer["numberBFramesBetweenReferenceFrames"].write(value.numberBFramesBetweenReferenceFrames)
         try writer["numberReferenceFrames"].write(value.numberReferenceFrames)
         try writer["parControl"].write(value.parControl)
@@ -26957,7 +27954,11 @@ extension MediaConvertClientTypes.H265Settings {
         try writer["telecine"].write(value.telecine)
         try writer["temporalAdaptiveQuantization"].write(value.temporalAdaptiveQuantization)
         try writer["temporalIds"].write(value.temporalIds)
+        try writer["tileHeight"].write(value.tileHeight)
+        try writer["tilePadding"].write(value.tilePadding)
+        try writer["tileWidth"].write(value.tileWidth)
         try writer["tiles"].write(value.tiles)
+        try writer["treeBlockSize"].write(value.treeBlockSize)
         try writer["unregisteredSeiTimecode"].write(value.unregisteredSeiTimecode)
         try writer["writeMp4PackagingType"].write(value.writeMp4PackagingType)
     }
@@ -26989,6 +27990,8 @@ extension MediaConvertClientTypes.H265Settings {
         value.interlaceMode = try reader["interlaceMode"].readIfPresent()
         value.maxBitrate = try reader["maxBitrate"].readIfPresent()
         value.minIInterval = try reader["minIInterval"].readIfPresent()
+        value.mvOverPictureBoundaries = try reader["mvOverPictureBoundaries"].readIfPresent()
+        value.mvTemporalPredictor = try reader["mvTemporalPredictor"].readIfPresent()
         value.numberBFramesBetweenReferenceFrames = try reader["numberBFramesBetweenReferenceFrames"].readIfPresent()
         value.numberReferenceFrames = try reader["numberReferenceFrames"].readIfPresent()
         value.parControl = try reader["parControl"].readIfPresent()
@@ -27007,7 +28010,11 @@ extension MediaConvertClientTypes.H265Settings {
         value.telecine = try reader["telecine"].readIfPresent()
         value.temporalAdaptiveQuantization = try reader["temporalAdaptiveQuantization"].readIfPresent()
         value.temporalIds = try reader["temporalIds"].readIfPresent()
+        value.tileHeight = try reader["tileHeight"].readIfPresent()
+        value.tilePadding = try reader["tilePadding"].readIfPresent()
+        value.tileWidth = try reader["tileWidth"].readIfPresent()
         value.tiles = try reader["tiles"].readIfPresent()
+        value.treeBlockSize = try reader["treeBlockSize"].readIfPresent()
         value.unregisteredSeiTimecode = try reader["unregisteredSeiTimecode"].readIfPresent()
         value.writeMp4PackagingType = try reader["writeMp4PackagingType"].readIfPresent()
         return value
@@ -27441,11 +28448,14 @@ extension MediaConvertClientTypes.MpdSettings {
         guard let value else { return }
         try writer["accessibilityCaptionHints"].write(value.accessibilityCaptionHints)
         try writer["audioDuration"].write(value.audioDuration)
+        try writer["c2paManifest"].write(value.c2paManifest)
         try writer["captionContainerType"].write(value.captionContainerType)
+        try writer["certificateSecret"].write(value.certificateSecret)
         try writer["klvMetadata"].write(value.klvMetadata)
         try writer["manifestMetadataSignaling"].write(value.manifestMetadataSignaling)
         try writer["scte35Esam"].write(value.scte35Esam)
         try writer["scte35Source"].write(value.scte35Source)
+        try writer["signingKmsKey"].write(value.signingKmsKey)
         try writer["timedMetadata"].write(value.timedMetadata)
         try writer["timedMetadataBoxVersion"].write(value.timedMetadataBoxVersion)
         try writer["timedMetadataSchemeIdUri"].write(value.timedMetadataSchemeIdUri)
@@ -27457,11 +28467,14 @@ extension MediaConvertClientTypes.MpdSettings {
         var value = MediaConvertClientTypes.MpdSettings()
         value.accessibilityCaptionHints = try reader["accessibilityCaptionHints"].readIfPresent()
         value.audioDuration = try reader["audioDuration"].readIfPresent()
+        value.c2paManifest = try reader["c2paManifest"].readIfPresent()
         value.captionContainerType = try reader["captionContainerType"].readIfPresent()
+        value.certificateSecret = try reader["certificateSecret"].readIfPresent()
         value.klvMetadata = try reader["klvMetadata"].readIfPresent()
         value.manifestMetadataSignaling = try reader["manifestMetadataSignaling"].readIfPresent()
         value.scte35Esam = try reader["scte35Esam"].readIfPresent()
         value.scte35Source = try reader["scte35Source"].readIfPresent()
+        value.signingKmsKey = try reader["signingKmsKey"].readIfPresent()
         value.timedMetadata = try reader["timedMetadata"].readIfPresent()
         value.timedMetadataBoxVersion = try reader["timedMetadataBoxVersion"].readIfPresent()
         value.timedMetadataSchemeIdUri = try reader["timedMetadataSchemeIdUri"].readIfPresent()
@@ -27773,12 +28786,15 @@ extension MediaConvertClientTypes.CmfcSettings {
         try writer["audioGroupId"].write(value.audioGroupId)
         try writer["audioRenditionSets"].write(value.audioRenditionSets)
         try writer["audioTrackType"].write(value.audioTrackType)
+        try writer["c2paManifest"].write(value.c2paManifest)
+        try writer["certificateSecret"].write(value.certificateSecret)
         try writer["descriptiveVideoServiceFlag"].write(value.descriptiveVideoServiceFlag)
         try writer["iFrameOnlyManifest"].write(value.iFrameOnlyManifest)
         try writer["klvMetadata"].write(value.klvMetadata)
         try writer["manifestMetadataSignaling"].write(value.manifestMetadataSignaling)
         try writer["scte35Esam"].write(value.scte35Esam)
         try writer["scte35Source"].write(value.scte35Source)
+        try writer["signingKmsKey"].write(value.signingKmsKey)
         try writer["timedMetadata"].write(value.timedMetadata)
         try writer["timedMetadataBoxVersion"].write(value.timedMetadataBoxVersion)
         try writer["timedMetadataSchemeIdUri"].write(value.timedMetadataSchemeIdUri)
@@ -27792,12 +28808,15 @@ extension MediaConvertClientTypes.CmfcSettings {
         value.audioGroupId = try reader["audioGroupId"].readIfPresent()
         value.audioRenditionSets = try reader["audioRenditionSets"].readIfPresent()
         value.audioTrackType = try reader["audioTrackType"].readIfPresent()
+        value.c2paManifest = try reader["c2paManifest"].readIfPresent()
+        value.certificateSecret = try reader["certificateSecret"].readIfPresent()
         value.descriptiveVideoServiceFlag = try reader["descriptiveVideoServiceFlag"].readIfPresent()
         value.iFrameOnlyManifest = try reader["iFrameOnlyManifest"].readIfPresent()
         value.klvMetadata = try reader["klvMetadata"].readIfPresent()
         value.manifestMetadataSignaling = try reader["manifestMetadataSignaling"].readIfPresent()
         value.scte35Esam = try reader["scte35Esam"].readIfPresent()
         value.scte35Source = try reader["scte35Source"].readIfPresent()
+        value.signingKmsKey = try reader["signingKmsKey"].readIfPresent()
         value.timedMetadata = try reader["timedMetadata"].readIfPresent()
         value.timedMetadataBoxVersion = try reader["timedMetadataBoxVersion"].readIfPresent()
         value.timedMetadataSchemeIdUri = try reader["timedMetadataSchemeIdUri"].readIfPresent()
@@ -28121,6 +29140,7 @@ extension MediaConvertClientTypes.AudioDescription {
         guard let value else { return }
         try writer["audioChannelTaggingSettings"].write(value.audioChannelTaggingSettings, with: MediaConvertClientTypes.AudioChannelTaggingSettings.write(value:to:))
         try writer["audioNormalizationSettings"].write(value.audioNormalizationSettings, with: MediaConvertClientTypes.AudioNormalizationSettings.write(value:to:))
+        try writer["audioPitchCorrectionSettings"].write(value.audioPitchCorrectionSettings, with: MediaConvertClientTypes.AudioPitchCorrectionSettings.write(value:to:))
         try writer["audioSourceName"].write(value.audioSourceName)
         try writer["audioType"].write(value.audioType)
         try writer["audioTypeControl"].write(value.audioTypeControl)
@@ -28137,6 +29157,7 @@ extension MediaConvertClientTypes.AudioDescription {
         var value = MediaConvertClientTypes.AudioDescription()
         value.audioChannelTaggingSettings = try reader["audioChannelTaggingSettings"].readIfPresent(with: MediaConvertClientTypes.AudioChannelTaggingSettings.read(from:))
         value.audioNormalizationSettings = try reader["audioNormalizationSettings"].readIfPresent(with: MediaConvertClientTypes.AudioNormalizationSettings.read(from:))
+        value.audioPitchCorrectionSettings = try reader["audioPitchCorrectionSettings"].readIfPresent(with: MediaConvertClientTypes.AudioPitchCorrectionSettings.read(from:))
         value.audioSourceName = try reader["audioSourceName"].readIfPresent()
         value.audioType = try reader["audioType"].readIfPresent()
         value.audioTypeControl = try reader["audioTypeControl"].readIfPresent()
@@ -28328,6 +29349,7 @@ extension MediaConvertClientTypes.Mp2Settings {
 
     static func write(value: MediaConvertClientTypes.Mp2Settings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioDescriptionMix"].write(value.audioDescriptionMix)
         try writer["bitrate"].write(value.bitrate)
         try writer["channels"].write(value.channels)
         try writer["sampleRate"].write(value.sampleRate)
@@ -28336,6 +29358,7 @@ extension MediaConvertClientTypes.Mp2Settings {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.Mp2Settings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.Mp2Settings()
+        value.audioDescriptionMix = try reader["audioDescriptionMix"].readIfPresent()
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.channels = try reader["channels"].readIfPresent()
         value.sampleRate = try reader["sampleRate"].readIfPresent()
@@ -28549,6 +29572,21 @@ extension MediaConvertClientTypes.AacSettings {
         value.specification = try reader["specification"].readIfPresent()
         value.targetLoudnessRange = try reader["targetLoudnessRange"].readIfPresent()
         value.vbrQuality = try reader["vbrQuality"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.AudioPitchCorrectionSettings {
+
+    static func write(value: MediaConvertClientTypes.AudioPitchCorrectionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["slowPalPitchCorrection"].write(value.slowPalPitchCorrection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioPitchCorrectionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.AudioPitchCorrectionSettings()
+        value.slowPalPitchCorrection = try reader["slowPalPitchCorrection"].readIfPresent()
         return value
     }
 }
@@ -29638,6 +30676,8 @@ extension MediaConvertClientTypes.VideoSelector {
         try writer["programNumber"].write(value.programNumber)
         try writer["rotate"].write(value.rotate)
         try writer["sampleRange"].write(value.sampleRange)
+        try writer["selectorType"].write(value.selectorType)
+        try writer["streams"].writeList(value.streams, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoSelector {
@@ -29654,6 +30694,8 @@ extension MediaConvertClientTypes.VideoSelector {
         value.programNumber = try reader["programNumber"].readIfPresent()
         value.rotate = try reader["rotate"].readIfPresent()
         value.sampleRange = try reader["sampleRange"].readIfPresent()
+        value.selectorType = try reader["selectorType"].readIfPresent()
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -29709,6 +30751,7 @@ extension MediaConvertClientTypes.VideoOverlayPosition {
     static func write(value: MediaConvertClientTypes.VideoOverlayPosition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["height"].write(value.height)
+        try writer["opacity"].write(value.opacity)
         try writer["unit"].write(value.unit)
         try writer["width"].write(value.width)
         try writer["xPosition"].write(value.xPosition)
@@ -29719,6 +30762,7 @@ extension MediaConvertClientTypes.VideoOverlayPosition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.VideoOverlayPosition()
         value.height = try reader["height"].readIfPresent()
+        value.opacity = try reader["opacity"].readIfPresent()
         value.unit = try reader["unit"].readIfPresent()
         value.width = try reader["width"].readIfPresent()
         value.xPosition = try reader["xPosition"].readIfPresent()
@@ -29731,6 +30775,7 @@ extension MediaConvertClientTypes.VideoOverlayInput {
 
     static func write(value: MediaConvertClientTypes.VideoOverlayInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioSelectors"].writeMap(value.audioSelectors, valueWritingClosure: MediaConvertClientTypes.AudioSelector.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["fileInput"].write(value.fileInput)
         try writer["inputClippings"].writeList(value.inputClippings, memberWritingClosure: MediaConvertClientTypes.VideoOverlayInputClipping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timecodeSource"].write(value.timecodeSource)
@@ -29740,6 +30785,7 @@ extension MediaConvertClientTypes.VideoOverlayInput {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.VideoOverlayInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.VideoOverlayInput()
+        value.audioSelectors = try reader["audioSelectors"].readMapIfPresent(valueReadingClosure: MediaConvertClientTypes.AudioSelector.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.fileInput = try reader["fileInput"].readIfPresent()
         value.inputClippings = try reader["inputClippings"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.VideoOverlayInputClipping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.timecodeSource = try reader["timecodeSource"].readIfPresent()
@@ -29761,6 +30807,64 @@ extension MediaConvertClientTypes.VideoOverlayInputClipping {
         var value = MediaConvertClientTypes.VideoOverlayInputClipping()
         value.endTimecode = try reader["endTimecode"].readIfPresent()
         value.startTimecode = try reader["startTimecode"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.AudioSelector {
+
+    static func write(value: MediaConvertClientTypes.AudioSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioDurationCorrection"].write(value.audioDurationCorrection)
+        try writer["customLanguageCode"].write(value.customLanguageCode)
+        try writer["defaultSelection"].write(value.defaultSelection)
+        try writer["externalAudioFileInput"].write(value.externalAudioFileInput)
+        try writer["hlsRenditionGroupSettings"].write(value.hlsRenditionGroupSettings, with: MediaConvertClientTypes.HlsRenditionGroupSettings.write(value:to:))
+        try writer["languageCode"].write(value.languageCode)
+        try writer["offset"].write(value.offset)
+        try writer["pids"].writeList(value.pids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["programSelection"].write(value.programSelection)
+        try writer["remixSettings"].write(value.remixSettings, with: MediaConvertClientTypes.RemixSettings.write(value:to:))
+        try writer["selectorType"].write(value.selectorType)
+        try writer["streams"].writeList(value.streams, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tracks"].writeList(value.tracks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioSelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.AudioSelector()
+        value.audioDurationCorrection = try reader["audioDurationCorrection"].readIfPresent()
+        value.customLanguageCode = try reader["customLanguageCode"].readIfPresent()
+        value.defaultSelection = try reader["defaultSelection"].readIfPresent()
+        value.externalAudioFileInput = try reader["externalAudioFileInput"].readIfPresent()
+        value.hlsRenditionGroupSettings = try reader["hlsRenditionGroupSettings"].readIfPresent(with: MediaConvertClientTypes.HlsRenditionGroupSettings.read(from:))
+        value.languageCode = try reader["languageCode"].readIfPresent()
+        value.offset = try reader["offset"].readIfPresent()
+        value.pids = try reader["pids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.programSelection = try reader["programSelection"].readIfPresent()
+        value.remixSettings = try reader["remixSettings"].readIfPresent(with: MediaConvertClientTypes.RemixSettings.read(from:))
+        value.selectorType = try reader["selectorType"].readIfPresent()
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.HlsRenditionGroupSettings {
+
+    static func write(value: MediaConvertClientTypes.HlsRenditionGroupSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["renditionGroupId"].write(value.renditionGroupId)
+        try writer["renditionLanguageCode"].write(value.renditionLanguageCode)
+        try writer["renditionName"].write(value.renditionName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.HlsRenditionGroupSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.HlsRenditionGroupSettings()
+        value.renditionGroupId = try reader["renditionGroupId"].readIfPresent()
+        value.renditionLanguageCode = try reader["renditionLanguageCode"].readIfPresent()
+        value.renditionName = try reader["renditionName"].readIfPresent()
         return value
     }
 }
@@ -29796,7 +30900,10 @@ extension MediaConvertClientTypes.InputVideoGenerator {
         try writer["duration"].write(value.duration)
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
+        try writer["height"].write(value.height)
+        try writer["imageInput"].write(value.imageInput)
         try writer["sampleRate"].write(value.sampleRate)
+        try writer["width"].write(value.width)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.InputVideoGenerator {
@@ -29806,7 +30913,10 @@ extension MediaConvertClientTypes.InputVideoGenerator {
         value.duration = try reader["duration"].readIfPresent()
         value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
         value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
+        value.height = try reader["height"].readIfPresent()
+        value.imageInput = try reader["imageInput"].readIfPresent()
         value.sampleRate = try reader["sampleRate"].readIfPresent()
+        value.width = try reader["width"].readIfPresent()
         return value
     }
 }
@@ -29964,12 +31074,14 @@ extension MediaConvertClientTypes.TrackSourceSettings {
 
     static func write(value: MediaConvertClientTypes.TrackSourceSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["streamNumber"].write(value.streamNumber)
         try writer["trackNumber"].write(value.trackNumber)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.TrackSourceSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.TrackSourceSettings()
+        value.streamNumber = try reader["streamNumber"].readIfPresent()
         value.trackNumber = try reader["trackNumber"].readIfPresent()
         return value
     }
@@ -30087,62 +31199,6 @@ extension MediaConvertClientTypes.AncillarySourceSettings {
         value.convert608To708 = try reader["convert608To708"].readIfPresent()
         value.sourceAncillaryChannelNumber = try reader["sourceAncillaryChannelNumber"].readIfPresent()
         value.terminateCaptions = try reader["terminateCaptions"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaConvertClientTypes.AudioSelector {
-
-    static func write(value: MediaConvertClientTypes.AudioSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["audioDurationCorrection"].write(value.audioDurationCorrection)
-        try writer["customLanguageCode"].write(value.customLanguageCode)
-        try writer["defaultSelection"].write(value.defaultSelection)
-        try writer["externalAudioFileInput"].write(value.externalAudioFileInput)
-        try writer["hlsRenditionGroupSettings"].write(value.hlsRenditionGroupSettings, with: MediaConvertClientTypes.HlsRenditionGroupSettings.write(value:to:))
-        try writer["languageCode"].write(value.languageCode)
-        try writer["offset"].write(value.offset)
-        try writer["pids"].writeList(value.pids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["programSelection"].write(value.programSelection)
-        try writer["remixSettings"].write(value.remixSettings, with: MediaConvertClientTypes.RemixSettings.write(value:to:))
-        try writer["selectorType"].write(value.selectorType)
-        try writer["tracks"].writeList(value.tracks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConvertClientTypes.AudioSelector()
-        value.audioDurationCorrection = try reader["audioDurationCorrection"].readIfPresent()
-        value.customLanguageCode = try reader["customLanguageCode"].readIfPresent()
-        value.defaultSelection = try reader["defaultSelection"].readIfPresent()
-        value.externalAudioFileInput = try reader["externalAudioFileInput"].readIfPresent()
-        value.hlsRenditionGroupSettings = try reader["hlsRenditionGroupSettings"].readIfPresent(with: MediaConvertClientTypes.HlsRenditionGroupSettings.read(from:))
-        value.languageCode = try reader["languageCode"].readIfPresent()
-        value.offset = try reader["offset"].readIfPresent()
-        value.pids = try reader["pids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.programSelection = try reader["programSelection"].readIfPresent()
-        value.remixSettings = try reader["remixSettings"].readIfPresent(with: MediaConvertClientTypes.RemixSettings.read(from:))
-        value.selectorType = try reader["selectorType"].readIfPresent()
-        value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaConvertClientTypes.HlsRenditionGroupSettings {
-
-    static func write(value: MediaConvertClientTypes.HlsRenditionGroupSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["renditionGroupId"].write(value.renditionGroupId)
-        try writer["renditionLanguageCode"].write(value.renditionLanguageCode)
-        try writer["renditionName"].write(value.renditionName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.HlsRenditionGroupSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaConvertClientTypes.HlsRenditionGroupSettings()
-        value.renditionGroupId = try reader["renditionGroupId"].readIfPresent()
-        value.renditionLanguageCode = try reader["renditionLanguageCode"].readIfPresent()
-        value.renditionName = try reader["renditionName"].readIfPresent()
         return value
     }
 }
@@ -30724,6 +31780,7 @@ extension MediaConvertClientTypes.VideoProperties {
         var value = MediaConvertClientTypes.VideoProperties()
         value.bitDepth = try reader["bitDepth"].readIfPresent()
         value.bitRate = try reader["bitRate"].readIfPresent()
+        value.codecMetadata = try reader["codecMetadata"].readIfPresent(with: MediaConvertClientTypes.CodecMetadata.read(from:))
         value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
         value.frameRate = try reader["frameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
         value.height = try reader["height"].readIfPresent()
@@ -30741,6 +31798,26 @@ extension MediaConvertClientTypes.FrameRate {
         var value = MediaConvertClientTypes.FrameRate()
         value.denominator = try reader["denominator"].readIfPresent()
         value.numerator = try reader["numerator"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.CodecMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.CodecMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.CodecMetadata()
+        value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.chromaSubsampling = try reader["chromaSubsampling"].readIfPresent()
+        value.codedFrameRate = try reader["codedFrameRate"].readIfPresent(with: MediaConvertClientTypes.FrameRate.read(from:))
+        value.colorPrimaries = try reader["colorPrimaries"].readIfPresent()
+        value.height = try reader["height"].readIfPresent()
+        value.level = try reader["level"].readIfPresent()
+        value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
+        value.profile = try reader["profile"].readIfPresent()
+        value.scanType = try reader["scanType"].readIfPresent()
+        value.transferCharacteristics = try reader["transferCharacteristics"].readIfPresent()
+        value.width = try reader["width"].readIfPresent()
         return value
     }
 }
@@ -30785,6 +31862,15 @@ extension MediaConvertClientTypes.ProbeInputFile {
     static func write(value: MediaConvertClientTypes.ProbeInputFile?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["fileUrl"].write(value.fileUrl)
+    }
+}
+
+extension MediaConvertClientTypes.JobsQueryFilter {
+
+    static func write(value: MediaConvertClientTypes.JobsQueryFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

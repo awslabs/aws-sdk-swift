@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class WAFV2Client: ClientRuntime.Client {
+public class WAFV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WAFV2Client"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: WAFV2Client.WAFV2ClientConfiguration
     let serviceName = "WAFV2"
@@ -381,13 +381,14 @@ extension WAFV2Client {
     ///
     /// * After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
     ///
-    /// - Parameter AssociateWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWebACLInput`)
     ///
-    /// - Returns: `AssociateWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `WAFFeatureNotIncludedInPricingPlanException` : The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
     /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     /// - `WAFInvalidOperationException` : The operation isn't valid.
     /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
@@ -399,6 +400,7 @@ extension WAFV2Client {
     /// * You tried to update a WebACL with a DefaultAction that isn't among the types available at [DefaultAction].
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
+    /// - `WAFLimitsExceededException` : WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     /// - `WAFNonexistentItemException` : WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
     /// - `WAFUnavailableEntityException` : WAF couldn’t retrieve a resource that you specified for this operation. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate. Verify the resource specifications in your request parameters and then retry the operation.
     public func associateWebACL(input: AssociateWebACLInput) async throws -> AssociateWebACLOutput {
@@ -427,6 +429,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWebACLInput, AssociateWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWebACLOutput>(AssociateWebACLOutput.httpOutput(from:), AssociateWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWebACLInput, AssociateWebACLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWebACLOutput>())
@@ -461,9 +464,9 @@ extension WAFV2Client {
     ///
     /// Returns the web ACL capacity unit (WCU) requirements for a specified scope and set of rules. You can use this to check the capacity requirements for the rules you want to use in a [RuleGroup] or [WebACL]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
     ///
-    /// - Parameter CheckCapacityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckCapacityInput`)
     ///
-    /// - Returns: `CheckCapacityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckCapacityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -511,6 +514,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckCapacityInput, CheckCapacityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckCapacityOutput>(CheckCapacityOutput.httpOutput(from:), CheckCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckCapacityInput, CheckCapacityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckCapacityOutput>())
@@ -545,9 +549,9 @@ extension WAFV2Client {
     ///
     /// Creates an API key that contains a set of token domains. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide. You can use a single key for up to 5 domains. After you generate a key, you can copy it for use in your JavaScript integration.
     ///
-    /// - Parameter CreateAPIKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAPIKeyInput`)
     ///
-    /// - Returns: `CreateAPIKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAPIKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -590,6 +594,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAPIKeyInput, CreateAPIKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAPIKeyOutput>(CreateAPIKeyOutput.httpOutput(from:), CreateAPIKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAPIKeyInput, CreateAPIKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAPIKeyOutput>())
@@ -624,9 +629,9 @@ extension WAFV2Client {
     ///
     /// Creates an [IPSet], which you use to identify web requests that originate from specific IP addresses or ranges of IP addresses. For example, if you're receiving a lot of requests from a ranges of IP addresses, you can configure WAF to block them using an IPSet that lists those IP addresses.
     ///
-    /// - Parameter CreateIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIPSetInput`)
     ///
-    /// - Returns: `CreateIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -673,6 +678,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIPSetInput, CreateIPSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIPSetOutput>(CreateIPSetOutput.httpOutput(from:), CreateIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIPSetInput, CreateIPSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIPSetOutput>())
@@ -707,9 +713,9 @@ extension WAFV2Client {
     ///
     /// Creates a [RegexPatternSet], which you reference in a [RegexPatternSetReferenceStatement], to have WAF inspect a web request component for the specified patterns.
     ///
-    /// - Parameter CreateRegexPatternSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRegexPatternSetInput`)
     ///
-    /// - Returns: `CreateRegexPatternSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRegexPatternSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,6 +762,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRegexPatternSetOutput>(CreateRegexPatternSetOutput.httpOutput(from:), CreateRegexPatternSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRegexPatternSetInput, CreateRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRegexPatternSetOutput>())
@@ -790,9 +797,9 @@ extension WAFV2Client {
     ///
     /// Creates a [RuleGroup] per the specifications provided. A rule group defines a collection of rules to inspect and control web requests that you can use in a [WebACL]. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements.
     ///
-    /// - Parameter CreateRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleGroupInput`)
     ///
-    /// - Returns: `CreateRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,6 +849,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleGroupOutput>(CreateRuleGroupOutput.httpOutput(from:), CreateRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleGroupOutput>())
@@ -876,9 +884,9 @@ extension WAFV2Client {
     ///
     /// Creates a [WebACL] per the specifications provided. A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
     ///
-    /// - Parameter CreateWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWebACLInput`)
     ///
-    /// - Returns: `CreateWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -931,6 +939,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebACLInput, CreateWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebACLOutput>(CreateWebACLOutput.httpOutput(from:), CreateWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebACLInput, CreateWebACLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWebACLOutput>())
@@ -965,9 +974,9 @@ extension WAFV2Client {
     ///
     /// Deletes the specified API key. After you delete a key, it can take up to 24 hours for WAF to disallow use of the key in all regions.
     ///
-    /// - Parameter DeleteAPIKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAPIKeyInput`)
     ///
-    /// - Returns: `DeleteAPIKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAPIKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,6 +1020,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAPIKeyInput, DeleteAPIKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAPIKeyOutput>(DeleteAPIKeyOutput.httpOutput(from:), DeleteAPIKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAPIKeyInput, DeleteAPIKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAPIKeyOutput>())
@@ -1045,9 +1055,9 @@ extension WAFV2Client {
     ///
     /// Deletes all rule groups that are managed by Firewall Manager from the specified [WebACL]. You can only use this if ManagedByFirewallManager and RetrofittedByFirewallManager are both false in the web ACL.
     ///
-    /// - Parameter DeleteFirewallManagerRuleGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFirewallManagerRuleGroupsInput`)
     ///
-    /// - Returns: `DeleteFirewallManagerRuleGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFirewallManagerRuleGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1091,6 +1101,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFirewallManagerRuleGroupsOutput>(DeleteFirewallManagerRuleGroupsOutput.httpOutput(from:), DeleteFirewallManagerRuleGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallManagerRuleGroupsInput, DeleteFirewallManagerRuleGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallManagerRuleGroupsOutput>())
@@ -1125,9 +1136,9 @@ extension WAFV2Client {
     ///
     /// Deletes the specified [IPSet].
     ///
-    /// - Parameter DeleteIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIPSetInput`)
     ///
-    /// - Returns: `DeleteIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1174,6 +1185,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIPSetInput, DeleteIPSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIPSetOutput>(DeleteIPSetOutput.httpOutput(from:), DeleteIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIPSetInput, DeleteIPSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIPSetOutput>())
@@ -1208,9 +1220,9 @@ extension WAFV2Client {
     ///
     /// Deletes the [LoggingConfiguration] from the specified web ACL.
     ///
-    /// - Parameter DeleteLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1254,6 +1266,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoggingConfigurationOutput>(DeleteLoggingConfigurationOutput.httpOutput(from:), DeleteLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoggingConfigurationOutput>())
@@ -1288,9 +1301,9 @@ extension WAFV2Client {
     ///
     /// Permanently deletes an IAM policy from the specified rule group. You must be the owner of the rule group to perform this operation.
     ///
-    /// - Parameter DeletePermissionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionPolicyInput`)
     ///
-    /// - Returns: `DeletePermissionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1332,6 +1345,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionPolicyOutput>(DeletePermissionPolicyOutput.httpOutput(from:), DeletePermissionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionPolicyInput, DeletePermissionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionPolicyOutput>())
@@ -1366,9 +1380,9 @@ extension WAFV2Client {
     ///
     /// Deletes the specified [RegexPatternSet].
     ///
-    /// - Parameter DeleteRegexPatternSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRegexPatternSetInput`)
     ///
-    /// - Returns: `DeleteRegexPatternSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRegexPatternSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1415,6 +1429,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegexPatternSetOutput>(DeleteRegexPatternSetOutput.httpOutput(from:), DeleteRegexPatternSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegexPatternSetInput, DeleteRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegexPatternSetOutput>())
@@ -1449,9 +1464,9 @@ extension WAFV2Client {
     ///
     /// Deletes the specified [RuleGroup].
     ///
-    /// - Parameter DeleteRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleGroupInput`)
     ///
-    /// - Returns: `DeleteRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1498,6 +1513,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleGroupOutput>(DeleteRuleGroupOutput.httpOutput(from:), DeleteRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleGroupOutput>())
@@ -1547,9 +1563,9 @@ extension WAFV2Client {
     ///
     /// * For all other resources, call [DisassociateWebACL].
     ///
-    /// - Parameter DeleteWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebACLInput`)
     ///
-    /// - Returns: `DeleteWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1596,6 +1612,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebACLInput, DeleteWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebACLOutput>(DeleteWebACLOutput.httpOutput(from:), DeleteWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebACLInput, DeleteWebACLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebACLOutput>())
@@ -1630,9 +1647,9 @@ extension WAFV2Client {
     ///
     /// Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
     ///
-    /// - Parameter DescribeAllManagedProductsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAllManagedProductsInput`)
     ///
-    /// - Returns: `DescribeAllManagedProductsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAllManagedProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1674,6 +1691,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAllManagedProductsOutput>(DescribeAllManagedProductsOutput.httpOutput(from:), DescribeAllManagedProductsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAllManagedProductsInput, DescribeAllManagedProductsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAllManagedProductsOutput>())
@@ -1708,9 +1726,9 @@ extension WAFV2Client {
     ///
     /// Provides high-level information for the managed rule groups owned by a specific vendor.
     ///
-    /// - Parameter DescribeManagedProductsByVendorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeManagedProductsByVendorInput`)
     ///
-    /// - Returns: `DescribeManagedProductsByVendorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeManagedProductsByVendorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,6 +1770,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeManagedProductsByVendorOutput>(DescribeManagedProductsByVendorOutput.httpOutput(from:), DescribeManagedProductsByVendorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedProductsByVendorInput, DescribeManagedProductsByVendorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedProductsByVendorOutput>())
@@ -1786,9 +1805,9 @@ extension WAFV2Client {
     ///
     /// Provides high-level information for a managed rule group, including descriptions of the rules.
     ///
-    /// - Parameter DescribeManagedRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeManagedRuleGroupInput`)
     ///
-    /// - Returns: `DescribeManagedRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeManagedRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1833,6 +1852,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeManagedRuleGroupOutput>(DescribeManagedRuleGroupOutput.httpOutput(from:), DescribeManagedRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedRuleGroupInput, DescribeManagedRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedRuleGroupOutput>())
@@ -1867,9 +1887,9 @@ extension WAFV2Client {
     ///
     /// Disassociates the specified resource from its web ACL association, if it has one. Use this for all resource types except for Amazon CloudFront distributions. For Amazon CloudFront, call UpdateDistribution for the distribution and provide an empty web ACL ID. For information, see [UpdateDistribution](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistribution.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for DisassociateWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-DisassociateWebACL) in the WAF Developer Guide.
     ///
-    /// - Parameter DisassociateWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWebACLInput`)
     ///
-    /// - Returns: `DisassociateWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1912,6 +1932,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateWebACLInput, DisassociateWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWebACLOutput>(DisassociateWebACLOutput.httpOutput(from:), DisassociateWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWebACLInput, DisassociateWebACLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWebACLOutput>())
@@ -1946,9 +1967,9 @@ extension WAFV2Client {
     ///
     /// Generates a presigned download URL for the specified release of the mobile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
-    /// - Parameter GenerateMobileSdkReleaseUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateMobileSdkReleaseUrlInput`)
     ///
-    /// - Returns: `GenerateMobileSdkReleaseUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateMobileSdkReleaseUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1991,6 +2012,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMobileSdkReleaseUrlOutput>(GenerateMobileSdkReleaseUrlOutput.httpOutput(from:), GenerateMobileSdkReleaseUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMobileSdkReleaseUrlInput, GenerateMobileSdkReleaseUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMobileSdkReleaseUrlOutput>())
@@ -2025,9 +2047,9 @@ extension WAFV2Client {
     ///
     /// Returns your API key in decrypted form. Use this to check the token domains that you have defined for the key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
-    /// - Parameter GetDecryptedAPIKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDecryptedAPIKeyInput`)
     ///
-    /// - Returns: `GetDecryptedAPIKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDecryptedAPIKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2071,6 +2093,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDecryptedAPIKeyInput, GetDecryptedAPIKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDecryptedAPIKeyOutput>(GetDecryptedAPIKeyOutput.httpOutput(from:), GetDecryptedAPIKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDecryptedAPIKeyInput, GetDecryptedAPIKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDecryptedAPIKeyOutput>())
@@ -2105,9 +2128,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the specified [IPSet].
     ///
-    /// - Parameter GetIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIPSetInput`)
     ///
-    /// - Returns: `GetIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2150,6 +2173,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIPSetInput, GetIPSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIPSetOutput>(GetIPSetOutput.httpOutput(from:), GetIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIPSetInput, GetIPSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIPSetOutput>())
@@ -2184,9 +2208,9 @@ extension WAFV2Client {
     ///
     /// Returns the [LoggingConfiguration] for the specified web ACL.
     ///
-    /// - Parameter GetLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggingConfigurationInput`)
     ///
-    /// - Returns: `GetLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2229,6 +2253,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoggingConfigurationOutput>(GetLoggingConfigurationOutput.httpOutput(from:), GetLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoggingConfigurationOutput>())
@@ -2263,9 +2288,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the specified managed rule set. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
-    /// - Parameter GetManagedRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedRuleSetInput`)
     ///
-    /// - Returns: `GetManagedRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2308,6 +2333,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedRuleSetOutput>(GetManagedRuleSetOutput.httpOutput(from:), GetManagedRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedRuleSetInput, GetManagedRuleSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedRuleSetOutput>())
@@ -2342,9 +2368,9 @@ extension WAFV2Client {
     ///
     /// Retrieves information for the specified mobile SDK release, including release notes and tags. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
-    /// - Parameter GetMobileSdkReleaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMobileSdkReleaseInput`)
     ///
-    /// - Returns: `GetMobileSdkReleaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMobileSdkReleaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2387,6 +2413,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMobileSdkReleaseOutput>(GetMobileSdkReleaseOutput.httpOutput(from:), GetMobileSdkReleaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMobileSdkReleaseInput, GetMobileSdkReleaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMobileSdkReleaseOutput>())
@@ -2421,9 +2448,9 @@ extension WAFV2Client {
     ///
     /// Returns the IAM policy that is attached to the specified rule group. You must be the owner of the rule group to perform this operation.
     ///
-    /// - Parameter GetPermissionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPermissionPolicyInput`)
     ///
-    /// - Returns: `GetPermissionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPermissionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2465,6 +2492,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPermissionPolicyOutput>(GetPermissionPolicyOutput.httpOutput(from:), GetPermissionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPermissionPolicyInput, GetPermissionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPermissionPolicyOutput>())
@@ -2499,9 +2527,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the IP addresses that are currently blocked by a rate-based rule instance. This is only available for rate-based rules that aggregate solely on the IP address or on the forwarded IP address. The maximum number of addresses that can be blocked for a single rate-based rule instance is 10,000. If more than 10,000 addresses exceed the rate limit, those with the highest rates are blocked. For a rate-based rule that you've defined inside a rule group, provide the name of the rule group reference statement in your request, in addition to the rate-based rule name and the web ACL name. WAF monitors web requests and manages keys independently for each unique combination of web ACL, optional rule group, and rate-based rule. For example, if you define a rate-based rule inside a rule group, and then use the rule group in a web ACL, WAF monitors web requests and manages keys for that web ACL, rule group reference statement, and rate-based rule instance. If you use the same rule group in a second web ACL, WAF monitors web requests and manages keys for this second usage completely independent of your first.
     ///
-    /// - Parameter GetRateBasedStatementManagedKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRateBasedStatementManagedKeysInput`)
     ///
-    /// - Returns: `GetRateBasedStatementManagedKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRateBasedStatementManagedKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2545,6 +2573,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRateBasedStatementManagedKeysOutput>(GetRateBasedStatementManagedKeysOutput.httpOutput(from:), GetRateBasedStatementManagedKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRateBasedStatementManagedKeysInput, GetRateBasedStatementManagedKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRateBasedStatementManagedKeysOutput>())
@@ -2579,9 +2608,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the specified [RegexPatternSet].
     ///
-    /// - Parameter GetRegexPatternSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegexPatternSetInput`)
     ///
-    /// - Returns: `GetRegexPatternSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegexPatternSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2624,6 +2653,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegexPatternSetOutput>(GetRegexPatternSetOutput.httpOutput(from:), GetRegexPatternSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegexPatternSetInput, GetRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegexPatternSetOutput>())
@@ -2658,9 +2688,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the specified [RuleGroup].
     ///
-    /// - Parameter GetRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleGroupInput`)
     ///
-    /// - Returns: `GetRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2703,6 +2733,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRuleGroupInput, GetRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuleGroupOutput>(GetRuleGroupOutput.httpOutput(from:), GetRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleGroupInput, GetRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuleGroupOutput>())
@@ -2737,9 +2768,9 @@ extension WAFV2Client {
     ///
     /// Gets detailed information about a specified number of requests--a sample--that WAF randomly selects from among the first 5,000 requests that your Amazon Web Services resource received during a time range that you choose. You can specify a sample size of up to 500 requests, and you can specify any time range in the previous three hours. GetSampledRequests returns a time range, which is usually the time range that you specified. However, if your resource (such as a CloudFront distribution) received 5,000 requests before the specified time range elapsed, GetSampledRequests returns an updated time range. This new time range indicates the actual period during which WAF selected the requests in the sample.
     ///
-    /// - Parameter GetSampledRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSampledRequestsInput`)
     ///
-    /// - Returns: `GetSampledRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSampledRequestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2781,6 +2812,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSampledRequestsOutput>(GetSampledRequestsOutput.httpOutput(from:), GetSampledRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSampledRequestsInput, GetSampledRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSampledRequestsOutput>())
@@ -2815,9 +2847,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the specified [WebACL].
     ///
-    /// - Parameter GetWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWebACLInput`)
     ///
-    /// - Returns: `GetWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2860,6 +2892,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWebACLInput, GetWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWebACLOutput>(GetWebACLOutput.httpOutput(from:), GetWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWebACLInput, GetWebACLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWebACLOutput>())
@@ -2894,9 +2927,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the [WebACL] for the specified resource. This call uses GetWebACL, to verify that your account has permission to access the retrieved web ACL. If you get an error that indicates that your account isn't authorized to perform wafv2:GetWebACL on the resource, that error won't be included in your CloudTrail event history. For Amazon CloudFront, don't use this call. Instead, call the CloudFront action GetDistributionConfig. For information, see [GetDistributionConfig](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_GetDistributionConfig.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for GetWebACLForResource](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-GetWebACLForResource) in the WAF Developer Guide.
     ///
-    /// - Parameter GetWebACLForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWebACLForResourceInput`)
     ///
-    /// - Returns: `GetWebACLForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWebACLForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2940,6 +2973,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWebACLForResourceOutput>(GetWebACLForResourceOutput.httpOutput(from:), GetWebACLForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWebACLForResourceInput, GetWebACLForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWebACLForResourceOutput>())
@@ -2974,9 +3008,9 @@ extension WAFV2Client {
     ///
     /// Retrieves a list of the API keys that you've defined for the specified scope. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
-    /// - Parameter ListAPIKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAPIKeysInput`)
     ///
-    /// - Returns: `ListAPIKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAPIKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3019,6 +3053,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAPIKeysInput, ListAPIKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAPIKeysOutput>(ListAPIKeysOutput.httpOutput(from:), ListAPIKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAPIKeysInput, ListAPIKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAPIKeysOutput>())
@@ -3053,9 +3088,9 @@ extension WAFV2Client {
     ///
     /// Returns a list of the available versions for the specified managed rule group.
     ///
-    /// - Parameter ListAvailableManagedRuleGroupVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableManagedRuleGroupVersionsInput`)
     ///
-    /// - Returns: `ListAvailableManagedRuleGroupVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailableManagedRuleGroupVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3098,6 +3133,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableManagedRuleGroupVersionsOutput>(ListAvailableManagedRuleGroupVersionsOutput.httpOutput(from:), ListAvailableManagedRuleGroupVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableManagedRuleGroupVersionsInput, ListAvailableManagedRuleGroupVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableManagedRuleGroupVersionsOutput>())
@@ -3132,9 +3168,9 @@ extension WAFV2Client {
     ///
     /// Retrieves an array of managed rule groups that are available for you to use. This list includes all Amazon Web Services Managed Rules rule groups and all of the Amazon Web Services Marketplace managed rule groups that you're subscribed to.
     ///
-    /// - Parameter ListAvailableManagedRuleGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableManagedRuleGroupsInput`)
     ///
-    /// - Returns: `ListAvailableManagedRuleGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailableManagedRuleGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3176,6 +3212,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableManagedRuleGroupsOutput>(ListAvailableManagedRuleGroupsOutput.httpOutput(from:), ListAvailableManagedRuleGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableManagedRuleGroupsInput, ListAvailableManagedRuleGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableManagedRuleGroupsOutput>())
@@ -3210,9 +3247,9 @@ extension WAFV2Client {
     ///
     /// Retrieves an array of [IPSetSummary] objects for the IP sets that you manage.
     ///
-    /// - Parameter ListIPSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIPSetsInput`)
     ///
-    /// - Returns: `ListIPSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIPSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3254,6 +3291,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIPSetsInput, ListIPSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIPSetsOutput>(ListIPSetsOutput.httpOutput(from:), ListIPSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIPSetsInput, ListIPSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIPSetsOutput>())
@@ -3288,9 +3326,9 @@ extension WAFV2Client {
     ///
     /// Retrieves an array of your [LoggingConfiguration] objects.
     ///
-    /// - Parameter ListLoggingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLoggingConfigurationsInput`)
     ///
-    /// - Returns: `ListLoggingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLoggingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3332,6 +3370,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLoggingConfigurationsOutput>(ListLoggingConfigurationsOutput.httpOutput(from:), ListLoggingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLoggingConfigurationsOutput>())
@@ -3366,9 +3405,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the managed rule sets that you own. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
-    /// - Parameter ListManagedRuleSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedRuleSetsInput`)
     ///
-    /// - Returns: `ListManagedRuleSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedRuleSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3410,6 +3449,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedRuleSetsOutput>(ListManagedRuleSetsOutput.httpOutput(from:), ListManagedRuleSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedRuleSetsInput, ListManagedRuleSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedRuleSetsOutput>())
@@ -3444,9 +3484,9 @@ extension WAFV2Client {
     ///
     /// Retrieves a list of the available releases for the mobile SDK and the specified device platform. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     ///
-    /// - Parameter ListMobileSdkReleasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMobileSdkReleasesInput`)
     ///
-    /// - Returns: `ListMobileSdkReleasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMobileSdkReleasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3488,6 +3528,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMobileSdkReleasesOutput>(ListMobileSdkReleasesOutput.httpOutput(from:), ListMobileSdkReleasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMobileSdkReleasesInput, ListMobileSdkReleasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMobileSdkReleasesOutput>())
@@ -3522,9 +3563,9 @@ extension WAFV2Client {
     ///
     /// Retrieves an array of [RegexPatternSetSummary] objects for the regex pattern sets that you manage.
     ///
-    /// - Parameter ListRegexPatternSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegexPatternSetsInput`)
     ///
-    /// - Returns: `ListRegexPatternSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegexPatternSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3566,6 +3607,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegexPatternSetsOutput>(ListRegexPatternSetsOutput.httpOutput(from:), ListRegexPatternSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegexPatternSetsInput, ListRegexPatternSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegexPatternSetsOutput>())
@@ -3600,9 +3642,9 @@ extension WAFV2Client {
     ///
     /// Retrieves an array of the Amazon Resource Names (ARNs) for the resources that are associated with the specified web ACL. For Amazon CloudFront, don't use this call. Instead, use the CloudFront call ListDistributionsByWebACLId. For information, see [ListDistributionsByWebACLId](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ListDistributionsByWebACLId.html) in the Amazon CloudFront API Reference. Required permissions for customer-managed IAM policies This call requires permissions that are specific to the protected resource type. For details, see [Permissions for ListResourcesForWebACL](https://docs.aws.amazon.com/waf/latest/developerguide/security_iam_service-with-iam.html#security_iam_action-ListResourcesForWebACL) in the WAF Developer Guide.
     ///
-    /// - Parameter ListResourcesForWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesForWebACLInput`)
     ///
-    /// - Returns: `ListResourcesForWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesForWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3645,6 +3687,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcesForWebACLOutput>(ListResourcesForWebACLOutput.httpOutput(from:), ListResourcesForWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcesForWebACLInput, ListResourcesForWebACLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcesForWebACLOutput>())
@@ -3679,9 +3722,9 @@ extension WAFV2Client {
     ///
     /// Retrieves an array of [RuleGroupSummary] objects for the rule groups that you manage.
     ///
-    /// - Parameter ListRuleGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleGroupsInput`)
     ///
-    /// - Returns: `ListRuleGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3723,6 +3766,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleGroupsOutput>(ListRuleGroupsOutput.httpOutput(from:), ListRuleGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleGroupsOutput>())
@@ -3757,9 +3801,9 @@ extension WAFV2Client {
     ///
     /// Retrieves the [TagInfoForResource] for the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3804,6 +3848,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3838,9 +3883,9 @@ extension WAFV2Client {
     ///
     /// Retrieves an array of [WebACLSummary] objects for the web ACLs that you manage.
     ///
-    /// - Parameter ListWebACLsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWebACLsInput`)
     ///
-    /// - Returns: `ListWebACLsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWebACLsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3882,6 +3927,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWebACLsInput, ListWebACLsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWebACLsOutput>(ListWebACLsOutput.httpOutput(from:), ListWebACLsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebACLsInput, ListWebACLsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWebACLsOutput>())
@@ -3932,13 +3978,14 @@ extension WAFV2Client {
     ///
     /// When you successfully enable logging using a PutLoggingConfiguration request, WAF creates an additional role or policy that is required to write logs to the logging destination. For an Amazon CloudWatch Logs log group, WAF creates a resource policy on the log group. For an Amazon S3 bucket, WAF creates a bucket policy. For an Amazon Kinesis Data Firehose, WAF creates a service-linked role. For additional information about web ACL logging, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
     ///
-    /// - Parameter PutLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLoggingConfigurationInput`)
     ///
-    /// - Returns: `PutLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `WAFFeatureNotIncludedInPricingPlanException` : The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
     /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     /// - `WAFInvalidOperationException` : The operation isn't valid.
     /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
@@ -3981,6 +4028,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLoggingConfigurationOutput>(PutLoggingConfigurationOutput.httpOutput(from:), PutLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLoggingConfigurationInput, PutLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLoggingConfigurationOutput>())
@@ -4015,9 +4063,9 @@ extension WAFV2Client {
     ///
     /// Defines the versions of your managed rule set that you are offering to the customers. Customers see your offerings as managed rule groups with versioning. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate. Customers retrieve their managed rule group list by calling [ListAvailableManagedRuleGroups]. The name that you provide here for your managed rule set is the name the customer sees for the corresponding managed rule group. Customers can retrieve the available versions for a managed rule group by calling [ListAvailableManagedRuleGroupVersions]. You provide a rule group specification for each version. For each managed rule set, you must specify a version that you recommend using. To initiate the expiration of a managed rule group version, use [UpdateManagedRuleSetVersionExpiryDate].
     ///
-    /// - Parameter PutManagedRuleSetVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutManagedRuleSetVersionsInput`)
     ///
-    /// - Returns: `PutManagedRuleSetVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutManagedRuleSetVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4061,6 +4109,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutManagedRuleSetVersionsOutput>(PutManagedRuleSetVersionsOutput.httpOutput(from:), PutManagedRuleSetVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutManagedRuleSetVersionsInput, PutManagedRuleSetVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutManagedRuleSetVersionsOutput>())
@@ -4104,9 +4153,9 @@ extension WAFV2Client {
     ///
     /// If a rule group has been shared with your account, you can access it through the call GetRuleGroup, and you can reference it in CreateWebACL and UpdateWebACL. Rule groups that are shared with you don't appear in your WAF console rule groups listing.
     ///
-    /// - Parameter PutPermissionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPermissionPolicyInput`)
     ///
-    /// - Returns: `PutPermissionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPermissionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4162,6 +4211,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPermissionPolicyOutput>(PutPermissionPolicyOutput.httpOutput(from:), PutPermissionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPermissionPolicyInput, PutPermissionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPermissionPolicyOutput>())
@@ -4196,9 +4246,9 @@ extension WAFV2Client {
     ///
     /// Associates tags with the specified Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4244,6 +4294,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4278,9 +4329,9 @@ extension WAFV2Client {
     ///
     /// Disassociates tags from an Amazon Web Services resource. Tags are key:value pairs that you can associate with Amazon Web Services resources. For example, the tag key might be "customer" and the tag value might be "companyA." You can specify one or more tags to add to each container. You can add up to 50 tags to each Amazon Web Services resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4325,6 +4376,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4376,9 +4428,9 @@ extension WAFV2Client {
     ///
     /// * After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
     ///
-    /// - Parameter UpdateIPSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIPSetInput`)
     ///
-    /// - Returns: `UpdateIPSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIPSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4424,6 +4476,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIPSetInput, UpdateIPSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIPSetOutput>(UpdateIPSetOutput.httpOutput(from:), UpdateIPSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIPSetInput, UpdateIPSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIPSetOutput>())
@@ -4458,9 +4511,9 @@ extension WAFV2Client {
     ///
     /// Updates the expiration information for your managed rule set. Use this to initiate the expiration of a managed rule group version. After you initiate expiration for a version, WAF excludes it from the response to [ListAvailableManagedRuleGroupVersions] for the managed rule group. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     ///
-    /// - Parameter UpdateManagedRuleSetVersionExpiryDateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateManagedRuleSetVersionExpiryDateInput`)
     ///
-    /// - Returns: `UpdateManagedRuleSetVersionExpiryDateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateManagedRuleSetVersionExpiryDateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4504,6 +4557,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateManagedRuleSetVersionExpiryDateOutput>(UpdateManagedRuleSetVersionExpiryDateOutput.httpOutput(from:), UpdateManagedRuleSetVersionExpiryDateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateManagedRuleSetVersionExpiryDateInput, UpdateManagedRuleSetVersionExpiryDateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateManagedRuleSetVersionExpiryDateOutput>())
@@ -4555,9 +4609,9 @@ extension WAFV2Client {
     ///
     /// * After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
     ///
-    /// - Parameter UpdateRegexPatternSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRegexPatternSetInput`)
     ///
-    /// - Returns: `UpdateRegexPatternSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRegexPatternSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4603,6 +4657,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRegexPatternSetOutput>(UpdateRegexPatternSetOutput.httpOutput(from:), UpdateRegexPatternSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRegexPatternSetInput, UpdateRegexPatternSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRegexPatternSetOutput>())
@@ -4654,9 +4709,9 @@ extension WAFV2Client {
     ///
     /// * After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
     ///
-    /// - Parameter UpdateRuleGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleGroupInput`)
     ///
-    /// - Returns: `UpdateRuleGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4705,6 +4760,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleGroupOutput>(UpdateRuleGroupOutput.httpOutput(from:), UpdateRuleGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleGroupOutput>())
@@ -4756,9 +4812,9 @@ extension WAFV2Client {
     ///
     /// * After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
     ///
-    /// - Parameter UpdateWebACLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebACLInput`)
     ///
-    /// - Returns: `UpdateWebACLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebACLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4766,6 +4822,7 @@ extension WAFV2Client {
     /// - `WAFConfigurationWarningException` : The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components. Rules that inspect the body must either provide an OversizeHandling configuration or they must be preceded by a SizeConstraintStatement that blocks the body content from being too large. Rules that inspect the headers or cookies must provide an OversizeHandling configuration. Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
     /// - `WAFDuplicateItemException` : WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
     /// - `WAFExpiredManagedRuleGroupVersionException` : The operation failed because the specified version for the managed rule group has expired. You can retrieve the available versions for the managed rule group by calling [ListAvailableManagedRuleGroupVersions].
+    /// - `WAFFeatureNotIncludedInPricingPlanException` : The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
     /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     /// - `WAFInvalidOperationException` : The operation isn't valid.
     /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
@@ -4809,6 +4866,7 @@ extension WAFV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebACLInput, UpdateWebACLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebACLOutput>(UpdateWebACLOutput.httpOutput(from:), UpdateWebACLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebACLInput, UpdateWebACLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWebACLOutput>())

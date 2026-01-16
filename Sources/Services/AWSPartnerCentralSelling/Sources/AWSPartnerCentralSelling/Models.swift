@@ -74,11 +74,39 @@ public struct SubmitOpportunityOutput: Swift.Sendable {
     public init() { }
 }
 
+extension PartnerCentralSellingClientTypes {
+
+    public enum AccessDeniedExceptionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case incompatibleBenefitAwsPartnerState
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessDeniedExceptionErrorCode] {
+            return [
+                .incompatibleBenefitAwsPartnerState
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .incompatibleBenefitAwsPartnerState: return "INCOMPATIBLE_BENEFIT_AWS_PARTNER_STATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// This error occurs when you don't have permission to perform the requested action. You don’t have access to this action or resource. Review IAM policies or contact your AWS administrator for assistance.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// The reason why access was denied for the requested operation.
+        public internal(set) var reason: PartnerCentralSellingClientTypes.AccessDeniedExceptionErrorCode? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -91,9 +119,11 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: PartnerCentralSellingClientTypes.AccessDeniedExceptionErrorCode? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -198,6 +228,7 @@ extension PartnerCentralSellingClientTypes {
         case invalidResourceState
         case invalidStringFormat
         case invalidValue
+        case notEnoughValues
         case requiredFieldMissing
         case tooManyValues
         case valueOutOfRange
@@ -211,6 +242,7 @@ extension PartnerCentralSellingClientTypes {
                 .invalidResourceState,
                 .invalidStringFormat,
                 .invalidValue,
+                .notEnoughValues,
                 .requiredFieldMissing,
                 .tooManyValues,
                 .valueOutOfRange
@@ -230,6 +262,7 @@ extension PartnerCentralSellingClientTypes {
             case .invalidResourceState: return "INVALID_RESOURCE_STATE"
             case .invalidStringFormat: return "INVALID_STRING_FORMAT"
             case .invalidValue: return "INVALID_VALUE"
+            case .notEnoughValues: return "NOT_ENOUGH_VALUES"
             case .requiredFieldMissing: return "REQUIRED_FIELD_MISSING"
             case .tooManyValues: return "TOO_MANY_VALUES"
             case .valueOutOfRange: return "VALUE_OUT_OF_RANGE"
@@ -252,6 +285,8 @@ extension PartnerCentralSellingClientTypes {
     /// * INVALID_VALUE: The value isn't valid. Fix: Confirm that the value meets the expected criteria and is within the allowable range or set.
     ///
     /// * TOO_MANY_VALUES: There are too many values in a field that expects fewer entries. Fix: Reduce the number of values to match the expected limit.
+    ///
+    /// * NOT_ENOUGH_VALUES: There are not enough values in a field that expects more entries. Fix: Increase the number of values to match the expected threshold.
     ///
     /// * ACTION_NOT_PERMITTED: The action isn't permitted due to current state or permissions. Fix: Verify that the action is appropriate for the current state, and that you have the necessary permissions to perform it.
     ///
@@ -1429,24 +1464,28 @@ extension PartnerCentralSellingClientTypes {
         /// Specifies the last name of the assignee managing the opportunity. The system automatically retrieves this value from the user profile by referencing the associated email address.
         /// This member is required.
         public var lastName: Swift.String?
+        /// Specifies the contact phone number of the assignee responsible for the opportunity or engagement. This field enables direct communication for time-sensitive matters and facilitates coordination between AWS and partner teams.
+        public var phone: Swift.String?
 
         public init(
             businessTitle: Swift.String? = nil,
             email: Swift.String? = nil,
             firstName: Swift.String? = nil,
-            lastName: Swift.String? = nil
+            lastName: Swift.String? = nil,
+            phone: Swift.String? = nil
         ) {
             self.businessTitle = businessTitle
             self.email = email
             self.firstName = firstName
             self.lastName = lastName
+            self.phone = phone
         }
     }
 }
 
 extension PartnerCentralSellingClientTypes.AssigneeContact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssigneeContact(businessTitle: \"CONTENT_REDACTED\", email: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\")"}
+        "AssigneeContact(businessTitle: \"CONTENT_REDACTED\", email: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
 }
 
 public struct AssignOpportunityInput: Swift.Sendable {
@@ -1475,6 +1514,7 @@ extension PartnerCentralSellingClientTypes {
 
     public enum RelatedEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsMarketplaceOffers
+        case awsMarketplaceOfferSets
         case awsProducts
         case solutions
         case sdkUnknown(Swift.String)
@@ -1482,6 +1522,7 @@ extension PartnerCentralSellingClientTypes {
         public static var allCases: [RelatedEntityType] {
             return [
                 .awsMarketplaceOffers,
+                .awsMarketplaceOfferSets,
                 .awsProducts,
                 .solutions
             ]
@@ -1495,6 +1536,7 @@ extension PartnerCentralSellingClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsMarketplaceOffers: return "AwsMarketplaceOffers"
+            case .awsMarketplaceOfferSets: return "AwsMarketplaceOfferSets"
             case .awsProducts: return "AwsProducts"
             case .solutions: return "Solutions"
             case let .sdkUnknown(s): return s
@@ -1820,205 +1862,75 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
-    public enum EngagementScore: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case high
-        case low
-        case medium
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [EngagementScore] {
-            return [
-                .high,
-                .low,
-                .medium
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .high: return "High"
-            case .low: return "Low"
-            case .medium: return "Medium"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Contains insights provided by AWS for the opportunity, offering recommendations and analysis that can help the partner optimize their engagement and strategy.
-    public struct AwsOpportunityInsights: Swift.Sendable {
-        /// Represents a score assigned by AWS to indicate the level of engagement and potential success for the opportunity. This score helps partners prioritize their efforts.
-        public var engagementScore: PartnerCentralSellingClientTypes.EngagementScore?
-        /// Provides recommendations from AWS on the next best actions to take in order to move the opportunity forward and increase the likelihood of success.
-        public var nextBestActions: Swift.String?
-
-        public init(
-            engagementScore: PartnerCentralSellingClientTypes.EngagementScore? = nil,
-            nextBestActions: Swift.String? = nil
-        ) {
-            self.engagementScore = engagementScore
-            self.nextBestActions = nextBestActions
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Tracks the history of next steps associated with the opportunity. This field captures the actions planned for the future and their timeline.
-    public struct ProfileNextStepsHistory: Swift.Sendable {
-        /// Indicates the date and time when a particular next step was recorded or planned. This helps in managing the timeline for the opportunity.
+    /// Details for a specific optimization recommendation
+    public struct AwsProductOptimization: Swift.Sendable {
+        /// Human-readable explanation of the optimization strategy
         /// This member is required.
-        public var time: Foundation.Date?
-        /// Represents the details of the next step recorded, such as follow-up actions or decisions made. This field helps in tracking progress and ensuring alignment with project goals.
+        public var description: Swift.String?
+        /// Quantified cost savings achievable by implementing this optimization
         /// This member is required.
-        public var value: Swift.String?
+        public var savingsAmount: Swift.String?
 
         public init(
-            time: Foundation.Date? = nil,
-            value: Swift.String? = nil
+            description: Swift.String? = nil,
+            savingsAmount: Swift.String? = nil
         ) {
-            self.time = time
-            self.value = value
+            self.description = description
+            self.savingsAmount = savingsAmount
         }
     }
 }
 
-extension PartnerCentralSellingClientTypes {
-
-    public enum AwsOpportunityStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case buildingIntegration
-        case businessValidation
-        case closedIncomplete
-        case closedLost
-        case committed
-        case completed
-        case contractNegotiation
-        case deferredToPartner
-        case engaged
-        case evaluating
-        case identified
-        case inProgress
-        case launched
-        case notStarted
-        case onboarding
-        case onHold
-        case prospect
-        case qualified
-        case qualify
-        case research
-        case sellerEngaged
-        case sellerRegistered
-        case technicalValidation
-        case termSheetNegotiation
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AwsOpportunityStage] {
-            return [
-                .buildingIntegration,
-                .businessValidation,
-                .closedIncomplete,
-                .closedLost,
-                .committed,
-                .completed,
-                .contractNegotiation,
-                .deferredToPartner,
-                .engaged,
-                .evaluating,
-                .identified,
-                .inProgress,
-                .launched,
-                .notStarted,
-                .onboarding,
-                .onHold,
-                .prospect,
-                .qualified,
-                .qualify,
-                .research,
-                .sellerEngaged,
-                .sellerRegistered,
-                .technicalValidation,
-                .termSheetNegotiation
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .buildingIntegration: return "Building Integration"
-            case .businessValidation: return "Business Validation"
-            case .closedIncomplete: return "Closed Incomplete"
-            case .closedLost: return "Closed Lost"
-            case .committed: return "Committed"
-            case .completed: return "Completed"
-            case .contractNegotiation: return "Contract Negotiation"
-            case .deferredToPartner: return "Deferred to Partner"
-            case .engaged: return "Engaged"
-            case .evaluating: return "Evaluating"
-            case .identified: return "Identified"
-            case .inProgress: return "In Progress"
-            case .launched: return "Launched"
-            case .notStarted: return "Not Started"
-            case .onboarding: return "Onboarding"
-            case .onHold: return "On-hold"
-            case .prospect: return "Prospect"
-            case .qualified: return "Qualified"
-            case .qualify: return "Qualify"
-            case .research: return "Research"
-            case .sellerEngaged: return "Seller Engaged"
-            case .sellerRegistered: return "Seller Registered"
-            case .technicalValidation: return "Technical Validation"
-            case .termSheetNegotiation: return "Term Sheet Negotiation"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    /// Tracks the lifecycle of the AWS opportunity, including stages such as qualification, validation, and closure. This field helps partners understand the current status and progression of the opportunity.
-    public struct AwsOpportunityLifeCycle: Swift.Sendable {
-        /// Indicates the reason why an opportunity was marked as Closed Lost. This helps in understanding the context behind the lost opportunity and aids in refining future strategies.
-        public var closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason?
-        /// Specifies the immediate next steps required to progress the opportunity. These steps are based on AWS guidance and the current stage of the opportunity.
-        public var nextSteps: Swift.String?
-        /// Provides a historical log of previous next steps that were taken to move the opportunity forward. This helps in tracking the decision-making process and identifying any delays or obstacles encountered.
-        public var nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]?
-        /// Represents the current stage of the opportunity in its lifecycle, such as Qualification, Validation, or Closed Won. This helps in understanding the opportunity's progress.
-        public var stage: PartnerCentralSellingClientTypes.AwsOpportunityStage?
-        /// Indicates the expected date by which the opportunity is projected to close. This field helps in planning resources and timelines for both the partner and AWS.
-        public var targetCloseDate: Swift.String?
-
-        public init(
-            closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason? = nil,
-            nextSteps: Swift.String? = nil,
-            nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]? = nil,
-            stage: PartnerCentralSellingClientTypes.AwsOpportunityStage? = nil,
-            targetCloseDate: Swift.String? = nil
-        ) {
-            self.closedLostReason = closedLostReason
-            self.nextSteps = nextSteps
-            self.nextStepsHistory = nextStepsHistory
-            self.stage = stage
-            self.targetCloseDate = targetCloseDate
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle: Swift.CustomDebugStringConvertible {
+extension PartnerCentralSellingClientTypes.AwsProductOptimization: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AwsOpportunityLifeCycle(closedLostReason: \(Swift.String(describing: closedLostReason)), nextStepsHistory: \(Swift.String(describing: nextStepsHistory)), stage: \(Swift.String(describing: stage)), targetCloseDate: \(Swift.String(describing: targetCloseDate)), nextSteps: \"CONTENT_REDACTED\")"}
+        "AwsProductOptimization(description: \(Swift.String(describing: description)), savingsAmount: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// AWS services with program eligibility indicators (MAP, modernization pathways), cost estimates, and optimization recommendations.
+    public struct AwsProductDetails: Swift.Sendable {
+        /// Baseline service cost before optimizations (may be null for AWS-sourced predictions)
+        public var amount: Swift.String?
+        /// List of program and pathway categories this product is eligible for
+        /// This member is required.
+        public var categories: [Swift.String]?
+        /// List of specific optimization recommendations for this product
+        /// This member is required.
+        public var optimizations: [PartnerCentralSellingClientTypes.AwsProductOptimization]?
+        /// Service cost after applying optimizations (may be null for AWS-sourced predictions)
+        public var optimizedAmount: Swift.String?
+        /// Service-specific cost reduction through optimizations (may be null for AWS-sourced predictions)
+        public var potentialSavingsAmount: Swift.String?
+        /// AWS Partner Central product identifier used for opportunity association
+        /// This member is required.
+        public var productCode: Swift.String?
+        /// Pricing Calculator service code (links to original calculator URL)
+        public var serviceCode: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            categories: [Swift.String]? = nil,
+            optimizations: [PartnerCentralSellingClientTypes.AwsProductOptimization]? = nil,
+            optimizedAmount: Swift.String? = nil,
+            potentialSavingsAmount: Swift.String? = nil,
+            productCode: Swift.String? = nil,
+            serviceCode: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.categories = categories
+            self.optimizations = optimizations
+            self.optimizedAmount = optimizedAmount
+            self.potentialSavingsAmount = potentialSavingsAmount
+            self.productCode = productCode
+            self.serviceCode = serviceCode
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AwsProductDetails(categories: \(Swift.String(describing: categories)), optimizations: \(Swift.String(describing: optimizations)), productCode: \(Swift.String(describing: productCode)), serviceCode: \(Swift.String(describing: serviceCode)), amount: \"CONTENT_REDACTED\", optimizedAmount: \"CONTENT_REDACTED\", potentialSavingsAmount: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -2576,10 +2488,309 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// Comprehensive spend analysis for a single source (AWS or Partner) including total amounts, optimization savings, program category breakdowns, and detailed product-level insights.
+    public struct AwsProductInsights: Swift.Sendable {
+        /// Product-level details including costs and optimization recommendations
+        /// This member is required.
+        public var awsProducts: [PartnerCentralSellingClientTypes.AwsProductDetails]?
+        /// ISO 4217 currency code (e.g., "USD") ensuring consistent representation across calculations
+        /// This member is required.
+        public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
+        /// Time period for spend amounts: "Monthly" or "Annually"
+        /// This member is required.
+        public var frequency: PartnerCentralSellingClientTypes.PaymentFrequency?
+        /// Total estimated spend for this source before optimizations
+        public var totalAmount: Swift.String?
+        /// Spend amounts mapped to AWS programs and modernization pathways
+        /// This member is required.
+        public var totalAmountByCategory: [Swift.String: Swift.String]?
+        /// Total estimated spend after applying recommended optimizations
+        public var totalOptimizedAmount: Swift.String?
+        /// Quantified savings achievable through implementing optimizations
+        public var totalPotentialSavingsAmount: Swift.String?
+
+        public init(
+            awsProducts: [PartnerCentralSellingClientTypes.AwsProductDetails]? = nil,
+            currencyCode: PartnerCentralSellingClientTypes.CurrencyCode? = nil,
+            frequency: PartnerCentralSellingClientTypes.PaymentFrequency? = nil,
+            totalAmount: Swift.String? = nil,
+            totalAmountByCategory: [Swift.String: Swift.String]? = nil,
+            totalOptimizedAmount: Swift.String? = nil,
+            totalPotentialSavingsAmount: Swift.String? = nil
+        ) {
+            self.awsProducts = awsProducts
+            self.currencyCode = currencyCode
+            self.frequency = frequency
+            self.totalAmount = totalAmount
+            self.totalAmountByCategory = totalAmountByCategory
+            self.totalOptimizedAmount = totalOptimizedAmount
+            self.totalPotentialSavingsAmount = totalPotentialSavingsAmount
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductInsights: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AwsProductInsights(awsProducts: \(Swift.String(describing: awsProducts)), frequency: \(Swift.String(describing: frequency)), currencyCode: \"CONTENT_REDACTED\", totalAmount: \"CONTENT_REDACTED\", totalAmountByCategory: [keys: \(Swift.String(describing: totalAmountByCategory?.keys)), values: \"CONTENT_REDACTED\"], totalOptimizedAmount: \"CONTENT_REDACTED\", totalPotentialSavingsAmount: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Source-separated spend insights that provide independent analysis for AWS predictions and partner estimates
+    public struct AwsProductsSpendInsightsBySource: Swift.Sendable {
+        /// AI-generated insights including recommended products from AWS
+        public var aws: PartnerCentralSellingClientTypes.AwsProductInsights?
+        /// Partner-sourced insights derived from Pricing Calculator URLs including detailed service costs and optimizations
+        public var partner: PartnerCentralSellingClientTypes.AwsProductInsights?
+
+        public init(
+            aws: PartnerCentralSellingClientTypes.AwsProductInsights? = nil,
+            partner: PartnerCentralSellingClientTypes.AwsProductInsights? = nil
+        ) {
+            self.aws = aws
+            self.partner = partner
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum EngagementScore: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngagementScore] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains insights provided by AWS for the opportunity, offering recommendations and analysis that can help the partner optimize their engagement and strategy.
+    public struct AwsOpportunityInsights: Swift.Sendable {
+        /// Source-separated spend insights that provide independent analysis for AWS predictions and partner estimates
+        public var awsProductsSpendInsightsBySource: PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource?
+        /// Represents a score assigned by AWS to indicate the level of engagement and potential success for the opportunity. This score helps partners prioritize their efforts.
+        public var engagementScore: PartnerCentralSellingClientTypes.EngagementScore?
+        /// Provides recommendations from AWS on the next best actions to take in order to move the opportunity forward and increase the likelihood of success.
+        public var nextBestActions: Swift.String?
+
+        public init(
+            awsProductsSpendInsightsBySource: PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource? = nil,
+            engagementScore: PartnerCentralSellingClientTypes.EngagementScore? = nil,
+            nextBestActions: Swift.String? = nil
+        ) {
+            self.awsProductsSpendInsightsBySource = awsProductsSpendInsightsBySource
+            self.engagementScore = engagementScore
+            self.nextBestActions = nextBestActions
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Tracks the history of next steps associated with the opportunity. This field captures the actions planned for the future and their timeline.
+    public struct ProfileNextStepsHistory: Swift.Sendable {
+        /// Indicates the date and time when a particular next step was recorded or planned. This helps in managing the timeline for the opportunity.
+        /// This member is required.
+        public var time: Foundation.Date?
+        /// Represents the details of the next step recorded, such as follow-up actions or decisions made. This field helps in tracking progress and ensuring alignment with project goals.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            time: Foundation.Date? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.time = time
+            self.value = value
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum AwsOpportunityStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buildingIntegration
+        case businessValidation
+        case closedIncomplete
+        case closedLost
+        case committed
+        case completed
+        case contractNegotiation
+        case deferredToPartner
+        case engaged
+        case evaluating
+        case identified
+        case inProgress
+        case launched
+        case notStarted
+        case onboarding
+        case onHold
+        case prospect
+        case qualified
+        case qualify
+        case research
+        case sellerEngaged
+        case sellerRegistered
+        case technicalValidation
+        case termSheetNegotiation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AwsOpportunityStage] {
+            return [
+                .buildingIntegration,
+                .businessValidation,
+                .closedIncomplete,
+                .closedLost,
+                .committed,
+                .completed,
+                .contractNegotiation,
+                .deferredToPartner,
+                .engaged,
+                .evaluating,
+                .identified,
+                .inProgress,
+                .launched,
+                .notStarted,
+                .onboarding,
+                .onHold,
+                .prospect,
+                .qualified,
+                .qualify,
+                .research,
+                .sellerEngaged,
+                .sellerRegistered,
+                .technicalValidation,
+                .termSheetNegotiation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buildingIntegration: return "Building Integration"
+            case .businessValidation: return "Business Validation"
+            case .closedIncomplete: return "Closed Incomplete"
+            case .closedLost: return "Closed Lost"
+            case .committed: return "Committed"
+            case .completed: return "Completed"
+            case .contractNegotiation: return "Contract Negotiation"
+            case .deferredToPartner: return "Deferred to Partner"
+            case .engaged: return "Engaged"
+            case .evaluating: return "Evaluating"
+            case .identified: return "Identified"
+            case .inProgress: return "In Progress"
+            case .launched: return "Launched"
+            case .notStarted: return "Not Started"
+            case .onboarding: return "Onboarding"
+            case .onHold: return "On-hold"
+            case .prospect: return "Prospect"
+            case .qualified: return "Qualified"
+            case .qualify: return "Qualify"
+            case .research: return "Research"
+            case .sellerEngaged: return "Seller Engaged"
+            case .sellerRegistered: return "Seller Registered"
+            case .technicalValidation: return "Technical Validation"
+            case .termSheetNegotiation: return "Term Sheet Negotiation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Tracks the lifecycle of the AWS opportunity, including stages such as qualification, validation, and closure. This field helps partners understand the current status and progression of the opportunity.
+    public struct AwsOpportunityLifeCycle: Swift.Sendable {
+        /// Indicates the reason why an opportunity was marked as Closed Lost. This helps in understanding the context behind the lost opportunity and aids in refining future strategies.
+        public var closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason?
+        /// Specifies the immediate next steps required to progress the opportunity. These steps are based on AWS guidance and the current stage of the opportunity.
+        public var nextSteps: Swift.String?
+        /// Provides a historical log of previous next steps that were taken to move the opportunity forward. This helps in tracking the decision-making process and identifying any delays or obstacles encountered.
+        public var nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]?
+        /// Represents the current stage of the opportunity in its lifecycle, such as Qualification, Validation, or Closed Won. This helps in understanding the opportunity's progress.
+        public var stage: PartnerCentralSellingClientTypes.AwsOpportunityStage?
+        /// Indicates the expected date by which the opportunity is projected to close. This field helps in planning resources and timelines for both the partner and AWS.
+        public var targetCloseDate: Swift.String?
+
+        public init(
+            closedLostReason: PartnerCentralSellingClientTypes.AwsClosedLostReason? = nil,
+            nextSteps: Swift.String? = nil,
+            nextStepsHistory: [PartnerCentralSellingClientTypes.ProfileNextStepsHistory]? = nil,
+            stage: PartnerCentralSellingClientTypes.AwsOpportunityStage? = nil,
+            targetCloseDate: Swift.String? = nil
+        ) {
+            self.closedLostReason = closedLostReason
+            self.nextSteps = nextSteps
+            self.nextStepsHistory = nextStepsHistory
+            self.stage = stage
+            self.targetCloseDate = targetCloseDate
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AwsOpportunityLifeCycle(closedLostReason: \(Swift.String(describing: closedLostReason)), nextStepsHistory: \(Swift.String(describing: nextStepsHistory)), stage: \(Swift.String(describing: stage)), targetCloseDate: \(Swift.String(describing: targetCloseDate)), nextSteps: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum AwsPartition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsEusc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AwsPartition] {
+            return [
+                .awsEusc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsEusc: return "aws-eusc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// Provides an estimate of the revenue that the partner is expected to generate from the opportunity. This information helps partners assess the financial value of the project.
     public struct ExpectedCustomerSpend: Swift.Sendable {
         /// Represents the estimated monthly revenue that the partner expects to earn from the opportunity. This helps in forecasting financial returns.
-        /// This member is required.
         public var amount: Swift.String?
         /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets.
         /// This member is required.
@@ -2594,7 +2805,7 @@ extension PartnerCentralSellingClientTypes {
         public var targetCompany: Swift.String?
 
         public init(
-            amount: Swift.String? = nil,
+            amount: Swift.String? = "",
             currencyCode: PartnerCentralSellingClientTypes.CurrencyCode? = nil,
             estimationUrl: Swift.String? = nil,
             frequency: PartnerCentralSellingClientTypes.PaymentFrequency? = nil,
@@ -2611,19 +2822,23 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ExpectedCustomerSpend(frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), amount: \"CONTENT_REDACTED\", currencyCode: \"CONTENT_REDACTED\", estimationUrl: \"CONTENT_REDACTED\")"}
+        "ExpectedCustomerSpend(estimationUrl: \(Swift.String(describing: estimationUrl)), frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), amount: \"CONTENT_REDACTED\", currencyCode: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
 
     /// Captures details about the project associated with the opportunity, including objectives, scope, and customer requirements.
     public struct AwsOpportunityProject: Swift.Sendable {
+        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, null for all other partitions
+        public var awsPartition: PartnerCentralSellingClientTypes.AwsPartition?
         /// Indicates the expected spending by the customer over the course of the project. This value helps partners and AWS estimate the financial impact of the opportunity. Use the [AWS Pricing Calculator](https://calculator.aws/#/) to create an estimate of the customer’s total spend. If only annual recurring revenue (ARR) is available, distribute it across 12 months to provide an average monthly value.
         public var expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]?
 
         public init(
+            awsPartition: PartnerCentralSellingClientTypes.AwsPartition? = nil,
             expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]? = nil
         ) {
+            self.awsPartition = awsPartition
             self.expectedCustomerSpend = expectedCustomerSpend
         }
     }
@@ -2791,10 +3006,210 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    public enum MarketSegment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enterprise
+        case large
+        case medium
+        case micro
+        case small
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MarketSegment] {
+            return [
+                .enterprise,
+                .large,
+                .medium,
+                .micro,
+                .small
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enterprise: return "Enterprise"
+            case .large: return "Large"
+            case .medium: return "Medium"
+            case .micro: return "Micro"
+            case .small: return "Small"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Contains detailed information about the customer associated with the lead, including company details, industry classification, and AWS maturity level. This information helps qualify and categorize the lead for appropriate engagement strategies.
+    public struct LeadCustomer: Swift.Sendable {
+        /// An object that contains an Address object's subset of fields.
+        /// This member is required.
+        public var address: PartnerCentralSellingClientTypes.AddressSummary?
+        /// Indicates the customer's level of experience and adoption with AWS services. This assessment helps determine the appropriate engagement approach and solution complexity.
+        public var awsMaturity: Swift.String?
+        /// The name of the lead customer's company. This field is essential for identifying and tracking the customer organization associated with the lead.
+        /// This member is required.
+        public var companyName: Swift.String?
+        /// Specifies the industry sector to which the lead customer's company belongs. This categorization helps in understanding the customer's business context and tailoring appropriate solutions.
+        public var industry: PartnerCentralSellingClientTypes.Industry?
+        /// Specifies the market segment classification of the lead customer, such as enterprise, mid-market, or small business. This segmentation helps in targeting appropriate solutions and engagement strategies.
+        public var marketSegment: PartnerCentralSellingClientTypes.MarketSegment?
+        /// The website URL of the lead customer's company. This provides additional context about the customer organization and helps verify company legitimacy and size.
+        public var websiteUrl: Swift.String?
+
+        public init(
+            address: PartnerCentralSellingClientTypes.AddressSummary? = nil,
+            awsMaturity: Swift.String? = nil,
+            companyName: Swift.String? = nil,
+            industry: PartnerCentralSellingClientTypes.Industry? = nil,
+            marketSegment: PartnerCentralSellingClientTypes.MarketSegment? = nil,
+            websiteUrl: Swift.String? = nil
+        ) {
+            self.address = address
+            self.awsMaturity = awsMaturity
+            self.companyName = companyName
+            self.industry = industry
+            self.marketSegment = marketSegment
+            self.websiteUrl = websiteUrl
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadCustomer: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LeadCustomer(address: \(Swift.String(describing: address)), awsMaturity: \(Swift.String(describing: awsMaturity)), industry: \(Swift.String(describing: industry)), marketSegment: \(Swift.String(describing: marketSegment)), companyName: \"CONTENT_REDACTED\", websiteUrl: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// An object that contains a lead contact's details associated with the engagement. This provides contact information for individuals involved in lead-related activities.
+    public struct LeadContact: Swift.Sendable {
+        /// The lead contact's business title or job role associated with the engagement.
+        /// This member is required.
+        public var businessTitle: Swift.String?
+        /// The lead contact's email address associated with the engagement.
+        /// This member is required.
+        public var email: Swift.String?
+        /// The lead contact's first name associated with the engagement.
+        /// This member is required.
+        public var firstName: Swift.String?
+        /// The lead contact's last name associated with the engagement.
+        /// This member is required.
+        public var lastName: Swift.String?
+        /// The lead contact's phone number associated with the engagement.
+        public var phone: Swift.String?
+
+        public init(
+            businessTitle: Swift.String? = nil,
+            email: Swift.String? = nil,
+            firstName: Swift.String? = nil,
+            lastName: Swift.String? = nil,
+            phone: Swift.String? = nil
+        ) {
+            self.businessTitle = businessTitle
+            self.email = email
+            self.firstName = firstName
+            self.lastName = lastName
+            self.phone = phone
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadContact: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LeadContact(businessTitle: \"CONTENT_REDACTED\", email: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", phone: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Represents a specific interaction or touchpoint with a lead customer. This structure captures details about communications, meetings, or other engagement activities that help track the lead's progression and engagement history.
+    public struct LeadInteraction: Swift.Sendable {
+        /// Describes the business problem or challenge that the customer discussed during the interaction. This information helps qualify the lead and identify appropriate solutions.
+        public var businessProblem: Swift.String?
+        /// Contains contact information for the customer representative involved in the lead interaction, including their name, title, and contact details.
+        /// This member is required.
+        public var contact: PartnerCentralSellingClientTypes.LeadContact?
+        /// Describes the action taken by the customer during or as a result of the interaction, such as requesting information, scheduling a meeting, or expressing interest in a solution.
+        /// This member is required.
+        public var customerAction: Swift.String?
+        /// The date and time when the lead interaction occurred, in ISO 8601 format (UTC). This timestamp helps track the chronology of lead engagement activities.
+        public var interactionDate: Foundation.Date?
+        /// The unique identifier of the specific source that generated the lead interaction. This ID provides traceability back to the original lead generation activity.
+        /// This member is required.
+        public var sourceId: Swift.String?
+        /// The descriptive name of the source that generated the lead interaction, providing a human-readable identifier for the lead generation channel or activity.
+        /// This member is required.
+        public var sourceName: Swift.String?
+        /// Specifies the type of source that generated the lead interaction, such as "Event", "Website", "Referral", or "Campaign". This categorization helps track lead generation effectiveness across different channels.
+        /// This member is required.
+        public var sourceType: Swift.String?
+        /// Describes the specific use case or business scenario discussed during the lead interaction. This helps categorize the customer's interests and potential solutions.
+        public var usecase: Swift.String?
+
+        public init(
+            businessProblem: Swift.String? = nil,
+            contact: PartnerCentralSellingClientTypes.LeadContact? = nil,
+            customerAction: Swift.String? = nil,
+            interactionDate: Foundation.Date? = nil,
+            sourceId: Swift.String? = nil,
+            sourceName: Swift.String? = nil,
+            sourceType: Swift.String? = nil,
+            usecase: Swift.String? = nil
+        ) {
+            self.businessProblem = businessProblem
+            self.contact = contact
+            self.customerAction = customerAction
+            self.interactionDate = interactionDate
+            self.sourceId = sourceId
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+            self.usecase = usecase
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadInteraction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LeadInteraction(contact: \(Swift.String(describing: contact)), customerAction: \(Swift.String(describing: customerAction)), interactionDate: \(Swift.String(describing: interactionDate)), sourceId: \(Swift.String(describing: sourceId)), sourceName: \(Swift.String(describing: sourceName)), sourceType: \(Swift.String(describing: sourceType)), usecase: \(Swift.String(describing: usecase)), businessProblem: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides comprehensive details about a lead associated with an engagement. This structure contains information about lead qualification status, customer details, and interaction history to facilitate lead management and tracking within the engagement.
+    public struct LeadContext: Swift.Sendable {
+        /// Contains detailed information about the customer associated with the lead, including company information, contact details, and other relevant customer data.
+        /// This member is required.
+        public var customer: PartnerCentralSellingClientTypes.LeadCustomer?
+        /// An array of interactions that have occurred with the lead, providing a history of communications, meetings, and other engagement activities related to the lead.
+        /// This member is required.
+        public var interactions: [PartnerCentralSellingClientTypes.LeadInteraction]?
+        /// Indicates the current qualification status of the lead, such as whether it has been qualified, disqualified, or is still under evaluation. This helps track the lead's progression through the qualification process.
+        public var qualificationStatus: Swift.String?
+
+        public init(
+            customer: PartnerCentralSellingClientTypes.LeadCustomer? = nil,
+            interactions: [PartnerCentralSellingClientTypes.LeadInteraction]? = nil,
+            qualificationStatus: Swift.String? = "Unqualified"
+        ) {
+            self.customer = customer
+            self.interactions = interactions
+            self.qualificationStatus = qualificationStatus
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// Represents the payload of an Engagement context. The structure of this payload varies based on the context type specified in the EngagementContextDetails.
     public enum EngagementContextPayload: Swift.Sendable {
         /// Contains detailed information about a customer project when the context type is "CustomerProject". This field is present only when the Type in EngagementContextDetails is set to "CustomerProject".
         case customerproject(PartnerCentralSellingClientTypes.CustomerProjectsContext)
+        /// Contains detailed information about a lead when the context type is "Lead". This field is present only when the Type in EngagementContextDetails is set to "Lead".
+        case lead(PartnerCentralSellingClientTypes.LeadContext)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2803,11 +3218,13 @@ extension PartnerCentralSellingClientTypes {
 
     public enum EngagementContextType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case customerProject
+        case lead
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EngagementContextType] {
             return [
-                .customerProject
+                .customerProject,
+                .lead
             ]
         }
 
@@ -2819,9 +3236,65 @@ extension PartnerCentralSellingClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .customerProject: return "CustomerProject"
+            case .lead: return "Lead"
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+public struct CreateEngagementContextInput: Swift.Sendable {
+    /// Specifies the catalog associated with the engagement context request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the engagement context is created in. Use AWS to create contexts in the production environment, and Sandbox for testing in secure, isolated environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique, case-sensitive identifier provided by the client to ensure that the request is handled exactly once. This token helps prevent duplicate context creations and must not exceed sixty-four alphanumeric characters. Use a UUID or other unique string to ensure idempotency.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the Engagement for which the context is being created. This parameter ensures the context is associated with the correct engagement and provides the necessary linkage between the engagement and its contextual information.
+    /// This member is required.
+    public var engagementIdentifier: Swift.String?
+    /// Represents the payload of an Engagement context. The structure of this payload varies based on the context type specified in the EngagementContextDetails.
+    /// This member is required.
+    public var payload: PartnerCentralSellingClientTypes.EngagementContextPayload?
+    /// Specifies the type of context being created for the engagement. This field determines the structure and content of the context payload. Valid values include CustomerProject for customer project-related contexts. The type field ensures that the context is properly categorized and processed according to its intended purpose.
+    /// This member is required.
+    public var type: PartnerCentralSellingClientTypes.EngagementContextType?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        payload: PartnerCentralSellingClientTypes.EngagementContextPayload? = nil,
+        type: PartnerCentralSellingClientTypes.EngagementContextType? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.engagementIdentifier = engagementIdentifier
+        self.payload = payload
+        self.type = type
+    }
+}
+
+public struct CreateEngagementContextOutput: Swift.Sendable {
+    /// The unique identifier assigned to the newly created engagement context. This ID can be used to reference the specific context within the engagement for future operations.
+    public var contextId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the engagement to which the context was added. This globally unique identifier can be used for cross-service references and IAM policies.
+    public var engagementArn: Swift.String?
+    /// The unique identifier of the engagement to which the context was added. This ID confirms the successful association of the context with the specified engagement.
+    public var engagementId: Swift.String?
+    /// The timestamp indicating when the engagement was last modified as a result of adding the context, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z".
+    public var engagementLastModifiedAt: Foundation.Date?
+
+    public init(
+        contextId: Swift.String? = nil,
+        engagementArn: Swift.String? = nil,
+        engagementId: Swift.String? = nil,
+        engagementLastModifiedAt: Foundation.Date? = nil
+    ) {
+        self.contextId = contextId
+        self.engagementArn = engagementArn
+        self.engagementId = engagementId
+        self.engagementLastModifiedAt = engagementLastModifiedAt
     }
 }
 
@@ -2829,6 +3302,8 @@ extension PartnerCentralSellingClientTypes {
 
     /// Provides detailed context information for an Engagement. This structure allows for specifying the type of context and its associated payload.
     public struct EngagementContextDetails: Swift.Sendable {
+        /// The unique identifier of the engagement context. This ID is used to reference and manage the specific context within the engagement.
+        public var id: Swift.String?
         /// Contains the specific details of the Engagement context. The structure of this payload varies depending on the Type field.
         public var payload: PartnerCentralSellingClientTypes.EngagementContextPayload?
         /// Specifies the type of Engagement context. Valid values are "CustomerProject" or "Document", indicating whether the context relates to a customer project or a document respectively.
@@ -2836,9 +3311,11 @@ extension PartnerCentralSellingClientTypes {
         public var type: PartnerCentralSellingClientTypes.EngagementContextType?
 
         public init(
+            id: Swift.String? = nil,
             payload: PartnerCentralSellingClientTypes.EngagementContextPayload? = nil,
             type: PartnerCentralSellingClientTypes.EngagementContextType? = nil
         ) {
+            self.id = id
             self.payload = payload
             self.type = type
         }
@@ -2881,13 +3358,17 @@ public struct CreateEngagementOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// Unique identifier assigned to the newly created engagement.
     public var id: Swift.String?
+    /// The timestamp indicating when the engagement was last modified, in ISO 8601 format (UTC). For newly created engagements, this value matches the creation timestamp. Example: "2023-05-01T20:37:46Z".
+    public var modifiedAt: Foundation.Date?
 
     public init(
         arn: Swift.String? = nil,
-        id: Swift.String? = nil
+        id: Swift.String? = nil,
+        modifiedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
         self.id = id
+        self.modifiedAt = modifiedAt
     }
 }
 
@@ -2923,6 +3404,10 @@ public struct GetEngagementOutput: Swift.Sendable {
     public var id: Swift.String?
     /// Specifies the current count of members participating in the Engagement. This count includes all active members regardless of their roles or permissions within the Engagement.
     public var memberCount: Swift.Int?
+    /// The timestamp indicating when the engagement was last modified, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z". This helps track the most recent changes to the engagement.
+    public var modifiedAt: Foundation.Date?
+    /// The AWS account ID of the user who last modified the engagement. This field helps track who made the most recent changes to the engagement.
+    public var modifiedBy: Swift.String?
     /// The title of the engagement. It provides a brief, descriptive name for the engagement that is meaningful and easily recognizable.
     public var title: Swift.String?
 
@@ -2934,6 +3419,8 @@ public struct GetEngagementOutput: Swift.Sendable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         memberCount: Swift.Int? = nil,
+        modifiedAt: Foundation.Date? = nil,
+        modifiedBy: Swift.String? = nil,
         title: Swift.String? = nil
     ) {
         self.arn = arn
@@ -2943,13 +3430,15 @@ public struct GetEngagementOutput: Swift.Sendable {
         self.description = description
         self.id = id
         self.memberCount = memberCount
+        self.modifiedAt = modifiedAt
+        self.modifiedBy = modifiedBy
         self.title = title
     }
 }
 
 extension GetEngagementOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetEngagementOutput(arn: \(Swift.String(describing: arn)), contexts: \(Swift.String(describing: contexts)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), memberCount: \(Swift.String(describing: memberCount)), title: \(Swift.String(describing: title)), createdBy: \"CONTENT_REDACTED\")"}
+        "GetEngagementOutput(arn: \(Swift.String(describing: arn)), contexts: \(Swift.String(describing: contexts)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), memberCount: \(Swift.String(describing: memberCount)), modifiedAt: \(Swift.String(describing: modifiedAt)), title: \(Swift.String(describing: title)), createdBy: \"CONTENT_REDACTED\", modifiedBy: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEngagementMembersInput: Swift.Sendable {
@@ -3101,10 +3590,14 @@ public struct ListEngagementsInput: Swift.Sendable {
     /// Specifies the catalog related to the request.
     /// This member is required.
     public var catalog: Swift.String?
+    /// Filters engagements to include only those containing the specified context types, such as "CustomerProject" or "Lead". Use this to find engagements that have specific types of contextual information associated with them.
+    public var contextTypes: [PartnerCentralSellingClientTypes.EngagementContextType]?
     /// A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members.
     public var createdBy: [Swift.String]?
     /// An array of strings representing engagement identifiers to retrieve.
     public var engagementIdentifier: [Swift.String]?
+    /// Filters engagements to exclude those containing the specified context types. Use this to find engagements that do not have certain types of contextual information, helping to narrow results based on context exclusion criteria.
+    public var excludeContextTypes: [PartnerCentralSellingClientTypes.EngagementContextType]?
     /// An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
     public var excludeCreatedBy: [Swift.String]?
     /// The maximum number of results to return in a single call.
@@ -3116,16 +3609,20 @@ public struct ListEngagementsInput: Swift.Sendable {
 
     public init(
         catalog: Swift.String? = nil,
+        contextTypes: [PartnerCentralSellingClientTypes.EngagementContextType]? = nil,
         createdBy: [Swift.String]? = nil,
         engagementIdentifier: [Swift.String]? = nil,
+        excludeContextTypes: [PartnerCentralSellingClientTypes.EngagementContextType]? = nil,
         excludeCreatedBy: [Swift.String]? = nil,
         maxResults: Swift.Int? = 20,
         nextToken: Swift.String? = nil,
         sort: PartnerCentralSellingClientTypes.EngagementSort? = nil
     ) {
         self.catalog = catalog
+        self.contextTypes = contextTypes
         self.createdBy = createdBy
         self.engagementIdentifier = engagementIdentifier
+        self.excludeContextTypes = excludeContextTypes
         self.excludeCreatedBy = excludeCreatedBy
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -3135,7 +3632,7 @@ public struct ListEngagementsInput: Swift.Sendable {
 
 extension ListEngagementsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListEngagementsInput(catalog: \(Swift.String(describing: catalog)), engagementIdentifier: \(Swift.String(describing: engagementIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), sort: \(Swift.String(describing: sort)), createdBy: \"CONTENT_REDACTED\", excludeCreatedBy: \"CONTENT_REDACTED\")"}
+        "ListEngagementsInput(catalog: \(Swift.String(describing: catalog)), contextTypes: \(Swift.String(describing: contextTypes)), engagementIdentifier: \(Swift.String(describing: engagementIdentifier)), excludeContextTypes: \(Swift.String(describing: excludeContextTypes)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), sort: \(Swift.String(describing: sort)), createdBy: \"CONTENT_REDACTED\", excludeCreatedBy: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -3144,6 +3641,8 @@ extension PartnerCentralSellingClientTypes {
     public struct EngagementSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the created Engagement.
         public var arn: Swift.String?
+        /// An array of context types associated with the engagement, such as "CustomerProject" or "Lead". This provides a quick overview of the types of contexts included in the engagement.
+        public var contextTypes: [PartnerCentralSellingClientTypes.EngagementContextType]?
         /// The date and time when the Engagement was created.
         public var createdAt: Foundation.Date?
         /// The AWS Account ID of the Engagement creator.
@@ -3152,22 +3651,32 @@ extension PartnerCentralSellingClientTypes {
         public var id: Swift.String?
         /// The number of members in the Engagement.
         public var memberCount: Swift.Int?
+        /// The timestamp indicating when the engagement was last modified, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z".
+        public var modifiedAt: Foundation.Date?
+        /// The AWS account ID of the user who last modified the engagement. This field helps track who made the most recent changes to the engagement.
+        public var modifiedBy: Swift.String?
         /// The title of the Engagement.
         public var title: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
+            contextTypes: [PartnerCentralSellingClientTypes.EngagementContextType]? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             id: Swift.String? = nil,
             memberCount: Swift.Int? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            modifiedBy: Swift.String? = nil,
             title: Swift.String? = nil
         ) {
             self.arn = arn
+            self.contextTypes = contextTypes
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.id = id
             self.memberCount = memberCount
+            self.modifiedAt = modifiedAt
+            self.modifiedBy = modifiedBy
             self.title = title
         }
     }
@@ -3175,7 +3684,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.EngagementSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EngagementSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), memberCount: \(Swift.String(describing: memberCount)), title: \(Swift.String(describing: title)), createdBy: \"CONTENT_REDACTED\")"}
+        "EngagementSummary(arn: \(Swift.String(describing: arn)), contextTypes: \(Swift.String(describing: contextTypes)), createdAt: \(Swift.String(describing: createdAt)), id: \(Swift.String(describing: id)), memberCount: \(Swift.String(describing: memberCount)), modifiedAt: \(Swift.String(describing: modifiedAt)), title: \(Swift.String(describing: title)), createdBy: \"CONTENT_REDACTED\", modifiedBy: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEngagementsOutput: Swift.Sendable {
@@ -3320,6 +3829,9 @@ public struct ListEngagementByAcceptingInvitationTasksInput: Swift.Sendable {
 extension PartnerCentralSellingClientTypes {
 
     public enum ReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contextNotFound
+        case customerProjectContextNotPermitted
+        case disqualifiedLeadNotPermitted
         case engagementAccessDenied
         case engagementConflict
         case engagementInvitationConflict
@@ -3343,6 +3855,9 @@ extension PartnerCentralSellingClientTypes {
 
         public static var allCases: [ReasonCode] {
             return [
+                .contextNotFound,
+                .customerProjectContextNotPermitted,
+                .disqualifiedLeadNotPermitted,
                 .engagementAccessDenied,
                 .engagementConflict,
                 .engagementInvitationConflict,
@@ -3372,6 +3887,9 @@ extension PartnerCentralSellingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .contextNotFound: return "ContextNotFound"
+            case .customerProjectContextNotPermitted: return "CustomerProjectContextNotPermitted"
+            case .disqualifiedLeadNotPermitted: return "DisqualifiedLeadNotPermitted"
             case .engagementAccessDenied: return "EngagementAccessDenied"
             case .engagementConflict: return "EngagementConflict"
             case .engagementInvitationConflict: return "EngagementInvitationConflict"
@@ -3817,6 +4335,109 @@ public struct StartEngagementFromOpportunityTaskOutput: Swift.Sendable {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// Contains customer information included in a lead invitation payload. This structure provides essential details about the customer to help partners evaluate the lead opportunity and determine their interest in engagement.
+    public struct LeadInvitationCustomer: Swift.Sendable {
+        /// Indicates the customer's level of experience and adoption with AWS services. This assessment helps partners understand the customer's cloud maturity and tailor their engagement approach accordingly.
+        public var awsMaturity: Swift.String?
+        /// The name of the customer company associated with the lead invitation. This field identifies the target organization for the lead engagement opportunity.
+        /// This member is required.
+        public var companyName: Swift.String?
+        /// The country code indicating the geographic location of the customer company. This information helps partners understand regional requirements and assess their ability to serve the customer effectively.
+        /// This member is required.
+        public var countryCode: PartnerCentralSellingClientTypes.CountryCode?
+        /// Specifies the industry sector of the customer company associated with the lead invitation. This categorization helps partners understand the customer's business context and assess solution fit.
+        public var industry: PartnerCentralSellingClientTypes.Industry?
+        /// Specifies the market segment classification of the customer, such as enterprise, mid-market, or small business. This segmentation helps partners determine the appropriate solution complexity and engagement strategy.
+        public var marketSegment: PartnerCentralSellingClientTypes.MarketSegment?
+        /// The website URL of the customer company. This provides additional context about the customer organization and helps partners verify company details and assess business size and legitimacy.
+        public var websiteUrl: Swift.String?
+
+        public init(
+            awsMaturity: Swift.String? = nil,
+            companyName: Swift.String? = nil,
+            countryCode: PartnerCentralSellingClientTypes.CountryCode? = nil,
+            industry: PartnerCentralSellingClientTypes.Industry? = nil,
+            marketSegment: PartnerCentralSellingClientTypes.MarketSegment? = nil,
+            websiteUrl: Swift.String? = nil
+        ) {
+            self.awsMaturity = awsMaturity
+            self.companyName = companyName
+            self.countryCode = countryCode
+            self.industry = industry
+            self.marketSegment = marketSegment
+            self.websiteUrl = websiteUrl
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadInvitationCustomer: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LeadInvitationCustomer(awsMaturity: \(Swift.String(describing: awsMaturity)), industry: \(Swift.String(describing: industry)), marketSegment: \(Swift.String(describing: marketSegment)), companyName: \"CONTENT_REDACTED\", countryCode: \"CONTENT_REDACTED\", websiteUrl: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Represents interaction details included in a lead invitation payload. This structure provides context about how the lead was generated and the customer's engagement history to help partners assess the opportunity quality.
+    public struct LeadInvitationInteraction: Swift.Sendable {
+        /// The business title or job role of the customer contact involved in the lead interaction. This helps partners identify the decision-making level and engagement approach for the lead.
+        /// This member is required.
+        public var contactBusinessTitle: Swift.String?
+        /// The unique identifier of the specific source that generated the lead interaction. This provides traceability to the original lead generation activity for reference and follow-up purposes.
+        /// This member is required.
+        public var sourceId: Swift.String?
+        /// The descriptive name of the source that generated the lead interaction. This human-readable identifier helps partners understand the specific lead generation channel or campaign that created the opportunity.
+        /// This member is required.
+        public var sourceName: Swift.String?
+        /// Specifies the type of source that generated the lead interaction, such as "Event", "Website", or "Campaign". This helps partners understand the lead generation channel and assess lead quality based on the source type.
+        /// This member is required.
+        public var sourceType: Swift.String?
+        /// Describes the specific use case or business scenario associated with the lead interaction. This information helps partners understand the customer's interests and potential solution requirements.
+        public var usecase: Swift.String?
+
+        public init(
+            contactBusinessTitle: Swift.String? = nil,
+            sourceId: Swift.String? = nil,
+            sourceName: Swift.String? = nil,
+            sourceType: Swift.String? = nil,
+            usecase: Swift.String? = nil
+        ) {
+            self.contactBusinessTitle = contactBusinessTitle
+            self.sourceId = sourceId
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+            self.usecase = usecase
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadInvitationInteraction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LeadInvitationInteraction(sourceId: \(Swift.String(describing: sourceId)), sourceName: \(Swift.String(describing: sourceName)), sourceType: \(Swift.String(describing: sourceType)), usecase: \(Swift.String(describing: usecase)), contactBusinessTitle: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Represents the data payload of an engagement invitation for a lead opportunity. This contains detailed information about the customer and interaction history that partners use to evaluate whether to accept the lead engagement invitation.
+    public struct LeadInvitationPayload: Swift.Sendable {
+        /// Contains information about the customer associated with the lead invitation. This data helps partners understand the customer's profile, industry, and business context to assess the lead opportunity.
+        /// This member is required.
+        public var customer: PartnerCentralSellingClientTypes.LeadInvitationCustomer?
+        /// Describes the interaction details associated with the lead, including the source of the lead generation and customer engagement information. This context helps partners evaluate the lead quality and engagement approach.
+        /// This member is required.
+        public var interaction: PartnerCentralSellingClientTypes.LeadInvitationInteraction?
+
+        public init(
+            customer: PartnerCentralSellingClientTypes.LeadInvitationCustomer? = nil,
+            interaction: PartnerCentralSellingClientTypes.LeadInvitationInteraction? = nil
+        ) {
+            self.customer = customer
+            self.interaction = interaction
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// Contains details about the project associated with the Engagement Invitation, including the business problem and expected outcomes.
     public struct ProjectDetails: Swift.Sendable {
         /// Describes the business problem that the project aims to solve. This information is crucial for understanding the project’s goals and objectives.
@@ -3974,6 +4595,8 @@ extension PartnerCentralSellingClientTypes {
     public enum Payload: Swift.Sendable {
         /// Specifies the details of the opportunity invitation within the Engagement Invitation payload. This data helps partners understand the context, scope, and expected involvement for the opportunity from AWS.
         case opportunityinvitation(PartnerCentralSellingClientTypes.OpportunityInvitationPayload)
+        /// Specifies the details of the lead invitation within the Engagement Invitation payload. This data helps partners understand the lead context, customer information, and interaction history for the lead opportunity from AWS.
+        case leadinvitation(PartnerCentralSellingClientTypes.LeadInvitationPayload)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4107,11 +4730,13 @@ extension PartnerCentralSellingClientTypes.EngagementMemberSummary: Swift.Custom
 extension PartnerCentralSellingClientTypes {
 
     public enum EngagementInvitationPayloadType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case leadInvitation
         case opportunityInvitation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EngagementInvitationPayloadType] {
             return [
+                .leadInvitation,
                 .opportunityInvitation
             ]
         }
@@ -4123,6 +4748,7 @@ extension PartnerCentralSellingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .leadInvitation: return "LeadInvitation"
             case .opportunityInvitation: return "OpportunityInvitation"
             case let .sdkUnknown(s): return s
             }
@@ -5298,6 +5924,8 @@ extension PartnerCentralSellingClientTypes {
         public var additionalComments: Swift.String?
         /// Specifies the Amazon Partner Network (APN) program that influenced the Opportunity. APN programs refer to specific partner programs or initiatives that can impact the Opportunity. Valid values: APN Immersion Days | APN Solution Space | ATO (Authority to Operate) | AWS Marketplace Campaign | IS Immersion Day SFID Program | ISV Workload Migration | Migration Acceleration Program | P3 | Partner Launch Initiative | Partner Opportunity Acceleration Funded | The Next Smart | VMware Cloud on AWS | Well-Architected | Windows | Workspaces/AppStream Accelerator Program | WWPS NDPP
         public var apnPrograms: [Swift.String]?
+        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, null for all other partitions
+        public var awsPartition: PartnerCentralSellingClientTypes.AwsPartition?
         /// Name of the Opportunity's competitor (if any). Use Other to submit a value not in the picklist.
         public var competitorName: PartnerCentralSellingClientTypes.CompetitorName?
         /// Describes the problem the end customer has, and how the partner is helping. Utilize this field to provide a concise narrative that outlines the customer's business challenge or issue. Elaborate on how the partner's solution or offerings align to resolve the customer's business problem. Include relevant information about the partner's value proposition, unique selling points, and expertise to tackle the issue. Offer insights on how the proposed solution meets the customer's needs and provides value. Use concise language and precise descriptions to convey the context and significance of the Opportunity. The content in this field helps Amazon Web Services understand the nature of the Opportunity and the strategic fit of the partner's solution.
@@ -5350,6 +5978,7 @@ extension PartnerCentralSellingClientTypes {
         public init(
             additionalComments: Swift.String? = nil,
             apnPrograms: [Swift.String]? = nil,
+            awsPartition: PartnerCentralSellingClientTypes.AwsPartition? = nil,
             competitorName: PartnerCentralSellingClientTypes.CompetitorName? = nil,
             customerBusinessProblem: Swift.String? = nil,
             customerUseCase: Swift.String? = nil,
@@ -5363,6 +5992,7 @@ extension PartnerCentralSellingClientTypes {
         ) {
             self.additionalComments = additionalComments
             self.apnPrograms = apnPrograms
+            self.awsPartition = awsPartition
             self.competitorName = competitorName
             self.customerBusinessProblem = customerBusinessProblem
             self.customerUseCase = customerUseCase
@@ -5379,7 +6009,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.Project: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Project(additionalComments: \(Swift.String(describing: additionalComments)), apnPrograms: \(Swift.String(describing: apnPrograms)), competitorName: \(Swift.String(describing: competitorName)), customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), otherCompetitorNames: \(Swift.String(describing: otherCompetitorNames)), relatedOpportunityIdentifier: \(Swift.String(describing: relatedOpportunityIdentifier)), salesActivities: \(Swift.String(describing: salesActivities)), customerBusinessProblem: \"CONTENT_REDACTED\", otherSolutionDescription: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "Project(additionalComments: \(Swift.String(describing: additionalComments)), apnPrograms: \(Swift.String(describing: apnPrograms)), awsPartition: \(Swift.String(describing: awsPartition)), competitorName: \(Swift.String(describing: competitorName)), customerUseCase: \(Swift.String(describing: customerUseCase)), deliveryModels: \(Swift.String(describing: deliveryModels)), expectedCustomerSpend: \(Swift.String(describing: expectedCustomerSpend)), otherCompetitorNames: \(Swift.String(describing: otherCompetitorNames)), relatedOpportunityIdentifier: \(Swift.String(describing: relatedOpportunityIdentifier)), salesActivities: \(Swift.String(describing: salesActivities)), customerBusinessProblem: \"CONTENT_REDACTED\", otherSolutionDescription: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -5733,6 +6363,8 @@ extension PartnerCentralSellingClientTypes {
 
     /// This field provides the associations' information for other entities with the opportunity. These entities include identifiers for AWSProducts, Partner Solutions, and AWSMarketplaceOffers.
     public struct RelatedEntityIdentifiers: Swift.Sendable {
+        /// Enables the association of AWS Marketplace offer sets with the Opportunity. Offer sets allow grouping multiple related marketplace offers together for comprehensive solution packaging. Each value is an Amazon Resource Name (ARN) in this format: arn:aws:aws-marketplace:us-east-1:999999999999:AWSMarketplace/OfferSet/offerset-sampleOfferSet32.
+        public var awsMarketplaceOfferSets: [Swift.String]?
         /// Takes one value per opportunity. Each value is an Amazon Resource Name (ARN), in this format: "offers": ["arn:aws:aws-marketplace:us-east-1:999999999999:AWSMarketplace/Offer/offer-sampleOffer32"]. Use the [ListEntities](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_ListEntities.html) action in the Marketplace Catalog APIs for a list of offers in the associated Marketplace seller account.
         public var awsMarketplaceOffers: [Swift.String]?
         /// Enables the association of specific Amazon Web Services products with the Opportunity. Partners can indicate the relevant Amazon Web Services products for the Opportunity's solution and align with the customer's needs. Returns multiple values separated by commas. For example, "AWSProducts" : ["AmazonRedshift", "AWSAppFabric", "AWSCleanRooms"]. Use the file with the list of Amazon Web Services products hosted on GitHub: [ Amazon Web Services products](https://github.com/aws-samples/partner-crm-integration-samples/blob/main/resources/aws_products.json).
@@ -5741,10 +6373,12 @@ extension PartnerCentralSellingClientTypes {
         public var solutions: [Swift.String]?
 
         public init(
+            awsMarketplaceOfferSets: [Swift.String]? = nil,
             awsMarketplaceOffers: [Swift.String]? = nil,
             awsProducts: [Swift.String]? = nil,
             solutions: [Swift.String]? = nil
         ) {
+            self.awsMarketplaceOfferSets = awsMarketplaceOfferSets
             self.awsMarketplaceOffers = awsMarketplaceOffers
             self.awsProducts = awsProducts
             self.solutions = solutions
@@ -6313,6 +6947,194 @@ public struct UpdateOpportunityOutput: Swift.Sendable {
     ) {
         self.id = id
         self.lastModifiedDate = lastModifiedDate
+    }
+}
+
+public struct ListOpportunityFromEngagementTasksInput: Swift.Sendable {
+    /// Specifies the catalog related to the request. Valid values are AWS for production environments and Sandbox for testing or development purposes. The catalog determines which environment the task data is retrieved from.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Filters tasks by the identifiers of the engagement contexts associated with the opportunity creation. Use this to find tasks related to specific contextual information within engagements that are being converted to opportunities.
+    public var contextIdentifier: [Swift.String]?
+    /// Filters tasks by the identifiers of the engagements from which opportunities are being created. Use this to find all opportunity creation tasks associated with a specific engagement.
+    public var engagementIdentifier: [Swift.String]?
+    /// Specifies the maximum number of results to return in a single page of the response. Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    public var maxResults: Swift.Int?
+    /// The token for requesting the next page of results. This value is obtained from the NextToken field in the response of a previous call to this API. Use this parameter for pagination when the result set spans multiple pages.
+    public var nextToken: Swift.String?
+    /// Filters tasks by the identifiers of the opportunities they created or are associated with. Use this to find tasks related to specific opportunity creation processes.
+    public var opportunityIdentifier: [Swift.String]?
+    /// Defines the sorting parameters for listing tasks. This structure allows for specifying the field to sort by and the order of sorting.
+    public var sort: PartnerCentralSellingClientTypes.ListTasksSortBase?
+    /// Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks. Provide the task ID to get details about a particular opportunity creation task.
+    public var taskIdentifier: [Swift.String]?
+    /// Filters the tasks based on their current status. This allows you to focus on tasks in specific states. Valid values are COMPLETE for tasks that have finished successfully, INPROGRESS for tasks that are currently running, and FAILED for tasks that have encountered an error and failed to complete.
+    public var taskStatus: [PartnerCentralSellingClientTypes.TaskStatus]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        contextIdentifier: [Swift.String]? = nil,
+        engagementIdentifier: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        opportunityIdentifier: [Swift.String]? = nil,
+        sort: PartnerCentralSellingClientTypes.ListTasksSortBase? = nil,
+        taskIdentifier: [Swift.String]? = nil,
+        taskStatus: [PartnerCentralSellingClientTypes.TaskStatus]? = nil
+    ) {
+        self.catalog = catalog
+        self.contextIdentifier = contextIdentifier
+        self.engagementIdentifier = engagementIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.opportunityIdentifier = opportunityIdentifier
+        self.sort = sort
+        self.taskIdentifier = taskIdentifier
+        self.taskStatus = taskStatus
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides a summary of a task related to creating an opportunity from an engagement. This structure contains key information about the task's status, associated identifiers, and any failure details for opportunity creation processes.
+    public struct ListOpportunityFromEngagementTaskSummary: Swift.Sendable {
+        /// The unique identifier of the engagement context associated with the opportunity creation task. This links the task to specific contextual information within the engagement.
+        public var contextId: Swift.String?
+        /// The unique identifier of the engagement from which the opportunity is being created. This field helps track the source of the opportunity creation task.
+        public var engagementId: Swift.String?
+        /// A detailed message providing additional information about the task, especially useful in case of failures. This field may contain error details or other relevant information about the task's execution.
+        public var message: Swift.String?
+        /// The unique identifier of the opportunity created as a result of the task. This field is populated when the task is completed successfully.
+        public var opportunityId: Swift.String?
+        /// A code indicating the specific reason for a task failure. This field is populated when the task status is FAILED and provides a categorized reason for the failure.
+        public var reasonCode: PartnerCentralSellingClientTypes.ReasonCode?
+        /// The identifier of the resource snapshot job associated with this task, if a snapshot was created as part of the opportunity creation process.
+        public var resourceSnapshotJobId: Swift.String?
+        /// The timestamp indicating when the task was initiated, in RFC 3339 format.
+        public var startTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the task within AWS. This ARN can be used for referencing the task in other AWS services or APIs.
+        public var taskArn: Swift.String?
+        /// The unique identifier of the task for creating an opportunity from an engagement.
+        public var taskId: Swift.String?
+        /// The current status of the task. Valid values are COMPLETE, INPROGRESS, or FAILED.
+        public var taskStatus: PartnerCentralSellingClientTypes.TaskStatus?
+
+        public init(
+            contextId: Swift.String? = nil,
+            engagementId: Swift.String? = nil,
+            message: Swift.String? = nil,
+            opportunityId: Swift.String? = nil,
+            reasonCode: PartnerCentralSellingClientTypes.ReasonCode? = nil,
+            resourceSnapshotJobId: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            taskArn: Swift.String? = nil,
+            taskId: Swift.String? = nil,
+            taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
+        ) {
+            self.contextId = contextId
+            self.engagementId = engagementId
+            self.message = message
+            self.opportunityId = opportunityId
+            self.reasonCode = reasonCode
+            self.resourceSnapshotJobId = resourceSnapshotJobId
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+    }
+}
+
+public struct ListOpportunityFromEngagementTasksOutput: Swift.Sendable {
+    /// A token used for pagination to retrieve the next page of results. If there are more results available, this field will contain a token that can be used in a subsequent API call to retrieve the next page. If there are no more results, this field will be null or an empty string.
+    public var nextToken: Swift.String?
+    /// An array of ListOpportunityFromEngagementTaskSummary objects, each representing a task that matches the specified filters. The array may be empty if no tasks match the criteria.
+    public var taskSummaries: [PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        taskSummaries: [PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.taskSummaries = taskSummaries
+    }
+}
+
+public struct StartOpportunityFromEngagementTaskInput: Swift.Sendable {
+    /// Specifies the catalog in which the opportunity creation task is executed. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times.
+    /// This member is required.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the engagement context from which to create the opportunity. This specifies the specific contextual information within the engagement that will be used for opportunity creation.
+    /// This member is required.
+    public var contextIdentifier: Swift.String?
+    /// The unique identifier of the engagement from which the opportunity creation task is to be initiated. This helps ensure that the task is applied to the correct engagement.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// A map of the key-value pairs of the tag or tags to assign.
+    public var tags: [PartnerCentralSellingClientTypes.Tag]?
+
+    public init(
+        catalog: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        contextIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        tags: [PartnerCentralSellingClientTypes.Tag]? = nil
+    ) {
+        self.catalog = catalog
+        self.clientToken = clientToken
+        self.contextIdentifier = contextIdentifier
+        self.identifier = identifier
+        self.tags = tags
+    }
+}
+
+public struct StartOpportunityFromEngagementTaskOutput: Swift.Sendable {
+    /// The unique identifier of the engagement context used to create the opportunity.
+    public var contextId: Swift.String?
+    /// The unique identifier of the engagement from which the opportunity was created.
+    public var engagementId: Swift.String?
+    /// If the task fails, this field contains a detailed message describing the failure and possible recovery steps.
+    public var message: Swift.String?
+    /// The unique identifier of the opportunity created as a result of the task. This field is populated when the task is completed successfully.
+    public var opportunityId: Swift.String?
+    /// Indicates the reason for task failure using an enumerated code.
+    public var reasonCode: PartnerCentralSellingClientTypes.ReasonCode?
+    /// The identifier of the resource snapshot job created as part of the opportunity creation process.
+    public var resourceSnapshotJobId: Swift.String?
+    /// The timestamp indicating when the task was initiated. The format follows RFC 3339 section 5.6.
+    public var startTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the task, used for tracking and managing the task within AWS.
+    public var taskArn: Swift.String?
+    /// The unique identifier of the task, used to track the task's progress.
+    public var taskId: Swift.String?
+    /// Indicates the current status of the task.
+    public var taskStatus: PartnerCentralSellingClientTypes.TaskStatus?
+
+    public init(
+        contextId: Swift.String? = nil,
+        engagementId: Swift.String? = nil,
+        message: Swift.String? = nil,
+        opportunityId: Swift.String? = nil,
+        reasonCode: PartnerCentralSellingClientTypes.ReasonCode? = nil,
+        resourceSnapshotJobId: Swift.String? = nil,
+        startTime: Foundation.Date? = nil,
+        taskArn: Swift.String? = nil,
+        taskId: Swift.String? = nil,
+        taskStatus: PartnerCentralSellingClientTypes.TaskStatus? = nil
+    ) {
+        self.contextId = contextId
+        self.engagementId = engagementId
+        self.message = message
+        self.opportunityId = opportunityId
+        self.reasonCode = reasonCode
+        self.resourceSnapshotJobId = resourceSnapshotJobId
+        self.startTime = startTime
+        self.taskArn = taskArn
+        self.taskId = taskId
+        self.taskStatus = taskStatus
     }
 }
 
@@ -7417,6 +8239,106 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension PartnerCentralSellingClientTypes {
+
+    /// Updates the context information for a lead with qualification status, customer details, and interaction data.
+    public struct UpdateLeadContext: Swift.Sendable {
+        /// Updated customer information associated with the lead.
+        /// This member is required.
+        public var customer: PartnerCentralSellingClientTypes.LeadCustomer?
+        /// Updated interaction details for the lead context.
+        public var interaction: PartnerCentralSellingClientTypes.LeadInteraction?
+        /// The updated qualification status of the lead.
+        public var qualificationStatus: Swift.String?
+
+        public init(
+            customer: PartnerCentralSellingClientTypes.LeadCustomer? = nil,
+            interaction: PartnerCentralSellingClientTypes.LeadInteraction? = nil,
+            qualificationStatus: Swift.String? = "Unqualified"
+        ) {
+            self.customer = customer
+            self.interaction = interaction
+            self.qualificationStatus = qualificationStatus
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Represents the updated payload of an engagement context. The structure of this payload varies based on the context type being updated.
+    public enum UpdateEngagementContextPayload: Swift.Sendable {
+        /// Contains updated information about a lead when the context type is "Lead". This field is present only when updating a lead context within the engagement.
+        case lead(PartnerCentralSellingClientTypes.UpdateLeadContext)
+        /// The CustomerProjects structure in Engagements offers a flexible framework for managing customer-project relationships. It supports multiple customers per Engagement and multiple projects per customer, while also allowing for customers without projects and projects without specific customers. All Engagement members have full visibility of customers and their associated projects, enabling the capture of relevant context even when project details are not fully defined. This structure also facilitates targeted invitations, allowing partners to focus on specific customers and their business problems when sending Engagement invitations.
+        case customerproject(PartnerCentralSellingClientTypes.CustomerProjectsContext)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct UpdateEngagementContextInput: Swift.Sendable {
+    /// Specifies the catalog associated with the engagement context update request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the engagement context is updated in.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// The unique identifier of the specific engagement context to be updated. This ensures that the correct context within the engagement is modified.
+    /// This member is required.
+    public var contextIdentifier: Swift.String?
+    /// The unique identifier of the Engagement containing the context to be updated. This parameter ensures the context update is applied to the correct engagement.
+    /// This member is required.
+    public var engagementIdentifier: Swift.String?
+    /// The timestamp when the engagement was last modified, used for optimistic concurrency control. This helps prevent conflicts when multiple users attempt to update the same engagement simultaneously.
+    /// This member is required.
+    public var engagementLastModifiedAt: Foundation.Date?
+    /// Contains the updated contextual information for the engagement. The structure of this payload varies based on the context type specified in the Type field.
+    /// This member is required.
+    public var payload: PartnerCentralSellingClientTypes.UpdateEngagementContextPayload?
+    /// Specifies the type of context being updated within the engagement. This field determines the structure and content of the context payload being modified.
+    /// This member is required.
+    public var type: PartnerCentralSellingClientTypes.EngagementContextType?
+
+    public init(
+        catalog: Swift.String? = nil,
+        contextIdentifier: Swift.String? = nil,
+        engagementIdentifier: Swift.String? = nil,
+        engagementLastModifiedAt: Foundation.Date? = nil,
+        payload: PartnerCentralSellingClientTypes.UpdateEngagementContextPayload? = nil,
+        type: PartnerCentralSellingClientTypes.EngagementContextType? = nil
+    ) {
+        self.catalog = catalog
+        self.contextIdentifier = contextIdentifier
+        self.engagementIdentifier = engagementIdentifier
+        self.engagementLastModifiedAt = engagementLastModifiedAt
+        self.payload = payload
+        self.type = type
+    }
+}
+
+public struct UpdateEngagementContextOutput: Swift.Sendable {
+    /// The unique identifier of the engagement context that was updated.
+    /// This member is required.
+    public var contextId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the updated engagement.
+    /// This member is required.
+    public var engagementArn: Swift.String?
+    /// The unique identifier of the engagement that was updated.
+    /// This member is required.
+    public var engagementId: Swift.String?
+    /// The timestamp when the engagement context was last modified.
+    /// This member is required.
+    public var engagementLastModifiedAt: Foundation.Date?
+
+    public init(
+        contextId: Swift.String? = nil,
+        engagementArn: Swift.String? = nil,
+        engagementId: Swift.String? = nil,
+        engagementLastModifiedAt: Foundation.Date? = nil
+    ) {
+        self.contextId = contextId
+        self.engagementArn = engagementArn
+        self.engagementId = engagementId
+        self.engagementLastModifiedAt = engagementLastModifiedAt
+    }
+}
+
 extension AcceptEngagementInvitationInput {
 
     static func urlPathProvider(_ value: AcceptEngagementInvitationInput) -> Swift.String? {
@@ -7441,6 +8363,13 @@ extension AssociateOpportunityInput {
 extension CreateEngagementInput {
 
     static func urlPathProvider(_ value: CreateEngagementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateEngagementContextInput {
+
+    static func urlPathProvider(_ value: CreateEngagementContextInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7585,6 +8514,13 @@ extension ListOpportunitiesInput {
     }
 }
 
+extension ListOpportunityFromEngagementTasksInput {
+
+    static func urlPathProvider(_ value: ListOpportunityFromEngagementTasksInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListResourceSnapshotJobsInput {
 
     static func urlPathProvider(_ value: ListResourceSnapshotJobsInput) -> Swift.String? {
@@ -7641,6 +8577,13 @@ extension StartEngagementFromOpportunityTaskInput {
     }
 }
 
+extension StartOpportunityFromEngagementTaskInput {
+
+    static func urlPathProvider(_ value: StartOpportunityFromEngagementTaskInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartResourceSnapshotJobInput {
 
     static func urlPathProvider(_ value: StartResourceSnapshotJobInput) -> Swift.String? {
@@ -7672,6 +8615,13 @@ extension TagResourceInput {
 extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateEngagementContextInput {
+
+    static func urlPathProvider(_ value: UpdateEngagementContextInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7722,6 +8672,18 @@ extension CreateEngagementInput {
         try writer["Contexts"].writeList(value.contexts, memberWritingClosure: PartnerCentralSellingClientTypes.EngagementContextDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
         try writer["Title"].write(value.title)
+    }
+}
+
+extension CreateEngagementContextInput {
+
+    static func write(value: CreateEngagementContextInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["Payload"].write(value.payload, with: PartnerCentralSellingClientTypes.EngagementContextPayload.write(value:to:))
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -7946,8 +8908,10 @@ extension ListEngagementsInput {
     static func write(value: ListEngagementsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Catalog"].write(value.catalog)
+        try writer["ContextTypes"].writeList(value.contextTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.EngagementContextType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CreatedBy"].writeList(value.createdBy, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EngagementIdentifier"].writeList(value.engagementIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeContextTypes"].writeList(value.excludeContextTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.EngagementContextType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ExcludeCreatedBy"].writeList(value.excludeCreatedBy, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -7968,6 +8932,22 @@ extension ListOpportunitiesInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.OpportunitySort.write(value:to:))
+    }
+}
+
+extension ListOpportunityFromEngagementTasksInput {
+
+    static func write(value: ListOpportunityFromEngagementTasksInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ContextIdentifier"].writeList(value.contextIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EngagementIdentifier"].writeList(value.engagementIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["OpportunityIdentifier"].writeList(value.opportunityIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sort"].write(value.sort, with: PartnerCentralSellingClientTypes.ListTasksSortBase.write(value:to:))
+        try writer["TaskIdentifier"].writeList(value.taskIdentifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TaskStatus"].writeList(value.taskStatus, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.TaskStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -8063,6 +9043,18 @@ extension StartEngagementFromOpportunityTaskInput {
     }
 }
 
+extension StartOpportunityFromEngagementTaskInput {
+
+    static func write(value: StartOpportunityFromEngagementTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ContextIdentifier"].write(value.contextIdentifier)
+        try writer["Identifier"].write(value.identifier)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: PartnerCentralSellingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension StartResourceSnapshotJobInput {
 
     static func write(value: StartResourceSnapshotJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -8107,6 +9099,19 @@ extension UntagResourceInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateEngagementContextInput {
+
+    static func write(value: UpdateEngagementContextInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["ContextIdentifier"].write(value.contextIdentifier)
+        try writer["EngagementIdentifier"].write(value.engagementIdentifier)
+        try writer["EngagementLastModifiedAt"].writeTimestamp(value.engagementLastModifiedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["Payload"].write(value.payload, with: PartnerCentralSellingClientTypes.UpdateEngagementContextPayload.write(value:to:))
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -8159,6 +9164,22 @@ extension CreateEngagementOutput {
         var value = CreateEngagementOutput()
         value.arn = try reader["Arn"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension CreateEngagementContextOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEngagementContextOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateEngagementContextOutput()
+        value.contextId = try reader["ContextId"].readIfPresent()
+        value.engagementArn = try reader["EngagementArn"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.engagementLastModifiedAt = try reader["EngagementLastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -8267,6 +9288,8 @@ extension GetEngagementOutput {
         value.description = try reader["Description"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
         value.memberCount = try reader["MemberCount"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.modifiedBy = try reader["ModifiedBy"].readIfPresent()
         value.title = try reader["Title"].readIfPresent()
         return value
     }
@@ -8475,6 +9498,19 @@ extension ListOpportunitiesOutput {
     }
 }
 
+extension ListOpportunityFromEngagementTasksOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListOpportunityFromEngagementTasksOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListOpportunityFromEngagementTasksOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.taskSummaries = try reader["TaskSummaries"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListResourceSnapshotJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceSnapshotJobsOutput {
@@ -8587,6 +9623,27 @@ extension StartEngagementFromOpportunityTaskOutput {
     }
 }
 
+extension StartOpportunityFromEngagementTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartOpportunityFromEngagementTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartOpportunityFromEngagementTaskOutput()
+        value.contextId = try reader["ContextId"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.opportunityId = try reader["OpportunityId"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskArn = try reader["TaskArn"].readIfPresent()
+        value.taskId = try reader["TaskId"].readIfPresent()
+        value.taskStatus = try reader["TaskStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension StartResourceSnapshotJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartResourceSnapshotJobOutput {
@@ -8619,6 +9676,21 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateEngagementContextOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEngagementContextOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateEngagementContextOutput()
+        value.contextId = try reader["ContextId"].readIfPresent() ?? ""
+        value.engagementArn = try reader["EngagementArn"].readIfPresent() ?? ""
+        value.engagementId = try reader["EngagementId"].readIfPresent() ?? ""
+        value.engagementLastModifiedAt = try reader["EngagementLastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
@@ -8700,6 +9772,27 @@ enum CreateEngagementOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateEngagementContextOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8719,6 +9812,7 @@ enum CreateEngagementInvitationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8757,6 +9851,7 @@ enum CreateResourceSnapshotOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8776,6 +9871,7 @@ enum CreateResourceSnapshotJobOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -8795,6 +9891,7 @@ enum DeleteResourceSnapshotJobOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -8848,6 +9945,7 @@ enum GetEngagementOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -8901,6 +9999,7 @@ enum GetResourceSnapshotOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -8918,6 +10017,7 @@ enum GetResourceSnapshotJobOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -8935,6 +10035,7 @@ enum GetSellingSystemSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -8952,6 +10053,7 @@ enum ListEngagementByAcceptingInvitationTasksOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -8969,6 +10071,7 @@ enum ListEngagementFromOpportunityTasksOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9004,6 +10107,7 @@ enum ListEngagementMembersOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9021,6 +10125,7 @@ enum ListEngagementResourceAssociationsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9038,6 +10143,7 @@ enum ListEngagementsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9064,6 +10170,24 @@ enum ListOpportunitiesOutputError {
     }
 }
 
+enum ListOpportunityFromEngagementTasksOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListResourceSnapshotJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9073,6 +10197,7 @@ enum ListResourceSnapshotJobsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9090,6 +10215,7 @@ enum ListResourceSnapshotsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9109,6 +10235,7 @@ enum ListSolutionsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9142,6 +10269,7 @@ enum PutSellingSystemSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9209,6 +10337,26 @@ enum StartEngagementFromOpportunityTaskOutputError {
     }
 }
 
+enum StartOpportunityFromEngagementTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartResourceSnapshotJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9218,6 +10366,7 @@ enum StartResourceSnapshotJobOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9235,6 +10384,7 @@ enum StopResourceSnapshotJobOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -9299,6 +10449,26 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateEngagementContextOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateOpportunityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9324,6 +10494,7 @@ extension AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9456,6 +10627,61 @@ extension PartnerCentralSellingClientTypes.AwsOpportunityInsights {
         var value = PartnerCentralSellingClientTypes.AwsOpportunityInsights()
         value.nextBestActions = try reader["NextBestActions"].readIfPresent()
         value.engagementScore = try reader["EngagementScore"].readIfPresent()
+        value.awsProductsSpendInsightsBySource = try reader["AwsProductsSpendInsightsBySource"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource()
+        value.partner = try reader["Partner"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductInsights.read(from:))
+        value.aws = try reader["AWS"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductInsights.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductInsights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductInsights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductInsights()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
+        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        value.totalOptimizedAmount = try reader["TotalOptimizedAmount"].readIfPresent()
+        value.totalPotentialSavingsAmount = try reader["TotalPotentialSavingsAmount"].readIfPresent()
+        value.totalAmountByCategory = try reader["TotalAmountByCategory"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsProductDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductDetails()
+        value.productCode = try reader["ProductCode"].readIfPresent() ?? ""
+        value.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.amount = try reader["Amount"].readIfPresent()
+        value.optimizedAmount = try reader["OptimizedAmount"].readIfPresent()
+        value.potentialSavingsAmount = try reader["PotentialSavingsAmount"].readIfPresent()
+        value.optimizations = try reader["Optimizations"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsProductOptimization.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsProductOptimization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductOptimization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductOptimization()
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.savingsAmount = try reader["SavingsAmount"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9510,6 +10736,7 @@ extension PartnerCentralSellingClientTypes.AwsOpportunityProject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralSellingClientTypes.AwsOpportunityProject()
         value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsPartition = try reader["AwsPartition"].readIfPresent()
         return value
     }
 }
@@ -9541,6 +10768,7 @@ extension PartnerCentralSellingClientTypes.EngagementContextDetails {
 
     static func write(value: PartnerCentralSellingClientTypes.EngagementContextDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Id"].write(value.id)
         try writer["Payload"].write(value.payload, with: PartnerCentralSellingClientTypes.EngagementContextPayload.write(value:to:))
         try writer["Type"].write(value.type)
     }
@@ -9548,6 +10776,7 @@ extension PartnerCentralSellingClientTypes.EngagementContextDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementContextDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralSellingClientTypes.EngagementContextDetails()
+        value.id = try reader["Id"].readIfPresent()
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.payload = try reader["Payload"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementContextPayload.read(from:))
         return value
@@ -9561,6 +10790,8 @@ extension PartnerCentralSellingClientTypes.EngagementContextPayload {
         switch value {
             case let .customerproject(customerproject):
                 try writer["CustomerProject"].write(customerproject, with: PartnerCentralSellingClientTypes.CustomerProjectsContext.write(value:to:))
+            case let .lead(lead):
+                try writer["Lead"].write(lead, with: PartnerCentralSellingClientTypes.LeadContext.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -9572,9 +10803,128 @@ extension PartnerCentralSellingClientTypes.EngagementContextPayload {
         switch name {
             case "CustomerProject":
                 return .customerproject(try reader["CustomerProject"].read(with: PartnerCentralSellingClientTypes.CustomerProjectsContext.read(from:)))
+            case "Lead":
+                return .lead(try reader["Lead"].read(with: PartnerCentralSellingClientTypes.LeadContext.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadContext {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.LeadCustomer.write(value:to:))
+        try writer["Interactions"].writeList(value.interactions, memberWritingClosure: PartnerCentralSellingClientTypes.LeadInteraction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["QualificationStatus"].write(value.qualificationStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadContext()
+        value.qualificationStatus = try reader["QualificationStatus"].readIfPresent() ?? "Unqualified"
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadCustomer.read(from:))
+        value.interactions = try reader["Interactions"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.LeadInteraction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadInteraction {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadInteraction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessProblem"].write(value.businessProblem)
+        try writer["Contact"].write(value.contact, with: PartnerCentralSellingClientTypes.LeadContact.write(value:to:))
+        try writer["CustomerAction"].write(value.customerAction)
+        try writer["InteractionDate"].writeTimestamp(value.interactionDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["SourceId"].write(value.sourceId)
+        try writer["SourceName"].write(value.sourceName)
+        try writer["SourceType"].write(value.sourceType)
+        try writer["Usecase"].write(value.usecase)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInteraction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadInteraction()
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? ""
+        value.sourceId = try reader["SourceId"].readIfPresent() ?? ""
+        value.sourceName = try reader["SourceName"].readIfPresent() ?? ""
+        value.usecase = try reader["Usecase"].readIfPresent()
+        value.interactionDate = try reader["InteractionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customerAction = try reader["CustomerAction"].readIfPresent() ?? ""
+        value.businessProblem = try reader["BusinessProblem"].readIfPresent()
+        value.contact = try reader["Contact"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadContact.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadContact {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadContact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessTitle"].write(value.businessTitle)
+        try writer["Email"].write(value.email)
+        try writer["FirstName"].write(value.firstName)
+        try writer["LastName"].write(value.lastName)
+        try writer["Phone"].write(value.phone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadContact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadContact()
+        value.businessTitle = try reader["BusinessTitle"].readIfPresent() ?? ""
+        value.email = try reader["Email"].readIfPresent() ?? ""
+        value.firstName = try reader["FirstName"].readIfPresent() ?? ""
+        value.lastName = try reader["LastName"].readIfPresent() ?? ""
+        value.phone = try reader["Phone"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadCustomer {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadCustomer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Address"].write(value.address, with: PartnerCentralSellingClientTypes.AddressSummary.write(value:to:))
+        try writer["AwsMaturity"].write(value.awsMaturity)
+        try writer["CompanyName"].write(value.companyName)
+        try writer["Industry"].write(value.industry)
+        try writer["MarketSegment"].write(value.marketSegment)
+        try writer["WebsiteUrl"].write(value.websiteUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadCustomer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadCustomer()
+        value.industry = try reader["Industry"].readIfPresent()
+        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent(with: PartnerCentralSellingClientTypes.AddressSummary.read(from:))
+        value.awsMaturity = try reader["AwsMaturity"].readIfPresent()
+        value.marketSegment = try reader["MarketSegment"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AddressSummary {
+
+    static func write(value: PartnerCentralSellingClientTypes.AddressSummary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["City"].write(value.city)
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["PostalCode"].write(value.postalCode)
+        try writer["StateOrRegion"].write(value.stateOrRegion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AddressSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AddressSummary()
+        value.city = try reader["City"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
+        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        return value
     }
 }
 
@@ -9681,6 +11031,8 @@ extension PartnerCentralSellingClientTypes.Payload {
     static func write(value: PartnerCentralSellingClientTypes.Payload?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .leadinvitation(leadinvitation):
+                try writer["LeadInvitation"].write(leadinvitation, with: PartnerCentralSellingClientTypes.LeadInvitationPayload.write(value:to:))
             case let .opportunityinvitation(opportunityinvitation):
                 try writer["OpportunityInvitation"].write(opportunityinvitation, with: PartnerCentralSellingClientTypes.OpportunityInvitationPayload.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -9694,9 +11046,76 @@ extension PartnerCentralSellingClientTypes.Payload {
         switch name {
             case "OpportunityInvitation":
                 return .opportunityinvitation(try reader["OpportunityInvitation"].read(with: PartnerCentralSellingClientTypes.OpportunityInvitationPayload.read(from:)))
+            case "LeadInvitation":
+                return .leadinvitation(try reader["LeadInvitation"].read(with: PartnerCentralSellingClientTypes.LeadInvitationPayload.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadInvitationPayload {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.LeadInvitationCustomer.write(value:to:))
+        try writer["Interaction"].write(value.interaction, with: PartnerCentralSellingClientTypes.LeadInvitationInteraction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadInvitationPayload()
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadInvitationCustomer.read(from:))
+        value.interaction = try reader["Interaction"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadInvitationInteraction.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadInvitationInteraction {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationInteraction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactBusinessTitle"].write(value.contactBusinessTitle)
+        try writer["SourceId"].write(value.sourceId)
+        try writer["SourceName"].write(value.sourceName)
+        try writer["SourceType"].write(value.sourceType)
+        try writer["Usecase"].write(value.usecase)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationInteraction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadInvitationInteraction()
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? ""
+        value.sourceId = try reader["SourceId"].readIfPresent() ?? ""
+        value.sourceName = try reader["SourceName"].readIfPresent() ?? ""
+        value.usecase = try reader["Usecase"].readIfPresent()
+        value.contactBusinessTitle = try reader["ContactBusinessTitle"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadInvitationCustomer {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationCustomer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsMaturity"].write(value.awsMaturity)
+        try writer["CompanyName"].write(value.companyName)
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["Industry"].write(value.industry)
+        try writer["MarketSegment"].write(value.marketSegment)
+        try writer["WebsiteUrl"].write(value.websiteUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationCustomer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadInvitationCustomer()
+        value.industry = try reader["Industry"].readIfPresent()
+        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent() ?? .sdkUnknown("")
+        value.awsMaturity = try reader["AwsMaturity"].readIfPresent()
+        value.marketSegment = try reader["MarketSegment"].readIfPresent()
+        return value
     }
 }
 
@@ -9849,6 +11268,7 @@ extension PartnerCentralSellingClientTypes.Project {
         guard let value else { return }
         try writer["AdditionalComments"].write(value.additionalComments)
         try writer["ApnPrograms"].writeList(value.apnPrograms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AwsPartition"].write(value.awsPartition)
         try writer["CompetitorName"].write(value.competitorName)
         try writer["CustomerBusinessProblem"].write(value.customerBusinessProblem)
         try writer["CustomerUseCase"].write(value.customerUseCase)
@@ -9876,6 +11296,7 @@ extension PartnerCentralSellingClientTypes.Project {
         value.otherCompetitorNames = try reader["OtherCompetitorNames"].readIfPresent()
         value.otherSolutionDescription = try reader["OtherSolutionDescription"].readIfPresent()
         value.additionalComments = try reader["AdditionalComments"].readIfPresent()
+        value.awsPartition = try reader["AwsPartition"].readIfPresent()
         return value
     }
 }
@@ -9947,6 +11368,7 @@ extension PartnerCentralSellingClientTypes.RelatedEntityIdentifiers {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = PartnerCentralSellingClientTypes.RelatedEntityIdentifiers()
         value.awsMarketplaceOffers = try reader["AwsMarketplaceOffers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsMarketplaceOfferSets = try reader["AwsMarketplaceOfferSets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.solutions = try reader["Solutions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -10152,6 +11574,9 @@ extension PartnerCentralSellingClientTypes.EngagementSummary {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["CreatedBy"].readIfPresent()
         value.memberCount = try reader["MemberCount"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.modifiedBy = try reader["ModifiedBy"].readIfPresent()
+        value.contextTypes = try reader["ContextTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.EngagementContextType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10210,19 +11635,6 @@ extension PartnerCentralSellingClientTypes.AccountSummary {
     }
 }
 
-extension PartnerCentralSellingClientTypes.AddressSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AddressSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AddressSummary()
-        value.city = try reader["City"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        return value
-    }
-}
-
 extension PartnerCentralSellingClientTypes.LifeCycleSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LifeCycleSummary {
@@ -10235,6 +11647,25 @@ extension PartnerCentralSellingClientTypes.LifeCycleSummary {
         value.reviewStatus = try reader["ReviewStatus"].readIfPresent()
         value.reviewComments = try reader["ReviewComments"].readIfPresent()
         value.reviewStatusReason = try reader["ReviewStatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary()
+        value.taskId = try reader["TaskId"].readIfPresent()
+        value.taskArn = try reader["TaskArn"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskStatus = try reader["TaskStatus"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.opportunityId = try reader["OpportunityId"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.contextId = try reader["ContextId"].readIfPresent()
         return value
     }
 }
@@ -10320,6 +11751,7 @@ extension PartnerCentralSellingClientTypes.AssigneeContact {
         try writer["Email"].write(value.email)
         try writer["FirstName"].write(value.firstName)
         try writer["LastName"].write(value.lastName)
+        try writer["Phone"].write(value.phone)
     }
 }
 
@@ -10402,6 +11834,31 @@ extension PartnerCentralSellingClientTypes.AwsSubmission {
         guard let value else { return }
         try writer["InvolvementType"].write(value.involvementType)
         try writer["Visibility"].write(value.visibility)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.UpdateEngagementContextPayload {
+
+    static func write(value: PartnerCentralSellingClientTypes.UpdateEngagementContextPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .customerproject(customerproject):
+                try writer["CustomerProject"].write(customerproject, with: PartnerCentralSellingClientTypes.CustomerProjectsContext.write(value:to:))
+            case let .lead(lead):
+                try writer["Lead"].write(lead, with: PartnerCentralSellingClientTypes.UpdateLeadContext.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.UpdateLeadContext {
+
+    static func write(value: PartnerCentralSellingClientTypes.UpdateLeadContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.LeadCustomer.write(value:to:))
+        try writer["Interaction"].write(value.interaction, with: PartnerCentralSellingClientTypes.LeadInteraction.write(value:to:))
+        try writer["QualificationStatus"].write(value.qualificationStatus)
     }
 }
 

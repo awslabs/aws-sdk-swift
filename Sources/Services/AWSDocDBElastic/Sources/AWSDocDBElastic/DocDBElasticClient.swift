@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DocDBElasticClient: ClientRuntime.Client {
+public class DocDBElasticClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DocDBElasticClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBElasticClient.DocDBElasticClientConfiguration
     let serviceName = "DocDB Elastic"
@@ -373,9 +373,9 @@ extension DocDBElasticClient {
     ///
     /// The type of pending maintenance action to be applied to the resource.
     ///
-    /// - Parameter ApplyPendingMaintenanceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApplyPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `ApplyPendingMaintenanceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplyPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutput>(ApplyPendingMaintenanceActionOutput.httpOutput(from:), ApplyPendingMaintenanceActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyPendingMaintenanceActionOutput>())
@@ -445,9 +446,9 @@ extension DocDBElasticClient {
     ///
     /// Copies a snapshot of an elastic cluster.
     ///
-    /// - Parameter CopyClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyClusterSnapshotInput`)
     ///
-    /// - Returns: `CopyClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +488,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyClusterSnapshotOutput>(CopyClusterSnapshotOutput.httpOutput(from:), CopyClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyClusterSnapshotOutput>())
@@ -518,9 +520,9 @@ extension DocDBElasticClient {
     ///
     /// Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +562,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -591,9 +594,9 @@ extension DocDBElasticClient {
     ///
     /// Creates a snapshot of an elastic cluster.
     ///
-    /// - Parameter CreateClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterSnapshotInput`)
     ///
-    /// - Returns: `CreateClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +636,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterSnapshotOutput>(CreateClusterSnapshotOutput.httpOutput(from:), CreateClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterSnapshotOutput>())
@@ -664,9 +668,9 @@ extension DocDBElasticClient {
     ///
     /// Delete an elastic cluster.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -702,6 +706,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -733,9 +738,9 @@ extension DocDBElasticClient {
     ///
     /// Delete an elastic cluster snapshot.
     ///
-    /// - Parameter DeleteClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterSnapshotInput`)
     ///
-    /// - Returns: `DeleteClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,6 +776,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterSnapshotOutput>(DeleteClusterSnapshotOutput.httpOutput(from:), DeleteClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterSnapshotOutput>())
@@ -802,9 +808,9 @@ extension DocDBElasticClient {
     ///
     /// Returns information about a specific elastic cluster.
     ///
-    /// - Parameter GetClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterInput`)
     ///
-    /// - Returns: `GetClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,6 +845,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClusterInput, GetClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterOutput>(GetClusterOutput.httpOutput(from:), GetClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterInput, GetClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterOutput>())
@@ -870,9 +877,9 @@ extension DocDBElasticClient {
     ///
     /// Returns information about a specific elastic cluster snapshot
     ///
-    /// - Parameter GetClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterSnapshotInput`)
     ///
-    /// - Returns: `GetClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -907,6 +914,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterSnapshotOutput>(GetClusterSnapshotOutput.httpOutput(from:), GetClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterSnapshotInput, GetClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterSnapshotOutput>())
@@ -938,9 +946,9 @@ extension DocDBElasticClient {
     ///
     /// Retrieves all maintenance actions that are pending.
     ///
-    /// - Parameter GetPendingMaintenanceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `GetPendingMaintenanceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -976,6 +984,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPendingMaintenanceActionInput, GetPendingMaintenanceActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPendingMaintenanceActionOutput>(GetPendingMaintenanceActionOutput.httpOutput(from:), GetPendingMaintenanceActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPendingMaintenanceActionInput, GetPendingMaintenanceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPendingMaintenanceActionOutput>())
@@ -1007,9 +1016,9 @@ extension DocDBElasticClient {
     ///
     /// Returns information about snapshots for a specified elastic cluster.
     ///
-    /// - Parameter ListClusterSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterSnapshotsInput`)
     ///
-    /// - Returns: `ListClusterSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,6 +1053,7 @@ extension DocDBElasticClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(ListClusterSnapshotsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterSnapshotsOutput>(ListClusterSnapshotsOutput.httpOutput(from:), ListClusterSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterSnapshotsInput, ListClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterSnapshotsOutput>())
@@ -1075,9 +1085,9 @@ extension DocDBElasticClient {
     ///
     /// Returns information about provisioned Amazon DocumentDB elastic clusters.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,6 +1122,7 @@ extension DocDBElasticClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -1143,9 +1154,9 @@ extension DocDBElasticClient {
     ///
     /// Retrieves a list of all maintenance actions that are pending.
     ///
-    /// - Parameter ListPendingMaintenanceActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPendingMaintenanceActionsInput`)
     ///
-    /// - Returns: `ListPendingMaintenanceActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPendingMaintenanceActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1180,6 +1191,7 @@ extension DocDBElasticClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput>(ListPendingMaintenanceActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPendingMaintenanceActionsOutput>(ListPendingMaintenanceActionsOutput.httpOutput(from:), ListPendingMaintenanceActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPendingMaintenanceActionsInput, ListPendingMaintenanceActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPendingMaintenanceActionsOutput>())
@@ -1211,9 +1223,9 @@ extension DocDBElasticClient {
     ///
     /// Lists all tags on a elastic cluster resource
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1247,6 +1259,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1278,9 +1291,9 @@ extension DocDBElasticClient {
     ///
     /// Restores an elastic cluster from a snapshot.
     ///
-    /// - Parameter RestoreClusterFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreClusterFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreClusterFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreClusterFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1320,6 +1333,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreClusterFromSnapshotOutput>(RestoreClusterFromSnapshotOutput.httpOutput(from:), RestoreClusterFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreClusterFromSnapshotInput, RestoreClusterFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreClusterFromSnapshotOutput>())
@@ -1351,9 +1365,9 @@ extension DocDBElasticClient {
     ///
     /// Restarts the stopped elastic cluster that is specified by clusterARN.
     ///
-    /// - Parameter StartClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartClusterInput`)
     ///
-    /// - Returns: `StartClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1388,6 +1402,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartClusterInput, StartClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartClusterOutput>(StartClusterOutput.httpOutput(from:), StartClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartClusterInput, StartClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartClusterOutput>())
@@ -1419,9 +1434,9 @@ extension DocDBElasticClient {
     ///
     /// Stops the running elastic cluster that is specified by clusterArn. The elastic cluster must be in the available state.
     ///
-    /// - Parameter StopClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopClusterInput`)
     ///
-    /// - Returns: `StopClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1456,6 +1471,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopClusterInput, StopClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopClusterOutput>(StopClusterOutput.httpOutput(from:), StopClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopClusterInput, StopClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopClusterOutput>())
@@ -1487,9 +1503,9 @@ extension DocDBElasticClient {
     ///
     /// Adds metadata tags to an elastic cluster resource
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1526,6 +1542,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1557,9 +1574,9 @@ extension DocDBElasticClient {
     ///
     /// Removes metadata tags from an elastic cluster resource
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,6 +1611,7 @@ extension DocDBElasticClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1625,9 +1643,9 @@ extension DocDBElasticClient {
     ///
     /// Modifies an elastic cluster. This includes updating admin-username/password, upgrading the API version, and setting up a backup window and maintenance window
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1667,6 +1685,7 @@ extension DocDBElasticClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())

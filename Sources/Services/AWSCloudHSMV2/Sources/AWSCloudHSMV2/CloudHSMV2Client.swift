@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudHSMV2Client: ClientRuntime.Client {
+public class CloudHSMV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudHSMV2Client"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudHSMV2Client.CloudHSMV2ClientConfiguration
     let serviceName = "CloudHSM V2"
@@ -372,9 +372,9 @@ extension CloudHSMV2Client {
     ///
     /// Copy an CloudHSM cluster backup to a different region. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
-    /// - Parameter CopyBackupToRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyBackupToRegionInput`)
     ///
-    /// - Returns: `CopyBackupToRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyBackupToRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyBackupToRegionOutput>(CopyBackupToRegionOutput.httpOutput(from:), CopyBackupToRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyBackupToRegionOutput>())
@@ -445,9 +446,9 @@ extension CloudHSMV2Client {
     ///
     /// Creates a new CloudHSM cluster. Cross-account use: Yes. To perform this operation with an CloudHSM backup in a different AWS account, specify the full backup ARN in the value of the SourceBackupId parameter.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +485,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -518,9 +520,9 @@ extension CloudHSMV2Client {
     ///
     /// Creates a new hardware security module (HSM) in the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Service account.
     ///
-    /// - Parameter CreateHsmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHsmInput`)
     ///
-    /// - Returns: `CreateHsmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHsmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,6 +558,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHsmInput, CreateHsmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHsmOutput>(CreateHsmOutput.httpOutput(from:), CreateHsmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHsmInput, CreateHsmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHsmOutput>())
@@ -590,9 +593,9 @@ extension CloudHSMV2Client {
     ///
     /// Deletes a specified CloudHSM backup. A backup can be restored up to 7 days after the DeleteBackup request is made. For more information on restoring a backup, see [RestoreBackup]. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
-    /// - Parameter DeleteBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackupInput`)
     ///
-    /// - Returns: `DeleteBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,6 +631,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBackupInput, DeleteBackupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackupOutput>(DeleteBackupOutput.httpOutput(from:), DeleteBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupInput, DeleteBackupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupOutput>())
@@ -662,9 +666,9 @@ extension CloudHSMV2Client {
     ///
     /// Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete all HSMs in the cluster. To see if the cluster contains any HSMs, use [DescribeClusters]. To delete an HSM, use [DeleteHsm]. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,6 +705,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -735,9 +740,9 @@ extension CloudHSMV2Client {
     ///
     /// Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need to specify only one of these values. To find these values, use [DescribeClusters]. Cross-account use: No. You cannot perform this operation on an CloudHSM hsm in a different Amazon Web Services account.
     ///
-    /// - Parameter DeleteHsmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHsmInput`)
     ///
-    /// - Returns: `DeleteHsmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHsmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -773,6 +778,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHsmInput, DeleteHsmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHsmOutput>(DeleteHsmOutput.httpOutput(from:), DeleteHsmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHsmInput, DeleteHsmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHsmOutput>())
@@ -807,9 +813,9 @@ extension CloudHSMV2Client {
     ///
     /// Deletes an CloudHSM resource policy. Deleting a resource policy will result in the resource being unshared and removed from any RAM resource shares. Deleting the resource policy attached to a backup will not impact any clusters created from that backup. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -845,6 +851,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -879,9 +886,9 @@ extension CloudHSMV2Client {
     ///
     /// Gets information about backups of CloudHSM clusters. Lists either the backups you own or the backups shared with you when the Shared parameter is true. This is a paginated operation, which means that each response might contain only a subset of all the backups. When the response contains only a subset of backups, it includes a NextToken value. Use this value in a subsequent DescribeBackups request to get more backups. When you receive a response with no NextToken (or an empty or null value), that means there are no more backups to get. Cross-account use: Yes. Customers can describe backups in other Amazon Web Services accounts that are shared with them.
     ///
-    /// - Parameter DescribeBackupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBackupsInput`)
     ///
-    /// - Returns: `DescribeBackupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBackupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -918,6 +925,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBackupsOutput>(DescribeBackupsOutput.httpOutput(from:), DescribeBackupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBackupsOutput>())
@@ -952,9 +960,9 @@ extension CloudHSMV2Client {
     ///
     /// Gets information about CloudHSM clusters. This is a paginated operation, which means that each response might contain only a subset of all the clusters. When the response contains only a subset of clusters, it includes a NextToken value. Use this value in a subsequent DescribeClusters request to get more clusters. When you receive a response with no NextToken (or an empty or null value), that means there are no more clusters to get. Cross-account use: No. You cannot perform this operation on CloudHSM clusters in a different Amazon Web Services account.
     ///
-    /// - Parameter DescribeClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClustersInput`)
     ///
-    /// - Returns: `DescribeClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,6 +998,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClustersInput, DescribeClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClustersOutput>(DescribeClustersOutput.httpOutput(from:), DescribeClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClustersInput, DescribeClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClustersOutput>())
@@ -1024,9 +1033,9 @@ extension CloudHSMV2Client {
     ///
     /// Retrieves the resource policy document attached to a given resource. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,6 +1071,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -1096,9 +1106,9 @@ extension CloudHSMV2Client {
     ///
     /// Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing certificate authority (CA) and the CA's root certificate. Before you can claim a cluster, you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get the cluster's CSR, use [DescribeClusters]. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
-    /// - Parameter InitializeClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitializeClusterInput`)
     ///
-    /// - Returns: `InitializeClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitializeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,6 +1144,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitializeClusterInput, InitializeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitializeClusterOutput>(InitializeClusterOutput.httpOutput(from:), InitializeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitializeClusterInput, InitializeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitializeClusterOutput>())
@@ -1168,9 +1179,9 @@ extension CloudHSMV2Client {
     ///
     /// Gets a list of tags for the specified CloudHSM cluster. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTags request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1207,6 +1218,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsInput, ListTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -1241,9 +1253,9 @@ extension CloudHSMV2Client {
     ///
     /// Modifies attributes for CloudHSM backup. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
-    /// - Parameter ModifyBackupAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyBackupAttributesInput`)
     ///
-    /// - Returns: `ModifyBackupAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyBackupAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1279,6 +1291,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyBackupAttributesOutput>(ModifyBackupAttributesOutput.httpOutput(from:), ModifyBackupAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyBackupAttributesOutput>())
@@ -1313,9 +1326,9 @@ extension CloudHSMV2Client {
     ///
     /// Modifies CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM cluster in a different Amazon Web Services account.
     ///
-    /// - Parameter ModifyClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyClusterInput`)
     ///
-    /// - Returns: `ModifyClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1351,6 +1364,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterInput, ModifyClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterOutput>(ModifyClusterOutput.httpOutput(from:), ModifyClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterInput, ModifyClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterOutput>())
@@ -1390,9 +1404,9 @@ extension CloudHSMV2Client {
     ///
     /// In order to share a backup, it must be in a 'READY' state and you must own it. While you can share a backup using the CloudHSM PutResourcePolicy operation, we recommend using Resource Access Manager (RAM) instead. Using RAM provides multiple benefits as it creates the policy for you, allows multiple resources to be shared at one time, and increases the discoverability of shared resources. If you use PutResourcePolicy and want consumers to be able to describe the backups you share with them, you must promote the backup to a standard RAM Resource Share using the RAM PromoteResourceShareCreatedFromPolicy API operation. For more information, see [ Working with shared backups](https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html) in the CloudHSM User Guide Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1428,6 +1442,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -1462,9 +1477,9 @@ extension CloudHSMV2Client {
     ///
     /// Restores a specified CloudHSM backup that is in the PENDING_DELETION state. For more information on deleting a backup, see [DeleteBackup]. Cross-account use: No. You cannot perform this operation on an CloudHSM backup in a different Amazon Web Services account.
     ///
-    /// - Parameter RestoreBackupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreBackupInput`)
     ///
-    /// - Returns: `RestoreBackupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreBackupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1500,6 +1515,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreBackupInput, RestoreBackupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreBackupOutput>(RestoreBackupOutput.httpOutput(from:), RestoreBackupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreBackupInput, RestoreBackupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreBackupOutput>())
@@ -1534,9 +1550,9 @@ extension CloudHSMV2Client {
     ///
     /// Adds or overwrites one or more tags for the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1574,6 +1590,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1608,9 +1625,9 @@ extension CloudHSMV2Client {
     ///
     /// Removes the specified tag or tags from the specified CloudHSM cluster. Cross-account use: No. You cannot perform this operation on an CloudHSM resource in a different Amazon Web Services account.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1647,6 +1664,7 @@ extension CloudHSMV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

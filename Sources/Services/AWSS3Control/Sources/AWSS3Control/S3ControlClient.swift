@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyXML.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -69,9 +70,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class S3ControlClient: ClientRuntime.Client {
+public class S3ControlClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3ControlClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: S3ControlClient.S3ControlClientConfiguration
     let serviceName = "S3 Control"
@@ -384,11 +384,11 @@ extension S3ControlClient {
 extension S3ControlClient {
     /// Performs the `AssociateAccessGrantsIdentityCenter` operation on the `S3Control` service.
     ///
-    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
     ///
-    /// - Parameter AssociateAccessGrantsIdentityCenterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAccessGrantsIdentityCenterInput`)
     ///
-    /// - Returns: `AssociateAccessGrantsIdentityCenterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAccessGrantsIdentityCenterOutput`)
     public func associateAccessGrantsIdentityCenter(input: AssociateAccessGrantsIdentityCenterInput) async throws -> AssociateAccessGrantsIdentityCenterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -419,6 +419,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAccessGrantsIdentityCenterOutput>(AssociateAccessGrantsIdentityCenterOutput.httpOutput(from:), AssociateAccessGrantsIdentityCenterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAccessGrantsIdentityCenterInput, AssociateAccessGrantsIdentityCenterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAccessGrantsIdentityCenterOutput>())
@@ -448,11 +449,11 @@ extension S3ControlClient {
 
     /// Performs the `CreateAccessGrant` operation on the `S3Control` service.
     ///
-    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the [CreateAccessGrantsInstance](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsInstance.html). You must also have registered at least one S3 data location in your S3 Access Grants instance using [CreateAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsLocation.html). Permissions You must have the s3:CreateAccessGrant permission to use this operation. Additional Permissions For any directory identity - sso:DescribeInstance and sso:DescribeApplication For directory users - identitystore:DescribeUser For directory groups - identitystore:DescribeGroup You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the [CreateAccessGrantsInstance](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsInstance.html). You must also have registered at least one S3 data location in your S3 Access Grants instance using [CreateAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsLocation.html). Permissions You must have the s3:CreateAccessGrant permission to use this operation. Additional Permissions For any directory identity - sso:DescribeInstance and sso:DescribeApplication For directory users - identitystore:DescribeUser For directory groups - identitystore:DescribeGroup
     ///
-    /// - Parameter CreateAccessGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessGrantInput`)
     ///
-    /// - Returns: `CreateAccessGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessGrantOutput`)
     public func createAccessGrant(input: CreateAccessGrantInput) async throws -> CreateAccessGrantOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -483,6 +484,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessGrantInput, CreateAccessGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessGrantOutput>(CreateAccessGrantOutput.httpOutput(from:), CreateAccessGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessGrantInput, CreateAccessGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessGrantOutput>())
@@ -512,11 +514,11 @@ extension S3ControlClient {
 
     /// Performs the `CreateAccessGrantsInstance` operation on the `S3Control` service.
     ///
-    /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account. Permissions You must have the s3:CreateAccessGrantsInstance permission to use this operation. Additional Permissions To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account. Permissions You must have the s3:CreateAccessGrantsInstance permission to use this operation. Additional Permissions To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.
     ///
-    /// - Parameter CreateAccessGrantsInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessGrantsInstanceInput`)
     ///
-    /// - Returns: `CreateAccessGrantsInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessGrantsInstanceOutput`)
     public func createAccessGrantsInstance(input: CreateAccessGrantsInstanceInput) async throws -> CreateAccessGrantsInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -547,6 +549,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessGrantsInstanceOutput>(CreateAccessGrantsInstanceOutput.httpOutput(from:), CreateAccessGrantsInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessGrantsInstanceInput, CreateAccessGrantsInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessGrantsInstanceOutput>())
@@ -585,11 +588,11 @@ extension S3ControlClient {
     /// * A bucket and prefix - S3:///
     ///
     ///
-    /// When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role [using a policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-location.html). S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications. Permissions You must have the s3:CreateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission for the specified IAM role: iam:PassRole You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role [using a policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-location.html). S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications. Permissions You must have the s3:CreateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission for the specified IAM role: iam:PassRole
     ///
-    /// - Parameter CreateAccessGrantsLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessGrantsLocationInput`)
     ///
-    /// - Returns: `CreateAccessGrantsLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessGrantsLocationOutput`)
     public func createAccessGrantsLocation(input: CreateAccessGrantsLocationInput) async throws -> CreateAccessGrantsLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -620,6 +623,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessGrantsLocationOutput>(CreateAccessGrantsLocationOutput.httpOutput(from:), CreateAccessGrantsLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessGrantsLocationInput, CreateAccessGrantsLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessGrantsLocationOutput>())
@@ -659,12 +663,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPointsForDirectoryBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForDirectoryBuckets.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessPointInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter CreateAccessPointInput : [no documentation found]
-    ///
-    /// - Returns: `CreateAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessPointOutput`)
     public func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -694,6 +695,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessPointInput, CreateAccessPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessPointOutput>(CreateAccessPointOutput.httpOutput(from:), CreateAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessPointInput, CreateAccessPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessPointOutput>())
@@ -731,12 +733,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessPointForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter CreateAccessPointForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `CreateAccessPointForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessPointForObjectLambdaOutput`)
     public func createAccessPointForObjectLambda(input: CreateAccessPointForObjectLambdaInput) async throws -> CreateAccessPointForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -766,6 +765,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessPointForObjectLambdaOutput>(CreateAccessPointForObjectLambdaOutput.httpOutput(from:), CreateAccessPointForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessPointForObjectLambdaInput, CreateAccessPointForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessPointForObjectLambdaOutput>())
@@ -814,9 +814,9 @@ extension S3ControlClient {
     ///
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
     ///
-    /// - Parameter CreateBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketInput`)
     ///
-    /// - Returns: `CreateBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,6 +853,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketInput, CreateBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(CreateBucketOutput.httpOutput(from:), CreateBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketInput, CreateBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBucketOutput>())
@@ -894,12 +895,9 @@ extension S3ControlClient {
     ///
     /// * [JobOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_JobOperation.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter CreateJobInput : [no documentation found]
-    ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -938,6 +936,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -977,12 +976,9 @@ extension S3ControlClient {
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `CreateMultiRegionAccessPointInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter CreateMultiRegionAccessPointInput : [no documentation found]
-    ///
-    /// - Returns: `CreateMultiRegionAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMultiRegionAccessPointOutput`)
     public func createMultiRegionAccessPoint(input: CreateMultiRegionAccessPointInput) async throws -> CreateMultiRegionAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1014,6 +1010,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultiRegionAccessPointOutput>(CreateMultiRegionAccessPointOutput.httpOutput(from:), CreateMultiRegionAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultiRegionAccessPointInput, CreateMultiRegionAccessPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMultiRegionAccessPointOutput>())
@@ -1043,11 +1040,11 @@ extension S3ControlClient {
 
     /// Performs the `CreateStorageLensGroup` operation on the `S3Control` service.
     ///
-    /// Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see [Working with S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups-overview.html). To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see [Working with S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups-overview.html). To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
-    /// - Parameter CreateStorageLensGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStorageLensGroupInput`)
     ///
-    /// - Returns: `CreateStorageLensGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStorageLensGroupOutput`)
     public func createStorageLensGroup(input: CreateStorageLensGroupInput) async throws -> CreateStorageLensGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1077,6 +1074,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorageLensGroupInput, CreateStorageLensGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStorageLensGroupOutput>(CreateStorageLensGroupOutput.httpOutput(from:), CreateStorageLensGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorageLensGroupInput, CreateStorageLensGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStorageLensGroupOutput>())
@@ -1106,11 +1104,11 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessGrant` operation on the `S3Control` service.
     ///
-    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this operation.
     ///
-    /// - Parameter DeleteAccessGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessGrantInput`)
     ///
-    /// - Returns: `DeleteAccessGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessGrantOutput`)
     public func deleteAccessGrant(input: DeleteAccessGrantInput) async throws -> DeleteAccessGrantOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1138,6 +1136,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessGrantInput, DeleteAccessGrantOutput>(DeleteAccessGrantInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessGrantOutput>(DeleteAccessGrantOutput.httpOutput(from:), DeleteAccessGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessGrantInput, DeleteAccessGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessGrantOutput>())
@@ -1167,11 +1166,11 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessGrantsInstance` operation on the `S3Control` service.
     ///
-    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See [DeleteAccessGrant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) and [DeleteAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrantsLocation.html). If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See [AssociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_AssociateAccessGrantsIdentityCenter.html) and [DissociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DissociateAccessGrantsIdentityCenter.html). Permissions You must have the s3:DeleteAccessGrantsInstance permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See [DeleteAccessGrant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) and [DeleteAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrantsLocation.html). If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See [AssociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_AssociateAccessGrantsIdentityCenter.html) and [DissociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DissociateAccessGrantsIdentityCenter.html). Permissions You must have the s3:DeleteAccessGrantsInstance permission to use this operation.
     ///
-    /// - Parameter DeleteAccessGrantsInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessGrantsInstanceInput`)
     ///
-    /// - Returns: `DeleteAccessGrantsInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsInstanceOutput`)
     public func deleteAccessGrantsInstance(input: DeleteAccessGrantsInstanceInput) async throws -> DeleteAccessGrantsInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1199,6 +1198,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessGrantsInstanceInput, DeleteAccessGrantsInstanceOutput>(DeleteAccessGrantsInstanceInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessGrantsInstanceOutput>(DeleteAccessGrantsInstanceOutput.httpOutput(from:), DeleteAccessGrantsInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessGrantsInstanceInput, DeleteAccessGrantsInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessGrantsInstanceOutput>())
@@ -1228,11 +1228,11 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
-    /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance. Permissions You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance. Permissions You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation.
     ///
-    /// - Parameter DeleteAccessGrantsInstanceResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessGrantsInstanceResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsInstanceResourcePolicyOutput`)
     public func deleteAccessGrantsInstanceResourcePolicy(input: DeleteAccessGrantsInstanceResourcePolicyInput) async throws -> DeleteAccessGrantsInstanceResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1260,6 +1260,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessGrantsInstanceResourcePolicyInput, DeleteAccessGrantsInstanceResourcePolicyOutput>(DeleteAccessGrantsInstanceResourcePolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessGrantsInstanceResourcePolicyOutput>(DeleteAccessGrantsInstanceResourcePolicyOutput.httpOutput(from:), DeleteAccessGrantsInstanceResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessGrantsInstanceResourcePolicyInput, DeleteAccessGrantsInstanceResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessGrantsInstanceResourcePolicyOutput>())
@@ -1289,11 +1290,11 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessGrantsLocation` operation on the `S3Control` service.
     ///
-    /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See [Delete a grant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants. Permissions You must have the s3:DeleteAccessGrantsLocation permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See [Delete a grant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants. Permissions You must have the s3:DeleteAccessGrantsLocation permission to use this operation.
     ///
-    /// - Parameter DeleteAccessGrantsLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessGrantsLocationInput`)
     ///
-    /// - Returns: `DeleteAccessGrantsLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessGrantsLocationOutput`)
     public func deleteAccessGrantsLocation(input: DeleteAccessGrantsLocationInput) async throws -> DeleteAccessGrantsLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1321,6 +1322,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessGrantsLocationInput, DeleteAccessGrantsLocationOutput>(DeleteAccessGrantsLocationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessGrantsLocationOutput>(DeleteAccessGrantsLocationOutput.httpOutput(from:), DeleteAccessGrantsLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessGrantsLocationInput, DeleteAccessGrantsLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessGrantsLocationOutput>())
@@ -1358,12 +1360,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteAccessPointInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointOutput`)
     public func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1390,6 +1389,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput>(DeleteAccessPointInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointOutput>(DeleteAccessPointOutput.httpOutput(from:), DeleteAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointInput, DeleteAccessPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessPointOutput>())
@@ -1427,12 +1427,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteAccessPointForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteAccessPointForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointForObjectLambdaOutput`)
     public func deleteAccessPointForObjectLambda(input: DeleteAccessPointForObjectLambdaInput) async throws -> DeleteAccessPointForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1459,6 +1456,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutput>(DeleteAccessPointForObjectLambdaInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointForObjectLambdaOutput>(DeleteAccessPointForObjectLambdaOutput.httpOutput(from:), DeleteAccessPointForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointForObjectLambdaInput, DeleteAccessPointForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessPointForObjectLambdaOutput>())
@@ -1494,12 +1492,9 @@ extension S3ControlClient {
     ///
     /// * [GetAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicy.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointPolicyInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteAccessPointPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointPolicyOutput`)
     public func deleteAccessPointPolicy(input: DeleteAccessPointPolicyInput) async throws -> DeleteAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1526,6 +1521,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutput>(DeleteAccessPointPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointPolicyOutput>(DeleteAccessPointPolicyOutput.httpOutput(from:), DeleteAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointPolicyInput, DeleteAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessPointPolicyOutput>())
@@ -1561,12 +1557,9 @@ extension S3ControlClient {
     ///
     /// * [PutAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicyForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointPolicyForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteAccessPointPolicyForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointPolicyForObjectLambdaOutput`)
     public func deleteAccessPointPolicyForObjectLambda(input: DeleteAccessPointPolicyForObjectLambdaInput) async throws -> DeleteAccessPointPolicyForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1593,6 +1586,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutput>(DeleteAccessPointPolicyForObjectLambdaInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointPolicyForObjectLambdaOutput>(DeleteAccessPointPolicyForObjectLambdaOutput.httpOutput(from:), DeleteAccessPointPolicyForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointPolicyForObjectLambdaInput, DeleteAccessPointPolicyForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessPointPolicyForObjectLambdaOutput>())
@@ -1622,11 +1616,11 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessPointScope` operation on the `S3Control` service.
     ///
-    /// Deletes an existing access point scope for a directory bucket. When you delete the scope of an access point, all prefixes and permissions are deleted. To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Deletes an existing access point scope for a directory bucket. When you delete the scope of an access point, all prefixes and permissions are deleted. To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
     ///
-    /// - Parameter DeleteAccessPointScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPointScopeInput`)
     ///
-    /// - Returns: `DeleteAccessPointScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPointScopeOutput`)
     public func deleteAccessPointScope(input: DeleteAccessPointScopeInput) async throws -> DeleteAccessPointScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1653,6 +1647,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteAccessPointScopeInput, DeleteAccessPointScopeOutput>(DeleteAccessPointScopeInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPointScopeOutput>(DeleteAccessPointScopeOutput.httpOutput(from:), DeleteAccessPointScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPointScopeInput, DeleteAccessPointScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessPointScopeOutput>())
@@ -1690,9 +1685,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
-    /// - Parameter DeleteBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketInput`)
     ///
-    /// - Returns: `DeleteBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1719,6 +1714,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketInput, DeleteBucketOutput>(DeleteBucketInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(DeleteBucketOutput.httpOutput(from:), DeleteBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketInput, DeleteBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketOutput>())
@@ -1754,12 +1750,9 @@ extension S3ControlClient {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketLifecycleConfigurationInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteBucketLifecycleConfigurationInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketLifecycleConfigurationOutput`)
     public func deleteBucketLifecycleConfiguration(input: DeleteBucketLifecycleConfigurationInput) async throws -> DeleteBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1786,6 +1779,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutput>(DeleteBucketLifecycleConfigurationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketLifecycleConfigurationOutput>(DeleteBucketLifecycleConfigurationOutput.httpOutput(from:), DeleteBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketLifecycleConfigurationInput, DeleteBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketLifecycleConfigurationOutput>())
@@ -1821,12 +1815,9 @@ extension S3ControlClient {
     ///
     /// * [PutBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketPolicy.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketPolicyInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteBucketPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketPolicyOutput`)
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1853,6 +1844,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(DeleteBucketPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketPolicyOutput>(DeleteBucketPolicyOutput.httpOutput(from:), DeleteBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketPolicyInput, DeleteBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketPolicyOutput>())
@@ -1888,12 +1880,9 @@ extension S3ControlClient {
     ///
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketReplicationInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteBucketReplicationInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketReplicationOutput`)
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1920,6 +1909,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(DeleteBucketReplicationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketReplicationOutput>(DeleteBucketReplicationOutput.httpOutput(from:), DeleteBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketReplicationInput, DeleteBucketReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketReplicationOutput>())
@@ -1955,12 +1945,9 @@ extension S3ControlClient {
     ///
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketTagging.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketTaggingInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteBucketTaggingInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketTaggingOutput`)
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1987,6 +1974,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(DeleteBucketTaggingInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketTaggingOutput>(DeleteBucketTaggingOutput.httpOutput(from:), DeleteBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketTaggingInput, DeleteBucketTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketTaggingOutput>())
@@ -2024,12 +2012,9 @@ extension S3ControlClient {
     ///
     /// * [PutJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutJobTagging.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobTaggingInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteJobTaggingInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteJobTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobTaggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2063,6 +2048,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteJobTaggingInput, DeleteJobTaggingOutput>(DeleteJobTaggingInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobTaggingOutput>(DeleteJobTaggingOutput.httpOutput(from:), DeleteJobTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobTaggingInput, DeleteJobTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobTaggingOutput>())
@@ -2102,12 +2088,9 @@ extension S3ControlClient {
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteMultiRegionAccessPointInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeleteMultiRegionAccessPointInput : [no documentation found]
-    ///
-    /// - Returns: `DeleteMultiRegionAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMultiRegionAccessPointOutput`)
     public func deleteMultiRegionAccessPoint(input: DeleteMultiRegionAccessPointInput) async throws -> DeleteMultiRegionAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2139,6 +2122,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMultiRegionAccessPointOutput>(DeleteMultiRegionAccessPointOutput.httpOutput(from:), DeleteMultiRegionAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMultiRegionAccessPointInput, DeleteMultiRegionAccessPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMultiRegionAccessPointOutput>())
@@ -2168,18 +2152,15 @@ extension S3ControlClient {
 
     /// Performs the `DeletePublicAccessBlock` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
+    /// This operation is not supported by directory buckets. Removes the PublicAccessBlock configuration for an Amazon Web Services account. This operation might be restricted when the account is managed by organization-level Block Public Access policies. You’ll get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override account-level settings, preventing direct account-level modifications. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
     /// * [GetPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetPublicAccessBlock.html)
     ///
     /// * [PutPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutPublicAccessBlock.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePublicAccessBlockInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
-    ///
-    /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePublicAccessBlockOutput`)
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2206,6 +2187,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(DeletePublicAccessBlockInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePublicAccessBlockOutput>(DeletePublicAccessBlockOutput.httpOutput(from:), DeletePublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePublicAccessBlockInput, DeletePublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePublicAccessBlockOutput>())
@@ -2235,11 +2217,11 @@ extension S3ControlClient {
 
     /// Performs the `DeleteStorageLensConfiguration` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter DeleteStorageLensConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageLensConfigurationInput`)
     ///
-    /// - Returns: `DeleteStorageLensConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageLensConfigurationOutput`)
     public func deleteStorageLensConfiguration(input: DeleteStorageLensConfigurationInput) async throws -> DeleteStorageLensConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2266,6 +2248,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutput>(DeleteStorageLensConfigurationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageLensConfigurationOutput>(DeleteStorageLensConfigurationOutput.httpOutput(from:), DeleteStorageLensConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageLensConfigurationInput, DeleteStorageLensConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStorageLensConfigurationOutput>())
@@ -2295,11 +2278,11 @@ extension S3ControlClient {
 
     /// Performs the `DeleteStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter DeleteStorageLensConfigurationTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageLensConfigurationTaggingInput`)
     ///
-    /// - Returns: `DeleteStorageLensConfigurationTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageLensConfigurationTaggingOutput`)
     public func deleteStorageLensConfigurationTagging(input: DeleteStorageLensConfigurationTaggingInput) async throws -> DeleteStorageLensConfigurationTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2326,6 +2309,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutput>(DeleteStorageLensConfigurationTaggingInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageLensConfigurationTaggingOutput>(DeleteStorageLensConfigurationTaggingOutput.httpOutput(from:), DeleteStorageLensConfigurationTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageLensConfigurationTaggingInput, DeleteStorageLensConfigurationTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStorageLensConfigurationTaggingOutput>())
@@ -2355,11 +2339,11 @@ extension S3ControlClient {
 
     /// Performs the `DeleteStorageLensGroup` operation on the `S3Control` service.
     ///
-    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
-    /// - Parameter DeleteStorageLensGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageLensGroupInput`)
     ///
-    /// - Returns: `DeleteStorageLensGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageLensGroupOutput`)
     public func deleteStorageLensGroup(input: DeleteStorageLensGroupInput) async throws -> DeleteStorageLensGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2386,6 +2370,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteStorageLensGroupInput, DeleteStorageLensGroupOutput>(DeleteStorageLensGroupInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageLensGroupOutput>(DeleteStorageLensGroupOutput.httpOutput(from:), DeleteStorageLensGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageLensGroupInput, DeleteStorageLensGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStorageLensGroupOutput>())
@@ -2425,12 +2410,9 @@ extension S3ControlClient {
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DescribeJobInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2465,6 +2447,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DescribeJobInput, DescribeJobOutput>(DescribeJobInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobOutput>(DescribeJobOutput.httpOutput(from:), DescribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobInput, DescribeJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobOutput>())
@@ -2504,12 +2487,9 @@ extension S3ControlClient {
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeMultiRegionAccessPointOperationInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter DescribeMultiRegionAccessPointOperationInput : [no documentation found]
-    ///
-    /// - Returns: `DescribeMultiRegionAccessPointOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMultiRegionAccessPointOperationOutput`)
     public func describeMultiRegionAccessPointOperation(input: DescribeMultiRegionAccessPointOperationInput) async throws -> DescribeMultiRegionAccessPointOperationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2537,6 +2517,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutput>(DescribeMultiRegionAccessPointOperationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMultiRegionAccessPointOperationOutput>(DescribeMultiRegionAccessPointOperationOutput.httpOutput(from:), DescribeMultiRegionAccessPointOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMultiRegionAccessPointOperationInput, DescribeMultiRegionAccessPointOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMultiRegionAccessPointOperationOutput>())
@@ -2566,11 +2547,11 @@ extension S3ControlClient {
 
     /// Performs the `DissociateAccessGrantsIdentityCenter` operation on the `S3Control` service.
     ///
-    /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance. Permissions You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must have the sso:DeleteApplication permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance. Permissions You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must have the sso:DeleteApplication permission to use this operation.
     ///
-    /// - Parameter DissociateAccessGrantsIdentityCenterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DissociateAccessGrantsIdentityCenterInput`)
     ///
-    /// - Returns: `DissociateAccessGrantsIdentityCenterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DissociateAccessGrantsIdentityCenterOutput`)
     public func dissociateAccessGrantsIdentityCenter(input: DissociateAccessGrantsIdentityCenterInput) async throws -> DissociateAccessGrantsIdentityCenterOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2598,6 +2579,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DissociateAccessGrantsIdentityCenterInput, DissociateAccessGrantsIdentityCenterOutput>(DissociateAccessGrantsIdentityCenterInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DissociateAccessGrantsIdentityCenterOutput>(DissociateAccessGrantsIdentityCenterOutput.httpOutput(from:), DissociateAccessGrantsIdentityCenterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DissociateAccessGrantsIdentityCenterInput, DissociateAccessGrantsIdentityCenterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DissociateAccessGrantsIdentityCenterOutput>())
@@ -2627,11 +2609,11 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrant` operation on the `S3Control` service.
     ///
-    /// Get the details of an access grant from your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrant permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Get the details of an access grant from your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrant permission to use this operation.
     ///
-    /// - Parameter GetAccessGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantInput`)
     ///
-    /// - Returns: `GetAccessGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantOutput`)
     public func getAccessGrant(input: GetAccessGrantInput) async throws -> GetAccessGrantOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2659,6 +2641,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantInput, GetAccessGrantOutput>(GetAccessGrantInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantOutput>(GetAccessGrantOutput.httpOutput(from:), GetAccessGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantInput, GetAccessGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessGrantOutput>())
@@ -2688,11 +2671,11 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrantsInstance` operation on the `S3Control` service.
     ///
-    /// Retrieves the S3 Access Grants instance for a Region in your account. Permissions You must have the s3:GetAccessGrantsInstance permission to use this operation. GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Retrieves the S3 Access Grants instance for a Region in your account. Permissions You must have the s3:GetAccessGrantsInstance permission to use this operation. GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.
     ///
-    /// - Parameter GetAccessGrantsInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantsInstanceInput`)
     ///
-    /// - Returns: `GetAccessGrantsInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceOutput`)
     public func getAccessGrantsInstance(input: GetAccessGrantsInstanceInput) async throws -> GetAccessGrantsInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2720,6 +2703,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantsInstanceInput, GetAccessGrantsInstanceOutput>(GetAccessGrantsInstanceInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantsInstanceOutput>(GetAccessGrantsInstanceOutput.httpOutput(from:), GetAccessGrantsInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantsInstanceInput, GetAccessGrantsInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessGrantsInstanceOutput>())
@@ -2749,11 +2733,11 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrantsInstanceForPrefix` operation on the `S3Control` service.
     ///
-    /// Retrieve the S3 Access Grants instance that contains a particular prefix. Permissions You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation. Additional Permissions The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Retrieve the S3 Access Grants instance that contains a particular prefix. Permissions You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation. Additional Permissions The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix.
     ///
-    /// - Parameter GetAccessGrantsInstanceForPrefixInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantsInstanceForPrefixInput`)
     ///
-    /// - Returns: `GetAccessGrantsInstanceForPrefixOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceForPrefixOutput`)
     public func getAccessGrantsInstanceForPrefix(input: GetAccessGrantsInstanceForPrefixInput) async throws -> GetAccessGrantsInstanceForPrefixOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2782,6 +2766,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAccessGrantsInstanceForPrefixInput, GetAccessGrantsInstanceForPrefixOutput>(GetAccessGrantsInstanceForPrefixInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantsInstanceForPrefixOutput>(GetAccessGrantsInstanceForPrefixOutput.httpOutput(from:), GetAccessGrantsInstanceForPrefixOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantsInstanceForPrefixInput, GetAccessGrantsInstanceForPrefixOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessGrantsInstanceForPrefixOutput>())
@@ -2811,11 +2796,11 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
-    /// Returns the resource policy of the S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Returns the resource policy of the S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
     ///
-    /// - Parameter GetAccessGrantsInstanceResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantsInstanceResourcePolicyInput`)
     ///
-    /// - Returns: `GetAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantsInstanceResourcePolicyOutput`)
     public func getAccessGrantsInstanceResourcePolicy(input: GetAccessGrantsInstanceResourcePolicyInput) async throws -> GetAccessGrantsInstanceResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2843,6 +2828,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantsInstanceResourcePolicyInput, GetAccessGrantsInstanceResourcePolicyOutput>(GetAccessGrantsInstanceResourcePolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantsInstanceResourcePolicyOutput>(GetAccessGrantsInstanceResourcePolicyOutput.httpOutput(from:), GetAccessGrantsInstanceResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantsInstanceResourcePolicyInput, GetAccessGrantsInstanceResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessGrantsInstanceResourcePolicyOutput>())
@@ -2872,11 +2858,11 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrantsLocation` operation on the `S3Control` service.
     ///
-    /// Retrieves the details of a particular location registered in your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsLocation permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Retrieves the details of a particular location registered in your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsLocation permission to use this operation.
     ///
-    /// - Parameter GetAccessGrantsLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessGrantsLocationInput`)
     ///
-    /// - Returns: `GetAccessGrantsLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessGrantsLocationOutput`)
     public func getAccessGrantsLocation(input: GetAccessGrantsLocationInput) async throws -> GetAccessGrantsLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2904,6 +2890,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessGrantsLocationInput, GetAccessGrantsLocationOutput>(GetAccessGrantsLocationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessGrantsLocationOutput>(GetAccessGrantsLocationOutput.httpOutput(from:), GetAccessGrantsLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessGrantsLocationInput, GetAccessGrantsLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessGrantsLocationOutput>())
@@ -2941,12 +2928,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetAccessPointInput : [no documentation found]
-    ///
-    /// - Returns: `GetAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointOutput`)
     public func getAccessPoint(input: GetAccessPointInput) async throws -> GetAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2973,6 +2957,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointInput, GetAccessPointOutput>(GetAccessPointInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointOutput>(GetAccessPointOutput.httpOutput(from:), GetAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointInput, GetAccessPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPointOutput>())
@@ -3006,12 +2991,9 @@ extension S3ControlClient {
     ///
     /// * [PutAccessPointConfigurationForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointConfigurationForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointConfigurationForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetAccessPointConfigurationForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `GetAccessPointConfigurationForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointConfigurationForObjectLambdaOutput`)
     public func getAccessPointConfigurationForObjectLambda(input: GetAccessPointConfigurationForObjectLambdaInput) async throws -> GetAccessPointConfigurationForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3038,6 +3020,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutput>(GetAccessPointConfigurationForObjectLambdaInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointConfigurationForObjectLambdaOutput>(GetAccessPointConfigurationForObjectLambdaOutput.httpOutput(from:), GetAccessPointConfigurationForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointConfigurationForObjectLambdaInput, GetAccessPointConfigurationForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPointConfigurationForObjectLambdaOutput>())
@@ -3075,12 +3058,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetAccessPointForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `GetAccessPointForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointForObjectLambdaOutput`)
     public func getAccessPointForObjectLambda(input: GetAccessPointForObjectLambdaInput) async throws -> GetAccessPointForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3107,6 +3087,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutput>(GetAccessPointForObjectLambdaInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointForObjectLambdaOutput>(GetAccessPointForObjectLambdaOutput.httpOutput(from:), GetAccessPointForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointForObjectLambdaInput, GetAccessPointForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPointForObjectLambdaOutput>())
@@ -3142,12 +3123,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointPolicyInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetAccessPointPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `GetAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyOutput`)
     public func getAccessPointPolicy(input: GetAccessPointPolicyInput) async throws -> GetAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3174,6 +3152,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointPolicyInput, GetAccessPointPolicyOutput>(GetAccessPointPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyOutput>(GetAccessPointPolicyOutput.httpOutput(from:), GetAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointPolicyInput, GetAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPointPolicyOutput>())
@@ -3209,12 +3188,9 @@ extension S3ControlClient {
     ///
     /// * [PutAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicyForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointPolicyForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetAccessPointPolicyForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `GetAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyForObjectLambdaOutput`)
     public func getAccessPointPolicyForObjectLambda(input: GetAccessPointPolicyForObjectLambdaInput) async throws -> GetAccessPointPolicyForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3241,6 +3217,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutput>(GetAccessPointPolicyForObjectLambdaInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyForObjectLambdaOutput>(GetAccessPointPolicyForObjectLambdaOutput.httpOutput(from:), GetAccessPointPolicyForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointPolicyForObjectLambdaInput, GetAccessPointPolicyForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPointPolicyForObjectLambdaOutput>())
@@ -3270,11 +3247,11 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessPointPolicyStatus` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see [Managing Data Access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see [Managing Data Access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter GetAccessPointPolicyStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointPolicyStatusInput`)
     ///
-    /// - Returns: `GetAccessPointPolicyStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyStatusOutput`)
     public func getAccessPointPolicyStatus(input: GetAccessPointPolicyStatusInput) async throws -> GetAccessPointPolicyStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3301,6 +3278,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutput>(GetAccessPointPolicyStatusInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyStatusOutput>(GetAccessPointPolicyStatusOutput.httpOutput(from:), GetAccessPointPolicyStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointPolicyStatusInput, GetAccessPointPolicyStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPointPolicyStatusOutput>())
@@ -3330,11 +3308,11 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessPointPolicyStatusForObjectLambda` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Returns the status of the resource policy associated with an Object Lambda Access Point. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Returns the status of the resource policy associated with an Object Lambda Access Point.
     ///
-    /// - Parameter GetAccessPointPolicyStatusForObjectLambdaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointPolicyStatusForObjectLambdaInput`)
     ///
-    /// - Returns: `GetAccessPointPolicyStatusForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointPolicyStatusForObjectLambdaOutput`)
     public func getAccessPointPolicyStatusForObjectLambda(input: GetAccessPointPolicyStatusForObjectLambdaInput) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3361,6 +3339,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutput>(GetAccessPointPolicyStatusForObjectLambdaInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointPolicyStatusForObjectLambdaOutput>(GetAccessPointPolicyStatusForObjectLambdaOutput.httpOutput(from:), GetAccessPointPolicyStatusForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointPolicyStatusForObjectLambdaInput, GetAccessPointPolicyStatusForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPointPolicyStatusForObjectLambdaOutput>())
@@ -3390,11 +3369,11 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessPointScope` operation on the `S3Control` service.
     ///
-    /// Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
     ///
-    /// - Parameter GetAccessPointScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessPointScopeInput`)
     ///
-    /// - Returns: `GetAccessPointScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessPointScopeOutput`)
     public func getAccessPointScope(input: GetAccessPointScopeInput) async throws -> GetAccessPointScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3421,6 +3400,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetAccessPointScopeInput, GetAccessPointScopeOutput>(GetAccessPointScopeInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessPointScopeOutput>(GetAccessPointScopeOutput.httpOutput(from:), GetAccessPointScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessPointScopeInput, GetAccessPointScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessPointScopeOutput>())
@@ -3458,12 +3438,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucket.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetBucketInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetBucketInput : [no documentation found]
-    ///
-    /// - Returns: `GetBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketOutput`)
     public func getBucket(input: GetBucketInput) async throws -> GetBucketOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3490,6 +3467,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketInput, GetBucketOutput>(GetBucketInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketOutput>(GetBucketOutput.httpOutput(from:), GetBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketInput, GetBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketOutput>())
@@ -3539,12 +3517,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetBucketLifecycleConfigurationInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
-    ///
-    /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketLifecycleConfigurationOutput`)
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3571,6 +3546,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketLifecycleConfigurationOutput>(GetBucketLifecycleConfigurationOutput.httpOutput(from:), GetBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketLifecycleConfigurationInput, GetBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketLifecycleConfigurationOutput>())
@@ -3608,12 +3584,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetBucketPolicyInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetBucketPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `GetBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketPolicyOutput`)
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3640,6 +3613,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(GetBucketPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketPolicyOutput>(GetBucketPolicyOutput.httpOutput(from:), GetBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketPolicyInput, GetBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketPolicyOutput>())
@@ -3675,9 +3649,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html)
     ///
-    /// - Parameter GetBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketReplicationInput`)
     ///
-    /// - Returns: `GetBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketReplicationOutput`)
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3704,6 +3678,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(GetBucketReplicationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketReplicationOutput>(GetBucketReplicationOutput.httpOutput(from:), GetBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketReplicationInput, GetBucketReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketReplicationOutput>())
@@ -3749,9 +3724,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html)
     ///
-    /// - Parameter GetBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketTaggingInput`)
     ///
-    /// - Returns: `GetBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketTaggingOutput`)
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3778,6 +3753,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(GetBucketTaggingInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketTaggingOutput>(GetBucketTaggingOutput.httpOutput(from:), GetBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketTaggingInput, GetBucketTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketTaggingOutput>())
@@ -3815,9 +3791,9 @@ extension S3ControlClient {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
     ///
-    /// - Parameter GetBucketVersioningInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketVersioningInput`)
     ///
-    /// - Returns: `GetBucketVersioningOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketVersioningOutput`)
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3844,6 +3820,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(GetBucketVersioningInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketVersioningOutput>(GetBucketVersioningOutput.httpOutput(from:), GetBucketVersioningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketVersioningInput, GetBucketVersioningOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketVersioningOutput>())
@@ -3873,11 +3850,11 @@ extension S3ControlClient {
 
     /// Performs the `GetDataAccess` operation on the `S3Control` service.
     ///
-    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The [temporary credential](https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html) is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The [temporary credential](https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html) is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
     ///
-    /// - Parameter GetDataAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataAccessInput`)
     ///
-    /// - Returns: `GetDataAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataAccessOutput`)
     public func getDataAccess(input: GetDataAccessInput) async throws -> GetDataAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -3906,6 +3883,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDataAccessInput, GetDataAccessOutput>(GetDataAccessInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataAccessOutput>(GetDataAccessOutput.httpOutput(from:), GetDataAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataAccessInput, GetDataAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataAccessOutput>())
@@ -3943,12 +3921,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteJobTagging.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetJobTaggingInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetJobTaggingInput : [no documentation found]
-    ///
-    /// - Returns: `GetJobTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobTaggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3982,6 +3957,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetJobTaggingInput, GetJobTaggingOutput>(GetJobTaggingInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobTaggingOutput>(GetJobTaggingOutput.httpOutput(from:), GetJobTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobTaggingInput, GetJobTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobTaggingOutput>())
@@ -4021,12 +3997,9 @@ extension S3ControlClient {
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetMultiRegionAccessPointInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetMultiRegionAccessPointInput : [no documentation found]
-    ///
-    /// - Returns: `GetMultiRegionAccessPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointOutput`)
     public func getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput) async throws -> GetMultiRegionAccessPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4054,6 +4027,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutput>(GetMultiRegionAccessPointInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointOutput>(GetMultiRegionAccessPointOutput.httpOutput(from:), GetMultiRegionAccessPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointInput, GetMultiRegionAccessPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMultiRegionAccessPointOutput>())
@@ -4089,12 +4063,9 @@ extension S3ControlClient {
     ///
     /// * [PutMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetMultiRegionAccessPointPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `GetMultiRegionAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyOutput`)
     public func getMultiRegionAccessPointPolicy(input: GetMultiRegionAccessPointPolicyInput) async throws -> GetMultiRegionAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4122,6 +4093,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutput>(GetMultiRegionAccessPointPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointPolicyOutput>(GetMultiRegionAccessPointPolicyOutput.httpOutput(from:), GetMultiRegionAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointPolicyInput, GetMultiRegionAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMultiRegionAccessPointPolicyOutput>())
@@ -4157,12 +4129,9 @@ extension S3ControlClient {
     ///
     /// * [PutMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyStatusInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetMultiRegionAccessPointPolicyStatusInput : [no documentation found]
-    ///
-    /// - Returns: `GetMultiRegionAccessPointPolicyStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointPolicyStatusOutput`)
     public func getMultiRegionAccessPointPolicyStatus(input: GetMultiRegionAccessPointPolicyStatusInput) async throws -> GetMultiRegionAccessPointPolicyStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4190,6 +4159,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutput>(GetMultiRegionAccessPointPolicyStatusInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointPolicyStatusOutput>(GetMultiRegionAccessPointPolicyStatusOutput.httpOutput(from:), GetMultiRegionAccessPointPolicyStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointPolicyStatusInput, GetMultiRegionAccessPointPolicyStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMultiRegionAccessPointPolicyStatusOutput>())
@@ -4231,12 +4201,9 @@ extension S3ControlClient {
     ///
     /// * eu-west-1
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetMultiRegionAccessPointRoutesInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetMultiRegionAccessPointRoutesInput : [no documentation found]
-    ///
-    /// - Returns: `GetMultiRegionAccessPointRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMultiRegionAccessPointRoutesOutput`)
     public func getMultiRegionAccessPointRoutes(input: GetMultiRegionAccessPointRoutesInput) async throws -> GetMultiRegionAccessPointRoutesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4264,6 +4231,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutput>(GetMultiRegionAccessPointRoutesInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMultiRegionAccessPointRoutesOutput>(GetMultiRegionAccessPointRoutesOutput.httpOutput(from:), GetMultiRegionAccessPointRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMultiRegionAccessPointRoutesInput, GetMultiRegionAccessPointRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMultiRegionAccessPointRoutesOutput>())
@@ -4293,18 +4261,15 @@ extension S3ControlClient {
 
     /// Performs the `GetPublicAccessBlock` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
+    /// This operation is not supported by directory buckets. Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. This operation returns the effective account-level configuration, which may inherit from organization-level policies. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeletePublicAccessBlock.html)
     ///
     /// * [PutPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutPublicAccessBlock.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `GetPublicAccessBlockInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter GetPublicAccessBlockInput : [no documentation found]
-    ///
-    /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPublicAccessBlockOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4336,6 +4301,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(GetPublicAccessBlockInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPublicAccessBlockOutput>(GetPublicAccessBlockOutput.httpOutput(from:), GetPublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPublicAccessBlockInput, GetPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPublicAccessBlockOutput>())
@@ -4365,11 +4331,11 @@ extension S3ControlClient {
 
     /// Performs the `GetStorageLensConfiguration` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Gets the Amazon S3 Storage Lens configuration. For more information, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Gets the Amazon S3 Storage Lens configuration. For more information, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter GetStorageLensConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageLensConfigurationInput`)
     ///
-    /// - Returns: `GetStorageLensConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageLensConfigurationOutput`)
     public func getStorageLensConfiguration(input: GetStorageLensConfigurationInput) async throws -> GetStorageLensConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4396,6 +4362,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutput>(GetStorageLensConfigurationInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageLensConfigurationOutput>(GetStorageLensConfigurationOutput.httpOutput(from:), GetStorageLensConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageLensConfigurationInput, GetStorageLensConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageLensConfigurationOutput>())
@@ -4425,11 +4392,11 @@ extension S3ControlClient {
 
     /// Performs the `GetStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter GetStorageLensConfigurationTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageLensConfigurationTaggingInput`)
     ///
-    /// - Returns: `GetStorageLensConfigurationTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageLensConfigurationTaggingOutput`)
     public func getStorageLensConfigurationTagging(input: GetStorageLensConfigurationTaggingInput) async throws -> GetStorageLensConfigurationTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4456,6 +4423,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutput>(GetStorageLensConfigurationTaggingInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageLensConfigurationTaggingOutput>(GetStorageLensConfigurationTaggingOutput.httpOutput(from:), GetStorageLensConfigurationTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageLensConfigurationTaggingInput, GetStorageLensConfigurationTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageLensConfigurationTaggingOutput>())
@@ -4485,11 +4453,11 @@ extension S3ControlClient {
 
     /// Performs the `GetStorageLensGroup` operation on the `S3Control` service.
     ///
-    /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
-    /// - Parameter GetStorageLensGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageLensGroupInput`)
     ///
-    /// - Returns: `GetStorageLensGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageLensGroupOutput`)
     public func getStorageLensGroup(input: GetStorageLensGroupInput) async throws -> GetStorageLensGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4516,6 +4484,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetStorageLensGroupInput, GetStorageLensGroupOutput>(GetStorageLensGroupInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageLensGroupOutput>(GetStorageLensGroupOutput.httpOutput(from:), GetStorageLensGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageLensGroupInput, GetStorageLensGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageLensGroupOutput>())
@@ -4545,11 +4514,11 @@ extension S3ControlClient {
 
     /// Performs the `ListAccessGrants` operation on the `S3Control` service.
     ///
-    /// Returns the list of access grants in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrants permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Returns the list of access grants in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrants permission to use this operation.
     ///
-    /// - Parameter ListAccessGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessGrantsInput`)
     ///
-    /// - Returns: `ListAccessGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessGrantsOutput`)
     public func listAccessGrants(input: ListAccessGrantsInput) async throws -> ListAccessGrantsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4578,6 +4547,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessGrantsInput, ListAccessGrantsOutput>(ListAccessGrantsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessGrantsOutput>(ListAccessGrantsOutput.httpOutput(from:), ListAccessGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessGrantsInput, ListAccessGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessGrantsOutput>())
@@ -4607,11 +4577,11 @@ extension S3ControlClient {
 
     /// Performs the `ListAccessGrantsInstances` operation on the `S3Control` service.
     ///
-    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation.
     ///
-    /// - Parameter ListAccessGrantsInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessGrantsInstancesInput`)
     ///
-    /// - Returns: `ListAccessGrantsInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessGrantsInstancesOutput`)
     public func listAccessGrantsInstances(input: ListAccessGrantsInstancesInput) async throws -> ListAccessGrantsInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4640,6 +4610,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessGrantsInstancesInput, ListAccessGrantsInstancesOutput>(ListAccessGrantsInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessGrantsInstancesOutput>(ListAccessGrantsInstancesOutput.httpOutput(from:), ListAccessGrantsInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessGrantsInstancesInput, ListAccessGrantsInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessGrantsInstancesOutput>())
@@ -4669,11 +4640,11 @@ extension S3ControlClient {
 
     /// Performs the `ListAccessGrantsLocations` operation on the `S3Control` service.
     ///
-    /// Returns a list of the locations registered in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Returns a list of the locations registered in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation.
     ///
-    /// - Parameter ListAccessGrantsLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessGrantsLocationsInput`)
     ///
-    /// - Returns: `ListAccessGrantsLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessGrantsLocationsOutput`)
     public func listAccessGrantsLocations(input: ListAccessGrantsLocationsInput) async throws -> ListAccessGrantsLocationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4702,6 +4673,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessGrantsLocationsInput, ListAccessGrantsLocationsOutput>(ListAccessGrantsLocationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessGrantsLocationsOutput>(ListAccessGrantsLocationsOutput.httpOutput(from:), ListAccessGrantsLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessGrantsLocationsInput, ListAccessGrantsLocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessGrantsLocationsOutput>())
@@ -4739,12 +4711,9 @@ extension S3ControlClient {
     ///
     /// * [GetAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPointsInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter ListAccessPointsInput : [no documentation found]
-    ///
-    /// - Returns: `ListAccessPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPointsOutput`)
     public func listAccessPoints(input: ListAccessPointsInput) async throws -> ListAccessPointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4772,6 +4741,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPointsInput, ListAccessPointsOutput>(ListAccessPointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPointsOutput>(ListAccessPointsOutput.httpOutput(from:), ListAccessPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPointsInput, ListAccessPointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessPointsOutput>())
@@ -4801,11 +4771,11 @@ extension S3ControlClient {
 
     /// Performs the `ListAccessPointsForDirectoryBuckets` operation on the `S3Control` service.
     ///
-    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see [ListAccesspoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html). To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see [ListAccesspoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html). To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
     ///
-    /// - Parameter ListAccessPointsForDirectoryBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPointsForDirectoryBucketsInput`)
     ///
-    /// - Returns: `ListAccessPointsForDirectoryBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPointsForDirectoryBucketsOutput`)
     public func listAccessPointsForDirectoryBuckets(input: ListAccessPointsForDirectoryBucketsInput) async throws -> ListAccessPointsForDirectoryBucketsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4833,6 +4803,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput>(ListAccessPointsForDirectoryBucketsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPointsForDirectoryBucketsOutput>(ListAccessPointsForDirectoryBucketsOutput.httpOutput(from:), ListAccessPointsForDirectoryBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessPointsForDirectoryBucketsOutput>())
@@ -4870,12 +4841,9 @@ extension S3ControlClient {
     ///
     /// * [GetAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPointsForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter ListAccessPointsForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `ListAccessPointsForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPointsForObjectLambdaOutput`)
     public func listAccessPointsForObjectLambda(input: ListAccessPointsForObjectLambdaInput) async throws -> ListAccessPointsForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4903,6 +4871,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>(ListAccessPointsForObjectLambdaInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPointsForObjectLambdaOutput>(ListAccessPointsForObjectLambdaOutput.httpOutput(from:), ListAccessPointsForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPointsForObjectLambdaInput, ListAccessPointsForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessPointsForObjectLambdaOutput>())
@@ -4932,11 +4901,11 @@ extension S3ControlClient {
 
     /// Performs the `ListCallerAccessGrants` operation on the `S3Control` service.
     ///
-    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see [List the caller's access grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-list-grants.html) in the Amazon S3 User Guide. Permissions You must have the s3:ListCallerAccessGrants permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see [List the caller's access grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-list-grants.html) in the Amazon S3 User Guide. Permissions You must have the s3:ListCallerAccessGrants permission to use this operation.
     ///
-    /// - Parameter ListCallerAccessGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCallerAccessGrantsInput`)
     ///
-    /// - Returns: `ListCallerAccessGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCallerAccessGrantsOutput`)
     public func listCallerAccessGrants(input: ListCallerAccessGrantsInput) async throws -> ListCallerAccessGrantsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4965,6 +4934,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput>(ListCallerAccessGrantsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCallerAccessGrantsOutput>(ListCallerAccessGrantsOutput.httpOutput(from:), ListCallerAccessGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCallerAccessGrantsInput, ListCallerAccessGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCallerAccessGrantsOutput>())
@@ -5004,12 +4974,9 @@ extension S3ControlClient {
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter ListJobsInput : [no documentation found]
-    ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5044,6 +5011,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -5083,12 +5051,9 @@ extension S3ControlClient {
     ///
     /// * [GetMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `ListMultiRegionAccessPointsInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter ListMultiRegionAccessPointsInput : [no documentation found]
-    ///
-    /// - Returns: `ListMultiRegionAccessPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMultiRegionAccessPointsOutput`)
     public func listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput) async throws -> ListMultiRegionAccessPointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5117,6 +5082,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>(ListMultiRegionAccessPointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultiRegionAccessPointsOutput>(ListMultiRegionAccessPointsOutput.httpOutput(from:), ListMultiRegionAccessPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultiRegionAccessPointsInput, ListMultiRegionAccessPointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMultiRegionAccessPointsOutput>())
@@ -5146,11 +5112,11 @@ extension S3ControlClient {
 
     /// Performs the `ListRegionalBuckets` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListRegionalBuckets.html#API_control_ListRegionalBuckets_Examples) section. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListRegionalBuckets.html#API_control_ListRegionalBuckets_Examples) section.
     ///
-    /// - Parameter ListRegionalBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegionalBucketsInput`)
     ///
-    /// - Returns: `ListRegionalBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegionalBucketsOutput`)
     public func listRegionalBuckets(input: ListRegionalBucketsInput) async throws -> ListRegionalBucketsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5178,6 +5144,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRegionalBucketsInput, ListRegionalBucketsOutput>(ListRegionalBucketsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegionalBucketsOutput>(ListRegionalBucketsOutput.httpOutput(from:), ListRegionalBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegionalBucketsInput, ListRegionalBucketsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegionalBucketsOutput>())
@@ -5207,11 +5174,11 @@ extension S3ControlClient {
 
     /// Performs the `ListStorageLensConfigurations` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter ListStorageLensConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStorageLensConfigurationsInput`)
     ///
-    /// - Returns: `ListStorageLensConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStorageLensConfigurationsOutput`)
     public func listStorageLensConfigurations(input: ListStorageLensConfigurationsInput) async throws -> ListStorageLensConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5239,6 +5206,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>(ListStorageLensConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStorageLensConfigurationsOutput>(ListStorageLensConfigurationsOutput.httpOutput(from:), ListStorageLensConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStorageLensConfigurationsInput, ListStorageLensConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStorageLensConfigurationsOutput>())
@@ -5268,11 +5236,11 @@ extension S3ControlClient {
 
     /// Performs the `ListStorageLensGroups` operation on the `S3Control` service.
     ///
-    /// Lists all the Storage Lens groups in the specified home Region. To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Lists all the Storage Lens groups in the specified home Region. To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
-    /// - Parameter ListStorageLensGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStorageLensGroupsInput`)
     ///
-    /// - Returns: `ListStorageLensGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStorageLensGroupsOutput`)
     public func listStorageLensGroups(input: ListStorageLensGroupsInput) async throws -> ListStorageLensGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5300,6 +5268,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStorageLensGroupsInput, ListStorageLensGroupsOutput>(ListStorageLensGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStorageLensGroupsOutput>(ListStorageLensGroupsOutput.httpOutput(from:), ListStorageLensGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStorageLensGroupsInput, ListStorageLensGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStorageLensGroupsOutput>())
@@ -5331,22 +5300,24 @@ extension S3ControlClient {
     ///
     /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources. This operation is only supported for the following Amazon S3 resources:
     ///
+    /// * [General purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html)
+    ///
     /// * [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
     ///
     /// * [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
     ///
     /// * [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
     ///
-    /// * [Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
+    /// * [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
     ///
     /// * [S3 Access Grants instances, registered locations, and grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
     ///
     ///
-    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Permissions For general purpose buckets, access points for general purpose buckets, Storage Lens groups, and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation. Directory bucket permissions For directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5373,6 +5344,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5402,11 +5374,11 @@ extension S3ControlClient {
 
     /// Performs the `PutAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
-    /// Updates the resource policy of the S3 Access Grants instance. Permissions You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Updates the resource policy of the S3 Access Grants instance. Permissions You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.
     ///
-    /// - Parameter PutAccessGrantsInstanceResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccessGrantsInstanceResourcePolicyInput`)
     ///
-    /// - Returns: `PutAccessGrantsInstanceResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessGrantsInstanceResourcePolicyOutput`)
     public func putAccessGrantsInstanceResourcePolicy(input: PutAccessGrantsInstanceResourcePolicyInput) async throws -> PutAccessGrantsInstanceResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5437,6 +5409,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessGrantsInstanceResourcePolicyOutput>(PutAccessGrantsInstanceResourcePolicyOutput.httpOutput(from:), PutAccessGrantsInstanceResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessGrantsInstanceResourcePolicyInput, PutAccessGrantsInstanceResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccessGrantsInstanceResourcePolicyOutput>())
@@ -5470,12 +5443,9 @@ extension S3ControlClient {
     ///
     /// * [GetAccessPointConfigurationForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointConfigurationForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `PutAccessPointConfigurationForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter PutAccessPointConfigurationForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `PutAccessPointConfigurationForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessPointConfigurationForObjectLambdaOutput`)
     public func putAccessPointConfigurationForObjectLambda(input: PutAccessPointConfigurationForObjectLambdaInput) async throws -> PutAccessPointConfigurationForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5505,6 +5475,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessPointConfigurationForObjectLambdaOutput>(PutAccessPointConfigurationForObjectLambdaOutput.httpOutput(from:), PutAccessPointConfigurationForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessPointConfigurationForObjectLambdaInput, PutAccessPointConfigurationForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccessPointConfigurationForObjectLambdaOutput>())
@@ -5540,12 +5511,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `PutAccessPointPolicyInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter PutAccessPointPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `PutAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessPointPolicyOutput`)
     public func putAccessPointPolicy(input: PutAccessPointPolicyInput) async throws -> PutAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5575,6 +5543,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessPointPolicyOutput>(PutAccessPointPolicyOutput.httpOutput(from:), PutAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessPointPolicyInput, PutAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccessPointPolicyOutput>())
@@ -5610,12 +5579,9 @@ extension S3ControlClient {
     ///
     /// * [GetAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicyForObjectLambda.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `PutAccessPointPolicyForObjectLambdaInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter PutAccessPointPolicyForObjectLambdaInput : [no documentation found]
-    ///
-    /// - Returns: `PutAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessPointPolicyForObjectLambdaOutput`)
     public func putAccessPointPolicyForObjectLambda(input: PutAccessPointPolicyForObjectLambdaInput) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5645,6 +5611,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessPointPolicyForObjectLambdaOutput>(PutAccessPointPolicyForObjectLambdaOutput.httpOutput(from:), PutAccessPointPolicyForObjectLambdaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessPointPolicyForObjectLambdaInput, PutAccessPointPolicyForObjectLambdaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccessPointPolicyForObjectLambdaOutput>())
@@ -5674,11 +5641,11 @@ extension S3ControlClient {
 
     /// Performs the `PutAccessPointScope` operation on the `S3Control` service.
     ///
-    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
     ///
-    /// - Parameter PutAccessPointScopeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccessPointScopeInput`)
     ///
-    /// - Returns: `PutAccessPointScopeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccessPointScopeOutput`)
     public func putAccessPointScope(input: PutAccessPointScopeInput) async throws -> PutAccessPointScopeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5708,6 +5675,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccessPointScopeInput, PutAccessPointScopeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccessPointScopeOutput>(PutAccessPointScopeOutput.httpOutput(from:), PutAccessPointScopeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccessPointScopeInput, PutAccessPointScopeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccessPointScopeOutput>())
@@ -5743,9 +5711,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html)
     ///
-    /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketLifecycleConfigurationInput`)
     ///
-    /// - Returns: `PutBucketLifecycleConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketLifecycleConfigurationOutput`)
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5776,6 +5744,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketLifecycleConfigurationOutput>(PutBucketLifecycleConfigurationOutput.httpOutput(from:), PutBucketLifecycleConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketLifecycleConfigurationInput, PutBucketLifecycleConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketLifecycleConfigurationOutput>())
@@ -5811,9 +5780,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html)
     ///
-    /// - Parameter PutBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketPolicyInput`)
     ///
-    /// - Returns: `PutBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketPolicyOutput`)
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5844,6 +5813,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketPolicyOutput>(PutBucketPolicyOutput.httpOutput(from:), PutBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketPolicyInput, PutBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketPolicyOutput>())
@@ -5888,9 +5858,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html)
     ///
-    /// - Parameter PutBucketReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketReplicationInput`)
     ///
-    /// - Returns: `PutBucketReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketReplicationOutput`)
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -5921,6 +5891,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketReplicationOutput>(PutBucketReplicationOutput.httpOutput(from:), PutBucketReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketReplicationInput, PutBucketReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketReplicationOutput>())
@@ -5987,9 +5958,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html)
     ///
-    /// - Parameter PutBucketTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBucketTaggingInput`)
     ///
-    /// - Returns: `PutBucketTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketTaggingOutput`)
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6020,6 +5991,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketTaggingOutput>(PutBucketTaggingOutput.httpOutput(from:), PutBucketTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketTaggingInput, PutBucketTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketTaggingOutput>())
@@ -6064,12 +6036,9 @@ extension S3ControlClient {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `PutBucketVersioningInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter PutBucketVersioningInput : [no documentation found]
-    ///
-    /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBucketVersioningOutput`)
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6100,6 +6069,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBucketVersioningOutput>(PutBucketVersioningOutput.httpOutput(from:), PutBucketVersioningOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBucketVersioningInput, PutBucketVersioningOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBucketVersioningOutput>())
@@ -6159,12 +6129,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteJobTagging.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `PutJobTaggingInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter PutJobTaggingInput : [no documentation found]
-    ///
-    /// - Returns: `PutJobTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutJobTaggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6202,6 +6169,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutJobTaggingInput, PutJobTaggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutJobTaggingOutput>(PutJobTaggingOutput.httpOutput(from:), PutJobTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutJobTaggingInput, PutJobTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutJobTaggingOutput>())
@@ -6237,12 +6205,9 @@ extension S3ControlClient {
     ///
     /// * [GetMultiRegionAccessPointPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `PutMultiRegionAccessPointPolicyInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter PutMultiRegionAccessPointPolicyInput : [no documentation found]
-    ///
-    /// - Returns: `PutMultiRegionAccessPointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMultiRegionAccessPointPolicyOutput`)
     public func putMultiRegionAccessPointPolicy(input: PutMultiRegionAccessPointPolicyInput) async throws -> PutMultiRegionAccessPointPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6274,6 +6239,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMultiRegionAccessPointPolicyOutput>(PutMultiRegionAccessPointPolicyOutput.httpOutput(from:), PutMultiRegionAccessPointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMultiRegionAccessPointPolicyInput, PutMultiRegionAccessPointPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMultiRegionAccessPointPolicyOutput>())
@@ -6303,18 +6269,15 @@ extension S3ControlClient {
 
     /// Performs the `PutPublicAccessBlock` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
+    /// This operation is not supported by directory buckets. Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account. This operation may be restricted when the account is managed by organization-level Block Public Access policies. You might get an Access Denied (403) error when the account is managed by organization-level Block Public Access policies. Organization-level policies override account-level settings, preventing direct account-level modifications. For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more information, see [ Using Amazon S3 block public access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html). Related actions include:
     ///
     /// * [GetPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetPublicAccessBlock.html)
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeletePublicAccessBlock.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `PutPublicAccessBlockInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter PutPublicAccessBlockInput : [no documentation found]
-    ///
-    /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPublicAccessBlockOutput`)
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6344,6 +6307,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPublicAccessBlockOutput>(PutPublicAccessBlockOutput.httpOutput(from:), PutPublicAccessBlockOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPublicAccessBlockInput, PutPublicAccessBlockOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPublicAccessBlockOutput>())
@@ -6373,11 +6337,11 @@ extension S3ControlClient {
 
     /// Performs the `PutStorageLensConfiguration` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Working with Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Working with Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter PutStorageLensConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutStorageLensConfigurationInput`)
     ///
-    /// - Returns: `PutStorageLensConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutStorageLensConfigurationOutput`)
     public func putStorageLensConfiguration(input: PutStorageLensConfigurationInput) async throws -> PutStorageLensConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6407,6 +6371,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutStorageLensConfigurationOutput>(PutStorageLensConfigurationOutput.httpOutput(from:), PutStorageLensConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStorageLensConfigurationInput, PutStorageLensConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutStorageLensConfigurationOutput>())
@@ -6436,11 +6401,11 @@ extension S3ControlClient {
 
     /// Performs the `PutStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
     ///
-    /// - Parameter PutStorageLensConfigurationTaggingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutStorageLensConfigurationTaggingInput`)
     ///
-    /// - Returns: `PutStorageLensConfigurationTaggingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutStorageLensConfigurationTaggingOutput`)
     public func putStorageLensConfigurationTagging(input: PutStorageLensConfigurationTaggingInput) async throws -> PutStorageLensConfigurationTaggingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6470,6 +6435,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutStorageLensConfigurationTaggingOutput>(PutStorageLensConfigurationTaggingOutput.httpOutput(from:), PutStorageLensConfigurationTaggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStorageLensConfigurationTaggingInput, PutStorageLensConfigurationTaggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutStorageLensConfigurationTaggingOutput>())
@@ -6511,12 +6477,9 @@ extension S3ControlClient {
     ///
     /// * eu-west-1
     ///
+    /// - Parameter input: [no documentation found] (Type: `SubmitMultiRegionAccessPointRoutesInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter SubmitMultiRegionAccessPointRoutesInput : [no documentation found]
-    ///
-    /// - Returns: `SubmitMultiRegionAccessPointRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SubmitMultiRegionAccessPointRoutesOutput`)
     public func submitMultiRegionAccessPointRoutes(input: SubmitMultiRegionAccessPointRoutesInput) async throws -> SubmitMultiRegionAccessPointRoutesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .patch)
@@ -6547,6 +6510,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SubmitMultiRegionAccessPointRoutesOutput>(SubmitMultiRegionAccessPointRoutesOutput.httpOutput(from:), SubmitMultiRegionAccessPointRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SubmitMultiRegionAccessPointRoutesInput, SubmitMultiRegionAccessPointRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SubmitMultiRegionAccessPointRoutesOutput>())
@@ -6578,6 +6542,8 @@ extension S3ControlClient {
     ///
     /// Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource. This operation is only supported for the following Amazon S3 resource:
     ///
+    /// * [General purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html)
+    ///
     /// * [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
     ///
     /// * [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
@@ -6589,20 +6555,11 @@ extension S3ControlClient {
     /// * [S3 Access Grants instances, registered locations, or grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
     ///
     ///
-    /// This operation is only supported for the following Amazon S3 resource:
+    /// Permissions For general purpose buckets, access points for general purpose buckets, Storage Lens groups, and S3 Access Grants, you must have the s3:TagResource permission to use this operation. Directory bucket permissions For directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
     ///
-    /// * [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// * [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
-    ///
-    /// * [S3 Access Grants instances, registered locations, or grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
-    ///
-    ///
-    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter TagResourceInput : [no documentation found]
-    ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6632,6 +6589,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6663,22 +6621,24 @@ extension S3ControlClient {
     ///
     /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys. This operation is only supported for the following Amazon S3 resources:
     ///
+    /// * [General purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/buckets-tagging.html)
+    ///
     /// * [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
     ///
     /// * [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
     ///
     /// * [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
     ///
-    /// * [Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
+    /// * [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
     ///
     /// * [S3 Access Grants instances, registered locations, and grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
     ///
     ///
-    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Permissions For general purpose buckets, access points for general purpose buckets, Storage Lens groups, and S3 Access Grants, you must have the s3:UntagResource permission to use this operation. Directory bucket permissions For directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -6706,6 +6666,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6735,11 +6696,11 @@ extension S3ControlClient {
 
     /// Performs the `UpdateAccessGrantsLocation` operation on the `S3Control` service.
     ///
-    /// Updates the IAM role of a registered location in your S3 Access Grants instance. Permissions You must have the s3:UpdateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission: iam:PassRole You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Updates the IAM role of a registered location in your S3 Access Grants instance. Permissions You must have the s3:UpdateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission: iam:PassRole
     ///
-    /// - Parameter UpdateAccessGrantsLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessGrantsLocationInput`)
     ///
-    /// - Returns: `UpdateAccessGrantsLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessGrantsLocationOutput`)
     public func updateAccessGrantsLocation(input: UpdateAccessGrantsLocationInput) async throws -> UpdateAccessGrantsLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6770,6 +6731,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessGrantsLocationOutput>(UpdateAccessGrantsLocationOutput.httpOutput(from:), UpdateAccessGrantsLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessGrantsLocationInput, UpdateAccessGrantsLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessGrantsLocationOutput>())
@@ -6809,12 +6771,9 @@ extension S3ControlClient {
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobPriorityInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter UpdateJobPriorityInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateJobPriorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobPriorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6850,6 +6809,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateJobPriorityInput, UpdateJobPriorityOutput>(UpdateJobPriorityInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobPriorityOutput>(UpdateJobPriorityOutput.httpOutput(from:), UpdateJobPriorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobPriorityInput, UpdateJobPriorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobPriorityOutput>())
@@ -6889,12 +6849,9 @@ extension S3ControlClient {
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
     ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobStatusInput`)
     ///
-    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
-    ///
-    /// - Parameter UpdateJobStatusInput : [no documentation found]
-    ///
-    /// - Returns: `UpdateJobStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6931,6 +6888,7 @@ extension S3ControlClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateJobStatusInput, UpdateJobStatusOutput>(UpdateJobStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobStatusOutput>(UpdateJobStatusOutput.httpOutput(from:), UpdateJobStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobStatusInput, UpdateJobStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobStatusOutput>())
@@ -6960,11 +6918,11 @@ extension S3ControlClient {
 
     /// Performs the `UpdateStorageLensGroup` operation on the `S3Control` service.
     ///
-    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
     ///
-    /// - Parameter UpdateStorageLensGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStorageLensGroupInput`)
     ///
-    /// - Returns: `UpdateStorageLensGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStorageLensGroupOutput`)
     public func updateStorageLensGroup(input: UpdateStorageLensGroupInput) async throws -> UpdateStorageLensGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -6994,6 +6952,7 @@ extension S3ControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStorageLensGroupOutput>(UpdateStorageLensGroupOutput.httpOutput(from:), UpdateStorageLensGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStorageLensGroupInput, UpdateStorageLensGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStorageLensGroupOutput>())

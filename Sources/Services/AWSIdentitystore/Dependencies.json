@@ -1,4 +1,6 @@
-[
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/identitystore.json",
+  "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
@@ -12,5 +14,6 @@
     "SmithyReadWrite",
     "SmithyRetries",
     "SmithyRetriesAPI",
-    "SmithyTestUtil"
-]
+    "SmithyTimestamps"
+  ]
+}

@@ -6,10 +6,10 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
-import class Foundation.ProcessInfo
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.Date
+import class Foundation.ProcessInfo
 import struct Smithy.Attributes
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 // swiftlint:disable type_name
 /// A credential identity resolver that resolves credentials from the following shared config file properties:

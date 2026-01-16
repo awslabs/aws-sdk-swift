@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BackupGatewayClient: ClientRuntime.Client {
+public class BackupGatewayClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BackupGatewayClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupGatewayClient.BackupGatewayClientConfiguration
     let serviceName = "Backup Gateway"
@@ -372,9 +372,9 @@ extension BackupGatewayClient {
     ///
     /// Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
     ///
-    /// - Parameter AssociateGatewayToServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateGatewayToServerInput`)
     ///
-    /// - Returns: `AssociateGatewayToServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateGatewayToServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +409,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateGatewayToServerOutput>(AssociateGatewayToServerOutput.httpOutput(from:), AssociateGatewayToServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateGatewayToServerInput, AssociateGatewayToServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateGatewayToServerOutput>())
@@ -443,9 +444,9 @@ extension BackupGatewayClient {
     ///
     /// Creates a backup gateway. After you create a gateway, you can associate it with a server using the AssociateGatewayToServer operation.
     ///
-    /// - Parameter CreateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayInput`)
     ///
-    /// - Returns: `CreateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,6 +480,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGatewayOutput>(CreateGatewayOutput.httpOutput(from:), CreateGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayInput, CreateGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayOutput>())
@@ -513,9 +515,9 @@ extension BackupGatewayClient {
     ///
     /// Deletes a backup gateway.
     ///
-    /// - Parameter DeleteGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayInput`)
     ///
-    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,6 +552,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayOutput>(DeleteGatewayOutput.httpOutput(from:), DeleteGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayOutput>())
@@ -584,9 +587,9 @@ extension BackupGatewayClient {
     ///
     /// Deletes a hypervisor.
     ///
-    /// - Parameter DeleteHypervisorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHypervisorInput`)
     ///
-    /// - Returns: `DeleteHypervisorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHypervisorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +626,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHypervisorOutput>(DeleteHypervisorOutput.httpOutput(from:), DeleteHypervisorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHypervisorInput, DeleteHypervisorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHypervisorOutput>())
@@ -657,9 +661,9 @@ extension BackupGatewayClient {
     ///
     /// Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
     ///
-    /// - Parameter DisassociateGatewayFromServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateGatewayFromServerInput`)
     ///
-    /// - Returns: `DisassociateGatewayFromServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateGatewayFromServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,6 +699,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateGatewayFromServerOutput>(DisassociateGatewayFromServerOutput.httpOutput(from:), DisassociateGatewayFromServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateGatewayFromServerInput, DisassociateGatewayFromServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateGatewayFromServerOutput>())
@@ -729,9 +734,9 @@ extension BackupGatewayClient {
     ///
     /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
     ///
-    /// - Parameter GetBandwidthRateLimitScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBandwidthRateLimitScheduleInput`)
     ///
-    /// - Returns: `GetBandwidthRateLimitScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBandwidthRateLimitScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,6 +771,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBandwidthRateLimitScheduleOutput>(GetBandwidthRateLimitScheduleOutput.httpOutput(from:), GetBandwidthRateLimitScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBandwidthRateLimitScheduleInput, GetBandwidthRateLimitScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBandwidthRateLimitScheduleOutput>())
@@ -800,9 +806,9 @@ extension BackupGatewayClient {
     ///
     /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
     ///
-    /// - Parameter GetGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGatewayInput`)
     ///
-    /// - Returns: `GetGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,6 +843,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGatewayInput, GetGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGatewayOutput>(GetGatewayOutput.httpOutput(from:), GetGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGatewayInput, GetGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGatewayOutput>())
@@ -871,9 +878,9 @@ extension BackupGatewayClient {
     ///
     /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
     ///
-    /// - Parameter GetHypervisorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHypervisorInput`)
     ///
-    /// - Returns: `GetHypervisorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHypervisorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,6 +915,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHypervisorInput, GetHypervisorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHypervisorOutput>(GetHypervisorOutput.httpOutput(from:), GetHypervisorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHypervisorInput, GetHypervisorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHypervisorOutput>())
@@ -942,9 +950,9 @@ extension BackupGatewayClient {
     ///
     /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
     ///
-    /// - Parameter GetHypervisorPropertyMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHypervisorPropertyMappingsInput`)
     ///
-    /// - Returns: `GetHypervisorPropertyMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHypervisorPropertyMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -979,6 +987,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHypervisorPropertyMappingsOutput>(GetHypervisorPropertyMappingsOutput.httpOutput(from:), GetHypervisorPropertyMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHypervisorPropertyMappingsInput, GetHypervisorPropertyMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHypervisorPropertyMappingsOutput>())
@@ -1013,9 +1022,9 @@ extension BackupGatewayClient {
     ///
     /// By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
     ///
-    /// - Parameter GetVirtualMachineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVirtualMachineInput`)
     ///
-    /// - Returns: `GetVirtualMachineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVirtualMachineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1050,6 +1059,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVirtualMachineOutput>(GetVirtualMachineOutput.httpOutput(from:), GetVirtualMachineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVirtualMachineInput, GetVirtualMachineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVirtualMachineOutput>())
@@ -1084,9 +1094,9 @@ extension BackupGatewayClient {
     ///
     /// Connect to a hypervisor by importing its configuration.
     ///
-    /// - Parameter ImportHypervisorConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportHypervisorConfigurationInput`)
     ///
-    /// - Returns: `ImportHypervisorConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportHypervisorConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1122,6 +1132,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportHypervisorConfigurationOutput>(ImportHypervisorConfigurationOutput.httpOutput(from:), ImportHypervisorConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportHypervisorConfigurationInput, ImportHypervisorConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportHypervisorConfigurationOutput>())
@@ -1156,9 +1167,9 @@ extension BackupGatewayClient {
     ///
     /// Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewaysInput`)
     ///
-    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1192,6 +1203,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGatewaysInput, ListGatewaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewaysOutput>(ListGatewaysOutput.httpOutput(from:), ListGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewaysInput, ListGatewaysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewaysOutput>())
@@ -1226,9 +1238,9 @@ extension BackupGatewayClient {
     ///
     /// Lists your hypervisors.
     ///
-    /// - Parameter ListHypervisorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHypervisorsInput`)
     ///
-    /// - Returns: `ListHypervisorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHypervisorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1262,6 +1274,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHypervisorsInput, ListHypervisorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHypervisorsOutput>(ListHypervisorsOutput.httpOutput(from:), ListHypervisorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHypervisorsInput, ListHypervisorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHypervisorsOutput>())
@@ -1296,9 +1309,9 @@ extension BackupGatewayClient {
     ///
     /// Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1333,6 +1346,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1367,9 +1381,9 @@ extension BackupGatewayClient {
     ///
     /// Lists your virtual machines.
     ///
-    /// - Parameter ListVirtualMachinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVirtualMachinesInput`)
     ///
-    /// - Returns: `ListVirtualMachinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVirtualMachinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1403,6 +1417,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualMachinesOutput>(ListVirtualMachinesOutput.httpOutput(from:), ListVirtualMachinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualMachinesInput, ListVirtualMachinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualMachinesOutput>())
@@ -1437,9 +1452,9 @@ extension BackupGatewayClient {
     ///
     /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
     ///
-    /// - Parameter PutBandwidthRateLimitScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBandwidthRateLimitScheduleInput`)
     ///
-    /// - Returns: `PutBandwidthRateLimitScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBandwidthRateLimitScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1474,6 +1489,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBandwidthRateLimitScheduleOutput>(PutBandwidthRateLimitScheduleOutput.httpOutput(from:), PutBandwidthRateLimitScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBandwidthRateLimitScheduleInput, PutBandwidthRateLimitScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBandwidthRateLimitScheduleOutput>())
@@ -1508,9 +1524,9 @@ extension BackupGatewayClient {
     ///
     /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
     ///
-    /// - Parameter PutHypervisorPropertyMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutHypervisorPropertyMappingsInput`)
     ///
-    /// - Returns: `PutHypervisorPropertyMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutHypervisorPropertyMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1547,6 +1563,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutHypervisorPropertyMappingsOutput>(PutHypervisorPropertyMappingsOutput.httpOutput(from:), PutHypervisorPropertyMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutHypervisorPropertyMappingsInput, PutHypervisorPropertyMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutHypervisorPropertyMappingsOutput>())
@@ -1581,9 +1598,9 @@ extension BackupGatewayClient {
     ///
     /// Set the maintenance start time for a gateway.
     ///
-    /// - Parameter PutMaintenanceStartTimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMaintenanceStartTimeInput`)
     ///
-    /// - Returns: `PutMaintenanceStartTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMaintenanceStartTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1619,6 +1636,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMaintenanceStartTimeOutput>(PutMaintenanceStartTimeOutput.httpOutput(from:), PutMaintenanceStartTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMaintenanceStartTimeInput, PutMaintenanceStartTimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMaintenanceStartTimeOutput>())
@@ -1653,9 +1671,9 @@ extension BackupGatewayClient {
     ///
     /// This action sends a request to sync metadata across the specified virtual machines.
     ///
-    /// - Parameter StartVirtualMachinesMetadataSyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVirtualMachinesMetadataSyncInput`)
     ///
-    /// - Returns: `StartVirtualMachinesMetadataSyncOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVirtualMachinesMetadataSyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,6 +1709,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartVirtualMachinesMetadataSyncOutput>(StartVirtualMachinesMetadataSyncOutput.httpOutput(from:), StartVirtualMachinesMetadataSyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVirtualMachinesMetadataSyncInput, StartVirtualMachinesMetadataSyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartVirtualMachinesMetadataSyncOutput>())
@@ -1725,9 +1744,9 @@ extension BackupGatewayClient {
     ///
     /// Tag the resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1762,6 +1781,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1796,9 +1816,9 @@ extension BackupGatewayClient {
     ///
     /// Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
     ///
-    /// - Parameter TestHypervisorConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestHypervisorConfigurationInput`)
     ///
-    /// - Returns: `TestHypervisorConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestHypervisorConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1834,6 +1854,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestHypervisorConfigurationOutput>(TestHypervisorConfigurationOutput.httpOutput(from:), TestHypervisorConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestHypervisorConfigurationInput, TestHypervisorConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestHypervisorConfigurationOutput>())
@@ -1868,9 +1889,9 @@ extension BackupGatewayClient {
     ///
     /// Removes tags from the resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1905,6 +1926,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1939,9 +1961,9 @@ extension BackupGatewayClient {
     ///
     /// Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
     ///
-    /// - Parameter UpdateGatewayInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayInformationInput`)
     ///
-    /// - Returns: `UpdateGatewayInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1977,6 +1999,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayInformationOutput>(UpdateGatewayInformationOutput.httpOutput(from:), UpdateGatewayInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayInformationInput, UpdateGatewayInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayInformationOutput>())
@@ -2011,9 +2034,9 @@ extension BackupGatewayClient {
     ///
     /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete.
     ///
-    /// - Parameter UpdateGatewaySoftwareNowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewaySoftwareNowInput`)
     ///
-    /// - Returns: `UpdateGatewaySoftwareNowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewaySoftwareNowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2048,6 +2071,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewaySoftwareNowOutput>(UpdateGatewaySoftwareNowOutput.httpOutput(from:), UpdateGatewaySoftwareNowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewaySoftwareNowInput, UpdateGatewaySoftwareNowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewaySoftwareNowOutput>())
@@ -2082,9 +2106,9 @@ extension BackupGatewayClient {
     ///
     /// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
     ///
-    /// - Parameter UpdateHypervisorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHypervisorInput`)
     ///
-    /// - Returns: `UpdateHypervisorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHypervisorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2121,6 +2145,7 @@ extension BackupGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHypervisorOutput>(UpdateHypervisorOutput.httpOutput(from:), UpdateHypervisorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHypervisorInput, UpdateHypervisorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHypervisorOutput>())

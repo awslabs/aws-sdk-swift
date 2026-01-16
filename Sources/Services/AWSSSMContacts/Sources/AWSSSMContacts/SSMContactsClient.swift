@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SSMContactsClient: ClientRuntime.Client {
+public class SSMContactsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SSMContactsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMContactsClient.SSMContactsClientConfiguration
     let serviceName = "SSM Contacts"
@@ -374,9 +374,9 @@ extension SSMContactsClient {
     ///
     /// Used to acknowledge an engagement to a contact channel during an incident.
     ///
-    /// - Parameter AcceptPageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptPageInput`)
     ///
-    /// - Returns: `AcceptPageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptPageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptPageInput, AcceptPageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptPageOutput>(AcceptPageOutput.httpOutput(from:), AcceptPageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptPageInput, AcceptPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptPageOutput>())
@@ -446,9 +447,9 @@ extension SSMContactsClient {
     ///
     /// Activates a contact's contact channel. Incident Manager can't engage a contact until the contact channel has been activated.
     ///
-    /// - Parameter ActivateContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateContactChannelInput`)
     ///
-    /// - Returns: `ActivateContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +485,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivateContactChannelInput, ActivateContactChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateContactChannelOutput>(ActivateContactChannelOutput.httpOutput(from:), ActivateContactChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateContactChannelInput, ActivateContactChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateContactChannelOutput>())
@@ -518,9 +520,9 @@ extension SSMContactsClient {
     ///
     /// Contacts are either the contacts that Incident Manager engages during an incident or the escalation plans that Incident Manager uses to engage contacts in phases during an incident.
     ///
-    /// - Parameter CreateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactInput`)
     ///
-    /// - Returns: `CreateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,6 +561,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactInput, CreateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactOutput>(CreateContactOutput.httpOutput(from:), CreateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactInput, CreateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactOutput>())
@@ -593,9 +596,9 @@ extension SSMContactsClient {
     ///
     /// A contact channel is the method that Incident Manager uses to engage your contact.
     ///
-    /// - Parameter CreateContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactChannelInput`)
     ///
-    /// - Returns: `CreateContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +636,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactChannelInput, CreateContactChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactChannelOutput>(CreateContactChannelOutput.httpOutput(from:), CreateContactChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactChannelInput, CreateContactChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactChannelOutput>())
@@ -667,9 +671,9 @@ extension SSMContactsClient {
     ///
     /// Creates a rotation in an on-call schedule.
     ///
-    /// - Parameter CreateRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRotationInput`)
     ///
-    /// - Returns: `CreateRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,6 +710,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRotationInput, CreateRotationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRotationOutput>(CreateRotationOutput.httpOutput(from:), CreateRotationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRotationInput, CreateRotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRotationOutput>())
@@ -740,9 +745,9 @@ extension SSMContactsClient {
     ///
     /// Creates an override for a rotation in an on-call schedule.
     ///
-    /// - Parameter CreateRotationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRotationOverrideInput`)
     ///
-    /// - Returns: `CreateRotationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRotationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -779,6 +784,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRotationOverrideInput, CreateRotationOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRotationOverrideOutput>(CreateRotationOverrideOutput.httpOutput(from:), CreateRotationOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRotationOverrideInput, CreateRotationOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRotationOverrideOutput>())
@@ -813,9 +819,9 @@ extension SSMContactsClient {
     ///
     /// To no longer receive Incident Manager engagements to a contact channel, you can deactivate the channel.
     ///
-    /// - Parameter DeactivateContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateContactChannelInput`)
     ///
-    /// - Returns: `DeactivateContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,6 +857,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivateContactChannelInput, DeactivateContactChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateContactChannelOutput>(DeactivateContactChannelOutput.httpOutput(from:), DeactivateContactChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateContactChannelInput, DeactivateContactChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateContactChannelOutput>())
@@ -885,9 +892,9 @@ extension SSMContactsClient {
     ///
     /// To remove a contact from Incident Manager, you can delete the contact. However, deleting a contact does not remove it from escalation plans and related response plans. Deleting an escalation plan also does not remove it from all related response plans. To modify an escalation plan, we recommend using the [UpdateContact] action to specify a different existing contact.
     ///
-    /// - Parameter DeleteContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactInput`)
     ///
-    /// - Returns: `DeleteContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -924,6 +931,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContactInput, DeleteContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactOutput>(DeleteContactOutput.httpOutput(from:), DeleteContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactInput, DeleteContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactOutput>())
@@ -958,9 +966,9 @@ extension SSMContactsClient {
     ///
     /// To stop receiving engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel does not remove it from the contact's engagement plan, but the stage that includes the channel will be ignored. If you delete the only contact channel for a contact, you'll no longer be able to engage that contact during an incident.
     ///
-    /// - Parameter DeleteContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactChannelInput`)
     ///
-    /// - Returns: `DeleteContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,6 +1004,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContactChannelInput, DeleteContactChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactChannelOutput>(DeleteContactChannelOutput.httpOutput(from:), DeleteContactChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactChannelInput, DeleteContactChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactChannelOutput>())
@@ -1030,9 +1039,9 @@ extension SSMContactsClient {
     ///
     /// Deletes a rotation from the system. If a rotation belongs to more than one on-call schedule, this operation deletes it from all of them.
     ///
-    /// - Parameter DeleteRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRotationInput`)
     ///
-    /// - Returns: `DeleteRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,6 +1078,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRotationInput, DeleteRotationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRotationOutput>(DeleteRotationOutput.httpOutput(from:), DeleteRotationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRotationInput, DeleteRotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRotationOutput>())
@@ -1103,9 +1113,9 @@ extension SSMContactsClient {
     ///
     /// Deletes an existing override for an on-call rotation.
     ///
-    /// - Parameter DeleteRotationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRotationOverrideInput`)
     ///
-    /// - Returns: `DeleteRotationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRotationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1141,6 +1151,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRotationOverrideInput, DeleteRotationOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRotationOverrideOutput>(DeleteRotationOverrideOutput.httpOutput(from:), DeleteRotationOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRotationOverrideInput, DeleteRotationOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRotationOverrideOutput>())
@@ -1175,9 +1186,9 @@ extension SSMContactsClient {
     ///
     /// Incident Manager uses engagements to engage contacts and escalation plans during an incident. Use this command to describe the engagement that occurred during an incident.
     ///
-    /// - Parameter DescribeEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEngagementInput`)
     ///
-    /// - Returns: `DescribeEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,6 +1225,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEngagementInput, DescribeEngagementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEngagementOutput>(DescribeEngagementOutput.httpOutput(from:), DescribeEngagementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEngagementInput, DescribeEngagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEngagementOutput>())
@@ -1248,9 +1260,9 @@ extension SSMContactsClient {
     ///
     /// Lists details of the engagement to a contact channel.
     ///
-    /// - Parameter DescribePageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePageInput`)
     ///
-    /// - Returns: `DescribePageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,6 +1299,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePageInput, DescribePageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePageOutput>(DescribePageOutput.httpOutput(from:), DescribePageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePageInput, DescribePageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePageOutput>())
@@ -1321,9 +1334,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves information about the specified contact or escalation plan.
     ///
-    /// - Parameter GetContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactInput`)
     ///
-    /// - Returns: `GetContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,6 +1373,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactInput, GetContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactOutput>(GetContactOutput.httpOutput(from:), GetContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactInput, GetContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactOutput>())
@@ -1394,9 +1408,9 @@ extension SSMContactsClient {
     ///
     /// List details about a specific contact channel.
     ///
-    /// - Parameter GetContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactChannelInput`)
     ///
-    /// - Returns: `GetContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,6 +1447,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactChannelInput, GetContactChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactChannelOutput>(GetContactChannelOutput.httpOutput(from:), GetContactChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactChannelInput, GetContactChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactChannelOutput>())
@@ -1467,9 +1482,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves the resource policies attached to the specified contact or escalation plan.
     ///
-    /// - Parameter GetContactPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactPolicyInput`)
     ///
-    /// - Returns: `GetContactPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1505,6 +1520,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactPolicyInput, GetContactPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactPolicyOutput>(GetContactPolicyOutput.httpOutput(from:), GetContactPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactPolicyInput, GetContactPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactPolicyOutput>())
@@ -1539,9 +1555,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves information about an on-call rotation.
     ///
-    /// - Parameter GetRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRotationInput`)
     ///
-    /// - Returns: `GetRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,6 +1593,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRotationInput, GetRotationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRotationOutput>(GetRotationOutput.httpOutput(from:), GetRotationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRotationInput, GetRotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRotationOutput>())
@@ -1611,9 +1628,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves information about an override to an on-call rotation.
     ///
-    /// - Parameter GetRotationOverrideInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRotationOverrideInput`)
     ///
-    /// - Returns: `GetRotationOverrideOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRotationOverrideOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1649,6 +1666,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRotationOverrideInput, GetRotationOverrideOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRotationOverrideOutput>(GetRotationOverrideOutput.httpOutput(from:), GetRotationOverrideOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRotationOverrideInput, GetRotationOverrideOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRotationOverrideOutput>())
@@ -1683,9 +1701,9 @@ extension SSMContactsClient {
     ///
     /// Lists all contact channels for the specified contact.
     ///
-    /// - Parameter ListContactChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactChannelsInput`)
     ///
-    /// - Returns: `ListContactChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1722,6 +1740,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContactChannelsInput, ListContactChannelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactChannelsOutput>(ListContactChannelsOutput.httpOutput(from:), ListContactChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactChannelsInput, ListContactChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContactChannelsOutput>())
@@ -1756,9 +1775,9 @@ extension SSMContactsClient {
     ///
     /// Lists all contacts and escalation plans in Incident Manager.
     ///
-    /// - Parameter ListContactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContactsInput`)
     ///
-    /// - Returns: `ListContactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1793,6 +1812,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContactsInput, ListContactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContactsOutput>(ListContactsOutput.httpOutput(from:), ListContactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContactsInput, ListContactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContactsOutput>())
@@ -1827,9 +1847,9 @@ extension SSMContactsClient {
     ///
     /// Lists all engagements that have happened in an incident.
     ///
-    /// - Parameter ListEngagementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngagementsInput`)
     ///
-    /// - Returns: `ListEngagementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngagementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1864,6 +1884,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngagementsInput, ListEngagementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEngagementsOutput>(ListEngagementsOutput.httpOutput(from:), ListEngagementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngagementsInput, ListEngagementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEngagementsOutput>())
@@ -1898,9 +1919,9 @@ extension SSMContactsClient {
     ///
     /// Lists all of the engagements to contact channels that have been acknowledged.
     ///
-    /// - Parameter ListPageReceiptsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPageReceiptsInput`)
     ///
-    /// - Returns: `ListPageReceiptsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPageReceiptsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1936,6 +1957,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPageReceiptsInput, ListPageReceiptsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPageReceiptsOutput>(ListPageReceiptsOutput.httpOutput(from:), ListPageReceiptsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPageReceiptsInput, ListPageReceiptsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPageReceiptsOutput>())
@@ -1970,9 +1992,9 @@ extension SSMContactsClient {
     ///
     /// Returns the resolution path of an engagement. For example, the escalation plan engaged in an incident might target an on-call schedule that includes several contacts in a rotation, but just one contact on-call when the incident starts. The resolution path indicates the hierarchy of escalation plan > on-call schedule > contact.
     ///
-    /// - Parameter ListPageResolutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPageResolutionsInput`)
     ///
-    /// - Returns: `ListPageResolutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPageResolutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2008,6 +2030,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPageResolutionsInput, ListPageResolutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPageResolutionsOutput>(ListPageResolutionsOutput.httpOutput(from:), ListPageResolutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPageResolutionsInput, ListPageResolutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPageResolutionsOutput>())
@@ -2042,9 +2065,9 @@ extension SSMContactsClient {
     ///
     /// Lists the engagements to a contact's contact channels.
     ///
-    /// - Parameter ListPagesByContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPagesByContactInput`)
     ///
-    /// - Returns: `ListPagesByContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPagesByContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2080,6 +2103,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPagesByContactInput, ListPagesByContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPagesByContactOutput>(ListPagesByContactOutput.httpOutput(from:), ListPagesByContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPagesByContactInput, ListPagesByContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPagesByContactOutput>())
@@ -2114,9 +2138,9 @@ extension SSMContactsClient {
     ///
     /// Lists the engagements to contact channels that occurred by engaging a contact.
     ///
-    /// - Parameter ListPagesByEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPagesByEngagementInput`)
     ///
-    /// - Returns: `ListPagesByEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPagesByEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2152,6 +2176,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPagesByEngagementInput, ListPagesByEngagementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPagesByEngagementOutput>(ListPagesByEngagementOutput.httpOutput(from:), ListPagesByEngagementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPagesByEngagementInput, ListPagesByEngagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPagesByEngagementOutput>())
@@ -2186,9 +2211,9 @@ extension SSMContactsClient {
     ///
     /// Returns a list of shifts based on rotation configuration parameters. The Incident Manager primarily uses this operation to populate the Preview calendar. It is not typically run by end users.
     ///
-    /// - Parameter ListPreviewRotationShiftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPreviewRotationShiftsInput`)
     ///
-    /// - Returns: `ListPreviewRotationShiftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPreviewRotationShiftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2223,6 +2248,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPreviewRotationShiftsOutput>(ListPreviewRotationShiftsOutput.httpOutput(from:), ListPreviewRotationShiftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPreviewRotationShiftsInput, ListPreviewRotationShiftsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPreviewRotationShiftsOutput>())
@@ -2257,9 +2283,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves a list of overrides currently specified for an on-call rotation.
     ///
-    /// - Parameter ListRotationOverridesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRotationOverridesInput`)
     ///
-    /// - Returns: `ListRotationOverridesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRotationOverridesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2295,6 +2321,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRotationOverridesInput, ListRotationOverridesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRotationOverridesOutput>(ListRotationOverridesOutput.httpOutput(from:), ListRotationOverridesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRotationOverridesInput, ListRotationOverridesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRotationOverridesOutput>())
@@ -2329,9 +2356,9 @@ extension SSMContactsClient {
     ///
     /// Returns a list of shifts generated by an existing rotation in the system.
     ///
-    /// - Parameter ListRotationShiftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRotationShiftsInput`)
     ///
-    /// - Returns: `ListRotationShiftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRotationShiftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2368,6 +2395,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRotationShiftsInput, ListRotationShiftsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRotationShiftsOutput>(ListRotationShiftsOutput.httpOutput(from:), ListRotationShiftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRotationShiftsInput, ListRotationShiftsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRotationShiftsOutput>())
@@ -2402,9 +2430,9 @@ extension SSMContactsClient {
     ///
     /// Retrieves a list of on-call rotations.
     ///
-    /// - Parameter ListRotationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRotationsInput`)
     ///
-    /// - Returns: `ListRotationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRotationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2440,6 +2468,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRotationsInput, ListRotationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRotationsOutput>(ListRotationsOutput.httpOutput(from:), ListRotationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRotationsInput, ListRotationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRotationsOutput>())
@@ -2474,9 +2503,9 @@ extension SSMContactsClient {
     ///
     /// Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2512,6 +2541,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2546,9 +2576,9 @@ extension SSMContactsClient {
     ///
     /// Adds a resource policy to the specified contact or escalation plan. The resource policy is used to share the contact or escalation plan using Resource Access Manager (RAM). For more information about cross-account sharing, see [Setting up cross-account functionality](https://docs.aws.amazon.com/incident-manager/latest/userguide/xa.html).
     ///
-    /// - Parameter PutContactPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutContactPolicyInput`)
     ///
-    /// - Returns: `PutContactPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutContactPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2585,6 +2615,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutContactPolicyInput, PutContactPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutContactPolicyOutput>(PutContactPolicyOutput.httpOutput(from:), PutContactPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutContactPolicyInput, PutContactPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutContactPolicyOutput>())
@@ -2619,9 +2650,9 @@ extension SSMContactsClient {
     ///
     /// Sends an activation code to a contact channel. The contact can use this code to activate the contact channel in the console or with the ActivateChannel operation. Incident Manager can't engage a contact channel until it has been activated.
     ///
-    /// - Parameter SendActivationCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendActivationCodeInput`)
     ///
-    /// - Returns: `SendActivationCodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendActivationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2659,6 +2690,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendActivationCodeInput, SendActivationCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendActivationCodeOutput>(SendActivationCodeOutput.httpOutput(from:), SendActivationCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendActivationCodeInput, SendActivationCodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendActivationCodeOutput>())
@@ -2693,9 +2725,9 @@ extension SSMContactsClient {
     ///
     /// Starts an engagement to a contact or escalation plan. The engagement engages each contact specified in the incident.
     ///
-    /// - Parameter StartEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEngagementInput`)
     ///
-    /// - Returns: `StartEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2733,6 +2765,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEngagementInput, StartEngagementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEngagementOutput>(StartEngagementOutput.httpOutput(from:), StartEngagementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEngagementInput, StartEngagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEngagementOutput>())
@@ -2767,9 +2800,9 @@ extension SSMContactsClient {
     ///
     /// Stops an engagement before it finishes the final stage of the escalation plan or engagement plan. Further contacts aren't engaged.
     ///
-    /// - Parameter StopEngagementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEngagementInput`)
     ///
-    /// - Returns: `StopEngagementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEngagementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2805,6 +2838,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEngagementInput, StopEngagementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEngagementOutput>(StopEngagementOutput.httpOutput(from:), StopEngagementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEngagementInput, StopEngagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEngagementOutput>())
@@ -2839,9 +2873,9 @@ extension SSMContactsClient {
     ///
     /// Tags a contact or escalation plan. You can tag only contacts and escalation plans in the first region of your replication set.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2878,6 +2912,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2912,9 +2947,9 @@ extension SSMContactsClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2950,6 +2985,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2984,9 +3020,9 @@ extension SSMContactsClient {
     ///
     /// Updates the contact or escalation plan specified.
     ///
-    /// - Parameter UpdateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactInput`)
     ///
-    /// - Returns: `UpdateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3024,6 +3060,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactInput, UpdateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactOutput>(UpdateContactOutput.httpOutput(from:), UpdateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactInput, UpdateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactOutput>())
@@ -3058,9 +3095,9 @@ extension SSMContactsClient {
     ///
     /// Updates a contact's contact channel.
     ///
-    /// - Parameter UpdateContactChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContactChannelInput`)
     ///
-    /// - Returns: `UpdateContactChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContactChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3098,6 +3135,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContactChannelInput, UpdateContactChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContactChannelOutput>(UpdateContactChannelOutput.httpOutput(from:), UpdateContactChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContactChannelInput, UpdateContactChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContactChannelOutput>())
@@ -3132,9 +3170,9 @@ extension SSMContactsClient {
     ///
     /// Updates the information specified for an on-call rotation.
     ///
-    /// - Parameter UpdateRotationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRotationInput`)
     ///
-    /// - Returns: `UpdateRotationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRotationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3171,6 +3209,7 @@ extension SSMContactsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRotationInput, UpdateRotationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRotationOutput>(UpdateRotationOutput.httpOutput(from:), UpdateRotationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRotationInput, UpdateRotationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRotationOutput>())

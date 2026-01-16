@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GreengrassClient: ClientRuntime.Client {
+public class GreengrassClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GreengrassClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: GreengrassClient.GreengrassClientConfiguration
     let serviceName = "Greengrass"
@@ -373,9 +373,9 @@ extension GreengrassClient {
     ///
     /// Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
     ///
-    /// - Parameter AssociateRoleToGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateRoleToGroupInput`)
     ///
-    /// - Returns: `AssociateRoleToGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateRoleToGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +410,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateRoleToGroupInput, AssociateRoleToGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateRoleToGroupOutput>(AssociateRoleToGroupOutput.httpOutput(from:), AssociateRoleToGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateRoleToGroupInput, AssociateRoleToGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateRoleToGroupOutput>())
@@ -441,9 +442,9 @@ extension GreengrassClient {
     ///
     /// Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
     ///
-    /// - Parameter AssociateServiceRoleToAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateServiceRoleToAccountInput`)
     ///
-    /// - Returns: `AssociateServiceRoleToAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateServiceRoleToAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,6 +479,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateServiceRoleToAccountOutput>(AssociateServiceRoleToAccountOutput.httpOutput(from:), AssociateServiceRoleToAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateServiceRoleToAccountInput, AssociateServiceRoleToAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateServiceRoleToAccountOutput>())
@@ -509,9 +511,9 @@ extension GreengrassClient {
     ///
     /// Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
     ///
-    /// - Parameter CreateConnectorDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorDefinitionInput`)
     ///
-    /// - Returns: `CreateConnectorDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,6 +548,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorDefinitionOutput>(CreateConnectorDefinitionOutput.httpOutput(from:), CreateConnectorDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorDefinitionInput, CreateConnectorDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorDefinitionOutput>())
@@ -577,9 +580,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a connector definition which has already been defined.
     ///
-    /// - Parameter CreateConnectorDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateConnectorDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -614,6 +617,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorDefinitionVersionOutput>(CreateConnectorDefinitionVersionOutput.httpOutput(from:), CreateConnectorDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorDefinitionVersionInput, CreateConnectorDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorDefinitionVersionOutput>())
@@ -645,9 +649,9 @@ extension GreengrassClient {
     ///
     /// Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
     ///
-    /// - Parameter CreateCoreDefinitionInput : Information needed to create a core definition.
+    /// - Parameter input: Information needed to create a core definition. (Type: `CreateCoreDefinitionInput`)
     ///
-    /// - Returns: `CreateCoreDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCoreDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,6 +686,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCoreDefinitionOutput>(CreateCoreDefinitionOutput.httpOutput(from:), CreateCoreDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCoreDefinitionInput, CreateCoreDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCoreDefinitionOutput>())
@@ -713,9 +718,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
     ///
-    /// - Parameter CreateCoreDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCoreDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateCoreDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCoreDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -750,6 +755,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCoreDefinitionVersionOutput>(CreateCoreDefinitionVersionOutput.httpOutput(from:), CreateCoreDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCoreDefinitionVersionInput, CreateCoreDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCoreDefinitionVersionOutput>())
@@ -781,9 +787,9 @@ extension GreengrassClient {
     ///
     /// Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
     ///
-    /// - Parameter CreateDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -818,6 +824,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeploymentOutput>(CreateDeploymentOutput.httpOutput(from:), CreateDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentOutput>())
@@ -849,9 +856,9 @@ extension GreengrassClient {
     ///
     /// Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
     ///
-    /// - Parameter CreateDeviceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeviceDefinitionInput`)
     ///
-    /// - Returns: `CreateDeviceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeviceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,6 +893,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeviceDefinitionOutput>(CreateDeviceDefinitionOutput.httpOutput(from:), CreateDeviceDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeviceDefinitionInput, CreateDeviceDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeviceDefinitionOutput>())
@@ -917,9 +925,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a device definition that has already been defined.
     ///
-    /// - Parameter CreateDeviceDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeviceDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateDeviceDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeviceDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -954,6 +962,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeviceDefinitionVersionOutput>(CreateDeviceDefinitionVersionOutput.httpOutput(from:), CreateDeviceDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeviceDefinitionVersionInput, CreateDeviceDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeviceDefinitionVersionOutput>())
@@ -985,9 +994,9 @@ extension GreengrassClient {
     ///
     /// Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
     ///
-    /// - Parameter CreateFunctionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFunctionDefinitionInput`)
     ///
-    /// - Returns: `CreateFunctionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1022,6 +1031,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFunctionDefinitionOutput>(CreateFunctionDefinitionOutput.httpOutput(from:), CreateFunctionDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFunctionDefinitionInput, CreateFunctionDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFunctionDefinitionOutput>())
@@ -1053,9 +1063,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a Lambda function definition that has already been defined.
     ///
-    /// - Parameter CreateFunctionDefinitionVersionInput : Information needed to create a function definition version.
+    /// - Parameter input: Information needed to create a function definition version. (Type: `CreateFunctionDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateFunctionDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1090,6 +1100,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFunctionDefinitionVersionOutput>(CreateFunctionDefinitionVersionOutput.httpOutput(from:), CreateFunctionDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFunctionDefinitionVersionInput, CreateFunctionDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFunctionDefinitionVersionOutput>())
@@ -1121,9 +1132,9 @@ extension GreengrassClient {
     ///
     /// Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1158,6 +1169,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -1189,9 +1201,9 @@ extension GreengrassClient {
     ///
     /// Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
     ///
-    /// - Parameter CreateGroupCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupCertificateAuthorityInput`)
     ///
-    /// - Returns: `CreateGroupCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,6 +1236,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput>(CreateGroupCertificateAuthorityInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupCertificateAuthorityOutput>(CreateGroupCertificateAuthorityOutput.httpOutput(from:), CreateGroupCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupCertificateAuthorityInput, CreateGroupCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupCertificateAuthorityOutput>())
@@ -1255,9 +1268,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a group which has already been defined.
     ///
-    /// - Parameter CreateGroupVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupVersionInput`)
     ///
-    /// - Returns: `CreateGroupVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1292,6 +1305,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupVersionOutput>(CreateGroupVersionOutput.httpOutput(from:), CreateGroupVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupVersionInput, CreateGroupVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupVersionOutput>())
@@ -1323,9 +1337,9 @@ extension GreengrassClient {
     ///
     /// Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
     ///
-    /// - Parameter CreateLoggerDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLoggerDefinitionInput`)
     ///
-    /// - Returns: `CreateLoggerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLoggerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,6 +1374,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoggerDefinitionOutput>(CreateLoggerDefinitionOutput.httpOutput(from:), CreateLoggerDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoggerDefinitionInput, CreateLoggerDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoggerDefinitionOutput>())
@@ -1391,9 +1406,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a logger definition that has already been defined.
     ///
-    /// - Parameter CreateLoggerDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLoggerDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateLoggerDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLoggerDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1428,6 +1443,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoggerDefinitionVersionOutput>(CreateLoggerDefinitionVersionOutput.httpOutput(from:), CreateLoggerDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoggerDefinitionVersionInput, CreateLoggerDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoggerDefinitionVersionOutput>())
@@ -1459,9 +1475,9 @@ extension GreengrassClient {
     ///
     /// Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
     ///
-    /// - Parameter CreateResourceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceDefinitionInput`)
     ///
-    /// - Returns: `CreateResourceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1496,6 +1512,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceDefinitionOutput>(CreateResourceDefinitionOutput.httpOutput(from:), CreateResourceDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceDefinitionInput, CreateResourceDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceDefinitionOutput>())
@@ -1527,9 +1544,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a resource definition that has already been defined.
     ///
-    /// - Parameter CreateResourceDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateResourceDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1564,6 +1581,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceDefinitionVersionOutput>(CreateResourceDefinitionVersionOutput.httpOutput(from:), CreateResourceDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceDefinitionVersionInput, CreateResourceDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceDefinitionVersionOutput>())
@@ -1595,9 +1613,9 @@ extension GreengrassClient {
     ///
     /// Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
     ///
-    /// - Parameter CreateSoftwareUpdateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSoftwareUpdateJobInput`)
     ///
-    /// - Returns: `CreateSoftwareUpdateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSoftwareUpdateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1633,6 +1651,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSoftwareUpdateJobOutput>(CreateSoftwareUpdateJobOutput.httpOutput(from:), CreateSoftwareUpdateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSoftwareUpdateJobInput, CreateSoftwareUpdateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSoftwareUpdateJobOutput>())
@@ -1664,9 +1683,9 @@ extension GreengrassClient {
     ///
     /// Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
     ///
-    /// - Parameter CreateSubscriptionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriptionDefinitionInput`)
     ///
-    /// - Returns: `CreateSubscriptionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriptionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1701,6 +1720,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubscriptionDefinitionOutput>(CreateSubscriptionDefinitionOutput.httpOutput(from:), CreateSubscriptionDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubscriptionDefinitionInput, CreateSubscriptionDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubscriptionDefinitionOutput>())
@@ -1732,9 +1752,9 @@ extension GreengrassClient {
     ///
     /// Creates a version of a subscription definition which has already been defined.
     ///
-    /// - Parameter CreateSubscriptionDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriptionDefinitionVersionInput`)
     ///
-    /// - Returns: `CreateSubscriptionDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriptionDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1769,6 +1789,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubscriptionDefinitionVersionOutput>(CreateSubscriptionDefinitionVersionOutput.httpOutput(from:), CreateSubscriptionDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubscriptionDefinitionVersionInput, CreateSubscriptionDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubscriptionDefinitionVersionOutput>())
@@ -1800,9 +1821,9 @@ extension GreengrassClient {
     ///
     /// Deletes a connector definition.
     ///
-    /// - Parameter DeleteConnectorDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorDefinitionInput`)
     ///
-    /// - Returns: `DeleteConnectorDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1833,6 +1854,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorDefinitionOutput>(DeleteConnectorDefinitionOutput.httpOutput(from:), DeleteConnectorDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorDefinitionInput, DeleteConnectorDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorDefinitionOutput>())
@@ -1864,9 +1886,9 @@ extension GreengrassClient {
     ///
     /// Deletes a core definition.
     ///
-    /// - Parameter DeleteCoreDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCoreDefinitionInput`)
     ///
-    /// - Returns: `DeleteCoreDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCoreDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1897,6 +1919,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCoreDefinitionOutput>(DeleteCoreDefinitionOutput.httpOutput(from:), DeleteCoreDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCoreDefinitionInput, DeleteCoreDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCoreDefinitionOutput>())
@@ -1928,9 +1951,9 @@ extension GreengrassClient {
     ///
     /// Deletes a device definition.
     ///
-    /// - Parameter DeleteDeviceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceDefinitionInput`)
     ///
-    /// - Returns: `DeleteDeviceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1961,6 +1984,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeviceDefinitionOutput>(DeleteDeviceDefinitionOutput.httpOutput(from:), DeleteDeviceDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeviceDefinitionInput, DeleteDeviceDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeviceDefinitionOutput>())
@@ -1992,9 +2016,9 @@ extension GreengrassClient {
     ///
     /// Deletes a Lambda function definition.
     ///
-    /// - Parameter DeleteFunctionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionDefinitionInput`)
     ///
-    /// - Returns: `DeleteFunctionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2025,6 +2049,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionDefinitionOutput>(DeleteFunctionDefinitionOutput.httpOutput(from:), DeleteFunctionDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionDefinitionInput, DeleteFunctionDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFunctionDefinitionOutput>())
@@ -2056,9 +2081,9 @@ extension GreengrassClient {
     ///
     /// Deletes a group.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2089,6 +2114,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -2120,9 +2146,9 @@ extension GreengrassClient {
     ///
     /// Deletes a logger definition.
     ///
-    /// - Parameter DeleteLoggerDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLoggerDefinitionInput`)
     ///
-    /// - Returns: `DeleteLoggerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoggerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2153,6 +2179,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoggerDefinitionOutput>(DeleteLoggerDefinitionOutput.httpOutput(from:), DeleteLoggerDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoggerDefinitionInput, DeleteLoggerDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoggerDefinitionOutput>())
@@ -2184,9 +2211,9 @@ extension GreengrassClient {
     ///
     /// Deletes a resource definition.
     ///
-    /// - Parameter DeleteResourceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceDefinitionInput`)
     ///
-    /// - Returns: `DeleteResourceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2217,6 +2244,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceDefinitionOutput>(DeleteResourceDefinitionOutput.httpOutput(from:), DeleteResourceDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceDefinitionInput, DeleteResourceDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceDefinitionOutput>())
@@ -2248,9 +2276,9 @@ extension GreengrassClient {
     ///
     /// Deletes a subscription definition.
     ///
-    /// - Parameter DeleteSubscriptionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubscriptionDefinitionInput`)
     ///
-    /// - Returns: `DeleteSubscriptionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubscriptionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2281,6 +2309,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubscriptionDefinitionOutput>(DeleteSubscriptionDefinitionOutput.httpOutput(from:), DeleteSubscriptionDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubscriptionDefinitionInput, DeleteSubscriptionDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubscriptionDefinitionOutput>())
@@ -2312,9 +2341,9 @@ extension GreengrassClient {
     ///
     /// Disassociates the role from a group.
     ///
-    /// - Parameter DisassociateRoleFromGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateRoleFromGroupInput`)
     ///
-    /// - Returns: `DisassociateRoleFromGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateRoleFromGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2346,6 +2375,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateRoleFromGroupOutput>(DisassociateRoleFromGroupOutput.httpOutput(from:), DisassociateRoleFromGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateRoleFromGroupInput, DisassociateRoleFromGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateRoleFromGroupOutput>())
@@ -2377,9 +2407,9 @@ extension GreengrassClient {
     ///
     /// Disassociates the service role from your account. Without a service role, deployments will not work.
     ///
-    /// - Parameter DisassociateServiceRoleFromAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateServiceRoleFromAccountInput`)
     ///
-    /// - Returns: `DisassociateServiceRoleFromAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateServiceRoleFromAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2410,6 +2440,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateServiceRoleFromAccountOutput>(DisassociateServiceRoleFromAccountOutput.httpOutput(from:), DisassociateServiceRoleFromAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateServiceRoleFromAccountInput, DisassociateServiceRoleFromAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateServiceRoleFromAccountOutput>())
@@ -2441,9 +2472,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the role associated with a particular group.
     ///
-    /// - Parameter GetAssociatedRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssociatedRoleInput`)
     ///
-    /// - Returns: `GetAssociatedRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssociatedRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2475,6 +2506,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssociatedRoleInput, GetAssociatedRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssociatedRoleOutput>(GetAssociatedRoleOutput.httpOutput(from:), GetAssociatedRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssociatedRoleInput, GetAssociatedRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssociatedRoleOutput>())
@@ -2506,9 +2538,9 @@ extension GreengrassClient {
     ///
     /// Returns the status of a bulk deployment.
     ///
-    /// - Parameter GetBulkDeploymentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBulkDeploymentStatusInput`)
     ///
-    /// - Returns: `GetBulkDeploymentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBulkDeploymentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2539,6 +2571,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBulkDeploymentStatusOutput>(GetBulkDeploymentStatusOutput.httpOutput(from:), GetBulkDeploymentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBulkDeploymentStatusInput, GetBulkDeploymentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBulkDeploymentStatusOutput>())
@@ -2570,9 +2603,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the connectivity information for a core.
     ///
-    /// - Parameter GetConnectivityInfoInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectivityInfoInput`)
     ///
-    /// - Returns: `GetConnectivityInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectivityInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2604,6 +2637,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectivityInfoOutput>(GetConnectivityInfoOutput.httpOutput(from:), GetConnectivityInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectivityInfoInput, GetConnectivityInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectivityInfoOutput>())
@@ -2635,9 +2669,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a connector definition.
     ///
-    /// - Parameter GetConnectorDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorDefinitionInput`)
     ///
-    /// - Returns: `GetConnectorDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2668,6 +2702,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectorDefinitionInput, GetConnectorDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorDefinitionOutput>(GetConnectorDefinitionOutput.httpOutput(from:), GetConnectorDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorDefinitionInput, GetConnectorDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorDefinitionOutput>())
@@ -2699,9 +2734,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
     ///
-    /// - Parameter GetConnectorDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorDefinitionVersionInput`)
     ///
-    /// - Returns: `GetConnectorDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2733,6 +2768,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput>(GetConnectorDefinitionVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorDefinitionVersionOutput>(GetConnectorDefinitionVersionOutput.httpOutput(from:), GetConnectorDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorDefinitionVersionInput, GetConnectorDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorDefinitionVersionOutput>())
@@ -2764,9 +2800,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a core definition version.
     ///
-    /// - Parameter GetCoreDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreDefinitionInput`)
     ///
-    /// - Returns: `GetCoreDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2797,6 +2833,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCoreDefinitionInput, GetCoreDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoreDefinitionOutput>(GetCoreDefinitionOutput.httpOutput(from:), GetCoreDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoreDefinitionInput, GetCoreDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoreDefinitionOutput>())
@@ -2828,9 +2865,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a core definition version.
     ///
-    /// - Parameter GetCoreDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreDefinitionVersionInput`)
     ///
-    /// - Returns: `GetCoreDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2861,6 +2898,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoreDefinitionVersionOutput>(GetCoreDefinitionVersionOutput.httpOutput(from:), GetCoreDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoreDefinitionVersionInput, GetCoreDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoreDefinitionVersionOutput>())
@@ -2892,9 +2930,9 @@ extension GreengrassClient {
     ///
     /// Returns the status of a deployment.
     ///
-    /// - Parameter GetDeploymentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentStatusInput`)
     ///
-    /// - Returns: `GetDeploymentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2925,6 +2963,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentStatusInput, GetDeploymentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentStatusOutput>(GetDeploymentStatusOutput.httpOutput(from:), GetDeploymentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentStatusInput, GetDeploymentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentStatusOutput>())
@@ -2956,9 +2995,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a device definition.
     ///
-    /// - Parameter GetDeviceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceDefinitionInput`)
     ///
-    /// - Returns: `GetDeviceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2989,6 +3028,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeviceDefinitionInput, GetDeviceDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceDefinitionOutput>(GetDeviceDefinitionOutput.httpOutput(from:), GetDeviceDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceDefinitionInput, GetDeviceDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceDefinitionOutput>())
@@ -3020,9 +3060,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a device definition version.
     ///
-    /// - Parameter GetDeviceDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceDefinitionVersionInput`)
     ///
-    /// - Returns: `GetDeviceDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3054,6 +3094,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput>(GetDeviceDefinitionVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceDefinitionVersionOutput>(GetDeviceDefinitionVersionOutput.httpOutput(from:), GetDeviceDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceDefinitionVersionInput, GetDeviceDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceDefinitionVersionOutput>())
@@ -3085,9 +3126,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a Lambda function definition, including its creation time and latest version.
     ///
-    /// - Parameter GetFunctionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionDefinitionInput`)
     ///
-    /// - Returns: `GetFunctionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3118,6 +3159,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFunctionDefinitionInput, GetFunctionDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionDefinitionOutput>(GetFunctionDefinitionOutput.httpOutput(from:), GetFunctionDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionDefinitionInput, GetFunctionDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionDefinitionOutput>())
@@ -3149,9 +3191,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
     ///
-    /// - Parameter GetFunctionDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionDefinitionVersionInput`)
     ///
-    /// - Returns: `GetFunctionDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3183,6 +3225,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput>(GetFunctionDefinitionVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionDefinitionVersionOutput>(GetFunctionDefinitionVersionOutput.httpOutput(from:), GetFunctionDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionDefinitionVersionInput, GetFunctionDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionDefinitionVersionOutput>())
@@ -3214,9 +3257,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a group.
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3247,6 +3290,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGroupInput, GetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupOutput>(GetGroupOutput.httpOutput(from:), GetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupInput, GetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupOutput>())
@@ -3278,9 +3322,9 @@ extension GreengrassClient {
     ///
     /// Retreives the CA associated with a group. Returns the public key of the CA.
     ///
-    /// - Parameter GetGroupCertificateAuthorityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupCertificateAuthorityInput`)
     ///
-    /// - Returns: `GetGroupCertificateAuthorityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupCertificateAuthorityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3312,6 +3356,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupCertificateAuthorityOutput>(GetGroupCertificateAuthorityOutput.httpOutput(from:), GetGroupCertificateAuthorityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupCertificateAuthorityInput, GetGroupCertificateAuthorityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupCertificateAuthorityOutput>())
@@ -3343,9 +3388,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the current configuration for the CA used by the group.
     ///
-    /// - Parameter GetGroupCertificateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupCertificateConfigurationInput`)
     ///
-    /// - Returns: `GetGroupCertificateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupCertificateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3377,6 +3422,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupCertificateConfigurationOutput>(GetGroupCertificateConfigurationOutput.httpOutput(from:), GetGroupCertificateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupCertificateConfigurationInput, GetGroupCertificateConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupCertificateConfigurationOutput>())
@@ -3408,9 +3454,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a group version.
     ///
-    /// - Parameter GetGroupVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupVersionInput`)
     ///
-    /// - Returns: `GetGroupVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3441,6 +3487,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGroupVersionInput, GetGroupVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupVersionOutput>(GetGroupVersionOutput.httpOutput(from:), GetGroupVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupVersionInput, GetGroupVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupVersionOutput>())
@@ -3472,9 +3519,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a logger definition.
     ///
-    /// - Parameter GetLoggerDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggerDefinitionInput`)
     ///
-    /// - Returns: `GetLoggerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3505,6 +3552,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLoggerDefinitionInput, GetLoggerDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoggerDefinitionOutput>(GetLoggerDefinitionOutput.httpOutput(from:), GetLoggerDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoggerDefinitionInput, GetLoggerDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoggerDefinitionOutput>())
@@ -3536,9 +3584,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a logger definition version.
     ///
-    /// - Parameter GetLoggerDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggerDefinitionVersionInput`)
     ///
-    /// - Returns: `GetLoggerDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggerDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3570,6 +3618,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput>(GetLoggerDefinitionVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoggerDefinitionVersionOutput>(GetLoggerDefinitionVersionOutput.httpOutput(from:), GetLoggerDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoggerDefinitionVersionInput, GetLoggerDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoggerDefinitionVersionOutput>())
@@ -3601,9 +3650,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a resource definition, including its creation time and latest version.
     ///
-    /// - Parameter GetResourceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceDefinitionInput`)
     ///
-    /// - Returns: `GetResourceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3634,6 +3683,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourceDefinitionInput, GetResourceDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceDefinitionOutput>(GetResourceDefinitionOutput.httpOutput(from:), GetResourceDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceDefinitionInput, GetResourceDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceDefinitionOutput>())
@@ -3665,9 +3715,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a resource definition version, including which resources are included in the version.
     ///
-    /// - Parameter GetResourceDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceDefinitionVersionInput`)
     ///
-    /// - Returns: `GetResourceDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3698,6 +3748,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceDefinitionVersionOutput>(GetResourceDefinitionVersionOutput.httpOutput(from:), GetResourceDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceDefinitionVersionInput, GetResourceDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceDefinitionVersionOutput>())
@@ -3729,9 +3780,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the service role that is attached to your account.
     ///
-    /// - Parameter GetServiceRoleForAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceRoleForAccountInput`)
     ///
-    /// - Returns: `GetServiceRoleForAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceRoleForAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3762,6 +3813,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceRoleForAccountOutput>(GetServiceRoleForAccountOutput.httpOutput(from:), GetServiceRoleForAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceRoleForAccountInput, GetServiceRoleForAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceRoleForAccountOutput>())
@@ -3793,9 +3845,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a subscription definition.
     ///
-    /// - Parameter GetSubscriptionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionDefinitionInput`)
     ///
-    /// - Returns: `GetSubscriptionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3826,6 +3878,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubscriptionDefinitionOutput>(GetSubscriptionDefinitionOutput.httpOutput(from:), GetSubscriptionDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubscriptionDefinitionInput, GetSubscriptionDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubscriptionDefinitionOutput>())
@@ -3857,9 +3910,9 @@ extension GreengrassClient {
     ///
     /// Retrieves information about a subscription definition version.
     ///
-    /// - Parameter GetSubscriptionDefinitionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionDefinitionVersionInput`)
     ///
-    /// - Returns: `GetSubscriptionDefinitionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionDefinitionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3891,6 +3944,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput>(GetSubscriptionDefinitionVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubscriptionDefinitionVersionOutput>(GetSubscriptionDefinitionVersionOutput.httpOutput(from:), GetSubscriptionDefinitionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubscriptionDefinitionVersionInput, GetSubscriptionDefinitionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubscriptionDefinitionVersionOutput>())
@@ -3922,9 +3976,9 @@ extension GreengrassClient {
     ///
     /// Get the runtime configuration of a thing.
     ///
-    /// - Parameter GetThingRuntimeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThingRuntimeConfigurationInput`)
     ///
-    /// - Returns: `GetThingRuntimeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThingRuntimeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3956,6 +4010,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThingRuntimeConfigurationOutput>(GetThingRuntimeConfigurationOutput.httpOutput(from:), GetThingRuntimeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThingRuntimeConfigurationInput, GetThingRuntimeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetThingRuntimeConfigurationOutput>())
@@ -3987,9 +4042,9 @@ extension GreengrassClient {
     ///
     /// Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
     ///
-    /// - Parameter ListBulkDeploymentDetailedReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBulkDeploymentDetailedReportsInput`)
     ///
-    /// - Returns: `ListBulkDeploymentDetailedReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBulkDeploymentDetailedReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4021,6 +4076,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput>(ListBulkDeploymentDetailedReportsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBulkDeploymentDetailedReportsOutput>(ListBulkDeploymentDetailedReportsOutput.httpOutput(from:), ListBulkDeploymentDetailedReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBulkDeploymentDetailedReportsInput, ListBulkDeploymentDetailedReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBulkDeploymentDetailedReportsOutput>())
@@ -4052,9 +4108,9 @@ extension GreengrassClient {
     ///
     /// Returns a list of bulk deployments.
     ///
-    /// - Parameter ListBulkDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBulkDeploymentsInput`)
     ///
-    /// - Returns: `ListBulkDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBulkDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4086,6 +4142,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBulkDeploymentsInput, ListBulkDeploymentsOutput>(ListBulkDeploymentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBulkDeploymentsOutput>(ListBulkDeploymentsOutput.httpOutput(from:), ListBulkDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBulkDeploymentsInput, ListBulkDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBulkDeploymentsOutput>())
@@ -4117,9 +4174,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
     ///
-    /// - Parameter ListConnectorDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListConnectorDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4151,6 +4208,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput>(ListConnectorDefinitionVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorDefinitionVersionsOutput>(ListConnectorDefinitionVersionsOutput.httpOutput(from:), ListConnectorDefinitionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorDefinitionVersionsInput, ListConnectorDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorDefinitionVersionsOutput>())
@@ -4182,9 +4240,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of connector definitions.
     ///
-    /// - Parameter ListConnectorDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorDefinitionsInput`)
     ///
-    /// - Returns: `ListConnectorDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorDefinitionsOutput`)
     public func listConnectorDefinitions(input: ListConnectorDefinitionsInput) async throws -> ListConnectorDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4211,6 +4269,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput>(ListConnectorDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorDefinitionsOutput>(ListConnectorDefinitionsOutput.httpOutput(from:), ListConnectorDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorDefinitionsInput, ListConnectorDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorDefinitionsOutput>())
@@ -4242,9 +4301,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a core definition.
     ///
-    /// - Parameter ListCoreDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoreDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListCoreDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoreDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4276,6 +4335,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput>(ListCoreDefinitionVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoreDefinitionVersionsOutput>(ListCoreDefinitionVersionsOutput.httpOutput(from:), ListCoreDefinitionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoreDefinitionVersionsInput, ListCoreDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoreDefinitionVersionsOutput>())
@@ -4307,9 +4367,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of core definitions.
     ///
-    /// - Parameter ListCoreDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoreDefinitionsInput`)
     ///
-    /// - Returns: `ListCoreDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoreDefinitionsOutput`)
     public func listCoreDefinitions(input: ListCoreDefinitionsInput) async throws -> ListCoreDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4336,6 +4396,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCoreDefinitionsInput, ListCoreDefinitionsOutput>(ListCoreDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoreDefinitionsOutput>(ListCoreDefinitionsOutput.httpOutput(from:), ListCoreDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoreDefinitionsInput, ListCoreDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoreDefinitionsOutput>())
@@ -4367,9 +4428,9 @@ extension GreengrassClient {
     ///
     /// Returns a history of deployments for the group.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4401,6 +4462,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(ListDeploymentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentsOutput>(ListDeploymentsOutput.httpOutput(from:), ListDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentsOutput>())
@@ -4432,9 +4494,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a device definition.
     ///
-    /// - Parameter ListDeviceDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListDeviceDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4466,6 +4528,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput>(ListDeviceDefinitionVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeviceDefinitionVersionsOutput>(ListDeviceDefinitionVersionsOutput.httpOutput(from:), ListDeviceDefinitionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeviceDefinitionVersionsInput, ListDeviceDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeviceDefinitionVersionsOutput>())
@@ -4497,9 +4560,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of device definitions.
     ///
-    /// - Parameter ListDeviceDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceDefinitionsInput`)
     ///
-    /// - Returns: `ListDeviceDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceDefinitionsOutput`)
     public func listDeviceDefinitions(input: ListDeviceDefinitionsInput) async throws -> ListDeviceDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4526,6 +4589,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput>(ListDeviceDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeviceDefinitionsOutput>(ListDeviceDefinitionsOutput.httpOutput(from:), ListDeviceDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeviceDefinitionsInput, ListDeviceDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeviceDefinitionsOutput>())
@@ -4557,9 +4621,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a Lambda function definition.
     ///
-    /// - Parameter ListFunctionDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListFunctionDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4591,6 +4655,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput>(ListFunctionDefinitionVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionDefinitionVersionsOutput>(ListFunctionDefinitionVersionsOutput.httpOutput(from:), ListFunctionDefinitionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionDefinitionVersionsInput, ListFunctionDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionDefinitionVersionsOutput>())
@@ -4622,9 +4687,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of Lambda function definitions.
     ///
-    /// - Parameter ListFunctionDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionDefinitionsInput`)
     ///
-    /// - Returns: `ListFunctionDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionDefinitionsOutput`)
     public func listFunctionDefinitions(input: ListFunctionDefinitionsInput) async throws -> ListFunctionDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4651,6 +4716,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput>(ListFunctionDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionDefinitionsOutput>(ListFunctionDefinitionsOutput.httpOutput(from:), ListFunctionDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionDefinitionsInput, ListFunctionDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionDefinitionsOutput>())
@@ -4682,9 +4748,9 @@ extension GreengrassClient {
     ///
     /// Retrieves the current CAs for a group.
     ///
-    /// - Parameter ListGroupCertificateAuthoritiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupCertificateAuthoritiesInput`)
     ///
-    /// - Returns: `ListGroupCertificateAuthoritiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupCertificateAuthoritiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4716,6 +4782,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupCertificateAuthoritiesOutput>(ListGroupCertificateAuthoritiesOutput.httpOutput(from:), ListGroupCertificateAuthoritiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupCertificateAuthoritiesInput, ListGroupCertificateAuthoritiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupCertificateAuthoritiesOutput>())
@@ -4747,9 +4814,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a group.
     ///
-    /// - Parameter ListGroupVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupVersionsInput`)
     ///
-    /// - Returns: `ListGroupVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4781,6 +4848,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGroupVersionsInput, ListGroupVersionsOutput>(ListGroupVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupVersionsOutput>(ListGroupVersionsOutput.httpOutput(from:), ListGroupVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupVersionsInput, ListGroupVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupVersionsOutput>())
@@ -4812,9 +4880,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of groups.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4841,6 +4909,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGroupsInput, ListGroupsOutput>(ListGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -4872,9 +4941,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a logger definition.
     ///
-    /// - Parameter ListLoggerDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLoggerDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListLoggerDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLoggerDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4906,6 +4975,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput>(ListLoggerDefinitionVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLoggerDefinitionVersionsOutput>(ListLoggerDefinitionVersionsOutput.httpOutput(from:), ListLoggerDefinitionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLoggerDefinitionVersionsInput, ListLoggerDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLoggerDefinitionVersionsOutput>())
@@ -4937,9 +5007,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of logger definitions.
     ///
-    /// - Parameter ListLoggerDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLoggerDefinitionsInput`)
     ///
-    /// - Returns: `ListLoggerDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLoggerDefinitionsOutput`)
     public func listLoggerDefinitions(input: ListLoggerDefinitionsInput) async throws -> ListLoggerDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -4966,6 +5036,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput>(ListLoggerDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLoggerDefinitionsOutput>(ListLoggerDefinitionsOutput.httpOutput(from:), ListLoggerDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLoggerDefinitionsInput, ListLoggerDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLoggerDefinitionsOutput>())
@@ -4997,9 +5068,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a resource definition.
     ///
-    /// - Parameter ListResourceDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListResourceDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5031,6 +5102,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput>(ListResourceDefinitionVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceDefinitionVersionsOutput>(ListResourceDefinitionVersionsOutput.httpOutput(from:), ListResourceDefinitionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceDefinitionVersionsInput, ListResourceDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceDefinitionVersionsOutput>())
@@ -5062,9 +5134,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of resource definitions.
     ///
-    /// - Parameter ListResourceDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceDefinitionsInput`)
     ///
-    /// - Returns: `ListResourceDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceDefinitionsOutput`)
     public func listResourceDefinitions(input: ListResourceDefinitionsInput) async throws -> ListResourceDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5091,6 +5163,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceDefinitionsInput, ListResourceDefinitionsOutput>(ListResourceDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceDefinitionsOutput>(ListResourceDefinitionsOutput.httpOutput(from:), ListResourceDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceDefinitionsInput, ListResourceDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceDefinitionsOutput>())
@@ -5122,9 +5195,9 @@ extension GreengrassClient {
     ///
     /// Lists the versions of a subscription definition.
     ///
-    /// - Parameter ListSubscriptionDefinitionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionDefinitionVersionsInput`)
     ///
-    /// - Returns: `ListSubscriptionDefinitionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionDefinitionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5156,6 +5229,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput>(ListSubscriptionDefinitionVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscriptionDefinitionVersionsOutput>(ListSubscriptionDefinitionVersionsOutput.httpOutput(from:), ListSubscriptionDefinitionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscriptionDefinitionVersionsInput, ListSubscriptionDefinitionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubscriptionDefinitionVersionsOutput>())
@@ -5187,9 +5261,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of subscription definitions.
     ///
-    /// - Parameter ListSubscriptionDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionDefinitionsInput`)
     ///
-    /// - Returns: `ListSubscriptionDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionDefinitionsOutput`)
     public func listSubscriptionDefinitions(input: ListSubscriptionDefinitionsInput) async throws -> ListSubscriptionDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5216,6 +5290,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput>(ListSubscriptionDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscriptionDefinitionsOutput>(ListSubscriptionDefinitionsOutput.httpOutput(from:), ListSubscriptionDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscriptionDefinitionsInput, ListSubscriptionDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubscriptionDefinitionsOutput>())
@@ -5247,9 +5322,9 @@ extension GreengrassClient {
     ///
     /// Retrieves a list of resource tags for a resource arn.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5280,6 +5355,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5311,9 +5387,9 @@ extension GreengrassClient {
     ///
     /// Resets a group's deployments.
     ///
-    /// - Parameter ResetDeploymentsInput : Information needed to reset deployments.
+    /// - Parameter input: Information needed to reset deployments. (Type: `ResetDeploymentsInput`)
     ///
-    /// - Returns: `ResetDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5348,6 +5424,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetDeploymentsOutput>(ResetDeploymentsOutput.httpOutput(from:), ResetDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetDeploymentsInput, ResetDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetDeploymentsOutput>())
@@ -5379,9 +5456,9 @@ extension GreengrassClient {
     ///
     /// Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
     ///
-    /// - Parameter StartBulkDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBulkDeploymentInput`)
     ///
-    /// - Returns: `StartBulkDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBulkDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5416,6 +5493,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBulkDeploymentOutput>(StartBulkDeploymentOutput.httpOutput(from:), StartBulkDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBulkDeploymentInput, StartBulkDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBulkDeploymentOutput>())
@@ -5447,9 +5525,9 @@ extension GreengrassClient {
     ///
     /// Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
     ///
-    /// - Parameter StopBulkDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBulkDeploymentInput`)
     ///
-    /// - Returns: `StopBulkDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBulkDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5480,6 +5558,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBulkDeploymentInput, StopBulkDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBulkDeploymentOutput>(StopBulkDeploymentOutput.httpOutput(from:), StopBulkDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBulkDeploymentInput, StopBulkDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBulkDeploymentOutput>())
@@ -5511,9 +5590,9 @@ extension GreengrassClient {
     ///
     /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
     ///
-    /// - Parameter TagResourceInput : A map of the key-value pairs for the resource tag.
+    /// - Parameter input: A map of the key-value pairs for the resource tag. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5547,6 +5626,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5578,9 +5658,9 @@ extension GreengrassClient {
     ///
     /// Remove resource tags from a Greengrass Resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5612,6 +5692,7 @@ extension GreengrassClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5643,9 +5724,9 @@ extension GreengrassClient {
     ///
     /// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
     ///
-    /// - Parameter UpdateConnectivityInfoInput : Connectivity information.
+    /// - Parameter input: Connectivity information. (Type: `UpdateConnectivityInfoInput`)
     ///
-    /// - Returns: `UpdateConnectivityInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectivityInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5680,6 +5761,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectivityInfoOutput>(UpdateConnectivityInfoOutput.httpOutput(from:), UpdateConnectivityInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectivityInfoInput, UpdateConnectivityInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectivityInfoOutput>())
@@ -5711,9 +5793,9 @@ extension GreengrassClient {
     ///
     /// Updates a connector definition.
     ///
-    /// - Parameter UpdateConnectorDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorDefinitionInput`)
     ///
-    /// - Returns: `UpdateConnectorDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5747,6 +5829,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorDefinitionOutput>(UpdateConnectorDefinitionOutput.httpOutput(from:), UpdateConnectorDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorDefinitionInput, UpdateConnectorDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorDefinitionOutput>())
@@ -5778,9 +5861,9 @@ extension GreengrassClient {
     ///
     /// Updates a core definition.
     ///
-    /// - Parameter UpdateCoreDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCoreDefinitionInput`)
     ///
-    /// - Returns: `UpdateCoreDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCoreDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5814,6 +5897,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCoreDefinitionOutput>(UpdateCoreDefinitionOutput.httpOutput(from:), UpdateCoreDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCoreDefinitionInput, UpdateCoreDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCoreDefinitionOutput>())
@@ -5845,9 +5929,9 @@ extension GreengrassClient {
     ///
     /// Updates a device definition.
     ///
-    /// - Parameter UpdateDeviceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceDefinitionInput`)
     ///
-    /// - Returns: `UpdateDeviceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5881,6 +5965,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeviceDefinitionOutput>(UpdateDeviceDefinitionOutput.httpOutput(from:), UpdateDeviceDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeviceDefinitionInput, UpdateDeviceDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeviceDefinitionOutput>())
@@ -5912,9 +5997,9 @@ extension GreengrassClient {
     ///
     /// Updates a Lambda function definition.
     ///
-    /// - Parameter UpdateFunctionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionDefinitionInput`)
     ///
-    /// - Returns: `UpdateFunctionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFunctionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5948,6 +6033,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFunctionDefinitionOutput>(UpdateFunctionDefinitionOutput.httpOutput(from:), UpdateFunctionDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFunctionDefinitionInput, UpdateFunctionDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFunctionDefinitionOutput>())
@@ -5979,9 +6065,9 @@ extension GreengrassClient {
     ///
     /// Updates a group.
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6015,6 +6101,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(UpdateGroupOutput.httpOutput(from:), UpdateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
@@ -6046,9 +6133,9 @@ extension GreengrassClient {
     ///
     /// Updates the Certificate expiry time for a group.
     ///
-    /// - Parameter UpdateGroupCertificateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupCertificateConfigurationInput`)
     ///
-    /// - Returns: `UpdateGroupCertificateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupCertificateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6083,6 +6170,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupCertificateConfigurationOutput>(UpdateGroupCertificateConfigurationOutput.httpOutput(from:), UpdateGroupCertificateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupCertificateConfigurationInput, UpdateGroupCertificateConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupCertificateConfigurationOutput>())
@@ -6114,9 +6202,9 @@ extension GreengrassClient {
     ///
     /// Updates a logger definition.
     ///
-    /// - Parameter UpdateLoggerDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLoggerDefinitionInput`)
     ///
-    /// - Returns: `UpdateLoggerDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLoggerDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6150,6 +6238,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLoggerDefinitionOutput>(UpdateLoggerDefinitionOutput.httpOutput(from:), UpdateLoggerDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLoggerDefinitionInput, UpdateLoggerDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLoggerDefinitionOutput>())
@@ -6181,9 +6270,9 @@ extension GreengrassClient {
     ///
     /// Updates a resource definition.
     ///
-    /// - Parameter UpdateResourceDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceDefinitionInput`)
     ///
-    /// - Returns: `UpdateResourceDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6217,6 +6306,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceDefinitionOutput>(UpdateResourceDefinitionOutput.httpOutput(from:), UpdateResourceDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceDefinitionInput, UpdateResourceDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceDefinitionOutput>())
@@ -6248,9 +6338,9 @@ extension GreengrassClient {
     ///
     /// Updates a subscription definition.
     ///
-    /// - Parameter UpdateSubscriptionDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubscriptionDefinitionInput`)
     ///
-    /// - Returns: `UpdateSubscriptionDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubscriptionDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6284,6 +6374,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubscriptionDefinitionOutput>(UpdateSubscriptionDefinitionOutput.httpOutput(from:), UpdateSubscriptionDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubscriptionDefinitionInput, UpdateSubscriptionDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubscriptionDefinitionOutput>())
@@ -6315,9 +6406,9 @@ extension GreengrassClient {
     ///
     /// Updates the runtime configuration of a thing.
     ///
-    /// - Parameter UpdateThingRuntimeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThingRuntimeConfigurationInput`)
     ///
-    /// - Returns: `UpdateThingRuntimeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThingRuntimeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6352,6 +6443,7 @@ extension GreengrassClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThingRuntimeConfigurationOutput>(UpdateThingRuntimeConfigurationOutput.httpOutput(from:), UpdateThingRuntimeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThingRuntimeConfigurationInput, UpdateThingRuntimeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThingRuntimeConfigurationOutput>())

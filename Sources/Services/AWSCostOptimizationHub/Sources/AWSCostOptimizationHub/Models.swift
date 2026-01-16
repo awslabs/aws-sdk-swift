@@ -390,15 +390,15 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
-    /// Pricing information about a Savings Plan.
+    /// Pricing information about a Savings Plans.
     public struct SavingsPlansPricing: Swift.Sendable {
-        /// Estimated monthly commitment for the Savings Plan.
+        /// Estimated monthly commitment for the Savings Plans.
         public var estimatedMonthlyCommitment: Swift.Double?
-        /// Estimated On-Demand cost you will pay after buying the Savings Plan.
+        /// Estimated On-Demand cost you will pay after buying the Savings Plans.
         public var estimatedOnDemandCost: Swift.Double?
-        /// The cost of paying for the recommended Savings Plan monthly.
+        /// The cost of paying for the recommended Savings Plans monthly.
         public var monthlySavingsPlansEligibleCost: Swift.Double?
-        /// Estimated savings as a percentage of your overall costs after buying the Savings Plan.
+        /// Estimated savings as a percentage of your overall costs after buying the Savings Plans.
         public var savingsPercentage: Swift.Double?
 
         public init(
@@ -1097,7 +1097,7 @@ extension CostOptimizationHubClientTypes {
         public var accountScope: Swift.String?
         /// The hourly commitment for the Savings Plans type.
         public var hourlyCommitment: Swift.String?
-        /// The instance family of the recommended Savings Plan.
+        /// The instance family of the recommended Savings Plans.
         public var instanceFamily: Swift.String?
         /// The payment option for the commitment.
         public var paymentOption: Swift.String?
@@ -1462,6 +1462,48 @@ extension CostOptimizationHubClientTypes {
         public init(
             configuration: CostOptimizationHubClientTypes.MemoryDbReservedInstancesConfiguration? = nil,
             costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
+        ) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The NAT Gateway configuration used for recommendations.
+    public struct NatGatewayConfiguration: Swift.Sendable {
+        /// The number of active connections through the NAT Gateway.
+        public var activeConnectionCount: Swift.Int?
+        /// The number of packets received from the destination through the NAT Gateway.
+        public var packetsInFromDestination: Swift.Int?
+        /// The number of packets received from the source through the NAT Gateway.
+        public var packetsInFromSource: Swift.Int?
+
+        public init(
+            activeConnectionCount: Swift.Int? = nil,
+            packetsInFromDestination: Swift.Int? = nil,
+            packetsInFromSource: Swift.Int? = nil
+        ) {
+            self.activeConnectionCount = activeConnectionCount
+            self.packetsInFromDestination = packetsInFromDestination
+            self.packetsInFromSource = packetsInFromSource
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The NAT Gateway recommendation details.
+    public struct NatGateway: Swift.Sendable {
+        /// The NAT Gateway configuration used for recommendations.
+        public var configuration: CostOptimizationHubClientTypes.NatGatewayConfiguration?
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            configuration: CostOptimizationHubClientTypes.NatGatewayConfiguration? = nil,
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
         ) {
             self.configuration = configuration
             self.costCalculation = costCalculation
@@ -1908,6 +1950,8 @@ extension CostOptimizationHubClientTypes {
         case dynamodbreservedcapacity(CostOptimizationHubClientTypes.DynamoDbReservedCapacity)
         /// The MemoryDB reserved instances recommendation details.
         case memorydbreservedinstances(CostOptimizationHubClientTypes.MemoryDbReservedInstances)
+        /// The NAT Gateway recommendation details.
+        case natgateway(CostOptimizationHubClientTypes.NatGateway)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1927,6 +1971,7 @@ extension CostOptimizationHubClientTypes {
         case elastiCacheReservedInstances
         case lambdaFunction
         case memoryDbReservedInstances
+        case natGateway
         case openSearchReservedInstances
         case rdsDbInstance
         case rdsDbInstanceStorage
@@ -1949,6 +1994,7 @@ extension CostOptimizationHubClientTypes {
                 .elastiCacheReservedInstances,
                 .lambdaFunction,
                 .memoryDbReservedInstances,
+                .natGateway,
                 .openSearchReservedInstances,
                 .rdsDbInstance,
                 .rdsDbInstanceStorage,
@@ -1977,6 +2023,7 @@ extension CostOptimizationHubClientTypes {
             case .elastiCacheReservedInstances: return "ElastiCacheReservedInstances"
             case .lambdaFunction: return "LambdaFunction"
             case .memoryDbReservedInstances: return "MemoryDbReservedInstances"
+            case .natGateway: return "NatGateway"
             case .openSearchReservedInstances: return "OpenSearchReservedInstances"
             case .rdsDbInstance: return "RdsDbInstance"
             case .rdsDbInstanceStorage: return "RdsDbInstanceStorage"
@@ -2174,6 +2221,205 @@ public struct GetRecommendationOutput: Swift.Sendable {
     }
 }
 
+extension CostOptimizationHubClientTypes {
+
+    /// The time granularity for aggregating the cost efficiency metrics.
+    public enum GranularityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Metrics are aggregated daily, with each data point representing a single day's worth of efficiency data. Timestamps are formatted as YYYY-MM-DD.
+        case daily
+        /// Metrics are aggregated monthly, with each data point representing a full month's worth of efficiency data. Timestamps are formatted as YYYY-MM.
+        case monthly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GranularityType] {
+            return [
+                .daily,
+                .monthly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .daily: return "Daily"
+            case .monthly: return "Monthly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    public enum Order: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Order] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "Asc"
+            case .desc: return "Desc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Defines how rows will be sorted in the response.
+    public struct OrderBy: Swift.Sendable {
+        /// Sorts by dimension values.
+        public var dimension: Swift.String?
+        /// The order that's used to sort the data.
+        public var order: CostOptimizationHubClientTypes.Order?
+
+        public init(
+            dimension: Swift.String? = nil,
+            order: CostOptimizationHubClientTypes.Order? = nil
+        ) {
+            self.dimension = dimension
+            self.order = order
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Specifies a date range for retrieving efficiency metrics. The start date is inclusive and the end date is exclusive.
+    public struct TimePeriod: Swift.Sendable {
+        /// The end of the time period (exclusive). Specify the date in ISO 8601 format, such as 2024-12-31.
+        /// This member is required.
+        public var end: Swift.String?
+        /// The beginning of the time period (inclusive). Specify the date in ISO 8601 format, such as 2024-01-01.
+        /// This member is required.
+        public var start: Swift.String?
+
+        public init(
+            end: Swift.String? = nil,
+            start: Swift.String? = nil
+        ) {
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+public struct ListEfficiencyMetricsInput: Swift.Sendable {
+    /// The time granularity for the cost efficiency metrics. Specify Daily for metrics aggregated by day, or Monthly for metrics aggregated by month.
+    /// This member is required.
+    public var granularity: CostOptimizationHubClientTypes.GranularityType?
+    /// The dimension by which to group the cost efficiency metrics. Valid values include account ID, Amazon Web Services Region. When no grouping is specified, metrics are aggregated across all resources in the specified time period.
+    public var groupBy: Swift.String?
+    /// The maximum number of groups to return in the response. Valid values range from 0 to 1000. Use in conjunction with nextToken to paginate through results when the total number of groups exceeds this limit.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next page of results. This value is returned in the response when the number of groups exceeds the specified maxResults value.
+    public var nextToken: Swift.String?
+    /// The ordering specification for the results. Defines which dimension to sort by and whether to sort in ascending or descending order.
+    public var orderBy: CostOptimizationHubClientTypes.OrderBy?
+    /// The time period for which to retrieve the cost efficiency metrics. The start date is inclusive and the end date is exclusive. Dates can be specified in either YYYY-MM-DD format or YYYY-MM format depending on the desired granularity.
+    /// This member is required.
+    public var timePeriod: CostOptimizationHubClientTypes.TimePeriod?
+
+    public init(
+        granularity: CostOptimizationHubClientTypes.GranularityType? = nil,
+        groupBy: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        orderBy: CostOptimizationHubClientTypes.OrderBy? = nil,
+        timePeriod: CostOptimizationHubClientTypes.TimePeriod? = nil
+    ) {
+        self.granularity = granularity
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.orderBy = orderBy
+        self.timePeriod = timePeriod
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Contains efficiency metrics for a specific point in time, including an efficiency score, potential savings, optimizable spend, and timestamp.
+    public struct MetricsByTime: Swift.Sendable {
+        /// The estimated savings amount for this time period, representing the potential cost reduction achieved through optimization recommendations.
+        public var savings: Swift.Double?
+        /// The efficiency score for this time period. The score represents a measure of how effectively the cloud resources are being optimized, with higher scores indicating better optimization performance.
+        public var score: Swift.Double?
+        /// The total spending amount for this time period.
+        public var spend: Swift.Double?
+        /// The timestamp for this data point. The format depends on the granularity: YYYY-MM-DD for daily metrics, or YYYY-MM for monthly metrics.
+        public var timestamp: Swift.String?
+
+        public init(
+            savings: Swift.Double? = nil,
+            score: Swift.Double? = nil,
+            spend: Swift.Double? = nil,
+            timestamp: Swift.String? = nil
+        ) {
+            self.savings = savings
+            self.score = score
+            self.spend = spend
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Contains cost efficiency metrics for a specific group over time. The group is defined by the grouping dimension specified in the request, such as account ID, Amazon Web Services Region.
+    public struct EfficiencyMetricsByGroup: Swift.Sendable {
+        /// The value of the grouping dimension for this set of metrics. For example, if grouped by account ID, this field contains the account ID. If no grouping is specified, this field is empty.
+        public var group: Swift.String?
+        /// An explanation of why efficiency metrics could not be calculated for this group when the metricsByTime field is null. Common reasons include insufficient or inconclusive cost and usage data during the specified time period. This field is null or empty when metrics are successfully calculated.
+        public var message: Swift.String?
+        /// A list of time-series data points containing efficiency metrics for this group. Each data point includes an efficiency score, estimated savings, spending, and a timestamp corresponding to the specified granularity. This field is null when efficiency metrics cannot be calculated for the group, in which case the message field provides an explanation.
+        public var metricsByTime: [CostOptimizationHubClientTypes.MetricsByTime]?
+
+        public init(
+            group: Swift.String? = nil,
+            message: Swift.String? = nil,
+            metricsByTime: [CostOptimizationHubClientTypes.MetricsByTime]? = nil
+        ) {
+            self.group = group
+            self.message = message
+            self.metricsByTime = metricsByTime
+        }
+    }
+}
+
+public struct ListEfficiencyMetricsOutput: Swift.Sendable {
+    /// A list of cost efficiency metrics grouped by the specified dimension. Each group contains time-series data points with cost efficiency, potential savings, and optimzable spend for the specified time period.
+    public var efficiencyMetricsByGroup: [CostOptimizationHubClientTypes.EfficiencyMetricsByGroup]?
+    /// The token to retrieve the next page of results. When this value is present in the response, additional groups are available. Pass this token in the nextToken parameter of a subsequent request to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        efficiencyMetricsByGroup: [CostOptimizationHubClientTypes.EfficiencyMetricsByGroup]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.efficiencyMetricsByGroup = efficiencyMetricsByGroup
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListEnrollmentStatusesInput: Swift.Sendable {
     /// The account ID of a member account in the organization.
     public var accountId: Swift.String?
@@ -2267,54 +2513,6 @@ extension CostOptimizationHubClientTypes {
             self.restartNeeded = restartNeeded
             self.rollbackPossible = rollbackPossible
             self.tags = tags
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    public enum Order: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case asc
-        case desc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Order] {
-            return [
-                .asc,
-                .desc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .asc: return "Asc"
-            case .desc: return "Desc"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Defines how rows will be sorted in the response.
-    public struct OrderBy: Swift.Sendable {
-        /// Sorts by dimension values.
-        public var dimension: Swift.String?
-        /// The order that's used to sort the data.
-        public var order: CostOptimizationHubClientTypes.Order?
-
-        public init(
-            dimension: Swift.String? = nil,
-            order: CostOptimizationHubClientTypes.Order? = nil
-        ) {
-            self.dimension = dimension
-            self.order = order
         }
     }
 }
@@ -2658,6 +2856,13 @@ extension GetRecommendationInput {
     }
 }
 
+extension ListEfficiencyMetricsInput {
+
+    static func urlPathProvider(_ value: ListEfficiencyMetricsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListEnrollmentStatusesInput {
 
     static func urlPathProvider(_ value: ListEnrollmentStatusesInput) -> Swift.String? {
@@ -2706,6 +2911,19 @@ extension GetRecommendationInput {
     static func write(value: GetRecommendationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["recommendationId"].write(value.recommendationId)
+    }
+}
+
+extension ListEfficiencyMetricsInput {
+
+    static func write(value: ListEfficiencyMetricsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["granularity"].write(value.granularity)
+        try writer["groupBy"].write(value.groupBy)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["orderBy"].write(value.orderBy, with: CostOptimizationHubClientTypes.OrderBy.write(value:to:))
+        try writer["timePeriod"].write(value.timePeriod, with: CostOptimizationHubClientTypes.TimePeriod.write(value:to:))
     }
 }
 
@@ -2811,6 +3029,19 @@ extension GetRecommendationOutput {
     }
 }
 
+extension ListEfficiencyMetricsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEfficiencyMetricsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEfficiencyMetricsOutput()
+        value.efficiencyMetricsByGroup = try reader["efficiencyMetricsByGroup"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.EfficiencyMetricsByGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListEnrollmentStatusesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEnrollmentStatusesOutput {
@@ -2909,6 +3140,23 @@ enum GetRecommendationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEfficiencyMetricsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3128,9 +3376,84 @@ extension CostOptimizationHubClientTypes.ResourceDetails {
                 return .dynamodbreservedcapacity(try reader["dynamoDbReservedCapacity"].read(with: CostOptimizationHubClientTypes.DynamoDbReservedCapacity.read(from:)))
             case "memoryDbReservedInstances":
                 return .memorydbreservedinstances(try reader["memoryDbReservedInstances"].read(with: CostOptimizationHubClientTypes.MemoryDbReservedInstances.read(from:)))
+            case "natGateway":
+                return .natgateway(try reader["natGateway"].read(with: CostOptimizationHubClientTypes.NatGateway.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CostOptimizationHubClientTypes.NatGateway {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.NatGateway {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.NatGateway()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.NatGatewayConfiguration.read(from:))
+        value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.ResourceCostCalculation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourceCostCalculation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.ResourceCostCalculation()
+        value.usages = try reader["usages"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.Usage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pricing = try reader["pricing"].readIfPresent(with: CostOptimizationHubClientTypes.ResourcePricing.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.ResourcePricing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourcePricing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.ResourcePricing()
+        value.estimatedCostBeforeDiscounts = try reader["estimatedCostBeforeDiscounts"].readIfPresent()
+        value.estimatedNetUnusedAmortizedCommitments = try reader["estimatedNetUnusedAmortizedCommitments"].readIfPresent()
+        value.estimatedDiscounts = try reader["estimatedDiscounts"].readIfPresent(with: CostOptimizationHubClientTypes.EstimatedDiscounts.read(from:))
+        value.estimatedCostAfterDiscounts = try reader["estimatedCostAfterDiscounts"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.EstimatedDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.EstimatedDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.EstimatedDiscounts()
+        value.savingsPlansDiscount = try reader["savingsPlansDiscount"].readIfPresent()
+        value.reservedInstancesDiscount = try reader["reservedInstancesDiscount"].readIfPresent()
+        value.otherDiscount = try reader["otherDiscount"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.Usage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.Usage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.Usage()
+        value.usageType = try reader["usageType"].readIfPresent()
+        value.usageAmount = try reader["usageAmount"].readIfPresent()
+        value.operation = try reader["operation"].readIfPresent()
+        value.productCode = try reader["productCode"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.NatGatewayConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.NatGatewayConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.NatGatewayConfiguration()
+        value.activeConnectionCount = try reader["activeConnectionCount"].readIfPresent()
+        value.packetsInFromSource = try reader["packetsInFromSource"].readIfPresent()
+        value.packetsInFromDestination = try reader["packetsInFromDestination"].readIfPresent()
+        return value
     }
 }
 
@@ -3226,56 +3549,6 @@ extension CostOptimizationHubClientTypes.AuroraDbClusterStorage {
         var value = CostOptimizationHubClientTypes.AuroraDbClusterStorage()
         value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration.read(from:))
         value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.ResourceCostCalculation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourceCostCalculation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.ResourceCostCalculation()
-        value.usages = try reader["usages"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.Usage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.pricing = try reader["pricing"].readIfPresent(with: CostOptimizationHubClientTypes.ResourcePricing.read(from:))
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.ResourcePricing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ResourcePricing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.ResourcePricing()
-        value.estimatedCostBeforeDiscounts = try reader["estimatedCostBeforeDiscounts"].readIfPresent()
-        value.estimatedNetUnusedAmortizedCommitments = try reader["estimatedNetUnusedAmortizedCommitments"].readIfPresent()
-        value.estimatedDiscounts = try reader["estimatedDiscounts"].readIfPresent(with: CostOptimizationHubClientTypes.EstimatedDiscounts.read(from:))
-        value.estimatedCostAfterDiscounts = try reader["estimatedCostAfterDiscounts"].readIfPresent()
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.EstimatedDiscounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.EstimatedDiscounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.EstimatedDiscounts()
-        value.savingsPlansDiscount = try reader["savingsPlansDiscount"].readIfPresent()
-        value.reservedInstancesDiscount = try reader["reservedInstancesDiscount"].readIfPresent()
-        value.otherDiscount = try reader["otherDiscount"].readIfPresent()
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.Usage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.Usage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.Usage()
-        value.usageType = try reader["usageType"].readIfPresent()
-        value.usageAmount = try reader["usageAmount"].readIfPresent()
-        value.operation = try reader["operation"].readIfPresent()
-        value.productCode = try reader["productCode"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
         return value
     }
 }
@@ -3795,6 +4068,31 @@ extension CostOptimizationHubClientTypes.Tag {
     }
 }
 
+extension CostOptimizationHubClientTypes.EfficiencyMetricsByGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.EfficiencyMetricsByGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.EfficiencyMetricsByGroup()
+        value.metricsByTime = try reader["metricsByTime"].readListIfPresent(memberReadingClosure: CostOptimizationHubClientTypes.MetricsByTime.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.group = try reader["group"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.MetricsByTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.MetricsByTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.MetricsByTime()
+        value.score = try reader["score"].readIfPresent()
+        value.savings = try reader["savings"].readIfPresent()
+        value.spend = try reader["spend"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readIfPresent()
+        return value
+    }
+}
+
 extension CostOptimizationHubClientTypes.AccountEnrollmentStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.AccountEnrollmentStatus {
@@ -3871,6 +4169,24 @@ extension CostOptimizationHubClientTypes.ValidationExceptionDetail {
     }
 }
 
+extension CostOptimizationHubClientTypes.TimePeriod {
+
+    static func write(value: CostOptimizationHubClientTypes.TimePeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["end"].write(value.end)
+        try writer["start"].write(value.start)
+    }
+}
+
+extension CostOptimizationHubClientTypes.OrderBy {
+
+    static func write(value: CostOptimizationHubClientTypes.OrderBy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dimension"].write(value.dimension)
+        try writer["order"].write(value.order)
+    }
+}
+
 extension CostOptimizationHubClientTypes.Filter {
 
     static func write(value: CostOptimizationHubClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
@@ -3886,15 +4202,6 @@ extension CostOptimizationHubClientTypes.Filter {
         try writer["restartNeeded"].write(value.restartNeeded)
         try writer["rollbackPossible"].write(value.rollbackPossible)
         try writer["tags"].writeList(value.tags, memberWritingClosure: CostOptimizationHubClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension CostOptimizationHubClientTypes.OrderBy {
-
-    static func write(value: CostOptimizationHubClientTypes.OrderBy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dimension"].write(value.dimension)
-        try writer["order"].write(value.order)
     }
 }
 

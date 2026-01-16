@@ -23,10 +23,42 @@ struct GenerateDocIndexCommand: ParsableCommand {
     func run() throws {
         try FileManager.default.changeWorkingDirectory(repoPath)
         let contents = try generateDocIndexContents()
-        try saveDocIndex(contents)
+        let docIndexFileName = "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
+        try saveDocIndex(contents, docIndexFileName)
+        // New doc index page for internal build hosted docs.
+        let newDocIndexFileName = "Sources/Core/SDKForSwift/Documentation.docc/SDKForSwift.md"
+        try saveDocIndex(convertToNewFormat(contents), newDocIndexFileName)
     }
 
     // MARK: - Helpers
+
+    /// Converts old format relative links to new format
+    func convertToNewFormat(_ content: String) -> String {
+        var result = content.replacingOccurrences(
+            of: "../../../../../swift/api/",
+            with: "/sdk-for-swift/latest/api/"
+        ).replacingOccurrences(
+            of: "# ``AWSSDKForSwift``",
+            with: "# ``SDKForSwift``"
+        )
+
+        // Find and replace /modulename/latest) with /modulename/documentation/modulename)
+        let lines = result.components(separatedBy: .newlines)
+        result = lines.map { line in
+            if line.contains("/latest)") {
+                // Extract module name from pattern like "api/modulename/latest)"
+                if let apiRange = line.range(of: "api/"),
+                   let latestRange = line.range(of: "/latest)") {
+                    let moduleStart = apiRange.upperBound
+                    let moduleName = String(line[moduleStart..<latestRange.lowerBound])
+                    return line.replacingOccurrences(of: "/\(moduleName)/latest)", with: "/\(moduleName)/documentation/\(moduleName))")
+                }
+            }
+            return line
+        }.joined(separator: "\n")
+
+        return result
+    }
 
     /// Returns the contents of the generated doc index.
     /// This determines the versions of the dependencies and the list of services to include and then generates the doc index with those values.
@@ -50,15 +82,14 @@ struct GenerateDocIndexCommand: ParsableCommand {
     /// If no file exists, then this will create a new file. Otherwise, this will overwrite the existing file.
     ///
     /// - Parameter contents: The contents of the doc index.
-    func saveDocIndex(_ contents: String) throws {
-        let docIndexFileName = "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md"
-        log("Saving doc index to \(docIndexFileName)...")
+    func saveDocIndex(_ contents: String, _ destination: String) throws {
+        log("Saving doc index to \(destination)...")
         try contents.write(
-            toFile: docIndexFileName,
+            toFile: destination,
             atomically: true,
             encoding: .utf8
         )
-        log("Successfully saved doc index to \(docIndexFileName)")
+        log("Successfully saved doc index to \(destination)")
     }
 
     /// Returns the list of services to include in the doc index.

@@ -21,6 +21,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -29,7 +30,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -63,9 +64,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-package class SSOOIDCClient: ClientRuntime.Client {
+package class SSOOIDCClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SSOOIDCClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOOIDCClient.SSOOIDCClientConfiguration
     let serviceName = "SSO OIDC"
@@ -371,9 +371,9 @@ extension SSOOIDCClient {
     ///
     /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
     ///
-    /// - Parameter CreateTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTokenInput`)
     ///
-    /// - Returns: `CreateTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +415,7 @@ extension SSOOIDCClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTokenInput, CreateTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTokenOutput>(CreateTokenOutput.httpOutput(from:), CreateTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTokenInput, CreateTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTokenOutput>())

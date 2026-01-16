@@ -22,24 +22,42 @@ class PackageManifestBuilderTests: XCTestCase {
 
         let isPreviewBuild = false
 
-        let serviceTargets: [String: [Target.Dependency]] = [
-            "A": [],
-            "B": [],
-            "C": [],
-            "D": [],
-            "E": [],
+        private let serviceClientData: [ServiceClientData] = [
+            .init(
+                "A",
+                "A.json",
+                []
+            ),
+            .init(
+                "B",
+                "B.json",
+                []
+            ),
+            .init(
+                "C",
+                "C.json",
+                []
+            ),
+            .init(
+                "D",
+                "D.json",
+                []
+            ),
+            .init(
+                "E",
+                "E.json",
+                []
+            ),
         ]
-
-        let internalAWSSTSDependencies: [Target.Dependency] = []
-        let internalAWSSSODependencies: [Target.Dependency] = []
-        let internalAWSSSOOIDCDependencies: [Target.Dependency] = []
 
         <contents of base package>
         """
         let subject = try PackageManifestBuilder(
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
-            services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0) },
+            services: ["A","B","C","D","E"].map {
+                .init(moduleName: $0, codegenName: "\($0).json", dependencies: [], isInternal: false)
+            },
             excludeRuntimeTests: false,
             previewBuild: false,
             prefixContents: { "<contents of prefix>" },
@@ -64,24 +82,42 @@ class PackageManifestBuilderTests: XCTestCase {
 
         let isPreviewBuild = true
 
-        let serviceTargets: [String: [Target.Dependency]] = [
-            "A": [],
-            "B": [],
-            "C": [],
-            "D": [],
-            "E": [],
+        private let serviceClientData: [ServiceClientData] = [
+            .init(
+                "A",
+                "A.json",
+                []
+            ),
+            .init(
+                "B",
+                "B.json",
+                []
+            ),
+            .init(
+                "C",
+                "C.json",
+                []
+            ),
+            .init(
+                "D",
+                "D.json",
+                []
+            ),
+            .init(
+                "E",
+                "E.json",
+                []
+            ),
         ]
-
-        let internalAWSSTSDependencies: [Target.Dependency] = []
-        let internalAWSSSODependencies: [Target.Dependency] = []
-        let internalAWSSSOOIDCDependencies: [Target.Dependency] = []
 
         <contents of base package>
         """
         let subject = try PackageManifestBuilder(
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
-            services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0) },
+            services: ["A","B","C","D","E"].map {
+                .init(moduleName: $0, codegenName: "\($0).json", dependencies: [], isInternal: false)
+            },
             excludeRuntimeTests: true,
             previewBuild: true,
             prefixContents: { "<contents of prefix>" },

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DLMClient: ClientRuntime.Client {
+public class DLMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DLMClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: DLMClient.DLMClientConfiguration
     let serviceName = "DLM"
@@ -385,9 +385,9 @@ extension DLMClient {
     ///
     /// For more information, see [ Default policies vs custom policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/policy-differences.html). If you create a default policy, you can specify the request parameters either in the request body, or in the PolicyDetails request structure, but not both.
     ///
-    /// - Parameter CreateLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLifecyclePolicyInput`)
     ///
-    /// - Returns: `CreateLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -423,6 +423,7 @@ extension DLMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLifecyclePolicyInput, CreateLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLifecyclePolicyOutput>(CreateLifecyclePolicyOutput.httpOutput(from:), CreateLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLifecyclePolicyInput, CreateLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLifecyclePolicyOutput>())
@@ -454,9 +455,9 @@ extension DLMClient {
     ///
     /// Deletes the specified lifecycle policy and halts the automated operations that the policy specified. For more information about deleting a policy, see [Delete lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#delete).
     ///
-    /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLifecyclePolicyInput`)
     ///
-    /// - Returns: `DeleteLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,6 +490,7 @@ extension DLMClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLifecyclePolicyOutput>(DeleteLifecyclePolicyOutput.httpOutput(from:), DeleteLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLifecyclePolicyInput, DeleteLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLifecyclePolicyOutput>())
@@ -520,9 +522,9 @@ extension DLMClient {
     ///
     /// Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use [GetLifecyclePolicy](https://docs.aws.amazon.com/dlm/latest/APIReference/API_GetLifecyclePolicy.html).
     ///
-    /// - Parameter GetLifecyclePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecyclePoliciesInput`)
     ///
-    /// - Returns: `GetLifecyclePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecyclePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +559,7 @@ extension DLMClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLifecyclePoliciesInput, GetLifecyclePoliciesOutput>(GetLifecyclePoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLifecyclePoliciesOutput>(GetLifecyclePoliciesOutput.httpOutput(from:), GetLifecyclePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLifecyclePoliciesInput, GetLifecyclePoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLifecyclePoliciesOutput>())
@@ -588,9 +591,9 @@ extension DLMClient {
     ///
     /// Gets detailed information about the specified lifecycle policy.
     ///
-    /// - Parameter GetLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLifecyclePolicyInput`)
     ///
-    /// - Returns: `GetLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +626,7 @@ extension DLMClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLifecyclePolicyOutput>(GetLifecyclePolicyOutput.httpOutput(from:), GetLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLifecyclePolicyInput, GetLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLifecyclePolicyOutput>())
@@ -654,9 +658,9 @@ extension DLMClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -689,6 +693,7 @@ extension DLMClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -720,9 +725,9 @@ extension DLMClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -758,6 +763,7 @@ extension DLMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -789,9 +795,9 @@ extension DLMClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,6 +831,7 @@ extension DLMClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -856,9 +863,9 @@ extension DLMClient {
     ///
     /// Updates the specified lifecycle policy. For more information about updating a policy, see [Modify lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#modify).
     ///
-    /// - Parameter UpdateLifecyclePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLifecyclePolicyInput`)
     ///
-    /// - Returns: `UpdateLifecyclePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLifecyclePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -895,6 +902,7 @@ extension DLMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLifecyclePolicyInput, UpdateLifecyclePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLifecyclePolicyOutput>(UpdateLifecyclePolicyOutput.httpOutput(from:), UpdateLifecyclePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLifecyclePolicyInput, UpdateLifecyclePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLifecyclePolicyOutput>())

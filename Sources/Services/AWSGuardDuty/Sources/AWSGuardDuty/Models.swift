@@ -283,7 +283,7 @@ extension GuardDutyClientTypes {
         /// The member account ID.
         /// This member is required.
         public var accountId: Swift.String?
-        /// The email address of the member account. The rules for a valid email address:
+        /// The email address of the member account. The following list includes the rules for a valid email address:
         ///
         /// * The email address must be a minimum of 6 and a maximum of 64 characters long.
         ///
@@ -1319,6 +1319,25 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains additional information about the detected threat.
+    public struct AdditionalInfo: Swift.Sendable {
+        /// The device name of the EBS volume, if applicable.
+        public var deviceName: Swift.String?
+        /// The version ID of the S3 object, if applicable.
+        public var versionId: Swift.String?
+
+        public init(
+            deviceName: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.deviceName = deviceName
+            self.versionId = versionId
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Information about the installed EKS add-on (GuardDuty security agent).
     public struct AddonDetails: Swift.Sendable {
         /// Status of the installed EKS add-on.
@@ -1636,6 +1655,21 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Auto Scaling Group involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct AutoscalingAutoScalingGroup: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that are part of the same Auto Scaling Group.
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information on the current bucket policies for the S3 bucket.
     public struct BucketPolicy: Swift.Sendable {
         /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
@@ -1672,6 +1706,21 @@ extension GuardDutyClientTypes {
             self.accessControlList = accessControlList
             self.blockPublicAccess = blockPublicAccess
             self.bucketPolicy = bucketPolicy
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the CloudFormation stack involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct CloudformationStack: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that were created as part of the same CloudFormation stack.
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
         }
     }
 }
@@ -1791,11 +1840,15 @@ extension GuardDutyClientTypes {
         /// Represents a less than or equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
         public var lte: Swift.Int?
+        /// Represents the match condition to be applied to a single field when querying for findings. The matches condition is available only for create-filter and update-filter APIs.
+        public var matches: [Swift.String]?
         /// Represents the not equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
         public var neq: [Swift.String]?
         /// Represents a not equal condition to be applied to a single field when querying for findings.
         public var notEquals: [Swift.String]?
+        /// Represents the not match condition to be applied to a single field when querying for findings. The not-matches condition is available only for create-filter and update-filter APIs.
+        public var notMatches: [Swift.String]?
 
         public init(
             eq: [Swift.String]? = nil,
@@ -1808,8 +1861,10 @@ extension GuardDutyClientTypes {
             lessThanOrEqual: Swift.Int? = nil,
             lt: Swift.Int? = nil,
             lte: Swift.Int? = nil,
+            matches: [Swift.String]? = nil,
             neq: [Swift.String]? = nil,
-            notEquals: [Swift.String]? = nil
+            notEquals: [Swift.String]? = nil,
+            notMatches: [Swift.String]? = nil
         ) {
             self.eq = eq
             self.equals = equals
@@ -1821,8 +1876,10 @@ extension GuardDutyClientTypes {
             self.lessThanOrEqual = lessThanOrEqual
             self.lt = lt
             self.lte = lte
+            self.matches = matches
             self.neq = neq
             self.notEquals = notEquals
+            self.notMatches = notMatches
         }
     }
 }
@@ -3537,17 +3594,21 @@ public struct CreatePublishingDestinationInput: Swift.Sendable {
     /// The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The tags to be added to a new publishing destination resource.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         destinationProperties: GuardDutyClientTypes.DestinationProperties? = nil,
         destinationType: GuardDutyClientTypes.DestinationType? = nil,
-        detectorId: Swift.String? = nil
+        detectorId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.destinationProperties = destinationProperties
         self.destinationType = destinationType
         self.detectorId = detectorId
+        self.tags = tags
     }
 }
 
@@ -3639,7 +3700,7 @@ public struct CreateThreatEntitySetInput: Swift.Sendable {
     /// The format of the file that contains the threat entity set.
     /// This member is required.
     public var format: GuardDutyClientTypes.ThreatEntitySetFormat?
-    /// The URI of the file that contains the threat entity set.
+    /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see [Format of location URL under Step 2: Adding trusted or threat intelligence data](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-lists-create-activate.html) in the Amazon GuardDuty User Guide.
     /// This member is required.
     public var location: Swift.String?
     /// A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
@@ -3833,7 +3894,7 @@ public struct CreateTrustedEntitySetInput: Swift.Sendable {
     /// The format of the file that contains the trusted entity set.
     /// This member is required.
     public var format: GuardDutyClientTypes.TrustedEntitySetFormat?
-    /// The URI of the file that contains the trusted entity set.
+    /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see [Format of location URL under Step 2: Adding trusted or threat intelligence data](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-lists-create-activate.html) in the Amazon GuardDuty User Guide.
     /// This member is required.
     public var location: Swift.String?
     /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
@@ -4659,19 +4720,52 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    public enum TriggerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case backup
+        case guardduty
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TriggerType] {
+            return [
+                .backup,
+                .guardduty
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .backup: return "BACKUP"
+            case .guardduty: return "GUARDDUTY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Represents the reason the scan was triggered.
     public struct TriggerDetails: Swift.Sendable {
         /// The description of the scan trigger.
         public var description: Swift.String?
         /// The ID of the GuardDuty finding that triggered the malware scan.
         public var guardDutyFindingId: Swift.String?
+        /// Specifies the trigger type that started the malware scan.
+        public var triggerType: GuardDutyClientTypes.TriggerType?
 
         public init(
             description: Swift.String? = nil,
-            guardDutyFindingId: Swift.String? = nil
+            guardDutyFindingId: Swift.String? = nil,
+            triggerType: GuardDutyClientTypes.TriggerType? = nil
         ) {
             self.description = description
             self.guardDutyFindingId = guardDutyFindingId
+            self.triggerType = triggerType
         }
     }
 }
@@ -5170,19 +5264,23 @@ public struct DescribePublishingDestinationOutput: Swift.Sendable {
     /// The status of the publishing destination.
     /// This member is required.
     public var status: GuardDutyClientTypes.PublishingStatus?
+    /// The tags of the publishing destination resource.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         destinationId: Swift.String? = nil,
         destinationProperties: GuardDutyClientTypes.DestinationProperties? = nil,
         destinationType: GuardDutyClientTypes.DestinationType? = nil,
         publishingFailureStartTimestamp: Swift.Int? = nil,
-        status: GuardDutyClientTypes.PublishingStatus? = nil
+        status: GuardDutyClientTypes.PublishingStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.destinationId = destinationId
         self.destinationProperties = destinationProperties
         self.destinationType = destinationType
         self.publishingFailureStartTimestamp = publishingFailureStartTimestamp
         self.status = status
+        self.tags = tags
     }
 }
 
@@ -5330,6 +5428,21 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Amazon EC2 Image involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct Ec2Image: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that were launched with the same Amazon Machine Image (AMI).
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about the EC2 instance profile.
     public struct IamInstanceProfile: Swift.Sendable {
         /// The profile ARN of the EC2 instance.
@@ -5415,6 +5528,25 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Amazon EC2 launch template involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct Ec2LaunchTemplate: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that share the same Amazon EC2 launch template.
+        public var ec2InstanceUids: [Swift.String]?
+        /// Version of the EC2 launch template.
+        public var version: Swift.String?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+            self.version = version
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains other private IP address information of the EC2 instance.
     public struct PrivateIpAddressDetails: Swift.Sendable {
         /// The private DNS name of the EC2 instance.
@@ -5493,6 +5625,134 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Amazon EC2 VPC involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct Ec2Vpc: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that were launched within the same Virtual Private Cloud (VPC).
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum EcsClusterStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case deprovisioning
+        case failed
+        case inactive
+        case provisioning
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EcsClusterStatus] {
+            return [
+                .active,
+                .deprovisioning,
+                .failed,
+                .inactive,
+                .provisioning
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deprovisioning: return "DEPROVISIONING"
+            case .failed: return "FAILED"
+            case .inactive: return "INACTIVE"
+            case .provisioning: return "PROVISIONING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the Amazon ECS cluster involved in a GuardDuty finding, including cluster identification and status.
+    public struct EcsCluster: Swift.Sendable {
+        /// A list of unique identifiers for the Amazon EC2 instances that serve as container instances in the Amazon ECS cluster.
+        public var ec2InstanceUids: [Swift.String]?
+        /// The current status of the Amazon ECS cluster.
+        public var status: GuardDutyClientTypes.EcsClusterStatus?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil,
+            status: GuardDutyClientTypes.EcsClusterStatus? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
+            self.status = status
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum EcsLaunchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec2
+        case fargate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EcsLaunchType] {
+            return [
+                .ec2,
+                .fargate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2: return "EC2"
+            case .fargate: return "FARGATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about Amazon ECS task involved in a GuardDuty finding, including task definition and container identifiers.
+    public struct EcsTask: Swift.Sendable {
+        /// A list of unique identifiers for the containers associated with the Amazon ECS task.
+        public var containerUids: [Swift.String]?
+        /// The timestamp indicating when the Amazon ECS task was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// The infrastructure type on which the Amazon ECS task runs.
+        public var launchType: GuardDutyClientTypes.EcsLaunchType?
+        /// The ARN of task definition which describes the container and volume definitions of the Amazon ECS task.
+        public var taskDefinitionArn: Swift.String?
+
+        public init(
+            containerUids: [Swift.String]? = nil,
+            createdAt: Foundation.Date? = nil,
+            launchType: GuardDutyClientTypes.EcsLaunchType? = nil,
+            taskDefinitionArn: Swift.String? = nil
+        ) {
+            self.containerUids = containerUids
+            self.createdAt = createdAt
+            self.launchType = launchType
+            self.taskDefinitionArn = taskDefinitionArn
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about the Amazon EKS cluster involved in a GuardDuty finding, including cluster identification, status, and network configuration.
     public struct EksCluster: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon EKS cluster involved in the finding.
@@ -5518,6 +5778,21 @@ extension GuardDutyClientTypes {
             self.ec2InstanceUids = ec2InstanceUids
             self.status = status
             self.vpcId = vpcId
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the IAM instance profile involved in a GuardDuty finding, including unique identifiers of the Amazon EC2 instances.
+    public struct IamInstanceProfileV2: Swift.Sendable {
+        /// A list of unique identifiers for the compromised Amazon EC2 instances that share the same IAM instance profile.
+        public var ec2InstanceUids: [Swift.String]?
+
+        public init(
+            ec2InstanceUids: [Swift.String]? = nil
+        ) {
+            self.ec2InstanceUids = ec2InstanceUids
         }
     }
 }
@@ -5786,14 +6061,30 @@ extension GuardDutyClientTypes {
     public struct ResourceData: Swift.Sendable {
         /// Contains information about the IAM access key details of a user that involved in the GuardDuty finding.
         public var accessKey: GuardDutyClientTypes.AccessKey?
+        /// Contains detailed information about the Auto Scaling Group associated with the activity that prompted GuardDuty to generate a finding.
+        public var autoscalingAutoScalingGroup: GuardDutyClientTypes.AutoscalingAutoScalingGroup?
+        /// Contains detailed information about the CloudFormation stack associated with the activity that prompted GuardDuty to generate a finding.
+        public var cloudformationStack: GuardDutyClientTypes.CloudformationStack?
         /// Contains detailed information about the container associated with the activity that prompted GuardDuty to generate a finding.
         public var container: GuardDutyClientTypes.ContainerFindingResource?
+        /// Contains detailed information about the EC2 Image associated with the activity that prompted GuardDuty to generate a finding.
+        public var ec2Image: GuardDutyClientTypes.Ec2Image?
         /// Contains information about the Amazon EC2 instance.
         public var ec2Instance: GuardDutyClientTypes.Ec2Instance?
+        /// Contains detailed information about the EC2 launch template associated with the activity that prompted GuardDuty to generate a finding.
+        public var ec2LaunchTemplate: GuardDutyClientTypes.Ec2LaunchTemplate?
         /// Contains information about the elastic network interface of the Amazon EC2 instance.
         public var ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface?
+        /// Contains detailed information about the EC2 VPC associated with the activity that prompted GuardDuty to generate a finding.
+        public var ec2Vpc: GuardDutyClientTypes.Ec2Vpc?
+        /// Contains detailed information about the Amazon ECS cluster associated with the activity that prompted GuardDuty to generate a finding.
+        public var ecsCluster: GuardDutyClientTypes.EcsCluster?
+        /// Contains detailed information about the Amazon ECS task associated with the activity that prompted GuardDuty to generate a finding.
+        public var ecsTask: GuardDutyClientTypes.EcsTask?
         /// Contains detailed information about the Amazon EKS cluster associated with the activity that prompted GuardDuty to generate a finding.
         public var eksCluster: GuardDutyClientTypes.EksCluster?
+        /// Contains detailed information about the IAM instance profile associated with the activity that prompted GuardDuty to generate a finding.
+        public var iamInstanceProfile: GuardDutyClientTypes.IamInstanceProfileV2?
         /// Contains detailed information about the Kubernetes workload associated with the activity that prompted GuardDuty to generate a finding.
         public var kubernetesWorkload: GuardDutyClientTypes.KubernetesWorkload?
         /// Contains information about the Amazon S3 bucket.
@@ -5803,19 +6094,35 @@ extension GuardDutyClientTypes {
 
         public init(
             accessKey: GuardDutyClientTypes.AccessKey? = nil,
+            autoscalingAutoScalingGroup: GuardDutyClientTypes.AutoscalingAutoScalingGroup? = nil,
+            cloudformationStack: GuardDutyClientTypes.CloudformationStack? = nil,
             container: GuardDutyClientTypes.ContainerFindingResource? = nil,
+            ec2Image: GuardDutyClientTypes.Ec2Image? = nil,
             ec2Instance: GuardDutyClientTypes.Ec2Instance? = nil,
+            ec2LaunchTemplate: GuardDutyClientTypes.Ec2LaunchTemplate? = nil,
             ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface? = nil,
+            ec2Vpc: GuardDutyClientTypes.Ec2Vpc? = nil,
+            ecsCluster: GuardDutyClientTypes.EcsCluster? = nil,
+            ecsTask: GuardDutyClientTypes.EcsTask? = nil,
             eksCluster: GuardDutyClientTypes.EksCluster? = nil,
+            iamInstanceProfile: GuardDutyClientTypes.IamInstanceProfileV2? = nil,
             kubernetesWorkload: GuardDutyClientTypes.KubernetesWorkload? = nil,
             s3Bucket: GuardDutyClientTypes.S3Bucket? = nil,
             s3Object: GuardDutyClientTypes.S3Object? = nil
         ) {
             self.accessKey = accessKey
+            self.autoscalingAutoScalingGroup = autoscalingAutoScalingGroup
+            self.cloudformationStack = cloudformationStack
             self.container = container
+            self.ec2Image = ec2Image
             self.ec2Instance = ec2Instance
+            self.ec2LaunchTemplate = ec2LaunchTemplate
             self.ec2NetworkInterface = ec2NetworkInterface
+            self.ec2Vpc = ec2Vpc
+            self.ecsCluster = ecsCluster
+            self.ecsTask = ecsTask
             self.eksCluster = eksCluster
+            self.iamInstanceProfile = iamInstanceProfile
             self.kubernetesWorkload = kubernetesWorkload
             self.s3Bucket = s3Bucket
             self.s3Object = s3Object
@@ -5827,10 +6134,18 @@ extension GuardDutyClientTypes {
 
     public enum FindingResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessKey
+        case autoscalingAutoScalingGroup
+        case cloudformationStack
         case container
+        case ec2Image
         case ec2Instance
+        case ec2LaunchTemplate
         case ec2NetworkInterface
+        case ec2Vpc
+        case ecsCluster
+        case ecsTask
         case eksCluster
+        case iamInstanceProfile
         case kubernetesWorkload
         case s3Bucket
         case s3Object
@@ -5839,10 +6154,18 @@ extension GuardDutyClientTypes {
         public static var allCases: [FindingResourceType] {
             return [
                 .accessKey,
+                .autoscalingAutoScalingGroup,
+                .cloudformationStack,
                 .container,
+                .ec2Image,
                 .ec2Instance,
+                .ec2LaunchTemplate,
                 .ec2NetworkInterface,
+                .ec2Vpc,
+                .ecsCluster,
+                .ecsTask,
                 .eksCluster,
+                .iamInstanceProfile,
                 .kubernetesWorkload,
                 .s3Bucket,
                 .s3Object
@@ -5857,10 +6180,18 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessKey: return "ACCESS_KEY"
+            case .autoscalingAutoScalingGroup: return "AUTOSCALING_AUTO_SCALING_GROUP"
+            case .cloudformationStack: return "CLOUDFORMATION_STACK"
             case .container: return "CONTAINER"
+            case .ec2Image: return "EC2_IMAGE"
             case .ec2Instance: return "EC2_INSTANCE"
+            case .ec2LaunchTemplate: return "EC2_LAUNCH_TEMPLATE"
             case .ec2NetworkInterface: return "EC2_NETWORK_INTERFACE"
+            case .ec2Vpc: return "EC2_VPC"
+            case .ecsCluster: return "ECS_CLUSTER"
+            case .ecsTask: return "ECS_TASK"
             case .eksCluster: return "EKS_CLUSTER"
+            case .iamInstanceProfile: return "IAM_INSTANCE_PROFILE"
             case .kubernetesWorkload: return "KUBERNETES_WORKLOAD"
             case .s3Bucket: return "S3_BUCKET"
             case .s3Object: return "S3_OBJECT"
@@ -6225,6 +6556,35 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    public enum DetectionSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazon
+        case bitdefender
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetectionSource] {
+            return [
+                .amazon,
+                .bitdefender
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazon: return "AMAZON"
+            case .bitdefender: return "BITDEFENDER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Information about the additional configuration.
     public struct DetectorAdditionalConfigurationResult: Swift.Sendable {
         /// Name of the additional configuration.
@@ -6434,6 +6794,36 @@ public struct DisassociateMembersOutput: Swift.Sendable {
         unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]? = nil
     ) {
         self.unprocessedAccounts = unprocessedAccounts
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about an EBS snapshot that was scanned for malware.
+    public struct EbsSnapshot: Swift.Sendable {
+        /// The device name of the EBS snapshot that was scanned.
+        public var deviceName: Swift.String?
+
+        public init(
+            deviceName: Swift.String? = nil
+        ) {
+            self.deviceName = deviceName
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains details about the EBS snapshot that was scanned for malware.
+    public struct EbsSnapshotDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the EBS snapshot.
+        public var snapshotArn: Swift.String?
+
+        public init(
+            snapshotArn: Swift.String? = nil
+        ) {
+            self.snapshotArn = snapshotArn
+        }
     }
 }
 
@@ -6689,6 +7079,21 @@ extension GuardDutyClientTypes {
             self.scanType = scanType
             self.sources = sources
             self.triggerFindingId = triggerFindingId
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains details about the EC2 AMI that was scanned.
+    public struct Ec2ImageDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the EC2 AMI.
+        public var imageArn: Swift.String?
+
+        public init(
+            imageArn: Swift.String? = nil
+        ) {
+            self.imageArn = imageArn
         }
     }
 }
@@ -7263,6 +7668,8 @@ extension GuardDutyClientTypes {
         public var dbInstanceArn: Swift.String?
         /// The identifier associated to the database instance that was involved in the finding.
         public var dbInstanceIdentifier: Swift.String?
+        /// The unique ID of the database resource involved in the activity that prompted GuardDuty to generate the finding.
+        public var dbiResourceId: Swift.String?
         /// The database engine of the database instance involved in the finding.
         public var engine: Swift.String?
         /// The version of the database engine that was involved in the finding.
@@ -7274,6 +7681,7 @@ extension GuardDutyClientTypes {
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
+            dbiResourceId: Swift.String? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             tags: [GuardDutyClientTypes.Tag]? = nil
@@ -7281,6 +7689,7 @@ extension GuardDutyClientTypes {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbiResourceId = dbiResourceId
             self.engine = engine
             self.engineVersion = engineVersion
             self.tags = tags
@@ -7354,6 +7763,25 @@ extension GuardDutyClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.tags = tags
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains details about the backup recovery point.
+    public struct RecoveryPointDetails: Swift.Sendable {
+        /// The name of the backup vault containing the recovery point.
+        public var backupVaultName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the recovery point.
+        public var recoveryPointArn: Swift.String?
+
+        public init(
+            backupVaultName: Swift.String? = nil,
+            recoveryPointArn: Swift.String? = nil
+        ) {
+            self.backupVaultName = backupVaultName
+            self.recoveryPointArn = recoveryPointArn
         }
     }
 }
@@ -7497,8 +7925,12 @@ extension GuardDutyClientTypes {
         public var accessKeyDetails: GuardDutyClientTypes.AccessKeyDetails?
         /// Details of a container.
         public var containerDetails: GuardDutyClientTypes.Container?
+        /// Contains details about the EBS snapshot that was scanned.
+        public var ebsSnapshotDetails: GuardDutyClientTypes.EbsSnapshotDetails?
         /// Contains list of scanned and skipped EBS volumes with details.
         public var ebsVolumeDetails: GuardDutyClientTypes.EbsVolumeDetails?
+        /// Contains details about the EC2 image that was scanned.
+        public var ec2ImageDetails: GuardDutyClientTypes.Ec2ImageDetails?
         /// Contains information about the details of the ECS Cluster.
         public var ecsClusterDetails: GuardDutyClientTypes.EcsClusterDetails?
         /// Details about the EKS cluster involved in a Kubernetes finding.
@@ -7515,6 +7947,8 @@ extension GuardDutyClientTypes {
         public var rdsDbUserDetails: GuardDutyClientTypes.RdsDbUserDetails?
         /// Contains information about the RDS Limitless database that was involved in a GuardDuty finding.
         public var rdsLimitlessDbDetails: GuardDutyClientTypes.RdsLimitlessDbDetails?
+        /// Contains details about the backup recovery point that was scanned.
+        public var recoveryPointDetails: GuardDutyClientTypes.RecoveryPointDetails?
         /// The type of Amazon Web Services resource.
         public var resourceType: Swift.String?
         /// Contains information on the S3 bucket.
@@ -7523,7 +7957,9 @@ extension GuardDutyClientTypes {
         public init(
             accessKeyDetails: GuardDutyClientTypes.AccessKeyDetails? = nil,
             containerDetails: GuardDutyClientTypes.Container? = nil,
+            ebsSnapshotDetails: GuardDutyClientTypes.EbsSnapshotDetails? = nil,
             ebsVolumeDetails: GuardDutyClientTypes.EbsVolumeDetails? = nil,
+            ec2ImageDetails: GuardDutyClientTypes.Ec2ImageDetails? = nil,
             ecsClusterDetails: GuardDutyClientTypes.EcsClusterDetails? = nil,
             eksClusterDetails: GuardDutyClientTypes.EksClusterDetails? = nil,
             instanceDetails: GuardDutyClientTypes.InstanceDetails? = nil,
@@ -7532,12 +7968,15 @@ extension GuardDutyClientTypes {
             rdsDbInstanceDetails: GuardDutyClientTypes.RdsDbInstanceDetails? = nil,
             rdsDbUserDetails: GuardDutyClientTypes.RdsDbUserDetails? = nil,
             rdsLimitlessDbDetails: GuardDutyClientTypes.RdsLimitlessDbDetails? = nil,
+            recoveryPointDetails: GuardDutyClientTypes.RecoveryPointDetails? = nil,
             resourceType: Swift.String? = nil,
             s3BucketDetails: [GuardDutyClientTypes.S3BucketDetail]? = nil
         ) {
             self.accessKeyDetails = accessKeyDetails
             self.containerDetails = containerDetails
+            self.ebsSnapshotDetails = ebsSnapshotDetails
             self.ebsVolumeDetails = ebsVolumeDetails
+            self.ec2ImageDetails = ec2ImageDetails
             self.ecsClusterDetails = ecsClusterDetails
             self.eksClusterDetails = eksClusterDetails
             self.instanceDetails = instanceDetails
@@ -7546,6 +7985,7 @@ extension GuardDutyClientTypes {
             self.rdsDbInstanceDetails = rdsDbInstanceDetails
             self.rdsDbUserDetails = rdsDbUserDetails
             self.rdsLimitlessDbDetails = rdsLimitlessDbDetails
+            self.recoveryPointDetails = recoveryPointDetails
             self.resourceType = resourceType
             self.s3BucketDetails = s3BucketDetails
         }
@@ -7573,6 +8013,129 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    public enum ScanCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fullScan
+        case incrementalScan
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanCategory] {
+            return [
+                .fullScan,
+                .incrementalScan
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullScan: return "FULL_SCAN"
+            case .incrementalScan: return "INCREMENTAL_SCAN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the incremental scan configuration.
+    public struct IncrementalScanDetails: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the baseline resource used for incremental scanning. The scan will only process changes since this baseline resource was created.
+        /// This member is required.
+        public var baselineResourceArn: Swift.String?
+
+        public init(
+            baselineResourceArn: Swift.String? = nil
+        ) {
+            self.baselineResourceArn = baselineResourceArn
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains finding configuration details about the malware scan.
+    public struct MalwareProtectionFindingsScanConfiguration: Swift.Sendable {
+        /// Contains information about the incremental scan configuration.
+        public var incrementalScanDetails: GuardDutyClientTypes.IncrementalScanDetails?
+        /// The event that triggered the malware scan.
+        public var triggerType: GuardDutyClientTypes.TriggerType?
+
+        public init(
+            incrementalScanDetails: GuardDutyClientTypes.IncrementalScanDetails? = nil,
+            triggerType: GuardDutyClientTypes.TriggerType? = nil
+        ) {
+            self.incrementalScanDetails = incrementalScanDetails
+            self.triggerType = triggerType
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum MalwareProtectionScanType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case backupInitiated
+        case guarddutyInitiated
+        case onDemand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MalwareProtectionScanType] {
+            return [
+                .backupInitiated,
+                .guarddutyInitiated,
+                .onDemand
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .backupInitiated: return "BACKUP_INITIATED"
+            case .guarddutyInitiated: return "GUARDDUTY_INITIATED"
+            case .onDemand: return "ON_DEMAND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains detailed information about where a threat was detected.
+    public struct ItemDetails: Swift.Sendable {
+        /// Additional information about the detected threat item.
+        public var additionalInfo: GuardDutyClientTypes.AdditionalInfo?
+        /// The hash value of the infected item.
+        public var hash: Swift.String?
+        /// The path where the threat was detected.
+        public var itemPath: Swift.String?
+        /// Amazon Resource Name (ARN) of the resource where the threat was detected.
+        public var resourceArn: Swift.String?
+
+        public init(
+            additionalInfo: GuardDutyClientTypes.AdditionalInfo? = nil,
+            hash: Swift.String? = nil,
+            itemPath: Swift.String? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.additionalInfo = additionalInfo
+            self.hash = hash
+            self.itemPath = itemPath
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Information about the nested item path and hash of the protected resource.
     public struct ItemPath: Swift.Sendable {
         /// The hash value of the infected resource.
@@ -7594,6 +8157,12 @@ extension GuardDutyClientTypes {
 
     /// Information about the detected threats associated with the generated finding.
     public struct Threat: Swift.Sendable {
+        /// The number of occurrences of this specific threat detected during the scan.
+        public var count: Swift.Int?
+        /// The hash identifier of the detected malware threat.
+        public var hash: Swift.String?
+        /// Detailed information about the detected malware threat.
+        public var itemDetails: [GuardDutyClientTypes.ItemDetails]?
         /// Information about the nested item path and hash of the protected resource.
         public var itemPaths: [GuardDutyClientTypes.ItemPath]?
         /// Name of the detected threat that caused GuardDuty to generate this finding.
@@ -7602,10 +8171,16 @@ extension GuardDutyClientTypes {
         public var source: Swift.String?
 
         public init(
+            count: Swift.Int? = nil,
+            hash: Swift.String? = nil,
+            itemDetails: [GuardDutyClientTypes.ItemDetails]? = nil,
             itemPaths: [GuardDutyClientTypes.ItemPath]? = nil,
             name: Swift.String? = nil,
             source: Swift.String? = nil
         ) {
+            self.count = count
+            self.hash = hash
+            self.itemDetails = itemDetails
             self.itemPaths = itemPaths
             self.name = name
             self.source = source
@@ -7617,13 +8192,33 @@ extension GuardDutyClientTypes {
 
     /// Information about the malware scan that generated a GuardDuty finding.
     public struct MalwareScanDetails: Swift.Sendable {
+        /// The category of the malware scan.
+        public var scanCategory: GuardDutyClientTypes.ScanCategory?
+        /// The configuration settings used for the malware scan.
+        public var scanConfiguration: GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration?
+        /// The unique identifier for the malware scan.
+        public var scanId: Swift.String?
+        /// The type of malware scan performed.
+        public var scanType: GuardDutyClientTypes.MalwareProtectionScanType?
         /// Information about the detected threats associated with the generated GuardDuty finding.
         public var threats: [GuardDutyClientTypes.Threat]?
+        /// The number of unique malware threats detected during the scan.
+        public var uniqueThreatCount: Swift.Int?
 
         public init(
-            threats: [GuardDutyClientTypes.Threat]? = nil
+            scanCategory: GuardDutyClientTypes.ScanCategory? = nil,
+            scanConfiguration: GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration? = nil,
+            scanId: Swift.String? = nil,
+            scanType: GuardDutyClientTypes.MalwareProtectionScanType? = nil,
+            threats: [GuardDutyClientTypes.Threat]? = nil,
+            uniqueThreatCount: Swift.Int? = nil
         ) {
+            self.scanCategory = scanCategory
+            self.scanConfiguration = scanConfiguration
+            self.scanId = scanId
+            self.scanType = scanType
             self.threats = threats
+            self.uniqueThreatCount = uniqueThreatCount
         }
     }
 }
@@ -8682,6 +9277,444 @@ public struct GetMalwareProtectionPlanOutput: Swift.Sendable {
     }
 }
 
+public struct GetMalwareScanInput: Swift.Sendable {
+    /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+    /// This member is required.
+    public var scanId: Swift.String?
+
+    public init(
+        scanId: Swift.String? = nil
+    ) {
+        self.scanId = scanId
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum MalwareProtectionResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ebsRecoveryPoint
+        case ebsSnapshot
+        case ebsVolume
+        case ec2Ami
+        case ec2Instance
+        case ec2RecoveryPoint
+        case s3Bucket
+        case s3RecoveryPoint
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MalwareProtectionResourceType] {
+            return [
+                .ebsRecoveryPoint,
+                .ebsSnapshot,
+                .ebsVolume,
+                .ec2Ami,
+                .ec2Instance,
+                .ec2RecoveryPoint,
+                .s3Bucket,
+                .s3RecoveryPoint
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ebsRecoveryPoint: return "EBS_RECOVERY_POINT"
+            case .ebsSnapshot: return "EBS_SNAPSHOT"
+            case .ebsVolume: return "EBS_VOLUME"
+            case .ec2Ami: return "EC2_AMI"
+            case .ec2Instance: return "EC2_INSTANCE"
+            case .ec2RecoveryPoint: return "EC2_RECOVERY_POINT"
+            case .s3Bucket: return "S3_BUCKET"
+            case .s3RecoveryPoint: return "S3_RECOVERY_POINT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the recovery point configuration used in the scan.
+    public struct ScanConfigurationRecoveryPoint: Swift.Sendable {
+        /// The name of the Amazon Web Services Backup vault that contains the recovery point for the scanned.
+        public var backupVaultName: Swift.String?
+
+        public init(
+            backupVaultName: Swift.String? = nil
+        ) {
+            self.backupVaultName = backupVaultName
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the configuration used for the malware scan.
+    public struct ScanConfiguration: Swift.Sendable {
+        /// Information about the incremental scan configuration, if applicable.
+        public var incrementalScanDetails: GuardDutyClientTypes.IncrementalScanDetails?
+        /// Information about the recovery point configuration used for the scan, if applicable.
+        public var recoveryPoint: GuardDutyClientTypes.ScanConfigurationRecoveryPoint?
+        /// Amazon Resource Name (ARN) of the IAM role that should contain the required permissions for the scan.
+        public var role: Swift.String?
+        /// Information about the entity that triggered the malware scan.
+        public var triggerDetails: GuardDutyClientTypes.TriggerDetails?
+
+        public init(
+            incrementalScanDetails: GuardDutyClientTypes.IncrementalScanDetails? = nil,
+            recoveryPoint: GuardDutyClientTypes.ScanConfigurationRecoveryPoint? = nil,
+            role: Swift.String? = nil,
+            triggerDetails: GuardDutyClientTypes.TriggerDetails? = nil
+        ) {
+            self.incrementalScanDetails = incrementalScanDetails
+            self.recoveryPoint = recoveryPoint
+            self.role = role
+            self.triggerDetails = triggerDetails
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains additional information about a resource that was scanned.
+    public struct ScannedResourceDetails: Swift.Sendable {
+        /// Contains information about the EBS snapshot that was scanned.
+        public var ebsSnapshot: GuardDutyClientTypes.EbsSnapshot?
+        /// Contains information about the EBS volume that was scanned.
+        public var ebsVolume: GuardDutyClientTypes.VolumeDetail?
+
+        public init(
+            ebsSnapshot: GuardDutyClientTypes.EbsSnapshot? = nil,
+            ebsVolume: GuardDutyClientTypes.VolumeDetail? = nil
+        ) {
+            self.ebsSnapshot = ebsSnapshot
+            self.ebsVolume = ebsVolume
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum MalwareProtectionScanStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case completedWithIssues
+        case failed
+        case running
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MalwareProtectionScanStatus] {
+            return [
+                .completed,
+                .completedWithIssues,
+                .failed,
+                .running,
+                .skipped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithIssues: return "COMPLETED_WITH_ISSUES"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum ScanStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case amiSnapshotLimitExceeded
+        case baseCreatedAfterTarget
+        case baseResourceNotScanned
+        case inconsistentSource
+        case incrementalNoDifference
+        case noEbsVolumesFound
+        case resourceNotFound
+        case resourceUnavailable
+        case snapshotSizeLimitExceeded
+        case unrelatedResources
+        case unsupportedAmi
+        case unsupportedCompositeRecoveryPoint
+        case unsupportedForIncremental
+        case unsupportedProductCodeType
+        case unsupportedSnapshot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanStatusReason] {
+            return [
+                .accessDenied,
+                .amiSnapshotLimitExceeded,
+                .baseCreatedAfterTarget,
+                .baseResourceNotScanned,
+                .inconsistentSource,
+                .incrementalNoDifference,
+                .noEbsVolumesFound,
+                .resourceNotFound,
+                .resourceUnavailable,
+                .snapshotSizeLimitExceeded,
+                .unrelatedResources,
+                .unsupportedAmi,
+                .unsupportedCompositeRecoveryPoint,
+                .unsupportedForIncremental,
+                .unsupportedProductCodeType,
+                .unsupportedSnapshot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .amiSnapshotLimitExceeded: return "AMI_SNAPSHOT_LIMIT_EXCEEDED"
+            case .baseCreatedAfterTarget: return "BASE_CREATED_AFTER_TARGET"
+            case .baseResourceNotScanned: return "BASE_RESOURCE_NOT_SCANNED"
+            case .inconsistentSource: return "INCONSISTENT_SOURCE"
+            case .incrementalNoDifference: return "INCREMENTAL_NO_DIFFERENCE"
+            case .noEbsVolumesFound: return "NO_EBS_VOLUMES_FOUND"
+            case .resourceNotFound: return "RESOURCE_NOT_FOUND"
+            case .resourceUnavailable: return "RESOURCE_UNAVAILABLE"
+            case .snapshotSizeLimitExceeded: return "SNAPSHOT_SIZE_LIMIT_EXCEEDED"
+            case .unrelatedResources: return "UNRELATED_RESOURCES"
+            case .unsupportedAmi: return "UNSUPPORTED_AMI"
+            case .unsupportedCompositeRecoveryPoint: return "UNSUPPORTED_COMPOSITE_RECOVERY_POINT"
+            case .unsupportedForIncremental: return "UNSUPPORTED_FOR_INCREMENTAL"
+            case .unsupportedProductCodeType: return "UNSUPPORTED_PRODUCT_CODE_TYPE"
+            case .unsupportedSnapshot: return "UNSUPPORTED_SNAPSHOT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about a resource that was scanned as part of the malware scan operation.
+    public struct ScannedResource: Swift.Sendable {
+        /// Information about the scanned resource.
+        public var resourceDetails: GuardDutyClientTypes.ScannedResourceDetails?
+        /// The reason for the scan status of this particular resource, if applicable.
+        public var scanStatusReason: GuardDutyClientTypes.ScanStatusReason?
+        /// Amazon Resource Name (ARN) of the scanned resource.
+        public var scannedResourceArn: Swift.String?
+        /// The status of the scanned resource.
+        public var scannedResourceStatus: GuardDutyClientTypes.MalwareProtectionScanStatus?
+        /// The resource type of the scanned resource.
+        public var scannedResourceType: GuardDutyClientTypes.MalwareProtectionResourceType?
+
+        public init(
+            resourceDetails: GuardDutyClientTypes.ScannedResourceDetails? = nil,
+            scanStatusReason: GuardDutyClientTypes.ScanStatusReason? = nil,
+            scannedResourceArn: Swift.String? = nil,
+            scannedResourceStatus: GuardDutyClientTypes.MalwareProtectionScanStatus? = nil,
+            scannedResourceType: GuardDutyClientTypes.MalwareProtectionResourceType? = nil
+        ) {
+            self.resourceDetails = resourceDetails
+            self.scanStatusReason = scanStatusReason
+            self.scannedResourceArn = scannedResourceArn
+            self.scannedResourceStatus = scannedResourceStatus
+            self.scannedResourceType = scannedResourceType
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum ScanResultStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noThreatsFound
+        case threatsFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanResultStatus] {
+            return [
+                .noThreatsFound,
+                .threatsFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noThreatsFound: return "NO_THREATS_FOUND"
+            case .threatsFound: return "THREATS_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about a specific threat that was detected during the malware scan.
+    public struct ScanResultThreat: Swift.Sendable {
+        /// The number of instances of this threat that were detected.
+        public var count: Swift.Int?
+        /// The hash value associated with the detected threat.
+        public var hash: Swift.String?
+        /// Additional information about where this threat was detected.
+        public var itemDetails: [GuardDutyClientTypes.ItemDetails]?
+        /// The name of the detected threat.
+        public var name: Swift.String?
+        /// The source that detected this threat.
+        public var source: GuardDutyClientTypes.DetectionSource?
+
+        public init(
+            count: Swift.Int? = nil,
+            hash: Swift.String? = nil,
+            itemDetails: [GuardDutyClientTypes.ItemDetails]? = nil,
+            name: Swift.String? = nil,
+            source: GuardDutyClientTypes.DetectionSource? = nil
+        ) {
+            self.count = count
+            self.hash = hash
+            self.itemDetails = itemDetails
+            self.name = name
+            self.source = source
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the results of the malware scan.
+    public struct GetMalwareScanResultDetails: Swift.Sendable {
+        /// The total number of files that failed to be scanned.
+        public var failedFileCount: Swift.Int?
+        /// Status indicating whether threats were found for a completed scan.
+        public var scanResultStatus: GuardDutyClientTypes.ScanResultStatus?
+        /// The total number of files that were skipped during the scan.
+        public var skippedFileCount: Swift.Int?
+        /// The total number of files in which threats were detected.
+        public var threatFoundFileCount: Swift.Int?
+        /// The threats that were detected during the malware scan.
+        public var threats: [GuardDutyClientTypes.ScanResultThreat]?
+        /// The total number of bytes that were scanned.
+        public var totalBytes: Swift.Int?
+        /// The total number of files that were processed during the scan.
+        public var totalFileCount: Swift.Int?
+        /// The total number of unique threats that were detected during the scan.
+        public var uniqueThreatCount: Swift.Int?
+
+        public init(
+            failedFileCount: Swift.Int? = nil,
+            scanResultStatus: GuardDutyClientTypes.ScanResultStatus? = nil,
+            skippedFileCount: Swift.Int? = nil,
+            threatFoundFileCount: Swift.Int? = nil,
+            threats: [GuardDutyClientTypes.ScanResultThreat]? = nil,
+            totalBytes: Swift.Int? = nil,
+            totalFileCount: Swift.Int? = nil,
+            uniqueThreatCount: Swift.Int? = nil
+        ) {
+            self.failedFileCount = failedFileCount
+            self.scanResultStatus = scanResultStatus
+            self.skippedFileCount = skippedFileCount
+            self.threatFoundFileCount = threatFoundFileCount
+            self.threats = threats
+            self.totalBytes = totalBytes
+            self.totalFileCount = totalFileCount
+            self.uniqueThreatCount = uniqueThreatCount
+        }
+    }
+}
+
+public struct GetMalwareScanOutput: Swift.Sendable {
+    /// The unique detector ID of the administrator account that the request is associated with. If the account is an administrator, the AdminDetectorId will be the same as the one used for DetectorId. If the customer is not a GuardDuty customer, this field will not be present.. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    public var adminDetectorId: Swift.String?
+    /// The unique ID of the detector that is associated with the request, if it belongs to an account which is a GuardDuty customer. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    public var detectorId: Swift.String?
+    /// The total number of resources that failed to be scanned.
+    public var failedResourcesCount: Swift.Int?
+    /// Amazon Resource Name (ARN) of the resource on which a malware scan was invoked.
+    public var resourceArn: Swift.String?
+    /// The type of resource that was scanned for malware.
+    public var resourceType: GuardDutyClientTypes.MalwareProtectionResourceType?
+    /// The category of the malware scan, indicating the type of scan performed.
+    public var scanCategory: GuardDutyClientTypes.ScanCategory?
+    /// The timestamp representing when the malware scan was completed.
+    public var scanCompletedAt: Foundation.Date?
+    /// Information about the scan configuration used for the malware scan.
+    public var scanConfiguration: GuardDutyClientTypes.ScanConfiguration?
+    /// A unique identifier associated with the malware scan. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+    public var scanId: Swift.String?
+    /// Detailed information about the results of the malware scan, if the scan completed.
+    public var scanResultDetails: GuardDutyClientTypes.GetMalwareScanResultDetails?
+    /// The timestamp representing when the malware scan was started.
+    public var scanStartedAt: Foundation.Date?
+    /// A value representing the current status of the malware scan.
+    public var scanStatus: GuardDutyClientTypes.MalwareProtectionScanStatus?
+    /// Represents the reason for the current scan status, if applicable.
+    public var scanStatusReason: GuardDutyClientTypes.ScanStatusReason?
+    /// A value representing the initiator of the scan.
+    public var scanType: GuardDutyClientTypes.MalwareProtectionScanType?
+    /// A list of resources along with their metadata that were scanned as part of the malware scan operation.
+    public var scannedResources: [GuardDutyClientTypes.ScannedResource]?
+    /// The total number of resources that were successfully scanned. This is dependent on the resource type.
+    public var scannedResourcesCount: Swift.Int?
+    /// The total number of resources that were skipped during the scan.
+    public var skippedResourcesCount: Swift.Int?
+
+    public init(
+        adminDetectorId: Swift.String? = nil,
+        detectorId: Swift.String? = nil,
+        failedResourcesCount: Swift.Int? = nil,
+        resourceArn: Swift.String? = nil,
+        resourceType: GuardDutyClientTypes.MalwareProtectionResourceType? = nil,
+        scanCategory: GuardDutyClientTypes.ScanCategory? = nil,
+        scanCompletedAt: Foundation.Date? = nil,
+        scanConfiguration: GuardDutyClientTypes.ScanConfiguration? = nil,
+        scanId: Swift.String? = nil,
+        scanResultDetails: GuardDutyClientTypes.GetMalwareScanResultDetails? = nil,
+        scanStartedAt: Foundation.Date? = nil,
+        scanStatus: GuardDutyClientTypes.MalwareProtectionScanStatus? = nil,
+        scanStatusReason: GuardDutyClientTypes.ScanStatusReason? = nil,
+        scanType: GuardDutyClientTypes.MalwareProtectionScanType? = nil,
+        scannedResources: [GuardDutyClientTypes.ScannedResource]? = nil,
+        scannedResourcesCount: Swift.Int? = nil,
+        skippedResourcesCount: Swift.Int? = nil
+    ) {
+        self.adminDetectorId = adminDetectorId
+        self.detectorId = detectorId
+        self.failedResourcesCount = failedResourcesCount
+        self.resourceArn = resourceArn
+        self.resourceType = resourceType
+        self.scanCategory = scanCategory
+        self.scanCompletedAt = scanCompletedAt
+        self.scanConfiguration = scanConfiguration
+        self.scanId = scanId
+        self.scanResultDetails = scanResultDetails
+        self.scanStartedAt = scanStartedAt
+        self.scanStatus = scanStatus
+        self.scanStatusReason = scanStatusReason
+        self.scanType = scanType
+        self.scannedResources = scannedResources
+        self.scannedResourcesCount = scannedResourcesCount
+        self.skippedResourcesCount = skippedResourcesCount
+    }
+}
+
 public struct GetMalwareScanSettingsInput: Swift.Sendable {
     /// The unique ID of the detector that is associated with this scan. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
@@ -9145,6 +10178,7 @@ public struct GetOrganizationStatisticsOutput: Swift.Sendable {
 
 public struct GetRemainingFreeTrialDaysInput: Swift.Sendable {
     /// A list of account identifiers of the GuardDuty member account.
+    /// This member is required.
     public var accountIds: [Swift.String]?
     /// The unique ID of the detector of the GuardDuty member account. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
@@ -10220,7 +11254,7 @@ public struct ListIPSetsOutput: Swift.Sendable {
 }
 
 public struct ListMalwareProtectionPlansInput: Swift.Sendable {
-    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. The default page size is 100 plans.
     public var nextToken: Swift.String?
 
     public init(
@@ -10257,6 +11291,169 @@ public struct ListMalwareProtectionPlansOutput: Swift.Sendable {
     ) {
         self.malwareProtectionPlans = malwareProtectionPlans
         self.nextToken = nextToken
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum ListMalwareScansCriterionKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case guarddutyFindingId
+        case resourceArn
+        case resourceType
+        case scanId
+        case scanStartTime
+        case scanStatus
+        case scanType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListMalwareScansCriterionKey] {
+            return [
+                .accountId,
+                .guarddutyFindingId,
+                .resourceArn,
+                .resourceType,
+                .scanId,
+                .scanStartTime,
+                .scanStatus,
+                .scanType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "ACCOUNT_ID"
+            case .guarddutyFindingId: return "GUARDDUTY_FINDING_ID"
+            case .resourceArn: return "RESOURCE_ARN"
+            case .resourceType: return "RESOURCE_TYPE"
+            case .scanId: return "SCAN_ID"
+            case .scanStartTime: return "SCAN_START_TIME"
+            case .scanStatus: return "SCAN_STATUS"
+            case .scanType: return "SCAN_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Represents a condition that when matched will be added to the response of the operation. Irrespective of using any filter criteria, an administrator account can view the scan entries for all of its member accounts. However, each member account can view the scan entries only for their own account.
+    public struct ListMalwareScansFilterCriterion: Swift.Sendable {
+        /// Contains information about the condition.
+        public var filterCondition: GuardDutyClientTypes.FilterCondition?
+        /// An enum value representing possible scan properties to match with given scan entries.
+        public var listMalwareScansCriterionKey: GuardDutyClientTypes.ListMalwareScansCriterionKey?
+
+        public init(
+            filterCondition: GuardDutyClientTypes.FilterCondition? = nil,
+            listMalwareScansCriterionKey: GuardDutyClientTypes.ListMalwareScansCriterionKey? = nil
+        ) {
+            self.filterCondition = filterCondition
+            self.listMalwareScansCriterionKey = listMalwareScansCriterionKey
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Represents the criteria used to filter the malware scan entries.
+    public struct ListMalwareScansFilterCriteria: Swift.Sendable {
+        /// Represents a condition that when matched will be added to the response of the operation.
+        public var listMalwareScansFilterCriterion: [GuardDutyClientTypes.ListMalwareScansFilterCriterion]?
+
+        public init(
+            listMalwareScansFilterCriterion: [GuardDutyClientTypes.ListMalwareScansFilterCriterion]? = nil
+        ) {
+            self.listMalwareScansFilterCriterion = listMalwareScansFilterCriterion
+        }
+    }
+}
+
+public struct ListMalwareScansInput: Swift.Sendable {
+    /// Represents the criteria used to filter the malware scan entries.
+    public var filterCriteria: GuardDutyClientTypes.ListMalwareScansFilterCriteria?
+    /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
+    public var maxResults: Swift.Int?
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing results.
+    public var nextToken: Swift.String?
+    /// Represents the criteria used for sorting malware scan entries.
+    public var sortCriteria: GuardDutyClientTypes.SortCriteria?
+
+    public init(
+        filterCriteria: GuardDutyClientTypes.ListMalwareScansFilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortCriteria: GuardDutyClientTypes.SortCriteria? = nil
+    ) {
+        self.filterCriteria = filterCriteria
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortCriteria = sortCriteria
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about a particular malware scan.
+    public struct MalwareScan: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the resource for the given malware scan.
+        public var resourceArn: Swift.String?
+        /// The type of resource that was scanned for malware.
+        public var resourceType: GuardDutyClientTypes.MalwareProtectionResourceType?
+        /// The timestamp representing when the malware scan was completed.
+        public var scanCompletedAt: Foundation.Date?
+        /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+        public var scanId: Swift.String?
+        /// An enum value representing the result of the malware scan.
+        public var scanResultStatus: GuardDutyClientTypes.ScanResultStatus?
+        /// The timestamp representing when the malware scan was started.
+        public var scanStartedAt: Foundation.Date?
+        /// An enum value representing the current status of the malware scan.
+        public var scanStatus: GuardDutyClientTypes.MalwareProtectionScanStatus?
+        /// An enum value representing the type of scan that was initiated.
+        public var scanType: GuardDutyClientTypes.MalwareProtectionScanType?
+
+        public init(
+            resourceArn: Swift.String? = nil,
+            resourceType: GuardDutyClientTypes.MalwareProtectionResourceType? = nil,
+            scanCompletedAt: Foundation.Date? = nil,
+            scanId: Swift.String? = nil,
+            scanResultStatus: GuardDutyClientTypes.ScanResultStatus? = nil,
+            scanStartedAt: Foundation.Date? = nil,
+            scanStatus: GuardDutyClientTypes.MalwareProtectionScanStatus? = nil,
+            scanType: GuardDutyClientTypes.MalwareProtectionScanType? = nil
+        ) {
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+            self.scanCompletedAt = scanCompletedAt
+            self.scanId = scanId
+            self.scanResultStatus = scanResultStatus
+            self.scanStartedAt = scanStartedAt
+            self.scanStatus = scanStatus
+            self.scanType = scanType
+        }
+    }
+}
+
+public struct ListMalwareScansOutput: Swift.Sendable {
+    /// The pagination parameter to be used on the next list operation to retrieve more scans.
+    public var nextToken: Swift.String?
+    /// The list of malware scans associated with the provided input parameters.
+    /// This member is required.
+    public var scans: [GuardDutyClientTypes.MalwareScan]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scans: [GuardDutyClientTypes.MalwareScan]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.scans = scans
     }
 }
 
@@ -10496,15 +11693,102 @@ public struct ListTrustedEntitySetsOutput: Swift.Sendable {
     }
 }
 
+extension GuardDutyClientTypes {
+
+    /// The S3 object path to initiate a scan, including bucket name, object key, and optional version ID.
+    public struct S3ObjectForSendObjectMalwareScan: Swift.Sendable {
+        /// The name of the S3 bucket containing the object to scan. The bucket must have GuardDuty Malware Protection enabled.
+        public var bucket: Swift.String?
+        /// The key (name) of the S3 object to scan for malware. This must be the full key path of the object within the bucket.
+        public var key: Swift.String?
+        /// The version ID of the S3 object to scan. If not specified, the latest version of the object is scanned.
+        public var versionId: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            key: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.key = key
+            self.versionId = versionId
+        }
+    }
+}
+
+public struct SendObjectMalwareScanInput: Swift.Sendable {
+    /// The S3 object information for the object you want to scan. The bucket must have a Malware Protection plan configured to use this API.
+    public var s3Object: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan?
+
+    public init(
+        s3Object: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan? = nil
+    ) {
+        self.s3Object = s3Object
+    }
+}
+
+public struct SendObjectMalwareScanOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the recovery point configuration for scanning backup data from Amazon Web Services Backup.
+    public struct RecoveryPoint: Swift.Sendable {
+        /// The name of the Amazon Web Services Backup vault that contains the name of the recovery point to be scanned.
+        /// This member is required.
+        public var backupVaultName: Swift.String?
+
+        public init(
+            backupVaultName: Swift.String? = nil
+        ) {
+            self.backupVaultName = backupVaultName
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about the configuration to be used for the malware scan.
+    public struct StartMalwareScanConfiguration: Swift.Sendable {
+        /// Contains information about the incremental scan configuration. When specified, the scan will only process changes since the baseline resource.
+        public var incrementalScanDetails: GuardDutyClientTypes.IncrementalScanDetails?
+        /// Contains information about the recovery point configuration for the requested scan.
+        public var recoveryPoint: GuardDutyClientTypes.RecoveryPoint?
+        /// Amazon Resource Name (ARN) of the IAM role that is used for scanning the resource.
+        /// This member is required.
+        public var role: Swift.String?
+
+        public init(
+            incrementalScanDetails: GuardDutyClientTypes.IncrementalScanDetails? = nil,
+            recoveryPoint: GuardDutyClientTypes.RecoveryPoint? = nil,
+            role: Swift.String? = nil
+        ) {
+            self.incrementalScanDetails = incrementalScanDetails
+            self.recoveryPoint = recoveryPoint
+            self.role = role
+        }
+    }
+}
+
 public struct StartMalwareScanInput: Swift.Sendable {
+    /// The idempotency token for the create request.
+    public var clientToken: Swift.String?
     /// Amazon Resource Name (ARN) of the resource for which you invoked the API.
     /// This member is required.
     public var resourceArn: Swift.String?
+    /// Contains information about the configuration to be used for the malware scan.
+    public var scanConfiguration: GuardDutyClientTypes.StartMalwareScanConfiguration?
 
     public init(
-        resourceArn: Swift.String? = nil
+        clientToken: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        scanConfiguration: GuardDutyClientTypes.StartMalwareScanConfiguration? = nil
     ) {
+        self.clientToken = clientToken
         self.resourceArn = resourceArn
+        self.scanConfiguration = scanConfiguration
     }
 }
 
@@ -10746,6 +12030,11 @@ public struct UpdateFindingsFeedbackInput: Swift.Sendable {
         self.feedback = feedback
         self.findingIds = findingIds
     }
+}
+
+extension UpdateFindingsFeedbackInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFindingsFeedbackInput(detectorId: \(Swift.String(describing: detectorId)), feedback: \(Swift.String(describing: feedback)), findingIds: \(Swift.String(describing: findingIds)), comments: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateFindingsFeedbackOutput: Swift.Sendable {
@@ -11733,6 +13022,16 @@ extension GetMalwareProtectionPlanInput {
     }
 }
 
+extension GetMalwareScanInput {
+
+    static func urlPathProvider(_ value: GetMalwareScanInput) -> Swift.String? {
+        guard let scanId = value.scanId else {
+            return nil
+        }
+        return "/malware-scan/\(scanId.urlPercentEncoding())"
+    }
+}
+
 extension GetMalwareScanSettingsInput {
 
     static func urlPathProvider(_ value: GetMalwareScanSettingsInput) -> Swift.String? {
@@ -11986,6 +13285,29 @@ extension ListMalwareProtectionPlansInput {
     }
 }
 
+extension ListMalwareScansInput {
+
+    static func urlPathProvider(_ value: ListMalwareScansInput) -> Swift.String? {
+        return "/malware-scan"
+    }
+}
+
+extension ListMalwareScansInput {
+
+    static func queryItemProvider(_ value: ListMalwareScansInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListMembersInput {
 
     static func urlPathProvider(_ value: ListMembersInput) -> Swift.String? {
@@ -12150,6 +13472,13 @@ extension ListTrustedEntitySetsInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension SendObjectMalwareScanInput {
+
+    static func urlPathProvider(_ value: SendObjectMalwareScanInput) -> Swift.String? {
+        return "/object-malware-scan/send"
     }
 }
 
@@ -12458,6 +13787,7 @@ extension CreatePublishingDestinationInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["destinationProperties"].write(value.destinationProperties, with: GuardDutyClientTypes.DestinationProperties.write(value:to:))
         try writer["destinationType"].write(value.destinationType)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -12668,11 +13998,30 @@ extension ListFindingsInput {
     }
 }
 
+extension ListMalwareScansInput {
+
+    static func write(value: ListMalwareScansInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterCriteria"].write(value.filterCriteria, with: GuardDutyClientTypes.ListMalwareScansFilterCriteria.write(value:to:))
+        try writer["sortCriteria"].write(value.sortCriteria, with: GuardDutyClientTypes.SortCriteria.write(value:to:))
+    }
+}
+
+extension SendObjectMalwareScanInput {
+
+    static func write(value: SendObjectMalwareScanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Object"].write(value.s3Object, with: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan.write(value:to:))
+    }
+}
+
 extension StartMalwareScanInput {
 
     static func write(value: StartMalwareScanInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["resourceArn"].write(value.resourceArn)
+        try writer["scanConfiguration"].write(value.scanConfiguration, with: GuardDutyClientTypes.StartMalwareScanConfiguration.write(value:to:))
     }
 }
 
@@ -13103,6 +14452,7 @@ extension DescribePublishingDestinationOutput {
         value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
         value.publishingFailureStartTimestamp = try reader["publishingFailureStartTimestamp"].readIfPresent() ?? 0
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -13276,6 +14626,34 @@ extension GetMalwareProtectionPlanOutput {
         value.status = try reader["status"].readIfPresent()
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MalwareProtectionPlanStatusReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetMalwareScanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMalwareScanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMalwareScanOutput()
+        value.adminDetectorId = try reader["adminDetectorId"].readIfPresent()
+        value.detectorId = try reader["detectorId"].readIfPresent()
+        value.failedResourcesCount = try reader["failedResourcesCount"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.scanCategory = try reader["scanCategory"].readIfPresent()
+        value.scanCompletedAt = try reader["scanCompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanConfiguration = try reader["scanConfiguration"].readIfPresent(with: GuardDutyClientTypes.ScanConfiguration.read(from:))
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.scanResultDetails = try reader["scanResultDetails"].readIfPresent(with: GuardDutyClientTypes.GetMalwareScanResultDetails.read(from:))
+        value.scanStartedAt = try reader["scanStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanStatus = try reader["scanStatus"].readIfPresent()
+        value.scanStatusReason = try reader["scanStatusReason"].readIfPresent()
+        value.scanType = try reader["scanType"].readIfPresent()
+        value.scannedResources = try reader["scannedResources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScannedResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scannedResourcesCount = try reader["scannedResourcesCount"].readIfPresent()
+        value.skippedResourcesCount = try reader["skippedResourcesCount"].readIfPresent()
         return value
     }
 }
@@ -13529,6 +14907,19 @@ extension ListMalwareProtectionPlansOutput {
     }
 }
 
+extension ListMalwareScansOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMalwareScansOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMalwareScansOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.scans = try reader["scans"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MalwareScan.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListMembersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMembersOutput {
@@ -13616,6 +15007,13 @@ extension ListTrustedEntitySetsOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.trustedEntitySetIds = try reader["trustedEntitySetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension SendObjectMalwareScanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendObjectMalwareScanOutput {
+        return SendObjectMalwareScanOutput()
     }
 }
 
@@ -14393,6 +15791,22 @@ enum GetMalwareProtectionPlanOutputError {
     }
 }
 
+enum GetMalwareScanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetMalwareScanSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14664,6 +16078,21 @@ enum ListMalwareProtectionPlansOutputError {
     }
 }
 
+enum ListMalwareScansOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListMembersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14763,6 +16192,22 @@ enum ListTrustedEntitySetsOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendObjectMalwareScanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -15237,6 +16682,7 @@ extension GuardDutyClientTypes.TriggerDetails {
         var value = GuardDutyClientTypes.TriggerDetails()
         value.guardDutyFindingId = try reader["guardDutyFindingId"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        value.triggerType = try reader["triggerType"].readIfPresent()
         return value
     }
 }
@@ -15506,8 +16952,10 @@ extension GuardDutyClientTypes.Condition {
         try writer["lessThanOrEqual"].write(value.lessThanOrEqual)
         try writer["lt"].write(value.lt)
         try writer["lte"].write(value.lte)
+        try writer["matches"].writeList(value.matches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["neq"].writeList(value.neq, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["notEquals"].writeList(value.notEquals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["notMatches"].writeList(value.notMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Condition {
@@ -15525,6 +16973,8 @@ extension GuardDutyClientTypes.Condition {
         value.greaterThanOrEqual = try reader["greaterThanOrEqual"].readIfPresent()
         value.lessThan = try reader["lessThan"].readIfPresent()
         value.lessThanOrEqual = try reader["lessThanOrEqual"].readIfPresent()
+        value.matches = try reader["matches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.notMatches = try reader["notMatches"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15585,6 +17035,37 @@ extension GuardDutyClientTypes.MalwareScanDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.MalwareScanDetails()
         value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Threat.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.scanType = try reader["scanType"].readIfPresent()
+        value.scanCategory = try reader["scanCategory"].readIfPresent()
+        value.scanConfiguration = try reader["scanConfiguration"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration.read(from:))
+        value.uniqueThreatCount = try reader["uniqueThreatCount"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration()
+        value.triggerType = try reader["triggerType"].readIfPresent()
+        value.incrementalScanDetails = try reader["incrementalScanDetails"].readIfPresent(with: GuardDutyClientTypes.IncrementalScanDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.IncrementalScanDetails {
+
+    static func write(value: GuardDutyClientTypes.IncrementalScanDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["baselineResourceArn"].write(value.baselineResourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IncrementalScanDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.IncrementalScanDetails()
+        value.baselineResourceArn = try reader["baselineResourceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15597,6 +17078,33 @@ extension GuardDutyClientTypes.Threat {
         value.name = try reader["name"].readIfPresent()
         value.source = try reader["source"].readIfPresent()
         value.itemPaths = try reader["itemPaths"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemPath.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.count = try reader["count"].readIfPresent()
+        value.hash = try reader["hash"].readIfPresent()
+        value.itemDetails = try reader["itemDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ItemDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ItemDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ItemDetails()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.itemPath = try reader["itemPath"].readIfPresent()
+        value.hash = try reader["hash"].readIfPresent()
+        value.additionalInfo = try reader["additionalInfo"].readIfPresent(with: GuardDutyClientTypes.AdditionalInfo.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AdditionalInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AdditionalInfo()
+        value.versionId = try reader["versionId"].readIfPresent()
+        value.deviceName = try reader["deviceName"].readIfPresent()
         return value
     }
 }
@@ -15756,6 +17264,99 @@ extension GuardDutyClientTypes.ResourceData {
         value.eksCluster = try reader["eksCluster"].readIfPresent(with: GuardDutyClientTypes.EksCluster.read(from:))
         value.kubernetesWorkload = try reader["kubernetesWorkload"].readIfPresent(with: GuardDutyClientTypes.KubernetesWorkload.read(from:))
         value.container = try reader["container"].readIfPresent(with: GuardDutyClientTypes.ContainerFindingResource.read(from:))
+        value.ecsCluster = try reader["ecsCluster"].readIfPresent(with: GuardDutyClientTypes.EcsCluster.read(from:))
+        value.ecsTask = try reader["ecsTask"].readIfPresent(with: GuardDutyClientTypes.EcsTask.read(from:))
+        value.iamInstanceProfile = try reader["iamInstanceProfile"].readIfPresent(with: GuardDutyClientTypes.IamInstanceProfileV2.read(from:))
+        value.autoscalingAutoScalingGroup = try reader["autoscalingAutoScalingGroup"].readIfPresent(with: GuardDutyClientTypes.AutoscalingAutoScalingGroup.read(from:))
+        value.ec2LaunchTemplate = try reader["ec2LaunchTemplate"].readIfPresent(with: GuardDutyClientTypes.Ec2LaunchTemplate.read(from:))
+        value.ec2Vpc = try reader["ec2Vpc"].readIfPresent(with: GuardDutyClientTypes.Ec2Vpc.read(from:))
+        value.ec2Image = try reader["ec2Image"].readIfPresent(with: GuardDutyClientTypes.Ec2Image.read(from:))
+        value.cloudformationStack = try reader["cloudformationStack"].readIfPresent(with: GuardDutyClientTypes.CloudformationStack.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CloudformationStack {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CloudformationStack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CloudformationStack()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2Image {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Image {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2Image()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2Vpc {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Vpc {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2Vpc()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2LaunchTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2LaunchTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2LaunchTemplate()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AutoscalingAutoScalingGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AutoscalingAutoScalingGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AutoscalingAutoScalingGroup()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.IamInstanceProfileV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfileV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.IamInstanceProfileV2()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EcsTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EcsTask()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.taskDefinitionArn = try reader["taskDefinitionArn"].readIfPresent()
+        value.launchType = try reader["launchType"].readIfPresent()
+        value.containerUids = try reader["containerUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EcsCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EcsCluster()
+        value.status = try reader["status"].readIfPresent()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16573,6 +18174,40 @@ extension GuardDutyClientTypes.Resource {
         value.rdsLimitlessDbDetails = try reader["rdsLimitlessDbDetails"].readIfPresent(with: GuardDutyClientTypes.RdsLimitlessDbDetails.read(from:))
         value.rdsDbUserDetails = try reader["rdsDbUserDetails"].readIfPresent(with: GuardDutyClientTypes.RdsDbUserDetails.read(from:))
         value.lambdaDetails = try reader["lambdaDetails"].readIfPresent(with: GuardDutyClientTypes.LambdaDetails.read(from:))
+        value.ebsSnapshotDetails = try reader["ebsSnapshotDetails"].readIfPresent(with: GuardDutyClientTypes.EbsSnapshotDetails.read(from:))
+        value.ec2ImageDetails = try reader["ec2ImageDetails"].readIfPresent(with: GuardDutyClientTypes.Ec2ImageDetails.read(from:))
+        value.recoveryPointDetails = try reader["recoveryPointDetails"].readIfPresent(with: GuardDutyClientTypes.RecoveryPointDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RecoveryPointDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RecoveryPointDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RecoveryPointDetails()
+        value.recoveryPointArn = try reader["recoveryPointArn"].readIfPresent()
+        value.backupVaultName = try reader["backupVaultName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2ImageDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2ImageDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2ImageDetails()
+        value.imageArn = try reader["imageArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EbsSnapshotDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsSnapshotDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EbsSnapshotDetails()
+        value.snapshotArn = try reader["snapshotArn"].readIfPresent()
         return value
     }
 }
@@ -16647,6 +18282,7 @@ extension GuardDutyClientTypes.RdsDbInstanceDetails {
         value.engineVersion = try reader["engineVersion"].readIfPresent()
         value.dbClusterIdentifier = try reader["dbClusterIdentifier"].readIfPresent()
         value.dbInstanceArn = try reader["dbInstanceArn"].readIfPresent()
+        value.dbiResourceId = try reader["dbiResourceId"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -17166,6 +18802,95 @@ extension GuardDutyClientTypes.MalwareProtectionPlanStatusReason {
     }
 }
 
+extension GuardDutyClientTypes.ScannedResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScannedResource()
+        value.scannedResourceArn = try reader["scannedResourceArn"].readIfPresent()
+        value.scannedResourceType = try reader["scannedResourceType"].readIfPresent()
+        value.scannedResourceStatus = try reader["scannedResourceStatus"].readIfPresent()
+        value.scanStatusReason = try reader["scanStatusReason"].readIfPresent()
+        value.resourceDetails = try reader["resourceDetails"].readIfPresent(with: GuardDutyClientTypes.ScannedResourceDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScannedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScannedResourceDetails()
+        value.ebsVolume = try reader["ebsVolume"].readIfPresent(with: GuardDutyClientTypes.VolumeDetail.read(from:))
+        value.ebsSnapshot = try reader["ebsSnapshot"].readIfPresent(with: GuardDutyClientTypes.EbsSnapshot.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EbsSnapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EbsSnapshot()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScanConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanConfiguration()
+        value.role = try reader["role"].readIfPresent()
+        value.triggerDetails = try reader["triggerDetails"].readIfPresent(with: GuardDutyClientTypes.TriggerDetails.read(from:))
+        value.incrementalScanDetails = try reader["incrementalScanDetails"].readIfPresent(with: GuardDutyClientTypes.IncrementalScanDetails.read(from:))
+        value.recoveryPoint = try reader["recoveryPoint"].readIfPresent(with: GuardDutyClientTypes.ScanConfigurationRecoveryPoint.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanConfigurationRecoveryPoint()
+        value.backupVaultName = try reader["backupVaultName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.GetMalwareScanResultDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.GetMalwareScanResultDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.GetMalwareScanResultDetails()
+        value.scanResultStatus = try reader["scanResultStatus"].readIfPresent()
+        value.skippedFileCount = try reader["skippedFileCount"].readIfPresent()
+        value.failedFileCount = try reader["failedFileCount"].readIfPresent()
+        value.threatFoundFileCount = try reader["threatFoundFileCount"].readIfPresent()
+        value.totalFileCount = try reader["totalFileCount"].readIfPresent()
+        value.totalBytes = try reader["totalBytes"].readIfPresent()
+        value.uniqueThreatCount = try reader["uniqueThreatCount"].readIfPresent()
+        value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanResultThreat.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScanResultThreat {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanResultThreat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanResultThreat()
+        value.name = try reader["name"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        value.hash = try reader["hash"].readIfPresent()
+        value.itemDetails = try reader["itemDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.ScanResourceCriteria {
 
     static func write(value: GuardDutyClientTypes.ScanResourceCriteria?, to writer: SmithyJSON.Writer) throws {
@@ -17625,6 +19350,23 @@ extension GuardDutyClientTypes.MalwareProtectionPlanSummary {
     }
 }
 
+extension GuardDutyClientTypes.MalwareScan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareScan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareScan()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.scanStatus = try reader["scanStatus"].readIfPresent()
+        value.scanResultStatus = try reader["scanResultStatus"].readIfPresent()
+        value.scanType = try reader["scanType"].readIfPresent()
+        value.scanStartedAt = try reader["scanStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanCompletedAt = try reader["scanCompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.AdminAccount {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AdminAccount {
@@ -17805,6 +19547,51 @@ extension GuardDutyClientTypes.CoverageSortCriteria {
         guard let value else { return }
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
+    }
+}
+
+extension GuardDutyClientTypes.ListMalwareScansFilterCriteria {
+
+    static func write(value: GuardDutyClientTypes.ListMalwareScansFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterCriterion"].writeList(value.listMalwareScansFilterCriterion, memberWritingClosure: GuardDutyClientTypes.ListMalwareScansFilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GuardDutyClientTypes.ListMalwareScansFilterCriterion {
+
+    static func write(value: GuardDutyClientTypes.ListMalwareScansFilterCriterion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.FilterCondition.write(value:to:))
+        try writer["criterionKey"].write(value.listMalwareScansCriterionKey)
+    }
+}
+
+extension GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan {
+
+    static func write(value: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+        try writer["versionId"].write(value.versionId)
+    }
+}
+
+extension GuardDutyClientTypes.StartMalwareScanConfiguration {
+
+    static func write(value: GuardDutyClientTypes.StartMalwareScanConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["incrementalScanDetails"].write(value.incrementalScanDetails, with: GuardDutyClientTypes.IncrementalScanDetails.write(value:to:))
+        try writer["recoveryPoint"].write(value.recoveryPoint, with: GuardDutyClientTypes.RecoveryPoint.write(value:to:))
+        try writer["role"].write(value.role)
+    }
+}
+
+extension GuardDutyClientTypes.RecoveryPoint {
+
+    static func write(value: GuardDutyClientTypes.RecoveryPoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["backupVaultName"].write(value.backupVaultName)
     }
 }
 

@@ -32,6 +32,12 @@ class AWSHttpProtocolServiceClient(
     private val writer: SwiftWriter,
     private val serviceConfig: ServiceConfig,
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
+    override var clientProtocolSymbol = AWSClientRuntimeTypes.Core.AWSServiceClient
+
+    override fun renderVersionProperty() {
+        // No content, version property is provided by a protocol extension on AWSClient
+    }
+
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
         writer.openBlock("public convenience init(region: \$N) throws {", "}", SwiftTypes.String) {
             writer.write("let config = try \$L(region: region)", serviceConfig.typeName)
@@ -65,7 +71,7 @@ class AWSHttpProtocolServiceClient(
                             {
                                 it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain)
                             },
-                            true,
+                            false,
                         )
                     } else {
                         property

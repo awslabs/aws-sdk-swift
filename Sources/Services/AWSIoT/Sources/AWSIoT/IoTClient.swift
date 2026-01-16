@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -68,9 +69,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IoTClient: ClientRuntime.Client {
+public class IoTClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTClient.IoTClientConfiguration
     let serviceName = "IoT"
@@ -376,9 +376,9 @@ extension IoTClient {
     ///
     /// Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. Requires permission to access the [AcceptCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter AcceptCertificateTransferInput : The input for the AcceptCertificateTransfer operation.
+    /// - Parameter input: The input for the AcceptCertificateTransfer operation. (Type: `AcceptCertificateTransferInput`)
     ///
-    /// - Returns: `AcceptCertificateTransferOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptCertificateTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +416,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AcceptCertificateTransferInput, AcceptCertificateTransferOutput>(AcceptCertificateTransferInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptCertificateTransferOutput>(AcceptCertificateTransferOutput.httpOutput(from:), AcceptCertificateTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptCertificateTransferInput, AcceptCertificateTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptCertificateTransferOutput>())
@@ -447,9 +448,9 @@ extension IoTClient {
     ///
     /// Adds a thing to a billing group. Requires permission to access the [AddThingToBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter AddThingToBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddThingToBillingGroupInput`)
     ///
-    /// - Returns: `AddThingToBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddThingToBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,6 +487,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddThingToBillingGroupInput, AddThingToBillingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddThingToBillingGroupOutput>(AddThingToBillingGroupOutput.httpOutput(from:), AddThingToBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddThingToBillingGroupInput, AddThingToBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddThingToBillingGroupOutput>())
@@ -517,9 +519,9 @@ extension IoTClient {
     ///
     /// Adds a thing to a thing group. Requires permission to access the [AddThingToThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter AddThingToThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddThingToThingGroupInput`)
     ///
-    /// - Returns: `AddThingToThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddThingToThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,6 +558,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddThingToThingGroupInput, AddThingToThingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddThingToThingGroupOutput>(AddThingToThingGroupOutput.httpOutput(from:), AddThingToThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddThingToThingGroupInput, AddThingToThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddThingToThingGroupOutput>())
@@ -587,9 +590,9 @@ extension IoTClient {
     ///
     /// Associates the selected software bill of materials (SBOM) with a specific software package version. Requires permission to access the [AssociateSbomWithPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter AssociateSbomWithPackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSbomWithPackageVersionInput`)
     ///
-    /// - Returns: `AssociateSbomWithPackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSbomWithPackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,6 +633,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSbomWithPackageVersionInput, AssociateSbomWithPackageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSbomWithPackageVersionOutput>(AssociateSbomWithPackageVersionOutput.httpOutput(from:), AssociateSbomWithPackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSbomWithPackageVersionInput, AssociateSbomWithPackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSbomWithPackageVersionOutput>())
@@ -670,9 +674,9 @@ extension IoTClient {
     ///
     /// Requires permission to access the [AssociateTargetsWithJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter AssociateTargetsWithJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTargetsWithJobInput`)
     ///
-    /// - Returns: `AssociateTargetsWithJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTargetsWithJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -711,6 +715,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateTargetsWithJobInput, AssociateTargetsWithJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTargetsWithJobOutput>(AssociateTargetsWithJobOutput.httpOutput(from:), AssociateTargetsWithJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTargetsWithJobInput, AssociateTargetsWithJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTargetsWithJobOutput>())
@@ -742,9 +747,9 @@ extension IoTClient {
     ///
     /// Attaches the specified policy to the specified principal (certificate or other credential). Requires permission to access the [AttachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter AttachPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachPolicyInput`)
     ///
-    /// - Returns: `AttachPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,6 +789,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachPolicyInput, AttachPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachPolicyOutput>(AttachPolicyOutput.httpOutput(from:), AttachPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachPolicyInput, AttachPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachPolicyOutput>())
@@ -816,9 +822,9 @@ extension IoTClient {
     /// Attaches the specified policy to the specified principal (certificate or other credential). Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [AttachPolicy] instead. Requires permission to access the [AttachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
     ///
-    /// - Parameter AttachPrincipalPolicyInput : The input for the AttachPrincipalPolicy operation.
+    /// - Parameter input: The input for the AttachPrincipalPolicy operation. (Type: `AttachPrincipalPolicyInput`)
     ///
-    /// - Returns: `AttachPrincipalPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachPrincipalPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,6 +862,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<AttachPrincipalPolicyInput, AttachPrincipalPolicyOutput>(AttachPrincipalPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachPrincipalPolicyOutput>(AttachPrincipalPolicyOutput.httpOutput(from:), AttachPrincipalPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachPrincipalPolicyInput, AttachPrincipalPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachPrincipalPolicyOutput>())
@@ -887,9 +894,9 @@ extension IoTClient {
     ///
     /// Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it. Requires permission to access the [AttachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter AttachSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachSecurityProfileInput`)
     ///
-    /// - Returns: `AttachSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -926,6 +933,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AttachSecurityProfileInput, AttachSecurityProfileOutput>(AttachSecurityProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachSecurityProfileOutput>(AttachSecurityProfileOutput.httpOutput(from:), AttachSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachSecurityProfileInput, AttachSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachSecurityProfileOutput>())
@@ -957,9 +965,9 @@ extension IoTClient {
     ///
     /// Attaches the specified principal to the specified thing. A principal can be X.509 certificates, Amazon Cognito identities or federated identities. Requires permission to access the [AttachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter AttachThingPrincipalInput : The input for the AttachThingPrincipal operation.
+    /// - Parameter input: The input for the AttachThingPrincipal operation. (Type: `AttachThingPrincipalInput`)
     ///
-    /// - Returns: `AttachThingPrincipalOutput` : The output from the AttachThingPrincipal operation.
+    /// - Returns: The output from the AttachThingPrincipal operation. (Type: `AttachThingPrincipalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,6 +1005,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AttachThingPrincipalInput, AttachThingPrincipalOutput>(AttachThingPrincipalInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachThingPrincipalOutput>(AttachThingPrincipalOutput.httpOutput(from:), AttachThingPrincipalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachThingPrincipalInput, AttachThingPrincipalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachThingPrincipalOutput>())
@@ -1028,9 +1037,9 @@ extension IoTClient {
     ///
     /// Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs. Requires permission to access the [CancelAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CancelAuditMitigationActionsTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelAuditMitigationActionsTaskInput`)
     ///
-    /// - Returns: `CancelAuditMitigationActionsTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelAuditMitigationActionsTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1064,6 +1073,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAuditMitigationActionsTaskInput, CancelAuditMitigationActionsTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelAuditMitigationActionsTaskOutput>(CancelAuditMitigationActionsTaskOutput.httpOutput(from:), CancelAuditMitigationActionsTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAuditMitigationActionsTaskInput, CancelAuditMitigationActionsTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAuditMitigationActionsTaskOutput>())
@@ -1095,9 +1105,9 @@ extension IoTClient {
     ///
     /// Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an "InvalidRequestException" occurs. Requires permission to access the [CancelAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CancelAuditTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelAuditTaskInput`)
     ///
-    /// - Returns: `CancelAuditTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelAuditTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,6 +1141,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAuditTaskInput, CancelAuditTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelAuditTaskOutput>(CancelAuditTaskOutput.httpOutput(from:), CancelAuditTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAuditTaskInput, CancelAuditTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAuditTaskOutput>())
@@ -1162,9 +1173,9 @@ extension IoTClient {
     ///
     /// Cancels a pending transfer for the specified certificate. Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use [RejectCertificateTransfer] instead.) After transfer, IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE. Requires permission to access the [CancelCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CancelCertificateTransferInput : The input for the CancelCertificateTransfer operation.
+    /// - Parameter input: The input for the CancelCertificateTransfer operation. (Type: `CancelCertificateTransferInput`)
     ///
-    /// - Returns: `CancelCertificateTransferOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelCertificateTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1201,6 +1212,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelCertificateTransferInput, CancelCertificateTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelCertificateTransferOutput>(CancelCertificateTransferOutput.httpOutput(from:), CancelCertificateTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelCertificateTransferInput, CancelCertificateTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelCertificateTransferOutput>())
@@ -1232,9 +1244,9 @@ extension IoTClient {
     ///
     /// Cancels a Device Defender ML Detect mitigation action. Requires permission to access the [CancelDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CancelDetectMitigationActionsTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelDetectMitigationActionsTaskInput`)
     ///
-    /// - Returns: `CancelDetectMitigationActionsTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelDetectMitigationActionsTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,6 +1280,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelDetectMitigationActionsTaskInput, CancelDetectMitigationActionsTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDetectMitigationActionsTaskOutput>(CancelDetectMitigationActionsTaskOutput.httpOutput(from:), CancelDetectMitigationActionsTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDetectMitigationActionsTaskInput, CancelDetectMitigationActionsTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDetectMitigationActionsTaskOutput>())
@@ -1299,9 +1312,9 @@ extension IoTClient {
     ///
     /// Cancels a job. Requires permission to access the [CancelJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CancelJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1340,6 +1353,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelJobInput, CancelJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobOutput>())
@@ -1371,9 +1385,9 @@ extension IoTClient {
     ///
     /// Cancels the execution of a job for a given thing. Requires permission to access the [CancelJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CancelJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobExecutionInput`)
     ///
-    /// - Returns: `CancelJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1413,6 +1427,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelJobExecutionInput, CancelJobExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobExecutionOutput>(CancelJobExecutionOutput.httpOutput(from:), CancelJobExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobExecutionInput, CancelJobExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobExecutionOutput>())
@@ -1444,9 +1459,9 @@ extension IoTClient {
     ///
     /// Clears the default authorizer. Requires permission to access the [ClearDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ClearDefaultAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ClearDefaultAuthorizerInput`)
     ///
-    /// - Returns: `ClearDefaultAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ClearDefaultAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,6 +1497,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ClearDefaultAuthorizerInput, ClearDefaultAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ClearDefaultAuthorizerOutput>(ClearDefaultAuthorizerOutput.httpOutput(from:), ClearDefaultAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ClearDefaultAuthorizerInput, ClearDefaultAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ClearDefaultAuthorizerOutput>())
@@ -1513,9 +1529,9 @@ extension IoTClient {
     ///
     /// Confirms a topic rule destination. When you create a rule requiring a destination, IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint. Requires permission to access the [ConfirmTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ConfirmTopicRuleDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfirmTopicRuleDestinationInput`)
     ///
-    /// - Returns: `ConfirmTopicRuleDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfirmTopicRuleDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1550,6 +1566,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ConfirmTopicRuleDestinationInput, ConfirmTopicRuleDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmTopicRuleDestinationOutput>(ConfirmTopicRuleDestinationOutput.httpOutput(from:), ConfirmTopicRuleDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmTopicRuleDestinationInput, ConfirmTopicRuleDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmTopicRuleDestinationOutput>())
@@ -1581,9 +1598,9 @@ extension IoTClient {
     ///
     /// Creates a Device Defender audit suppression. Requires permission to access the [CreateAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateAuditSuppressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAuditSuppressionInput`)
     ///
-    /// - Returns: `CreateAuditSuppressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAuditSuppressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,6 +1639,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAuditSuppressionInput, CreateAuditSuppressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAuditSuppressionOutput>(CreateAuditSuppressionOutput.httpOutput(from:), CreateAuditSuppressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAuditSuppressionInput, CreateAuditSuppressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAuditSuppressionOutput>())
@@ -1653,9 +1671,9 @@ extension IoTClient {
     ///
     /// Creates an authorizer. Requires permission to access the [CreateAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAuthorizerInput`)
     ///
-    /// - Returns: `CreateAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1695,6 +1713,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAuthorizerInput, CreateAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAuthorizerOutput>(CreateAuthorizerOutput.httpOutput(from:), CreateAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAuthorizerInput, CreateAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAuthorizerOutput>())
@@ -1726,9 +1745,9 @@ extension IoTClient {
     ///
     /// Creates a billing group. If this call is made multiple times using the same billing group name and configuration, the call will succeed. If this call is made with the same billing group name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the [CreateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBillingGroupInput`)
     ///
-    /// - Returns: `CreateBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1765,6 +1784,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBillingGroupInput, CreateBillingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBillingGroupOutput>(CreateBillingGroupOutput.httpOutput(from:), CreateBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBillingGroupInput, CreateBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBillingGroupOutput>())
@@ -1796,9 +1816,9 @@ extension IoTClient {
     ///
     /// Creates an X.509 certificate using the specified certificate signing request. Requires permission to access the [CreateCertificateFromCsr](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms). Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is: $ ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr Amazon Web Services CLI command to create a certificate for the corresponding CSR. You can also run the aws iot create-certificate-from-csr part of the command in parallel to speed up the certificate creation process: $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}  On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: > ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/$_}  On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: > forfiles /p my-csr-directory /c "cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path"
     ///
-    /// - Parameter CreateCertificateFromCsrInput : The input for the CreateCertificateFromCsr operation.
+    /// - Parameter input: The input for the CreateCertificateFromCsr operation. (Type: `CreateCertificateFromCsrInput`)
     ///
-    /// - Returns: `CreateCertificateFromCsrOutput` : The output from the CreateCertificateFromCsr operation.
+    /// - Returns: The output from the CreateCertificateFromCsr operation. (Type: `CreateCertificateFromCsrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1837,6 +1857,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCertificateFromCsrInput, CreateCertificateFromCsrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCertificateFromCsrOutput>(CreateCertificateFromCsrOutput.httpOutput(from:), CreateCertificateFromCsrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCertificateFromCsrInput, CreateCertificateFromCsrOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCertificateFromCsrOutput>())
@@ -1868,9 +1889,9 @@ extension IoTClient {
     ///
     /// Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web Services IoT Core certificate provider to customize how to sign a certificate signing request (CSR) in IoT fleet provisioning. For more information, see [Customizing certificate signing using Amazon Web Services IoT Core certificate provider](https://docs.aws.amazon.com/iot/latest/developerguide/provisioning-cert-provider.html) from Amazon Web Services IoT Core Developer Guide. Requires permission to access the [CreateCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. After you create a certificate provider, the behavior of [CreateCertificateFromCsr] API for fleet provisioning(https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr) will change and all API calls to CreateCertificateFromCsr will invoke the certificate provider to create the certificates. It can take up to a few minutes for this behavior to change after a certificate provider is created.
     ///
-    /// - Parameter CreateCertificateProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCertificateProviderInput`)
     ///
-    /// - Returns: `CreateCertificateProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCertificateProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1911,6 +1932,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCertificateProviderInput, CreateCertificateProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCertificateProviderOutput>(CreateCertificateProviderOutput.httpOutput(from:), CreateCertificateProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCertificateProviderInput, CreateCertificateProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCertificateProviderOutput>())
@@ -1942,9 +1964,9 @@ extension IoTClient {
     ///
     /// Creates a command. A command contains reusable configurations that can be applied before they are sent to the devices.
     ///
-    /// - Parameter CreateCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCommandInput`)
     ///
-    /// - Returns: `CreateCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1982,6 +2004,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCommandInput, CreateCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCommandOutput>(CreateCommandOutput.httpOutput(from:), CreateCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCommandInput, CreateCommandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCommandOutput>())
@@ -2013,9 +2036,9 @@ extension IoTClient {
     ///
     /// Use this API to define a Custom Metric published by your devices to Device Defender. Requires permission to access the [CreateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateCustomMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomMetricInput`)
     ///
-    /// - Returns: `CreateCustomMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomMetricOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2054,6 +2077,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomMetricInput, CreateCustomMetricOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomMetricOutput>(CreateCustomMetricOutput.httpOutput(from:), CreateCustomMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomMetricInput, CreateCustomMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomMetricOutput>())
@@ -2085,9 +2109,9 @@ extension IoTClient {
     ///
     /// Create a dimension that you can use to limit the scope of a metric used in a security profile for IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension. Requires permission to access the [CreateDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateDimensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDimensionInput`)
     ///
-    /// - Returns: `CreateDimensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDimensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2126,6 +2150,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDimensionInput, CreateDimensionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDimensionOutput>(CreateDimensionOutput.httpOutput(from:), CreateDimensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDimensionInput, CreateDimensionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDimensionOutput>())
@@ -2157,9 +2182,9 @@ extension IoTClient {
     ///
     /// Creates a domain configuration. Requires permission to access the [CreateDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateDomainConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainConfigurationInput`)
     ///
-    /// - Returns: `CreateDomainConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2200,6 +2225,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainConfigurationInput, CreateDomainConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainConfigurationOutput>(CreateDomainConfigurationOutput.httpOutput(from:), CreateDomainConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainConfigurationInput, CreateDomainConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainConfigurationOutput>())
@@ -2231,9 +2257,9 @@ extension IoTClient {
     ///
     /// Creates a dynamic thing group. Requires permission to access the [CreateDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateDynamicThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDynamicThingGroupInput`)
     ///
-    /// - Returns: `CreateDynamicThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDynamicThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2273,6 +2299,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDynamicThingGroupInput, CreateDynamicThingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDynamicThingGroupOutput>(CreateDynamicThingGroupOutput.httpOutput(from:), CreateDynamicThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDynamicThingGroupInput, CreateDynamicThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDynamicThingGroupOutput>())
@@ -2304,9 +2331,9 @@ extension IoTClient {
     ///
     /// Creates a fleet metric. Requires permission to access the [CreateFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateFleetMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetMetricInput`)
     ///
-    /// - Returns: `CreateFleetMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetMetricOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2350,6 +2377,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetMetricInput, CreateFleetMetricOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetMetricOutput>(CreateFleetMetricOutput.httpOutput(from:), CreateFleetMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetMetricInput, CreateFleetMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetMetricOutput>())
@@ -2381,9 +2409,9 @@ extension IoTClient {
     ///
     /// Creates a job. Requires permission to access the [CreateJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2422,6 +2450,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -2453,9 +2482,9 @@ extension IoTClient {
     ///
     /// Creates a job template. Requires permission to access the [CreateJobTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobTemplateInput`)
     ///
-    /// - Returns: `CreateJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2494,6 +2523,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobTemplateOutput>(CreateJobTemplateOutput.httpOutput(from:), CreateJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobTemplateOutput>())
@@ -2525,9 +2555,9 @@ extension IoTClient {
     ///
     /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see [Provisioning MQTT API](https://docs.aws.amazon.com/iot/latest/developerguide/provision-wo-cert.html#provision-mqtt-api). Note This is the only time IoT issues the private key for this certificate, so it is important to keep it in a secure location. Requires permission to access the [CreateKeysAndCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateKeysAndCertificateInput : The input for the CreateKeysAndCertificate operation. Requires permission to access the [CreateKeysAndCertificateRequest](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    /// - Parameter input: The input for the CreateKeysAndCertificate operation. Requires permission to access the [CreateKeysAndCertificateRequest](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. (Type: `CreateKeysAndCertificateInput`)
     ///
-    /// - Returns: `CreateKeysAndCertificateOutput` : The output of the CreateKeysAndCertificate operation.
+    /// - Returns: The output of the CreateKeysAndCertificate operation. (Type: `CreateKeysAndCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2563,6 +2593,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CreateKeysAndCertificateInput, CreateKeysAndCertificateOutput>(CreateKeysAndCertificateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeysAndCertificateOutput>(CreateKeysAndCertificateOutput.httpOutput(from:), CreateKeysAndCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeysAndCertificateInput, CreateKeysAndCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeysAndCertificateOutput>())
@@ -2594,9 +2625,9 @@ extension IoTClient {
     ///
     /// Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see [Mitigation actions](https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-mitigation-actions.html). Each mitigation action can apply only one type of change. Requires permission to access the [CreateMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateMitigationActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMitigationActionInput`)
     ///
-    /// - Returns: `CreateMitigationActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMitigationActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2634,6 +2665,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMitigationActionInput, CreateMitigationActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMitigationActionOutput>(CreateMitigationActionOutput.httpOutput(from:), CreateMitigationActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMitigationActionInput, CreateMitigationActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMitigationActionOutput>())
@@ -2665,9 +2697,9 @@ extension IoTClient {
     ///
     /// Creates an IoT OTA update on a target group of things or groups. Requires permission to access the [CreateOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateOTAUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOTAUpdateInput`)
     ///
-    /// - Returns: `CreateOTAUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOTAUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2708,6 +2740,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOTAUpdateInput, CreateOTAUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOTAUpdateOutput>(CreateOTAUpdateOutput.httpOutput(from:), CreateOTAUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOTAUpdateInput, CreateOTAUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOTAUpdateOutput>())
@@ -2739,9 +2772,9 @@ extension IoTClient {
     ///
     /// Creates an IoT software package that can be deployed to your fleet. Requires permission to access the [CreatePackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
-    /// - Parameter CreatePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePackageInput`)
     ///
-    /// - Returns: `CreatePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2781,6 +2814,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackageInput, CreatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackageOutput>(CreatePackageOutput.httpOutput(from:), CreatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackageInput, CreatePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackageOutput>())
@@ -2812,9 +2846,9 @@ extension IoTClient {
     ///
     /// Creates a new version for an existing IoT software package. Requires permission to access the [CreatePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
-    /// - Parameter CreatePackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePackageVersionInput`)
     ///
-    /// - Returns: `CreatePackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2854,6 +2888,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackageVersionInput, CreatePackageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackageVersionOutput>(CreatePackageVersionOutput.httpOutput(from:), CreatePackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackageVersionInput, CreatePackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackageVersionOutput>())
@@ -2885,9 +2920,9 @@ extension IoTClient {
     ///
     /// Creates an IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version. Requires permission to access the [CreatePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreatePolicyInput : The input for the CreatePolicy operation.
+    /// - Parameter input: The input for the CreatePolicy operation. (Type: `CreatePolicyInput`)
     ///
-    /// - Returns: `CreatePolicyOutput` : The output from the CreatePolicy operation.
+    /// - Returns: The output from the CreatePolicy operation. (Type: `CreatePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2927,6 +2962,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePolicyInput, CreatePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePolicyOutput>(CreatePolicyOutput.httpOutput(from:), CreatePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePolicyInput, CreatePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePolicyOutput>())
@@ -2958,9 +2994,9 @@ extension IoTClient {
     ///
     /// Creates a new version of the specified IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use [DeletePolicyVersion] to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached). Requires permission to access the [CreatePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreatePolicyVersionInput : The input for the CreatePolicyVersion operation.
+    /// - Parameter input: The input for the CreatePolicyVersion operation. (Type: `CreatePolicyVersionInput`)
     ///
-    /// - Returns: `CreatePolicyVersionOutput` : The output of the CreatePolicyVersion operation.
+    /// - Returns: The output of the CreatePolicyVersion operation. (Type: `CreatePolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3002,6 +3038,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePolicyVersionOutput>(CreatePolicyVersionOutput.httpOutput(from:), CreatePolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePolicyVersionInput, CreatePolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePolicyVersionOutput>())
@@ -3033,9 +3070,9 @@ extension IoTClient {
     ///
     /// Creates a provisioning claim. Requires permission to access the [CreateProvisioningClaim](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateProvisioningClaimInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProvisioningClaimInput`)
     ///
-    /// - Returns: `CreateProvisioningClaimOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProvisioningClaimOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3071,6 +3108,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProvisioningClaimInput, CreateProvisioningClaimOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProvisioningClaimOutput>(CreateProvisioningClaimOutput.httpOutput(from:), CreateProvisioningClaimOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProvisioningClaimInput, CreateProvisioningClaimOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProvisioningClaimOutput>())
@@ -3102,9 +3140,9 @@ extension IoTClient {
     ///
     /// Creates a provisioning template. Requires permission to access the [CreateProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateProvisioningTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProvisioningTemplateInput`)
     ///
-    /// - Returns: `CreateProvisioningTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProvisioningTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3143,6 +3181,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProvisioningTemplateInput, CreateProvisioningTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProvisioningTemplateOutput>(CreateProvisioningTemplateOutput.httpOutput(from:), CreateProvisioningTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProvisioningTemplateInput, CreateProvisioningTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProvisioningTemplateOutput>())
@@ -3174,9 +3213,9 @@ extension IoTClient {
     ///
     /// Creates a new version of a provisioning template. Requires permission to access the [CreateProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateProvisioningTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProvisioningTemplateVersionInput`)
     ///
-    /// - Returns: `CreateProvisioningTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProvisioningTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3217,6 +3256,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProvisioningTemplateVersionInput, CreateProvisioningTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProvisioningTemplateVersionOutput>(CreateProvisioningTemplateVersionOutput.httpOutput(from:), CreateProvisioningTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProvisioningTemplateVersionInput, CreateProvisioningTemplateVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProvisioningTemplateVersionOutput>())
@@ -3248,9 +3288,9 @@ extension IoTClient {
     ///
     /// Creates a role alias. Requires permission to access the [CreateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. The value of [credentialDurationSeconds](https://docs.aws.amazon.com/iot/latest/apireference/API_CreateRoleAlias.html#iot-CreateRoleAlias-request-credentialDurationSeconds) must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see [ Modifying a role maximum session duration (Amazon Web Services API)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-api.html#roles-modify_max-session-duration-api) from the Amazon Web Services Identity and Access Management User Guide.
     ///
-    /// - Parameter CreateRoleAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoleAliasInput`)
     ///
-    /// - Returns: `CreateRoleAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoleAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3290,6 +3330,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRoleAliasInput, CreateRoleAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoleAliasOutput>(CreateRoleAliasOutput.httpOutput(from:), CreateRoleAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoleAliasInput, CreateRoleAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoleAliasOutput>())
@@ -3321,9 +3362,9 @@ extension IoTClient {
     ///
     /// Creates a scheduled audit that is run at a specified time interval. Requires permission to access the [CreateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateScheduledAuditInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduledAuditInput`)
     ///
-    /// - Returns: `CreateScheduledAuditOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScheduledAuditOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3361,6 +3402,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScheduledAuditInput, CreateScheduledAuditOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScheduledAuditOutput>(CreateScheduledAuditOutput.httpOutput(from:), CreateScheduledAuditOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScheduledAuditInput, CreateScheduledAuditOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScheduledAuditOutput>())
@@ -3392,9 +3434,9 @@ extension IoTClient {
     ///
     /// Creates a Device Defender security profile. Requires permission to access the [CreateSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityProfileInput`)
     ///
-    /// - Returns: `CreateSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3431,6 +3473,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityProfileInput, CreateSecurityProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityProfileOutput>(CreateSecurityProfileOutput.httpOutput(from:), CreateSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityProfileInput, CreateSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityProfileOutput>())
@@ -3462,9 +3505,9 @@ extension IoTClient {
     ///
     /// Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream. Requires permission to access the [CreateStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamInput`)
     ///
-    /// - Returns: `CreateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3505,6 +3548,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamInput, CreateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamOutput>(CreateStreamOutput.httpOutput(from:), CreateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamInput, CreateStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamOutput>())
@@ -3536,9 +3580,9 @@ extension IoTClient {
     ///
     /// Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. Requires permission to access the [CreateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateThingInput : The input for the CreateThing operation.
+    /// - Parameter input: The input for the CreateThing operation. (Type: `CreateThingInput`)
     ///
-    /// - Returns: `CreateThingOutput` : The output of the CreateThing operation.
+    /// - Returns: The output of the CreateThing operation. (Type: `CreateThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3578,6 +3622,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThingInput, CreateThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThingOutput>(CreateThingOutput.httpOutput(from:), CreateThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThingInput, CreateThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThingOutput>())
@@ -3609,9 +3654,9 @@ extension IoTClient {
     ///
     /// Create a thing group. This is a control plane operation. See [Authorization](https://docs.aws.amazon.com/iot/latest/developerguide/iot-authorization.html) for information about authorizing control plane actions. If the ThingGroup that you create has the exact same attributes as an existing ThingGroup, you will get a 200 success response. Requires permission to access the [CreateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateThingGroupInput`)
     ///
-    /// - Returns: `CreateThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3648,6 +3693,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThingGroupInput, CreateThingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThingGroupOutput>(CreateThingGroupOutput.httpOutput(from:), CreateThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThingGroupInput, CreateThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThingGroupOutput>())
@@ -3679,9 +3725,9 @@ extension IoTClient {
     ///
     /// Creates a new thing type. If this call is made multiple times using the same thing type name and configuration, the call will succeed. If this call is made with the same thing type name but different configuration a ResourceAlreadyExistsException is thrown. Requires permission to access the [CreateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateThingTypeInput : The input for the CreateThingType operation.
+    /// - Parameter input: The input for the CreateThingType operation. (Type: `CreateThingTypeInput`)
     ///
-    /// - Returns: `CreateThingTypeOutput` : The output of the CreateThingType operation.
+    /// - Returns: The output of the CreateThingType operation. (Type: `CreateThingTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3720,6 +3766,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateThingTypeInput, CreateThingTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateThingTypeOutput>(CreateThingTypeOutput.httpOutput(from:), CreateThingTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateThingTypeInput, CreateThingTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateThingTypeOutput>())
@@ -3751,9 +3798,9 @@ extension IoTClient {
     ///
     /// Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the [CreateTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateTopicRuleInput : The input for the CreateTopicRule operation.
+    /// - Parameter input: The input for the CreateTopicRule operation. (Type: `CreateTopicRuleInput`)
     ///
-    /// - Returns: `CreateTopicRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTopicRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3794,6 +3841,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTopicRuleInput, CreateTopicRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTopicRuleOutput>(CreateTopicRuleOutput.httpOutput(from:), CreateTopicRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTopicRuleInput, CreateTopicRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTopicRuleOutput>())
@@ -3825,9 +3873,9 @@ extension IoTClient {
     ///
     /// Creates a topic rule destination. The destination must be confirmed prior to use. Requires permission to access the [CreateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateTopicRuleDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTopicRuleDestinationInput`)
     ///
-    /// - Returns: `CreateTopicRuleDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTopicRuleDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3866,6 +3914,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTopicRuleDestinationInput, CreateTopicRuleDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTopicRuleDestinationOutput>(CreateTopicRuleDestinationOutput.httpOutput(from:), CreateTopicRuleDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTopicRuleDestinationInput, CreateTopicRuleDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTopicRuleDestinationOutput>())
@@ -3897,9 +3946,9 @@ extension IoTClient {
     ///
     /// Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. Requires permission to access the [DeleteAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteAccountAuditConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountAuditConfigurationInput`)
     ///
-    /// - Returns: `DeleteAccountAuditConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountAuditConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3934,6 +3983,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAccountAuditConfigurationInput, DeleteAccountAuditConfigurationOutput>(DeleteAccountAuditConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountAuditConfigurationOutput>(DeleteAccountAuditConfigurationOutput.httpOutput(from:), DeleteAccountAuditConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountAuditConfigurationInput, DeleteAccountAuditConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountAuditConfigurationOutput>())
@@ -3965,9 +4015,9 @@ extension IoTClient {
     ///
     /// Deletes a Device Defender audit suppression. Requires permission to access the [DeleteAuditSuppression](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteAuditSuppressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAuditSuppressionInput`)
     ///
-    /// - Returns: `DeleteAuditSuppressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAuditSuppressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4003,6 +4053,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAuditSuppressionInput, DeleteAuditSuppressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAuditSuppressionOutput>(DeleteAuditSuppressionOutput.httpOutput(from:), DeleteAuditSuppressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAuditSuppressionInput, DeleteAuditSuppressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAuditSuppressionOutput>())
@@ -4034,9 +4085,9 @@ extension IoTClient {
     ///
     /// Deletes an authorizer. Requires permission to access the [DeleteAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAuthorizerInput`)
     ///
-    /// - Returns: `DeleteAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4073,6 +4124,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAuthorizerInput, DeleteAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAuthorizerOutput>(DeleteAuthorizerOutput.httpOutput(from:), DeleteAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAuthorizerInput, DeleteAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAuthorizerOutput>())
@@ -4104,9 +4156,9 @@ extension IoTClient {
     ///
     /// Deletes the billing group. Requires permission to access the [DeleteBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBillingGroupInput`)
     ///
-    /// - Returns: `DeleteBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4141,6 +4193,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBillingGroupInput, DeleteBillingGroupOutput>(DeleteBillingGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBillingGroupOutput>(DeleteBillingGroupOutput.httpOutput(from:), DeleteBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBillingGroupInput, DeleteBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBillingGroupOutput>())
@@ -4172,9 +4225,9 @@ extension IoTClient {
     ///
     /// Deletes a registered CA certificate. Requires permission to access the [DeleteCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteCACertificateInput : Input for the DeleteCACertificate operation.
+    /// - Parameter input: Input for the DeleteCACertificate operation. (Type: `DeleteCACertificateInput`)
     ///
-    /// - Returns: `DeleteCACertificateOutput` : The output for the DeleteCACertificate operation.
+    /// - Returns: The output for the DeleteCACertificate operation. (Type: `DeleteCACertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4211,6 +4264,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCACertificateInput, DeleteCACertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCACertificateOutput>(DeleteCACertificateOutput.httpOutput(from:), DeleteCACertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCACertificateInput, DeleteCACertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCACertificateOutput>())
@@ -4242,9 +4296,9 @@ extension IoTClient {
     ///
     /// Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the [DetachPolicy] action to detach all policies. Next, use the [UpdateCertificate] action to set the certificate to the INACTIVE status. Requires permission to access the [DeleteCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteCertificateInput : The input for the DeleteCertificate operation.
+    /// - Parameter input: The input for the DeleteCertificate operation. (Type: `DeleteCertificateInput`)
     ///
-    /// - Returns: `DeleteCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4283,6 +4337,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(DeleteCertificateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateOutput>(DeleteCertificateOutput.httpOutput(from:), DeleteCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateOutput>())
@@ -4314,9 +4369,9 @@ extension IoTClient {
     ///
     /// Deletes a certificate provider. Requires permission to access the [DeleteCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. If you delete the certificate provider resource, the behavior of CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a certificate signing request (CSR).
     ///
-    /// - Parameter DeleteCertificateProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCertificateProviderInput`)
     ///
-    /// - Returns: `DeleteCertificateProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCertificateProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4353,6 +4408,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCertificateProviderInput, DeleteCertificateProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateProviderOutput>(DeleteCertificateProviderOutput.httpOutput(from:), DeleteCertificateProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateProviderInput, DeleteCertificateProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateProviderOutput>())
@@ -4384,9 +4440,9 @@ extension IoTClient {
     ///
     /// Delete a command resource.
     ///
-    /// - Parameter DeleteCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCommandInput`)
     ///
-    /// - Returns: `DeleteCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4420,6 +4476,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCommandInput, DeleteCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCommandOutput>(DeleteCommandOutput.httpOutput(from:), DeleteCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCommandInput, DeleteCommandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCommandOutput>())
@@ -4451,9 +4508,9 @@ extension IoTClient {
     ///
     /// Delete a command execution. Only command executions that enter a terminal state can be deleted from your account.
     ///
-    /// - Parameter DeleteCommandExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCommandExecutionInput`)
     ///
-    /// - Returns: `DeleteCommandExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCommandExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4488,6 +4545,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteCommandExecutionInput, DeleteCommandExecutionOutput>(DeleteCommandExecutionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCommandExecutionOutput>(DeleteCommandExecutionOutput.httpOutput(from:), DeleteCommandExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCommandExecutionInput, DeleteCommandExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCommandExecutionOutput>())
@@ -4519,9 +4577,9 @@ extension IoTClient {
     ///
     /// Deletes a Device Defender detect custom metric. Requires permission to access the [DeleteCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the [ListSecurityProfiles](https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html) API with metricName set to your custom metric name.
     ///
-    /// - Parameter DeleteCustomMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomMetricInput`)
     ///
-    /// - Returns: `DeleteCustomMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomMetricOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4554,6 +4612,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomMetricInput, DeleteCustomMetricOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomMetricOutput>(DeleteCustomMetricOutput.httpOutput(from:), DeleteCustomMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomMetricInput, DeleteCustomMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomMetricOutput>())
@@ -4585,9 +4644,9 @@ extension IoTClient {
     ///
     /// Removes the specified dimension from your Amazon Web Services accounts. Requires permission to access the [DeleteDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteDimensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDimensionInput`)
     ///
-    /// - Returns: `DeleteDimensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDimensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4620,6 +4679,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDimensionInput, DeleteDimensionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDimensionOutput>(DeleteDimensionOutput.httpOutput(from:), DeleteDimensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDimensionInput, DeleteDimensionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDimensionOutput>())
@@ -4651,9 +4711,9 @@ extension IoTClient {
     ///
     /// Deletes the specified domain configuration. Requires permission to access the [DeleteDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteDomainConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainConfigurationInput`)
     ///
-    /// - Returns: `DeleteDomainConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4689,6 +4749,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainConfigurationInput, DeleteDomainConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainConfigurationOutput>(DeleteDomainConfigurationOutput.httpOutput(from:), DeleteDomainConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainConfigurationInput, DeleteDomainConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainConfigurationOutput>())
@@ -4720,9 +4781,9 @@ extension IoTClient {
     ///
     /// Deletes a dynamic thing group. Requires permission to access the [DeleteDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteDynamicThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDynamicThingGroupInput`)
     ///
-    /// - Returns: `DeleteDynamicThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDynamicThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4757,6 +4818,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDynamicThingGroupInput, DeleteDynamicThingGroupOutput>(DeleteDynamicThingGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDynamicThingGroupOutput>(DeleteDynamicThingGroupOutput.httpOutput(from:), DeleteDynamicThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDynamicThingGroupInput, DeleteDynamicThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDynamicThingGroupOutput>())
@@ -4788,9 +4850,9 @@ extension IoTClient {
     ///
     /// Deletes the specified fleet metric. Returns successfully with no error if the deletion is successful or you specify a fleet metric that doesn't exist. Requires permission to access the [DeleteFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteFleetMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetMetricInput`)
     ///
-    /// - Returns: `DeleteFleetMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetMetricOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4827,6 +4889,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteFleetMetricInput, DeleteFleetMetricOutput>(DeleteFleetMetricInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetMetricOutput>(DeleteFleetMetricOutput.httpOutput(from:), DeleteFleetMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetMetricInput, DeleteFleetMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetMetricOutput>())
@@ -4858,9 +4921,9 @@ extension IoTClient {
     ///
     /// Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as "DELETION_IN_PROGRESS". Attempting to delete or cancel a job whose status is already "DELETION_IN_PROGRESS" will result in an error. Only 10 jobs may have status "DELETION_IN_PROGRESS" at the same time, or a LimitExceededException will occur. Requires permission to access the [DeleteJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobInput`)
     ///
-    /// - Returns: `DeleteJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4897,6 +4960,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteJobInput, DeleteJobOutput>(DeleteJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobOutput>(DeleteJobOutput.httpOutput(from:), DeleteJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobInput, DeleteJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobOutput>())
@@ -4928,9 +4992,9 @@ extension IoTClient {
     ///
     /// Deletes a job execution. Requires permission to access the [DeleteJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobExecutionInput`)
     ///
-    /// - Returns: `DeleteJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4966,6 +5030,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteJobExecutionInput, DeleteJobExecutionOutput>(DeleteJobExecutionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobExecutionOutput>(DeleteJobExecutionOutput.httpOutput(from:), DeleteJobExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobExecutionInput, DeleteJobExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobExecutionOutput>())
@@ -4997,9 +5062,9 @@ extension IoTClient {
     ///
     /// Deletes the specified job template.
     ///
-    /// - Parameter DeleteJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobTemplateInput`)
     ///
-    /// - Returns: `DeleteJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5033,6 +5098,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobTemplateOutput>(DeleteJobTemplateOutput.httpOutput(from:), DeleteJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobTemplateOutput>())
@@ -5064,9 +5130,9 @@ extension IoTClient {
     ///
     /// Deletes a defined mitigation action from your Amazon Web Services accounts. Requires permission to access the [DeleteMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteMitigationActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMitigationActionInput`)
     ///
-    /// - Returns: `DeleteMitigationActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMitigationActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5099,6 +5165,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMitigationActionInput, DeleteMitigationActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMitigationActionOutput>(DeleteMitigationActionOutput.httpOutput(from:), DeleteMitigationActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMitigationActionInput, DeleteMitigationActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMitigationActionOutput>())
@@ -5130,9 +5197,9 @@ extension IoTClient {
     ///
     /// Delete an OTA update. Requires permission to access the [DeleteOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteOTAUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOTAUpdateInput`)
     ///
-    /// - Returns: `DeleteOTAUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOTAUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5170,6 +5237,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteOTAUpdateInput, DeleteOTAUpdateOutput>(DeleteOTAUpdateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOTAUpdateOutput>(DeleteOTAUpdateOutput.httpOutput(from:), DeleteOTAUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOTAUpdateInput, DeleteOTAUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOTAUpdateOutput>())
@@ -5201,9 +5269,9 @@ extension IoTClient {
     ///
     /// Deletes a specific version from a software package. Note: All package versions must be deleted before deleting the software package. Requires permission to access the [DeletePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeletePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackageInput`)
     ///
-    /// - Returns: `DeletePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5238,6 +5306,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePackageInput, DeletePackageOutput>(DeletePackageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackageOutput>(DeletePackageOutput.httpOutput(from:), DeletePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackageInput, DeletePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackageOutput>())
@@ -5269,9 +5338,9 @@ extension IoTClient {
     ///
     /// Deletes a specific version from a software package. Note: If a package version is designated as default, you must remove the designation from the software package using the [UpdatePackage] action.
     ///
-    /// - Parameter DeletePackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackageVersionInput`)
     ///
-    /// - Returns: `DeletePackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5306,6 +5375,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePackageVersionInput, DeletePackageVersionOutput>(DeletePackageVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackageVersionOutput>(DeletePackageVersionOutput.httpOutput(from:), DeletePackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackageVersionInput, DeletePackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackageVersionOutput>())
@@ -5337,9 +5407,9 @@ extension IoTClient {
     ///
     /// Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the [DeletePolicyVersion] action to delete all non-default versions of the policy; use the [DetachPolicy] action to detach the policy from any certificate; and then use the DeletePolicy action to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it. Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted. Requires permission to access the [DeletePolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeletePolicyInput : The input for the DeletePolicy operation.
+    /// - Parameter input: The input for the DeletePolicy operation. (Type: `DeletePolicyInput`)
     ///
-    /// - Returns: `DeletePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5376,6 +5446,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePolicyInput, DeletePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyOutput>(DeletePolicyOutput.httpOutput(from:), DeletePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyInput, DeletePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyOutput>())
@@ -5407,9 +5478,9 @@ extension IoTClient {
     ///
     /// Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this action. To delete the default version of a policy, use [DeletePolicy]. To find out which version of a policy is marked as the default version, use ListPolicyVersions. Requires permission to access the [DeletePolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeletePolicyVersionInput : The input for the DeletePolicyVersion operation.
+    /// - Parameter input: The input for the DeletePolicyVersion operation. (Type: `DeletePolicyVersionInput`)
     ///
-    /// - Returns: `DeletePolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5446,6 +5517,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyVersionOutput>(DeletePolicyVersionOutput.httpOutput(from:), DeletePolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyVersionInput, DeletePolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyVersionOutput>())
@@ -5477,9 +5549,9 @@ extension IoTClient {
     ///
     /// Deletes a provisioning template. Requires permission to access the [DeleteProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteProvisioningTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProvisioningTemplateInput`)
     ///
-    /// - Returns: `DeleteProvisioningTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProvisioningTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5516,6 +5588,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProvisioningTemplateInput, DeleteProvisioningTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProvisioningTemplateOutput>(DeleteProvisioningTemplateOutput.httpOutput(from:), DeleteProvisioningTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProvisioningTemplateInput, DeleteProvisioningTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProvisioningTemplateOutput>())
@@ -5547,9 +5620,9 @@ extension IoTClient {
     ///
     /// Deletes a provisioning template version. Requires permission to access the [DeleteProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteProvisioningTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProvisioningTemplateVersionInput`)
     ///
-    /// - Returns: `DeleteProvisioningTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProvisioningTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5586,6 +5659,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProvisioningTemplateVersionInput, DeleteProvisioningTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProvisioningTemplateVersionOutput>(DeleteProvisioningTemplateVersionOutput.httpOutput(from:), DeleteProvisioningTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProvisioningTemplateVersionInput, DeleteProvisioningTemplateVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProvisioningTemplateVersionOutput>())
@@ -5617,9 +5691,9 @@ extension IoTClient {
     ///
     /// Deletes a CA certificate registration code. Requires permission to access the [DeleteRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteRegistrationCodeInput : The input for the DeleteRegistrationCode operation.
+    /// - Parameter input: The input for the DeleteRegistrationCode operation. (Type: `DeleteRegistrationCodeInput`)
     ///
-    /// - Returns: `DeleteRegistrationCodeOutput` : The output for the DeleteRegistrationCode operation.
+    /// - Returns: The output for the DeleteRegistrationCode operation. (Type: `DeleteRegistrationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5654,6 +5728,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRegistrationCodeInput, DeleteRegistrationCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRegistrationCodeOutput>(DeleteRegistrationCodeOutput.httpOutput(from:), DeleteRegistrationCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRegistrationCodeInput, DeleteRegistrationCodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRegistrationCodeOutput>())
@@ -5685,9 +5760,9 @@ extension IoTClient {
     ///
     /// Deletes a role alias Requires permission to access the [DeleteRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteRoleAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoleAliasInput`)
     ///
-    /// - Returns: `DeleteRoleAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoleAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5724,6 +5799,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRoleAliasInput, DeleteRoleAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoleAliasOutput>(DeleteRoleAliasOutput.httpOutput(from:), DeleteRoleAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoleAliasInput, DeleteRoleAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoleAliasOutput>())
@@ -5755,9 +5831,9 @@ extension IoTClient {
     ///
     /// Deletes a scheduled audit. Requires permission to access the [DeleteScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteScheduledAuditInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduledAuditInput`)
     ///
-    /// - Returns: `DeleteScheduledAuditOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduledAuditOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5791,6 +5867,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScheduledAuditInput, DeleteScheduledAuditOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScheduledAuditOutput>(DeleteScheduledAuditOutput.httpOutput(from:), DeleteScheduledAuditOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduledAuditInput, DeleteScheduledAuditOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduledAuditOutput>())
@@ -5822,9 +5899,9 @@ extension IoTClient {
     ///
     /// Deletes a Device Defender security profile. Requires permission to access the [DeleteSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSecurityProfileInput`)
     ///
-    /// - Returns: `DeleteSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5859,6 +5936,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteSecurityProfileInput, DeleteSecurityProfileOutput>(DeleteSecurityProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSecurityProfileOutput>(DeleteSecurityProfileOutput.httpOutput(from:), DeleteSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSecurityProfileInput, DeleteSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSecurityProfileOutput>())
@@ -5890,9 +5968,9 @@ extension IoTClient {
     ///
     /// Deletes a stream. Requires permission to access the [DeleteStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStreamInput`)
     ///
-    /// - Returns: `DeleteStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5929,6 +6007,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStreamInput, DeleteStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamOutput>(DeleteStreamOutput.httpOutput(from:), DeleteStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamInput, DeleteStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamOutput>())
@@ -5960,9 +6039,9 @@ extension IoTClient {
     ///
     /// Deletes the specified thing. Returns successfully with no error if the deletion is successful or you specify a thing that doesn't exist. Requires permission to access the [DeleteThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteThingInput : The input for the DeleteThing operation.
+    /// - Parameter input: The input for the DeleteThing operation. (Type: `DeleteThingInput`)
     ///
-    /// - Returns: `DeleteThingOutput` : The output of the DeleteThing operation.
+    /// - Returns: The output of the DeleteThing operation. (Type: `DeleteThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6000,6 +6079,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteThingInput, DeleteThingOutput>(DeleteThingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThingOutput>(DeleteThingOutput.httpOutput(from:), DeleteThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThingInput, DeleteThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThingOutput>())
@@ -6031,9 +6111,9 @@ extension IoTClient {
     ///
     /// Deletes a thing group. Requires permission to access the [DeleteThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteThingGroupInput`)
     ///
-    /// - Returns: `DeleteThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6068,6 +6148,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteThingGroupInput, DeleteThingGroupOutput>(DeleteThingGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThingGroupOutput>(DeleteThingGroupOutput.httpOutput(from:), DeleteThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThingGroupInput, DeleteThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThingGroupOutput>())
@@ -6099,9 +6180,9 @@ extension IoTClient {
     ///
     /// Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling [DeprecateThingType], then remove any associated things by calling [UpdateThing] to change the thing type on any associated thing, and finally use [DeleteThingType] to delete the thing type. Requires permission to access the [DeleteThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteThingTypeInput : The input for the DeleteThingType operation.
+    /// - Parameter input: The input for the DeleteThingType operation. (Type: `DeleteThingTypeInput`)
     ///
-    /// - Returns: `DeleteThingTypeOutput` : The output for the DeleteThingType operation.
+    /// - Returns: The output for the DeleteThingType operation. (Type: `DeleteThingTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6137,6 +6218,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteThingTypeInput, DeleteThingTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteThingTypeOutput>(DeleteThingTypeOutput.httpOutput(from:), DeleteThingTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteThingTypeInput, DeleteThingTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteThingTypeOutput>())
@@ -6168,9 +6250,9 @@ extension IoTClient {
     ///
     /// Deletes the rule. Requires permission to access the [DeleteTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteTopicRuleInput : The input for the DeleteTopicRule operation.
+    /// - Parameter input: The input for the DeleteTopicRule operation. (Type: `DeleteTopicRuleInput`)
     ///
-    /// - Returns: `DeleteTopicRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTopicRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6205,6 +6287,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTopicRuleInput, DeleteTopicRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTopicRuleOutput>(DeleteTopicRuleOutput.httpOutput(from:), DeleteTopicRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTopicRuleInput, DeleteTopicRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTopicRuleOutput>())
@@ -6236,9 +6319,9 @@ extension IoTClient {
     ///
     /// Deletes a topic rule destination. Requires permission to access the [DeleteTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteTopicRuleDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTopicRuleDestinationInput`)
     ///
-    /// - Returns: `DeleteTopicRuleDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTopicRuleDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6273,6 +6356,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTopicRuleDestinationInput, DeleteTopicRuleDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTopicRuleDestinationOutput>(DeleteTopicRuleDestinationOutput.httpOutput(from:), DeleteTopicRuleDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTopicRuleDestinationInput, DeleteTopicRuleDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTopicRuleDestinationOutput>())
@@ -6304,9 +6388,9 @@ extension IoTClient {
     ///
     /// Deletes a logging level. Requires permission to access the [DeleteV2LoggingLevel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteV2LoggingLevelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteV2LoggingLevelInput`)
     ///
-    /// - Returns: `DeleteV2LoggingLevelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteV2LoggingLevelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6340,6 +6424,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteV2LoggingLevelInput, DeleteV2LoggingLevelOutput>(DeleteV2LoggingLevelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteV2LoggingLevelOutput>(DeleteV2LoggingLevelOutput.httpOutput(from:), DeleteV2LoggingLevelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteV2LoggingLevelInput, DeleteV2LoggingLevelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteV2LoggingLevelOutput>())
@@ -6371,9 +6456,9 @@ extension IoTClient {
     ///
     /// Deprecates a thing type. You can not associate new things with deprecated thing type. Requires permission to access the [DeprecateThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeprecateThingTypeInput : The input for the DeprecateThingType operation.
+    /// - Parameter input: The input for the DeprecateThingType operation. (Type: `DeprecateThingTypeInput`)
     ///
-    /// - Returns: `DeprecateThingTypeOutput` : The output for the DeprecateThingType operation.
+    /// - Returns: The output for the DeprecateThingType operation. (Type: `DeprecateThingTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6412,6 +6497,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateThingTypeInput, DeprecateThingTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateThingTypeOutput>(DeprecateThingTypeOutput.httpOutput(from:), DeprecateThingTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateThingTypeInput, DeprecateThingTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprecateThingTypeOutput>())
@@ -6443,9 +6529,9 @@ extension IoTClient {
     ///
     /// Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the [DescribeAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeAccountAuditConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAuditConfigurationInput`)
     ///
-    /// - Returns: `DescribeAccountAuditConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAuditConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6477,6 +6563,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountAuditConfigurationInput, DescribeAccountAuditConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAuditConfigurationOutput>(DescribeAccountAuditConfigurationOutput.httpOutput(from:), DescribeAccountAuditConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAuditConfigurationInput, DescribeAccountAuditConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAuditConfigurationOutput>())
@@ -6508,9 +6595,9 @@ extension IoTClient {
     ///
     /// Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding. Requires permission to access the [DescribeAuditFinding](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeAuditFindingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAuditFindingInput`)
     ///
-    /// - Returns: `DescribeAuditFindingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAuditFindingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6544,6 +6631,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAuditFindingInput, DescribeAuditFindingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAuditFindingOutput>(DescribeAuditFindingOutput.httpOutput(from:), DescribeAuditFindingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAuditFindingInput, DescribeAuditFindingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAuditFindingOutput>())
@@ -6575,9 +6663,9 @@ extension IoTClient {
     ///
     /// Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
     ///
-    /// - Parameter DescribeAuditMitigationActionsTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAuditMitigationActionsTaskInput`)
     ///
-    /// - Returns: `DescribeAuditMitigationActionsTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAuditMitigationActionsTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6611,6 +6699,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAuditMitigationActionsTaskInput, DescribeAuditMitigationActionsTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAuditMitigationActionsTaskOutput>(DescribeAuditMitigationActionsTaskOutput.httpOutput(from:), DescribeAuditMitigationActionsTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAuditMitigationActionsTaskInput, DescribeAuditMitigationActionsTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAuditMitigationActionsTaskOutput>())
@@ -6642,9 +6731,9 @@ extension IoTClient {
     ///
     /// Gets information about a Device Defender audit suppression.
     ///
-    /// - Parameter DescribeAuditSuppressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAuditSuppressionInput`)
     ///
-    /// - Returns: `DescribeAuditSuppressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAuditSuppressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6681,6 +6770,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAuditSuppressionInput, DescribeAuditSuppressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAuditSuppressionOutput>(DescribeAuditSuppressionOutput.httpOutput(from:), DescribeAuditSuppressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAuditSuppressionInput, DescribeAuditSuppressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAuditSuppressionOutput>())
@@ -6712,9 +6802,9 @@ extension IoTClient {
     ///
     /// Gets information about a Device Defender audit. Requires permission to access the [DescribeAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeAuditTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAuditTaskInput`)
     ///
-    /// - Returns: `DescribeAuditTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAuditTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6748,6 +6838,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAuditTaskInput, DescribeAuditTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAuditTaskOutput>(DescribeAuditTaskOutput.httpOutput(from:), DescribeAuditTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAuditTaskInput, DescribeAuditTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAuditTaskOutput>())
@@ -6779,9 +6870,9 @@ extension IoTClient {
     ///
     /// Describes an authorizer. Requires permission to access the [DescribeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAuthorizerInput`)
     ///
-    /// - Returns: `DescribeAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6817,6 +6908,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAuthorizerInput, DescribeAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAuthorizerOutput>(DescribeAuthorizerOutput.httpOutput(from:), DescribeAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAuthorizerInput, DescribeAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAuthorizerOutput>())
@@ -6848,9 +6940,9 @@ extension IoTClient {
     ///
     /// Returns information about a billing group. Requires permission to access the [DescribeBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBillingGroupInput`)
     ///
-    /// - Returns: `DescribeBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6884,6 +6976,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBillingGroupInput, DescribeBillingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBillingGroupOutput>(DescribeBillingGroupOutput.httpOutput(from:), DescribeBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBillingGroupInput, DescribeBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBillingGroupOutput>())
@@ -6915,9 +7008,9 @@ extension IoTClient {
     ///
     /// Describes a registered CA certificate. Requires permission to access the [DescribeCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeCACertificateInput : The input for the DescribeCACertificate operation.
+    /// - Parameter input: The input for the DescribeCACertificate operation. (Type: `DescribeCACertificateInput`)
     ///
-    /// - Returns: `DescribeCACertificateOutput` : The output from the DescribeCACertificate operation.
+    /// - Returns: The output from the DescribeCACertificate operation. (Type: `DescribeCACertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6953,6 +7046,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCACertificateInput, DescribeCACertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCACertificateOutput>(DescribeCACertificateOutput.httpOutput(from:), DescribeCACertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCACertificateInput, DescribeCACertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCACertificateOutput>())
@@ -6984,9 +7078,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified certificate. Requires permission to access the [DescribeCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeCertificateInput : The input for the DescribeCertificate operation.
+    /// - Parameter input: The input for the DescribeCertificate operation. (Type: `DescribeCertificateInput`)
     ///
-    /// - Returns: `DescribeCertificateOutput` : The output of the DescribeCertificate operation.
+    /// - Returns: The output of the DescribeCertificate operation. (Type: `DescribeCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7022,6 +7116,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateOutput>(DescribeCertificateOutput.httpOutput(from:), DescribeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateOutput>())
@@ -7053,9 +7148,9 @@ extension IoTClient {
     ///
     /// Describes a certificate provider. Requires permission to access the [DescribeCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeCertificateProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificateProviderInput`)
     ///
-    /// - Returns: `DescribeCertificateProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificateProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7091,6 +7186,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCertificateProviderInput, DescribeCertificateProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateProviderOutput>(DescribeCertificateProviderOutput.httpOutput(from:), DescribeCertificateProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateProviderInput, DescribeCertificateProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateProviderOutput>())
@@ -7122,9 +7218,9 @@ extension IoTClient {
     ///
     /// Gets information about a Device Defender detect custom metric. Requires permission to access the [DescribeCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeCustomMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomMetricInput`)
     ///
-    /// - Returns: `DescribeCustomMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomMetricOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7158,6 +7254,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCustomMetricInput, DescribeCustomMetricOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomMetricOutput>(DescribeCustomMetricOutput.httpOutput(from:), DescribeCustomMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomMetricInput, DescribeCustomMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomMetricOutput>())
@@ -7189,9 +7286,9 @@ extension IoTClient {
     ///
     /// Describes the default authorizer. Requires permission to access the [DescribeDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeDefaultAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDefaultAuthorizerInput`)
     ///
-    /// - Returns: `DescribeDefaultAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDefaultAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7227,6 +7324,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDefaultAuthorizerInput, DescribeDefaultAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDefaultAuthorizerOutput>(DescribeDefaultAuthorizerOutput.httpOutput(from:), DescribeDefaultAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDefaultAuthorizerInput, DescribeDefaultAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDefaultAuthorizerOutput>())
@@ -7258,9 +7356,9 @@ extension IoTClient {
     ///
     /// Gets information about a Device Defender ML Detect mitigation action. Requires permission to access the [DescribeDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeDetectMitigationActionsTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDetectMitigationActionsTaskInput`)
     ///
-    /// - Returns: `DescribeDetectMitigationActionsTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDetectMitigationActionsTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7294,6 +7392,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDetectMitigationActionsTaskInput, DescribeDetectMitigationActionsTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDetectMitigationActionsTaskOutput>(DescribeDetectMitigationActionsTaskOutput.httpOutput(from:), DescribeDetectMitigationActionsTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDetectMitigationActionsTaskInput, DescribeDetectMitigationActionsTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDetectMitigationActionsTaskOutput>())
@@ -7325,9 +7424,9 @@ extension IoTClient {
     ///
     /// Provides details about a dimension that is defined in your Amazon Web Services accounts. Requires permission to access the [DescribeDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeDimensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDimensionInput`)
     ///
-    /// - Returns: `DescribeDimensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDimensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7361,6 +7460,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDimensionInput, DescribeDimensionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDimensionOutput>(DescribeDimensionOutput.httpOutput(from:), DescribeDimensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDimensionInput, DescribeDimensionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDimensionOutput>())
@@ -7392,9 +7492,9 @@ extension IoTClient {
     ///
     /// Gets summary information about a domain configuration. Requires permission to access the [DescribeDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeDomainConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainConfigurationInput`)
     ///
-    /// - Returns: `DescribeDomainConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDomainConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7430,6 +7530,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainConfigurationInput, DescribeDomainConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainConfigurationOutput>(DescribeDomainConfigurationOutput.httpOutput(from:), DescribeDomainConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainConfigurationInput, DescribeDomainConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainConfigurationOutput>())
@@ -7459,11 +7560,11 @@ extension IoTClient {
 
     /// Performs the `DescribeEncryptionConfiguration` operation on the `IoT` service.
     ///
-    /// Retrieves the encryption configuration for resources and data of your Amazon Web Services account in Amazon Web Services IoT Core. For more information, see [Key management in IoT](https://docs.aws.amazon.com/iot/latest/developerguide/key-management.html) from the Amazon Web Services IoT Core Developer Guide.
+    /// Retrieves the encryption configuration for resources and data of your Amazon Web Services account in Amazon Web Services IoT Core. For more information, see [Data encryption at rest](https://docs.aws.amazon.com/iot/latest/developerguide/encryption-at-rest.html) in the Amazon Web Services IoT Core Developer Guide.
     ///
-    /// - Parameter DescribeEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEncryptionConfigurationInput`)
     ///
-    /// - Returns: `DescribeEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7498,6 +7599,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEncryptionConfigurationInput, DescribeEncryptionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEncryptionConfigurationOutput>(DescribeEncryptionConfigurationOutput.httpOutput(from:), DescribeEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEncryptionConfigurationInput, DescribeEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEncryptionConfigurationOutput>())
@@ -7529,9 +7631,9 @@ extension IoTClient {
     ///
     /// Returns or creates a unique endpoint specific to the Amazon Web Services account making the call. The first time DescribeEndpoint is called, an endpoint is created. All subsequent calls to DescribeEndpoint return the same endpoint. Requires permission to access the [DescribeEndpoint](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeEndpointInput : The input for the DescribeEndpoint operation.
+    /// - Parameter input: The input for the DescribeEndpoint operation. (Type: `DescribeEndpointInput`)
     ///
-    /// - Returns: `DescribeEndpointOutput` : The output from the DescribeEndpoint operation.
+    /// - Returns: The output from the DescribeEndpoint operation. (Type: `DescribeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7566,6 +7668,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(DescribeEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointOutput>(DescribeEndpointOutput.httpOutput(from:), DescribeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointOutput>())
@@ -7597,9 +7700,9 @@ extension IoTClient {
     ///
     /// Describes event configurations. Requires permission to access the [DescribeEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeEventConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventConfigurationsInput`)
     ///
-    /// - Returns: `DescribeEventConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7631,6 +7734,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEventConfigurationsInput, DescribeEventConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventConfigurationsOutput>(DescribeEventConfigurationsOutput.httpOutput(from:), DescribeEventConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventConfigurationsInput, DescribeEventConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventConfigurationsOutput>())
@@ -7662,9 +7766,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified fleet metric. Requires permission to access the [DescribeFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeFleetMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetMetricInput`)
     ///
-    /// - Returns: `DescribeFleetMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetMetricOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7700,6 +7804,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFleetMetricInput, DescribeFleetMetricOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetMetricOutput>(DescribeFleetMetricOutput.httpOutput(from:), DescribeFleetMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetMetricInput, DescribeFleetMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetMetricOutput>())
@@ -7731,9 +7836,9 @@ extension IoTClient {
     ///
     /// Describes a search index. Requires permission to access the [DescribeIndex](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIndexInput`)
     ///
-    /// - Returns: `DescribeIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7769,6 +7874,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIndexInput, DescribeIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIndexOutput>(DescribeIndexOutput.httpOutput(from:), DescribeIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIndexInput, DescribeIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIndexOutput>())
@@ -7800,9 +7906,9 @@ extension IoTClient {
     ///
     /// Describes a job. Requires permission to access the [DescribeJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobInput`)
     ///
-    /// - Returns: `DescribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7837,6 +7943,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeJobInput, DescribeJobOutput>(DescribeJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobOutput>(DescribeJobOutput.httpOutput(from:), DescribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobInput, DescribeJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobOutput>())
@@ -7868,9 +7975,9 @@ extension IoTClient {
     ///
     /// Describes a job execution. Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobExecutionInput`)
     ///
-    /// - Returns: `DescribeJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7905,6 +8012,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeJobExecutionInput, DescribeJobExecutionOutput>(DescribeJobExecutionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobExecutionOutput>(DescribeJobExecutionOutput.httpOutput(from:), DescribeJobExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobExecutionInput, DescribeJobExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobExecutionOutput>())
@@ -7936,9 +8044,9 @@ extension IoTClient {
     ///
     /// Returns information about a job template.
     ///
-    /// - Parameter DescribeJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobTemplateInput`)
     ///
-    /// - Returns: `DescribeJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7972,6 +8080,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobTemplateInput, DescribeJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobTemplateOutput>(DescribeJobTemplateOutput.httpOutput(from:), DescribeJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobTemplateInput, DescribeJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobTemplateOutput>())
@@ -8003,9 +8112,9 @@ extension IoTClient {
     ///
     /// View details of a managed job template.
     ///
-    /// - Parameter DescribeManagedJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeManagedJobTemplateInput`)
     ///
-    /// - Returns: `DescribeManagedJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeManagedJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8040,6 +8149,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeManagedJobTemplateInput, DescribeManagedJobTemplateOutput>(DescribeManagedJobTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeManagedJobTemplateOutput>(DescribeManagedJobTemplateOutput.httpOutput(from:), DescribeManagedJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedJobTemplateInput, DescribeManagedJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedJobTemplateOutput>())
@@ -8071,9 +8181,9 @@ extension IoTClient {
     ///
     /// Gets information about a mitigation action. Requires permission to access the [DescribeMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeMitigationActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMitigationActionInput`)
     ///
-    /// - Returns: `DescribeMitigationActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMitigationActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8107,6 +8217,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMitigationActionInput, DescribeMitigationActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMitigationActionOutput>(DescribeMitigationActionOutput.httpOutput(from:), DescribeMitigationActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMitigationActionInput, DescribeMitigationActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMitigationActionOutput>())
@@ -8138,9 +8249,9 @@ extension IoTClient {
     ///
     /// Returns information about a provisioning template. Requires permission to access the [DescribeProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeProvisioningTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProvisioningTemplateInput`)
     ///
-    /// - Returns: `DescribeProvisioningTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProvisioningTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8175,6 +8286,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProvisioningTemplateInput, DescribeProvisioningTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProvisioningTemplateOutput>(DescribeProvisioningTemplateOutput.httpOutput(from:), DescribeProvisioningTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProvisioningTemplateInput, DescribeProvisioningTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProvisioningTemplateOutput>())
@@ -8206,9 +8318,9 @@ extension IoTClient {
     ///
     /// Returns information about a provisioning template version. Requires permission to access the [DescribeProvisioningTemplateVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeProvisioningTemplateVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProvisioningTemplateVersionInput`)
     ///
-    /// - Returns: `DescribeProvisioningTemplateVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProvisioningTemplateVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8243,6 +8355,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProvisioningTemplateVersionInput, DescribeProvisioningTemplateVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProvisioningTemplateVersionOutput>(DescribeProvisioningTemplateVersionOutput.httpOutput(from:), DescribeProvisioningTemplateVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProvisioningTemplateVersionInput, DescribeProvisioningTemplateVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProvisioningTemplateVersionOutput>())
@@ -8274,9 +8387,9 @@ extension IoTClient {
     ///
     /// Describes a role alias. Requires permission to access the [DescribeRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeRoleAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRoleAliasInput`)
     ///
-    /// - Returns: `DescribeRoleAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRoleAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8312,6 +8425,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRoleAliasInput, DescribeRoleAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRoleAliasOutput>(DescribeRoleAliasOutput.httpOutput(from:), DescribeRoleAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRoleAliasInput, DescribeRoleAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRoleAliasOutput>())
@@ -8343,9 +8457,9 @@ extension IoTClient {
     ///
     /// Gets information about a scheduled audit. Requires permission to access the [DescribeScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeScheduledAuditInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScheduledAuditInput`)
     ///
-    /// - Returns: `DescribeScheduledAuditOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScheduledAuditOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8379,6 +8493,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeScheduledAuditInput, DescribeScheduledAuditOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScheduledAuditOutput>(DescribeScheduledAuditOutput.httpOutput(from:), DescribeScheduledAuditOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScheduledAuditInput, DescribeScheduledAuditOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScheduledAuditOutput>())
@@ -8410,9 +8525,9 @@ extension IoTClient {
     ///
     /// Gets information about a Device Defender security profile. Requires permission to access the [DescribeSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityProfileInput`)
     ///
-    /// - Returns: `DescribeSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8446,6 +8561,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecurityProfileInput, DescribeSecurityProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityProfileOutput>(DescribeSecurityProfileOutput.httpOutput(from:), DescribeSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityProfileInput, DescribeSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityProfileOutput>())
@@ -8477,9 +8593,9 @@ extension IoTClient {
     ///
     /// Gets information about a stream. Requires permission to access the [DescribeStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStreamInput`)
     ///
-    /// - Returns: `DescribeStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8515,6 +8631,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStreamInput, DescribeStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStreamOutput>(DescribeStreamOutput.httpOutput(from:), DescribeStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStreamInput, DescribeStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStreamOutput>())
@@ -8546,9 +8663,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified thing. Requires permission to access the [DescribeThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeThingInput : The input for the DescribeThing operation.
+    /// - Parameter input: The input for the DescribeThing operation. (Type: `DescribeThingInput`)
     ///
-    /// - Returns: `DescribeThingOutput` : The output from the DescribeThing operation.
+    /// - Returns: The output from the DescribeThing operation. (Type: `DescribeThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8584,6 +8701,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeThingInput, DescribeThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThingOutput>(DescribeThingOutput.httpOutput(from:), DescribeThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThingInput, DescribeThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThingOutput>())
@@ -8615,9 +8733,9 @@ extension IoTClient {
     ///
     /// Describe a thing group. Requires permission to access the [DescribeThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThingGroupInput`)
     ///
-    /// - Returns: `DescribeThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8651,6 +8769,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeThingGroupInput, DescribeThingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThingGroupOutput>(DescribeThingGroupOutput.httpOutput(from:), DescribeThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThingGroupInput, DescribeThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThingGroupOutput>())
@@ -8682,9 +8801,9 @@ extension IoTClient {
     ///
     /// Describes a bulk thing provisioning task. Requires permission to access the [DescribeThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeThingRegistrationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeThingRegistrationTaskInput`)
     ///
-    /// - Returns: `DescribeThingRegistrationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeThingRegistrationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8719,6 +8838,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeThingRegistrationTaskInput, DescribeThingRegistrationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThingRegistrationTaskOutput>(DescribeThingRegistrationTaskOutput.httpOutput(from:), DescribeThingRegistrationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThingRegistrationTaskInput, DescribeThingRegistrationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThingRegistrationTaskOutput>())
@@ -8750,9 +8870,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified thing type. Requires permission to access the [DescribeThingType](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeThingTypeInput : The input for the DescribeThingType operation.
+    /// - Parameter input: The input for the DescribeThingType operation. (Type: `DescribeThingTypeInput`)
     ///
-    /// - Returns: `DescribeThingTypeOutput` : The output for the DescribeThingType operation.
+    /// - Returns: The output for the DescribeThingType operation. (Type: `DescribeThingTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8788,6 +8908,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeThingTypeInput, DescribeThingTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeThingTypeOutput>(DescribeThingTypeOutput.httpOutput(from:), DescribeThingTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeThingTypeInput, DescribeThingTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeThingTypeOutput>())
@@ -8819,9 +8940,9 @@ extension IoTClient {
     ///
     /// Detaches a policy from the specified target. Because of the distributed nature of Amazon Web Services, it can take up to five minutes after a policy is detached before it's ready to be deleted. Requires permission to access the [DetachPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DetachPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachPolicyInput`)
     ///
-    /// - Returns: `DetachPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8860,6 +8981,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachPolicyInput, DetachPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachPolicyOutput>(DetachPolicyOutput.httpOutput(from:), DetachPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachPolicyInput, DetachPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachPolicyOutput>())
@@ -8892,9 +9014,9 @@ extension IoTClient {
     /// Removes the specified policy from the specified certificate. Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [DetachPolicy] instead. Requires permission to access the [DetachPrincipalPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
     ///
-    /// - Parameter DetachPrincipalPolicyInput : The input for the DetachPrincipalPolicy operation.
+    /// - Parameter input: The input for the DetachPrincipalPolicy operation. (Type: `DetachPrincipalPolicyInput`)
     ///
-    /// - Returns: `DetachPrincipalPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachPrincipalPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8931,6 +9053,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DetachPrincipalPolicyInput, DetachPrincipalPolicyOutput>(DetachPrincipalPolicyInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachPrincipalPolicyOutput>(DetachPrincipalPolicyOutput.httpOutput(from:), DetachPrincipalPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachPrincipalPolicyInput, DetachPrincipalPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachPrincipalPolicyOutput>())
@@ -8962,9 +9085,9 @@ extension IoTClient {
     ///
     /// Disassociates a Device Defender security profile from a thing group or from this account. Requires permission to access the [DetachSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DetachSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachSecurityProfileInput`)
     ///
-    /// - Returns: `DetachSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8999,6 +9122,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DetachSecurityProfileInput, DetachSecurityProfileOutput>(DetachSecurityProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachSecurityProfileOutput>(DetachSecurityProfileOutput.httpOutput(from:), DetachSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachSecurityProfileInput, DetachSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachSecurityProfileOutput>())
@@ -9030,9 +9154,9 @@ extension IoTClient {
     ///
     /// Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. This call is asynchronous. It might take several seconds for the detachment to propagate. Requires permission to access the [DetachThingPrincipal](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DetachThingPrincipalInput : The input for the DetachThingPrincipal operation.
+    /// - Parameter input: The input for the DetachThingPrincipal operation. (Type: `DetachThingPrincipalInput`)
     ///
-    /// - Returns: `DetachThingPrincipalOutput` : The output from the DetachThingPrincipal operation.
+    /// - Returns: The output from the DetachThingPrincipal operation. (Type: `DetachThingPrincipalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9069,6 +9193,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DetachThingPrincipalInput, DetachThingPrincipalOutput>(DetachThingPrincipalInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachThingPrincipalOutput>(DetachThingPrincipalOutput.httpOutput(from:), DetachThingPrincipalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachThingPrincipalInput, DetachThingPrincipalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachThingPrincipalOutput>())
@@ -9100,9 +9225,9 @@ extension IoTClient {
     ///
     /// Disables the rule. Requires permission to access the [DisableTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DisableTopicRuleInput : The input for the DisableTopicRuleRequest operation.
+    /// - Parameter input: The input for the DisableTopicRuleRequest operation. (Type: `DisableTopicRuleInput`)
     ///
-    /// - Returns: `DisableTopicRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableTopicRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9137,6 +9262,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableTopicRuleInput, DisableTopicRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableTopicRuleOutput>(DisableTopicRuleOutput.httpOutput(from:), DisableTopicRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableTopicRuleInput, DisableTopicRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableTopicRuleOutput>())
@@ -9168,9 +9294,9 @@ extension IoTClient {
     ///
     /// Disassociates the selected software bill of materials (SBOM) from a specific software package version. Requires permission to access the [DisassociateSbomWithPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DisassociateSbomFromPackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSbomFromPackageVersionInput`)
     ///
-    /// - Returns: `DisassociateSbomFromPackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSbomFromPackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9207,6 +9333,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateSbomFromPackageVersionInput, DisassociateSbomFromPackageVersionOutput>(DisassociateSbomFromPackageVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSbomFromPackageVersionOutput>(DisassociateSbomFromPackageVersionOutput.httpOutput(from:), DisassociateSbomFromPackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSbomFromPackageVersionInput, DisassociateSbomFromPackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSbomFromPackageVersionOutput>())
@@ -9238,9 +9365,9 @@ extension IoTClient {
     ///
     /// Enables the rule. Requires permission to access the [EnableTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter EnableTopicRuleInput : The input for the EnableTopicRuleRequest operation.
+    /// - Parameter input: The input for the EnableTopicRuleRequest operation. (Type: `EnableTopicRuleInput`)
     ///
-    /// - Returns: `EnableTopicRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableTopicRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9275,6 +9402,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableTopicRuleInput, EnableTopicRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableTopicRuleOutput>(EnableTopicRuleOutput.httpOutput(from:), EnableTopicRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableTopicRuleInput, EnableTopicRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableTopicRuleOutput>())
@@ -9306,9 +9434,9 @@ extension IoTClient {
     ///
     /// Returns a Device Defender's ML Detect Security Profile training model's status. Requires permission to access the [GetBehaviorModelTrainingSummaries](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetBehaviorModelTrainingSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBehaviorModelTrainingSummariesInput`)
     ///
-    /// - Returns: `GetBehaviorModelTrainingSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBehaviorModelTrainingSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9343,6 +9471,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBehaviorModelTrainingSummariesInput, GetBehaviorModelTrainingSummariesOutput>(GetBehaviorModelTrainingSummariesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBehaviorModelTrainingSummariesOutput>(GetBehaviorModelTrainingSummariesOutput.httpOutput(from:), GetBehaviorModelTrainingSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBehaviorModelTrainingSummariesInput, GetBehaviorModelTrainingSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBehaviorModelTrainingSummariesOutput>())
@@ -9374,9 +9503,9 @@ extension IoTClient {
     ///
     /// Aggregates on indexed data with search queries pertaining to particular fields. Requires permission to access the [GetBucketsAggregation](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetBucketsAggregationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketsAggregationInput`)
     ///
-    /// - Returns: `GetBucketsAggregationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketsAggregationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9418,6 +9547,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBucketsAggregationInput, GetBucketsAggregationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketsAggregationOutput>(GetBucketsAggregationOutput.httpOutput(from:), GetBucketsAggregationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketsAggregationInput, GetBucketsAggregationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketsAggregationOutput>())
@@ -9449,9 +9579,9 @@ extension IoTClient {
     ///
     /// Returns the approximate count of unique values that match the query. Requires permission to access the [GetCardinality](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetCardinalityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCardinalityInput`)
     ///
-    /// - Returns: `GetCardinalityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCardinalityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9493,6 +9623,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCardinalityInput, GetCardinalityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCardinalityOutput>(GetCardinalityOutput.httpOutput(from:), GetCardinalityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCardinalityInput, GetCardinalityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCardinalityOutput>())
@@ -9524,9 +9655,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified command.
     ///
-    /// - Parameter GetCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCommandInput`)
     ///
-    /// - Returns: `GetCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9560,6 +9691,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCommandInput, GetCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCommandOutput>(GetCommandOutput.httpOutput(from:), GetCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCommandInput, GetCommandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCommandOutput>())
@@ -9591,9 +9723,9 @@ extension IoTClient {
     ///
     /// Gets information about the specific command execution on a single device.
     ///
-    /// - Parameter GetCommandExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCommandExecutionInput`)
     ///
-    /// - Returns: `GetCommandExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCommandExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9628,6 +9760,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCommandExecutionInput, GetCommandExecutionOutput>(GetCommandExecutionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCommandExecutionOutput>(GetCommandExecutionOutput.httpOutput(from:), GetCommandExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCommandExecutionInput, GetCommandExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCommandExecutionOutput>())
@@ -9659,9 +9792,9 @@ extension IoTClient {
     ///
     /// Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the IoT device gateway. Requires permission to access the [GetEffectivePolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetEffectivePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEffectivePoliciesInput`)
     ///
-    /// - Returns: `GetEffectivePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEffectivePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9702,6 +9835,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEffectivePoliciesInput, GetEffectivePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEffectivePoliciesOutput>(GetEffectivePoliciesOutput.httpOutput(from:), GetEffectivePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEffectivePoliciesInput, GetEffectivePoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEffectivePoliciesOutput>())
@@ -9733,9 +9867,9 @@ extension IoTClient {
     ///
     /// Gets the indexing configuration. Requires permission to access the [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetIndexingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIndexingConfigurationInput`)
     ///
-    /// - Returns: `GetIndexingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIndexingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9770,6 +9904,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIndexingConfigurationInput, GetIndexingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIndexingConfigurationOutput>(GetIndexingConfigurationOutput.httpOutput(from:), GetIndexingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIndexingConfigurationInput, GetIndexingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIndexingConfigurationOutput>())
@@ -9801,9 +9936,9 @@ extension IoTClient {
     ///
     /// Gets a job document. Requires permission to access the [GetJobDocument](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetJobDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobDocumentInput`)
     ///
-    /// - Returns: `GetJobDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9838,6 +9973,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetJobDocumentInput, GetJobDocumentOutput>(GetJobDocumentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobDocumentOutput>(GetJobDocumentOutput.httpOutput(from:), GetJobDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobDocumentInput, GetJobDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobDocumentOutput>())
@@ -9869,9 +10005,9 @@ extension IoTClient {
     ///
     /// Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead. Requires permission to access the [GetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetLoggingOptionsInput : The input for the GetLoggingOptions operation.
+    /// - Parameter input: The input for the GetLoggingOptions operation. (Type: `GetLoggingOptionsInput`)
     ///
-    /// - Returns: `GetLoggingOptionsOutput` : The output from the GetLoggingOptions operation.
+    /// - Returns: The output from the GetLoggingOptions operation. (Type: `GetLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9904,6 +10040,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoggingOptionsOutput>(GetLoggingOptionsOutput.httpOutput(from:), GetLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoggingOptionsOutput>())
@@ -9935,9 +10072,9 @@ extension IoTClient {
     ///
     /// Gets an OTA update. Requires permission to access the [GetOTAUpdate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetOTAUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOTAUpdateInput`)
     ///
-    /// - Returns: `GetOTAUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOTAUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9973,6 +10110,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOTAUpdateInput, GetOTAUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOTAUpdateOutput>(GetOTAUpdateOutput.httpOutput(from:), GetOTAUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOTAUpdateInput, GetOTAUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOTAUpdateOutput>())
@@ -10004,9 +10142,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified software package. Requires permission to access the [GetPackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPackageInput`)
     ///
-    /// - Returns: `GetPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10040,6 +10178,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPackageInput, GetPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPackageOutput>(GetPackageOutput.httpOutput(from:), GetPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPackageInput, GetPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPackageOutput>())
@@ -10071,9 +10210,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified software package's configuration. Requires permission to access the [GetPackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetPackageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPackageConfigurationInput`)
     ///
-    /// - Returns: `GetPackageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPackageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10105,6 +10244,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPackageConfigurationInput, GetPackageConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPackageConfigurationOutput>(GetPackageConfigurationOutput.httpOutput(from:), GetPackageConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPackageConfigurationInput, GetPackageConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPackageConfigurationOutput>())
@@ -10136,9 +10276,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified package version. Requires permission to access the [GetPackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetPackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPackageVersionInput`)
     ///
-    /// - Returns: `GetPackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10172,6 +10312,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPackageVersionInput, GetPackageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPackageVersionOutput>(GetPackageVersionOutput.httpOutput(from:), GetPackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPackageVersionInput, GetPackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPackageVersionOutput>())
@@ -10203,9 +10344,9 @@ extension IoTClient {
     ///
     /// Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles. This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group "1" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group "5" contains the aggregated field value that occurs in approximately five percent of the values that match the query, and so on. The result is an approximation, the more values that match the query, the more accurate the percentile values. Requires permission to access the [GetPercentiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetPercentilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPercentilesInput`)
     ///
-    /// - Returns: `GetPercentilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPercentilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10247,6 +10388,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPercentilesInput, GetPercentilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPercentilesOutput>(GetPercentilesOutput.httpOutput(from:), GetPercentilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPercentilesInput, GetPercentilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPercentilesOutput>())
@@ -10278,9 +10420,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified policy with the policy document of the default version. Requires permission to access the [GetPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetPolicyInput : The input for the GetPolicy operation.
+    /// - Parameter input: The input for the GetPolicy operation. (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : The output from the GetPolicy operation.
+    /// - Returns: The output from the GetPolicy operation. (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10316,6 +10458,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(GetPolicyOutput.httpOutput(from:), GetPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
@@ -10347,9 +10490,9 @@ extension IoTClient {
     ///
     /// Gets information about the specified policy version. Requires permission to access the [GetPolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetPolicyVersionInput : The input for the GetPolicyVersion operation.
+    /// - Parameter input: The input for the GetPolicyVersion operation. (Type: `GetPolicyVersionInput`)
     ///
-    /// - Returns: `GetPolicyVersionOutput` : The output from the GetPolicyVersion operation.
+    /// - Returns: The output from the GetPolicyVersion operation. (Type: `GetPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10385,6 +10528,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyVersionOutput>(GetPolicyVersionOutput.httpOutput(from:), GetPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyVersionOutput>())
@@ -10416,9 +10560,9 @@ extension IoTClient {
     ///
     /// Gets a registration code used to register a CA certificate with IoT. IoT will create a registration code as part of this API call if the registration code doesn't exist or has been deleted. If you already have a registration code, this API call will return the same registration code. Requires permission to access the [GetRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetRegistrationCodeInput : The input to the GetRegistrationCode operation.
+    /// - Parameter input: The input to the GetRegistrationCode operation. (Type: `GetRegistrationCodeInput`)
     ///
-    /// - Returns: `GetRegistrationCodeOutput` : The output from the GetRegistrationCode operation.
+    /// - Returns: The output from the GetRegistrationCode operation. (Type: `GetRegistrationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10453,6 +10597,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRegistrationCodeInput, GetRegistrationCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegistrationCodeOutput>(GetRegistrationCodeOutput.httpOutput(from:), GetRegistrationCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegistrationCodeInput, GetRegistrationCodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegistrationCodeOutput>())
@@ -10484,9 +10629,9 @@ extension IoTClient {
     ///
     /// Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned. Requires permission to access the [GetStatistics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStatisticsInput`)
     ///
-    /// - Returns: `GetStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10528,6 +10673,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStatisticsInput, GetStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStatisticsOutput>(GetStatisticsOutput.httpOutput(from:), GetStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStatisticsInput, GetStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStatisticsOutput>())
@@ -10559,9 +10705,9 @@ extension IoTClient {
     ///
     /// Retrieves the live connectivity status per device.
     ///
-    /// - Parameter GetThingConnectivityDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetThingConnectivityDataInput`)
     ///
-    /// - Returns: `GetThingConnectivityDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetThingConnectivityDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10598,6 +10744,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetThingConnectivityDataOutput>(GetThingConnectivityDataOutput.httpOutput(from:), GetThingConnectivityDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetThingConnectivityDataInput, GetThingConnectivityDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetThingConnectivityDataOutput>())
@@ -10629,9 +10776,9 @@ extension IoTClient {
     ///
     /// Gets information about the rule. Requires permission to access the [GetTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetTopicRuleInput : The input for the GetTopicRule operation.
+    /// - Parameter input: The input for the GetTopicRule operation. (Type: `GetTopicRuleInput`)
     ///
-    /// - Returns: `GetTopicRuleOutput` : The output from the GetTopicRule operation.
+    /// - Returns: The output from the GetTopicRule operation. (Type: `GetTopicRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10665,6 +10812,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTopicRuleInput, GetTopicRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTopicRuleOutput>(GetTopicRuleOutput.httpOutput(from:), GetTopicRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTopicRuleInput, GetTopicRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTopicRuleOutput>())
@@ -10696,9 +10844,9 @@ extension IoTClient {
     ///
     /// Gets information about a topic rule destination. Requires permission to access the [GetTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetTopicRuleDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTopicRuleDestinationInput`)
     ///
-    /// - Returns: `GetTopicRuleDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTopicRuleDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10732,6 +10880,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTopicRuleDestinationInput, GetTopicRuleDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTopicRuleDestinationOutput>(GetTopicRuleDestinationOutput.httpOutput(from:), GetTopicRuleDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTopicRuleDestinationInput, GetTopicRuleDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTopicRuleDestinationOutput>())
@@ -10763,9 +10912,9 @@ extension IoTClient {
     ///
     /// Gets the fine grained logging options. Requires permission to access the [GetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetV2LoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetV2LoggingOptionsInput`)
     ///
-    /// - Returns: `GetV2LoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetV2LoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10796,8 +10945,10 @@ extension IoTClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetV2LoggingOptionsInput, GetV2LoggingOptionsOutput>(GetV2LoggingOptionsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetV2LoggingOptionsInput, GetV2LoggingOptionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetV2LoggingOptionsInput, GetV2LoggingOptionsOutput>(GetV2LoggingOptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetV2LoggingOptionsOutput>(GetV2LoggingOptionsOutput.httpOutput(from:), GetV2LoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetV2LoggingOptionsInput, GetV2LoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetV2LoggingOptionsOutput>())
@@ -10829,9 +10980,9 @@ extension IoTClient {
     ///
     /// Lists the active violations for a given Device Defender security profile. Requires permission to access the [ListActiveViolations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListActiveViolationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActiveViolationsInput`)
     ///
-    /// - Returns: `ListActiveViolationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActiveViolationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10866,6 +11017,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListActiveViolationsInput, ListActiveViolationsOutput>(ListActiveViolationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActiveViolationsOutput>(ListActiveViolationsOutput.httpOutput(from:), ListActiveViolationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActiveViolationsInput, ListActiveViolationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListActiveViolationsOutput>())
@@ -10897,9 +11049,9 @@ extension IoTClient {
     ///
     /// Lists the policies attached to the specified thing group. Requires permission to access the [ListAttachedPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListAttachedPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachedPoliciesInput`)
     ///
-    /// - Returns: `ListAttachedPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttachedPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10937,6 +11089,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAttachedPoliciesInput, ListAttachedPoliciesOutput>(ListAttachedPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachedPoliciesOutput>(ListAttachedPoliciesOutput.httpOutput(from:), ListAttachedPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachedPoliciesInput, ListAttachedPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachedPoliciesOutput>())
@@ -10968,9 +11121,9 @@ extension IoTClient {
     ///
     /// Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.) Requires permission to access the [ListAuditFindings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListAuditFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAuditFindingsInput`)
     ///
-    /// - Returns: `ListAuditFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAuditFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11006,6 +11159,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAuditFindingsOutput>(ListAuditFindingsOutput.httpOutput(from:), ListAuditFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAuditFindingsInput, ListAuditFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAuditFindingsOutput>())
@@ -11037,9 +11191,9 @@ extension IoTClient {
     ///
     /// Gets the status of audit mitigation action tasks that were executed. Requires permission to access the [ListAuditMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListAuditMitigationActionsExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAuditMitigationActionsExecutionsInput`)
     ///
-    /// - Returns: `ListAuditMitigationActionsExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAuditMitigationActionsExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11073,6 +11227,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAuditMitigationActionsExecutionsInput, ListAuditMitigationActionsExecutionsOutput>(ListAuditMitigationActionsExecutionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAuditMitigationActionsExecutionsOutput>(ListAuditMitigationActionsExecutionsOutput.httpOutput(from:), ListAuditMitigationActionsExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAuditMitigationActionsExecutionsInput, ListAuditMitigationActionsExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAuditMitigationActionsExecutionsOutput>())
@@ -11104,9 +11259,9 @@ extension IoTClient {
     ///
     /// Gets a list of audit mitigation action tasks that match the specified filters. Requires permission to access the [ListAuditMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListAuditMitigationActionsTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAuditMitigationActionsTasksInput`)
     ///
-    /// - Returns: `ListAuditMitigationActionsTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAuditMitigationActionsTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11140,6 +11295,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAuditMitigationActionsTasksInput, ListAuditMitigationActionsTasksOutput>(ListAuditMitigationActionsTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAuditMitigationActionsTasksOutput>(ListAuditMitigationActionsTasksOutput.httpOutput(from:), ListAuditMitigationActionsTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAuditMitigationActionsTasksInput, ListAuditMitigationActionsTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAuditMitigationActionsTasksOutput>())
@@ -11171,9 +11327,9 @@ extension IoTClient {
     ///
     /// Lists your Device Defender audit listings. Requires permission to access the [ListAuditSuppressions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListAuditSuppressionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAuditSuppressionsInput`)
     ///
-    /// - Returns: `ListAuditSuppressionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAuditSuppressionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11209,6 +11365,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAuditSuppressionsInput, ListAuditSuppressionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAuditSuppressionsOutput>(ListAuditSuppressionsOutput.httpOutput(from:), ListAuditSuppressionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAuditSuppressionsInput, ListAuditSuppressionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAuditSuppressionsOutput>())
@@ -11240,9 +11397,9 @@ extension IoTClient {
     ///
     /// Lists the Device Defender audits that have been performed during a given time period. Requires permission to access the [ListAuditTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListAuditTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAuditTasksInput`)
     ///
-    /// - Returns: `ListAuditTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAuditTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11276,6 +11433,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAuditTasksInput, ListAuditTasksOutput>(ListAuditTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAuditTasksOutput>(ListAuditTasksOutput.httpOutput(from:), ListAuditTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAuditTasksInput, ListAuditTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAuditTasksOutput>())
@@ -11307,9 +11465,9 @@ extension IoTClient {
     ///
     /// Lists the authorizers registered in your account. Requires permission to access the [ListAuthorizers](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListAuthorizersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAuthorizersInput`)
     ///
-    /// - Returns: `ListAuthorizersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAuthorizersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11345,6 +11503,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAuthorizersInput, ListAuthorizersOutput>(ListAuthorizersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAuthorizersOutput>(ListAuthorizersOutput.httpOutput(from:), ListAuthorizersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAuthorizersInput, ListAuthorizersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAuthorizersOutput>())
@@ -11376,9 +11535,9 @@ extension IoTClient {
     ///
     /// Lists the billing groups you have created. Requires permission to access the [ListBillingGroups](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListBillingGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBillingGroupsInput`)
     ///
-    /// - Returns: `ListBillingGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBillingGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11413,6 +11572,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBillingGroupsInput, ListBillingGroupsOutput>(ListBillingGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBillingGroupsOutput>(ListBillingGroupsOutput.httpOutput(from:), ListBillingGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillingGroupsInput, ListBillingGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillingGroupsOutput>())
@@ -11444,9 +11604,9 @@ extension IoTClient {
     ///
     /// Lists the CA certificates registered for your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCACertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListCACertificatesInput : Input for the ListCACertificates operation.
+    /// - Parameter input: Input for the ListCACertificates operation. (Type: `ListCACertificatesInput`)
     ///
-    /// - Returns: `ListCACertificatesOutput` : The output from the ListCACertificates operation.
+    /// - Returns: The output from the ListCACertificates operation. (Type: `ListCACertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11482,6 +11642,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCACertificatesInput, ListCACertificatesOutput>(ListCACertificatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCACertificatesOutput>(ListCACertificatesOutput.httpOutput(from:), ListCACertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCACertificatesInput, ListCACertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCACertificatesOutput>())
@@ -11513,9 +11674,9 @@ extension IoTClient {
     ///
     /// Lists all your certificate providers in your Amazon Web Services account. Requires permission to access the [ListCertificateProviders](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListCertificateProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCertificateProvidersInput`)
     ///
-    /// - Returns: `ListCertificateProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCertificateProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11551,6 +11712,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCertificateProvidersInput, ListCertificateProvidersOutput>(ListCertificateProvidersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificateProvidersOutput>(ListCertificateProvidersOutput.httpOutput(from:), ListCertificateProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificateProvidersInput, ListCertificateProvidersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificateProvidersOutput>())
@@ -11582,9 +11744,9 @@ extension IoTClient {
     ///
     /// Lists the certificates registered in your Amazon Web Services account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results. Requires permission to access the [ListCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListCertificatesInput : The input for the ListCertificates operation.
+    /// - Parameter input: The input for the ListCertificates operation. (Type: `ListCertificatesInput`)
     ///
-    /// - Returns: `ListCertificatesOutput` : The output of the ListCertificates operation.
+    /// - Returns: The output of the ListCertificates operation. (Type: `ListCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11620,6 +11782,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCertificatesInput, ListCertificatesOutput>(ListCertificatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificatesOutput>(ListCertificatesOutput.httpOutput(from:), ListCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificatesInput, ListCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificatesOutput>())
@@ -11651,9 +11814,9 @@ extension IoTClient {
     ///
     /// List the device certificates signed by the specified CA certificate. Requires permission to access the [ListCertificatesByCA](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListCertificatesByCAInput : The input to the ListCertificatesByCA operation.
+    /// - Parameter input: The input to the ListCertificatesByCA operation. (Type: `ListCertificatesByCAInput`)
     ///
-    /// - Returns: `ListCertificatesByCAOutput` : The output of the ListCertificatesByCA operation.
+    /// - Returns: The output of the ListCertificatesByCA operation. (Type: `ListCertificatesByCAOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11689,6 +11852,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCertificatesByCAInput, ListCertificatesByCAOutput>(ListCertificatesByCAInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificatesByCAOutput>(ListCertificatesByCAOutput.httpOutput(from:), ListCertificatesByCAOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificatesByCAInput, ListCertificatesByCAOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificatesByCAOutput>())
@@ -11727,9 +11891,9 @@ extension IoTClient {
     ///
     /// For more information about considerations for using this API, see [List command executions in your account (CLI)](https://docs.aws.amazon.com/iot/latest/developerguide/iot-remote-command-execution-start-monitor.html#iot-remote-command-execution-list-cli).
     ///
-    /// - Parameter ListCommandExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommandExecutionsInput`)
     ///
-    /// - Returns: `ListCommandExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommandExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11767,6 +11931,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandExecutionsInput, ListCommandExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommandExecutionsOutput>(ListCommandExecutionsOutput.httpOutput(from:), ListCommandExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandExecutionsInput, ListCommandExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommandExecutionsOutput>())
@@ -11798,9 +11963,9 @@ extension IoTClient {
     ///
     /// List all commands in your account.
     ///
-    /// - Parameter ListCommandsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommandsInput`)
     ///
-    /// - Returns: `ListCommandsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommandsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11834,6 +11999,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCommandsInput, ListCommandsOutput>(ListCommandsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommandsOutput>(ListCommandsOutput.httpOutput(from:), ListCommandsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandsInput, ListCommandsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommandsOutput>())
@@ -11865,9 +12031,9 @@ extension IoTClient {
     ///
     /// Lists your Device Defender detect custom metrics. Requires permission to access the [ListCustomMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListCustomMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomMetricsInput`)
     ///
-    /// - Returns: `ListCustomMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11901,6 +12067,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCustomMetricsInput, ListCustomMetricsOutput>(ListCustomMetricsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomMetricsOutput>(ListCustomMetricsOutput.httpOutput(from:), ListCustomMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomMetricsInput, ListCustomMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomMetricsOutput>())
@@ -11932,9 +12099,9 @@ extension IoTClient {
     ///
     /// Lists mitigation actions executions for a Device Defender ML Detect Security Profile. Requires permission to access the [ListDetectMitigationActionsExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListDetectMitigationActionsExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDetectMitigationActionsExecutionsInput`)
     ///
-    /// - Returns: `ListDetectMitigationActionsExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDetectMitigationActionsExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11968,6 +12135,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDetectMitigationActionsExecutionsInput, ListDetectMitigationActionsExecutionsOutput>(ListDetectMitigationActionsExecutionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDetectMitigationActionsExecutionsOutput>(ListDetectMitigationActionsExecutionsOutput.httpOutput(from:), ListDetectMitigationActionsExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDetectMitigationActionsExecutionsInput, ListDetectMitigationActionsExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDetectMitigationActionsExecutionsOutput>())
@@ -11999,9 +12167,9 @@ extension IoTClient {
     ///
     /// List of Device Defender ML Detect mitigation actions tasks. Requires permission to access the [ListDetectMitigationActionsTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListDetectMitigationActionsTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDetectMitigationActionsTasksInput`)
     ///
-    /// - Returns: `ListDetectMitigationActionsTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDetectMitigationActionsTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12035,6 +12203,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDetectMitigationActionsTasksInput, ListDetectMitigationActionsTasksOutput>(ListDetectMitigationActionsTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDetectMitigationActionsTasksOutput>(ListDetectMitigationActionsTasksOutput.httpOutput(from:), ListDetectMitigationActionsTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDetectMitigationActionsTasksInput, ListDetectMitigationActionsTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDetectMitigationActionsTasksOutput>())
@@ -12066,9 +12235,9 @@ extension IoTClient {
     ///
     /// List the set of dimensions that are defined for your Amazon Web Services accounts. Requires permission to access the [ListDimensions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListDimensionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDimensionsInput`)
     ///
-    /// - Returns: `ListDimensionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDimensionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12102,6 +12271,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDimensionsInput, ListDimensionsOutput>(ListDimensionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDimensionsOutput>(ListDimensionsOutput.httpOutput(from:), ListDimensionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDimensionsInput, ListDimensionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDimensionsOutput>())
@@ -12133,9 +12303,9 @@ extension IoTClient {
     ///
     /// Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name. Requires permission to access the [ListDomainConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListDomainConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainConfigurationsInput`)
     ///
-    /// - Returns: `ListDomainConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12171,6 +12341,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainConfigurationsInput, ListDomainConfigurationsOutput>(ListDomainConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainConfigurationsOutput>(ListDomainConfigurationsOutput.httpOutput(from:), ListDomainConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainConfigurationsInput, ListDomainConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainConfigurationsOutput>())
@@ -12202,9 +12373,9 @@ extension IoTClient {
     ///
     /// Lists all your fleet metrics. Requires permission to access the [ListFleetMetrics](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListFleetMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetMetricsInput`)
     ///
-    /// - Returns: `ListFleetMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12240,6 +12411,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFleetMetricsInput, ListFleetMetricsOutput>(ListFleetMetricsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetMetricsOutput>(ListFleetMetricsOutput.httpOutput(from:), ListFleetMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetMetricsInput, ListFleetMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetMetricsOutput>())
@@ -12271,9 +12443,9 @@ extension IoTClient {
     ///
     /// Lists the search indices. Requires permission to access the [ListIndices](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListIndicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndicesInput`)
     ///
-    /// - Returns: `ListIndicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12309,6 +12481,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIndicesInput, ListIndicesOutput>(ListIndicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndicesOutput>(ListIndicesOutput.httpOutput(from:), ListIndicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndicesInput, ListIndicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndicesOutput>())
@@ -12340,9 +12513,9 @@ extension IoTClient {
     ///
     /// Lists the job executions for a job. Requires permission to access the [ListJobExecutionsForJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListJobExecutionsForJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobExecutionsForJobInput`)
     ///
-    /// - Returns: `ListJobExecutionsForJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobExecutionsForJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12377,6 +12550,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobExecutionsForJobInput, ListJobExecutionsForJobOutput>(ListJobExecutionsForJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobExecutionsForJobOutput>(ListJobExecutionsForJobOutput.httpOutput(from:), ListJobExecutionsForJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobExecutionsForJobInput, ListJobExecutionsForJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobExecutionsForJobOutput>())
@@ -12408,9 +12582,9 @@ extension IoTClient {
     ///
     /// Lists the job executions for the specified thing. Requires permission to access the [ListJobExecutionsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListJobExecutionsForThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobExecutionsForThingInput`)
     ///
-    /// - Returns: `ListJobExecutionsForThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobExecutionsForThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12445,6 +12619,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobExecutionsForThingInput, ListJobExecutionsForThingOutput>(ListJobExecutionsForThingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobExecutionsForThingOutput>(ListJobExecutionsForThingOutput.httpOutput(from:), ListJobExecutionsForThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobExecutionsForThingInput, ListJobExecutionsForThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobExecutionsForThingOutput>())
@@ -12476,9 +12651,9 @@ extension IoTClient {
     ///
     /// Returns a list of job templates. Requires permission to access the [ListJobTemplates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListJobTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobTemplatesInput`)
     ///
-    /// - Returns: `ListJobTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12512,6 +12687,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(ListJobTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobTemplatesOutput>(ListJobTemplatesOutput.httpOutput(from:), ListJobTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobTemplatesOutput>())
@@ -12543,9 +12719,9 @@ extension IoTClient {
     ///
     /// Lists jobs. Requires permission to access the [ListJobs](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12580,6 +12756,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -12611,9 +12788,9 @@ extension IoTClient {
     ///
     /// Returns a list of managed job templates.
     ///
-    /// - Parameter ListManagedJobTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedJobTemplatesInput`)
     ///
-    /// - Returns: `ListManagedJobTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedJobTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12648,6 +12825,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedJobTemplatesInput, ListManagedJobTemplatesOutput>(ListManagedJobTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedJobTemplatesOutput>(ListManagedJobTemplatesOutput.httpOutput(from:), ListManagedJobTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedJobTemplatesInput, ListManagedJobTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedJobTemplatesOutput>())
@@ -12679,9 +12857,9 @@ extension IoTClient {
     ///
     /// Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period.
     ///
-    /// - Parameter ListMetricValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetricValuesInput`)
     ///
-    /// - Returns: `ListMetricValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetricValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12716,6 +12894,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMetricValuesInput, ListMetricValuesOutput>(ListMetricValuesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricValuesOutput>(ListMetricValuesOutput.httpOutput(from:), ListMetricValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricValuesInput, ListMetricValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricValuesOutput>())
@@ -12747,9 +12926,9 @@ extension IoTClient {
     ///
     /// Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the [ListMitigationActions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListMitigationActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMitigationActionsInput`)
     ///
-    /// - Returns: `ListMitigationActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMitigationActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12783,6 +12962,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMitigationActionsInput, ListMitigationActionsOutput>(ListMitigationActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMitigationActionsOutput>(ListMitigationActionsOutput.httpOutput(from:), ListMitigationActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMitigationActionsInput, ListMitigationActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMitigationActionsOutput>())
@@ -12814,9 +12994,9 @@ extension IoTClient {
     ///
     /// Lists OTA updates. Requires permission to access the [ListOTAUpdates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListOTAUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOTAUpdatesInput`)
     ///
-    /// - Returns: `ListOTAUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOTAUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12852,6 +13032,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOTAUpdatesInput, ListOTAUpdatesOutput>(ListOTAUpdatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOTAUpdatesOutput>(ListOTAUpdatesOutput.httpOutput(from:), ListOTAUpdatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOTAUpdatesInput, ListOTAUpdatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOTAUpdatesOutput>())
@@ -12883,9 +13064,9 @@ extension IoTClient {
     ///
     /// Lists certificates that are being transferred but not yet accepted. Requires permission to access the [ListOutgoingCertificates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListOutgoingCertificatesInput : The input to the ListOutgoingCertificates operation.
+    /// - Parameter input: The input to the ListOutgoingCertificates operation. (Type: `ListOutgoingCertificatesInput`)
     ///
-    /// - Returns: `ListOutgoingCertificatesOutput` : The output from the ListOutgoingCertificates operation.
+    /// - Returns: The output from the ListOutgoingCertificates operation. (Type: `ListOutgoingCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12921,6 +13102,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOutgoingCertificatesInput, ListOutgoingCertificatesOutput>(ListOutgoingCertificatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOutgoingCertificatesOutput>(ListOutgoingCertificatesOutput.httpOutput(from:), ListOutgoingCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOutgoingCertificatesInput, ListOutgoingCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOutgoingCertificatesOutput>())
@@ -12952,9 +13134,9 @@ extension IoTClient {
     ///
     /// Lists the software package versions associated to the account. Requires permission to access the [ListPackageVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListPackageVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackageVersionsInput`)
     ///
-    /// - Returns: `ListPackageVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackageVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12988,6 +13170,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackageVersionsInput, ListPackageVersionsOutput>(ListPackageVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackageVersionsOutput>(ListPackageVersionsOutput.httpOutput(from:), ListPackageVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackageVersionsInput, ListPackageVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackageVersionsOutput>())
@@ -13019,9 +13202,9 @@ extension IoTClient {
     ///
     /// Lists the software packages associated to the account. Requires permission to access the [ListPackages](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListPackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackagesInput`)
     ///
-    /// - Returns: `ListPackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13055,6 +13238,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackagesInput, ListPackagesOutput>(ListPackagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackagesOutput>(ListPackagesOutput.httpOutput(from:), ListPackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackagesInput, ListPackagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackagesOutput>())
@@ -13086,9 +13270,9 @@ extension IoTClient {
     ///
     /// Lists your policies. Requires permission to access the [ListPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListPoliciesInput : The input for the ListPolicies operation.
+    /// - Parameter input: The input for the ListPolicies operation. (Type: `ListPoliciesInput`)
     ///
-    /// - Returns: `ListPoliciesOutput` : The output from the ListPolicies operation.
+    /// - Returns: The output from the ListPolicies operation. (Type: `ListPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13124,6 +13308,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPoliciesInput, ListPoliciesOutput>(ListPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPoliciesOutput>(ListPoliciesOutput.httpOutput(from:), ListPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPoliciesInput, ListPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoliciesOutput>())
@@ -13156,9 +13341,9 @@ extension IoTClient {
     /// Lists the principals associated with the specified policy. Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [ListTargetsForPolicy] instead. Requires permission to access the [ListPolicyPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
     ///
-    /// - Parameter ListPolicyPrincipalsInput : The input for the ListPolicyPrincipals operation.
+    /// - Parameter input: The input for the ListPolicyPrincipals operation. (Type: `ListPolicyPrincipalsInput`)
     ///
-    /// - Returns: `ListPolicyPrincipalsOutput` : The output from the ListPolicyPrincipals operation.
+    /// - Returns: The output from the ListPolicyPrincipals operation. (Type: `ListPolicyPrincipalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13196,6 +13381,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPolicyPrincipalsInput, ListPolicyPrincipalsOutput>(ListPolicyPrincipalsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyPrincipalsOutput>(ListPolicyPrincipalsOutput.httpOutput(from:), ListPolicyPrincipalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyPrincipalsInput, ListPolicyPrincipalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyPrincipalsOutput>())
@@ -13227,9 +13413,9 @@ extension IoTClient {
     ///
     /// Lists the versions of the specified policy and identifies the default version. Requires permission to access the [ListPolicyVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListPolicyVersionsInput : The input for the ListPolicyVersions operation.
+    /// - Parameter input: The input for the ListPolicyVersions operation. (Type: `ListPolicyVersionsInput`)
     ///
-    /// - Returns: `ListPolicyVersionsOutput` : The output from the ListPolicyVersions operation.
+    /// - Returns: The output from the ListPolicyVersions operation. (Type: `ListPolicyVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13265,6 +13451,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyVersionsOutput>(ListPolicyVersionsOutput.httpOutput(from:), ListPolicyVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyVersionsOutput>())
@@ -13297,9 +13484,9 @@ extension IoTClient {
     /// Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in [AmazonCognito Identity format](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html#API_GetCredentialsForIdentity_RequestSyntax). Note: This action is deprecated and works as expected for backward compatibility, but we won't add enhancements. Use [ListAttachedPolicies] instead. Requires permission to access the [ListPrincipalPolicies](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     @available(*, deprecated)
     ///
-    /// - Parameter ListPrincipalPoliciesInput : The input for the ListPrincipalPolicies operation.
+    /// - Parameter input: The input for the ListPrincipalPolicies operation. (Type: `ListPrincipalPoliciesInput`)
     ///
-    /// - Returns: `ListPrincipalPoliciesOutput` : The output from the ListPrincipalPolicies operation.
+    /// - Returns: The output from the ListPrincipalPolicies operation. (Type: `ListPrincipalPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13337,6 +13524,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPrincipalPoliciesInput, ListPrincipalPoliciesOutput>(ListPrincipalPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrincipalPoliciesOutput>(ListPrincipalPoliciesOutput.httpOutput(from:), ListPrincipalPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrincipalPoliciesInput, ListPrincipalPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrincipalPoliciesOutput>())
@@ -13368,9 +13556,9 @@ extension IoTClient {
     ///
     /// Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [ListPrincipalThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListPrincipalThingsInput : The input for the ListPrincipalThings operation.
+    /// - Parameter input: The input for the ListPrincipalThings operation. (Type: `ListPrincipalThingsInput`)
     ///
-    /// - Returns: `ListPrincipalThingsOutput` : The output from the ListPrincipalThings operation.
+    /// - Returns: The output from the ListPrincipalThings operation. (Type: `ListPrincipalThingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13408,6 +13596,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPrincipalThingsInput, ListPrincipalThingsOutput>(ListPrincipalThingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrincipalThingsOutput>(ListPrincipalThingsOutput.httpOutput(from:), ListPrincipalThingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrincipalThingsInput, ListPrincipalThingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrincipalThingsOutput>())
@@ -13439,9 +13628,9 @@ extension IoTClient {
     ///
     /// Lists the things associated with the specified principal. A principal can be an X.509 certificate or an Amazon Cognito ID. Requires permission to access the [ListPrincipalThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListPrincipalThingsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrincipalThingsV2Input`)
     ///
-    /// - Returns: `ListPrincipalThingsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrincipalThingsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13479,6 +13668,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(ListPrincipalThingsV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrincipalThingsV2Output>(ListPrincipalThingsV2Output.httpOutput(from:), ListPrincipalThingsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrincipalThingsV2Input, ListPrincipalThingsV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrincipalThingsV2Output>())
@@ -13510,9 +13700,9 @@ extension IoTClient {
     ///
     /// A list of provisioning template versions. Requires permission to access the [ListProvisioningTemplateVersions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListProvisioningTemplateVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisioningTemplateVersionsInput`)
     ///
-    /// - Returns: `ListProvisioningTemplateVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisioningTemplateVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13548,6 +13738,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProvisioningTemplateVersionsInput, ListProvisioningTemplateVersionsOutput>(ListProvisioningTemplateVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProvisioningTemplateVersionsOutput>(ListProvisioningTemplateVersionsOutput.httpOutput(from:), ListProvisioningTemplateVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProvisioningTemplateVersionsInput, ListProvisioningTemplateVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProvisioningTemplateVersionsOutput>())
@@ -13579,9 +13770,9 @@ extension IoTClient {
     ///
     /// Lists the provisioning templates in your Amazon Web Services account. Requires permission to access the [ListProvisioningTemplates](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListProvisioningTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisioningTemplatesInput`)
     ///
-    /// - Returns: `ListProvisioningTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisioningTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13616,6 +13807,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProvisioningTemplatesInput, ListProvisioningTemplatesOutput>(ListProvisioningTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProvisioningTemplatesOutput>(ListProvisioningTemplatesOutput.httpOutput(from:), ListProvisioningTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProvisioningTemplatesInput, ListProvisioningTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProvisioningTemplatesOutput>())
@@ -13668,9 +13860,9 @@ extension IoTClient {
     ///
     /// This API is similar to DescribeAuditFinding's [RelatedResources](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html) but provides pagination and is not limited to 10 resources. When calling [DescribeAuditFinding](https://docs.aws.amazon.com/iot/latest/apireference/API_DescribeAuditFinding.html) for the intermediate CA revoked for active device certificates check, RelatedResources will not be populated. You must use this API, ListRelatedResourcesForAuditFinding, to list the certificates.
     ///
-    /// - Parameter ListRelatedResourcesForAuditFindingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRelatedResourcesForAuditFindingInput`)
     ///
-    /// - Returns: `ListRelatedResourcesForAuditFindingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRelatedResourcesForAuditFindingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13705,6 +13897,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRelatedResourcesForAuditFindingInput, ListRelatedResourcesForAuditFindingOutput>(ListRelatedResourcesForAuditFindingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRelatedResourcesForAuditFindingOutput>(ListRelatedResourcesForAuditFindingOutput.httpOutput(from:), ListRelatedResourcesForAuditFindingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRelatedResourcesForAuditFindingInput, ListRelatedResourcesForAuditFindingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRelatedResourcesForAuditFindingOutput>())
@@ -13736,9 +13929,9 @@ extension IoTClient {
     ///
     /// Lists the role aliases registered in your account. Requires permission to access the [ListRoleAliases](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListRoleAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoleAliasesInput`)
     ///
-    /// - Returns: `ListRoleAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoleAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13774,6 +13967,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoleAliasesInput, ListRoleAliasesOutput>(ListRoleAliasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoleAliasesOutput>(ListRoleAliasesOutput.httpOutput(from:), ListRoleAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoleAliasesInput, ListRoleAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoleAliasesOutput>())
@@ -13805,9 +13999,9 @@ extension IoTClient {
     ///
     /// The validation results for all software bill of materials (SBOM) attached to a specific software package version. Requires permission to access the [ListSbomValidationResults](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListSbomValidationResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSbomValidationResultsInput`)
     ///
-    /// - Returns: `ListSbomValidationResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSbomValidationResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13842,6 +14036,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSbomValidationResultsInput, ListSbomValidationResultsOutput>(ListSbomValidationResultsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSbomValidationResultsOutput>(ListSbomValidationResultsOutput.httpOutput(from:), ListSbomValidationResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSbomValidationResultsInput, ListSbomValidationResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSbomValidationResultsOutput>())
@@ -13873,9 +14068,9 @@ extension IoTClient {
     ///
     /// Lists all of your scheduled audits. Requires permission to access the [ListScheduledAudits](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListScheduledAuditsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScheduledAuditsInput`)
     ///
-    /// - Returns: `ListScheduledAuditsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScheduledAuditsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13909,6 +14104,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListScheduledAuditsInput, ListScheduledAuditsOutput>(ListScheduledAuditsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScheduledAuditsOutput>(ListScheduledAuditsOutput.httpOutput(from:), ListScheduledAuditsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScheduledAuditsInput, ListScheduledAuditsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScheduledAuditsOutput>())
@@ -13940,9 +14136,9 @@ extension IoTClient {
     ///
     /// Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric. Requires permission to access the [ListSecurityProfiles](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. dimensionName and metricName cannot be used in the same request.
     ///
-    /// - Parameter ListSecurityProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityProfilesInput`)
     ///
-    /// - Returns: `ListSecurityProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13977,6 +14173,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityProfilesInput, ListSecurityProfilesOutput>(ListSecurityProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityProfilesOutput>(ListSecurityProfilesOutput.httpOutput(from:), ListSecurityProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityProfilesInput, ListSecurityProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityProfilesOutput>())
@@ -14008,9 +14205,9 @@ extension IoTClient {
     ///
     /// Lists the Device Defender security profiles attached to a target (thing group). Requires permission to access the [ListSecurityProfilesForTarget](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListSecurityProfilesForTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityProfilesForTargetInput`)
     ///
-    /// - Returns: `ListSecurityProfilesForTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityProfilesForTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14045,6 +14242,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityProfilesForTargetInput, ListSecurityProfilesForTargetOutput>(ListSecurityProfilesForTargetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityProfilesForTargetOutput>(ListSecurityProfilesForTargetOutput.httpOutput(from:), ListSecurityProfilesForTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityProfilesForTargetInput, ListSecurityProfilesForTargetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityProfilesForTargetOutput>())
@@ -14076,9 +14274,9 @@ extension IoTClient {
     ///
     /// Lists all of the streams in your Amazon Web Services account. Requires permission to access the [ListStreams](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamsInput`)
     ///
-    /// - Returns: `ListStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14114,6 +14312,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStreamsInput, ListStreamsOutput>(ListStreamsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamsOutput>(ListStreamsOutput.httpOutput(from:), ListStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamsInput, ListStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamsOutput>())
@@ -14145,9 +14344,9 @@ extension IoTClient {
     ///
     /// Lists the tags (metadata) you have assigned to the resource. Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14182,6 +14381,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -14213,9 +14413,9 @@ extension IoTClient {
     ///
     /// List targets for the specified policy. Requires permission to access the [ListTargetsForPolicy](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListTargetsForPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetsForPolicyInput`)
     ///
-    /// - Returns: `ListTargetsForPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetsForPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14253,6 +14453,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(ListTargetsForPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetsForPolicyOutput>(ListTargetsForPolicyOutput.httpOutput(from:), ListTargetsForPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetsForPolicyInput, ListTargetsForPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetsForPolicyOutput>())
@@ -14284,9 +14485,9 @@ extension IoTClient {
     ///
     /// Lists the targets (thing groups) associated with a given Device Defender security profile. Requires permission to access the [ListTargetsForSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListTargetsForSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetsForSecurityProfileInput`)
     ///
-    /// - Returns: `ListTargetsForSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetsForSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14321,6 +14522,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTargetsForSecurityProfileInput, ListTargetsForSecurityProfileOutput>(ListTargetsForSecurityProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetsForSecurityProfileOutput>(ListTargetsForSecurityProfileOutput.httpOutput(from:), ListTargetsForSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetsForSecurityProfileInput, ListTargetsForSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetsForSecurityProfileOutput>())
@@ -14352,9 +14554,9 @@ extension IoTClient {
     ///
     /// List the thing groups in your account. Requires permission to access the [ListThingGroups](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListThingGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThingGroupsInput`)
     ///
-    /// - Returns: `ListThingGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThingGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14389,6 +14591,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingGroupsInput, ListThingGroupsOutput>(ListThingGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingGroupsOutput>(ListThingGroupsOutput.httpOutput(from:), ListThingGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingGroupsInput, ListThingGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingGroupsOutput>())
@@ -14420,9 +14623,9 @@ extension IoTClient {
     ///
     /// List the thing groups to which the specified thing belongs. Requires permission to access the [ListThingGroupsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListThingGroupsForThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThingGroupsForThingInput`)
     ///
-    /// - Returns: `ListThingGroupsForThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThingGroupsForThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14457,6 +14660,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingGroupsForThingInput, ListThingGroupsForThingOutput>(ListThingGroupsForThingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingGroupsForThingOutput>(ListThingGroupsForThingOutput.httpOutput(from:), ListThingGroupsForThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingGroupsForThingInput, ListThingGroupsForThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingGroupsForThingOutput>())
@@ -14488,9 +14692,9 @@ extension IoTClient {
     ///
     /// Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. Requires permission to access the [ListThingPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListThingPrincipalsInput : The input for the ListThingPrincipal operation.
+    /// - Parameter input: The input for the ListThingPrincipal operation. (Type: `ListThingPrincipalsInput`)
     ///
-    /// - Returns: `ListThingPrincipalsOutput` : The output from the ListThingPrincipals operation.
+    /// - Returns: The output from the ListThingPrincipals operation. (Type: `ListThingPrincipalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14527,6 +14731,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingPrincipalsInput, ListThingPrincipalsOutput>(ListThingPrincipalsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingPrincipalsOutput>(ListThingPrincipalsOutput.httpOutput(from:), ListThingPrincipalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingPrincipalsInput, ListThingPrincipalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingPrincipalsOutput>())
@@ -14558,9 +14763,9 @@ extension IoTClient {
     ///
     /// Lists the principals associated with the specified thing. A principal can be an X.509 certificate or an Amazon Cognito ID. Requires permission to access the [ListThingPrincipals](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListThingPrincipalsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThingPrincipalsV2Input`)
     ///
-    /// - Returns: `ListThingPrincipalsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThingPrincipalsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14597,6 +14802,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>(ListThingPrincipalsV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingPrincipalsV2Output>(ListThingPrincipalsV2Output.httpOutput(from:), ListThingPrincipalsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingPrincipalsV2Input, ListThingPrincipalsV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingPrincipalsV2Output>())
@@ -14628,9 +14834,9 @@ extension IoTClient {
     ///
     /// Information about the thing registration tasks.
     ///
-    /// - Parameter ListThingRegistrationTaskReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThingRegistrationTaskReportsInput`)
     ///
-    /// - Returns: `ListThingRegistrationTaskReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThingRegistrationTaskReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14665,6 +14871,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingRegistrationTaskReportsInput, ListThingRegistrationTaskReportsOutput>(ListThingRegistrationTaskReportsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingRegistrationTaskReportsOutput>(ListThingRegistrationTaskReportsOutput.httpOutput(from:), ListThingRegistrationTaskReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingRegistrationTaskReportsInput, ListThingRegistrationTaskReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingRegistrationTaskReportsOutput>())
@@ -14696,9 +14903,9 @@ extension IoTClient {
     ///
     /// List bulk thing provisioning tasks. Requires permission to access the [ListThingRegistrationTasks](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListThingRegistrationTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThingRegistrationTasksInput`)
     ///
-    /// - Returns: `ListThingRegistrationTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThingRegistrationTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14733,6 +14940,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingRegistrationTasksInput, ListThingRegistrationTasksOutput>(ListThingRegistrationTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingRegistrationTasksOutput>(ListThingRegistrationTasksOutput.httpOutput(from:), ListThingRegistrationTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingRegistrationTasksInput, ListThingRegistrationTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingRegistrationTasksOutput>())
@@ -14764,9 +14972,9 @@ extension IoTClient {
     ///
     /// Lists the existing thing types. Requires permission to access the [ListThingTypes](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListThingTypesInput : The input for the ListThingTypes operation.
+    /// - Parameter input: The input for the ListThingTypes operation. (Type: `ListThingTypesInput`)
     ///
-    /// - Returns: `ListThingTypesOutput` : The output for the ListThingTypes operation.
+    /// - Returns: The output for the ListThingTypes operation. (Type: `ListThingTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14802,6 +15010,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingTypesInput, ListThingTypesOutput>(ListThingTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingTypesOutput>(ListThingTypesOutput.httpOutput(from:), ListThingTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingTypesInput, ListThingTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingTypesOutput>())
@@ -14833,9 +15042,9 @@ extension IoTClient {
     ///
     /// Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red. For more information, see [List Things](https://docs.aws.amazon.com/iot/latest/developerguide/thing-registry.html#list-things) from the Amazon Web Services IoT Core Developer Guide. Requires permission to access the [ListThings](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     ///
-    /// - Parameter ListThingsInput : The input for the ListThings operation.
+    /// - Parameter input: The input for the ListThings operation. (Type: `ListThingsInput`)
     ///
-    /// - Returns: `ListThingsOutput` : The output from the ListThings operation.
+    /// - Returns: The output from the ListThings operation. (Type: `ListThingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14871,6 +15080,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingsInput, ListThingsOutput>(ListThingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingsOutput>(ListThingsOutput.httpOutput(from:), ListThingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingsInput, ListThingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingsOutput>())
@@ -14902,9 +15112,9 @@ extension IoTClient {
     ///
     /// Lists the things you have added to the given billing group. Requires permission to access the [ListThingsInBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListThingsInBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThingsInBillingGroupInput`)
     ///
-    /// - Returns: `ListThingsInBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThingsInBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14939,6 +15149,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingsInBillingGroupInput, ListThingsInBillingGroupOutput>(ListThingsInBillingGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingsInBillingGroupOutput>(ListThingsInBillingGroupOutput.httpOutput(from:), ListThingsInBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingsInBillingGroupInput, ListThingsInBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingsInBillingGroupOutput>())
@@ -14970,9 +15181,9 @@ extension IoTClient {
     ///
     /// Lists the things in the specified group. Requires permission to access the [ListThingsInThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListThingsInThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListThingsInThingGroupInput`)
     ///
-    /// - Returns: `ListThingsInThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListThingsInThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15007,6 +15218,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListThingsInThingGroupInput, ListThingsInThingGroupOutput>(ListThingsInThingGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListThingsInThingGroupOutput>(ListThingsInThingGroupOutput.httpOutput(from:), ListThingsInThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListThingsInThingGroupInput, ListThingsInThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListThingsInThingGroupOutput>())
@@ -15038,9 +15250,9 @@ extension IoTClient {
     ///
     /// Lists all the topic rule destinations in your Amazon Web Services account. Requires permission to access the [ListTopicRuleDestinations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListTopicRuleDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTopicRuleDestinationsInput`)
     ///
-    /// - Returns: `ListTopicRuleDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTopicRuleDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15075,6 +15287,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTopicRuleDestinationsInput, ListTopicRuleDestinationsOutput>(ListTopicRuleDestinationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTopicRuleDestinationsOutput>(ListTopicRuleDestinationsOutput.httpOutput(from:), ListTopicRuleDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTopicRuleDestinationsInput, ListTopicRuleDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTopicRuleDestinationsOutput>())
@@ -15106,9 +15319,9 @@ extension IoTClient {
     ///
     /// Lists the rules for the specific topic. Requires permission to access the [ListTopicRules](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListTopicRulesInput : The input for the ListTopicRules operation.
+    /// - Parameter input: The input for the ListTopicRules operation. (Type: `ListTopicRulesInput`)
     ///
-    /// - Returns: `ListTopicRulesOutput` : The output from the ListTopicRules operation.
+    /// - Returns: The output from the ListTopicRules operation. (Type: `ListTopicRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15143,6 +15356,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTopicRulesInput, ListTopicRulesOutput>(ListTopicRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTopicRulesOutput>(ListTopicRulesOutput.httpOutput(from:), ListTopicRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTopicRulesInput, ListTopicRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTopicRulesOutput>())
@@ -15174,9 +15388,9 @@ extension IoTClient {
     ///
     /// Lists logging levels. Requires permission to access the [ListV2LoggingLevels](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListV2LoggingLevelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListV2LoggingLevelsInput`)
     ///
-    /// - Returns: `ListV2LoggingLevelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListV2LoggingLevelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15211,6 +15425,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListV2LoggingLevelsInput, ListV2LoggingLevelsOutput>(ListV2LoggingLevelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListV2LoggingLevelsOutput>(ListV2LoggingLevelsOutput.httpOutput(from:), ListV2LoggingLevelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListV2LoggingLevelsInput, ListV2LoggingLevelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListV2LoggingLevelsOutput>())
@@ -15242,9 +15457,9 @@ extension IoTClient {
     ///
     /// Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device). Requires permission to access the [ListViolationEvents](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListViolationEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListViolationEventsInput`)
     ///
-    /// - Returns: `ListViolationEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListViolationEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15278,6 +15493,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListViolationEventsInput, ListViolationEventsOutput>(ListViolationEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListViolationEventsOutput>(ListViolationEventsOutput.httpOutput(from:), ListViolationEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListViolationEventsInput, ListViolationEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListViolationEventsOutput>())
@@ -15309,9 +15525,9 @@ extension IoTClient {
     ///
     /// Set a verification state and provide a description of that verification state on a violation (detect alarm).
     ///
-    /// - Parameter PutVerificationStateOnViolationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutVerificationStateOnViolationInput`)
     ///
-    /// - Returns: `PutVerificationStateOnViolationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutVerificationStateOnViolationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15347,6 +15563,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutVerificationStateOnViolationInput, PutVerificationStateOnViolationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutVerificationStateOnViolationOutput>(PutVerificationStateOnViolationOutput.httpOutput(from:), PutVerificationStateOnViolationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutVerificationStateOnViolationInput, PutVerificationStateOnViolationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutVerificationStateOnViolationOutput>())
@@ -15378,9 +15595,9 @@ extension IoTClient {
     ///
     /// Registers a CA certificate with Amazon Web Services IoT Core. There is no limit to the number of CA certificates you can register in your Amazon Web Services account. You can register up to 10 CA certificates with the same CA subject field per Amazon Web Services account. Requires permission to access the [RegisterCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter RegisterCACertificateInput : The input to the RegisterCACertificate operation.
+    /// - Parameter input: The input to the RegisterCACertificate operation. (Type: `RegisterCACertificateInput`)
     ///
-    /// - Returns: `RegisterCACertificateOutput` : The output from the RegisterCACertificateResponse operation.
+    /// - Returns: The output from the RegisterCACertificateResponse operation. (Type: `RegisterCACertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15424,6 +15641,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterCACertificateInput, RegisterCACertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterCACertificateOutput>(RegisterCACertificateOutput.httpOutput(from:), RegisterCACertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterCACertificateInput, RegisterCACertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterCACertificateOutput>())
@@ -15455,9 +15673,9 @@ extension IoTClient {
     ///
     /// Registers a device certificate with IoT in the same [certificate mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode) as the signing CA. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered. Requires permission to access the [RegisterCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter RegisterCertificateInput : The input to the RegisterCertificate operation.
+    /// - Parameter input: The input to the RegisterCertificate operation. (Type: `RegisterCertificateInput`)
     ///
-    /// - Returns: `RegisterCertificateOutput` : The output from the RegisterCertificate operation.
+    /// - Returns: The output from the RegisterCertificate operation. (Type: `RegisterCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15500,6 +15718,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterCertificateInput, RegisterCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterCertificateOutput>(RegisterCertificateOutput.httpOutput(from:), RegisterCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterCertificateInput, RegisterCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterCertificateOutput>())
@@ -15531,9 +15750,9 @@ extension IoTClient {
     ///
     /// Register a certificate that does not have a certificate authority (CA). For supported certificates, consult [ Certificate signing algorithms supported by IoT](https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms).
     ///
-    /// - Parameter RegisterCertificateWithoutCAInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterCertificateWithoutCAInput`)
     ///
-    /// - Returns: `RegisterCertificateWithoutCAOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterCertificateWithoutCAOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15574,6 +15793,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterCertificateWithoutCAInput, RegisterCertificateWithoutCAOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterCertificateWithoutCAOutput>(RegisterCertificateWithoutCAOutput.httpOutput(from:), RegisterCertificateWithoutCAOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterCertificateWithoutCAInput, RegisterCertificateWithoutCAOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterCertificateWithoutCAOutput>())
@@ -15605,9 +15825,9 @@ extension IoTClient {
     ///
     /// Provisions a thing in the device registry. RegisterThing calls other IoT control plane APIs. These calls might exceed your account level [ IoT Throttling Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot) and cause throttle errors. Please contact [Amazon Web Services Customer Support](https://console.aws.amazon.com/support/home) to raise your throttling limits if necessary. Requires permission to access the [RegisterThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter RegisterThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterThingInput`)
     ///
-    /// - Returns: `RegisterThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15647,6 +15867,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterThingInput, RegisterThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterThingOutput>(RegisterThingOutput.httpOutput(from:), RegisterThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterThingInput, RegisterThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterThingOutput>())
@@ -15678,9 +15899,9 @@ extension IoTClient {
     ///
     /// Rejects a pending certificate transfer. After IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call [ListCertificates] to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state. Requires permission to access the [RejectCertificateTransfer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter RejectCertificateTransferInput : The input for the RejectCertificateTransfer operation.
+    /// - Parameter input: The input for the RejectCertificateTransfer operation. (Type: `RejectCertificateTransferInput`)
     ///
-    /// - Returns: `RejectCertificateTransferOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectCertificateTransferOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15720,6 +15941,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectCertificateTransferInput, RejectCertificateTransferOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectCertificateTransferOutput>(RejectCertificateTransferOutput.httpOutput(from:), RejectCertificateTransferOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectCertificateTransferInput, RejectCertificateTransferOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectCertificateTransferOutput>())
@@ -15751,9 +15973,9 @@ extension IoTClient {
     ///
     /// Removes the given thing from the billing group. Requires permission to access the [RemoveThingFromBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. This call is asynchronous. It might take several seconds for the detachment to propagate.
     ///
-    /// - Parameter RemoveThingFromBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveThingFromBillingGroupInput`)
     ///
-    /// - Returns: `RemoveThingFromBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveThingFromBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15790,6 +16012,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveThingFromBillingGroupInput, RemoveThingFromBillingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveThingFromBillingGroupOutput>(RemoveThingFromBillingGroupOutput.httpOutput(from:), RemoveThingFromBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveThingFromBillingGroupInput, RemoveThingFromBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveThingFromBillingGroupOutput>())
@@ -15821,9 +16044,9 @@ extension IoTClient {
     ///
     /// Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. Requires permission to access the [RemoveThingFromThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter RemoveThingFromThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveThingFromThingGroupInput`)
     ///
-    /// - Returns: `RemoveThingFromThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveThingFromThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15860,6 +16083,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveThingFromThingGroupInput, RemoveThingFromThingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveThingFromThingGroupOutput>(RemoveThingFromThingGroupOutput.httpOutput(from:), RemoveThingFromThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveThingFromThingGroupInput, RemoveThingFromThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveThingFromThingGroupOutput>())
@@ -15891,9 +16115,9 @@ extension IoTClient {
     ///
     /// Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule. Requires permission to access the [ReplaceTopicRule](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ReplaceTopicRuleInput : The input for the ReplaceTopicRule operation.
+    /// - Parameter input: The input for the ReplaceTopicRule operation. (Type: `ReplaceTopicRuleInput`)
     ///
-    /// - Returns: `ReplaceTopicRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplaceTopicRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15932,6 +16156,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplaceTopicRuleInput, ReplaceTopicRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplaceTopicRuleOutput>(ReplaceTopicRuleOutput.httpOutput(from:), ReplaceTopicRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplaceTopicRuleInput, ReplaceTopicRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplaceTopicRuleOutput>())
@@ -15963,9 +16188,9 @@ extension IoTClient {
     ///
     /// The query search index. Requires permission to access the [SearchIndex](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter SearchIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchIndexInput`)
     ///
-    /// - Returns: `SearchIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16006,6 +16231,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchIndexInput, SearchIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchIndexOutput>(SearchIndexOutput.httpOutput(from:), SearchIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchIndexInput, SearchIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchIndexOutput>())
@@ -16037,9 +16263,9 @@ extension IoTClient {
     ///
     /// Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer. Requires permission to access the [SetDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter SetDefaultAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetDefaultAuthorizerInput`)
     ///
-    /// - Returns: `SetDefaultAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDefaultAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16079,6 +16305,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDefaultAuthorizerInput, SetDefaultAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultAuthorizerOutput>(SetDefaultAuthorizerOutput.httpOutput(from:), SetDefaultAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultAuthorizerInput, SetDefaultAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetDefaultAuthorizerOutput>())
@@ -16110,9 +16337,9 @@ extension IoTClient {
     ///
     /// Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the [ListPrincipalPolicies] action. Requires permission to access the [SetDefaultPolicyVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter SetDefaultPolicyVersionInput : The input for the SetDefaultPolicyVersion operation.
+    /// - Parameter input: The input for the SetDefaultPolicyVersion operation. (Type: `SetDefaultPolicyVersionInput`)
     ///
-    /// - Returns: `SetDefaultPolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDefaultPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16148,6 +16375,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultPolicyVersionOutput>(SetDefaultPolicyVersionOutput.httpOutput(from:), SetDefaultPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultPolicyVersionInput, SetDefaultPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetDefaultPolicyVersionOutput>())
@@ -16179,9 +16407,9 @@ extension IoTClient {
     ///
     /// Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead. Requires permission to access the [SetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter SetLoggingOptionsInput : The input for the SetLoggingOptions operation.
+    /// - Parameter input: The input for the SetLoggingOptions operation. (Type: `SetLoggingOptionsInput`)
     ///
-    /// - Returns: `SetLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16217,6 +16445,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetLoggingOptionsInput, SetLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetLoggingOptionsOutput>(SetLoggingOptionsOutput.httpOutput(from:), SetLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetLoggingOptionsInput, SetLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetLoggingOptionsOutput>())
@@ -16248,9 +16477,9 @@ extension IoTClient {
     ///
     /// Sets the logging level. Requires permission to access the [SetV2LoggingLevel](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter SetV2LoggingLevelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetV2LoggingLevelInput`)
     ///
-    /// - Returns: `SetV2LoggingLevelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetV2LoggingLevelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16288,6 +16517,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetV2LoggingLevelInput, SetV2LoggingLevelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetV2LoggingLevelOutput>(SetV2LoggingLevelOutput.httpOutput(from:), SetV2LoggingLevelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetV2LoggingLevelInput, SetV2LoggingLevelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetV2LoggingLevelOutput>())
@@ -16319,9 +16549,9 @@ extension IoTClient {
     ///
     /// Sets the logging options for the V2 logging service. Requires permission to access the [SetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter SetV2LoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetV2LoggingOptionsInput`)
     ///
-    /// - Returns: `SetV2LoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetV2LoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16357,6 +16587,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetV2LoggingOptionsInput, SetV2LoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetV2LoggingOptionsOutput>(SetV2LoggingOptionsOutput.httpOutput(from:), SetV2LoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetV2LoggingOptionsInput, SetV2LoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetV2LoggingOptionsOutput>())
@@ -16388,9 +16619,9 @@ extension IoTClient {
     ///
     /// Starts a task that applies a set of mitigation actions to the specified target. Requires permission to access the [StartAuditMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StartAuditMitigationActionsTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAuditMitigationActionsTaskInput`)
     ///
-    /// - Returns: `StartAuditMitigationActionsTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAuditMitigationActionsTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16429,6 +16660,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAuditMitigationActionsTaskInput, StartAuditMitigationActionsTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAuditMitigationActionsTaskOutput>(StartAuditMitigationActionsTaskOutput.httpOutput(from:), StartAuditMitigationActionsTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAuditMitigationActionsTaskInput, StartAuditMitigationActionsTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAuditMitigationActionsTaskOutput>())
@@ -16460,9 +16692,9 @@ extension IoTClient {
     ///
     /// Starts a Device Defender ML Detect mitigation actions task. Requires permission to access the [StartDetectMitigationActionsTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StartDetectMitigationActionsTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDetectMitigationActionsTaskInput`)
     ///
-    /// - Returns: `StartDetectMitigationActionsTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDetectMitigationActionsTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16501,6 +16733,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDetectMitigationActionsTaskInput, StartDetectMitigationActionsTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDetectMitigationActionsTaskOutput>(StartDetectMitigationActionsTaskOutput.httpOutput(from:), StartDetectMitigationActionsTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDetectMitigationActionsTaskInput, StartDetectMitigationActionsTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDetectMitigationActionsTaskOutput>())
@@ -16532,9 +16765,9 @@ extension IoTClient {
     ///
     /// Starts an on-demand Device Defender audit. Requires permission to access the [StartOnDemandAuditTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StartOnDemandAuditTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartOnDemandAuditTaskInput`)
     ///
-    /// - Returns: `StartOnDemandAuditTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartOnDemandAuditTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16571,6 +16804,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOnDemandAuditTaskInput, StartOnDemandAuditTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartOnDemandAuditTaskOutput>(StartOnDemandAuditTaskOutput.httpOutput(from:), StartOnDemandAuditTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOnDemandAuditTaskInput, StartOnDemandAuditTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartOnDemandAuditTaskOutput>())
@@ -16602,9 +16836,9 @@ extension IoTClient {
     ///
     /// Creates a bulk thing provisioning task. Requires permission to access the [StartThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StartThingRegistrationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartThingRegistrationTaskInput`)
     ///
-    /// - Returns: `StartThingRegistrationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartThingRegistrationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16641,6 +16875,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartThingRegistrationTaskInput, StartThingRegistrationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartThingRegistrationTaskOutput>(StartThingRegistrationTaskOutput.httpOutput(from:), StartThingRegistrationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartThingRegistrationTaskInput, StartThingRegistrationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartThingRegistrationTaskOutput>())
@@ -16672,9 +16907,9 @@ extension IoTClient {
     ///
     /// Cancels a bulk thing provisioning task. Requires permission to access the [StopThingRegistrationTask](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StopThingRegistrationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopThingRegistrationTaskInput`)
     ///
-    /// - Returns: `StopThingRegistrationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopThingRegistrationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16709,6 +16944,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopThingRegistrationTaskInput, StopThingRegistrationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopThingRegistrationTaskOutput>(StopThingRegistrationTaskOutput.httpOutput(from:), StopThingRegistrationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopThingRegistrationTaskInput, StopThingRegistrationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopThingRegistrationTaskOutput>())
@@ -16740,9 +16976,9 @@ extension IoTClient {
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource. Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16780,6 +17016,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -16811,9 +17048,9 @@ extension IoTClient {
     ///
     /// Tests if a specified principal is authorized to perform an IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the [TestAuthorization](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter TestAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestAuthorizationInput`)
     ///
-    /// - Returns: `TestAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16854,6 +17091,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestAuthorizationInput, TestAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestAuthorizationOutput>(TestAuthorizationOutput.httpOutput(from:), TestAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestAuthorizationInput, TestAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestAuthorizationOutput>())
@@ -16885,9 +17123,9 @@ extension IoTClient {
     ///
     /// Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the IoT device gateway. Requires permission to access the [TestInvokeAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter TestInvokeAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestInvokeAuthorizerInput`)
     ///
-    /// - Returns: `TestInvokeAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestInvokeAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16927,6 +17165,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestInvokeAuthorizerInput, TestInvokeAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestInvokeAuthorizerOutput>(TestInvokeAuthorizerOutput.httpOutput(from:), TestInvokeAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestInvokeAuthorizerInput, TestInvokeAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestInvokeAuthorizerOutput>())
@@ -16956,15 +17195,15 @@ extension IoTClient {
 
     /// Performs the `TransferCertificate` operation on the `IoT` service.
     ///
-    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the [TransferCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It's up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the [UpdateCertificate] action to deactivate it. The certificate must not have any policies attached to it. You can use the [DetachPolicy] action to detach them. Customer managed key behavior: When you use a customer managed key to secure your data and then transfer the key to a customer in a different account using the [TransferCertificate] operation, the certificates will no longer be protected by their customer managed key configuration. During the transfer process, certificates are encrypted using IoT owned keys. While a certificate is in the PENDING_TRANSFER state, it's always protected by IoT owned keys, regardless of the customer managed key configuration of either the source or destination account. Once the transfer is completed through [AcceptCertificateTransfer], [RejectCertificateTransfer], or [CancelCertificateTransfer], the certificate will be protected by the customer managed key configuration of the account that owns the certificate after the transfer operation:
+    /// Transfers the specified certificate to the specified Amazon Web Services account. Requires permission to access the [TransferCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. You can cancel the transfer until it is accepted by the recipient. No notification is sent to the transfer destination's account. The caller is responsible for notifying the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the [UpdateCertificate] action to deactivate it. The certificate must not have any policies attached to it. You can use the [DetachPolicy] action to detach them. Customer managed key behavior: When you use a customer managed key to encrypt your data and then transfer the certificate to a customer in a different account using the TransferCertificate operation, the certificates will no longer be encrypted by their customer managed key configuration. During the transfer process, certificates are encrypted using Amazon Web Services IoT Core owned keys. While a certificate is in the PENDING_TRANSFER state, it's always protected by Amazon Web Services IoT Core owned keys, regardless of the customer managed key configuration of either the source or destination account. Once the transfer is completed through [AcceptCertificateTransfer], [RejectCertificateTransfer], or [CancelCertificateTransfer], the certificate will be protected by the customer managed key configuration of the account that owns the certificate after the transfer operation:
     ///
-    /// * If the transfer is accepted: The certificate is protected by the destination account's customer managed key configuration.
+    /// * If the transfer is accepted: The certificate is encrypted by the target account's customer managed key configuration.
     ///
     /// * If the transfer is rejected or cancelled: The certificate is protected by the source account's customer managed key configuration.
     ///
-    /// - Parameter TransferCertificateInput : The input for the TransferCertificate operation.
+    /// - Parameter input: The input for the TransferCertificate operation. (Type: `TransferCertificateInput`)
     ///
-    /// - Returns: `TransferCertificateOutput` : The output from the TransferCertificate operation.
+    /// - Returns: The output from the TransferCertificate operation. (Type: `TransferCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17006,6 +17245,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransferCertificateInput, TransferCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TransferCertificateOutput>(TransferCertificateOutput.httpOutput(from:), TransferCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TransferCertificateInput, TransferCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TransferCertificateOutput>())
@@ -17037,9 +17277,9 @@ extension IoTClient {
     ///
     /// Removes the given tags (metadata) from the resource. Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17076,6 +17316,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -17107,9 +17348,9 @@ extension IoTClient {
     ///
     /// Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled. Requires permission to access the [UpdateAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateAccountAuditConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountAuditConfigurationInput`)
     ///
-    /// - Returns: `UpdateAccountAuditConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountAuditConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17145,6 +17386,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountAuditConfigurationInput, UpdateAccountAuditConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountAuditConfigurationOutput>(UpdateAccountAuditConfigurationOutput.httpOutput(from:), UpdateAccountAuditConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountAuditConfigurationInput, UpdateAccountAuditConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountAuditConfigurationOutput>())
@@ -17176,9 +17418,9 @@ extension IoTClient {
     ///
     /// Updates a Device Defender audit suppression.
     ///
-    /// - Parameter UpdateAuditSuppressionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAuditSuppressionInput`)
     ///
-    /// - Returns: `UpdateAuditSuppressionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAuditSuppressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17215,6 +17457,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAuditSuppressionInput, UpdateAuditSuppressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAuditSuppressionOutput>(UpdateAuditSuppressionOutput.httpOutput(from:), UpdateAuditSuppressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAuditSuppressionInput, UpdateAuditSuppressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAuditSuppressionOutput>())
@@ -17246,9 +17489,9 @@ extension IoTClient {
     ///
     /// Updates an authorizer. Requires permission to access the [UpdateAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAuthorizerInput`)
     ///
-    /// - Returns: `UpdateAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17288,6 +17531,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAuthorizerInput, UpdateAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAuthorizerOutput>(UpdateAuthorizerOutput.httpOutput(from:), UpdateAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAuthorizerInput, UpdateAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAuthorizerOutput>())
@@ -17319,9 +17563,9 @@ extension IoTClient {
     ///
     /// Updates information about the billing group. Requires permission to access the [UpdateBillingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateBillingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBillingGroupInput`)
     ///
-    /// - Returns: `UpdateBillingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBillingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17359,6 +17603,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBillingGroupInput, UpdateBillingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBillingGroupOutput>(UpdateBillingGroupOutput.httpOutput(from:), UpdateBillingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBillingGroupInput, UpdateBillingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBillingGroupOutput>())
@@ -17390,9 +17635,9 @@ extension IoTClient {
     ///
     /// Updates a registered CA certificate. Requires permission to access the [UpdateCACertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateCACertificateInput : The input to the UpdateCACertificate operation.
+    /// - Parameter input: The input to the UpdateCACertificate operation. (Type: `UpdateCACertificateInput`)
     ///
-    /// - Returns: `UpdateCACertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCACertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17432,6 +17677,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCACertificateInput, UpdateCACertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCACertificateOutput>(UpdateCACertificateOutput.httpOutput(from:), UpdateCACertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCACertificateInput, UpdateCACertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCACertificateOutput>())
@@ -17463,9 +17709,9 @@ extension IoTClient {
     ///
     /// Updates the status of the specified certificate. This operation is idempotent. Requires permission to access the [UpdateCertificate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
     ///
-    /// - Parameter UpdateCertificateInput : The input for the UpdateCertificate operation.
+    /// - Parameter input: The input for the UpdateCertificate operation. (Type: `UpdateCertificateInput`)
     ///
-    /// - Returns: `UpdateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17503,6 +17749,7 @@ extension IoTClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateCertificateInput, UpdateCertificateOutput>(UpdateCertificateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCertificateOutput>(UpdateCertificateOutput.httpOutput(from:), UpdateCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateInput, UpdateCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCertificateOutput>())
@@ -17534,9 +17781,9 @@ extension IoTClient {
     ///
     /// Updates a certificate provider. Requires permission to access the [UpdateCertificateProvider](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateCertificateProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCertificateProviderInput`)
     ///
-    /// - Returns: `UpdateCertificateProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCertificateProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17575,6 +17822,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCertificateProviderInput, UpdateCertificateProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCertificateProviderOutput>(UpdateCertificateProviderOutput.httpOutput(from:), UpdateCertificateProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateProviderInput, UpdateCertificateProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCertificateProviderOutput>())
@@ -17606,9 +17854,9 @@ extension IoTClient {
     ///
     /// Update information about a command or mark a command for deprecation.
     ///
-    /// - Parameter UpdateCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCommandInput`)
     ///
-    /// - Returns: `UpdateCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17646,6 +17894,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCommandInput, UpdateCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCommandOutput>(UpdateCommandOutput.httpOutput(from:), UpdateCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCommandInput, UpdateCommandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCommandOutput>())
@@ -17677,9 +17926,9 @@ extension IoTClient {
     ///
     /// Updates a Device Defender detect custom metric. Requires permission to access the [UpdateCustomMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateCustomMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomMetricInput`)
     ///
-    /// - Returns: `UpdateCustomMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomMetricOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17716,6 +17965,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomMetricInput, UpdateCustomMetricOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomMetricOutput>(UpdateCustomMetricOutput.httpOutput(from:), UpdateCustomMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomMetricInput, UpdateCustomMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomMetricOutput>())
@@ -17747,9 +17997,9 @@ extension IoTClient {
     ///
     /// Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it). Requires permission to access the [UpdateDimension](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateDimensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDimensionInput`)
     ///
-    /// - Returns: `UpdateDimensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDimensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17786,6 +18036,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDimensionInput, UpdateDimensionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDimensionOutput>(UpdateDimensionOutput.httpOutput(from:), UpdateDimensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDimensionInput, UpdateDimensionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDimensionOutput>())
@@ -17817,9 +18068,9 @@ extension IoTClient {
     ///
     /// Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated. Requires permission to access the [UpdateDomainConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateDomainConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainConfigurationInput`)
     ///
-    /// - Returns: `UpdateDomainConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17859,6 +18110,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainConfigurationInput, UpdateDomainConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainConfigurationOutput>(UpdateDomainConfigurationOutput.httpOutput(from:), UpdateDomainConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainConfigurationInput, UpdateDomainConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainConfigurationOutput>())
@@ -17890,9 +18142,9 @@ extension IoTClient {
     ///
     /// Updates a dynamic thing group. Requires permission to access the [UpdateDynamicThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateDynamicThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDynamicThingGroupInput`)
     ///
-    /// - Returns: `UpdateDynamicThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDynamicThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17931,6 +18183,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDynamicThingGroupInput, UpdateDynamicThingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDynamicThingGroupOutput>(UpdateDynamicThingGroupOutput.httpOutput(from:), UpdateDynamicThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDynamicThingGroupInput, UpdateDynamicThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDynamicThingGroupOutput>())
@@ -17960,11 +18213,11 @@ extension IoTClient {
 
     /// Performs the `UpdateEncryptionConfiguration` operation on the `IoT` service.
     ///
-    /// Updates the encryption configuration. By default, all Amazon Web Services IoT Core data at rest is encrypted using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Amazon Web Services Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Services account. For more information, see [Data encryption](https://docs.aws.amazon.com/iot/latest/developerguide/data-encryption.html) in the Amazon Web Services IoT Core Developer Guide.
+    /// Updates the encryption configuration. By default, Amazon Web Services IoT Core encrypts your data at rest using Amazon Web Services owned keys. Amazon Web Services IoT Core also supports symmetric customer managed keys from Key Management Service (KMS). With customer managed keys, you create, own, and manage the KMS keys in your Amazon Web Services account. Before using this API, you must set up permissions for Amazon Web Services IoT Core to access KMS. For more information, see [Data encryption at rest](https://docs.aws.amazon.com/iot/latest/developerguide/encryption-at-rest.html) in the Amazon Web Services IoT Core Developer Guide.
     ///
-    /// - Parameter UpdateEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEncryptionConfigurationInput`)
     ///
-    /// - Returns: `UpdateEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18002,6 +18255,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEncryptionConfigurationInput, UpdateEncryptionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEncryptionConfigurationOutput>(UpdateEncryptionConfigurationOutput.httpOutput(from:), UpdateEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEncryptionConfigurationInput, UpdateEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEncryptionConfigurationOutput>())
@@ -18033,9 +18287,9 @@ extension IoTClient {
     ///
     /// Updates the event configurations. Requires permission to access the [UpdateEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateEventConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventConfigurationsInput`)
     ///
-    /// - Returns: `UpdateEventConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18071,6 +18325,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventConfigurationsInput, UpdateEventConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventConfigurationsOutput>(UpdateEventConfigurationsOutput.httpOutput(from:), UpdateEventConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventConfigurationsInput, UpdateEventConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventConfigurationsOutput>())
@@ -18102,9 +18357,9 @@ extension IoTClient {
     ///
     /// Updates the data for a fleet metric. Requires permission to access the [UpdateFleetMetric](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateFleetMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFleetMetricInput`)
     ///
-    /// - Returns: `UpdateFleetMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFleetMetricOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18147,6 +18402,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetMetricInput, UpdateFleetMetricOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetMetricOutput>(UpdateFleetMetricOutput.httpOutput(from:), UpdateFleetMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetMetricInput, UpdateFleetMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetMetricOutput>())
@@ -18178,9 +18434,9 @@ extension IoTClient {
     ///
     /// Updates the search configuration. Requires permission to access the [UpdateIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateIndexingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexingConfigurationInput`)
     ///
-    /// - Returns: `UpdateIndexingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIndexingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18218,6 +18474,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIndexingConfigurationInput, UpdateIndexingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIndexingConfigurationOutput>(UpdateIndexingConfigurationOutput.httpOutput(from:), UpdateIndexingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIndexingConfigurationInput, UpdateIndexingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIndexingConfigurationOutput>())
@@ -18249,9 +18506,9 @@ extension IoTClient {
     ///
     /// Updates supported fields of the specified job. Requires permission to access the [UpdateJob](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobInput`)
     ///
-    /// - Returns: `UpdateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18289,6 +18546,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobInput, UpdateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobOutput>(UpdateJobOutput.httpOutput(from:), UpdateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobInput, UpdateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobOutput>())
@@ -18320,9 +18578,9 @@ extension IoTClient {
     ///
     /// Updates the definition for the specified mitigation action. Requires permission to access the [UpdateMitigationAction](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateMitigationActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMitigationActionInput`)
     ///
-    /// - Returns: `UpdateMitigationActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMitigationActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18359,6 +18617,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMitigationActionInput, UpdateMitigationActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMitigationActionOutput>(UpdateMitigationActionOutput.httpOutput(from:), UpdateMitigationActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMitigationActionInput, UpdateMitigationActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMitigationActionOutput>())
@@ -18390,9 +18649,9 @@ extension IoTClient {
     ///
     /// Updates the supported fields for a specific software package. Requires permission to access the [UpdatePackage](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
-    /// - Parameter UpdatePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePackageInput`)
     ///
-    /// - Returns: `UpdatePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18432,6 +18691,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageInput, UpdatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageOutput>(UpdatePackageOutput.httpOutput(from:), UpdatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageInput, UpdatePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageOutput>())
@@ -18463,9 +18723,9 @@ extension IoTClient {
     ///
     /// Updates the software package configuration. Requires permission to access the [UpdatePackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [iam:PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) actions.
     ///
-    /// - Parameter UpdatePackageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePackageConfigurationInput`)
     ///
-    /// - Returns: `UpdatePackageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePackageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18504,6 +18764,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageConfigurationInput, UpdatePackageConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageConfigurationOutput>(UpdatePackageConfigurationOutput.httpOutput(from:), UpdatePackageConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageConfigurationInput, UpdatePackageConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageConfigurationOutput>())
@@ -18535,9 +18796,9 @@ extension IoTClient {
     ///
     /// Updates the supported fields for a specific package version. Requires permission to access the [UpdatePackageVersion](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) and [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) actions.
     ///
-    /// - Parameter UpdatePackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePackageVersionInput`)
     ///
-    /// - Returns: `UpdatePackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18577,6 +18838,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackageVersionInput, UpdatePackageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackageVersionOutput>(UpdatePackageVersionOutput.httpOutput(from:), UpdatePackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackageVersionInput, UpdatePackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackageVersionOutput>())
@@ -18608,9 +18870,9 @@ extension IoTClient {
     ///
     /// Updates a provisioning template. Requires permission to access the [UpdateProvisioningTemplate](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateProvisioningTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProvisioningTemplateInput`)
     ///
-    /// - Returns: `UpdateProvisioningTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProvisioningTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18648,6 +18910,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProvisioningTemplateInput, UpdateProvisioningTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProvisioningTemplateOutput>(UpdateProvisioningTemplateOutput.httpOutput(from:), UpdateProvisioningTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProvisioningTemplateInput, UpdateProvisioningTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProvisioningTemplateOutput>())
@@ -18679,9 +18942,9 @@ extension IoTClient {
     ///
     /// Updates a role alias. Requires permission to access the [UpdateRoleAlias](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action. The value of [credentialDurationSeconds](https://docs.aws.amazon.com/iot/latest/apireference/API_UpdateRoleAlias.html#iot-UpdateRoleAlias-request-credentialDurationSeconds) must be less than or equal to the maximum session duration of the IAM role that the role alias references. For more information, see [ Modifying a role maximum session duration (Amazon Web Services API)](https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-api.html#roles-modify_max-session-duration-api) from the Amazon Web Services Identity and Access Management User Guide.
     ///
-    /// - Parameter UpdateRoleAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoleAliasInput`)
     ///
-    /// - Returns: `UpdateRoleAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoleAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18720,6 +18983,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoleAliasInput, UpdateRoleAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoleAliasOutput>(UpdateRoleAliasOutput.httpOutput(from:), UpdateRoleAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoleAliasInput, UpdateRoleAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoleAliasOutput>())
@@ -18751,9 +19015,9 @@ extension IoTClient {
     ///
     /// Updates a scheduled audit, including which checks are performed and how often the audit takes place. Requires permission to access the [UpdateScheduledAudit](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateScheduledAuditInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduledAuditInput`)
     ///
-    /// - Returns: `UpdateScheduledAuditOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScheduledAuditOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18790,6 +19054,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScheduledAuditInput, UpdateScheduledAuditOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScheduledAuditOutput>(UpdateScheduledAuditOutput.httpOutput(from:), UpdateScheduledAuditOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScheduledAuditInput, UpdateScheduledAuditOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScheduledAuditOutput>())
@@ -18821,9 +19086,9 @@ extension IoTClient {
     ///
     /// Updates a Device Defender security profile. Requires permission to access the [UpdateSecurityProfile](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateSecurityProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityProfileInput`)
     ///
-    /// - Returns: `UpdateSecurityProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18862,6 +19127,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecurityProfileInput, UpdateSecurityProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityProfileOutput>(UpdateSecurityProfileOutput.httpOutput(from:), UpdateSecurityProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityProfileInput, UpdateSecurityProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityProfileOutput>())
@@ -18893,9 +19159,9 @@ extension IoTClient {
     ///
     /// Updates an existing stream. The stream version will be incremented by one. Requires permission to access the [UpdateStream](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamInput`)
     ///
-    /// - Returns: `UpdateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18935,6 +19201,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamInput, UpdateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamOutput>(UpdateStreamOutput.httpOutput(from:), UpdateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamInput, UpdateStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamOutput>())
@@ -18966,9 +19233,9 @@ extension IoTClient {
     ///
     /// Updates the data for a thing. Requires permission to access the [UpdateThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateThingInput : The input for the UpdateThing operation.
+    /// - Parameter input: The input for the UpdateThing operation. (Type: `UpdateThingInput`)
     ///
-    /// - Returns: `UpdateThingOutput` : The output from the UpdateThing operation.
+    /// - Returns: The output from the UpdateThing operation. (Type: `UpdateThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19008,6 +19275,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThingInput, UpdateThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThingOutput>(UpdateThingOutput.httpOutput(from:), UpdateThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThingInput, UpdateThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThingOutput>())
@@ -19039,9 +19307,9 @@ extension IoTClient {
     ///
     /// Update a thing group. Requires permission to access the [UpdateThingGroup](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateThingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThingGroupInput`)
     ///
-    /// - Returns: `UpdateThingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19079,6 +19347,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThingGroupInput, UpdateThingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThingGroupOutput>(UpdateThingGroupOutput.httpOutput(from:), UpdateThingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThingGroupInput, UpdateThingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThingGroupOutput>())
@@ -19110,9 +19379,9 @@ extension IoTClient {
     ///
     /// Updates the groups to which the thing belongs. Requires permission to access the [UpdateThingGroupsForThing](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateThingGroupsForThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThingGroupsForThingInput`)
     ///
-    /// - Returns: `UpdateThingGroupsForThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThingGroupsForThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19149,6 +19418,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThingGroupsForThingInput, UpdateThingGroupsForThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThingGroupsForThingOutput>(UpdateThingGroupsForThingOutput.httpOutput(from:), UpdateThingGroupsForThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThingGroupsForThingInput, UpdateThingGroupsForThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThingGroupsForThingOutput>())
@@ -19180,9 +19450,9 @@ extension IoTClient {
     ///
     /// Updates a thing type.
     ///
-    /// - Parameter UpdateThingTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateThingTypeInput`)
     ///
-    /// - Returns: `UpdateThingTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateThingTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19221,6 +19491,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateThingTypeOutput>(UpdateThingTypeOutput.httpOutput(from:), UpdateThingTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateThingTypeInput, UpdateThingTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateThingTypeOutput>())
@@ -19252,9 +19523,9 @@ extension IoTClient {
     ///
     /// Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination. Requires permission to access the [UpdateTopicRuleDestination](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateTopicRuleDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTopicRuleDestinationInput`)
     ///
-    /// - Returns: `UpdateTopicRuleDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTopicRuleDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19292,6 +19563,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTopicRuleDestinationInput, UpdateTopicRuleDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTopicRuleDestinationOutput>(UpdateTopicRuleDestinationOutput.httpOutput(from:), UpdateTopicRuleDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTopicRuleDestinationInput, UpdateTopicRuleDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTopicRuleDestinationOutput>())
@@ -19323,9 +19595,9 @@ extension IoTClient {
     ///
     /// Validates a Device Defender security profile behaviors specification. Requires permission to access the [ValidateSecurityProfileBehaviors](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ValidateSecurityProfileBehaviorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ValidateSecurityProfileBehaviorsInput`)
     ///
-    /// - Returns: `ValidateSecurityProfileBehaviorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ValidateSecurityProfileBehaviorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19361,6 +19633,7 @@ extension IoTClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateSecurityProfileBehaviorsInput, ValidateSecurityProfileBehaviorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateSecurityProfileBehaviorsOutput>(ValidateSecurityProfileBehaviorsOutput.httpOutput(from:), ValidateSecurityProfileBehaviorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateSecurityProfileBehaviorsInput, ValidateSecurityProfileBehaviorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateSecurityProfileBehaviorsOutput>())

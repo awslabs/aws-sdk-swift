@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class AppMeshClient: ClientRuntime.Client {
+public class AppMeshClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AppMeshClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: AppMeshClient.AppMeshClientConfiguration
     let serviceName = "App Mesh"
@@ -373,9 +373,9 @@ extension AppMeshClient {
     ///
     /// Creates a gateway route. A gateway route is attached to a virtual gateway and routes traffic to an existing virtual service. If a route matches a request, it can distribute traffic to a target virtual service. For more information about gateway routes, see [Gateway routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/gateway-routes.html).
     ///
-    /// - Parameter CreateGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayRouteInput`)
     ///
-    /// - Returns: `CreateGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +418,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayRouteInput, CreateGatewayRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGatewayRouteOutput>(CreateGatewayRouteOutput.httpOutput(from:), CreateGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayRouteInput, CreateGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayRouteOutput>())
@@ -449,9 +450,9 @@ extension AppMeshClient {
     ///
     /// Creates a service mesh. A service mesh is a logical boundary for network traffic between services that are represented by resources within the mesh. After you create your service mesh, you can create virtual services, virtual nodes, virtual routers, and routes to distribute traffic between the applications in your mesh. For more information about service meshes, see [Service meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/meshes.html).
     ///
-    /// - Parameter CreateMeshInput :
+    /// - Parameter input: (Type: `CreateMeshInput`)
     ///
-    /// - Returns: `CreateMeshOutput` :
+    /// - Returns: (Type: `CreateMeshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,6 +494,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMeshInput, CreateMeshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMeshOutput>(CreateMeshOutput.httpOutput(from:), CreateMeshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMeshInput, CreateMeshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMeshOutput>())
@@ -524,9 +526,9 @@ extension AppMeshClient {
     ///
     /// Creates a route that is associated with a virtual router. You can route several different protocols and define a retry policy for a route. Traffic can be routed to one or more virtual nodes. For more information about routes, see [Routes](https://docs.aws.amazon.com/app-mesh/latest/userguide/routes.html).
     ///
-    /// - Parameter CreateRouteInput :
+    /// - Parameter input: (Type: `CreateRouteInput`)
     ///
-    /// - Returns: `CreateRouteOutput` :
+    /// - Returns: (Type: `CreateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,6 +571,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRouteInput, CreateRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRouteOutput>(CreateRouteOutput.httpOutput(from:), CreateRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRouteInput, CreateRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRouteOutput>())
@@ -600,9 +603,9 @@ extension AppMeshClient {
     ///
     /// Creates a virtual gateway. A virtual gateway allows resources outside your mesh to communicate to resources that are inside your mesh. The virtual gateway represents an Envoy proxy running in an Amazon ECS task, in a Kubernetes service, or on an Amazon EC2 instance. Unlike a virtual node, which represents an Envoy running with an application, a virtual gateway represents Envoy deployed by itself. For more information about virtual gateways, see [Virtual gateways](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_gateways.html).
     ///
-    /// - Parameter CreateVirtualGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVirtualGatewayInput`)
     ///
-    /// - Returns: `CreateVirtualGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVirtualGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -645,6 +648,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVirtualGatewayInput, CreateVirtualGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVirtualGatewayOutput>(CreateVirtualGatewayOutput.httpOutput(from:), CreateVirtualGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVirtualGatewayInput, CreateVirtualGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVirtualGatewayOutput>())
@@ -676,9 +680,9 @@ extension AppMeshClient {
     ///
     /// Creates a virtual node within a service mesh. A virtual node acts as a logical pointer to a particular task group, such as an Amazon ECS service or a Kubernetes deployment. When you create a virtual node, you can specify the service discovery information for your task group, and whether the proxy running in a task group will communicate with other proxies using Transport Layer Security (TLS). You define a listener for any inbound traffic that your virtual node expects. Any virtual service that your virtual node expects to communicate to is specified as a backend. The response metadata for your new virtual node contains the arn that is associated with the virtual node. Set this value to the full ARN; for example, arn:aws:appmesh:us-west-2:123456789012:myMesh/default/virtualNode/myApp) as the APPMESH_RESOURCE_ARN environment variable for your task group's Envoy proxy container in your task definition or pod spec. This is then mapped to the node.id and node.cluster Envoy parameters. By default, App Mesh uses the name of the resource you specified in APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and traces. You can override this behavior by setting the APPMESH_RESOURCE_CLUSTER environment variable with your own name. For more information about virtual nodes, see [Virtual nodes](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_nodes.html). You must be using 1.15.0 or later of the Envoy image when setting these variables. For more information aboutApp Mesh Envoy variables, see [Envoy image](https://docs.aws.amazon.com/app-mesh/latest/userguide/envoy.html) in the App Mesh User Guide.
     ///
-    /// - Parameter CreateVirtualNodeInput :
+    /// - Parameter input: (Type: `CreateVirtualNodeInput`)
     ///
-    /// - Returns: `CreateVirtualNodeOutput` :
+    /// - Returns: (Type: `CreateVirtualNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -721,6 +725,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVirtualNodeInput, CreateVirtualNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVirtualNodeOutput>(CreateVirtualNodeOutput.httpOutput(from:), CreateVirtualNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVirtualNodeInput, CreateVirtualNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVirtualNodeOutput>())
@@ -752,9 +757,9 @@ extension AppMeshClient {
     ///
     /// Creates a virtual router within a service mesh. Specify a listener for any inbound traffic that your virtual router receives. Create a virtual router for each protocol and port that you need to route. Virtual routers handle traffic for one or more virtual services within your mesh. After you create your virtual router, create and associate routes for your virtual router that direct incoming requests to different virtual nodes. For more information about virtual routers, see [Virtual routers](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_routers.html).
     ///
-    /// - Parameter CreateVirtualRouterInput :
+    /// - Parameter input: (Type: `CreateVirtualRouterInput`)
     ///
-    /// - Returns: `CreateVirtualRouterOutput` :
+    /// - Returns: (Type: `CreateVirtualRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -797,6 +802,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVirtualRouterInput, CreateVirtualRouterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVirtualRouterOutput>(CreateVirtualRouterOutput.httpOutput(from:), CreateVirtualRouterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVirtualRouterInput, CreateVirtualRouterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVirtualRouterOutput>())
@@ -828,9 +834,9 @@ extension AppMeshClient {
     ///
     /// Creates a virtual service within a service mesh. A virtual service is an abstraction of a real service that is provided by a virtual node directly or indirectly by means of a virtual router. Dependent services call your virtual service by its virtualServiceName, and those requests are routed to the virtual node or virtual router that is specified as the provider for the virtual service. For more information about virtual services, see [Virtual services](https://docs.aws.amazon.com/app-mesh/latest/userguide/virtual_services.html).
     ///
-    /// - Parameter CreateVirtualServiceInput :
+    /// - Parameter input: (Type: `CreateVirtualServiceInput`)
     ///
-    /// - Returns: `CreateVirtualServiceOutput` :
+    /// - Returns: (Type: `CreateVirtualServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -873,6 +879,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVirtualServiceInput, CreateVirtualServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVirtualServiceOutput>(CreateVirtualServiceOutput.httpOutput(from:), CreateVirtualServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVirtualServiceInput, CreateVirtualServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVirtualServiceOutput>())
@@ -904,9 +911,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing gateway route.
     ///
-    /// - Parameter DeleteGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayRouteInput`)
     ///
-    /// - Returns: `DeleteGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -944,6 +951,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteGatewayRouteInput, DeleteGatewayRouteOutput>(DeleteGatewayRouteInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayRouteOutput>(DeleteGatewayRouteOutput.httpOutput(from:), DeleteGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayRouteInput, DeleteGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayRouteOutput>())
@@ -975,9 +983,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing service mesh. You must delete all resources (virtual services, routes, virtual routers, and virtual nodes) in the service mesh before you can delete the mesh itself.
     ///
-    /// - Parameter DeleteMeshInput :
+    /// - Parameter input: (Type: `DeleteMeshInput`)
     ///
-    /// - Returns: `DeleteMeshOutput` :
+    /// - Returns: (Type: `DeleteMeshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1014,6 +1022,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMeshInput, DeleteMeshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMeshOutput>(DeleteMeshOutput.httpOutput(from:), DeleteMeshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMeshInput, DeleteMeshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMeshOutput>())
@@ -1045,9 +1054,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing route.
     ///
-    /// - Parameter DeleteRouteInput :
+    /// - Parameter input: (Type: `DeleteRouteInput`)
     ///
-    /// - Returns: `DeleteRouteOutput` :
+    /// - Returns: (Type: `DeleteRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1085,6 +1094,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteRouteInput, DeleteRouteOutput>(DeleteRouteInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouteOutput>(DeleteRouteOutput.httpOutput(from:), DeleteRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouteInput, DeleteRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouteOutput>())
@@ -1116,9 +1126,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway routes are associated to it.
     ///
-    /// - Parameter DeleteVirtualGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVirtualGatewayInput`)
     ///
-    /// - Returns: `DeleteVirtualGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVirtualGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1156,6 +1166,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteVirtualGatewayInput, DeleteVirtualGatewayOutput>(DeleteVirtualGatewayInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVirtualGatewayOutput>(DeleteVirtualGatewayOutput.httpOutput(from:), DeleteVirtualGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualGatewayInput, DeleteVirtualGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualGatewayOutput>())
@@ -1187,9 +1198,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing virtual node. You must delete any virtual services that list a virtual node as a service provider before you can delete the virtual node itself.
     ///
-    /// - Parameter DeleteVirtualNodeInput : Deletes a virtual node input.
+    /// - Parameter input: Deletes a virtual node input. (Type: `DeleteVirtualNodeInput`)
     ///
-    /// - Returns: `DeleteVirtualNodeOutput` :
+    /// - Returns: (Type: `DeleteVirtualNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1227,6 +1238,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteVirtualNodeInput, DeleteVirtualNodeOutput>(DeleteVirtualNodeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVirtualNodeOutput>(DeleteVirtualNodeOutput.httpOutput(from:), DeleteVirtualNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualNodeInput, DeleteVirtualNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualNodeOutput>())
@@ -1258,9 +1270,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing virtual router. You must delete any routes associated with the virtual router before you can delete the router itself.
     ///
-    /// - Parameter DeleteVirtualRouterInput :
+    /// - Parameter input: (Type: `DeleteVirtualRouterInput`)
     ///
-    /// - Returns: `DeleteVirtualRouterOutput` :
+    /// - Returns: (Type: `DeleteVirtualRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1298,6 +1310,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteVirtualRouterInput, DeleteVirtualRouterOutput>(DeleteVirtualRouterInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVirtualRouterOutput>(DeleteVirtualRouterOutput.httpOutput(from:), DeleteVirtualRouterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualRouterInput, DeleteVirtualRouterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualRouterOutput>())
@@ -1329,9 +1342,9 @@ extension AppMeshClient {
     ///
     /// Deletes an existing virtual service.
     ///
-    /// - Parameter DeleteVirtualServiceInput :
+    /// - Parameter input: (Type: `DeleteVirtualServiceInput`)
     ///
-    /// - Returns: `DeleteVirtualServiceOutput` :
+    /// - Returns: (Type: `DeleteVirtualServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,6 +1382,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteVirtualServiceInput, DeleteVirtualServiceOutput>(DeleteVirtualServiceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVirtualServiceOutput>(DeleteVirtualServiceOutput.httpOutput(from:), DeleteVirtualServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualServiceInput, DeleteVirtualServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualServiceOutput>())
@@ -1400,9 +1414,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing gateway route.
     ///
-    /// - Parameter DescribeGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayRouteInput`)
     ///
-    /// - Returns: `DescribeGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,6 +1453,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeGatewayRouteInput, DescribeGatewayRouteOutput>(DescribeGatewayRouteInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGatewayRouteOutput>(DescribeGatewayRouteOutput.httpOutput(from:), DescribeGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGatewayRouteInput, DescribeGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGatewayRouteOutput>())
@@ -1470,9 +1485,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing service mesh.
     ///
-    /// - Parameter DescribeMeshInput :
+    /// - Parameter input: (Type: `DescribeMeshInput`)
     ///
-    /// - Returns: `DescribeMeshOutput` :
+    /// - Returns: (Type: `DescribeMeshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1509,6 +1524,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeMeshInput, DescribeMeshOutput>(DescribeMeshInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMeshOutput>(DescribeMeshOutput.httpOutput(from:), DescribeMeshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMeshInput, DescribeMeshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMeshOutput>())
@@ -1540,9 +1556,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing route.
     ///
-    /// - Parameter DescribeRouteInput :
+    /// - Parameter input: (Type: `DescribeRouteInput`)
     ///
-    /// - Returns: `DescribeRouteOutput` :
+    /// - Returns: (Type: `DescribeRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1579,6 +1595,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeRouteInput, DescribeRouteOutput>(DescribeRouteInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRouteOutput>(DescribeRouteOutput.httpOutput(from:), DescribeRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRouteInput, DescribeRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRouteOutput>())
@@ -1610,9 +1627,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing virtual gateway.
     ///
-    /// - Parameter DescribeVirtualGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVirtualGatewayInput`)
     ///
-    /// - Returns: `DescribeVirtualGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVirtualGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1649,6 +1666,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeVirtualGatewayInput, DescribeVirtualGatewayOutput>(DescribeVirtualGatewayInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVirtualGatewayOutput>(DescribeVirtualGatewayOutput.httpOutput(from:), DescribeVirtualGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualGatewayInput, DescribeVirtualGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualGatewayOutput>())
@@ -1680,9 +1698,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing virtual node.
     ///
-    /// - Parameter DescribeVirtualNodeInput :
+    /// - Parameter input: (Type: `DescribeVirtualNodeInput`)
     ///
-    /// - Returns: `DescribeVirtualNodeOutput` :
+    /// - Returns: (Type: `DescribeVirtualNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1719,6 +1737,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeVirtualNodeInput, DescribeVirtualNodeOutput>(DescribeVirtualNodeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVirtualNodeOutput>(DescribeVirtualNodeOutput.httpOutput(from:), DescribeVirtualNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualNodeInput, DescribeVirtualNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualNodeOutput>())
@@ -1750,9 +1769,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing virtual router.
     ///
-    /// - Parameter DescribeVirtualRouterInput :
+    /// - Parameter input: (Type: `DescribeVirtualRouterInput`)
     ///
-    /// - Returns: `DescribeVirtualRouterOutput` :
+    /// - Returns: (Type: `DescribeVirtualRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1789,6 +1808,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeVirtualRouterInput, DescribeVirtualRouterOutput>(DescribeVirtualRouterInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVirtualRouterOutput>(DescribeVirtualRouterOutput.httpOutput(from:), DescribeVirtualRouterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualRouterInput, DescribeVirtualRouterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualRouterOutput>())
@@ -1820,9 +1840,9 @@ extension AppMeshClient {
     ///
     /// Describes an existing virtual service.
     ///
-    /// - Parameter DescribeVirtualServiceInput :
+    /// - Parameter input: (Type: `DescribeVirtualServiceInput`)
     ///
-    /// - Returns: `DescribeVirtualServiceOutput` :
+    /// - Returns: (Type: `DescribeVirtualServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,6 +1879,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeVirtualServiceInput, DescribeVirtualServiceOutput>(DescribeVirtualServiceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVirtualServiceOutput>(DescribeVirtualServiceOutput.httpOutput(from:), DescribeVirtualServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualServiceInput, DescribeVirtualServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualServiceOutput>())
@@ -1890,9 +1911,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing gateway routes that are associated to a virtual gateway.
     ///
-    /// - Parameter ListGatewayRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewayRoutesInput`)
     ///
-    /// - Returns: `ListGatewayRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewayRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1929,6 +1950,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGatewayRoutesInput, ListGatewayRoutesOutput>(ListGatewayRoutesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewayRoutesOutput>(ListGatewayRoutesOutput.httpOutput(from:), ListGatewayRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewayRoutesInput, ListGatewayRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewayRoutesOutput>())
@@ -1960,9 +1982,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing service meshes.
     ///
-    /// - Parameter ListMeshesInput :
+    /// - Parameter input: (Type: `ListMeshesInput`)
     ///
-    /// - Returns: `ListMeshesOutput` :
+    /// - Returns: (Type: `ListMeshesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1999,6 +2021,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMeshesInput, ListMeshesOutput>(ListMeshesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMeshesOutput>(ListMeshesOutput.httpOutput(from:), ListMeshesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMeshesInput, ListMeshesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMeshesOutput>())
@@ -2030,9 +2053,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing routes in a service mesh.
     ///
-    /// - Parameter ListRoutesInput :
+    /// - Parameter input: (Type: `ListRoutesInput`)
     ///
-    /// - Returns: `ListRoutesOutput` :
+    /// - Returns: (Type: `ListRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2069,6 +2092,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoutesInput, ListRoutesOutput>(ListRoutesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoutesOutput>(ListRoutesOutput.httpOutput(from:), ListRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoutesInput, ListRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutesOutput>())
@@ -2100,9 +2124,9 @@ extension AppMeshClient {
     ///
     /// List the tags for an App Mesh resource.
     ///
-    /// - Parameter ListTagsForResourceInput :
+    /// - Parameter input: (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` :
+    /// - Returns: (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2139,6 +2163,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2170,9 +2195,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing virtual gateways in a service mesh.
     ///
-    /// - Parameter ListVirtualGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVirtualGatewaysInput`)
     ///
-    /// - Returns: `ListVirtualGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVirtualGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2209,6 +2234,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVirtualGatewaysInput, ListVirtualGatewaysOutput>(ListVirtualGatewaysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualGatewaysOutput>(ListVirtualGatewaysOutput.httpOutput(from:), ListVirtualGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualGatewaysInput, ListVirtualGatewaysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualGatewaysOutput>())
@@ -2240,9 +2266,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing virtual nodes.
     ///
-    /// - Parameter ListVirtualNodesInput :
+    /// - Parameter input: (Type: `ListVirtualNodesInput`)
     ///
-    /// - Returns: `ListVirtualNodesOutput` :
+    /// - Returns: (Type: `ListVirtualNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2279,6 +2305,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVirtualNodesInput, ListVirtualNodesOutput>(ListVirtualNodesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualNodesOutput>(ListVirtualNodesOutput.httpOutput(from:), ListVirtualNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualNodesInput, ListVirtualNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualNodesOutput>())
@@ -2310,9 +2337,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing virtual routers in a service mesh.
     ///
-    /// - Parameter ListVirtualRoutersInput :
+    /// - Parameter input: (Type: `ListVirtualRoutersInput`)
     ///
-    /// - Returns: `ListVirtualRoutersOutput` :
+    /// - Returns: (Type: `ListVirtualRoutersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2349,6 +2376,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVirtualRoutersInput, ListVirtualRoutersOutput>(ListVirtualRoutersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualRoutersOutput>(ListVirtualRoutersOutput.httpOutput(from:), ListVirtualRoutersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualRoutersInput, ListVirtualRoutersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualRoutersOutput>())
@@ -2380,9 +2408,9 @@ extension AppMeshClient {
     ///
     /// Returns a list of existing virtual services in a service mesh.
     ///
-    /// - Parameter ListVirtualServicesInput :
+    /// - Parameter input: (Type: `ListVirtualServicesInput`)
     ///
-    /// - Returns: `ListVirtualServicesOutput` :
+    /// - Returns: (Type: `ListVirtualServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2419,6 +2447,7 @@ extension AppMeshClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVirtualServicesInput, ListVirtualServicesOutput>(ListVirtualServicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualServicesOutput>(ListVirtualServicesOutput.httpOutput(from:), ListVirtualServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualServicesInput, ListVirtualServicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualServicesOutput>())
@@ -2450,9 +2479,9 @@ extension AppMeshClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
-    /// - Parameter TagResourceInput :
+    /// - Parameter input: (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` :
+    /// - Returns: (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2493,6 +2522,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2524,9 +2554,9 @@ extension AppMeshClient {
     ///
     /// Deletes specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput :
+    /// - Parameter input: (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` :
+    /// - Returns: (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2566,6 +2596,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2597,9 +2628,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing gateway route that is associated to a specified virtual gateway in a service mesh.
     ///
-    /// - Parameter UpdateGatewayRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayRouteInput`)
     ///
-    /// - Returns: `UpdateGatewayRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,6 +2673,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayRouteInput, UpdateGatewayRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayRouteOutput>(UpdateGatewayRouteOutput.httpOutput(from:), UpdateGatewayRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayRouteInput, UpdateGatewayRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayRouteOutput>())
@@ -2673,9 +2705,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing service mesh.
     ///
-    /// - Parameter UpdateMeshInput :
+    /// - Parameter input: (Type: `UpdateMeshInput`)
     ///
-    /// - Returns: `UpdateMeshOutput` :
+    /// - Returns: (Type: `UpdateMeshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2716,6 +2748,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMeshInput, UpdateMeshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMeshOutput>(UpdateMeshOutput.httpOutput(from:), UpdateMeshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMeshInput, UpdateMeshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMeshOutput>())
@@ -2747,9 +2780,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing route for a specified service mesh and virtual router.
     ///
-    /// - Parameter UpdateRouteInput :
+    /// - Parameter input: (Type: `UpdateRouteInput`)
     ///
-    /// - Returns: `UpdateRouteOutput` :
+    /// - Returns: (Type: `UpdateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2792,6 +2825,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRouteInput, UpdateRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRouteOutput>(UpdateRouteOutput.httpOutput(from:), UpdateRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRouteInput, UpdateRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRouteOutput>())
@@ -2823,9 +2857,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing virtual gateway in a specified service mesh.
     ///
-    /// - Parameter UpdateVirtualGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVirtualGatewayInput`)
     ///
-    /// - Returns: `UpdateVirtualGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVirtualGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2868,6 +2902,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVirtualGatewayInput, UpdateVirtualGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVirtualGatewayOutput>(UpdateVirtualGatewayOutput.httpOutput(from:), UpdateVirtualGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVirtualGatewayInput, UpdateVirtualGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVirtualGatewayOutput>())
@@ -2899,9 +2934,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing virtual node in a specified service mesh.
     ///
-    /// - Parameter UpdateVirtualNodeInput :
+    /// - Parameter input: (Type: `UpdateVirtualNodeInput`)
     ///
-    /// - Returns: `UpdateVirtualNodeOutput` :
+    /// - Returns: (Type: `UpdateVirtualNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2944,6 +2979,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVirtualNodeInput, UpdateVirtualNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVirtualNodeOutput>(UpdateVirtualNodeOutput.httpOutput(from:), UpdateVirtualNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVirtualNodeInput, UpdateVirtualNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVirtualNodeOutput>())
@@ -2975,9 +3011,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing virtual router in a specified service mesh.
     ///
-    /// - Parameter UpdateVirtualRouterInput :
+    /// - Parameter input: (Type: `UpdateVirtualRouterInput`)
     ///
-    /// - Returns: `UpdateVirtualRouterOutput` :
+    /// - Returns: (Type: `UpdateVirtualRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3020,6 +3056,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVirtualRouterInput, UpdateVirtualRouterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVirtualRouterOutput>(UpdateVirtualRouterOutput.httpOutput(from:), UpdateVirtualRouterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVirtualRouterInput, UpdateVirtualRouterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVirtualRouterOutput>())
@@ -3051,9 +3088,9 @@ extension AppMeshClient {
     ///
     /// Updates an existing virtual service in a specified service mesh.
     ///
-    /// - Parameter UpdateVirtualServiceInput :
+    /// - Parameter input: (Type: `UpdateVirtualServiceInput`)
     ///
-    /// - Returns: `UpdateVirtualServiceOutput` :
+    /// - Returns: (Type: `UpdateVirtualServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3096,6 +3133,7 @@ extension AppMeshClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVirtualServiceInput, UpdateVirtualServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVirtualServiceOutput>(UpdateVirtualServiceOutput.httpOutput(from:), UpdateVirtualServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVirtualServiceInput, UpdateVirtualServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVirtualServiceOutput>())

@@ -262,6 +262,39 @@ extension PaginatorSequence where OperationStackInput == GetFindingsInput, Opera
     }
 }
 extension SecurityHubClient {
+    /// Paginate over `[GetFindingsTrendsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetFindingsTrendsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFindingsTrendsV2Output`
+    public func getFindingsTrendsV2Paginated(input: GetFindingsTrendsV2Input) -> ClientRuntime.PaginatorSequence<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output> {
+        return ClientRuntime.PaginatorSequence<GetFindingsTrendsV2Input, GetFindingsTrendsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getFindingsTrendsV2(input:))
+    }
+}
+
+extension GetFindingsTrendsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetFindingsTrendsV2Input {
+        return GetFindingsTrendsV2Input(
+            endTime: self.endTime,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetFindingsTrendsV2Input, OperationStackOutput == GetFindingsTrendsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getFindingsTrendsV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.TrendsMetricsResult]`
+    /// - Returns: `[SecurityHubClientTypes.TrendsMetricsResult]`
+    public func trendsMetrics() async throws -> [SecurityHubClientTypes.TrendsMetricsResult] {
+        return try await self.asyncCompactMap { item in item.trendsMetrics }
+    }
+}
+extension SecurityHubClient {
     /// Paginate over `[GetFindingsV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -322,6 +355,39 @@ extension PaginatorSequence where OperationStackInput == GetInsightsInput, Opera
     /// - Returns: `[SecurityHubClientTypes.Insight]`
     public func insights() async throws -> [SecurityHubClientTypes.Insight] {
         return try await self.asyncCompactMap { item in item.insights }
+    }
+}
+extension SecurityHubClient {
+    /// Paginate over `[GetResourcesTrendsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourcesTrendsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcesTrendsV2Output`
+    public func getResourcesTrendsV2Paginated(input: GetResourcesTrendsV2Input) -> ClientRuntime.PaginatorSequence<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output> {
+        return ClientRuntime.PaginatorSequence<GetResourcesTrendsV2Input, GetResourcesTrendsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getResourcesTrendsV2(input:))
+    }
+}
+
+extension GetResourcesTrendsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetResourcesTrendsV2Input {
+        return GetResourcesTrendsV2Input(
+            endTime: self.endTime,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetResourcesTrendsV2Input, OperationStackOutput == GetResourcesTrendsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getResourcesTrendsV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.ResourcesTrendsMetricsResult]`
+    /// - Returns: `[SecurityHubClientTypes.ResourcesTrendsMetricsResult]`
+    public func trendsMetrics() async throws -> [SecurityHubClientTypes.ResourcesTrendsMetricsResult] {
+        return try await self.asyncCompactMap { item in item.trendsMetrics }
     }
 }
 extension SecurityHubClient {

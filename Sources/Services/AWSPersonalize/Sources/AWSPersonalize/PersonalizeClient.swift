@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class PersonalizeClient: ClientRuntime.Client {
+public class PersonalizeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PersonalizeClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: PersonalizeClient.PersonalizeClientConfiguration
     let serviceName = "Personalize"
@@ -372,9 +372,9 @@ extension PersonalizeClient {
     ///
     /// Generates batch recommendations based on a list of items or users stored in Amazon S3 and exports the recommendations to an Amazon S3 bucket. To generate batch recommendations, specify the ARN of a solution version and an Amazon S3 URI for the input and output data. For user personalization, popular items, and personalized ranking solutions, the batch inference job generates a list of recommended items for each user ID in the input file. For related items solutions, the job generates a list of recommended items for each item ID in the input file. For more information, see [Creating a batch inference job ](https://docs.aws.amazon.com/personalize/latest/dg/getting-batch-recommendations.html). If you use the Similar-Items recipe, Amazon Personalize can add descriptive themes to batch recommendations. To generate themes, set the job's mode to THEME_GENERATION and specify the name of the field that contains item names in the input data. For more information about generating themes, see [Batch recommendations with themes from Content Generator ](https://docs.aws.amazon.com/personalize/latest/dg/themed-batch-recommendations.html). You can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
     ///
-    /// - Parameter CreateBatchInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBatchInferenceJobInput`)
     ///
-    /// - Returns: `CreateBatchInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBatchInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchInferenceJobOutput>(CreateBatchInferenceJobOutput.httpOutput(from:), CreateBatchInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchInferenceJobInput, CreateBatchInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBatchInferenceJobOutput>())
@@ -445,9 +446,9 @@ extension PersonalizeClient {
     ///
     /// Creates a batch segment job. The operation can handle up to 50 million records and the input file must be in JSON format. For more information, see [Getting batch recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/recommendations-batch.html).
     ///
-    /// - Parameter CreateBatchSegmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBatchSegmentJobInput`)
     ///
-    /// - Returns: `CreateBatchSegmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBatchSegmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +485,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchSegmentJobOutput>(CreateBatchSegmentJobOutput.httpOutput(from:), CreateBatchSegmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchSegmentJobInput, CreateBatchSegmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBatchSegmentJobOutput>())
@@ -533,9 +535,9 @@ extension PersonalizeClient {
     ///
     /// * [DeleteCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteCampaign.html)
     ///
-    /// - Parameter CreateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCampaignInput`)
     ///
-    /// - Returns: `CreateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -572,6 +574,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCampaignInput, CreateCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCampaignOutput>(CreateCampaignOutput.httpOutput(from:), CreateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCampaignInput, CreateCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCampaignOutput>())
@@ -622,9 +625,9 @@ extension PersonalizeClient {
     ///
     /// * [DescribeDataDeletionJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataDeletionJob.html)
     ///
-    /// - Parameter CreateDataDeletionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataDeletionJobInput`)
     ///
-    /// - Returns: `CreateDataDeletionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataDeletionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -661,6 +664,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataDeletionJobOutput>(CreateDataDeletionJobOutput.httpOutput(from:), CreateDataDeletionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataDeletionJobInput, CreateDataDeletionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataDeletionJobOutput>())
@@ -723,9 +727,9 @@ extension PersonalizeClient {
     ///
     /// * [DeleteDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteDataset.html)
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,6 +766,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -801,9 +806,9 @@ extension PersonalizeClient {
     ///
     /// To get the status of the export job, call [DescribeDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetExportJob.html), and specify the Amazon Resource Name (ARN) of the dataset export job. The dataset export is complete when the status shows as ACTIVE. If the status shows as CREATE FAILED, the response includes a failureReason key, which describes why the job failed.
     ///
-    /// - Parameter CreateDatasetExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetExportJobInput`)
     ///
-    /// - Returns: `CreateDatasetExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +845,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetExportJobOutput>(CreateDatasetExportJobOutput.httpOutput(from:), CreateDatasetExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetExportJobInput, CreateDatasetExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetExportJobOutput>())
@@ -909,9 +915,9 @@ extension PersonalizeClient {
     ///
     /// * [DeleteDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteDatasetGroup.html)
     ///
-    /// - Parameter CreateDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetGroupInput`)
     ///
-    /// - Returns: `CreateDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -946,6 +952,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetGroupOutput>(CreateDatasetGroupOutput.httpOutput(from:), CreateDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetGroupOutput>())
@@ -989,9 +996,9 @@ extension PersonalizeClient {
     ///
     /// * [DescribeDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetImportJob.html)
     ///
-    /// - Parameter CreateDatasetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetImportJobInput`)
     ///
-    /// - Returns: `CreateDatasetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1028,6 +1035,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetImportJobOutput>(CreateDatasetImportJobOutput.httpOutput(from:), CreateDatasetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetImportJobOutput>())
@@ -1075,9 +1083,9 @@ extension PersonalizeClient {
     ///
     /// * [DeleteEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteEventTracker.html)
     ///
-    /// - Parameter CreateEventTrackerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventTrackerInput`)
     ///
-    /// - Returns: `CreateEventTrackerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventTrackerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,6 +1122,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventTrackerOutput>(CreateEventTrackerOutput.httpOutput(from:), CreateEventTrackerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventTrackerInput, CreateEventTrackerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventTrackerOutput>())
@@ -1148,9 +1157,9 @@ extension PersonalizeClient {
     ///
     /// Creates a recommendation filter. For more information, see [Filtering recommendations and user segments](https://docs.aws.amazon.com/personalize/latest/dg/filter.html).
     ///
-    /// - Parameter CreateFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFilterInput`)
     ///
-    /// - Returns: `CreateFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1186,6 +1195,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFilterInput, CreateFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFilterOutput>(CreateFilterOutput.httpOutput(from:), CreateFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFilterInput, CreateFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFilterOutput>())
@@ -1220,9 +1230,9 @@ extension PersonalizeClient {
     ///
     /// Creates a metric attribution. A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
     ///
-    /// - Parameter CreateMetricAttributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMetricAttributionInput`)
     ///
-    /// - Returns: `CreateMetricAttributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMetricAttributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1258,6 +1268,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMetricAttributionOutput>(CreateMetricAttributionOutput.httpOutput(from:), CreateMetricAttributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMetricAttributionInput, CreateMetricAttributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMetricAttributionOutput>())
@@ -1309,9 +1320,9 @@ extension PersonalizeClient {
     ///
     /// * [DeleteRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteRecommender.html)
     ///
-    /// - Parameter CreateRecommenderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecommenderInput`)
     ///
-    /// - Returns: `CreateRecommenderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecommenderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1348,6 +1359,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecommenderInput, CreateRecommenderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecommenderOutput>(CreateRecommenderOutput.httpOutput(from:), CreateRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecommenderInput, CreateRecommenderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecommenderOutput>())
@@ -1388,9 +1400,9 @@ extension PersonalizeClient {
     ///
     /// * [DeleteSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteSchema.html)
     ///
-    /// - Parameter CreateSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSchemaInput`)
     ///
-    /// - Returns: `CreateSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1424,6 +1436,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSchemaInput, CreateSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSchemaOutput>(CreateSchemaOutput.httpOutput(from:), CreateSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSchemaInput, CreateSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSchemaOutput>())
@@ -1482,9 +1495,9 @@ extension PersonalizeClient {
     ///
     /// * [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html)
     ///
-    /// - Parameter CreateSolutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSolutionInput`)
     ///
-    /// - Returns: `CreateSolutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSolutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1521,6 +1534,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolutionInput, CreateSolutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolutionOutput>(CreateSolutionOutput.httpOutput(from:), CreateSolutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolutionInput, CreateSolutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSolutionOutput>())
@@ -1582,9 +1596,9 @@ extension PersonalizeClient {
     ///
     /// * [DeleteSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DeleteSolution.html)
     ///
-    /// - Parameter CreateSolutionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSolutionVersionInput`)
     ///
-    /// - Returns: `CreateSolutionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSolutionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,6 +1635,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSolutionVersionOutput>(CreateSolutionVersionOutput.httpOutput(from:), CreateSolutionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSolutionVersionInput, CreateSolutionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSolutionVersionOutput>())
@@ -1655,9 +1670,9 @@ extension PersonalizeClient {
     ///
     /// Removes a campaign by deleting the solution deployment. The solution that the campaign is based on is not deleted and can be redeployed when needed. A deleted campaign can no longer be specified in a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request. For information on creating campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     ///
-    /// - Parameter DeleteCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCampaignInput`)
     ///
-    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1691,6 +1706,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCampaignInput, DeleteCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCampaignOutput>(DeleteCampaignOutput.httpOutput(from:), DeleteCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCampaignOutput>())
@@ -1725,9 +1741,9 @@ extension PersonalizeClient {
     ///
     /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information about deleting datasets, see [Deleting a dataset](https://docs.aws.amazon.com/personalize/latest/dg/delete-dataset.html).
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,6 +1777,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -1801,9 +1818,9 @@ extension PersonalizeClient {
     ///
     /// * All datasets in the dataset group.
     ///
-    /// - Parameter DeleteDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetGroupInput`)
     ///
-    /// - Returns: `DeleteDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1837,6 +1854,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetGroupOutput>(DeleteDatasetGroupOutput.httpOutput(from:), DeleteDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetGroupOutput>())
@@ -1871,9 +1889,9 @@ extension PersonalizeClient {
     ///
     /// Deletes the event tracker. Does not delete the dataset from the dataset group. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
-    /// - Parameter DeleteEventTrackerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventTrackerInput`)
     ///
-    /// - Returns: `DeleteEventTrackerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventTrackerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1907,6 +1925,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventTrackerOutput>(DeleteEventTrackerOutput.httpOutput(from:), DeleteEventTrackerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventTrackerInput, DeleteEventTrackerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventTrackerOutput>())
@@ -1941,9 +1960,9 @@ extension PersonalizeClient {
     ///
     /// Deletes a filter.
     ///
-    /// - Parameter DeleteFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFilterInput`)
     ///
-    /// - Returns: `DeleteFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1977,6 +1996,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFilterInput, DeleteFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFilterOutput>(DeleteFilterOutput.httpOutput(from:), DeleteFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFilterInput, DeleteFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFilterOutput>())
@@ -2011,9 +2031,9 @@ extension PersonalizeClient {
     ///
     /// Deletes a metric attribution.
     ///
-    /// - Parameter DeleteMetricAttributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMetricAttributionInput`)
     ///
-    /// - Returns: `DeleteMetricAttributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMetricAttributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2047,6 +2067,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMetricAttributionOutput>(DeleteMetricAttributionOutput.httpOutput(from:), DeleteMetricAttributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricAttributionInput, DeleteMetricAttributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricAttributionOutput>())
@@ -2081,9 +2102,9 @@ extension PersonalizeClient {
     ///
     /// Deactivates and removes a recommender. A deleted recommender can no longer be specified in a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request.
     ///
-    /// - Parameter DeleteRecommenderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecommenderInput`)
     ///
-    /// - Returns: `DeleteRecommenderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecommenderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2117,6 +2138,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecommenderOutput>(DeleteRecommenderOutput.httpOutput(from:), DeleteRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecommenderInput, DeleteRecommenderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecommenderOutput>())
@@ -2151,9 +2173,9 @@ extension PersonalizeClient {
     ///
     /// Deletes a schema. Before deleting a schema, you must delete all datasets referencing the schema. For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
-    /// - Parameter DeleteSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaInput`)
     ///
-    /// - Returns: `DeleteSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2187,6 +2209,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSchemaInput, DeleteSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSchemaOutput>(DeleteSchemaOutput.httpOutput(from:), DeleteSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchemaInput, DeleteSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSchemaOutput>())
@@ -2221,9 +2244,9 @@ extension PersonalizeClient {
     ///
     /// Deletes all versions of a solution and the Solution object itself. Before deleting a solution, you must delete all campaigns based on the solution. To determine what campaigns are using the solution, call [ListCampaigns](https://docs.aws.amazon.com/personalize/latest/dg/API_ListCampaigns.html) and supply the Amazon Resource Name (ARN) of the solution. You can't delete a solution if an associated SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
-    /// - Parameter DeleteSolutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSolutionInput`)
     ///
-    /// - Returns: `DeleteSolutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSolutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2257,6 +2280,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSolutionInput, DeleteSolutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSolutionOutput>(DeleteSolutionOutput.httpOutput(from:), DeleteSolutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSolutionInput, DeleteSolutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSolutionOutput>())
@@ -2291,9 +2315,9 @@ extension PersonalizeClient {
     ///
     /// Describes the given algorithm.
     ///
-    /// - Parameter DescribeAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlgorithmInput`)
     ///
-    /// - Returns: `DescribeAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlgorithmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2326,6 +2350,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlgorithmOutput>(DescribeAlgorithmOutput.httpOutput(from:), DescribeAlgorithmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlgorithmOutput>())
@@ -2360,9 +2385,9 @@ extension PersonalizeClient {
     ///
     /// Gets the properties of a batch inference job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate the recommendations.
     ///
-    /// - Parameter DescribeBatchInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBatchInferenceJobInput`)
     ///
-    /// - Returns: `DescribeBatchInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBatchInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2395,6 +2420,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBatchInferenceJobOutput>(DescribeBatchInferenceJobOutput.httpOutput(from:), DescribeBatchInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBatchInferenceJobInput, DescribeBatchInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBatchInferenceJobOutput>())
@@ -2429,9 +2455,9 @@ extension PersonalizeClient {
     ///
     /// Gets the properties of a batch segment job including name, Amazon Resource Name (ARN), status, input and output configurations, and the ARN of the solution version used to generate segments.
     ///
-    /// - Parameter DescribeBatchSegmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBatchSegmentJobInput`)
     ///
-    /// - Returns: `DescribeBatchSegmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBatchSegmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2464,6 +2490,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBatchSegmentJobOutput>(DescribeBatchSegmentJobOutput.httpOutput(from:), DescribeBatchSegmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBatchSegmentJobInput, DescribeBatchSegmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBatchSegmentJobOutput>())
@@ -2505,9 +2532,9 @@ extension PersonalizeClient {
     ///
     /// When the status is CREATE FAILED, the response includes the failureReason key, which describes why. For more information on campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     ///
-    /// - Parameter DescribeCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCampaignInput`)
     ///
-    /// - Returns: `DescribeCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2540,6 +2567,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCampaignInput, DescribeCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCampaignOutput>(DescribeCampaignOutput.httpOutput(from:), DescribeCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCampaignInput, DescribeCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCampaignOutput>())
@@ -2574,9 +2602,9 @@ extension PersonalizeClient {
     ///
     /// Describes the data deletion job created by [CreateDataDeletionJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataDeletionJob.html), including the job status.
     ///
-    /// - Parameter DescribeDataDeletionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataDeletionJobInput`)
     ///
-    /// - Returns: `DescribeDataDeletionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataDeletionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2609,6 +2637,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataDeletionJobOutput>(DescribeDataDeletionJobOutput.httpOutput(from:), DescribeDataDeletionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataDeletionJobInput, DescribeDataDeletionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataDeletionJobOutput>())
@@ -2643,9 +2672,9 @@ extension PersonalizeClient {
     ///
     /// Describes the given dataset. For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2678,6 +2707,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -2712,9 +2742,9 @@ extension PersonalizeClient {
     ///
     /// Describes the dataset export job created by [CreateDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html), including the export job status.
     ///
-    /// - Parameter DescribeDatasetExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetExportJobInput`)
     ///
-    /// - Returns: `DescribeDatasetExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2747,6 +2777,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetExportJobOutput>(DescribeDatasetExportJobOutput.httpOutput(from:), DescribeDatasetExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetExportJobInput, DescribeDatasetExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetExportJobOutput>())
@@ -2781,9 +2812,9 @@ extension PersonalizeClient {
     ///
     /// Describes the given dataset group. For more information on dataset groups, see [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html).
     ///
-    /// - Parameter DescribeDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetGroupInput`)
     ///
-    /// - Returns: `DescribeDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2816,6 +2847,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetGroupOutput>(DescribeDatasetGroupOutput.httpOutput(from:), DescribeDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetGroupOutput>())
@@ -2850,9 +2882,9 @@ extension PersonalizeClient {
     ///
     /// Describes the dataset import job created by [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html), including the import job status.
     ///
-    /// - Parameter DescribeDatasetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetImportJobInput`)
     ///
-    /// - Returns: `DescribeDatasetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2885,6 +2917,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetImportJobOutput>(DescribeDatasetImportJobOutput.httpOutput(from:), DescribeDatasetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetImportJobOutput>())
@@ -2919,9 +2952,9 @@ extension PersonalizeClient {
     ///
     /// Describes an event tracker. The response includes the trackingId and status of the event tracker. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
-    /// - Parameter DescribeEventTrackerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventTrackerInput`)
     ///
-    /// - Returns: `DescribeEventTrackerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventTrackerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2954,6 +2987,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventTrackerOutput>(DescribeEventTrackerOutput.httpOutput(from:), DescribeEventTrackerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventTrackerInput, DescribeEventTrackerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventTrackerOutput>())
@@ -2988,9 +3022,9 @@ extension PersonalizeClient {
     ///
     /// Describes the given feature transformation.
     ///
-    /// - Parameter DescribeFeatureTransformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFeatureTransformationInput`)
     ///
-    /// - Returns: `DescribeFeatureTransformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFeatureTransformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3023,6 +3057,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFeatureTransformationOutput>(DescribeFeatureTransformationOutput.httpOutput(from:), DescribeFeatureTransformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFeatureTransformationInput, DescribeFeatureTransformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFeatureTransformationOutput>())
@@ -3057,9 +3092,9 @@ extension PersonalizeClient {
     ///
     /// Describes a filter's properties.
     ///
-    /// - Parameter DescribeFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFilterInput`)
     ///
-    /// - Returns: `DescribeFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3092,6 +3127,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFilterInput, DescribeFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFilterOutput>(DescribeFilterOutput.httpOutput(from:), DescribeFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFilterInput, DescribeFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFilterOutput>())
@@ -3126,9 +3162,9 @@ extension PersonalizeClient {
     ///
     /// Describes a metric attribution.
     ///
-    /// - Parameter DescribeMetricAttributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetricAttributionInput`)
     ///
-    /// - Returns: `DescribeMetricAttributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetricAttributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3161,6 +3197,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetricAttributionOutput>(DescribeMetricAttributionOutput.httpOutput(from:), DescribeMetricAttributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetricAttributionInput, DescribeMetricAttributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetricAttributionOutput>())
@@ -3204,9 +3241,9 @@ extension PersonalizeClient {
     ///
     /// Amazon Personalize provides a set of predefined recipes. You specify a recipe when you create a solution with the [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html) API. CreateSolution trains a model by using the algorithm in the specified recipe and a training dataset. The solution, when deployed as a campaign, can provide recommendations using the [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) API.
     ///
-    /// - Parameter DescribeRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecipeInput`)
     ///
-    /// - Returns: `DescribeRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3239,6 +3276,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRecipeInput, DescribeRecipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecipeOutput>(DescribeRecipeOutput.httpOutput(from:), DescribeRecipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecipeInput, DescribeRecipeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRecipeOutput>())
@@ -3282,9 +3320,9 @@ extension PersonalizeClient {
     ///
     /// When the status is CREATE FAILED, the response includes the failureReason key, which describes why. The modelMetrics key is null when the recommender is being created or deleted. For more information on recommenders, see [CreateRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateRecommender.html).
     ///
-    /// - Parameter DescribeRecommenderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecommenderInput`)
     ///
-    /// - Returns: `DescribeRecommenderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecommenderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3317,6 +3355,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecommenderOutput>(DescribeRecommenderOutput.httpOutput(from:), DescribeRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecommenderInput, DescribeRecommenderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRecommenderOutput>())
@@ -3351,9 +3390,9 @@ extension PersonalizeClient {
     ///
     /// Describes a schema. For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
-    /// - Parameter DescribeSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSchemaInput`)
     ///
-    /// - Returns: `DescribeSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3386,6 +3425,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSchemaInput, DescribeSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSchemaOutput>(DescribeSchemaOutput.httpOutput(from:), DescribeSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSchemaInput, DescribeSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSchemaOutput>())
@@ -3420,9 +3460,9 @@ extension PersonalizeClient {
     ///
     /// Describes a solution. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
-    /// - Parameter DescribeSolutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSolutionInput`)
     ///
-    /// - Returns: `DescribeSolutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSolutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3455,6 +3495,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSolutionInput, DescribeSolutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSolutionOutput>(DescribeSolutionOutput.httpOutput(from:), DescribeSolutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSolutionInput, DescribeSolutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSolutionOutput>())
@@ -3489,9 +3530,9 @@ extension PersonalizeClient {
     ///
     /// Describes a specific version of a solution. For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html)
     ///
-    /// - Parameter DescribeSolutionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSolutionVersionInput`)
     ///
-    /// - Returns: `DescribeSolutionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSolutionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3524,6 +3565,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSolutionVersionOutput>(DescribeSolutionVersionOutput.httpOutput(from:), DescribeSolutionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSolutionVersionInput, DescribeSolutionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSolutionVersionOutput>())
@@ -3558,9 +3600,9 @@ extension PersonalizeClient {
     ///
     /// Gets the metrics for the specified solution version.
     ///
-    /// - Parameter GetSolutionMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSolutionMetricsInput`)
     ///
-    /// - Returns: `GetSolutionMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSolutionMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3594,6 +3636,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSolutionMetricsOutput>(GetSolutionMetricsOutput.httpOutput(from:), GetSolutionMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSolutionMetricsInput, GetSolutionMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSolutionMetricsOutput>())
@@ -3628,9 +3671,9 @@ extension PersonalizeClient {
     ///
     /// Gets a list of the batch inference jobs that have been performed off of a solution version.
     ///
-    /// - Parameter ListBatchInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBatchInferenceJobsInput`)
     ///
-    /// - Returns: `ListBatchInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBatchInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3663,6 +3706,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBatchInferenceJobsOutput>(ListBatchInferenceJobsOutput.httpOutput(from:), ListBatchInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBatchInferenceJobsInput, ListBatchInferenceJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBatchInferenceJobsOutput>())
@@ -3697,9 +3741,9 @@ extension PersonalizeClient {
     ///
     /// Gets a list of the batch segment jobs that have been performed off of a solution version that you specify.
     ///
-    /// - Parameter ListBatchSegmentJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBatchSegmentJobsInput`)
     ///
-    /// - Returns: `ListBatchSegmentJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBatchSegmentJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3732,6 +3776,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBatchSegmentJobsOutput>(ListBatchSegmentJobsOutput.httpOutput(from:), ListBatchSegmentJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBatchSegmentJobsInput, ListBatchSegmentJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBatchSegmentJobsOutput>())
@@ -3766,9 +3811,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of campaigns that use the given solution. When a solution is not specified, all the campaigns associated with the account are listed. The response provides the properties for each campaign, including the Amazon Resource Name (ARN). For more information on campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
     ///
-    /// - Parameter ListCampaignsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCampaignsInput`)
     ///
-    /// - Returns: `ListCampaignsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3801,6 +3846,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCampaignsInput, ListCampaignsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCampaignsOutput>(ListCampaignsOutput.httpOutput(from:), ListCampaignsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCampaignsInput, ListCampaignsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCampaignsOutput>())
@@ -3835,9 +3881,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of data deletion jobs for a dataset group ordered by creation time, with the most recent first. When a dataset group is not specified, all the data deletion jobs associated with the account are listed. The response provides the properties for each job, including the Amazon Resource Name (ARN). For more information on data deletion jobs, see [Deleting users](https://docs.aws.amazon.com/personalize/latest/dg/delete-records.html).
     ///
-    /// - Parameter ListDataDeletionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataDeletionJobsInput`)
     ///
-    /// - Returns: `ListDataDeletionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataDeletionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3870,6 +3916,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataDeletionJobsOutput>(ListDataDeletionJobsOutput.httpOutput(from:), ListDataDeletionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataDeletionJobsInput, ListDataDeletionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataDeletionJobsOutput>())
@@ -3904,9 +3951,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of dataset export jobs that use the given dataset. When a dataset is not specified, all the dataset export jobs associated with the account are listed. The response provides the properties for each dataset export job, including the Amazon Resource Name (ARN). For more information on dataset export jobs, see [CreateDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
-    /// - Parameter ListDatasetExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetExportJobsInput`)
     ///
-    /// - Returns: `ListDatasetExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3939,6 +3986,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetExportJobsOutput>(ListDatasetExportJobsOutput.httpOutput(from:), ListDatasetExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetExportJobsInput, ListDatasetExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetExportJobsOutput>())
@@ -3973,9 +4021,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of dataset groups. The response provides the properties for each dataset group, including the Amazon Resource Name (ARN). For more information on dataset groups, see [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html).
     ///
-    /// - Parameter ListDatasetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetGroupsInput`)
     ///
-    /// - Returns: `ListDatasetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4007,6 +4055,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetGroupsOutput>(ListDatasetGroupsOutput.httpOutput(from:), ListDatasetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetGroupsOutput>())
@@ -4041,9 +4090,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of dataset import jobs that use the given dataset. When a dataset is not specified, all the dataset import jobs associated with the account are listed. The response provides the properties for each dataset import job, including the Amazon Resource Name (ARN). For more information on dataset import jobs, see [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
-    /// - Parameter ListDatasetImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetImportJobsInput`)
     ///
-    /// - Returns: `ListDatasetImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4076,6 +4125,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetImportJobsOutput>(ListDatasetImportJobsOutput.httpOutput(from:), ListDatasetImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetImportJobsOutput>())
@@ -4110,9 +4160,9 @@ extension PersonalizeClient {
     ///
     /// Returns the list of datasets contained in the given dataset group. The response provides the properties for each dataset, including the Amazon Resource Name (ARN). For more information on datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html).
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4145,6 +4195,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetsInput, ListDatasetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -4179,9 +4230,9 @@ extension PersonalizeClient {
     ///
     /// Returns the list of event trackers associated with the account. The response provides the properties for each event tracker, including the Amazon Resource Name (ARN) and tracking ID. For more information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateEventTracker.html).
     ///
-    /// - Parameter ListEventTrackersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventTrackersInput`)
     ///
-    /// - Returns: `ListEventTrackersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventTrackersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4214,6 +4265,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventTrackersInput, ListEventTrackersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventTrackersOutput>(ListEventTrackersOutput.httpOutput(from:), ListEventTrackersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventTrackersInput, ListEventTrackersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventTrackersOutput>())
@@ -4248,9 +4300,9 @@ extension PersonalizeClient {
     ///
     /// Lists all filters that belong to a given dataset group.
     ///
-    /// - Parameter ListFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFiltersInput`)
     ///
-    /// - Returns: `ListFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4283,6 +4335,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFiltersInput, ListFiltersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFiltersOutput>(ListFiltersOutput.httpOutput(from:), ListFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFiltersInput, ListFiltersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFiltersOutput>())
@@ -4317,9 +4370,9 @@ extension PersonalizeClient {
     ///
     /// Lists the metrics for the metric attribution.
     ///
-    /// - Parameter ListMetricAttributionMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetricAttributionMetricsInput`)
     ///
-    /// - Returns: `ListMetricAttributionMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetricAttributionMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4352,6 +4405,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricAttributionMetricsOutput>(ListMetricAttributionMetricsOutput.httpOutput(from:), ListMetricAttributionMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricAttributionMetricsInput, ListMetricAttributionMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricAttributionMetricsOutput>())
@@ -4386,9 +4440,9 @@ extension PersonalizeClient {
     ///
     /// Lists metric attributions.
     ///
-    /// - Parameter ListMetricAttributionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetricAttributionsInput`)
     ///
-    /// - Returns: `ListMetricAttributionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetricAttributionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4421,6 +4475,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricAttributionsOutput>(ListMetricAttributionsOutput.httpOutput(from:), ListMetricAttributionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricAttributionsInput, ListMetricAttributionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricAttributionsOutput>())
@@ -4455,9 +4510,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of available recipes. The response provides the properties for each recipe, including the recipe's Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListRecipesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecipesInput`)
     ///
-    /// - Returns: `ListRecipesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecipesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4490,6 +4545,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecipesInput, ListRecipesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecipesOutput>(ListRecipesOutput.httpOutput(from:), ListRecipesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecipesInput, ListRecipesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecipesOutput>())
@@ -4524,9 +4580,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of recommenders in a given Domain dataset group. When a Domain dataset group is not specified, all the recommenders associated with the account are listed. The response provides the properties for each recommender, including the Amazon Resource Name (ARN). For more information on recommenders, see [CreateRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateRecommender.html).
     ///
-    /// - Parameter ListRecommendersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendersInput`)
     ///
-    /// - Returns: `ListRecommendersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4559,6 +4615,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendersInput, ListRecommendersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendersOutput>(ListRecommendersOutput.httpOutput(from:), ListRecommendersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendersInput, ListRecommendersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendersOutput>())
@@ -4593,9 +4650,9 @@ extension PersonalizeClient {
     ///
     /// Returns the list of schemas associated with the account. The response provides the properties for each schema, including the Amazon Resource Name (ARN). For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
     ///
-    /// - Parameter ListSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemasInput`)
     ///
-    /// - Returns: `ListSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4627,6 +4684,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchemasInput, ListSchemasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemasOutput>(ListSchemasOutput.httpOutput(from:), ListSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemasInput, ListSchemasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemasOutput>())
@@ -4661,9 +4719,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of solution versions for the given solution. When a solution is not specified, all the solution versions associated with the account are listed. The response provides the properties for each solution version, including the Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListSolutionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolutionVersionsInput`)
     ///
-    /// - Returns: `ListSolutionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolutionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4697,6 +4755,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolutionVersionsOutput>(ListSolutionVersionsOutput.httpOutput(from:), ListSolutionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolutionVersionsInput, ListSolutionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSolutionVersionsOutput>())
@@ -4731,9 +4790,9 @@ extension PersonalizeClient {
     ///
     /// Returns a list of solutions in a given dataset group. When a dataset group is not specified, all the solutions associated with the account are listed. The response provides the properties for each solution, including the Amazon Resource Name (ARN). For more information on solutions, see [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html).
     ///
-    /// - Parameter ListSolutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSolutionsInput`)
     ///
-    /// - Returns: `ListSolutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSolutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4766,6 +4825,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSolutionsInput, ListSolutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSolutionsOutput>(ListSolutionsOutput.httpOutput(from:), ListSolutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSolutionsInput, ListSolutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSolutionsOutput>())
@@ -4800,9 +4860,9 @@ extension PersonalizeClient {
     ///
     /// Get a list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) attached to a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4836,6 +4896,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4870,9 +4931,9 @@ extension PersonalizeClient {
     ///
     /// Starts a recommender that is INACTIVE. Starting a recommender does not create any new models, but resumes billing and automatic retraining for the recommender.
     ///
-    /// - Parameter StartRecommenderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRecommenderInput`)
     ///
-    /// - Returns: `StartRecommenderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRecommenderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4906,6 +4967,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRecommenderInput, StartRecommenderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRecommenderOutput>(StartRecommenderOutput.httpOutput(from:), StartRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRecommenderInput, StartRecommenderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRecommenderOutput>())
@@ -4940,9 +5002,9 @@ extension PersonalizeClient {
     ///
     /// Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
     ///
-    /// - Parameter StopRecommenderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopRecommenderInput`)
     ///
-    /// - Returns: `StopRecommenderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopRecommenderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4976,6 +5038,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRecommenderInput, StopRecommenderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRecommenderOutput>(StopRecommenderOutput.httpOutput(from:), StopRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRecommenderInput, StopRecommenderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopRecommenderOutput>())
@@ -5017,9 +5080,9 @@ extension PersonalizeClient {
     ///
     /// You are billed for all of the training completed up until you stop the solution version creation. You cannot resume creating a solution version once it has been stopped.
     ///
-    /// - Parameter StopSolutionVersionCreationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSolutionVersionCreationInput`)
     ///
-    /// - Returns: `StopSolutionVersionCreationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSolutionVersionCreationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5053,6 +5116,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSolutionVersionCreationOutput>(StopSolutionVersionCreationOutput.httpOutput(from:), StopSolutionVersionCreationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSolutionVersionCreationInput, StopSolutionVersionCreationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSolutionVersionCreationOutput>())
@@ -5087,9 +5151,9 @@ extension PersonalizeClient {
     ///
     /// Add a list of tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5125,6 +5189,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5159,9 +5224,9 @@ extension PersonalizeClient {
     ///
     /// Removes the specified tags that are attached to a resource. For more information, see [Removing tags from Amazon Personalize resources](https://docs.aws.amazon.com/personalize/latest/dg/tags-remove.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5196,6 +5261,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5237,9 +5303,9 @@ extension PersonalizeClient {
     ///
     /// To update a campaign, the campaign status must be ACTIVE or CREATE FAILED. Check the campaign status using the [DescribeCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html) operation. You can still get recommendations from a campaign while an update is in progress. The campaign will use the previous solution version and campaign configuration to generate recommendations until the latest campaign update status is Active. For more information about updating a campaign, including code samples, see [Updating a campaign](https://docs.aws.amazon.com/personalize/latest/dg/update-campaigns.html). For more information about campaigns, see [Creating a campaign](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html).
     ///
-    /// - Parameter UpdateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCampaignInput`)
     ///
-    /// - Returns: `UpdateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5273,6 +5339,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCampaignInput, UpdateCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCampaignOutput>(UpdateCampaignOutput.httpOutput(from:), UpdateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCampaignOutput>())
@@ -5307,9 +5374,9 @@ extension PersonalizeClient {
     ///
     /// Update a dataset to replace its schema with a new or existing one. For more information, see [Replacing a dataset's schema](https://docs.aws.amazon.com/personalize/latest/dg/updating-dataset-schema.html).
     ///
-    /// - Parameter UpdateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetInput`)
     ///
-    /// - Returns: `UpdateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5343,6 +5410,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetInput, UpdateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetOutput>(UpdateDatasetOutput.httpOutput(from:), UpdateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatasetOutput>())
@@ -5377,9 +5445,9 @@ extension PersonalizeClient {
     ///
     /// Updates a metric attribution.
     ///
-    /// - Parameter UpdateMetricAttributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMetricAttributionInput`)
     ///
-    /// - Returns: `UpdateMetricAttributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMetricAttributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5414,6 +5482,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMetricAttributionOutput>(UpdateMetricAttributionOutput.httpOutput(from:), UpdateMetricAttributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMetricAttributionInput, UpdateMetricAttributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMetricAttributionOutput>())
@@ -5448,9 +5517,9 @@ extension PersonalizeClient {
     ///
     /// Updates the recommender to modify the recommender configuration. If you update the recommender to modify the columns used in training, Amazon Personalize automatically starts a full retraining of the models backing your recommender. While the update completes, you can still get recommendations from the recommender. The recommender uses the previous configuration until the update completes. To track the status of this update, use the latestRecommenderUpdate returned in the [DescribeRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecommender.html) operation.
     ///
-    /// - Parameter UpdateRecommenderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecommenderInput`)
     ///
-    /// - Returns: `UpdateRecommenderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecommenderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5484,6 +5553,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecommenderOutput>(UpdateRecommenderOutput.httpOutput(from:), UpdateRecommenderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecommenderInput, UpdateRecommenderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecommenderOutput>())
@@ -5518,9 +5588,9 @@ extension PersonalizeClient {
     ///
     /// Updates an Amazon Personalize solution to use a different automatic training configuration. When you update a solution, you can change whether the solution uses automatic training, and you can change the training frequency. For more information about updating a solution, see [Updating a solution](https://docs.aws.amazon.com/personalize/latest/dg/updating-solution.html). A solution update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED To get the status of a solution update, call the [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html) API operation and find the status in the latestSolutionUpdate.
     ///
-    /// - Parameter UpdateSolutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSolutionInput`)
     ///
-    /// - Returns: `UpdateSolutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSolutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5555,6 +5625,7 @@ extension PersonalizeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSolutionInput, UpdateSolutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSolutionOutput>(UpdateSolutionOutput.httpOutput(from:), UpdateSolutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSolutionInput, UpdateSolutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSolutionOutput>())

@@ -734,7 +734,7 @@ extension IVSRealTimeClientTypes {
 
     /// Object specifying a participant token in a stage. Important: Treat tokens as opaque; i.e., do not build functionality based on token contents. The format of tokens could change in the future.
     public struct ParticipantToken: Swift.Sendable {
-        /// Application-provided attributes to encode into the token and attach to a stage. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public var attributes: [Swift.String: Swift.String]?
         /// Set of capabilities that the user is allowed to perform in the stage.
         public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
@@ -1617,6 +1617,8 @@ extension IVSRealTimeClientTypes {
         public var gridGap: Swift.Int
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public var omitStoppedVideo: Swift.Bool
+        /// Attribute name in [ParticipantTokenConfiguration] identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based on their arrival time into the stage.
+        public var participantOrderAttribute: Swift.String?
         /// Sets the non-featured participant display mode, to control the aspect ratio of video tiles. VIDEO is 16:9, SQUARE is 1:1, and PORTRAIT is 3:4. Default: VIDEO.
         public var videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio?
         /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set, videoFillMode defaults to COVER fill mode for participants in the grid and to CONTAIN fill mode for featured participants.
@@ -1626,12 +1628,14 @@ extension IVSRealTimeClientTypes {
             featuredParticipantAttribute: Swift.String? = nil,
             gridGap: Swift.Int = 0,
             omitStoppedVideo: Swift.Bool = false,
+            participantOrderAttribute: Swift.String? = nil,
             videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio? = nil,
             videoFillMode: IVSRealTimeClientTypes.VideoFillMode? = nil
         ) {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
+            self.participantOrderAttribute = participantOrderAttribute
             self.videoAspectRatio = videoAspectRatio
             self.videoFillMode = videoFillMode
         }
@@ -1712,6 +1716,8 @@ extension IVSRealTimeClientTypes {
         public var gridGap: Swift.Int
         /// Determines whether to omit participants with stopped video in the composition. Default: false.
         public var omitStoppedVideo: Swift.Bool
+        /// Attribute name in [ParticipantTokenConfiguration] identifying the participant ordering key. Participants with participantOrderAttribute set to "" or not specified are ordered based on their arrival time into the stage.
+        public var participantOrderAttribute: Swift.String?
         /// Defines PiP behavior when all participants have left: STATIC (maintains original position/size) or DYNAMIC (expands to full composition). Default: STATIC.
         public var pipBehavior: IVSRealTimeClientTypes.PipBehavior?
         /// Specifies the height of the PiP window in pixels. When this is not set explicitly, pipHeight’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
@@ -1731,6 +1737,7 @@ extension IVSRealTimeClientTypes {
             featuredParticipantAttribute: Swift.String? = nil,
             gridGap: Swift.Int = 0,
             omitStoppedVideo: Swift.Bool = false,
+            participantOrderAttribute: Swift.String? = nil,
             pipBehavior: IVSRealTimeClientTypes.PipBehavior? = nil,
             pipHeight: Swift.Int? = nil,
             pipOffset: Swift.Int = 0,
@@ -1742,6 +1749,7 @@ extension IVSRealTimeClientTypes {
             self.featuredParticipantAttribute = featuredParticipantAttribute
             self.gridGap = gridGap
             self.omitStoppedVideo = omitStoppedVideo
+            self.participantOrderAttribute = participantOrderAttribute
             self.pipBehavior = pipBehavior
             self.pipHeight = pipHeight
             self.pipOffset = pipOffset
@@ -2745,6 +2753,7 @@ extension IVSRealTimeClientTypes {
         case subscribeError
         case subscribeStarted
         case subscribeStopped
+        case tokenExchanged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventName] {
@@ -2759,7 +2768,8 @@ extension IVSRealTimeClientTypes {
                 .replicationStopped,
                 .subscribeError,
                 .subscribeStarted,
-                .subscribeStopped
+                .subscribeStopped,
+                .tokenExchanged
             ]
         }
 
@@ -2781,8 +2791,36 @@ extension IVSRealTimeClientTypes {
             case .subscribeError: return "SUBSCRIBE_ERROR"
             case .subscribeStarted: return "SUBSCRIBE_STARTED"
             case .subscribeStopped: return "SUBSCRIBE_STOPPED"
+            case .tokenExchanged: return "TOKEN_EXCHANGED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+
+    /// Object specifying an exchanged participant token in a stage, created when an original participant token is updated. Important: Treat tokens as opaque; i.e., do not build functionality based on token contents. The format of tokens could change in the future.
+    public struct ExchangedParticipantToken: Swift.Sendable {
+        /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public var attributes: [Swift.String: Swift.String]?
+        /// Set of capabilities that the user is allowed to perform in the stage.
+        public var capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]?
+        /// ISO 8601 timestamp (returned as a string) for when this token expires.
+        public var expirationTime: Foundation.Date?
+        /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public var userId: Swift.String?
+
+        public init(
+            attributes: [Swift.String: Swift.String]? = nil,
+            capabilities: [IVSRealTimeClientTypes.ParticipantTokenCapability]? = nil,
+            expirationTime: Foundation.Date? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.attributes = attributes
+            self.capabilities = capabilities
+            self.expirationTime = expirationTime
+            self.userId = userId
         }
     }
 }
@@ -2829,11 +2867,15 @@ extension IVSRealTimeClientTypes {
         public var eventTime: Foundation.Date?
         /// The name of the event.
         public var name: IVSRealTimeClientTypes.EventName?
+        /// Participant token created during TOKEN_EXCHANGED event.
+        public var newToken: IVSRealTimeClientTypes.ExchangedParticipantToken?
         /// Unique identifier for the participant who triggered the event. This is assigned by IVS.
         public var participantId: Swift.String?
+        /// Source participant token for TOKEN_EXCHANGED event.
+        public var previousToken: IVSRealTimeClientTypes.ExchangedParticipantToken?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public var remoteParticipantId: Swift.String?
-        /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId.
+        /// If true, this indicates the participantId is a replicated participant. If this is a subscribe event, then this flag refers to remoteParticipantId. Default: false.
         public var replica: Swift.Bool
 
         public init(
@@ -2842,7 +2884,9 @@ extension IVSRealTimeClientTypes {
             errorCode: IVSRealTimeClientTypes.EventErrorCode? = nil,
             eventTime: Foundation.Date? = nil,
             name: IVSRealTimeClientTypes.EventName? = nil,
+            newToken: IVSRealTimeClientTypes.ExchangedParticipantToken? = nil,
             participantId: Swift.String? = nil,
+            previousToken: IVSRealTimeClientTypes.ExchangedParticipantToken? = nil,
             remoteParticipantId: Swift.String? = nil,
             replica: Swift.Bool = false
         ) {
@@ -2851,7 +2895,9 @@ extension IVSRealTimeClientTypes {
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.name = name
+            self.newToken = newToken
             self.participantId = participantId
+            self.previousToken = previousToken
             self.remoteParticipantId = remoteParticipantId
             self.replica = replica
         }
@@ -3053,7 +3099,7 @@ extension IVSRealTimeClientTypes {
         public var replicationType: IVSRealTimeClientTypes.ReplicationType?
         /// ID of the session within the source stage, if replicationType is REPLICA.
         public var sourceSessionId: Swift.String?
-        /// ARN of the stage from which this participant is replicated.
+        /// Source stage ARN from which this participant is replicated, if replicationType is REPLICA.
         public var sourceStageArn: Swift.String?
         /// Whether the participant is connected to or disconnected from the stage.
         public var state: IVSRealTimeClientTypes.ParticipantState?
@@ -6073,6 +6119,7 @@ extension IVSRealTimeClientTypes.PipConfiguration {
         try writer["featuredParticipantAttribute"].write(value.featuredParticipantAttribute)
         try writer["gridGap"].write(value.gridGap)
         try writer["omitStoppedVideo"].write(value.omitStoppedVideo)
+        try writer["participantOrderAttribute"].write(value.participantOrderAttribute)
         try writer["pipBehavior"].write(value.pipBehavior)
         try writer["pipHeight"].write(value.pipHeight)
         try writer["pipOffset"].write(value.pipOffset)
@@ -6095,6 +6142,7 @@ extension IVSRealTimeClientTypes.PipConfiguration {
         value.pipPosition = try reader["pipPosition"].readIfPresent()
         value.pipWidth = try reader["pipWidth"].readIfPresent()
         value.pipHeight = try reader["pipHeight"].readIfPresent()
+        value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
         return value
     }
 }
@@ -6106,6 +6154,7 @@ extension IVSRealTimeClientTypes.GridConfiguration {
         try writer["featuredParticipantAttribute"].write(value.featuredParticipantAttribute)
         try writer["gridGap"].write(value.gridGap)
         try writer["omitStoppedVideo"].write(value.omitStoppedVideo)
+        try writer["participantOrderAttribute"].write(value.participantOrderAttribute)
         try writer["videoAspectRatio"].write(value.videoAspectRatio)
         try writer["videoFillMode"].write(value.videoFillMode)
     }
@@ -6118,6 +6167,7 @@ extension IVSRealTimeClientTypes.GridConfiguration {
         value.videoAspectRatio = try reader["videoAspectRatio"].readIfPresent()
         value.videoFillMode = try reader["videoFillMode"].readIfPresent()
         value.gridGap = try reader["gridGap"].readIfPresent() ?? 0
+        value.participantOrderAttribute = try reader["participantOrderAttribute"].readIfPresent()
         return value
     }
 }
@@ -6247,6 +6297,21 @@ extension IVSRealTimeClientTypes.Event {
         value.destinationStageArn = try reader["destinationStageArn"].readIfPresent()
         value.destinationSessionId = try reader["destinationSessionId"].readIfPresent()
         value.replica = try reader["replica"].readIfPresent() ?? false
+        value.previousToken = try reader["previousToken"].readIfPresent(with: IVSRealTimeClientTypes.ExchangedParticipantToken.read(from:))
+        value.newToken = try reader["newToken"].readIfPresent(with: IVSRealTimeClientTypes.ExchangedParticipantToken.read(from:))
+        return value
+    }
+}
+
+extension IVSRealTimeClientTypes.ExchangedParticipantToken {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IVSRealTimeClientTypes.ExchangedParticipantToken {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IVSRealTimeClientTypes.ExchangedParticipantToken()
+        value.capabilities = try reader["capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<IVSRealTimeClientTypes.ParticipantTokenCapability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.userId = try reader["userId"].readIfPresent()
+        value.expirationTime = try reader["expirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

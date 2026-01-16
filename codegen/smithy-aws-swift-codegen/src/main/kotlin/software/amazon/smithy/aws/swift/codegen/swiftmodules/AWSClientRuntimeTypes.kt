@@ -47,6 +47,7 @@ object AWSClientRuntimeTypes {
             runtimeSymbol("UnknownAWSHTTPServiceError", SwiftDeclaration.STRUCT, listOf("UnknownAWSHTTPServiceError"))
         val AWSServiceError = runtimeSymbol("AWSServiceError", SwiftDeclaration.PROTOCOL)
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware", SwiftDeclaration.STRUCT)
+        val AWSClockSkewProvider = runtimeSymbol("AWSClockSkewProvider", SwiftDeclaration.ENUM)
         val AWSRetryErrorInfoProvider = runtimeSymbol("AWSRetryErrorInfoProvider", SwiftDeclaration.ENUM)
         val AWSRetryMode = runtimeSymbol("AWSRetryMode", SwiftDeclaration.ENUM)
         val AWSPartitionDefinition = runtimeSymbol("awsPartitionJSON", SwiftDeclaration.LET)
@@ -61,6 +62,7 @@ object AWSClientRuntimeTypes {
             runtimeSymbol("FlexibleChecksumsResponseMiddleware", SwiftDeclaration.STRUCT)
         val AmzSdkInvocationIdMiddleware = runtimeSymbol("AmzSdkInvocationIdMiddleware", SwiftDeclaration.STRUCT)
         val AmzSdkRequestMiddleware = runtimeSymbol("AmzSdkRequestMiddleware", SwiftDeclaration.CLASS)
+        val AWSServiceClient = runtimeSymbol("AWSServiceClient", SwiftDeclaration.PROTOCOL)
     }
 }
 

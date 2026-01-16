@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BudgetsClient: ClientRuntime.Client {
+public class BudgetsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BudgetsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: BudgetsClient.BudgetsClientConfiguration
     let serviceName = "Budgets"
@@ -372,20 +372,21 @@ extension BudgetsClient {
     ///
     /// Creates a budget and, if included, notifications and subscribers. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your use case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_CreateBudget.html#API_CreateBudget_Examples) section. Similarly, only one set of filter and metric selections can be present in the syntax at one time. Either FilterExpression and Metrics or CostFilters and CostTypes, not both or a different combination. We recommend using FilterExpression and Metrics as they provide more flexible and powerful filtering capabilities. The Request Syntax section shows the FilterExpression/Metrics syntax.
     ///
-    /// - Parameter CreateBudgetInput : Request of CreateBudget
+    /// - Parameter input: Request of CreateBudget (Type: `CreateBudgetInput`)
     ///
-    /// - Returns: `CreateBudgetOutput` : Response of CreateBudget
+    /// - Returns: Response of CreateBudget (Type: `CreateBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `CreationLimitExceededException` : You've exceeded the notification or subscriber limit.
     /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
-    /// - `ServiceQuotaExceededException` : You've reached the limit on the number of tags you can associate with a resource.
+    /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createBudget(input: CreateBudgetInput) async throws -> CreateBudgetOutput {
         let context = Smithy.ContextBuilder()
@@ -413,6 +414,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBudgetInput, CreateBudgetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBudgetOutput>(CreateBudgetOutput.httpOutput(from:), CreateBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBudgetInput, CreateBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBudgetOutput>())
@@ -447,9 +449,9 @@ extension BudgetsClient {
     ///
     /// Creates a budget action.
     ///
-    /// - Parameter CreateBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBudgetActionInput`)
     ///
-    /// - Returns: `CreateBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -460,7 +462,7 @@ extension BudgetsClient {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
-    /// - `ServiceQuotaExceededException` : You've reached the limit on the number of tags you can associate with a resource.
+    /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createBudgetAction(input: CreateBudgetActionInput) async throws -> CreateBudgetActionOutput {
         let context = Smithy.ContextBuilder()
@@ -488,6 +490,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBudgetActionOutput>(CreateBudgetActionOutput.httpOutput(from:), CreateBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBudgetActionInput, CreateBudgetActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBudgetActionOutput>())
@@ -522,9 +525,9 @@ extension BudgetsClient {
     ///
     /// Creates a notification. You must create the budget before you create the associated notification.
     ///
-    /// - Parameter CreateNotificationInput : Request of CreateNotification
+    /// - Parameter input: Request of CreateNotification (Type: `CreateNotificationInput`)
     ///
-    /// - Returns: `CreateNotificationOutput` : Response of CreateNotification
+    /// - Returns: Response of CreateNotification (Type: `CreateNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +565,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotificationInput, CreateNotificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotificationOutput>(CreateNotificationOutput.httpOutput(from:), CreateNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotificationInput, CreateNotificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotificationOutput>())
@@ -596,9 +600,9 @@ extension BudgetsClient {
     ///
     /// Creates a subscriber. You must create the associated budget and notification before you create the subscriber.
     ///
-    /// - Parameter CreateSubscriberInput : Request of CreateSubscriber
+    /// - Parameter input: Request of CreateSubscriber (Type: `CreateSubscriberInput`)
     ///
-    /// - Returns: `CreateSubscriberOutput` : Response of CreateSubscriber
+    /// - Returns: Response of CreateSubscriber (Type: `CreateSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,6 +640,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubscriberInput, CreateSubscriberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubscriberOutput>(CreateSubscriberOutput.httpOutput(from:), CreateSubscriberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubscriberInput, CreateSubscriberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubscriberOutput>())
@@ -670,9 +675,9 @@ extension BudgetsClient {
     ///
     /// Deletes a budget. You can delete your budget at any time. Deleting a budget also deletes the notifications and subscribers that are associated with that budget.
     ///
-    /// - Parameter DeleteBudgetInput : Request of DeleteBudget
+    /// - Parameter input: Request of DeleteBudget (Type: `DeleteBudgetInput`)
     ///
-    /// - Returns: `DeleteBudgetOutput` : Response of DeleteBudget
+    /// - Returns: Response of DeleteBudget (Type: `DeleteBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,6 +713,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBudgetInput, DeleteBudgetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBudgetOutput>(DeleteBudgetOutput.httpOutput(from:), DeleteBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBudgetInput, DeleteBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBudgetOutput>())
@@ -742,9 +748,9 @@ extension BudgetsClient {
     ///
     /// Deletes a budget action.
     ///
-    /// - Parameter DeleteBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBudgetActionInput`)
     ///
-    /// - Returns: `DeleteBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,6 +787,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBudgetActionOutput>(DeleteBudgetActionOutput.httpOutput(from:), DeleteBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBudgetActionInput, DeleteBudgetActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBudgetActionOutput>())
@@ -815,9 +822,9 @@ extension BudgetsClient {
     ///
     /// Deletes a notification. Deleting a notification also deletes the subscribers that are associated with the notification.
     ///
-    /// - Parameter DeleteNotificationInput : Request of DeleteNotification
+    /// - Parameter input: Request of DeleteNotification (Type: `DeleteNotificationInput`)
     ///
-    /// - Returns: `DeleteNotificationOutput` : Response of DeleteNotification
+    /// - Returns: Response of DeleteNotification (Type: `DeleteNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,6 +860,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotificationInput, DeleteNotificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotificationOutput>(DeleteNotificationOutput.httpOutput(from:), DeleteNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotificationInput, DeleteNotificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotificationOutput>())
@@ -887,9 +895,9 @@ extension BudgetsClient {
     ///
     /// Deletes a subscriber. Deleting the last subscriber to a notification also deletes the notification.
     ///
-    /// - Parameter DeleteSubscriberInput : Request of DeleteSubscriber
+    /// - Parameter input: Request of DeleteSubscriber (Type: `DeleteSubscriberInput`)
     ///
-    /// - Returns: `DeleteSubscriberOutput` : Response of DeleteSubscriber
+    /// - Returns: Response of DeleteSubscriber (Type: `DeleteSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -925,6 +933,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubscriberOutput>(DeleteSubscriberOutput.httpOutput(from:), DeleteSubscriberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubscriberInput, DeleteSubscriberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubscriberOutput>())
@@ -959,9 +968,9 @@ extension BudgetsClient {
     ///
     /// Describes a budget. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudget.html#API_DescribeBudget_Examples) section.
     ///
-    /// - Parameter DescribeBudgetInput : Request of DescribeBudget
+    /// - Parameter input: Request of DescribeBudget (Type: `DescribeBudgetInput`)
     ///
-    /// - Returns: `DescribeBudgetOutput` : Response of DescribeBudget
+    /// - Returns: Response of DescribeBudget (Type: `DescribeBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,6 +1006,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetInput, DescribeBudgetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetOutput>(DescribeBudgetOutput.httpOutput(from:), DescribeBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetInput, DescribeBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBudgetOutput>())
@@ -1031,9 +1041,9 @@ extension BudgetsClient {
     ///
     /// Describes a budget action detail.
     ///
-    /// - Parameter DescribeBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetActionInput`)
     ///
-    /// - Returns: `DescribeBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,6 +1079,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetActionOutput>(DescribeBudgetActionOutput.httpOutput(from:), DescribeBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetActionInput, DescribeBudgetActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBudgetActionOutput>())
@@ -1103,9 +1114,9 @@ extension BudgetsClient {
     ///
     /// Describes a budget action history detail.
     ///
-    /// - Parameter DescribeBudgetActionHistoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetActionHistoriesInput`)
     ///
-    /// - Returns: `DescribeBudgetActionHistoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetActionHistoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,6 +1153,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetActionHistoriesOutput>(DescribeBudgetActionHistoriesOutput.httpOutput(from:), DescribeBudgetActionHistoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBudgetActionHistoriesOutput>())
@@ -1176,9 +1188,9 @@ extension BudgetsClient {
     ///
     /// Describes all of the budget actions for an account.
     ///
-    /// - Parameter DescribeBudgetActionsForAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetActionsForAccountInput`)
     ///
-    /// - Returns: `DescribeBudgetActionsForAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetActionsForAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,6 +1226,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetActionsForAccountOutput>(DescribeBudgetActionsForAccountOutput.httpOutput(from:), DescribeBudgetActionsForAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBudgetActionsForAccountOutput>())
@@ -1248,9 +1261,9 @@ extension BudgetsClient {
     ///
     /// Describes all of the budget actions for a budget.
     ///
-    /// - Parameter DescribeBudgetActionsForBudgetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetActionsForBudgetInput`)
     ///
-    /// - Returns: `DescribeBudgetActionsForBudgetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetActionsForBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,6 +1300,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetActionsForBudgetOutput>(DescribeBudgetActionsForBudgetOutput.httpOutput(from:), DescribeBudgetActionsForBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBudgetActionsForBudgetOutput>())
@@ -1321,9 +1335,9 @@ extension BudgetsClient {
     ///
     /// Lists the budget names and notifications that are associated with an account.
     ///
-    /// - Parameter DescribeBudgetNotificationsForAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetNotificationsForAccountInput`)
     ///
-    /// - Returns: `DescribeBudgetNotificationsForAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetNotificationsForAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1361,6 +1375,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetNotificationsForAccountOutput>(DescribeBudgetNotificationsForAccountOutput.httpOutput(from:), DescribeBudgetNotificationsForAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBudgetNotificationsForAccountOutput>())
@@ -1395,14 +1410,15 @@ extension BudgetsClient {
     ///
     /// Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     ///
-    /// - Parameter DescribeBudgetPerformanceHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBudgetPerformanceHistoryInput`)
     ///
-    /// - Returns: `DescribeBudgetPerformanceHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBudgetPerformanceHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `ExpiredNextTokenException` : The pagination token expired.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidNextTokenException` : The pagination token is invalid.
@@ -1435,6 +1451,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetPerformanceHistoryOutput>(DescribeBudgetPerformanceHistoryOutput.httpOutput(from:), DescribeBudgetPerformanceHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBudgetPerformanceHistoryOutput>())
@@ -1469,9 +1486,9 @@ extension BudgetsClient {
     ///
     /// Lists the budgets that are associated with an account. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_DescribeBudgets.html#API_DescribeBudgets_Examples) section.
     ///
-    /// - Parameter DescribeBudgetsInput : Request of DescribeBudgets
+    /// - Parameter input: Request of DescribeBudgets (Type: `DescribeBudgetsInput`)
     ///
-    /// - Returns: `DescribeBudgetsOutput` : Response of DescribeBudgets
+    /// - Returns: Response of DescribeBudgets (Type: `DescribeBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1509,6 +1526,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBudgetsOutput>(DescribeBudgetsOutput.httpOutput(from:), DescribeBudgetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBudgetsInput, DescribeBudgetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBudgetsOutput>())
@@ -1543,9 +1561,9 @@ extension BudgetsClient {
     ///
     /// Lists the notifications that are associated with a budget.
     ///
-    /// - Parameter DescribeNotificationsForBudgetInput : Request of DescribeNotificationsForBudget
+    /// - Parameter input: Request of DescribeNotificationsForBudget (Type: `DescribeNotificationsForBudgetInput`)
     ///
-    /// - Returns: `DescribeNotificationsForBudgetOutput` : Response of GetNotificationsForBudget
+    /// - Returns: Response of GetNotificationsForBudget (Type: `DescribeNotificationsForBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1583,6 +1601,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotificationsForBudgetOutput>(DescribeNotificationsForBudgetOutput.httpOutput(from:), DescribeNotificationsForBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNotificationsForBudgetOutput>())
@@ -1617,9 +1636,9 @@ extension BudgetsClient {
     ///
     /// Lists the subscribers that are associated with a notification.
     ///
-    /// - Parameter DescribeSubscribersForNotificationInput : Request of DescribeSubscribersForNotification
+    /// - Parameter input: Request of DescribeSubscribersForNotification (Type: `DescribeSubscribersForNotificationInput`)
     ///
-    /// - Returns: `DescribeSubscribersForNotificationOutput` : Response of DescribeSubscribersForNotification
+    /// - Returns: Response of DescribeSubscribersForNotification (Type: `DescribeSubscribersForNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1657,6 +1676,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSubscribersForNotificationOutput>(DescribeSubscribersForNotificationOutput.httpOutput(from:), DescribeSubscribersForNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSubscribersForNotificationOutput>())
@@ -1691,9 +1711,9 @@ extension BudgetsClient {
     ///
     /// Executes a budget action.
     ///
-    /// - Parameter ExecuteBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteBudgetActionInput`)
     ///
-    /// - Returns: `ExecuteBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,6 +1750,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteBudgetActionOutput>(ExecuteBudgetActionOutput.httpOutput(from:), ExecuteBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteBudgetActionInput, ExecuteBudgetActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteBudgetActionOutput>())
@@ -1764,9 +1785,9 @@ extension BudgetsClient {
     ///
     /// Lists tags associated with a budget or budget action resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1802,6 +1823,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1836,9 +1858,9 @@ extension BudgetsClient {
     ///
     /// Creates tags for a budget or budget action resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1847,7 +1869,7 @@ extension BudgetsClient {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
-    /// - `ServiceQuotaExceededException` : You've reached the limit on the number of tags you can associate with a resource.
+    /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -1875,6 +1897,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1909,9 +1932,9 @@ extension BudgetsClient {
     ///
     /// Deletes tags associated with a budget or budget action resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1947,6 +1970,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1981,17 +2005,19 @@ extension BudgetsClient {
     ///
     /// Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until Amazon Web Services has new usage data to use for forecasting. Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the [Examples](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_budgets_UpdateBudget.html#API_UpdateBudget_Examples) section. Similarly, only one set of filter and metric selections can be present in the syntax at one time. Either FilterExpression and Metrics or CostFilters and CostTypes, not both or a different combination. We recommend using FilterExpression and Metrics as they provide more flexible and powerful filtering capabilities. The Request Syntax section shows the FilterExpression/Metrics syntax.
     ///
-    /// - Parameter UpdateBudgetInput : Request of UpdateBudget
+    /// - Parameter input: Request of UpdateBudget (Type: `UpdateBudgetInput`)
     ///
-    /// - Returns: `UpdateBudgetOutput` : Response of UpdateBudget
+    /// - Returns: Response of UpdateBudget (Type: `UpdateBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You are not authorized to use this operation with the given parameters.
+    /// - `BillingViewHealthStatusException` : The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
     /// - `NotFoundException` : We can’t locate the resource that you specified.
+    /// - `ServiceQuotaExceededException` : You've reached a Service Quota limit on this resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func updateBudget(input: UpdateBudgetInput) async throws -> UpdateBudgetOutput {
         let context = Smithy.ContextBuilder()
@@ -2019,6 +2045,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBudgetInput, UpdateBudgetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBudgetOutput>(UpdateBudgetOutput.httpOutput(from:), UpdateBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBudgetInput, UpdateBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBudgetOutput>())
@@ -2053,9 +2080,9 @@ extension BudgetsClient {
     ///
     /// Updates a budget action.
     ///
-    /// - Parameter UpdateBudgetActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBudgetActionInput`)
     ///
-    /// - Returns: `UpdateBudgetActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBudgetActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,6 +2119,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBudgetActionOutput>(UpdateBudgetActionOutput.httpOutput(from:), UpdateBudgetActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBudgetActionInput, UpdateBudgetActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBudgetActionOutput>())
@@ -2126,9 +2154,9 @@ extension BudgetsClient {
     ///
     /// Updates a notification.
     ///
-    /// - Parameter UpdateNotificationInput : Request of UpdateNotification
+    /// - Parameter input: Request of UpdateNotification (Type: `UpdateNotificationInput`)
     ///
-    /// - Returns: `UpdateNotificationOutput` : Response of UpdateNotification
+    /// - Returns: Response of UpdateNotification (Type: `UpdateNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2165,6 +2193,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotificationInput, UpdateNotificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotificationOutput>(UpdateNotificationOutput.httpOutput(from:), UpdateNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotificationInput, UpdateNotificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotificationOutput>())
@@ -2199,9 +2228,9 @@ extension BudgetsClient {
     ///
     /// Updates a subscriber.
     ///
-    /// - Parameter UpdateSubscriberInput : Request of UpdateSubscriber
+    /// - Parameter input: Request of UpdateSubscriber (Type: `UpdateSubscriberInput`)
     ///
-    /// - Returns: `UpdateSubscriberOutput` : Response of UpdateSubscriber
+    /// - Returns: Response of UpdateSubscriber (Type: `UpdateSubscriberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2238,6 +2267,7 @@ extension BudgetsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubscriberOutput>(UpdateSubscriberOutput.httpOutput(from:), UpdateSubscriberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubscriberInput, UpdateSubscriberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubscriberOutput>())

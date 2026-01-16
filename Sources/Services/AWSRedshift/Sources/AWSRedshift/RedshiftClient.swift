@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RedshiftClient: ClientRuntime.Client {
+public class RedshiftClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RedshiftClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: RedshiftClient.RedshiftClientConfiguration
     let serviceName = "Redshift"
@@ -372,9 +372,9 @@ extension RedshiftClient {
     ///
     /// Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the configuration (term, payment type, or number of nodes) and no additional costs.
     ///
-    /// - Parameter AcceptReservedNodeExchangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptReservedNodeExchangeInput`)
     ///
-    /// - Returns: `AcceptReservedNodeExchangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptReservedNodeExchangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptReservedNodeExchangeInput, AcceptReservedNodeExchangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptReservedNodeExchangeOutput>(AcceptReservedNodeExchangeOutput.httpOutput(from:), AcceptReservedNodeExchangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptReservedNodeExchangeInput, AcceptReservedNodeExchangeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptReservedNodeExchangeOutput>())
@@ -445,9 +446,9 @@ extension RedshiftClient {
     ///
     /// Adds a partner integration to a cluster. This operation authorizes a partner to push status updates for the specified database. To complete the integration, you also set up the integration on the partner website.
     ///
-    /// - Parameter AddPartnerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddPartnerInput`)
     ///
-    /// - Returns: `AddPartnerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddPartnerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +483,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddPartnerInput, AddPartnerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddPartnerOutput>(AddPartnerOutput.httpOutput(from:), AddPartnerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddPartnerInput, AddPartnerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPartnerOutput>())
@@ -515,9 +517,9 @@ extension RedshiftClient {
     ///
     /// From a datashare consumer account, associates a datashare with the account (AssociateEntireAccount) or the specified namespace (ConsumerArn). If you make this association, the consumer can consume the datashare.
     ///
-    /// - Parameter AssociateDataShareConsumerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDataShareConsumerInput`)
     ///
-    /// - Returns: `AssociateDataShareConsumerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDataShareConsumerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,6 +552,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDataShareConsumerInput, AssociateDataShareConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDataShareConsumerOutput>(AssociateDataShareConsumerOutput.httpOutput(from:), AssociateDataShareConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDataShareConsumerInput, AssociateDataShareConsumerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDataShareConsumerOutput>())
@@ -583,9 +586,9 @@ extension RedshiftClient {
     ///
     /// Adds an inbound (ingress) rule to an Amazon Redshift security group. Depending on whether the application accessing your cluster is running on the Internet or an Amazon EC2 instance, you can authorize inbound access to either a Classless Interdomain Routing (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an Amazon EC2 security group, specify EC2SecurityGroupName and EC2SecurityGroupOwnerId. The Amazon EC2 security group and Amazon Redshift cluster must be in the same Amazon Web Services Region. If you authorize access to a CIDR/IP address range, specify CIDRIP. For an overview of CIDR blocks, see the Wikipedia article on [Classless Inter-Domain Routing](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). You must also associate the security group with a cluster so that clients running on these IP addresses or the EC2 instance are authorized to connect to the cluster. For information about managing security groups, go to [Working with Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter AuthorizeClusterSecurityGroupIngressInput :
+    /// - Parameter input: (Type: `AuthorizeClusterSecurityGroupIngressInput`)
     ///
-    /// - Returns: `AuthorizeClusterSecurityGroupIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeClusterSecurityGroupIngressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,6 +623,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AuthorizeClusterSecurityGroupIngressInput, AuthorizeClusterSecurityGroupIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeClusterSecurityGroupIngressOutput>(AuthorizeClusterSecurityGroupIngressOutput.httpOutput(from:), AuthorizeClusterSecurityGroupIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeClusterSecurityGroupIngressInput, AuthorizeClusterSecurityGroupIngressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeClusterSecurityGroupIngressOutput>())
@@ -653,9 +657,9 @@ extension RedshiftClient {
     ///
     /// From a data producer account, authorizes the sharing of a datashare with one or more consumer accounts or managing entities. To authorize a datashare for a data consumer, the producer account must have the correct access permissions.
     ///
-    /// - Parameter AuthorizeDataShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AuthorizeDataShareInput`)
     ///
-    /// - Returns: `AuthorizeDataShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeDataShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,6 +691,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AuthorizeDataShareInput, AuthorizeDataShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeDataShareOutput>(AuthorizeDataShareOutput.httpOutput(from:), AuthorizeDataShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeDataShareInput, AuthorizeDataShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeDataShareOutput>())
@@ -720,9 +725,9 @@ extension RedshiftClient {
     ///
     /// Grants access to a cluster.
     ///
-    /// - Parameter AuthorizeEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AuthorizeEndpointAccessInput`)
     ///
-    /// - Returns: `AuthorizeEndpointAccessOutput` : Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts.
+    /// - Returns: Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts. (Type: `AuthorizeEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,6 +764,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AuthorizeEndpointAccessInput, AuthorizeEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeEndpointAccessOutput>(AuthorizeEndpointAccessOutput.httpOutput(from:), AuthorizeEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeEndpointAccessInput, AuthorizeEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeEndpointAccessOutput>())
@@ -792,9 +798,9 @@ extension RedshiftClient {
     ///
     /// Authorizes the specified Amazon Web Services account to restore the specified snapshot. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter AuthorizeSnapshotAccessInput :
+    /// - Parameter input: (Type: `AuthorizeSnapshotAccessInput`)
     ///
-    /// - Returns: `AuthorizeSnapshotAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeSnapshotAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -832,6 +838,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AuthorizeSnapshotAccessInput, AuthorizeSnapshotAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeSnapshotAccessOutput>(AuthorizeSnapshotAccessOutput.httpOutput(from:), AuthorizeSnapshotAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeSnapshotAccessInput, AuthorizeSnapshotAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeSnapshotAccessOutput>())
@@ -865,9 +872,9 @@ extension RedshiftClient {
     ///
     /// Deletes a set of cluster snapshots.
     ///
-    /// - Parameter BatchDeleteClusterSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteClusterSnapshotsInput`)
     ///
-    /// - Returns: `BatchDeleteClusterSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,6 +906,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteClusterSnapshotsInput, BatchDeleteClusterSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteClusterSnapshotsOutput>(BatchDeleteClusterSnapshotsOutput.httpOutput(from:), BatchDeleteClusterSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteClusterSnapshotsInput, BatchDeleteClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteClusterSnapshotsOutput>())
@@ -932,9 +940,9 @@ extension RedshiftClient {
     ///
     /// Modifies the settings for a set of cluster snapshots.
     ///
-    /// - Parameter BatchModifyClusterSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchModifyClusterSnapshotsInput`)
     ///
-    /// - Returns: `BatchModifyClusterSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchModifyClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,6 +975,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchModifyClusterSnapshotsInput, BatchModifyClusterSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchModifyClusterSnapshotsOutput>(BatchModifyClusterSnapshotsOutput.httpOutput(from:), BatchModifyClusterSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchModifyClusterSnapshotsInput, BatchModifyClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchModifyClusterSnapshotsOutput>())
@@ -1000,9 +1009,9 @@ extension RedshiftClient {
     ///
     /// Cancels a resize operation for a cluster.
     ///
-    /// - Parameter CancelResizeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelResizeInput`)
     ///
-    /// - Returns: `CancelResizeOutput` : Describes the result of a cluster resize operation.
+    /// - Returns: Describes the result of a cluster resize operation. (Type: `CancelResizeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,6 +1046,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelResizeInput, CancelResizeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelResizeOutput>(CancelResizeOutput.httpOutput(from:), CancelResizeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelResizeInput, CancelResizeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelResizeOutput>())
@@ -1070,9 +1080,9 @@ extension RedshiftClient {
     ///
     /// Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state. When you delete a cluster, Amazon Redshift deletes any automated snapshots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you delete them. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter CopyClusterSnapshotInput :
+    /// - Parameter input: (Type: `CopyClusterSnapshotInput`)
     ///
-    /// - Returns: `CopyClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,6 +1119,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyClusterSnapshotOutput>(CopyClusterSnapshotOutput.httpOutput(from:), CopyClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyClusterSnapshotOutput>())
@@ -1142,9 +1153,9 @@ extension RedshiftClient {
     ///
     /// Creates an authentication profile with the specified parameters.
     ///
-    /// - Parameter CreateAuthenticationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAuthenticationProfileInput`)
     ///
-    /// - Returns: `CreateAuthenticationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAuthenticationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,6 +1189,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAuthenticationProfileInput, CreateAuthenticationProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAuthenticationProfileOutput>(CreateAuthenticationProfileOutput.httpOutput(from:), CreateAuthenticationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAuthenticationProfileInput, CreateAuthenticationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAuthenticationProfileOutput>())
@@ -1222,9 +1234,9 @@ extension RedshiftClient {
     ///
     /// For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateClusterInput :
+    /// - Parameter input: (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1234,7 +1246,9 @@ extension RedshiftClient {
     /// - `ClusterQuotaExceededFault` : The request would exceed the allowed number of cluster instances for this account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `ClusterSubnetGroupNotFoundFault` : The cluster subnet group name does not refer to an existing cluster subnet group.
+    /// - `DependentServiceAccessDeniedFault` : A dependent service denied access for the integration.
     /// - `DependentServiceRequestThrottlingFault` : The request cannot be completed because a dependent service is throttling requests made by Amazon Redshift on your behalf. Wait and retry the request.
+    /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `HsmClientCertificateNotFoundFault` : There is no Amazon Redshift HSM client certificate with the specified identifier.
     /// - `HsmConfigurationNotFoundFault` : There is no Amazon Redshift HSM configuration with the specified identifier.
     /// - `InsufficientClusterCapacityFault` : The number of nodes specified exceeds the allotted capacity of the cluster.
@@ -1280,6 +1294,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -1313,9 +1328,9 @@ extension RedshiftClient {
     ///
     /// Creates an Amazon Redshift parameter group. Creating parameter groups is independent of creating clusters. You can associate a cluster with a parameter group when you create the cluster. You can also associate an existing cluster with a parameter group after the cluster is created by using [ModifyCluster]. Parameters in the parameter group define specific behavior that applies to the databases you create on the cluster. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter CreateClusterParameterGroupInput :
+    /// - Parameter input: (Type: `CreateClusterParameterGroupInput`)
     ///
-    /// - Returns: `CreateClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,6 +1365,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterParameterGroupInput, CreateClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterParameterGroupOutput>(CreateClusterParameterGroupOutput.httpOutput(from:), CreateClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterParameterGroupInput, CreateClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterParameterGroupOutput>())
@@ -1383,9 +1399,9 @@ extension RedshiftClient {
     ///
     /// Creates a new Amazon Redshift security group. You use security groups to control access to non-VPC clusters. For information about managing security groups, go to [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter CreateClusterSecurityGroupInput :
+    /// - Parameter input: (Type: `CreateClusterSecurityGroupInput`)
     ///
-    /// - Returns: `CreateClusterSecurityGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1420,6 +1436,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterSecurityGroupInput, CreateClusterSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterSecurityGroupOutput>(CreateClusterSecurityGroupOutput.httpOutput(from:), CreateClusterSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterSecurityGroupInput, CreateClusterSecurityGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterSecurityGroupOutput>())
@@ -1453,9 +1470,9 @@ extension RedshiftClient {
     ///
     /// Creates a manual snapshot of the specified cluster. The cluster must be in the available state. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter CreateClusterSnapshotInput :
+    /// - Parameter input: (Type: `CreateClusterSnapshotInput`)
     ///
-    /// - Returns: `CreateClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1493,6 +1510,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterSnapshotOutput>(CreateClusterSnapshotOutput.httpOutput(from:), CreateClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterSnapshotInput, CreateClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterSnapshotOutput>())
@@ -1526,9 +1544,9 @@ extension RedshiftClient {
     ///
     /// Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group. For information about subnet groups, go to [Amazon Redshift Cluster Subnet Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-cluster-subnet-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter CreateClusterSubnetGroupInput :
+    /// - Parameter input: (Type: `CreateClusterSubnetGroupInput`)
     ///
-    /// - Returns: `CreateClusterSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1567,6 +1585,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterSubnetGroupInput, CreateClusterSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterSubnetGroupOutput>(CreateClusterSubnetGroupOutput.httpOutput(from:), CreateClusterSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterSubnetGroupInput, CreateClusterSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterSubnetGroupOutput>())
@@ -1600,9 +1619,9 @@ extension RedshiftClient {
     ///
     /// Used to create a custom domain name for a cluster. Properties include the custom domain name, the cluster the custom domain is associated with, and the certificate Amazon Resource Name (ARN).
     ///
-    /// - Parameter CreateCustomDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomDomainAssociationInput`)
     ///
-    /// - Returns: `CreateCustomDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1636,6 +1655,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomDomainAssociationInput, CreateCustomDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomDomainAssociationOutput>(CreateCustomDomainAssociationOutput.httpOutput(from:), CreateCustomDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomDomainAssociationInput, CreateCustomDomainAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomDomainAssociationOutput>())
@@ -1669,9 +1689,9 @@ extension RedshiftClient {
     ///
     /// Creates a Redshift-managed VPC endpoint.
     ///
-    /// - Parameter CreateEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEndpointAccessInput`)
     ///
-    /// - Returns: `CreateEndpointAccessOutput` : Describes a Redshift-managed VPC endpoint.
+    /// - Returns: Describes a Redshift-managed VPC endpoint. (Type: `CreateEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1712,6 +1732,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointAccessInput, CreateEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointAccessOutput>(CreateEndpointAccessOutput.httpOutput(from:), CreateEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointAccessInput, CreateEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointAccessOutput>())
@@ -1745,9 +1766,9 @@ extension RedshiftClient {
     ///
     /// Creates an Amazon Redshift event notification subscription. This action requires an ARN (Amazon Resource Name) of an Amazon SNS topic created by either the Amazon Redshift console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the source type, and lists of Amazon Redshift source IDs, event categories, and event severities. Notifications will be sent for all events you want that match those criteria. For example, you can specify source type = cluster, source ID = my-cluster-1 and mycluster2, event categories = Availability, Backup, and severity = ERROR. The subscription will only send notifications for those ERROR events in the Availability and Backup categories for the specified clusters. If you specify both the source type and source IDs, such as source type = cluster and source identifier = my-cluster-1, notifications will be sent for all the cluster events for my-cluster-1. If you specify a source type but do not specify a source identifier, you will receive notice of the events for the objects of that type in your Amazon Web Services account. If you do not specify either the SourceType nor the SourceIdentifier, you will be notified of events generated from all Amazon Redshift sources belonging to your Amazon Web Services account. You must specify a source type if you specify a source ID.
     ///
-    /// - Parameter CreateEventSubscriptionInput :
+    /// - Parameter input: (Type: `CreateEventSubscriptionInput`)
     ///
-    /// - Returns: `CreateEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1789,6 +1810,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutput>(CreateEventSubscriptionOutput.httpOutput(from:), CreateEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventSubscriptionOutput>())
@@ -1822,9 +1844,9 @@ extension RedshiftClient {
     ///
     /// Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases. The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more information, go to [Hardware Security Modules](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html#working-with-HSM) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter CreateHsmClientCertificateInput :
+    /// - Parameter input: (Type: `CreateHsmClientCertificateInput`)
     ///
-    /// - Returns: `CreateHsmClientCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHsmClientCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,6 +1881,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHsmClientCertificateInput, CreateHsmClientCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHsmClientCertificateOutput>(CreateHsmClientCertificateOutput.httpOutput(from:), CreateHsmClientCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHsmClientCertificateInput, CreateHsmClientCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHsmClientCertificateOutput>())
@@ -1892,9 +1915,9 @@ extension RedshiftClient {
     ///
     /// Creates an HSM configuration that contains the information required by an Amazon Redshift cluster to store and use database encryption keys in a Hardware Security Module (HSM). After creating the HSM configuration, you can specify it as a parameter when creating a cluster. The cluster will then store its encryption keys in the HSM. In addition to creating an HSM configuration, you must also create an HSM client certificate. For more information, go to [Hardware Security Modules](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-HSM.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter CreateHsmConfigurationInput :
+    /// - Parameter input: (Type: `CreateHsmConfigurationInput`)
     ///
-    /// - Returns: `CreateHsmConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHsmConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1929,6 +1952,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHsmConfigurationInput, CreateHsmConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHsmConfigurationOutput>(CreateHsmConfigurationOutput.httpOutput(from:), CreateHsmConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHsmConfigurationInput, CreateHsmConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHsmConfigurationOutput>())
@@ -1962,9 +1986,9 @@ extension RedshiftClient {
     ///
     /// Creates a zero-ETL integration or S3 event integration with Amazon Redshift.
     ///
-    /// - Parameter CreateIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntegrationInput`)
     ///
-    /// - Returns: `CreateIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2004,6 +2028,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationInput, CreateIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationOutput>(CreateIntegrationOutput.httpOutput(from:), CreateIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationOutput>())
@@ -2037,17 +2062,19 @@ extension RedshiftClient {
     ///
     /// Creates an Amazon Redshift application for use with IAM Identity Center.
     ///
-    /// - Parameter CreateRedshiftIdcApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRedshiftIdcApplicationInput`)
     ///
-    /// - Returns: `CreateRedshiftIdcApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRedshiftIdcApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `DependentServiceAccessDeniedFault` : A dependent service denied access for the integration.
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
+    /// - `InvalidTagFault` : The tag is invalid.
     /// - `RedshiftIdcApplicationAlreadyExistsFault` : The application you attempted to add already exists.
     /// - `RedshiftIdcApplicationQuotaExceededFault` : The maximum number of Redshift IAM Identity Center applications was exceeded.
+    /// - `TagLimitExceededFault` : You have exceeded the number of tags allowed.
     /// - `UnsupportedOperationFault` : The requested operation isn't supported.
     public func createRedshiftIdcApplication(input: CreateRedshiftIdcApplicationInput) async throws -> CreateRedshiftIdcApplicationOutput {
         let context = Smithy.ContextBuilder()
@@ -2075,6 +2102,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRedshiftIdcApplicationInput, CreateRedshiftIdcApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRedshiftIdcApplicationOutput>(CreateRedshiftIdcApplicationOutput.httpOutput(from:), CreateRedshiftIdcApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRedshiftIdcApplicationInput, CreateRedshiftIdcApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRedshiftIdcApplicationOutput>())
@@ -2108,9 +2136,9 @@ extension RedshiftClient {
     ///
     /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the ResizeCluster API operation.
     ///
-    /// - Parameter CreateScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduledActionInput`)
     ///
-    /// - Returns: `CreateScheduledActionOutput` : Describes a scheduled action. You can use a scheduled action to trigger some Amazon Redshift API operations on a schedule. For information about which API operations can be scheduled, see [ScheduledActionType].
+    /// - Returns: Describes a scheduled action. You can use a scheduled action to trigger some Amazon Redshift API operations on a schedule. For information about which API operations can be scheduled, see [ScheduledActionType]. (Type: `CreateScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2149,6 +2177,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScheduledActionInput, CreateScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScheduledActionOutput>(CreateScheduledActionOutput.httpOutput(from:), CreateScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScheduledActionInput, CreateScheduledActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScheduledActionOutput>())
@@ -2182,9 +2211,9 @@ extension RedshiftClient {
     ///
     /// Creates a snapshot copy grant that permits Amazon Redshift to use an encrypted symmetric key from Key Management Service (KMS) to encrypt copied snapshots in a destination region. For more information about managing snapshot copy grants, go to [Amazon Redshift Database Encryption](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter CreateSnapshotCopyGrantInput : The result of the CreateSnapshotCopyGrant action.
+    /// - Parameter input: The result of the CreateSnapshotCopyGrant action. (Type: `CreateSnapshotCopyGrantInput`)
     ///
-    /// - Returns: `CreateSnapshotCopyGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotCopyGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2221,6 +2250,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotCopyGrantInput, CreateSnapshotCopyGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotCopyGrantOutput>(CreateSnapshotCopyGrantOutput.httpOutput(from:), CreateSnapshotCopyGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotCopyGrantInput, CreateSnapshotCopyGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotCopyGrantOutput>())
@@ -2254,9 +2284,9 @@ extension RedshiftClient {
     ///
     /// Create a snapshot schedule that can be associated to a cluster and which overrides the default system backup schedule.
     ///
-    /// - Parameter CreateSnapshotScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotScheduleInput`)
     ///
-    /// - Returns: `CreateSnapshotScheduleOutput` : Describes a snapshot schedule. You can set a regular interval for creating snapshots of a cluster. You can also schedule snapshots for specific dates.
+    /// - Returns: Describes a snapshot schedule. You can set a regular interval for creating snapshots of a cluster. You can also schedule snapshots for specific dates. (Type: `CreateSnapshotScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2293,6 +2323,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotScheduleInput, CreateSnapshotScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotScheduleOutput>(CreateSnapshotScheduleOutput.httpOutput(from:), CreateSnapshotScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotScheduleInput, CreateSnapshotScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotScheduleOutput>())
@@ -2326,9 +2357,9 @@ extension RedshiftClient {
     ///
     /// Adds tags to a cluster. A resource can have up to 50 tags. If you try to create more than 50 tags for a resource, you will receive an error and the attempt will fail. If you specify a key that already exists for the resource, the value for that key will be updated with the new value.
     ///
-    /// - Parameter CreateTagsInput : Contains the output from the CreateTags action.
+    /// - Parameter input: Contains the output from the CreateTags action. (Type: `CreateTagsInput`)
     ///
-    /// - Returns: `CreateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2363,6 +2394,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTagsInput, CreateTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTagsOutput>(CreateTagsOutput.httpOutput(from:), CreateTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTagsInput, CreateTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTagsOutput>())
@@ -2396,9 +2428,9 @@ extension RedshiftClient {
     ///
     /// Creates a usage limit for a specified Amazon Redshift feature on a cluster. The usage limit is identified by the returned usage limit identifier.
     ///
-    /// - Parameter CreateUsageLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUsageLimitInput`)
     ///
-    /// - Returns: `CreateUsageLimitOutput` : Describes a usage limit object for a cluster.
+    /// - Returns: Describes a usage limit object for a cluster. (Type: `CreateUsageLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2436,6 +2468,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsageLimitInput, CreateUsageLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUsageLimitOutput>(CreateUsageLimitOutput.httpOutput(from:), CreateUsageLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUsageLimitInput, CreateUsageLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUsageLimitOutput>())
@@ -2469,9 +2502,9 @@ extension RedshiftClient {
     ///
     /// From a datashare producer account, removes authorization from the specified datashare.
     ///
-    /// - Parameter DeauthorizeDataShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeauthorizeDataShareInput`)
     ///
-    /// - Returns: `DeauthorizeDataShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeauthorizeDataShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2503,6 +2536,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeauthorizeDataShareInput, DeauthorizeDataShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeauthorizeDataShareOutput>(DeauthorizeDataShareOutput.httpOutput(from:), DeauthorizeDataShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeauthorizeDataShareInput, DeauthorizeDataShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeauthorizeDataShareOutput>())
@@ -2536,9 +2570,9 @@ extension RedshiftClient {
     ///
     /// Deletes an authentication profile.
     ///
-    /// - Parameter DeleteAuthenticationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAuthenticationProfileInput`)
     ///
-    /// - Returns: `DeleteAuthenticationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAuthenticationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2571,6 +2605,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAuthenticationProfileInput, DeleteAuthenticationProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAuthenticationProfileOutput>(DeleteAuthenticationProfileOutput.httpOutput(from:), DeleteAuthenticationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAuthenticationProfileInput, DeleteAuthenticationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAuthenticationProfileOutput>())
@@ -2604,9 +2639,9 @@ extension RedshiftClient {
     ///
     /// Deletes a previously provisioned cluster without its final snapshot being created. A successful response from the web service indicates that the request was received correctly. Use [DescribeClusters] to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide. If you want to shut down the cluster and retain it for future use, set SkipFinalClusterSnapshot to false and specify a name for FinalClusterSnapshotIdentifier. You can later restore this snapshot to resume using the cluster. If a final cluster snapshot is requested, the status of the cluster will be "final-snapshot" while the snapshot is being taken, then it's "deleting" once Amazon Redshift begins deleting the cluster. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter DeleteClusterInput :
+    /// - Parameter input: (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2642,6 +2677,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -2675,9 +2711,9 @@ extension RedshiftClient {
     ///
     /// Deletes a specified Amazon Redshift parameter group. You cannot delete a parameter group if it is associated with a cluster.
     ///
-    /// - Parameter DeleteClusterParameterGroupInput :
+    /// - Parameter input: (Type: `DeleteClusterParameterGroupInput`)
     ///
-    /// - Returns: `DeleteClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2710,6 +2746,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterParameterGroupInput, DeleteClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterParameterGroupOutput>(DeleteClusterParameterGroupOutput.httpOutput(from:), DeleteClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterParameterGroupInput, DeleteClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterParameterGroupOutput>())
@@ -2743,9 +2780,9 @@ extension RedshiftClient {
     ///
     /// Deletes an Amazon Redshift security group. You cannot delete a security group that is associated with any clusters. You cannot delete the default security group. For information about managing security groups, go to [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter DeleteClusterSecurityGroupInput :
+    /// - Parameter input: (Type: `DeleteClusterSecurityGroupInput`)
     ///
-    /// - Returns: `DeleteClusterSecurityGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterSecurityGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2778,6 +2815,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterSecurityGroupInput, DeleteClusterSecurityGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterSecurityGroupOutput>(DeleteClusterSecurityGroupOutput.httpOutput(from:), DeleteClusterSecurityGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterSecurityGroupInput, DeleteClusterSecurityGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterSecurityGroupOutput>())
@@ -2811,9 +2849,9 @@ extension RedshiftClient {
     ///
     /// Deletes the specified manual snapshot. The snapshot must be in the available state, with no other users authorized to access the snapshot. Unlike automated snapshots, manual snapshots are retained even after you delete your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual snapshot explicitly to avoid getting charged. If other accounts are authorized to access the snapshot, you must revoke all of the authorizations before you can delete the snapshot.
     ///
-    /// - Parameter DeleteClusterSnapshotInput :
+    /// - Parameter input: (Type: `DeleteClusterSnapshotInput`)
     ///
-    /// - Returns: `DeleteClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2846,6 +2884,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterSnapshotOutput>(DeleteClusterSnapshotOutput.httpOutput(from:), DeleteClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterSnapshotInput, DeleteClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterSnapshotOutput>())
@@ -2879,9 +2918,9 @@ extension RedshiftClient {
     ///
     /// Deletes the specified cluster subnet group.
     ///
-    /// - Parameter DeleteClusterSubnetGroupInput :
+    /// - Parameter input: (Type: `DeleteClusterSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteClusterSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2915,6 +2954,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterSubnetGroupInput, DeleteClusterSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterSubnetGroupOutput>(DeleteClusterSubnetGroupOutput.httpOutput(from:), DeleteClusterSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterSubnetGroupInput, DeleteClusterSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterSubnetGroupOutput>())
@@ -2948,9 +2988,9 @@ extension RedshiftClient {
     ///
     /// Contains information about deleting a custom domain association for a cluster.
     ///
-    /// - Parameter DeleteCustomDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomDomainAssociationInput`)
     ///
-    /// - Returns: `DeleteCustomDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2985,6 +3025,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomDomainAssociationInput, DeleteCustomDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomDomainAssociationOutput>(DeleteCustomDomainAssociationOutput.httpOutput(from:), DeleteCustomDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomDomainAssociationInput, DeleteCustomDomainAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomDomainAssociationOutput>())
@@ -3018,9 +3059,9 @@ extension RedshiftClient {
     ///
     /// Deletes a Redshift-managed VPC endpoint.
     ///
-    /// - Parameter DeleteEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointAccessInput`)
     ///
-    /// - Returns: `DeleteEndpointAccessOutput` : Describes a Redshift-managed VPC endpoint.
+    /// - Returns: Describes a Redshift-managed VPC endpoint. (Type: `DeleteEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3056,6 +3097,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEndpointAccessInput, DeleteEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointAccessOutput>(DeleteEndpointAccessOutput.httpOutput(from:), DeleteEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointAccessInput, DeleteEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointAccessOutput>())
@@ -3089,9 +3131,9 @@ extension RedshiftClient {
     ///
     /// Deletes an Amazon Redshift event notification subscription.
     ///
-    /// - Parameter DeleteEventSubscriptionInput :
+    /// - Parameter input: (Type: `DeleteEventSubscriptionInput`)
     ///
-    /// - Returns: `DeleteEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3124,6 +3166,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutput>(DeleteEventSubscriptionOutput.httpOutput(from:), DeleteEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventSubscriptionOutput>())
@@ -3157,9 +3200,9 @@ extension RedshiftClient {
     ///
     /// Deletes the specified HSM client certificate.
     ///
-    /// - Parameter DeleteHsmClientCertificateInput :
+    /// - Parameter input: (Type: `DeleteHsmClientCertificateInput`)
     ///
-    /// - Returns: `DeleteHsmClientCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHsmClientCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3192,6 +3235,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHsmClientCertificateInput, DeleteHsmClientCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHsmClientCertificateOutput>(DeleteHsmClientCertificateOutput.httpOutput(from:), DeleteHsmClientCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHsmClientCertificateInput, DeleteHsmClientCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHsmClientCertificateOutput>())
@@ -3225,9 +3269,9 @@ extension RedshiftClient {
     ///
     /// Deletes the specified Amazon Redshift HSM configuration.
     ///
-    /// - Parameter DeleteHsmConfigurationInput :
+    /// - Parameter input: (Type: `DeleteHsmConfigurationInput`)
     ///
-    /// - Returns: `DeleteHsmConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHsmConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3260,6 +3304,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHsmConfigurationInput, DeleteHsmConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHsmConfigurationOutput>(DeleteHsmConfigurationOutput.httpOutput(from:), DeleteHsmConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHsmConfigurationInput, DeleteHsmConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHsmConfigurationOutput>())
@@ -3293,9 +3338,9 @@ extension RedshiftClient {
     ///
     /// Deletes a zero-ETL integration or S3 event integration with Amazon Redshift.
     ///
-    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3330,6 +3375,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutput>(DeleteIntegrationOutput.httpOutput(from:), DeleteIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
@@ -3363,9 +3409,9 @@ extension RedshiftClient {
     ///
     /// Deletes a partner integration from a cluster. Data can still flow to the cluster until the integration is deleted at the partner's website.
     ///
-    /// - Parameter DeletePartnerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePartnerInput`)
     ///
-    /// - Returns: `DeletePartnerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePartnerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3400,6 +3446,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePartnerInput, DeletePartnerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePartnerOutput>(DeletePartnerOutput.httpOutput(from:), DeletePartnerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartnerInput, DeletePartnerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePartnerOutput>())
@@ -3433,9 +3480,9 @@ extension RedshiftClient {
     ///
     /// Deletes an Amazon Redshift IAM Identity Center application.
     ///
-    /// - Parameter DeleteRedshiftIdcApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRedshiftIdcApplicationInput`)
     ///
-    /// - Returns: `DeleteRedshiftIdcApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRedshiftIdcApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3470,6 +3517,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRedshiftIdcApplicationInput, DeleteRedshiftIdcApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRedshiftIdcApplicationOutput>(DeleteRedshiftIdcApplicationOutput.httpOutput(from:), DeleteRedshiftIdcApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRedshiftIdcApplicationInput, DeleteRedshiftIdcApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRedshiftIdcApplicationOutput>())
@@ -3503,9 +3551,9 @@ extension RedshiftClient {
     ///
     /// Deletes the resource policy for a specified resource.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3538,6 +3586,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -3571,9 +3620,9 @@ extension RedshiftClient {
     ///
     /// Deletes a scheduled action.
     ///
-    /// - Parameter DeleteScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduledActionInput`)
     ///
-    /// - Returns: `DeleteScheduledActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3606,6 +3655,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScheduledActionOutput>(DeleteScheduledActionOutput.httpOutput(from:), DeleteScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduledActionOutput>())
@@ -3639,9 +3689,9 @@ extension RedshiftClient {
     ///
     /// Deletes the specified snapshot copy grant.
     ///
-    /// - Parameter DeleteSnapshotCopyGrantInput : The result of the DeleteSnapshotCopyGrant action.
+    /// - Parameter input: The result of the DeleteSnapshotCopyGrant action. (Type: `DeleteSnapshotCopyGrantInput`)
     ///
-    /// - Returns: `DeleteSnapshotCopyGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotCopyGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3674,6 +3724,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotCopyGrantInput, DeleteSnapshotCopyGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotCopyGrantOutput>(DeleteSnapshotCopyGrantOutput.httpOutput(from:), DeleteSnapshotCopyGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotCopyGrantInput, DeleteSnapshotCopyGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotCopyGrantOutput>())
@@ -3707,9 +3758,9 @@ extension RedshiftClient {
     ///
     /// Deletes a snapshot schedule.
     ///
-    /// - Parameter DeleteSnapshotScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotScheduleInput`)
     ///
-    /// - Returns: `DeleteSnapshotScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3742,6 +3793,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotScheduleOutput>(DeleteSnapshotScheduleOutput.httpOutput(from:), DeleteSnapshotScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotScheduleInput, DeleteSnapshotScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotScheduleOutput>())
@@ -3775,9 +3827,9 @@ extension RedshiftClient {
     ///
     /// Deletes tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags.
     ///
-    /// - Parameter DeleteTagsInput : Contains the output from the DeleteTags action.
+    /// - Parameter input: Contains the output from the DeleteTags action. (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3810,6 +3862,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTagsInput, DeleteTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTagsOutput>(DeleteTagsOutput.httpOutput(from:), DeleteTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTagsInput, DeleteTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTagsOutput>())
@@ -3843,9 +3896,9 @@ extension RedshiftClient {
     ///
     /// Deletes a usage limit from a cluster.
     ///
-    /// - Parameter DeleteUsageLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUsageLimitInput`)
     ///
-    /// - Returns: `DeleteUsageLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUsageLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3878,6 +3931,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUsageLimitInput, DeleteUsageLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUsageLimitOutput>(DeleteUsageLimitOutput.httpOutput(from:), DeleteUsageLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUsageLimitInput, DeleteUsageLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUsageLimitOutput>())
@@ -3911,9 +3965,9 @@ extension RedshiftClient {
     ///
     /// Deregisters a cluster or serverless namespace from the Amazon Web Services Glue Data Catalog.
     ///
-    /// - Parameter DeregisterNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterNamespaceInput`)
     ///
-    /// - Returns: `DeregisterNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3947,6 +4001,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterNamespaceInput, DeregisterNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterNamespaceOutput>(DeregisterNamespaceOutput.httpOutput(from:), DeregisterNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterNamespaceInput, DeregisterNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterNamespaceOutput>())
@@ -3980,9 +4035,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of attributes attached to an account
     ///
-    /// - Parameter DescribeAccountAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAttributesInput`)
     ///
-    /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAttributesOutput`)
     public func describeAccountAttributes(input: DescribeAccountAttributesInput) async throws -> DescribeAccountAttributesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4009,6 +4064,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput>(DescribeAccountAttributesOutput.httpOutput(from:), DescribeAccountAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAttributesOutput>())
@@ -4042,9 +4098,9 @@ extension RedshiftClient {
     ///
     /// Describes an authentication profile.
     ///
-    /// - Parameter DescribeAuthenticationProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAuthenticationProfilesInput`)
     ///
-    /// - Returns: `DescribeAuthenticationProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAuthenticationProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4077,6 +4133,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAuthenticationProfilesInput, DescribeAuthenticationProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAuthenticationProfilesOutput>(DescribeAuthenticationProfilesOutput.httpOutput(from:), DescribeAuthenticationProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAuthenticationProfilesInput, DescribeAuthenticationProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAuthenticationProfilesOutput>())
@@ -4110,9 +4167,9 @@ extension RedshiftClient {
     ///
     /// Returns an array of ClusterDbRevision objects.
     ///
-    /// - Parameter DescribeClusterDbRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterDbRevisionsInput`)
     ///
-    /// - Returns: `DescribeClusterDbRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterDbRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4145,6 +4202,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterDbRevisionsOutput>(DescribeClusterDbRevisionsOutput.httpOutput(from:), DescribeClusterDbRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterDbRevisionsOutput>())
@@ -4178,9 +4236,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of Amazon Redshift parameter groups, including parameter groups you created and the default parameter group. For each parameter group, the response includes the parameter group name, description, and parameter group family name. You can optionally specify a name to retrieve the description of a specific parameter group. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all parameter groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all parameter groups that have any combination of those values are returned. If both tag keys and values are omitted from the request, parameter groups are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeClusterParameterGroupsInput :
+    /// - Parameter input: (Type: `DescribeClusterParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeClusterParameterGroupsOutput` : Contains the output from the [DescribeClusterParameterGroups] action.
+    /// - Returns: Contains the output from the [DescribeClusterParameterGroups] action. (Type: `DescribeClusterParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4213,6 +4271,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterParameterGroupsOutput>(DescribeClusterParameterGroupsOutput.httpOutput(from:), DescribeClusterParameterGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterParameterGroupsOutput>())
@@ -4246,9 +4305,9 @@ extension RedshiftClient {
     ///
     /// Returns a detailed list of parameters contained within the specified Amazon Redshift parameter group. For each parameter the response includes information such as parameter name, description, data type, value, whether the parameter value is modifiable, and so on. You can specify source filter to retrieve parameters of only specific type. For example, to retrieve parameters that were modified by a user action such as from [ModifyClusterParameterGroup], you can specify source equal to user. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter DescribeClusterParametersInput :
+    /// - Parameter input: (Type: `DescribeClusterParametersInput`)
     ///
-    /// - Returns: `DescribeClusterParametersOutput` : Contains the output from the [DescribeClusterParameters] action.
+    /// - Returns: Contains the output from the [DescribeClusterParameters] action. (Type: `DescribeClusterParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4280,6 +4339,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterParametersInput, DescribeClusterParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterParametersOutput>(DescribeClusterParametersOutput.httpOutput(from:), DescribeClusterParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterParametersInput, DescribeClusterParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterParametersOutput>())
@@ -4313,9 +4373,9 @@ extension RedshiftClient {
     ///
     /// Returns information about Amazon Redshift security groups. If the name of a security group is specified, the response will contain only information about only that security group. For information about managing security groups, go to [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all security groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all security groups that have any combination of those values are returned. If both tag keys and values are omitted from the request, security groups are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeClusterSecurityGroupsInput :
+    /// - Parameter input: (Type: `DescribeClusterSecurityGroupsInput`)
     ///
-    /// - Returns: `DescribeClusterSecurityGroupsOutput` :
+    /// - Returns: (Type: `DescribeClusterSecurityGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4348,6 +4408,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterSecurityGroupsOutput>(DescribeClusterSecurityGroupsOutput.httpOutput(from:), DescribeClusterSecurityGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterSecurityGroupsOutput>())
@@ -4381,9 +4442,9 @@ extension RedshiftClient {
     ///
     /// Returns one or more snapshot objects, which contain metadata about your cluster snapshots. By default, this operation returns information about all snapshots of all clusters that are owned by your Amazon Web Services account. No information is returned for snapshots owned by inactive Amazon Web Services accounts. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all snapshots that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all snapshots that have any combination of those values are returned. Only snapshots that you own are returned in the response; shared snapshots are not returned with the tag key and tag value request parameters. If both tag keys and values are omitted from the request, snapshots are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeClusterSnapshotsInput :
+    /// - Parameter input: (Type: `DescribeClusterSnapshotsInput`)
     ///
-    /// - Returns: `DescribeClusterSnapshotsOutput` : Contains the output from the [DescribeClusterSnapshots] action.
+    /// - Returns: Contains the output from the [DescribeClusterSnapshots] action. (Type: `DescribeClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4418,6 +4479,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterSnapshotsOutput>(DescribeClusterSnapshotsOutput.httpOutput(from:), DescribeClusterSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterSnapshotsOutput>())
@@ -4451,9 +4513,9 @@ extension RedshiftClient {
     ///
     /// Returns one or more cluster subnet group objects, which contain metadata about your cluster subnet groups. By default, this operation returns information about all cluster subnet groups that are defined in your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all subnet groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subnet groups that have any combination of those values are returned. If both tag keys and values are omitted from the request, subnet groups are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeClusterSubnetGroupsInput :
+    /// - Parameter input: (Type: `DescribeClusterSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeClusterSubnetGroupsOutput` : Contains the output from the [DescribeClusterSubnetGroups] action.
+    /// - Returns: Contains the output from the [DescribeClusterSubnetGroups] action. (Type: `DescribeClusterSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4486,6 +4548,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterSubnetGroupsOutput>(DescribeClusterSubnetGroupsOutput.httpOutput(from:), DescribeClusterSubnetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterSubnetGroupsOutput>())
@@ -4519,9 +4582,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of all the available maintenance tracks.
     ///
-    /// - Parameter DescribeClusterTracksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterTracksInput`)
     ///
-    /// - Returns: `DescribeClusterTracksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterTracksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4554,6 +4617,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterTracksInput, DescribeClusterTracksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterTracksOutput>(DescribeClusterTracksOutput.httpOutput(from:), DescribeClusterTracksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterTracksInput, DescribeClusterTracksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterTracksOutput>())
@@ -4587,9 +4651,9 @@ extension RedshiftClient {
     ///
     /// Returns descriptions of the available Amazon Redshift cluster versions. You can call this operation even before creating any clusters to learn more about the Amazon Redshift versions. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter DescribeClusterVersionsInput :
+    /// - Parameter input: (Type: `DescribeClusterVersionsInput`)
     ///
-    /// - Returns: `DescribeClusterVersionsOutput` : Contains the output from the [DescribeClusterVersions] action.
+    /// - Returns: Contains the output from the [DescribeClusterVersions] action. (Type: `DescribeClusterVersionsOutput`)
     public func describeClusterVersions(input: DescribeClusterVersionsInput) async throws -> DescribeClusterVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4616,6 +4680,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterVersionsInput, DescribeClusterVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterVersionsOutput>(DescribeClusterVersionsOutput.httpOutput(from:), DescribeClusterVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterVersionsInput, DescribeClusterVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterVersionsOutput>())
@@ -4649,9 +4714,9 @@ extension RedshiftClient {
     ///
     /// Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup properties, and security and access properties. This operation supports pagination. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all clusters that have any combination of those values are returned. If both tag keys and values are omitted from the request, clusters are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeClustersInput :
+    /// - Parameter input: (Type: `DescribeClustersInput`)
     ///
-    /// - Returns: `DescribeClustersOutput` : Contains the output from the [DescribeClusters] action.
+    /// - Returns: Contains the output from the [DescribeClusters] action. (Type: `DescribeClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4684,6 +4749,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClustersInput, DescribeClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClustersOutput>(DescribeClustersOutput.httpOutput(from:), DescribeClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClustersInput, DescribeClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClustersOutput>())
@@ -4717,9 +4783,9 @@ extension RedshiftClient {
     ///
     /// Contains information about custom domain associations for a cluster.
     ///
-    /// - Parameter DescribeCustomDomainAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomDomainAssociationsInput`)
     ///
-    /// - Returns: `DescribeCustomDomainAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomDomainAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4752,6 +4818,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomDomainAssociationsInput, DescribeCustomDomainAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomDomainAssociationsOutput>(DescribeCustomDomainAssociationsOutput.httpOutput(from:), DescribeCustomDomainAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomDomainAssociationsInput, DescribeCustomDomainAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomDomainAssociationsOutput>())
@@ -4785,9 +4852,9 @@ extension RedshiftClient {
     ///
     /// Shows the status of any inbound or outbound datashares available in the specified account.
     ///
-    /// - Parameter DescribeDataSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSharesInput`)
     ///
-    /// - Returns: `DescribeDataSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4819,6 +4886,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataSharesInput, DescribeDataSharesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSharesOutput>(DescribeDataSharesOutput.httpOutput(from:), DescribeDataSharesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSharesInput, DescribeDataSharesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSharesOutput>())
@@ -4852,9 +4920,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of datashares where the account identifier being called is a consumer account identifier.
     ///
-    /// - Parameter DescribeDataSharesForConsumerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSharesForConsumerInput`)
     ///
-    /// - Returns: `DescribeDataSharesForConsumerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSharesForConsumerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4886,6 +4954,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSharesForConsumerOutput>(DescribeDataSharesForConsumerOutput.httpOutput(from:), DescribeDataSharesForConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSharesForConsumerOutput>())
@@ -4919,9 +4988,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of datashares when the account identifier being called is a producer account identifier.
     ///
-    /// - Parameter DescribeDataSharesForProducerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataSharesForProducerInput`)
     ///
-    /// - Returns: `DescribeDataSharesForProducerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataSharesForProducerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4953,6 +5022,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataSharesForProducerOutput>(DescribeDataSharesForProducerOutput.httpOutput(from:), DescribeDataSharesForProducerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataSharesForProducerOutput>())
@@ -4986,9 +5056,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of parameter settings for the specified parameter group family. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter DescribeDefaultClusterParametersInput :
+    /// - Parameter input: (Type: `DescribeDefaultClusterParametersInput`)
     ///
-    /// - Returns: `DescribeDefaultClusterParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDefaultClusterParametersOutput`)
     public func describeDefaultClusterParameters(input: DescribeDefaultClusterParametersInput) async throws -> DescribeDefaultClusterParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5015,6 +5085,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDefaultClusterParametersOutput>(DescribeDefaultClusterParametersOutput.httpOutput(from:), DescribeDefaultClusterParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDefaultClusterParametersOutput>())
@@ -5048,9 +5119,9 @@ extension RedshiftClient {
     ///
     /// Describes a Redshift-managed VPC endpoint.
     ///
-    /// - Parameter DescribeEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointAccessInput`)
     ///
-    /// - Returns: `DescribeEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5084,6 +5155,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointAccessInput, DescribeEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointAccessOutput>(DescribeEndpointAccessOutput.httpOutput(from:), DescribeEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointAccessInput, DescribeEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointAccessOutput>())
@@ -5117,9 +5189,9 @@ extension RedshiftClient {
     ///
     /// Describes an endpoint authorization.
     ///
-    /// - Parameter DescribeEndpointAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointAuthorizationInput`)
     ///
-    /// - Returns: `DescribeEndpointAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5152,6 +5224,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointAuthorizationOutput>(DescribeEndpointAuthorizationOutput.httpOutput(from:), DescribeEndpointAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointAuthorizationOutput>())
@@ -5185,9 +5258,9 @@ extension RedshiftClient {
     ///
     /// Displays a list of event categories for all event source types, or for a specified source type. For a list of the event categories and source types, go to [Amazon Redshift Event Notifications](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-event-notifications.html).
     ///
-    /// - Parameter DescribeEventCategoriesInput :
+    /// - Parameter input: (Type: `DescribeEventCategoriesInput`)
     ///
-    /// - Returns: `DescribeEventCategoriesOutput` :
+    /// - Returns: (Type: `DescribeEventCategoriesOutput`)
     public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5214,6 +5287,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutput>(DescribeEventCategoriesOutput.httpOutput(from:), DescribeEventCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventCategoriesOutput>())
@@ -5247,9 +5321,9 @@ extension RedshiftClient {
     ///
     /// Lists descriptions of all the Amazon Redshift event notification subscriptions for a customer account. If you specify a subscription name, lists the description for that subscription. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any combination of those values are returned. If both tag keys and values are omitted from the request, subscriptions are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeEventSubscriptionsInput :
+    /// - Parameter input: (Type: `DescribeEventSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeEventSubscriptionsOutput` :
+    /// - Returns: (Type: `DescribeEventSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5282,6 +5356,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutput>(DescribeEventSubscriptionsOutput.httpOutput(from:), DescribeEventSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventSubscriptionsOutput>())
@@ -5315,9 +5390,9 @@ extension RedshiftClient {
     ///
     /// Returns events related to clusters, security groups, snapshots, and parameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     ///
-    /// - Parameter DescribeEventsInput :
+    /// - Parameter input: (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` :
+    /// - Returns: (Type: `DescribeEventsOutput`)
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5344,6 +5419,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
@@ -5377,9 +5453,9 @@ extension RedshiftClient {
     ///
     /// Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM certificates owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates that have any combination of those values are returned. If both tag keys and values are omitted from the request, HSM client certificates are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeHsmClientCertificatesInput :
+    /// - Parameter input: (Type: `DescribeHsmClientCertificatesInput`)
     ///
-    /// - Returns: `DescribeHsmClientCertificatesOutput` :
+    /// - Returns: (Type: `DescribeHsmClientCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5412,6 +5488,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHsmClientCertificatesOutput>(DescribeHsmClientCertificatesOutput.httpOutput(from:), DescribeHsmClientCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHsmClientCertificatesOutput>())
@@ -5445,9 +5522,9 @@ extension RedshiftClient {
     ///
     /// Returns information about the specified Amazon Redshift HSM configuration. If no configuration ID is specified, returns information about all the HSM configurations owned by your Amazon Web Services account. If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM connections that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM connections that have any combination of those values are returned. If both tag keys and values are omitted from the request, HSM connections are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeHsmConfigurationsInput :
+    /// - Parameter input: (Type: `DescribeHsmConfigurationsInput`)
     ///
-    /// - Returns: `DescribeHsmConfigurationsOutput` :
+    /// - Returns: (Type: `DescribeHsmConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5480,6 +5557,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHsmConfigurationsOutput>(DescribeHsmConfigurationsOutput.httpOutput(from:), DescribeHsmConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHsmConfigurationsOutput>())
@@ -5513,9 +5591,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of inbound integrations.
     ///
-    /// - Parameter DescribeInboundIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInboundIntegrationsInput`)
     ///
-    /// - Returns: `DescribeInboundIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInboundIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5549,6 +5627,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInboundIntegrationsOutput>(DescribeInboundIntegrationsOutput.httpOutput(from:), DescribeInboundIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInboundIntegrationsInput, DescribeInboundIntegrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInboundIntegrationsOutput>())
@@ -5582,9 +5661,9 @@ extension RedshiftClient {
     ///
     /// Describes one or more zero-ETL or S3 event integrations with Amazon Redshift.
     ///
-    /// - Parameter DescribeIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIntegrationsInput`)
     ///
-    /// - Returns: `DescribeIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5617,6 +5696,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIntegrationsOutput>(DescribeIntegrationsOutput.httpOutput(from:), DescribeIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIntegrationsInput, DescribeIntegrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIntegrationsOutput>())
@@ -5650,9 +5730,9 @@ extension RedshiftClient {
     ///
     /// Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.
     ///
-    /// - Parameter DescribeLoggingStatusInput :
+    /// - Parameter input: (Type: `DescribeLoggingStatusInput`)
     ///
-    /// - Returns: `DescribeLoggingStatusOutput` : Describes the status of logging for a cluster.
+    /// - Returns: Describes the status of logging for a cluster. (Type: `DescribeLoggingStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5685,6 +5765,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoggingStatusInput, DescribeLoggingStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoggingStatusOutput>(DescribeLoggingStatusOutput.httpOutput(from:), DescribeLoggingStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoggingStatusInput, DescribeLoggingStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoggingStatusOutput>())
@@ -5718,9 +5799,9 @@ extension RedshiftClient {
     ///
     /// Returns properties of possible node configurations such as node type, number of nodes, and disk usage for the specified action type.
     ///
-    /// - Parameter DescribeNodeConfigurationOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNodeConfigurationOptionsInput`)
     ///
-    /// - Returns: `DescribeNodeConfigurationOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNodeConfigurationOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5756,6 +5837,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNodeConfigurationOptionsOutput>(DescribeNodeConfigurationOptionsOutput.httpOutput(from:), DescribeNodeConfigurationOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNodeConfigurationOptionsOutput>())
@@ -5789,9 +5871,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of orderable cluster options. Before you create a new cluster you can use this operation to find what options are available, such as the EC2 Availability Zones (AZ) in the specific Amazon Web Services Region that you can specify, and the node types you can request. The node types differ by available storage, memory, CPU and price. With the cost involved you might want to obtain a list of cluster options in the specific region and specify values when creating a cluster. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter DescribeOrderableClusterOptionsInput :
+    /// - Parameter input: (Type: `DescribeOrderableClusterOptionsInput`)
     ///
-    /// - Returns: `DescribeOrderableClusterOptionsOutput` : Contains the output from the [DescribeOrderableClusterOptions] action.
+    /// - Returns: Contains the output from the [DescribeOrderableClusterOptions] action. (Type: `DescribeOrderableClusterOptionsOutput`)
     public func describeOrderableClusterOptions(input: DescribeOrderableClusterOptionsInput) async throws -> DescribeOrderableClusterOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5818,6 +5900,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrderableClusterOptionsOutput>(DescribeOrderableClusterOptionsOutput.httpOutput(from:), DescribeOrderableClusterOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrderableClusterOptionsOutput>())
@@ -5851,9 +5934,9 @@ extension RedshiftClient {
     ///
     /// Returns information about the partner integrations defined for a cluster.
     ///
-    /// - Parameter DescribePartnersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePartnersInput`)
     ///
-    /// - Returns: `DescribePartnersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePartnersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5887,6 +5970,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePartnersInput, DescribePartnersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePartnersOutput>(DescribePartnersOutput.httpOutput(from:), DescribePartnersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePartnersInput, DescribePartnersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePartnersOutput>())
@@ -5920,9 +6004,9 @@ extension RedshiftClient {
     ///
     /// Lists the Amazon Redshift IAM Identity Center applications.
     ///
-    /// - Parameter DescribeRedshiftIdcApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRedshiftIdcApplicationsInput`)
     ///
-    /// - Returns: `DescribeRedshiftIdcApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRedshiftIdcApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5957,6 +6041,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRedshiftIdcApplicationsInput, DescribeRedshiftIdcApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRedshiftIdcApplicationsOutput>(DescribeRedshiftIdcApplicationsOutput.httpOutput(from:), DescribeRedshiftIdcApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRedshiftIdcApplicationsInput, DescribeRedshiftIdcApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRedshiftIdcApplicationsOutput>())
@@ -5990,9 +6075,9 @@ extension RedshiftClient {
     ///
     /// Returns exchange status details and associated metadata for a reserved-node exchange. Statuses include such values as in progress and requested.
     ///
-    /// - Parameter DescribeReservedNodeExchangeStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservedNodeExchangeStatusInput`)
     ///
-    /// - Returns: `DescribeReservedNodeExchangeStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservedNodeExchangeStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6026,6 +6111,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedNodeExchangeStatusOutput>(DescribeReservedNodeExchangeStatusOutput.httpOutput(from:), DescribeReservedNodeExchangeStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedNodeExchangeStatusOutput>())
@@ -6059,9 +6145,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of the available reserved node offerings by Amazon Redshift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be reserved for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to [PurchaseReservedNodeOffering] to reserve one or more nodes for your Amazon Redshift cluster. For more information about reserved node offerings, go to [Purchasing Reserved Nodes](https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter DescribeReservedNodeOfferingsInput :
+    /// - Parameter input: (Type: `DescribeReservedNodeOfferingsInput`)
     ///
-    /// - Returns: `DescribeReservedNodeOfferingsOutput` :
+    /// - Returns: (Type: `DescribeReservedNodeOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6095,6 +6181,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedNodeOfferingsOutput>(DescribeReservedNodeOfferingsOutput.httpOutput(from:), DescribeReservedNodeOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedNodeOfferingsOutput>())
@@ -6128,9 +6215,9 @@ extension RedshiftClient {
     ///
     /// Returns the descriptions of the reserved nodes.
     ///
-    /// - Parameter DescribeReservedNodesInput :
+    /// - Parameter input: (Type: `DescribeReservedNodesInput`)
     ///
-    /// - Returns: `DescribeReservedNodesOutput` :
+    /// - Returns: (Type: `DescribeReservedNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6163,6 +6250,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedNodesOutput>(DescribeReservedNodesOutput.httpOutput(from:), DescribeReservedNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedNodesOutput>())
@@ -6196,9 +6284,9 @@ extension RedshiftClient {
     ///
     /// Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize. A resize operation can be requested using [ModifyCluster] and specifying a different number or type of nodes for the cluster.
     ///
-    /// - Parameter DescribeResizeInput :
+    /// - Parameter input: (Type: `DescribeResizeInput`)
     ///
-    /// - Returns: `DescribeResizeOutput` : Describes the result of a cluster resize operation.
+    /// - Returns: Describes the result of a cluster resize operation. (Type: `DescribeResizeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6232,6 +6320,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResizeInput, DescribeResizeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResizeOutput>(DescribeResizeOutput.httpOutput(from:), DescribeResizeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResizeInput, DescribeResizeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResizeOutput>())
@@ -6265,9 +6354,9 @@ extension RedshiftClient {
     ///
     /// Describes properties of scheduled actions.
     ///
-    /// - Parameter DescribeScheduledActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScheduledActionsInput`)
     ///
-    /// - Returns: `DescribeScheduledActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScheduledActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6300,6 +6389,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScheduledActionsOutput>(DescribeScheduledActionsOutput.httpOutput(from:), DescribeScheduledActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScheduledActionsInput, DescribeScheduledActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScheduledActionsOutput>())
@@ -6333,9 +6423,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of snapshot copy grants owned by the Amazon Web Services account in the destination region. For more information about managing snapshot copy grants, go to [Amazon Redshift Database Encryption](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter DescribeSnapshotCopyGrantsInput : The result of the DescribeSnapshotCopyGrants action.
+    /// - Parameter input: The result of the DescribeSnapshotCopyGrants action. (Type: `DescribeSnapshotCopyGrantsInput`)
     ///
-    /// - Returns: `DescribeSnapshotCopyGrantsOutput` :
+    /// - Returns: (Type: `DescribeSnapshotCopyGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6368,6 +6458,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotCopyGrantsOutput>(DescribeSnapshotCopyGrantsOutput.httpOutput(from:), DescribeSnapshotCopyGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotCopyGrantsOutput>())
@@ -6401,9 +6492,9 @@ extension RedshiftClient {
     ///
     /// Returns a list of snapshot schedules.
     ///
-    /// - Parameter DescribeSnapshotSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotSchedulesInput`)
     ///
-    /// - Returns: `DescribeSnapshotSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotSchedulesOutput`)
     public func describeSnapshotSchedules(input: DescribeSnapshotSchedulesInput) async throws -> DescribeSnapshotSchedulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6430,6 +6521,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotSchedulesOutput>(DescribeSnapshotSchedulesOutput.httpOutput(from:), DescribeSnapshotSchedulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotSchedulesOutput>())
@@ -6463,9 +6555,9 @@ extension RedshiftClient {
     ///
     /// Returns account level backups storage size and provisional storage.
     ///
-    /// - Parameter DescribeStorageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStorageInput`)
     ///
-    /// - Returns: `DescribeStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStorageOutput`)
     public func describeStorage(input: DescribeStorageInput) async throws -> DescribeStorageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6492,6 +6584,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStorageInput, DescribeStorageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStorageOutput>(DescribeStorageOutput.httpOutput(from:), DescribeStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStorageInput, DescribeStorageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStorageOutput>())
@@ -6525,9 +6618,9 @@ extension RedshiftClient {
     ///
     /// Lists the status of one or more table restore requests made using the [RestoreTableFromClusterSnapshot] API action. If you don't specify a value for the TableRestoreRequestId parameter, then DescribeTableRestoreStatus returns the status of all table restore requests ordered by the date and time of the request in ascending order. Otherwise DescribeTableRestoreStatus returns the status of the table specified by TableRestoreRequestId.
     ///
-    /// - Parameter DescribeTableRestoreStatusInput :
+    /// - Parameter input: (Type: `DescribeTableRestoreStatusInput`)
     ///
-    /// - Returns: `DescribeTableRestoreStatusOutput` :
+    /// - Returns: (Type: `DescribeTableRestoreStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6560,6 +6653,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTableRestoreStatusOutput>(DescribeTableRestoreStatusOutput.httpOutput(from:), DescribeTableRestoreStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTableRestoreStatusOutput>())
@@ -6602,9 +6696,9 @@ extension RedshiftClient {
     ///
     /// If you specify both tag keys and tag values in the same request, Amazon Redshift returns all resources that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all resources that have any combination of those values are returned. If both tag keys and values are omitted from the request, resources are returned regardless of whether they have tag keys or values associated with them.
     ///
-    /// - Parameter DescribeTagsInput :
+    /// - Parameter input: (Type: `DescribeTagsInput`)
     ///
-    /// - Returns: `DescribeTagsOutput` :
+    /// - Returns: (Type: `DescribeTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6637,6 +6731,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(DescribeTagsOutput.httpOutput(from:), DescribeTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTagsInput, DescribeTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTagsOutput>())
@@ -6678,9 +6773,9 @@ extension RedshiftClient {
     ///
     /// * If cluster identifier and feature type are provided, then all usage limit objects for the combination of cluster and feature are returned.
     ///
-    /// - Parameter DescribeUsageLimitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUsageLimitsInput`)
     ///
-    /// - Returns: `DescribeUsageLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUsageLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6713,6 +6808,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUsageLimitsInput, DescribeUsageLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUsageLimitsOutput>(DescribeUsageLimitsOutput.httpOutput(from:), DescribeUsageLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUsageLimitsInput, DescribeUsageLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUsageLimitsOutput>())
@@ -6746,9 +6842,9 @@ extension RedshiftClient {
     ///
     /// Stops logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
     ///
-    /// - Parameter DisableLoggingInput :
+    /// - Parameter input: (Type: `DisableLoggingInput`)
     ///
-    /// - Returns: `DisableLoggingOutput` : Describes the status of logging for a cluster.
+    /// - Returns: Describes the status of logging for a cluster. (Type: `DisableLoggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6782,6 +6878,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableLoggingInput, DisableLoggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableLoggingOutput>(DisableLoggingOutput.httpOutput(from:), DisableLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableLoggingInput, DisableLoggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableLoggingOutput>())
@@ -6815,9 +6912,9 @@ extension RedshiftClient {
     ///
     /// Disables the automatic copying of snapshots from one region to another region for a specified cluster. If your cluster and its snapshots are encrypted using an encrypted symmetric key from Key Management Service, use [DeleteSnapshotCopyGrant] to delete the grant that grants Amazon Redshift permission to the key in the destination region.
     ///
-    /// - Parameter DisableSnapshotCopyInput :
+    /// - Parameter input: (Type: `DisableSnapshotCopyInput`)
     ///
-    /// - Returns: `DisableSnapshotCopyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableSnapshotCopyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6853,6 +6950,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableSnapshotCopyInput, DisableSnapshotCopyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSnapshotCopyOutput>(DisableSnapshotCopyOutput.httpOutput(from:), DisableSnapshotCopyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSnapshotCopyInput, DisableSnapshotCopyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSnapshotCopyOutput>())
@@ -6886,9 +6984,9 @@ extension RedshiftClient {
     ///
     /// From a datashare consumer account, remove association for the specified datashare.
     ///
-    /// - Parameter DisassociateDataShareConsumerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDataShareConsumerInput`)
     ///
-    /// - Returns: `DisassociateDataShareConsumerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDataShareConsumerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6921,6 +7019,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDataShareConsumerInput, DisassociateDataShareConsumerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDataShareConsumerOutput>(DisassociateDataShareConsumerOutput.httpOutput(from:), DisassociateDataShareConsumerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDataShareConsumerInput, DisassociateDataShareConsumerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDataShareConsumerOutput>())
@@ -6954,9 +7053,9 @@ extension RedshiftClient {
     ///
     /// Starts logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
     ///
-    /// - Parameter EnableLoggingInput :
+    /// - Parameter input: (Type: `EnableLoggingInput`)
     ///
-    /// - Returns: `EnableLoggingOutput` : Describes the status of logging for a cluster.
+    /// - Returns: Describes the status of logging for a cluster. (Type: `EnableLoggingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6994,6 +7093,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableLoggingInput, EnableLoggingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableLoggingOutput>(EnableLoggingOutput.httpOutput(from:), EnableLoggingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableLoggingInput, EnableLoggingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableLoggingOutput>())
@@ -7027,9 +7127,9 @@ extension RedshiftClient {
     ///
     /// Enables the automatic copy of snapshots from one region to another region for a specified cluster.
     ///
-    /// - Parameter EnableSnapshotCopyInput :
+    /// - Parameter input: (Type: `EnableSnapshotCopyInput`)
     ///
-    /// - Returns: `EnableSnapshotCopyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSnapshotCopyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7071,6 +7171,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableSnapshotCopyInput, EnableSnapshotCopyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSnapshotCopyOutput>(EnableSnapshotCopyOutput.httpOutput(from:), EnableSnapshotCopyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSnapshotCopyInput, EnableSnapshotCopyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSnapshotCopyOutput>())
@@ -7104,9 +7205,9 @@ extension RedshiftClient {
     ///
     /// Fails over the primary compute unit of the specified Multi-AZ cluster to another Availability Zone.
     ///
-    /// - Parameter FailoverPrimaryComputeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverPrimaryComputeInput`)
     ///
-    /// - Returns: `FailoverPrimaryComputeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverPrimaryComputeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7141,6 +7242,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverPrimaryComputeInput, FailoverPrimaryComputeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverPrimaryComputeOutput>(FailoverPrimaryComputeOutput.httpOutput(from:), FailoverPrimaryComputeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverPrimaryComputeInput, FailoverPrimaryComputeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FailoverPrimaryComputeOutput>())
@@ -7174,9 +7276,9 @@ extension RedshiftClient {
     ///
     /// Returns a database user name and temporary password with temporary authorization to log on to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True. You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see [Using IAM Authentication to Generate Database User Credentials](https://docs.aws.amazon.com/redshift/latest/mgmt/generating-user-credentials.html) in the Amazon Redshift Cluster Management Guide. The Identity and Access Management (IAM) user or role that runs GetClusterCredentials must have an IAM policy attached that allows access to all necessary actions and resources. For more information about permissions, see [Resource Policies for GetClusterCredentials](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html#redshift-policy-resources.getclustercredentials-resources) in the Amazon Redshift Cluster Management Guide. If the DbGroups parameter is specified, the IAM policy must allow the redshift:JoinGroup action with access to the listed dbgroups. In addition, if the AutoCreate parameter is set to True, then the policy must include the redshift:CreateClusterUser permission. If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
     ///
-    /// - Parameter GetClusterCredentialsInput : The request parameters to get cluster credentials.
+    /// - Parameter input: The request parameters to get cluster credentials. (Type: `GetClusterCredentialsInput`)
     ///
-    /// - Returns: `GetClusterCredentialsOutput` : Temporary credentials with authorization to log on to an Amazon Redshift database.
+    /// - Returns: Temporary credentials with authorization to log on to an Amazon Redshift database. (Type: `GetClusterCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7209,6 +7311,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClusterCredentialsInput, GetClusterCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterCredentialsOutput>(GetClusterCredentialsOutput.httpOutput(from:), GetClusterCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterCredentialsInput, GetClusterCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterCredentialsOutput>())
@@ -7242,9 +7345,9 @@ extension RedshiftClient {
     ///
     /// Returns a database user name and temporary password with temporary authorization to log in to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and Access Management (IAM) identity. For more information about IAM identities, see [IAM Identities (users, user groups, and roles)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id.html) in the Amazon Web Services Identity and Access Management User Guide. The Identity and Access Management (IAM) identity that runs this operation must have an IAM policy attached that allows access to all necessary actions and resources. For more information about permissions, see [Using identity-based policies (IAM policies)](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter GetClusterCredentialsWithIAMInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterCredentialsWithIAMInput`)
     ///
-    /// - Returns: `GetClusterCredentialsWithIAMOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterCredentialsWithIAMOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7277,6 +7380,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClusterCredentialsWithIAMInput, GetClusterCredentialsWithIAMOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterCredentialsWithIAMOutput>(GetClusterCredentialsWithIAMOutput.httpOutput(from:), GetClusterCredentialsWithIAMOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterCredentialsWithIAMInput, GetClusterCredentialsWithIAMOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterCredentialsWithIAMOutput>())
@@ -7306,13 +7410,84 @@ extension RedshiftClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetIdentityCenterAuthToken` operation on the `Redshift` service.
+    ///
+    /// Generates an encrypted authentication token that propagates the caller's Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the Amazon Web Services IAM Identity Center identity from enhanced credentials and creates a secure token that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be decrypted by the specified Amazon Redshift clusters. The token contains the caller's Amazon Web Services IAM Identity Center identity information and is valid for a limited time period. This API is exclusively for use with Amazon Web Services IAM Identity Center enhanced credentials. If the caller is not using enhanced credentials with embedded Amazon Web Services IAM Identity Center identity, the API will return an error.
+    ///
+    /// - Parameter input: The request parameters for GetIdentityCenterAuthToken. (Type: `GetIdentityCenterAuthTokenInput`)
+    ///
+    /// - Returns: The response from GetIdentityCenterAuthToken containing the encrypted authentication token and expiration time. (Type: `GetIdentityCenterAuthTokenOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
+    /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `RedshiftInvalidParameterFault` : The request contains one or more invalid parameters. This error occurs when required parameters are missing, parameter values are outside acceptable ranges, or parameter formats are incorrect.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func getIdentityCenterAuthToken(input: GetIdentityCenterAuthTokenInput) async throws -> GetIdentityCenterAuthTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIdentityCenterAuthToken")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(GetIdentityCenterAuthTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityCenterAuthTokenOutput>(GetIdentityCenterAuthTokenOutput.httpOutput(from:), GetIdentityCenterAuthTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityCenterAuthTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIdentityCenterAuthTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdentityCenterAuthTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(serviceID: serviceName, version: RedshiftClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Redshift")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIdentityCenterAuthToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetReservedNodeExchangeConfigurationOptions` operation on the `Redshift` service.
     ///
     /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type.
     ///
-    /// - Parameter GetReservedNodeExchangeConfigurationOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReservedNodeExchangeConfigurationOptionsInput`)
     ///
-    /// - Returns: `GetReservedNodeExchangeConfigurationOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReservedNodeExchangeConfigurationOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7351,6 +7526,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservedNodeExchangeConfigurationOptionsOutput>(GetReservedNodeExchangeConfigurationOptionsOutput.httpOutput(from:), GetReservedNodeExchangeConfigurationOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReservedNodeExchangeConfigurationOptionsOutput>())
@@ -7384,9 +7560,9 @@ extension RedshiftClient {
     ///
     /// Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node.
     ///
-    /// - Parameter GetReservedNodeExchangeOfferingsInput :
+    /// - Parameter input: (Type: `GetReservedNodeExchangeOfferingsInput`)
     ///
-    /// - Returns: `GetReservedNodeExchangeOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReservedNodeExchangeOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7423,6 +7599,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservedNodeExchangeOfferingsOutput>(GetReservedNodeExchangeOfferingsOutput.httpOutput(from:), GetReservedNodeExchangeOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReservedNodeExchangeOfferingsOutput>())
@@ -7456,9 +7633,9 @@ extension RedshiftClient {
     ///
     /// Get the resource policy for a specified resource.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7492,6 +7669,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -7525,9 +7703,9 @@ extension RedshiftClient {
     ///
     /// List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift clusters in an Amazon Web Services account.
     ///
-    /// - Parameter ListRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationsInput`)
     ///
-    /// - Returns: `ListRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7560,6 +7738,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendationsInput, ListRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendationsOutput>(ListRecommendationsOutput.httpOutput(from:), ListRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationsInput, ListRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationsOutput>())
@@ -7593,9 +7772,9 @@ extension RedshiftClient {
     ///
     /// This operation is retired. Calling this operation does not change AQUA configuration. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
     ///
-    /// - Parameter ModifyAquaConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyAquaConfigurationInput`)
     ///
-    /// - Returns: `ModifyAquaConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyAquaConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7629,6 +7808,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyAquaConfigurationInput, ModifyAquaConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyAquaConfigurationOutput>(ModifyAquaConfigurationOutput.httpOutput(from:), ModifyAquaConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyAquaConfigurationInput, ModifyAquaConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyAquaConfigurationOutput>())
@@ -7662,9 +7842,9 @@ extension RedshiftClient {
     ///
     /// Modifies an authentication profile.
     ///
-    /// - Parameter ModifyAuthenticationProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyAuthenticationProfileInput`)
     ///
-    /// - Returns: `ModifyAuthenticationProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyAuthenticationProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7698,6 +7878,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyAuthenticationProfileInput, ModifyAuthenticationProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyAuthenticationProfileOutput>(ModifyAuthenticationProfileOutput.httpOutput(from:), ModifyAuthenticationProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyAuthenticationProfileInput, ModifyAuthenticationProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyAuthenticationProfileOutput>())
@@ -7742,9 +7923,9 @@ extension RedshiftClient {
     ///
     /// For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter ModifyClusterInput :
+    /// - Parameter input: (Type: `ModifyClusterInput`)
     ///
-    /// - Returns: `ModifyClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7797,6 +7978,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterInput, ModifyClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterOutput>(ModifyClusterOutput.httpOutput(from:), ModifyClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterInput, ModifyClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterOutput>())
@@ -7830,9 +8012,9 @@ extension RedshiftClient {
     ///
     /// Modifies the database revision of a cluster. The database revision is a unique revision of the database running in a cluster.
     ///
-    /// - Parameter ModifyClusterDbRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyClusterDbRevisionInput`)
     ///
-    /// - Returns: `ModifyClusterDbRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterDbRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7867,6 +8049,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterDbRevisionInput, ModifyClusterDbRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterDbRevisionOutput>(ModifyClusterDbRevisionOutput.httpOutput(from:), ModifyClusterDbRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterDbRevisionInput, ModifyClusterDbRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterDbRevisionOutput>())
@@ -7900,9 +8083,9 @@ extension RedshiftClient {
     ///
     /// Modifies the list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to [Quotas and limits](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter ModifyClusterIamRolesInput :
+    /// - Parameter input: (Type: `ModifyClusterIamRolesInput`)
     ///
-    /// - Returns: `ModifyClusterIamRolesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterIamRolesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7935,6 +8118,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterIamRolesInput, ModifyClusterIamRolesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterIamRolesOutput>(ModifyClusterIamRolesOutput.httpOutput(from:), ModifyClusterIamRolesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterIamRolesInput, ModifyClusterIamRolesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterIamRolesOutput>())
@@ -7968,9 +8152,9 @@ extension RedshiftClient {
     ///
     /// Modifies the maintenance settings of a cluster.
     ///
-    /// - Parameter ModifyClusterMaintenanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyClusterMaintenanceInput`)
     ///
-    /// - Returns: `ModifyClusterMaintenanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterMaintenanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8003,6 +8187,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterMaintenanceInput, ModifyClusterMaintenanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterMaintenanceOutput>(ModifyClusterMaintenanceOutput.httpOutput(from:), ModifyClusterMaintenanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterMaintenanceInput, ModifyClusterMaintenanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterMaintenanceOutput>())
@@ -8036,9 +8221,9 @@ extension RedshiftClient {
     ///
     /// Modifies the parameters of a parameter group. For the parameters parameter, it can't contain ASCII characters. For more information about parameters and parameter groups, go to [Amazon Redshift Parameter Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter ModifyClusterParameterGroupInput : Describes a modify cluster parameter group operation.
+    /// - Parameter input: Describes a modify cluster parameter group operation. (Type: `ModifyClusterParameterGroupInput`)
     ///
-    /// - Returns: `ModifyClusterParameterGroupOutput` :
+    /// - Returns: (Type: `ModifyClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8071,6 +8256,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterParameterGroupInput, ModifyClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterParameterGroupOutput>(ModifyClusterParameterGroupOutput.httpOutput(from:), ModifyClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterParameterGroupInput, ModifyClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterParameterGroupOutput>())
@@ -8104,9 +8290,9 @@ extension RedshiftClient {
     ///
     /// Modifies the settings for a snapshot. This exanmple modifies the manual retention period setting for a cluster snapshot.
     ///
-    /// - Parameter ModifyClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyClusterSnapshotInput`)
     ///
-    /// - Returns: `ModifyClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8140,6 +8326,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterSnapshotInput, ModifyClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterSnapshotOutput>(ModifyClusterSnapshotOutput.httpOutput(from:), ModifyClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterSnapshotInput, ModifyClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterSnapshotOutput>())
@@ -8173,9 +8360,9 @@ extension RedshiftClient {
     ///
     /// Modifies a snapshot schedule for a cluster.
     ///
-    /// - Parameter ModifyClusterSnapshotScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyClusterSnapshotScheduleInput`)
     ///
-    /// - Returns: `ModifyClusterSnapshotScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterSnapshotScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8209,6 +8396,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterSnapshotScheduleInput, ModifyClusterSnapshotScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterSnapshotScheduleOutput>(ModifyClusterSnapshotScheduleOutput.httpOutput(from:), ModifyClusterSnapshotScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterSnapshotScheduleInput, ModifyClusterSnapshotScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterSnapshotScheduleOutput>())
@@ -8253,9 +8441,9 @@ extension RedshiftClient {
     ///
     /// For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter ModifyClusterSubnetGroupInput :
+    /// - Parameter input: (Type: `ModifyClusterSubnetGroupInput`)
     ///
-    /// - Returns: `ModifyClusterSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClusterSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8292,6 +8480,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterSubnetGroupInput, ModifyClusterSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClusterSubnetGroupOutput>(ModifyClusterSubnetGroupOutput.httpOutput(from:), ModifyClusterSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterSubnetGroupInput, ModifyClusterSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterSubnetGroupOutput>())
@@ -8325,9 +8514,9 @@ extension RedshiftClient {
     ///
     /// Contains information for changing a custom domain association.
     ///
-    /// - Parameter ModifyCustomDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyCustomDomainAssociationInput`)
     ///
-    /// - Returns: `ModifyCustomDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyCustomDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8362,6 +8551,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyCustomDomainAssociationInput, ModifyCustomDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyCustomDomainAssociationOutput>(ModifyCustomDomainAssociationOutput.httpOutput(from:), ModifyCustomDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyCustomDomainAssociationInput, ModifyCustomDomainAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyCustomDomainAssociationOutput>())
@@ -8395,9 +8585,9 @@ extension RedshiftClient {
     ///
     /// Modifies a Redshift-managed VPC endpoint.
     ///
-    /// - Parameter ModifyEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyEndpointAccessInput`)
     ///
-    /// - Returns: `ModifyEndpointAccessOutput` : Describes a Redshift-managed VPC endpoint.
+    /// - Returns: Describes a Redshift-managed VPC endpoint. (Type: `ModifyEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8434,6 +8624,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyEndpointAccessInput, ModifyEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEndpointAccessOutput>(ModifyEndpointAccessOutput.httpOutput(from:), ModifyEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEndpointAccessInput, ModifyEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEndpointAccessOutput>())
@@ -8467,9 +8658,9 @@ extension RedshiftClient {
     ///
     /// Modifies an existing Amazon Redshift event notification subscription.
     ///
-    /// - Parameter ModifyEventSubscriptionInput :
+    /// - Parameter input: (Type: `ModifyEventSubscriptionInput`)
     ///
-    /// - Returns: `ModifyEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8509,6 +8700,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutput>(ModifyEventSubscriptionOutput.httpOutput(from:), ModifyEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEventSubscriptionOutput>())
@@ -8542,9 +8734,9 @@ extension RedshiftClient {
     ///
     /// Modifies a zero-ETL integration or S3 event integration with Amazon Redshift.
     ///
-    /// - Parameter ModifyIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyIntegrationInput`)
     ///
-    /// - Returns: `ModifyIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8580,6 +8772,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyIntegrationOutput>(ModifyIntegrationOutput.httpOutput(from:), ModifyIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyIntegrationOutput>())
@@ -8609,13 +8802,87 @@ extension RedshiftClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyLakehouseConfiguration` operation on the `Redshift` service.
+    ///
+    /// Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyLakehouseConfigurationInput`)
+    ///
+    /// - Returns: Contains configuration information for lakehouse integration, including the cluster identifier, catalog ARN, and registration status. (Type: `ModifyLakehouseConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClusterNotFoundFault` : The ClusterIdentifier parameter does not refer to an existing cluster.
+    /// - `DependentServiceAccessDeniedFault` : A dependent service denied access for the integration.
+    /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
+    /// - `InvalidClusterStateFault` : The specified cluster is not in the available state.
+    /// - `RedshiftIdcApplicationNotExistsFault` : The application you attempted to find doesn't exist.
+    /// - `UnauthorizedOperation` : Your account is not authorized to perform the requested operation.
+    /// - `UnsupportedOperationFault` : The requested operation isn't supported.
+    public func modifyLakehouseConfiguration(input: ModifyLakehouseConfigurationInput) async throws -> ModifyLakehouseConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyLakehouseConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(ModifyLakehouseConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyLakehouseConfigurationOutput>(ModifyLakehouseConfigurationOutput.httpOutput(from:), ModifyLakehouseConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyLakehouseConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyLakehouseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyLakehouseConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyLakehouseConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyLakehouseConfigurationInput, ModifyLakehouseConfigurationOutput>(serviceID: serviceName, version: RedshiftClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Redshift")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyLakehouseConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ModifyRedshiftIdcApplication` operation on the `Redshift` service.
     ///
     /// Changes an existing Amazon Redshift IAM Identity Center application.
     ///
-    /// - Parameter ModifyRedshiftIdcApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyRedshiftIdcApplicationInput`)
     ///
-    /// - Returns: `ModifyRedshiftIdcApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyRedshiftIdcApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8650,6 +8917,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyRedshiftIdcApplicationInput, ModifyRedshiftIdcApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyRedshiftIdcApplicationOutput>(ModifyRedshiftIdcApplicationOutput.httpOutput(from:), ModifyRedshiftIdcApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyRedshiftIdcApplicationInput, ModifyRedshiftIdcApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyRedshiftIdcApplicationOutput>())
@@ -8683,9 +8951,9 @@ extension RedshiftClient {
     ///
     /// Modifies a scheduled action.
     ///
-    /// - Parameter ModifyScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyScheduledActionInput`)
     ///
-    /// - Returns: `ModifyScheduledActionOutput` : Describes a scheduled action. You can use a scheduled action to trigger some Amazon Redshift API operations on a schedule. For information about which API operations can be scheduled, see [ScheduledActionType].
+    /// - Returns: Describes a scheduled action. You can use a scheduled action to trigger some Amazon Redshift API operations on a schedule. For information about which API operations can be scheduled, see [ScheduledActionType]. (Type: `ModifyScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8723,6 +8991,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyScheduledActionInput, ModifyScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyScheduledActionOutput>(ModifyScheduledActionOutput.httpOutput(from:), ModifyScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyScheduledActionInput, ModifyScheduledActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyScheduledActionOutput>())
@@ -8756,9 +9025,9 @@ extension RedshiftClient {
     ///
     /// Modifies the number of days to retain snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this operation only changes the retention period of copied automated snapshots. The retention periods for both new and existing copied automated snapshots are updated with the new retention period. You can set the manual option to change only the retention periods of copied manual snapshots. If you set this option, only newly copied manual snapshots have the new retention period.
     ///
-    /// - Parameter ModifySnapshotCopyRetentionPeriodInput :
+    /// - Parameter input: (Type: `ModifySnapshotCopyRetentionPeriodInput`)
     ///
-    /// - Returns: `ModifySnapshotCopyRetentionPeriodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifySnapshotCopyRetentionPeriodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8794,6 +9063,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifySnapshotCopyRetentionPeriodInput, ModifySnapshotCopyRetentionPeriodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySnapshotCopyRetentionPeriodOutput>(ModifySnapshotCopyRetentionPeriodOutput.httpOutput(from:), ModifySnapshotCopyRetentionPeriodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySnapshotCopyRetentionPeriodInput, ModifySnapshotCopyRetentionPeriodOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySnapshotCopyRetentionPeriodOutput>())
@@ -8827,9 +9097,9 @@ extension RedshiftClient {
     ///
     /// Modifies a snapshot schedule. Any schedule associated with a cluster is modified asynchronously.
     ///
-    /// - Parameter ModifySnapshotScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifySnapshotScheduleInput`)
     ///
-    /// - Returns: `ModifySnapshotScheduleOutput` : Describes a snapshot schedule. You can set a regular interval for creating snapshots of a cluster. You can also schedule snapshots for specific dates.
+    /// - Returns: Describes a snapshot schedule. You can set a regular interval for creating snapshots of a cluster. You can also schedule snapshots for specific dates. (Type: `ModifySnapshotScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8863,6 +9133,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifySnapshotScheduleInput, ModifySnapshotScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySnapshotScheduleOutput>(ModifySnapshotScheduleOutput.httpOutput(from:), ModifySnapshotScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySnapshotScheduleInput, ModifySnapshotScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySnapshotScheduleOutput>())
@@ -8896,9 +9167,9 @@ extension RedshiftClient {
     ///
     /// Modifies a usage limit in a cluster. You can't modify the feature type or period of a usage limit.
     ///
-    /// - Parameter ModifyUsageLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyUsageLimitInput`)
     ///
-    /// - Returns: `ModifyUsageLimitOutput` : Describes a usage limit object for a cluster.
+    /// - Returns: Describes a usage limit object for a cluster. (Type: `ModifyUsageLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8932,6 +9203,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyUsageLimitInput, ModifyUsageLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyUsageLimitOutput>(ModifyUsageLimitOutput.httpOutput(from:), ModifyUsageLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyUsageLimitInput, ModifyUsageLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyUsageLimitOutput>())
@@ -8965,9 +9237,9 @@ extension RedshiftClient {
     ///
     /// Pauses a cluster.
     ///
-    /// - Parameter PauseClusterInput : Describes a pause cluster operation. For example, a scheduled action to run the PauseCluster API operation.
+    /// - Parameter input: Describes a pause cluster operation. For example, a scheduled action to run the PauseCluster API operation. (Type: `PauseClusterInput`)
     ///
-    /// - Returns: `PauseClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PauseClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9001,6 +9273,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PauseClusterInput, PauseClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PauseClusterOutput>(PauseClusterOutput.httpOutput(from:), PauseClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PauseClusterInput, PauseClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PauseClusterOutput>())
@@ -9034,9 +9307,9 @@ extension RedshiftClient {
     ///
     /// Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of reserved node offerings. You can purchase one or more of the offerings. You can call the [DescribeReservedNodeOfferings] API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve. For more information about reserved node offerings, go to [Purchasing Reserved Nodes](https://docs.aws.amazon.com/redshift/latest/mgmt/purchase-reserved-node-instance.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter PurchaseReservedNodeOfferingInput :
+    /// - Parameter input: (Type: `PurchaseReservedNodeOfferingInput`)
     ///
-    /// - Returns: `PurchaseReservedNodeOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseReservedNodeOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9071,6 +9344,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseReservedNodeOfferingInput, PurchaseReservedNodeOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseReservedNodeOfferingOutput>(PurchaseReservedNodeOfferingOutput.httpOutput(from:), PurchaseReservedNodeOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseReservedNodeOfferingInput, PurchaseReservedNodeOfferingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseReservedNodeOfferingOutput>())
@@ -9104,9 +9378,9 @@ extension RedshiftClient {
     ///
     /// Updates the resource policy for a specified resource.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9141,6 +9415,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -9174,9 +9449,9 @@ extension RedshiftClient {
     ///
     /// Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting. A cluster event is created when the reboot is completed. Any pending cluster modifications (see [ModifyCluster]) are applied at this reboot. For more information about managing clusters, go to [Amazon Redshift Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter RebootClusterInput :
+    /// - Parameter input: (Type: `RebootClusterInput`)
     ///
-    /// - Returns: `RebootClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9209,6 +9484,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootClusterInput, RebootClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootClusterOutput>(RebootClusterOutput.httpOutput(from:), RebootClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootClusterInput, RebootClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootClusterOutput>())
@@ -9242,9 +9518,9 @@ extension RedshiftClient {
     ///
     /// Registers a cluster or serverless namespace to the Amazon Web Services Glue Data Catalog.
     ///
-    /// - Parameter RegisterNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterNamespaceInput`)
     ///
-    /// - Returns: `RegisterNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9278,6 +9554,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterNamespaceInput, RegisterNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterNamespaceOutput>(RegisterNamespaceOutput.httpOutput(from:), RegisterNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterNamespaceInput, RegisterNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterNamespaceOutput>())
@@ -9311,9 +9588,9 @@ extension RedshiftClient {
     ///
     /// From a datashare consumer account, rejects the specified datashare.
     ///
-    /// - Parameter RejectDataShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectDataShareInput`)
     ///
-    /// - Returns: `RejectDataShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectDataShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9345,6 +9622,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectDataShareInput, RejectDataShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectDataShareOutput>(RejectDataShareOutput.httpOutput(from:), RejectDataShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectDataShareInput, RejectDataShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectDataShareOutput>())
@@ -9378,9 +9656,9 @@ extension RedshiftClient {
     ///
     /// Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "engine-default". To reset the entire parameter group specify the ResetAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters.
     ///
-    /// - Parameter ResetClusterParameterGroupInput :
+    /// - Parameter input: (Type: `ResetClusterParameterGroupInput`)
     ///
-    /// - Returns: `ResetClusterParameterGroupOutput` :
+    /// - Returns: (Type: `ResetClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9413,6 +9691,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetClusterParameterGroupInput, ResetClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetClusterParameterGroupOutput>(ResetClusterParameterGroupOutput.httpOutput(from:), ResetClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetClusterParameterGroupInput, ResetClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetClusterParameterGroupOutput>())
@@ -9465,9 +9744,9 @@ extension RedshiftClient {
     ///
     /// * The type of nodes that you add must match the node type for the cluster.
     ///
-    /// - Parameter ResizeClusterInput : Describes a resize cluster operation. For example, a scheduled action to run the ResizeCluster API operation.
+    /// - Parameter input: Describes a resize cluster operation. For example, a scheduled action to run the ResizeCluster API operation. (Type: `ResizeClusterInput`)
     ///
-    /// - Returns: `ResizeClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResizeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9513,6 +9792,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResizeClusterInput, ResizeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResizeClusterOutput>(ResizeClusterOutput.httpOutput(from:), ResizeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResizeClusterInput, ResizeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResizeClusterOutput>())
@@ -9557,9 +9837,9 @@ extension RedshiftClient {
     ///
     /// For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter RestoreFromClusterSnapshotInput :
+    /// - Parameter input: (Type: `RestoreFromClusterSnapshotInput`)
     ///
-    /// - Returns: `RestoreFromClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreFromClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9571,6 +9851,7 @@ extension RedshiftClient {
     /// - `ClusterSecurityGroupNotFoundFault` : The cluster security group name does not refer to an existing cluster security group.
     /// - `ClusterSnapshotNotFoundFault` : The snapshot identifier does not refer to an existing cluster snapshot.
     /// - `ClusterSubnetGroupNotFoundFault` : The cluster subnet group name does not refer to an existing cluster subnet group.
+    /// - `DependentServiceAccessDeniedFault` : A dependent service denied access for the integration.
     /// - `DependentServiceRequestThrottlingFault` : The request cannot be completed because a dependent service is throttling requests made by Amazon Redshift on your behalf. Wait and retry the request.
     /// - `DependentServiceUnavailableFault` : Your request cannot be completed because a dependent internal service is temporarily unavailable. Wait 30 to 60 seconds and try again.
     /// - `HsmClientCertificateNotFoundFault` : There is no Amazon Redshift HSM client certificate with the specified identifier.
@@ -9589,6 +9870,7 @@ extension RedshiftClient {
     /// - `LimitExceededFault` : The encryption key has exceeded its grant limit in Amazon Web Services KMS.
     /// - `NumberOfNodesPerClusterLimitExceededFault` : The operation would exceed the number of nodes allowed for a cluster.
     /// - `NumberOfNodesQuotaExceededFault` : The operation would exceed the number of nodes allotted to the account. For information about increasing your quota, go to [Limits in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html) in the Amazon Redshift Cluster Management Guide.
+    /// - `RedshiftIdcApplicationNotExistsFault` : The application you attempted to find doesn't exist.
     /// - `ReservedNodeAlreadyExistsFault` : User already has a reservation with the given identifier.
     /// - `ReservedNodeAlreadyMigratedFault` : Indicates that the reserved node has already been exchanged.
     /// - `ReservedNodeNotFoundFault` : The specified reserved compute node not found.
@@ -9623,6 +9905,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreFromClusterSnapshotInput, RestoreFromClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreFromClusterSnapshotOutput>(RestoreFromClusterSnapshotOutput.httpOutput(from:), RestoreFromClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreFromClusterSnapshotInput, RestoreFromClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreFromClusterSnapshotOutput>())
@@ -9656,9 +9939,9 @@ extension RedshiftClient {
     ///
     /// Creates a new table from a table in an Amazon Redshift cluster snapshot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from. You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original table before you call RestoreTableFromClusterSnapshot. When you have renamed your original table, then you can pass the original name of the table as the NewTableName parameter value in the call to RestoreTableFromClusterSnapshot. This way, you can replace the original table with the table created from the snapshot. You can't use this operation to restore tables with [interleaved sort keys](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html#t_Sorting_data-interleaved).
     ///
-    /// - Parameter RestoreTableFromClusterSnapshotInput :
+    /// - Parameter input: (Type: `RestoreTableFromClusterSnapshotInput`)
     ///
-    /// - Returns: `RestoreTableFromClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreTableFromClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9696,6 +9979,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreTableFromClusterSnapshotInput, RestoreTableFromClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreTableFromClusterSnapshotOutput>(RestoreTableFromClusterSnapshotOutput.httpOutput(from:), RestoreTableFromClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreTableFromClusterSnapshotInput, RestoreTableFromClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableFromClusterSnapshotOutput>())
@@ -9729,9 +10013,9 @@ extension RedshiftClient {
     ///
     /// Resumes a paused cluster.
     ///
-    /// - Parameter ResumeClusterInput : Describes a resume cluster operation. For example, a scheduled action to run the ResumeCluster API operation.
+    /// - Parameter input: Describes a resume cluster operation. For example, a scheduled action to run the ResumeCluster API operation. (Type: `ResumeClusterInput`)
     ///
-    /// - Returns: `ResumeClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9766,6 +10050,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeClusterInput, ResumeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeClusterOutput>(ResumeClusterOutput.httpOutput(from:), ResumeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeClusterInput, ResumeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeClusterOutput>())
@@ -9799,9 +10084,9 @@ extension RedshiftClient {
     ///
     /// Revokes an ingress rule in an Amazon Redshift security group for a previously authorized IP range or Amazon EC2 security group. To add an ingress rule, see [AuthorizeClusterSecurityGroupIngress]. For information about managing security groups, go to [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter RevokeClusterSecurityGroupIngressInput :
+    /// - Parameter input: (Type: `RevokeClusterSecurityGroupIngressInput`)
     ///
-    /// - Returns: `RevokeClusterSecurityGroupIngressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeClusterSecurityGroupIngressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9835,6 +10120,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeClusterSecurityGroupIngressInput, RevokeClusterSecurityGroupIngressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeClusterSecurityGroupIngressOutput>(RevokeClusterSecurityGroupIngressOutput.httpOutput(from:), RevokeClusterSecurityGroupIngressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeClusterSecurityGroupIngressInput, RevokeClusterSecurityGroupIngressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeClusterSecurityGroupIngressOutput>())
@@ -9868,9 +10154,9 @@ extension RedshiftClient {
     ///
     /// Revokes access to a cluster.
     ///
-    /// - Parameter RevokeEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeEndpointAccessInput`)
     ///
-    /// - Returns: `RevokeEndpointAccessOutput` : Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts.
+    /// - Returns: Describes an endpoint authorization for authorizing Redshift-managed VPC endpoint access to a cluster across Amazon Web Services accounts. (Type: `RevokeEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9908,6 +10194,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeEndpointAccessInput, RevokeEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeEndpointAccessOutput>(RevokeEndpointAccessOutput.httpOutput(from:), RevokeEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeEndpointAccessInput, RevokeEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeEndpointAccessOutput>())
@@ -9941,9 +10228,9 @@ extension RedshiftClient {
     ///
     /// Removes the ability of the specified Amazon Web Services account to restore the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion. For more information about working with snapshots, go to [Amazon Redshift Snapshots](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html) in the Amazon Redshift Cluster Management Guide.
     ///
-    /// - Parameter RevokeSnapshotAccessInput :
+    /// - Parameter input: (Type: `RevokeSnapshotAccessInput`)
     ///
-    /// - Returns: `RevokeSnapshotAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeSnapshotAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9978,6 +10265,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeSnapshotAccessInput, RevokeSnapshotAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeSnapshotAccessOutput>(RevokeSnapshotAccessOutput.httpOutput(from:), RevokeSnapshotAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeSnapshotAccessInput, RevokeSnapshotAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeSnapshotAccessOutput>())
@@ -10011,9 +10299,9 @@ extension RedshiftClient {
     ///
     /// Rotates the encryption keys for a cluster.
     ///
-    /// - Parameter RotateEncryptionKeyInput :
+    /// - Parameter input: (Type: `RotateEncryptionKeyInput`)
     ///
-    /// - Returns: `RotateEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RotateEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10048,6 +10336,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RotateEncryptionKeyInput, RotateEncryptionKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RotateEncryptionKeyOutput>(RotateEncryptionKeyOutput.httpOutput(from:), RotateEncryptionKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RotateEncryptionKeyInput, RotateEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RotateEncryptionKeyOutput>())
@@ -10081,9 +10370,9 @@ extension RedshiftClient {
     ///
     /// Updates the status of a partner integration.
     ///
-    /// - Parameter UpdatePartnerStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePartnerStatusInput`)
     ///
-    /// - Returns: `UpdatePartnerStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePartnerStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10118,6 +10407,7 @@ extension RedshiftClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePartnerStatusInput, UpdatePartnerStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePartnerStatusOutput>(UpdatePartnerStatusOutput.httpOutput(from:), UpdatePartnerStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePartnerStatusInput, UpdatePartnerStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePartnerStatusOutput>())

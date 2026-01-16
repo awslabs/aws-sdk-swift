@@ -26,12 +26,13 @@ import class SmithyHTTPAPI.HTTPResponse
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ARCRegionswitchClient: ClientRuntime.Client {
+public class ARCRegionswitchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ARCRegionswitchClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ARCRegionswitchClient.ARCRegionswitchClientConfiguration
     let serviceName = "ARC Region switch"
@@ -374,9 +374,9 @@ extension ARCRegionswitchClient {
     ///
     /// Approves a step in a plan execution that requires manual approval. When you create a plan, you can include approval steps that require manual intervention before the execution can proceed. This operation allows you to provide that approval. You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision.
     ///
-    /// - Parameter ApprovePlanExecutionStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApprovePlanExecutionStepInput`)
     ///
-    /// - Returns: `ApprovePlanExecutionStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApprovePlanExecutionStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +410,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApprovePlanExecutionStepOutput>(ApprovePlanExecutionStepOutput.httpOutput(from:), ApprovePlanExecutionStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApprovePlanExecutionStepInput, ApprovePlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApprovePlanExecutionStepOutput>())
@@ -446,9 +447,9 @@ extension ARCRegionswitchClient {
     ///
     /// Cancels an in-progress plan execution. This operation stops the execution of the plan and prevents any further steps from being processed. You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled.
     ///
-    /// - Parameter CancelPlanExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelPlanExecutionInput`)
     ///
-    /// - Returns: `CancelPlanExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelPlanExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +483,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelPlanExecutionOutput>(CancelPlanExecutionOutput.httpOutput(from:), CancelPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelPlanExecutionInput, CancelPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelPlanExecutionOutput>())
@@ -518,9 +520,9 @@ extension ARCRegionswitchClient {
     ///
     /// Creates a new Region switch plan. A plan defines the steps required to shift traffic from one Amazon Web Services Region to another. You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and workflows that define the steps to execute during a Region switch.
     ///
-    /// - Parameter CreatePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePlanInput`)
     ///
-    /// - Returns: `CreatePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePlanOutput`)
     public func createPlan(input: CreatePlanInput) async throws -> CreatePlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -548,6 +550,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlanInput, CreatePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlanOutput>(CreatePlanOutput.httpOutput(from:), CreatePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlanInput, CreatePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlanOutput>())
@@ -584,9 +587,9 @@ extension ARCRegionswitchClient {
     ///
     /// Deletes a Region switch plan. You must specify the ARN of the plan to delete. You cannot delete a plan that has an active execution in progress.
     ///
-    /// - Parameter DeletePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlanInput`)
     ///
-    /// - Returns: `DeletePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,6 +623,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePlanInput, DeletePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlanOutput>(DeletePlanOutput.httpOutput(from:), DeletePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlanInput, DeletePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePlanOutput>())
@@ -656,9 +660,9 @@ extension ARCRegionswitchClient {
     ///
     /// Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan.
     ///
-    /// - Parameter GetPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanInput`)
     ///
-    /// - Returns: `GetPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,6 +695,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanInput, GetPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanOutput>(GetPlanOutput.httpOutput(from:), GetPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanInput, GetPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanOutput>())
@@ -727,9 +732,9 @@ extension ARCRegionswitchClient {
     ///
     /// Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
     ///
-    /// - Parameter GetPlanEvaluationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanEvaluationStatusInput`)
     ///
-    /// - Returns: `GetPlanEvaluationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanEvaluationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,6 +768,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanEvaluationStatusOutput>(GetPlanEvaluationStatusOutput.httpOutput(from:), GetPlanEvaluationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanEvaluationStatusInput, GetPlanEvaluationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanEvaluationStatusOutput>())
@@ -799,9 +805,9 @@ extension ARCRegionswitchClient {
     ///
     /// Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID.
     ///
-    /// - Parameter GetPlanExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanExecutionInput`)
     ///
-    /// - Returns: `GetPlanExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -835,6 +841,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanExecutionOutput>(GetPlanExecutionOutput.httpOutput(from:), GetPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanExecutionInput, GetPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanExecutionOutput>())
@@ -871,9 +878,9 @@ extension ARCRegionswitchClient {
     ///
     /// Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
     ///
-    /// - Parameter GetPlanInRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlanInRegionInput`)
     ///
-    /// - Returns: `GetPlanInRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlanInRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -907,6 +914,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlanInRegionOutput>(GetPlanInRegionOutput.httpOutput(from:), GetPlanInRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlanInRegionInput, GetPlanInRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlanInRegionOutput>())
@@ -943,9 +951,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process.
     ///
-    /// - Parameter ListPlanExecutionEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlanExecutionEventsInput`)
     ///
-    /// - Returns: `ListPlanExecutionEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlanExecutionEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -979,6 +987,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlanExecutionEventsOutput>(ListPlanExecutionEventsOutput.httpOutput(from:), ListPlanExecutionEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlanExecutionEventsInput, ListPlanExecutionEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlanExecutionEventsOutput>())
@@ -1015,9 +1024,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists the executions of a Region switch plan. This operation returns information about both current and historical executions.
     ///
-    /// - Parameter ListPlanExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlanExecutionsInput`)
     ///
-    /// - Returns: `ListPlanExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlanExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1051,6 +1060,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlanExecutionsOutput>(ListPlanExecutionsOutput.httpOutput(from:), ListPlanExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlanExecutionsInput, ListPlanExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlanExecutionsOutput>())
@@ -1087,9 +1097,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists all Region switch plans in your Amazon Web Services account.
     ///
-    /// - Parameter ListPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlansInput`)
     ///
-    /// - Returns: `ListPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlansOutput`)
     public func listPlans(input: ListPlansInput) async throws -> ListPlansOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1117,6 +1127,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlansInput, ListPlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlansOutput>(ListPlansOutput.httpOutput(from:), ListPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlansInput, ListPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlansOutput>())
@@ -1153,9 +1164,9 @@ extension ARCRegionswitchClient {
     ///
     /// Lists all Region switch plans in your Amazon Web Services account that are available in the current Amazon Web Services Region.
     ///
-    /// - Parameter ListPlansInRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlansInRegionInput`)
     ///
-    /// - Returns: `ListPlansInRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlansInRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,6 +1199,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlansInRegionOutput>(ListPlansInRegionOutput.httpOutput(from:), ListPlansInRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlansInRegionInput, ListPlansInRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlansInRegionOutput>())
@@ -1224,9 +1236,9 @@ extension ARCRegionswitchClient {
     ///
     /// List the Amazon Route 53 health checks.
     ///
-    /// - Parameter ListRoute53HealthChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoute53HealthChecksInput`)
     ///
-    /// - Returns: `ListRoute53HealthChecksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoute53HealthChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1261,6 +1273,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoute53HealthChecksOutput>(ListRoute53HealthChecksOutput.httpOutput(from:), ListRoute53HealthChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoute53HealthChecksInput, ListRoute53HealthChecksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoute53HealthChecksOutput>())
@@ -1293,13 +1306,88 @@ extension ARCRegionswitchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRoute53HealthChecksInRegion` operation on the `ARCRegionswitch` service.
+    ///
+    /// List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRoute53HealthChecksInRegionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRoute53HealthChecksInRegionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
+    /// - `IllegalArgumentException` : The request processing has an invalid argument.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure. HTTP Status Code: 500
+    /// - `ResourceNotFoundException` : The specified resource was not found. HTTP Status Code: 404
+    public func listRoute53HealthChecksInRegion(input: ListRoute53HealthChecksInRegionInput) async throws -> ListRoute53HealthChecksInRegionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRoute53HealthChecksInRegion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "arc-region-switch")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(ListRoute53HealthChecksInRegionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoute53HealthChecksInRegionOutput>(ListRoute53HealthChecksInRegionOutput.httpOutput(from:), ListRoute53HealthChecksInRegionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRoute53HealthChecksInRegionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ARC Region switch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRoute53HealthChecksInRegionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput, SmithyCBOR.Writer>(rootNodeInfo: "", inputWritingClosure: ListRoute53HealthChecksInRegionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRoute53HealthChecksInRegionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRoute53HealthChecksInRegionInput, ListRoute53HealthChecksInRegionOutput>(serviceID: serviceName, version: ARCRegionswitchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ARCRegionswitch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRoute53HealthChecksInRegion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `ARCRegionswitch` service.
     ///
     /// Lists the tags attached to a Region switch resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1333,6 +1421,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1369,9 +1458,9 @@ extension ARCRegionswitchClient {
     ///
     /// Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode. In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
     ///
-    /// - Parameter StartPlanExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPlanExecutionInput`)
     ///
-    /// - Returns: `StartPlanExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPlanExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1407,6 +1496,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPlanExecutionOutput>(StartPlanExecutionOutput.httpOutput(from:), StartPlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPlanExecutionInput, StartPlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPlanExecutionOutput>())
@@ -1443,9 +1533,9 @@ extension ARCRegionswitchClient {
     ///
     /// Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1479,6 +1569,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1515,9 +1606,9 @@ extension ARCRegionswitchClient {
     ///
     /// Removes tags from a Region switch resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1551,6 +1642,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1587,9 +1679,9 @@ extension ARCRegionswitchClient {
     ///
     /// Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers.
     ///
-    /// - Parameter UpdatePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlanInput`)
     ///
-    /// - Returns: `UpdatePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,6 +1714,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanInput, UpdatePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanOutput>(UpdatePlanOutput.httpOutput(from:), UpdatePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanInput, UpdatePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePlanOutput>())
@@ -1658,9 +1751,9 @@ extension ARCRegionswitchClient {
     ///
     /// Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
     ///
-    /// - Parameter UpdatePlanExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlanExecutionInput`)
     ///
-    /// - Returns: `UpdatePlanExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlanExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1695,6 +1788,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanExecutionOutput>(UpdatePlanExecutionOutput.httpOutput(from:), UpdatePlanExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanExecutionInput, UpdatePlanExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePlanExecutionOutput>())
@@ -1731,9 +1825,9 @@ extension ARCRegionswitchClient {
     ///
     /// Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
     ///
-    /// - Parameter UpdatePlanExecutionStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePlanExecutionStepInput`)
     ///
-    /// - Returns: `UpdatePlanExecutionStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePlanExecutionStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1767,6 +1861,7 @@ extension ARCRegionswitchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePlanExecutionStepOutput>(UpdatePlanExecutionStepOutput.httpOutput(from:), UpdatePlanExecutionStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePlanExecutionStepInput, UpdatePlanExecutionStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(ClientRuntime.DefaultRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePlanExecutionStepOutput>())

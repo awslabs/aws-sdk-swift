@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import class SmithyHTTPAPI.HTTPResponse
 import ClientRuntime
+import class SmithyHTTPAPI.HTTPResponse
 
 /// AWS specific Service Error structure used when exact error could not be deduced from the `HTTPResponse`
 /// Developers should catch unknown errors by the interface `AWSServiceError`, then use the `errorCode` to determine & handle each type of error.

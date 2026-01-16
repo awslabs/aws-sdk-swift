@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RedshiftServerlessClient: ClientRuntime.Client {
+public class RedshiftServerlessClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RedshiftServerlessClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: RedshiftServerlessClient.RedshiftServerlessClientConfiguration
     let serviceName = "Redshift Serverless"
@@ -374,9 +374,9 @@ extension RedshiftServerlessClient {
     ///
     /// Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see [Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery-points.html).
     ///
-    /// - Parameter ConvertRecoveryPointToSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConvertRecoveryPointToSnapshotInput`)
     ///
-    /// - Returns: `ConvertRecoveryPointToSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConvertRecoveryPointToSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -386,7 +386,7 @@ extension RedshiftServerlessClient {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func convertRecoveryPointToSnapshot(input: ConvertRecoveryPointToSnapshotInput) async throws -> ConvertRecoveryPointToSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -413,6 +413,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConvertRecoveryPointToSnapshotInput, ConvertRecoveryPointToSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConvertRecoveryPointToSnapshotOutput>(ConvertRecoveryPointToSnapshotOutput.httpOutput(from:), ConvertRecoveryPointToSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConvertRecoveryPointToSnapshotInput, ConvertRecoveryPointToSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConvertRecoveryPointToSnapshotOutput>())
@@ -447,9 +448,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates a custom domain association for Amazon Redshift Serverless.
     ///
-    /// - Parameter CreateCustomDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomDomainAssociationInput`)
     ///
-    /// - Returns: `CreateCustomDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -459,7 +460,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createCustomDomainAssociation(input: CreateCustomDomainAssociationInput) async throws -> CreateCustomDomainAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -486,6 +487,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomDomainAssociationInput, CreateCustomDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomDomainAssociationOutput>(CreateCustomDomainAssociationOutput.httpOutput(from:), CreateCustomDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomDomainAssociationInput, CreateCustomDomainAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomDomainAssociationOutput>())
@@ -520,9 +522,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates an Amazon Redshift Serverless managed VPC endpoint.
     ///
-    /// - Parameter CreateEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEndpointAccessInput`)
     ///
-    /// - Returns: `CreateEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -532,7 +534,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createEndpointAccess(input: CreateEndpointAccessInput) async throws -> CreateEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -559,6 +561,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointAccessInput, CreateEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointAccessOutput>(CreateEndpointAccessOutput.httpOutput(from:), CreateEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointAccessInput, CreateEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointAccessOutput>())
@@ -593,9 +596,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates a namespace in Amazon Redshift Serverless.
     ///
-    /// - Parameter CreateNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNamespaceInput`)
     ///
-    /// - Returns: `CreateNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -603,7 +606,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createNamespace(input: CreateNamespaceInput) async throws -> CreateNamespaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -630,6 +633,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNamespaceInput, CreateNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNamespaceOutput>(CreateNamespaceOutput.httpOutput(from:), CreateNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNamespaceInput, CreateNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNamespaceOutput>())
@@ -664,9 +668,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
     ///
-    /// - Parameter CreateReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReservationInput`)
     ///
-    /// - Returns: `CreateReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -677,7 +681,7 @@ extension RedshiftServerlessClient {
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createReservation(input: CreateReservationInput) async throws -> CreateReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -705,6 +709,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReservationInput, CreateReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReservationOutput>(CreateReservationOutput.httpOutput(from:), CreateReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReservationInput, CreateReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReservationOutput>())
@@ -739,9 +744,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the CreateSnapshot API operation.
     ///
-    /// - Parameter CreateScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduledActionInput`)
     ///
-    /// - Returns: `CreateScheduledActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -749,7 +754,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createScheduledAction(input: CreateScheduledActionInput) async throws -> CreateScheduledActionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -776,6 +781,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScheduledActionInput, CreateScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScheduledActionOutput>(CreateScheduledActionOutput.httpOutput(from:), CreateScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScheduledActionInput, CreateScheduledActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScheduledActionOutput>())
@@ -810,9 +816,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates a snapshot of all databases in a namespace. For more information about snapshots, see [ Working with snapshots and recovery points](https://docs.aws.amazon.com/redshift/latest/mgmt/serverless-snapshots-recovery-points.html).
     ///
-    /// - Parameter CreateSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotInput`)
     ///
-    /// - Returns: `CreateSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -822,7 +828,7 @@ extension RedshiftServerlessClient {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -849,6 +855,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotOutput>(CreateSnapshotOutput.httpOutput(from:), CreateSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotOutput>())
@@ -883,9 +890,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region.
     ///
-    /// - Parameter CreateSnapshotCopyConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotCopyConfigurationInput`)
     ///
-    /// - Returns: `CreateSnapshotCopyConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotCopyConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -895,7 +902,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createSnapshotCopyConfiguration(input: CreateSnapshotCopyConfigurationInput) async throws -> CreateSnapshotCopyConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -922,6 +929,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotCopyConfigurationInput, CreateSnapshotCopyConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotCopyConfigurationOutput>(CreateSnapshotCopyConfigurationOutput.httpOutput(from:), CreateSnapshotCopyConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotCopyConfigurationInput, CreateSnapshotCopyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotCopyConfigurationOutput>())
@@ -956,9 +964,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier.
     ///
-    /// - Parameter CreateUsageLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUsageLimitInput`)
     ///
-    /// - Returns: `CreateUsageLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUsageLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,7 +975,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createUsageLimit(input: CreateUsageLimitInput) async throws -> CreateUsageLimitOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -994,6 +1002,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsageLimitInput, CreateUsageLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUsageLimitOutput>(CreateUsageLimitOutput.httpOutput(from:), CreateUsageLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUsageLimitInput, CreateUsageLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUsageLimitOutput>())
@@ -1037,9 +1046,9 @@ extension RedshiftServerlessClient {
     ///
     /// For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter CreateWorkgroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkgroupInput`)
     ///
-    /// - Returns: `CreateWorkgroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkgroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1050,7 +1059,7 @@ extension RedshiftServerlessClient {
     /// - `Ipv6CidrBlockNotFoundException` : There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func createWorkgroup(input: CreateWorkgroupInput) async throws -> CreateWorkgroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1077,6 +1086,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkgroupInput, CreateWorkgroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkgroupOutput>(CreateWorkgroupOutput.httpOutput(from:), CreateWorkgroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkgroupInput, CreateWorkgroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkgroupOutput>())
@@ -1111,9 +1121,9 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes a custom domain association for Amazon Redshift Serverless.
     ///
-    /// - Parameter DeleteCustomDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomDomainAssociationInput`)
     ///
-    /// - Returns: `DeleteCustomDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1123,7 +1133,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteCustomDomainAssociation(input: DeleteCustomDomainAssociationInput) async throws -> DeleteCustomDomainAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1150,6 +1160,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomDomainAssociationInput, DeleteCustomDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomDomainAssociationOutput>(DeleteCustomDomainAssociationOutput.httpOutput(from:), DeleteCustomDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomDomainAssociationInput, DeleteCustomDomainAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomDomainAssociationOutput>())
@@ -1184,9 +1195,9 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes an Amazon Redshift Serverless managed VPC endpoint.
     ///
-    /// - Parameter DeleteEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointAccessInput`)
     ///
-    /// - Returns: `DeleteEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1194,7 +1205,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteEndpointAccess(input: DeleteEndpointAccessInput) async throws -> DeleteEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1221,6 +1232,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEndpointAccessInput, DeleteEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointAccessOutput>(DeleteEndpointAccessOutput.httpOutput(from:), DeleteEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointAccessInput, DeleteEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointAccessOutput>())
@@ -1255,9 +1267,9 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
     ///
-    /// - Parameter DeleteNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNamespaceInput`)
     ///
-    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,7 +1277,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteNamespace(input: DeleteNamespaceInput) async throws -> DeleteNamespaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1292,6 +1304,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNamespaceInput, DeleteNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNamespaceOutput>(DeleteNamespaceOutput.httpOutput(from:), DeleteNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNamespaceInput, DeleteNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNamespaceOutput>())
@@ -1326,16 +1339,16 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes the specified resource policy.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1362,6 +1375,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1396,16 +1410,16 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes a scheduled action.
     ///
-    /// - Parameter DeleteScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduledActionInput`)
     ///
-    /// - Returns: `DeleteScheduledActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteScheduledAction(input: DeleteScheduledActionInput) async throws -> DeleteScheduledActionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1432,6 +1446,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScheduledActionOutput>(DeleteScheduledActionOutput.httpOutput(from:), DeleteScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduledActionInput, DeleteScheduledActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduledActionOutput>())
@@ -1466,9 +1481,9 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes a snapshot from Amazon Redshift Serverless.
     ///
-    /// - Parameter DeleteSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotInput`)
     ///
-    /// - Returns: `DeleteSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1476,7 +1491,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1503,6 +1518,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutput>(DeleteSnapshotOutput.httpOutput(from:), DeleteSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotOutput>())
@@ -1537,9 +1553,9 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes a snapshot copy configuration
     ///
-    /// - Parameter DeleteSnapshotCopyConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotCopyConfigurationInput`)
     ///
-    /// - Returns: `DeleteSnapshotCopyConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotCopyConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,7 +1564,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteSnapshotCopyConfiguration(input: DeleteSnapshotCopyConfigurationInput) async throws -> DeleteSnapshotCopyConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1575,6 +1591,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotCopyConfigurationInput, DeleteSnapshotCopyConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotCopyConfigurationOutput>(DeleteSnapshotCopyConfigurationOutput.httpOutput(from:), DeleteSnapshotCopyConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotCopyConfigurationInput, DeleteSnapshotCopyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotCopyConfigurationOutput>())
@@ -1609,9 +1626,9 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes a usage limit from Amazon Redshift Serverless.
     ///
-    /// - Parameter DeleteUsageLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUsageLimitInput`)
     ///
-    /// - Returns: `DeleteUsageLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUsageLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1619,7 +1636,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteUsageLimit(input: DeleteUsageLimitInput) async throws -> DeleteUsageLimitOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1646,6 +1663,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUsageLimitInput, DeleteUsageLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUsageLimitOutput>(DeleteUsageLimitOutput.httpOutput(from:), DeleteUsageLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUsageLimitInput, DeleteUsageLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUsageLimitOutput>())
@@ -1680,9 +1698,9 @@ extension RedshiftServerlessClient {
     ///
     /// Deletes a workgroup.
     ///
-    /// - Parameter DeleteWorkgroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkgroupInput`)
     ///
-    /// - Returns: `DeleteWorkgroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkgroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1690,7 +1708,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteWorkgroup(input: DeleteWorkgroupInput) async throws -> DeleteWorkgroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1717,6 +1735,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkgroupInput, DeleteWorkgroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkgroupOutput>(DeleteWorkgroupOutput.httpOutput(from:), DeleteWorkgroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkgroupInput, DeleteWorkgroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkgroupOutput>())
@@ -1751,16 +1770,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCredentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
     ///
-    /// - Parameter GetCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCredentialsInput`)
     ///
-    /// - Returns: `GetCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getCredentials(input: GetCredentialsInput) async throws -> GetCredentialsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1787,6 +1806,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCredentialsInput, GetCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCredentialsOutput>(GetCredentialsOutput.httpOutput(from:), GetCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCredentialsInput, GetCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCredentialsOutput>())
@@ -1821,9 +1841,9 @@ extension RedshiftServerlessClient {
     ///
     /// Gets information about a specific custom domain association.
     ///
-    /// - Parameter GetCustomDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomDomainAssociationInput`)
     ///
-    /// - Returns: `GetCustomDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1833,7 +1853,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getCustomDomainAssociation(input: GetCustomDomainAssociationInput) async throws -> GetCustomDomainAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1860,6 +1880,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCustomDomainAssociationInput, GetCustomDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomDomainAssociationOutput>(GetCustomDomainAssociationOutput.httpOutput(from:), GetCustomDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomDomainAssociationInput, GetCustomDomainAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomDomainAssociationOutput>())
@@ -1894,9 +1915,9 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information, such as the name, about a VPC endpoint.
     ///
-    /// - Parameter GetEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEndpointAccessInput`)
     ///
-    /// - Returns: `GetEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1904,7 +1925,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getEndpointAccess(input: GetEndpointAccessInput) async throws -> GetEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1931,6 +1952,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEndpointAccessInput, GetEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEndpointAccessOutput>(GetEndpointAccessOutput.httpOutput(from:), GetEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEndpointAccessInput, GetEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEndpointAccessOutput>())
@@ -1961,20 +1983,95 @@ extension RedshiftServerlessClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetIdentityCenterAuthToken` operation on the `RedshiftServerless` service.
+    ///
+    /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified workgroups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration must be configured for the workgroups.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIdentityCenterAuthTokenInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIdentityCenterAuthTokenOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `DryRunException` : This exception is thrown when the request was successful, but dry run was enabled so no action was taken.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
+    public func getIdentityCenterAuthToken(input: GetIdentityCenterAuthTokenInput) async throws -> GetIdentityCenterAuthTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIdentityCenterAuthToken")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift-serverless")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(GetIdentityCenterAuthTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityCenterAuthTokenOutput>(GetIdentityCenterAuthTokenOutput.httpOutput(from:), GetIdentityCenterAuthTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityCenterAuthTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIdentityCenterAuthTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(xAmzTarget: "RedshiftServerless.GetIdentityCenterAuthToken"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetIdentityCenterAuthTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIdentityCenterAuthTokenInput, GetIdentityCenterAuthTokenOutput>(serviceID: serviceName, version: RedshiftServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RedshiftServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIdentityCenterAuthToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetNamespace` operation on the `RedshiftServerless` service.
     ///
     /// Returns information about a namespace in Amazon Redshift Serverless.
     ///
-    /// - Parameter GetNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNamespaceInput`)
     ///
-    /// - Returns: `GetNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2001,6 +2098,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetNamespaceInput, GetNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNamespaceOutput>(GetNamespaceOutput.httpOutput(from:), GetNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNamespaceInput, GetNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNamespaceOutput>())
@@ -2035,9 +2133,9 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a recovery point.
     ///
-    /// - Parameter GetRecoveryPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryPointInput`)
     ///
-    /// - Returns: `GetRecoveryPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecoveryPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2045,7 +2143,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getRecoveryPoint(input: GetRecoveryPointInput) async throws -> GetRecoveryPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2072,6 +2170,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRecoveryPointInput, GetRecoveryPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryPointOutput>(GetRecoveryPointOutput.httpOutput(from:), GetRecoveryPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryPointInput, GetRecoveryPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryPointOutput>())
@@ -2106,9 +2205,9 @@ extension RedshiftServerlessClient {
     ///
     /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
     ///
-    /// - Parameter GetReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReservationInput`)
     ///
-    /// - Returns: `GetReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2116,7 +2215,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getReservation(input: GetReservationInput) async throws -> GetReservationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2143,6 +2242,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservationInput, GetReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservationOutput>(GetReservationOutput.httpOutput(from:), GetReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservationInput, GetReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReservationOutput>())
@@ -2177,9 +2277,9 @@ extension RedshiftServerlessClient {
     ///
     /// Returns the reservation offering. The offering determines the payment schedule for the reservation.
     ///
-    /// - Parameter GetReservationOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReservationOfferingInput`)
     ///
-    /// - Returns: `GetReservationOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReservationOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2187,7 +2287,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getReservationOffering(input: GetReservationOfferingInput) async throws -> GetReservationOfferingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2214,6 +2314,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReservationOfferingInput, GetReservationOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReservationOfferingOutput>(GetReservationOfferingOutput.httpOutput(from:), GetReservationOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReservationOfferingInput, GetReservationOfferingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReservationOfferingOutput>())
@@ -2248,16 +2349,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns a resource policy.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2284,6 +2385,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -2318,16 +2420,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a scheduled action.
     ///
-    /// - Parameter GetScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetScheduledActionInput`)
     ///
-    /// - Returns: `GetScheduledActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getScheduledAction(input: GetScheduledActionInput) async throws -> GetScheduledActionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2354,6 +2456,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScheduledActionInput, GetScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScheduledActionOutput>(GetScheduledActionOutput.httpOutput(from:), GetScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScheduledActionInput, GetScheduledActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScheduledActionOutput>())
@@ -2388,16 +2491,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a specific snapshot.
     ///
-    /// - Parameter GetSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSnapshotInput`)
     ///
-    /// - Returns: `GetSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getSnapshot(input: GetSnapshotInput) async throws -> GetSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2424,6 +2527,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSnapshotInput, GetSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSnapshotOutput>(GetSnapshotOutput.httpOutput(from:), GetSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSnapshotInput, GetSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSnapshotOutput>())
@@ -2458,15 +2562,15 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a TableRestoreStatus object.
     ///
-    /// - Parameter GetTableRestoreStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableRestoreStatusInput`)
     ///
-    /// - Returns: `GetTableRestoreStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableRestoreStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getTableRestoreStatus(input: GetTableRestoreStatusInput) async throws -> GetTableRestoreStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2493,6 +2597,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableRestoreStatusInput, GetTableRestoreStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableRestoreStatusOutput>(GetTableRestoreStatusOutput.httpOutput(from:), GetTableRestoreStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableRestoreStatusInput, GetTableRestoreStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableRestoreStatusOutput>())
@@ -2527,19 +2632,20 @@ extension RedshiftServerlessClient {
     ///
     /// Get the Redshift Serverless version for a specified track.
     ///
-    /// - Parameter GetTrackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrackInput`)
     ///
-    /// - Returns: `GetTrackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The submitted action has conflicts.
+    /// - `DryRunException` : This exception is thrown when the request was successful, but dry run was enabled so no action was taken.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getTrack(input: GetTrackInput) async throws -> GetTrackOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2566,6 +2672,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTrackInput, GetTrackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrackOutput>(GetTrackOutput.httpOutput(from:), GetTrackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrackInput, GetTrackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrackOutput>())
@@ -2600,9 +2707,9 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a usage limit.
     ///
-    /// - Parameter GetUsageLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUsageLimitInput`)
     ///
-    /// - Returns: `GetUsageLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUsageLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2610,7 +2717,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getUsageLimit(input: GetUsageLimitInput) async throws -> GetUsageLimitOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2637,6 +2744,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUsageLimitInput, GetUsageLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageLimitOutput>(GetUsageLimitOutput.httpOutput(from:), GetUsageLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageLimitInput, GetUsageLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageLimitOutput>())
@@ -2671,16 +2779,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a specific workgroup.
     ///
-    /// - Parameter GetWorkgroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkgroupInput`)
     ///
-    /// - Returns: `GetWorkgroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkgroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func getWorkgroup(input: GetWorkgroupInput) async throws -> GetWorkgroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2707,6 +2815,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkgroupInput, GetWorkgroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkgroupOutput>(GetWorkgroupOutput.httpOutput(from:), GetWorkgroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkgroupInput, GetWorkgroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkgroupOutput>())
@@ -2741,9 +2850,9 @@ extension RedshiftServerlessClient {
     ///
     /// Lists custom domain associations for Amazon Redshift Serverless.
     ///
-    /// - Parameter ListCustomDomainAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomDomainAssociationsInput`)
     ///
-    /// - Returns: `ListCustomDomainAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomDomainAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2752,7 +2861,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listCustomDomainAssociations(input: ListCustomDomainAssociationsInput) async throws -> ListCustomDomainAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2779,6 +2888,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomDomainAssociationsInput, ListCustomDomainAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomDomainAssociationsOutput>(ListCustomDomainAssociationsOutput.httpOutput(from:), ListCustomDomainAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomDomainAssociationsInput, ListCustomDomainAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomDomainAssociationsOutput>())
@@ -2813,9 +2923,9 @@ extension RedshiftServerlessClient {
     ///
     /// Returns an array of EndpointAccess objects and relevant information.
     ///
-    /// - Parameter ListEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEndpointAccessInput`)
     ///
-    /// - Returns: `ListEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2823,7 +2933,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listEndpointAccess(input: ListEndpointAccessInput) async throws -> ListEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2850,6 +2960,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEndpointAccessInput, ListEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEndpointAccessOutput>(ListEndpointAccessOutput.httpOutput(from:), ListEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEndpointAccessInput, ListEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEndpointAccessOutput>())
@@ -2884,9 +2995,9 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a list of specified managed workgroups in your account.
     ///
-    /// - Parameter ListManagedWorkgroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedWorkgroupsInput`)
     ///
-    /// - Returns: `ListManagedWorkgroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedWorkgroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2919,6 +3030,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedWorkgroupsInput, ListManagedWorkgroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedWorkgroupsOutput>(ListManagedWorkgroupsOutput.httpOutput(from:), ListManagedWorkgroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedWorkgroupsInput, ListManagedWorkgroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedWorkgroupsOutput>())
@@ -2953,15 +3065,15 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a list of specified namespaces.
     ///
-    /// - Parameter ListNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNamespacesInput`)
     ///
-    /// - Returns: `ListNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listNamespaces(input: ListNamespacesInput) async throws -> ListNamespacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2988,6 +3100,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNamespacesInput, ListNamespacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNamespacesOutput>(ListNamespacesOutput.httpOutput(from:), ListNamespacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNamespacesInput, ListNamespacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNamespacesOutput>())
@@ -3022,15 +3135,15 @@ extension RedshiftServerlessClient {
     ///
     /// Returns an array of recovery points.
     ///
-    /// - Parameter ListRecoveryPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryPointsInput`)
     ///
-    /// - Returns: `ListRecoveryPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecoveryPointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listRecoveryPoints(input: ListRecoveryPointsInput) async throws -> ListRecoveryPointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3057,6 +3170,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecoveryPointsInput, ListRecoveryPointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryPointsOutput>(ListRecoveryPointsOutput.httpOutput(from:), ListRecoveryPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryPointsInput, ListRecoveryPointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryPointsOutput>())
@@ -3091,16 +3205,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns the current reservation offerings in your account.
     ///
-    /// - Parameter ListReservationOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReservationOfferingsInput`)
     ///
-    /// - Returns: `ListReservationOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReservationOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listReservationOfferings(input: ListReservationOfferingsInput) async throws -> ListReservationOfferingsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3127,6 +3241,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReservationOfferingsInput, ListReservationOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReservationOfferingsOutput>(ListReservationOfferingsOutput.httpOutput(from:), ListReservationOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReservationOfferingsInput, ListReservationOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReservationOfferingsOutput>())
@@ -3161,16 +3276,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns a list of Reservation objects.
     ///
-    /// - Parameter ListReservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReservationsInput`)
     ///
-    /// - Returns: `ListReservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReservationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3197,6 +3312,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReservationsInput, ListReservationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReservationsOutput>(ListReservationsOutput.httpOutput(from:), ListReservationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReservationsInput, ListReservationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReservationsOutput>())
@@ -3231,9 +3347,9 @@ extension RedshiftServerlessClient {
     ///
     /// Returns a list of scheduled actions. You can use the flags to filter the list of returned scheduled actions.
     ///
-    /// - Parameter ListScheduledActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScheduledActionsInput`)
     ///
-    /// - Returns: `ListScheduledActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScheduledActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3241,7 +3357,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listScheduledActions(input: ListScheduledActionsInput) async throws -> ListScheduledActionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3268,6 +3384,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListScheduledActionsInput, ListScheduledActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScheduledActionsOutput>(ListScheduledActionsOutput.httpOutput(from:), ListScheduledActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScheduledActionsInput, ListScheduledActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScheduledActionsOutput>())
@@ -3302,9 +3419,9 @@ extension RedshiftServerlessClient {
     ///
     /// Returns a list of snapshot copy configurations.
     ///
-    /// - Parameter ListSnapshotCopyConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSnapshotCopyConfigurationsInput`)
     ///
-    /// - Returns: `ListSnapshotCopyConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSnapshotCopyConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3313,7 +3430,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listSnapshotCopyConfigurations(input: ListSnapshotCopyConfigurationsInput) async throws -> ListSnapshotCopyConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3340,6 +3457,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSnapshotCopyConfigurationsInput, ListSnapshotCopyConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSnapshotCopyConfigurationsOutput>(ListSnapshotCopyConfigurationsOutput.httpOutput(from:), ListSnapshotCopyConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSnapshotCopyConfigurationsInput, ListSnapshotCopyConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSnapshotCopyConfigurationsOutput>())
@@ -3374,16 +3492,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns a list of snapshots.
     ///
-    /// - Parameter ListSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSnapshotsInput`)
     ///
-    /// - Returns: `ListSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3410,6 +3528,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSnapshotsInput, ListSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSnapshotsOutput>(ListSnapshotsOutput.httpOutput(from:), ListSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSnapshotsInput, ListSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSnapshotsOutput>())
@@ -3444,16 +3563,16 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about an array of TableRestoreStatus objects.
     ///
-    /// - Parameter ListTableRestoreStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTableRestoreStatusInput`)
     ///
-    /// - Returns: `ListTableRestoreStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTableRestoreStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listTableRestoreStatus(input: ListTableRestoreStatusInput) async throws -> ListTableRestoreStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3480,6 +3599,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTableRestoreStatusInput, ListTableRestoreStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTableRestoreStatusOutput>(ListTableRestoreStatusOutput.httpOutput(from:), ListTableRestoreStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTableRestoreStatusInput, ListTableRestoreStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTableRestoreStatusOutput>())
@@ -3514,9 +3634,9 @@ extension RedshiftServerlessClient {
     ///
     /// Lists the tags assigned to a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3524,7 +3644,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3551,6 +3671,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3585,9 +3706,9 @@ extension RedshiftServerlessClient {
     ///
     /// List the Amazon Redshift Serverless versions.
     ///
-    /// - Parameter ListTracksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTracksInput`)
     ///
-    /// - Returns: `ListTracksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTracksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3596,7 +3717,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listTracks(input: ListTracksInput) async throws -> ListTracksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3623,6 +3744,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTracksInput, ListTracksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTracksOutput>(ListTracksOutput.httpOutput(from:), ListTracksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTracksInput, ListTracksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTracksOutput>())
@@ -3657,9 +3779,9 @@ extension RedshiftServerlessClient {
     ///
     /// Lists all usage limits within Amazon Redshift Serverless.
     ///
-    /// - Parameter ListUsageLimitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsageLimitsInput`)
     ///
-    /// - Returns: `ListUsageLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsageLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3668,7 +3790,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `InvalidPaginationException` : The provided pagination token is invalid.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listUsageLimits(input: ListUsageLimitsInput) async throws -> ListUsageLimitsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3695,6 +3817,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsageLimitsInput, ListUsageLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsageLimitsOutput>(ListUsageLimitsOutput.httpOutput(from:), ListUsageLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsageLimitsInput, ListUsageLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsageLimitsOutput>())
@@ -3729,15 +3852,15 @@ extension RedshiftServerlessClient {
     ///
     /// Returns information about a list of specified workgroups.
     ///
-    /// - Parameter ListWorkgroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkgroupsInput`)
     ///
-    /// - Returns: `ListWorkgroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkgroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func listWorkgroups(input: ListWorkgroupsInput) async throws -> ListWorkgroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3764,6 +3887,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkgroupsInput, ListWorkgroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkgroupsOutput>(ListWorkgroupsOutput.httpOutput(from:), ListWorkgroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkgroupsInput, ListWorkgroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkgroupsOutput>())
@@ -3798,9 +3922,9 @@ extension RedshiftServerlessClient {
     ///
     /// Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3809,7 +3933,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3836,6 +3960,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -3870,9 +3995,9 @@ extension RedshiftServerlessClient {
     ///
     /// Restore the data from a recovery point.
     ///
-    /// - Parameter RestoreFromRecoveryPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreFromRecoveryPointInput`)
     ///
-    /// - Returns: `RestoreFromRecoveryPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreFromRecoveryPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3880,7 +4005,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func restoreFromRecoveryPoint(input: RestoreFromRecoveryPointInput) async throws -> RestoreFromRecoveryPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3907,6 +4032,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreFromRecoveryPointInput, RestoreFromRecoveryPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreFromRecoveryPointOutput>(RestoreFromRecoveryPointOutput.httpOutput(from:), RestoreFromRecoveryPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreFromRecoveryPointInput, RestoreFromRecoveryPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreFromRecoveryPointOutput>())
@@ -3941,9 +4067,9 @@ extension RedshiftServerlessClient {
     ///
     /// Restores a namespace from a snapshot.
     ///
-    /// - Parameter RestoreFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3952,7 +4078,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ServiceQuotaExceededException` : The service limit was exceeded.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3979,6 +4105,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreFromSnapshotOutput>(RestoreFromSnapshotOutput.httpOutput(from:), RestoreFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreFromSnapshotOutput>())
@@ -4013,9 +4140,9 @@ extension RedshiftServerlessClient {
     ///
     /// Restores a table from a recovery point to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
     ///
-    /// - Parameter RestoreTableFromRecoveryPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreTableFromRecoveryPointInput`)
     ///
-    /// - Returns: `RestoreTableFromRecoveryPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreTableFromRecoveryPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4023,7 +4150,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func restoreTableFromRecoveryPoint(input: RestoreTableFromRecoveryPointInput) async throws -> RestoreTableFromRecoveryPointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4050,6 +4177,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreTableFromRecoveryPointInput, RestoreTableFromRecoveryPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreTableFromRecoveryPointOutput>(RestoreTableFromRecoveryPointOutput.httpOutput(from:), RestoreTableFromRecoveryPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreTableFromRecoveryPointInput, RestoreTableFromRecoveryPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableFromRecoveryPointOutput>())
@@ -4084,9 +4212,9 @@ extension RedshiftServerlessClient {
     ///
     /// Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with [interleaved sort keys](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html#t_Sorting_data-interleaved).
     ///
-    /// - Parameter RestoreTableFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreTableFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreTableFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreTableFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4094,7 +4222,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func restoreTableFromSnapshot(input: RestoreTableFromSnapshotInput) async throws -> RestoreTableFromSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4121,6 +4249,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreTableFromSnapshotInput, RestoreTableFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreTableFromSnapshotOutput>(RestoreTableFromSnapshotOutput.httpOutput(from:), RestoreTableFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreTableFromSnapshotInput, RestoreTableFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreTableFromSnapshotOutput>())
@@ -4155,9 +4284,9 @@ extension RedshiftServerlessClient {
     ///
     /// Assigns one or more tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4166,7 +4295,7 @@ extension RedshiftServerlessClient {
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `TooManyTagsException` : The request exceeded the number of tags allowed for a resource.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4193,6 +4322,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4227,9 +4357,9 @@ extension RedshiftServerlessClient {
     ///
     /// Removes a tag or set of tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4237,7 +4367,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4264,6 +4394,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4298,9 +4429,9 @@ extension RedshiftServerlessClient {
     ///
     /// Updates an Amazon Redshift Serverless certificate associated with a custom domain.
     ///
-    /// - Parameter UpdateCustomDomainAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomDomainAssociationInput`)
     ///
-    /// - Returns: `UpdateCustomDomainAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomDomainAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4310,7 +4441,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateCustomDomainAssociation(input: UpdateCustomDomainAssociationInput) async throws -> UpdateCustomDomainAssociationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4337,6 +4468,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomDomainAssociationInput, UpdateCustomDomainAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomDomainAssociationOutput>(UpdateCustomDomainAssociationOutput.httpOutput(from:), UpdateCustomDomainAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomDomainAssociationInput, UpdateCustomDomainAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomDomainAssociationOutput>())
@@ -4371,9 +4503,9 @@ extension RedshiftServerlessClient {
     ///
     /// Updates an Amazon Redshift Serverless managed endpoint.
     ///
-    /// - Parameter UpdateEndpointAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointAccessInput`)
     ///
-    /// - Returns: `UpdateEndpointAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4382,7 +4514,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateEndpointAccess(input: UpdateEndpointAccessInput) async throws -> UpdateEndpointAccessOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4409,6 +4541,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEndpointAccessInput, UpdateEndpointAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointAccessOutput>(UpdateEndpointAccessOutput.httpOutput(from:), UpdateEndpointAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointAccessInput, UpdateEndpointAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointAccessOutput>())
@@ -4439,13 +4572,86 @@ extension RedshiftServerlessClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateLakehouseConfiguration` operation on the `RedshiftServerless` service.
+    ///
+    /// Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateLakehouseConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateLakehouseConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `DryRunException` : This exception is thrown when the request was successful, but dry run was enabled so no action was taken.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
+    public func updateLakehouseConfiguration(input: UpdateLakehouseConfigurationInput) async throws -> UpdateLakehouseConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateLakehouseConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "redshift-serverless")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(UpdateLakehouseConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLakehouseConfigurationOutput>(UpdateLakehouseConfigurationOutput.httpOutput(from:), UpdateLakehouseConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLakehouseConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Redshift Serverless", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLakehouseConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(xAmzTarget: "RedshiftServerless.UpdateLakehouseConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateLakehouseConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLakehouseConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateLakehouseConfigurationInput, UpdateLakehouseConfigurationOutput>(serviceID: serviceName, version: RedshiftServerlessClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RedshiftServerless")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateLakehouseConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateNamespace` operation on the `RedshiftServerless` service.
     ///
     /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request.
     ///
-    /// - Parameter UpdateNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNamespaceInput`)
     ///
-    /// - Returns: `UpdateNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4453,7 +4659,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateNamespace(input: UpdateNamespaceInput) async throws -> UpdateNamespaceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4480,6 +4686,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNamespaceInput, UpdateNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNamespaceOutput>(UpdateNamespaceOutput.httpOutput(from:), UpdateNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNamespaceInput, UpdateNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNamespaceOutput>())
@@ -4514,9 +4721,9 @@ extension RedshiftServerlessClient {
     ///
     /// Updates a scheduled action.
     ///
-    /// - Parameter UpdateScheduledActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduledActionInput`)
     ///
-    /// - Returns: `UpdateScheduledActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScheduledActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4524,7 +4731,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateScheduledAction(input: UpdateScheduledActionInput) async throws -> UpdateScheduledActionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4551,6 +4758,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScheduledActionInput, UpdateScheduledActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScheduledActionOutput>(UpdateScheduledActionOutput.httpOutput(from:), UpdateScheduledActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScheduledActionInput, UpdateScheduledActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScheduledActionOutput>())
@@ -4585,9 +4793,9 @@ extension RedshiftServerlessClient {
     ///
     /// Updates a snapshot.
     ///
-    /// - Parameter UpdateSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSnapshotInput`)
     ///
-    /// - Returns: `UpdateSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4595,7 +4803,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4622,6 +4830,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSnapshotOutput>(UpdateSnapshotOutput.httpOutput(from:), UpdateSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSnapshotInput, UpdateSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSnapshotOutput>())
@@ -4656,9 +4865,9 @@ extension RedshiftServerlessClient {
     ///
     /// Updates a snapshot copy configuration.
     ///
-    /// - Parameter UpdateSnapshotCopyConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSnapshotCopyConfigurationInput`)
     ///
-    /// - Returns: `UpdateSnapshotCopyConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSnapshotCopyConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4667,7 +4876,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateSnapshotCopyConfiguration(input: UpdateSnapshotCopyConfigurationInput) async throws -> UpdateSnapshotCopyConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4694,6 +4903,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSnapshotCopyConfigurationInput, UpdateSnapshotCopyConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSnapshotCopyConfigurationOutput>(UpdateSnapshotCopyConfigurationOutput.httpOutput(from:), UpdateSnapshotCopyConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSnapshotCopyConfigurationInput, UpdateSnapshotCopyConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSnapshotCopyConfigurationOutput>())
@@ -4728,9 +4938,9 @@ extension RedshiftServerlessClient {
     ///
     /// Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
     ///
-    /// - Parameter UpdateUsageLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUsageLimitInput`)
     ///
-    /// - Returns: `UpdateUsageLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUsageLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4738,7 +4948,7 @@ extension RedshiftServerlessClient {
     /// - `ConflictException` : The submitted action has conflicts.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateUsageLimit(input: UpdateUsageLimitInput) async throws -> UpdateUsageLimitOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4765,6 +4975,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUsageLimitInput, UpdateUsageLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUsageLimitOutput>(UpdateUsageLimitOutput.httpOutput(from:), UpdateUsageLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUsageLimitInput, UpdateUsageLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUsageLimitOutput>())
@@ -4808,9 +5019,9 @@ extension RedshiftServerlessClient {
     ///
     /// For more information about VPC BPA, see [Block public access to VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html) in the Amazon VPC User Guide.
     ///
-    /// - Parameter UpdateWorkgroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkgroupInput`)
     ///
-    /// - Returns: `UpdateWorkgroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkgroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4820,7 +5031,7 @@ extension RedshiftServerlessClient {
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `Ipv6CidrBlockNotFoundException` : There are no subnets in your VPC with associated IPv6 CIDR blocks. To use dual-stack mode, associate an IPv6 CIDR block with each subnet in your VPC.
     /// - `ResourceNotFoundException` : The resource could not be found.
-    /// - `ValidationException` : The input failed to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public func updateWorkgroup(input: UpdateWorkgroupInput) async throws -> UpdateWorkgroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4847,6 +5058,7 @@ extension RedshiftServerlessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkgroupInput, UpdateWorkgroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkgroupOutput>(UpdateWorkgroupOutput.httpOutput(from:), UpdateWorkgroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkgroupInput, UpdateWorkgroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkgroupOutput>())

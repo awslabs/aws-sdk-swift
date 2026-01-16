@@ -53,6 +53,11 @@ public struct DeleteCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteConnectionFunctionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteConnectionGroupOutput: Swift.Sendable {
 
     public init() { }
@@ -118,12 +123,22 @@ public struct DeleteRealtimeLogConfigOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteResponseHeadersPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct DeleteStreamingDistributionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteTrustStoreOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -508,6 +523,147 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualstack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum IpamCidrStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advertised
+        case advertising
+        case deprovisioned
+        case deprovisioning
+        case failedadvertise
+        case faileddeprovision
+        case failedprovision
+        case failedwithdraw
+        case provisioned
+        case provisioning
+        case withdrawing
+        case withdrawn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpamCidrStatus] {
+            return [
+                .advertised,
+                .advertising,
+                .deprovisioned,
+                .deprovisioning,
+                .failedadvertise,
+                .faileddeprovision,
+                .failedprovision,
+                .failedwithdraw,
+                .provisioned,
+                .provisioning,
+                .withdrawing,
+                .withdrawn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advertised: return "advertised"
+            case .advertising: return "advertising"
+            case .deprovisioned: return "deprovisioned"
+            case .deprovisioning: return "deprovisioning"
+            case .failedadvertise: return "failed-advertise"
+            case .faileddeprovision: return "failed-deprovision"
+            case .failedprovision: return "failed-provision"
+            case .failedwithdraw: return "failed-withdraw"
+            case .provisioned: return "provisioned"
+            case .provisioning: return "provisioning"
+            case .withdrawing: return "withdrawing"
+            case .withdrawn: return "withdrawn"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// Configuration for an IPAM CIDR that defines a specific IP address range, IPAM pool, and associated Anycast IP address.
+    public struct IpamCidrConfig: Swift.Sendable {
+        /// The specified Anycast IP address allocated from the IPAM pool for this CIDR configuration.
+        public var anycastIp: Swift.String?
+        /// The CIDR that specifies the IP address range for this IPAM configuration.
+        /// This member is required.
+        public var cidr: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IPAM pool that the CIDR block is assigned to.
+        /// This member is required.
+        public var ipamPoolArn: Swift.String?
+        /// The current status of the IPAM CIDR configuration.
+        public var status: CloudFrontClientTypes.IpamCidrStatus?
+
+        public init(
+            anycastIp: Swift.String? = nil,
+            cidr: Swift.String? = nil,
+            ipamPoolArn: Swift.String? = nil,
+            status: CloudFrontClientTypes.IpamCidrStatus? = nil
+        ) {
+            self.anycastIp = anycastIp
+            self.cidr = cidr
+            self.ipamPoolArn = ipamPoolArn
+            self.status = status
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The configuration IPAM settings that includes the quantity of CIDR configurations and the list of IPAM CIDR configurations.
+    public struct IpamConfig: Swift.Sendable {
+        /// A list of IPAM CIDR configurations that define the IP address ranges, IPAM pools, and associated Anycast IP addresses.
+        /// This member is required.
+        public var ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]?
+        /// The number of IPAM CIDR configurations in the IpamCidrConfigs list.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init(
+            ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]? = nil,
+            quantity: Swift.Int? = nil
+        ) {
+            self.ipamCidrConfigs = ipamCidrConfigs
+            self.quantity = quantity
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// An Anycast static IP list. For more information, see [Request Anycast static IPs to use for allowlisting](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html) in the Amazon CloudFront Developer Guide.
     public struct AnycastIpList: Swift.Sendable {
         /// The static IP addresses that are allocated to the Anycast static IP list.
@@ -519,9 +675,13 @@ extension CloudFrontClientTypes {
         /// The ID of the Anycast static IP list.
         /// This member is required.
         public var id: Swift.String?
+        /// The IP address type for the Anycast static IP list.
+        public var ipAddressType: CloudFrontClientTypes.IpAddressType?
         /// The number of IP addresses in the Anycast static IP list.
         /// This member is required.
         public var ipCount: Swift.Int?
+        /// The IPAM configuration for the Anycast static IP list, that contains the quantity and list of IPAM CIDR configurations.
+        public var ipamConfig: CloudFrontClientTypes.IpamConfig?
         /// The last time the Anycast static IP list was modified.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -536,7 +696,9 @@ extension CloudFrontClientTypes {
             anycastIps: [Swift.String]? = nil,
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             ipCount: Swift.Int? = nil,
+            ipamConfig: CloudFrontClientTypes.IpamConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
@@ -544,7 +706,9 @@ extension CloudFrontClientTypes {
             self.anycastIps = anycastIps
             self.arn = arn
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipCount = ipCount
+            self.ipamConfig = ipamConfig
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.status = status
@@ -559,12 +723,18 @@ extension CloudFrontClientTypes {
         /// The Amazon Resource Name (ARN) of the Anycast static IP list.
         /// This member is required.
         public var arn: Swift.String?
+        /// The current version (ETag value) of the Anycast static IP list.
+        public var eTag: Swift.String?
         /// The ID of the Anycast static IP list.
         /// This member is required.
         public var id: Swift.String?
+        /// The IP address type for the Anycast static IP list.
+        public var ipAddressType: CloudFrontClientTypes.IpAddressType?
         /// The number of IP addresses in the Anycast static IP list.
         /// This member is required.
         public var ipCount: Swift.Int?
+        /// The IPAM configuration for the Anycast static IP list, that contains the quantity and list of IPAM CIDR configurations.
+        public var ipamConfig: CloudFrontClientTypes.IpamConfig?
         /// The last time the Anycast static IP list was modified.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -577,15 +747,21 @@ extension CloudFrontClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            eTag: Swift.String? = nil,
             id: Swift.String? = nil,
+            ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             ipCount: Swift.Int? = nil,
+            ipamConfig: CloudFrontClientTypes.IpamConfig? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
         ) {
             self.arn = arn
+            self.eTag = eTag
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipCount = ipCount
+            self.ipamConfig = ipamConfig
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.status = status
@@ -738,6 +914,29 @@ public struct AssociateAliasInput: Swift.Sendable {
     ) {
         self.alias = alias
         self.targetDistributionId = targetDistributionId
+    }
+}
+
+/// The entity limit has been exceeded.
+public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntityLimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -910,6 +1109,46 @@ public struct BatchTooLarge: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The CA certificates bundle location in Amazon S3.
+    public struct CaCertificatesBundleS3Location: Swift.Sendable {
+        /// The S3 bucket.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The location's key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The location's Region.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The location's version.
+        public var version: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            key: Swift.String? = nil,
+            region: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.key = key
+            self.region = region
+            self.version = version
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A CA certificates bundle source.
+    public enum CaCertificatesBundleSource: Swift.Sendable {
+        /// The CA certificates bundle location in Amazon S3.
+        case cacertificatesbundles3location(CloudFrontClientTypes.CaCertificatesBundleS3Location)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -3382,6 +3621,22 @@ public struct CopyDistributionInput: Swift.Sendable {
 
 extension CloudFrontClientTypes {
 
+    /// A connection function association.
+    public struct ConnectionFunctionAssociation: Swift.Sendable, Swift.Equatable {
+        /// The association's ID.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     public enum ConnectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case direct
         case tenantonly
@@ -3957,6 +4212,8 @@ extension CloudFrontClientTypes {
         /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the origin listens on.
         /// This member is required.
         public var httpsPort: Swift.Int?
+        /// Specifies which IP protocol CloudFront uses when connecting to your origin. If your origin uses both IPv4 and IPv6 protocols, you can choose dualstack to help optimize reliability.
+        public var ipAddressType: CloudFrontClientTypes.IpAddressType?
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:
@@ -3976,6 +4233,7 @@ extension CloudFrontClientTypes {
         public init(
             httpPort: Swift.Int? = nil,
             httpsPort: Swift.Int? = nil,
+            ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             originKeepaliveTimeout: Swift.Int? = nil,
             originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy? = nil,
             originReadTimeout: Swift.Int? = nil,
@@ -3983,6 +4241,7 @@ extension CloudFrontClientTypes {
         ) {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
+            self.ipAddressType = ipAddressType
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originProtocolPolicy = originProtocolPolicy
             self.originReadTimeout = originReadTimeout
@@ -4039,6 +4298,8 @@ extension CloudFrontClientTypes {
         public var originKeepaliveTimeout: Swift.Int?
         /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
         public var originReadTimeout: Swift.Int?
+        /// The account ID of the Amazon Web Services account that owns the VPC origin.
+        public var ownerAccountId: Swift.String?
         /// The VPC origin ID.
         /// This member is required.
         public var vpcOriginId: Swift.String?
@@ -4046,10 +4307,12 @@ extension CloudFrontClientTypes {
         public init(
             originKeepaliveTimeout: Swift.Int? = nil,
             originReadTimeout: Swift.Int? = nil,
+            ownerAccountId: Swift.String? = nil,
             vpcOriginId: Swift.String? = nil
         ) {
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originReadTimeout = originReadTimeout
+            self.ownerAccountId = ownerAccountId
             self.vpcOriginId = vpcOriginId
         }
     }
@@ -4363,6 +4626,7 @@ extension CloudFrontClientTypes {
         case tlsv122018
         case tlsv122019
         case tlsv122021
+        case tlsv122025
         case tlsv132025
         case sdkUnknown(Swift.String)
 
@@ -4375,6 +4639,7 @@ extension CloudFrontClientTypes {
                 .tlsv122018,
                 .tlsv122019,
                 .tlsv122021,
+                .tlsv122025,
                 .tlsv132025
             ]
         }
@@ -4393,6 +4658,7 @@ extension CloudFrontClientTypes {
             case .tlsv122018: return "TLSv1.2_2018"
             case .tlsv122019: return "TLSv1.2_2019"
             case .tlsv122021: return "TLSv1.2_2021"
+            case .tlsv122025: return "TLSv1.2_2025"
             case .tlsv132025: return "TLSv1.3_2025"
             case let .sdkUnknown(s): return s
             }
@@ -4532,6 +4798,78 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    public enum ViewerMtlsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `optional`
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ViewerMtlsMode] {
+            return [
+                .optional,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optional: return "optional"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A trust store configuration.
+    public struct TrustStoreConfig: Swift.Sendable, Swift.Equatable {
+        /// The configuration to use to advertise trust store CA names.
+        public var advertiseTrustStoreCaNames: Swift.Bool?
+        /// The configuration to use to ignore certificate expiration.
+        public var ignoreCertificateExpiry: Swift.Bool?
+        /// The trust store ID.
+        /// This member is required.
+        public var trustStoreId: Swift.String?
+
+        public init(
+            advertiseTrustStoreCaNames: Swift.Bool? = nil,
+            ignoreCertificateExpiry: Swift.Bool? = nil,
+            trustStoreId: Swift.String? = nil
+        ) {
+            self.advertiseTrustStoreCaNames = advertiseTrustStoreCaNames
+            self.ignoreCertificateExpiry = ignoreCertificateExpiry
+            self.trustStoreId = trustStoreId
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A viewer mTLS configuration.
+    public struct ViewerMtlsConfig: Swift.Sendable, Swift.Equatable {
+        /// The viewer mTLS mode.
+        public var mode: CloudFrontClientTypes.ViewerMtlsMode?
+        /// The trust store configuration associated with the viewer mTLS configuration.
+        public var trustStoreConfig: CloudFrontClientTypes.TrustStoreConfig?
+
+        public init(
+            mode: CloudFrontClientTypes.ViewerMtlsMode? = .`required`,
+            trustStoreConfig: CloudFrontClientTypes.TrustStoreConfig? = nil
+        ) {
+            self.mode = mode
+            self.trustStoreConfig = trustStoreConfig
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// A distribution configuration.
     public struct DistributionConfig: Swift.Sendable {
         /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
@@ -4546,6 +4884,8 @@ extension CloudFrontClientTypes {
         /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
         /// This member is required.
         public var comment: Swift.String?
+        /// The distribution's connection function association.
+        public var connectionFunctionAssociation: CloudFrontClientTypes.ConnectionFunctionAssociation?
         /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public var connectionMode: CloudFrontClientTypes.ConnectionMode?
         /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
@@ -4595,6 +4935,8 @@ extension CloudFrontClientTypes {
         public var tenantConfig: CloudFrontClientTypes.TenantConfig?
         /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         public var viewerCertificate: CloudFrontClientTypes.ViewerCertificate?
+        /// The distribution's viewer mTLS configuration.
+        public var viewerMtlsConfig: CloudFrontClientTypes.ViewerMtlsConfig?
         /// Multi-tenant distributions only support WAF V2 web ACLs. A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. To specify a web ACL created using WAF Classic, use the ACL ID, for example a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html).
         public var webACLId: Swift.String?
 
@@ -4604,6 +4946,7 @@ extension CloudFrontClientTypes {
             cacheBehaviors: CloudFrontClientTypes.CacheBehaviors? = nil,
             callerReference: Swift.String? = nil,
             comment: Swift.String? = nil,
+            connectionFunctionAssociation: CloudFrontClientTypes.ConnectionFunctionAssociation? = nil,
             connectionMode: CloudFrontClientTypes.ConnectionMode? = nil,
             continuousDeploymentPolicyId: Swift.String? = nil,
             customErrorResponses: CloudFrontClientTypes.CustomErrorResponses? = nil,
@@ -4620,6 +4963,7 @@ extension CloudFrontClientTypes {
             staging: Swift.Bool? = nil,
             tenantConfig: CloudFrontClientTypes.TenantConfig? = nil,
             viewerCertificate: CloudFrontClientTypes.ViewerCertificate? = nil,
+            viewerMtlsConfig: CloudFrontClientTypes.ViewerMtlsConfig? = nil,
             webACLId: Swift.String? = nil
         ) {
             self.aliases = aliases
@@ -4627,6 +4971,7 @@ extension CloudFrontClientTypes {
             self.cacheBehaviors = cacheBehaviors
             self.callerReference = callerReference
             self.comment = comment
+            self.connectionFunctionAssociation = connectionFunctionAssociation
             self.connectionMode = connectionMode
             self.continuousDeploymentPolicyId = continuousDeploymentPolicyId
             self.customErrorResponses = customErrorResponses
@@ -4643,6 +4988,7 @@ extension CloudFrontClientTypes {
             self.staging = staging
             self.tenantConfig = tenantConfig
             self.viewerCertificate = viewerCertificate
+            self.viewerMtlsConfig = viewerMtlsConfig
             self.webACLId = webACLId
         }
     }
@@ -4650,7 +4996,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.DistributionConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), connectionMode: \(Swift.String(describing: connectionMode)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), tenantConfig: \(Swift.String(describing: tenantConfig)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
+        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), connectionFunctionAssociation: \(Swift.String(describing: connectionFunctionAssociation)), connectionMode: \(Swift.String(describing: connectionMode)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), tenantConfig: \(Swift.String(describing: tenantConfig)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), viewerMtlsConfig: \(Swift.String(describing: viewerMtlsConfig)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudFrontClientTypes {
@@ -4753,29 +5099,6 @@ public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// The entity limit has been exceeded.
-public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntityLimitExceeded" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The tagging specified is not valid.
 public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4858,9 +5181,19 @@ extension CloudFrontClientTypes {
 }
 
 public struct CreateAnycastIpListInput: Swift.Sendable {
+    /// The IP address type for the Anycast static IP list. You can specify one of the following options:
+    ///
+    /// * ipv4 only
+    ///
+    /// * ipv6 only
+    ///
+    /// * dualstack - Allocate a list of both IPv4 and IPv6 addresses
+    public var ipAddressType: CloudFrontClientTypes.IpAddressType?
     /// The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
     /// This member is required.
     public var ipCount: Swift.Int?
+    /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for creating the Anycast static IP list.
+    public var ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]?
     /// Name of the Anycast static IP list.
     /// This member is required.
     public var name: Swift.String?
@@ -4868,11 +5201,15 @@ public struct CreateAnycastIpListInput: Swift.Sendable {
     public var tags: CloudFrontClientTypes.Tags?
 
     public init(
+        ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
         ipCount: Swift.Int? = nil,
+        ipamCidrConfigs: [CloudFrontClientTypes.IpamCidrConfig]? = nil,
         name: Swift.String? = nil,
         tags: CloudFrontClientTypes.Tags? = nil
     ) {
+        self.ipAddressType = ipAddressType
         self.ipCount = ipCount
+        self.ipamCidrConfigs = ipamCidrConfigs
         self.name = name
         self.tags = tags
     }
@@ -5136,6 +5473,249 @@ public struct CreateCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
         location: Swift.String? = nil
     ) {
         self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
+        self.eTag = eTag
+        self.location = location
+    }
+}
+
+/// The entity size limit was exceeded.
+public struct EntitySizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntitySizeLimitExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The key value store association.
+    public struct KeyValueStoreAssociation: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the key value store association.
+        /// This member is required.
+        public var keyValueStoreARN: Swift.String?
+
+        public init(
+            keyValueStoreARN: Swift.String? = nil
+        ) {
+            self.keyValueStoreARN = keyValueStoreARN
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The key value store associations.
+    public struct KeyValueStoreAssociations: Swift.Sendable {
+        /// The items of the key value store association.
+        public var items: [CloudFrontClientTypes.KeyValueStoreAssociation]?
+        /// The quantity of key value store associations.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init(
+            items: [CloudFrontClientTypes.KeyValueStoreAssociation]? = nil,
+            quantity: Swift.Int? = nil
+        ) {
+            self.items = items
+            self.quantity = quantity
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum FunctionRuntime: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudfrontJs10
+        case cloudfrontJs20
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FunctionRuntime] {
+            return [
+                .cloudfrontJs10,
+                .cloudfrontJs20
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudfrontJs10: return "cloudfront-js-1.0"
+            case .cloudfrontJs20: return "cloudfront-js-2.0"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// Contains configuration information about a CloudFront function.
+    public struct FunctionConfig: Swift.Sendable {
+        /// A comment to describe the function.
+        /// This member is required.
+        public var comment: Swift.String?
+        /// The configuration for the key value store associations.
+        public var keyValueStoreAssociations: CloudFrontClientTypes.KeyValueStoreAssociations?
+        /// The function's runtime environment version.
+        /// This member is required.
+        public var runtime: CloudFrontClientTypes.FunctionRuntime?
+
+        public init(
+            comment: Swift.String? = nil,
+            keyValueStoreAssociations: CloudFrontClientTypes.KeyValueStoreAssociations? = nil,
+            runtime: CloudFrontClientTypes.FunctionRuntime? = nil
+        ) {
+            self.comment = comment
+            self.keyValueStoreAssociations = keyValueStoreAssociations
+            self.runtime = runtime
+        }
+    }
+}
+
+public struct CreateConnectionFunctionInput: Swift.Sendable {
+    /// The code for the connection function.
+    /// This member is required.
+    public var connectionFunctionCode: Foundation.Data?
+    /// Contains configuration information about a CloudFront function.
+    /// This member is required.
+    public var connectionFunctionConfig: CloudFrontClientTypes.FunctionConfig?
+    /// A name for the connection function.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A complex type that contains zero or more Tag elements.
+    public var tags: CloudFrontClientTypes.Tags?
+
+    public init(
+        connectionFunctionCode: Foundation.Data? = nil,
+        connectionFunctionConfig: CloudFrontClientTypes.FunctionConfig? = nil,
+        name: Swift.String? = nil,
+        tags: CloudFrontClientTypes.Tags? = nil
+    ) {
+        self.connectionFunctionCode = connectionFunctionCode
+        self.connectionFunctionConfig = connectionFunctionConfig
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CreateConnectionFunctionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateConnectionFunctionInput(connectionFunctionConfig: \(Swift.String(describing: connectionFunctionConfig)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), connectionFunctionCode: \"CONTENT_REDACTED\")"}
+}
+
+extension CloudFrontClientTypes {
+
+    public enum FunctionStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case development
+        case live
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FunctionStage] {
+            return [
+                .development,
+                .live
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .development: return "DEVELOPMENT"
+            case .live: return "LIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A connection function summary.
+    public struct ConnectionFunctionSummary: Swift.Sendable {
+        /// The connection function Amazon Resource Name (ARN).
+        /// This member is required.
+        public var connectionFunctionArn: Swift.String?
+        /// Contains configuration information about a CloudFront function.
+        /// This member is required.
+        public var connectionFunctionConfig: CloudFrontClientTypes.FunctionConfig?
+        /// The connection function created time.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The connection function ID.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The connection function last modified time.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The connection function name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The connection function stage.
+        /// This member is required.
+        public var stage: CloudFrontClientTypes.FunctionStage?
+        /// The connection function status.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            connectionFunctionArn: Swift.String? = nil,
+            connectionFunctionConfig: CloudFrontClientTypes.FunctionConfig? = nil,
+            createdTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            stage: CloudFrontClientTypes.FunctionStage? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.connectionFunctionArn = connectionFunctionArn
+            self.connectionFunctionConfig = connectionFunctionConfig
+            self.createdTime = createdTime
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.stage = stage
+            self.status = status
+        }
+    }
+}
+
+public struct CreateConnectionFunctionOutput: Swift.Sendable {
+    /// The summary for the connection function.
+    public var connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary?
+    /// The version identifier for the current version of the connection function.
+    public var eTag: Swift.String?
+    /// The location of the connection function.
+    public var location: Swift.String?
+
+    public init(
+        connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary? = nil,
+        eTag: Swift.String? = nil,
+        location: Swift.String? = nil
+    ) {
+        self.connectionFunctionSummary = connectionFunctionSummary
         self.eTag = eTag
         self.location = location
     }
@@ -6831,96 +7411,6 @@ public struct TooManyFunctions: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-extension CloudFrontClientTypes {
-
-    /// The key value store association.
-    public struct KeyValueStoreAssociation: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the key value store association.
-        /// This member is required.
-        public var keyValueStoreARN: Swift.String?
-
-        public init(
-            keyValueStoreARN: Swift.String? = nil
-        ) {
-            self.keyValueStoreARN = keyValueStoreARN
-        }
-    }
-}
-
-extension CloudFrontClientTypes {
-
-    /// The key value store associations.
-    public struct KeyValueStoreAssociations: Swift.Sendable {
-        /// The items of the key value store association.
-        public var items: [CloudFrontClientTypes.KeyValueStoreAssociation]?
-        /// The quantity of key value store associations.
-        /// This member is required.
-        public var quantity: Swift.Int?
-
-        public init(
-            items: [CloudFrontClientTypes.KeyValueStoreAssociation]? = nil,
-            quantity: Swift.Int? = nil
-        ) {
-            self.items = items
-            self.quantity = quantity
-        }
-    }
-}
-
-extension CloudFrontClientTypes {
-
-    public enum FunctionRuntime: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cloudfrontJs10
-        case cloudfrontJs20
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FunctionRuntime] {
-            return [
-                .cloudfrontJs10,
-                .cloudfrontJs20
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cloudfrontJs10: return "cloudfront-js-1.0"
-            case .cloudfrontJs20: return "cloudfront-js-2.0"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CloudFrontClientTypes {
-
-    /// Contains configuration information about a CloudFront function.
-    public struct FunctionConfig: Swift.Sendable {
-        /// A comment to describe the function.
-        /// This member is required.
-        public var comment: Swift.String?
-        /// The configuration for the key value store associations.
-        public var keyValueStoreAssociations: CloudFrontClientTypes.KeyValueStoreAssociations?
-        /// The function's runtime environment version.
-        /// This member is required.
-        public var runtime: CloudFrontClientTypes.FunctionRuntime?
-
-        public init(
-            comment: Swift.String? = nil,
-            keyValueStoreAssociations: CloudFrontClientTypes.KeyValueStoreAssociations? = nil,
-            runtime: CloudFrontClientTypes.FunctionRuntime? = nil
-        ) {
-            self.comment = comment
-            self.keyValueStoreAssociations = keyValueStoreAssociations
-            self.runtime = runtime
-        }
-    }
-}
-
 public struct CreateFunctionInput: Swift.Sendable {
     /// The function code. For more information about writing a CloudFront function, see [Writing function code for CloudFront Functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html) in the Amazon CloudFront Developer Guide.
     /// This member is required.
@@ -6946,35 +7436,6 @@ public struct CreateFunctionInput: Swift.Sendable {
 extension CreateFunctionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateFunctionInput(functionConfig: \(Swift.String(describing: functionConfig)), name: \(Swift.String(describing: name)), functionCode: \"CONTENT_REDACTED\")"}
-}
-
-extension CloudFrontClientTypes {
-
-    public enum FunctionStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case development
-        case live
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FunctionStage] {
-            return [
-                .development,
-                .live
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .development: return "DEVELOPMENT"
-            case .live: return "LIVE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
 }
 
 extension CloudFrontClientTypes {
@@ -7364,29 +7825,6 @@ public struct CreateKeyGroupOutput: Swift.Sendable {
         self.eTag = eTag
         self.keyGroup = keyGroup
         self.location = location
-    }
-}
-
-/// The entity size limit was exceeded.
-public struct EntitySizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntitySizeLimitExceeded" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -8325,7 +8763,7 @@ public struct TooManyPublicKeys: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension CloudFrontClientTypes {
 
-    /// Configuration information about a public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html).
+    /// Configuration information about a public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html). CloudFront supports signed URLs and signed cookies with RSA 2048 or ECDSA 256 key signatures. Field-level encryption is only compatible with RSA 2048 key signatures.
     public struct PublicKeyConfig: Swift.Sendable {
         /// A string included in the request to help make sure that the request can't be replayed.
         /// This member is required.
@@ -8367,7 +8805,7 @@ public struct CreatePublicKeyInput: Swift.Sendable {
 
 extension CloudFrontClientTypes {
 
-    /// A public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html).
+    /// A public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html). CloudFront supports signed URLs and signed cookies with RSA 2048 or ECDSA 256 key signatures. Field-level encryption is only compatible with RSA 2048 key signatures.
     public struct PublicKey: Swift.Sendable {
         /// The date and time when the public key was uploaded.
         /// This member is required.
@@ -9594,6 +10032,113 @@ public struct CreateStreamingDistributionWithTagsOutput: Swift.Sendable {
     }
 }
 
+public struct CreateTrustStoreInput: Swift.Sendable {
+    /// The CA certificates bundle source for the trust store.
+    /// This member is required.
+    public var caCertificatesBundleSource: CloudFrontClientTypes.CaCertificatesBundleSource?
+    /// A name for the trust store.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A complex type that contains zero or more Tag elements.
+    public var tags: CloudFrontClientTypes.Tags?
+
+    public init(
+        caCertificatesBundleSource: CloudFrontClientTypes.CaCertificatesBundleSource? = nil,
+        name: Swift.String? = nil,
+        tags: CloudFrontClientTypes.Tags? = nil
+    ) {
+        self.caCertificatesBundleSource = caCertificatesBundleSource
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum TrustStoreStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustStoreStatus] {
+            return [
+                .active,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .failed: return "failed"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A trust store.
+    public struct TrustStore: Swift.Sendable {
+        /// The trust store's Amazon Resource Name (ARN).
+        public var arn: Swift.String?
+        /// The trust store's ID.
+        public var id: Swift.String?
+        /// The trust store's last modified time.
+        public var lastModifiedTime: Foundation.Date?
+        /// The trust store's name.
+        public var name: Swift.String?
+        /// The trust store's number of CA certificates.
+        public var numberOfCaCertificates: Swift.Int?
+        /// The trust store's reason.
+        public var reason: Swift.String?
+        /// The trust store's status.
+        public var status: CloudFrontClientTypes.TrustStoreStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            numberOfCaCertificates: Swift.Int? = nil,
+            reason: Swift.String? = nil,
+            status: CloudFrontClientTypes.TrustStoreStatus? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.numberOfCaCertificates = numberOfCaCertificates
+            self.reason = reason
+            self.status = status
+        }
+    }
+}
+
+public struct CreateTrustStoreOutput: Swift.Sendable {
+    /// The version identifier for the current version of the trust store.
+    public var eTag: Swift.String?
+    /// The trust store.
+    public var trustStore: CloudFrontClientTypes.TrustStore?
+
+    public init(
+        eTag: Swift.String? = nil,
+        trustStore: CloudFrontClientTypes.TrustStore? = nil
+    ) {
+        self.eTag = eTag
+        self.trustStore = trustStore
+    }
+}
+
 extension CloudFrontClientTypes {
 
     /// An Amazon CloudFront VPC origin endpoint configuration.
@@ -9654,6 +10199,8 @@ extension CloudFrontClientTypes {
 
     /// An Amazon CloudFront VPC origin.
     public struct VpcOrigin: Swift.Sendable {
+        /// The account ID of the Amazon Web Services account that owns the VPC origin.
+        public var accountId: Swift.String?
         /// The VPC origin ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -9674,6 +10221,7 @@ extension CloudFrontClientTypes {
         public var vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig?
 
         public init(
+            accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
@@ -9681,6 +10229,7 @@ extension CloudFrontClientTypes {
             status: Swift.String? = nil,
             vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig? = nil
         ) {
+            self.accountId = accountId
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -9818,6 +10367,23 @@ public struct DeleteCloudFrontOriginAccessIdentityInput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+public struct DeleteConnectionFunctionInput: Swift.Sendable {
+    /// The connection function's ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the connection function you are deleting.
+    /// This member is required.
     public var ifMatch: Swift.String?
 
     public init(
@@ -10399,6 +10965,18 @@ public struct DeleteRealtimeLogConfigInput: Swift.Sendable {
     }
 }
 
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the CloudFront resource for which the resource policy should be deleted.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
 /// Cannot delete the response headers policy because it is attached to one or more cache behaviors in a CloudFront distribution.
 public struct ResponseHeadersPolicyInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -10501,6 +11079,23 @@ public struct DeleteStreamingDistributionInput: Swift.Sendable {
     }
 }
 
+public struct DeleteTrustStoreInput: Swift.Sendable {
+    /// The trust store's ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the trust store you are deleting.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
 public struct DeleteVpcOriginInput: Swift.Sendable {
     /// The VPC origin ID.
     /// This member is required.
@@ -10530,6 +11125,37 @@ public struct DeleteVpcOriginOutput: Swift.Sendable {
     ) {
         self.eTag = eTag
         self.vpcOrigin = vpcOrigin
+    }
+}
+
+public struct DescribeConnectionFunctionInput: Swift.Sendable {
+    /// The connection function's identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The connection function's stage.
+    public var stage: CloudFrontClientTypes.FunctionStage?
+
+    public init(
+        identifier: Swift.String? = nil,
+        stage: CloudFrontClientTypes.FunctionStage? = nil
+    ) {
+        self.identifier = identifier
+        self.stage = stage
+    }
+}
+
+public struct DescribeConnectionFunctionOutput: Swift.Sendable {
+    /// The connection function's summary.
+    public var connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary?
+    /// The version identifier for the current version of the connection function.
+    public var eTag: Swift.String?
+
+    public init(
+        connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.connectionFunctionSummary = connectionFunctionSummary
+        self.eTag = eTag
     }
 }
 
@@ -10790,6 +11416,46 @@ public struct GetCloudFrontOriginAccessIdentityConfigOutput: Swift.Sendable {
         self.cloudFrontOriginAccessIdentityConfig = cloudFrontOriginAccessIdentityConfig
         self.eTag = eTag
     }
+}
+
+public struct GetConnectionFunctionInput: Swift.Sendable {
+    /// The connection function's identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The connection function's stage.
+    public var stage: CloudFrontClientTypes.FunctionStage?
+
+    public init(
+        identifier: Swift.String? = nil,
+        stage: CloudFrontClientTypes.FunctionStage? = nil
+    ) {
+        self.identifier = identifier
+        self.stage = stage
+    }
+}
+
+public struct GetConnectionFunctionOutput: Swift.Sendable {
+    /// The connection function's code.
+    public var connectionFunctionCode: Foundation.Data?
+    /// The connection function's content type.
+    public var contentType: Swift.String?
+    /// The version identifier for the current version of the connection function.
+    public var eTag: Swift.String?
+
+    public init(
+        connectionFunctionCode: Foundation.Data? = nil,
+        contentType: Swift.String? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.connectionFunctionCode = connectionFunctionCode
+        self.contentType = contentType
+        self.eTag = eTag
+    }
+}
+
+extension GetConnectionFunctionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetConnectionFunctionOutput(contentType: \(Swift.String(describing: contentType)), eTag: \(Swift.String(describing: eTag)), connectionFunctionCode: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetConnectionGroupInput: Swift.Sendable {
@@ -11631,6 +12297,33 @@ public struct GetRealtimeLogConfigOutput: Swift.Sendable {
     }
 }
 
+public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the CloudFront resource that is associated with the resource policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The resource policy in JSON format.
+    public var policyDocument: Swift.String?
+    /// The Amazon Resource Name (ARN) of the CloudFront resource that is associated with the resource policy.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.resourceArn = resourceArn
+    }
+}
+
 public struct GetResponseHeadersPolicyInput: Swift.Sendable {
     /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     /// This member is required.
@@ -11740,6 +12433,33 @@ public struct GetStreamingDistributionConfigOutput: Swift.Sendable {
     ) {
         self.eTag = eTag
         self.streamingDistributionConfig = streamingDistributionConfig
+    }
+}
+
+public struct GetTrustStoreInput: Swift.Sendable {
+    /// The trust store's identifier.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetTrustStoreOutput: Swift.Sendable {
+    /// The version identifier for the current version of the trust store.
+    public var eTag: Swift.String?
+    /// The trust store.
+    public var trustStore: CloudFrontClientTypes.TrustStore?
+
+    public init(
+        eTag: Swift.String? = nil,
+        trustStore: CloudFrontClientTypes.TrustStore? = nil
+    ) {
+        self.eTag = eTag
+        self.trustStore = trustStore
     }
 }
 
@@ -12009,6 +12729,40 @@ public struct ListConflictingAliasesOutput: Swift.Sendable {
     }
 }
 
+public struct ListConnectionFunctionsInput: Swift.Sendable {
+    /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    public var marker: Swift.String?
+    /// The maximum number of connection functions that you want returned in the response.
+    public var maxItems: Swift.Int?
+    /// The connection function's stage.
+    public var stage: CloudFrontClientTypes.FunctionStage?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        stage: CloudFrontClientTypes.FunctionStage? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+        self.stage = stage
+    }
+}
+
+public struct ListConnectionFunctionsOutput: Swift.Sendable {
+    /// A list of connection functions.
+    public var connectionFunctions: [CloudFrontClientTypes.ConnectionFunctionSummary]?
+    /// Indicates the next page of connection functions. To get the next page of the list, use this value in the Marker field of your request.
+    public var nextMarker: Swift.String?
+
+    public init(
+        connectionFunctions: [CloudFrontClientTypes.ConnectionFunctionSummary]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.connectionFunctions = connectionFunctions
+        self.nextMarker = nextMarker
+    }
+}
+
 extension CloudFrontClientTypes {
 
     /// Contains information about what CloudFront resources your connection groups are associated with.
@@ -12227,6 +12981,8 @@ extension CloudFrontClientTypes {
         /// The comment originally specified when this distribution was created.
         /// This member is required.
         public var comment: Swift.String?
+        /// The distribution's connection function association.
+        public var connectionFunctionAssociation: CloudFrontClientTypes.ConnectionFunctionAssociation?
         /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public var connectionMode: CloudFrontClientTypes.ConnectionMode?
         /// A complex type that contains zero or more CustomErrorResponses elements.
@@ -12275,6 +13031,8 @@ extension CloudFrontClientTypes {
         /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         /// This member is required.
         public var viewerCertificate: CloudFrontClientTypes.ViewerCertificate?
+        /// The distribution's viewer mTLS configuration.
+        public var viewerMtlsConfig: CloudFrontClientTypes.ViewerMtlsConfig?
         /// The Web ACL Id (if any) associated with the distribution.
         /// This member is required.
         public var webACLId: Swift.String?
@@ -12286,6 +13044,7 @@ extension CloudFrontClientTypes {
             arn: Swift.String? = nil,
             cacheBehaviors: CloudFrontClientTypes.CacheBehaviors? = nil,
             comment: Swift.String? = nil,
+            connectionFunctionAssociation: CloudFrontClientTypes.ConnectionFunctionAssociation? = nil,
             connectionMode: CloudFrontClientTypes.ConnectionMode? = nil,
             customErrorResponses: CloudFrontClientTypes.CustomErrorResponses? = nil,
             defaultCacheBehavior: CloudFrontClientTypes.DefaultCacheBehavior? = nil,
@@ -12303,6 +13062,7 @@ extension CloudFrontClientTypes {
             staging: Swift.Bool? = nil,
             status: Swift.String? = nil,
             viewerCertificate: CloudFrontClientTypes.ViewerCertificate? = nil,
+            viewerMtlsConfig: CloudFrontClientTypes.ViewerMtlsConfig? = nil,
             webACLId: Swift.String? = nil
         ) {
             self.aliasICPRecordals = aliasICPRecordals
@@ -12311,6 +13071,7 @@ extension CloudFrontClientTypes {
             self.arn = arn
             self.cacheBehaviors = cacheBehaviors
             self.comment = comment
+            self.connectionFunctionAssociation = connectionFunctionAssociation
             self.connectionMode = connectionMode
             self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
@@ -12328,6 +13089,7 @@ extension CloudFrontClientTypes {
             self.staging = staging
             self.status = status
             self.viewerCertificate = viewerCertificate
+            self.viewerMtlsConfig = viewerMtlsConfig
             self.webACLId = webACLId
         }
     }
@@ -12335,7 +13097,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.DistributionSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DistributionSummary(aliasICPRecordals: \(Swift.String(describing: aliasICPRecordals)), aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), arn: \(Swift.String(describing: arn)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), connectionMode: \(Swift.String(describing: connectionMode)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), domainName: \(Swift.String(describing: domainName)), eTag: \(Swift.String(describing: eTag)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), id: \(Swift.String(describing: id)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), status: \(Swift.String(describing: status)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
+        "DistributionSummary(aliasICPRecordals: \(Swift.String(describing: aliasICPRecordals)), aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), arn: \(Swift.String(describing: arn)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), connectionFunctionAssociation: \(Swift.String(describing: connectionFunctionAssociation)), connectionMode: \(Swift.String(describing: connectionMode)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), domainName: \(Swift.String(describing: domainName)), eTag: \(Swift.String(describing: eTag)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), id: \(Swift.String(describing: id)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), status: \(Swift.String(describing: status)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), viewerMtlsConfig: \(Swift.String(describing: viewerMtlsConfig)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudFrontClientTypes {
@@ -12490,6 +13252,37 @@ public struct ListDistributionsByCachePolicyIdOutput: Swift.Sendable {
     }
 }
 
+public struct ListDistributionsByConnectionFunctionInput: Swift.Sendable {
+    /// The distributions by connection function identifier.
+    /// This member is required.
+    public var connectionFunctionIdentifier: Swift.String?
+    /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    public var marker: Swift.String?
+    /// The maximum number of distributions that you want returned in the response.
+    public var maxItems: Swift.Int?
+
+    public init(
+        connectionFunctionIdentifier: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.connectionFunctionIdentifier = connectionFunctionIdentifier
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListDistributionsByConnectionFunctionOutput: Swift.Sendable {
+    /// A distribution list.
+    public var distributionList: CloudFrontClientTypes.DistributionList?
+
+    public init(
+        distributionList: CloudFrontClientTypes.DistributionList? = nil
+    ) {
+        self.distributionList = distributionList
+    }
+}
+
 public struct ListDistributionsByConnectionModeInput: Swift.Sendable {
     /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
     /// This member is required.
@@ -12583,6 +13376,97 @@ public struct ListDistributionsByOriginRequestPolicyIdOutput: Swift.Sendable {
     }
 }
 
+public struct ListDistributionsByOwnedResourceInput: Swift.Sendable {
+    /// Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    public var marker: Swift.String?
+    /// The maximum number of distributions to return.
+    public var maxItems: Swift.Int?
+    /// The ARN of the CloudFront resource that you've shared with other Amazon Web Services accounts.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+        self.resourceArn = resourceArn
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A structure that pairs a CloudFront distribution ID with its owning Amazon Web Services account ID.
+    public struct DistributionIdOwner: Swift.Sendable {
+        /// The ID of the distribution.
+        /// This member is required.
+        public var distributionId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the distribution.
+        /// This member is required.
+        public var ownerAccountId: Swift.String?
+
+        public init(
+            distributionId: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil
+        ) {
+            self.distributionId = distributionId
+            self.ownerAccountId = ownerAccountId
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The list of distribution IDs and the Amazon Web Services accounts that they belong to.
+    public struct DistributionIdOwnerList: Swift.Sendable {
+        /// A flag that indicates whether more DistributionIdOwner objects remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more results in the list.
+        /// This member is required.
+        public var isTruncated: Swift.Bool?
+        /// The number of DistributionIdOwner objects.
+        public var items: [CloudFrontClientTypes.DistributionIdOwner]?
+        /// Use this field when paginating results to indicate where to begin in your list of DistributionIdOwner objects. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+        /// This member is required.
+        public var marker: Swift.String?
+        /// The maximum number of DistributionIdOwner objects to return.
+        /// This member is required.
+        public var maxItems: Swift.Int?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public var nextMarker: Swift.String?
+        /// Specifies the actual number of DistributionIdOwner objects included in the list for the current page.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init(
+            isTruncated: Swift.Bool? = nil,
+            items: [CloudFrontClientTypes.DistributionIdOwner]? = nil,
+            marker: Swift.String? = nil,
+            maxItems: Swift.Int? = nil,
+            nextMarker: Swift.String? = nil,
+            quantity: Swift.Int? = nil
+        ) {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+    }
+}
+
+public struct ListDistributionsByOwnedResourceOutput: Swift.Sendable {
+    /// The list of distributions that are using the shared resource.
+    public var distributionList: CloudFrontClientTypes.DistributionIdOwnerList?
+
+    public init(
+        distributionList: CloudFrontClientTypes.DistributionIdOwnerList? = nil
+    ) {
+        self.distributionList = distributionList
+    }
+}
+
 public struct ListDistributionsByRealtimeLogConfigInput: Swift.Sendable {
     /// Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
@@ -12645,6 +13529,37 @@ public struct ListDistributionsByResponseHeadersPolicyIdOutput: Swift.Sendable {
         distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
     ) {
         self.distributionIdList = distributionIdList
+    }
+}
+
+public struct ListDistributionsByTrustStoreInput: Swift.Sendable {
+    /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    public var marker: Swift.String?
+    /// The maximum number of distributions that you want returned in the response.
+    public var maxItems: Swift.Int?
+    /// The distributions by trust store identifier.
+    /// This member is required.
+    public var trustStoreIdentifier: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        trustStoreIdentifier: Swift.String? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+        self.trustStoreIdentifier = trustStoreIdentifier
+    }
+}
+
+public struct ListDistributionsByTrustStoreOutput: Swift.Sendable {
+    /// A distribution list.
+    public var distributionList: CloudFrontClientTypes.DistributionList?
+
+    public init(
+        distributionList: CloudFrontClientTypes.DistributionList? = nil
+    ) {
+        self.distributionList = distributionList
     }
 }
 
@@ -14132,6 +15047,86 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct ListTrustStoresInput: Swift.Sendable {
+    /// Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    public var marker: Swift.String?
+    /// The maximum number of trust stores that you want returned in the response.
+    public var maxItems: Swift.Int?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A trust store summary.
+    public struct TrustStoreSummary: Swift.Sendable {
+        /// The trust store's Amazon Resource Name (ARN).
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The version identifier for the current version of the trust store.
+        /// This member is required.
+        public var eTag: Swift.String?
+        /// The trust store's ID.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The trust store's last modified time.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The trust store's name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The trust store's number of CA certificates.
+        /// This member is required.
+        public var numberOfCaCertificates: Swift.Int?
+        /// The trust store's reason.
+        public var reason: Swift.String?
+        /// The trust store's status.
+        /// This member is required.
+        public var status: CloudFrontClientTypes.TrustStoreStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            eTag: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            numberOfCaCertificates: Swift.Int? = nil,
+            reason: Swift.String? = nil,
+            status: CloudFrontClientTypes.TrustStoreStatus? = nil
+        ) {
+            self.arn = arn
+            self.eTag = eTag
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.numberOfCaCertificates = numberOfCaCertificates
+            self.reason = reason
+            self.status = status
+        }
+    }
+}
+
+public struct ListTrustStoresOutput: Swift.Sendable {
+    /// Indicates the next page of trust stores. To get the next page of the list, use this value in the Marker field of your request.
+    public var nextMarker: Swift.String?
+    /// The trust store list.
+    public var trustStoreList: [CloudFrontClientTypes.TrustStoreSummary]?
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        trustStoreList: [CloudFrontClientTypes.TrustStoreSummary]? = nil
+    ) {
+        self.nextMarker = nextMarker
+        self.trustStoreList = trustStoreList
+    }
+}
+
 public struct ListVpcOriginsInput: Swift.Sendable {
     /// The marker associated with the VPC origins list.
     public var marker: Swift.String?
@@ -14151,6 +15146,8 @@ extension CloudFrontClientTypes {
 
     /// A summary of the CloudFront VPC origin.
     public struct VpcOriginSummary: Swift.Sendable {
+        /// The account ID of the Amazon Web Services account that owns the VPC origin.
+        public var accountId: Swift.String?
         /// The VPC origin summary ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -14174,6 +15171,7 @@ extension CloudFrontClientTypes {
         public var status: Swift.String?
 
         public init(
+            accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
@@ -14182,6 +15180,7 @@ extension CloudFrontClientTypes {
             originEndpointArn: Swift.String? = nil,
             status: Swift.String? = nil
         ) {
+            self.accountId = accountId
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -14243,6 +15242,34 @@ public struct ListVpcOriginsOutput: Swift.Sendable {
     }
 }
 
+public struct PublishConnectionFunctionInput: Swift.Sendable {
+    /// The connection function ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the connection function.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+public struct PublishConnectionFunctionOutput: Swift.Sendable {
+    /// The connection function summary.
+    public var connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary?
+
+    public init(
+        connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary? = nil
+    ) {
+        self.connectionFunctionSummary = connectionFunctionSummary
+    }
+}
+
 public struct PublishFunctionInput: Swift.Sendable {
     /// The current version (ETag value) of the function that you are publishing, which you can get using DescribeFunction.
     /// This member is required.
@@ -14268,6 +15295,34 @@ public struct PublishFunctionOutput: Swift.Sendable {
         functionSummary: CloudFrontClientTypes.FunctionSummary? = nil
     ) {
         self.functionSummary = functionSummary
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The JSON-formatted resource policy to create.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// The Amazon Resource Name (ARN) of the CloudFront resource for which the policy is being created.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the CloudFront resource for which the policy was created.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
     }
 }
 
@@ -14309,6 +15364,84 @@ public struct TestFunctionFailed: ClientRuntime.ModeledError, AWSClientRuntime.A
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct TestConnectionFunctionInput: Swift.Sendable {
+    /// The connection object.
+    /// This member is required.
+    public var connectionObject: Foundation.Data?
+    /// The connection function ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the connection function.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+    /// The connection function stage.
+    public var stage: CloudFrontClientTypes.FunctionStage?
+
+    public init(
+        connectionObject: Foundation.Data? = nil,
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        stage: CloudFrontClientTypes.FunctionStage? = nil
+    ) {
+        self.connectionObject = connectionObject
+        self.id = id
+        self.ifMatch = ifMatch
+        self.stage = stage
+    }
+}
+
+extension TestConnectionFunctionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TestConnectionFunctionInput(id: \(Swift.String(describing: id)), ifMatch: \(Swift.String(describing: ifMatch)), stage: \(Swift.String(describing: stage)), connectionObject: \"CONTENT_REDACTED\")"}
+}
+
+extension CloudFrontClientTypes {
+
+    /// A connection function test result.
+    public struct ConnectionFunctionTestResult: Swift.Sendable {
+        /// The connection function compute utilization.
+        public var computeUtilization: Swift.String?
+        /// The connection function error message.
+        public var connectionFunctionErrorMessage: Swift.String?
+        /// The connection function execution logs.
+        public var connectionFunctionExecutionLogs: [Swift.String]?
+        /// The connection function output.
+        public var connectionFunctionOutput: Swift.String?
+        /// The connection function summary.
+        public var connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary?
+
+        public init(
+            computeUtilization: Swift.String? = nil,
+            connectionFunctionErrorMessage: Swift.String? = nil,
+            connectionFunctionExecutionLogs: [Swift.String]? = nil,
+            connectionFunctionOutput: Swift.String? = nil,
+            connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary? = nil
+        ) {
+            self.computeUtilization = computeUtilization
+            self.connectionFunctionErrorMessage = connectionFunctionErrorMessage
+            self.connectionFunctionExecutionLogs = connectionFunctionExecutionLogs
+            self.connectionFunctionOutput = connectionFunctionOutput
+            self.connectionFunctionSummary = connectionFunctionSummary
+        }
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionFunctionTestResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionFunctionTestResult(computeUtilization: \(Swift.String(describing: computeUtilization)), connectionFunctionSummary: \(Swift.String(describing: connectionFunctionSummary)), connectionFunctionErrorMessage: \"CONTENT_REDACTED\", connectionFunctionExecutionLogs: \"CONTENT_REDACTED\", connectionFunctionOutput: \"CONTENT_REDACTED\")"}
+}
+
+public struct TestConnectionFunctionOutput: Swift.Sendable {
+    /// The connection function test result.
+    public var connectionFunctionTestResult: CloudFrontClientTypes.ConnectionFunctionTestResult?
+
+    public init(
+        connectionFunctionTestResult: CloudFrontClientTypes.ConnectionFunctionTestResult? = nil
+    ) {
+        self.connectionFunctionTestResult = connectionFunctionTestResult
     }
 }
 
@@ -14423,6 +15556,48 @@ public struct UntagResourceInput: Swift.Sendable {
     }
 }
 
+public struct UpdateAnycastIpListInput: Swift.Sendable {
+    /// The ID of the Anycast static IP list.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the Anycast static IP list that you are updating.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+    /// The IP address type for the Anycast static IP list. You can specify one of the following options:
+    ///
+    /// * ipv4 only
+    ///
+    /// * ipv6 only
+    ///
+    /// * dualstack - Allocate a list of both IPv4 and IPv6 addresses
+    public var ipAddressType: CloudFrontClientTypes.IpAddressType?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ipAddressType: CloudFrontClientTypes.IpAddressType? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+        self.ipAddressType = ipAddressType
+    }
+}
+
+public struct UpdateAnycastIpListOutput: Swift.Sendable {
+    /// An Anycast static IP list. For more information, see [Request Anycast static IPs to use for allowlisting](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html) in the Amazon CloudFront Developer Guide.
+    public var anycastIpList: CloudFrontClientTypes.AnycastIpList?
+    /// The current version of the Anycast static IP list.
+    public var eTag: Swift.String?
+
+    public init(
+        anycastIpList: CloudFrontClientTypes.AnycastIpList? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.anycastIpList = anycastIpList
+        self.eTag = eTag
+    }
+}
+
 public struct UpdateCachePolicyInput: Swift.Sendable {
     /// A cache policy configuration.
     /// This member is required.
@@ -14493,6 +15668,53 @@ public struct UpdateCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
         eTag: Swift.String? = nil
     ) {
         self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
+        self.eTag = eTag
+    }
+}
+
+public struct UpdateConnectionFunctionInput: Swift.Sendable {
+    /// The connection function code.
+    /// This member is required.
+    public var connectionFunctionCode: Foundation.Data?
+    /// Contains configuration information about a CloudFront function.
+    /// This member is required.
+    public var connectionFunctionConfig: CloudFrontClientTypes.FunctionConfig?
+    /// The connection function ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the connection function you are updating.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+
+    public init(
+        connectionFunctionCode: Foundation.Data? = nil,
+        connectionFunctionConfig: CloudFrontClientTypes.FunctionConfig? = nil,
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.connectionFunctionCode = connectionFunctionCode
+        self.connectionFunctionConfig = connectionFunctionConfig
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+extension UpdateConnectionFunctionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateConnectionFunctionInput(connectionFunctionConfig: \(Swift.String(describing: connectionFunctionConfig)), id: \(Swift.String(describing: id)), ifMatch: \(Swift.String(describing: ifMatch)), connectionFunctionCode: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateConnectionFunctionOutput: Swift.Sendable {
+    /// The connection function summary.
+    public var connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary?
+    /// The version identifier for the current version of the connection function.
+    public var eTag: Swift.String?
+
+    public init(
+        connectionFunctionSummary: CloudFrontClientTypes.ConnectionFunctionSummary? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.connectionFunctionSummary = connectionFunctionSummary
         self.eTag = eTag
     }
 }
@@ -15162,6 +16384,43 @@ public struct UpdateStreamingDistributionOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateTrustStoreInput: Swift.Sendable {
+    /// The CA certificates bundle source.
+    /// This member is required.
+    public var caCertificatesBundleSource: CloudFrontClientTypes.CaCertificatesBundleSource?
+    /// The trust store ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the trust store you are updating.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+
+    public init(
+        caCertificatesBundleSource: CloudFrontClientTypes.CaCertificatesBundleSource? = nil,
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.caCertificatesBundleSource = caCertificatesBundleSource
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+public struct UpdateTrustStoreOutput: Swift.Sendable {
+    /// The version identifier for the current version of the trust store.
+    public var eTag: Swift.String?
+    /// The trust store.
+    public var trustStore: CloudFrontClientTypes.TrustStore?
+
+    public init(
+        eTag: Swift.String? = nil,
+        trustStore: CloudFrontClientTypes.TrustStore? = nil
+    ) {
+        self.eTag = eTag
+        self.trustStore = trustStore
+    }
+}
+
 public struct UpdateVpcOriginInput: Swift.Sendable {
     /// The VPC origin ID.
     /// This member is required.
@@ -15400,6 +16659,13 @@ extension CreateCloudFrontOriginAccessIdentityInput {
     }
 }
 
+extension CreateConnectionFunctionInput {
+
+    static func urlPathProvider(_ value: CreateConnectionFunctionInput) -> Swift.String? {
+        return "/2020-05-31/connection-function"
+    }
+}
+
 extension CreateConnectionGroupInput {
 
     static func urlPathProvider(_ value: CreateConnectionGroupInput) -> Swift.String? {
@@ -15567,6 +16833,13 @@ extension CreateStreamingDistributionWithTagsInput {
     }
 }
 
+extension CreateTrustStoreInput {
+
+    static func urlPathProvider(_ value: CreateTrustStoreInput) -> Swift.String? {
+        return "/2020-05-31/trust-store"
+    }
+}
+
 extension CreateVpcOriginInput {
 
     static func urlPathProvider(_ value: CreateVpcOriginInput) -> Swift.String? {
@@ -15629,6 +16902,27 @@ extension DeleteCloudFrontOriginAccessIdentityInput {
 extension DeleteCloudFrontOriginAccessIdentityInput {
 
     static func headerProvider(_ value: DeleteCloudFrontOriginAccessIdentityInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension DeleteConnectionFunctionInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionFunctionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/connection-function/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConnectionFunctionInput {
+
+    static func headerProvider(_ value: DeleteConnectionFunctionInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
         if let ifMatch = value.ifMatch {
             items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
@@ -15906,6 +17200,13 @@ extension DeleteRealtimeLogConfigInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        return "/2020-05-31/delete-resource-policy"
+    }
+}
+
 extension DeleteResponseHeadersPolicyInput {
 
     static func urlPathProvider(_ value: DeleteResponseHeadersPolicyInput) -> Swift.String? {
@@ -15948,6 +17249,27 @@ extension DeleteStreamingDistributionInput {
     }
 }
 
+extension DeleteTrustStoreInput {
+
+    static func urlPathProvider(_ value: DeleteTrustStoreInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/trust-store/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteTrustStoreInput {
+
+    static func headerProvider(_ value: DeleteTrustStoreInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension DeleteVpcOriginInput {
 
     static func urlPathProvider(_ value: DeleteVpcOriginInput) -> Swift.String? {
@@ -15964,6 +17286,28 @@ extension DeleteVpcOriginInput {
         var items = SmithyHTTPAPI.Headers()
         if let ifMatch = value.ifMatch {
             items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension DescribeConnectionFunctionInput {
+
+    static func urlPathProvider(_ value: DescribeConnectionFunctionInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/2020-05-31/connection-function/\(identifier.urlPercentEncoding())/describe"
+    }
+}
+
+extension DescribeConnectionFunctionInput {
+
+    static func queryItemProvider(_ value: DescribeConnectionFunctionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let stage = value.stage {
+            let stageQueryItem = Smithy.URIQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
+            items.append(stageQueryItem)
         }
         return items
     }
@@ -16090,6 +17434,28 @@ extension GetCloudFrontOriginAccessIdentityConfigInput {
             return nil
         }
         return "/2020-05-31/origin-access-identity/cloudfront/\(id.urlPercentEncoding())/config"
+    }
+}
+
+extension GetConnectionFunctionInput {
+
+    static func urlPathProvider(_ value: GetConnectionFunctionInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/2020-05-31/connection-function/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetConnectionFunctionInput {
+
+    static func queryItemProvider(_ value: GetConnectionFunctionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let stage = value.stage {
+            let stageQueryItem = Smithy.URIQueryItem(name: "Stage".urlPercentEncoding(), value: Swift.String(stage.rawValue).urlPercentEncoding())
+            items.append(stageQueryItem)
+        }
+        return items
     }
 }
 
@@ -16390,6 +17756,13 @@ extension GetRealtimeLogConfigInput {
     }
 }
 
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        return "/2020-05-31/get-resource-policy"
+    }
+}
+
 extension GetResponseHeadersPolicyInput {
 
     static func urlPathProvider(_ value: GetResponseHeadersPolicyInput) -> Swift.String? {
@@ -16427,6 +17800,16 @@ extension GetStreamingDistributionConfigInput {
             return nil
         }
         return "/2020-05-31/streaming-distribution/\(id.urlPercentEncoding())/config"
+    }
+}
+
+extension GetTrustStoreInput {
+
+    static func urlPathProvider(_ value: GetTrustStoreInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/2020-05-31/trust-store/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -16548,6 +17931,13 @@ extension ListConflictingAliasesInput {
     }
 }
 
+extension ListConnectionFunctionsInput {
+
+    static func urlPathProvider(_ value: ListConnectionFunctionsInput) -> Swift.String? {
+        return "/2020-05-31/connection-functions"
+    }
+}
+
 extension ListConnectionGroupsInput {
 
     static func urlPathProvider(_ value: ListConnectionGroupsInput) -> Swift.String? {
@@ -16653,6 +18043,35 @@ extension ListDistributionsByCachePolicyIdInput {
     }
 }
 
+extension ListDistributionsByConnectionFunctionInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByConnectionFunctionInput) -> Swift.String? {
+        return "/2020-05-31/distributionsByConnectionFunction"
+    }
+}
+
+extension ListDistributionsByConnectionFunctionInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByConnectionFunctionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        guard let connectionFunctionIdentifier = value.connectionFunctionIdentifier else {
+            let message = "Creating a URL Query Item failed. connectionFunctionIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let connectionFunctionIdentifierQueryItem = Smithy.URIQueryItem(name: "ConnectionFunctionIdentifier".urlPercentEncoding(), value: Swift.String(connectionFunctionIdentifier).urlPercentEncoding())
+        items.append(connectionFunctionIdentifierQueryItem)
+        return items
+    }
+}
+
 extension ListDistributionsByConnectionModeInput {
 
     static func urlPathProvider(_ value: ListDistributionsByConnectionModeInput) -> Swift.String? {
@@ -16731,6 +18150,32 @@ extension ListDistributionsByOriginRequestPolicyIdInput {
     }
 }
 
+extension ListDistributionsByOwnedResourceInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByOwnedResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/2020-05-31/distributionsByOwnedResource/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension ListDistributionsByOwnedResourceInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByOwnedResourceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListDistributionsByRealtimeLogConfigInput {
 
     static func urlPathProvider(_ value: ListDistributionsByRealtimeLogConfigInput) -> Swift.String? {
@@ -16752,6 +18197,35 @@ extension ListDistributionsByResponseHeadersPolicyIdInput {
 
     static func queryItemProvider(_ value: ListDistributionsByResponseHeadersPolicyIdInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDistributionsByTrustStoreInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByTrustStoreInput) -> Swift.String? {
+        return "/2020-05-31/distributionsByTrustStore"
+    }
+}
+
+extension ListDistributionsByTrustStoreInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByTrustStoreInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let trustStoreIdentifier = value.trustStoreIdentifier else {
+            let message = "Creating a URL Query Item failed. trustStoreIdentifier is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let trustStoreIdentifierQueryItem = Smithy.URIQueryItem(name: "TrustStoreIdentifier".urlPercentEncoding(), value: Swift.String(trustStoreIdentifier).urlPercentEncoding())
+        items.append(trustStoreIdentifierQueryItem)
         if let marker = value.marker {
             let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
             items.append(markerQueryItem)
@@ -17179,6 +18653,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListTrustStoresInput {
+
+    static func urlPathProvider(_ value: ListTrustStoresInput) -> Swift.String? {
+        return "/2020-05-31/trust-stores"
+    }
+}
+
 extension ListVpcOriginsInput {
 
     static func urlPathProvider(_ value: ListVpcOriginsInput) -> Swift.String? {
@@ -17197,6 +18678,27 @@ extension ListVpcOriginsInput {
         if let maxItems = value.maxItems {
             let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
             items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension PublishConnectionFunctionInput {
+
+    static func urlPathProvider(_ value: PublishConnectionFunctionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/connection-function/\(id.urlPercentEncoding())/publish"
+    }
+}
+
+extension PublishConnectionFunctionInput {
+
+    static func headerProvider(_ value: PublishConnectionFunctionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
@@ -17223,6 +18725,13 @@ extension PublishFunctionInput {
     }
 }
 
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        return "/2020-05-31/put-resource-policy"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -17241,6 +18750,27 @@ extension TagResourceInput {
         }
         let resourceQueryItem = Smithy.URIQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
         items.append(resourceQueryItem)
+        return items
+    }
+}
+
+extension TestConnectionFunctionInput {
+
+    static func urlPathProvider(_ value: TestConnectionFunctionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/connection-function/\(id.urlPercentEncoding())/test"
+    }
+}
+
+extension TestConnectionFunctionInput {
+
+    static func headerProvider(_ value: TestConnectionFunctionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
         return items
     }
 }
@@ -17288,6 +18818,27 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAnycastIpListInput {
+
+    static func urlPathProvider(_ value: UpdateAnycastIpListInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/anycast-ip-list/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAnycastIpListInput {
+
+    static func headerProvider(_ value: UpdateAnycastIpListInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension UpdateCachePolicyInput {
 
     static func urlPathProvider(_ value: UpdateCachePolicyInput) -> Swift.String? {
@@ -17322,6 +18873,27 @@ extension UpdateCloudFrontOriginAccessIdentityInput {
 extension UpdateCloudFrontOriginAccessIdentityInput {
 
     static func headerProvider(_ value: UpdateCloudFrontOriginAccessIdentityInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension UpdateConnectionFunctionInput {
+
+    static func urlPathProvider(_ value: UpdateConnectionFunctionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/connection-function/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateConnectionFunctionInput {
+
+    static func headerProvider(_ value: UpdateConnectionFunctionInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
         if let ifMatch = value.ifMatch {
             items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
@@ -17682,6 +19254,27 @@ extension UpdateStreamingDistributionInput {
     }
 }
 
+extension UpdateTrustStoreInput {
+
+    static func urlPathProvider(_ value: UpdateTrustStoreInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/trust-store/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateTrustStoreInput {
+
+    static func headerProvider(_ value: UpdateTrustStoreInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension UpdateVpcOriginInput {
 
     static func urlPathProvider(_ value: UpdateVpcOriginInput) -> Swift.String? {
@@ -17739,7 +19332,9 @@ extension CreateAnycastIpListInput {
 
     static func write(value: CreateAnycastIpListInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["IpCount"].write(value.ipCount)
+        try writer["IpamCidrConfigs"].writeList(value.ipamCidrConfigs, memberWritingClosure: CloudFrontClientTypes.IpamCidrConfig.write(value:to:), memberNodeInfo: "IpamCidrConfig", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
@@ -17758,6 +19353,17 @@ extension CreateCloudFrontOriginAccessIdentityInput {
     static func write(value: CreateCloudFrontOriginAccessIdentityInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["CloudFrontOriginAccessIdentityConfig"].write(value.cloudFrontOriginAccessIdentityConfig, with: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.write(value:to:))
+    }
+}
+
+extension CreateConnectionFunctionInput {
+
+    static func write(value: CreateConnectionFunctionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionFunctionCode"].write(value.connectionFunctionCode)
+        try writer["ConnectionFunctionConfig"].write(value.connectionFunctionConfig, with: CloudFrontClientTypes.FunctionConfig.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
 }
 
@@ -17940,6 +19546,16 @@ extension CreateStreamingDistributionWithTagsInput {
     }
 }
 
+extension CreateTrustStoreInput {
+
+    static func write(value: CreateTrustStoreInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CaCertificatesBundleSource"].write(value.caCertificatesBundleSource, with: CloudFrontClientTypes.CaCertificatesBundleSource.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
+    }
+}
+
 extension CreateVpcOriginInput {
 
     static func write(value: CreateVpcOriginInput?, to writer: SmithyXML.Writer) throws {
@@ -17958,12 +19574,38 @@ extension DeleteRealtimeLogConfigInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func write(value: DeleteResourcePolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
 extension GetRealtimeLogConfigInput {
 
     static func write(value: GetRealtimeLogConfigInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["ARN"].write(value.arn)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func write(value: GetResourcePolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension ListConnectionFunctionsInput {
+
+    static func write(value: ListConnectionFunctionsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Marker"].write(value.marker)
+        try writer["MaxItems"].write(value.maxItems)
+        try writer["Stage"].write(value.stage)
     }
 }
 
@@ -18020,11 +19662,38 @@ extension ListDomainConflictsInput {
     }
 }
 
+extension ListTrustStoresInput {
+
+    static func write(value: ListTrustStoresInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Marker"].write(value.marker)
+        try writer["MaxItems"].write(value.maxItems)
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["PolicyDocument"].write(value.policyDocument)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
+    }
+}
+
+extension TestConnectionFunctionInput {
+
+    static func write(value: TestConnectionFunctionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionObject"].write(value.connectionObject)
+        try writer["Stage"].write(value.stage)
     }
 }
 
@@ -18045,6 +19714,14 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAnycastIpListInput {
+
+    static func write(value: UpdateAnycastIpListInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
+    }
+}
+
 extension UpdateCachePolicyInput {
 
     static func write(value: UpdateCachePolicyInput?, to writer: SmithyXML.Writer) throws {
@@ -18058,6 +19735,15 @@ extension UpdateCloudFrontOriginAccessIdentityInput {
     static func write(value: UpdateCloudFrontOriginAccessIdentityInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["CloudFrontOriginAccessIdentityConfig"].write(value.cloudFrontOriginAccessIdentityConfig, with: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.write(value:to:))
+    }
+}
+
+extension UpdateConnectionFunctionInput {
+
+    static func write(value: UpdateConnectionFunctionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionFunctionCode"].write(value.connectionFunctionCode)
+        try writer["ConnectionFunctionConfig"].write(value.connectionFunctionConfig, with: CloudFrontClientTypes.FunctionConfig.write(value:to:))
     }
 }
 
@@ -18203,6 +19889,14 @@ extension UpdateStreamingDistributionInput {
     }
 }
 
+extension UpdateTrustStoreInput {
+
+    static func write(value: UpdateTrustStoreInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CaCertificatesBundleSource"].write(value.caCertificatesBundleSource, with: CloudFrontClientTypes.CaCertificatesBundleSource.write(value:to:))
+    }
+}
+
 extension UpdateVpcOriginInput {
 
     static func write(value: UpdateVpcOriginInput?, to writer: SmithyXML.Writer) throws {
@@ -18324,6 +20018,24 @@ extension CreateCloudFrontOriginAccessIdentityOutput {
             value.location = locationHeaderValue
         }
         value.cloudFrontOriginAccessIdentity = try reader.readIfPresent(with: CloudFrontClientTypes.CloudFrontOriginAccessIdentity.read(from:))
+        return value
+    }
+}
+
+extension CreateConnectionFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectionFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectionFunctionOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
+        }
+        value.connectionFunctionSummary = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionSummary.read(from:))
         return value
     }
 }
@@ -18664,6 +20376,21 @@ extension CreateStreamingDistributionWithTagsOutput {
     }
 }
 
+extension CreateTrustStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTrustStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTrustStoreOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.trustStore = try reader.readIfPresent(with: CloudFrontClientTypes.TrustStore.read(from:))
+        return value
+    }
+}
+
 extension CreateVpcOriginOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVpcOriginOutput {
@@ -18700,6 +20427,13 @@ extension DeleteCloudFrontOriginAccessIdentityOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCloudFrontOriginAccessIdentityOutput {
         return DeleteCloudFrontOriginAccessIdentityOutput()
+    }
+}
+
+extension DeleteConnectionFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectionFunctionOutput {
+        return DeleteConnectionFunctionOutput()
     }
 }
 
@@ -18801,6 +20535,13 @@ extension DeleteRealtimeLogConfigOutput {
     }
 }
 
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        return DeleteResourcePolicyOutput()
+    }
+}
+
 extension DeleteResponseHeadersPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResponseHeadersPolicyOutput {
@@ -18815,6 +20556,13 @@ extension DeleteStreamingDistributionOutput {
     }
 }
 
+extension DeleteTrustStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTrustStoreOutput {
+        return DeleteTrustStoreOutput()
+    }
+}
+
 extension DeleteVpcOriginOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVpcOriginOutput {
@@ -18826,6 +20574,21 @@ extension DeleteVpcOriginOutput {
             value.eTag = eTagHeaderValue
         }
         value.vpcOrigin = try reader.readIfPresent(with: CloudFrontClientTypes.VpcOrigin.read(from:))
+        return value
+    }
+}
+
+extension DescribeConnectionFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeConnectionFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeConnectionFunctionOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.connectionFunctionSummary = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionSummary.read(from:))
         return value
     }
 }
@@ -18961,6 +20724,28 @@ extension GetCloudFrontOriginAccessIdentityConfigOutput {
             value.eTag = eTagHeaderValue
         }
         value.cloudFrontOriginAccessIdentityConfig = try reader.readIfPresent(with: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig.read(from:))
+        return value
+    }
+}
+
+extension GetConnectionFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectionFunctionOutput {
+        var value = GetConnectionFunctionOutput()
+        if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
+            value.contentType = contentTypeHeaderValue
+        }
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        switch httpResponse.body {
+        case .data(let data):
+            value.connectionFunctionCode = data
+        case .stream(let stream):
+            value.connectionFunctionCode = try stream.readToEnd()
+        case .noStream:
+            value.connectionFunctionCode = nil
+        }
         return value
     }
 }
@@ -19347,6 +21132,19 @@ extension GetRealtimeLogConfigOutput {
     }
 }
 
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension GetResponseHeadersPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResponseHeadersPolicyOutput {
@@ -19403,6 +21201,21 @@ extension GetStreamingDistributionConfigOutput {
             value.eTag = eTagHeaderValue
         }
         value.streamingDistributionConfig = try reader.readIfPresent(with: CloudFrontClientTypes.StreamingDistributionConfig.read(from:))
+        return value
+    }
+}
+
+extension GetTrustStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrustStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrustStoreOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.trustStore = try reader.readIfPresent(with: CloudFrontClientTypes.TrustStore.read(from:))
         return value
     }
 }
@@ -19470,6 +21283,19 @@ extension ListConflictingAliasesOutput {
     }
 }
 
+extension ListConnectionFunctionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectionFunctionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectionFunctionsOutput()
+        value.connectionFunctions = try reader["ConnectionFunctions"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ConnectionFunctionSummary.read(from:), memberNodeInfo: "ConnectionFunctionSummary", isFlattened: false)
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
 extension ListConnectionGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectionGroupsOutput {
@@ -19531,6 +21357,18 @@ extension ListDistributionsByCachePolicyIdOutput {
     }
 }
 
+extension ListDistributionsByConnectionFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByConnectionFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionsByConnectionFunctionOutput()
+        value.distributionList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionList.read(from:))
+        return value
+    }
+}
+
 extension ListDistributionsByConnectionModeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByConnectionModeOutput {
@@ -19567,6 +21405,18 @@ extension ListDistributionsByOriginRequestPolicyIdOutput {
     }
 }
 
+extension ListDistributionsByOwnedResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByOwnedResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionsByOwnedResourceOutput()
+        value.distributionList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionIdOwnerList.read(from:))
+        return value
+    }
+}
+
 extension ListDistributionsByRealtimeLogConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByRealtimeLogConfigOutput {
@@ -19587,6 +21437,18 @@ extension ListDistributionsByResponseHeadersPolicyIdOutput {
         let reader = responseReader
         var value = ListDistributionsByResponseHeadersPolicyIdOutput()
         value.distributionIdList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionIdList.read(from:))
+        return value
+    }
+}
+
+extension ListDistributionsByTrustStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByTrustStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionsByTrustStoreOutput()
+        value.distributionList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionList.read(from:))
         return value
     }
 }
@@ -19822,6 +21684,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListTrustStoresOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTrustStoresOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrustStoresOutput()
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.trustStoreList = try reader["TrustStoreList"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.TrustStoreSummary.read(from:), memberNodeInfo: "TrustStoreSummary", isFlattened: false)
+        return value
+    }
+}
+
 extension ListVpcOriginsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVpcOriginsOutput {
@@ -19830,6 +21705,18 @@ extension ListVpcOriginsOutput {
         let reader = responseReader
         var value = ListVpcOriginsOutput()
         value.vpcOriginList = try reader.readIfPresent(with: CloudFrontClientTypes.VpcOriginList.read(from:))
+        return value
+    }
+}
+
+extension PublishConnectionFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PublishConnectionFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = PublishConnectionFunctionOutput()
+        value.connectionFunctionSummary = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionSummary.read(from:))
         return value
     }
 }
@@ -19846,10 +21733,34 @@ extension PublishFunctionOutput {
     }
 }
 
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
         return TagResourceOutput()
+    }
+}
+
+extension TestConnectionFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TestConnectionFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = TestConnectionFunctionOutput()
+        value.connectionFunctionTestResult = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionTestResult.read(from:))
+        return value
     }
 }
 
@@ -19869,6 +21780,21 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateAnycastIpListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAnycastIpListOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAnycastIpListOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.anycastIpList = try reader.readIfPresent(with: CloudFrontClientTypes.AnycastIpList.read(from:))
+        return value
     }
 }
 
@@ -19898,6 +21824,21 @@ extension UpdateCloudFrontOriginAccessIdentityOutput {
             value.eTag = eTagHeaderValue
         }
         value.cloudFrontOriginAccessIdentity = try reader.readIfPresent(with: CloudFrontClientTypes.CloudFrontOriginAccessIdentity.read(from:))
+        return value
+    }
+}
+
+extension UpdateConnectionFunctionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectionFunctionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConnectionFunctionOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.connectionFunctionSummary = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionSummary.read(from:))
         return value
     }
 }
@@ -20155,6 +22096,21 @@ extension UpdateStreamingDistributionOutput {
     }
 }
 
+extension UpdateTrustStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTrustStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTrustStoreOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.trustStore = try reader.readIfPresent(with: CloudFrontClientTypes.TrustStore.read(from:))
+        return value
+    }
+}
+
 extension UpdateVpcOriginOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateVpcOriginOutput {
@@ -20209,6 +22165,7 @@ enum AssociateDistributionTenantWebACLOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
@@ -20227,6 +22184,7 @@ enum AssociateDistributionWebACLOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
@@ -20366,6 +22324,26 @@ enum CreateCloudFrontOriginAccessIdentityOutputError {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "MissingBody": return try MissingBody.makeError(baseError: baseError)
             case "TooManyCloudFrontOriginAccessIdentities": return try TooManyCloudFrontOriginAccessIdentities.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateConnectionFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "EntitySizeLimitExceeded": return try EntitySizeLimitExceeded.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -20887,6 +22865,25 @@ enum CreateStreamingDistributionWithTagsOutputError {
     }
 }
 
+enum CreateTrustStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateVpcOriginOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20960,6 +22957,26 @@ enum DeleteCloudFrontOriginAccessIdentityOutputError {
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
             case "NoSuchCloudFrontOriginAccessIdentity": return try NoSuchCloudFrontOriginAccessIdentity.makeError(baseError: baseError)
             case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConnectionFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "CannotDeleteEntityWhileInUse": return try CannotDeleteEntityWhileInUse.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -21219,6 +23236,25 @@ enum DeleteRealtimeLogConfigOutputError {
     }
 }
 
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "IllegalDelete": return try IllegalDelete.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteResponseHeadersPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21256,6 +23292,25 @@ enum DeleteStreamingDistributionOutputError {
     }
 }
 
+enum DeleteTrustStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "CannotDeleteEntityWhileInUse": return try CannotDeleteEntityWhileInUse.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteVpcOriginOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21271,6 +23326,23 @@ enum DeleteVpcOriginOutputError {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
             case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeConnectionFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -21417,6 +23489,22 @@ enum GetCloudFrontOriginAccessIdentityConfigOutputError {
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "NoSuchCloudFrontOriginAccessIdentity": return try NoSuchCloudFrontOriginAccessIdentity.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectionFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -21815,6 +23903,23 @@ enum GetRealtimeLogConfigOutputError {
     }
 }
 
+enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetResponseHeadersPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21870,6 +23975,22 @@ enum GetStreamingDistributionConfigOutputError {
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "NoSuchStreamingDistribution": return try NoSuchStreamingDistribution.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTrustStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -21954,6 +24075,22 @@ enum ListConflictingAliasesOutputError {
     }
 }
 
+enum ListConnectionFunctionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListConnectionGroupsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22033,6 +24170,22 @@ enum ListDistributionsByCachePolicyIdOutputError {
     }
 }
 
+enum ListDistributionsByConnectionFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDistributionsByConnectionModeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22079,6 +24232,23 @@ enum ListDistributionsByOriginRequestPolicyIdOutputError {
     }
 }
 
+enum ListDistributionsByOwnedResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDistributionsByRealtimeLogConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22104,6 +24274,22 @@ enum ListDistributionsByResponseHeadersPolicyIdOutputError {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "NoSuchResponseHeadersPolicy": return try NoSuchResponseHeadersPolicy.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDistributionsByTrustStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -22401,6 +24587,22 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListTrustStoresOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListVpcOriginsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22412,6 +24614,25 @@ enum ListVpcOriginsOutputError {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PublishConnectionFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -22436,6 +24657,25 @@ enum PublishFunctionOutputError {
     }
 }
 
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22448,6 +24688,25 @@ enum TagResourceOutputError {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
             case "NoSuchResource": return try NoSuchResource.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TestConnectionFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "TestFunctionFailed": return try TestFunctionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -22483,6 +24742,25 @@ enum UntagResourceOutputError {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
             case "NoSuchResource": return try NoSuchResource.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAnycastIpListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -22528,6 +24806,26 @@ enum UpdateCloudFrontOriginAccessIdentityOutputError {
             case "MissingBody": return try MissingBody.makeError(baseError: baseError)
             case "NoSuchCloudFrontOriginAccessIdentity": return try NoSuchCloudFrontOriginAccessIdentity.makeError(baseError: baseError)
             case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateConnectionFunctionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "EntitySizeLimitExceeded": return try EntitySizeLimitExceeded.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -22686,6 +24984,7 @@ enum UpdateDistributionWithStagingConfigOutputError {
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior.makeError(baseError: baseError)
             case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
@@ -23007,6 +25306,24 @@ enum UpdateStreamingDistributionOutputError {
     }
 }
 
+enum UpdateTrustStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateVpcOriginOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -23104,6 +25421,19 @@ extension TooManyDistributionCNAMEs {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionCNAMEs {
         let reader = baseError.errorBodyReader
         var value = TooManyDistributionCNAMEs()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityLimitExceeded {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityLimitExceeded {
+        let reader = baseError.errorBodyReader
+        var value = EntityLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23918,19 +26248,6 @@ extension EntityAlreadyExists {
     }
 }
 
-extension EntityLimitExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityLimitExceeded {
-        let reader = baseError.errorBodyReader
-        var value = EntityLimitExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidTagging {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTagging {
@@ -24040,6 +26357,19 @@ extension TooManyCloudFrontOriginAccessIdentities {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCloudFrontOriginAccessIdentities {
         let reader = baseError.errorBodyReader
         var value = TooManyCloudFrontOriginAccessIdentities()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntitySizeLimitExceeded {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntitySizeLimitExceeded {
+        let reader = baseError.errorBodyReader
+        var value = EntitySizeLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24404,19 +26734,6 @@ extension TooManyPublicKeysInKeyGroup {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyPublicKeysInKeyGroup {
         let reader = baseError.errorBodyReader
         var value = TooManyPublicKeysInKeyGroup()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EntitySizeLimitExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntitySizeLimitExceeded {
-        let reader = baseError.errorBodyReader
-        var value = EntitySizeLimitExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -25062,6 +27379,7 @@ extension CloudFrontClientTypes.DistributionConfig {
         try writer["CacheBehaviors"].write(value.cacheBehaviors, with: CloudFrontClientTypes.CacheBehaviors.write(value:to:))
         try writer["CallerReference"].write(value.callerReference)
         try writer["Comment"].write(value.comment)
+        try writer["ConnectionFunctionAssociation"].write(value.connectionFunctionAssociation, with: CloudFrontClientTypes.ConnectionFunctionAssociation.write(value:to:))
         try writer["ConnectionMode"].write(value.connectionMode)
         try writer["ContinuousDeploymentPolicyId"].write(value.continuousDeploymentPolicyId)
         try writer["CustomErrorResponses"].write(value.customErrorResponses, with: CloudFrontClientTypes.CustomErrorResponses.write(value:to:))
@@ -25078,6 +27396,7 @@ extension CloudFrontClientTypes.DistributionConfig {
         try writer["Staging"].write(value.staging)
         try writer["TenantConfig"].write(value.tenantConfig, with: CloudFrontClientTypes.TenantConfig.write(value:to:))
         try writer["ViewerCertificate"].write(value.viewerCertificate, with: CloudFrontClientTypes.ViewerCertificate.write(value:to:))
+        try writer["ViewerMtlsConfig"].write(value.viewerMtlsConfig, with: CloudFrontClientTypes.ViewerMtlsConfig.write(value:to:))
         try writer["WebACLId"].write(value.webACLId)
     }
 
@@ -25106,6 +27425,59 @@ extension CloudFrontClientTypes.DistributionConfig {
         value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
         value.tenantConfig = try reader["TenantConfig"].readIfPresent(with: CloudFrontClientTypes.TenantConfig.read(from:))
         value.connectionMode = try reader["ConnectionMode"].readIfPresent()
+        value.viewerMtlsConfig = try reader["ViewerMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.ViewerMtlsConfig.read(from:))
+        value.connectionFunctionAssociation = try reader["ConnectionFunctionAssociation"].readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionAssociation.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionFunctionAssociation {
+
+    static func write(value: CloudFrontClientTypes.ConnectionFunctionAssociation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionFunctionAssociation()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ViewerMtlsConfig {
+
+    static func write(value: CloudFrontClientTypes.ViewerMtlsConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+        try writer["TrustStoreConfig"].write(value.trustStoreConfig, with: CloudFrontClientTypes.TrustStoreConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ViewerMtlsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ViewerMtlsConfig()
+        value.mode = try reader["Mode"].readIfPresent() ?? CloudFrontClientTypes.ViewerMtlsMode.`required`
+        value.trustStoreConfig = try reader["TrustStoreConfig"].readIfPresent(with: CloudFrontClientTypes.TrustStoreConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TrustStoreConfig {
+
+    static func write(value: CloudFrontClientTypes.TrustStoreConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AdvertiseTrustStoreCaNames"].write(value.advertiseTrustStoreCaNames)
+        try writer["IgnoreCertificateExpiry"].write(value.ignoreCertificateExpiry)
+        try writer["TrustStoreId"].write(value.trustStoreId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustStoreConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TrustStoreConfig()
+        value.trustStoreId = try reader["TrustStoreId"].readIfPresent() ?? ""
+        value.advertiseTrustStoreCaNames = try reader["AdvertiseTrustStoreCaNames"].readIfPresent()
+        value.ignoreCertificateExpiry = try reader["IgnoreCertificateExpiry"].readIfPresent()
         return value
     }
 }
@@ -25844,6 +28216,7 @@ extension CloudFrontClientTypes.VpcOriginConfig {
         guard let value else { return }
         try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
         try writer["OriginReadTimeout"].write(value.originReadTimeout)
+        try writer["OwnerAccountId"].write(value.ownerAccountId)
         try writer["VpcOriginId"].write(value.vpcOriginId)
     }
 
@@ -25851,6 +28224,7 @@ extension CloudFrontClientTypes.VpcOriginConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.VpcOriginConfig()
         value.vpcOriginId = try reader["VpcOriginId"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
         value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
         value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
         return value
@@ -25863,6 +28237,7 @@ extension CloudFrontClientTypes.CustomOriginConfig {
         guard let value else { return }
         try writer["HTTPPort"].write(value.httpPort)
         try writer["HTTPSPort"].write(value.httpsPort)
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
         try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
         try writer["OriginReadTimeout"].write(value.originReadTimeout)
@@ -25878,6 +28253,7 @@ extension CloudFrontClientTypes.CustomOriginConfig {
         value.originSslProtocols = try reader["OriginSslProtocols"].readIfPresent(with: CloudFrontClientTypes.OriginSslProtocols.read(from:))
         value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
         value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }
@@ -26033,9 +28409,43 @@ extension CloudFrontClientTypes.AnycastIpList {
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.ipamConfig = try reader["IpamConfig"].readIfPresent(with: CloudFrontClientTypes.IpamConfig.read(from:))
         value.anycastIps = try reader["AnycastIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AnycastIp", isFlattened: false) ?? []
         value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.IpamConfig {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.IpamConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.IpamConfig()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.ipamCidrConfigs = try reader["IpamCidrConfigs"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.IpamCidrConfig.read(from:), memberNodeInfo: "IpamCidrConfig", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.IpamCidrConfig {
+
+    static func write(value: CloudFrontClientTypes.IpamCidrConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnycastIp"].write(value.anycastIp)
+        try writer["Cidr"].write(value.cidr)
+        try writer["IpamPoolArn"].write(value.ipamPoolArn)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.IpamCidrConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.IpamCidrConfig()
+        value.cidr = try reader["Cidr"].readIfPresent() ?? ""
+        value.ipamPoolArn = try reader["IpamPoolArn"].readIfPresent() ?? ""
+        value.anycastIp = try reader["AnycastIp"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -26193,6 +28603,74 @@ extension CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig {
         var value = CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig()
         value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
         value.comment = try reader["Comment"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionFunctionSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionFunctionSummary()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.connectionFunctionConfig = try reader["ConnectionFunctionConfig"].readIfPresent(with: CloudFrontClientTypes.FunctionConfig.read(from:))
+        value.connectionFunctionArn = try reader["ConnectionFunctionArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.stage = try reader["Stage"].readIfPresent() ?? .sdkUnknown("")
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.FunctionConfig {
+
+    static func write(value: CloudFrontClientTypes.FunctionConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["KeyValueStoreAssociations"].write(value.keyValueStoreAssociations, with: CloudFrontClientTypes.KeyValueStoreAssociations.write(value:to:))
+        try writer["Runtime"].write(value.runtime)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.FunctionConfig()
+        value.comment = try reader["Comment"].readIfPresent() ?? ""
+        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.keyValueStoreAssociations = try reader["KeyValueStoreAssociations"].readIfPresent(with: CloudFrontClientTypes.KeyValueStoreAssociations.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyValueStoreAssociations {
+
+    static func write(value: CloudFrontClientTypes.KeyValueStoreAssociations?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.KeyValueStoreAssociation.write(value:to:), memberNodeInfo: "KeyValueStoreAssociation", isFlattened: false)
+        try writer["Quantity"].write(value.quantity)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreAssociations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyValueStoreAssociations()
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KeyValueStoreAssociation.read(from:), memberNodeInfo: "KeyValueStoreAssociation", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.KeyValueStoreAssociation {
+
+    static func write(value: CloudFrontClientTypes.KeyValueStoreAssociation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KeyValueStoreARN"].write(value.keyValueStoreARN)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.KeyValueStoreAssociation()
+        value.keyValueStoreARN = try reader["KeyValueStoreARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26731,57 +29209,6 @@ extension CloudFrontClientTypes.FunctionMetadata {
         value.stage = try reader["Stage"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.FunctionConfig {
-
-    static func write(value: CloudFrontClientTypes.FunctionConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["KeyValueStoreAssociations"].write(value.keyValueStoreAssociations, with: CloudFrontClientTypes.KeyValueStoreAssociations.write(value:to:))
-        try writer["Runtime"].write(value.runtime)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.FunctionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.FunctionConfig()
-        value.comment = try reader["Comment"].readIfPresent() ?? ""
-        value.runtime = try reader["Runtime"].readIfPresent() ?? .sdkUnknown("")
-        value.keyValueStoreAssociations = try reader["KeyValueStoreAssociations"].readIfPresent(with: CloudFrontClientTypes.KeyValueStoreAssociations.read(from:))
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyValueStoreAssociations {
-
-    static func write(value: CloudFrontClientTypes.KeyValueStoreAssociations?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.KeyValueStoreAssociation.write(value:to:), memberNodeInfo: "KeyValueStoreAssociation", isFlattened: false)
-        try writer["Quantity"].write(value.quantity)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreAssociations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyValueStoreAssociations()
-        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.KeyValueStoreAssociation.read(from:), memberNodeInfo: "KeyValueStoreAssociation", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.KeyValueStoreAssociation {
-
-    static func write(value: CloudFrontClientTypes.KeyValueStoreAssociation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["KeyValueStoreARN"].write(value.keyValueStoreARN)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.KeyValueStoreAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.KeyValueStoreAssociation()
-        value.keyValueStoreARN = try reader["KeyValueStoreARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -27543,6 +29970,22 @@ extension CloudFrontClientTypes.S3Origin {
     }
 }
 
+extension CloudFrontClientTypes.TrustStore {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustStore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TrustStore()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.numberOfCaCertificates = try reader["NumberOfCaCertificates"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.VpcOrigin {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOrigin {
@@ -27550,6 +29993,7 @@ extension CloudFrontClientTypes.VpcOrigin {
         var value = CloudFrontClientTypes.VpcOrigin()
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? ""
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -27634,6 +30078,9 @@ extension CloudFrontClientTypes.AnycastIpListSummary {
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
+        value.ipamConfig = try reader["IpamConfig"].readIfPresent(with: CloudFrontClientTypes.IpamConfig.read(from:))
         return value
     }
 }
@@ -27801,6 +30248,8 @@ extension CloudFrontClientTypes.DistributionSummary {
         value.staging = try reader["Staging"].readIfPresent() ?? false
         value.connectionMode = try reader["ConnectionMode"].readIfPresent()
         value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
+        value.viewerMtlsConfig = try reader["ViewerMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.ViewerMtlsConfig.read(from:))
+        value.connectionFunctionAssociation = try reader["ConnectionFunctionAssociation"].readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionAssociation.read(from:))
         return value
     }
 }
@@ -27816,6 +30265,32 @@ extension CloudFrontClientTypes.DistributionIdList {
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "DistributionId", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionIdOwnerList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdOwnerList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionIdOwnerList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DistributionIdOwner.read(from:), memberNodeInfo: "DistributionIdOwner", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionIdOwner {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdOwner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionIdOwner()
+        value.distributionId = try reader["DistributionId"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28138,6 +30613,23 @@ extension CloudFrontClientTypes.StreamingDistributionSummary {
     }
 }
 
+extension CloudFrontClientTypes.TrustStoreSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TrustStoreSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TrustStoreSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.numberOfCaCertificates = try reader["NumberOfCaCertificates"].readIfPresent() ?? 0
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.reason = try reader["Reason"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.VpcOriginList {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginList {
@@ -28164,7 +30656,22 @@ extension CloudFrontClientTypes.VpcOriginSummary {
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
         value.originEndpointArn = try reader["OriginEndpointArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionFunctionTestResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionFunctionTestResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionFunctionTestResult()
+        value.connectionFunctionSummary = try reader["ConnectionFunctionSummary"].readIfPresent(with: CloudFrontClientTypes.ConnectionFunctionSummary.read(from:))
+        value.computeUtilization = try reader["ComputeUtilization"].readIfPresent()
+        value.connectionFunctionExecutionLogs = try reader["ConnectionFunctionExecutionLogs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionFunctionErrorMessage = try reader["ConnectionFunctionErrorMessage"].readIfPresent()
+        value.connectionFunctionOutput = try reader["ConnectionFunctionOutput"].readIfPresent()
         return value
     }
 }
@@ -28237,6 +30744,30 @@ extension CloudFrontClientTypes.StreamingDistributionConfigWithTags {
         guard let value else { return }
         try writer["StreamingDistributionConfig"].write(value.streamingDistributionConfig, with: CloudFrontClientTypes.StreamingDistributionConfig.write(value:to:))
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
+    }
+}
+
+extension CloudFrontClientTypes.CaCertificatesBundleSource {
+
+    static func write(value: CloudFrontClientTypes.CaCertificatesBundleSource?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cacertificatesbundles3location(cacertificatesbundles3location):
+                try writer["CaCertificatesBundleS3Location"].write(cacertificatesbundles3location, with: CloudFrontClientTypes.CaCertificatesBundleS3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension CloudFrontClientTypes.CaCertificatesBundleS3Location {
+
+    static func write(value: CloudFrontClientTypes.CaCertificatesBundleS3Location?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Key"].write(value.key)
+        try writer["Region"].write(value.region)
+        try writer["Version"].write(value.version)
     }
 }
 

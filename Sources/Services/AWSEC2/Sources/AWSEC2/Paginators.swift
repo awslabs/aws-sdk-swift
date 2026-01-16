@@ -310,6 +310,39 @@ extension PaginatorSequence where OperationStackInput == DescribeCapacityBlockSt
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeCapacityManagerDataExportsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityManagerDataExportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityManagerDataExportsOutput`
+    public func describeCapacityManagerDataExportsPaginated(input: DescribeCapacityManagerDataExportsInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityManagerDataExports(input:))
+    }
+}
+
+extension DescribeCapacityManagerDataExportsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityManagerDataExportsInput {
+        return DescribeCapacityManagerDataExportsInput(
+            capacityManagerDataExportIds: self.capacityManagerDataExportIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeCapacityManagerDataExportsInput, OperationStackOutput == DescribeCapacityManagerDataExportsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityManagerDataExportsPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityManagerDataExportResponse]`
+    /// - Returns: `[EC2ClientTypes.CapacityManagerDataExportResponse]`
+    public func capacityManagerDataExports() async throws -> [EC2ClientTypes.CapacityManagerDataExportResponse] {
+        return try await self.asyncCompactMap { item in item.capacityManagerDataExports }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeCapacityReservationBillingRequestsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1069,6 +1102,40 @@ extension PaginatorSequence where OperationStackInput == DescribeIamInstanceProf
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeImageReferencesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImageReferencesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageReferencesOutput`
+    public func describeImageReferencesPaginated(input: DescribeImageReferencesInput) -> ClientRuntime.PaginatorSequence<DescribeImageReferencesInput, DescribeImageReferencesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImageReferencesInput, DescribeImageReferencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImageReferences(input:))
+    }
+}
+
+extension DescribeImageReferencesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeImageReferencesInput {
+        return DescribeImageReferencesInput(
+            dryRun: self.dryRun,
+            imageIds: self.imageIds,
+            includeAllResourceTypes: self.includeAllResourceTypes,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceTypes: self.resourceTypes
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeImageReferencesInput, OperationStackOutput == DescribeImageReferencesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeImageReferencesPaginated`
+    /// to access the nested member `[EC2ClientTypes.ImageReference]`
+    /// - Returns: `[EC2ClientTypes.ImageReference]`
+    public func imageReferences() async throws -> [EC2ClientTypes.ImageReference] {
+        return try await self.asyncCompactMap { item in item.imageReferences }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeImagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1103,6 +1170,74 @@ extension PaginatorSequence where OperationStackInput == DescribeImagesInput, Op
     /// - Returns: `[EC2ClientTypes.Image]`
     public func images() async throws -> [EC2ClientTypes.Image] {
         return try await self.asyncCompactMap { item in item.images }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeImageUsageReportEntriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImageUsageReportEntriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageUsageReportEntriesOutput`
+    public func describeImageUsageReportEntriesPaginated(input: DescribeImageUsageReportEntriesInput) -> ClientRuntime.PaginatorSequence<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImageUsageReportEntries(input:))
+    }
+}
+
+extension DescribeImageUsageReportEntriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeImageUsageReportEntriesInput {
+        return DescribeImageUsageReportEntriesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            imageIds: self.imageIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            reportIds: self.reportIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeImageUsageReportEntriesInput, OperationStackOutput == DescribeImageUsageReportEntriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeImageUsageReportEntriesPaginated`
+    /// to access the nested member `[EC2ClientTypes.ImageUsageReportEntry]`
+    /// - Returns: `[EC2ClientTypes.ImageUsageReportEntry]`
+    public func imageUsageReportEntries() async throws -> [EC2ClientTypes.ImageUsageReportEntry] {
+        return try await self.asyncCompactMap { item in item.imageUsageReportEntries }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeImageUsageReportsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImageUsageReportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageUsageReportsOutput`
+    public func describeImageUsageReportsPaginated(input: DescribeImageUsageReportsInput) -> ClientRuntime.PaginatorSequence<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImageUsageReports(input:))
+    }
+}
+
+extension DescribeImageUsageReportsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeImageUsageReportsInput {
+        return DescribeImageUsageReportsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            imageIds: self.imageIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            reportIds: self.reportIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeImageUsageReportsInput, OperationStackOutput == DescribeImageUsageReportsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeImageUsageReportsPaginated`
+    /// to access the nested member `[EC2ClientTypes.ImageUsageReport]`
+    /// - Returns: `[EC2ClientTypes.ImageUsageReport]`
+    public func imageUsageReports() async throws -> [EC2ClientTypes.ImageUsageReport] {
+        return try await self.asyncCompactMap { item in item.imageUsageReports }
     }
 }
 extension EC2Client {
@@ -1534,6 +1669,73 @@ extension PaginatorSequence where OperationStackInput == DescribeIpamPoolsInput,
     /// - Returns: `[EC2ClientTypes.IpamPool]`
     public func ipamPools() async throws -> [EC2ClientTypes.IpamPool] {
         return try await self.asyncCompactMap { item in item.ipamPools }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeIpamPrefixListResolversOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeIpamPrefixListResolversInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamPrefixListResolversOutput`
+    public func describeIpamPrefixListResolversPaginated(input: DescribeIpamPrefixListResolversInput) -> ClientRuntime.PaginatorSequence<DescribeIpamPrefixListResolversInput, DescribeIpamPrefixListResolversOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeIpamPrefixListResolversInput, DescribeIpamPrefixListResolversOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpamPrefixListResolvers(input:))
+    }
+}
+
+extension DescribeIpamPrefixListResolversInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeIpamPrefixListResolversInput {
+        return DescribeIpamPrefixListResolversInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPrefixListResolverIds: self.ipamPrefixListResolverIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeIpamPrefixListResolversInput, OperationStackOutput == DescribeIpamPrefixListResolversOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeIpamPrefixListResolversPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamPrefixListResolver]`
+    /// - Returns: `[EC2ClientTypes.IpamPrefixListResolver]`
+    public func ipamPrefixListResolvers() async throws -> [EC2ClientTypes.IpamPrefixListResolver] {
+        return try await self.asyncCompactMap { item in item.ipamPrefixListResolvers }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeIpamPrefixListResolverTargetsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeIpamPrefixListResolverTargetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamPrefixListResolverTargetsOutput`
+    public func describeIpamPrefixListResolverTargetsPaginated(input: DescribeIpamPrefixListResolverTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeIpamPrefixListResolverTargetsInput, DescribeIpamPrefixListResolverTargetsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeIpamPrefixListResolverTargetsInput, DescribeIpamPrefixListResolverTargetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeIpamPrefixListResolverTargets(input:))
+    }
+}
+
+extension DescribeIpamPrefixListResolverTargetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeIpamPrefixListResolverTargetsInput {
+        return DescribeIpamPrefixListResolverTargetsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPrefixListResolverId: self.ipamPrefixListResolverId,
+            ipamPrefixListResolverTargetIds: self.ipamPrefixListResolverTargetIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeIpamPrefixListResolverTargetsInput, OperationStackOutput == DescribeIpamPrefixListResolverTargetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeIpamPrefixListResolverTargetsPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamPrefixListResolverTarget]`
+    /// - Returns: `[EC2ClientTypes.IpamPrefixListResolverTarget]`
+    public func ipamPrefixListResolverTargets() async throws -> [EC2ClientTypes.IpamPrefixListResolverTarget] {
+        return try await self.asyncCompactMap { item in item.ipamPrefixListResolverTargets }
     }
 }
 extension EC2Client {
@@ -4168,6 +4370,39 @@ extension PaginatorSequence where OperationStackInput == DescribeVpcsInput, Oper
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeVpnConcentratorsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeVpnConcentratorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpnConcentratorsOutput`
+    public func describeVpnConcentratorsPaginated(input: DescribeVpnConcentratorsInput) -> ClientRuntime.PaginatorSequence<DescribeVpnConcentratorsInput, DescribeVpnConcentratorsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeVpnConcentratorsInput, DescribeVpnConcentratorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpnConcentrators(input:))
+    }
+}
+
+extension DescribeVpnConcentratorsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeVpnConcentratorsInput {
+        return DescribeVpnConcentratorsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            vpnConcentratorIds: self.vpnConcentratorIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeVpnConcentratorsInput, OperationStackOutput == DescribeVpnConcentratorsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeVpnConcentratorsPaginated`
+    /// to access the nested member `[EC2ClientTypes.VpnConcentrator]`
+    /// - Returns: `[EC2ClientTypes.VpnConcentrator]`
+    public func vpnConcentrators() async throws -> [EC2ClientTypes.VpnConcentrator] {
+        return try await self.asyncCompactMap { item in item.vpnConcentrators }
+    }
+}
+extension EC2Client {
     /// Paginate over `[GetAssociatedIpv6PoolCidrsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -4231,6 +4466,79 @@ extension PaginatorSequence where OperationStackInput == GetAwsNetworkPerformanc
     /// - Returns: `[EC2ClientTypes.DataResponse]`
     public func dataResponses() async throws -> [EC2ClientTypes.DataResponse] {
         return try await self.asyncCompactMap { item in item.dataResponses }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetCapacityManagerMetricDataOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCapacityManagerMetricDataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCapacityManagerMetricDataOutput`
+    public func getCapacityManagerMetricDataPaginated(input: GetCapacityManagerMetricDataInput) -> ClientRuntime.PaginatorSequence<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput> {
+        return ClientRuntime.PaginatorSequence<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCapacityManagerMetricData(input:))
+    }
+}
+
+extension GetCapacityManagerMetricDataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCapacityManagerMetricDataInput {
+        return GetCapacityManagerMetricDataInput(
+            dryRun: self.dryRun,
+            endTime: self.endTime,
+            filterBy: self.filterBy,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metricNames: self.metricNames,
+            nextToken: token,
+            period: self.period,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCapacityManagerMetricDataInput, OperationStackOutput == GetCapacityManagerMetricDataOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCapacityManagerMetricDataPaginated`
+    /// to access the nested member `[EC2ClientTypes.MetricDataResult]`
+    /// - Returns: `[EC2ClientTypes.MetricDataResult]`
+    public func metricDataResults() async throws -> [EC2ClientTypes.MetricDataResult] {
+        return try await self.asyncCompactMap { item in item.metricDataResults }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetCapacityManagerMetricDimensionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCapacityManagerMetricDimensionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCapacityManagerMetricDimensionsOutput`
+    public func getCapacityManagerMetricDimensionsPaginated(input: GetCapacityManagerMetricDimensionsInput) -> ClientRuntime.PaginatorSequence<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput> {
+        return ClientRuntime.PaginatorSequence<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCapacityManagerMetricDimensions(input:))
+    }
+}
+
+extension GetCapacityManagerMetricDimensionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCapacityManagerMetricDimensionsInput {
+        return GetCapacityManagerMetricDimensionsInput(
+            dryRun: self.dryRun,
+            endTime: self.endTime,
+            filterBy: self.filterBy,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metricNames: self.metricNames,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCapacityManagerMetricDimensionsInput, OperationStackOutput == GetCapacityManagerMetricDimensionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCapacityManagerMetricDimensionsPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityManagerDimension]`
+    /// - Returns: `[EC2ClientTypes.CapacityManagerDimension]`
+    public func metricDimensionResults() async throws -> [EC2ClientTypes.CapacityManagerDimension] {
+        return try await self.asyncCompactMap { item in item.metricDimensionResults }
     }
 }
 extension EC2Client {
@@ -4469,6 +4777,106 @@ extension PaginatorSequence where OperationStackInput == GetIpamPoolCidrsInput, 
     /// - Returns: `[EC2ClientTypes.IpamPoolCidr]`
     public func ipamPoolCidrs() async throws -> [EC2ClientTypes.IpamPoolCidr] {
         return try await self.asyncCompactMap { item in item.ipamPoolCidrs }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetIpamPrefixListResolverRulesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetIpamPrefixListResolverRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetIpamPrefixListResolverRulesOutput`
+    public func getIpamPrefixListResolverRulesPaginated(input: GetIpamPrefixListResolverRulesInput) -> ClientRuntime.PaginatorSequence<GetIpamPrefixListResolverRulesInput, GetIpamPrefixListResolverRulesOutput> {
+        return ClientRuntime.PaginatorSequence<GetIpamPrefixListResolverRulesInput, GetIpamPrefixListResolverRulesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamPrefixListResolverRules(input:))
+    }
+}
+
+extension GetIpamPrefixListResolverRulesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetIpamPrefixListResolverRulesInput {
+        return GetIpamPrefixListResolverRulesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPrefixListResolverId: self.ipamPrefixListResolverId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetIpamPrefixListResolverRulesInput, OperationStackOutput == GetIpamPrefixListResolverRulesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getIpamPrefixListResolverRulesPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamPrefixListResolverRule]`
+    /// - Returns: `[EC2ClientTypes.IpamPrefixListResolverRule]`
+    public func rules() async throws -> [EC2ClientTypes.IpamPrefixListResolverRule] {
+        return try await self.asyncCompactMap { item in item.rules }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetIpamPrefixListResolverVersionEntriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetIpamPrefixListResolverVersionEntriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetIpamPrefixListResolverVersionEntriesOutput`
+    public func getIpamPrefixListResolverVersionEntriesPaginated(input: GetIpamPrefixListResolverVersionEntriesInput) -> ClientRuntime.PaginatorSequence<GetIpamPrefixListResolverVersionEntriesInput, GetIpamPrefixListResolverVersionEntriesOutput> {
+        return ClientRuntime.PaginatorSequence<GetIpamPrefixListResolverVersionEntriesInput, GetIpamPrefixListResolverVersionEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamPrefixListResolverVersionEntries(input:))
+    }
+}
+
+extension GetIpamPrefixListResolverVersionEntriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetIpamPrefixListResolverVersionEntriesInput {
+        return GetIpamPrefixListResolverVersionEntriesInput(
+            dryRun: self.dryRun,
+            ipamPrefixListResolverId: self.ipamPrefixListResolverId,
+            ipamPrefixListResolverVersion: self.ipamPrefixListResolverVersion,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetIpamPrefixListResolverVersionEntriesInput, OperationStackOutput == GetIpamPrefixListResolverVersionEntriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getIpamPrefixListResolverVersionEntriesPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamPrefixListResolverVersionEntry]`
+    /// - Returns: `[EC2ClientTypes.IpamPrefixListResolverVersionEntry]`
+    public func entries() async throws -> [EC2ClientTypes.IpamPrefixListResolverVersionEntry] {
+        return try await self.asyncCompactMap { item in item.entries }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetIpamPrefixListResolverVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetIpamPrefixListResolverVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetIpamPrefixListResolverVersionsOutput`
+    public func getIpamPrefixListResolverVersionsPaginated(input: GetIpamPrefixListResolverVersionsInput) -> ClientRuntime.PaginatorSequence<GetIpamPrefixListResolverVersionsInput, GetIpamPrefixListResolverVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<GetIpamPrefixListResolverVersionsInput, GetIpamPrefixListResolverVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getIpamPrefixListResolverVersions(input:))
+    }
+}
+
+extension GetIpamPrefixListResolverVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetIpamPrefixListResolverVersionsInput {
+        return GetIpamPrefixListResolverVersionsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPrefixListResolverId: self.ipamPrefixListResolverId,
+            ipamPrefixListResolverVersions: self.ipamPrefixListResolverVersions,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetIpamPrefixListResolverVersionsInput, OperationStackOutput == GetIpamPrefixListResolverVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getIpamPrefixListResolverVersionsPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamPrefixListResolverVersion]`
+    /// - Returns: `[EC2ClientTypes.IpamPrefixListResolverVersion]`
+    public func ipamPrefixListResolverVersions() async throws -> [EC2ClientTypes.IpamPrefixListResolverVersion] {
+        return try await self.asyncCompactMap { item in item.ipamPrefixListResolverVersions }
     }
 }
 extension EC2Client {

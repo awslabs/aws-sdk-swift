@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TranscribeClient: ClientRuntime.Client {
+public class TranscribeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TranscribeClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeClient.TranscribeClientConfiguration
     let serviceName = "Transcribe"
@@ -374,9 +374,9 @@ extension TranscribeClient {
     ///
     /// Creates a new Call Analytics category. All categories are automatically applied to your Call Analytics transcriptions. Note that in order to apply categories to your transcriptions, you must create them before submitting your transcription request, as categories cannot be applied retroactively. When creating a new category, you can use the InputType parameter to label the category as a POST_CALL or a REAL_TIME category. POST_CALL categories can only be applied to post-call transcriptions and REAL_TIME categories can only be applied to real-time transcriptions. If you do not include InputType, your category is created as a POST_CALL category by default. Call Analytics categories are composed of rules. For each category, you must create between 1 and 20 rules. Rules can include these parameters: , , , and . To update an existing category, see . To learn more about Call Analytics categories, see [Creating categories for post-call transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-batch.html) and [Creating categories for real-time transcriptions](https://docs.aws.amazon.com/transcribe/latest/dg/tca-categories-stream.html).
     ///
-    /// - Parameter CreateCallAnalyticsCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCallAnalyticsCategoryInput`)
     ///
-    /// - Returns: `CreateCallAnalyticsCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCallAnalyticsCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCallAnalyticsCategoryOutput>(CreateCallAnalyticsCategoryOutput.httpOutput(from:), CreateCallAnalyticsCategoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCallAnalyticsCategoryOutput>())
@@ -453,9 +454,9 @@ extension TranscribeClient {
     ///
     /// * A unique name for your model
     ///
-    /// - Parameter CreateLanguageModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLanguageModelInput`)
     ///
-    /// - Returns: `CreateLanguageModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLanguageModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,6 +491,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLanguageModelOutput>(CreateLanguageModelOutput.httpOutput(from:), CreateLanguageModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLanguageModelOutput>())
@@ -524,9 +526,9 @@ extension TranscribeClient {
     ///
     /// Creates a new custom medical vocabulary. Before creating a new custom medical vocabulary, you must first upload a text file that contains your vocabulary table into an Amazon S3 bucket. Note that this differs from , where you can include a list of terms within your request using the Phrases flag; CreateMedicalVocabulary does not support the Phrases flag and only accepts vocabularies in table format. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     ///
-    /// - Parameter CreateMedicalVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMedicalVocabularyInput`)
     ///
-    /// - Returns: `CreateMedicalVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMedicalVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +563,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMedicalVocabularyOutput>(CreateMedicalVocabularyOutput.httpOutput(from:), CreateMedicalVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMedicalVocabularyOutput>())
@@ -595,9 +598,9 @@ extension TranscribeClient {
     ///
     /// Creates a new custom vocabulary. When creating a new custom vocabulary, you can either upload a text file that contains your new entries, phrases, and terms into an Amazon S3 bucket and include the URI in your request. Or you can include a list of terms directly in your request using the Phrases flag. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Custom vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html).
     ///
-    /// - Parameter CreateVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVocabularyInput`)
     ///
-    /// - Returns: `CreateVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -632,6 +635,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVocabularyOutput>(CreateVocabularyOutput.httpOutput(from:), CreateVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVocabularyOutput>())
@@ -666,9 +670,9 @@ extension TranscribeClient {
     ///
     /// Creates a new custom vocabulary filter. You can use custom vocabulary filters to mask, delete, or flag specific words from your transcript. Custom vocabulary filters are commonly used to mask profanity in transcripts. Each language has a character set that contains all allowed characters for that specific language. If you use unsupported characters, your custom vocabulary filter request fails. Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html) to get the character set for your language. For more information, see [Vocabulary filtering](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
     ///
-    /// - Parameter CreateVocabularyFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVocabularyFilterInput`)
     ///
-    /// - Returns: `CreateVocabularyFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVocabularyFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,6 +707,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVocabularyFilterOutput>(CreateVocabularyFilterOutput.httpOutput(from:), CreateVocabularyFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVocabularyFilterOutput>())
@@ -737,9 +742,9 @@ extension TranscribeClient {
     ///
     /// Deletes a Call Analytics category. To use this operation, specify the name of the category you want to delete using CategoryName. Category names are case sensitive.
     ///
-    /// - Parameter DeleteCallAnalyticsCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCallAnalyticsCategoryInput`)
     ///
-    /// - Returns: `DeleteCallAnalyticsCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCallAnalyticsCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,6 +779,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCallAnalyticsCategoryOutput>(DeleteCallAnalyticsCategoryOutput.httpOutput(from:), DeleteCallAnalyticsCategoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCallAnalyticsCategoryOutput>())
@@ -808,9 +814,9 @@ extension TranscribeClient {
     ///
     /// Deletes a Call Analytics job. To use this operation, specify the name of the job you want to delete using CallAnalyticsJobName. Job names are case sensitive.
     ///
-    /// - Parameter DeleteCallAnalyticsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCallAnalyticsJobInput`)
     ///
-    /// - Returns: `DeleteCallAnalyticsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCallAnalyticsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,6 +850,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCallAnalyticsJobOutput>(DeleteCallAnalyticsJobOutput.httpOutput(from:), DeleteCallAnalyticsJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCallAnalyticsJobOutput>())
@@ -878,9 +885,9 @@ extension TranscribeClient {
     ///
     /// Deletes a custom language model. To use this operation, specify the name of the language model you want to delete using ModelName. custom language model names are case sensitive.
     ///
-    /// - Parameter DeleteLanguageModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLanguageModelInput`)
     ///
-    /// - Returns: `DeleteLanguageModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLanguageModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,6 +921,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLanguageModelOutput>(DeleteLanguageModelOutput.httpOutput(from:), DeleteLanguageModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLanguageModelOutput>())
@@ -948,9 +956,9 @@ extension TranscribeClient {
     ///
     /// Deletes a Medical Scribe job. To use this operation, specify the name of the job you want to delete using MedicalScribeJobName. Job names are case sensitive.
     ///
-    /// - Parameter DeleteMedicalScribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMedicalScribeJobInput`)
     ///
-    /// - Returns: `DeleteMedicalScribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMedicalScribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,6 +992,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMedicalScribeJobOutput>(DeleteMedicalScribeJobOutput.httpOutput(from:), DeleteMedicalScribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMedicalScribeJobOutput>())
@@ -1018,9 +1027,9 @@ extension TranscribeClient {
     ///
     /// Deletes a medical transcription job. To use this operation, specify the name of the job you want to delete using MedicalTranscriptionJobName. Job names are case sensitive.
     ///
-    /// - Parameter DeleteMedicalTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMedicalTranscriptionJobInput`)
     ///
-    /// - Returns: `DeleteMedicalTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMedicalTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,6 +1063,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMedicalTranscriptionJobOutput>(DeleteMedicalTranscriptionJobOutput.httpOutput(from:), DeleteMedicalTranscriptionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMedicalTranscriptionJobOutput>())
@@ -1088,9 +1098,9 @@ extension TranscribeClient {
     ///
     /// Deletes a custom medical vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName. Custom vocabulary names are case sensitive.
     ///
-    /// - Parameter DeleteMedicalVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMedicalVocabularyInput`)
     ///
-    /// - Returns: `DeleteMedicalVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMedicalVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,6 +1135,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMedicalVocabularyOutput>(DeleteMedicalVocabularyOutput.httpOutput(from:), DeleteMedicalVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMedicalVocabularyOutput>())
@@ -1159,9 +1170,9 @@ extension TranscribeClient {
     ///
     /// Deletes a transcription job. To use this operation, specify the name of the job you want to delete using TranscriptionJobName. Job names are case sensitive.
     ///
-    /// - Parameter DeleteTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTranscriptionJobInput`)
     ///
-    /// - Returns: `DeleteTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1195,6 +1206,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTranscriptionJobOutput>(DeleteTranscriptionJobOutput.httpOutput(from:), DeleteTranscriptionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTranscriptionJobOutput>())
@@ -1229,9 +1241,9 @@ extension TranscribeClient {
     ///
     /// Deletes a custom vocabulary. To use this operation, specify the name of the custom vocabulary you want to delete using VocabularyName. Custom vocabulary names are case sensitive.
     ///
-    /// - Parameter DeleteVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVocabularyInput`)
     ///
-    /// - Returns: `DeleteVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1266,6 +1278,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVocabularyOutput>(DeleteVocabularyOutput.httpOutput(from:), DeleteVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVocabularyOutput>())
@@ -1300,9 +1313,9 @@ extension TranscribeClient {
     ///
     /// Deletes a custom vocabulary filter. To use this operation, specify the name of the custom vocabulary filter you want to delete using VocabularyFilterName. Custom vocabulary filter names are case sensitive.
     ///
-    /// - Parameter DeleteVocabularyFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVocabularyFilterInput`)
     ///
-    /// - Returns: `DeleteVocabularyFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVocabularyFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1337,6 +1350,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVocabularyFilterOutput>(DeleteVocabularyFilterOutput.httpOutput(from:), DeleteVocabularyFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVocabularyFilterOutput>())
@@ -1371,9 +1385,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified custom language model. This operation also shows if the base language model that you used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use DescribeLanguageModel to help identify the reason for this failure.
     ///
-    /// - Parameter DescribeLanguageModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLanguageModelInput`)
     ///
-    /// - Returns: `DescribeLanguageModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLanguageModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1408,6 +1422,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLanguageModelOutput>(DescribeLanguageModelOutput.httpOutput(from:), DescribeLanguageModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLanguageModelOutput>())
@@ -1442,9 +1457,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified Call Analytics category. To get a list of your Call Analytics categories, use the operation.
     ///
-    /// - Parameter GetCallAnalyticsCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCallAnalyticsCategoryInput`)
     ///
-    /// - Returns: `GetCallAnalyticsCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCallAnalyticsCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1479,6 +1494,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCallAnalyticsCategoryOutput>(GetCallAnalyticsCategoryOutput.httpOutput(from:), GetCallAnalyticsCategoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallAnalyticsCategoryOutput>())
@@ -1513,9 +1529,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified Call Analytics job. To view the job's status, refer to CallAnalyticsJobStatus. If the status is COMPLETED, the job is finished. You can find your completed transcript at the URI specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled personally identifiable information (PII) redaction, the redacted transcript appears at the location specified in RedactedTranscriptFileUri. If you chose to redact the audio in your media file, you can find your redacted media file at the location specified in RedactedMediaFileUri. To get a list of your Call Analytics jobs, use the operation.
     ///
-    /// - Parameter GetCallAnalyticsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCallAnalyticsJobInput`)
     ///
-    /// - Returns: `GetCallAnalyticsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCallAnalyticsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1550,6 +1566,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCallAnalyticsJobOutput>(GetCallAnalyticsJobOutput.httpOutput(from:), GetCallAnalyticsJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallAnalyticsJobOutput>())
@@ -1584,9 +1601,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified Medical Scribe job. To view the status of the specified medical transcription job, check the MedicalScribeJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in MedicalScribeOutput. If the status is FAILED, FailureReason provides details on why your Medical Scribe job failed. To get a list of your Medical Scribe jobs, use the operation.
     ///
-    /// - Parameter GetMedicalScribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMedicalScribeJobInput`)
     ///
-    /// - Returns: `GetMedicalScribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMedicalScribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1621,6 +1638,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMedicalScribeJobOutput>(GetMedicalScribeJobOutput.httpOutput(from:), GetMedicalScribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMedicalScribeJobOutput>())
@@ -1655,9 +1673,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified medical transcription job. To view the status of the specified medical transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. To get a list of your medical transcription jobs, use the operation.
     ///
-    /// - Parameter GetMedicalTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMedicalTranscriptionJobInput`)
     ///
-    /// - Returns: `GetMedicalTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMedicalTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,6 +1710,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMedicalTranscriptionJobOutput>(GetMedicalTranscriptionJobOutput.httpOutput(from:), GetMedicalTranscriptionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMedicalTranscriptionJobOutput>())
@@ -1726,9 +1745,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified custom medical vocabulary. To view the status of the specified custom medical vocabulary, check the VocabularyState field. If the status is READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your vocabulary failed. To get a list of your custom medical vocabularies, use the operation.
     ///
-    /// - Parameter GetMedicalVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMedicalVocabularyInput`)
     ///
-    /// - Returns: `GetMedicalVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMedicalVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1763,6 +1782,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMedicalVocabularyOutput>(GetMedicalVocabularyOutput.httpOutput(from:), GetMedicalVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMedicalVocabularyOutput>())
@@ -1797,9 +1817,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified transcription job. To view the status of the specified transcription job, check the TranscriptionJobStatus field. If the status is COMPLETED, the job is finished. You can find the results at the location specified in TranscriptFileUri. If the status is FAILED, FailureReason provides details on why your transcription job failed. If you enabled content redaction, the redacted transcript can be found at the location specified in RedactedTranscriptFileUri. To get a list of your transcription jobs, use the operation.
     ///
-    /// - Parameter GetTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTranscriptionJobInput`)
     ///
-    /// - Returns: `GetTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1834,6 +1854,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTranscriptionJobOutput>(GetTranscriptionJobOutput.httpOutput(from:), GetTranscriptionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTranscriptionJobOutput>())
@@ -1868,9 +1889,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified custom vocabulary. To view the status of the specified custom vocabulary, check the VocabularyState field. If the status is READY, your custom vocabulary is available to use. If the status is FAILED, FailureReason provides details on why your custom vocabulary failed. To get a list of your custom vocabularies, use the operation.
     ///
-    /// - Parameter GetVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVocabularyInput`)
     ///
-    /// - Returns: `GetVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1905,6 +1926,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVocabularyInput, GetVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVocabularyOutput>(GetVocabularyOutput.httpOutput(from:), GetVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVocabularyInput, GetVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVocabularyOutput>())
@@ -1939,9 +1961,9 @@ extension TranscribeClient {
     ///
     /// Provides information about the specified custom vocabulary filter. To get a list of your custom vocabulary filters, use the operation.
     ///
-    /// - Parameter GetVocabularyFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVocabularyFilterInput`)
     ///
-    /// - Returns: `GetVocabularyFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVocabularyFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1976,6 +1998,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVocabularyFilterOutput>(GetVocabularyFilterOutput.httpOutput(from:), GetVocabularyFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVocabularyFilterOutput>())
@@ -2010,9 +2033,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of Call Analytics categories, including all rules that make up each category. To get detailed information about a specific Call Analytics category, use the operation.
     ///
-    /// - Parameter ListCallAnalyticsCategoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCallAnalyticsCategoriesInput`)
     ///
-    /// - Returns: `ListCallAnalyticsCategoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCallAnalyticsCategoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2047,6 +2070,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCallAnalyticsCategoriesOutput>(ListCallAnalyticsCategoriesOutput.httpOutput(from:), ListCallAnalyticsCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCallAnalyticsCategoriesOutput>())
@@ -2081,9 +2105,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of Call Analytics jobs that match the specified criteria. If no criteria are specified, all Call Analytics jobs are returned. To get detailed information about a specific Call Analytics job, use the operation.
     ///
-    /// - Parameter ListCallAnalyticsJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCallAnalyticsJobsInput`)
     ///
-    /// - Returns: `ListCallAnalyticsJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCallAnalyticsJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2118,6 +2142,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCallAnalyticsJobsOutput>(ListCallAnalyticsJobsOutput.httpOutput(from:), ListCallAnalyticsJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCallAnalyticsJobsOutput>())
@@ -2152,9 +2177,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of custom language models that match the specified criteria. If no criteria are specified, all custom language models are returned. To get detailed information about a specific custom language model, use the operation.
     ///
-    /// - Parameter ListLanguageModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLanguageModelsInput`)
     ///
-    /// - Returns: `ListLanguageModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLanguageModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,6 +2214,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLanguageModelsOutput>(ListLanguageModelsOutput.httpOutput(from:), ListLanguageModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLanguageModelsOutput>())
@@ -2223,9 +2249,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of Medical Scribe jobs that match the specified criteria. If no criteria are specified, all Medical Scribe jobs are returned. To get detailed information about a specific Medical Scribe job, use the operation.
     ///
-    /// - Parameter ListMedicalScribeJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMedicalScribeJobsInput`)
     ///
-    /// - Returns: `ListMedicalScribeJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMedicalScribeJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2260,6 +2286,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMedicalScribeJobsOutput>(ListMedicalScribeJobsOutput.httpOutput(from:), ListMedicalScribeJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMedicalScribeJobsOutput>())
@@ -2294,9 +2321,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of medical transcription jobs that match the specified criteria. If no criteria are specified, all medical transcription jobs are returned. To get detailed information about a specific medical transcription job, use the operation.
     ///
-    /// - Parameter ListMedicalTranscriptionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMedicalTranscriptionJobsInput`)
     ///
-    /// - Returns: `ListMedicalTranscriptionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMedicalTranscriptionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2331,6 +2358,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMedicalTranscriptionJobsOutput>(ListMedicalTranscriptionJobsOutput.httpOutput(from:), ListMedicalTranscriptionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMedicalTranscriptionJobsOutput>())
@@ -2365,9 +2393,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of custom medical vocabularies that match the specified criteria. If no criteria are specified, all custom medical vocabularies are returned. To get detailed information about a specific custom medical vocabulary, use the operation.
     ///
-    /// - Parameter ListMedicalVocabulariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMedicalVocabulariesInput`)
     ///
-    /// - Returns: `ListMedicalVocabulariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMedicalVocabulariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,6 +2430,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMedicalVocabulariesOutput>(ListMedicalVocabulariesOutput.httpOutput(from:), ListMedicalVocabulariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMedicalVocabulariesOutput>())
@@ -2436,9 +2465,9 @@ extension TranscribeClient {
     ///
     /// Lists all tags associated with the specified transcription job, vocabulary, model, or resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2473,6 +2502,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2507,9 +2537,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of transcription jobs that match the specified criteria. If no criteria are specified, all transcription jobs are returned. To get detailed information about a specific transcription job, use the operation.
     ///
-    /// - Parameter ListTranscriptionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTranscriptionJobsInput`)
     ///
-    /// - Returns: `ListTranscriptionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTranscriptionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2544,6 +2574,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTranscriptionJobsOutput>(ListTranscriptionJobsOutput.httpOutput(from:), ListTranscriptionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTranscriptionJobsOutput>())
@@ -2578,9 +2609,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of custom vocabularies that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary, use the operation.
     ///
-    /// - Parameter ListVocabulariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVocabulariesInput`)
     ///
-    /// - Returns: `ListVocabulariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVocabulariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2615,6 +2646,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVocabulariesOutput>(ListVocabulariesOutput.httpOutput(from:), ListVocabulariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVocabulariesOutput>())
@@ -2649,9 +2681,9 @@ extension TranscribeClient {
     ///
     /// Provides a list of custom vocabulary filters that match the specified criteria. If no criteria are specified, all custom vocabularies are returned. To get detailed information about a specific custom vocabulary filter, use the operation.
     ///
-    /// - Parameter ListVocabularyFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVocabularyFiltersInput`)
     ///
-    /// - Returns: `ListVocabularyFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVocabularyFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2686,6 +2718,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVocabularyFiltersOutput>(ListVocabularyFiltersOutput.httpOutput(from:), ListVocabularyFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVocabularyFiltersOutput>())
@@ -2729,9 +2762,9 @@ extension TranscribeClient {
     ///
     /// With Call Analytics, you can redact the audio contained in your media file by including RedactedMediaFileUri, instead of MediaFileUri, to specify the location of your input audio. If you choose to redact your audio, you can find your redacted media at the location specified in the RedactedMediaFileUri field of your response.
     ///
-    /// - Parameter StartCallAnalyticsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCallAnalyticsJobInput`)
     ///
-    /// - Returns: `StartCallAnalyticsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCallAnalyticsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2766,6 +2799,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCallAnalyticsJobOutput>(StartCallAnalyticsJobOutput.httpOutput(from:), StartCallAnalyticsJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCallAnalyticsJobOutput>())
@@ -2812,9 +2846,9 @@ extension TranscribeClient {
     ///
     /// * ChannelDefinitions: A MedicalScribeChannelDefinitions array should be set if and only if the ChannelIdentification value of Settings is set to true.
     ///
-    /// - Parameter StartMedicalScribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMedicalScribeJobInput`)
     ///
-    /// - Returns: `StartMedicalScribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMedicalScribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2849,6 +2883,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMedicalScribeJobOutput>(StartMedicalScribeJobOutput.httpOutput(from:), StartMedicalScribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalScribeJobOutput>())
@@ -2897,9 +2932,9 @@ extension TranscribeClient {
     ///
     /// * Type: Choose whether your audio is a conversation or a dictation.
     ///
-    /// - Parameter StartMedicalTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMedicalTranscriptionJobInput`)
     ///
-    /// - Returns: `StartMedicalTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMedicalTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2934,6 +2969,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMedicalTranscriptionJobOutput>(StartMedicalTranscriptionJobOutput.httpOutput(from:), StartMedicalTranscriptionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalTranscriptionJobOutput>())
@@ -2976,9 +3012,9 @@ extension TranscribeClient {
     ///
     /// * One of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages: If you know the language of your media file, specify it using the LanguageCode parameter; you can find all valid language codes in the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table. If you do not know the languages spoken in your media, use either IdentifyLanguage or IdentifyMultipleLanguages and let Amazon Transcribe identify the languages for you.
     ///
-    /// - Parameter StartTranscriptionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTranscriptionJobInput`)
     ///
-    /// - Returns: `StartTranscriptionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTranscriptionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3013,6 +3049,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTranscriptionJobOutput>(StartTranscriptionJobOutput.httpOutput(from:), StartTranscriptionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTranscriptionJobOutput>())
@@ -3047,9 +3084,9 @@ extension TranscribeClient {
     ///
     /// Adds one or more custom tags, each in the form of a key:value pair, to the specified resource. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3085,6 +3122,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3119,9 +3157,9 @@ extension TranscribeClient {
     ///
     /// Removes the specified tags from the specified Amazon Transcribe resource. If you include UntagResource in your request, you must also include ResourceArn and TagKeys.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3154,9 +3192,11 @@ extension TranscribeClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3191,9 +3231,9 @@ extension TranscribeClient {
     ///
     /// Updates the specified Call Analytics category with new rules. Note that the UpdateCallAnalyticsCategory operation overwrites all existing rules contained in the specified category. You cannot append additional rules onto an existing category. To create a new category, see .
     ///
-    /// - Parameter UpdateCallAnalyticsCategoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCallAnalyticsCategoryInput`)
     ///
-    /// - Returns: `UpdateCallAnalyticsCategoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCallAnalyticsCategoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3229,6 +3269,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCallAnalyticsCategoryOutput>(UpdateCallAnalyticsCategoryOutput.httpOutput(from:), UpdateCallAnalyticsCategoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCallAnalyticsCategoryOutput>())
@@ -3263,9 +3304,9 @@ extension TranscribeClient {
     ///
     /// Updates an existing custom medical vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     ///
-    /// - Parameter UpdateMedicalVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMedicalVocabularyInput`)
     ///
-    /// - Returns: `UpdateMedicalVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMedicalVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3301,6 +3342,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMedicalVocabularyOutput>(UpdateMedicalVocabularyOutput.httpOutput(from:), UpdateMedicalVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMedicalVocabularyOutput>())
@@ -3335,9 +3377,9 @@ extension TranscribeClient {
     ///
     /// Updates an existing custom vocabulary with new values. This operation overwrites all existing information with your new values; you cannot append new terms onto an existing custom vocabulary.
     ///
-    /// - Parameter UpdateVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVocabularyInput`)
     ///
-    /// - Returns: `UpdateVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3373,6 +3415,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVocabularyOutput>(UpdateVocabularyOutput.httpOutput(from:), UpdateVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVocabularyOutput>())
@@ -3407,9 +3450,9 @@ extension TranscribeClient {
     ///
     /// Updates an existing custom vocabulary filter with a new list of words. The new list you provide overwrites all previous entries; you cannot append new terms onto an existing custom vocabulary filter.
     ///
-    /// - Parameter UpdateVocabularyFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVocabularyFilterInput`)
     ///
-    /// - Returns: `UpdateVocabularyFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVocabularyFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3444,6 +3487,7 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVocabularyFilterOutput>(UpdateVocabularyFilterOutput.httpOutput(from:), UpdateVocabularyFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVocabularyFilterOutput>())

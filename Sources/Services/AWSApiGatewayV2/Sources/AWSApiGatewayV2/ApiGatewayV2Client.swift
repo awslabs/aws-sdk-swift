@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ApiGatewayV2Client: ClientRuntime.Client {
+public class ApiGatewayV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApiGatewayV2Client"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ApiGatewayV2Client.ApiGatewayV2ClientConfiguration
     let serviceName = "ApiGatewayV2"
@@ -373,9 +373,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an Api resource.
     ///
-    /// - Parameter CreateApiInput : Creates a new Api resource to represent an API.
+    /// - Parameter input: Creates a new Api resource to represent an API. (Type: `CreateApiInput`)
     ///
-    /// - Returns: `CreateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApiInput, CreateApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiOutput>(CreateApiOutput.httpOutput(from:), CreateApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiInput, CreateApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApiOutput>())
@@ -443,9 +444,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an API mapping.
     ///
-    /// - Parameter CreateApiMappingInput : Creates a new ApiMapping resource to represent an API mapping.
+    /// - Parameter input: Creates a new ApiMapping resource to represent an API mapping. (Type: `CreateApiMappingInput`)
     ///
-    /// - Returns: `CreateApiMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApiMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +483,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApiMappingInput, CreateApiMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiMappingOutput>(CreateApiMappingOutput.httpOutput(from:), CreateApiMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiMappingInput, CreateApiMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApiMappingOutput>())
@@ -513,9 +515,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an Authorizer for an API.
     ///
-    /// - Parameter CreateAuthorizerInput : Creates a new Authorizer resource to represent an authorizer.
+    /// - Parameter input: Creates a new Authorizer resource to represent an authorizer. (Type: `CreateAuthorizerInput`)
     ///
-    /// - Returns: `CreateAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,6 +554,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAuthorizerInput, CreateAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAuthorizerOutput>(CreateAuthorizerOutput.httpOutput(from:), CreateAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAuthorizerInput, CreateAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAuthorizerOutput>())
@@ -583,9 +586,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a Deployment for an API.
     ///
-    /// - Parameter CreateDeploymentInput : Creates a new Deployment resource to represent a deployment.
+    /// - Parameter input: Creates a new Deployment resource to represent a deployment. (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,6 +625,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeploymentOutput>(CreateDeploymentOutput.httpOutput(from:), CreateDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentOutput>())
@@ -653,9 +657,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a domain name.
     ///
-    /// - Parameter CreateDomainNameInput : Creates a new DomainName resource to represent a domain name.
+    /// - Parameter input: Creates a new DomainName resource to represent a domain name. (Type: `CreateDomainNameInput`)
     ///
-    /// - Returns: `CreateDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,6 +697,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainNameInput, CreateDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainNameOutput>(CreateDomainNameOutput.httpOutput(from:), CreateDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainNameInput, CreateDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainNameOutput>())
@@ -724,9 +729,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an Integration.
     ///
-    /// - Parameter CreateIntegrationInput : Creates a new Integration resource to represent an integration.
+    /// - Parameter input: Creates a new Integration resource to represent an integration. (Type: `CreateIntegrationInput`)
     ///
-    /// - Returns: `CreateIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,6 +768,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationInput, CreateIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationOutput>(CreateIntegrationOutput.httpOutput(from:), CreateIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationInput, CreateIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationOutput>())
@@ -794,9 +800,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates an IntegrationResponses.
     ///
-    /// - Parameter CreateIntegrationResponseInput : Creates a new IntegrationResponse resource to represent an integration response.
+    /// - Parameter input: Creates a new IntegrationResponse resource to represent an integration response. (Type: `CreateIntegrationResponseInput`)
     ///
-    /// - Returns: `CreateIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -833,6 +839,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntegrationResponseInput, CreateIntegrationResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntegrationResponseOutput>(CreateIntegrationResponseOutput.httpOutput(from:), CreateIntegrationResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntegrationResponseInput, CreateIntegrationResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntegrationResponseOutput>())
@@ -864,9 +871,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a Model for an API.
     ///
-    /// - Parameter CreateModelInput : Creates a new Model.
+    /// - Parameter input: Creates a new Model. (Type: `CreateModelInput`)
     ///
-    /// - Returns: `CreateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -903,6 +910,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelInput, CreateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelOutput>(CreateModelOutput.httpOutput(from:), CreateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelInput, CreateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelOutput>())
@@ -930,13 +938,295 @@ extension ApiGatewayV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreatePortal` operation on the `ApiGatewayV2` service.
+    ///
+    /// Creates a portal.
+    ///
+    /// - Parameter input: The request body for the post operation. (Type: `CreatePortalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePortalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPortal")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePortalInput, CreatePortalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePortalInput, CreatePortalOutput>(CreatePortalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePortalInput, CreatePortalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePortalInput, CreatePortalOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePortalInput, CreatePortalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePortalInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePortalInput, CreatePortalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePortalOutput>(CreatePortalOutput.httpOutput(from:), CreatePortalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePortalInput, CreatePortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePortalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePortalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePortalInput, CreatePortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePortalInput, CreatePortalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePortalInput, CreatePortalOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePortal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreatePortalProduct` operation on the `ApiGatewayV2` service.
+    ///
+    /// Creates a new portal product.
+    ///
+    /// - Parameter input: The request body for the post operation. (Type: `CreatePortalProductInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePortalProductOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func createPortalProduct(input: CreatePortalProductInput) async throws -> CreatePortalProductOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPortalProduct")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePortalProductInput, CreatePortalProductOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePortalProductInput, CreatePortalProductOutput>(CreatePortalProductInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePortalProductInput, CreatePortalProductOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePortalProductInput, CreatePortalProductOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePortalProductInput, CreatePortalProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePortalProductInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePortalProductInput, CreatePortalProductOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePortalProductOutput>(CreatePortalProductOutput.httpOutput(from:), CreatePortalProductOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePortalProductInput, CreatePortalProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePortalProductOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePortalProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePortalProductOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePortalProductInput, CreatePortalProductOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePortalProductInput, CreatePortalProductOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePortalProductInput, CreatePortalProductOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePortalProduct")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateProductPage` operation on the `ApiGatewayV2` service.
+    ///
+    /// Creates a new product page for a portal product.
+    ///
+    /// - Parameter input: The request body for the post operation. (Type: `CreateProductPageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateProductPageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func createProductPage(input: CreateProductPageInput) async throws -> CreateProductPageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createProductPage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProductPageInput, CreateProductPageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProductPageInput, CreateProductPageOutput>(CreateProductPageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProductPageInput, CreateProductPageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProductPageInput, CreateProductPageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProductPageInput, CreateProductPageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProductPageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProductPageInput, CreateProductPageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProductPageOutput>(CreateProductPageOutput.httpOutput(from:), CreateProductPageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProductPageInput, CreateProductPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProductPageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProductPageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProductPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProductPageInput, CreateProductPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProductPageInput, CreateProductPageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProductPageInput, CreateProductPageOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProductPage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateProductRestEndpointPage` operation on the `ApiGatewayV2` service.
+    ///
+    /// Creates a product REST endpoint page for a portal product.
+    ///
+    /// - Parameter input: The request body for the post operation. (Type: `CreateProductRestEndpointPageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateProductRestEndpointPageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func createProductRestEndpointPage(input: CreateProductRestEndpointPageInput) async throws -> CreateProductRestEndpointPageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createProductRestEndpointPage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput>(CreateProductRestEndpointPageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateProductRestEndpointPageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProductRestEndpointPageOutput>(CreateProductRestEndpointPageOutput.httpOutput(from:), CreateProductRestEndpointPageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateProductRestEndpointPageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProductRestEndpointPageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProductRestEndpointPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateProductRestEndpointPageInput, CreateProductRestEndpointPageOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateProductRestEndpointPage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateRoute` operation on the `ApiGatewayV2` service.
     ///
     /// Creates a Route for an API.
     ///
-    /// - Parameter CreateRouteInput : Creates a new Route resource to represent a route.
+    /// - Parameter input: Creates a new Route resource to represent a route. (Type: `CreateRouteInput`)
     ///
-    /// - Returns: `CreateRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,6 +1263,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRouteInput, CreateRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRouteOutput>(CreateRouteOutput.httpOutput(from:), CreateRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRouteInput, CreateRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRouteOutput>())
@@ -1004,9 +1295,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a RouteResponse for a Route.
     ///
-    /// - Parameter CreateRouteResponseInput : Creates a new RouteResponse resource to represent a route response.
+    /// - Parameter input: Creates a new RouteResponse resource to represent a route response. (Type: `CreateRouteResponseInput`)
     ///
-    /// - Returns: `CreateRouteResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRouteResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,6 +1334,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRouteResponseInput, CreateRouteResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRouteResponseOutput>(CreateRouteResponseOutput.httpOutput(from:), CreateRouteResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRouteResponseInput, CreateRouteResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRouteResponseOutput>())
@@ -1074,9 +1366,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a RoutingRule.
     ///
-    /// - Parameter CreateRoutingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoutingRuleInput`)
     ///
-    /// - Returns: `CreateRoutingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoutingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,6 +1406,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRoutingRuleInput, CreateRoutingRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoutingRuleOutput>(CreateRoutingRuleOutput.httpOutput(from:), CreateRoutingRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoutingRuleInput, CreateRoutingRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoutingRuleOutput>())
@@ -1145,9 +1438,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a Stage for an API.
     ///
-    /// - Parameter CreateStageInput : Creates a new Stage resource to represent a stage.
+    /// - Parameter input: Creates a new Stage resource to represent a stage. (Type: `CreateStageInput`)
     ///
-    /// - Returns: `CreateStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1184,6 +1477,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStageInput, CreateStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStageOutput>(CreateStageOutput.httpOutput(from:), CreateStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStageInput, CreateStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStageOutput>())
@@ -1215,9 +1509,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a VPC link.
     ///
-    /// - Parameter CreateVpcLinkInput : Creates a VPC link
+    /// - Parameter input: Creates a VPC link (Type: `CreateVpcLinkInput`)
     ///
-    /// - Returns: `CreateVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1252,6 +1546,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcLinkInput, CreateVpcLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcLinkOutput>(CreateVpcLinkOutput.httpOutput(from:), CreateVpcLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcLinkInput, CreateVpcLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcLinkOutput>())
@@ -1283,9 +1578,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
     ///
-    /// - Parameter DeleteAccessLogSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessLogSettingsInput`)
     ///
-    /// - Returns: `DeleteAccessLogSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessLogSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1317,6 +1612,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessLogSettingsInput, DeleteAccessLogSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessLogSettingsOutput>(DeleteAccessLogSettingsOutput.httpOutput(from:), DeleteAccessLogSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessLogSettingsInput, DeleteAccessLogSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessLogSettingsOutput>())
@@ -1348,9 +1644,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an Api resource.
     ///
-    /// - Parameter DeleteApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiInput`)
     ///
-    /// - Returns: `DeleteApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1382,6 +1678,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApiInput, DeleteApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiOutput>(DeleteApiOutput.httpOutput(from:), DeleteApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiInput, DeleteApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApiOutput>())
@@ -1413,9 +1710,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an API mapping.
     ///
-    /// - Parameter DeleteApiMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApiMappingInput`)
     ///
-    /// - Returns: `DeleteApiMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,6 +1745,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApiMappingInput, DeleteApiMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiMappingOutput>(DeleteApiMappingOutput.httpOutput(from:), DeleteApiMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiMappingInput, DeleteApiMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApiMappingOutput>())
@@ -1479,9 +1777,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an Authorizer.
     ///
-    /// - Parameter DeleteAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAuthorizerInput`)
     ///
-    /// - Returns: `DeleteAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1513,6 +1811,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAuthorizerInput, DeleteAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAuthorizerOutput>(DeleteAuthorizerOutput.httpOutput(from:), DeleteAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAuthorizerInput, DeleteAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAuthorizerOutput>())
@@ -1544,9 +1843,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a CORS configuration.
     ///
-    /// - Parameter DeleteCorsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCorsConfigurationInput`)
     ///
-    /// - Returns: `DeleteCorsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCorsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1578,6 +1877,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCorsConfigurationInput, DeleteCorsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCorsConfigurationOutput>(DeleteCorsConfigurationOutput.httpOutput(from:), DeleteCorsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCorsConfigurationInput, DeleteCorsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCorsConfigurationOutput>())
@@ -1609,9 +1909,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Deployment.
     ///
-    /// - Parameter DeleteDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentInput`)
     ///
-    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1643,6 +1943,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeploymentOutput>(DeleteDeploymentOutput.httpOutput(from:), DeleteDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeploymentOutput>())
@@ -1674,9 +1975,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a domain name.
     ///
-    /// - Parameter DeleteDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainNameInput`)
     ///
-    /// - Returns: `DeleteDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1708,6 +2009,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainNameInput, DeleteDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainNameOutput>(DeleteDomainNameOutput.httpOutput(from:), DeleteDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainNameInput, DeleteDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainNameOutput>())
@@ -1739,9 +2041,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an Integration.
     ///
-    /// - Parameter DeleteIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1773,6 +2075,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutput>(DeleteIntegrationOutput.httpOutput(from:), DeleteIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
@@ -1804,9 +2107,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes an IntegrationResponses.
     ///
-    /// - Parameter DeleteIntegrationResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntegrationResponseInput`)
     ///
-    /// - Returns: `DeleteIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1838,6 +2141,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntegrationResponseInput, DeleteIntegrationResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationResponseOutput>(DeleteIntegrationResponseOutput.httpOutput(from:), DeleteIntegrationResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationResponseInput, DeleteIntegrationResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationResponseOutput>())
@@ -1869,9 +2173,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Model.
     ///
-    /// - Parameter DeleteModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelInput`)
     ///
-    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1903,6 +2207,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteModelInput, DeleteModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelOutput>(DeleteModelOutput.httpOutput(from:), DeleteModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelInput, DeleteModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelOutput>())
@@ -1930,13 +2235,352 @@ extension ApiGatewayV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeletePortal` operation on the `ApiGatewayV2` service.
+    ///
+    /// Deletes a portal.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePortalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePortalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePortal")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePortalInput, DeletePortalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePortalInput, DeletePortalOutput>(DeletePortalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePortalInput, DeletePortalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePortalOutput>(DeletePortalOutput.httpOutput(from:), DeletePortalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePortalInput, DeletePortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePortalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePortalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePortalInput, DeletePortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePortalInput, DeletePortalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePortalInput, DeletePortalOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePortal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeletePortalProduct` operation on the `ApiGatewayV2` service.
+    ///
+    /// Deletes a portal product.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePortalProductInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePortalProductOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func deletePortalProduct(input: DeletePortalProductInput) async throws -> DeletePortalProductOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePortalProduct")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePortalProductInput, DeletePortalProductOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePortalProductInput, DeletePortalProductOutput>(DeletePortalProductInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePortalProductInput, DeletePortalProductOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePortalProductOutput>(DeletePortalProductOutput.httpOutput(from:), DeletePortalProductOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePortalProductInput, DeletePortalProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePortalProductOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePortalProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePortalProductOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePortalProductInput, DeletePortalProductOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePortalProductInput, DeletePortalProductOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePortalProductInput, DeletePortalProductOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePortalProduct")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeletePortalProductSharingPolicy` operation on the `ApiGatewayV2` service.
+    ///
+    /// Deletes the sharing policy for a portal product.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeletePortalProductSharingPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeletePortalProductSharingPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func deletePortalProductSharingPolicy(input: DeletePortalProductSharingPolicyInput) async throws -> DeletePortalProductSharingPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deletePortalProductSharingPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeletePortalProductSharingPolicyInput, DeletePortalProductSharingPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeletePortalProductSharingPolicyInput, DeletePortalProductSharingPolicyOutput>(DeletePortalProductSharingPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePortalProductSharingPolicyInput, DeletePortalProductSharingPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePortalProductSharingPolicyOutput>(DeletePortalProductSharingPolicyOutput.httpOutput(from:), DeletePortalProductSharingPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePortalProductSharingPolicyInput, DeletePortalProductSharingPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeletePortalProductSharingPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeletePortalProductSharingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeletePortalProductSharingPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeletePortalProductSharingPolicyInput, DeletePortalProductSharingPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeletePortalProductSharingPolicyInput, DeletePortalProductSharingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeletePortalProductSharingPolicyInput, DeletePortalProductSharingPolicyOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePortalProductSharingPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteProductPage` operation on the `ApiGatewayV2` service.
+    ///
+    /// Deletes a product page of a portal product.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProductPageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProductPageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func deleteProductPage(input: DeleteProductPageInput) async throws -> DeleteProductPageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProductPage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProductPageInput, DeleteProductPageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProductPageInput, DeleteProductPageOutput>(DeleteProductPageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProductPageInput, DeleteProductPageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProductPageOutput>(DeleteProductPageOutput.httpOutput(from:), DeleteProductPageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProductPageInput, DeleteProductPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProductPageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProductPageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProductPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProductPageInput, DeleteProductPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProductPageInput, DeleteProductPageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProductPageInput, DeleteProductPageOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProductPage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteProductRestEndpointPage` operation on the `ApiGatewayV2` service.
+    ///
+    /// Deletes a product REST endpoint page.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProductRestEndpointPageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProductRestEndpointPageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func deleteProductRestEndpointPage(input: DeleteProductRestEndpointPageInput) async throws -> DeleteProductRestEndpointPageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProductRestEndpointPage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProductRestEndpointPageInput, DeleteProductRestEndpointPageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProductRestEndpointPageInput, DeleteProductRestEndpointPageOutput>(DeleteProductRestEndpointPageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProductRestEndpointPageInput, DeleteProductRestEndpointPageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProductRestEndpointPageOutput>(DeleteProductRestEndpointPageOutput.httpOutput(from:), DeleteProductRestEndpointPageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProductRestEndpointPageInput, DeleteProductRestEndpointPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProductRestEndpointPageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProductRestEndpointPageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProductRestEndpointPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProductRestEndpointPageInput, DeleteProductRestEndpointPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProductRestEndpointPageInput, DeleteProductRestEndpointPageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProductRestEndpointPageInput, DeleteProductRestEndpointPageOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProductRestEndpointPage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteRoute` operation on the `ApiGatewayV2` service.
     ///
     /// Deletes a Route.
     ///
-    /// - Parameter DeleteRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteInput`)
     ///
-    /// - Returns: `DeleteRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1968,6 +2612,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRouteInput, DeleteRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouteOutput>(DeleteRouteOutput.httpOutput(from:), DeleteRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouteInput, DeleteRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouteOutput>())
@@ -1999,9 +2644,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a route request parameter. Supported only for WebSocket APIs.
     ///
-    /// - Parameter DeleteRouteRequestParameterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteRequestParameterInput`)
     ///
-    /// - Returns: `DeleteRouteRequestParameterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteRequestParameterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2033,6 +2678,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRouteRequestParameterInput, DeleteRouteRequestParameterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouteRequestParameterOutput>(DeleteRouteRequestParameterOutput.httpOutput(from:), DeleteRouteRequestParameterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouteRequestParameterInput, DeleteRouteRequestParameterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouteRequestParameterOutput>())
@@ -2064,9 +2710,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a RouteResponse.
     ///
-    /// - Parameter DeleteRouteResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteResponseInput`)
     ///
-    /// - Returns: `DeleteRouteResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2098,6 +2744,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRouteResponseInput, DeleteRouteResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouteResponseOutput>(DeleteRouteResponseOutput.httpOutput(from:), DeleteRouteResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouteResponseInput, DeleteRouteResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouteResponseOutput>())
@@ -2129,9 +2776,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes the RouteSettings for a stage.
     ///
-    /// - Parameter DeleteRouteSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouteSettingsInput`)
     ///
-    /// - Returns: `DeleteRouteSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRouteSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2163,6 +2810,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRouteSettingsInput, DeleteRouteSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouteSettingsOutput>(DeleteRouteSettingsOutput.httpOutput(from:), DeleteRouteSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouteSettingsInput, DeleteRouteSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouteSettingsOutput>())
@@ -2194,9 +2842,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a routing rule.
     ///
-    /// - Parameter DeleteRoutingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoutingRuleInput`)
     ///
-    /// - Returns: `DeleteRoutingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoutingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2230,6 +2878,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteRoutingRuleInput, DeleteRoutingRuleOutput>(DeleteRoutingRuleInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoutingRuleOutput>(DeleteRoutingRuleOutput.httpOutput(from:), DeleteRoutingRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoutingRuleInput, DeleteRoutingRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoutingRuleOutput>())
@@ -2261,9 +2910,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Stage.
     ///
-    /// - Parameter DeleteStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStageInput`)
     ///
-    /// - Returns: `DeleteStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2295,6 +2944,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStageInput, DeleteStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStageOutput>(DeleteStageOutput.httpOutput(from:), DeleteStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStageInput, DeleteStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStageOutput>())
@@ -2326,9 +2976,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a VPC link.
     ///
-    /// - Parameter DeleteVpcLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcLinkInput`)
     ///
-    /// - Returns: `DeleteVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,6 +3010,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcLinkInput, DeleteVpcLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcLinkOutput>(DeleteVpcLinkOutput.httpOutput(from:), DeleteVpcLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcLinkInput, DeleteVpcLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcLinkOutput>())
@@ -2387,12 +3038,81 @@ extension ApiGatewayV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisablePortal` operation on the `ApiGatewayV2` service.
+    ///
+    /// Deletes the publication of a portal portal.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisablePortalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisablePortalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func disablePortal(input: DisablePortalInput) async throws -> DisablePortalOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disablePortal")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisablePortalInput, DisablePortalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisablePortalInput, DisablePortalOutput>(DisablePortalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisablePortalInput, DisablePortalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisablePortalOutput>(DisablePortalOutput.httpOutput(from:), DisablePortalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisablePortalInput, DisablePortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisablePortalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisablePortalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisablePortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisablePortalInput, DisablePortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisablePortalInput, DisablePortalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisablePortalInput, DisablePortalOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisablePortal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ExportApi` operation on the `ApiGatewayV2` service.
     ///
     ///
-    /// - Parameter ExportApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportApiInput`)
     ///
-    /// - Returns: `ExportApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2426,6 +3146,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ExportApiInput, ExportApiOutput>(ExportApiInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportApiOutput>(ExportApiOutput.httpOutput(from:), ExportApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportApiInput, ExportApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportApiOutput>())
@@ -2457,9 +3178,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an Api resource.
     ///
-    /// - Parameter GetApiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiInput`)
     ///
-    /// - Returns: `GetApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2491,6 +3212,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApiInput, GetApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiOutput>(GetApiOutput.httpOutput(from:), GetApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiInput, GetApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiOutput>())
@@ -2522,9 +3244,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an API mapping.
     ///
-    /// - Parameter GetApiMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiMappingInput`)
     ///
-    /// - Returns: `GetApiMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2557,6 +3279,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApiMappingInput, GetApiMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiMappingOutput>(GetApiMappingOutput.httpOutput(from:), GetApiMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiMappingInput, GetApiMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiMappingOutput>())
@@ -2588,9 +3311,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets API mappings.
     ///
-    /// - Parameter GetApiMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApiMappingsInput`)
     ///
-    /// - Returns: `GetApiMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApiMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2624,6 +3347,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetApiMappingsInput, GetApiMappingsOutput>(GetApiMappingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiMappingsOutput>(GetApiMappingsOutput.httpOutput(from:), GetApiMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiMappingsInput, GetApiMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiMappingsOutput>())
@@ -2655,9 +3379,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a collection of Api resources.
     ///
-    /// - Parameter GetApisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApisInput`)
     ///
-    /// - Returns: `GetApisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2691,6 +3415,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetApisInput, GetApisOutput>(GetApisInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApisOutput>(GetApisOutput.httpOutput(from:), GetApisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApisInput, GetApisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApisOutput>())
@@ -2722,9 +3447,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an Authorizer.
     ///
-    /// - Parameter GetAuthorizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthorizerInput`)
     ///
-    /// - Returns: `GetAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2756,6 +3481,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAuthorizerInput, GetAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthorizerOutput>(GetAuthorizerOutput.httpOutput(from:), GetAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthorizerInput, GetAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthorizerOutput>())
@@ -2787,9 +3513,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Authorizers for an API.
     ///
-    /// - Parameter GetAuthorizersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthorizersInput`)
     ///
-    /// - Returns: `GetAuthorizersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthorizersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2823,6 +3549,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAuthorizersInput, GetAuthorizersOutput>(GetAuthorizersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthorizersOutput>(GetAuthorizersOutput.httpOutput(from:), GetAuthorizersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthorizersInput, GetAuthorizersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthorizersOutput>())
@@ -2854,9 +3581,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a Deployment.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2888,6 +3615,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentOutput>(GetDeploymentOutput.httpOutput(from:), GetDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInput, GetDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentOutput>())
@@ -2919,9 +3647,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Deployments for an API.
     ///
-    /// - Parameter GetDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentsInput`)
     ///
-    /// - Returns: `GetDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2955,6 +3683,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDeploymentsInput, GetDeploymentsOutput>(GetDeploymentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentsOutput>(GetDeploymentsOutput.httpOutput(from:), GetDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentsInput, GetDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentsOutput>())
@@ -2986,9 +3715,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a domain name.
     ///
-    /// - Parameter GetDomainNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainNameInput`)
     ///
-    /// - Returns: `GetDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3020,6 +3749,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainNameInput, GetDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainNameOutput>(GetDomainNameOutput.httpOutput(from:), GetDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainNameInput, GetDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainNameOutput>())
@@ -3051,9 +3781,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the domain names for an AWS account.
     ///
-    /// - Parameter GetDomainNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainNamesInput`)
     ///
-    /// - Returns: `GetDomainNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3087,6 +3817,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDomainNamesInput, GetDomainNamesOutput>(GetDomainNamesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainNamesOutput>(GetDomainNamesOutput.httpOutput(from:), GetDomainNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainNamesInput, GetDomainNamesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainNamesOutput>())
@@ -3118,9 +3849,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an Integration.
     ///
-    /// - Parameter GetIntegrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationInput`)
     ///
-    /// - Returns: `GetIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3152,6 +3883,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIntegrationInput, GetIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationOutput>(GetIntegrationOutput.httpOutput(from:), GetIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationInput, GetIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationOutput>())
@@ -3183,9 +3915,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets an IntegrationResponses.
     ///
-    /// - Parameter GetIntegrationResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationResponseInput`)
     ///
-    /// - Returns: `GetIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3217,6 +3949,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIntegrationResponseInput, GetIntegrationResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationResponseOutput>(GetIntegrationResponseOutput.httpOutput(from:), GetIntegrationResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationResponseInput, GetIntegrationResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationResponseOutput>())
@@ -3248,9 +3981,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the IntegrationResponses for an Integration.
     ///
-    /// - Parameter GetIntegrationResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationResponsesInput`)
     ///
-    /// - Returns: `GetIntegrationResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3284,6 +4017,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetIntegrationResponsesInput, GetIntegrationResponsesOutput>(GetIntegrationResponsesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationResponsesOutput>(GetIntegrationResponsesOutput.httpOutput(from:), GetIntegrationResponsesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationResponsesInput, GetIntegrationResponsesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationResponsesOutput>())
@@ -3315,9 +4049,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Integrations for an API.
     ///
-    /// - Parameter GetIntegrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntegrationsInput`)
     ///
-    /// - Returns: `GetIntegrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntegrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3351,6 +4085,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetIntegrationsInput, GetIntegrationsOutput>(GetIntegrationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationsOutput>(GetIntegrationsOutput.httpOutput(from:), GetIntegrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationsInput, GetIntegrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationsOutput>())
@@ -3382,9 +4117,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a Model.
     ///
-    /// - Parameter GetModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelInput`)
     ///
-    /// - Returns: `GetModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3416,6 +4151,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelInput, GetModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelOutput>(GetModelOutput.httpOutput(from:), GetModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelInput, GetModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelOutput>())
@@ -3447,9 +4183,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a model template.
     ///
-    /// - Parameter GetModelTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelTemplateInput`)
     ///
-    /// - Returns: `GetModelTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3481,6 +4217,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelTemplateInput, GetModelTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelTemplateOutput>(GetModelTemplateOutput.httpOutput(from:), GetModelTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelTemplateInput, GetModelTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelTemplateOutput>())
@@ -3512,9 +4249,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Models for an API.
     ///
-    /// - Parameter GetModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelsInput`)
     ///
-    /// - Returns: `GetModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3548,6 +4285,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetModelsInput, GetModelsOutput>(GetModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelsOutput>(GetModelsOutput.httpOutput(from:), GetModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelsInput, GetModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelsOutput>())
@@ -3575,13 +4313,356 @@ extension ApiGatewayV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetPortal` operation on the `ApiGatewayV2` service.
+    ///
+    /// Gets a portal.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPortalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPortalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func getPortal(input: GetPortalInput) async throws -> GetPortalOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPortal")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPortalInput, GetPortalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPortalInput, GetPortalOutput>(GetPortalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortalInput, GetPortalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortalOutput>(GetPortalOutput.httpOutput(from:), GetPortalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortalInput, GetPortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPortalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPortalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPortalInput, GetPortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPortalInput, GetPortalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPortalInput, GetPortalOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPortal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPortalProduct` operation on the `ApiGatewayV2` service.
+    ///
+    /// Gets a portal product.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPortalProductInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPortalProductOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func getPortalProduct(input: GetPortalProductInput) async throws -> GetPortalProductOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPortalProduct")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPortalProductInput, GetPortalProductOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPortalProductInput, GetPortalProductOutput>(GetPortalProductInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortalProductInput, GetPortalProductOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetPortalProductInput, GetPortalProductOutput>(GetPortalProductInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortalProductOutput>(GetPortalProductOutput.httpOutput(from:), GetPortalProductOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortalProductInput, GetPortalProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPortalProductOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPortalProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPortalProductOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPortalProductInput, GetPortalProductOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPortalProductInput, GetPortalProductOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPortalProductInput, GetPortalProductOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPortalProduct")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetPortalProductSharingPolicy` operation on the `ApiGatewayV2` service.
+    ///
+    /// Gets the sharing policy for a portal product.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetPortalProductSharingPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetPortalProductSharingPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func getPortalProductSharingPolicy(input: GetPortalProductSharingPolicyInput) async throws -> GetPortalProductSharingPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getPortalProductSharingPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetPortalProductSharingPolicyInput, GetPortalProductSharingPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetPortalProductSharingPolicyInput, GetPortalProductSharingPolicyOutput>(GetPortalProductSharingPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortalProductSharingPolicyInput, GetPortalProductSharingPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortalProductSharingPolicyOutput>(GetPortalProductSharingPolicyOutput.httpOutput(from:), GetPortalProductSharingPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortalProductSharingPolicyInput, GetPortalProductSharingPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetPortalProductSharingPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetPortalProductSharingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetPortalProductSharingPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetPortalProductSharingPolicyInput, GetPortalProductSharingPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetPortalProductSharingPolicyInput, GetPortalProductSharingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetPortalProductSharingPolicyInput, GetPortalProductSharingPolicyOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetPortalProductSharingPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetProductPage` operation on the `ApiGatewayV2` service.
+    ///
+    /// Gets a product page of a portal product.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetProductPageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetProductPageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func getProductPage(input: GetProductPageInput) async throws -> GetProductPageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getProductPage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetProductPageInput, GetProductPageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetProductPageInput, GetProductPageOutput>(GetProductPageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProductPageInput, GetProductPageOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetProductPageInput, GetProductPageOutput>(GetProductPageInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProductPageOutput>(GetProductPageOutput.httpOutput(from:), GetProductPageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProductPageInput, GetProductPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetProductPageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetProductPageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProductPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetProductPageInput, GetProductPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetProductPageInput, GetProductPageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetProductPageInput, GetProductPageOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetProductPage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetProductRestEndpointPage` operation on the `ApiGatewayV2` service.
+    ///
+    /// Gets a product REST endpoint page.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetProductRestEndpointPageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetProductRestEndpointPageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func getProductRestEndpointPage(input: GetProductRestEndpointPageInput) async throws -> GetProductRestEndpointPageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getProductRestEndpointPage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetProductRestEndpointPageInput, GetProductRestEndpointPageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetProductRestEndpointPageInput, GetProductRestEndpointPageOutput>(GetProductRestEndpointPageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProductRestEndpointPageInput, GetProductRestEndpointPageOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetProductRestEndpointPageInput, GetProductRestEndpointPageOutput>(GetProductRestEndpointPageInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProductRestEndpointPageOutput>(GetProductRestEndpointPageOutput.httpOutput(from:), GetProductRestEndpointPageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProductRestEndpointPageInput, GetProductRestEndpointPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetProductRestEndpointPageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetProductRestEndpointPageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetProductRestEndpointPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetProductRestEndpointPageInput, GetProductRestEndpointPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetProductRestEndpointPageInput, GetProductRestEndpointPageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetProductRestEndpointPageInput, GetProductRestEndpointPageOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetProductRestEndpointPage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetRoute` operation on the `ApiGatewayV2` service.
     ///
     /// Gets a Route.
     ///
-    /// - Parameter GetRouteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteInput`)
     ///
-    /// - Returns: `GetRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3613,6 +4694,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRouteInput, GetRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouteOutput>(GetRouteOutput.httpOutput(from:), GetRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouteInput, GetRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRouteOutput>())
@@ -3644,9 +4726,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a RouteResponse.
     ///
-    /// - Parameter GetRouteResponseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteResponseInput`)
     ///
-    /// - Returns: `GetRouteResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3678,6 +4760,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRouteResponseInput, GetRouteResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouteResponseOutput>(GetRouteResponseOutput.httpOutput(from:), GetRouteResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouteResponseInput, GetRouteResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRouteResponseOutput>())
@@ -3709,9 +4792,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the RouteResponses for a Route.
     ///
-    /// - Parameter GetRouteResponsesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteResponsesInput`)
     ///
-    /// - Returns: `GetRouteResponsesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3745,6 +4828,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRouteResponsesInput, GetRouteResponsesOutput>(GetRouteResponsesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouteResponsesOutput>(GetRouteResponsesOutput.httpOutput(from:), GetRouteResponsesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouteResponsesInput, GetRouteResponsesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRouteResponsesOutput>())
@@ -3776,9 +4860,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Routes for an API.
     ///
-    /// - Parameter GetRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoutesInput`)
     ///
-    /// - Returns: `GetRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3812,6 +4896,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRoutesInput, GetRoutesOutput>(GetRoutesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoutesOutput>(GetRoutesOutput.httpOutput(from:), GetRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoutesInput, GetRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoutesOutput>())
@@ -3843,9 +4928,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a routing rule.
     ///
-    /// - Parameter GetRoutingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoutingRuleInput`)
     ///
-    /// - Returns: `GetRoutingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoutingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3879,6 +4964,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRoutingRuleInput, GetRoutingRuleOutput>(GetRoutingRuleInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoutingRuleOutput>(GetRoutingRuleOutput.httpOutput(from:), GetRoutingRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoutingRuleInput, GetRoutingRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoutingRuleOutput>())
@@ -3910,9 +4996,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a Stage.
     ///
-    /// - Parameter GetStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStageInput`)
     ///
-    /// - Returns: `GetStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3944,6 +5030,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStageInput, GetStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStageOutput>(GetStageOutput.httpOutput(from:), GetStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStageInput, GetStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStageOutput>())
@@ -3975,9 +5062,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets the Stages for an API.
     ///
-    /// - Parameter GetStagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStagesInput`)
     ///
-    /// - Returns: `GetStagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4011,6 +5098,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetStagesInput, GetStagesOutput>(GetStagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStagesOutput>(GetStagesOutput.httpOutput(from:), GetStagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStagesInput, GetStagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStagesOutput>())
@@ -4042,9 +5130,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a collection of Tag resources.
     ///
-    /// - Parameter GetTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTagsInput`)
     ///
-    /// - Returns: `GetTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4078,6 +5166,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTagsInput, GetTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagsOutput>(GetTagsOutput.httpOutput(from:), GetTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagsInput, GetTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagsOutput>())
@@ -4109,9 +5198,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a VPC link.
     ///
-    /// - Parameter GetVpcLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpcLinkInput`)
     ///
-    /// - Returns: `GetVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4143,6 +5232,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVpcLinkInput, GetVpcLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpcLinkOutput>(GetVpcLinkOutput.httpOutput(from:), GetVpcLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpcLinkInput, GetVpcLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpcLinkOutput>())
@@ -4174,9 +5264,9 @@ extension ApiGatewayV2Client {
     ///
     /// Gets a collection of VPC links.
     ///
-    /// - Parameter GetVpcLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpcLinksInput`)
     ///
-    /// - Returns: `GetVpcLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpcLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4209,6 +5299,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetVpcLinksInput, GetVpcLinksOutput>(GetVpcLinksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpcLinksOutput>(GetVpcLinksOutput.httpOutput(from:), GetVpcLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpcLinksInput, GetVpcLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpcLinksOutput>())
@@ -4240,9 +5331,9 @@ extension ApiGatewayV2Client {
     ///
     /// Imports an API.
     ///
-    /// - Parameter ImportApiInput :
+    /// - Parameter input: (Type: `ImportApiInput`)
     ///
-    /// - Returns: `ImportApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4280,6 +5371,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportApiInput, ImportApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportApiOutput>(ImportApiOutput.httpOutput(from:), ImportApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportApiInput, ImportApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportApiOutput>())
@@ -4307,13 +5399,287 @@ extension ApiGatewayV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListPortalProducts` operation on the `ApiGatewayV2` service.
+    ///
+    /// Lists portal products.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPortalProductsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPortalProductsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func listPortalProducts(input: ListPortalProductsInput) async throws -> ListPortalProductsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPortalProducts")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPortalProductsInput, ListPortalProductsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPortalProductsInput, ListPortalProductsOutput>(ListPortalProductsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPortalProductsInput, ListPortalProductsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListPortalProductsInput, ListPortalProductsOutput>(ListPortalProductsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPortalProductsOutput>(ListPortalProductsOutput.httpOutput(from:), ListPortalProductsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPortalProductsInput, ListPortalProductsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPortalProductsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPortalProductsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPortalProductsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPortalProductsInput, ListPortalProductsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPortalProductsInput, ListPortalProductsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPortalProductsInput, ListPortalProductsOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPortalProducts")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListPortals` operation on the `ApiGatewayV2` service.
+    ///
+    /// Lists portals.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListPortalsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListPortalsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listPortals")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListPortalsInput, ListPortalsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListPortalsInput, ListPortalsOutput>(ListPortalsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPortalsInput, ListPortalsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListPortalsInput, ListPortalsOutput>(ListPortalsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPortalsOutput>(ListPortalsOutput.httpOutput(from:), ListPortalsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPortalsInput, ListPortalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListPortalsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPortalsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPortalsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPortalsInput, ListPortalsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPortalsInput, ListPortalsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListPortalsInput, ListPortalsOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPortals")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListProductPages` operation on the `ApiGatewayV2` service.
+    ///
+    /// Lists the product pages for a portal product.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListProductPagesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListProductPagesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func listProductPages(input: ListProductPagesInput) async throws -> ListProductPagesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProductPages")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProductPagesInput, ListProductPagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProductPagesInput, ListProductPagesOutput>(ListProductPagesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProductPagesInput, ListProductPagesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListProductPagesInput, ListProductPagesOutput>(ListProductPagesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProductPagesOutput>(ListProductPagesOutput.httpOutput(from:), ListProductPagesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProductPagesInput, ListProductPagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProductPagesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProductPagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProductPagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProductPagesInput, ListProductPagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProductPagesInput, ListProductPagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProductPagesInput, ListProductPagesOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProductPages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListProductRestEndpointPages` operation on the `ApiGatewayV2` service.
+    ///
+    /// Lists the product REST endpoint pages of a portal product.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListProductRestEndpointPagesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListProductRestEndpointPagesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func listProductRestEndpointPages(input: ListProductRestEndpointPagesInput) async throws -> ListProductRestEndpointPagesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProductRestEndpointPages")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListProductRestEndpointPagesInput, ListProductRestEndpointPagesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListProductRestEndpointPagesInput, ListProductRestEndpointPagesOutput>(ListProductRestEndpointPagesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProductRestEndpointPagesInput, ListProductRestEndpointPagesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListProductRestEndpointPagesInput, ListProductRestEndpointPagesOutput>(ListProductRestEndpointPagesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProductRestEndpointPagesOutput>(ListProductRestEndpointPagesOutput.httpOutput(from:), ListProductRestEndpointPagesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProductRestEndpointPagesInput, ListProductRestEndpointPagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListProductRestEndpointPagesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProductRestEndpointPagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProductRestEndpointPagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProductRestEndpointPagesInput, ListProductRestEndpointPagesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProductRestEndpointPagesInput, ListProductRestEndpointPagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListProductRestEndpointPagesInput, ListProductRestEndpointPagesOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListProductRestEndpointPages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListRoutingRules` operation on the `ApiGatewayV2` service.
     ///
     /// Lists routing rules.
     ///
-    /// - Parameter ListRoutingRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoutingRulesInput`)
     ///
-    /// - Returns: `ListRoutingRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoutingRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4347,6 +5713,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoutingRulesInput, ListRoutingRulesOutput>(ListRoutingRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoutingRulesOutput>(ListRoutingRulesOutput.httpOutput(from:), ListRoutingRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoutingRulesInput, ListRoutingRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutingRulesOutput>())
@@ -4374,13 +5741,225 @@ extension ApiGatewayV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PreviewPortal` operation on the `ApiGatewayV2` service.
+    ///
+    /// Creates a portal preview.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PreviewPortalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PreviewPortalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func previewPortal(input: PreviewPortalInput) async throws -> PreviewPortalOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "previewPortal")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PreviewPortalInput, PreviewPortalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PreviewPortalInput, PreviewPortalOutput>(PreviewPortalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PreviewPortalInput, PreviewPortalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PreviewPortalOutput>(PreviewPortalOutput.httpOutput(from:), PreviewPortalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PreviewPortalInput, PreviewPortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PreviewPortalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PreviewPortalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PreviewPortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PreviewPortalInput, PreviewPortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PreviewPortalInput, PreviewPortalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PreviewPortalInput, PreviewPortalOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PreviewPortal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PublishPortal` operation on the `ApiGatewayV2` service.
+    ///
+    /// Publishes a portal.
+    ///
+    /// - Parameter input: The request body for the post operation. (Type: `PublishPortalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PublishPortalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func publishPortal(input: PublishPortalInput) async throws -> PublishPortalOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "publishPortal")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PublishPortalInput, PublishPortalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PublishPortalInput, PublishPortalOutput>(PublishPortalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PublishPortalInput, PublishPortalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PublishPortalInput, PublishPortalOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PublishPortalInput, PublishPortalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PublishPortalInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishPortalInput, PublishPortalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishPortalOutput>(PublishPortalOutput.httpOutput(from:), PublishPortalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishPortalInput, PublishPortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PublishPortalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PublishPortalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PublishPortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PublishPortalInput, PublishPortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PublishPortalInput, PublishPortalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PublishPortalInput, PublishPortalOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PublishPortal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutPortalProductSharingPolicy` operation on the `ApiGatewayV2` service.
+    ///
+    /// Updates the sharing policy for a portal product.
+    ///
+    /// - Parameter input: The request body for the put operation. (Type: `PutPortalProductSharingPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutPortalProductSharingPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func putPortalProductSharingPolicy(input: PutPortalProductSharingPolicyInput) async throws -> PutPortalProductSharingPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putPortalProductSharingPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput>(PutPortalProductSharingPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutPortalProductSharingPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPortalProductSharingPolicyOutput>(PutPortalProductSharingPolicyOutput.httpOutput(from:), PutPortalProductSharingPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutPortalProductSharingPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutPortalProductSharingPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutPortalProductSharingPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutPortalProductSharingPolicyInput, PutPortalProductSharingPolicyOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutPortalProductSharingPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutRoutingRule` operation on the `ApiGatewayV2` service.
     ///
     /// Updates a routing rule.
     ///
-    /// - Parameter PutRoutingRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRoutingRuleInput`)
     ///
-    /// - Returns: `PutRoutingRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRoutingRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4418,6 +5997,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRoutingRuleInput, PutRoutingRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRoutingRuleOutput>(PutRoutingRuleOutput.httpOutput(from:), PutRoutingRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRoutingRuleInput, PutRoutingRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRoutingRuleOutput>())
@@ -4449,9 +6029,9 @@ extension ApiGatewayV2Client {
     ///
     /// Puts an Api resource.
     ///
-    /// - Parameter ReimportApiInput :
+    /// - Parameter input: (Type: `ReimportApiInput`)
     ///
-    /// - Returns: `ReimportApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReimportApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4489,6 +6069,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReimportApiInput, ReimportApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReimportApiOutput>(ReimportApiOutput.httpOutput(from:), ReimportApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReimportApiInput, ReimportApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReimportApiOutput>())
@@ -4520,9 +6101,9 @@ extension ApiGatewayV2Client {
     ///
     /// Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
     ///
-    /// - Parameter ResetAuthorizersCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetAuthorizersCacheInput`)
     ///
-    /// - Returns: `ResetAuthorizersCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetAuthorizersCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4554,6 +6135,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResetAuthorizersCacheInput, ResetAuthorizersCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetAuthorizersCacheOutput>(ResetAuthorizersCacheOutput.httpOutput(from:), ResetAuthorizersCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetAuthorizersCacheInput, ResetAuthorizersCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetAuthorizersCacheOutput>())
@@ -4585,9 +6167,9 @@ extension ApiGatewayV2Client {
     ///
     /// Creates a new Tag resource to represent a tag.
     ///
-    /// - Parameter TagResourceInput : Creates a new Tag resource to represent a tag.
+    /// - Parameter input: Creates a new Tag resource to represent a tag. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4624,6 +6206,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4655,9 +6238,9 @@ extension ApiGatewayV2Client {
     ///
     /// Deletes a Tag.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4692,6 +6275,7 @@ extension ApiGatewayV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4723,9 +6307,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates an Api resource.
     ///
-    /// - Parameter UpdateApiInput : Updates an Api.
+    /// - Parameter input: Updates an Api. (Type: `UpdateApiInput`)
     ///
-    /// - Returns: `UpdateApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4762,6 +6346,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApiInput, UpdateApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiOutput>(UpdateApiOutput.httpOutput(from:), UpdateApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiInput, UpdateApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApiOutput>())
@@ -4793,9 +6378,9 @@ extension ApiGatewayV2Client {
     ///
     /// The API mapping.
     ///
-    /// - Parameter UpdateApiMappingInput : Updates an ApiMapping.
+    /// - Parameter input: Updates an ApiMapping. (Type: `UpdateApiMappingInput`)
     ///
-    /// - Returns: `UpdateApiMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApiMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4832,6 +6417,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApiMappingInput, UpdateApiMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiMappingOutput>(UpdateApiMappingOutput.httpOutput(from:), UpdateApiMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiMappingInput, UpdateApiMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApiMappingOutput>())
@@ -4863,9 +6449,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates an Authorizer.
     ///
-    /// - Parameter UpdateAuthorizerInput : Updates an Authorizer.
+    /// - Parameter input: Updates an Authorizer. (Type: `UpdateAuthorizerInput`)
     ///
-    /// - Returns: `UpdateAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4902,6 +6488,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAuthorizerInput, UpdateAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAuthorizerOutput>(UpdateAuthorizerOutput.httpOutput(from:), UpdateAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAuthorizerInput, UpdateAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAuthorizerOutput>())
@@ -4933,9 +6520,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a Deployment.
     ///
-    /// - Parameter UpdateDeploymentInput : Updates a Deployment.
+    /// - Parameter input: Updates a Deployment. (Type: `UpdateDeploymentInput`)
     ///
-    /// - Returns: `UpdateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4972,6 +6559,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeploymentInput, UpdateDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeploymentOutput>(UpdateDeploymentOutput.httpOutput(from:), UpdateDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeploymentInput, UpdateDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeploymentOutput>())
@@ -5003,9 +6591,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a domain name.
     ///
-    /// - Parameter UpdateDomainNameInput : Updates a DomainName.
+    /// - Parameter input: Updates a DomainName. (Type: `UpdateDomainNameInput`)
     ///
-    /// - Returns: `UpdateDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5042,6 +6630,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainNameInput, UpdateDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainNameOutput>(UpdateDomainNameOutput.httpOutput(from:), UpdateDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainNameInput, UpdateDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainNameOutput>())
@@ -5073,9 +6662,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates an Integration.
     ///
-    /// - Parameter UpdateIntegrationInput : Updates an Integration.
+    /// - Parameter input: Updates an Integration. (Type: `UpdateIntegrationInput`)
     ///
-    /// - Returns: `UpdateIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5112,6 +6701,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntegrationOutput>(UpdateIntegrationOutput.httpOutput(from:), UpdateIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegrationOutput>())
@@ -5143,9 +6733,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates an IntegrationResponses.
     ///
-    /// - Parameter UpdateIntegrationResponseInput : Updates an IntegrationResponses.
+    /// - Parameter input: Updates an IntegrationResponses. (Type: `UpdateIntegrationResponseInput`)
     ///
-    /// - Returns: `UpdateIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5182,6 +6772,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntegrationResponseInput, UpdateIntegrationResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntegrationResponseOutput>(UpdateIntegrationResponseOutput.httpOutput(from:), UpdateIntegrationResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegrationResponseInput, UpdateIntegrationResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegrationResponseOutput>())
@@ -5213,9 +6804,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a Model.
     ///
-    /// - Parameter UpdateModelInput : Updates a Model.
+    /// - Parameter input: Updates a Model. (Type: `UpdateModelInput`)
     ///
-    /// - Returns: `UpdateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5252,6 +6843,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelInput, UpdateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelOutput>(UpdateModelOutput.httpOutput(from:), UpdateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelInput, UpdateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelOutput>())
@@ -5279,13 +6871,298 @@ extension ApiGatewayV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdatePortal` operation on the `ApiGatewayV2` service.
+    ///
+    /// Updates a portal.
+    ///
+    /// - Parameter input: The request body for the patch operation. (Type: `UpdatePortalInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePortalOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePortal")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePortalInput, UpdatePortalOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePortalInput, UpdatePortalOutput>(UpdatePortalInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePortalInput, UpdatePortalOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePortalInput, UpdatePortalOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePortalInput, UpdatePortalOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePortalInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePortalInput, UpdatePortalOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePortalOutput>(UpdatePortalOutput.httpOutput(from:), UpdatePortalOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePortalInput, UpdatePortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePortalOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePortalOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePortalInput, UpdatePortalOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePortalInput, UpdatePortalOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePortalInput, UpdatePortalOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePortal")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdatePortalProduct` operation on the `ApiGatewayV2` service.
+    ///
+    /// Updates the portal product.
+    ///
+    /// - Parameter input: The request body for the patch operation. (Type: `UpdatePortalProductInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePortalProductOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func updatePortalProduct(input: UpdatePortalProductInput) async throws -> UpdatePortalProductOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePortalProduct")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePortalProductInput, UpdatePortalProductOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput>(UpdatePortalProductInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePortalProductInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePortalProductOutput>(UpdatePortalProductOutput.httpOutput(from:), UpdatePortalProductOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePortalProductOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePortalProductOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePortalProductOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePortalProductInput, UpdatePortalProductOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePortalProduct")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProductPage` operation on the `ApiGatewayV2` service.
+    ///
+    /// Updates a product page of a portal product.
+    ///
+    /// - Parameter input: The request body for the patch operation. (Type: `UpdateProductPageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProductPageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func updateProductPage(input: UpdateProductPageInput) async throws -> UpdateProductPageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProductPage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProductPageInput, UpdateProductPageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProductPageInput, UpdateProductPageOutput>(UpdateProductPageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProductPageInput, UpdateProductPageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProductPageInput, UpdateProductPageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProductPageInput, UpdateProductPageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProductPageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProductPageInput, UpdateProductPageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProductPageOutput>(UpdateProductPageOutput.httpOutput(from:), UpdateProductPageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProductPageInput, UpdateProductPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProductPageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProductPageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProductPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProductPageInput, UpdateProductPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProductPageInput, UpdateProductPageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProductPageInput, UpdateProductPageOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProductPage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProductRestEndpointPage` operation on the `ApiGatewayV2` service.
+    ///
+    /// Updates a product REST endpoint page.
+    ///
+    /// - Parameter input: The request body for the patch operation. (Type: `UpdateProductRestEndpointPageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProductRestEndpointPageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `BadRequestException` : The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
+    /// - `NotFoundException` : The resource specified in the request was not found. See the message field for more information.
+    /// - `TooManyRequestsException` : A limit has been exceeded. See the accompanying error message for details.
+    public func updateProductRestEndpointPage(input: UpdateProductRestEndpointPageInput) async throws -> UpdateProductRestEndpointPageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProductRestEndpointPage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "apigateway")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput>(UpdateProductRestEndpointPageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProductRestEndpointPageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProductRestEndpointPageOutput>(UpdateProductRestEndpointPageOutput.httpOutput(from:), UpdateProductRestEndpointPageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProductRestEndpointPageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ApiGatewayV2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProductRestEndpointPageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProductRestEndpointPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProductRestEndpointPageInput, UpdateProductRestEndpointPageOutput>(serviceID: serviceName, version: ApiGatewayV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ApiGatewayV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProductRestEndpointPage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateRoute` operation on the `ApiGatewayV2` service.
     ///
     /// Updates a Route.
     ///
-    /// - Parameter UpdateRouteInput : Updates a Route.
+    /// - Parameter input: Updates a Route. (Type: `UpdateRouteInput`)
     ///
-    /// - Returns: `UpdateRouteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRouteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5322,6 +7199,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRouteInput, UpdateRouteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRouteOutput>(UpdateRouteOutput.httpOutput(from:), UpdateRouteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRouteInput, UpdateRouteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRouteOutput>())
@@ -5353,9 +7231,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a RouteResponse.
     ///
-    /// - Parameter UpdateRouteResponseInput : Updates a RouteResponse.
+    /// - Parameter input: Updates a RouteResponse. (Type: `UpdateRouteResponseInput`)
     ///
-    /// - Returns: `UpdateRouteResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRouteResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5392,6 +7270,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRouteResponseInput, UpdateRouteResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRouteResponseOutput>(UpdateRouteResponseOutput.httpOutput(from:), UpdateRouteResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRouteResponseInput, UpdateRouteResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRouteResponseOutput>())
@@ -5423,9 +7302,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a Stage.
     ///
-    /// - Parameter UpdateStageInput : Updates a Stage.
+    /// - Parameter input: Updates a Stage. (Type: `UpdateStageInput`)
     ///
-    /// - Returns: `UpdateStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5462,6 +7341,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStageInput, UpdateStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStageOutput>(UpdateStageOutput.httpOutput(from:), UpdateStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStageInput, UpdateStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStageOutput>())
@@ -5493,9 +7373,9 @@ extension ApiGatewayV2Client {
     ///
     /// Updates a VPC link.
     ///
-    /// - Parameter UpdateVpcLinkInput : Updates a VPC link.
+    /// - Parameter input: Updates a VPC link. (Type: `UpdateVpcLinkInput`)
     ///
-    /// - Returns: `UpdateVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5531,6 +7411,7 @@ extension ApiGatewayV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcLinkInput, UpdateVpcLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcLinkOutput>(UpdateVpcLinkOutput.httpOutput(from:), UpdateVpcLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcLinkInput, UpdateVpcLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVpcLinkOutput>())

@@ -312,7 +312,7 @@ public struct CancelTaskExecutionOutput: Swift.Sendable {
 
 extension DataSyncClientTypes {
 
-    /// Specifies configuration information for a DataSync-managed secret, such as an authentication token or secret key that DataSync uses to access a specific storage location, with a customer-managed KMS key. You can use either CmkSecretConfig or CustomSecretConfig to provide credentials for a CreateLocation request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a DataSync-managed secret, such as an authentication token, secret key, password, or Kerberos keytab that DataSync uses to access a specific storage location, with a customer-managed KMS key. You can use either CmkSecretConfig or CustomSecretConfig to provide credentials for a CreateLocation request. Do not provide both parameters for the same request.
     public struct CmkSecretConfig: Swift.Sendable {
         /// Specifies the ARN for the customer-managed KMS key that DataSync uses to encrypt the DataSync-managed secret stored for SecretArn. DataSync provides this key to Secrets Manager.
         public var kmsKeyArn: Swift.String?
@@ -396,7 +396,7 @@ public struct CreateAgentOutput: Swift.Sendable {
 
 extension DataSyncClientTypes {
 
-    /// Specifies configuration information for a customer-managed Secrets Manager secret where a storage location authentication token or secret key is stored in plain text. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig or CustomSecretConfig to provide credentials for a CreateLocation request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where a storage location credentials is stored in Secrets Manager as plain text (for authentication token, secret key, or password) or as binary (for Kerberos keytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig or CustomSecretConfig to provide credentials for a CreateLocation request. Do not provide both parameters for the same request.
     public struct CustomSecretConfig: Swift.Sendable {
         /// Specifies the ARN for the Identity and Access Management role that DataSync uses to access the secret specified for SecretArn.
         public var secretAccessRoleArn: Swift.String?
@@ -423,12 +423,12 @@ public struct CreateLocationAzureBlobInput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
     /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
     public var blobType: DataSyncClientTypes.AzureBlobType?
-    /// Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this paramater as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure the DataSync has permission to access the KMS key that you specify. You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// Specifies the URL of the Azure Blob Storage container involved in your transfer.
     /// This member is required.
     public var containerUrl: Swift.String?
-    /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage. If you provide an authentication token using SasConfiguration, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's secrets manager secret.
     public var sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration?
@@ -1265,9 +1265,9 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
     /// Specifies the name of the object storage bucket involved in the transfer.
     /// This member is required.
     public var bucketName: Swift.String?
-    /// Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this paramater as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure the DataSync has permission to access the KMS key that you specify. You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
-    /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server. If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
     public var secretKey: Swift.String?
@@ -1493,6 +1493,10 @@ public struct CreateLocationSmbInput: Swift.Sendable {
     public var agentArns: [Swift.String]?
     /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
+    /// Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify. You can use either CmkSecretConfig (with either Password or KerberosKeytab) or CustomSecretConfig (without any Password and KerberosKeytab) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
+    /// Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password) or binary (for KerberosKeytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     public var dnsIpAddresses: [Swift.String]?
     /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
@@ -1521,6 +1525,8 @@ public struct CreateLocationSmbInput: Swift.Sendable {
     public init(
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.SmbAuthenticationType? = nil,
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         dnsIpAddresses: [Swift.String]? = nil,
         domain: Swift.String? = nil,
         kerberosKeytab: Foundation.Data? = nil,
@@ -1535,6 +1541,8 @@ public struct CreateLocationSmbInput: Swift.Sendable {
     ) {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
+        self.cmkSecretConfig = cmkSecretConfig
+        self.customSecretConfig = customSecretConfig
         self.dnsIpAddresses = dnsIpAddresses
         self.domain = domain
         self.kerberosKeytab = kerberosKeytab
@@ -1551,7 +1559,7 @@ public struct CreateLocationSmbInput: Swift.Sendable {
 
 extension CreateLocationSmbInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), authenticationType: \(Swift.String(describing: authenticationType)), dnsIpAddresses: \(Swift.String(describing: dnsIpAddresses)), domain: \(Swift.String(describing: domain)), kerberosKeytab: \(Swift.String(describing: kerberosKeytab)), kerberosKrb5Conf: \(Swift.String(describing: kerberosKrb5Conf)), kerberosPrincipal: \(Swift.String(describing: kerberosPrincipal)), mountOptions: \(Swift.String(describing: mountOptions)), serverHostname: \(Swift.String(describing: serverHostname)), subdirectory: \(Swift.String(describing: subdirectory)), tags: \(Swift.String(describing: tags)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "CreateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), authenticationType: \(Swift.String(describing: authenticationType)), cmkSecretConfig: \(Swift.String(describing: cmkSecretConfig)), customSecretConfig: \(Swift.String(describing: customSecretConfig)), dnsIpAddresses: \(Swift.String(describing: dnsIpAddresses)), domain: \(Swift.String(describing: domain)), kerberosKeytab: \(Swift.String(describing: kerberosKeytab)), kerberosKrb5Conf: \(Swift.String(describing: kerberosKrb5Conf)), kerberosPrincipal: \(Swift.String(describing: kerberosPrincipal)), mountOptions: \(Swift.String(describing: mountOptions)), serverHostname: \(Swift.String(describing: serverHostname)), subdirectory: \(Swift.String(describing: subdirectory)), tags: \(Swift.String(describing: tags)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 /// CreateLocationSmbResponse
@@ -2143,7 +2151,7 @@ extension DataSyncClientTypes {
         ///
         /// If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE. If Atime is set to NONE, Mtime must also be NONE.
         public var atime: DataSyncClientTypes.Atime?
-        /// Limits the bandwidth used by a DataSync task. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024). Not applicable to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+        /// Limits the bandwidth used by a DataSync task. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
         public var bytesPerSecond: Swift.Int?
         /// Specifies the POSIX group ID (GID) of the file's owners.
         ///
@@ -2723,6 +2731,7 @@ extension DataSyncClientTypes {
 
     public enum EndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fips
+        case fipsPrivateLink
         case privateLink
         case `public`
         case sdkUnknown(Swift.String)
@@ -2730,6 +2739,7 @@ extension DataSyncClientTypes {
         public static var allCases: [EndpointType] {
             return [
                 .fips,
+                .fipsPrivateLink,
                 .privateLink,
                 .public
             ]
@@ -2743,6 +2753,7 @@ extension DataSyncClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .fips: return "FIPS"
+            case .fipsPrivateLink: return "FIPS_PRIVATE_LINK"
             case .privateLink: return "PRIVATE_LINK"
             case .public: return "PUBLIC"
             case let .sdkUnknown(s): return s
@@ -3346,8 +3357,12 @@ public struct DescribeLocationSmbOutput: Swift.Sendable {
     public var agentArns: [Swift.String]?
     /// The authentication protocol that DataSync uses to connect to your SMB file server.
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
+    /// Describes configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// The time that the SMB location was created.
     public var creationTime: Foundation.Date?
+    /// Describes configuration information for a customer-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// The IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This element applies only if AuthenticationType is set to KERBEROS.
     public var dnsIpAddresses: [Swift.String]?
     /// The name of the Windows domain that the SMB file server belongs to. This element applies only if AuthenticationType is set to NTLM.
@@ -3358,6 +3373,8 @@ public struct DescribeLocationSmbOutput: Swift.Sendable {
     public var locationArn: Swift.String?
     /// The URI of the SMB location.
     public var locationUri: Swift.String?
+    /// Describes configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.
+    public var managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig?
     /// The SMB protocol version that DataSync uses to access your SMB file server.
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
     /// The user that can mount and access the files, folders, and file metadata in your SMB file server. This element applies only if AuthenticationType is set to NTLM.
@@ -3366,23 +3383,29 @@ public struct DescribeLocationSmbOutput: Swift.Sendable {
     public init(
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.SmbAuthenticationType? = nil,
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         creationTime: Foundation.Date? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         dnsIpAddresses: [Swift.String]? = nil,
         domain: Swift.String? = nil,
         kerberosPrincipal: Swift.String? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
+        managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig? = nil,
         mountOptions: DataSyncClientTypes.SmbMountOptions? = nil,
         user: Swift.String? = nil
     ) {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
+        self.cmkSecretConfig = cmkSecretConfig
         self.creationTime = creationTime
+        self.customSecretConfig = customSecretConfig
         self.dnsIpAddresses = dnsIpAddresses
         self.domain = domain
         self.kerberosPrincipal = kerberosPrincipal
         self.locationArn = locationArn
         self.locationUri = locationUri
+        self.managedSecretConfig = managedSecretConfig
         self.mountOptions = mountOptions
         self.user = user
     }
@@ -3529,7 +3552,7 @@ public struct DescribeTaskOutput: Swift.Sendable {
     public var sourceLocationArn: Swift.String?
     /// The ARNs of the [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-network.html#required-network-interfaces) that DataSync created for your source location.
     public var sourceNetworkInterfaceArns: [Swift.String]?
-    /// The status of your task. For information about what each status means, see [Task statuses](https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-creation-statuses).
+    /// The status of your task. For information about what each status means, see [Task statuses](https://docs.aws.amazon.com/datasync/latest/userguide/create-task-how-to.html#understand-task-creation-statuses).
     public var status: DataSyncClientTypes.TaskStatus?
     /// The ARN of your task.
     public var taskArn: Swift.String?
@@ -3598,15 +3621,15 @@ public struct DescribeTaskExecutionInput: Swift.Sendable {
 
 extension DataSyncClientTypes {
 
-    /// The number of objects that DataSync fails to prepare, transfer, verify, and delete during your task execution. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    /// The number of files or objects that DataSync fails to prepare, transfer, verify, and delete during your task execution. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
     public struct TaskExecutionFilesFailedDetail: Swift.Sendable {
-        /// The number of objects that DataSync fails to delete during your task execution.
+        /// The number of files or objects that DataSync fails to delete during your task execution.
         public var delete: Swift.Int
-        /// The number of objects that DataSync fails to prepare during your task execution.
+        /// The number of files or objects that DataSync fails to prepare during your task execution.
         public var prepare: Swift.Int
-        /// The number of objects that DataSync fails to transfer during your task execution.
+        /// The number of files or objects that DataSync fails to transfer during your task execution.
         public var transfer: Swift.Int
-        /// The number of objects that DataSync fails to verify during your task execution.
+        /// The number of files or objects that DataSync fails to verify during your task execution.
         public var verify: Swift.Int
 
         public init(
@@ -3625,11 +3648,67 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes {
 
-    /// The number of objects that DataSync finds at your locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    /// The number of files or objects that DataSync finds at your locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
     public struct TaskExecutionFilesListedDetail: Swift.Sendable {
-        /// The number of objects that DataSync finds at your destination location. This counter is only applicable if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-file-object-handling) to delete data in the destination that isn't in the source.
+        /// The number of files or objects that DataSync finds at your destination location. This counter is only applicable if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-file-object-handling) to delete data in the destination that isn't in the source.
         public var atDestinationForDelete: Swift.Int
-        /// The number of objects that DataSync finds at your source location.
+        /// The number of files or objects that DataSync finds at your source location.
+        ///
+        /// * With a [manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html), DataSync lists only what's in your manifest (and not everything at your source location).
+        ///
+        /// * With an include [filter](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html), DataSync lists only what matches the filter at your source location.
+        ///
+        /// * With an exclude filter, DataSync lists everything at your source location before applying the filter.
+        public var atSource: Swift.Int
+
+        public init(
+            atDestinationForDelete: Swift.Int = 0,
+            atSource: Swift.Int = 0
+        ) {
+            self.atDestinationForDelete = atDestinationForDelete
+            self.atSource = atSource
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
+    /// The number of directories that DataSync fails to list, prepare, transfer, verify, and delete during your task execution. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public struct TaskExecutionFoldersFailedDetail: Swift.Sendable {
+        /// The number of directories that DataSync fails to delete during your task execution.
+        public var delete: Swift.Int
+        /// The number of directories that DataSync fails to list during your task execution.
+        public var list: Swift.Int
+        /// The number of directories that DataSync fails to prepare during your task execution.
+        public var prepare: Swift.Int
+        /// The number of directories that DataSync fails to transfer during your task execution.
+        public var transfer: Swift.Int
+        /// The number of directories that DataSync fails to verify during your task execution.
+        public var verify: Swift.Int
+
+        public init(
+            delete: Swift.Int = 0,
+            list: Swift.Int = 0,
+            prepare: Swift.Int = 0,
+            transfer: Swift.Int = 0,
+            verify: Swift.Int = 0
+        ) {
+            self.delete = delete
+            self.list = list
+            self.prepare = prepare
+            self.transfer = transfer
+            self.verify = verify
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
+    /// The number of directories that DataSync finds at your locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public struct TaskExecutionFoldersListedDetail: Swift.Sendable {
+        /// The number of directories that DataSync finds at your destination location. This counter is only applicable if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-file-object-handling) to delete data in the destination that isn't in the source.
+        public var atDestinationForDelete: Swift.Int
+        /// The number of directories that DataSync finds at your source location.
         ///
         /// * With a [manifest](https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html), DataSync lists only what's in your manifest (and not everything at your source location).
         ///
@@ -3809,7 +3888,7 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
     public var endTime: Foundation.Date?
     /// The number of logical bytes that DataSync expects to write to the destination location.
     public var estimatedBytesToTransfer: Swift.Int
-    /// The number of files, objects, and directories that DataSync expects to delete in your destination location. If you don't configure your task to [delete data in the destination that isn't in the source](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html), the value is always 0.
+    /// The number of files, objects, and directories that DataSync expects to delete in your destination location. If you don't configure your task to [delete data in the destination that isn't in the source](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html), the value is always 0. For [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html), this counter only includes files or objects. Directories are counted in [EstimatedFoldersToDelete](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-EstimatedFoldersToDelete).
     public var estimatedFilesToDelete: Swift.Int
     /// The number of files, objects, and directories that DataSync expects to transfer over the network. This value is calculated while DataSync [prepares](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses) the transfer. How this gets calculated depends primarily on your task’s [transfer mode](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-TransferMode) configuration:
     ///
@@ -3825,23 +3904,58 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
     ///
     ///
     /// * If TranserMode is set to ALL - The calculation is based only on the items that DataSync finds at the source location.
+    ///
+    ///
+    /// For [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html), this counter only includes files or objects. Directories are counted in [EstimatedFoldersToTransfer](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-EstimatedFoldersToTransfer).
     public var estimatedFilesToTransfer: Swift.Int
+    /// The number of directories that DataSync expects to delete in your destination location. If you don't configure your task to [delete data in the destination that isn't in the source](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html), the value is always 0. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public var estimatedFoldersToDelete: Swift.Int?
+    /// The number of directories that DataSync expects to transfer over the network. This value is calculated as DataSync [prepares](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses) directories to transfer. How this gets calculated depends primarily on your task’s [transfer mode](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-TransferMode) configuration:
+    ///
+    /// * If TranserMode is set to CHANGED - The calculation is based on comparing the content of the source and destination locations and determining the difference that needs to be transferred. The difference can include:
+    ///
+    /// * Anything that's added or modified at the source location.
+    ///
+    /// * Anything that's in both locations and modified at the destination after an initial transfer (unless [OverwriteMode](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-OverwriteMode) is set to NEVER).
+    ///
+    ///
+    ///
+    ///
+    /// * If TranserMode is set to ALL - The calculation is based only on the items that DataSync finds at the source location.
+    ///
+    ///
+    /// Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public var estimatedFoldersToTransfer: Swift.Int?
     /// A list of filter rules that exclude specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var excludes: [DataSyncClientTypes.FilterRule]?
-    /// The number of files, objects, and directories that DataSync actually deletes in your destination location. If you don't configure your task to [delete data in the destination that isn't in the source](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html), the value is always 0.
+    /// The number of files, objects, and directories that DataSync actually deletes in your destination location. If you don't configure your task to [delete data in the destination that isn't in the source](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html), the value is always 0. For [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html), this counter only includes files or objects. Directories are counted in [FoldersDeleted](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-FoldersDeleted).
     public var filesDeleted: Swift.Int
-    /// The number of objects that DataSync fails to prepare, transfer, verify, and delete during your task execution. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    /// The number of files or objects that DataSync fails to prepare, transfer, verify, and delete during your task execution. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
     public var filesFailed: DataSyncClientTypes.TaskExecutionFilesFailedDetail?
-    /// The number of objects that DataSync finds at your locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    /// The number of files or objects that DataSync finds at your locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
     public var filesListed: DataSyncClientTypes.TaskExecutionFilesListedDetail?
-    /// The number of objects that DataSync will attempt to transfer after comparing your source and destination locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html). This counter isn't applicable if you configure your task to [transfer all data](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-transfer-mode). In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
+    /// The number of files or objects that DataSync will attempt to transfer after comparing your source and destination locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html). This counter isn't applicable if you configure your task to [transfer all data](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-transfer-mode). In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
     public var filesPrepared: Swift.Int
-    /// The number of files, objects, and directories that DataSync skips during your transfer.
+    /// The number of files, objects, and directories that DataSync skips during your transfer. For [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html), this counter only includes files or objects. Directories are counted in [FoldersSkipped](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-FoldersSkipped).
     public var filesSkipped: Swift.Int
-    /// The number of files, objects, and directories that DataSync actually transfers over the network. This value is updated periodically during your task execution when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what's transferring or to monitor your task execution.
+    /// The number of files, objects, and directories that DataSync actually transfers over the network. This value is updated periodically during your task execution when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what's transferring or to monitor your task execution. For [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html), this counter only includes files or objects. Directories are counted in [FoldersTransferred](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-FoldersTransferred).
     public var filesTransferred: Swift.Int
-    /// The number of files, objects, and directories that DataSync verifies during your transfer. When you configure your task to [verify only the data that's transferred](https://docs.aws.amazon.com/datasync/latest/userguide/configure-data-verification-options.html), DataSync doesn't verify directories in some situations or files that fail to transfer.
+    /// The number of files, objects, and directories that DataSync verifies during your transfer. When you configure your task to [verify only the data that's transferred](https://docs.aws.amazon.com/datasync/latest/userguide/configure-data-verification-options.html), DataSync doesn't verify directories in some situations or files that fail to transfer. For [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html), this counter only includes files or objects. Directories are counted in [FoldersVerified](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeTaskExecution.html#DataSync-DescribeTaskExecution-response-FoldersVerified).
     public var filesVerified: Swift.Int
+    /// The number of directories that DataSync actually deletes in your destination location. If you don't configure your task to [delete data in the destination that isn't in the source](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html), the value is always 0. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public var foldersDeleted: Swift.Int?
+    /// The number of directories that DataSync fails to list, prepare, transfer, verify, and delete during your task execution. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public var foldersFailed: DataSyncClientTypes.TaskExecutionFoldersFailedDetail?
+    /// The number of directories that DataSync finds at your locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public var foldersListed: DataSyncClientTypes.TaskExecutionFoldersListedDetail?
+    /// The number of directories that DataSync will attempt to transfer after comparing your source and destination locations. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html). This counter isn't applicable if you configure your task to [transfer all data](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html#task-option-transfer-mode). In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
+    public var foldersPrepared: Swift.Int?
+    /// The number of directories that DataSync skips during your transfer. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public var foldersSkipped: Swift.Int?
+    /// The number of directories that DataSync actually transfers over the network. This value is updated periodically during your task execution when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFoldersToTransfer. In some cases, this value can also be greater than EstimatedFoldersToTransfer. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public var foldersTransferred: Swift.Int?
+    /// The number of directories that DataSync verifies during your transfer. Applies only to [Enhanced mode tasks](https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html).
+    public var foldersVerified: Swift.Int?
     /// A list of filter rules that include specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var includes: [DataSyncClientTypes.FilterRule]?
     /// The time that the task execution actually begins. For non-queued tasks, LaunchTime and StartTime are typically the same. For queued tasks, LaunchTime is typically later than StartTime because previously queued tasks must finish running before newer tasks can begin.
@@ -3873,6 +3987,8 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
         estimatedBytesToTransfer: Swift.Int = 0,
         estimatedFilesToDelete: Swift.Int = 0,
         estimatedFilesToTransfer: Swift.Int = 0,
+        estimatedFoldersToDelete: Swift.Int? = nil,
+        estimatedFoldersToTransfer: Swift.Int? = nil,
         excludes: [DataSyncClientTypes.FilterRule]? = nil,
         filesDeleted: Swift.Int = 0,
         filesFailed: DataSyncClientTypes.TaskExecutionFilesFailedDetail? = nil,
@@ -3881,6 +3997,13 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
         filesSkipped: Swift.Int = 0,
         filesTransferred: Swift.Int = 0,
         filesVerified: Swift.Int = 0,
+        foldersDeleted: Swift.Int? = nil,
+        foldersFailed: DataSyncClientTypes.TaskExecutionFoldersFailedDetail? = nil,
+        foldersListed: DataSyncClientTypes.TaskExecutionFoldersListedDetail? = nil,
+        foldersPrepared: Swift.Int? = nil,
+        foldersSkipped: Swift.Int? = nil,
+        foldersTransferred: Swift.Int? = nil,
+        foldersVerified: Swift.Int? = nil,
         includes: [DataSyncClientTypes.FilterRule]? = nil,
         launchTime: Foundation.Date? = nil,
         manifestConfig: DataSyncClientTypes.ManifestConfig? = nil,
@@ -3900,6 +4023,8 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
         self.estimatedBytesToTransfer = estimatedBytesToTransfer
         self.estimatedFilesToDelete = estimatedFilesToDelete
         self.estimatedFilesToTransfer = estimatedFilesToTransfer
+        self.estimatedFoldersToDelete = estimatedFoldersToDelete
+        self.estimatedFoldersToTransfer = estimatedFoldersToTransfer
         self.excludes = excludes
         self.filesDeleted = filesDeleted
         self.filesFailed = filesFailed
@@ -3908,6 +4033,13 @@ public struct DescribeTaskExecutionOutput: Swift.Sendable {
         self.filesSkipped = filesSkipped
         self.filesTransferred = filesTransferred
         self.filesVerified = filesVerified
+        self.foldersDeleted = foldersDeleted
+        self.foldersFailed = foldersFailed
+        self.foldersListed = foldersListed
+        self.foldersPrepared = foldersPrepared
+        self.foldersSkipped = foldersSkipped
+        self.foldersTransferred = foldersTransferred
+        self.foldersVerified = foldersVerified
         self.includes = includes
         self.launchTime = launchTime
         self.manifestConfig = manifestConfig
@@ -4181,7 +4313,7 @@ extension DataSyncClientTypes {
 
     /// Represents a single entry in a list of DataSync task executions that's returned with the [ListTaskExecutions](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListTaskExecutions.html) operation.
     public struct TaskExecutionListEntry: Swift.Sendable {
-        /// The status of a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/understand-task-statuses.html#understand-task-execution-statuses).
+        /// The status of a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/run-task.html#understand-task-execution-statuses).
         public var status: DataSyncClientTypes.TaskExecutionStatus?
         /// The Amazon Resource Name (ARN) of a task execution.
         public var taskExecutionArn: Swift.String?
@@ -4904,6 +5036,10 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
     public var agentArns: [Swift.String]?
     /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
+    /// Specifies configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
+    /// Specifies configuration information for a customer-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+    public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
     /// Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     public var dnsIpAddresses: [Swift.String]?
     /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
@@ -4931,6 +5067,8 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
     public init(
         agentArns: [Swift.String]? = nil,
         authenticationType: DataSyncClientTypes.SmbAuthenticationType? = nil,
+        cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
+        customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
         dnsIpAddresses: [Swift.String]? = nil,
         domain: Swift.String? = nil,
         kerberosKeytab: Foundation.Data? = nil,
@@ -4945,6 +5083,8 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
     ) {
         self.agentArns = agentArns
         self.authenticationType = authenticationType
+        self.cmkSecretConfig = cmkSecretConfig
+        self.customSecretConfig = customSecretConfig
         self.dnsIpAddresses = dnsIpAddresses
         self.domain = domain
         self.kerberosKeytab = kerberosKeytab
@@ -4961,7 +5101,7 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
 
 extension UpdateLocationSmbInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), authenticationType: \(Swift.String(describing: authenticationType)), dnsIpAddresses: \(Swift.String(describing: dnsIpAddresses)), domain: \(Swift.String(describing: domain)), kerberosKeytab: \(Swift.String(describing: kerberosKeytab)), kerberosKrb5Conf: \(Swift.String(describing: kerberosKrb5Conf)), kerberosPrincipal: \(Swift.String(describing: kerberosPrincipal)), locationArn: \(Swift.String(describing: locationArn)), mountOptions: \(Swift.String(describing: mountOptions)), serverHostname: \(Swift.String(describing: serverHostname)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
+        "UpdateLocationSmbInput(agentArns: \(Swift.String(describing: agentArns)), authenticationType: \(Swift.String(describing: authenticationType)), cmkSecretConfig: \(Swift.String(describing: cmkSecretConfig)), customSecretConfig: \(Swift.String(describing: customSecretConfig)), dnsIpAddresses: \(Swift.String(describing: dnsIpAddresses)), domain: \(Swift.String(describing: domain)), kerberosKeytab: \(Swift.String(describing: kerberosKeytab)), kerberosKrb5Conf: \(Swift.String(describing: kerberosKrb5Conf)), kerberosPrincipal: \(Swift.String(describing: kerberosPrincipal)), locationArn: \(Swift.String(describing: locationArn)), mountOptions: \(Swift.String(describing: mountOptions)), serverHostname: \(Swift.String(describing: serverHostname)), subdirectory: \(Swift.String(describing: subdirectory)), user: \(Swift.String(describing: user)), password: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateLocationSmbOutput: Swift.Sendable {
@@ -5583,6 +5723,8 @@ extension CreateLocationSmbInput {
         guard let value else { return }
         try writer["AgentArns"].writeList(value.agentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["CmkSecretConfig"].write(value.cmkSecretConfig, with: DataSyncClientTypes.CmkSecretConfig.write(value:to:))
+        try writer["CustomSecretConfig"].write(value.customSecretConfig, with: DataSyncClientTypes.CustomSecretConfig.write(value:to:))
         try writer["DnsIpAddresses"].writeList(value.dnsIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Domain"].write(value.domain)
         try writer["KerberosKeytab"].write(value.kerberosKeytab)
@@ -5978,6 +6120,8 @@ extension UpdateLocationSmbInput {
         guard let value else { return }
         try writer["AgentArns"].writeList(value.agentArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["CmkSecretConfig"].write(value.cmkSecretConfig, with: DataSyncClientTypes.CmkSecretConfig.write(value:to:))
+        try writer["CustomSecretConfig"].write(value.customSecretConfig, with: DataSyncClientTypes.CustomSecretConfig.write(value:to:))
         try writer["DnsIpAddresses"].writeList(value.dnsIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Domain"].write(value.domain)
         try writer["KerberosKeytab"].write(value.kerberosKeytab)
@@ -6412,12 +6556,15 @@ extension DescribeLocationSmbOutput {
         var value = DescribeLocationSmbOutput()
         value.agentArns = try reader["AgentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.cmkSecretConfig = try reader["CmkSecretConfig"].readIfPresent(with: DataSyncClientTypes.CmkSecretConfig.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.customSecretConfig = try reader["CustomSecretConfig"].readIfPresent(with: DataSyncClientTypes.CustomSecretConfig.read(from:))
         value.dnsIpAddresses = try reader["DnsIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.domain = try reader["Domain"].readIfPresent()
         value.kerberosPrincipal = try reader["KerberosPrincipal"].readIfPresent()
         value.locationArn = try reader["LocationArn"].readIfPresent()
         value.locationUri = try reader["LocationUri"].readIfPresent()
+        value.managedSecretConfig = try reader["ManagedSecretConfig"].readIfPresent(with: DataSyncClientTypes.ManagedSecretConfig.read(from:))
         value.mountOptions = try reader["MountOptions"].readIfPresent(with: DataSyncClientTypes.SmbMountOptions.read(from:))
         value.user = try reader["User"].readIfPresent()
         return value
@@ -6469,6 +6616,8 @@ extension DescribeTaskExecutionOutput {
         value.estimatedBytesToTransfer = try reader["EstimatedBytesToTransfer"].readIfPresent() ?? 0
         value.estimatedFilesToDelete = try reader["EstimatedFilesToDelete"].readIfPresent() ?? 0
         value.estimatedFilesToTransfer = try reader["EstimatedFilesToTransfer"].readIfPresent() ?? 0
+        value.estimatedFoldersToDelete = try reader["EstimatedFoldersToDelete"].readIfPresent()
+        value.estimatedFoldersToTransfer = try reader["EstimatedFoldersToTransfer"].readIfPresent()
         value.excludes = try reader["Excludes"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.FilterRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.filesDeleted = try reader["FilesDeleted"].readIfPresent() ?? 0
         value.filesFailed = try reader["FilesFailed"].readIfPresent(with: DataSyncClientTypes.TaskExecutionFilesFailedDetail.read(from:))
@@ -6477,6 +6626,13 @@ extension DescribeTaskExecutionOutput {
         value.filesSkipped = try reader["FilesSkipped"].readIfPresent() ?? 0
         value.filesTransferred = try reader["FilesTransferred"].readIfPresent() ?? 0
         value.filesVerified = try reader["FilesVerified"].readIfPresent() ?? 0
+        value.foldersDeleted = try reader["FoldersDeleted"].readIfPresent()
+        value.foldersFailed = try reader["FoldersFailed"].readIfPresent(with: DataSyncClientTypes.TaskExecutionFoldersFailedDetail.read(from:))
+        value.foldersListed = try reader["FoldersListed"].readIfPresent(with: DataSyncClientTypes.TaskExecutionFoldersListedDetail.read(from:))
+        value.foldersPrepared = try reader["FoldersPrepared"].readIfPresent()
+        value.foldersSkipped = try reader["FoldersSkipped"].readIfPresent()
+        value.foldersTransferred = try reader["FoldersTransferred"].readIfPresent()
+        value.foldersVerified = try reader["FoldersVerified"].readIfPresent()
         value.includes = try reader["Includes"].readListIfPresent(memberReadingClosure: DataSyncClientTypes.FilterRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.manifestConfig = try reader["ManifestConfig"].readIfPresent(with: DataSyncClientTypes.ManifestConfig.read(from:))
@@ -8019,6 +8175,31 @@ extension DataSyncClientTypes.TaskExecutionFilesFailedDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFilesFailedDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataSyncClientTypes.TaskExecutionFilesFailedDetail()
+        value.prepare = try reader["Prepare"].readIfPresent() ?? 0
+        value.transfer = try reader["Transfer"].readIfPresent() ?? 0
+        value.verify = try reader["Verify"].readIfPresent() ?? 0
+        value.delete = try reader["Delete"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DataSyncClientTypes.TaskExecutionFoldersListedDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFoldersListedDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskExecutionFoldersListedDetail()
+        value.atSource = try reader["AtSource"].readIfPresent() ?? 0
+        value.atDestinationForDelete = try reader["AtDestinationForDelete"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DataSyncClientTypes.TaskExecutionFoldersFailedDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataSyncClientTypes.TaskExecutionFoldersFailedDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataSyncClientTypes.TaskExecutionFoldersFailedDetail()
+        value.list = try reader["List"].readIfPresent() ?? 0
         value.prepare = try reader["Prepare"].readIfPresent() ?? 0
         value.transfer = try reader["Transfer"].readIfPresent() ?? 0
         value.verify = try reader["Verify"].readIfPresent() ?? 0

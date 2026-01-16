@@ -207,7 +207,7 @@ extension RbinClientTypes {
 
     /// Information about the retention rule unlock delay. The unlock delay is the period after which a retention rule can be modified or edited after it has been unlocked by a user with the required permissions. The retention rule can't be modified or deleted during the unlock delay.
     public struct UnlockDelay: Swift.Sendable {
-        /// The unit of time in which to measure the unlock delay. Currently, the unlock delay can be measure only in days.
+        /// The unit of time in which to measure the unlock delay. Currently, the unlock delay can be measured only in days.
         /// This member is required.
         public var unlockDelayUnit: RbinClientTypes.UnlockDelayUnit?
         /// The unlock delay period, measured in the unit specified for UnlockDelayUnit.
@@ -244,12 +244,14 @@ extension RbinClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ebsSnapshot
+        case ebsVolume
         case ec2Image
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
                 .ebsSnapshot,
+                .ebsVolume,
                 .ec2Image
             ]
         }
@@ -262,6 +264,7 @@ extension RbinClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .ebsSnapshot: return "EBS_SNAPSHOT"
+            case .ebsVolume: return "EBS_VOLUME"
             case .ec2Image: return "EC2_IMAGE"
             case let .sdkUnknown(s): return s
             }
@@ -302,7 +305,11 @@ extension RbinClientTypes {
         /// The unit of time in which the retention period is measured. Currently, only DAYS is supported.
         /// This member is required.
         public var retentionPeriodUnit: RbinClientTypes.RetentionPeriodUnit?
-        /// The period value for which the retention rule is to retain resources. The period is measured using the unit specified for RetentionPeriodUnit.
+        /// The period value for which the retention rule is to retain resources, measured in days. The supported retention periods are:
+        ///
+        /// * EBS volumes: 1 - 7 days
+        ///
+        /// * EBS snapshots and EBS-backed AMIs: 1 - 365 days
         /// This member is required.
         public var retentionPeriodValue: Swift.Int?
 
@@ -346,7 +353,13 @@ public struct CreateRuleInput: Swift.Sendable {
     public var lockConfiguration: RbinClientTypes.LockConfiguration?
     /// [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule does not have any resource tags specified. It retains all deleted resources of the specified resource type in the Region in which the rule is created, even if the resources are not tagged.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
-    /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To retain EBS-backed AMIs, specify EC2_IMAGE.
+    /// The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported.
+    ///
+    /// * To retain EBS volumes, specify EBS_VOLUME.
+    ///
+    /// * To retain EBS snapshots, specify EBS_SNAPSHOT
+    ///
+    /// * To retain EBS-backed AMIs, specify EC2_IMAGE.
     /// This member is required.
     public var resourceType: RbinClientTypes.ResourceType?
     /// Information about the retention period for which the retention rule is to retain resources.
@@ -699,7 +712,13 @@ public struct ListRulesInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention rule.
     public var resourceTags: [RbinClientTypes.ResourceTag]?
-    /// The resource type retained by the retention rule. Only retention rules that retain the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed AMIs are supported. To list retention rules that retain snapshots, specify EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE.
+    /// The resource type retained by the retention rule. Only retention rules that retain the specified resource type are listed. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported.
+    ///
+    /// * To list retention rules that retain EBS volumes, specify EBS_VOLUME.
+    ///
+    /// * To list retention rules that retain EBS snapshots, specify EBS_SNAPSHOT.
+    ///
+    /// * To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE.
     /// This member is required.
     public var resourceType: RbinClientTypes.ResourceType?
 

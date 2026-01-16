@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class KinesisVideoMediaClient: ClientRuntime.Client {
+public class KinesisVideoMediaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KinesisVideoMediaClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoMediaClient.KinesisVideoMediaClientConfiguration
     let serviceName = "Kinesis Video Media"
@@ -386,9 +386,9 @@ extension KinesisVideoMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter GetMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaInput`)
     ///
-    /// - Returns: `GetMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -427,6 +427,7 @@ extension KinesisVideoMediaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMediaInput, GetMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMediaOutput>(GetMediaOutput.httpOutput(from:), GetMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMediaInput, GetMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMediaOutput>())

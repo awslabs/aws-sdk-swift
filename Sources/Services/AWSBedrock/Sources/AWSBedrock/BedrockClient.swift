@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -69,9 +70,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class BedrockClient: ClientRuntime.Client {
+public class BedrockClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BedrockClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockClient.BedrockClientConfiguration
     let serviceName = "Bedrock"
@@ -227,7 +227,7 @@ extension BedrockClient {
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultBedrockAuthSchemeResolver(),
-                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -283,7 +283,7 @@ extension BedrockClient {
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultBedrockAuthSchemeResolver(),
-                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -343,7 +343,7 @@ extension BedrockClient {
                 [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 nil,
                 DefaultBedrockAuthSchemeResolver(),
-                try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 [],
                 []
             )
@@ -377,9 +377,9 @@ extension BedrockClient {
     ///
     /// Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status FAILED, COMPLETED, and STOPPED. You can request up to 25 model evaluation jobs be deleted in a single request.
     ///
-    /// - Parameter BatchDeleteEvaluationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteEvaluationJobInput`)
     ///
-    /// - Returns: `BatchDeleteEvaluationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteEvaluationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +418,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteEvaluationJobInput, BatchDeleteEvaluationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteEvaluationJobOutput>(BatchDeleteEvaluationJobOutput.httpOutput(from:), BatchDeleteEvaluationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteEvaluationJobInput, BatchDeleteEvaluationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteEvaluationJobOutput>())
@@ -450,9 +451,9 @@ extension BedrockClient {
     ///
     /// Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
     ///
-    /// - Parameter CancelAutomatedReasoningPolicyBuildWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelAutomatedReasoningPolicyBuildWorkflowInput`)
     ///
-    /// - Returns: `CancelAutomatedReasoningPolicyBuildWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelAutomatedReasoningPolicyBuildWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +488,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAutomatedReasoningPolicyBuildWorkflowInput, CancelAutomatedReasoningPolicyBuildWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelAutomatedReasoningPolicyBuildWorkflowOutput>(CancelAutomatedReasoningPolicyBuildWorkflowOutput.httpOutput(from:), CancelAutomatedReasoningPolicyBuildWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAutomatedReasoningPolicyBuildWorkflowInput, CancelAutomatedReasoningPolicyBuildWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAutomatedReasoningPolicyBuildWorkflowOutput>())
@@ -519,9 +521,9 @@ extension BedrockClient {
     ///
     /// Creates an Automated Reasoning policy for Amazon Bedrock Guardrails. Automated Reasoning policies use mathematical techniques to detect hallucinations, suggest corrections, and highlight unstated assumptions in the responses of your GenAI application. To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
     ///
-    /// - Parameter CreateAutomatedReasoningPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutomatedReasoningPolicyInput`)
     ///
-    /// - Returns: `CreateAutomatedReasoningPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutomatedReasoningPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,6 +565,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutomatedReasoningPolicyInput, CreateAutomatedReasoningPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutomatedReasoningPolicyOutput>(CreateAutomatedReasoningPolicyOutput.httpOutput(from:), CreateAutomatedReasoningPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomatedReasoningPolicyInput, CreateAutomatedReasoningPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomatedReasoningPolicyOutput>())
@@ -595,9 +598,9 @@ extension BedrockClient {
     ///
     /// Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production.
     ///
-    /// - Parameter CreateAutomatedReasoningPolicyTestCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutomatedReasoningPolicyTestCaseInput`)
     ///
-    /// - Returns: `CreateAutomatedReasoningPolicyTestCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutomatedReasoningPolicyTestCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,6 +641,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutomatedReasoningPolicyTestCaseInput, CreateAutomatedReasoningPolicyTestCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutomatedReasoningPolicyTestCaseOutput>(CreateAutomatedReasoningPolicyTestCaseOutput.httpOutput(from:), CreateAutomatedReasoningPolicyTestCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomatedReasoningPolicyTestCaseInput, CreateAutomatedReasoningPolicyTestCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomatedReasoningPolicyTestCaseOutput>())
@@ -670,9 +674,9 @@ extension BedrockClient {
     ///
     /// Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes.
     ///
-    /// - Parameter CreateAutomatedReasoningPolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutomatedReasoningPolicyVersionInput`)
     ///
-    /// - Returns: `CreateAutomatedReasoningPolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutomatedReasoningPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,6 +718,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutomatedReasoningPolicyVersionInput, CreateAutomatedReasoningPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutomatedReasoningPolicyVersionOutput>(CreateAutomatedReasoningPolicyVersionOutput.httpOutput(from:), CreateAutomatedReasoningPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutomatedReasoningPolicyVersionInput, CreateAutomatedReasoningPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutomatedReasoningPolicyVersionOutput>())
@@ -761,9 +766,9 @@ extension BedrockClient {
     ///
     /// * [DeleteCustomModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteCustomModel.html)
     ///
-    /// - Parameter CreateCustomModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomModelInput`)
     ///
-    /// - Returns: `CreateCustomModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -805,6 +810,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomModelInput, CreateCustomModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomModelOutput>(CreateCustomModelOutput.httpOutput(from:), CreateCustomModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomModelInput, CreateCustomModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomModelOutput>())
@@ -843,9 +849,9 @@ extension BedrockClient {
     ///
     /// * [DeleteCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteCustomModelDeployment.html)
     ///
-    /// - Parameter CreateCustomModelDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomModelDeploymentInput`)
     ///
-    /// - Returns: `CreateCustomModelDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomModelDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,6 +892,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomModelDeploymentInput, CreateCustomModelDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomModelDeploymentOutput>(CreateCustomModelDeploymentOutput.httpOutput(from:), CreateCustomModelDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomModelDeploymentInput, CreateCustomModelDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomModelDeploymentOutput>())
@@ -918,9 +925,9 @@ extension BedrockClient {
     ///
     /// Creates an evaluation job.
     ///
-    /// - Parameter CreateEvaluationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEvaluationJobInput`)
     ///
-    /// - Returns: `CreateEvaluationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEvaluationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -961,6 +968,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEvaluationJobInput, CreateEvaluationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEvaluationJobOutput>(CreateEvaluationJobOutput.httpOutput(from:), CreateEvaluationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEvaluationJobInput, CreateEvaluationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEvaluationJobOutput>())
@@ -993,9 +1001,9 @@ extension BedrockClient {
     ///
     /// Request a model access agreement for the specified model.
     ///
-    /// - Parameter CreateFoundationModelAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFoundationModelAgreementInput`)
     ///
-    /// - Returns: `CreateFoundationModelAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFoundationModelAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1034,6 +1042,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFoundationModelAgreementInput, CreateFoundationModelAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFoundationModelAgreementOutput>(CreateFoundationModelAgreementOutput.httpOutput(from:), CreateFoundationModelAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFoundationModelAgreementInput, CreateFoundationModelAgreementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFoundationModelAgreementOutput>())
@@ -1077,9 +1086,9 @@ extension BedrockClient {
     ///
     /// In addition to the above policies, you can also configure the messages to be returned to the user if a user input or model response is in violation of the policies defined in the guardrail. For more information, see [Amazon Bedrock Guardrails](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html) in the Amazon Bedrock User Guide.
     ///
-    /// - Parameter CreateGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGuardrailInput`)
     ///
-    /// - Returns: `CreateGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,6 +1130,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGuardrailInput, CreateGuardrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGuardrailOutput>(CreateGuardrailOutput.httpOutput(from:), CreateGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGuardrailInput, CreateGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGuardrailOutput>())
@@ -1153,9 +1163,9 @@ extension BedrockClient {
     ///
     /// Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
     ///
-    /// - Parameter CreateGuardrailVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGuardrailVersionInput`)
     ///
-    /// - Returns: `CreateGuardrailVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGuardrailVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1196,6 +1206,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGuardrailVersionInput, CreateGuardrailVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGuardrailVersionOutput>(CreateGuardrailVersionOutput.httpOutput(from:), CreateGuardrailVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGuardrailVersionInput, CreateGuardrailVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGuardrailVersionOutput>())
@@ -1228,9 +1239,9 @@ extension BedrockClient {
     ///
     /// Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). in the Amazon Bedrock User Guide.
     ///
-    /// - Parameter CreateInferenceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInferenceProfileInput`)
     ///
-    /// - Returns: `CreateInferenceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInferenceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1272,6 +1283,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInferenceProfileInput, CreateInferenceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInferenceProfileOutput>(CreateInferenceProfileOutput.httpOutput(from:), CreateInferenceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInferenceProfileInput, CreateInferenceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInferenceProfileOutput>())
@@ -1304,9 +1316,9 @@ extension BedrockClient {
     ///
     /// Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
     ///
-    /// - Parameter CreateMarketplaceModelEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMarketplaceModelEndpointInput`)
     ///
-    /// - Returns: `CreateMarketplaceModelEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMarketplaceModelEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1347,6 +1359,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMarketplaceModelEndpointInput, CreateMarketplaceModelEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMarketplaceModelEndpointOutput>(CreateMarketplaceModelEndpointOutput.httpOutput(from:), CreateMarketplaceModelEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMarketplaceModelEndpointInput, CreateMarketplaceModelEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMarketplaceModelEndpointOutput>())
@@ -1379,9 +1392,9 @@ extension BedrockClient {
     ///
     /// Copies a model to another region so that it can be used there. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter CreateModelCopyJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelCopyJobInput`)
     ///
-    /// - Returns: `CreateModelCopyJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelCopyJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,6 +1432,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelCopyJobInput, CreateModelCopyJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelCopyJobOutput>(CreateModelCopyJobOutput.httpOutput(from:), CreateModelCopyJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelCopyJobInput, CreateModelCopyJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelCopyJobOutput>())
@@ -1451,9 +1465,9 @@ extension BedrockClient {
     ///
     /// Creates a fine-tuning job to customize a base model. You specify the base foundation model and the location of the training data. After the model-customization job completes successfully, your custom model resource will be ready to use. Amazon Bedrock returns validation loss metrics and output generations after the job completes. For information on the format of training and validation data, see [Prepare the datasets](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-prepare.html). Model-customization jobs are asynchronous and the completion time depends on the base model and the training/validation data size. To monitor a job, use the GetModelCustomizationJob operation to retrieve the job status. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter CreateModelCustomizationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelCustomizationJobInput`)
     ///
-    /// - Returns: `CreateModelCustomizationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelCustomizationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1495,6 +1509,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelCustomizationJobInput, CreateModelCustomizationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelCustomizationJobOutput>(CreateModelCustomizationJobOutput.httpOutput(from:), CreateModelCustomizationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelCustomizationJobInput, CreateModelCustomizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelCustomizationJobOutput>())
@@ -1527,9 +1542,9 @@ extension BedrockClient {
     ///
     /// Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html)
     ///
-    /// - Parameter CreateModelImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelImportJobInput`)
     ///
-    /// - Returns: `CreateModelImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1570,6 +1585,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelImportJobInput, CreateModelImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelImportJobOutput>(CreateModelImportJobOutput.httpOutput(from:), CreateModelImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelImportJobInput, CreateModelImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelImportJobOutput>())
@@ -1602,9 +1618,9 @@ extension BedrockClient {
     ///
     /// Creates a batch inference job to invoke a model on multiple prompts. Format your data according to [Format your inference data](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-data) and upload it to an Amazon S3 bucket. For more information, see [Process multiple prompts with batch inference](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference.html). The response returns a jobArn that you can use to stop or get details about the job.
     ///
-    /// - Parameter CreateModelInvocationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelInvocationJobInput`)
     ///
-    /// - Returns: `CreateModelInvocationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelInvocationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1645,6 +1661,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelInvocationJobInput, CreateModelInvocationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelInvocationJobOutput>(CreateModelInvocationJobOutput.httpOutput(from:), CreateModelInvocationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelInvocationJobInput, CreateModelInvocationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelInvocationJobOutput>())
@@ -1677,9 +1694,9 @@ extension BedrockClient {
     ///
     /// Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
     ///
-    /// - Parameter CreatePromptRouterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePromptRouterInput`)
     ///
-    /// - Returns: `CreatePromptRouterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePromptRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,6 +1738,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePromptRouterInput, CreatePromptRouterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePromptRouterOutput>(CreatePromptRouterOutput.httpOutput(from:), CreatePromptRouterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePromptRouterInput, CreatePromptRouterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePromptRouterOutput>())
@@ -1753,9 +1771,9 @@ extension BedrockClient {
     ///
     /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see [Amazon Bedrock Pricing](http://aws.amazon.com/bedrock/pricing/). For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter CreateProvisionedModelThroughputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProvisionedModelThroughputInput`)
     ///
-    /// - Returns: `CreateProvisionedModelThroughputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProvisionedModelThroughputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1796,6 +1814,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProvisionedModelThroughputInput, CreateProvisionedModelThroughputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProvisionedModelThroughputOutput>(CreateProvisionedModelThroughputOutput.httpOutput(from:), CreateProvisionedModelThroughputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProvisionedModelThroughputInput, CreateProvisionedModelThroughputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProvisionedModelThroughputOutput>())
@@ -1828,15 +1847,17 @@ extension BedrockClient {
     ///
     /// Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
     ///
-    /// - Parameter DeleteAutomatedReasoningPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAutomatedReasoningPolicyInput`)
     ///
-    /// - Returns: `DeleteAutomatedReasoningPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAutomatedReasoningPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : Error occurred because of a conflict while performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceInUseException` : Thrown when attempting to delete or modify a resource that is currently being used by other resources or operations. For example, trying to delete an Automated Reasoning policy that is referenced by an active guardrail.
     /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -1863,8 +1884,10 @@ extension BedrockClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAutomatedReasoningPolicyInput, DeleteAutomatedReasoningPolicyOutput>(DeleteAutomatedReasoningPolicyInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAutomatedReasoningPolicyInput, DeleteAutomatedReasoningPolicyOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAutomatedReasoningPolicyInput, DeleteAutomatedReasoningPolicyOutput>(DeleteAutomatedReasoningPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutomatedReasoningPolicyOutput>(DeleteAutomatedReasoningPolicyOutput.httpOutput(from:), DeleteAutomatedReasoningPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutomatedReasoningPolicyInput, DeleteAutomatedReasoningPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutomatedReasoningPolicyOutput>())
@@ -1897,9 +1920,9 @@ extension BedrockClient {
     ///
     /// Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
     ///
-    /// - Parameter DeleteAutomatedReasoningPolicyBuildWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAutomatedReasoningPolicyBuildWorkflowInput`)
     ///
-    /// - Returns: `DeleteAutomatedReasoningPolicyBuildWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAutomatedReasoningPolicyBuildWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1907,6 +1930,7 @@ extension BedrockClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : Error occurred because of a conflict while performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceInUseException` : Thrown when attempting to delete or modify a resource that is currently being used by other resources or operations. For example, trying to delete an Automated Reasoning policy that is referenced by an active guardrail.
     /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -1936,6 +1960,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAutomatedReasoningPolicyBuildWorkflowInput, DeleteAutomatedReasoningPolicyBuildWorkflowOutput>(DeleteAutomatedReasoningPolicyBuildWorkflowInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutomatedReasoningPolicyBuildWorkflowOutput>(DeleteAutomatedReasoningPolicyBuildWorkflowOutput.httpOutput(from:), DeleteAutomatedReasoningPolicyBuildWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutomatedReasoningPolicyBuildWorkflowInput, DeleteAutomatedReasoningPolicyBuildWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutomatedReasoningPolicyBuildWorkflowOutput>())
@@ -1968,9 +1993,9 @@ extension BedrockClient {
     ///
     /// Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
     ///
-    /// - Parameter DeleteAutomatedReasoningPolicyTestCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAutomatedReasoningPolicyTestCaseInput`)
     ///
-    /// - Returns: `DeleteAutomatedReasoningPolicyTestCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAutomatedReasoningPolicyTestCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2008,6 +2033,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAutomatedReasoningPolicyTestCaseInput, DeleteAutomatedReasoningPolicyTestCaseOutput>(DeleteAutomatedReasoningPolicyTestCaseInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutomatedReasoningPolicyTestCaseOutput>(DeleteAutomatedReasoningPolicyTestCaseOutput.httpOutput(from:), DeleteAutomatedReasoningPolicyTestCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutomatedReasoningPolicyTestCaseInput, DeleteAutomatedReasoningPolicyTestCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutomatedReasoningPolicyTestCaseOutput>())
@@ -2040,9 +2066,9 @@ extension BedrockClient {
     ///
     /// Deletes a custom model that you created earlier. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter DeleteCustomModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomModelInput`)
     ///
-    /// - Returns: `DeleteCustomModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2078,6 +2104,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomModelInput, DeleteCustomModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomModelOutput>(DeleteCustomModelOutput.httpOutput(from:), DeleteCustomModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomModelInput, DeleteCustomModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomModelOutput>())
@@ -2116,9 +2143,9 @@ extension BedrockClient {
     ///
     /// * [ListCustomModelDeployments](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListCustomModelDeployments.html)
     ///
-    /// - Parameter DeleteCustomModelDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomModelDeploymentInput`)
     ///
-    /// - Returns: `DeleteCustomModelDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomModelDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2154,6 +2181,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomModelDeploymentInput, DeleteCustomModelDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomModelDeploymentOutput>(DeleteCustomModelDeploymentOutput.httpOutput(from:), DeleteCustomModelDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomModelDeploymentInput, DeleteCustomModelDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomModelDeploymentOutput>())
@@ -2182,13 +2210,83 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteEnforcedGuardrailConfiguration` operation on the `Bedrock` service.
+    ///
+    /// Deletes the account-level enforced guardrail configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnforcedGuardrailConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteEnforcedGuardrailConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func deleteEnforcedGuardrailConfiguration(input: DeleteEnforcedGuardrailConfigurationInput) async throws -> DeleteEnforcedGuardrailConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteEnforcedGuardrailConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteEnforcedGuardrailConfigurationInput, DeleteEnforcedGuardrailConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteEnforcedGuardrailConfigurationInput, DeleteEnforcedGuardrailConfigurationOutput>(DeleteEnforcedGuardrailConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnforcedGuardrailConfigurationInput, DeleteEnforcedGuardrailConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnforcedGuardrailConfigurationOutput>(DeleteEnforcedGuardrailConfigurationOutput.httpOutput(from:), DeleteEnforcedGuardrailConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnforcedGuardrailConfigurationInput, DeleteEnforcedGuardrailConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnforcedGuardrailConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteEnforcedGuardrailConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteEnforcedGuardrailConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteEnforcedGuardrailConfigurationInput, DeleteEnforcedGuardrailConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteEnforcedGuardrailConfigurationInput, DeleteEnforcedGuardrailConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteEnforcedGuardrailConfigurationInput, DeleteEnforcedGuardrailConfigurationOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteEnforcedGuardrailConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteFoundationModelAgreement` operation on the `Bedrock` service.
     ///
     /// Delete the model access agreement for the specified model.
     ///
-    /// - Parameter DeleteFoundationModelAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFoundationModelAgreementInput`)
     ///
-    /// - Returns: `DeleteFoundationModelAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFoundationModelAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2227,6 +2325,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFoundationModelAgreementInput, DeleteFoundationModelAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFoundationModelAgreementOutput>(DeleteFoundationModelAgreementOutput.httpOutput(from:), DeleteFoundationModelAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFoundationModelAgreementInput, DeleteFoundationModelAgreementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFoundationModelAgreementOutput>())
@@ -2263,9 +2362,9 @@ extension BedrockClient {
     ///
     /// * To delete a version of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field and the version in the guardrailVersion field.
     ///
-    /// - Parameter DeleteGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGuardrailInput`)
     ///
-    /// - Returns: `DeleteGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2302,6 +2401,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteGuardrailInput, DeleteGuardrailOutput>(DeleteGuardrailInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGuardrailOutput>(DeleteGuardrailOutput.httpOutput(from:), DeleteGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGuardrailInput, DeleteGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGuardrailOutput>())
@@ -2334,9 +2434,9 @@ extension BedrockClient {
     ///
     /// Deletes a custom model that you imported earlier. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter DeleteImportedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImportedModelInput`)
     ///
-    /// - Returns: `DeleteImportedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImportedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2372,6 +2472,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImportedModelInput, DeleteImportedModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImportedModelOutput>(DeleteImportedModelOutput.httpOutput(from:), DeleteImportedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImportedModelInput, DeleteImportedModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImportedModelOutput>())
@@ -2404,9 +2505,9 @@ extension BedrockClient {
     ///
     /// Deletes an application inference profile. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). in the Amazon Bedrock User Guide.
     ///
-    /// - Parameter DeleteInferenceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInferenceProfileInput`)
     ///
-    /// - Returns: `DeleteInferenceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInferenceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2442,6 +2543,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInferenceProfileInput, DeleteInferenceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInferenceProfileOutput>(DeleteInferenceProfileOutput.httpOutput(from:), DeleteInferenceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInferenceProfileInput, DeleteInferenceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInferenceProfileOutput>())
@@ -2474,9 +2576,9 @@ extension BedrockClient {
     ///
     /// Deletes an endpoint for a model from Amazon Bedrock Marketplace.
     ///
-    /// - Parameter DeleteMarketplaceModelEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMarketplaceModelEndpointInput`)
     ///
-    /// - Returns: `DeleteMarketplaceModelEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMarketplaceModelEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2511,6 +2613,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMarketplaceModelEndpointInput, DeleteMarketplaceModelEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMarketplaceModelEndpointOutput>(DeleteMarketplaceModelEndpointOutput.httpOutput(from:), DeleteMarketplaceModelEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMarketplaceModelEndpointInput, DeleteMarketplaceModelEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMarketplaceModelEndpointOutput>())
@@ -2543,9 +2646,9 @@ extension BedrockClient {
     ///
     /// Delete the invocation logging.
     ///
-    /// - Parameter DeleteModelInvocationLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelInvocationLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteModelInvocationLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelInvocationLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2578,6 +2681,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteModelInvocationLoggingConfigurationInput, DeleteModelInvocationLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelInvocationLoggingConfigurationOutput>(DeleteModelInvocationLoggingConfigurationOutput.httpOutput(from:), DeleteModelInvocationLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelInvocationLoggingConfigurationInput, DeleteModelInvocationLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelInvocationLoggingConfigurationOutput>())
@@ -2610,9 +2714,9 @@ extension BedrockClient {
     ///
     /// Deletes a specified prompt router. This action cannot be undone.
     ///
-    /// - Parameter DeletePromptRouterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePromptRouterInput`)
     ///
-    /// - Returns: `DeletePromptRouterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePromptRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2647,6 +2751,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePromptRouterInput, DeletePromptRouterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePromptRouterOutput>(DeletePromptRouterOutput.httpOutput(from:), DeletePromptRouterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePromptRouterInput, DeletePromptRouterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePromptRouterOutput>())
@@ -2679,9 +2784,9 @@ extension BedrockClient {
     ///
     /// Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter DeleteProvisionedModelThroughputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProvisionedModelThroughputInput`)
     ///
-    /// - Returns: `DeleteProvisionedModelThroughputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProvisionedModelThroughputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2717,6 +2822,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProvisionedModelThroughputInput, DeleteProvisionedModelThroughputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProvisionedModelThroughputOutput>(DeleteProvisionedModelThroughputOutput.httpOutput(from:), DeleteProvisionedModelThroughputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProvisionedModelThroughputInput, DeleteProvisionedModelThroughputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProvisionedModelThroughputOutput>())
@@ -2749,9 +2855,9 @@ extension BedrockClient {
     ///
     /// Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
     ///
-    /// - Parameter DeregisterMarketplaceModelEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterMarketplaceModelEndpointInput`)
     ///
-    /// - Returns: `DeregisterMarketplaceModelEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterMarketplaceModelEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2787,6 +2893,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterMarketplaceModelEndpointInput, DeregisterMarketplaceModelEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterMarketplaceModelEndpointOutput>(DeregisterMarketplaceModelEndpointOutput.httpOutput(from:), DeregisterMarketplaceModelEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterMarketplaceModelEndpointInput, DeregisterMarketplaceModelEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterMarketplaceModelEndpointOutput>())
@@ -2819,9 +2926,9 @@ extension BedrockClient {
     ///
     /// Exports the policy definition for an Automated Reasoning policy version. Returns the complete policy definition including rules, variables, and custom variable types in a structured format.
     ///
-    /// - Parameter ExportAutomatedReasoningPolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportAutomatedReasoningPolicyVersionInput`)
     ///
-    /// - Returns: `ExportAutomatedReasoningPolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportAutomatedReasoningPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2856,6 +2963,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportAutomatedReasoningPolicyVersionInput, ExportAutomatedReasoningPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportAutomatedReasoningPolicyVersionOutput>(ExportAutomatedReasoningPolicyVersionOutput.httpOutput(from:), ExportAutomatedReasoningPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportAutomatedReasoningPolicyVersionInput, ExportAutomatedReasoningPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportAutomatedReasoningPolicyVersionOutput>())
@@ -2888,9 +2996,9 @@ extension BedrockClient {
     ///
     /// Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
     ///
-    /// - Parameter GetAutomatedReasoningPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedReasoningPolicyInput`)
     ///
-    /// - Returns: `GetAutomatedReasoningPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedReasoningPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2925,6 +3033,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomatedReasoningPolicyInput, GetAutomatedReasoningPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomatedReasoningPolicyOutput>(GetAutomatedReasoningPolicyOutput.httpOutput(from:), GetAutomatedReasoningPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomatedReasoningPolicyInput, GetAutomatedReasoningPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomatedReasoningPolicyOutput>())
@@ -2957,9 +3066,9 @@ extension BedrockClient {
     ///
     /// Retrieves the current annotations for an Automated Reasoning policy build workflow. Annotations contain corrections to the rules, variables and types to be applied to the policy.
     ///
-    /// - Parameter GetAutomatedReasoningPolicyAnnotationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedReasoningPolicyAnnotationsInput`)
     ///
-    /// - Returns: `GetAutomatedReasoningPolicyAnnotationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedReasoningPolicyAnnotationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2994,6 +3103,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomatedReasoningPolicyAnnotationsInput, GetAutomatedReasoningPolicyAnnotationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomatedReasoningPolicyAnnotationsOutput>(GetAutomatedReasoningPolicyAnnotationsOutput.httpOutput(from:), GetAutomatedReasoningPolicyAnnotationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomatedReasoningPolicyAnnotationsInput, GetAutomatedReasoningPolicyAnnotationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomatedReasoningPolicyAnnotationsOutput>())
@@ -3026,9 +3136,9 @@ extension BedrockClient {
     ///
     /// Retrieves detailed information about an Automated Reasoning policy build workflow, including its status, configuration, and metadata.
     ///
-    /// - Parameter GetAutomatedReasoningPolicyBuildWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedReasoningPolicyBuildWorkflowInput`)
     ///
-    /// - Returns: `GetAutomatedReasoningPolicyBuildWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedReasoningPolicyBuildWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3063,6 +3173,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomatedReasoningPolicyBuildWorkflowInput, GetAutomatedReasoningPolicyBuildWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomatedReasoningPolicyBuildWorkflowOutput>(GetAutomatedReasoningPolicyBuildWorkflowOutput.httpOutput(from:), GetAutomatedReasoningPolicyBuildWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomatedReasoningPolicyBuildWorkflowInput, GetAutomatedReasoningPolicyBuildWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomatedReasoningPolicyBuildWorkflowOutput>())
@@ -3095,9 +3206,9 @@ extension BedrockClient {
     ///
     /// Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
     ///
-    /// - Parameter GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput`)
     ///
-    /// - Returns: `GetAutomatedReasoningPolicyBuildWorkflowResultAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedReasoningPolicyBuildWorkflowResultAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3133,6 +3244,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput, GetAutomatedReasoningPolicyBuildWorkflowResultAssetsOutput>(GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomatedReasoningPolicyBuildWorkflowResultAssetsOutput>(GetAutomatedReasoningPolicyBuildWorkflowResultAssetsOutput.httpOutput(from:), GetAutomatedReasoningPolicyBuildWorkflowResultAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomatedReasoningPolicyBuildWorkflowResultAssetsInput, GetAutomatedReasoningPolicyBuildWorkflowResultAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomatedReasoningPolicyBuildWorkflowResultAssetsOutput>())
@@ -3165,9 +3277,9 @@ extension BedrockClient {
     ///
     /// Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior.
     ///
-    /// - Parameter GetAutomatedReasoningPolicyNextScenarioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedReasoningPolicyNextScenarioInput`)
     ///
-    /// - Returns: `GetAutomatedReasoningPolicyNextScenarioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedReasoningPolicyNextScenarioOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3202,6 +3314,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomatedReasoningPolicyNextScenarioInput, GetAutomatedReasoningPolicyNextScenarioOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomatedReasoningPolicyNextScenarioOutput>(GetAutomatedReasoningPolicyNextScenarioOutput.httpOutput(from:), GetAutomatedReasoningPolicyNextScenarioOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomatedReasoningPolicyNextScenarioInput, GetAutomatedReasoningPolicyNextScenarioOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomatedReasoningPolicyNextScenarioOutput>())
@@ -3234,9 +3347,9 @@ extension BedrockClient {
     ///
     /// Retrieves details about a specific Automated Reasoning policy test.
     ///
-    /// - Parameter GetAutomatedReasoningPolicyTestCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedReasoningPolicyTestCaseInput`)
     ///
-    /// - Returns: `GetAutomatedReasoningPolicyTestCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedReasoningPolicyTestCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3271,6 +3384,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomatedReasoningPolicyTestCaseInput, GetAutomatedReasoningPolicyTestCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomatedReasoningPolicyTestCaseOutput>(GetAutomatedReasoningPolicyTestCaseOutput.httpOutput(from:), GetAutomatedReasoningPolicyTestCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomatedReasoningPolicyTestCaseInput, GetAutomatedReasoningPolicyTestCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomatedReasoningPolicyTestCaseOutput>())
@@ -3303,9 +3417,9 @@ extension BedrockClient {
     ///
     /// Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
     ///
-    /// - Parameter GetAutomatedReasoningPolicyTestResultInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomatedReasoningPolicyTestResultInput`)
     ///
-    /// - Returns: `GetAutomatedReasoningPolicyTestResultOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomatedReasoningPolicyTestResultOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3340,6 +3454,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutomatedReasoningPolicyTestResultInput, GetAutomatedReasoningPolicyTestResultOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomatedReasoningPolicyTestResultOutput>(GetAutomatedReasoningPolicyTestResultOutput.httpOutput(from:), GetAutomatedReasoningPolicyTestResultOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomatedReasoningPolicyTestResultInput, GetAutomatedReasoningPolicyTestResultOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomatedReasoningPolicyTestResultOutput>())
@@ -3372,9 +3487,9 @@ extension BedrockClient {
     ///
     /// Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter GetCustomModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomModelInput`)
     ///
-    /// - Returns: `GetCustomModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3409,6 +3524,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomModelInput, GetCustomModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomModelOutput>(GetCustomModelOutput.httpOutput(from:), GetCustomModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomModelInput, GetCustomModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomModelOutput>())
@@ -3447,9 +3563,9 @@ extension BedrockClient {
     ///
     /// * [DeleteCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteCustomModelDeployment.html)
     ///
-    /// - Parameter GetCustomModelDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomModelDeploymentInput`)
     ///
-    /// - Returns: `GetCustomModelDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomModelDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3484,6 +3600,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomModelDeploymentInput, GetCustomModelDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomModelDeploymentOutput>(GetCustomModelDeploymentOutput.httpOutput(from:), GetCustomModelDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomModelDeploymentInput, GetCustomModelDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomModelDeploymentOutput>())
@@ -3516,9 +3633,9 @@ extension BedrockClient {
     ///
     /// Gets information about an evaluation job, such as the status of the job.
     ///
-    /// - Parameter GetEvaluationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEvaluationJobInput`)
     ///
-    /// - Returns: `GetEvaluationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEvaluationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3553,6 +3670,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEvaluationJobInput, GetEvaluationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEvaluationJobOutput>(GetEvaluationJobOutput.httpOutput(from:), GetEvaluationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEvaluationJobInput, GetEvaluationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEvaluationJobOutput>())
@@ -3585,9 +3703,9 @@ extension BedrockClient {
     ///
     /// Get details about a Amazon Bedrock foundation model.
     ///
-    /// - Parameter GetFoundationModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFoundationModelInput`)
     ///
-    /// - Returns: `GetFoundationModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFoundationModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3622,6 +3740,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFoundationModelInput, GetFoundationModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFoundationModelOutput>(GetFoundationModelOutput.httpOutput(from:), GetFoundationModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFoundationModelInput, GetFoundationModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFoundationModelOutput>())
@@ -3654,9 +3773,9 @@ extension BedrockClient {
     ///
     /// Get information about the Foundation model availability.
     ///
-    /// - Parameter GetFoundationModelAvailabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFoundationModelAvailabilityInput`)
     ///
-    /// - Returns: `GetFoundationModelAvailabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFoundationModelAvailabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3691,6 +3810,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFoundationModelAvailabilityInput, GetFoundationModelAvailabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFoundationModelAvailabilityOutput>(GetFoundationModelAvailabilityOutput.httpOutput(from:), GetFoundationModelAvailabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFoundationModelAvailabilityInput, GetFoundationModelAvailabilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFoundationModelAvailabilityOutput>())
@@ -3723,9 +3843,9 @@ extension BedrockClient {
     ///
     /// Gets details about a guardrail. If you don't specify a version, the response returns details for the DRAFT version.
     ///
-    /// - Parameter GetGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGuardrailInput`)
     ///
-    /// - Returns: `GetGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3761,6 +3881,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetGuardrailInput, GetGuardrailOutput>(GetGuardrailInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGuardrailOutput>(GetGuardrailOutput.httpOutput(from:), GetGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGuardrailInput, GetGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGuardrailOutput>())
@@ -3793,9 +3914,9 @@ extension BedrockClient {
     ///
     /// Gets properties associated with a customized model you imported.
     ///
-    /// - Parameter GetImportedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportedModelInput`)
     ///
-    /// - Returns: `GetImportedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3830,6 +3951,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImportedModelInput, GetImportedModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportedModelOutput>(GetImportedModelOutput.httpOutput(from:), GetImportedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportedModelInput, GetImportedModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportedModelOutput>())
@@ -3862,9 +3984,9 @@ extension BedrockClient {
     ///
     /// Gets information about an inference profile. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). in the Amazon Bedrock User Guide.
     ///
-    /// - Parameter GetInferenceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInferenceProfileInput`)
     ///
-    /// - Returns: `GetInferenceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInferenceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3899,6 +4021,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInferenceProfileInput, GetInferenceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInferenceProfileOutput>(GetInferenceProfileOutput.httpOutput(from:), GetInferenceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInferenceProfileInput, GetInferenceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInferenceProfileOutput>())
@@ -3931,9 +4054,9 @@ extension BedrockClient {
     ///
     /// Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
     ///
-    /// - Parameter GetMarketplaceModelEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMarketplaceModelEndpointInput`)
     ///
-    /// - Returns: `GetMarketplaceModelEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMarketplaceModelEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3968,6 +4091,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMarketplaceModelEndpointInput, GetMarketplaceModelEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMarketplaceModelEndpointOutput>(GetMarketplaceModelEndpointOutput.httpOutput(from:), GetMarketplaceModelEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMarketplaceModelEndpointInput, GetMarketplaceModelEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMarketplaceModelEndpointOutput>())
@@ -4000,9 +4124,9 @@ extension BedrockClient {
     ///
     /// Retrieves information about a model copy job. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter GetModelCopyJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelCopyJobInput`)
     ///
-    /// - Returns: `GetModelCopyJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelCopyJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4037,6 +4161,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelCopyJobInput, GetModelCopyJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelCopyJobOutput>(GetModelCopyJobOutput.httpOutput(from:), GetModelCopyJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelCopyJobInput, GetModelCopyJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelCopyJobOutput>())
@@ -4069,9 +4194,9 @@ extension BedrockClient {
     ///
     /// Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter GetModelCustomizationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelCustomizationJobInput`)
     ///
-    /// - Returns: `GetModelCustomizationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelCustomizationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4106,6 +4231,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelCustomizationJobInput, GetModelCustomizationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelCustomizationJobOutput>(GetModelCustomizationJobOutput.httpOutput(from:), GetModelCustomizationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelCustomizationJobInput, GetModelCustomizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelCustomizationJobOutput>())
@@ -4138,9 +4264,9 @@ extension BedrockClient {
     ///
     /// Retrieves the properties associated with import model job, including the status of the job. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter GetModelImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelImportJobInput`)
     ///
-    /// - Returns: `GetModelImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4175,6 +4301,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelImportJobInput, GetModelImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelImportJobOutput>(GetModelImportJobOutput.httpOutput(from:), GetModelImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelImportJobInput, GetModelImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelImportJobOutput>())
@@ -4207,9 +4334,9 @@ extension BedrockClient {
     ///
     /// Gets details about a batch inference job. For more information, see [Monitor batch inference jobs](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-monitor)
     ///
-    /// - Parameter GetModelInvocationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelInvocationJobInput`)
     ///
-    /// - Returns: `GetModelInvocationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelInvocationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4244,6 +4371,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelInvocationJobInput, GetModelInvocationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelInvocationJobOutput>(GetModelInvocationJobOutput.httpOutput(from:), GetModelInvocationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelInvocationJobInput, GetModelInvocationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelInvocationJobOutput>())
@@ -4276,9 +4404,9 @@ extension BedrockClient {
     ///
     /// Get the current configuration values for model invocation logging.
     ///
-    /// - Parameter GetModelInvocationLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelInvocationLoggingConfigurationInput`)
     ///
-    /// - Returns: `GetModelInvocationLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelInvocationLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4311,6 +4439,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelInvocationLoggingConfigurationInput, GetModelInvocationLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelInvocationLoggingConfigurationOutput>(GetModelInvocationLoggingConfigurationOutput.httpOutput(from:), GetModelInvocationLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelInvocationLoggingConfigurationInput, GetModelInvocationLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelInvocationLoggingConfigurationOutput>())
@@ -4343,9 +4472,9 @@ extension BedrockClient {
     ///
     /// Retrieves details about a prompt router.
     ///
-    /// - Parameter GetPromptRouterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPromptRouterInput`)
     ///
-    /// - Returns: `GetPromptRouterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPromptRouterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4380,6 +4509,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPromptRouterInput, GetPromptRouterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPromptRouterOutput>(GetPromptRouterOutput.httpOutput(from:), GetPromptRouterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPromptRouterInput, GetPromptRouterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPromptRouterOutput>())
@@ -4412,9 +4542,9 @@ extension BedrockClient {
     ///
     /// Returns details for a Provisioned Throughput. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter GetProvisionedModelThroughputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProvisionedModelThroughputInput`)
     ///
-    /// - Returns: `GetProvisionedModelThroughputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProvisionedModelThroughputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4449,6 +4579,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProvisionedModelThroughputInput, GetProvisionedModelThroughputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProvisionedModelThroughputOutput>(GetProvisionedModelThroughputOutput.httpOutput(from:), GetProvisionedModelThroughputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProvisionedModelThroughputInput, GetProvisionedModelThroughputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProvisionedModelThroughputOutput>())
@@ -4481,9 +4612,9 @@ extension BedrockClient {
     ///
     /// Get usecase for model access.
     ///
-    /// - Parameter GetUseCaseForModelAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUseCaseForModelAccessInput`)
     ///
-    /// - Returns: `GetUseCaseForModelAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUseCaseForModelAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4517,6 +4648,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUseCaseForModelAccessInput, GetUseCaseForModelAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUseCaseForModelAccessOutput>(GetUseCaseForModelAccessOutput.httpOutput(from:), GetUseCaseForModelAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUseCaseForModelAccessInput, GetUseCaseForModelAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUseCaseForModelAccessOutput>())
@@ -4549,9 +4681,9 @@ extension BedrockClient {
     ///
     /// Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
     ///
-    /// - Parameter ListAutomatedReasoningPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomatedReasoningPoliciesInput`)
     ///
-    /// - Returns: `ListAutomatedReasoningPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomatedReasoningPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4587,6 +4719,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAutomatedReasoningPoliciesInput, ListAutomatedReasoningPoliciesOutput>(ListAutomatedReasoningPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomatedReasoningPoliciesOutput>(ListAutomatedReasoningPoliciesOutput.httpOutput(from:), ListAutomatedReasoningPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomatedReasoningPoliciesInput, ListAutomatedReasoningPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomatedReasoningPoliciesOutput>())
@@ -4619,9 +4752,9 @@ extension BedrockClient {
     ///
     /// Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts.
     ///
-    /// - Parameter ListAutomatedReasoningPolicyBuildWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomatedReasoningPolicyBuildWorkflowsInput`)
     ///
-    /// - Returns: `ListAutomatedReasoningPolicyBuildWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomatedReasoningPolicyBuildWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4657,6 +4790,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAutomatedReasoningPolicyBuildWorkflowsInput, ListAutomatedReasoningPolicyBuildWorkflowsOutput>(ListAutomatedReasoningPolicyBuildWorkflowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomatedReasoningPolicyBuildWorkflowsOutput>(ListAutomatedReasoningPolicyBuildWorkflowsOutput.httpOutput(from:), ListAutomatedReasoningPolicyBuildWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomatedReasoningPolicyBuildWorkflowsInput, ListAutomatedReasoningPolicyBuildWorkflowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomatedReasoningPolicyBuildWorkflowsOutput>())
@@ -4689,9 +4823,9 @@ extension BedrockClient {
     ///
     /// Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
     ///
-    /// - Parameter ListAutomatedReasoningPolicyTestCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomatedReasoningPolicyTestCasesInput`)
     ///
-    /// - Returns: `ListAutomatedReasoningPolicyTestCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomatedReasoningPolicyTestCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4727,6 +4861,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAutomatedReasoningPolicyTestCasesInput, ListAutomatedReasoningPolicyTestCasesOutput>(ListAutomatedReasoningPolicyTestCasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomatedReasoningPolicyTestCasesOutput>(ListAutomatedReasoningPolicyTestCasesOutput.httpOutput(from:), ListAutomatedReasoningPolicyTestCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomatedReasoningPolicyTestCasesInput, ListAutomatedReasoningPolicyTestCasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomatedReasoningPolicyTestCasesOutput>())
@@ -4759,9 +4894,9 @@ extension BedrockClient {
     ///
     /// Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
     ///
-    /// - Parameter ListAutomatedReasoningPolicyTestResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutomatedReasoningPolicyTestResultsInput`)
     ///
-    /// - Returns: `ListAutomatedReasoningPolicyTestResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutomatedReasoningPolicyTestResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4798,6 +4933,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAutomatedReasoningPolicyTestResultsInput, ListAutomatedReasoningPolicyTestResultsOutput>(ListAutomatedReasoningPolicyTestResultsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutomatedReasoningPolicyTestResultsOutput>(ListAutomatedReasoningPolicyTestResultsOutput.httpOutput(from:), ListAutomatedReasoningPolicyTestResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutomatedReasoningPolicyTestResultsInput, ListAutomatedReasoningPolicyTestResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutomatedReasoningPolicyTestResultsOutput>())
@@ -4836,9 +4972,9 @@ extension BedrockClient {
     ///
     /// * [DeleteCustomModelDeployment](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_DeleteCustomModelDeployment.html)
     ///
-    /// - Parameter ListCustomModelDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomModelDeploymentsInput`)
     ///
-    /// - Returns: `ListCustomModelDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomModelDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4873,6 +5009,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCustomModelDeploymentsInput, ListCustomModelDeploymentsOutput>(ListCustomModelDeploymentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomModelDeploymentsOutput>(ListCustomModelDeploymentsOutput.httpOutput(from:), ListCustomModelDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomModelDeploymentsInput, ListCustomModelDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomModelDeploymentsOutput>())
@@ -4905,9 +5042,9 @@ extension BedrockClient {
     ///
     /// Returns a list of the custom models that you have created with the CreateModelCustomizationJob operation. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter ListCustomModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomModelsInput`)
     ///
-    /// - Returns: `ListCustomModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4942,6 +5079,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCustomModelsInput, ListCustomModelsOutput>(ListCustomModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomModelsOutput>(ListCustomModelsOutput.httpOutput(from:), ListCustomModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomModelsInput, ListCustomModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomModelsOutput>())
@@ -4970,13 +5108,84 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListEnforcedGuardrailsConfiguration` operation on the `Bedrock` service.
+    ///
+    /// Lists the account-level enforced guardrail configurations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListEnforcedGuardrailsConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListEnforcedGuardrailsConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func listEnforcedGuardrailsConfiguration(input: ListEnforcedGuardrailsConfigurationInput) async throws -> ListEnforcedGuardrailsConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEnforcedGuardrailsConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListEnforcedGuardrailsConfigurationInput, ListEnforcedGuardrailsConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEnforcedGuardrailsConfigurationInput, ListEnforcedGuardrailsConfigurationOutput>(ListEnforcedGuardrailsConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEnforcedGuardrailsConfigurationInput, ListEnforcedGuardrailsConfigurationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnforcedGuardrailsConfigurationInput, ListEnforcedGuardrailsConfigurationOutput>(ListEnforcedGuardrailsConfigurationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnforcedGuardrailsConfigurationOutput>(ListEnforcedGuardrailsConfigurationOutput.httpOutput(from:), ListEnforcedGuardrailsConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnforcedGuardrailsConfigurationInput, ListEnforcedGuardrailsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListEnforcedGuardrailsConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListEnforcedGuardrailsConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListEnforcedGuardrailsConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListEnforcedGuardrailsConfigurationInput, ListEnforcedGuardrailsConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListEnforcedGuardrailsConfigurationInput, ListEnforcedGuardrailsConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListEnforcedGuardrailsConfigurationInput, ListEnforcedGuardrailsConfigurationOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListEnforcedGuardrailsConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEvaluationJobs` operation on the `Bedrock` service.
     ///
     /// Lists all existing evaluation jobs.
     ///
-    /// - Parameter ListEvaluationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEvaluationJobsInput`)
     ///
-    /// - Returns: `ListEvaluationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEvaluationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5011,6 +5220,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEvaluationJobsInput, ListEvaluationJobsOutput>(ListEvaluationJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEvaluationJobsOutput>(ListEvaluationJobsOutput.httpOutput(from:), ListEvaluationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEvaluationJobsInput, ListEvaluationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEvaluationJobsOutput>())
@@ -5043,9 +5253,9 @@ extension BedrockClient {
     ///
     /// Get the offers associated with the specified model.
     ///
-    /// - Parameter ListFoundationModelAgreementOffersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFoundationModelAgreementOffersInput`)
     ///
-    /// - Returns: `ListFoundationModelAgreementOffersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFoundationModelAgreementOffersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5081,6 +5291,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFoundationModelAgreementOffersInput, ListFoundationModelAgreementOffersOutput>(ListFoundationModelAgreementOffersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFoundationModelAgreementOffersOutput>(ListFoundationModelAgreementOffersOutput.httpOutput(from:), ListFoundationModelAgreementOffersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFoundationModelAgreementOffersInput, ListFoundationModelAgreementOffersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFoundationModelAgreementOffersOutput>())
@@ -5113,9 +5324,9 @@ extension BedrockClient {
     ///
     /// Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see [Foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter ListFoundationModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFoundationModelsInput`)
     ///
-    /// - Returns: `ListFoundationModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFoundationModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5150,6 +5361,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFoundationModelsInput, ListFoundationModelsOutput>(ListFoundationModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFoundationModelsOutput>(ListFoundationModelsOutput.httpOutput(from:), ListFoundationModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFoundationModelsInput, ListFoundationModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFoundationModelsOutput>())
@@ -5182,9 +5394,9 @@ extension BedrockClient {
     ///
     /// Lists details about all the guardrails in an account. To list the DRAFT version of all your guardrails, don't specify the guardrailIdentifier field. To list all versions of a guardrail, specify the ARN of the guardrail in the guardrailIdentifier field. You can set the maximum number of results to return in a response in the maxResults field. If there are more results than the number you set, the response returns a nextToken that you can send in another ListGuardrails request to see the next batch of results.
     ///
-    /// - Parameter ListGuardrailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGuardrailsInput`)
     ///
-    /// - Returns: `ListGuardrailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGuardrailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5220,6 +5432,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGuardrailsInput, ListGuardrailsOutput>(ListGuardrailsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGuardrailsOutput>(ListGuardrailsOutput.httpOutput(from:), ListGuardrailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGuardrailsInput, ListGuardrailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGuardrailsOutput>())
@@ -5252,9 +5465,9 @@ extension BedrockClient {
     ///
     /// Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter ListImportedModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportedModelsInput`)
     ///
-    /// - Returns: `ListImportedModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportedModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5289,6 +5502,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListImportedModelsInput, ListImportedModelsOutput>(ListImportedModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportedModelsOutput>(ListImportedModelsOutput.httpOutput(from:), ListImportedModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportedModelsInput, ListImportedModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportedModelsOutput>())
@@ -5321,9 +5535,9 @@ extension BedrockClient {
     ///
     /// Returns a list of inference profiles that you can use. For more information, see [Increase throughput and resilience with cross-region inference in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). in the Amazon Bedrock User Guide.
     ///
-    /// - Parameter ListInferenceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceProfilesInput`)
     ///
-    /// - Returns: `ListInferenceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5358,6 +5572,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInferenceProfilesInput, ListInferenceProfilesOutput>(ListInferenceProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInferenceProfilesOutput>(ListInferenceProfilesOutput.httpOutput(from:), ListInferenceProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInferenceProfilesInput, ListInferenceProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInferenceProfilesOutput>())
@@ -5390,9 +5605,9 @@ extension BedrockClient {
     ///
     /// Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account.
     ///
-    /// - Parameter ListMarketplaceModelEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMarketplaceModelEndpointsInput`)
     ///
-    /// - Returns: `ListMarketplaceModelEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMarketplaceModelEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5428,6 +5643,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMarketplaceModelEndpointsInput, ListMarketplaceModelEndpointsOutput>(ListMarketplaceModelEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMarketplaceModelEndpointsOutput>(ListMarketplaceModelEndpointsOutput.httpOutput(from:), ListMarketplaceModelEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMarketplaceModelEndpointsInput, ListMarketplaceModelEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMarketplaceModelEndpointsOutput>())
@@ -5460,9 +5676,9 @@ extension BedrockClient {
     ///
     /// Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see [Copy models to be used in other regions](https://docs.aws.amazon.com/bedrock/latest/userguide/copy-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter ListModelCopyJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelCopyJobsInput`)
     ///
-    /// - Returns: `ListModelCopyJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelCopyJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5498,6 +5714,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListModelCopyJobsInput, ListModelCopyJobsOutput>(ListModelCopyJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelCopyJobsOutput>(ListModelCopyJobsOutput.httpOutput(from:), ListModelCopyJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelCopyJobsInput, ListModelCopyJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelCopyJobsOutput>())
@@ -5530,9 +5747,9 @@ extension BedrockClient {
     ///
     /// Returns a list of model customization jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter ListModelCustomizationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelCustomizationJobsInput`)
     ///
-    /// - Returns: `ListModelCustomizationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelCustomizationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5567,6 +5784,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListModelCustomizationJobsInput, ListModelCustomizationJobsOutput>(ListModelCustomizationJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelCustomizationJobsOutput>(ListModelCustomizationJobsOutput.httpOutput(from:), ListModelCustomizationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelCustomizationJobsInput, ListModelCustomizationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelCustomizationJobsOutput>())
@@ -5599,9 +5817,9 @@ extension BedrockClient {
     ///
     /// Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see [Import a customized model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter ListModelImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelImportJobsInput`)
     ///
-    /// - Returns: `ListModelImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5636,6 +5854,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListModelImportJobsInput, ListModelImportJobsOutput>(ListModelImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelImportJobsOutput>(ListModelImportJobsOutput.httpOutput(from:), ListModelImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelImportJobsInput, ListModelImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelImportJobsOutput>())
@@ -5668,9 +5887,9 @@ extension BedrockClient {
     ///
     /// Lists all batch inference jobs in the account. For more information, see [View details about a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-view.html).
     ///
-    /// - Parameter ListModelInvocationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelInvocationJobsInput`)
     ///
-    /// - Returns: `ListModelInvocationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelInvocationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5705,6 +5924,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListModelInvocationJobsInput, ListModelInvocationJobsOutput>(ListModelInvocationJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelInvocationJobsOutput>(ListModelInvocationJobsOutput.httpOutput(from:), ListModelInvocationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelInvocationJobsInput, ListModelInvocationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelInvocationJobsOutput>())
@@ -5737,9 +5957,9 @@ extension BedrockClient {
     ///
     /// Retrieves a list of prompt routers.
     ///
-    /// - Parameter ListPromptRoutersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPromptRoutersInput`)
     ///
-    /// - Returns: `ListPromptRoutersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPromptRoutersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5774,6 +5994,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPromptRoutersInput, ListPromptRoutersOutput>(ListPromptRoutersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPromptRoutersOutput>(ListPromptRoutersOutput.httpOutput(from:), ListPromptRoutersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPromptRoutersInput, ListPromptRoutersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPromptRoutersOutput>())
@@ -5806,9 +6027,9 @@ extension BedrockClient {
     ///
     /// Lists the Provisioned Throughputs in the account. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter ListProvisionedModelThroughputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisionedModelThroughputsInput`)
     ///
-    /// - Returns: `ListProvisionedModelThroughputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisionedModelThroughputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5843,6 +6064,7 @@ extension BedrockClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProvisionedModelThroughputsInput, ListProvisionedModelThroughputsOutput>(ListProvisionedModelThroughputsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProvisionedModelThroughputsOutput>(ListProvisionedModelThroughputsOutput.httpOutput(from:), ListProvisionedModelThroughputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProvisionedModelThroughputsInput, ListProvisionedModelThroughputsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProvisionedModelThroughputsOutput>())
@@ -5875,9 +6097,9 @@ extension BedrockClient {
     ///
     /// List the tags associated with the specified resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5915,6 +6137,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5943,13 +6166,87 @@ extension BedrockClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutEnforcedGuardrailConfiguration` operation on the `Bedrock` service.
+    ///
+    /// Sets the account-level enforced guardrail configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutEnforcedGuardrailConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutEnforcedGuardrailConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : Error occurred because of a conflict while performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func putEnforcedGuardrailConfiguration(input: PutEnforcedGuardrailConfigurationInput) async throws -> PutEnforcedGuardrailConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putEnforcedGuardrailConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput>(PutEnforcedGuardrailConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutEnforcedGuardrailConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEnforcedGuardrailConfigurationOutput>(PutEnforcedGuardrailConfigurationOutput.httpOutput(from:), PutEnforcedGuardrailConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutEnforcedGuardrailConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutEnforcedGuardrailConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutEnforcedGuardrailConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutEnforcedGuardrailConfigurationInput, PutEnforcedGuardrailConfigurationOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutEnforcedGuardrailConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PutModelInvocationLoggingConfiguration` operation on the `Bedrock` service.
     ///
     /// Set the configuration values for model invocation logging.
     ///
-    /// - Parameter PutModelInvocationLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutModelInvocationLoggingConfigurationInput`)
     ///
-    /// - Returns: `PutModelInvocationLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutModelInvocationLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5986,6 +6283,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutModelInvocationLoggingConfigurationInput, PutModelInvocationLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutModelInvocationLoggingConfigurationOutput>(PutModelInvocationLoggingConfigurationOutput.httpOutput(from:), PutModelInvocationLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutModelInvocationLoggingConfigurationInput, PutModelInvocationLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutModelInvocationLoggingConfigurationOutput>())
@@ -6018,9 +6316,9 @@ extension BedrockClient {
     ///
     /// Put usecase for model access.
     ///
-    /// - Parameter PutUseCaseForModelAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutUseCaseForModelAccessInput`)
     ///
-    /// - Returns: `PutUseCaseForModelAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutUseCaseForModelAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6057,6 +6355,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutUseCaseForModelAccessInput, PutUseCaseForModelAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutUseCaseForModelAccessOutput>(PutUseCaseForModelAccessOutput.httpOutput(from:), PutUseCaseForModelAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutUseCaseForModelAccessInput, PutUseCaseForModelAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutUseCaseForModelAccessOutput>())
@@ -6089,9 +6388,9 @@ extension BedrockClient {
     ///
     /// Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
     ///
-    /// - Parameter RegisterMarketplaceModelEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterMarketplaceModelEndpointInput`)
     ///
-    /// - Returns: `RegisterMarketplaceModelEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterMarketplaceModelEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6130,6 +6429,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterMarketplaceModelEndpointInput, RegisterMarketplaceModelEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterMarketplaceModelEndpointOutput>(RegisterMarketplaceModelEndpointOutput.httpOutput(from:), RegisterMarketplaceModelEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterMarketplaceModelEndpointInput, RegisterMarketplaceModelEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterMarketplaceModelEndpointOutput>())
@@ -6162,9 +6462,9 @@ extension BedrockClient {
     ///
     /// Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
     ///
-    /// - Parameter StartAutomatedReasoningPolicyBuildWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAutomatedReasoningPolicyBuildWorkflowInput`)
     ///
-    /// - Returns: `StartAutomatedReasoningPolicyBuildWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAutomatedReasoningPolicyBuildWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6207,6 +6507,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutomatedReasoningPolicyBuildWorkflowInput, StartAutomatedReasoningPolicyBuildWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAutomatedReasoningPolicyBuildWorkflowOutput>(StartAutomatedReasoningPolicyBuildWorkflowOutput.httpOutput(from:), StartAutomatedReasoningPolicyBuildWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAutomatedReasoningPolicyBuildWorkflowInput, StartAutomatedReasoningPolicyBuildWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAutomatedReasoningPolicyBuildWorkflowOutput>())
@@ -6239,9 +6540,9 @@ extension BedrockClient {
     ///
     /// Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
     ///
-    /// - Parameter StartAutomatedReasoningPolicyTestWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAutomatedReasoningPolicyTestWorkflowInput`)
     ///
-    /// - Returns: `StartAutomatedReasoningPolicyTestWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAutomatedReasoningPolicyTestWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6281,6 +6582,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutomatedReasoningPolicyTestWorkflowInput, StartAutomatedReasoningPolicyTestWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAutomatedReasoningPolicyTestWorkflowOutput>(StartAutomatedReasoningPolicyTestWorkflowOutput.httpOutput(from:), StartAutomatedReasoningPolicyTestWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAutomatedReasoningPolicyTestWorkflowInput, StartAutomatedReasoningPolicyTestWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAutomatedReasoningPolicyTestWorkflowOutput>())
@@ -6313,9 +6615,9 @@ extension BedrockClient {
     ///
     /// Stops an evaluation job that is current being created or running.
     ///
-    /// - Parameter StopEvaluationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEvaluationJobInput`)
     ///
-    /// - Returns: `StopEvaluationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEvaluationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6351,6 +6653,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopEvaluationJobInput, StopEvaluationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEvaluationJobOutput>(StopEvaluationJobOutput.httpOutput(from:), StopEvaluationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEvaluationJobInput, StopEvaluationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEvaluationJobOutput>())
@@ -6383,9 +6686,9 @@ extension BedrockClient {
     ///
     /// Stops an active model customization job. For more information, see [Custom models](https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter StopModelCustomizationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopModelCustomizationJobInput`)
     ///
-    /// - Returns: `StopModelCustomizationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopModelCustomizationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6421,6 +6724,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopModelCustomizationJobInput, StopModelCustomizationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopModelCustomizationJobOutput>(StopModelCustomizationJobOutput.httpOutput(from:), StopModelCustomizationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopModelCustomizationJobInput, StopModelCustomizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopModelCustomizationJobOutput>())
@@ -6453,9 +6757,9 @@ extension BedrockClient {
     ///
     /// Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see [Stop a batch inference job](https://docs.aws.amazon.com/bedrock/latest/userguide/batch-inference-stop.html).
     ///
-    /// - Parameter StopModelInvocationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopModelInvocationJobInput`)
     ///
-    /// - Returns: `StopModelInvocationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopModelInvocationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6491,6 +6795,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopModelInvocationJobInput, StopModelInvocationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopModelInvocationJobOutput>(StopModelInvocationJobOutput.httpOutput(from:), StopModelInvocationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopModelInvocationJobInput, StopModelInvocationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopModelInvocationJobOutput>())
@@ -6523,9 +6828,9 @@ extension BedrockClient {
     ///
     /// Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6564,6 +6869,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6596,9 +6902,9 @@ extension BedrockClient {
     ///
     /// Remove one or more tags from a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6636,6 +6942,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6668,9 +6975,9 @@ extension BedrockClient {
     ///
     /// Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
     ///
-    /// - Parameter UpdateAutomatedReasoningPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutomatedReasoningPolicyInput`)
     ///
-    /// - Returns: `UpdateAutomatedReasoningPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAutomatedReasoningPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6710,6 +7017,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomatedReasoningPolicyInput, UpdateAutomatedReasoningPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutomatedReasoningPolicyOutput>(UpdateAutomatedReasoningPolicyOutput.httpOutput(from:), UpdateAutomatedReasoningPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomatedReasoningPolicyInput, UpdateAutomatedReasoningPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutomatedReasoningPolicyOutput>())
@@ -6742,9 +7050,9 @@ extension BedrockClient {
     ///
     /// Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
     ///
-    /// - Parameter UpdateAutomatedReasoningPolicyAnnotationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutomatedReasoningPolicyAnnotationsInput`)
     ///
-    /// - Returns: `UpdateAutomatedReasoningPolicyAnnotationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAutomatedReasoningPolicyAnnotationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6783,6 +7091,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomatedReasoningPolicyAnnotationsInput, UpdateAutomatedReasoningPolicyAnnotationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutomatedReasoningPolicyAnnotationsOutput>(UpdateAutomatedReasoningPolicyAnnotationsOutput.httpOutput(from:), UpdateAutomatedReasoningPolicyAnnotationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomatedReasoningPolicyAnnotationsInput, UpdateAutomatedReasoningPolicyAnnotationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutomatedReasoningPolicyAnnotationsOutput>())
@@ -6815,9 +7124,9 @@ extension BedrockClient {
     ///
     /// Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
     ///
-    /// - Parameter UpdateAutomatedReasoningPolicyTestCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutomatedReasoningPolicyTestCaseInput`)
     ///
-    /// - Returns: `UpdateAutomatedReasoningPolicyTestCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAutomatedReasoningPolicyTestCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6858,6 +7167,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutomatedReasoningPolicyTestCaseInput, UpdateAutomatedReasoningPolicyTestCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutomatedReasoningPolicyTestCaseOutput>(UpdateAutomatedReasoningPolicyTestCaseOutput.httpOutput(from:), UpdateAutomatedReasoningPolicyTestCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutomatedReasoningPolicyTestCaseInput, UpdateAutomatedReasoningPolicyTestCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutomatedReasoningPolicyTestCaseOutput>())
@@ -6874,6 +7184,79 @@ extension BedrockClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAutomatedReasoningPolicyTestCase")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCustomModelDeployment` operation on the `Bedrock` service.
+    ///
+    /// Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomModelDeploymentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCustomModelDeploymentOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func updateCustomModelDeployment(input: UpdateCustomModelDeploymentInput) async throws -> UpdateCustomModelDeploymentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCustomModelDeployment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(UpdateCustomModelDeploymentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCustomModelDeploymentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomModelDeploymentOutput>(UpdateCustomModelDeploymentOutput.httpOutput(from:), UpdateCustomModelDeploymentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomModelDeploymentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCustomModelDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCustomModelDeploymentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCustomModelDeploymentInput, UpdateCustomModelDeploymentOutput>(serviceID: serviceName, version: BedrockClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Bedrock")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCustomModelDeployment")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6916,9 +7299,9 @@ extension BedrockClient {
     ///
     /// * (Optional) For security, include the ARN of a KMS key in the kmsKeyId field.
     ///
-    /// - Parameter UpdateGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGuardrailInput`)
     ///
-    /// - Returns: `UpdateGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6958,6 +7341,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGuardrailInput, UpdateGuardrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGuardrailOutput>(UpdateGuardrailOutput.httpOutput(from:), UpdateGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGuardrailInput, UpdateGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGuardrailOutput>())
@@ -6990,9 +7374,9 @@ extension BedrockClient {
     ///
     /// Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
     ///
-    /// - Parameter UpdateMarketplaceModelEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMarketplaceModelEndpointInput`)
     ///
-    /// - Returns: `UpdateMarketplaceModelEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMarketplaceModelEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7033,6 +7417,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMarketplaceModelEndpointInput, UpdateMarketplaceModelEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMarketplaceModelEndpointOutput>(UpdateMarketplaceModelEndpointOutput.httpOutput(from:), UpdateMarketplaceModelEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMarketplaceModelEndpointInput, UpdateMarketplaceModelEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMarketplaceModelEndpointOutput>())
@@ -7065,9 +7450,9 @@ extension BedrockClient {
     ///
     /// Updates the name or associated model for a Provisioned Throughput. For more information, see [Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-throughput.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter UpdateProvisionedModelThroughputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProvisionedModelThroughputInput`)
     ///
-    /// - Returns: `UpdateProvisionedModelThroughputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProvisionedModelThroughputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7105,6 +7490,7 @@ extension BedrockClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProvisionedModelThroughputInput, UpdateProvisionedModelThroughputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProvisionedModelThroughputOutput>(UpdateProvisionedModelThroughputOutput.httpOutput(from:), UpdateProvisionedModelThroughputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProvisionedModelThroughputInput, UpdateProvisionedModelThroughputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProvisionedModelThroughputOutput>())

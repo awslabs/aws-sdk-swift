@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -63,9 +64,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SagemakerEdgeClient: ClientRuntime.Client {
+public class SagemakerEdgeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SagemakerEdgeClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SagemakerEdgeClient.SagemakerEdgeClientConfiguration
     let serviceName = "Sagemaker Edge"
@@ -371,9 +371,9 @@ extension SagemakerEdgeClient {
     ///
     /// Use to get the active deployments from a device.
     ///
-    /// - Parameter GetDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentsInput`)
     ///
-    /// - Returns: `GetDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,6 +407,7 @@ extension SagemakerEdgeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentsInput, GetDeploymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentsOutput>(GetDeploymentsOutput.httpOutput(from:), GetDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentsInput, GetDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentsOutput>())
@@ -438,9 +439,9 @@ extension SagemakerEdgeClient {
     ///
     /// Use to check if a device is registered with SageMaker Edge Manager.
     ///
-    /// - Parameter GetDeviceRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceRegistrationInput`)
     ///
-    /// - Returns: `GetDeviceRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -474,6 +475,7 @@ extension SagemakerEdgeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeviceRegistrationInput, GetDeviceRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceRegistrationOutput>(GetDeviceRegistrationOutput.httpOutput(from:), GetDeviceRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceRegistrationInput, GetDeviceRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceRegistrationOutput>())
@@ -505,9 +507,9 @@ extension SagemakerEdgeClient {
     ///
     /// Use to get the current status of devices registered on SageMaker Edge Manager.
     ///
-    /// - Parameter SendHeartbeatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendHeartbeatInput`)
     ///
-    /// - Returns: `SendHeartbeatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendHeartbeatOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -541,6 +543,7 @@ extension SagemakerEdgeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendHeartbeatInput, SendHeartbeatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendHeartbeatOutput>(SendHeartbeatOutput.httpOutput(from:), SendHeartbeatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendHeartbeatInput, SendHeartbeatOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendHeartbeatOutput>())

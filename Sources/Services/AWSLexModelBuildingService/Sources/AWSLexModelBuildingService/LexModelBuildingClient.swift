@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LexModelBuildingClient: ClientRuntime.Client {
+public class LexModelBuildingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LexModelBuildingClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: LexModelBuildingClient.LexModelBuildingClientConfiguration
     let serviceName = "Lex Model Building"
@@ -373,9 +373,9 @@ extension LexModelBuildingClient {
     ///
     /// Creates a new version of the bot based on the $LATEST version. If the $LATEST version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version. It returns the last created version. You can update only the $LATEST version of the bot. You can't update the numbered versions that you create with the CreateBotVersion operation. When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see [versioning-intro]. This operation requires permission for the lex:CreateBotVersion action.
     ///
-    /// - Parameter CreateBotVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBotVersionInput`)
     ///
-    /// - Returns: `CreateBotVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBotVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBotVersionInput, CreateBotVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBotVersionOutput>(CreateBotVersionOutput.httpOutput(from:), CreateBotVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBotVersionInput, CreateBotVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBotVersionOutput>())
@@ -445,9 +446,9 @@ extension LexModelBuildingClient {
     ///
     /// Creates a new version of an intent based on the $LATEST version of the intent. If the $LATEST version of this intent hasn't changed since you last updated it, Amazon Lex doesn't create a new version. It returns the last version you created. You can update only the $LATEST version of the intent. You can't update the numbered versions that you create with the CreateIntentVersion operation. When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see [versioning-intro]. This operation requires permissions to perform the lex:CreateIntentVersion action.
     ///
-    /// - Parameter CreateIntentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntentVersionInput`)
     ///
-    /// - Returns: `CreateIntentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,6 +487,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntentVersionInput, CreateIntentVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntentVersionOutput>(CreateIntentVersionOutput.httpOutput(from:), CreateIntentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntentVersionInput, CreateIntentVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntentVersionOutput>())
@@ -517,9 +519,9 @@ extension LexModelBuildingClient {
     ///
     /// Creates a new version of a slot type based on the $LATEST version of the specified slot type. If the $LATEST version of this resource has not changed since the last version that you created, Amazon Lex doesn't create a new version. It returns the last version that you created. You can update only the $LATEST version of a slot type. You can't update the numbered versions that you create with the CreateSlotTypeVersion operation. When you create a version of a slot type, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see [versioning-intro]. This operation requires permissions for the lex:CreateSlotTypeVersion action.
     ///
-    /// - Parameter CreateSlotTypeVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSlotTypeVersionInput`)
     ///
-    /// - Returns: `CreateSlotTypeVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSlotTypeVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,6 +560,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSlotTypeVersionInput, CreateSlotTypeVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSlotTypeVersionOutput>(CreateSlotTypeVersionOutput.httpOutput(from:), CreateSlotTypeVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSlotTypeVersionInput, CreateSlotTypeVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSlotTypeVersionOutput>())
@@ -589,9 +592,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes all versions of the bot, including the $LATEST version. To delete a specific version of the bot, use the [DeleteBotVersion] operation. The DeleteBot operation doesn't immediately remove the bot schema. Instead, it is marked for deletion and removed later. Amazon Lex stores utterances indefinitely for improving the ability of your bot to respond to user inputs. These utterances are not removed when the bot is deleted. To remove the utterances, use the [DeleteUtterances] operation. If a bot has an alias, you can't delete it. Instead, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the alias that refers to the bot. To remove the reference to the bot, delete the alias. If you get the same exception again, delete the referring alias until the DeleteBot operation is successful. This operation requires permissions for the lex:DeleteBot action.
     ///
-    /// - Parameter DeleteBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotInput`)
     ///
-    /// - Returns: `DeleteBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,6 +634,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBotInput, DeleteBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotOutput>(DeleteBotOutput.httpOutput(from:), DeleteBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotInput, DeleteBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotOutput>())
@@ -662,9 +666,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes an alias for the specified bot. You can't delete an alias that is used in the association between a bot and a messaging channel. If an alias is used in a channel association, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the channel association that refers to the bot. You can remove the reference to the alias by deleting the channel association. If you get the same exception again, delete the referring association until the DeleteBotAlias operation is successful.
     ///
-    /// - Parameter DeleteBotAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotAliasInput`)
     ///
-    /// - Returns: `DeleteBotAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,6 +708,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBotAliasInput, DeleteBotAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotAliasOutput>(DeleteBotAliasOutput.httpOutput(from:), DeleteBotAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotAliasInput, DeleteBotAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotAliasOutput>())
@@ -735,9 +740,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes the association between an Amazon Lex bot and a messaging platform. This operation requires permission for the lex:DeleteBotChannelAssociation action.
     ///
-    /// - Parameter DeleteBotChannelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotChannelAssociationInput`)
     ///
-    /// - Returns: `DeleteBotChannelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotChannelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,6 +777,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBotChannelAssociationInput, DeleteBotChannelAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotChannelAssociationOutput>(DeleteBotChannelAssociationOutput.httpOutput(from:), DeleteBotChannelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotChannelAssociationInput, DeleteBotChannelAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotChannelAssociationOutput>())
@@ -803,9 +809,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes a specific version of a bot. To delete all versions of a bot, use the [DeleteBot] operation. This operation requires permissions for the lex:DeleteBotVersion action.
     ///
-    /// - Parameter DeleteBotVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotVersionInput`)
     ///
-    /// - Returns: `DeleteBotVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -845,6 +851,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBotVersionInput, DeleteBotVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotVersionOutput>(DeleteBotVersionOutput.httpOutput(from:), DeleteBotVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotVersionInput, DeleteBotVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotVersionOutput>())
@@ -876,9 +883,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the [DeleteIntentVersion] operation. You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see [how-it-works]), you must remove those references first. If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful. This operation requires permission for the lex:DeleteIntent action.
     ///
-    /// - Parameter DeleteIntentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntentInput`)
     ///
-    /// - Returns: `DeleteIntentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -918,6 +925,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntentInput, DeleteIntentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntentOutput>(DeleteIntentOutput.httpOutput(from:), DeleteIntentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntentInput, DeleteIntentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntentOutput>())
@@ -949,9 +957,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes a specific version of an intent. To delete all versions of a intent, use the [DeleteIntent] operation. This operation requires permissions for the lex:DeleteIntentVersion action.
     ///
-    /// - Parameter DeleteIntentVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntentVersionInput`)
     ///
-    /// - Returns: `DeleteIntentVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntentVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,6 +999,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntentVersionInput, DeleteIntentVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntentVersionOutput>(DeleteIntentVersionOutput.httpOutput(from:), DeleteIntentVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntentVersionInput, DeleteIntentVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntentVersionOutput>())
@@ -1022,9 +1031,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes all versions of the slot type, including the $LATEST version. To delete a specific version of the slot type, use the [DeleteSlotTypeVersion] operation. You can delete a version of a slot type only if it is not referenced. To delete a slot type that is referred to in one or more intents, you must remove those references first. If you get the ResourceInUseException exception, the exception provides an example reference that shows the intent where the slot type is referenced. To remove the reference to the slot type, either update the intent or delete it. If you get the same exception when you attempt to delete the slot type again, repeat until the slot type has no references and the DeleteSlotType call is successful. This operation requires permission for the lex:DeleteSlotType action.
     ///
-    /// - Parameter DeleteSlotTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlotTypeInput`)
     ///
-    /// - Returns: `DeleteSlotTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlotTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1064,6 +1073,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSlotTypeInput, DeleteSlotTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlotTypeOutput>(DeleteSlotTypeOutput.httpOutput(from:), DeleteSlotTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlotTypeInput, DeleteSlotTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlotTypeOutput>())
@@ -1095,9 +1105,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes a specific version of a slot type. To delete all versions of a slot type, use the [DeleteSlotType] operation. This operation requires permissions for the lex:DeleteSlotTypeVersion action.
     ///
-    /// - Parameter DeleteSlotTypeVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlotTypeVersionInput`)
     ///
-    /// - Returns: `DeleteSlotTypeVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlotTypeVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1137,6 +1147,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSlotTypeVersionInput, DeleteSlotTypeVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlotTypeVersionOutput>(DeleteSlotTypeVersionOutput.httpOutput(from:), DeleteSlotTypeVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlotTypeVersionInput, DeleteSlotTypeVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlotTypeVersionOutput>())
@@ -1168,9 +1179,9 @@ extension LexModelBuildingClient {
     ///
     /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [GetUtterancesView] operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input. Use the DeleteUtterances operation to manually delete stored utterances for a specific user. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the GetUtterancesView operation are deleted after 15 days. This operation requires permissions for the lex:DeleteUtterances action.
     ///
-    /// - Parameter DeleteUtterancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUtterancesInput`)
     ///
-    /// - Returns: `DeleteUtterancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUtterancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,6 +1215,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUtterancesInput, DeleteUtterancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUtterancesOutput>(DeleteUtterancesOutput.httpOutput(from:), DeleteUtterancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUtterancesInput, DeleteUtterancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUtterancesOutput>())
@@ -1235,9 +1247,9 @@ extension LexModelBuildingClient {
     ///
     /// Returns metadata information for a specific bot. You must provide the bot name and the bot version or alias. This operation requires permissions for the lex:GetBot action.
     ///
-    /// - Parameter GetBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotInput`)
     ///
-    /// - Returns: `GetBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1271,6 +1283,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBotInput, GetBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBotOutput>(GetBotOutput.httpOutput(from:), GetBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBotInput, GetBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBotOutput>())
@@ -1302,9 +1315,9 @@ extension LexModelBuildingClient {
     ///
     /// Returns information about an Amazon Lex bot alias. For more information about aliases, see [versioning-aliases]. This operation requires permissions for the lex:GetBotAlias action.
     ///
-    /// - Parameter GetBotAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotAliasInput`)
     ///
-    /// - Returns: `GetBotAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,6 +1351,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBotAliasInput, GetBotAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBotAliasOutput>(GetBotAliasOutput.httpOutput(from:), GetBotAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBotAliasInput, GetBotAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBotAliasOutput>())
@@ -1369,9 +1383,9 @@ extension LexModelBuildingClient {
     ///
     /// Returns a list of aliases for a specified Amazon Lex bot. This operation requires permissions for the lex:GetBotAliases action.
     ///
-    /// - Parameter GetBotAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotAliasesInput`)
     ///
-    /// - Returns: `GetBotAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1405,6 +1419,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBotAliasesInput, GetBotAliasesOutput>(GetBotAliasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBotAliasesOutput>(GetBotAliasesOutput.httpOutput(from:), GetBotAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBotAliasesInput, GetBotAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBotAliasesOutput>())
@@ -1436,9 +1451,9 @@ extension LexModelBuildingClient {
     ///
     /// Returns information about the association between an Amazon Lex bot and a messaging platform. This operation requires permissions for the lex:GetBotChannelAssociation action.
     ///
-    /// - Parameter GetBotChannelAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotChannelAssociationInput`)
     ///
-    /// - Returns: `GetBotChannelAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotChannelAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,6 +1487,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBotChannelAssociationInput, GetBotChannelAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBotChannelAssociationOutput>(GetBotChannelAssociationOutput.httpOutput(from:), GetBotChannelAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBotChannelAssociationInput, GetBotChannelAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBotChannelAssociationOutput>())
@@ -1503,9 +1519,9 @@ extension LexModelBuildingClient {
     ///
     /// Returns a list of all of the channels associated with the specified bot. The GetBotChannelAssociations operation requires permissions for the lex:GetBotChannelAssociations action.
     ///
-    /// - Parameter GetBotChannelAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotChannelAssociationsInput`)
     ///
-    /// - Returns: `GetBotChannelAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotChannelAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1539,6 +1555,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutput>(GetBotChannelAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBotChannelAssociationsOutput>(GetBotChannelAssociationsOutput.httpOutput(from:), GetBotChannelAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBotChannelAssociationsInput, GetBotChannelAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBotChannelAssociationsOutput>())
@@ -1570,9 +1587,9 @@ extension LexModelBuildingClient {
     ///
     /// Gets information about all of the versions of a bot. The GetBotVersions operation returns a BotMetadata object for each version of a bot. For example, if a bot has three numbered versions, the GetBotVersions operation returns four BotMetadata objects in the response, one for each numbered version and one for the $LATEST version. The GetBotVersions operation always returns at least one version, the $LATEST version. This operation requires permissions for the lex:GetBotVersions action.
     ///
-    /// - Parameter GetBotVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotVersionsInput`)
     ///
-    /// - Returns: `GetBotVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1607,6 +1624,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBotVersionsInput, GetBotVersionsOutput>(GetBotVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBotVersionsOutput>(GetBotVersionsOutput.httpOutput(from:), GetBotVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBotVersionsInput, GetBotVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBotVersionsOutput>())
@@ -1645,9 +1663,9 @@ extension LexModelBuildingClient {
     ///
     /// This operation requires permission for the lex:GetBots action.
     ///
-    /// - Parameter GetBotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBotsInput`)
     ///
-    /// - Returns: `GetBotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1682,6 +1700,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBotsInput, GetBotsOutput>(GetBotsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBotsOutput>(GetBotsOutput.httpOutput(from:), GetBotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBotsInput, GetBotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBotsOutput>())
@@ -1713,9 +1732,9 @@ extension LexModelBuildingClient {
     ///
     /// Returns information about a built-in intent. This operation requires permission for the lex:GetBuiltinIntent action.
     ///
-    /// - Parameter GetBuiltinIntentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBuiltinIntentInput`)
     ///
-    /// - Returns: `GetBuiltinIntentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBuiltinIntentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1749,6 +1768,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBuiltinIntentInput, GetBuiltinIntentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBuiltinIntentOutput>(GetBuiltinIntentOutput.httpOutput(from:), GetBuiltinIntentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBuiltinIntentInput, GetBuiltinIntentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBuiltinIntentOutput>())
@@ -1780,9 +1800,9 @@ extension LexModelBuildingClient {
     ///
     /// Gets a list of built-in intents that meet the specified criteria. This operation requires permission for the lex:GetBuiltinIntents action.
     ///
-    /// - Parameter GetBuiltinIntentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBuiltinIntentsInput`)
     ///
-    /// - Returns: `GetBuiltinIntentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBuiltinIntentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1816,6 +1836,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBuiltinIntentsInput, GetBuiltinIntentsOutput>(GetBuiltinIntentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBuiltinIntentsOutput>(GetBuiltinIntentsOutput.httpOutput(from:), GetBuiltinIntentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBuiltinIntentsInput, GetBuiltinIntentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBuiltinIntentsOutput>())
@@ -1847,9 +1868,9 @@ extension LexModelBuildingClient {
     ///
     /// Gets a list of built-in slot types that meet the specified criteria. For a list of built-in slot types, see [Slot Type Reference](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/slot-type-reference) in the Alexa Skills Kit. This operation requires permission for the lex:GetBuiltInSlotTypes action.
     ///
-    /// - Parameter GetBuiltinSlotTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBuiltinSlotTypesInput`)
     ///
-    /// - Returns: `GetBuiltinSlotTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBuiltinSlotTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1883,6 +1904,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutput>(GetBuiltinSlotTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBuiltinSlotTypesOutput>(GetBuiltinSlotTypesOutput.httpOutput(from:), GetBuiltinSlotTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBuiltinSlotTypesInput, GetBuiltinSlotTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBuiltinSlotTypesOutput>())
@@ -1914,9 +1936,9 @@ extension LexModelBuildingClient {
     ///
     /// Exports the contents of a Amazon Lex resource in a specified format.
     ///
-    /// - Parameter GetExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExportInput`)
     ///
-    /// - Returns: `GetExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,6 +1973,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetExportInput, GetExportOutput>(GetExportInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExportOutput>(GetExportOutput.httpOutput(from:), GetExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportInput, GetExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExportOutput>())
@@ -1982,9 +2005,9 @@ extension LexModelBuildingClient {
     ///
     /// Gets information about an import job started with the StartImport operation.
     ///
-    /// - Parameter GetImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportInput`)
     ///
-    /// - Returns: `GetImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2018,6 +2041,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImportInput, GetImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportOutput>(GetImportOutput.httpOutput(from:), GetImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportInput, GetImportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportOutput>())
@@ -2049,9 +2073,9 @@ extension LexModelBuildingClient {
     ///
     /// Returns information about an intent. In addition to the intent name, you must specify the intent version. This operation requires permissions to perform the lex:GetIntent action.
     ///
-    /// - Parameter GetIntentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntentInput`)
     ///
-    /// - Returns: `GetIntentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2085,6 +2109,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIntentInput, GetIntentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntentOutput>(GetIntentOutput.httpOutput(from:), GetIntentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntentInput, GetIntentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntentOutput>())
@@ -2116,9 +2141,9 @@ extension LexModelBuildingClient {
     ///
     /// Gets information about all of the versions of an intent. The GetIntentVersions operation returns an IntentMetadata object for each version of an intent. For example, if an intent has three numbered versions, the GetIntentVersions operation returns four IntentMetadata objects in the response, one for each numbered version and one for the $LATEST version. The GetIntentVersions operation always returns at least one version, the $LATEST version. This operation requires permissions for the lex:GetIntentVersions action.
     ///
-    /// - Parameter GetIntentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntentVersionsInput`)
     ///
-    /// - Returns: `GetIntentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2153,6 +2178,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetIntentVersionsInput, GetIntentVersionsOutput>(GetIntentVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntentVersionsOutput>(GetIntentVersionsOutput.httpOutput(from:), GetIntentVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntentVersionsInput, GetIntentVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntentVersionsOutput>())
@@ -2191,9 +2217,9 @@ extension LexModelBuildingClient {
     ///
     /// The operation requires permission for the lex:GetIntents action.
     ///
-    /// - Parameter GetIntentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIntentsInput`)
     ///
-    /// - Returns: `GetIntentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIntentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2228,6 +2254,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetIntentsInput, GetIntentsOutput>(GetIntentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntentsOutput>(GetIntentsOutput.httpOutput(from:), GetIntentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntentsInput, GetIntentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntentsOutput>())
@@ -2259,9 +2286,9 @@ extension LexModelBuildingClient {
     ///
     /// Provides details about an ongoing or complete migration from an Amazon Lex V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration alerts and warnings related to the migration.
     ///
-    /// - Parameter GetMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMigrationInput`)
     ///
-    /// - Returns: `GetMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2295,6 +2322,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMigrationInput, GetMigrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMigrationOutput>(GetMigrationOutput.httpOutput(from:), GetMigrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMigrationInput, GetMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMigrationOutput>())
@@ -2326,9 +2354,9 @@ extension LexModelBuildingClient {
     ///
     /// Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
     ///
-    /// - Parameter GetMigrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMigrationsInput`)
     ///
-    /// - Returns: `GetMigrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMigrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2362,6 +2390,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMigrationsInput, GetMigrationsOutput>(GetMigrationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMigrationsOutput>(GetMigrationsOutput.httpOutput(from:), GetMigrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMigrationsInput, GetMigrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMigrationsOutput>())
@@ -2393,9 +2422,9 @@ extension LexModelBuildingClient {
     ///
     /// Returns information about a specific version of a slot type. In addition to specifying the slot type name, you must specify the slot type version. This operation requires permissions for the lex:GetSlotType action.
     ///
-    /// - Parameter GetSlotTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSlotTypeInput`)
     ///
-    /// - Returns: `GetSlotTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSlotTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2429,6 +2458,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSlotTypeInput, GetSlotTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSlotTypeOutput>(GetSlotTypeOutput.httpOutput(from:), GetSlotTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSlotTypeInput, GetSlotTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSlotTypeOutput>())
@@ -2460,9 +2490,9 @@ extension LexModelBuildingClient {
     ///
     /// Gets information about all versions of a slot type. The GetSlotTypeVersions operation returns a SlotTypeMetadata object for each version of a slot type. For example, if a slot type has three numbered versions, the GetSlotTypeVersions operation returns four SlotTypeMetadata objects in the response, one for each numbered version and one for the $LATEST version. The GetSlotTypeVersions operation always returns at least one version, the $LATEST version. This operation requires permissions for the lex:GetSlotTypeVersions action.
     ///
-    /// - Parameter GetSlotTypeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSlotTypeVersionsInput`)
     ///
-    /// - Returns: `GetSlotTypeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSlotTypeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2497,6 +2527,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutput>(GetSlotTypeVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSlotTypeVersionsOutput>(GetSlotTypeVersionsOutput.httpOutput(from:), GetSlotTypeVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSlotTypeVersionsInput, GetSlotTypeVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSlotTypeVersionsOutput>())
@@ -2535,9 +2566,9 @@ extension LexModelBuildingClient {
     ///
     /// The operation requires permission for the lex:GetSlotTypes action.
     ///
-    /// - Parameter GetSlotTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSlotTypesInput`)
     ///
-    /// - Returns: `GetSlotTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSlotTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2572,6 +2603,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSlotTypesInput, GetSlotTypesOutput>(GetSlotTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSlotTypesOutput>(GetSlotTypesOutput.httpOutput(from:), GetSlotTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSlotTypesInput, GetSlotTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSlotTypesOutput>())
@@ -2603,9 +2635,9 @@ extension LexModelBuildingClient {
     ///
     /// Use the GetUtterancesView operation to get information about the utterances that your users have made to your bot. You can use this list to tune the utterances that your bot responds to. For example, say that you have created a bot to order flowers. After your users have used your bot for a while, use the GetUtterancesView operation to see the requests that they have made and whether they have been successful. You might find that the utterance "I want flowers" is not being recognized. You could add this utterance to the OrderFlowers intent so that your bot recognizes that utterance. After you publish a new version of a bot, you can get information about the old version and the new so that you can compare the performance across the two versions. Utterance statistics are generated once a day. Data is available for the last 15 days. You can request information for up to 5 versions of your bot in each request. Amazon Lex returns the most frequent utterances received by the bot in the last 15 days. The response contains information about a maximum of 100 utterances for each version. If you set childDirected field to true when you created your bot, if you are using slot obfuscation with one or more slots, or if you opted out of participating in improving Amazon Lex, utterances are not available. This operation requires permissions for the lex:GetUtterancesView action.
     ///
-    /// - Parameter GetUtterancesViewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUtterancesViewInput`)
     ///
-    /// - Returns: `GetUtterancesViewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUtterancesViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2639,6 +2671,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUtterancesViewInput, GetUtterancesViewOutput>(GetUtterancesViewInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUtterancesViewOutput>(GetUtterancesViewOutput.httpOutput(from:), GetUtterancesViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUtterancesViewInput, GetUtterancesViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUtterancesViewOutput>())
@@ -2670,9 +2703,9 @@ extension LexModelBuildingClient {
     ///
     /// Gets a list of tags associated with the specified resource. Only bots, bot aliases, and bot channels can have tags associated with them.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2706,6 +2739,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2737,9 +2771,9 @@ extension LexModelBuildingClient {
     ///
     /// Creates an Amazon Lex conversational bot or replaces an existing bot. When you create or update a bot you are only required to specify a name, a locale, and whether the bot is directed toward children under age 13. You can use this to add intents later, or to remove intents from an existing bot. When you create a bot with the minimum information, the bot is created or updated but Amazon Lex returns the  response FAILED. You can build the bot after you add one or more intents. For more information about Amazon Lex bots, see [how-it-works]. If you specify the name of an existing bot, the fields in the request replace the existing values in the $LATEST version of the bot. Amazon Lex removes any fields that you don't provide values for in the request, except for the idleTTLInSeconds and privacySettings fields, which are set to their default values. If you don't specify values for required fields, Amazon Lex throws an exception. This operation requires permissions for the lex:PutBot action. For more information, see [security-iam].
     ///
-    /// - Parameter PutBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBotInput`)
     ///
-    /// - Returns: `PutBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2777,6 +2811,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBotInput, PutBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBotOutput>(PutBotOutput.httpOutput(from:), PutBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBotInput, PutBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBotOutput>())
@@ -2808,9 +2843,9 @@ extension LexModelBuildingClient {
     ///
     /// Creates an alias for the specified version of the bot or replaces an alias for the specified bot. To change the version of the bot that the alias points to, replace the alias. For more information about aliases, see [versioning-aliases]. This operation requires permissions for the lex:PutBotAlias action.
     ///
-    /// - Parameter PutBotAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutBotAliasInput`)
     ///
-    /// - Returns: `PutBotAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutBotAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2848,6 +2883,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutBotAliasInput, PutBotAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutBotAliasOutput>(PutBotAliasOutput.httpOutput(from:), PutBotAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutBotAliasInput, PutBotAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutBotAliasOutput>())
@@ -2899,9 +2935,9 @@ extension LexModelBuildingClient {
     ///
     /// If you specify an existing intent name to update the intent, Amazon Lex replaces the values in the $LATEST version of the intent with the values in the request. Amazon Lex removes fields that you don't provide in the request. If you don't specify the required fields, Amazon Lex throws an exception. When you update the $LATEST version of an intent, the status field of any bot that uses the $LATEST version of the intent is set to NOT_BUILT. For more information, see [how-it-works]. This operation requires permissions for the lex:PutIntent action.
     ///
-    /// - Parameter PutIntentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutIntentInput`)
     ///
-    /// - Returns: `PutIntentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutIntentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2939,6 +2975,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIntentInput, PutIntentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutIntentOutput>(PutIntentOutput.httpOutput(from:), PutIntentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIntentInput, PutIntentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIntentOutput>())
@@ -2970,9 +3007,9 @@ extension LexModelBuildingClient {
     ///
     /// Creates a custom slot type or replaces an existing custom slot type. To create a custom slot type, specify a name for the slot type and a set of enumeration values, which are the values that a slot of this type can assume. For more information, see [how-it-works]. If you specify the name of an existing slot type, the fields in the request replace the existing values in the $LATEST version of the slot type. Amazon Lex removes the fields that you don't provide in the request. If you don't specify required fields, Amazon Lex throws an exception. When you update the $LATEST version of a slot type, if a bot uses the $LATEST version of an intent that contains the slot type, the bot's status field is set to NOT_BUILT. This operation requires permissions for the lex:PutSlotType action.
     ///
-    /// - Parameter PutSlotTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSlotTypeInput`)
     ///
-    /// - Returns: `PutSlotTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSlotTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3010,6 +3047,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSlotTypeInput, PutSlotTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSlotTypeOutput>(PutSlotTypeOutput.httpOutput(from:), PutSlotTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSlotTypeInput, PutSlotTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSlotTypeOutput>())
@@ -3041,9 +3079,9 @@ extension LexModelBuildingClient {
     ///
     /// Starts a job to import a resource to Amazon Lex.
     ///
-    /// - Parameter StartImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportInput`)
     ///
-    /// - Returns: `StartImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3079,6 +3117,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportInput, StartImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportOutput>(StartImportOutput.httpOutput(from:), StartImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportInput, StartImportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportOutput>())
@@ -3110,9 +3149,9 @@ extension LexModelBuildingClient {
     ///
     /// Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your bot when you want to take advantage of the new features of Amazon Lex V2. For more information, see [Migrating a bot](https://docs.aws.amazon.com/lex/latest/dg/migrate.html) in the Amazon Lex developer guide.
     ///
-    /// - Parameter StartMigrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMigrationInput`)
     ///
-    /// - Returns: `StartMigrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMigrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3150,6 +3189,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMigrationInput, StartMigrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMigrationOutput>(StartMigrationOutput.httpOutput(from:), StartMigrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMigrationInput, StartMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMigrationOutput>())
@@ -3181,9 +3221,9 @@ extension LexModelBuildingClient {
     ///
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3221,6 +3261,7 @@ extension LexModelBuildingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3252,9 +3293,9 @@ extension LexModelBuildingClient {
     ///
     /// Removes tags from a bot, bot alias or bot channel.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3290,6 +3331,7 @@ extension LexModelBuildingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

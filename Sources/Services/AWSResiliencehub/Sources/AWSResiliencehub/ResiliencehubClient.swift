@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ResiliencehubClient: ClientRuntime.Client {
+public class ResiliencehubClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ResiliencehubClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ResiliencehubClient.ResiliencehubClientConfiguration
     let serviceName = "resiliencehub"
@@ -374,9 +374,9 @@ extension ResiliencehubClient {
     ///
     /// Accepts the resource grouping recommendations suggested by Resilience Hub for your application.
     ///
-    /// - Parameter AcceptResourceGroupingRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptResourceGroupingRecommendationsInput`)
     ///
-    /// - Returns: `AcceptResourceGroupingRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptResourceGroupingRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptResourceGroupingRecommendationsInput, AcceptResourceGroupingRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptResourceGroupingRecommendationsOutput>(AcceptResourceGroupingRecommendationsOutput.httpOutput(from:), AcceptResourceGroupingRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptResourceGroupingRecommendationsInput, AcceptResourceGroupingRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptResourceGroupingRecommendationsOutput>())
@@ -445,9 +446,9 @@ extension ResiliencehubClient {
     ///
     /// Adds the source of resource-maps to the draft version of an application. During assessment, Resilience Hub will use these resource-maps to resolve the latest physical ID for each resource in the application template. For more information about different types of resources supported by Resilience Hub and how to add them in your application, see [Step 2: How is your application managed?](https://docs.aws.amazon.com/resilience-hub/latest/userguide/how-app-manage.html) in the Resilience Hub User Guide.
     ///
-    /// - Parameter AddDraftAppVersionResourceMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddDraftAppVersionResourceMappingsInput`)
     ///
-    /// - Returns: `AddDraftAppVersionResourceMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddDraftAppVersionResourceMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +488,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddDraftAppVersionResourceMappingsOutput>(AddDraftAppVersionResourceMappingsOutput.httpOutput(from:), AddDraftAppVersionResourceMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddDraftAppVersionResourceMappingsInput, AddDraftAppVersionResourceMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddDraftAppVersionResourceMappingsOutput>())
@@ -518,9 +520,9 @@ extension ResiliencehubClient {
     ///
     /// Enables you to include or exclude one or more operational recommendations.
     ///
-    /// - Parameter BatchUpdateRecommendationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateRecommendationStatusInput`)
     ///
-    /// - Returns: `BatchUpdateRecommendationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateRecommendationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,6 +560,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateRecommendationStatusOutput>(BatchUpdateRecommendationStatusOutput.httpOutput(from:), BatchUpdateRecommendationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateRecommendationStatusInput, BatchUpdateRecommendationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateRecommendationStatusOutput>())
@@ -589,9 +592,9 @@ extension ResiliencehubClient {
     ///
     /// Creates an Resilience Hub application. An Resilience Hub application is a collection of Amazon Web Services resources structured to prevent and recover Amazon Web Services application disruptions. To describe a Resilience Hub application, you provide an application name, resources from one or more CloudFormation stacks, Resource Groups, Terraform state files, AppRegistry applications, and an appropriate resiliency policy. In addition, you can also add resources that are located on Amazon Elastic Kubernetes Service (Amazon EKS) clusters as optional resources. For more information about the number of resources supported per application, see [Service quotas](https://docs.aws.amazon.com/general/latest/gr/resiliencehub.html#limits_resiliencehub). After you create an Resilience Hub application, you publish it so that you can run a resiliency assessment on it. You can then use recommendations from the assessment to improve resiliency by running another assessment, comparing results, and then iterating the process until you achieve your goals for recovery time objective (RTO) and recovery point objective (RPO).
     ///
-    /// - Parameter CreateAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInput`)
     ///
-    /// - Returns: `CreateAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -632,6 +635,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppInput, CreateAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppOutput>(CreateAppOutput.httpOutput(from:), CreateAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppInput, CreateAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppOutput>())
@@ -663,9 +667,9 @@ extension ResiliencehubClient {
     ///
     /// Creates a new Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
-    /// - Parameter CreateAppVersionAppComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppVersionAppComponentInput`)
     ///
-    /// - Returns: `CreateAppVersionAppComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppVersionAppComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,6 +710,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppVersionAppComponentOutput>(CreateAppVersionAppComponentOutput.httpOutput(from:), CreateAppVersionAppComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppVersionAppComponentInput, CreateAppVersionAppComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppVersionAppComponentOutput>())
@@ -743,9 +748,9 @@ extension ResiliencehubClient {
     ///
     /// * To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
     ///
-    /// - Parameter CreateAppVersionResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppVersionResourceInput`)
     ///
-    /// - Returns: `CreateAppVersionResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppVersionResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,6 +791,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppVersionResourceOutput>(CreateAppVersionResourceOutput.httpOutput(from:), CreateAppVersionResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppVersionResourceInput, CreateAppVersionResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppVersionResourceOutput>())
@@ -817,9 +823,9 @@ extension ResiliencehubClient {
     ///
     /// Creates a new recommendation template for the Resilience Hub application.
     ///
-    /// - Parameter CreateRecommendationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecommendationTemplateInput`)
     ///
-    /// - Returns: `CreateRecommendationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecommendationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -860,6 +866,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecommendationTemplateOutput>(CreateRecommendationTemplateOutput.httpOutput(from:), CreateRecommendationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecommendationTemplateInput, CreateRecommendationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecommendationTemplateOutput>())
@@ -891,9 +898,9 @@ extension ResiliencehubClient {
     ///
     /// Creates a resiliency policy for an application. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
-    /// - Parameter CreateResiliencyPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResiliencyPolicyInput`)
     ///
-    /// - Returns: `CreateResiliencyPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResiliencyPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,6 +940,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResiliencyPolicyOutput>(CreateResiliencyPolicyOutput.httpOutput(from:), CreateResiliencyPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResiliencyPolicyInput, CreateResiliencyPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResiliencyPolicyOutput>())
@@ -964,9 +972,9 @@ extension ResiliencehubClient {
     ///
     /// Deletes an Resilience Hub application. This is a destructive action that can't be undone.
     ///
-    /// - Parameter DeleteAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInput`)
     ///
-    /// - Returns: `DeleteAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1005,6 +1013,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppInput, DeleteAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppOutput>(DeleteAppOutput.httpOutput(from:), DeleteAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInput, DeleteAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppOutput>())
@@ -1036,9 +1045,9 @@ extension ResiliencehubClient {
     ///
     /// Deletes an Resilience Hub application assessment. This is a destructive action that can't be undone.
     ///
-    /// - Parameter DeleteAppAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppAssessmentInput`)
     ///
-    /// - Returns: `DeleteAppAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1078,6 +1087,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppAssessmentOutput>(DeleteAppAssessmentOutput.httpOutput(from:), DeleteAppAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppAssessmentInput, DeleteAppAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppAssessmentOutput>())
@@ -1109,9 +1119,9 @@ extension ResiliencehubClient {
     ///
     /// Deletes the input source and all of its imported resources from the Resilience Hub application.
     ///
-    /// - Parameter DeleteAppInputSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInputSourceInput`)
     ///
-    /// - Returns: `DeleteAppInputSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppInputSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1151,6 +1161,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppInputSourceOutput>(DeleteAppInputSourceOutput.httpOutput(from:), DeleteAppInputSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInputSourceInput, DeleteAppInputSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppInputSourceOutput>())
@@ -1186,9 +1197,9 @@ extension ResiliencehubClient {
     ///
     /// * You will not be able to delete an Application Component if it has resources associated with it.
     ///
-    /// - Parameter DeleteAppVersionAppComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppVersionAppComponentInput`)
     ///
-    /// - Returns: `DeleteAppVersionAppComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppVersionAppComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,6 +1239,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppVersionAppComponentOutput>(DeleteAppVersionAppComponentOutput.httpOutput(from:), DeleteAppVersionAppComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppVersionAppComponentInput, DeleteAppVersionAppComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppVersionAppComponentOutput>())
@@ -1265,9 +1277,9 @@ extension ResiliencehubClient {
     ///
     /// * This API updates the Resilience Hub application draft version. To use this resource for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
-    /// - Parameter DeleteAppVersionResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppVersionResourceInput`)
     ///
-    /// - Returns: `DeleteAppVersionResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppVersionResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1307,6 +1319,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppVersionResourceOutput>(DeleteAppVersionResourceOutput.httpOutput(from:), DeleteAppVersionResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppVersionResourceInput, DeleteAppVersionResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppVersionResourceOutput>())
@@ -1338,9 +1351,9 @@ extension ResiliencehubClient {
     ///
     /// Deletes a recommendation template. This is a destructive action that can't be undone.
     ///
-    /// - Parameter DeleteRecommendationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecommendationTemplateInput`)
     ///
-    /// - Returns: `DeleteRecommendationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecommendationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,6 +1392,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecommendationTemplateOutput>(DeleteRecommendationTemplateOutput.httpOutput(from:), DeleteRecommendationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecommendationTemplateInput, DeleteRecommendationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecommendationTemplateOutput>())
@@ -1410,9 +1424,9 @@ extension ResiliencehubClient {
     ///
     /// Deletes a resiliency policy. This is a destructive action that can't be undone.
     ///
-    /// - Parameter DeleteResiliencyPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResiliencyPolicyInput`)
     ///
-    /// - Returns: `DeleteResiliencyPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResiliencyPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1452,6 +1466,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResiliencyPolicyOutput>(DeleteResiliencyPolicyOutput.httpOutput(from:), DeleteResiliencyPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResiliencyPolicyInput, DeleteResiliencyPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResiliencyPolicyOutput>())
@@ -1483,9 +1498,9 @@ extension ResiliencehubClient {
     ///
     /// Describes an Resilience Hub application.
     ///
-    /// - Parameter DescribeAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInput`)
     ///
-    /// - Returns: `DescribeAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1523,6 +1538,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppInput, DescribeAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppOutput>(DescribeAppOutput.httpOutput(from:), DescribeAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppInput, DescribeAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppOutput>())
@@ -1554,9 +1570,9 @@ extension ResiliencehubClient {
     ///
     /// Describes an assessment for an Resilience Hub application.
     ///
-    /// - Parameter DescribeAppAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppAssessmentInput`)
     ///
-    /// - Returns: `DescribeAppAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,6 +1610,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppAssessmentOutput>(DescribeAppAssessmentOutput.httpOutput(from:), DescribeAppAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppAssessmentInput, DescribeAppAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppAssessmentOutput>())
@@ -1625,9 +1642,9 @@ extension ResiliencehubClient {
     ///
     /// Describes the Resilience Hub application version.
     ///
-    /// - Parameter DescribeAppVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppVersionInput`)
     ///
-    /// - Returns: `DescribeAppVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1665,6 +1682,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppVersionInput, DescribeAppVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppVersionOutput>(DescribeAppVersionOutput.httpOutput(from:), DescribeAppVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppVersionInput, DescribeAppVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppVersionOutput>())
@@ -1696,9 +1714,9 @@ extension ResiliencehubClient {
     ///
     /// Describes an Application Component in the Resilience Hub application.
     ///
-    /// - Parameter DescribeAppVersionAppComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppVersionAppComponentInput`)
     ///
-    /// - Returns: `DescribeAppVersionAppComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppVersionAppComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1737,6 +1755,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppVersionAppComponentOutput>(DescribeAppVersionAppComponentOutput.httpOutput(from:), DescribeAppVersionAppComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppVersionAppComponentInput, DescribeAppVersionAppComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppVersionAppComponentOutput>())
@@ -1774,9 +1793,9 @@ extension ResiliencehubClient {
     ///
     /// * physicalResourceId (Along with physicalResourceId, you can also provide awsAccountId, and awsRegion)
     ///
-    /// - Parameter DescribeAppVersionResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppVersionResourceInput`)
     ///
-    /// - Returns: `DescribeAppVersionResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppVersionResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1815,6 +1834,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourceOutput>(DescribeAppVersionResourceOutput.httpOutput(from:), DescribeAppVersionResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppVersionResourceInput, DescribeAppVersionResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppVersionResourceOutput>())
@@ -1846,9 +1866,9 @@ extension ResiliencehubClient {
     ///
     /// Returns the resolution status for the specified resolution identifier for an application version. If resolutionId is not specified, the current resolution status is returned.
     ///
-    /// - Parameter DescribeAppVersionResourcesResolutionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppVersionResourcesResolutionStatusInput`)
     ///
-    /// - Returns: `DescribeAppVersionResourcesResolutionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppVersionResourcesResolutionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1886,6 +1906,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppVersionResourcesResolutionStatusOutput>(DescribeAppVersionResourcesResolutionStatusOutput.httpOutput(from:), DescribeAppVersionResourcesResolutionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppVersionResourcesResolutionStatusInput, DescribeAppVersionResourcesResolutionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppVersionResourcesResolutionStatusOutput>())
@@ -1917,9 +1938,9 @@ extension ResiliencehubClient {
     ///
     /// Describes details about an Resilience Hub application.
     ///
-    /// - Parameter DescribeAppVersionTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppVersionTemplateInput`)
     ///
-    /// - Returns: `DescribeAppVersionTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppVersionTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1957,6 +1978,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppVersionTemplateOutput>(DescribeAppVersionTemplateOutput.httpOutput(from:), DescribeAppVersionTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppVersionTemplateInput, DescribeAppVersionTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppVersionTemplateOutput>())
@@ -1988,9 +2010,9 @@ extension ResiliencehubClient {
     ///
     /// Describes the status of importing resources to an application version. If you get a 404 error with ResourceImportStatusNotFoundAppMetadataException, you must call importResourcesToDraftAppVersion after creating the application and before calling describeDraftAppVersionResourcesImportStatus to obtain the status.
     ///
-    /// - Parameter DescribeDraftAppVersionResourcesImportStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDraftAppVersionResourcesImportStatusInput`)
     ///
-    /// - Returns: `DescribeDraftAppVersionResourcesImportStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDraftAppVersionResourcesImportStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2028,6 +2050,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDraftAppVersionResourcesImportStatusOutput>(DescribeDraftAppVersionResourcesImportStatusOutput.httpOutput(from:), DescribeDraftAppVersionResourcesImportStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDraftAppVersionResourcesImportStatusInput, DescribeDraftAppVersionResourcesImportStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDraftAppVersionResourcesImportStatusOutput>())
@@ -2059,9 +2082,9 @@ extension ResiliencehubClient {
     ///
     /// Describes the metrics of the application configuration being exported.
     ///
-    /// - Parameter DescribeMetricsExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetricsExportInput`)
     ///
-    /// - Returns: `DescribeMetricsExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMetricsExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2099,6 +2122,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetricsExportInput, DescribeMetricsExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetricsExportOutput>(DescribeMetricsExportOutput.httpOutput(from:), DescribeMetricsExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetricsExportInput, DescribeMetricsExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetricsExportOutput>())
@@ -2130,9 +2154,9 @@ extension ResiliencehubClient {
     ///
     /// Describes a specified resiliency policy for an Resilience Hub application. The returned policy object includes creation time, data location constraints, the Amazon Resource Name (ARN) for the policy, tags, tier, and more.
     ///
-    /// - Parameter DescribeResiliencyPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResiliencyPolicyInput`)
     ///
-    /// - Returns: `DescribeResiliencyPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResiliencyPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2170,6 +2194,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResiliencyPolicyOutput>(DescribeResiliencyPolicyOutput.httpOutput(from:), DescribeResiliencyPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResiliencyPolicyInput, DescribeResiliencyPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResiliencyPolicyOutput>())
@@ -2201,9 +2226,9 @@ extension ResiliencehubClient {
     ///
     /// Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
     ///
-    /// - Parameter DescribeResourceGroupingRecommendationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourceGroupingRecommendationTaskInput`)
     ///
-    /// - Returns: `DescribeResourceGroupingRecommendationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourceGroupingRecommendationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2241,6 +2266,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourceGroupingRecommendationTaskInput, DescribeResourceGroupingRecommendationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourceGroupingRecommendationTaskOutput>(DescribeResourceGroupingRecommendationTaskOutput.httpOutput(from:), DescribeResourceGroupingRecommendationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourceGroupingRecommendationTaskInput, DescribeResourceGroupingRecommendationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourceGroupingRecommendationTaskOutput>())
@@ -2272,9 +2298,9 @@ extension ResiliencehubClient {
     ///
     /// Imports resources to Resilience Hub application draft version from different input sources. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
-    /// - Parameter ImportResourcesToDraftAppVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportResourcesToDraftAppVersionInput`)
     ///
-    /// - Returns: `ImportResourcesToDraftAppVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportResourcesToDraftAppVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2314,6 +2340,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportResourcesToDraftAppVersionOutput>(ImportResourcesToDraftAppVersionOutput.httpOutput(from:), ImportResourcesToDraftAppVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportResourcesToDraftAppVersionInput, ImportResourcesToDraftAppVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportResourcesToDraftAppVersionOutput>())
@@ -2345,9 +2372,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the alarm recommendations for an Resilience Hub application.
     ///
-    /// - Parameter ListAlarmRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAlarmRecommendationsInput`)
     ///
-    /// - Returns: `ListAlarmRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAlarmRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2385,6 +2412,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAlarmRecommendationsOutput>(ListAlarmRecommendationsOutput.httpOutput(from:), ListAlarmRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlarmRecommendationsInput, ListAlarmRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAlarmRecommendationsOutput>())
@@ -2416,9 +2444,9 @@ extension ResiliencehubClient {
     ///
     /// List of compliance drifts that were detected while running an assessment.
     ///
-    /// - Parameter ListAppAssessmentComplianceDriftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppAssessmentComplianceDriftsInput`)
     ///
-    /// - Returns: `ListAppAssessmentComplianceDriftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppAssessmentComplianceDriftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2455,6 +2483,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppAssessmentComplianceDriftsOutput>(ListAppAssessmentComplianceDriftsOutput.httpOutput(from:), ListAppAssessmentComplianceDriftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppAssessmentComplianceDriftsInput, ListAppAssessmentComplianceDriftsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppAssessmentComplianceDriftsOutput>())
@@ -2486,9 +2515,9 @@ extension ResiliencehubClient {
     ///
     /// List of resource drifts that were detected while running an assessment.
     ///
-    /// - Parameter ListAppAssessmentResourceDriftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppAssessmentResourceDriftsInput`)
     ///
-    /// - Returns: `ListAppAssessmentResourceDriftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppAssessmentResourceDriftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2525,6 +2554,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppAssessmentResourceDriftsOutput>(ListAppAssessmentResourceDriftsOutput.httpOutput(from:), ListAppAssessmentResourceDriftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppAssessmentResourceDriftsInput, ListAppAssessmentResourceDriftsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppAssessmentResourceDriftsOutput>())
@@ -2556,9 +2586,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the assessments for an Resilience Hub application. You can use request parameters to refine the results for the response object.
     ///
-    /// - Parameter ListAppAssessmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppAssessmentsInput`)
     ///
-    /// - Returns: `ListAppAssessmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppAssessmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2594,6 +2624,7 @@ extension ResiliencehubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppAssessmentsInput, ListAppAssessmentsOutput>(ListAppAssessmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppAssessmentsOutput>(ListAppAssessmentsOutput.httpOutput(from:), ListAppAssessmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppAssessmentsInput, ListAppAssessmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppAssessmentsOutput>())
@@ -2625,9 +2656,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the compliances for an Resilience Hub Application Component.
     ///
-    /// - Parameter ListAppComponentCompliancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppComponentCompliancesInput`)
     ///
-    /// - Returns: `ListAppComponentCompliancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppComponentCompliancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2665,6 +2696,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppComponentCompliancesOutput>(ListAppComponentCompliancesOutput.httpOutput(from:), ListAppComponentCompliancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppComponentCompliancesInput, ListAppComponentCompliancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppComponentCompliancesOutput>())
@@ -2696,9 +2728,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the recommendations for an Resilience Hub Application Component.
     ///
-    /// - Parameter ListAppComponentRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppComponentRecommendationsInput`)
     ///
-    /// - Returns: `ListAppComponentRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppComponentRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2736,6 +2768,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppComponentRecommendationsOutput>(ListAppComponentRecommendationsOutput.httpOutput(from:), ListAppComponentRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppComponentRecommendationsInput, ListAppComponentRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppComponentRecommendationsOutput>())
@@ -2767,9 +2800,9 @@ extension ResiliencehubClient {
     ///
     /// Lists all the input sources of the Resilience Hub application. For more information about the input sources supported by Resilience Hub, see [Discover the structure and describe your Resilience Hub application](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html).
     ///
-    /// - Parameter ListAppInputSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppInputSourcesInput`)
     ///
-    /// - Returns: `ListAppInputSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppInputSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2807,6 +2840,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppInputSourcesInput, ListAppInputSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppInputSourcesOutput>(ListAppInputSourcesOutput.httpOutput(from:), ListAppInputSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppInputSourcesInput, ListAppInputSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppInputSourcesOutput>())
@@ -2838,9 +2872,9 @@ extension ResiliencehubClient {
     ///
     /// Lists all the Application Components in the Resilience Hub application.
     ///
-    /// - Parameter ListAppVersionAppComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppVersionAppComponentsInput`)
     ///
-    /// - Returns: `ListAppVersionAppComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppVersionAppComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2879,6 +2913,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppVersionAppComponentsOutput>(ListAppVersionAppComponentsOutput.httpOutput(from:), ListAppVersionAppComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppVersionAppComponentsInput, ListAppVersionAppComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppVersionAppComponentsOutput>())
@@ -2910,9 +2945,9 @@ extension ResiliencehubClient {
     ///
     /// Lists how the resources in an application version are mapped/sourced from. Mappings can be physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry app.
     ///
-    /// - Parameter ListAppVersionResourceMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppVersionResourceMappingsInput`)
     ///
-    /// - Returns: `ListAppVersionResourceMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppVersionResourceMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2950,6 +2985,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppVersionResourceMappingsOutput>(ListAppVersionResourceMappingsOutput.httpOutput(from:), ListAppVersionResourceMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppVersionResourceMappingsInput, ListAppVersionResourceMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppVersionResourceMappingsOutput>())
@@ -2981,9 +3017,9 @@ extension ResiliencehubClient {
     ///
     /// Lists all the resources in an Resilience Hub application.
     ///
-    /// - Parameter ListAppVersionResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppVersionResourcesInput`)
     ///
-    /// - Returns: `ListAppVersionResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppVersionResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3022,6 +3058,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppVersionResourcesOutput>(ListAppVersionResourcesOutput.httpOutput(from:), ListAppVersionResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppVersionResourcesInput, ListAppVersionResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppVersionResourcesOutput>())
@@ -3053,9 +3090,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the different versions for the Resilience Hub applications.
     ///
-    /// - Parameter ListAppVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppVersionsInput`)
     ///
-    /// - Returns: `ListAppVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3092,6 +3129,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppVersionsInput, ListAppVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppVersionsOutput>(ListAppVersionsOutput.httpOutput(from:), ListAppVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppVersionsInput, ListAppVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppVersionsOutput>())
@@ -3123,9 +3161,9 @@ extension ResiliencehubClient {
     ///
     /// Lists your Resilience Hub applications. You can filter applications using only one filter at a time or without using any filter. If you try to filter applications using multiple filters, you will get the following error: An error occurred (ValidationException) when calling the ListApps operation: Only one filter is supported for this operation.
     ///
-    /// - Parameter ListAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppsInput`)
     ///
-    /// - Returns: `ListAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3160,6 +3198,7 @@ extension ResiliencehubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAppsInput, ListAppsOutput>(ListAppsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppsOutput>(ListAppsOutput.httpOutput(from:), ListAppsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppsInput, ListAppsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppsOutput>())
@@ -3191,9 +3230,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the metrics that can be exported.
     ///
-    /// - Parameter ListMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetricsInput`)
     ///
-    /// - Returns: `ListMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3230,6 +3269,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricsInput, ListMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricsOutput>(ListMetricsOutput.httpOutput(from:), ListMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricsInput, ListMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricsOutput>())
@@ -3261,9 +3301,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the recommendation templates for the Resilience Hub applications.
     ///
-    /// - Parameter ListRecommendationTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendationTemplatesInput`)
     ///
-    /// - Returns: `ListRecommendationTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendationTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3298,6 +3338,7 @@ extension ResiliencehubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>(ListRecommendationTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendationTemplatesOutput>(ListRecommendationTemplatesOutput.httpOutput(from:), ListRecommendationTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendationTemplatesInput, ListRecommendationTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendationTemplatesOutput>())
@@ -3329,9 +3370,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the resiliency policies for the Resilience Hub applications.
     ///
-    /// - Parameter ListResiliencyPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResiliencyPoliciesInput`)
     ///
-    /// - Returns: `ListResiliencyPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResiliencyPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3367,6 +3408,7 @@ extension ResiliencehubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>(ListResiliencyPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResiliencyPoliciesOutput>(ListResiliencyPoliciesOutput.httpOutput(from:), ListResiliencyPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResiliencyPoliciesInput, ListResiliencyPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResiliencyPoliciesOutput>())
@@ -3398,9 +3440,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the resource grouping recommendations suggested by Resilience Hub for your application.
     ///
-    /// - Parameter ListResourceGroupingRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceGroupingRecommendationsInput`)
     ///
-    /// - Returns: `ListResourceGroupingRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceGroupingRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3436,6 +3478,7 @@ extension ResiliencehubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceGroupingRecommendationsInput, ListResourceGroupingRecommendationsOutput>(ListResourceGroupingRecommendationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceGroupingRecommendationsOutput>(ListResourceGroupingRecommendationsOutput.httpOutput(from:), ListResourceGroupingRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceGroupingRecommendationsInput, ListResourceGroupingRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceGroupingRecommendationsOutput>())
@@ -3467,9 +3510,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
     ///
-    /// - Parameter ListSopRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSopRecommendationsInput`)
     ///
-    /// - Returns: `ListSopRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSopRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3508,6 +3551,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSopRecommendationsOutput>(ListSopRecommendationsOutput.httpOutput(from:), ListSopRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSopRecommendationsInput, ListSopRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSopRecommendationsOutput>())
@@ -3539,9 +3583,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the suggested resiliency policies for the Resilience Hub applications.
     ///
-    /// - Parameter ListSuggestedResiliencyPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSuggestedResiliencyPoliciesInput`)
     ///
-    /// - Returns: `ListSuggestedResiliencyPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSuggestedResiliencyPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3577,6 +3621,7 @@ extension ResiliencehubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>(ListSuggestedResiliencyPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSuggestedResiliencyPoliciesOutput>(ListSuggestedResiliencyPoliciesOutput.httpOutput(from:), ListSuggestedResiliencyPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSuggestedResiliencyPoliciesInput, ListSuggestedResiliencyPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSuggestedResiliencyPoliciesOutput>())
@@ -3608,9 +3653,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the tags for your resources in your Resilience Hub applications.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3645,6 +3690,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3676,9 +3722,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the test recommendations for the Resilience Hub application.
     ///
-    /// - Parameter ListTestRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestRecommendationsInput`)
     ///
-    /// - Returns: `ListTestRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3717,6 +3763,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestRecommendationsOutput>(ListTestRecommendationsOutput.httpOutput(from:), ListTestRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestRecommendationsInput, ListTestRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestRecommendationsOutput>())
@@ -3748,9 +3795,9 @@ extension ResiliencehubClient {
     ///
     /// Lists the resources that are not currently supported in Resilience Hub. An unsupported resource is a resource that exists in the object that was used to create an app, but is not supported by Resilience Hub.
     ///
-    /// - Parameter ListUnsupportedAppVersionResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUnsupportedAppVersionResourcesInput`)
     ///
-    /// - Returns: `ListUnsupportedAppVersionResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUnsupportedAppVersionResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3789,6 +3836,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUnsupportedAppVersionResourcesOutput>(ListUnsupportedAppVersionResourcesOutput.httpOutput(from:), ListUnsupportedAppVersionResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUnsupportedAppVersionResourcesInput, ListUnsupportedAppVersionResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUnsupportedAppVersionResourcesOutput>())
@@ -3820,9 +3868,9 @@ extension ResiliencehubClient {
     ///
     /// Publishes a new version of a specific Resilience Hub application.
     ///
-    /// - Parameter PublishAppVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishAppVersionInput`)
     ///
-    /// - Returns: `PublishAppVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishAppVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3861,6 +3909,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishAppVersionInput, PublishAppVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishAppVersionOutput>(PublishAppVersionOutput.httpOutput(from:), PublishAppVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishAppVersionInput, PublishAppVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PublishAppVersionOutput>())
@@ -3892,9 +3941,9 @@ extension ResiliencehubClient {
     ///
     /// Adds or updates the app template for an Resilience Hub application draft version.
     ///
-    /// - Parameter PutDraftAppVersionTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDraftAppVersionTemplateInput`)
     ///
-    /// - Returns: `PutDraftAppVersionTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDraftAppVersionTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3933,6 +3982,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDraftAppVersionTemplateOutput>(PutDraftAppVersionTemplateOutput.httpOutput(from:), PutDraftAppVersionTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDraftAppVersionTemplateInput, PutDraftAppVersionTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDraftAppVersionTemplateOutput>())
@@ -3964,9 +4014,9 @@ extension ResiliencehubClient {
     ///
     /// Rejects resource grouping recommendations.
     ///
-    /// - Parameter RejectResourceGroupingRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectResourceGroupingRecommendationsInput`)
     ///
-    /// - Returns: `RejectResourceGroupingRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectResourceGroupingRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4004,6 +4054,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectResourceGroupingRecommendationsInput, RejectResourceGroupingRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectResourceGroupingRecommendationsOutput>(RejectResourceGroupingRecommendationsOutput.httpOutput(from:), RejectResourceGroupingRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectResourceGroupingRecommendationsInput, RejectResourceGroupingRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectResourceGroupingRecommendationsOutput>())
@@ -4035,9 +4086,9 @@ extension ResiliencehubClient {
     ///
     /// Removes resource mappings from a draft application version.
     ///
-    /// - Parameter RemoveDraftAppVersionResourceMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveDraftAppVersionResourceMappingsInput`)
     ///
-    /// - Returns: `RemoveDraftAppVersionResourceMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveDraftAppVersionResourceMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4076,6 +4127,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveDraftAppVersionResourceMappingsOutput>(RemoveDraftAppVersionResourceMappingsOutput.httpOutput(from:), RemoveDraftAppVersionResourceMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveDraftAppVersionResourceMappingsInput, RemoveDraftAppVersionResourceMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveDraftAppVersionResourceMappingsOutput>())
@@ -4107,9 +4159,9 @@ extension ResiliencehubClient {
     ///
     /// Resolves the resources for an application version.
     ///
-    /// - Parameter ResolveAppVersionResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResolveAppVersionResourcesInput`)
     ///
-    /// - Returns: `ResolveAppVersionResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResolveAppVersionResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4148,6 +4200,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResolveAppVersionResourcesOutput>(ResolveAppVersionResourcesOutput.httpOutput(from:), ResolveAppVersionResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResolveAppVersionResourcesInput, ResolveAppVersionResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResolveAppVersionResourcesOutput>())
@@ -4179,9 +4232,9 @@ extension ResiliencehubClient {
     ///
     /// Creates a new application assessment for an application.
     ///
-    /// - Parameter StartAppAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAppAssessmentInput`)
     ///
-    /// - Returns: `StartAppAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAppAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4222,6 +4275,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAppAssessmentOutput>(StartAppAssessmentOutput.httpOutput(from:), StartAppAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAppAssessmentInput, StartAppAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAppAssessmentOutput>())
@@ -4253,9 +4307,9 @@ extension ResiliencehubClient {
     ///
     /// Initiates the export task of metrics.
     ///
-    /// - Parameter StartMetricsExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMetricsExportInput`)
     ///
-    /// - Returns: `StartMetricsExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMetricsExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4295,6 +4349,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetricsExportInput, StartMetricsExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetricsExportOutput>(StartMetricsExportOutput.httpOutput(from:), StartMetricsExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetricsExportInput, StartMetricsExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetricsExportOutput>())
@@ -4326,9 +4381,9 @@ extension ResiliencehubClient {
     ///
     /// Starts grouping recommendation task.
     ///
-    /// - Parameter StartResourceGroupingRecommendationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartResourceGroupingRecommendationTaskInput`)
     ///
-    /// - Returns: `StartResourceGroupingRecommendationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartResourceGroupingRecommendationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4367,6 +4422,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartResourceGroupingRecommendationTaskInput, StartResourceGroupingRecommendationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartResourceGroupingRecommendationTaskOutput>(StartResourceGroupingRecommendationTaskOutput.httpOutput(from:), StartResourceGroupingRecommendationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartResourceGroupingRecommendationTaskInput, StartResourceGroupingRecommendationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartResourceGroupingRecommendationTaskOutput>())
@@ -4398,9 +4454,9 @@ extension ResiliencehubClient {
     ///
     /// Applies one or more tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4438,6 +4494,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4469,9 +4526,9 @@ extension ResiliencehubClient {
     ///
     /// Removes one or more tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4507,6 +4564,7 @@ extension ResiliencehubClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4538,9 +4596,9 @@ extension ResiliencehubClient {
     ///
     /// Updates an application.
     ///
-    /// - Parameter UpdateAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppInput`)
     ///
-    /// - Returns: `UpdateAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4579,6 +4637,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppInput, UpdateAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppOutput>(UpdateAppOutput.httpOutput(from:), UpdateAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppInput, UpdateAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppOutput>())
@@ -4610,9 +4669,9 @@ extension ResiliencehubClient {
     ///
     /// Updates the Resilience Hub application version. This API updates the Resilience Hub application draft version. To use this information for running resiliency assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
-    /// - Parameter UpdateAppVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppVersionInput`)
     ///
-    /// - Returns: `UpdateAppVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4651,6 +4710,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppVersionInput, UpdateAppVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppVersionOutput>(UpdateAppVersionOutput.httpOutput(from:), UpdateAppVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppVersionInput, UpdateAppVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppVersionOutput>())
@@ -4682,9 +4742,9 @@ extension ResiliencehubClient {
     ///
     /// Updates an existing Application Component in the Resilience Hub application. This API updates the Resilience Hub application draft version. To use this Application Component for running assessments, you must publish the Resilience Hub application using the PublishAppVersion API.
     ///
-    /// - Parameter UpdateAppVersionAppComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppVersionAppComponentInput`)
     ///
-    /// - Returns: `UpdateAppVersionAppComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppVersionAppComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4723,6 +4783,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppVersionAppComponentOutput>(UpdateAppVersionAppComponentOutput.httpOutput(from:), UpdateAppVersionAppComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppVersionAppComponentInput, UpdateAppVersionAppComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppVersionAppComponentOutput>())
@@ -4760,9 +4821,9 @@ extension ResiliencehubClient {
     ///
     /// * To update application version with new physicalResourceID, you must call ResolveAppVersionResources API.
     ///
-    /// - Parameter UpdateAppVersionResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppVersionResourceInput`)
     ///
-    /// - Returns: `UpdateAppVersionResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppVersionResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4802,6 +4863,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppVersionResourceOutput>(UpdateAppVersionResourceOutput.httpOutput(from:), UpdateAppVersionResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppVersionResourceInput, UpdateAppVersionResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppVersionResourceOutput>())
@@ -4833,9 +4895,9 @@ extension ResiliencehubClient {
     ///
     /// Updates a resiliency policy. Resilience Hub allows you to provide a value of zero for rtoInSecs and rpoInSecs of your resiliency policy. But, while assessing your application, the lowest possible assessment result is near zero. Hence, if you provide value zero for rtoInSecs and rpoInSecs, the estimated workload RTO and estimated workload RPO result will be near zero and the Compliance status for your application will be set to Policy breached.
     ///
-    /// - Parameter UpdateResiliencyPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResiliencyPolicyInput`)
     ///
-    /// - Returns: `UpdateResiliencyPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResiliencyPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4874,6 +4936,7 @@ extension ResiliencehubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResiliencyPolicyOutput>(UpdateResiliencyPolicyOutput.httpOutput(from:), UpdateResiliencyPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResiliencyPolicyInput, UpdateResiliencyPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResiliencyPolicyOutput>())

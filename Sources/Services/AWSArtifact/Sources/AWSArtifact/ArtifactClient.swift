@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ArtifactClient: ClientRuntime.Client {
+public class ArtifactClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ArtifactClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ArtifactClient.ArtifactClientConfiguration
     let serviceName = "Artifact"
@@ -372,9 +372,9 @@ extension ArtifactClient {
     ///
     /// Get the account settings for Artifact.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension ArtifactClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingsOutput>())
@@ -442,9 +443,9 @@ extension ArtifactClient {
     ///
     /// Get the content for a single report.
     ///
-    /// - Parameter GetReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReportInput`)
     ///
-    /// - Returns: `GetReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +483,7 @@ extension ArtifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetReportInput, GetReportOutput>(GetReportInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReportOutput>(GetReportOutput.httpOutput(from:), GetReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReportInput, GetReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReportOutput>())
@@ -513,9 +515,9 @@ extension ArtifactClient {
     ///
     /// Get the metadata for a single report.
     ///
-    /// - Parameter GetReportMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReportMetadataInput`)
     ///
-    /// - Returns: `GetReportMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReportMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,6 +554,7 @@ extension ArtifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetReportMetadataInput, GetReportMetadataOutput>(GetReportMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReportMetadataOutput>(GetReportMetadataOutput.httpOutput(from:), GetReportMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReportMetadataInput, GetReportMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReportMetadataOutput>())
@@ -583,9 +586,9 @@ extension ArtifactClient {
     ///
     /// Get the Term content associated with a single report.
     ///
-    /// - Parameter GetTermForReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTermForReportInput`)
     ///
-    /// - Returns: `GetTermForReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTermForReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +626,7 @@ extension ArtifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTermForReportInput, GetTermForReportOutput>(GetTermForReportInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTermForReportOutput>(GetTermForReportOutput.httpOutput(from:), GetTermForReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTermForReportInput, GetTermForReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTermForReportOutput>())
@@ -654,9 +658,9 @@ extension ArtifactClient {
     ///
     /// List active customer-agreements applicable to calling identity.
     ///
-    /// - Parameter ListCustomerAgreementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomerAgreementsInput`)
     ///
-    /// - Returns: `ListCustomerAgreementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomerAgreementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,6 +695,7 @@ extension ArtifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCustomerAgreementsInput, ListCustomerAgreementsOutput>(ListCustomerAgreementsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomerAgreementsOutput>(ListCustomerAgreementsOutput.httpOutput(from:), ListCustomerAgreementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomerAgreementsInput, ListCustomerAgreementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomerAgreementsOutput>())
@@ -718,13 +723,84 @@ extension ArtifactClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListReportVersions` operation on the `Artifact` service.
+    ///
+    /// List available report versions for a given report.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListReportVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListReportVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unknown server exception has occurred.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : Request fails to satisfy the constraints specified by an AWS service.
+    public func listReportVersions(input: ListReportVersionsInput) async throws -> ListReportVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listReportVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "artifact")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListReportVersionsInput, ListReportVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListReportVersionsInput, ListReportVersionsOutput>(ListReportVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReportVersionsInput, ListReportVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListReportVersionsInput, ListReportVersionsOutput>(ListReportVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportVersionsOutput>(ListReportVersionsOutput.httpOutput(from:), ListReportVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportVersionsInput, ListReportVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListReportVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Artifact", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReportVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReportVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReportVersionsInput, ListReportVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListReportVersionsInput, ListReportVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListReportVersionsInput, ListReportVersionsOutput>(serviceID: serviceName, version: ArtifactClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Artifact")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListReportVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListReports` operation on the `Artifact` service.
     ///
     /// List available reports.
     ///
-    /// - Parameter ListReportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportsInput`)
     ///
-    /// - Returns: `ListReportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,6 +837,7 @@ extension ArtifactClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReportsInput, ListReportsOutput>(ListReportsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportsOutput>(ListReportsOutput.httpOutput(from:), ListReportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportsInput, ListReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportsOutput>())
@@ -792,9 +869,9 @@ extension ArtifactClient {
     ///
     /// Put the account settings for Artifact.
     ///
-    /// - Parameter PutAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountSettingsInput`)
     ///
-    /// - Returns: `PutAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -834,6 +911,7 @@ extension ArtifactClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountSettingsInput, PutAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingsOutput>(PutAccountSettingsOutput.httpOutput(from:), PutAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingsInput, PutAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingsOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SageMakerClient: ClientRuntime.Client {
+public class SageMakerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerClient.SageMakerClientConfiguration
     let serviceName = "SageMaker"
@@ -374,9 +374,9 @@ extension SageMakerClient {
     ///
     /// Creates an association between the source and the destination. A source can be associated with multiple destinations, and a destination can be associated with multiple sources. An association is a lineage tracking entity. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
     ///
-    /// - Parameter AddAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddAssociationInput`)
     ///
-    /// - Returns: `AddAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +409,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddAssociationInput, AddAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddAssociationOutput>(AddAssociationOutput.httpOutput(from:), AddAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddAssociationInput, AddAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddAssociationOutput>())
@@ -443,9 +444,9 @@ extension SageMakerClient {
     ///
     /// Adds or overwrites one or more tags for the specified SageMaker resource. You can add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see For more information, see [Amazon Web Services Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/). Tags that you add to a hyperparameter tuning job by calling this API are also added to any training jobs that the hyperparameter tuning job launches after you call this API, but not to training jobs that the hyperparameter tuning job launched before you called this API. To make sure that the tags associated with a hyperparameter tuning job are also added to all training jobs that the hyperparameter tuning job launches, add the tags when you first create the tuning job by specifying them in the Tags parameter of [CreateHyperParameterTuningJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateHyperParameterTuningJob.html) Tags that you add to a SageMaker Domain or User Profile by calling this API are also added to any Apps that the Domain or User Profile launches after you call this API, but not to Apps that the Domain or User Profile launched before you called this API. To make sure that the tags associated with a Domain or User Profile are also added to all Apps that the Domain or User Profile launches, add the tags when you first create the Domain or User Profile by specifying them in the Tags parameter of [CreateDomain](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateDomain.html) or [CreateUserProfile](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateUserProfile.html).
     ///
-    /// - Parameter AddTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddTagsInput`)
     ///
-    /// - Returns: `AddTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsOutput`)
     public func addTags(input: AddTagsInput) async throws -> AddTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -472,6 +473,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsInput, AddTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsOutput>(AddTagsOutput.httpOutput(from:), AddTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsInput, AddTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsOutput>())
@@ -506,9 +508,9 @@ extension SageMakerClient {
     ///
     /// Associates a trial component with a trial. A trial component can be associated with multiple trials. To disassociate a trial component from a trial, call the [DisassociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DisassociateTrialComponent.html) API.
     ///
-    /// - Parameter AssociateTrialComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTrialComponentInput`)
     ///
-    /// - Returns: `AssociateTrialComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTrialComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -541,6 +543,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateTrialComponentInput, AssociateTrialComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTrialComponentOutput>(AssociateTrialComponentOutput.httpOutput(from:), AssociateTrialComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTrialComponentInput, AssociateTrialComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTrialComponentOutput>())
@@ -575,9 +578,9 @@ extension SageMakerClient {
     ///
     /// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
     ///
-    /// - Parameter AttachClusterNodeVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachClusterNodeVolumeInput`)
     ///
-    /// - Returns: `AttachClusterNodeVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachClusterNodeVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -609,6 +612,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachClusterNodeVolumeOutput>(AttachClusterNodeVolumeOutput.httpOutput(from:), AttachClusterNodeVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachClusterNodeVolumeOutput>())
@@ -643,9 +647,9 @@ extension SageMakerClient {
     ///
     /// Adds nodes to a HyperPod cluster by incrementing the target count for one or more instance groups. This operation returns a unique NodeLogicalId for each node being added, which can be used to track the provisioning status of the node. This API provides a safer alternative to UpdateCluster for scaling operations by avoiding unintended configuration changes. This API is only supported for clusters using Continuous as the NodeProvisioningMode.
     ///
-    /// - Parameter BatchAddClusterNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAddClusterNodesInput`)
     ///
-    /// - Returns: `BatchAddClusterNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAddClusterNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -679,6 +683,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAddClusterNodesInput, BatchAddClusterNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAddClusterNodesOutput>(BatchAddClusterNodesOutput.httpOutput(from:), BatchAddClusterNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAddClusterNodesInput, BatchAddClusterNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAddClusterNodesOutput>())
@@ -717,9 +722,9 @@ extension SageMakerClient {
     ///
     /// * If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the [UpdateClusterSoftware API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateClusterSoftware.html). For more information about patching a cluster, see [Update the SageMaker HyperPod platform software of a cluster](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software).
     ///
-    /// - Parameter BatchDeleteClusterNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteClusterNodesInput`)
     ///
-    /// - Returns: `BatchDeleteClusterNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteClusterNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -751,6 +756,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteClusterNodesInput, BatchDeleteClusterNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteClusterNodesOutput>(BatchDeleteClusterNodesOutput.httpOutput(from:), BatchDeleteClusterNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteClusterNodesInput, BatchDeleteClusterNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteClusterNodesOutput>())
@@ -785,9 +791,9 @@ extension SageMakerClient {
     ///
     /// This action batch describes a list of versioned model packages
     ///
-    /// - Parameter BatchDescribeModelPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDescribeModelPackageInput`)
     ///
-    /// - Returns: `BatchDescribeModelPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDescribeModelPackageOutput`)
     public func batchDescribeModelPackage(input: BatchDescribeModelPackageInput) async throws -> BatchDescribeModelPackageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -814,6 +820,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDescribeModelPackageOutput>(BatchDescribeModelPackageOutput.httpOutput(from:), BatchDescribeModelPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDescribeModelPackageInput, BatchDescribeModelPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDescribeModelPackageOutput>())
@@ -844,13 +851,165 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchRebootClusterNodes` operation on the `SageMaker` service.
+    ///
+    /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud RebootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or applying certain configuration changes that require a restart.
+    ///
+    /// * Rebooting a node may cause temporary service interruption for workloads running on that node. Ensure your workloads can handle node restarts or use appropriate scheduling to minimize impact.
+    ///
+    /// * You can reboot up to 25 nodes in a single request.
+    ///
+    /// * For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting nodes will not disrupt critical cluster operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchRebootClusterNodesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchRebootClusterNodesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func batchRebootClusterNodes(input: BatchRebootClusterNodesInput) async throws -> BatchRebootClusterNodesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchRebootClusterNodes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(BatchRebootClusterNodesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchRebootClusterNodesOutput>(BatchRebootClusterNodesOutput.httpOutput(from:), BatchRebootClusterNodesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchRebootClusterNodesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchRebootClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(xAmzTarget: "SageMaker.BatchRebootClusterNodes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchRebootClusterNodesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchRebootClusterNodesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchRebootClusterNodesInput, BatchRebootClusterNodesOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchRebootClusterNodes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchReplaceClusterNodes` operation on the `SageMaker` service.
+    ///
+    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same. This operation is useful for recovering from hardware failures or persistent issues that cannot be resolved through a reboot.
+    ///
+    /// * Data Loss Warning: Replacing nodes destroys all instance volumes, including both root and secondary volumes. All data stored on these volumes will be permanently lost and cannot be recovered.
+    ///
+    /// * To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see [Use the backup script provided by SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software-backup).
+    ///
+    /// * If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the [UpdateClusterSoftware API](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateClusterSoftware.html). For more information about patching a cluster, see [Update the SageMaker HyperPod platform software of a cluster](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate-cli-command.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software).
+    ///
+    /// * You can replace up to 25 nodes in a single request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchReplaceClusterNodesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchReplaceClusterNodesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func batchReplaceClusterNodes(input: BatchReplaceClusterNodesInput) async throws -> BatchReplaceClusterNodesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchReplaceClusterNodes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(BatchReplaceClusterNodesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchReplaceClusterNodesOutput>(BatchReplaceClusterNodesOutput.httpOutput(from:), BatchReplaceClusterNodesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchReplaceClusterNodesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchReplaceClusterNodesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(xAmzTarget: "SageMaker.BatchReplaceClusterNodes"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchReplaceClusterNodesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchReplaceClusterNodesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchReplaceClusterNodesInput, BatchReplaceClusterNodesOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchReplaceClusterNodes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateAction` operation on the `SageMaker` service.
     ///
     /// Creates an action. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
     ///
-    /// - Parameter CreateActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateActionInput`)
     ///
-    /// - Returns: `CreateActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -882,6 +1041,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateActionInput, CreateActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateActionOutput>(CreateActionOutput.httpOutput(from:), CreateActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateActionInput, CreateActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateActionOutput>())
@@ -916,9 +1076,9 @@ extension SageMakerClient {
     ///
     /// Create a machine learning algorithm that you can use in SageMaker and list in the Amazon Web Services Marketplace.
     ///
-    /// - Parameter CreateAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAlgorithmInput`)
     ///
-    /// - Returns: `CreateAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAlgorithmOutput`)
     public func createAlgorithm(input: CreateAlgorithmInput) async throws -> CreateAlgorithmOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -945,6 +1105,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAlgorithmInput, CreateAlgorithmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAlgorithmOutput>(CreateAlgorithmOutput.httpOutput(from:), CreateAlgorithmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAlgorithmInput, CreateAlgorithmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAlgorithmOutput>())
@@ -979,9 +1140,9 @@ extension SageMakerClient {
     ///
     /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
     ///
-    /// - Parameter CreateAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppInput`)
     ///
-    /// - Returns: `CreateAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1014,6 +1175,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppInput, CreateAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppOutput>(CreateAppOutput.httpOutput(from:), CreateAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppInput, CreateAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppOutput>())
@@ -1048,9 +1210,9 @@ extension SageMakerClient {
     ///
     /// Creates a configuration for running a SageMaker AI image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image.
     ///
-    /// - Parameter CreateAppImageConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAppImageConfigInput`)
     ///
-    /// - Returns: `CreateAppImageConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAppImageConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1082,6 +1244,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAppImageConfigInput, CreateAppImageConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAppImageConfigOutput>(CreateAppImageConfigOutput.httpOutput(from:), CreateAppImageConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAppImageConfigInput, CreateAppImageConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAppImageConfigOutput>())
@@ -1116,9 +1279,9 @@ extension SageMakerClient {
     ///
     /// Creates an artifact. An artifact is a lineage tracking entity that represents a URI addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry path of an image. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
     ///
-    /// - Parameter CreateArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateArtifactInput`)
     ///
-    /// - Returns: `CreateArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,6 +1313,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateArtifactInput, CreateArtifactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateArtifactOutput>(CreateArtifactOutput.httpOutput(from:), CreateArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateArtifactInput, CreateArtifactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateArtifactOutput>())
@@ -1184,9 +1348,9 @@ extension SageMakerClient {
     ///
     /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html) in the SageMaker AI developer guide. We recommend using the new versions [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html), which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2). You can find the best-performing model after you run an AutoML job by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) (recommended) or [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html).
     ///
-    /// - Parameter CreateAutoMLJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutoMLJobInput`)
     ///
-    /// - Returns: `CreateAutoMLJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutoMLJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1219,6 +1383,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutoMLJobInput, CreateAutoMLJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutoMLJobOutput>(CreateAutoMLJobOutput.httpOutput(from:), CreateAutoMLJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutoMLJobInput, CreateAutoMLJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutoMLJobOutput>())
@@ -1253,9 +1418,9 @@ extension SageMakerClient {
     ///
     /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see [https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html) in the SageMaker AI developer guide. AutoML jobs V2 support various problem types such as regression, binary, and multiclass classification with tabular data, text and image classification, time-series forecasting, and fine-tuning of large language models (LLMs) for text generation. [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) and [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html) are new versions of [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html) and [DescribeAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJob.html) which offer backward compatibility. CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in [Migrate a CreateAutoMLJob to CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development-create-experiment.html#autopilot-create-experiment-api-migrate-v1-v2). For the list of available problem types supported by CreateAutoMLJobV2, see [AutoMLProblemTypeConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AutoMLProblemTypeConfig.html). You can find the best-performing model after you run an AutoML job V2 by calling [DescribeAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeAutoMLJobV2.html).
     ///
-    /// - Parameter CreateAutoMLJobV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutoMLJobV2Input`)
     ///
-    /// - Returns: `CreateAutoMLJobV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutoMLJobV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1288,6 +1453,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutoMLJobV2Input, CreateAutoMLJobV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutoMLJobV2Output>(CreateAutoMLJobV2Output.httpOutput(from:), CreateAutoMLJobV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutoMLJobV2Input, CreateAutoMLJobV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutoMLJobV2Output>())
@@ -1320,11 +1486,11 @@ extension SageMakerClient {
 
     /// Performs the `CreateCluster` operation on the `SageMaker` service.
     ///
-    /// Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see [Amazon SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html) in the Amazon SageMaker Developer Guide.
+    /// Creates an Amazon SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see [Amazon SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod.html) in the Amazon SageMaker Developer Guide.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1357,6 +1523,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -1391,9 +1558,9 @@ extension SageMakerClient {
     ///
     /// Create cluster policy configuration. This policy is used for task prioritization and fair-share allocation of idle compute. This helps prioritize critical workloads and distributes idle compute across entities.
     ///
-    /// - Parameter CreateClusterSchedulerConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterSchedulerConfigInput`)
     ///
-    /// - Returns: `CreateClusterSchedulerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterSchedulerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1426,6 +1593,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterSchedulerConfigInput, CreateClusterSchedulerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterSchedulerConfigOutput>(CreateClusterSchedulerConfigOutput.httpOutput(from:), CreateClusterSchedulerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterSchedulerConfigInput, CreateClusterSchedulerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterSchedulerConfigOutput>())
@@ -1460,9 +1628,9 @@ extension SageMakerClient {
     ///
     /// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker AI account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in [Amazon Web Services CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository.
     ///
-    /// - Parameter CreateCodeRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCodeRepositoryInput`)
     ///
-    /// - Returns: `CreateCodeRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCodeRepositoryOutput`)
     public func createCodeRepository(input: CreateCodeRepositoryInput) async throws -> CreateCodeRepositoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1489,6 +1657,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCodeRepositoryInput, CreateCodeRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCodeRepositoryOutput>(CreateCodeRepositoryOutput.httpOutput(from:), CreateCodeRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCodeRepositoryInput, CreateCodeRepositoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCodeRepositoryOutput>())
@@ -1534,9 +1703,9 @@ extension SageMakerClient {
     ///
     /// You can also provide a Tag to track the model compilation job's resource use and costs. The response body contains the CompilationJobArn for the compiled job. To stop a model compilation job, use [StopCompilationJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_StopCompilationJob.html). To get information about a particular model compilation job, use [DescribeCompilationJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeCompilationJob.html). To get information about multiple model compilation jobs, use [ListCompilationJobs](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListCompilationJobs.html).
     ///
-    /// - Parameter CreateCompilationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCompilationJobInput`)
     ///
-    /// - Returns: `CreateCompilationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCompilationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1569,6 +1738,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCompilationJobInput, CreateCompilationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCompilationJobOutput>(CreateCompilationJobOutput.httpOutput(from:), CreateCompilationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCompilationJobInput, CreateCompilationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCompilationJobOutput>())
@@ -1603,9 +1773,9 @@ extension SageMakerClient {
     ///
     /// Create compute allocation definition. This defines how compute is allocated, shared, and borrowed for specified entities. Specifically, how to lend and borrow idle compute and assign a fair-share weight to the specified entities.
     ///
-    /// - Parameter CreateComputeQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComputeQuotaInput`)
     ///
-    /// - Returns: `CreateComputeQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComputeQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1638,6 +1808,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComputeQuotaInput, CreateComputeQuotaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComputeQuotaOutput>(CreateComputeQuotaOutput.httpOutput(from:), CreateComputeQuotaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComputeQuotaInput, CreateComputeQuotaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComputeQuotaOutput>())
@@ -1672,9 +1843,9 @@ extension SageMakerClient {
     ///
     /// Creates a context. A context is a lineage tracking entity that represents a logical grouping of other tracking or experiment entities. Some examples are an endpoint and a model package. For more information, see [Amazon SageMaker ML Lineage Tracking](https://docs.aws.amazon.com/sagemaker/latest/dg/lineage-tracking.html).
     ///
-    /// - Parameter CreateContextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContextInput`)
     ///
-    /// - Returns: `CreateContextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1706,6 +1877,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContextInput, CreateContextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContextOutput>(CreateContextOutput.httpOutput(from:), CreateContextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContextInput, CreateContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContextOutput>())
@@ -1740,9 +1912,9 @@ extension SageMakerClient {
     ///
     /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see [Amazon SageMaker AI Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
     ///
-    /// - Parameter CreateDataQualityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataQualityJobDefinitionInput`)
     ///
-    /// - Returns: `CreateDataQualityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataQualityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1775,6 +1947,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataQualityJobDefinitionOutput>(CreateDataQualityJobDefinitionOutput.httpOutput(from:), CreateDataQualityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataQualityJobDefinitionInput, CreateDataQualityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataQualityJobDefinitionOutput>())
@@ -1809,9 +1982,9 @@ extension SageMakerClient {
     ///
     /// Creates a device fleet.
     ///
-    /// - Parameter CreateDeviceFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeviceFleetInput`)
     ///
-    /// - Returns: `CreateDeviceFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeviceFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1844,6 +2017,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeviceFleetInput, CreateDeviceFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeviceFleetOutput>(CreateDeviceFleetOutput.httpOutput(from:), CreateDeviceFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeviceFleetInput, CreateDeviceFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeviceFleetOutput>())
@@ -1885,9 +2059,9 @@ extension SageMakerClient {
     ///
     /// NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a Amazon SageMaker AI Studio app successfully. For more information, see [Connect Amazon SageMaker AI Studio Notebooks to Resources in a VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-notebooks-and-internet-access.html).
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1920,6 +2094,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -1954,9 +2129,9 @@ extension SageMakerClient {
     ///
     /// Creates an edge deployment plan, consisting of multiple stages. Each stage may have a different deployment configuration and devices.
     ///
-    /// - Parameter CreateEdgeDeploymentPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEdgeDeploymentPlanInput`)
     ///
-    /// - Returns: `CreateEdgeDeploymentPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEdgeDeploymentPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1988,6 +2163,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEdgeDeploymentPlanOutput>(CreateEdgeDeploymentPlanOutput.httpOutput(from:), CreateEdgeDeploymentPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEdgeDeploymentPlanInput, CreateEdgeDeploymentPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEdgeDeploymentPlanOutput>())
@@ -2022,9 +2198,9 @@ extension SageMakerClient {
     ///
     /// Creates a new stage in an existing edge deployment plan.
     ///
-    /// - Parameter CreateEdgeDeploymentStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEdgeDeploymentStageInput`)
     ///
-    /// - Returns: `CreateEdgeDeploymentStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEdgeDeploymentStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2056,6 +2232,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEdgeDeploymentStageOutput>(CreateEdgeDeploymentStageOutput.httpOutput(from:), CreateEdgeDeploymentStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEdgeDeploymentStageInput, CreateEdgeDeploymentStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEdgeDeploymentStageOutput>())
@@ -2090,9 +2267,9 @@ extension SageMakerClient {
     ///
     /// Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify.
     ///
-    /// - Parameter CreateEdgePackagingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEdgePackagingJobInput`)
     ///
-    /// - Returns: `CreateEdgePackagingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEdgePackagingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2124,6 +2301,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEdgePackagingJobOutput>(CreateEdgePackagingJobOutput.httpOutput(from:), CreateEdgePackagingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEdgePackagingJobInput, CreateEdgePackagingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEdgePackagingJobOutput>())
@@ -2162,9 +2340,9 @@ extension SageMakerClient {
     ///
     /// * Option 2: For granting a limited access to an IAM role, paste the following Action elements manually into the JSON file of the IAM role: "Action": ["sagemaker:CreateEndpoint", "sagemaker:CreateEndpointConfig"]"Resource": ["arn:aws:sagemaker:region:account-id:endpoint/endpointName""arn:aws:sagemaker:region:account-id:endpoint-config/endpointConfigName"] For more information, see [SageMaker API Permissions: Actions, Permissions, and Resources Reference](https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html).
     ///
-    /// - Parameter CreateEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEndpointInput`)
     ///
-    /// - Returns: `CreateEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2196,6 +2374,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointInput, CreateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointOutput>(CreateEndpointOutput.httpOutput(from:), CreateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointInput, CreateEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointOutput>())
@@ -2230,9 +2409,9 @@ extension SageMakerClient {
     ///
     /// Creates an endpoint configuration that SageMaker hosting services uses to deploy models. In the configuration, you identify one or more models, created using the CreateModel API, to deploy and the resources that you want SageMaker to provision. Then you call the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) API. Use this API if you want to use SageMaker hosting services to deploy models into production. In the request, you define a ProductionVariant, for each model that you want to deploy. Each ProductionVariant parameter also describes the resources that you want SageMaker to provision. This includes the number and type of ML compute instances to deploy. If you are hosting multiple models, you also assign a VariantWeight to specify how much traffic you want to allocate to each model. For example, suppose that you want to host two models, A and B, and you assign traffic weight 2 for model A and 1 for model B. SageMaker distributes two-thirds of the traffic to Model A, and one-third to model B. When you call [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html), a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting [Eventually Consistent Reads](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html), the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call [DescribeEndpointConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpointConfig.html) before calling [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) to minimize the potential impact of a DynamoDB eventually consistent read.
     ///
-    /// - Parameter CreateEndpointConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEndpointConfigInput`)
     ///
-    /// - Returns: `CreateEndpointConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEndpointConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2264,6 +2443,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointConfigInput, CreateEndpointConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointConfigOutput>(CreateEndpointConfigOutput.httpOutput(from:), CreateEndpointConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointConfigInput, CreateEndpointConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointConfigOutput>())
@@ -2298,9 +2478,9 @@ extension SageMakerClient {
     ///
     /// Creates a SageMaker experiment. An experiment is a collection of trials that are observed, compared and evaluated as a group. A trial is a set of steps, called trial components, that produce a machine learning model. In the Studio UI, trials are referred to as run groups and trial components are referred to as runs. The goal of an experiment is to determine the components that produce the best model. Multiple trials are performed, each one isolating and measuring the impact of a change to one or more inputs, while keeping the remaining inputs constant. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to experiments, trials, trial components and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API to search for the tags. To add a description to an experiment, specify the optional Description parameter. To add a description later, or to change the description, call the [UpdateExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateExperiment.html) API. To get a list of all your experiments, call the [ListExperiments](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListExperiments.html) API. To view an experiment's properties, call the [DescribeExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeExperiment.html) API. To get a list of all the trials associated with an experiment, call the [ListTrials](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListTrials.html) API. To create a trial call the [CreateTrial](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrial.html) API.
     ///
-    /// - Parameter CreateExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExperimentInput`)
     ///
-    /// - Returns: `CreateExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2332,6 +2512,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExperimentInput, CreateExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExperimentOutput>(CreateExperimentOutput.httpOutput(from:), CreateExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExperimentInput, CreateExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExperimentOutput>())
@@ -2366,9 +2547,9 @@ extension SageMakerClient {
     ///
     /// Create a new FeatureGroup. A FeatureGroup is a group of Features defined in the FeatureStore to describe a Record. The FeatureGroup defines the schema and features contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features, a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its OnlineStore and OfflineStore. Check [Amazon Web Services service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) to see the FeatureGroups quota for your Amazon Web Services account. Note that it can take approximately 10-15 minutes to provision an OnlineStoreFeatureGroup with the InMemoryStorageType. You must include at least one of OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
     ///
-    /// - Parameter CreateFeatureGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFeatureGroupInput`)
     ///
-    /// - Returns: `CreateFeatureGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFeatureGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2401,6 +2582,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFeatureGroupInput, CreateFeatureGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFeatureGroupOutput>(CreateFeatureGroupOutput.httpOutput(from:), CreateFeatureGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFeatureGroupInput, CreateFeatureGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFeatureGroupOutput>())
@@ -2435,9 +2617,9 @@ extension SageMakerClient {
     ///
     /// Creates a flow definition.
     ///
-    /// - Parameter CreateFlowDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlowDefinitionInput`)
     ///
-    /// - Returns: `CreateFlowDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlowDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2470,6 +2652,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFlowDefinitionInput, CreateFlowDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFlowDefinitionOutput>(CreateFlowDefinitionOutput.httpOutput(from:), CreateFlowDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFlowDefinitionInput, CreateFlowDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFlowDefinitionOutput>())
@@ -2504,9 +2687,9 @@ extension SageMakerClient {
     ///
     /// Create a hub.
     ///
-    /// - Parameter CreateHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHubInput`)
     ///
-    /// - Returns: `CreateHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2539,6 +2722,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHubInput, CreateHubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHubOutput>(CreateHubOutput.httpOutput(from:), CreateHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHubInput, CreateHubOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHubOutput>())
@@ -2573,9 +2757,9 @@ extension SageMakerClient {
     ///
     /// Creates presigned URLs for accessing hub content artifacts. This operation generates time-limited, secure URLs that allow direct download of model artifacts and associated files from Amazon SageMaker hub content, including gated models that require end-user license agreement acceptance.
     ///
-    /// - Parameter CreateHubContentPresignedUrlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHubContentPresignedUrlsInput`)
     ///
-    /// - Returns: `CreateHubContentPresignedUrlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHubContentPresignedUrlsOutput`)
     public func createHubContentPresignedUrls(input: CreateHubContentPresignedUrlsInput) async throws -> CreateHubContentPresignedUrlsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2602,6 +2786,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHubContentPresignedUrlsInput, CreateHubContentPresignedUrlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHubContentPresignedUrlsOutput>(CreateHubContentPresignedUrlsOutput.httpOutput(from:), CreateHubContentPresignedUrlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHubContentPresignedUrlsInput, CreateHubContentPresignedUrlsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHubContentPresignedUrlsOutput>())
@@ -2636,9 +2821,9 @@ extension SageMakerClient {
     ///
     /// Create a hub content reference in order to add a model in the JumpStart public hub to a private hub.
     ///
-    /// - Parameter CreateHubContentReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHubContentReferenceInput`)
     ///
-    /// - Returns: `CreateHubContentReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHubContentReferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2672,6 +2857,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHubContentReferenceInput, CreateHubContentReferenceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHubContentReferenceOutput>(CreateHubContentReferenceOutput.httpOutput(from:), CreateHubContentReferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHubContentReferenceInput, CreateHubContentReferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHubContentReferenceOutput>())
@@ -2706,9 +2892,9 @@ extension SageMakerClient {
     ///
     /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area.
     ///
-    /// - Parameter CreateHumanTaskUiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHumanTaskUiInput`)
     ///
-    /// - Returns: `CreateHumanTaskUiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHumanTaskUiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2741,6 +2927,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHumanTaskUiInput, CreateHumanTaskUiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHumanTaskUiOutput>(CreateHumanTaskUiOutput.httpOutput(from:), CreateHumanTaskUiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHumanTaskUiInput, CreateHumanTaskUiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHumanTaskUiOutput>())
@@ -2775,9 +2962,9 @@ extension SageMakerClient {
     ///
     /// Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best version of a model by running many training jobs on your dataset using the algorithm you choose and values for hyperparameters within ranges that you specify. It then chooses the hyperparameter values that result in a model that performs the best, as measured by an objective metric that you choose. A hyperparameter tuning job automatically creates Amazon SageMaker experiments, trials, and trial components for each training job that it runs. You can view these entities in Amazon SageMaker Studio. For more information, see [View Experiments, Trials, and Trial Components](https://docs.aws.amazon.com/sagemaker/latest/dg/experiments-view-compare.html#experiments-view). Do not include any security-sensitive information including account access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request hyperparameter variable or plain text fields..
     ///
-    /// - Parameter CreateHyperParameterTuningJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHyperParameterTuningJobInput`)
     ///
-    /// - Returns: `CreateHyperParameterTuningJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHyperParameterTuningJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2810,6 +2997,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHyperParameterTuningJobOutput>(CreateHyperParameterTuningJobOutput.httpOutput(from:), CreateHyperParameterTuningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHyperParameterTuningJobInput, CreateHyperParameterTuningJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHyperParameterTuningJobOutput>())
@@ -2844,9 +3032,9 @@ extension SageMakerClient {
     ///
     /// Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see [Bring your own SageMaker AI image](https://docs.aws.amazon.com/sagemaker/latest/dg/studio-byoi.html).
     ///
-    /// - Parameter CreateImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageInput`)
     ///
-    /// - Returns: `CreateImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2879,6 +3067,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageInput, CreateImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImageOutput>(CreateImageOutput.httpOutput(from:), CreateImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImageInput, CreateImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImageOutput>())
@@ -2913,9 +3102,9 @@ extension SageMakerClient {
     ///
     /// Creates a version of the SageMaker AI image specified by ImageName. The version represents the Amazon ECR container image specified by BaseImage.
     ///
-    /// - Parameter CreateImageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateImageVersionInput`)
     ///
-    /// - Returns: `CreateImageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateImageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2950,6 +3139,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageVersionInput, CreateImageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImageVersionOutput>(CreateImageVersionOutput.httpOutput(from:), CreateImageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImageVersionInput, CreateImageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateImageVersionOutput>())
@@ -2984,9 +3174,9 @@ extension SageMakerClient {
     ///
     /// Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
     ///
-    /// - Parameter CreateInferenceComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInferenceComponentInput`)
     ///
-    /// - Returns: `CreateInferenceComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInferenceComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3018,6 +3208,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInferenceComponentInput, CreateInferenceComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInferenceComponentOutput>(CreateInferenceComponentOutput.httpOutput(from:), CreateInferenceComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInferenceComponentInput, CreateInferenceComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInferenceComponentOutput>())
@@ -3052,9 +3243,9 @@ extension SageMakerClient {
     ///
     /// Creates an inference experiment using the configurations specified in the request. Use this API to setup and schedule an experiment to compare model variants on a Amazon SageMaker inference endpoint. For more information about inference experiments, see [Shadow tests](https://docs.aws.amazon.com/sagemaker/latest/dg/shadow-tests.html). Amazon SageMaker begins your experiment at the scheduled time and routes traffic to your endpoint's model variants based on your specified configuration. While the experiment is in progress or after it has concluded, you can view metrics that compare your model variants. For more information, see [View, monitor, and edit shadow tests](https://docs.aws.amazon.com/sagemaker/latest/dg/shadow-tests-view-monitor-edit.html).
     ///
-    /// - Parameter CreateInferenceExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInferenceExperimentInput`)
     ///
-    /// - Returns: `CreateInferenceExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInferenceExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3087,6 +3278,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInferenceExperimentInput, CreateInferenceExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInferenceExperimentOutput>(CreateInferenceExperimentOutput.httpOutput(from:), CreateInferenceExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInferenceExperimentInput, CreateInferenceExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInferenceExperimentOutput>())
@@ -3121,9 +3313,9 @@ extension SageMakerClient {
     ///
     /// Starts a recommendation job. You can create either an instance recommendation or load test job.
     ///
-    /// - Parameter CreateInferenceRecommendationsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInferenceRecommendationsJobInput`)
     ///
-    /// - Returns: `CreateInferenceRecommendationsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInferenceRecommendationsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3156,6 +3348,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInferenceRecommendationsJobOutput>(CreateInferenceRecommendationsJobOutput.httpOutput(from:), CreateInferenceRecommendationsJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInferenceRecommendationsJobInput, CreateInferenceRecommendationsJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInferenceRecommendationsJobOutput>())
@@ -3199,9 +3392,9 @@ extension SageMakerClient {
     ///
     /// You can also use automated data labeling to reduce the number of data objects that need to be labeled by a human. Automated data labeling uses active learning to determine if a data object can be labeled by machine or if it needs to be sent to a human worker. For more information, see [Using Automated Data Labeling](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-automated-labeling.html). The data objects to be labeled are contained in an Amazon S3 bucket. You create a manifest file that describes the location of each object. For more information, see [Using Input and Output Data](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-data.html). The output can be used as the manifest file for another labeling job or as training data for your machine learning models. You can use this operation to create a static labeling job or a streaming labeling job. A static labeling job stops if all data objects in the input manifest file identified in ManifestS3Uri have been labeled. A streaming labeling job runs perpetually until it is manually stopped, or remains idle for 10 days. You can send new data objects to an active (InProgress) streaming labeling job in real time. To learn how to create a static labeling job, see [Create a Labeling Job (API) ](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-create-labeling-job-api.html) in the Amazon SageMaker Developer Guide. To learn how to create a streaming labeling job, see [Create a Streaming Labeling Job](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-streaming-create-job.html).
     ///
-    /// - Parameter CreateLabelingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLabelingJobInput`)
     ///
-    /// - Returns: `CreateLabelingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLabelingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3234,6 +3427,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLabelingJobInput, CreateLabelingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLabelingJobOutput>(CreateLabelingJobOutput.httpOutput(from:), CreateLabelingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLabelingJobInput, CreateLabelingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLabelingJobOutput>())
@@ -3264,13 +3458,82 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateMlflowApp` operation on the `SageMaker` service.
+    ///
+    /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateMlflowAppInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateMlflowAppOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceLimitExceeded` : You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
+    public func createMlflowApp(input: CreateMlflowAppInput) async throws -> CreateMlflowAppOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createMlflowApp")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateMlflowAppInput, CreateMlflowAppOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(CreateMlflowAppInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMlflowAppOutput>(CreateMlflowAppOutput.httpOutput(from:), CreateMlflowAppOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateMlflowAppOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMlflowAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(xAmzTarget: "SageMaker.CreateMlflowApp"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateMlflowAppInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMlflowAppOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateMlflowAppInput, CreateMlflowAppOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateMlflowApp")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateMlflowTrackingServer` operation on the `SageMaker` service.
     ///
     /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see [Create an MLflow Tracking Server](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-create-tracking-server.html).
     ///
-    /// - Parameter CreateMlflowTrackingServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMlflowTrackingServerInput`)
     ///
-    /// - Returns: `CreateMlflowTrackingServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMlflowTrackingServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3302,6 +3565,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMlflowTrackingServerInput, CreateMlflowTrackingServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMlflowTrackingServerOutput>(CreateMlflowTrackingServerOutput.httpOutput(from:), CreateMlflowTrackingServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMlflowTrackingServerInput, CreateMlflowTrackingServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMlflowTrackingServerOutput>())
@@ -3336,9 +3600,9 @@ extension SageMakerClient {
     ///
     /// Creates a model in SageMaker. In the request, you name the model and describe a primary container. For the primary container, you specify the Docker image that contains inference code, artifacts (from prior training), and a custom environment map that the inference code uses when you deploy the model for predictions. Use this API to create a model if you want to use SageMaker hosting services or run a batch transform job. To host your model, you create an endpoint configuration with the CreateEndpointConfig API, and then create an endpoint with the CreateEndpoint API. SageMaker then deploys all of the containers that you defined for the model in the hosting environment. To run a batch transform using your model, you start a job with the CreateTransformJob API. SageMaker uses your model and your dataset to get inferences which are then saved to a specified S3 location. In the request, you also provide an IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute hosting instances or for batch transform jobs. In addition, you also use the IAM role to manage permissions the inference code needs. For example, if the inference code access any other Amazon Web Services resources, you grant necessary permissions via this role.
     ///
-    /// - Parameter CreateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelInput`)
     ///
-    /// - Returns: `CreateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3370,6 +3634,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelInput, CreateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelOutput>(CreateModelOutput.httpOutput(from:), CreateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelInput, CreateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelOutput>())
@@ -3404,9 +3669,9 @@ extension SageMakerClient {
     ///
     /// Creates the definition for a model bias job.
     ///
-    /// - Parameter CreateModelBiasJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelBiasJobDefinitionInput`)
     ///
-    /// - Returns: `CreateModelBiasJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelBiasJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3439,6 +3704,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelBiasJobDefinitionOutput>(CreateModelBiasJobDefinitionOutput.httpOutput(from:), CreateModelBiasJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelBiasJobDefinitionInput, CreateModelBiasJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelBiasJobDefinitionOutput>())
@@ -3473,9 +3739,9 @@ extension SageMakerClient {
     ///
     /// Creates an Amazon SageMaker Model Card. For information about how to use model cards, see [Amazon SageMaker Model Card](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html).
     ///
-    /// - Parameter CreateModelCardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelCardInput`)
     ///
-    /// - Returns: `CreateModelCardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelCardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3508,6 +3774,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelCardInput, CreateModelCardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelCardOutput>(CreateModelCardOutput.httpOutput(from:), CreateModelCardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelCardInput, CreateModelCardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelCardOutput>())
@@ -3542,9 +3809,9 @@ extension SageMakerClient {
     ///
     /// Creates an Amazon SageMaker Model Card export job.
     ///
-    /// - Parameter CreateModelCardExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelCardExportJobInput`)
     ///
-    /// - Returns: `CreateModelCardExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelCardExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3578,6 +3845,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelCardExportJobInput, CreateModelCardExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelCardExportJobOutput>(CreateModelCardExportJobOutput.httpOutput(from:), CreateModelCardExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelCardExportJobInput, CreateModelCardExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelCardExportJobOutput>())
@@ -3612,9 +3880,9 @@ extension SageMakerClient {
     ///
     /// Creates the definition for a model explainability job.
     ///
-    /// - Parameter CreateModelExplainabilityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelExplainabilityJobDefinitionInput`)
     ///
-    /// - Returns: `CreateModelExplainabilityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelExplainabilityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3647,6 +3915,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelExplainabilityJobDefinitionOutput>(CreateModelExplainabilityJobDefinitionOutput.httpOutput(from:), CreateModelExplainabilityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelExplainabilityJobDefinitionInput, CreateModelExplainabilityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelExplainabilityJobDefinitionOutput>())
@@ -3685,9 +3954,9 @@ extension SageMakerClient {
     ///
     /// * Unversioned - a model package that is not part of a model group.
     ///
-    /// - Parameter CreateModelPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelPackageInput`)
     ///
-    /// - Returns: `CreateModelPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3721,6 +3990,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelPackageInput, CreateModelPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelPackageOutput>(CreateModelPackageOutput.httpOutput(from:), CreateModelPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelPackageInput, CreateModelPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelPackageOutput>())
@@ -3755,9 +4025,9 @@ extension SageMakerClient {
     ///
     /// Creates a model group. A model group contains a group of model versions.
     ///
-    /// - Parameter CreateModelPackageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelPackageGroupInput`)
     ///
-    /// - Returns: `CreateModelPackageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelPackageGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3789,6 +4059,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelPackageGroupInput, CreateModelPackageGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelPackageGroupOutput>(CreateModelPackageGroupOutput.httpOutput(from:), CreateModelPackageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelPackageGroupInput, CreateModelPackageGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelPackageGroupOutput>())
@@ -3823,9 +4094,9 @@ extension SageMakerClient {
     ///
     /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see [Amazon SageMaker AI Model Monitor](https://docs.aws.amazon.com/sagemaker/latest/dg/model-monitor.html).
     ///
-    /// - Parameter CreateModelQualityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelQualityJobDefinitionInput`)
     ///
-    /// - Returns: `CreateModelQualityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelQualityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3858,6 +4129,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelQualityJobDefinitionOutput>(CreateModelQualityJobDefinitionOutput.httpOutput(from:), CreateModelQualityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelQualityJobDefinitionInput, CreateModelQualityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelQualityJobDefinitionOutput>())
@@ -3892,9 +4164,9 @@ extension SageMakerClient {
     ///
     /// Creates a schedule that regularly starts Amazon SageMaker AI Processing Jobs to monitor the data captured for an Amazon SageMaker AI Endpoint.
     ///
-    /// - Parameter CreateMonitoringScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitoringScheduleInput`)
     ///
-    /// - Returns: `CreateMonitoringScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitoringScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3927,6 +4199,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMonitoringScheduleOutput>(CreateMonitoringScheduleOutput.httpOutput(from:), CreateMonitoringScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMonitoringScheduleInput, CreateMonitoringScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMonitoringScheduleOutput>())
@@ -3970,9 +4243,9 @@ extension SageMakerClient {
     ///
     /// After creating the notebook instance, SageMaker AI returns its Amazon Resource Name (ARN). You can't change the name of a notebook instance after you create it. After SageMaker AI creates the notebook instance, you can connect to the Jupyter server and work in Jupyter notebooks. For example, you can write code to explore a dataset that you can use for model training, train a model, host models by creating SageMaker AI endpoints, and validate hosted models. For more information, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html).
     ///
-    /// - Parameter CreateNotebookInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotebookInstanceInput`)
     ///
-    /// - Returns: `CreateNotebookInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotebookInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4004,6 +4277,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotebookInstanceInput, CreateNotebookInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotebookInstanceOutput>(CreateNotebookInstanceOutput.httpOutput(from:), CreateNotebookInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotebookInstanceInput, CreateNotebookInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotebookInstanceOutput>())
@@ -4038,9 +4312,9 @@ extension SageMakerClient {
     ///
     /// Creates a lifecycle configuration that you can associate with a notebook instance. A lifecycle configuration is a collection of shell scripts that run when you create or start a notebook instance. Each lifecycle configuration script has a limit of 16384 characters. The value of the $PATH environment variable that is available to both scripts is /sbin:bin:/usr/sbin:/usr/bin. View Amazon CloudWatch Logs for notebook instance lifecycle configurations in log group /aws/sagemaker/NotebookInstances in log stream [notebook-instance-name]/[LifecycleConfigHook]. Lifecycle configuration scripts cannot run for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the notebook instance is not created or started. For information about notebook instance lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
     ///
-    /// - Parameter CreateNotebookInstanceLifecycleConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotebookInstanceLifecycleConfigInput`)
     ///
-    /// - Returns: `CreateNotebookInstanceLifecycleConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotebookInstanceLifecycleConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4072,6 +4346,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotebookInstanceLifecycleConfigOutput>(CreateNotebookInstanceLifecycleConfigOutput.httpOutput(from:), CreateNotebookInstanceLifecycleConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotebookInstanceLifecycleConfigInput, CreateNotebookInstanceLifecycleConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotebookInstanceLifecycleConfigOutput>())
@@ -4106,9 +4381,9 @@ extension SageMakerClient {
     ///
     /// Creates a job that optimizes a model for inference performance. To create the job, you provide the location of a source model, and you provide the settings for the optimization techniques that you want the job to apply. When the job completes successfully, SageMaker uploads the new optimized model to the output destination that you specify. For more information about how to use this action, and about the supported optimization techniques, see [Optimize model inference with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/model-optimize.html).
     ///
-    /// - Parameter CreateOptimizationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOptimizationJobInput`)
     ///
-    /// - Returns: `CreateOptimizationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOptimizationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4141,6 +4416,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOptimizationJobInput, CreateOptimizationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOptimizationJobOutput>(CreateOptimizationJobOutput.httpOutput(from:), CreateOptimizationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOptimizationJobInput, CreateOptimizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOptimizationJobOutput>())
@@ -4175,9 +4451,9 @@ extension SageMakerClient {
     ///
     /// Creates an Amazon SageMaker Partner AI App.
     ///
-    /// - Parameter CreatePartnerAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePartnerAppInput`)
     ///
-    /// - Returns: `CreatePartnerAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePartnerAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4211,6 +4487,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartnerAppInput, CreatePartnerAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePartnerAppOutput>(CreatePartnerAppOutput.httpOutput(from:), CreatePartnerAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartnerAppInput, CreatePartnerAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartnerAppOutput>())
@@ -4245,9 +4522,9 @@ extension SageMakerClient {
     ///
     /// Creates a presigned URL to access an Amazon SageMaker Partner AI App.
     ///
-    /// - Parameter CreatePartnerAppPresignedUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePartnerAppPresignedUrlInput`)
     ///
-    /// - Returns: `CreatePartnerAppPresignedUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePartnerAppPresignedUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4279,6 +4556,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePartnerAppPresignedUrlInput, CreatePartnerAppPresignedUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePartnerAppPresignedUrlOutput>(CreatePartnerAppPresignedUrlOutput.httpOutput(from:), CreatePartnerAppPresignedUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePartnerAppPresignedUrlInput, CreatePartnerAppPresignedUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePartnerAppPresignedUrlOutput>())
@@ -4313,9 +4591,9 @@ extension SageMakerClient {
     ///
     /// Creates a pipeline using a JSON pipeline definition.
     ///
-    /// - Parameter CreatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePipelineInput`)
     ///
-    /// - Returns: `CreatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4350,6 +4628,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipelineInput, CreatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipelineOutput>(CreatePipelineOutput.httpOutput(from:), CreatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipelineInput, CreatePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePipelineOutput>())
@@ -4388,9 +4667,9 @@ extension SageMakerClient {
     ///
     /// * The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
     ///
-    /// - Parameter CreatePresignedDomainUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresignedDomainUrlInput`)
     ///
-    /// - Returns: `CreatePresignedDomainUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresignedDomainUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4422,6 +4701,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresignedDomainUrlOutput>(CreatePresignedDomainUrlOutput.httpOutput(from:), CreatePresignedDomainUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresignedDomainUrlInput, CreatePresignedDomainUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresignedDomainUrlOutput>())
@@ -4452,13 +4732,82 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreatePresignedMlflowAppUrl` operation on the `SageMaker` service.
+    ///
+    /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see [Launch the MLflow UI using a presigned URL](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-launch-ui.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreatePresignedMlflowAppUrlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreatePresignedMlflowAppUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func createPresignedMlflowAppUrl(input: CreatePresignedMlflowAppUrlInput) async throws -> CreatePresignedMlflowAppUrlOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createPresignedMlflowAppUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(CreatePresignedMlflowAppUrlInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresignedMlflowAppUrlOutput>(CreatePresignedMlflowAppUrlOutput.httpOutput(from:), CreatePresignedMlflowAppUrlOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresignedMlflowAppUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreatePresignedMlflowAppUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(xAmzTarget: "SageMaker.CreatePresignedMlflowAppUrl"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreatePresignedMlflowAppUrlInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreatePresignedMlflowAppUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreatePresignedMlflowAppUrlInput, CreatePresignedMlflowAppUrlOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreatePresignedMlflowAppUrl")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreatePresignedMlflowTrackingServerUrl` operation on the `SageMaker` service.
     ///
     /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see [Launch the MLflow UI using a presigned URL](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-launch-ui.html).
     ///
-    /// - Parameter CreatePresignedMlflowTrackingServerUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresignedMlflowTrackingServerUrlInput`)
     ///
-    /// - Returns: `CreatePresignedMlflowTrackingServerUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresignedMlflowTrackingServerUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4490,6 +4839,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresignedMlflowTrackingServerUrlInput, CreatePresignedMlflowTrackingServerUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresignedMlflowTrackingServerUrlOutput>(CreatePresignedMlflowTrackingServerUrlOutput.httpOutput(from:), CreatePresignedMlflowTrackingServerUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresignedMlflowTrackingServerUrlInput, CreatePresignedMlflowTrackingServerUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresignedMlflowTrackingServerUrlOutput>())
@@ -4524,9 +4874,9 @@ extension SageMakerClient {
     ///
     /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker AI console, when you choose Open next to a notebook instance, SageMaker AI opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see [Limit Access to a Notebook Instance by IP Address](https://docs.aws.amazon.com/sagemaker/latest/dg/security_iam_id-based-policy-examples.html#nbi-ip-filter). The URL that you get from a call to [CreatePresignedNotebookInstanceUrl](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreatePresignedNotebookInstanceUrl.html) is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
     ///
-    /// - Parameter CreatePresignedNotebookInstanceUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresignedNotebookInstanceUrlInput`)
     ///
-    /// - Returns: `CreatePresignedNotebookInstanceUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresignedNotebookInstanceUrlOutput`)
     public func createPresignedNotebookInstanceUrl(input: CreatePresignedNotebookInstanceUrlInput) async throws -> CreatePresignedNotebookInstanceUrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4553,6 +4903,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresignedNotebookInstanceUrlOutput>(CreatePresignedNotebookInstanceUrlOutput.httpOutput(from:), CreatePresignedNotebookInstanceUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresignedNotebookInstanceUrlInput, CreatePresignedNotebookInstanceUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresignedNotebookInstanceUrlOutput>())
@@ -4587,9 +4938,9 @@ extension SageMakerClient {
     ///
     /// Creates a processing job.
     ///
-    /// - Parameter CreateProcessingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProcessingJobInput`)
     ///
-    /// - Returns: `CreateProcessingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProcessingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4623,6 +4974,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProcessingJobInput, CreateProcessingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProcessingJobOutput>(CreateProcessingJobOutput.httpOutput(from:), CreateProcessingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProcessingJobInput, CreateProcessingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProcessingJobOutput>())
@@ -4657,9 +5009,9 @@ extension SageMakerClient {
     ///
     /// Creates a machine learning (ML) project that can contain one or more templates that set up an ML pipeline from training to deploying an approved model.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4691,6 +5043,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -4725,9 +5078,9 @@ extension SageMakerClient {
     ///
     /// Creates a private space or a space used for real time collaboration in a domain.
     ///
-    /// - Parameter CreateSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSpaceInput`)
     ///
-    /// - Returns: `CreateSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4760,6 +5113,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSpaceInput, CreateSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSpaceOutput>(CreateSpaceOutput.httpOutput(from:), CreateSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSpaceInput, CreateSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSpaceOutput>())
@@ -4794,9 +5148,9 @@ extension SageMakerClient {
     ///
     /// Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
     ///
-    /// - Parameter CreateStudioLifecycleConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStudioLifecycleConfigInput`)
     ///
-    /// - Returns: `CreateStudioLifecycleConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStudioLifecycleConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4828,6 +5182,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStudioLifecycleConfigOutput>(CreateStudioLifecycleConfigOutput.httpOutput(from:), CreateStudioLifecycleConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStudioLifecycleConfigInput, CreateStudioLifecycleConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStudioLifecycleConfigOutput>())
@@ -4885,9 +5240,9 @@ extension SageMakerClient {
     ///
     /// For more information about SageMaker, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html).
     ///
-    /// - Parameter CreateTrainingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrainingJobInput`)
     ///
-    /// - Returns: `CreateTrainingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrainingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4921,6 +5276,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrainingJobInput, CreateTrainingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrainingJobOutput>(CreateTrainingJobOutput.httpOutput(from:), CreateTrainingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrainingJobInput, CreateTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrainingJobOutput>())
@@ -4982,9 +5338,9 @@ extension SageMakerClient {
     ///
     /// Plan composition A plan can consist of one or more Reserved Capacities, each defined by a specific instance type, quantity, Availability Zone, duration, and start and end times. For more information about Reserved Capacity, see [ReservedCapacitySummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ReservedCapacitySummary.html).
     ///
-    /// - Parameter CreateTrainingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrainingPlanInput`)
     ///
-    /// - Returns: `CreateTrainingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrainingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5018,6 +5374,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrainingPlanInput, CreateTrainingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrainingPlanOutput>(CreateTrainingPlanOutput.httpOutput(from:), CreateTrainingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrainingPlanInput, CreateTrainingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrainingPlanOutput>())
@@ -5065,9 +5422,9 @@ extension SageMakerClient {
     ///
     /// For more information about how batch transformation works, see [Batch Transform](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform.html).
     ///
-    /// - Parameter CreateTransformJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransformJobInput`)
     ///
-    /// - Returns: `CreateTransformJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransformJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5101,6 +5458,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTransformJobInput, CreateTransformJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransformJobOutput>(CreateTransformJobOutput.httpOutput(from:), CreateTransformJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransformJobInput, CreateTransformJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransformJobOutput>())
@@ -5135,9 +5493,9 @@ extension SageMakerClient {
     ///
     /// Creates an SageMaker trial. A trial is a set of steps called trial components that produce a machine learning model. A trial is part of a single SageMaker experiment. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API to search for the tags. To get a list of all your trials, call the [ListTrials](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListTrials.html) API. To view a trial's properties, call the [DescribeTrial](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrial.html) API. To create a trial component, call the [CreateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrialComponent.html) API.
     ///
-    /// - Parameter CreateTrialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrialInput`)
     ///
-    /// - Returns: `CreateTrialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5170,6 +5528,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrialInput, CreateTrialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrialOutput>(CreateTrialOutput.httpOutput(from:), CreateTrialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrialInput, CreateTrialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrialOutput>())
@@ -5204,9 +5563,9 @@ extension SageMakerClient {
     ///
     /// Creates a trial component, which is a stage of a machine learning trial. A trial is composed of one or more trial components. A trial component can be used in multiple trials. Trial components include pre-processing jobs, training jobs, and batch transform jobs. When you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a trial component and then use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API to search for the tags.
     ///
-    /// - Parameter CreateTrialComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrialComponentInput`)
     ///
-    /// - Returns: `CreateTrialComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrialComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5238,6 +5597,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrialComponentInput, CreateTrialComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrialComponentOutput>(CreateTrialComponentOutput.httpOutput(from:), CreateTrialComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrialComponentInput, CreateTrialComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrialComponentOutput>())
@@ -5272,9 +5632,9 @@ extension SageMakerClient {
     ///
     /// Creates a user profile. A user profile represents a single user within a domain, and is the main way to reference a "person" for the purposes of sharing, reporting, and other user-oriented features. This entity is created when a user onboards to a domain. If an administrator invites a person by email or imports them from IAM Identity Center, a user profile is automatically created. A user profile is the primary holder of settings for an individual user and has a reference to the user's private Amazon Elastic File System home directory.
     ///
-    /// - Parameter CreateUserProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserProfileInput`)
     ///
-    /// - Returns: `CreateUserProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5307,6 +5667,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserProfileInput, CreateUserProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserProfileOutput>(CreateUserProfileOutput.httpOutput(from:), CreateUserProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserProfileInput, CreateUserProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserProfileOutput>())
@@ -5341,9 +5702,9 @@ extension SageMakerClient {
     ///
     /// Use this operation to create a workforce. This operation will return an error if a workforce already exists in the Amazon Web Services Region that you specify. You can only create one workforce in each Amazon Web Services Region per Amazon Web Services account. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use the [DeleteWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkforce.html) API operation to delete the existing workforce and then use CreateWorkforce to create a new workforce. To create a private workforce using Amazon Cognito, you must specify a Cognito user pool in CognitoConfig. You can also create an Amazon Cognito workforce using the Amazon SageMaker console. For more information, see [ Create a Private Workforce (Amazon Cognito)](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private.html). To create a private workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in OidcConfig. Your OIDC IdP must support groups because groups are used by Ground Truth and Amazon A2I to create work teams. For more information, see [ Create a Private Workforce (OIDC IdP)](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-workforce-create-private-oidc.html).
     ///
-    /// - Parameter CreateWorkforceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkforceInput`)
     ///
-    /// - Returns: `CreateWorkforceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkforceOutput`)
     public func createWorkforce(input: CreateWorkforceInput) async throws -> CreateWorkforceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5370,6 +5731,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkforceInput, CreateWorkforceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkforceOutput>(CreateWorkforceOutput.httpOutput(from:), CreateWorkforceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkforceInput, CreateWorkforceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkforceOutput>())
@@ -5404,9 +5766,9 @@ extension SageMakerClient {
     ///
     /// Creates a new work team for labeling your data. A work team is defined by one or more Amazon Cognito user pools. You must first create the user pools before you can create a work team. You cannot create more than 25 work teams in an account and region.
     ///
-    /// - Parameter CreateWorkteamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkteamInput`)
     ///
-    /// - Returns: `CreateWorkteamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkteamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5439,6 +5801,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkteamInput, CreateWorkteamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkteamOutput>(CreateWorkteamOutput.httpOutput(from:), CreateWorkteamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkteamInput, CreateWorkteamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkteamOutput>())
@@ -5473,9 +5836,9 @@ extension SageMakerClient {
     ///
     /// Deletes an action.
     ///
-    /// - Parameter DeleteActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteActionInput`)
     ///
-    /// - Returns: `DeleteActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5507,6 +5870,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteActionInput, DeleteActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteActionOutput>(DeleteActionOutput.httpOutput(from:), DeleteActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteActionInput, DeleteActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteActionOutput>())
@@ -5541,9 +5905,9 @@ extension SageMakerClient {
     ///
     /// Removes the specified algorithm from your account.
     ///
-    /// - Parameter DeleteAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAlgorithmInput`)
     ///
-    /// - Returns: `DeleteAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlgorithmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5575,6 +5939,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlgorithmInput, DeleteAlgorithmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlgorithmOutput>(DeleteAlgorithmOutput.httpOutput(from:), DeleteAlgorithmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlgorithmInput, DeleteAlgorithmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlgorithmOutput>())
@@ -5609,9 +5974,9 @@ extension SageMakerClient {
     ///
     /// Used to stop and delete an app.
     ///
-    /// - Parameter DeleteAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppInput`)
     ///
-    /// - Returns: `DeleteAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5644,6 +6009,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppInput, DeleteAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppOutput>(DeleteAppOutput.httpOutput(from:), DeleteAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppInput, DeleteAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppOutput>())
@@ -5678,9 +6044,9 @@ extension SageMakerClient {
     ///
     /// Deletes an AppImageConfig.
     ///
-    /// - Parameter DeleteAppImageConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAppImageConfigInput`)
     ///
-    /// - Returns: `DeleteAppImageConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAppImageConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5712,6 +6078,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAppImageConfigInput, DeleteAppImageConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAppImageConfigOutput>(DeleteAppImageConfigOutput.httpOutput(from:), DeleteAppImageConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAppImageConfigInput, DeleteAppImageConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAppImageConfigOutput>())
@@ -5746,9 +6113,9 @@ extension SageMakerClient {
     ///
     /// Deletes an artifact. Either ArtifactArn or Source must be specified.
     ///
-    /// - Parameter DeleteArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteArtifactInput`)
     ///
-    /// - Returns: `DeleteArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5780,6 +6147,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteArtifactInput, DeleteArtifactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteArtifactOutput>(DeleteArtifactOutput.httpOutput(from:), DeleteArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteArtifactInput, DeleteArtifactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteArtifactOutput>())
@@ -5814,9 +6182,9 @@ extension SageMakerClient {
     ///
     /// Deletes an association.
     ///
-    /// - Parameter DeleteAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssociationInput`)
     ///
-    /// - Returns: `DeleteAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5848,6 +6216,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAssociationInput, DeleteAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssociationOutput>(DeleteAssociationOutput.httpOutput(from:), DeleteAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssociationInput, DeleteAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssociationOutput>())
@@ -5882,9 +6251,9 @@ extension SageMakerClient {
     ///
     /// Delete a SageMaker HyperPod cluster.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5917,6 +6286,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -5951,9 +6321,9 @@ extension SageMakerClient {
     ///
     /// Deletes the cluster policy of the cluster.
     ///
-    /// - Parameter DeleteClusterSchedulerConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterSchedulerConfigInput`)
     ///
-    /// - Returns: `DeleteClusterSchedulerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterSchedulerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5985,6 +6355,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterSchedulerConfigInput, DeleteClusterSchedulerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterSchedulerConfigOutput>(DeleteClusterSchedulerConfigOutput.httpOutput(from:), DeleteClusterSchedulerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterSchedulerConfigInput, DeleteClusterSchedulerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterSchedulerConfigOutput>())
@@ -6019,9 +6390,9 @@ extension SageMakerClient {
     ///
     /// Deletes the specified Git repository from your account.
     ///
-    /// - Parameter DeleteCodeRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCodeRepositoryInput`)
     ///
-    /// - Returns: `DeleteCodeRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCodeRepositoryOutput`)
     public func deleteCodeRepository(input: DeleteCodeRepositoryInput) async throws -> DeleteCodeRepositoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6048,6 +6419,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCodeRepositoryOutput>(DeleteCodeRepositoryOutput.httpOutput(from:), DeleteCodeRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCodeRepositoryInput, DeleteCodeRepositoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCodeRepositoryOutput>())
@@ -6082,9 +6454,9 @@ extension SageMakerClient {
     ///
     /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COMPLETED, FAILED, or STOPPED. If the job status is STARTING or INPROGRESS, stop the job, and then delete it after its status becomes STOPPED.
     ///
-    /// - Parameter DeleteCompilationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCompilationJobInput`)
     ///
-    /// - Returns: `DeleteCompilationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCompilationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6116,6 +6488,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCompilationJobOutput>(DeleteCompilationJobOutput.httpOutput(from:), DeleteCompilationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCompilationJobInput, DeleteCompilationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCompilationJobOutput>())
@@ -6150,9 +6523,9 @@ extension SageMakerClient {
     ///
     /// Deletes the compute allocation from the cluster.
     ///
-    /// - Parameter DeleteComputeQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComputeQuotaInput`)
     ///
-    /// - Returns: `DeleteComputeQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComputeQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6184,6 +6557,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteComputeQuotaInput, DeleteComputeQuotaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComputeQuotaOutput>(DeleteComputeQuotaOutput.httpOutput(from:), DeleteComputeQuotaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComputeQuotaInput, DeleteComputeQuotaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComputeQuotaOutput>())
@@ -6218,9 +6592,9 @@ extension SageMakerClient {
     ///
     /// Deletes an context.
     ///
-    /// - Parameter DeleteContextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContextInput`)
     ///
-    /// - Returns: `DeleteContextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6252,6 +6626,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContextInput, DeleteContextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContextOutput>(DeleteContextOutput.httpOutput(from:), DeleteContextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContextInput, DeleteContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContextOutput>())
@@ -6286,9 +6661,9 @@ extension SageMakerClient {
     ///
     /// Deletes a data quality monitoring job definition.
     ///
-    /// - Parameter DeleteDataQualityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataQualityJobDefinitionInput`)
     ///
-    /// - Returns: `DeleteDataQualityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataQualityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6320,6 +6695,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataQualityJobDefinitionOutput>(DeleteDataQualityJobDefinitionOutput.httpOutput(from:), DeleteDataQualityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataQualityJobDefinitionInput, DeleteDataQualityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataQualityJobDefinitionOutput>())
@@ -6354,9 +6730,9 @@ extension SageMakerClient {
     ///
     /// Deletes a fleet.
     ///
-    /// - Parameter DeleteDeviceFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceFleetInput`)
     ///
-    /// - Returns: `DeleteDeviceFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6388,6 +6764,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeviceFleetInput, DeleteDeviceFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeviceFleetOutput>(DeleteDeviceFleetOutput.httpOutput(from:), DeleteDeviceFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeviceFleetInput, DeleteDeviceFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeviceFleetOutput>())
@@ -6422,9 +6799,9 @@ extension SageMakerClient {
     ///
     /// Used to delete a domain. If you onboarded with IAM mode, you will need to delete your domain to onboard again using IAM Identity Center. Use with caution. All of the members of the domain will lose access to their EFS volume, including data, notebooks, and other artifacts.
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6457,6 +6834,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -6491,9 +6869,9 @@ extension SageMakerClient {
     ///
     /// Deletes an edge deployment plan if (and only if) all the stages in the plan are inactive or there are no stages in the plan.
     ///
-    /// - Parameter DeleteEdgeDeploymentPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEdgeDeploymentPlanInput`)
     ///
-    /// - Returns: `DeleteEdgeDeploymentPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEdgeDeploymentPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6525,6 +6903,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEdgeDeploymentPlanOutput>(DeleteEdgeDeploymentPlanOutput.httpOutput(from:), DeleteEdgeDeploymentPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEdgeDeploymentPlanInput, DeleteEdgeDeploymentPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEdgeDeploymentPlanOutput>())
@@ -6559,9 +6938,9 @@ extension SageMakerClient {
     ///
     /// Delete a stage in an edge deployment plan if (and only if) the stage is inactive.
     ///
-    /// - Parameter DeleteEdgeDeploymentStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEdgeDeploymentStageInput`)
     ///
-    /// - Returns: `DeleteEdgeDeploymentStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEdgeDeploymentStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6593,6 +6972,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEdgeDeploymentStageOutput>(DeleteEdgeDeploymentStageOutput.httpOutput(from:), DeleteEdgeDeploymentStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEdgeDeploymentStageInput, DeleteEdgeDeploymentStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEdgeDeploymentStageOutput>())
@@ -6627,9 +7007,9 @@ extension SageMakerClient {
     ///
     /// Deletes an endpoint. SageMaker frees up all of the resources that were deployed when the endpoint was created. SageMaker retires any custom KMS key grants associated with the endpoint, meaning you don't need to use the [RevokeGrant](http://docs.aws.amazon.com/kms/latest/APIReference/API_RevokeGrant.html) API call. When you delete your endpoint, SageMaker asynchronously deletes associated endpoint resources such as KMS key grants. You might still see these resources in your account for a few minutes after deleting your endpoint. Do not delete or revoke the permissions for your [ExecutionRoleArn](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModel.html#sagemaker-CreateModel-request-ExecutionRoleArn), otherwise SageMaker cannot delete these resources.
     ///
-    /// - Parameter DeleteEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointInput`)
     ///
-    /// - Returns: `DeleteEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEndpointOutput`)
     public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6656,6 +7036,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEndpointInput, DeleteEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointOutput>(DeleteEndpointOutput.httpOutput(from:), DeleteEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointOutput>())
@@ -6690,9 +7071,9 @@ extension SageMakerClient {
     ///
     /// Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the specified configuration. It does not delete endpoints created using the configuration. You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
     ///
-    /// - Parameter DeleteEndpointConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointConfigInput`)
     ///
-    /// - Returns: `DeleteEndpointConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEndpointConfigOutput`)
     public func deleteEndpointConfig(input: DeleteEndpointConfigInput) async throws -> DeleteEndpointConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6719,6 +7100,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEndpointConfigInput, DeleteEndpointConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointConfigOutput>(DeleteEndpointConfigOutput.httpOutput(from:), DeleteEndpointConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointConfigInput, DeleteEndpointConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointConfigOutput>())
@@ -6753,9 +7135,9 @@ extension SageMakerClient {
     ///
     /// Deletes an SageMaker experiment. All trials associated with the experiment must be deleted first. Use the [ListTrials](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListTrials.html) API to get a list of the trials associated with the experiment.
     ///
-    /// - Parameter DeleteExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExperimentInput`)
     ///
-    /// - Returns: `DeleteExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6787,6 +7169,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExperimentInput, DeleteExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExperimentOutput>(DeleteExperimentOutput.httpOutput(from:), DeleteExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExperimentInput, DeleteExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExperimentOutput>())
@@ -6821,9 +7204,9 @@ extension SageMakerClient {
     ///
     /// Delete the FeatureGroup and any data that was written to the OnlineStore of the FeatureGroup. Data cannot be accessed from the OnlineStore immediately after DeleteFeatureGroup is called. Data written into the OfflineStore will not be deleted. The Amazon Web Services Glue database and tables that are automatically created for your OfflineStore are not deleted. Note that it can take approximately 10-15 minutes to delete an OnlineStoreFeatureGroup with the InMemoryStorageType.
     ///
-    /// - Parameter DeleteFeatureGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFeatureGroupInput`)
     ///
-    /// - Returns: `DeleteFeatureGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFeatureGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6855,6 +7238,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFeatureGroupInput, DeleteFeatureGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFeatureGroupOutput>(DeleteFeatureGroupOutput.httpOutput(from:), DeleteFeatureGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFeatureGroupInput, DeleteFeatureGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFeatureGroupOutput>())
@@ -6889,9 +7273,9 @@ extension SageMakerClient {
     ///
     /// Deletes the specified flow definition.
     ///
-    /// - Parameter DeleteFlowDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlowDefinitionInput`)
     ///
-    /// - Returns: `DeleteFlowDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlowDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6924,6 +7308,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFlowDefinitionOutput>(DeleteFlowDefinitionOutput.httpOutput(from:), DeleteFlowDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFlowDefinitionInput, DeleteFlowDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFlowDefinitionOutput>())
@@ -6958,9 +7343,9 @@ extension SageMakerClient {
     ///
     /// Delete a hub.
     ///
-    /// - Parameter DeleteHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHubInput`)
     ///
-    /// - Returns: `DeleteHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6993,6 +7378,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHubInput, DeleteHubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHubOutput>(DeleteHubOutput.httpOutput(from:), DeleteHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHubInput, DeleteHubOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHubOutput>())
@@ -7027,9 +7413,9 @@ extension SageMakerClient {
     ///
     /// Delete the contents of a hub.
     ///
-    /// - Parameter DeleteHubContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHubContentInput`)
     ///
-    /// - Returns: `DeleteHubContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHubContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7062,6 +7448,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHubContentInput, DeleteHubContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHubContentOutput>(DeleteHubContentOutput.httpOutput(from:), DeleteHubContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHubContentInput, DeleteHubContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHubContentOutput>())
@@ -7096,9 +7483,9 @@ extension SageMakerClient {
     ///
     /// Delete a hub content reference in order to remove a model from a private hub.
     ///
-    /// - Parameter DeleteHubContentReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHubContentReferenceInput`)
     ///
-    /// - Returns: `DeleteHubContentReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHubContentReferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7130,6 +7517,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHubContentReferenceInput, DeleteHubContentReferenceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHubContentReferenceOutput>(DeleteHubContentReferenceOutput.httpOutput(from:), DeleteHubContentReferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHubContentReferenceInput, DeleteHubContentReferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHubContentReferenceOutput>())
@@ -7164,9 +7552,9 @@ extension SageMakerClient {
     ///
     /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use [ListHumanTaskUis](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListHumanTaskUis.html). When you delete a worker task template, it no longer appears when you call ListHumanTaskUis.
     ///
-    /// - Parameter DeleteHumanTaskUiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHumanTaskUiInput`)
     ///
-    /// - Returns: `DeleteHumanTaskUiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHumanTaskUiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7198,6 +7586,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHumanTaskUiOutput>(DeleteHumanTaskUiOutput.httpOutput(from:), DeleteHumanTaskUiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHumanTaskUiInput, DeleteHumanTaskUiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHumanTaskUiOutput>())
@@ -7232,9 +7621,9 @@ extension SageMakerClient {
     ///
     /// Deletes a hyperparameter tuning job. The DeleteHyperParameterTuningJob API deletes only the tuning job entry that was created in SageMaker when you called the CreateHyperParameterTuningJob API. It does not delete training jobs, artifacts, or the IAM role that you specified when creating the model.
     ///
-    /// - Parameter DeleteHyperParameterTuningJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHyperParameterTuningJobInput`)
     ///
-    /// - Returns: `DeleteHyperParameterTuningJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHyperParameterTuningJobOutput`)
     public func deleteHyperParameterTuningJob(input: DeleteHyperParameterTuningJobInput) async throws -> DeleteHyperParameterTuningJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7261,6 +7650,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHyperParameterTuningJobInput, DeleteHyperParameterTuningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHyperParameterTuningJobOutput>(DeleteHyperParameterTuningJobOutput.httpOutput(from:), DeleteHyperParameterTuningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHyperParameterTuningJobInput, DeleteHyperParameterTuningJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHyperParameterTuningJobOutput>())
@@ -7295,9 +7685,9 @@ extension SageMakerClient {
     ///
     /// Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted.
     ///
-    /// - Parameter DeleteImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageInput`)
     ///
-    /// - Returns: `DeleteImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7330,6 +7720,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageInput, DeleteImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImageOutput>(DeleteImageOutput.httpOutput(from:), DeleteImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImageInput, DeleteImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImageOutput>())
@@ -7364,9 +7755,9 @@ extension SageMakerClient {
     ///
     /// Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted.
     ///
-    /// - Parameter DeleteImageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageVersionInput`)
     ///
-    /// - Returns: `DeleteImageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7399,6 +7790,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageVersionInput, DeleteImageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImageVersionOutput>(DeleteImageVersionOutput.httpOutput(from:), DeleteImageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImageVersionInput, DeleteImageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImageVersionOutput>())
@@ -7433,9 +7825,9 @@ extension SageMakerClient {
     ///
     /// Deletes an inference component.
     ///
-    /// - Parameter DeleteInferenceComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInferenceComponentInput`)
     ///
-    /// - Returns: `DeleteInferenceComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInferenceComponentOutput`)
     public func deleteInferenceComponent(input: DeleteInferenceComponentInput) async throws -> DeleteInferenceComponentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7462,6 +7854,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInferenceComponentInput, DeleteInferenceComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInferenceComponentOutput>(DeleteInferenceComponentOutput.httpOutput(from:), DeleteInferenceComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInferenceComponentInput, DeleteInferenceComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInferenceComponentOutput>())
@@ -7496,9 +7889,9 @@ extension SageMakerClient {
     ///
     /// Deletes an inference experiment. This operation does not delete your endpoint, variants, or any underlying resources. This operation only deletes the metadata of your experiment.
     ///
-    /// - Parameter DeleteInferenceExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInferenceExperimentInput`)
     ///
-    /// - Returns: `DeleteInferenceExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInferenceExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7531,6 +7924,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInferenceExperimentOutput>(DeleteInferenceExperimentOutput.httpOutput(from:), DeleteInferenceExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInferenceExperimentInput, DeleteInferenceExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInferenceExperimentOutput>())
@@ -7561,13 +7955,82 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteMlflowApp` operation on the `SageMaker` service.
+    ///
+    /// Deletes an MLflow App.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteMlflowAppInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteMlflowAppOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func deleteMlflowApp(input: DeleteMlflowAppInput) async throws -> DeleteMlflowAppOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteMlflowApp")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteMlflowAppInput, DeleteMlflowAppOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(DeleteMlflowAppInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMlflowAppOutput>(DeleteMlflowAppOutput.httpOutput(from:), DeleteMlflowAppOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMlflowAppOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMlflowAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(xAmzTarget: "SageMaker.DeleteMlflowApp"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteMlflowAppInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMlflowAppOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMlflowAppInput, DeleteMlflowAppOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMlflowApp")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteMlflowTrackingServer` operation on the `SageMaker` service.
     ///
     /// Deletes an MLflow Tracking Server. For more information, see [Clean up MLflow resources](https://docs.aws.amazon.com/sagemaker/latest/dg/mlflow-cleanup.html.html).
     ///
-    /// - Parameter DeleteMlflowTrackingServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMlflowTrackingServerInput`)
     ///
-    /// - Returns: `DeleteMlflowTrackingServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMlflowTrackingServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7599,6 +8062,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMlflowTrackingServerInput, DeleteMlflowTrackingServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMlflowTrackingServerOutput>(DeleteMlflowTrackingServerOutput.httpOutput(from:), DeleteMlflowTrackingServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMlflowTrackingServerInput, DeleteMlflowTrackingServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMlflowTrackingServerOutput>())
@@ -7633,9 +8097,9 @@ extension SageMakerClient {
     ///
     /// Deletes a model. The DeleteModel API deletes only the model entry that was created in SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model.
     ///
-    /// - Parameter DeleteModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelInput`)
     ///
-    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelOutput`)
     public func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -7662,6 +8126,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelInput, DeleteModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelOutput>(DeleteModelOutput.httpOutput(from:), DeleteModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelInput, DeleteModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelOutput>())
@@ -7696,9 +8161,9 @@ extension SageMakerClient {
     ///
     /// Deletes an Amazon SageMaker AI model bias job definition.
     ///
-    /// - Parameter DeleteModelBiasJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelBiasJobDefinitionInput`)
     ///
-    /// - Returns: `DeleteModelBiasJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelBiasJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7730,6 +8195,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelBiasJobDefinitionOutput>(DeleteModelBiasJobDefinitionOutput.httpOutput(from:), DeleteModelBiasJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelBiasJobDefinitionInput, DeleteModelBiasJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelBiasJobDefinitionOutput>())
@@ -7764,9 +8230,9 @@ extension SageMakerClient {
     ///
     /// Deletes an Amazon SageMaker Model Card.
     ///
-    /// - Parameter DeleteModelCardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelCardInput`)
     ///
-    /// - Returns: `DeleteModelCardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelCardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7799,6 +8265,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelCardInput, DeleteModelCardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelCardOutput>(DeleteModelCardOutput.httpOutput(from:), DeleteModelCardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelCardInput, DeleteModelCardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelCardOutput>())
@@ -7833,9 +8300,9 @@ extension SageMakerClient {
     ///
     /// Deletes an Amazon SageMaker AI model explainability job definition.
     ///
-    /// - Parameter DeleteModelExplainabilityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelExplainabilityJobDefinitionInput`)
     ///
-    /// - Returns: `DeleteModelExplainabilityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelExplainabilityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7867,6 +8334,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelExplainabilityJobDefinitionOutput>(DeleteModelExplainabilityJobDefinitionOutput.httpOutput(from:), DeleteModelExplainabilityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelExplainabilityJobDefinitionInput, DeleteModelExplainabilityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelExplainabilityJobDefinitionOutput>())
@@ -7901,9 +8369,9 @@ extension SageMakerClient {
     ///
     /// Deletes a model package. A model package is used to create SageMaker models or list on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon Web Services Marketplace to create models in SageMaker.
     ///
-    /// - Parameter DeleteModelPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelPackageInput`)
     ///
-    /// - Returns: `DeleteModelPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7935,6 +8403,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelPackageInput, DeleteModelPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelPackageOutput>(DeleteModelPackageOutput.httpOutput(from:), DeleteModelPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelPackageInput, DeleteModelPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelPackageOutput>())
@@ -7969,9 +8438,9 @@ extension SageMakerClient {
     ///
     /// Deletes the specified model group.
     ///
-    /// - Parameter DeleteModelPackageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelPackageGroupInput`)
     ///
-    /// - Returns: `DeleteModelPackageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelPackageGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8003,6 +8472,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelPackageGroupOutput>(DeleteModelPackageGroupOutput.httpOutput(from:), DeleteModelPackageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelPackageGroupInput, DeleteModelPackageGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelPackageGroupOutput>())
@@ -8037,9 +8507,9 @@ extension SageMakerClient {
     ///
     /// Deletes a model group resource policy.
     ///
-    /// - Parameter DeleteModelPackageGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelPackageGroupPolicyInput`)
     ///
-    /// - Returns: `DeleteModelPackageGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelPackageGroupPolicyOutput`)
     public func deleteModelPackageGroupPolicy(input: DeleteModelPackageGroupPolicyInput) async throws -> DeleteModelPackageGroupPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8066,6 +8536,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelPackageGroupPolicyOutput>(DeleteModelPackageGroupPolicyOutput.httpOutput(from:), DeleteModelPackageGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelPackageGroupPolicyInput, DeleteModelPackageGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelPackageGroupPolicyOutput>())
@@ -8100,9 +8571,9 @@ extension SageMakerClient {
     ///
     /// Deletes the secified model quality monitoring job definition.
     ///
-    /// - Parameter DeleteModelQualityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelQualityJobDefinitionInput`)
     ///
-    /// - Returns: `DeleteModelQualityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelQualityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8134,6 +8605,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelQualityJobDefinitionOutput>(DeleteModelQualityJobDefinitionOutput.httpOutput(from:), DeleteModelQualityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelQualityJobDefinitionInput, DeleteModelQualityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelQualityJobDefinitionOutput>())
@@ -8168,9 +8640,9 @@ extension SageMakerClient {
     ///
     /// Deletes a monitoring schedule. Also stops the schedule had not already been stopped. This does not delete the job execution history of the monitoring schedule.
     ///
-    /// - Parameter DeleteMonitoringScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitoringScheduleInput`)
     ///
-    /// - Returns: `DeleteMonitoringScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitoringScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8202,6 +8674,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMonitoringScheduleOutput>(DeleteMonitoringScheduleOutput.httpOutput(from:), DeleteMonitoringScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMonitoringScheduleInput, DeleteMonitoringScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMonitoringScheduleOutput>())
@@ -8236,9 +8709,9 @@ extension SageMakerClient {
     ///
     /// Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API. When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
     ///
-    /// - Parameter DeleteNotebookInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotebookInstanceInput`)
     ///
-    /// - Returns: `DeleteNotebookInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotebookInstanceOutput`)
     public func deleteNotebookInstance(input: DeleteNotebookInstanceInput) async throws -> DeleteNotebookInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8265,6 +8738,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotebookInstanceOutput>(DeleteNotebookInstanceOutput.httpOutput(from:), DeleteNotebookInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotebookInstanceInput, DeleteNotebookInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotebookInstanceOutput>())
@@ -8299,9 +8773,9 @@ extension SageMakerClient {
     ///
     /// Deletes a notebook instance lifecycle configuration.
     ///
-    /// - Parameter DeleteNotebookInstanceLifecycleConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotebookInstanceLifecycleConfigInput`)
     ///
-    /// - Returns: `DeleteNotebookInstanceLifecycleConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotebookInstanceLifecycleConfigOutput`)
     public func deleteNotebookInstanceLifecycleConfig(input: DeleteNotebookInstanceLifecycleConfigInput) async throws -> DeleteNotebookInstanceLifecycleConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8328,6 +8802,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotebookInstanceLifecycleConfigOutput>(DeleteNotebookInstanceLifecycleConfigOutput.httpOutput(from:), DeleteNotebookInstanceLifecycleConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotebookInstanceLifecycleConfigInput, DeleteNotebookInstanceLifecycleConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotebookInstanceLifecycleConfigOutput>())
@@ -8362,9 +8837,9 @@ extension SageMakerClient {
     ///
     /// Deletes an optimization job.
     ///
-    /// - Parameter DeleteOptimizationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOptimizationJobInput`)
     ///
-    /// - Returns: `DeleteOptimizationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOptimizationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8396,6 +8871,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOptimizationJobInput, DeleteOptimizationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOptimizationJobOutput>(DeleteOptimizationJobOutput.httpOutput(from:), DeleteOptimizationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOptimizationJobInput, DeleteOptimizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOptimizationJobOutput>())
@@ -8430,9 +8906,9 @@ extension SageMakerClient {
     ///
     /// Deletes a SageMaker Partner AI App.
     ///
-    /// - Parameter DeletePartnerAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePartnerAppInput`)
     ///
-    /// - Returns: `DeletePartnerAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePartnerAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8466,6 +8942,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePartnerAppInput, DeletePartnerAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePartnerAppOutput>(DeletePartnerAppOutput.httpOutput(from:), DeletePartnerAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePartnerAppInput, DeletePartnerAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePartnerAppOutput>())
@@ -8500,9 +8977,9 @@ extension SageMakerClient {
     ///
     /// Deletes a pipeline if there are no running instances of the pipeline. To delete a pipeline, you must stop all running instances of the pipeline using the StopPipelineExecution API. When you delete a pipeline, all instances of the pipeline are deleted.
     ///
-    /// - Parameter DeletePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePipelineInput`)
     ///
-    /// - Returns: `DeletePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8536,6 +9013,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePipelineInput, DeletePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipelineOutput>(DeletePipelineOutput.httpOutput(from:), DeletePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipelineInput, DeletePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePipelineOutput>())
@@ -8566,13 +9044,83 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteProcessingJob` operation on the `SageMaker` service.
+    ///
+    /// Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (Stopped, Failed, or Completed). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another processing job.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProcessingJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProcessingJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceInUse` : Resource being accessed is in use.
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func deleteProcessingJob(input: DeleteProcessingJobInput) async throws -> DeleteProcessingJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProcessingJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProcessingJobInput, DeleteProcessingJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(DeleteProcessingJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProcessingJobOutput>(DeleteProcessingJobOutput.httpOutput(from:), DeleteProcessingJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProcessingJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProcessingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(xAmzTarget: "SageMaker.DeleteProcessingJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProcessingJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProcessingJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProcessingJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteProject` operation on the `SageMaker` service.
     ///
     /// Delete the specified project.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8604,6 +9152,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -8638,9 +9187,9 @@ extension SageMakerClient {
     ///
     /// Used to delete a space.
     ///
-    /// - Parameter DeleteSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSpaceInput`)
     ///
-    /// - Returns: `DeleteSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8673,6 +9222,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSpaceInput, DeleteSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSpaceOutput>(DeleteSpaceOutput.httpOutput(from:), DeleteSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSpaceInput, DeleteSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSpaceOutput>())
@@ -8707,9 +9257,9 @@ extension SageMakerClient {
     ///
     /// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
     ///
-    /// - Parameter DeleteStudioLifecycleConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStudioLifecycleConfigInput`)
     ///
-    /// - Returns: `DeleteStudioLifecycleConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStudioLifecycleConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8742,6 +9292,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStudioLifecycleConfigOutput>(DeleteStudioLifecycleConfigOutput.httpOutput(from:), DeleteStudioLifecycleConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStudioLifecycleConfigInput, DeleteStudioLifecycleConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStudioLifecycleConfigOutput>())
@@ -8776,9 +9327,9 @@ extension SageMakerClient {
     ///
     /// Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the ListTags API. When you call this API to delete tags from a hyperparameter tuning job, the deleted tags are not removed from training jobs that the hyperparameter tuning job launched before you called this API. When you call this API to delete tags from a SageMaker Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or User Profile launched before you called this API.
     ///
-    /// - Parameter DeleteTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -8805,6 +9356,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTagsInput, DeleteTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTagsOutput>(DeleteTagsOutput.httpOutput(from:), DeleteTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTagsInput, DeleteTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTagsOutput>())
@@ -8835,13 +9387,83 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteTrainingJob` operation on the `SageMaker` service.
+    ///
+    /// Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (Stopped, Failed, or Completed) and don't retain an Available[managed warm pool](https://docs.aws.amazon.com/sagemaker/latest/dg/train-warm-pools.html). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another training job.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrainingJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteTrainingJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceInUse` : Resource being accessed is in use.
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func deleteTrainingJob(input: DeleteTrainingJobInput) async throws -> DeleteTrainingJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteTrainingJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrainingJobInput, DeleteTrainingJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(DeleteTrainingJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrainingJobOutput>(DeleteTrainingJobOutput.httpOutput(from:), DeleteTrainingJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrainingJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTrainingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(xAmzTarget: "SageMaker.DeleteTrainingJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTrainingJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTrainingJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrainingJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteTrial` operation on the `SageMaker` service.
     ///
     /// Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the [DescribeTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeTrialComponent.html) API to get the list of trial components.
     ///
-    /// - Parameter DeleteTrialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrialInput`)
     ///
-    /// - Returns: `DeleteTrialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8873,6 +9495,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrialInput, DeleteTrialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrialOutput>(DeleteTrialOutput.httpOutput(from:), DeleteTrialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrialInput, DeleteTrialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrialOutput>())
@@ -8907,9 +9530,9 @@ extension SageMakerClient {
     ///
     /// Deletes the specified trial component. A trial component must be disassociated from all trials before the trial component can be deleted. To disassociate a trial component from a trial, call the [DisassociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DisassociateTrialComponent.html) API.
     ///
-    /// - Parameter DeleteTrialComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrialComponentInput`)
     ///
-    /// - Returns: `DeleteTrialComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrialComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8941,6 +9564,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrialComponentInput, DeleteTrialComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrialComponentOutput>(DeleteTrialComponentOutput.httpOutput(from:), DeleteTrialComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrialComponentInput, DeleteTrialComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrialComponentOutput>())
@@ -8975,9 +9599,9 @@ extension SageMakerClient {
     ///
     /// Deletes a user profile. When a user profile is deleted, the user loses access to their EFS volume, including data, notebooks, and other artifacts.
     ///
-    /// - Parameter DeleteUserProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserProfileInput`)
     ///
-    /// - Returns: `DeleteUserProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9010,6 +9634,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserProfileInput, DeleteUserProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserProfileOutput>(DeleteUserProfileOutput.httpOutput(from:), DeleteUserProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserProfileInput, DeleteUserProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserProfileOutput>())
@@ -9044,9 +9669,9 @@ extension SageMakerClient {
     ///
     /// Use this operation to delete a workforce. If you want to create a new workforce in an Amazon Web Services Region where a workforce already exists, use this operation to delete the existing workforce and then use [CreateWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateWorkforce.html) to create a new workforce. If a private workforce contains one or more work teams, you must use the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html) operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will receive a ResourceInUse error.
     ///
-    /// - Parameter DeleteWorkforceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkforceInput`)
     ///
-    /// - Returns: `DeleteWorkforceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkforceOutput`)
     public func deleteWorkforce(input: DeleteWorkforceInput) async throws -> DeleteWorkforceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9073,6 +9698,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkforceInput, DeleteWorkforceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkforceOutput>(DeleteWorkforceOutput.httpOutput(from:), DeleteWorkforceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkforceInput, DeleteWorkforceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkforceOutput>())
@@ -9107,9 +9733,9 @@ extension SageMakerClient {
     ///
     /// Deletes an existing work team. This operation can't be undone.
     ///
-    /// - Parameter DeleteWorkteamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkteamInput`)
     ///
-    /// - Returns: `DeleteWorkteamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkteamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9141,6 +9767,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkteamInput, DeleteWorkteamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkteamOutput>(DeleteWorkteamOutput.httpOutput(from:), DeleteWorkteamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkteamInput, DeleteWorkteamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkteamOutput>())
@@ -9175,9 +9802,9 @@ extension SageMakerClient {
     ///
     /// Deregisters the specified devices. After you deregister a device, you will need to re-register the devices.
     ///
-    /// - Parameter DeregisterDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterDevicesInput`)
     ///
-    /// - Returns: `DeregisterDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterDevicesOutput`)
     public func deregisterDevices(input: DeregisterDevicesInput) async throws -> DeregisterDevicesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9204,6 +9831,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterDevicesInput, DeregisterDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterDevicesOutput>(DeregisterDevicesOutput.httpOutput(from:), DeregisterDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterDevicesInput, DeregisterDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterDevicesOutput>())
@@ -9238,9 +9866,9 @@ extension SageMakerClient {
     ///
     /// Describes an action.
     ///
-    /// - Parameter DescribeActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActionInput`)
     ///
-    /// - Returns: `DescribeActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9272,6 +9900,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeActionInput, DescribeActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActionOutput>(DescribeActionOutput.httpOutput(from:), DescribeActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActionInput, DescribeActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActionOutput>())
@@ -9306,9 +9935,9 @@ extension SageMakerClient {
     ///
     /// Returns a description of the specified algorithm that is in your account.
     ///
-    /// - Parameter DescribeAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlgorithmInput`)
     ///
-    /// - Returns: `DescribeAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlgorithmOutput`)
     public func describeAlgorithm(input: DescribeAlgorithmInput) async throws -> DescribeAlgorithmOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -9335,6 +9964,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlgorithmOutput>(DescribeAlgorithmOutput.httpOutput(from:), DescribeAlgorithmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlgorithmInput, DescribeAlgorithmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlgorithmOutput>())
@@ -9369,9 +9999,9 @@ extension SageMakerClient {
     ///
     /// Describes the app.
     ///
-    /// - Parameter DescribeAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppInput`)
     ///
-    /// - Returns: `DescribeAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9403,6 +10033,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppInput, DescribeAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppOutput>(DescribeAppOutput.httpOutput(from:), DescribeAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppInput, DescribeAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppOutput>())
@@ -9437,9 +10068,9 @@ extension SageMakerClient {
     ///
     /// Describes an AppImageConfig.
     ///
-    /// - Parameter DescribeAppImageConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAppImageConfigInput`)
     ///
-    /// - Returns: `DescribeAppImageConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAppImageConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9471,6 +10102,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAppImageConfigInput, DescribeAppImageConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAppImageConfigOutput>(DescribeAppImageConfigOutput.httpOutput(from:), DescribeAppImageConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAppImageConfigInput, DescribeAppImageConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAppImageConfigOutput>())
@@ -9505,9 +10137,9 @@ extension SageMakerClient {
     ///
     /// Describes an artifact.
     ///
-    /// - Parameter DescribeArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeArtifactInput`)
     ///
-    /// - Returns: `DescribeArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9539,6 +10171,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeArtifactInput, DescribeArtifactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeArtifactOutput>(DescribeArtifactOutput.httpOutput(from:), DescribeArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeArtifactInput, DescribeArtifactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeArtifactOutput>())
@@ -9573,9 +10206,9 @@ extension SageMakerClient {
     ///
     /// Returns information about an AutoML job created by calling [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html). AutoML jobs created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) cannot be described by DescribeAutoMLJob.
     ///
-    /// - Parameter DescribeAutoMLJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAutoMLJobInput`)
     ///
-    /// - Returns: `DescribeAutoMLJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAutoMLJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9607,6 +10240,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutoMLJobInput, DescribeAutoMLJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAutoMLJobOutput>(DescribeAutoMLJobOutput.httpOutput(from:), DescribeAutoMLJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutoMLJobInput, DescribeAutoMLJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAutoMLJobOutput>())
@@ -9641,9 +10275,9 @@ extension SageMakerClient {
     ///
     /// Returns information about an AutoML job created by calling [CreateAutoMLJobV2](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJobV2.html) or [CreateAutoMLJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateAutoMLJob.html).
     ///
-    /// - Parameter DescribeAutoMLJobV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAutoMLJobV2Input`)
     ///
-    /// - Returns: `DescribeAutoMLJobV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAutoMLJobV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9675,6 +10309,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutoMLJobV2Input, DescribeAutoMLJobV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAutoMLJobV2Output>(DescribeAutoMLJobV2Output.httpOutput(from:), DescribeAutoMLJobV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutoMLJobV2Input, DescribeAutoMLJobV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAutoMLJobV2Output>())
@@ -9709,9 +10344,9 @@ extension SageMakerClient {
     ///
     /// Retrieves information of a SageMaker HyperPod cluster.
     ///
-    /// - Parameter DescribeClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterInput`)
     ///
-    /// - Returns: `DescribeClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9743,6 +10378,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOutput>(DescribeClusterOutput.httpOutput(from:), DescribeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterInput, DescribeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterOutput>())
@@ -9777,9 +10413,9 @@ extension SageMakerClient {
     ///
     /// Retrieves detailed information about a specific event for a given HyperPod cluster. This functionality is only supported when the NodeProvisioningMode is set to Continuous.
     ///
-    /// - Parameter DescribeClusterEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterEventInput`)
     ///
-    /// - Returns: `DescribeClusterEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9811,6 +10447,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterEventInput, DescribeClusterEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterEventOutput>(DescribeClusterEventOutput.httpOutput(from:), DescribeClusterEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterEventInput, DescribeClusterEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterEventOutput>())
@@ -9845,9 +10482,9 @@ extension SageMakerClient {
     ///
     /// Retrieves information of a node (also called a instance interchangeably) of a SageMaker HyperPod cluster.
     ///
-    /// - Parameter DescribeClusterNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterNodeInput`)
     ///
-    /// - Returns: `DescribeClusterNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9879,6 +10516,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterNodeInput, DescribeClusterNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterNodeOutput>(DescribeClusterNodeOutput.httpOutput(from:), DescribeClusterNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterNodeInput, DescribeClusterNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterNodeOutput>())
@@ -9913,9 +10551,9 @@ extension SageMakerClient {
     ///
     /// Description of the cluster policy. This policy is used for task prioritization and fair-share allocation. This helps prioritize critical workloads and distributes idle compute across entities.
     ///
-    /// - Parameter DescribeClusterSchedulerConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterSchedulerConfigInput`)
     ///
-    /// - Returns: `DescribeClusterSchedulerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterSchedulerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9947,6 +10585,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClusterSchedulerConfigInput, DescribeClusterSchedulerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterSchedulerConfigOutput>(DescribeClusterSchedulerConfigOutput.httpOutput(from:), DescribeClusterSchedulerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterSchedulerConfigInput, DescribeClusterSchedulerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterSchedulerConfigOutput>())
@@ -9981,9 +10620,9 @@ extension SageMakerClient {
     ///
     /// Gets details about the specified Git repository.
     ///
-    /// - Parameter DescribeCodeRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCodeRepositoryInput`)
     ///
-    /// - Returns: `DescribeCodeRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCodeRepositoryOutput`)
     public func describeCodeRepository(input: DescribeCodeRepositoryInput) async throws -> DescribeCodeRepositoryOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10010,6 +10649,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCodeRepositoryOutput>(DescribeCodeRepositoryOutput.httpOutput(from:), DescribeCodeRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCodeRepositoryInput, DescribeCodeRepositoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCodeRepositoryOutput>())
@@ -10044,9 +10684,9 @@ extension SageMakerClient {
     ///
     /// Returns information about a model compilation job. To create a model compilation job, use [CreateCompilationJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateCompilationJob.html). To get information about multiple model compilation jobs, use [ListCompilationJobs](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_ListCompilationJobs.html).
     ///
-    /// - Parameter DescribeCompilationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCompilationJobInput`)
     ///
-    /// - Returns: `DescribeCompilationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCompilationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10078,6 +10718,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCompilationJobInput, DescribeCompilationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCompilationJobOutput>(DescribeCompilationJobOutput.httpOutput(from:), DescribeCompilationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCompilationJobInput, DescribeCompilationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCompilationJobOutput>())
@@ -10112,9 +10753,9 @@ extension SageMakerClient {
     ///
     /// Description of the compute allocation definition.
     ///
-    /// - Parameter DescribeComputeQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeComputeQuotaInput`)
     ///
-    /// - Returns: `DescribeComputeQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeComputeQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10146,6 +10787,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeComputeQuotaInput, DescribeComputeQuotaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComputeQuotaOutput>(DescribeComputeQuotaOutput.httpOutput(from:), DescribeComputeQuotaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComputeQuotaInput, DescribeComputeQuotaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComputeQuotaOutput>())
@@ -10180,9 +10822,9 @@ extension SageMakerClient {
     ///
     /// Describes a context.
     ///
-    /// - Parameter DescribeContextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeContextInput`)
     ///
-    /// - Returns: `DescribeContextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeContextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10214,6 +10856,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContextInput, DescribeContextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeContextOutput>(DescribeContextOutput.httpOutput(from:), DescribeContextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContextInput, DescribeContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContextOutput>())
@@ -10248,9 +10891,9 @@ extension SageMakerClient {
     ///
     /// Gets the details of a data quality monitoring job definition.
     ///
-    /// - Parameter DescribeDataQualityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataQualityJobDefinitionInput`)
     ///
-    /// - Returns: `DescribeDataQualityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataQualityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10282,6 +10925,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataQualityJobDefinitionOutput>(DescribeDataQualityJobDefinitionOutput.httpOutput(from:), DescribeDataQualityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataQualityJobDefinitionInput, DescribeDataQualityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataQualityJobDefinitionOutput>())
@@ -10316,9 +10960,9 @@ extension SageMakerClient {
     ///
     /// Describes the device.
     ///
-    /// - Parameter DescribeDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeviceInput`)
     ///
-    /// - Returns: `DescribeDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10350,6 +10994,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeviceInput, DescribeDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeviceOutput>(DescribeDeviceOutput.httpOutput(from:), DescribeDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeviceOutput>())
@@ -10384,9 +11029,9 @@ extension SageMakerClient {
     ///
     /// A description of the fleet the device belongs to.
     ///
-    /// - Parameter DescribeDeviceFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeviceFleetInput`)
     ///
-    /// - Returns: `DescribeDeviceFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeviceFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10418,6 +11063,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeviceFleetInput, DescribeDeviceFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeviceFleetOutput>(DescribeDeviceFleetOutput.httpOutput(from:), DescribeDeviceFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeviceFleetInput, DescribeDeviceFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeviceFleetOutput>())
@@ -10452,9 +11098,9 @@ extension SageMakerClient {
     ///
     /// The description of the domain.
     ///
-    /// - Parameter DescribeDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainInput`)
     ///
-    /// - Returns: `DescribeDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10486,6 +11132,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainInput, DescribeDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainOutput>(DescribeDomainOutput.httpOutput(from:), DescribeDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainInput, DescribeDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainOutput>())
@@ -10520,9 +11167,9 @@ extension SageMakerClient {
     ///
     /// Describes an edge deployment plan with deployment status per stage.
     ///
-    /// - Parameter DescribeEdgeDeploymentPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEdgeDeploymentPlanInput`)
     ///
-    /// - Returns: `DescribeEdgeDeploymentPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEdgeDeploymentPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10554,6 +11201,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEdgeDeploymentPlanOutput>(DescribeEdgeDeploymentPlanOutput.httpOutput(from:), DescribeEdgeDeploymentPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEdgeDeploymentPlanInput, DescribeEdgeDeploymentPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEdgeDeploymentPlanOutput>())
@@ -10588,9 +11236,9 @@ extension SageMakerClient {
     ///
     /// A description of edge packaging jobs.
     ///
-    /// - Parameter DescribeEdgePackagingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEdgePackagingJobInput`)
     ///
-    /// - Returns: `DescribeEdgePackagingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEdgePackagingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10622,6 +11270,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEdgePackagingJobOutput>(DescribeEdgePackagingJobOutput.httpOutput(from:), DescribeEdgePackagingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEdgePackagingJobInput, DescribeEdgePackagingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEdgePackagingJobOutput>())
@@ -10656,9 +11305,9 @@ extension SageMakerClient {
     ///
     /// Returns the description of an endpoint.
     ///
-    /// - Parameter DescribeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointInput`)
     ///
-    /// - Returns: `DescribeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointOutput`)
     public func describeEndpoint(input: DescribeEndpointInput) async throws -> DescribeEndpointOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10685,6 +11334,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointInput, DescribeEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointOutput>(DescribeEndpointOutput.httpOutput(from:), DescribeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointOutput>())
@@ -10719,9 +11369,9 @@ extension SageMakerClient {
     ///
     /// Returns the description of an endpoint configuration created using the CreateEndpointConfig API.
     ///
-    /// - Parameter DescribeEndpointConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointConfigInput`)
     ///
-    /// - Returns: `DescribeEndpointConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointConfigOutput`)
     public func describeEndpointConfig(input: DescribeEndpointConfigInput) async throws -> DescribeEndpointConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10748,6 +11398,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointConfigInput, DescribeEndpointConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointConfigOutput>(DescribeEndpointConfigOutput.httpOutput(from:), DescribeEndpointConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointConfigInput, DescribeEndpointConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointConfigOutput>())
@@ -10782,9 +11433,9 @@ extension SageMakerClient {
     ///
     /// Provides a list of an experiment's properties.
     ///
-    /// - Parameter DescribeExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExperimentInput`)
     ///
-    /// - Returns: `DescribeExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10816,6 +11467,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExperimentInput, DescribeExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExperimentOutput>(DescribeExperimentOutput.httpOutput(from:), DescribeExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExperimentInput, DescribeExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExperimentOutput>())
@@ -10850,9 +11502,9 @@ extension SageMakerClient {
     ///
     /// Use this operation to describe a FeatureGroup. The response includes information on the creation time, FeatureGroup name, the unique identifier for each FeatureGroup, and more.
     ///
-    /// - Parameter DescribeFeatureGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFeatureGroupInput`)
     ///
-    /// - Returns: `DescribeFeatureGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFeatureGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10884,6 +11536,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFeatureGroupInput, DescribeFeatureGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFeatureGroupOutput>(DescribeFeatureGroupOutput.httpOutput(from:), DescribeFeatureGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFeatureGroupInput, DescribeFeatureGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFeatureGroupOutput>())
@@ -10918,9 +11571,9 @@ extension SageMakerClient {
     ///
     /// Shows the metadata for a feature within a feature group.
     ///
-    /// - Parameter DescribeFeatureMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFeatureMetadataInput`)
     ///
-    /// - Returns: `DescribeFeatureMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFeatureMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10952,6 +11605,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFeatureMetadataOutput>(DescribeFeatureMetadataOutput.httpOutput(from:), DescribeFeatureMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFeatureMetadataInput, DescribeFeatureMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFeatureMetadataOutput>())
@@ -10986,9 +11640,9 @@ extension SageMakerClient {
     ///
     /// Returns information about the specified flow definition.
     ///
-    /// - Parameter DescribeFlowDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowDefinitionInput`)
     ///
-    /// - Returns: `DescribeFlowDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11020,6 +11674,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowDefinitionOutput>(DescribeFlowDefinitionOutput.httpOutput(from:), DescribeFlowDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowDefinitionInput, DescribeFlowDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowDefinitionOutput>())
@@ -11054,9 +11709,9 @@ extension SageMakerClient {
     ///
     /// Describes a hub.
     ///
-    /// - Parameter DescribeHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHubInput`)
     ///
-    /// - Returns: `DescribeHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11088,6 +11743,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHubInput, DescribeHubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHubOutput>(DescribeHubOutput.httpOutput(from:), DescribeHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHubInput, DescribeHubOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHubOutput>())
@@ -11122,9 +11778,9 @@ extension SageMakerClient {
     ///
     /// Describe the content of a hub.
     ///
-    /// - Parameter DescribeHubContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHubContentInput`)
     ///
-    /// - Returns: `DescribeHubContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHubContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11156,6 +11812,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHubContentInput, DescribeHubContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHubContentOutput>(DescribeHubContentOutput.httpOutput(from:), DescribeHubContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHubContentInput, DescribeHubContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHubContentOutput>())
@@ -11190,9 +11847,9 @@ extension SageMakerClient {
     ///
     /// Returns information about the requested human task user interface (worker task template).
     ///
-    /// - Parameter DescribeHumanTaskUiInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHumanTaskUiInput`)
     ///
-    /// - Returns: `DescribeHumanTaskUiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHumanTaskUiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11224,6 +11881,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHumanTaskUiOutput>(DescribeHumanTaskUiOutput.httpOutput(from:), DescribeHumanTaskUiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHumanTaskUiInput, DescribeHumanTaskUiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHumanTaskUiOutput>())
@@ -11258,9 +11916,9 @@ extension SageMakerClient {
     ///
     /// Returns a description of a hyperparameter tuning job, depending on the fields selected. These fields can include the name, Amazon Resource Name (ARN), job status of your tuning job and more.
     ///
-    /// - Parameter DescribeHyperParameterTuningJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHyperParameterTuningJobInput`)
     ///
-    /// - Returns: `DescribeHyperParameterTuningJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHyperParameterTuningJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11292,6 +11950,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHyperParameterTuningJobOutput>(DescribeHyperParameterTuningJobOutput.httpOutput(from:), DescribeHyperParameterTuningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHyperParameterTuningJobInput, DescribeHyperParameterTuningJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHyperParameterTuningJobOutput>())
@@ -11326,9 +11985,9 @@ extension SageMakerClient {
     ///
     /// Describes a SageMaker AI image.
     ///
-    /// - Parameter DescribeImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageInput`)
     ///
-    /// - Returns: `DescribeImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11360,6 +12019,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageInput, DescribeImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageOutput>(DescribeImageOutput.httpOutput(from:), DescribeImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageInput, DescribeImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageOutput>())
@@ -11394,9 +12054,9 @@ extension SageMakerClient {
     ///
     /// Describes a version of a SageMaker AI image.
     ///
-    /// - Parameter DescribeImageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageVersionInput`)
     ///
-    /// - Returns: `DescribeImageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11428,6 +12088,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageVersionInput, DescribeImageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageVersionOutput>(DescribeImageVersionOutput.httpOutput(from:), DescribeImageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageVersionInput, DescribeImageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageVersionOutput>())
@@ -11462,9 +12123,9 @@ extension SageMakerClient {
     ///
     /// Returns information about an inference component.
     ///
-    /// - Parameter DescribeInferenceComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInferenceComponentInput`)
     ///
-    /// - Returns: `DescribeInferenceComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInferenceComponentOutput`)
     public func describeInferenceComponent(input: DescribeInferenceComponentInput) async throws -> DescribeInferenceComponentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11491,6 +12152,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInferenceComponentInput, DescribeInferenceComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInferenceComponentOutput>(DescribeInferenceComponentOutput.httpOutput(from:), DescribeInferenceComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInferenceComponentInput, DescribeInferenceComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInferenceComponentOutput>())
@@ -11525,9 +12187,9 @@ extension SageMakerClient {
     ///
     /// Returns details about an inference experiment.
     ///
-    /// - Parameter DescribeInferenceExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInferenceExperimentInput`)
     ///
-    /// - Returns: `DescribeInferenceExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInferenceExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11559,6 +12221,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInferenceExperimentOutput>(DescribeInferenceExperimentOutput.httpOutput(from:), DescribeInferenceExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInferenceExperimentInput, DescribeInferenceExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInferenceExperimentOutput>())
@@ -11593,9 +12256,9 @@ extension SageMakerClient {
     ///
     /// Provides the results of the Inference Recommender job. One or more recommendation jobs are returned.
     ///
-    /// - Parameter DescribeInferenceRecommendationsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInferenceRecommendationsJobInput`)
     ///
-    /// - Returns: `DescribeInferenceRecommendationsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInferenceRecommendationsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11627,6 +12290,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInferenceRecommendationsJobOutput>(DescribeInferenceRecommendationsJobOutput.httpOutput(from:), DescribeInferenceRecommendationsJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInferenceRecommendationsJobInput, DescribeInferenceRecommendationsJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInferenceRecommendationsJobOutput>())
@@ -11661,9 +12325,9 @@ extension SageMakerClient {
     ///
     /// Gets information about a labeling job.
     ///
-    /// - Parameter DescribeLabelingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLabelingJobInput`)
     ///
-    /// - Returns: `DescribeLabelingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLabelingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11695,6 +12359,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLabelingJobInput, DescribeLabelingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLabelingJobOutput>(DescribeLabelingJobOutput.httpOutput(from:), DescribeLabelingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLabelingJobInput, DescribeLabelingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLabelingJobOutput>())
@@ -11729,9 +12394,9 @@ extension SageMakerClient {
     ///
     /// Provides a list of properties for the requested lineage group. For more information, see [ Cross-Account Lineage Tracking ](https://docs.aws.amazon.com/sagemaker/latest/dg/xaccount-lineage-tracking.html) in the Amazon SageMaker Developer Guide.
     ///
-    /// - Parameter DescribeLineageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLineageGroupInput`)
     ///
-    /// - Returns: `DescribeLineageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLineageGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11763,6 +12428,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLineageGroupInput, DescribeLineageGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLineageGroupOutput>(DescribeLineageGroupOutput.httpOutput(from:), DescribeLineageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLineageGroupInput, DescribeLineageGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLineageGroupOutput>())
@@ -11793,13 +12459,82 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeMlflowApp` operation on the `SageMaker` service.
+    ///
+    /// Returns information about an MLflow App.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeMlflowAppInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeMlflowAppOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func describeMlflowApp(input: DescribeMlflowAppInput) async throws -> DescribeMlflowAppOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMlflowApp")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMlflowAppInput, DescribeMlflowAppOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(DescribeMlflowAppInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMlflowAppOutput>(DescribeMlflowAppOutput.httpOutput(from:), DescribeMlflowAppOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMlflowAppOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMlflowAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(xAmzTarget: "SageMaker.DescribeMlflowApp"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMlflowAppInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMlflowAppOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMlflowAppInput, DescribeMlflowAppOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMlflowApp")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeMlflowTrackingServer` operation on the `SageMaker` service.
     ///
     /// Returns information about an MLflow Tracking Server.
     ///
-    /// - Parameter DescribeMlflowTrackingServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMlflowTrackingServerInput`)
     ///
-    /// - Returns: `DescribeMlflowTrackingServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMlflowTrackingServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11831,6 +12566,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMlflowTrackingServerInput, DescribeMlflowTrackingServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMlflowTrackingServerOutput>(DescribeMlflowTrackingServerOutput.httpOutput(from:), DescribeMlflowTrackingServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMlflowTrackingServerInput, DescribeMlflowTrackingServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMlflowTrackingServerOutput>())
@@ -11865,9 +12601,9 @@ extension SageMakerClient {
     ///
     /// Describes a model that you created using the CreateModel API.
     ///
-    /// - Parameter DescribeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelInput`)
     ///
-    /// - Returns: `DescribeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelOutput`)
     public func describeModel(input: DescribeModelInput) async throws -> DescribeModelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -11894,6 +12630,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelInput, DescribeModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelOutput>(DescribeModelOutput.httpOutput(from:), DescribeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelInput, DescribeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelOutput>())
@@ -11928,9 +12665,9 @@ extension SageMakerClient {
     ///
     /// Returns a description of a model bias job definition.
     ///
-    /// - Parameter DescribeModelBiasJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelBiasJobDefinitionInput`)
     ///
-    /// - Returns: `DescribeModelBiasJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelBiasJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11962,6 +12699,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelBiasJobDefinitionOutput>(DescribeModelBiasJobDefinitionOutput.httpOutput(from:), DescribeModelBiasJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelBiasJobDefinitionInput, DescribeModelBiasJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelBiasJobDefinitionOutput>())
@@ -11996,9 +12734,9 @@ extension SageMakerClient {
     ///
     /// Describes the content, creation time, and security configuration of an Amazon SageMaker Model Card.
     ///
-    /// - Parameter DescribeModelCardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelCardInput`)
     ///
-    /// - Returns: `DescribeModelCardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelCardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12030,6 +12768,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelCardInput, DescribeModelCardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelCardOutput>(DescribeModelCardOutput.httpOutput(from:), DescribeModelCardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelCardInput, DescribeModelCardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelCardOutput>())
@@ -12064,9 +12803,9 @@ extension SageMakerClient {
     ///
     /// Describes an Amazon SageMaker Model Card export job.
     ///
-    /// - Parameter DescribeModelCardExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelCardExportJobInput`)
     ///
-    /// - Returns: `DescribeModelCardExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelCardExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12098,6 +12837,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelCardExportJobOutput>(DescribeModelCardExportJobOutput.httpOutput(from:), DescribeModelCardExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelCardExportJobInput, DescribeModelCardExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelCardExportJobOutput>())
@@ -12132,9 +12872,9 @@ extension SageMakerClient {
     ///
     /// Returns a description of a model explainability job definition.
     ///
-    /// - Parameter DescribeModelExplainabilityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelExplainabilityJobDefinitionInput`)
     ///
-    /// - Returns: `DescribeModelExplainabilityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelExplainabilityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12166,6 +12906,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelExplainabilityJobDefinitionOutput>(DescribeModelExplainabilityJobDefinitionOutput.httpOutput(from:), DescribeModelExplainabilityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelExplainabilityJobDefinitionInput, DescribeModelExplainabilityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelExplainabilityJobDefinitionOutput>())
@@ -12200,9 +12941,9 @@ extension SageMakerClient {
     ///
     /// Returns a description of the specified model package, which is used to create SageMaker models or list them on Amazon Web Services Marketplace. If you provided a KMS Key ID when you created your model package, you will see the [KMS Decrypt](https://docs.aws.amazon.com/kms/latest/APIReference/API_Decrypt.html) API call in your CloudTrail logs when you use this API. To create models in SageMaker, buyers can subscribe to model packages listed on Amazon Web Services Marketplace.
     ///
-    /// - Parameter DescribeModelPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelPackageInput`)
     ///
-    /// - Returns: `DescribeModelPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelPackageOutput`)
     public func describeModelPackage(input: DescribeModelPackageInput) async throws -> DescribeModelPackageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12229,6 +12970,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelPackageInput, DescribeModelPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelPackageOutput>(DescribeModelPackageOutput.httpOutput(from:), DescribeModelPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelPackageInput, DescribeModelPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelPackageOutput>())
@@ -12263,9 +13005,9 @@ extension SageMakerClient {
     ///
     /// Gets a description for the specified model group.
     ///
-    /// - Parameter DescribeModelPackageGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelPackageGroupInput`)
     ///
-    /// - Returns: `DescribeModelPackageGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelPackageGroupOutput`)
     public func describeModelPackageGroup(input: DescribeModelPackageGroupInput) async throws -> DescribeModelPackageGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12292,6 +13034,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelPackageGroupOutput>(DescribeModelPackageGroupOutput.httpOutput(from:), DescribeModelPackageGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelPackageGroupInput, DescribeModelPackageGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelPackageGroupOutput>())
@@ -12326,9 +13069,9 @@ extension SageMakerClient {
     ///
     /// Returns a description of a model quality job definition.
     ///
-    /// - Parameter DescribeModelQualityJobDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelQualityJobDefinitionInput`)
     ///
-    /// - Returns: `DescribeModelQualityJobDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelQualityJobDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12360,6 +13103,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelQualityJobDefinitionOutput>(DescribeModelQualityJobDefinitionOutput.httpOutput(from:), DescribeModelQualityJobDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelQualityJobDefinitionInput, DescribeModelQualityJobDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelQualityJobDefinitionOutput>())
@@ -12394,9 +13138,9 @@ extension SageMakerClient {
     ///
     /// Describes the schedule for a monitoring job.
     ///
-    /// - Parameter DescribeMonitoringScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMonitoringScheduleInput`)
     ///
-    /// - Returns: `DescribeMonitoringScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMonitoringScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12428,6 +13172,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMonitoringScheduleOutput>(DescribeMonitoringScheduleOutput.httpOutput(from:), DescribeMonitoringScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMonitoringScheduleInput, DescribeMonitoringScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMonitoringScheduleOutput>())
@@ -12462,9 +13207,9 @@ extension SageMakerClient {
     ///
     /// Returns information about a notebook instance.
     ///
-    /// - Parameter DescribeNotebookInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNotebookInstanceInput`)
     ///
-    /// - Returns: `DescribeNotebookInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNotebookInstanceOutput`)
     public func describeNotebookInstance(input: DescribeNotebookInstanceInput) async throws -> DescribeNotebookInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12491,6 +13236,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotebookInstanceOutput>(DescribeNotebookInstanceOutput.httpOutput(from:), DescribeNotebookInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotebookInstanceInput, DescribeNotebookInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNotebookInstanceOutput>())
@@ -12525,9 +13271,9 @@ extension SageMakerClient {
     ///
     /// Returns a description of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
     ///
-    /// - Parameter DescribeNotebookInstanceLifecycleConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNotebookInstanceLifecycleConfigInput`)
     ///
-    /// - Returns: `DescribeNotebookInstanceLifecycleConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNotebookInstanceLifecycleConfigOutput`)
     public func describeNotebookInstanceLifecycleConfig(input: DescribeNotebookInstanceLifecycleConfigInput) async throws -> DescribeNotebookInstanceLifecycleConfigOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -12554,6 +13300,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNotebookInstanceLifecycleConfigOutput>(DescribeNotebookInstanceLifecycleConfigOutput.httpOutput(from:), DescribeNotebookInstanceLifecycleConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNotebookInstanceLifecycleConfigInput, DescribeNotebookInstanceLifecycleConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNotebookInstanceLifecycleConfigOutput>())
@@ -12588,9 +13335,9 @@ extension SageMakerClient {
     ///
     /// Provides the properties of the specified optimization job.
     ///
-    /// - Parameter DescribeOptimizationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOptimizationJobInput`)
     ///
-    /// - Returns: `DescribeOptimizationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOptimizationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12622,6 +13369,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOptimizationJobInput, DescribeOptimizationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOptimizationJobOutput>(DescribeOptimizationJobOutput.httpOutput(from:), DescribeOptimizationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOptimizationJobInput, DescribeOptimizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOptimizationJobOutput>())
@@ -12656,9 +13404,9 @@ extension SageMakerClient {
     ///
     /// Gets information about a SageMaker Partner AI App.
     ///
-    /// - Parameter DescribePartnerAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePartnerAppInput`)
     ///
-    /// - Returns: `DescribePartnerAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePartnerAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12690,6 +13438,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePartnerAppInput, DescribePartnerAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePartnerAppOutput>(DescribePartnerAppOutput.httpOutput(from:), DescribePartnerAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePartnerAppInput, DescribePartnerAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePartnerAppOutput>())
@@ -12724,9 +13473,9 @@ extension SageMakerClient {
     ///
     /// Describes the details of a pipeline.
     ///
-    /// - Parameter DescribePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePipelineInput`)
     ///
-    /// - Returns: `DescribePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12758,6 +13507,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePipelineInput, DescribePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePipelineOutput>(DescribePipelineOutput.httpOutput(from:), DescribePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePipelineInput, DescribePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePipelineOutput>())
@@ -12792,9 +13542,9 @@ extension SageMakerClient {
     ///
     /// Describes the details of an execution's pipeline definition.
     ///
-    /// - Parameter DescribePipelineDefinitionForExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePipelineDefinitionForExecutionInput`)
     ///
-    /// - Returns: `DescribePipelineDefinitionForExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePipelineDefinitionForExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12826,6 +13576,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePipelineDefinitionForExecutionOutput>(DescribePipelineDefinitionForExecutionOutput.httpOutput(from:), DescribePipelineDefinitionForExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePipelineDefinitionForExecutionInput, DescribePipelineDefinitionForExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePipelineDefinitionForExecutionOutput>())
@@ -12860,9 +13611,9 @@ extension SageMakerClient {
     ///
     /// Describes the details of a pipeline execution.
     ///
-    /// - Parameter DescribePipelineExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePipelineExecutionInput`)
     ///
-    /// - Returns: `DescribePipelineExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12894,6 +13645,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePipelineExecutionInput, DescribePipelineExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePipelineExecutionOutput>(DescribePipelineExecutionOutput.httpOutput(from:), DescribePipelineExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePipelineExecutionInput, DescribePipelineExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePipelineExecutionOutput>())
@@ -12928,9 +13680,9 @@ extension SageMakerClient {
     ///
     /// Returns a description of a processing job.
     ///
-    /// - Parameter DescribeProcessingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProcessingJobInput`)
     ///
-    /// - Returns: `DescribeProcessingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProcessingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12962,6 +13714,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProcessingJobInput, DescribeProcessingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProcessingJobOutput>(DescribeProcessingJobOutput.httpOutput(from:), DescribeProcessingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProcessingJobInput, DescribeProcessingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProcessingJobOutput>())
@@ -12996,9 +13749,9 @@ extension SageMakerClient {
     ///
     /// Describes the details of a project.
     ///
-    /// - Parameter DescribeProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProjectInput`)
     ///
-    /// - Returns: `DescribeProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProjectOutput`)
     public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13025,6 +13778,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProjectInput, DescribeProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectOutput>(DescribeProjectOutput.httpOutput(from:), DescribeProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectInput, DescribeProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProjectOutput>())
@@ -13059,9 +13813,9 @@ extension SageMakerClient {
     ///
     /// Retrieves details about a reserved capacity.
     ///
-    /// - Parameter DescribeReservedCapacityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservedCapacityInput`)
     ///
-    /// - Returns: `DescribeReservedCapacityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservedCapacityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13093,6 +13847,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReservedCapacityInput, DescribeReservedCapacityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservedCapacityOutput>(DescribeReservedCapacityOutput.httpOutput(from:), DescribeReservedCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservedCapacityInput, DescribeReservedCapacityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservedCapacityOutput>())
@@ -13127,9 +13882,9 @@ extension SageMakerClient {
     ///
     /// Describes the space.
     ///
-    /// - Parameter DescribeSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSpaceInput`)
     ///
-    /// - Returns: `DescribeSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13161,6 +13916,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSpaceInput, DescribeSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpaceOutput>(DescribeSpaceOutput.httpOutput(from:), DescribeSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpaceInput, DescribeSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpaceOutput>())
@@ -13195,9 +13951,9 @@ extension SageMakerClient {
     ///
     /// Describes the Amazon SageMaker AI Studio Lifecycle Configuration.
     ///
-    /// - Parameter DescribeStudioLifecycleConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStudioLifecycleConfigInput`)
     ///
-    /// - Returns: `DescribeStudioLifecycleConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStudioLifecycleConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13229,6 +13985,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStudioLifecycleConfigOutput>(DescribeStudioLifecycleConfigOutput.httpOutput(from:), DescribeStudioLifecycleConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStudioLifecycleConfigInput, DescribeStudioLifecycleConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStudioLifecycleConfigOutput>())
@@ -13263,9 +14020,9 @@ extension SageMakerClient {
     ///
     /// Gets information about a work team provided by a vendor. It returns details about the subscription with a vendor in the Amazon Web Services Marketplace.
     ///
-    /// - Parameter DescribeSubscribedWorkteamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSubscribedWorkteamInput`)
     ///
-    /// - Returns: `DescribeSubscribedWorkteamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSubscribedWorkteamOutput`)
     public func describeSubscribedWorkteam(input: DescribeSubscribedWorkteamInput) async throws -> DescribeSubscribedWorkteamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13292,6 +14049,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSubscribedWorkteamOutput>(DescribeSubscribedWorkteamOutput.httpOutput(from:), DescribeSubscribedWorkteamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSubscribedWorkteamInput, DescribeSubscribedWorkteamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSubscribedWorkteamOutput>())
@@ -13326,9 +14084,9 @@ extension SageMakerClient {
     ///
     /// Returns information about a training job. Some of the attributes below only appear if the training job successfully starts. If the training job fails, TrainingJobStatus is Failed and, depending on the FailureReason, attributes like TrainingStartTime, TrainingTimeInSeconds, TrainingEndTime, and BillableTimeInSeconds may not be present in the response.
     ///
-    /// - Parameter DescribeTrainingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrainingJobInput`)
     ///
-    /// - Returns: `DescribeTrainingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrainingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13360,6 +14118,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrainingJobInput, DescribeTrainingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrainingJobOutput>(DescribeTrainingJobOutput.httpOutput(from:), DescribeTrainingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrainingJobInput, DescribeTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrainingJobOutput>())
@@ -13394,9 +14153,9 @@ extension SageMakerClient {
     ///
     /// Retrieves detailed information about a specific training plan.
     ///
-    /// - Parameter DescribeTrainingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrainingPlanInput`)
     ///
-    /// - Returns: `DescribeTrainingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrainingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13428,6 +14187,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrainingPlanInput, DescribeTrainingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrainingPlanOutput>(DescribeTrainingPlanOutput.httpOutput(from:), DescribeTrainingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrainingPlanInput, DescribeTrainingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrainingPlanOutput>())
@@ -13462,9 +14222,9 @@ extension SageMakerClient {
     ///
     /// Returns information about a transform job.
     ///
-    /// - Parameter DescribeTransformJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransformJobInput`)
     ///
-    /// - Returns: `DescribeTransformJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTransformJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13496,6 +14256,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTransformJobInput, DescribeTransformJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransformJobOutput>(DescribeTransformJobOutput.httpOutput(from:), DescribeTransformJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransformJobInput, DescribeTransformJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransformJobOutput>())
@@ -13530,9 +14291,9 @@ extension SageMakerClient {
     ///
     /// Provides a list of a trial's properties.
     ///
-    /// - Parameter DescribeTrialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrialInput`)
     ///
-    /// - Returns: `DescribeTrialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13564,6 +14325,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrialInput, DescribeTrialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrialOutput>(DescribeTrialOutput.httpOutput(from:), DescribeTrialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrialInput, DescribeTrialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrialOutput>())
@@ -13598,9 +14360,9 @@ extension SageMakerClient {
     ///
     /// Provides a list of a trials component's properties.
     ///
-    /// - Parameter DescribeTrialComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTrialComponentInput`)
     ///
-    /// - Returns: `DescribeTrialComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTrialComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13632,6 +14394,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrialComponentInput, DescribeTrialComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrialComponentOutput>(DescribeTrialComponentOutput.httpOutput(from:), DescribeTrialComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrialComponentInput, DescribeTrialComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrialComponentOutput>())
@@ -13666,9 +14429,9 @@ extension SageMakerClient {
     ///
     /// Describes a user profile. For more information, see CreateUserProfile.
     ///
-    /// - Parameter DescribeUserProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserProfileInput`)
     ///
-    /// - Returns: `DescribeUserProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13701,6 +14464,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserProfileInput, DescribeUserProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserProfileOutput>(DescribeUserProfileOutput.httpOutput(from:), DescribeUserProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserProfileInput, DescribeUserProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserProfileOutput>())
@@ -13735,9 +14499,9 @@ extension SageMakerClient {
     ///
     /// Lists private workforce information, including workforce name, Amazon Resource Name (ARN), and, if applicable, allowed IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)). Allowable IP address ranges are the IP addresses that workers can use to access tasks. This operation applies only to private workforces.
     ///
-    /// - Parameter DescribeWorkforceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkforceInput`)
     ///
-    /// - Returns: `DescribeWorkforceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkforceOutput`)
     public func describeWorkforce(input: DescribeWorkforceInput) async throws -> DescribeWorkforceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13764,6 +14528,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkforceInput, DescribeWorkforceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkforceOutput>(DescribeWorkforceOutput.httpOutput(from:), DescribeWorkforceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkforceInput, DescribeWorkforceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkforceOutput>())
@@ -13798,9 +14563,9 @@ extension SageMakerClient {
     ///
     /// Gets information about a specific work team. You can see information such as the creation date, the last updated date, membership information, and the work team's Amazon Resource Name (ARN).
     ///
-    /// - Parameter DescribeWorkteamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkteamInput`)
     ///
-    /// - Returns: `DescribeWorkteamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkteamOutput`)
     public func describeWorkteam(input: DescribeWorkteamInput) async throws -> DescribeWorkteamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13827,6 +14592,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkteamInput, DescribeWorkteamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkteamOutput>(DescribeWorkteamOutput.httpOutput(from:), DescribeWorkteamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkteamInput, DescribeWorkteamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkteamOutput>())
@@ -13861,9 +14627,9 @@ extension SageMakerClient {
     ///
     /// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
     ///
-    /// - Parameter DetachClusterNodeVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachClusterNodeVolumeInput`)
     ///
-    /// - Returns: `DetachClusterNodeVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachClusterNodeVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -13895,6 +14661,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachClusterNodeVolumeOutput>(DetachClusterNodeVolumeOutput.httpOutput(from:), DetachClusterNodeVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachClusterNodeVolumeOutput>())
@@ -13929,9 +14696,9 @@ extension SageMakerClient {
     ///
     /// Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     ///
-    /// - Parameter DisableSagemakerServicecatalogPortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableSagemakerServicecatalogPortfolioInput`)
     ///
-    /// - Returns: `DisableSagemakerServicecatalogPortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableSagemakerServicecatalogPortfolioOutput`)
     public func disableSagemakerServicecatalogPortfolio(input: DisableSagemakerServicecatalogPortfolioInput) async throws -> DisableSagemakerServicecatalogPortfolioOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -13958,6 +14725,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSagemakerServicecatalogPortfolioOutput>(DisableSagemakerServicecatalogPortfolioOutput.httpOutput(from:), DisableSagemakerServicecatalogPortfolioOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSagemakerServicecatalogPortfolioInput, DisableSagemakerServicecatalogPortfolioOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSagemakerServicecatalogPortfolioOutput>())
@@ -13992,9 +14760,9 @@ extension SageMakerClient {
     ///
     /// Disassociates a trial component from a trial. This doesn't effect other trials the component is associated with. Before you can delete a component, you must disassociate the component from all trials it is associated with. To associate a trial component with a trial, call the [AssociateTrialComponent](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AssociateTrialComponent.html) API. To get a list of the trials a component is associated with, use the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. Specify ExperimentTrialComponent for the Resource parameter. The list appears in the response under Results.TrialComponent.Parents.
     ///
-    /// - Parameter DisassociateTrialComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTrialComponentInput`)
     ///
-    /// - Returns: `DisassociateTrialComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTrialComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14026,6 +14794,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateTrialComponentInput, DisassociateTrialComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTrialComponentOutput>(DisassociateTrialComponentOutput.httpOutput(from:), DisassociateTrialComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTrialComponentInput, DisassociateTrialComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTrialComponentOutput>())
@@ -14060,9 +14829,9 @@ extension SageMakerClient {
     ///
     /// Enables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     ///
-    /// - Parameter EnableSagemakerServicecatalogPortfolioInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSagemakerServicecatalogPortfolioInput`)
     ///
-    /// - Returns: `EnableSagemakerServicecatalogPortfolioOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSagemakerServicecatalogPortfolioOutput`)
     public func enableSagemakerServicecatalogPortfolio(input: EnableSagemakerServicecatalogPortfolioInput) async throws -> EnableSagemakerServicecatalogPortfolioOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14089,6 +14858,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSagemakerServicecatalogPortfolioOutput>(EnableSagemakerServicecatalogPortfolioOutput.httpOutput(from:), EnableSagemakerServicecatalogPortfolioOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSagemakerServicecatalogPortfolioInput, EnableSagemakerServicecatalogPortfolioOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSagemakerServicecatalogPortfolioOutput>())
@@ -14123,9 +14893,9 @@ extension SageMakerClient {
     ///
     /// Describes a fleet.
     ///
-    /// - Parameter GetDeviceFleetReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceFleetReportInput`)
     ///
-    /// - Returns: `GetDeviceFleetReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceFleetReportOutput`)
     public func getDeviceFleetReport(input: GetDeviceFleetReportInput) async throws -> GetDeviceFleetReportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14152,6 +14922,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeviceFleetReportInput, GetDeviceFleetReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceFleetReportOutput>(GetDeviceFleetReportOutput.httpOutput(from:), GetDeviceFleetReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceFleetReportInput, GetDeviceFleetReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceFleetReportOutput>())
@@ -14186,9 +14957,9 @@ extension SageMakerClient {
     ///
     /// The resource policy for the lineage group.
     ///
-    /// - Parameter GetLineageGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLineageGroupPolicyInput`)
     ///
-    /// - Returns: `GetLineageGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLineageGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14220,6 +14991,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLineageGroupPolicyOutput>(GetLineageGroupPolicyOutput.httpOutput(from:), GetLineageGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLineageGroupPolicyInput, GetLineageGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLineageGroupPolicyOutput>())
@@ -14254,9 +15026,9 @@ extension SageMakerClient {
     ///
     /// Gets a resource policy that manages access for a model group. For information about resource policies, see [Identity-based policies and resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) in the Amazon Web Services Identity and Access Management User Guide..
     ///
-    /// - Parameter GetModelPackageGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelPackageGroupPolicyInput`)
     ///
-    /// - Returns: `GetModelPackageGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelPackageGroupPolicyOutput`)
     public func getModelPackageGroupPolicy(input: GetModelPackageGroupPolicyInput) async throws -> GetModelPackageGroupPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14283,6 +15055,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelPackageGroupPolicyOutput>(GetModelPackageGroupPolicyOutput.httpOutput(from:), GetModelPackageGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelPackageGroupPolicyInput, GetModelPackageGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelPackageGroupPolicyOutput>())
@@ -14317,9 +15090,9 @@ extension SageMakerClient {
     ///
     /// Gets the status of Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
     ///
-    /// - Parameter GetSagemakerServicecatalogPortfolioStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSagemakerServicecatalogPortfolioStatusInput`)
     ///
-    /// - Returns: `GetSagemakerServicecatalogPortfolioStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSagemakerServicecatalogPortfolioStatusOutput`)
     public func getSagemakerServicecatalogPortfolioStatus(input: GetSagemakerServicecatalogPortfolioStatusInput) async throws -> GetSagemakerServicecatalogPortfolioStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14346,6 +15119,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSagemakerServicecatalogPortfolioStatusOutput>(GetSagemakerServicecatalogPortfolioStatusOutput.httpOutput(from:), GetSagemakerServicecatalogPortfolioStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSagemakerServicecatalogPortfolioStatusInput, GetSagemakerServicecatalogPortfolioStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSagemakerServicecatalogPortfolioStatusOutput>())
@@ -14380,9 +15154,9 @@ extension SageMakerClient {
     ///
     /// Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
     ///
-    /// - Parameter GetScalingConfigurationRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetScalingConfigurationRecommendationInput`)
     ///
-    /// - Returns: `GetScalingConfigurationRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetScalingConfigurationRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14414,6 +15188,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetScalingConfigurationRecommendationOutput>(GetScalingConfigurationRecommendationOutput.httpOutput(from:), GetScalingConfigurationRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetScalingConfigurationRecommendationInput, GetScalingConfigurationRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetScalingConfigurationRecommendationOutput>())
@@ -14448,9 +15223,9 @@ extension SageMakerClient {
     ///
     /// An auto-complete API for the search functionality in the SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     ///
-    /// - Parameter GetSearchSuggestionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSearchSuggestionsInput`)
     ///
-    /// - Returns: `GetSearchSuggestionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSearchSuggestionsOutput`)
     public func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14477,6 +15252,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSearchSuggestionsInput, GetSearchSuggestionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSearchSuggestionsOutput>(GetSearchSuggestionsOutput.httpOutput(from:), GetSearchSuggestionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSearchSuggestionsInput, GetSearchSuggestionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSearchSuggestionsOutput>())
@@ -14511,9 +15287,9 @@ extension SageMakerClient {
     ///
     /// Import hub content.
     ///
-    /// - Parameter ImportHubContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportHubContentInput`)
     ///
-    /// - Returns: `ImportHubContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportHubContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14547,6 +15323,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportHubContentInput, ImportHubContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportHubContentOutput>(ImportHubContentOutput.httpOutput(from:), ImportHubContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportHubContentInput, ImportHubContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportHubContentOutput>())
@@ -14581,9 +15358,9 @@ extension SageMakerClient {
     ///
     /// Lists the actions in your account and their properties.
     ///
-    /// - Parameter ListActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActionsInput`)
     ///
-    /// - Returns: `ListActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14615,6 +15392,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListActionsInput, ListActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActionsOutput>(ListActionsOutput.httpOutput(from:), ListActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActionsInput, ListActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListActionsOutput>())
@@ -14649,9 +15427,9 @@ extension SageMakerClient {
     ///
     /// Lists the machine learning algorithms that have been created.
     ///
-    /// - Parameter ListAlgorithmsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAlgorithmsInput`)
     ///
-    /// - Returns: `ListAlgorithmsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAlgorithmsOutput`)
     public func listAlgorithms(input: ListAlgorithmsInput) async throws -> ListAlgorithmsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14678,6 +15456,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAlgorithmsInput, ListAlgorithmsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAlgorithmsOutput>(ListAlgorithmsOutput.httpOutput(from:), ListAlgorithmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlgorithmsInput, ListAlgorithmsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAlgorithmsOutput>())
@@ -14712,9 +15491,9 @@ extension SageMakerClient {
     ///
     /// Lists the aliases of a specified image or image version.
     ///
-    /// - Parameter ListAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAliasesInput`)
     ///
-    /// - Returns: `ListAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14746,6 +15525,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAliasesInput, ListAliasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAliasesOutput>(ListAliasesOutput.httpOutput(from:), ListAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAliasesInput, ListAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAliasesOutput>())
@@ -14780,9 +15560,9 @@ extension SageMakerClient {
     ///
     /// Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
     ///
-    /// - Parameter ListAppImageConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppImageConfigsInput`)
     ///
-    /// - Returns: `ListAppImageConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppImageConfigsOutput`)
     public func listAppImageConfigs(input: ListAppImageConfigsInput) async throws -> ListAppImageConfigsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14809,6 +15589,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppImageConfigsInput, ListAppImageConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppImageConfigsOutput>(ListAppImageConfigsOutput.httpOutput(from:), ListAppImageConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppImageConfigsInput, ListAppImageConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppImageConfigsOutput>())
@@ -14843,9 +15624,9 @@ extension SageMakerClient {
     ///
     /// Lists apps.
     ///
-    /// - Parameter ListAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAppsInput`)
     ///
-    /// - Returns: `ListAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAppsOutput`)
     public func listApps(input: ListAppsInput) async throws -> ListAppsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -14872,6 +15653,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAppsInput, ListAppsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAppsOutput>(ListAppsOutput.httpOutput(from:), ListAppsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAppsInput, ListAppsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAppsOutput>())
@@ -14906,9 +15688,9 @@ extension SageMakerClient {
     ///
     /// Lists the artifacts in your account and their properties.
     ///
-    /// - Parameter ListArtifactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListArtifactsInput`)
     ///
-    /// - Returns: `ListArtifactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -14940,6 +15722,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArtifactsInput, ListArtifactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArtifactsOutput>(ListArtifactsOutput.httpOutput(from:), ListArtifactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArtifactsInput, ListArtifactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArtifactsOutput>())
@@ -14974,9 +15757,9 @@ extension SageMakerClient {
     ///
     /// Lists the associations in your account and their properties.
     ///
-    /// - Parameter ListAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociationsInput`)
     ///
-    /// - Returns: `ListAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15008,6 +15791,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociationsInput, ListAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociationsOutput>(ListAssociationsOutput.httpOutput(from:), ListAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociationsInput, ListAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociationsOutput>())
@@ -15042,9 +15826,9 @@ extension SageMakerClient {
     ///
     /// Request a list of jobs.
     ///
-    /// - Parameter ListAutoMLJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutoMLJobsInput`)
     ///
-    /// - Returns: `ListAutoMLJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutoMLJobsOutput`)
     public func listAutoMLJobs(input: ListAutoMLJobsInput) async throws -> ListAutoMLJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15071,6 +15855,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutoMLJobsInput, ListAutoMLJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutoMLJobsOutput>(ListAutoMLJobsOutput.httpOutput(from:), ListAutoMLJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutoMLJobsInput, ListAutoMLJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutoMLJobsOutput>())
@@ -15105,9 +15890,9 @@ extension SageMakerClient {
     ///
     /// List the candidates created for the job.
     ///
-    /// - Parameter ListCandidatesForAutoMLJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCandidatesForAutoMLJobInput`)
     ///
-    /// - Returns: `ListCandidatesForAutoMLJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCandidatesForAutoMLJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15139,6 +15924,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCandidatesForAutoMLJobOutput>(ListCandidatesForAutoMLJobOutput.httpOutput(from:), ListCandidatesForAutoMLJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCandidatesForAutoMLJobInput, ListCandidatesForAutoMLJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCandidatesForAutoMLJobOutput>())
@@ -15173,9 +15959,9 @@ extension SageMakerClient {
     ///
     /// Retrieves a list of event summaries for a specified HyperPod cluster. The operation supports filtering, sorting, and pagination of results. This functionality is only supported when the NodeProvisioningMode is set to Continuous.
     ///
-    /// - Parameter ListClusterEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterEventsInput`)
     ///
-    /// - Returns: `ListClusterEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15207,6 +15993,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClusterEventsInput, ListClusterEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterEventsOutput>(ListClusterEventsOutput.httpOutput(from:), ListClusterEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterEventsInput, ListClusterEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterEventsOutput>())
@@ -15241,9 +16028,9 @@ extension SageMakerClient {
     ///
     /// Retrieves the list of instances (also called nodes interchangeably) in a SageMaker HyperPod cluster.
     ///
-    /// - Parameter ListClusterNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterNodesInput`)
     ///
-    /// - Returns: `ListClusterNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15275,6 +16062,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClusterNodesInput, ListClusterNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterNodesOutput>(ListClusterNodesOutput.httpOutput(from:), ListClusterNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterNodesInput, ListClusterNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterNodesOutput>())
@@ -15309,9 +16097,9 @@ extension SageMakerClient {
     ///
     /// List the cluster policy configurations.
     ///
-    /// - Parameter ListClusterSchedulerConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterSchedulerConfigsInput`)
     ///
-    /// - Returns: `ListClusterSchedulerConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterSchedulerConfigsOutput`)
     public func listClusterSchedulerConfigs(input: ListClusterSchedulerConfigsInput) async throws -> ListClusterSchedulerConfigsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15338,6 +16126,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClusterSchedulerConfigsInput, ListClusterSchedulerConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterSchedulerConfigsOutput>(ListClusterSchedulerConfigsOutput.httpOutput(from:), ListClusterSchedulerConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterSchedulerConfigsInput, ListClusterSchedulerConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterSchedulerConfigsOutput>())
@@ -15372,9 +16161,9 @@ extension SageMakerClient {
     ///
     /// Retrieves the list of SageMaker HyperPod clusters.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     public func listClusters(input: ListClustersInput) async throws -> ListClustersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15401,6 +16190,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListClustersInput, ListClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -15435,9 +16225,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of the Git repositories in your account.
     ///
-    /// - Parameter ListCodeRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeRepositoriesInput`)
     ///
-    /// - Returns: `ListCodeRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeRepositoriesOutput`)
     public func listCodeRepositories(input: ListCodeRepositoriesInput) async throws -> ListCodeRepositoriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15464,6 +16254,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCodeRepositoriesInput, ListCodeRepositoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeRepositoriesOutput>(ListCodeRepositoriesOutput.httpOutput(from:), ListCodeRepositoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeRepositoriesInput, ListCodeRepositoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeRepositoriesOutput>())
@@ -15498,9 +16289,9 @@ extension SageMakerClient {
     ///
     /// Lists model compilation jobs that satisfy various filters. To create a model compilation job, use [CreateCompilationJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateCompilationJob.html). To get information about a particular model compilation job you have created, use [DescribeCompilationJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeCompilationJob.html).
     ///
-    /// - Parameter ListCompilationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCompilationJobsInput`)
     ///
-    /// - Returns: `ListCompilationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCompilationJobsOutput`)
     public func listCompilationJobs(input: ListCompilationJobsInput) async throws -> ListCompilationJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15527,6 +16318,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCompilationJobsInput, ListCompilationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCompilationJobsOutput>(ListCompilationJobsOutput.httpOutput(from:), ListCompilationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCompilationJobsInput, ListCompilationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCompilationJobsOutput>())
@@ -15561,9 +16353,9 @@ extension SageMakerClient {
     ///
     /// List the resource allocation definitions.
     ///
-    /// - Parameter ListComputeQuotasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComputeQuotasInput`)
     ///
-    /// - Returns: `ListComputeQuotasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComputeQuotasOutput`)
     public func listComputeQuotas(input: ListComputeQuotasInput) async throws -> ListComputeQuotasOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15590,6 +16382,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComputeQuotasInput, ListComputeQuotasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComputeQuotasOutput>(ListComputeQuotasOutput.httpOutput(from:), ListComputeQuotasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComputeQuotasInput, ListComputeQuotasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComputeQuotasOutput>())
@@ -15624,9 +16417,9 @@ extension SageMakerClient {
     ///
     /// Lists the contexts in your account and their properties.
     ///
-    /// - Parameter ListContextsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListContextsInput`)
     ///
-    /// - Returns: `ListContextsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListContextsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -15658,6 +16451,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContextsInput, ListContextsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListContextsOutput>(ListContextsOutput.httpOutput(from:), ListContextsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContextsInput, ListContextsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContextsOutput>())
@@ -15692,9 +16486,9 @@ extension SageMakerClient {
     ///
     /// Lists the data quality job definitions in your account.
     ///
-    /// - Parameter ListDataQualityJobDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataQualityJobDefinitionsInput`)
     ///
-    /// - Returns: `ListDataQualityJobDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataQualityJobDefinitionsOutput`)
     public func listDataQualityJobDefinitions(input: ListDataQualityJobDefinitionsInput) async throws -> ListDataQualityJobDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15721,6 +16515,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataQualityJobDefinitionsOutput>(ListDataQualityJobDefinitionsOutput.httpOutput(from:), ListDataQualityJobDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataQualityJobDefinitionsInput, ListDataQualityJobDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataQualityJobDefinitionsOutput>())
@@ -15755,9 +16550,9 @@ extension SageMakerClient {
     ///
     /// Returns a list of devices in the fleet.
     ///
-    /// - Parameter ListDeviceFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceFleetsInput`)
     ///
-    /// - Returns: `ListDeviceFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceFleetsOutput`)
     public func listDeviceFleets(input: ListDeviceFleetsInput) async throws -> ListDeviceFleetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15784,6 +16579,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeviceFleetsInput, ListDeviceFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeviceFleetsOutput>(ListDeviceFleetsOutput.httpOutput(from:), ListDeviceFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeviceFleetsInput, ListDeviceFleetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeviceFleetsOutput>())
@@ -15818,9 +16614,9 @@ extension SageMakerClient {
     ///
     /// A list of devices.
     ///
-    /// - Parameter ListDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesInput`)
     ///
-    /// - Returns: `ListDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesOutput`)
     public func listDevices(input: ListDevicesInput) async throws -> ListDevicesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15847,6 +16643,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevicesInput, ListDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesOutput>(ListDevicesOutput.httpOutput(from:), ListDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesInput, ListDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesOutput>())
@@ -15881,9 +16678,9 @@ extension SageMakerClient {
     ///
     /// Lists the domains.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15910,6 +16707,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -15944,9 +16742,9 @@ extension SageMakerClient {
     ///
     /// Lists all edge deployment plans.
     ///
-    /// - Parameter ListEdgeDeploymentPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEdgeDeploymentPlansInput`)
     ///
-    /// - Returns: `ListEdgeDeploymentPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEdgeDeploymentPlansOutput`)
     public func listEdgeDeploymentPlans(input: ListEdgeDeploymentPlansInput) async throws -> ListEdgeDeploymentPlansOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -15973,6 +16771,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEdgeDeploymentPlansOutput>(ListEdgeDeploymentPlansOutput.httpOutput(from:), ListEdgeDeploymentPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEdgeDeploymentPlansInput, ListEdgeDeploymentPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEdgeDeploymentPlansOutput>())
@@ -16007,9 +16806,9 @@ extension SageMakerClient {
     ///
     /// Returns a list of edge packaging jobs.
     ///
-    /// - Parameter ListEdgePackagingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEdgePackagingJobsInput`)
     ///
-    /// - Returns: `ListEdgePackagingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEdgePackagingJobsOutput`)
     public func listEdgePackagingJobs(input: ListEdgePackagingJobsInput) async throws -> ListEdgePackagingJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16036,6 +16835,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEdgePackagingJobsOutput>(ListEdgePackagingJobsOutput.httpOutput(from:), ListEdgePackagingJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEdgePackagingJobsInput, ListEdgePackagingJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEdgePackagingJobsOutput>())
@@ -16070,9 +16870,9 @@ extension SageMakerClient {
     ///
     /// Lists endpoint configurations.
     ///
-    /// - Parameter ListEndpointConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEndpointConfigsInput`)
     ///
-    /// - Returns: `ListEndpointConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEndpointConfigsOutput`)
     public func listEndpointConfigs(input: ListEndpointConfigsInput) async throws -> ListEndpointConfigsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16099,6 +16899,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEndpointConfigsInput, ListEndpointConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEndpointConfigsOutput>(ListEndpointConfigsOutput.httpOutput(from:), ListEndpointConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEndpointConfigsInput, ListEndpointConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEndpointConfigsOutput>())
@@ -16133,9 +16934,9 @@ extension SageMakerClient {
     ///
     /// Lists endpoints.
     ///
-    /// - Parameter ListEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEndpointsInput`)
     ///
-    /// - Returns: `ListEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEndpointsOutput`)
     public func listEndpoints(input: ListEndpointsInput) async throws -> ListEndpointsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16162,6 +16963,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEndpointsInput, ListEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEndpointsOutput>(ListEndpointsOutput.httpOutput(from:), ListEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEndpointsInput, ListEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEndpointsOutput>())
@@ -16196,9 +16998,9 @@ extension SageMakerClient {
     ///
     /// Lists all the experiments in your account. The list can be filtered to show only experiments that were created in a specific time range. The list can be sorted by experiment name or creation time.
     ///
-    /// - Parameter ListExperimentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExperimentsInput`)
     ///
-    /// - Returns: `ListExperimentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExperimentsOutput`)
     public func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16225,6 +17027,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExperimentsInput, ListExperimentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExperimentsOutput>(ListExperimentsOutput.httpOutput(from:), ListExperimentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExperimentsInput, ListExperimentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExperimentsOutput>())
@@ -16259,9 +17062,9 @@ extension SageMakerClient {
     ///
     /// List FeatureGroups based on given filter and order.
     ///
-    /// - Parameter ListFeatureGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFeatureGroupsInput`)
     ///
-    /// - Returns: `ListFeatureGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFeatureGroupsOutput`)
     public func listFeatureGroups(input: ListFeatureGroupsInput) async throws -> ListFeatureGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16288,6 +17091,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFeatureGroupsInput, ListFeatureGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFeatureGroupsOutput>(ListFeatureGroupsOutput.httpOutput(from:), ListFeatureGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFeatureGroupsInput, ListFeatureGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFeatureGroupsOutput>())
@@ -16322,9 +17126,9 @@ extension SageMakerClient {
     ///
     /// Returns information about the flow definitions in your account.
     ///
-    /// - Parameter ListFlowDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowDefinitionsInput`)
     ///
-    /// - Returns: `ListFlowDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowDefinitionsOutput`)
     public func listFlowDefinitions(input: ListFlowDefinitionsInput) async throws -> ListFlowDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16351,6 +17155,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowDefinitionsInput, ListFlowDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowDefinitionsOutput>(ListFlowDefinitionsOutput.httpOutput(from:), ListFlowDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowDefinitionsInput, ListFlowDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowDefinitionsOutput>())
@@ -16385,9 +17190,9 @@ extension SageMakerClient {
     ///
     /// List hub content versions.
     ///
-    /// - Parameter ListHubContentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHubContentVersionsInput`)
     ///
-    /// - Returns: `ListHubContentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHubContentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16419,6 +17224,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHubContentVersionsInput, ListHubContentVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHubContentVersionsOutput>(ListHubContentVersionsOutput.httpOutput(from:), ListHubContentVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHubContentVersionsInput, ListHubContentVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHubContentVersionsOutput>())
@@ -16453,9 +17259,9 @@ extension SageMakerClient {
     ///
     /// List the contents of a hub.
     ///
-    /// - Parameter ListHubContentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHubContentsInput`)
     ///
-    /// - Returns: `ListHubContentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHubContentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16487,6 +17293,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHubContentsInput, ListHubContentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHubContentsOutput>(ListHubContentsOutput.httpOutput(from:), ListHubContentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHubContentsInput, ListHubContentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHubContentsOutput>())
@@ -16521,9 +17328,9 @@ extension SageMakerClient {
     ///
     /// List all existing hubs.
     ///
-    /// - Parameter ListHubsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHubsInput`)
     ///
-    /// - Returns: `ListHubsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHubsOutput`)
     public func listHubs(input: ListHubsInput) async throws -> ListHubsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16550,6 +17357,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHubsInput, ListHubsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHubsOutput>(ListHubsOutput.httpOutput(from:), ListHubsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHubsInput, ListHubsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHubsOutput>())
@@ -16584,9 +17392,9 @@ extension SageMakerClient {
     ///
     /// Returns information about the human task user interfaces in your account.
     ///
-    /// - Parameter ListHumanTaskUisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHumanTaskUisInput`)
     ///
-    /// - Returns: `ListHumanTaskUisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHumanTaskUisOutput`)
     public func listHumanTaskUis(input: ListHumanTaskUisInput) async throws -> ListHumanTaskUisOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16613,6 +17421,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHumanTaskUisInput, ListHumanTaskUisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHumanTaskUisOutput>(ListHumanTaskUisOutput.httpOutput(from:), ListHumanTaskUisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHumanTaskUisInput, ListHumanTaskUisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHumanTaskUisOutput>())
@@ -16647,9 +17456,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of [HyperParameterTuningJobSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_HyperParameterTuningJobSummary.html) objects that describe the hyperparameter tuning jobs launched in your account.
     ///
-    /// - Parameter ListHyperParameterTuningJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHyperParameterTuningJobsInput`)
     ///
-    /// - Returns: `ListHyperParameterTuningJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHyperParameterTuningJobsOutput`)
     public func listHyperParameterTuningJobs(input: ListHyperParameterTuningJobsInput) async throws -> ListHyperParameterTuningJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16676,6 +17485,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHyperParameterTuningJobsOutput>(ListHyperParameterTuningJobsOutput.httpOutput(from:), ListHyperParameterTuningJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHyperParameterTuningJobsInput, ListHyperParameterTuningJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHyperParameterTuningJobsOutput>())
@@ -16710,9 +17520,9 @@ extension SageMakerClient {
     ///
     /// Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
     ///
-    /// - Parameter ListImageVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImageVersionsInput`)
     ///
-    /// - Returns: `ListImageVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImageVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -16744,6 +17554,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImageVersionsInput, ListImageVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImageVersionsOutput>(ListImageVersionsOutput.httpOutput(from:), ListImageVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImageVersionsInput, ListImageVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImageVersionsOutput>())
@@ -16778,9 +17589,9 @@ extension SageMakerClient {
     ///
     /// Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
     ///
-    /// - Parameter ListImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImagesInput`)
     ///
-    /// - Returns: `ListImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImagesOutput`)
     public func listImages(input: ListImagesInput) async throws -> ListImagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16807,6 +17618,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImagesInput, ListImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImagesOutput>(ListImagesOutput.httpOutput(from:), ListImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImagesInput, ListImagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImagesOutput>())
@@ -16841,9 +17653,9 @@ extension SageMakerClient {
     ///
     /// Lists the inference components in your account and their properties.
     ///
-    /// - Parameter ListInferenceComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceComponentsInput`)
     ///
-    /// - Returns: `ListInferenceComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceComponentsOutput`)
     public func listInferenceComponents(input: ListInferenceComponentsInput) async throws -> ListInferenceComponentsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16870,6 +17682,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInferenceComponentsInput, ListInferenceComponentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInferenceComponentsOutput>(ListInferenceComponentsOutput.httpOutput(from:), ListInferenceComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInferenceComponentsInput, ListInferenceComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInferenceComponentsOutput>())
@@ -16904,9 +17717,9 @@ extension SageMakerClient {
     ///
     /// Returns the list of all inference experiments.
     ///
-    /// - Parameter ListInferenceExperimentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceExperimentsInput`)
     ///
-    /// - Returns: `ListInferenceExperimentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceExperimentsOutput`)
     public func listInferenceExperiments(input: ListInferenceExperimentsInput) async throws -> ListInferenceExperimentsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -16933,6 +17746,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInferenceExperimentsInput, ListInferenceExperimentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInferenceExperimentsOutput>(ListInferenceExperimentsOutput.httpOutput(from:), ListInferenceExperimentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInferenceExperimentsInput, ListInferenceExperimentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInferenceExperimentsOutput>())
@@ -16967,9 +17781,9 @@ extension SageMakerClient {
     ///
     /// Returns a list of the subtasks for an Inference Recommender job. The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.
     ///
-    /// - Parameter ListInferenceRecommendationsJobStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceRecommendationsJobStepsInput`)
     ///
-    /// - Returns: `ListInferenceRecommendationsJobStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceRecommendationsJobStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17001,6 +17815,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInferenceRecommendationsJobStepsOutput>(ListInferenceRecommendationsJobStepsOutput.httpOutput(from:), ListInferenceRecommendationsJobStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInferenceRecommendationsJobStepsInput, ListInferenceRecommendationsJobStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInferenceRecommendationsJobStepsOutput>())
@@ -17035,9 +17850,9 @@ extension SageMakerClient {
     ///
     /// Lists recommendation jobs that satisfy various filters.
     ///
-    /// - Parameter ListInferenceRecommendationsJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceRecommendationsJobsInput`)
     ///
-    /// - Returns: `ListInferenceRecommendationsJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceRecommendationsJobsOutput`)
     public func listInferenceRecommendationsJobs(input: ListInferenceRecommendationsJobsInput) async throws -> ListInferenceRecommendationsJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17064,6 +17879,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInferenceRecommendationsJobsOutput>(ListInferenceRecommendationsJobsOutput.httpOutput(from:), ListInferenceRecommendationsJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInferenceRecommendationsJobsInput, ListInferenceRecommendationsJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInferenceRecommendationsJobsOutput>())
@@ -17098,9 +17914,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of labeling jobs.
     ///
-    /// - Parameter ListLabelingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLabelingJobsInput`)
     ///
-    /// - Returns: `ListLabelingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLabelingJobsOutput`)
     public func listLabelingJobs(input: ListLabelingJobsInput) async throws -> ListLabelingJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17127,6 +17943,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLabelingJobsInput, ListLabelingJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLabelingJobsOutput>(ListLabelingJobsOutput.httpOutput(from:), ListLabelingJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLabelingJobsInput, ListLabelingJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLabelingJobsOutput>())
@@ -17161,9 +17978,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of labeling jobs assigned to a specified work team.
     ///
-    /// - Parameter ListLabelingJobsForWorkteamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLabelingJobsForWorkteamInput`)
     ///
-    /// - Returns: `ListLabelingJobsForWorkteamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLabelingJobsForWorkteamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17195,6 +18012,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLabelingJobsForWorkteamOutput>(ListLabelingJobsForWorkteamOutput.httpOutput(from:), ListLabelingJobsForWorkteamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLabelingJobsForWorkteamInput, ListLabelingJobsForWorkteamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLabelingJobsForWorkteamOutput>())
@@ -17229,9 +18047,9 @@ extension SageMakerClient {
     ///
     /// A list of lineage groups shared with your Amazon Web Services account. For more information, see [ Cross-Account Lineage Tracking ](https://docs.aws.amazon.com/sagemaker/latest/dg/xaccount-lineage-tracking.html) in the Amazon SageMaker Developer Guide.
     ///
-    /// - Parameter ListLineageGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLineageGroupsInput`)
     ///
-    /// - Returns: `ListLineageGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLineageGroupsOutput`)
     public func listLineageGroups(input: ListLineageGroupsInput) async throws -> ListLineageGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17258,6 +18076,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLineageGroupsInput, ListLineageGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLineageGroupsOutput>(ListLineageGroupsOutput.httpOutput(from:), ListLineageGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLineageGroupsInput, ListLineageGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLineageGroupsOutput>())
@@ -17288,13 +18107,77 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListMlflowApps` operation on the `SageMaker` service.
+    ///
+    /// Lists all MLflow Apps
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListMlflowAppsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListMlflowAppsOutput`)
+    public func listMlflowApps(input: ListMlflowAppsInput) async throws -> ListMlflowAppsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMlflowApps")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMlflowAppsInput, ListMlflowAppsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(ListMlflowAppsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMlflowAppsOutput>(ListMlflowAppsOutput.httpOutput(from:), ListMlflowAppsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMlflowAppsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMlflowAppsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(xAmzTarget: "SageMaker.ListMlflowApps"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListMlflowAppsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMlflowAppsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMlflowAppsInput, ListMlflowAppsOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMlflowApps")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListMlflowTrackingServers` operation on the `SageMaker` service.
     ///
     /// Lists all MLflow Tracking Servers.
     ///
-    /// - Parameter ListMlflowTrackingServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMlflowTrackingServersInput`)
     ///
-    /// - Returns: `ListMlflowTrackingServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMlflowTrackingServersOutput`)
     public func listMlflowTrackingServers(input: ListMlflowTrackingServersInput) async throws -> ListMlflowTrackingServersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17321,6 +18204,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMlflowTrackingServersInput, ListMlflowTrackingServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMlflowTrackingServersOutput>(ListMlflowTrackingServersOutput.httpOutput(from:), ListMlflowTrackingServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMlflowTrackingServersInput, ListMlflowTrackingServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMlflowTrackingServersOutput>())
@@ -17355,9 +18239,9 @@ extension SageMakerClient {
     ///
     /// Lists model bias jobs definitions that satisfy various filters.
     ///
-    /// - Parameter ListModelBiasJobDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelBiasJobDefinitionsInput`)
     ///
-    /// - Returns: `ListModelBiasJobDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelBiasJobDefinitionsOutput`)
     public func listModelBiasJobDefinitions(input: ListModelBiasJobDefinitionsInput) async throws -> ListModelBiasJobDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17384,6 +18268,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelBiasJobDefinitionsOutput>(ListModelBiasJobDefinitionsOutput.httpOutput(from:), ListModelBiasJobDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelBiasJobDefinitionsInput, ListModelBiasJobDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelBiasJobDefinitionsOutput>())
@@ -17418,9 +18303,9 @@ extension SageMakerClient {
     ///
     /// List the export jobs for the Amazon SageMaker Model Card.
     ///
-    /// - Parameter ListModelCardExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelCardExportJobsInput`)
     ///
-    /// - Returns: `ListModelCardExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelCardExportJobsOutput`)
     public func listModelCardExportJobs(input: ListModelCardExportJobsInput) async throws -> ListModelCardExportJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17447,6 +18332,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelCardExportJobsInput, ListModelCardExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelCardExportJobsOutput>(ListModelCardExportJobsOutput.httpOutput(from:), ListModelCardExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelCardExportJobsInput, ListModelCardExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelCardExportJobsOutput>())
@@ -17481,9 +18367,9 @@ extension SageMakerClient {
     ///
     /// List existing versions of an Amazon SageMaker Model Card.
     ///
-    /// - Parameter ListModelCardVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelCardVersionsInput`)
     ///
-    /// - Returns: `ListModelCardVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelCardVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -17515,6 +18401,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelCardVersionsInput, ListModelCardVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelCardVersionsOutput>(ListModelCardVersionsOutput.httpOutput(from:), ListModelCardVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelCardVersionsInput, ListModelCardVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelCardVersionsOutput>())
@@ -17549,9 +18436,9 @@ extension SageMakerClient {
     ///
     /// List existing model cards.
     ///
-    /// - Parameter ListModelCardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelCardsInput`)
     ///
-    /// - Returns: `ListModelCardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelCardsOutput`)
     public func listModelCards(input: ListModelCardsInput) async throws -> ListModelCardsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17578,6 +18465,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelCardsInput, ListModelCardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelCardsOutput>(ListModelCardsOutput.httpOutput(from:), ListModelCardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelCardsInput, ListModelCardsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelCardsOutput>())
@@ -17612,9 +18500,9 @@ extension SageMakerClient {
     ///
     /// Lists model explainability job definitions that satisfy various filters.
     ///
-    /// - Parameter ListModelExplainabilityJobDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelExplainabilityJobDefinitionsInput`)
     ///
-    /// - Returns: `ListModelExplainabilityJobDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelExplainabilityJobDefinitionsOutput`)
     public func listModelExplainabilityJobDefinitions(input: ListModelExplainabilityJobDefinitionsInput) async throws -> ListModelExplainabilityJobDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17641,6 +18529,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelExplainabilityJobDefinitionsOutput>(ListModelExplainabilityJobDefinitionsOutput.httpOutput(from:), ListModelExplainabilityJobDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelExplainabilityJobDefinitionsInput, ListModelExplainabilityJobDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelExplainabilityJobDefinitionsOutput>())
@@ -17675,9 +18564,9 @@ extension SageMakerClient {
     ///
     /// Lists the domain, framework, task, and model name of standard machine learning models found in common model zoos.
     ///
-    /// - Parameter ListModelMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelMetadataInput`)
     ///
-    /// - Returns: `ListModelMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelMetadataOutput`)
     public func listModelMetadata(input: ListModelMetadataInput) async throws -> ListModelMetadataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17704,6 +18593,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelMetadataInput, ListModelMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelMetadataOutput>(ListModelMetadataOutput.httpOutput(from:), ListModelMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelMetadataInput, ListModelMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelMetadataOutput>())
@@ -17738,9 +18628,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of the model groups in your Amazon Web Services account.
     ///
-    /// - Parameter ListModelPackageGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelPackageGroupsInput`)
     ///
-    /// - Returns: `ListModelPackageGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelPackageGroupsOutput`)
     public func listModelPackageGroups(input: ListModelPackageGroupsInput) async throws -> ListModelPackageGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17767,6 +18657,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelPackageGroupsInput, ListModelPackageGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelPackageGroupsOutput>(ListModelPackageGroupsOutput.httpOutput(from:), ListModelPackageGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelPackageGroupsInput, ListModelPackageGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelPackageGroupsOutput>())
@@ -17801,9 +18692,9 @@ extension SageMakerClient {
     ///
     /// Lists the model packages that have been created.
     ///
-    /// - Parameter ListModelPackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelPackagesInput`)
     ///
-    /// - Returns: `ListModelPackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelPackagesOutput`)
     public func listModelPackages(input: ListModelPackagesInput) async throws -> ListModelPackagesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17830,6 +18721,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelPackagesInput, ListModelPackagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelPackagesOutput>(ListModelPackagesOutput.httpOutput(from:), ListModelPackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelPackagesInput, ListModelPackagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelPackagesOutput>())
@@ -17864,9 +18756,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of model quality monitoring job definitions in your account.
     ///
-    /// - Parameter ListModelQualityJobDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelQualityJobDefinitionsInput`)
     ///
-    /// - Returns: `ListModelQualityJobDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelQualityJobDefinitionsOutput`)
     public func listModelQualityJobDefinitions(input: ListModelQualityJobDefinitionsInput) async throws -> ListModelQualityJobDefinitionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17893,6 +18785,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelQualityJobDefinitionsOutput>(ListModelQualityJobDefinitionsOutput.httpOutput(from:), ListModelQualityJobDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelQualityJobDefinitionsInput, ListModelQualityJobDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelQualityJobDefinitionsOutput>())
@@ -17927,9 +18820,9 @@ extension SageMakerClient {
     ///
     /// Lists models created with the CreateModel API.
     ///
-    /// - Parameter ListModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelsInput`)
     ///
-    /// - Returns: `ListModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelsOutput`)
     public func listModels(input: ListModelsInput) async throws -> ListModelsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -17956,6 +18849,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelsInput, ListModelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelsOutput>(ListModelsOutput.httpOutput(from:), ListModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelsInput, ListModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelsOutput>())
@@ -17990,9 +18884,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of past alerts in a model monitoring schedule.
     ///
-    /// - Parameter ListMonitoringAlertHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitoringAlertHistoryInput`)
     ///
-    /// - Returns: `ListMonitoringAlertHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitoringAlertHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18024,6 +18918,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitoringAlertHistoryOutput>(ListMonitoringAlertHistoryOutput.httpOutput(from:), ListMonitoringAlertHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitoringAlertHistoryInput, ListMonitoringAlertHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitoringAlertHistoryOutput>())
@@ -18058,9 +18953,9 @@ extension SageMakerClient {
     ///
     /// Gets the alerts for a single monitoring schedule.
     ///
-    /// - Parameter ListMonitoringAlertsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitoringAlertsInput`)
     ///
-    /// - Returns: `ListMonitoringAlertsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitoringAlertsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18092,6 +18987,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMonitoringAlertsInput, ListMonitoringAlertsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitoringAlertsOutput>(ListMonitoringAlertsOutput.httpOutput(from:), ListMonitoringAlertsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitoringAlertsInput, ListMonitoringAlertsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitoringAlertsOutput>())
@@ -18126,9 +19022,9 @@ extension SageMakerClient {
     ///
     /// Returns list of all monitoring job executions.
     ///
-    /// - Parameter ListMonitoringExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitoringExecutionsInput`)
     ///
-    /// - Returns: `ListMonitoringExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitoringExecutionsOutput`)
     public func listMonitoringExecutions(input: ListMonitoringExecutionsInput) async throws -> ListMonitoringExecutionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18155,6 +19051,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitoringExecutionsOutput>(ListMonitoringExecutionsOutput.httpOutput(from:), ListMonitoringExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitoringExecutionsInput, ListMonitoringExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitoringExecutionsOutput>())
@@ -18189,9 +19086,9 @@ extension SageMakerClient {
     ///
     /// Returns list of all monitoring schedules.
     ///
-    /// - Parameter ListMonitoringSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitoringSchedulesInput`)
     ///
-    /// - Returns: `ListMonitoringSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitoringSchedulesOutput`)
     public func listMonitoringSchedules(input: ListMonitoringSchedulesInput) async throws -> ListMonitoringSchedulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18218,6 +19115,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitoringSchedulesOutput>(ListMonitoringSchedulesOutput.httpOutput(from:), ListMonitoringSchedulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitoringSchedulesInput, ListMonitoringSchedulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitoringSchedulesOutput>())
@@ -18252,9 +19150,9 @@ extension SageMakerClient {
     ///
     /// Lists notebook instance lifestyle configurations created with the [CreateNotebookInstanceLifecycleConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateNotebookInstanceLifecycleConfig.html) API.
     ///
-    /// - Parameter ListNotebookInstanceLifecycleConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotebookInstanceLifecycleConfigsInput`)
     ///
-    /// - Returns: `ListNotebookInstanceLifecycleConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotebookInstanceLifecycleConfigsOutput`)
     public func listNotebookInstanceLifecycleConfigs(input: ListNotebookInstanceLifecycleConfigsInput) async throws -> ListNotebookInstanceLifecycleConfigsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18281,6 +19179,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotebookInstanceLifecycleConfigsOutput>(ListNotebookInstanceLifecycleConfigsOutput.httpOutput(from:), ListNotebookInstanceLifecycleConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotebookInstanceLifecycleConfigsInput, ListNotebookInstanceLifecycleConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotebookInstanceLifecycleConfigsOutput>())
@@ -18315,9 +19214,9 @@ extension SageMakerClient {
     ///
     /// Returns a list of the SageMaker AI notebook instances in the requester's account in an Amazon Web Services Region.
     ///
-    /// - Parameter ListNotebookInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotebookInstancesInput`)
     ///
-    /// - Returns: `ListNotebookInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotebookInstancesOutput`)
     public func listNotebookInstances(input: ListNotebookInstancesInput) async throws -> ListNotebookInstancesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18344,6 +19243,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNotebookInstancesInput, ListNotebookInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotebookInstancesOutput>(ListNotebookInstancesOutput.httpOutput(from:), ListNotebookInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotebookInstancesInput, ListNotebookInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotebookInstancesOutput>())
@@ -18378,9 +19278,9 @@ extension SageMakerClient {
     ///
     /// Lists the optimization jobs in your account and their properties.
     ///
-    /// - Parameter ListOptimizationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOptimizationJobsInput`)
     ///
-    /// - Returns: `ListOptimizationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOptimizationJobsOutput`)
     public func listOptimizationJobs(input: ListOptimizationJobsInput) async throws -> ListOptimizationJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18407,6 +19307,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOptimizationJobsInput, ListOptimizationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOptimizationJobsOutput>(ListOptimizationJobsOutput.httpOutput(from:), ListOptimizationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOptimizationJobsInput, ListOptimizationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOptimizationJobsOutput>())
@@ -18441,9 +19342,9 @@ extension SageMakerClient {
     ///
     /// Lists all of the SageMaker Partner AI Apps in an account.
     ///
-    /// - Parameter ListPartnerAppsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPartnerAppsInput`)
     ///
-    /// - Returns: `ListPartnerAppsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPartnerAppsOutput`)
     public func listPartnerApps(input: ListPartnerAppsInput) async throws -> ListPartnerAppsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18470,6 +19371,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPartnerAppsInput, ListPartnerAppsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartnerAppsOutput>(ListPartnerAppsOutput.httpOutput(from:), ListPartnerAppsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartnerAppsInput, ListPartnerAppsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPartnerAppsOutput>())
@@ -18504,9 +19406,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of PipeLineExecutionStep objects.
     ///
-    /// - Parameter ListPipelineExecutionStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineExecutionStepsInput`)
     ///
-    /// - Returns: `ListPipelineExecutionStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineExecutionStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18538,6 +19440,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelineExecutionStepsOutput>(ListPipelineExecutionStepsOutput.httpOutput(from:), ListPipelineExecutionStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelineExecutionStepsInput, ListPipelineExecutionStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelineExecutionStepsOutput>())
@@ -18572,9 +19475,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of the pipeline executions.
     ///
-    /// - Parameter ListPipelineExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineExecutionsInput`)
     ///
-    /// - Returns: `ListPipelineExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18606,6 +19509,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelineExecutionsOutput>(ListPipelineExecutionsOutput.httpOutput(from:), ListPipelineExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelineExecutionsInput, ListPipelineExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelineExecutionsOutput>())
@@ -18640,9 +19544,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of parameters for a pipeline execution.
     ///
-    /// - Parameter ListPipelineParametersForExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineParametersForExecutionInput`)
     ///
-    /// - Returns: `ListPipelineParametersForExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineParametersForExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18674,6 +19578,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelineParametersForExecutionOutput>(ListPipelineParametersForExecutionOutput.httpOutput(from:), ListPipelineParametersForExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelineParametersForExecutionInput, ListPipelineParametersForExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelineParametersForExecutionOutput>())
@@ -18708,9 +19613,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of all versions of the pipeline.
     ///
-    /// - Parameter ListPipelineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelineVersionsInput`)
     ///
-    /// - Returns: `ListPipelineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelineVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -18742,6 +19647,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPipelineVersionsInput, ListPipelineVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelineVersionsOutput>(ListPipelineVersionsOutput.httpOutput(from:), ListPipelineVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelineVersionsInput, ListPipelineVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelineVersionsOutput>())
@@ -18776,9 +19682,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of pipelines.
     ///
-    /// - Parameter ListPipelinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPipelinesInput`)
     ///
-    /// - Returns: `ListPipelinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPipelinesOutput`)
     public func listPipelines(input: ListPipelinesInput) async throws -> ListPipelinesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18805,6 +19711,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPipelinesInput, ListPipelinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelinesOutput>(ListPipelinesOutput.httpOutput(from:), ListPipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelinesInput, ListPipelinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelinesOutput>())
@@ -18839,9 +19746,9 @@ extension SageMakerClient {
     ///
     /// Lists processing jobs that satisfy various filters.
     ///
-    /// - Parameter ListProcessingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProcessingJobsInput`)
     ///
-    /// - Returns: `ListProcessingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProcessingJobsOutput`)
     public func listProcessingJobs(input: ListProcessingJobsInput) async throws -> ListProcessingJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18868,6 +19775,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProcessingJobsInput, ListProcessingJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProcessingJobsOutput>(ListProcessingJobsOutput.httpOutput(from:), ListProcessingJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProcessingJobsInput, ListProcessingJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProcessingJobsOutput>())
@@ -18902,9 +19810,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of the projects in an Amazon Web Services account.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18931,6 +19839,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectsInput, ListProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
@@ -18965,9 +19874,9 @@ extension SageMakerClient {
     ///
     /// Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of ResourceCatalogs viewable is 1000.
     ///
-    /// - Parameter ListResourceCatalogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceCatalogsInput`)
     ///
-    /// - Returns: `ListResourceCatalogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceCatalogsOutput`)
     public func listResourceCatalogs(input: ListResourceCatalogsInput) async throws -> ListResourceCatalogsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -18994,6 +19903,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceCatalogsOutput>(ListResourceCatalogsOutput.httpOutput(from:), ListResourceCatalogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceCatalogsInput, ListResourceCatalogsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceCatalogsOutput>())
@@ -19028,9 +19938,9 @@ extension SageMakerClient {
     ///
     /// Lists spaces.
     ///
-    /// - Parameter ListSpacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpacesInput`)
     ///
-    /// - Returns: `ListSpacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpacesOutput`)
     public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19057,6 +19967,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSpacesInput, ListSpacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpacesOutput>(ListSpacesOutput.httpOutput(from:), ListSpacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpacesInput, ListSpacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSpacesOutput>())
@@ -19091,9 +20002,9 @@ extension SageMakerClient {
     ///
     /// Lists devices allocated to the stage, containing detailed device information and deployment status.
     ///
-    /// - Parameter ListStageDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStageDevicesInput`)
     ///
-    /// - Returns: `ListStageDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStageDevicesOutput`)
     public func listStageDevices(input: ListStageDevicesInput) async throws -> ListStageDevicesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19120,6 +20031,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStageDevicesInput, ListStageDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStageDevicesOutput>(ListStageDevicesOutput.httpOutput(from:), ListStageDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStageDevicesInput, ListStageDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStageDevicesOutput>())
@@ -19154,9 +20066,9 @@ extension SageMakerClient {
     ///
     /// Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account.
     ///
-    /// - Parameter ListStudioLifecycleConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStudioLifecycleConfigsInput`)
     ///
-    /// - Returns: `ListStudioLifecycleConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStudioLifecycleConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19188,6 +20100,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStudioLifecycleConfigsOutput>(ListStudioLifecycleConfigsOutput.httpOutput(from:), ListStudioLifecycleConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStudioLifecycleConfigsInput, ListStudioLifecycleConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStudioLifecycleConfigsOutput>())
@@ -19222,9 +20135,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of the work teams that you are subscribed to in the Amazon Web Services Marketplace. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     ///
-    /// - Parameter ListSubscribedWorkteamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscribedWorkteamsInput`)
     ///
-    /// - Returns: `ListSubscribedWorkteamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscribedWorkteamsOutput`)
     public func listSubscribedWorkteams(input: ListSubscribedWorkteamsInput) async throws -> ListSubscribedWorkteamsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19251,6 +20164,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscribedWorkteamsOutput>(ListSubscribedWorkteamsOutput.httpOutput(from:), ListSubscribedWorkteamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscribedWorkteamsInput, ListSubscribedWorkteamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubscribedWorkteamsOutput>())
@@ -19285,9 +20199,9 @@ extension SageMakerClient {
     ///
     /// Returns the tags for the specified SageMaker resource.
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19314,6 +20228,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsInput, ListTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -19348,9 +20263,9 @@ extension SageMakerClient {
     ///
     /// Lists training jobs. When StatusEquals and MaxResults are set at the same time, the MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter and then they are filtered by the StatusEquals parameter, which is returned as a response. For example, if ListTrainingJobs is invoked with the following parameters: { ... MaxResults: 100, StatusEquals: InProgress ... } First, 100 trainings jobs with any status, including those other than InProgress, are selected (sorted according to the creation time, from the most current to the oldest). Next, those with a status of InProgress are returned. You can quickly test the API using the following Amazon Web Services CLI code. aws sagemaker list-training-jobs --max-results 100 --status-equals InProgress
     ///
-    /// - Parameter ListTrainingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainingJobsInput`)
     ///
-    /// - Returns: `ListTrainingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainingJobsOutput`)
     public func listTrainingJobs(input: ListTrainingJobsInput) async throws -> ListTrainingJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19377,6 +20292,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrainingJobsInput, ListTrainingJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrainingJobsOutput>(ListTrainingJobsOutput.httpOutput(from:), ListTrainingJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrainingJobsInput, ListTrainingJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrainingJobsOutput>())
@@ -19411,9 +20327,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of [TrainingJobSummary](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_TrainingJobSummary.html) objects that describe the training jobs that a hyperparameter tuning job launched.
     ///
-    /// - Parameter ListTrainingJobsForHyperParameterTuningJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainingJobsForHyperParameterTuningJobInput`)
     ///
-    /// - Returns: `ListTrainingJobsForHyperParameterTuningJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainingJobsForHyperParameterTuningJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19445,6 +20361,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrainingJobsForHyperParameterTuningJobOutput>(ListTrainingJobsForHyperParameterTuningJobOutput.httpOutput(from:), ListTrainingJobsForHyperParameterTuningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrainingJobsForHyperParameterTuningJobInput, ListTrainingJobsForHyperParameterTuningJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrainingJobsForHyperParameterTuningJobOutput>())
@@ -19479,9 +20396,9 @@ extension SageMakerClient {
     ///
     /// Retrieves a list of training plans for the current account.
     ///
-    /// - Parameter ListTrainingPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainingPlansInput`)
     ///
-    /// - Returns: `ListTrainingPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainingPlansOutput`)
     public func listTrainingPlans(input: ListTrainingPlansInput) async throws -> ListTrainingPlansOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19508,6 +20425,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrainingPlansInput, ListTrainingPlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrainingPlansOutput>(ListTrainingPlansOutput.httpOutput(from:), ListTrainingPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrainingPlansInput, ListTrainingPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrainingPlansOutput>())
@@ -19542,9 +20460,9 @@ extension SageMakerClient {
     ///
     /// Lists transform jobs.
     ///
-    /// - Parameter ListTransformJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTransformJobsInput`)
     ///
-    /// - Returns: `ListTransformJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTransformJobsOutput`)
     public func listTransformJobs(input: ListTransformJobsInput) async throws -> ListTransformJobsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19571,6 +20489,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTransformJobsInput, ListTransformJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTransformJobsOutput>(ListTransformJobsOutput.httpOutput(from:), ListTransformJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTransformJobsInput, ListTransformJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTransformJobsOutput>())
@@ -19611,9 +20530,9 @@ extension SageMakerClient {
     ///
     /// * TrialName
     ///
-    /// - Parameter ListTrialComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrialComponentsInput`)
     ///
-    /// - Returns: `ListTrialComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrialComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19645,6 +20564,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrialComponentsInput, ListTrialComponentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrialComponentsOutput>(ListTrialComponentsOutput.httpOutput(from:), ListTrialComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrialComponentsInput, ListTrialComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrialComponentsOutput>())
@@ -19679,9 +20599,9 @@ extension SageMakerClient {
     ///
     /// Lists the trials in your account. Specify an experiment name to limit the list to the trials that are part of that experiment. Specify a trial component name to limit the list to the trials that associated with that trial component. The list can be filtered to show only trials that were created in a specific time range. The list can be sorted by trial name or creation time.
     ///
-    /// - Parameter ListTrialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrialsInput`)
     ///
-    /// - Returns: `ListTrialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19713,6 +20633,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrialsInput, ListTrialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrialsOutput>(ListTrialsOutput.httpOutput(from:), ListTrialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrialsInput, ListTrialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrialsOutput>())
@@ -19747,9 +20668,9 @@ extension SageMakerClient {
     ///
     /// Lists all UltraServers that are part of a specified reserved capacity.
     ///
-    /// - Parameter ListUltraServersByReservedCapacityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUltraServersByReservedCapacityInput`)
     ///
-    /// - Returns: `ListUltraServersByReservedCapacityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUltraServersByReservedCapacityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -19781,6 +20702,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUltraServersByReservedCapacityInput, ListUltraServersByReservedCapacityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUltraServersByReservedCapacityOutput>(ListUltraServersByReservedCapacityOutput.httpOutput(from:), ListUltraServersByReservedCapacityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUltraServersByReservedCapacityInput, ListUltraServersByReservedCapacityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUltraServersByReservedCapacityOutput>())
@@ -19815,9 +20737,9 @@ extension SageMakerClient {
     ///
     /// Lists user profiles.
     ///
-    /// - Parameter ListUserProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUserProfilesInput`)
     ///
-    /// - Returns: `ListUserProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUserProfilesOutput`)
     public func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19844,6 +20766,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserProfilesInput, ListUserProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserProfilesOutput>(ListUserProfilesOutput.httpOutput(from:), ListUserProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserProfilesInput, ListUserProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserProfilesOutput>())
@@ -19878,9 +20801,9 @@ extension SageMakerClient {
     ///
     /// Use this operation to list all private and vendor workforces in an Amazon Web Services Region. Note that you can only have one private workforce per Amazon Web Services Region.
     ///
-    /// - Parameter ListWorkforcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkforcesInput`)
     ///
-    /// - Returns: `ListWorkforcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkforcesOutput`)
     public func listWorkforces(input: ListWorkforcesInput) async throws -> ListWorkforcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19907,6 +20830,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkforcesInput, ListWorkforcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkforcesOutput>(ListWorkforcesOutput.httpOutput(from:), ListWorkforcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkforcesInput, ListWorkforcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkforcesOutput>())
@@ -19941,9 +20865,9 @@ extension SageMakerClient {
     ///
     /// Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
     ///
-    /// - Parameter ListWorkteamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkteamsInput`)
     ///
-    /// - Returns: `ListWorkteamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkteamsOutput`)
     public func listWorkteams(input: ListWorkteamsInput) async throws -> ListWorkteamsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -19970,6 +20894,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkteamsInput, ListWorkteamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkteamsOutput>(ListWorkteamsOutput.httpOutput(from:), ListWorkteamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkteamsInput, ListWorkteamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkteamsOutput>())
@@ -20004,9 +20929,9 @@ extension SageMakerClient {
     ///
     /// Adds a resouce policy to control access to a model group. For information about resoure policies, see [Identity-based policies and resource-based policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html) in the Amazon Web Services Identity and Access Management User Guide..
     ///
-    /// - Parameter PutModelPackageGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutModelPackageGroupPolicyInput`)
     ///
-    /// - Returns: `PutModelPackageGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutModelPackageGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20038,6 +20963,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutModelPackageGroupPolicyOutput>(PutModelPackageGroupPolicyOutput.httpOutput(from:), PutModelPackageGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutModelPackageGroupPolicyInput, PutModelPackageGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutModelPackageGroupPolicyOutput>())
@@ -20072,9 +20998,9 @@ extension SageMakerClient {
     ///
     /// Use this action to inspect your lineage and discover relationships between entities. For more information, see [ Querying Lineage Entities](https://docs.aws.amazon.com/sagemaker/latest/dg/querying-lineage-entities.html) in the Amazon SageMaker Developer Guide.
     ///
-    /// - Parameter QueryLineageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `QueryLineageInput`)
     ///
-    /// - Returns: `QueryLineageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `QueryLineageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20106,6 +21032,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<QueryLineageInput, QueryLineageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<QueryLineageOutput>(QueryLineageOutput.httpOutput(from:), QueryLineageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<QueryLineageInput, QueryLineageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<QueryLineageOutput>())
@@ -20140,9 +21067,9 @@ extension SageMakerClient {
     ///
     /// Register devices.
     ///
-    /// - Parameter RegisterDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterDevicesInput`)
     ///
-    /// - Returns: `RegisterDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20174,6 +21101,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDevicesInput, RegisterDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterDevicesOutput>(RegisterDevicesOutput.httpOutput(from:), RegisterDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDevicesInput, RegisterDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDevicesOutput>())
@@ -20208,9 +21136,9 @@ extension SageMakerClient {
     ///
     /// Renders the UI template so that you can preview the worker's experience.
     ///
-    /// - Parameter RenderUiTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RenderUiTemplateInput`)
     ///
-    /// - Returns: `RenderUiTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RenderUiTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20242,6 +21170,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenderUiTemplateInput, RenderUiTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RenderUiTemplateOutput>(RenderUiTemplateOutput.httpOutput(from:), RenderUiTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenderUiTemplateInput, RenderUiTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RenderUiTemplateOutput>())
@@ -20276,9 +21205,9 @@ extension SageMakerClient {
     ///
     /// Retry the execution of the pipeline.
     ///
-    /// - Parameter RetryPipelineExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryPipelineExecutionInput`)
     ///
-    /// - Returns: `RetryPipelineExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryPipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20313,6 +21242,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryPipelineExecutionInput, RetryPipelineExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryPipelineExecutionOutput>(RetryPipelineExecutionOutput.httpOutput(from:), RetryPipelineExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryPipelineExecutionInput, RetryPipelineExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetryPipelineExecutionOutput>())
@@ -20347,9 +21277,9 @@ extension SageMakerClient {
     ///
     /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp. The Search API may provide access to otherwise restricted data. See [Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference](https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html) for more information.
     ///
-    /// - Parameter SearchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchInput`)
     ///
-    /// - Returns: `SearchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchOutput`)
     public func search(input: SearchInput) async throws -> SearchOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20376,6 +21306,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchInput, SearchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchOutput>(SearchOutput.httpOutput(from:), SearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchInput, SearchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchOutput>())
@@ -20417,9 +21348,9 @@ extension SageMakerClient {
     ///
     /// For more information about how to reserve GPU capacity for your SageMaker training jobs or SageMaker HyperPod clusters using Amazon SageMaker Training Plan , see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
     ///
-    /// - Parameter SearchTrainingPlanOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTrainingPlanOfferingsInput`)
     ///
-    /// - Returns: `SearchTrainingPlanOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTrainingPlanOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20451,6 +21382,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchTrainingPlanOfferingsInput, SearchTrainingPlanOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTrainingPlanOfferingsOutput>(SearchTrainingPlanOfferingsOutput.httpOutput(from:), SearchTrainingPlanOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTrainingPlanOfferingsInput, SearchTrainingPlanOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTrainingPlanOfferingsOutput>())
@@ -20485,9 +21417,9 @@ extension SageMakerClient {
     ///
     /// Notifies the pipeline that the execution of a callback step failed, along with a message describing why. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
     ///
-    /// - Parameter SendPipelineExecutionStepFailureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendPipelineExecutionStepFailureInput`)
     ///
-    /// - Returns: `SendPipelineExecutionStepFailureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendPipelineExecutionStepFailureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20522,6 +21454,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendPipelineExecutionStepFailureInput, SendPipelineExecutionStepFailureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendPipelineExecutionStepFailureOutput>(SendPipelineExecutionStepFailureOutput.httpOutput(from:), SendPipelineExecutionStepFailureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendPipelineExecutionStepFailureInput, SendPipelineExecutionStepFailureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendPipelineExecutionStepFailureOutput>())
@@ -20556,9 +21489,9 @@ extension SageMakerClient {
     ///
     /// Notifies the pipeline that the execution of a callback step succeeded and provides a list of the step's output parameters. When a callback step is run, the pipeline generates a callback token and includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
     ///
-    /// - Parameter SendPipelineExecutionStepSuccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendPipelineExecutionStepSuccessInput`)
     ///
-    /// - Returns: `SendPipelineExecutionStepSuccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendPipelineExecutionStepSuccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20593,6 +21526,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendPipelineExecutionStepSuccessInput, SendPipelineExecutionStepSuccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendPipelineExecutionStepSuccessOutput>(SendPipelineExecutionStepSuccessOutput.httpOutput(from:), SendPipelineExecutionStepSuccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendPipelineExecutionStepSuccessInput, SendPipelineExecutionStepSuccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendPipelineExecutionStepSuccessOutput>())
@@ -20627,9 +21561,9 @@ extension SageMakerClient {
     ///
     /// Starts a stage in an edge deployment plan.
     ///
-    /// - Parameter StartEdgeDeploymentStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEdgeDeploymentStageInput`)
     ///
-    /// - Returns: `StartEdgeDeploymentStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEdgeDeploymentStageOutput`)
     public func startEdgeDeploymentStage(input: StartEdgeDeploymentStageInput) async throws -> StartEdgeDeploymentStageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -20656,6 +21590,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEdgeDeploymentStageOutput>(StartEdgeDeploymentStageOutput.httpOutput(from:), StartEdgeDeploymentStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEdgeDeploymentStageInput, StartEdgeDeploymentStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEdgeDeploymentStageOutput>())
@@ -20690,9 +21625,9 @@ extension SageMakerClient {
     ///
     /// Starts an inference experiment.
     ///
-    /// - Parameter StartInferenceExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartInferenceExperimentInput`)
     ///
-    /// - Returns: `StartInferenceExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartInferenceExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20725,6 +21660,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartInferenceExperimentInput, StartInferenceExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartInferenceExperimentOutput>(StartInferenceExperimentOutput.httpOutput(from:), StartInferenceExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartInferenceExperimentInput, StartInferenceExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartInferenceExperimentOutput>())
@@ -20759,9 +21695,9 @@ extension SageMakerClient {
     ///
     /// Programmatically start an MLflow Tracking Server.
     ///
-    /// - Parameter StartMlflowTrackingServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMlflowTrackingServerInput`)
     ///
-    /// - Returns: `StartMlflowTrackingServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMlflowTrackingServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20794,6 +21730,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMlflowTrackingServerInput, StartMlflowTrackingServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMlflowTrackingServerOutput>(StartMlflowTrackingServerOutput.httpOutput(from:), StartMlflowTrackingServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMlflowTrackingServerInput, StartMlflowTrackingServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMlflowTrackingServerOutput>())
@@ -20828,9 +21765,9 @@ extension SageMakerClient {
     ///
     /// Starts a previously stopped monitoring schedule. By default, when you successfully create a new schedule, the status of a monitoring schedule is scheduled.
     ///
-    /// - Parameter StartMonitoringScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMonitoringScheduleInput`)
     ///
-    /// - Returns: `StartMonitoringScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMonitoringScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20862,6 +21799,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMonitoringScheduleInput, StartMonitoringScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMonitoringScheduleOutput>(StartMonitoringScheduleOutput.httpOutput(from:), StartMonitoringScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMonitoringScheduleInput, StartMonitoringScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMonitoringScheduleOutput>())
@@ -20896,9 +21834,9 @@ extension SageMakerClient {
     ///
     /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook.
     ///
-    /// - Parameter StartNotebookInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartNotebookInstanceInput`)
     ///
-    /// - Returns: `StartNotebookInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartNotebookInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -20930,6 +21868,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartNotebookInstanceInput, StartNotebookInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartNotebookInstanceOutput>(StartNotebookInstanceOutput.httpOutput(from:), StartNotebookInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartNotebookInstanceInput, StartNotebookInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartNotebookInstanceOutput>())
@@ -20964,9 +21903,9 @@ extension SageMakerClient {
     ///
     /// Starts a pipeline execution.
     ///
-    /// - Parameter StartPipelineExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPipelineExecutionInput`)
     ///
-    /// - Returns: `StartPipelineExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21001,6 +21940,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPipelineExecutionOutput>(StartPipelineExecutionOutput.httpOutput(from:), StartPipelineExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPipelineExecutionInput, StartPipelineExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPipelineExecutionOutput>())
@@ -21035,9 +21975,9 @@ extension SageMakerClient {
     ///
     /// Initiates a remote connection session between a local integrated development environments (IDEs) and a remote SageMaker space.
     ///
-    /// - Parameter StartSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSessionInput`)
     ///
-    /// - Returns: `StartSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21070,6 +22010,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSessionInput, StartSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSessionOutput>(StartSessionOutput.httpOutput(from:), StartSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSessionInput, StartSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSessionOutput>())
@@ -21104,9 +22045,9 @@ extension SageMakerClient {
     ///
     /// A method for forcing a running job to shut down.
     ///
-    /// - Parameter StopAutoMLJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAutoMLJobInput`)
     ///
-    /// - Returns: `StopAutoMLJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAutoMLJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21138,6 +22079,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAutoMLJobInput, StopAutoMLJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAutoMLJobOutput>(StopAutoMLJobOutput.httpOutput(from:), StopAutoMLJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAutoMLJobInput, StopAutoMLJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAutoMLJobOutput>())
@@ -21172,9 +22114,9 @@ extension SageMakerClient {
     ///
     /// Stops a model compilation job. To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker AI changes the CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped.
     ///
-    /// - Parameter StopCompilationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCompilationJobInput`)
     ///
-    /// - Returns: `StopCompilationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCompilationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21206,6 +22148,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCompilationJobInput, StopCompilationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCompilationJobOutput>(StopCompilationJobOutput.httpOutput(from:), StopCompilationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCompilationJobInput, StopCompilationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCompilationJobOutput>())
@@ -21240,9 +22183,9 @@ extension SageMakerClient {
     ///
     /// Stops a stage in an edge deployment plan.
     ///
-    /// - Parameter StopEdgeDeploymentStageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEdgeDeploymentStageInput`)
     ///
-    /// - Returns: `StopEdgeDeploymentStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEdgeDeploymentStageOutput`)
     public func stopEdgeDeploymentStage(input: StopEdgeDeploymentStageInput) async throws -> StopEdgeDeploymentStageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21269,6 +22212,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEdgeDeploymentStageOutput>(StopEdgeDeploymentStageOutput.httpOutput(from:), StopEdgeDeploymentStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEdgeDeploymentStageInput, StopEdgeDeploymentStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEdgeDeploymentStageOutput>())
@@ -21303,9 +22247,9 @@ extension SageMakerClient {
     ///
     /// Request to stop an edge packaging job.
     ///
-    /// - Parameter StopEdgePackagingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEdgePackagingJobInput`)
     ///
-    /// - Returns: `StopEdgePackagingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEdgePackagingJobOutput`)
     public func stopEdgePackagingJob(input: StopEdgePackagingJobInput) async throws -> StopEdgePackagingJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21332,6 +22276,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEdgePackagingJobInput, StopEdgePackagingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEdgePackagingJobOutput>(StopEdgePackagingJobOutput.httpOutput(from:), StopEdgePackagingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEdgePackagingJobInput, StopEdgePackagingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEdgePackagingJobOutput>())
@@ -21366,9 +22311,9 @@ extension SageMakerClient {
     ///
     /// Stops a running hyperparameter tuning job and all running training jobs that the tuning job launched. All model artifacts output from the training jobs are stored in Amazon Simple Storage Service (Amazon S3). All data that the training jobs write to Amazon CloudWatch Logs are still available in CloudWatch. After the tuning job moves to the Stopped state, it releases all reserved resources for the tuning job.
     ///
-    /// - Parameter StopHyperParameterTuningJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopHyperParameterTuningJobInput`)
     ///
-    /// - Returns: `StopHyperParameterTuningJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopHyperParameterTuningJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21400,6 +22345,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopHyperParameterTuningJobOutput>(StopHyperParameterTuningJobOutput.httpOutput(from:), StopHyperParameterTuningJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopHyperParameterTuningJobInput, StopHyperParameterTuningJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopHyperParameterTuningJobOutput>())
@@ -21434,9 +22380,9 @@ extension SageMakerClient {
     ///
     /// Stops an inference experiment.
     ///
-    /// - Parameter StopInferenceExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopInferenceExperimentInput`)
     ///
-    /// - Returns: `StopInferenceExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopInferenceExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21469,6 +22415,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopInferenceExperimentInput, StopInferenceExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopInferenceExperimentOutput>(StopInferenceExperimentOutput.httpOutput(from:), StopInferenceExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopInferenceExperimentInput, StopInferenceExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopInferenceExperimentOutput>())
@@ -21503,9 +22450,9 @@ extension SageMakerClient {
     ///
     /// Stops an Inference Recommender job.
     ///
-    /// - Parameter StopInferenceRecommendationsJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopInferenceRecommendationsJobInput`)
     ///
-    /// - Returns: `StopInferenceRecommendationsJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopInferenceRecommendationsJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21537,6 +22484,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopInferenceRecommendationsJobOutput>(StopInferenceRecommendationsJobOutput.httpOutput(from:), StopInferenceRecommendationsJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopInferenceRecommendationsJobInput, StopInferenceRecommendationsJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopInferenceRecommendationsJobOutput>())
@@ -21571,9 +22519,9 @@ extension SageMakerClient {
     ///
     /// Stops a running labeling job. A job that is stopped cannot be restarted. Any results obtained before the job is stopped are placed in the Amazon S3 output bucket.
     ///
-    /// - Parameter StopLabelingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopLabelingJobInput`)
     ///
-    /// - Returns: `StopLabelingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopLabelingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21605,6 +22553,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopLabelingJobInput, StopLabelingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopLabelingJobOutput>(StopLabelingJobOutput.httpOutput(from:), StopLabelingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopLabelingJobInput, StopLabelingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopLabelingJobOutput>())
@@ -21639,9 +22588,9 @@ extension SageMakerClient {
     ///
     /// Programmatically stop an MLflow Tracking Server.
     ///
-    /// - Parameter StopMlflowTrackingServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopMlflowTrackingServerInput`)
     ///
-    /// - Returns: `StopMlflowTrackingServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopMlflowTrackingServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21674,6 +22623,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMlflowTrackingServerInput, StopMlflowTrackingServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMlflowTrackingServerOutput>(StopMlflowTrackingServerOutput.httpOutput(from:), StopMlflowTrackingServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMlflowTrackingServerInput, StopMlflowTrackingServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMlflowTrackingServerOutput>())
@@ -21708,9 +22658,9 @@ extension SageMakerClient {
     ///
     /// Stops a previously started monitoring schedule.
     ///
-    /// - Parameter StopMonitoringScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopMonitoringScheduleInput`)
     ///
-    /// - Returns: `StopMonitoringScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopMonitoringScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21742,6 +22692,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMonitoringScheduleInput, StopMonitoringScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMonitoringScheduleOutput>(StopMonitoringScheduleOutput.httpOutput(from:), StopMonitoringScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMonitoringScheduleInput, StopMonitoringScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMonitoringScheduleOutput>())
@@ -21776,9 +22727,9 @@ extension SageMakerClient {
     ///
     /// Terminates the ML compute instance. Before terminating the instance, SageMaker AI disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume. SageMaker AI stops charging you for the ML compute instance when you call StopNotebookInstance. To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
     ///
-    /// - Parameter StopNotebookInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopNotebookInstanceInput`)
     ///
-    /// - Returns: `StopNotebookInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopNotebookInstanceOutput`)
     public func stopNotebookInstance(input: StopNotebookInstanceInput) async throws -> StopNotebookInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -21805,6 +22756,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopNotebookInstanceInput, StopNotebookInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopNotebookInstanceOutput>(StopNotebookInstanceOutput.httpOutput(from:), StopNotebookInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopNotebookInstanceInput, StopNotebookInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopNotebookInstanceOutput>())
@@ -21839,9 +22791,9 @@ extension SageMakerClient {
     ///
     /// Ends a running inference optimization job.
     ///
-    /// - Parameter StopOptimizationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopOptimizationJobInput`)
     ///
-    /// - Returns: `StopOptimizationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopOptimizationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21873,6 +22825,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopOptimizationJobInput, StopOptimizationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopOptimizationJobOutput>(StopOptimizationJobOutput.httpOutput(from:), StopOptimizationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopOptimizationJobInput, StopOptimizationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopOptimizationJobOutput>())
@@ -21907,9 +22860,9 @@ extension SageMakerClient {
     ///
     /// Stops a pipeline execution. Callback Step A pipeline execution won't stop while a callback step is running. When you call StopPipelineExecution on a pipeline execution with a running callback step, SageMaker Pipelines sends an additional Amazon SQS message to the specified SQS queue. The body of the SQS message contains a "Status" field which is set to "Stopping". You should add logic to your Amazon SQS message consumer to take any needed action (for example, resource cleanup) upon receipt of the message followed by a call to SendPipelineExecutionStepSuccess or SendPipelineExecutionStepFailure. Only when SageMaker Pipelines receives one of these calls will it stop the pipeline execution. Lambda Step A pipeline execution can't be stopped while a lambda step is running because the Lambda function invoked by the lambda step can't be stopped. If you attempt to stop the execution while the Lambda function is running, the pipeline waits for the Lambda function to finish or until the timeout is hit, whichever occurs first, and then stops. If the Lambda function finishes, the pipeline execution status is Stopped. If the timeout is hit the pipeline execution status is Failed.
     ///
-    /// - Parameter StopPipelineExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopPipelineExecutionInput`)
     ///
-    /// - Returns: `StopPipelineExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopPipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -21943,6 +22896,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopPipelineExecutionOutput>(StopPipelineExecutionOutput.httpOutput(from:), StopPipelineExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopPipelineExecutionInput, StopPipelineExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopPipelineExecutionOutput>())
@@ -21977,9 +22931,9 @@ extension SageMakerClient {
     ///
     /// Stops a processing job.
     ///
-    /// - Parameter StopProcessingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopProcessingJobInput`)
     ///
-    /// - Returns: `StopProcessingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopProcessingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22011,6 +22965,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopProcessingJobInput, StopProcessingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopProcessingJobOutput>(StopProcessingJobOutput.httpOutput(from:), StopProcessingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopProcessingJobInput, StopProcessingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopProcessingJobOutput>())
@@ -22045,9 +23000,9 @@ extension SageMakerClient {
     ///
     /// Stops a training job. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms might use this 120-second window to save the model artifacts, so the results of the training is not lost. When it receives a StopTrainingJob request, SageMaker changes the status of the job to Stopping. After SageMaker stops the job, it sets the status to Stopped.
     ///
-    /// - Parameter StopTrainingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTrainingJobInput`)
     ///
-    /// - Returns: `StopTrainingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTrainingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22079,6 +23034,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTrainingJobInput, StopTrainingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTrainingJobOutput>(StopTrainingJobOutput.httpOutput(from:), StopTrainingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTrainingJobInput, StopTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTrainingJobOutput>())
@@ -22113,9 +23069,9 @@ extension SageMakerClient {
     ///
     /// Stops a batch transform job. When Amazon SageMaker receives a StopTransformJob request, the status of the job changes to Stopping. After Amazon SageMaker stops the job, the status is set to Stopped. When you stop a batch transform job before it is completed, Amazon SageMaker doesn't store the job's output in Amazon S3.
     ///
-    /// - Parameter StopTransformJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTransformJobInput`)
     ///
-    /// - Returns: `StopTransformJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTransformJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22147,6 +23103,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTransformJobInput, StopTransformJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTransformJobOutput>(StopTransformJobOutput.httpOutput(from:), StopTransformJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTransformJobInput, StopTransformJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTransformJobOutput>())
@@ -22181,9 +23138,9 @@ extension SageMakerClient {
     ///
     /// Updates an action.
     ///
-    /// - Parameter UpdateActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateActionInput`)
     ///
-    /// - Returns: `UpdateActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22216,6 +23173,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateActionInput, UpdateActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateActionOutput>(UpdateActionOutput.httpOutput(from:), UpdateActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateActionInput, UpdateActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateActionOutput>())
@@ -22250,9 +23208,9 @@ extension SageMakerClient {
     ///
     /// Updates the properties of an AppImageConfig.
     ///
-    /// - Parameter UpdateAppImageConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAppImageConfigInput`)
     ///
-    /// - Returns: `UpdateAppImageConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAppImageConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22284,6 +23242,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAppImageConfigInput, UpdateAppImageConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAppImageConfigOutput>(UpdateAppImageConfigOutput.httpOutput(from:), UpdateAppImageConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAppImageConfigInput, UpdateAppImageConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAppImageConfigOutput>())
@@ -22318,9 +23277,9 @@ extension SageMakerClient {
     ///
     /// Updates an artifact.
     ///
-    /// - Parameter UpdateArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateArtifactInput`)
     ///
-    /// - Returns: `UpdateArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22353,6 +23312,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateArtifactInput, UpdateArtifactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateArtifactOutput>(UpdateArtifactOutput.httpOutput(from:), UpdateArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateArtifactInput, UpdateArtifactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateArtifactOutput>())
@@ -22387,9 +23347,9 @@ extension SageMakerClient {
     ///
     /// Updates a SageMaker HyperPod cluster.
     ///
-    /// - Parameter UpdateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22423,6 +23383,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
@@ -22457,9 +23418,9 @@ extension SageMakerClient {
     ///
     /// Update the cluster policy configuration.
     ///
-    /// - Parameter UpdateClusterSchedulerConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterSchedulerConfigInput`)
     ///
-    /// - Returns: `UpdateClusterSchedulerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterSchedulerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22493,6 +23454,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterSchedulerConfigInput, UpdateClusterSchedulerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterSchedulerConfigOutput>(UpdateClusterSchedulerConfigOutput.httpOutput(from:), UpdateClusterSchedulerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterSchedulerConfigInput, UpdateClusterSchedulerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterSchedulerConfigOutput>())
@@ -22527,9 +23489,9 @@ extension SageMakerClient {
     ///
     /// Updates the platform software of a SageMaker HyperPod cluster for security patching. To learn how to use this API, see [Update the SageMaker HyperPod platform software of a cluster](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-operate.html#sagemaker-hyperpod-operate-cli-command-update-cluster-software). The UpgradeClusterSoftware API call may impact your SageMaker HyperPod cluster uptime and availability. Plan accordingly to mitigate potential disruptions to your workloads.
     ///
-    /// - Parameter UpdateClusterSoftwareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterSoftwareInput`)
     ///
-    /// - Returns: `UpdateClusterSoftwareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterSoftwareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22562,6 +23524,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterSoftwareInput, UpdateClusterSoftwareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterSoftwareOutput>(UpdateClusterSoftwareOutput.httpOutput(from:), UpdateClusterSoftwareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterSoftwareInput, UpdateClusterSoftwareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterSoftwareOutput>())
@@ -22596,9 +23559,9 @@ extension SageMakerClient {
     ///
     /// Updates the specified Git repository with the specified values.
     ///
-    /// - Parameter UpdateCodeRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCodeRepositoryInput`)
     ///
-    /// - Returns: `UpdateCodeRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCodeRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22630,6 +23593,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCodeRepositoryOutput>(UpdateCodeRepositoryOutput.httpOutput(from:), UpdateCodeRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCodeRepositoryInput, UpdateCodeRepositoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCodeRepositoryOutput>())
@@ -22664,9 +23628,9 @@ extension SageMakerClient {
     ///
     /// Update the compute allocation definition.
     ///
-    /// - Parameter UpdateComputeQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComputeQuotaInput`)
     ///
-    /// - Returns: `UpdateComputeQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComputeQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22700,6 +23664,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComputeQuotaInput, UpdateComputeQuotaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComputeQuotaOutput>(UpdateComputeQuotaOutput.httpOutput(from:), UpdateComputeQuotaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComputeQuotaInput, UpdateComputeQuotaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateComputeQuotaOutput>())
@@ -22734,9 +23699,9 @@ extension SageMakerClient {
     ///
     /// Updates a context.
     ///
-    /// - Parameter UpdateContextInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContextInput`)
     ///
-    /// - Returns: `UpdateContextOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContextOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22769,6 +23734,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContextInput, UpdateContextOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContextOutput>(UpdateContextOutput.httpOutput(from:), UpdateContextOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContextInput, UpdateContextOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContextOutput>())
@@ -22803,9 +23769,9 @@ extension SageMakerClient {
     ///
     /// Updates a fleet of devices.
     ///
-    /// - Parameter UpdateDeviceFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceFleetInput`)
     ///
-    /// - Returns: `UpdateDeviceFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22837,6 +23803,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeviceFleetInput, UpdateDeviceFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeviceFleetOutput>(UpdateDeviceFleetOutput.httpOutput(from:), UpdateDeviceFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeviceFleetInput, UpdateDeviceFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeviceFleetOutput>())
@@ -22871,9 +23838,9 @@ extension SageMakerClient {
     ///
     /// Updates one or more devices in a fleet.
     ///
-    /// - Parameter UpdateDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDevicesInput`)
     ///
-    /// - Returns: `UpdateDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDevicesOutput`)
     public func updateDevices(input: UpdateDevicesInput) async throws -> UpdateDevicesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -22900,6 +23867,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDevicesInput, UpdateDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDevicesOutput>(UpdateDevicesOutput.httpOutput(from:), UpdateDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDevicesInput, UpdateDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDevicesOutput>())
@@ -22934,9 +23902,9 @@ extension SageMakerClient {
     ///
     /// Updates the default settings for new user profiles in the domain.
     ///
-    /// - Parameter UpdateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainInput`)
     ///
-    /// - Returns: `UpdateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -22970,6 +23938,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainInput, UpdateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainOutput>(UpdateDomainOutput.httpOutput(from:), UpdateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainInput, UpdateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainOutput>())
@@ -23004,9 +23973,9 @@ extension SageMakerClient {
     ///
     /// Deploys the EndpointConfig specified in the request to a new fleet of instances. SageMaker shifts endpoint traffic to the new instances with the updated endpoint configuration and then deletes the old instances using the previous EndpointConfig (there is no availability loss). For more information about how to control the update and traffic shifting process, see [ Update models in production](https://docs.aws.amazon.com/sagemaker/latest/dg/deployment-guardrails.html). When SageMaker receives the request, it sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the [DescribeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpoint.html) API. You must not delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. If you delete the EndpointConfig of an endpoint that is active or being created or updated you may lose visibility into the instance type the endpoint is using. The endpoint must be deleted in order to stop incurring charges.
     ///
-    /// - Parameter UpdateEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointInput`)
     ///
-    /// - Returns: `UpdateEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23038,6 +24007,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEndpointInput, UpdateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointOutput>(UpdateEndpointOutput.httpOutput(from:), UpdateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointOutput>())
@@ -23072,9 +24042,9 @@ extension SageMakerClient {
     ///
     /// Updates variant weight of one or more variants associated with an existing endpoint, or capacity of one variant associated with an existing endpoint. When it receives the request, SageMaker sets the endpoint status to Updating. After updating the endpoint, it sets the status to InService. To check the status of an endpoint, use the [DescribeEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeEndpoint.html) API.
     ///
-    /// - Parameter UpdateEndpointWeightsAndCapacitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointWeightsAndCapacitiesInput`)
     ///
-    /// - Returns: `UpdateEndpointWeightsAndCapacitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointWeightsAndCapacitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23106,6 +24076,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointWeightsAndCapacitiesOutput>(UpdateEndpointWeightsAndCapacitiesOutput.httpOutput(from:), UpdateEndpointWeightsAndCapacitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointWeightsAndCapacitiesInput, UpdateEndpointWeightsAndCapacitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointWeightsAndCapacitiesOutput>())
@@ -23140,9 +24111,9 @@ extension SageMakerClient {
     ///
     /// Adds, updates, or removes the description of an experiment. Updates the display name of an experiment.
     ///
-    /// - Parameter UpdateExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExperimentInput`)
     ///
-    /// - Returns: `UpdateExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23175,6 +24146,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExperimentInput, UpdateExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExperimentOutput>(UpdateExperimentOutput.httpOutput(from:), UpdateExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExperimentInput, UpdateExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExperimentOutput>())
@@ -23209,9 +24181,9 @@ extension SageMakerClient {
     ///
     /// Updates the feature group by either adding features or updating the online store configuration. Use one of the following request parameters at a time while using the UpdateFeatureGroup API. You can add features for your feature group using the FeatureAdditions request parameter. Features cannot be removed from a feature group. You can update the online store configuration by using the OnlineStoreConfig request parameter. If a TtlDuration is specified, the default TtlDuration applies for all records added to the feature group after the feature group is updated. If a record level TtlDuration exists from using the PutRecord API, the record level TtlDuration applies to that record instead of the default TtlDuration. To remove the default TtlDuration from an existing feature group, use the UpdateFeatureGroup API and set the TtlDurationUnit and Value to null.
     ///
-    /// - Parameter UpdateFeatureGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFeatureGroupInput`)
     ///
-    /// - Returns: `UpdateFeatureGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFeatureGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23244,6 +24216,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFeatureGroupInput, UpdateFeatureGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFeatureGroupOutput>(UpdateFeatureGroupOutput.httpOutput(from:), UpdateFeatureGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFeatureGroupInput, UpdateFeatureGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFeatureGroupOutput>())
@@ -23278,9 +24251,9 @@ extension SageMakerClient {
     ///
     /// Updates the description and parameters of the feature group.
     ///
-    /// - Parameter UpdateFeatureMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFeatureMetadataInput`)
     ///
-    /// - Returns: `UpdateFeatureMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFeatureMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23312,6 +24285,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFeatureMetadataOutput>(UpdateFeatureMetadataOutput.httpOutput(from:), UpdateFeatureMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFeatureMetadataInput, UpdateFeatureMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFeatureMetadataOutput>())
@@ -23346,9 +24320,9 @@ extension SageMakerClient {
     ///
     /// Update a hub.
     ///
-    /// - Parameter UpdateHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHubInput`)
     ///
-    /// - Returns: `UpdateHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23380,6 +24354,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHubInput, UpdateHubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHubOutput>(UpdateHubOutput.httpOutput(from:), UpdateHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHubInput, UpdateHubOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHubOutput>())
@@ -23427,9 +24402,9 @@ extension SageMakerClient {
     ///
     /// For more information about hubs, see [Private curated hubs for foundation model access control in JumpStart](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-curated-hubs.html). If you want to update a ModelReference resource in your hub, use the UpdateHubContentResource API instead.
     ///
-    /// - Parameter UpdateHubContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHubContentInput`)
     ///
-    /// - Returns: `UpdateHubContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHubContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23462,6 +24437,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHubContentInput, UpdateHubContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHubContentOutput>(UpdateHubContentOutput.httpOutput(from:), UpdateHubContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHubContentInput, UpdateHubContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHubContentOutput>())
@@ -23496,9 +24472,9 @@ extension SageMakerClient {
     ///
     /// Updates the contents of a SageMaker hub for a ModelReference resource. A ModelReference allows you to access public SageMaker JumpStart models from within your private hub. When using this API, you can update the MinVersion field for additional flexibility in the model version. You shouldn't update any additional fields when using this API, because the metadata in your private hub should match the public JumpStart model's metadata. If you want to update a Model or Notebook resource in your hub, use the UpdateHubContent API instead. For more information about adding model references to your hub, see [ Add models to a private hub](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-curated-hubs-admin-guide-add-models.html).
     ///
-    /// - Parameter UpdateHubContentReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHubContentReferenceInput`)
     ///
-    /// - Returns: `UpdateHubContentReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHubContentReferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23531,6 +24507,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHubContentReferenceInput, UpdateHubContentReferenceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHubContentReferenceOutput>(UpdateHubContentReferenceOutput.httpOutput(from:), UpdateHubContentReferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHubContentReferenceInput, UpdateHubContentReferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHubContentReferenceOutput>())
@@ -23565,9 +24542,9 @@ extension SageMakerClient {
     ///
     /// Updates the properties of a SageMaker AI image. To change the image's tags, use the [AddTags](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AddTags.html) and [DeleteTags](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteTags.html) APIs.
     ///
-    /// - Parameter UpdateImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImageInput`)
     ///
-    /// - Returns: `UpdateImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23600,6 +24577,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImageInput, UpdateImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateImageOutput>(UpdateImageOutput.httpOutput(from:), UpdateImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateImageInput, UpdateImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateImageOutput>())
@@ -23634,9 +24612,9 @@ extension SageMakerClient {
     ///
     /// Updates the properties of a SageMaker AI image version.
     ///
-    /// - Parameter UpdateImageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImageVersionInput`)
     ///
-    /// - Returns: `UpdateImageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23669,6 +24647,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImageVersionInput, UpdateImageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateImageVersionOutput>(UpdateImageVersionOutput.httpOutput(from:), UpdateImageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateImageVersionInput, UpdateImageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateImageVersionOutput>())
@@ -23703,9 +24682,9 @@ extension SageMakerClient {
     ///
     /// Updates an inference component.
     ///
-    /// - Parameter UpdateInferenceComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInferenceComponentInput`)
     ///
-    /// - Returns: `UpdateInferenceComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInferenceComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23737,6 +24716,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInferenceComponentInput, UpdateInferenceComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInferenceComponentOutput>(UpdateInferenceComponentOutput.httpOutput(from:), UpdateInferenceComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInferenceComponentInput, UpdateInferenceComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInferenceComponentOutput>())
@@ -23771,9 +24751,9 @@ extension SageMakerClient {
     ///
     /// Runtime settings for a model that is deployed with an inference component.
     ///
-    /// - Parameter UpdateInferenceComponentRuntimeConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInferenceComponentRuntimeConfigInput`)
     ///
-    /// - Returns: `UpdateInferenceComponentRuntimeConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInferenceComponentRuntimeConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23805,6 +24785,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInferenceComponentRuntimeConfigInput, UpdateInferenceComponentRuntimeConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInferenceComponentRuntimeConfigOutput>(UpdateInferenceComponentRuntimeConfigOutput.httpOutput(from:), UpdateInferenceComponentRuntimeConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInferenceComponentRuntimeConfigInput, UpdateInferenceComponentRuntimeConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInferenceComponentRuntimeConfigOutput>())
@@ -23839,9 +24820,9 @@ extension SageMakerClient {
     ///
     /// Updates an inference experiment that you created. The status of the inference experiment has to be either Created, Running. For more information on the status of an inference experiment, see [DescribeInferenceExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeInferenceExperiment.html).
     ///
-    /// - Parameter UpdateInferenceExperimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInferenceExperimentInput`)
     ///
-    /// - Returns: `UpdateInferenceExperimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInferenceExperimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23874,6 +24855,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInferenceExperimentOutput>(UpdateInferenceExperimentOutput.httpOutput(from:), UpdateInferenceExperimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInferenceExperimentInput, UpdateInferenceExperimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInferenceExperimentOutput>())
@@ -23904,13 +24886,83 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateMlflowApp` operation on the `SageMaker` service.
+    ///
+    /// Updates an MLflow App.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateMlflowAppInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateMlflowAppOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when you attempted to modify a SageMaker entity such as an Experiment or Artifact.
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func updateMlflowApp(input: UpdateMlflowAppInput) async throws -> UpdateMlflowAppOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateMlflowApp")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateMlflowAppInput, UpdateMlflowAppOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(UpdateMlflowAppInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMlflowAppOutput>(UpdateMlflowAppOutput.httpOutput(from:), UpdateMlflowAppOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMlflowAppOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMlflowAppOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(xAmzTarget: "SageMaker.UpdateMlflowApp"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMlflowAppInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMlflowAppOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMlflowAppInput, UpdateMlflowAppOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateMlflowApp")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateMlflowTrackingServer` operation on the `SageMaker` service.
     ///
     /// Updates properties of an existing MLflow Tracking Server.
     ///
-    /// - Parameter UpdateMlflowTrackingServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMlflowTrackingServerInput`)
     ///
-    /// - Returns: `UpdateMlflowTrackingServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMlflowTrackingServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -23944,6 +24996,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMlflowTrackingServerInput, UpdateMlflowTrackingServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMlflowTrackingServerOutput>(UpdateMlflowTrackingServerOutput.httpOutput(from:), UpdateMlflowTrackingServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMlflowTrackingServerInput, UpdateMlflowTrackingServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMlflowTrackingServerOutput>())
@@ -23978,9 +25031,9 @@ extension SageMakerClient {
     ///
     /// Update an Amazon SageMaker Model Card. You cannot update both model card content and model card status in a single call.
     ///
-    /// - Parameter UpdateModelCardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelCardInput`)
     ///
-    /// - Returns: `UpdateModelCardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelCardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24014,6 +25067,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelCardInput, UpdateModelCardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelCardOutput>(UpdateModelCardOutput.httpOutput(from:), UpdateModelCardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelCardInput, UpdateModelCardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelCardOutput>())
@@ -24048,9 +25102,9 @@ extension SageMakerClient {
     ///
     /// Updates a versioned model.
     ///
-    /// - Parameter UpdateModelPackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelPackageInput`)
     ///
-    /// - Returns: `UpdateModelPackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelPackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24082,6 +25136,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelPackageInput, UpdateModelPackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelPackageOutput>(UpdateModelPackageOutput.httpOutput(from:), UpdateModelPackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelPackageInput, UpdateModelPackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelPackageOutput>())
@@ -24116,9 +25171,9 @@ extension SageMakerClient {
     ///
     /// Update the parameters of a model monitor alert.
     ///
-    /// - Parameter UpdateMonitoringAlertInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitoringAlertInput`)
     ///
-    /// - Returns: `UpdateMonitoringAlertOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitoringAlertOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24151,6 +25206,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMonitoringAlertOutput>(UpdateMonitoringAlertOutput.httpOutput(from:), UpdateMonitoringAlertOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMonitoringAlertInput, UpdateMonitoringAlertOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMonitoringAlertOutput>())
@@ -24185,9 +25241,9 @@ extension SageMakerClient {
     ///
     /// Updates a previously created schedule.
     ///
-    /// - Parameter UpdateMonitoringScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitoringScheduleInput`)
     ///
-    /// - Returns: `UpdateMonitoringScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitoringScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24220,6 +25276,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMonitoringScheduleOutput>(UpdateMonitoringScheduleOutput.httpOutput(from:), UpdateMonitoringScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMonitoringScheduleInput, UpdateMonitoringScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMonitoringScheduleOutput>())
@@ -24254,9 +25311,9 @@ extension SageMakerClient {
     ///
     /// Updates a notebook instance. NotebookInstance updates include upgrading or downgrading the ML compute instance used for your notebook instance to accommodate changes in your workload requirements.
     ///
-    /// - Parameter UpdateNotebookInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotebookInstanceInput`)
     ///
-    /// - Returns: `UpdateNotebookInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotebookInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24288,6 +25345,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotebookInstanceOutput>(UpdateNotebookInstanceOutput.httpOutput(from:), UpdateNotebookInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotebookInstanceInput, UpdateNotebookInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotebookInstanceOutput>())
@@ -24322,9 +25380,9 @@ extension SageMakerClient {
     ///
     /// Updates a notebook instance lifecycle configuration created with the [CreateNotebookInstanceLifecycleConfig](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateNotebookInstanceLifecycleConfig.html) API.
     ///
-    /// - Parameter UpdateNotebookInstanceLifecycleConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotebookInstanceLifecycleConfigInput`)
     ///
-    /// - Returns: `UpdateNotebookInstanceLifecycleConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotebookInstanceLifecycleConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24356,6 +25414,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotebookInstanceLifecycleConfigOutput>(UpdateNotebookInstanceLifecycleConfigOutput.httpOutput(from:), UpdateNotebookInstanceLifecycleConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotebookInstanceLifecycleConfigInput, UpdateNotebookInstanceLifecycleConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotebookInstanceLifecycleConfigOutput>())
@@ -24390,9 +25449,9 @@ extension SageMakerClient {
     ///
     /// Updates all of the SageMaker Partner AI Apps in an account.
     ///
-    /// - Parameter UpdatePartnerAppInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePartnerAppInput`)
     ///
-    /// - Returns: `UpdatePartnerAppOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePartnerAppOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24426,6 +25485,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePartnerAppInput, UpdatePartnerAppOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePartnerAppOutput>(UpdatePartnerAppOutput.httpOutput(from:), UpdatePartnerAppOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePartnerAppInput, UpdatePartnerAppOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePartnerAppOutput>())
@@ -24460,9 +25520,9 @@ extension SageMakerClient {
     ///
     /// Updates a pipeline.
     ///
-    /// - Parameter UpdatePipelineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePipelineInput`)
     ///
-    /// - Returns: `UpdatePipelineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24495,6 +25555,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipelineInput, UpdatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipelineOutput>(UpdatePipelineOutput.httpOutput(from:), UpdatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipelineOutput>())
@@ -24529,9 +25590,9 @@ extension SageMakerClient {
     ///
     /// Updates a pipeline execution.
     ///
-    /// - Parameter UpdatePipelineExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePipelineExecutionInput`)
     ///
-    /// - Returns: `UpdatePipelineExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePipelineExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24564,6 +25625,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipelineExecutionOutput>(UpdatePipelineExecutionOutput.httpOutput(from:), UpdatePipelineExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipelineExecutionInput, UpdatePipelineExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipelineExecutionOutput>())
@@ -24598,9 +25660,9 @@ extension SageMakerClient {
     ///
     /// Updates a pipeline version.
     ///
-    /// - Parameter UpdatePipelineVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePipelineVersionInput`)
     ///
-    /// - Returns: `UpdatePipelineVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePipelineVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24633,6 +25695,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipelineVersionInput, UpdatePipelineVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipelineVersionOutput>(UpdatePipelineVersionOutput.httpOutput(from:), UpdatePipelineVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipelineVersionInput, UpdatePipelineVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipelineVersionOutput>())
@@ -24667,9 +25730,9 @@ extension SageMakerClient {
     ///
     /// Updates a machine learning (ML) project that is created from a template that sets up an ML pipeline from training to deploying an approved model. You must not update a project that is in use. If you update the ServiceCatalogProvisioningUpdateDetails of a project that is active or being created, or updated, you may lose resources already created by the project.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24701,6 +25764,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())
@@ -24735,9 +25799,9 @@ extension SageMakerClient {
     ///
     /// Updates the settings of a space. You can't edit the app type of a space in the SpaceSettings.
     ///
-    /// - Parameter UpdateSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSpaceInput`)
     ///
-    /// - Returns: `UpdateSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24771,6 +25835,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSpaceInput, UpdateSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSpaceOutput>(UpdateSpaceOutput.httpOutput(from:), UpdateSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSpaceOutput>())
@@ -24805,9 +25870,9 @@ extension SageMakerClient {
     ///
     /// Update a model training job to request a new Debugger profiling configuration or to change warm pool retention length.
     ///
-    /// - Parameter UpdateTrainingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrainingJobInput`)
     ///
-    /// - Returns: `UpdateTrainingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrainingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24840,6 +25905,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrainingJobInput, UpdateTrainingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrainingJobOutput>(UpdateTrainingJobOutput.httpOutput(from:), UpdateTrainingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrainingJobInput, UpdateTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrainingJobOutput>())
@@ -24874,9 +25940,9 @@ extension SageMakerClient {
     ///
     /// Updates the display name of a trial.
     ///
-    /// - Parameter UpdateTrialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrialInput`)
     ///
-    /// - Returns: `UpdateTrialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24909,6 +25975,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrialInput, UpdateTrialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrialOutput>(UpdateTrialOutput.httpOutput(from:), UpdateTrialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrialInput, UpdateTrialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrialOutput>())
@@ -24943,9 +26010,9 @@ extension SageMakerClient {
     ///
     /// Updates one or more properties of a trial component.
     ///
-    /// - Parameter UpdateTrialComponentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrialComponentInput`)
     ///
-    /// - Returns: `UpdateTrialComponentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrialComponentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -24978,6 +26045,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrialComponentInput, UpdateTrialComponentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrialComponentOutput>(UpdateTrialComponentOutput.httpOutput(from:), UpdateTrialComponentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrialComponentInput, UpdateTrialComponentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrialComponentOutput>())
@@ -25012,9 +26080,9 @@ extension SageMakerClient {
     ///
     /// Updates a user profile.
     ///
-    /// - Parameter UpdateUserProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserProfileInput`)
     ///
-    /// - Returns: `UpdateUserProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -25048,6 +26116,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserProfileInput, UpdateUserProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserProfileOutput>(UpdateUserProfileOutput.httpOutput(from:), UpdateUserProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserProfileInput, UpdateUserProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserProfileOutput>())
@@ -25082,9 +26151,9 @@ extension SageMakerClient {
     ///
     /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet. Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten [CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html). By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. To restrict public internet access for all workers, configure the SourceIpConfig CIDR value. For example, when using SourceIpConfig with an IpAddressType of IPv4, you can restrict access to the IPv4 CIDR block "10.0.0.0/16". When using an IpAddressType of dualstack, you can specify both the IPv4 and IPv6 CIDR blocks, such as "10.0.0.0/16" for IPv4 only, "2001:db8:1234:1a00::/56" for IPv6 only, or "10.0.0.0/16" and "2001:db8:1234:1a00::/56" for dual stack. Amazon SageMaker does not support Source Ip restriction for worker portals in VPC. Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP. You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html) operation. After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the [DescribeWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeWorkforce.html) operation. This operation only applies to private workforces.
     ///
-    /// - Parameter UpdateWorkforceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkforceInput`)
     ///
-    /// - Returns: `UpdateWorkforceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkforceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -25116,6 +26185,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkforceInput, UpdateWorkforceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkforceOutput>(UpdateWorkforceOutput.httpOutput(from:), UpdateWorkforceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkforceInput, UpdateWorkforceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkforceOutput>())
@@ -25150,9 +26220,9 @@ extension SageMakerClient {
     ///
     /// Updates an existing work team with new member definitions or description.
     ///
-    /// - Parameter UpdateWorkteamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkteamInput`)
     ///
-    /// - Returns: `UpdateWorkteamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkteamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -25184,6 +26254,7 @@ extension SageMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkteamInput, UpdateWorkteamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkteamOutput>(UpdateWorkteamOutput.httpOutput(from:), UpdateWorkteamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkteamInput, UpdateWorkteamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkteamOutput>())

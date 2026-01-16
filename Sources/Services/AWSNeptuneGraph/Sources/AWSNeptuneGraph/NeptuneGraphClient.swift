@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -32,7 +33,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -68,9 +69,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NeptuneGraphClient: ClientRuntime.Client {
+public class NeptuneGraphClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NeptuneGraphClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: NeptuneGraphClient.NeptuneGraphClientConfiguration
     let serviceName = "Neptune Graph"
@@ -376,9 +376,9 @@ extension NeptuneGraphClient {
     ///
     /// Cancel the specified export task.
     ///
-    /// - Parameter CancelExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelExportTaskInput`)
     ///
-    /// - Returns: `CancelExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelExportTaskInput, CancelExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelExportTaskOutput>(CancelExportTaskOutput.httpOutput(from:), CancelExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelExportTaskInput, CancelExportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelExportTaskOutput>())
@@ -444,9 +445,9 @@ extension NeptuneGraphClient {
     ///
     /// Deletes the specified import task.
     ///
-    /// - Parameter CancelImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelImportTaskInput`)
     ///
-    /// - Returns: `CancelImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +482,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelImportTaskInput, CancelImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelImportTaskOutput>(CancelImportTaskOutput.httpOutput(from:), CancelImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelImportTaskInput, CancelImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelImportTaskOutput>())
@@ -512,9 +514,9 @@ extension NeptuneGraphClient {
     ///
     /// Cancels a specified query.
     ///
-    /// - Parameter CancelQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelQueryInput`)
     ///
-    /// - Returns: `CancelQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,6 +552,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<CancelQueryInput, CancelQueryOutput>(CancelQueryInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelQueryOutput>(CancelQueryOutput.httpOutput(from:), CancelQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelQueryInput, CancelQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelQueryOutput>())
@@ -581,9 +584,9 @@ extension NeptuneGraphClient {
     ///
     /// Creates a new Neptune Analytics graph.
     ///
-    /// - Parameter CreateGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphInput`)
     ///
-    /// - Returns: `CreateGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -621,6 +624,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGraphInput, CreateGraphOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGraphOutput>(CreateGraphOutput.httpOutput(from:), CreateGraphOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGraphInput, CreateGraphOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGraphOutput>())
@@ -652,9 +656,9 @@ extension NeptuneGraphClient {
     ///
     /// Creates a snapshot of the specific graph.
     ///
-    /// - Parameter CreateGraphSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphSnapshotInput`)
     ///
-    /// - Returns: `CreateGraphSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,6 +697,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGraphSnapshotInput, CreateGraphSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGraphSnapshotOutput>(CreateGraphSnapshotOutput.httpOutput(from:), CreateGraphSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGraphSnapshotInput, CreateGraphSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGraphSnapshotOutput>())
@@ -724,9 +729,9 @@ extension NeptuneGraphClient {
     ///
     /// Creates a new Neptune Analytics graph and imports data into it, either from Amazon Simple Storage Service (S3) or from a Neptune database or a Neptune database snapshot. The data can be loaded from files in S3 that in either the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
     ///
-    /// - Parameter CreateGraphUsingImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGraphUsingImportTaskInput`)
     ///
-    /// - Returns: `CreateGraphUsingImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGraphUsingImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -764,6 +769,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGraphUsingImportTaskInput, CreateGraphUsingImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGraphUsingImportTaskOutput>(CreateGraphUsingImportTaskOutput.httpOutput(from:), CreateGraphUsingImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGraphUsingImportTaskInput, CreateGraphUsingImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGraphUsingImportTaskOutput>())
@@ -795,9 +801,9 @@ extension NeptuneGraphClient {
     ///
     /// Create a private graph endpoint to allow private access from to the graph from within a VPC. You can attach security groups to the private graph endpoint. VPC endpoint charges apply.
     ///
-    /// - Parameter CreatePrivateGraphEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePrivateGraphEndpointInput`)
     ///
-    /// - Returns: `CreatePrivateGraphEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePrivateGraphEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,6 +842,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePrivateGraphEndpointInput, CreatePrivateGraphEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePrivateGraphEndpointOutput>(CreatePrivateGraphEndpointOutput.httpOutput(from:), CreatePrivateGraphEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePrivateGraphEndpointInput, CreatePrivateGraphEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePrivateGraphEndpointOutput>())
@@ -867,9 +874,9 @@ extension NeptuneGraphClient {
     ///
     /// Deletes the specified graph. Graphs cannot be deleted if delete-protection is enabled.
     ///
-    /// - Parameter DeleteGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGraphInput`)
     ///
-    /// - Returns: `DeleteGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -905,6 +912,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteGraphInput, DeleteGraphOutput>(DeleteGraphInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGraphOutput>(DeleteGraphOutput.httpOutput(from:), DeleteGraphOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGraphInput, DeleteGraphOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGraphOutput>())
@@ -936,9 +944,9 @@ extension NeptuneGraphClient {
     ///
     /// Deletes the specifed graph snapshot.
     ///
-    /// - Parameter DeleteGraphSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGraphSnapshotInput`)
     ///
-    /// - Returns: `DeleteGraphSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGraphSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,6 +981,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGraphSnapshotInput, DeleteGraphSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGraphSnapshotOutput>(DeleteGraphSnapshotOutput.httpOutput(from:), DeleteGraphSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGraphSnapshotInput, DeleteGraphSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGraphSnapshotOutput>())
@@ -1004,9 +1013,9 @@ extension NeptuneGraphClient {
     ///
     /// Deletes a private graph endpoint.
     ///
-    /// - Parameter DeletePrivateGraphEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePrivateGraphEndpointInput`)
     ///
-    /// - Returns: `DeletePrivateGraphEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePrivateGraphEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,6 +1050,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePrivateGraphEndpointInput, DeletePrivateGraphEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePrivateGraphEndpointOutput>(DeletePrivateGraphEndpointOutput.httpOutput(from:), DeletePrivateGraphEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePrivateGraphEndpointInput, DeletePrivateGraphEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePrivateGraphEndpointOutput>())
@@ -1078,9 +1088,9 @@ extension NeptuneGraphClient {
     ///
     /// * neptune-graph:DeleteDataViaQuery
     ///
-    /// - Parameter ExecuteQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteQueryInput`)
     ///
-    /// - Returns: `ExecuteQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1120,6 +1130,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteQueryInput, ExecuteQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteQueryOutput>(ExecuteQueryOutput.httpOutput(from:), ExecuteQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteQueryInput, ExecuteQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteQueryOutput>())
@@ -1151,9 +1162,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves a specified export task.
     ///
-    /// - Parameter GetExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExportTaskInput`)
     ///
-    /// - Returns: `GetExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1187,6 +1198,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExportTaskInput, GetExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExportTaskOutput>(GetExportTaskOutput.httpOutput(from:), GetExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportTaskInput, GetExportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExportTaskOutput>())
@@ -1218,9 +1230,9 @@ extension NeptuneGraphClient {
     ///
     /// Gets information about a specified graph.
     ///
-    /// - Parameter GetGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphInput`)
     ///
-    /// - Returns: `GetGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1254,6 +1266,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGraphInput, GetGraphOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGraphOutput>(GetGraphOutput.httpOutput(from:), GetGraphOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGraphInput, GetGraphOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGraphOutput>())
@@ -1285,9 +1298,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves a specified graph snapshot.
     ///
-    /// - Parameter GetGraphSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphSnapshotInput`)
     ///
-    /// - Returns: `GetGraphSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1321,6 +1334,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGraphSnapshotInput, GetGraphSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGraphSnapshotOutput>(GetGraphSnapshotOutput.httpOutput(from:), GetGraphSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGraphSnapshotInput, GetGraphSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGraphSnapshotOutput>())
@@ -1352,9 +1366,9 @@ extension NeptuneGraphClient {
     ///
     /// Gets a graph summary for a property graph.
     ///
-    /// - Parameter GetGraphSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGraphSummaryInput`)
     ///
-    /// - Returns: `GetGraphSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGraphSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1391,6 +1405,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetGraphSummaryInput, GetGraphSummaryOutput>(GetGraphSummaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGraphSummaryOutput>(GetGraphSummaryOutput.httpOutput(from:), GetGraphSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGraphSummaryInput, GetGraphSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGraphSummaryOutput>())
@@ -1422,9 +1437,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves a specified import task.
     ///
-    /// - Parameter GetImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportTaskInput`)
     ///
-    /// - Returns: `GetImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1458,6 +1473,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImportTaskInput, GetImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportTaskOutput>(GetImportTaskOutput.httpOutput(from:), GetImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportTaskInput, GetImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportTaskOutput>())
@@ -1489,9 +1505,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves information about a specified private endpoint.
     ///
-    /// - Parameter GetPrivateGraphEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPrivateGraphEndpointInput`)
     ///
-    /// - Returns: `GetPrivateGraphEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPrivateGraphEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1525,6 +1541,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPrivateGraphEndpointInput, GetPrivateGraphEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPrivateGraphEndpointOutput>(GetPrivateGraphEndpointOutput.httpOutput(from:), GetPrivateGraphEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPrivateGraphEndpointInput, GetPrivateGraphEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPrivateGraphEndpointOutput>())
@@ -1556,9 +1573,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves the status of a specified query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have the neptune-graph:GetQueryStatus IAM action attached.
     ///
-    /// - Parameter GetQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryInput`)
     ///
-    /// - Returns: `GetQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,6 +1611,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<GetQueryInput, GetQueryOutput>(GetQueryInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryOutput>(GetQueryOutput.httpOutput(from:), GetQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryInput, GetQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryOutput>())
@@ -1625,9 +1643,9 @@ extension NeptuneGraphClient {
     ///
     /// Retrieves a list of export tasks.
     ///
-    /// - Parameter ListExportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExportTasksInput`)
     ///
-    /// - Returns: `ListExportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1662,6 +1680,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExportTasksInput, ListExportTasksOutput>(ListExportTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExportTasksOutput>(ListExportTasksOutput.httpOutput(from:), ListExportTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportTasksInput, ListExportTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExportTasksOutput>())
@@ -1693,9 +1712,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists available snapshots of a specified Neptune Analytics graph.
     ///
-    /// - Parameter ListGraphSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGraphSnapshotsInput`)
     ///
-    /// - Returns: `ListGraphSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGraphSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,6 +1749,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGraphSnapshotsInput, ListGraphSnapshotsOutput>(ListGraphSnapshotsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGraphSnapshotsOutput>(ListGraphSnapshotsOutput.httpOutput(from:), ListGraphSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGraphSnapshotsInput, ListGraphSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGraphSnapshotsOutput>())
@@ -1761,9 +1781,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists available Neptune Analytics graphs.
     ///
-    /// - Parameter ListGraphsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGraphsInput`)
     ///
-    /// - Returns: `ListGraphsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGraphsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1797,6 +1817,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGraphsInput, ListGraphsOutput>(ListGraphsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGraphsOutput>(ListGraphsOutput.httpOutput(from:), ListGraphsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGraphsInput, ListGraphsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGraphsOutput>())
@@ -1828,9 +1849,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists import tasks.
     ///
-    /// - Parameter ListImportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportTasksInput`)
     ///
-    /// - Returns: `ListImportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1865,6 +1886,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListImportTasksInput, ListImportTasksOutput>(ListImportTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportTasksOutput>(ListImportTasksOutput.httpOutput(from:), ListImportTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportTasksInput, ListImportTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportTasksOutput>())
@@ -1896,9 +1918,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists private endpoints for a specified Neptune Analytics graph.
     ///
-    /// - Parameter ListPrivateGraphEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrivateGraphEndpointsInput`)
     ///
-    /// - Returns: `ListPrivateGraphEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrivateGraphEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1933,6 +1955,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPrivateGraphEndpointsInput, ListPrivateGraphEndpointsOutput>(ListPrivateGraphEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrivateGraphEndpointsOutput>(ListPrivateGraphEndpointsOutput.httpOutput(from:), ListPrivateGraphEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrivateGraphEndpointsInput, ListPrivateGraphEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrivateGraphEndpointsOutput>())
@@ -1964,9 +1987,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists active openCypher queries.
     ///
-    /// - Parameter ListQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueriesInput`)
     ///
-    /// - Returns: `ListQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2002,6 +2025,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueriesInput, ListQueriesOutput>(ListQueriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueriesOutput>(ListQueriesOutput.httpOutput(from:), ListQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueriesInput, ListQueriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueriesOutput>())
@@ -2033,9 +2057,9 @@ extension NeptuneGraphClient {
     ///
     /// Lists tags associated with a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2069,6 +2093,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2100,9 +2125,9 @@ extension NeptuneGraphClient {
     ///
     /// Empties the data from a specified Neptune Analytics graph.
     ///
-    /// - Parameter ResetGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetGraphInput`)
     ///
-    /// - Returns: `ResetGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2140,6 +2165,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetGraphInput, ResetGraphOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetGraphOutput>(ResetGraphOutput.httpOutput(from:), ResetGraphOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetGraphInput, ResetGraphOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetGraphOutput>())
@@ -2171,9 +2197,9 @@ extension NeptuneGraphClient {
     ///
     /// Restores a graph from a snapshot.
     ///
-    /// - Parameter RestoreGraphFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreGraphFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreGraphFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreGraphFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,6 +2238,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreGraphFromSnapshotInput, RestoreGraphFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreGraphFromSnapshotOutput>(RestoreGraphFromSnapshotOutput.httpOutput(from:), RestoreGraphFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreGraphFromSnapshotInput, RestoreGraphFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreGraphFromSnapshotOutput>())
@@ -2243,9 +2270,9 @@ extension NeptuneGraphClient {
     ///
     /// Export data from an existing Neptune Analytics graph to Amazon S3. The graph state should be AVAILABLE.
     ///
-    /// - Parameter StartExportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExportTaskInput`)
     ///
-    /// - Returns: `StartExportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2283,6 +2310,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExportTaskInput, StartExportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExportTaskOutput>(StartExportTaskOutput.httpOutput(from:), StartExportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExportTaskInput, StartExportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExportTaskOutput>())
@@ -2310,13 +2338,82 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartGraph` operation on the `NeptuneGraph` service.
+    ///
+    /// Starts the specific graph.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartGraphInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartGraphOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Raised when a conflict is encountered.
+    /// - `InternalServerException` : A failure occurred on the server.
+    /// - `ResourceNotFoundException` : A specified resource could not be located.
+    /// - `ThrottlingException` : The exception was interrupted by throttling.
+    /// - `ValidationException` : A resource could not be validated.
+    public func startGraph(input: StartGraphInput) async throws -> StartGraphOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startGraph")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "neptune-graph")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartGraphInput, StartGraphOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartGraphInput, StartGraphOutput>(StartGraphInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartGraphInput, StartGraphOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartGraphOutput>(StartGraphOutput.httpOutput(from:), StartGraphOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartGraphInput, StartGraphOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartGraphOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Neptune Graph", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(apiType: "ControlPlane", endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartGraphOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartGraphOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartGraphInput, StartGraphOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartGraphInput, StartGraphOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartGraphInput, StartGraphOutput>(serviceID: serviceName, version: NeptuneGraphClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NeptuneGraph")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartGraph")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartImportTask` operation on the `NeptuneGraph` service.
     ///
     /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
     ///
-    /// - Parameter StartImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportTaskInput`)
     ///
-    /// - Returns: `StartImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2354,6 +2451,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportTaskInput, StartImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportTaskOutput>(StartImportTaskOutput.httpOutput(from:), StartImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportTaskInput, StartImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportTaskOutput>())
@@ -2381,13 +2479,82 @@ extension NeptuneGraphClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StopGraph` operation on the `NeptuneGraph` service.
+    ///
+    /// Stops the specific graph.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopGraphInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopGraphOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Raised when a conflict is encountered.
+    /// - `InternalServerException` : A failure occurred on the server.
+    /// - `ResourceNotFoundException` : A specified resource could not be located.
+    /// - `ThrottlingException` : The exception was interrupted by throttling.
+    /// - `ValidationException` : A resource could not be validated.
+    public func stopGraph(input: StopGraphInput) async throws -> StopGraphOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopGraph")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "neptune-graph")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopGraphInput, StopGraphOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopGraphInput, StopGraphOutput>(StopGraphInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopGraphInput, StopGraphOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopGraphOutput>(StopGraphOutput.httpOutput(from:), StopGraphOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopGraphInput, StopGraphOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopGraphOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Neptune Graph", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(apiType: "ControlPlane", endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopGraphOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopGraphOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopGraphInput, StopGraphOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopGraphInput, StopGraphOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopGraphInput, StopGraphOutput>(serviceID: serviceName, version: NeptuneGraphClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NeptuneGraph")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopGraph")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `NeptuneGraph` service.
     ///
     /// Adds tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2424,6 +2591,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2455,9 +2623,9 @@ extension NeptuneGraphClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2492,6 +2660,7 @@ extension NeptuneGraphClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2523,9 +2692,9 @@ extension NeptuneGraphClient {
     ///
     /// Updates the configuration of a specified Neptune Analytics graph
     ///
-    /// - Parameter UpdateGraphInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGraphInput`)
     ///
-    /// - Returns: `UpdateGraphOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGraphOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2563,6 +2732,7 @@ extension NeptuneGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGraphInput, UpdateGraphOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGraphOutput>(UpdateGraphOutput.httpOutput(from:), UpdateGraphOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGraphInput, UpdateGraphOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGraphOutput>())

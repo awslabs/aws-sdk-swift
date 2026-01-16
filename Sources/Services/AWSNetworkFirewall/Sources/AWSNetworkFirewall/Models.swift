@@ -848,6 +848,211 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    /// The proxy rule group(s) to attach to the proxy configuration
+    public struct ProxyRuleGroupAttachment: Swift.Sendable {
+        /// Where to insert a proxy rule group in a proxy configuration.
+        public var insertPosition: Swift.Int?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public var proxyRuleGroupName: Swift.String?
+
+        public init(
+            insertPosition: Swift.Int? = nil,
+            proxyRuleGroupName: Swift.String? = nil
+        ) {
+            self.insertPosition = insertPosition
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+    }
+}
+
+public struct AttachRuleGroupsToProxyConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationArn: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationName: Swift.String?
+    /// The proxy rule group(s) to attach to the proxy configuration
+    /// This member is required.
+    public var ruleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupAttachment]?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyConfigurationArn: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil,
+        ruleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupAttachment]? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyConfigurationArn = proxyConfigurationArn
+        self.proxyConfigurationName = proxyConfigurationName
+        self.ruleGroups = ruleGroups
+        self.updateToken = updateToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ProxyRulePhaseAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alert
+        case allow
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProxyRulePhaseAction] {
+            return [
+                .alert,
+                .allow,
+                .deny
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alert: return "ALERT"
+            case .allow: return "ALLOW"
+            case .deny: return "DENY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. This data type is used specifically for the [CreateProxyConfiguration] and [UpdateProxyConfiguration] APIs.
+    public struct ProxyConfigDefaultRulePhaseActionsRequest: Swift.Sendable {
+        /// After receiving response.
+        public var postRESPONSE: NetworkFirewallClientTypes.ProxyRulePhaseAction?
+        /// Before domain resolution.
+        public var preDNS: NetworkFirewallClientTypes.ProxyRulePhaseAction?
+        /// After DNS, before request.
+        public var preREQUEST: NetworkFirewallClientTypes.ProxyRulePhaseAction?
+
+        public init(
+            postRESPONSE: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
+            preDNS: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
+            preREQUEST: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil
+        ) {
+            self.postRESPONSE = postRESPONSE
+            self.preDNS = preDNS
+            self.preREQUEST = preREQUEST
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Proxy rule group contained within a proxy configuration.
+    public struct ProxyConfigRuleGroup: Swift.Sendable {
+        /// Priority of the proxy rule group in the proxy configuration.
+        public var priority: Swift.Int?
+        /// The Amazon Resource Name (ARN) of a proxy rule group.
+        public var proxyRuleGroupArn: Swift.String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public var proxyRuleGroupName: Swift.String?
+        /// Proxy rule group type.
+        public var type: Swift.String?
+
+        public init(
+            priority: Swift.Int? = nil,
+            proxyRuleGroupArn: Swift.String? = nil,
+            proxyRuleGroupName: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.priority = priority
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.type = type
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource.
+    public struct Tag: Swift.Sendable {
+        /// The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A Proxy Configuration defines the monitoring and protection behavior for a Proxy. The details of the behavior are defined in the rule groups that you add to your configuration.
+    public struct ProxyConfiguration: Swift.Sendable {
+        /// Time the Proxy Configuration was created.
+        public var createTime: Foundation.Date?
+        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. Pre-DNS - before domain resolution. Pre-Request - after DNS, before request. Post-Response - after receiving response.
+        public var defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest?
+        /// Time the Proxy Configuration was deleted.
+        public var deleteTime: Foundation.Date?
+        /// A description of the proxy configuration.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public var proxyConfigurationArn: Swift.String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public var proxyConfigurationName: Swift.String?
+        /// Proxy rule groups within the proxy configuration.
+        public var ruleGroups: [NetworkFirewallClientTypes.ProxyConfigRuleGroup]?
+        /// The key:value pairs to associate with the resource.
+        public var tags: [NetworkFirewallClientTypes.Tag]?
+
+        public init(
+            createTime: Foundation.Date? = nil,
+            defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest? = nil,
+            deleteTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            proxyConfigurationArn: Swift.String? = nil,
+            proxyConfigurationName: Swift.String? = nil,
+            ruleGroups: [NetworkFirewallClientTypes.ProxyConfigRuleGroup]? = nil,
+            tags: [NetworkFirewallClientTypes.Tag]? = nil
+        ) {
+            self.createTime = createTime
+            self.defaultRulePhaseActions = defaultRulePhaseActions
+            self.deleteTime = deleteTime
+            self.description = description
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.ruleGroups = ruleGroups
+            self.tags = tags
+        }
+    }
+}
+
+public struct AttachRuleGroupsToProxyConfigurationOutput: Swift.Sendable {
+    /// The updated proxy configuration resource that reflects the updates from the request.
+    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyConfiguration = proxyConfiguration
+        self.updateToken = updateToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     /// High-level information about an Availability Zone where the firewall has an endpoint defined.
     public struct AvailabilityZoneMetadata: Swift.Sendable {
         /// The IP address type of the Firewall subnet in the Availability Zone. You can't change the IP address type after you create the subnet.
@@ -1108,31 +1313,10 @@ extension NetworkFirewallClientTypes {
     }
 }
 
-extension NetworkFirewallClientTypes {
-
-    /// A key:value pair associated with an Amazon Web Services resource. The key:value pair can be anything you define. Typically, the tag key represents a category (such as "environment") and the tag value represents a specific value within that category (such as "test," "development," or "production"). You can add up to 50 tags to each Amazon Web Services resource.
-    public struct Tag: Swift.Sendable {
-        /// The part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The part of the key:value pair that defines a tag. You can use a tag value to describe a specific value within a category, such as "companyA" or "companyB." Tag values are case-sensitive.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
 public struct CreateFirewallInput: Swift.Sendable {
     /// Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using [UpdateAvailabilityZoneChangeProtection]. Default value: FALSE
     public var availabilityZoneChangeProtection: Swift.Bool?
-    /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone independence. You can modify Availability Zones later using [AssociateAvailabilityZones] or [DisassociateAvailabilityZones], but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
+    /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone isolation. You can modify Availability Zones later using [AssociateAvailabilityZones] or [DisassociateAvailabilityZones], but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
     public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
     /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
     public var deleteProtection: Swift.Bool?
@@ -1317,14 +1501,18 @@ extension NetworkFirewallClientTypes {
 
     public enum PerObjectSyncStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityConstrained
+        case deprecated
         case inSync
+        case notSubscribed
         case pending
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PerObjectSyncStatus] {
             return [
                 .capacityConstrained,
+                .deprecated,
                 .inSync,
+                .notSubscribed,
                 .pending
             ]
         }
@@ -1337,7 +1525,9 @@ extension NetworkFirewallClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .capacityConstrained: return "CAPACITY_CONSTRAINED"
+            case .deprecated: return "DEPRECATED"
             case .inSync: return "IN_SYNC"
+            case .notSubscribed: return "NOT_SUBSCRIBED"
             case .pending: return "PENDING"
             case let .sdkUnknown(s): return s
             }
@@ -1755,6 +1945,8 @@ extension NetworkFirewallClientTypes {
 
     /// The firewall policy defines the behavior of a firewall using a collection of stateless and stateful rule groups and other settings. You can use one firewall policy for multiple firewalls. This, along with [FirewallPolicyResponse], define the policy. You can retrieve all objects for a firewall policy by calling [DescribeFirewallPolicy].
     public struct FirewallPolicy: Swift.Sendable {
+        /// When true, prevents TCP and TLS packets from reaching destination servers until TLS Inspection has evaluated Server Name Indication (SNI) rules. Requires an associated TLS Inspection configuration.
+        public var enableTLSSessionHolding: Swift.Bool?
         /// Contains variables that you can use to override default Suricata settings in your firewall policy.
         public var policyVariables: NetworkFirewallClientTypes.PolicyVariables?
         /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:
@@ -1788,6 +1980,7 @@ extension NetworkFirewallClientTypes {
         public var tlsInspectionConfigurationArn: Swift.String?
 
         public init(
+            enableTLSSessionHolding: Swift.Bool? = nil,
             policyVariables: NetworkFirewallClientTypes.PolicyVariables? = nil,
             statefulDefaultActions: [Swift.String]? = nil,
             statefulEngineOptions: NetworkFirewallClientTypes.StatefulEngineOptions? = nil,
@@ -1798,6 +1991,7 @@ extension NetworkFirewallClientTypes {
             statelessRuleGroupReferences: [NetworkFirewallClientTypes.StatelessRuleGroupReference]? = nil,
             tlsInspectionConfigurationArn: Swift.String? = nil
         ) {
+            self.enableTLSSessionHolding = enableTLSSessionHolding
             self.policyVariables = policyVariables
             self.statefulDefaultActions = statefulDefaultActions
             self.statefulEngineOptions = statefulEngineOptions
@@ -1951,6 +2145,650 @@ public struct CreateFirewallPolicyOutput: Swift.Sendable {
     }
 }
 
+/// The operation you requested isn't supported by Network Firewall.
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedOperationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ListenerPropertyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case http
+        case https
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListenerPropertyType] {
+            return [
+                .http,
+                .https
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http: return "HTTP"
+            case .https: return "HTTPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// This data type is used specifically for the [CreateProxy] and [UpdateProxy] APIs. Open port for taking HTTP or HTTPS traffic.
+    public struct ListenerPropertyRequest: Swift.Sendable {
+        /// Port for processing traffic.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// Selection of HTTP or HTTPS traffic.
+        /// This member is required.
+        public var type: NetworkFirewallClientTypes.ListenerPropertyType?
+
+        public init(
+            port: Swift.Int? = nil,
+            type: NetworkFirewallClientTypes.ListenerPropertyType? = nil
+        ) {
+            self.port = port
+            self.type = type
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum TlsInterceptMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TlsInterceptMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// This data type is used specifically for the [CreateProxy] and [UpdateProxy] APIs. TLS decryption on traffic to filter on attributes in the HTTP header.
+    public struct TlsInterceptPropertiesRequest: Swift.Sendable {
+        /// Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication.
+        public var pcaArn: Swift.String?
+        /// Specifies whether to enable or disable TLS Intercept Mode.
+        public var tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode?
+
+        public init(
+            pcaArn: Swift.String? = nil,
+            tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode? = nil
+        ) {
+            self.pcaArn = pcaArn
+            self.tlsInterceptMode = tlsInterceptMode
+        }
+    }
+}
+
+public struct CreateProxyInput: Swift.Sendable {
+    /// Listener properties for HTTP and HTTPS traffic.
+    public var listenerProperties: [NetworkFirewallClientTypes.ListenerPropertyRequest]?
+    /// A unique identifier for the NAT gateway to use with proxy resources.
+    /// This member is required.
+    public var natGatewayId: Swift.String?
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationArn: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationName: Swift.String?
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+    /// This member is required.
+    public var proxyName: Swift.String?
+    /// The key:value pairs to associate with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// TLS decryption on traffic to filter on attributes in the HTTP header.
+    /// This member is required.
+    public var tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest?
+
+    public init(
+        listenerProperties: [NetworkFirewallClientTypes.ListenerPropertyRequest]? = nil,
+        natGatewayId: Swift.String? = nil,
+        proxyConfigurationArn: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil,
+        proxyName: Swift.String? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest? = nil
+    ) {
+        self.listenerProperties = listenerProperties
+        self.natGatewayId = natGatewayId
+        self.proxyConfigurationArn = proxyConfigurationArn
+        self.proxyConfigurationName = proxyConfigurationName
+        self.proxyName = proxyName
+        self.tags = tags
+        self.tlsInterceptProperties = tlsInterceptProperties
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Open port for taking HTTP or HTTPS traffic.
+    public struct ListenerProperty: Swift.Sendable {
+        /// Port for processing traffic.
+        public var port: Swift.Int?
+        /// Selection of HTTP or HTTPS traffic.
+        public var type: NetworkFirewallClientTypes.ListenerPropertyType?
+
+        public init(
+            port: Swift.Int? = nil,
+            type: NetworkFirewallClientTypes.ListenerPropertyType? = nil
+        ) {
+            self.port = port
+            self.type = type
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ProxyModifyState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case modifying
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProxyModifyState] {
+            return [
+                .completed,
+                .failed,
+                .modifying
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .modifying: return "MODIFYING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ProxyState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attached
+        case attaching
+        case attachFailed
+        case detached
+        case detaching
+        case detachFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProxyState] {
+            return [
+                .attached,
+                .attaching,
+                .attachFailed,
+                .detached,
+                .detaching,
+                .detachFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attached: return "ATTACHED"
+            case .attaching: return "ATTACHING"
+            case .attachFailed: return "ATTACH_FAILED"
+            case .detached: return "DETACHED"
+            case .detaching: return "DETACHING"
+            case .detachFailed: return "DETACH_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// TLS decryption on traffic to filter on attributes in the HTTP header.
+    public struct TlsInterceptProperties: Swift.Sendable {
+        /// Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication.
+        public var pcaArn: Swift.String?
+        /// Specifies whether to enable or disable TLS Intercept Mode.
+        public var tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode?
+
+        public init(
+            pcaArn: Swift.String? = nil,
+            tlsInterceptMode: NetworkFirewallClientTypes.TlsInterceptMode? = nil
+        ) {
+            self.pcaArn = pcaArn
+            self.tlsInterceptMode = tlsInterceptMode
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Proxy attached to a NAT gateway.
+    public struct Proxy: Swift.Sendable {
+        /// Time the Proxy was created.
+        public var createTime: Foundation.Date?
+        /// Time the Proxy was deleted.
+        public var deleteTime: Foundation.Date?
+        /// Failure code for cases when the Proxy fails to attach or update.
+        public var failureCode: Swift.String?
+        /// Failure message for cases when the Proxy fails to attach or update.
+        public var failureMessage: Swift.String?
+        /// Listener properties for HTTP and HTTPS traffic.
+        public var listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]?
+        /// The NAT Gateway for the proxy.
+        public var natGatewayId: Swift.String?
+        /// The Amazon Resource Name (ARN) of a proxy.
+        public var proxyArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public var proxyConfigurationArn: Swift.String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public var proxyConfigurationName: Swift.String?
+        /// Current modification status of the Proxy.
+        public var proxyModifyState: NetworkFirewallClientTypes.ProxyModifyState?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+        public var proxyName: Swift.String?
+        /// Current attachment/detachment status of the Proxy.
+        public var proxyState: NetworkFirewallClientTypes.ProxyState?
+        /// The key:value pairs to associate with the resource.
+        public var tags: [NetworkFirewallClientTypes.Tag]?
+        /// TLS decryption on traffic to filter on attributes in the HTTP header.
+        public var tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptProperties?
+        /// Time the Proxy was updated.
+        public var updateTime: Foundation.Date?
+
+        public init(
+            createTime: Foundation.Date? = nil,
+            deleteTime: Foundation.Date? = nil,
+            failureCode: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]? = nil,
+            natGatewayId: Swift.String? = nil,
+            proxyArn: Swift.String? = nil,
+            proxyConfigurationArn: Swift.String? = nil,
+            proxyConfigurationName: Swift.String? = nil,
+            proxyModifyState: NetworkFirewallClientTypes.ProxyModifyState? = nil,
+            proxyName: Swift.String? = nil,
+            proxyState: NetworkFirewallClientTypes.ProxyState? = nil,
+            tags: [NetworkFirewallClientTypes.Tag]? = nil,
+            tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptProperties? = nil,
+            updateTime: Foundation.Date? = nil
+        ) {
+            self.createTime = createTime
+            self.deleteTime = deleteTime
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.listenerProperties = listenerProperties
+            self.natGatewayId = natGatewayId
+            self.proxyArn = proxyArn
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.proxyModifyState = proxyModifyState
+            self.proxyName = proxyName
+            self.proxyState = proxyState
+            self.tags = tags
+            self.tlsInterceptProperties = tlsInterceptProperties
+            self.updateTime = updateTime
+        }
+    }
+}
+
+public struct CreateProxyOutput: Swift.Sendable {
+    /// Proxy attached to a NAT gateway.
+    public var proxy: NetworkFirewallClientTypes.Proxy?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxy: NetworkFirewallClientTypes.Proxy? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxy = proxy
+        self.updateToken = updateToken
+    }
+}
+
+public struct CreateProxyConfigurationInput: Swift.Sendable {
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+    /// This member is required.
+    public var defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest?
+    /// A description of the proxy configuration.
+    public var description: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+    /// This member is required.
+    public var proxyConfigurationName: Swift.String?
+    /// The proxy rule group arn(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
+    public var ruleGroupArns: [Swift.String]?
+    /// The proxy rule group name(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
+    public var ruleGroupNames: [Swift.String]?
+    /// The key:value pairs to associate with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+
+    public init(
+        defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest? = nil,
+        description: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil,
+        ruleGroupArns: [Swift.String]? = nil,
+        ruleGroupNames: [Swift.String]? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil
+    ) {
+        self.defaultRulePhaseActions = defaultRulePhaseActions
+        self.description = description
+        self.proxyConfigurationName = proxyConfigurationName
+        self.ruleGroupArns = ruleGroupArns
+        self.ruleGroupNames = ruleGroupNames
+        self.tags = tags
+    }
+}
+
+public struct CreateProxyConfigurationOutput: Swift.Sendable {
+    /// The properties that define the proxy configuration.
+    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyConfiguration = proxyConfiguration
+        self.updateToken = updateToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Match criteria that specify what traffic attributes to examine.
+    public struct ProxyRuleCondition: Swift.Sendable {
+        /// Defines what is to be matched.
+        public var conditionKey: Swift.String?
+        /// Defines how to perform a match.
+        public var conditionOperator: Swift.String?
+        /// Specifes the exact value that needs to be matched against.
+        public var conditionValues: [Swift.String]?
+
+        public init(
+            conditionKey: Swift.String? = nil,
+            conditionOperator: Swift.String? = nil,
+            conditionValues: [Swift.String]? = nil
+        ) {
+            self.conditionKey = conditionKey
+            self.conditionOperator = conditionOperator
+            self.conditionValues = conditionValues
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
+    public struct CreateProxyRule: Swift.Sendable {
+        /// Action to take.
+        public var action: NetworkFirewallClientTypes.ProxyRulePhaseAction?
+        /// Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
+        public var conditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
+        /// A description of the proxy rule.
+        public var description: Swift.String?
+        /// Where to insert a proxy rule in a proxy rule group.
+        public var insertPosition: Swift.Int?
+        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+        public var proxyRuleName: Swift.String?
+
+        public init(
+            action: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
+            conditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
+            description: Swift.String? = nil,
+            insertPosition: Swift.Int? = nil,
+            proxyRuleName: Swift.String? = nil
+        ) {
+            self.action = action
+            self.conditions = conditions
+            self.description = description
+            self.insertPosition = insertPosition
+            self.proxyRuleName = proxyRuleName
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
+    public struct ProxyRule: Swift.Sendable {
+        /// Action to take.
+        public var action: NetworkFirewallClientTypes.ProxyRulePhaseAction?
+        /// Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
+        public var conditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
+        /// A description of the proxy rule.
+        public var description: Swift.String?
+        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+        public var proxyRuleName: Swift.String?
+
+        public init(
+            action: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
+            conditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
+            description: Swift.String? = nil,
+            proxyRuleName: Swift.String? = nil
+        ) {
+            self.action = action
+            self.conditions = conditions
+            self.description = description
+            self.proxyRuleName = proxyRuleName
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+    public struct ProxyRulesByRequestPhase: Swift.Sendable {
+        /// After receiving response.
+        public var postRESPONSE: [NetworkFirewallClientTypes.ProxyRule]?
+        /// Before domain resolution.
+        public var preDNS: [NetworkFirewallClientTypes.ProxyRule]?
+        /// After DNS, before request.
+        public var preREQUEST: [NetworkFirewallClientTypes.ProxyRule]?
+
+        public init(
+            postRESPONSE: [NetworkFirewallClientTypes.ProxyRule]? = nil,
+            preDNS: [NetworkFirewallClientTypes.ProxyRule]? = nil,
+            preREQUEST: [NetworkFirewallClientTypes.ProxyRule]? = nil
+        ) {
+            self.postRESPONSE = postRESPONSE
+            self.preDNS = preDNS
+            self.preREQUEST = preREQUEST
+        }
+    }
+}
+
+public struct CreateProxyRuleGroupInput: Swift.Sendable {
+    /// A description of the proxy rule group.
+    public var description: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+    /// This member is required.
+    public var proxyRuleGroupName: Swift.String?
+    /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
+    public var rules: NetworkFirewallClientTypes.ProxyRulesByRequestPhase?
+    /// The key:value pairs to associate with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+
+    public init(
+        description: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil,
+        rules: NetworkFirewallClientTypes.ProxyRulesByRequestPhase? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil
+    ) {
+        self.description = description
+        self.proxyRuleGroupName = proxyRuleGroupName
+        self.rules = rules
+        self.tags = tags
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Collections of related proxy filtering rules. Rule groups help you manage and reuse sets of rules across multiple proxy configurations.
+    public struct ProxyRuleGroup: Swift.Sendable {
+        /// Time the Proxy Rule Group was created.
+        public var createTime: Foundation.Date?
+        /// Time the Proxy Rule Group was deleted.
+        public var deleteTime: Foundation.Date?
+        /// A description of the proxy rule group.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of a proxy rule group.
+        public var proxyRuleGroupArn: Swift.String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public var proxyRuleGroupName: Swift.String?
+        /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
+        public var rules: NetworkFirewallClientTypes.ProxyRulesByRequestPhase?
+        /// The key:value pairs to associate with the resource.
+        public var tags: [NetworkFirewallClientTypes.Tag]?
+
+        public init(
+            createTime: Foundation.Date? = nil,
+            deleteTime: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            proxyRuleGroupArn: Swift.String? = nil,
+            proxyRuleGroupName: Swift.String? = nil,
+            rules: NetworkFirewallClientTypes.ProxyRulesByRequestPhase? = nil,
+            tags: [NetworkFirewallClientTypes.Tag]? = nil
+        ) {
+            self.createTime = createTime
+            self.deleteTime = deleteTime
+            self.description = description
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.rules = rules
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateProxyRuleGroupOutput: Swift.Sendable {
+    /// The properties that define the proxy rule group.
+    public var proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyRuleGroup = proxyRuleGroup
+        self.updateToken = updateToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied. This data type is used specifically for the [CreateProxyRules] API. Pre-DNS - before domain resolution. Pre-Request - after DNS, before request. Post-Response - after receiving response.
+    public struct CreateProxyRulesByRequestPhase: Swift.Sendable {
+        /// After receiving response.
+        public var postRESPONSE: [NetworkFirewallClientTypes.CreateProxyRule]?
+        /// Before domain resolution.
+        public var preDNS: [NetworkFirewallClientTypes.CreateProxyRule]?
+        /// After DNS, before request.
+        public var preREQUEST: [NetworkFirewallClientTypes.CreateProxyRule]?
+
+        public init(
+            postRESPONSE: [NetworkFirewallClientTypes.CreateProxyRule]? = nil,
+            preDNS: [NetworkFirewallClientTypes.CreateProxyRule]? = nil,
+            preREQUEST: [NetworkFirewallClientTypes.CreateProxyRule]? = nil
+        ) {
+            self.postRESPONSE = postRESPONSE
+            self.preDNS = preDNS
+            self.preREQUEST = preREQUEST
+        }
+    }
+}
+
+public struct CreateProxyRulesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupName: Swift.String?
+    /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
+    /// This member is required.
+    public var rules: NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase?
+
+    public init(
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil,
+        rules: NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase? = nil
+    ) {
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+        self.rules = rules
+    }
+}
+
+public struct CreateProxyRulesOutput: Swift.Sendable {
+    /// The properties that define the proxy rule group with the newly created proxy rule(s).
+    public var proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyRuleGroup = proxyRuleGroup
+        self.updateToken = updateToken
+    }
+}
+
 extension NetworkFirewallClientTypes {
 
     /// Configures one or more IP set references for a Suricata-compatible rule group. This is used in [CreateRuleGroup] or [UpdateRuleGroup]. An IP set reference is a rule variable that references resources that you create and manage in another Amazon Web Services service, such as an Amazon VPC prefix list. Network Firewall IP set references enable you to dynamically update the contents of your rules. When you create, update, or delete the resource you are referencing in your rule, Network Firewall automatically updates the rule's content with the changes. For more information about IP set references in Network Firewall, see [Using IP set references](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references) in the Network Firewall Developer Guide. Network Firewall currently supports [Amazon VPC prefix lists](https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html) and [resource groups](https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references.html#rule-groups-referencing-resource-groups) in IP set references.
@@ -1984,14 +2822,18 @@ extension NetworkFirewallClientTypes {
 extension NetworkFirewallClientTypes {
 
     public enum GeneratedRulesType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alertlist
         case allowlist
         case denylist
+        case rejectlist
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GeneratedRulesType] {
             return [
+                .alertlist,
                 .allowlist,
-                .denylist
+                .denylist,
+                .rejectlist
             ]
         }
 
@@ -2002,8 +2844,10 @@ extension NetworkFirewallClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .alertlist: return "ALERTLIST"
             case .allowlist: return "ALLOWLIST"
             case .denylist: return "DENYLIST"
+            case .rejectlist: return "REJECTLIST"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2043,7 +2887,7 @@ extension NetworkFirewallClientTypes {
 
     /// Stateful inspection criteria for a domain list rule group. For HTTPS traffic, domain filtering is SNI-based. It uses the server name indicator extension of the TLS handshake. By default, Network Firewall domain list inspection only includes traffic coming from the VPC where you deploy the firewall. To inspect traffic from IP addresses outside of the deployment VPC, you set the HOME_NET rule variable to include the CIDR range of the deployment VPC plus the other CIDR ranges. For more information, see [RuleVariables] in this guide and [Stateful domain list rule groups in Network Firewall](https://docs.aws.amazon.com/network-firewall/latest/developerguide/stateful-rule-groups-domain-names.html) in the Network Firewall Developer Guide.
     public struct RulesSourceList: Swift.Sendable {
-        /// Whether you want to allow or deny access to the domains in your target list.
+        /// Whether you want to apply allow, reject, alert, or drop behavior to the domains in your target list. When logging is enabled and you choose Alert, traffic that matches the domain specifications generates an alert in the firewall's logs. Then, traffic either passes, is rejected, or drops based on other rules in the firewall policy.
         /// This member is required.
         public var generatedRulesType: NetworkFirewallClientTypes.GeneratedRulesType?
         /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
@@ -3224,29 +4068,6 @@ public struct CreateVpcEndpointAssociationOutput: Swift.Sendable {
     }
 }
 
-/// The operation you requested isn't supported by Network Firewall.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "UnsupportedOperationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 public struct DeleteFirewallInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
@@ -3348,6 +4169,136 @@ public struct DeleteNetworkFirewallTransitGatewayAttachmentOutput: Swift.Sendabl
     ) {
         self.transitGatewayAttachmentId = transitGatewayAttachmentId
         self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
+    }
+}
+
+public struct DeleteProxyInput: Swift.Sendable {
+    /// The NAT Gateway the proxy is attached to.
+    /// This member is required.
+    public var natGatewayId: Swift.String?
+    /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
+    public var proxyArn: Swift.String?
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyName: Swift.String?
+
+    public init(
+        natGatewayId: Swift.String? = nil,
+        proxyArn: Swift.String? = nil,
+        proxyName: Swift.String? = nil
+    ) {
+        self.natGatewayId = natGatewayId
+        self.proxyArn = proxyArn
+        self.proxyName = proxyName
+    }
+}
+
+public struct DeleteProxyOutput: Swift.Sendable {
+    /// The NAT Gateway the Proxy was attached to.
+    public var natGatewayId: Swift.String?
+    /// The Amazon Resource Name (ARN) of a proxy.
+    public var proxyArn: Swift.String?
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+    public var proxyName: Swift.String?
+
+    public init(
+        natGatewayId: Swift.String? = nil,
+        proxyArn: Swift.String? = nil,
+        proxyName: Swift.String? = nil
+    ) {
+        self.natGatewayId = natGatewayId
+        self.proxyArn = proxyArn
+        self.proxyName = proxyName
+    }
+}
+
+public struct DeleteProxyConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationArn: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationName: Swift.String?
+
+    public init(
+        proxyConfigurationArn: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil
+    ) {
+        self.proxyConfigurationArn = proxyConfigurationArn
+        self.proxyConfigurationName = proxyConfigurationName
+    }
+}
+
+public struct DeleteProxyConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy configuration.
+    public var proxyConfigurationArn: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+    public var proxyConfigurationName: Swift.String?
+
+    public init(
+        proxyConfigurationArn: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil
+    ) {
+        self.proxyConfigurationArn = proxyConfigurationArn
+        self.proxyConfigurationName = proxyConfigurationName
+    }
+}
+
+public struct DeleteProxyRuleGroupInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupName: Swift.String?
+
+    public init(
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil
+    ) {
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+    }
+}
+
+public struct DeleteProxyRuleGroupOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy rule group.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+    public var proxyRuleGroupName: Swift.String?
+
+    public init(
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil
+    ) {
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+    }
+}
+
+public struct DeleteProxyRulesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupName: Swift.String?
+    /// The proxy rule(s) to remove from the existing proxy rule group.
+    /// This member is required.
+    public var rules: [Swift.String]?
+
+    public init(
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil,
+        rules: [Swift.String]? = nil
+    ) {
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+        self.rules = rules
+    }
+}
+
+public struct DeleteProxyRulesOutput: Swift.Sendable {
+    /// The properties that define the proxy rule group with the newly created proxy rule(s).
+    public var proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup?
+
+    public init(
+        proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup? = nil
+    ) {
+        self.proxyRuleGroup = proxyRuleGroup
     }
 }
 
@@ -3930,6 +4881,210 @@ public struct DescribeLoggingConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeProxyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
+    public var proxyArn: Swift.String?
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyName: Swift.String?
+
+    public init(
+        proxyArn: Swift.String? = nil,
+        proxyName: Swift.String? = nil
+    ) {
+        self.proxyArn = proxyArn
+        self.proxyName = proxyName
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Proxy attached to a NAT gateway.
+    public struct DescribeProxyResource: Swift.Sendable {
+        /// Time the Proxy was created.
+        public var createTime: Foundation.Date?
+        /// Time the Proxy was deleted.
+        public var deleteTime: Foundation.Date?
+        /// Failure code for cases when the Proxy fails to attach or update.
+        public var failureCode: Swift.String?
+        /// Failure message for cases when the Proxy fails to attach or update.
+        public var failureMessage: Swift.String?
+        /// Listener properties for HTTP and HTTPS traffic.
+        public var listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]?
+        /// The NAT Gateway for the proxy.
+        public var natGatewayId: Swift.String?
+        /// The private DNS name of the Proxy.
+        public var privateDNSName: Swift.String?
+        /// The Amazon Resource Name (ARN) of a proxy.
+        public var proxyArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public var proxyConfigurationArn: Swift.String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public var proxyConfigurationName: Swift.String?
+        /// Current modification status of the Proxy.
+        public var proxyModifyState: NetworkFirewallClientTypes.ProxyModifyState?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+        public var proxyName: Swift.String?
+        /// Current attachment/detachment status of the Proxy.
+        public var proxyState: NetworkFirewallClientTypes.ProxyState?
+        /// The key:value pairs to associate with the resource.
+        public var tags: [NetworkFirewallClientTypes.Tag]?
+        /// TLS decryption on traffic to filter on attributes in the HTTP header.
+        public var tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptProperties?
+        /// Time the Proxy was updated.
+        public var updateTime: Foundation.Date?
+        /// The service endpoint created in the VPC.
+        public var vpcEndpointServiceName: Swift.String?
+
+        public init(
+            createTime: Foundation.Date? = nil,
+            deleteTime: Foundation.Date? = nil,
+            failureCode: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            listenerProperties: [NetworkFirewallClientTypes.ListenerProperty]? = nil,
+            natGatewayId: Swift.String? = nil,
+            privateDNSName: Swift.String? = nil,
+            proxyArn: Swift.String? = nil,
+            proxyConfigurationArn: Swift.String? = nil,
+            proxyConfigurationName: Swift.String? = nil,
+            proxyModifyState: NetworkFirewallClientTypes.ProxyModifyState? = nil,
+            proxyName: Swift.String? = nil,
+            proxyState: NetworkFirewallClientTypes.ProxyState? = nil,
+            tags: [NetworkFirewallClientTypes.Tag]? = nil,
+            tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptProperties? = nil,
+            updateTime: Foundation.Date? = nil,
+            vpcEndpointServiceName: Swift.String? = nil
+        ) {
+            self.createTime = createTime
+            self.deleteTime = deleteTime
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.listenerProperties = listenerProperties
+            self.natGatewayId = natGatewayId
+            self.privateDNSName = privateDNSName
+            self.proxyArn = proxyArn
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.proxyModifyState = proxyModifyState
+            self.proxyName = proxyName
+            self.proxyState = proxyState
+            self.tags = tags
+            self.tlsInterceptProperties = tlsInterceptProperties
+            self.updateTime = updateTime
+            self.vpcEndpointServiceName = vpcEndpointServiceName
+        }
+    }
+}
+
+public struct DescribeProxyOutput: Swift.Sendable {
+    /// Proxy attached to a NAT gateway.
+    public var proxy: NetworkFirewallClientTypes.DescribeProxyResource?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxy: NetworkFirewallClientTypes.DescribeProxyResource? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxy = proxy
+        self.updateToken = updateToken
+    }
+}
+
+public struct DescribeProxyConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationArn: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationName: Swift.String?
+
+    public init(
+        proxyConfigurationArn: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil
+    ) {
+        self.proxyConfigurationArn = proxyConfigurationArn
+        self.proxyConfigurationName = proxyConfigurationName
+    }
+}
+
+public struct DescribeProxyConfigurationOutput: Swift.Sendable {
+    /// The configuration for the specified proxy configuration.
+    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyConfiguration = proxyConfiguration
+        self.updateToken = updateToken
+    }
+}
+
+public struct DescribeProxyRuleInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupName: Swift.String?
+    /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+    /// This member is required.
+    public var proxyRuleName: Swift.String?
+
+    public init(
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil,
+        proxyRuleName: Swift.String? = nil
+    ) {
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+        self.proxyRuleName = proxyRuleName
+    }
+}
+
+public struct DescribeProxyRuleOutput: Swift.Sendable {
+    /// The configuration for the specified proxy rule.
+    public var proxyRule: NetworkFirewallClientTypes.ProxyRule?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyRule: NetworkFirewallClientTypes.ProxyRule? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyRule = proxyRule
+        self.updateToken = updateToken
+    }
+}
+
+public struct DescribeProxyRuleGroupInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupName: Swift.String?
+
+    public init(
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil
+    ) {
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+    }
+}
+
+public struct DescribeProxyRuleGroupOutput: Swift.Sendable {
+    /// The configuration for the specified proxy rule group.
+    public var proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyRuleGroup: NetworkFirewallClientTypes.ProxyRuleGroup? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyRuleGroup = proxyRuleGroup
+        self.updateToken = updateToken
+    }
+}
+
 public struct DescribeResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to retrieve.
     /// This member is required.
@@ -4023,6 +5178,10 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
     public var description: Swift.String?
     /// A timestamp indicating when the rule group was last modified.
     public var lastModifiedTime: Foundation.Date?
+    /// The display name of the product listing for this rule group.
+    public var listingName: Swift.String?
+    /// The unique identifier for the product listing associated with this rule group.
+    public var productId: Swift.String?
     /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     /// This member is required.
     public var ruleGroupArn: Swift.String?
@@ -4033,23 +5192,31 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
     public var statefulRuleOptions: NetworkFirewallClientTypes.StatefulRuleOptions?
     /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
+    /// The name of the Amazon Web Services Marketplace vendor that provides this rule group.
+    public var vendorName: Swift.String?
 
     public init(
         capacity: Swift.Int? = nil,
         description: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
+        listingName: Swift.String? = nil,
+        productId: Swift.String? = nil,
         ruleGroupArn: Swift.String? = nil,
         ruleGroupName: Swift.String? = nil,
         statefulRuleOptions: NetworkFirewallClientTypes.StatefulRuleOptions? = nil,
-        type: NetworkFirewallClientTypes.RuleGroupType? = nil
+        type: NetworkFirewallClientTypes.RuleGroupType? = nil,
+        vendorName: Swift.String? = nil
     ) {
         self.capacity = capacity
         self.description = description
         self.lastModifiedTime = lastModifiedTime
+        self.listingName = listingName
+        self.productId = productId
         self.ruleGroupArn = ruleGroupArn
         self.ruleGroupName = ruleGroupName
         self.statefulRuleOptions = statefulRuleOptions
         self.type = type
+        self.vendorName = vendorName
     }
 }
 
@@ -4205,6 +5372,49 @@ public struct DescribeVpcEndpointAssociationOutput: Swift.Sendable {
     ) {
         self.vpcEndpointAssociation = vpcEndpointAssociation
         self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+    }
+}
+
+public struct DetachRuleGroupsFromProxyConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationArn: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationName: Swift.String?
+    /// The proxy rule group arns to detach from the proxy configuration
+    public var ruleGroupArns: [Swift.String]?
+    /// The proxy rule group names to detach from the proxy configuration
+    public var ruleGroupNames: [Swift.String]?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyConfigurationArn: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil,
+        ruleGroupArns: [Swift.String]? = nil,
+        ruleGroupNames: [Swift.String]? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyConfigurationArn = proxyConfigurationArn
+        self.proxyConfigurationName = proxyConfigurationName
+        self.ruleGroupArns = ruleGroupArns
+        self.ruleGroupNames = ruleGroupNames
+        self.updateToken = updateToken
+    }
+}
+
+public struct DetachRuleGroupsFromProxyConfigurationOutput: Swift.Sendable {
+    /// The updated proxy configuration resource that reflects the updates from the request.
+    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyConfiguration = proxyConfiguration
+        self.updateToken = updateToken
     }
 }
 
@@ -4714,19 +5924,168 @@ public struct ListFlowOperationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListProxiesInput: Swift.Sendable {
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about a proxy, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a proxy. You can retrieve all objects for a proxy by calling [DescribeProxy].
+    public struct ProxyMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of a proxy.
+        public var arn: Swift.String?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+        }
+    }
+}
+
+public struct ListProxiesOutput: Swift.Sendable {
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The metadata for the proxies. Depending on your setting for max results and the number of proxies that you have, this might not be the full list.
+    public var proxies: [NetworkFirewallClientTypes.ProxyMetadata]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        proxies: [NetworkFirewallClientTypes.ProxyMetadata]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.proxies = proxies
+    }
+}
+
+public struct ListProxyConfigurationsInput: Swift.Sendable {
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about a proxy configuration, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a proxy configuration. You can retrieve all objects for a proxy configuration by calling [DescribeProxyConfiguration].
+    public struct ProxyConfigurationMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public var arn: Swift.String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+        }
+    }
+}
+
+public struct ListProxyConfigurationsOutput: Swift.Sendable {
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The metadata for the proxy configurations. Depending on your setting for max results and the number of proxy configurations that you have, this might not be the full list.
+    public var proxyConfigurations: [NetworkFirewallClientTypes.ProxyConfigurationMetadata]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        proxyConfigurations: [NetworkFirewallClientTypes.ProxyConfigurationMetadata]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.proxyConfigurations = proxyConfigurations
+    }
+}
+
+public struct ListProxyRuleGroupsInput: Swift.Sendable {
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about a proxy rule group, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a proxy rule group. You can retrieve all objects for a proxy rule group by calling [DescribeProxyRuleGroup].
+    public struct ProxyRuleGroupMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of a proxy rule group.
+        public var arn: Swift.String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+        }
+    }
+}
+
+public struct ListProxyRuleGroupsOutput: Swift.Sendable {
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The metadata for the proxy rule groups. Depending on your setting for max results and the number of proxy rule groups that you have, this might not be the full list.
+    public var proxyRuleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupMetadata]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        proxyRuleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupMetadata]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.proxyRuleGroups = proxyRuleGroups
+    }
+}
+
 extension NetworkFirewallClientTypes {
 
     public enum ResourceManagedType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activeThreatDefense
         case awsManagedDomainLists
         case awsManagedThreatSignatures
+        case partnerManaged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceManagedType] {
             return [
                 .activeThreatDefense,
                 .awsManagedDomainLists,
-                .awsManagedThreatSignatures
+                .awsManagedThreatSignatures,
+                .partnerManaged
             ]
         }
 
@@ -4740,6 +6099,7 @@ extension NetworkFirewallClientTypes {
             case .activeThreatDefense: return "ACTIVE_THREAT_DEFENSE"
             case .awsManagedDomainLists: return "AWS_MANAGED_DOMAIN_LISTS"
             case .awsManagedThreatSignatures: return "AWS_MANAGED_THREAT_SIGNATURES"
+            case .partnerManaged: return "PARTNER_MANAGED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4775,6 +6135,35 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes {
+
+    public enum SubscriptionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notSubscribed
+        case subscribed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubscriptionStatus] {
+            return [
+                .notSubscribed,
+                .subscribed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notSubscribed: return "NOT_SUBSCRIBED"
+            case .subscribed: return "SUBSCRIBED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListRuleGroupsInput: Swift.Sendable {
     /// Indicates the general category of the Amazon Web Services managed rule group.
     public var managedType: NetworkFirewallClientTypes.ResourceManagedType?
@@ -4784,6 +6173,8 @@ public struct ListRuleGroupsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The scope of the request. The default setting of ACCOUNT or a setting of NULL returns all of the rule groups in your account. A setting of MANAGED returns all available managed rule groups.
     public var scope: NetworkFirewallClientTypes.ResourceManagedStatus?
+    /// Filters the results to show only rule groups with the specified subscription status. Use this to find subscribed or unsubscribed rule groups.
+    public var subscriptionStatus: NetworkFirewallClientTypes.SubscriptionStatus?
     /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
 
@@ -4792,12 +6183,14 @@ public struct ListRuleGroupsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scope: NetworkFirewallClientTypes.ResourceManagedStatus? = nil,
+        subscriptionStatus: NetworkFirewallClientTypes.SubscriptionStatus? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
     ) {
         self.managedType = managedType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.scope = scope
+        self.subscriptionStatus = subscriptionStatus
         self.type = type
     }
 }
@@ -4810,13 +6203,17 @@ extension NetworkFirewallClientTypes {
         public var arn: Swift.String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
         public var name: Swift.String?
+        /// The name of the Amazon Web Services Marketplace seller that provides this rule group.
+        public var vendorName: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            vendorName: Swift.String? = nil
         ) {
             self.arn = arn
             self.name = name
+            self.vendorName = vendorName
         }
     }
 }
@@ -5671,6 +7068,344 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateProxyInput: Swift.Sendable {
+    /// Listener properties for HTTP and HTTPS traffic to add.
+    public var listenerPropertiesToAdd: [NetworkFirewallClientTypes.ListenerPropertyRequest]?
+    /// Listener properties for HTTP and HTTPS traffic to remove.
+    public var listenerPropertiesToRemove: [NetworkFirewallClientTypes.ListenerPropertyRequest]?
+    /// The NAT Gateway the proxy is attached to.
+    /// This member is required.
+    public var natGatewayId: Swift.String?
+    /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
+    public var proxyArn: Swift.String?
+    /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyName: Swift.String?
+    /// TLS decryption on traffic to filter on attributes in the HTTP header.
+    public var tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        listenerPropertiesToAdd: [NetworkFirewallClientTypes.ListenerPropertyRequest]? = nil,
+        listenerPropertiesToRemove: [NetworkFirewallClientTypes.ListenerPropertyRequest]? = nil,
+        natGatewayId: Swift.String? = nil,
+        proxyArn: Swift.String? = nil,
+        proxyName: Swift.String? = nil,
+        tlsInterceptProperties: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.listenerPropertiesToAdd = listenerPropertiesToAdd
+        self.listenerPropertiesToRemove = listenerPropertiesToRemove
+        self.natGatewayId = natGatewayId
+        self.proxyArn = proxyArn
+        self.proxyName = proxyName
+        self.tlsInterceptProperties = tlsInterceptProperties
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateProxyOutput: Swift.Sendable {
+    /// The updated proxy resource that reflects the updates from the request.
+    public var proxy: NetworkFirewallClientTypes.Proxy?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request. To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxy: NetworkFirewallClientTypes.Proxy? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxy = proxy
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateProxyConfigurationInput: Swift.Sendable {
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+    /// This member is required.
+    public var defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest?
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationArn: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationName: Swift.String?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        defaultRulePhaseActions: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest? = nil,
+        proxyConfigurationArn: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.defaultRulePhaseActions = defaultRulePhaseActions
+        self.proxyConfigurationArn = proxyConfigurationArn
+        self.proxyConfigurationName = proxyConfigurationName
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateProxyConfigurationOutput: Swift.Sendable {
+    /// The updated proxy configuration resource that reflects the updates from the request.
+    public var proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyConfiguration: NetworkFirewallClientTypes.ProxyConfiguration? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyConfiguration = proxyConfiguration
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateProxyRuleInput: Swift.Sendable {
+    /// Depending on the match action, the proxy either stops the evaluation (if the action is terminal - allow or deny), or continues it (if the action is alert) until it matches a rule with a terminal action.
+    public var action: NetworkFirewallClientTypes.ProxyRulePhaseAction?
+    /// Proxy rule conditions to add. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
+    public var addConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
+    /// A description of the proxy rule.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupName: Swift.String?
+    /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+    /// This member is required.
+    public var proxyRuleName: Swift.String?
+    /// Proxy rule conditions to remove. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
+    public var removeConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        action: NetworkFirewallClientTypes.ProxyRulePhaseAction? = nil,
+        addConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
+        description: Swift.String? = nil,
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil,
+        proxyRuleName: Swift.String? = nil,
+        removeConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.action = action
+        self.addConditions = addConditions
+        self.description = description
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+        self.proxyRuleName = proxyRuleName
+        self.removeConditions = removeConditions
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateProxyRuleOutput: Swift.Sendable {
+    /// The updated proxy rule resource that reflects the updates from the request.
+    public var proxyRule: NetworkFirewallClientTypes.ProxyRule?
+    /// Proxy rule conditions removed from the rule.
+    public var removedConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request. To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyRule: NetworkFirewallClientTypes.ProxyRule? = nil,
+        removedConditions: [NetworkFirewallClientTypes.ProxyRuleCondition]? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyRule = proxyRule
+        self.removedConditions = removedConditions
+        self.updateToken = updateToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Proxy rule group name and new desired position.
+    public struct ProxyRuleGroupPriority: Swift.Sendable {
+        /// Where to move a proxy rule group in a proxy configuration.
+        public var newPosition: Swift.Int?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public var proxyRuleGroupName: Swift.String?
+
+        public init(
+            newPosition: Swift.Int? = nil,
+            proxyRuleGroupName: Swift.String? = nil
+        ) {
+            self.newPosition = newPosition
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+    }
+}
+
+public struct UpdateProxyRuleGroupPrioritiesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationArn: Swift.String?
+    /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyConfigurationName: Swift.String?
+    /// proxy rule group resources to update to new positions.
+    /// This member is required.
+    public var ruleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupPriority]?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyConfigurationArn: Swift.String? = nil,
+        proxyConfigurationName: Swift.String? = nil,
+        ruleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupPriority]? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyConfigurationArn = proxyConfigurationArn
+        self.proxyConfigurationName = proxyConfigurationName
+        self.ruleGroups = ruleGroups
+        self.updateToken = updateToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Proxy rule group along with its priority.
+    public struct ProxyRuleGroupPriorityResult: Swift.Sendable {
+        /// Priority of the proxy rule group in the proxy configuration.
+        public var priority: Swift.Int?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public var proxyRuleGroupName: Swift.String?
+
+        public init(
+            priority: Swift.Int? = nil,
+            proxyRuleGroupName: Swift.String? = nil
+        ) {
+            self.priority = priority
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+    }
+}
+
+public struct UpdateProxyRuleGroupPrioritiesOutput: Swift.Sendable {
+    /// The updated proxy rule group hierarchy that reflects the updates from the request.
+    public var proxyRuleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupPriorityResult]?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request. To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyRuleGroups: [NetworkFirewallClientTypes.ProxyRuleGroupPriorityResult]? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyRuleGroups = proxyRuleGroups
+        self.updateToken = updateToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum RuleGroupRequestPhase: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case postRes
+        case preDns
+        case preReq
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleGroupRequestPhase] {
+            return [
+                .postRes,
+                .preDns,
+                .preReq
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .postRes: return "POST_RES"
+            case .preDns: return "PRE_DNS"
+            case .preReq: return "PRE_REQ"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Proxy rule name and new desired position.
+    public struct ProxyRulePriority: Swift.Sendable {
+        /// Where to move a proxy rule in a proxy rule group.
+        public var newPosition: Swift.Int?
+        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+        public var proxyRuleName: Swift.String?
+
+        public init(
+            newPosition: Swift.Int? = nil,
+            proxyRuleName: Swift.String? = nil
+        ) {
+            self.newPosition = newPosition
+            self.proxyRuleName = proxyRuleName
+        }
+    }
+}
+
+public struct UpdateProxyRulePrioritiesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var proxyRuleGroupName: Swift.String?
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+    /// This member is required.
+    public var ruleGroupRequestPhase: NetworkFirewallClientTypes.RuleGroupRequestPhase?
+    /// proxy rule resources to update to new positions.
+    /// This member is required.
+    public var rules: [NetworkFirewallClientTypes.ProxyRulePriority]?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    /// This member is required.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil,
+        ruleGroupRequestPhase: NetworkFirewallClientTypes.RuleGroupRequestPhase? = nil,
+        rules: [NetworkFirewallClientTypes.ProxyRulePriority]? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+        self.ruleGroupRequestPhase = ruleGroupRequestPhase
+        self.rules = rules
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateProxyRulePrioritiesOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a proxy rule group.
+    public var proxyRuleGroupArn: Swift.String?
+    /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+    public var proxyRuleGroupName: Swift.String?
+    /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+    public var ruleGroupRequestPhase: NetworkFirewallClientTypes.RuleGroupRequestPhase?
+    /// The updated proxy rule hierarchy that reflects the updates from the request.
+    public var rules: [NetworkFirewallClientTypes.ProxyRulePriority]?
+    /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request. To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        proxyRuleGroupArn: Swift.String? = nil,
+        proxyRuleGroupName: Swift.String? = nil,
+        ruleGroupRequestPhase: NetworkFirewallClientTypes.RuleGroupRequestPhase? = nil,
+        rules: [NetworkFirewallClientTypes.ProxyRulePriority]? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.proxyRuleGroupArn = proxyRuleGroupArn
+        self.proxyRuleGroupName = proxyRuleGroupName
+        self.ruleGroupRequestPhase = ruleGroupRequestPhase
+        self.rules = rules
+        self.updateToken = updateToken
+    }
+}
+
 public struct UpdateRuleGroupInput: Swift.Sendable {
     /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis and then updates the rule group for you. To run the stateless rule group analyzer without updating the rule group, set DryRun to TRUE.
     public var analyzeRuleGroup: Swift.Bool?
@@ -5869,6 +7604,13 @@ extension AssociateSubnetsInput {
     }
 }
 
+extension AttachRuleGroupsToProxyConfigurationInput {
+
+    static func urlPathProvider(_ value: AttachRuleGroupsToProxyConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateFirewallInput {
 
     static func urlPathProvider(_ value: CreateFirewallInput) -> Swift.String? {
@@ -5879,6 +7621,34 @@ extension CreateFirewallInput {
 extension CreateFirewallPolicyInput {
 
     static func urlPathProvider(_ value: CreateFirewallPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateProxyInput {
+
+    static func urlPathProvider(_ value: CreateProxyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateProxyConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateProxyConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateProxyRuleGroupInput {
+
+    static func urlPathProvider(_ value: CreateProxyRuleGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateProxyRulesInput {
+
+    static func urlPathProvider(_ value: CreateProxyRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5921,6 +7691,34 @@ extension DeleteFirewallPolicyInput {
 extension DeleteNetworkFirewallTransitGatewayAttachmentInput {
 
     static func urlPathProvider(_ value: DeleteNetworkFirewallTransitGatewayAttachmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteProxyInput {
+
+    static func urlPathProvider(_ value: DeleteProxyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteProxyConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteProxyConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteProxyRuleGroupInput {
+
+    static func urlPathProvider(_ value: DeleteProxyRuleGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteProxyRulesInput {
+
+    static func urlPathProvider(_ value: DeleteProxyRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5988,6 +7786,34 @@ extension DescribeLoggingConfigurationInput {
     }
 }
 
+extension DescribeProxyInput {
+
+    static func urlPathProvider(_ value: DescribeProxyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeProxyConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeProxyConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeProxyRuleInput {
+
+    static func urlPathProvider(_ value: DescribeProxyRuleInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeProxyRuleGroupInput {
+
+    static func urlPathProvider(_ value: DescribeProxyRuleGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeResourcePolicyInput {
 
     static func urlPathProvider(_ value: DescribeResourcePolicyInput) -> Swift.String? {
@@ -6026,6 +7852,13 @@ extension DescribeTLSInspectionConfigurationInput {
 extension DescribeVpcEndpointAssociationInput {
 
     static func urlPathProvider(_ value: DescribeVpcEndpointAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DetachRuleGroupsFromProxyConfigurationInput {
+
+    static func urlPathProvider(_ value: DetachRuleGroupsFromProxyConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6082,6 +7915,27 @@ extension ListFlowOperationResultsInput {
 extension ListFlowOperationsInput {
 
     static func urlPathProvider(_ value: ListFlowOperationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListProxiesInput {
+
+    static func urlPathProvider(_ value: ListProxiesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListProxyConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListProxyConfigurationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListProxyRuleGroupsInput {
+
+    static func urlPathProvider(_ value: ListProxyRuleGroupsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6219,6 +8073,41 @@ extension UpdateLoggingConfigurationInput {
     }
 }
 
+extension UpdateProxyInput {
+
+    static func urlPathProvider(_ value: UpdateProxyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateProxyConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateProxyConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateProxyRuleInput {
+
+    static func urlPathProvider(_ value: UpdateProxyRuleInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateProxyRuleGroupPrioritiesInput {
+
+    static func urlPathProvider(_ value: UpdateProxyRuleGroupPrioritiesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateProxyRulePrioritiesInput {
+
+    static func urlPathProvider(_ value: UpdateProxyRulePrioritiesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateRuleGroupInput {
 
     static func urlPathProvider(_ value: UpdateRuleGroupInput) -> Swift.String? {
@@ -6281,6 +8170,17 @@ extension AssociateSubnetsInput {
     }
 }
 
+extension AttachRuleGroupsToProxyConfigurationInput {
+
+    static func write(value: AttachRuleGroupsToProxyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyConfigurationArn"].write(value.proxyConfigurationArn)
+        try writer["ProxyConfigurationName"].write(value.proxyConfigurationName)
+        try writer["RuleGroups"].writeList(value.ruleGroups, memberWritingClosure: NetworkFirewallClientTypes.ProxyRuleGroupAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
 extension CreateFirewallInput {
 
     static func write(value: CreateFirewallInput?, to writer: SmithyJSON.Writer) throws {
@@ -6312,6 +8212,54 @@ extension CreateFirewallPolicyInput {
         try writer["FirewallPolicy"].write(value.firewallPolicy, with: NetworkFirewallClientTypes.FirewallPolicy.write(value:to:))
         try writer["FirewallPolicyName"].write(value.firewallPolicyName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateProxyInput {
+
+    static func write(value: CreateProxyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ListenerProperties"].writeList(value.listenerProperties, memberWritingClosure: NetworkFirewallClientTypes.ListenerPropertyRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NatGatewayId"].write(value.natGatewayId)
+        try writer["ProxyConfigurationArn"].write(value.proxyConfigurationArn)
+        try writer["ProxyConfigurationName"].write(value.proxyConfigurationName)
+        try writer["ProxyName"].write(value.proxyName)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TlsInterceptProperties"].write(value.tlsInterceptProperties, with: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest.write(value:to:))
+    }
+}
+
+extension CreateProxyConfigurationInput {
+
+    static func write(value: CreateProxyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultRulePhaseActions"].write(value.defaultRulePhaseActions, with: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["ProxyConfigurationName"].write(value.proxyConfigurationName)
+        try writer["RuleGroupArns"].writeList(value.ruleGroupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RuleGroupNames"].writeList(value.ruleGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateProxyRuleGroupInput {
+
+    static func write(value: CreateProxyRuleGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+        try writer["Rules"].write(value.rules, with: NetworkFirewallClientTypes.ProxyRulesByRequestPhase.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateProxyRulesInput {
+
+    static func write(value: CreateProxyRulesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyRuleGroupArn"].write(value.proxyRuleGroupArn)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+        try writer["Rules"].write(value.rules, with: NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase.write(value:to:))
     }
 }
 
@@ -6381,6 +8329,44 @@ extension DeleteNetworkFirewallTransitGatewayAttachmentInput {
     static func write(value: DeleteNetworkFirewallTransitGatewayAttachmentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+    }
+}
+
+extension DeleteProxyInput {
+
+    static func write(value: DeleteProxyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NatGatewayId"].write(value.natGatewayId)
+        try writer["ProxyArn"].write(value.proxyArn)
+        try writer["ProxyName"].write(value.proxyName)
+    }
+}
+
+extension DeleteProxyConfigurationInput {
+
+    static func write(value: DeleteProxyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyConfigurationArn"].write(value.proxyConfigurationArn)
+        try writer["ProxyConfigurationName"].write(value.proxyConfigurationName)
+    }
+}
+
+extension DeleteProxyRuleGroupInput {
+
+    static func write(value: DeleteProxyRuleGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyRuleGroupArn"].write(value.proxyRuleGroupArn)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+    }
+}
+
+extension DeleteProxyRulesInput {
+
+    static func write(value: DeleteProxyRulesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyRuleGroupArn"].write(value.proxyRuleGroupArn)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6466,6 +8452,43 @@ extension DescribeLoggingConfigurationInput {
     }
 }
 
+extension DescribeProxyInput {
+
+    static func write(value: DescribeProxyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyArn"].write(value.proxyArn)
+        try writer["ProxyName"].write(value.proxyName)
+    }
+}
+
+extension DescribeProxyConfigurationInput {
+
+    static func write(value: DescribeProxyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyConfigurationArn"].write(value.proxyConfigurationArn)
+        try writer["ProxyConfigurationName"].write(value.proxyConfigurationName)
+    }
+}
+
+extension DescribeProxyRuleInput {
+
+    static func write(value: DescribeProxyRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyRuleGroupArn"].write(value.proxyRuleGroupArn)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+        try writer["ProxyRuleName"].write(value.proxyRuleName)
+    }
+}
+
+extension DescribeProxyRuleGroupInput {
+
+    static func write(value: DescribeProxyRuleGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyRuleGroupArn"].write(value.proxyRuleGroupArn)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+    }
+}
+
 extension DescribeResourcePolicyInput {
 
     static func write(value: DescribeResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -6519,6 +8542,18 @@ extension DescribeVpcEndpointAssociationInput {
     static func write(value: DescribeVpcEndpointAssociationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+    }
+}
+
+extension DetachRuleGroupsFromProxyConfigurationInput {
+
+    static func write(value: DetachRuleGroupsFromProxyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyConfigurationArn"].write(value.proxyConfigurationArn)
+        try writer["ProxyConfigurationName"].write(value.proxyConfigurationName)
+        try writer["RuleGroupArns"].writeList(value.ruleGroupArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RuleGroupNames"].writeList(value.ruleGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UpdateToken"].write(value.updateToken)
     }
 }
 
@@ -6614,6 +8649,33 @@ extension ListFlowOperationsInput {
     }
 }
 
+extension ListProxiesInput {
+
+    static func write(value: ListProxiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListProxyConfigurationsInput {
+
+    static func write(value: ListProxyConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListProxyRuleGroupsInput {
+
+    static func write(value: ListProxyRuleGroupsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListRuleGroupsInput {
 
     static func write(value: ListRuleGroupsInput?, to writer: SmithyJSON.Writer) throws {
@@ -6622,6 +8684,7 @@ extension ListRuleGroupsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Scope"].write(value.scope)
+        try writer["SubscriptionStatus"].write(value.subscriptionStatus)
         try writer["Type"].write(value.type)
     }
 }
@@ -6817,6 +8880,69 @@ extension UpdateLoggingConfigurationInput {
     }
 }
 
+extension UpdateProxyInput {
+
+    static func write(value: UpdateProxyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ListenerPropertiesToAdd"].writeList(value.listenerPropertiesToAdd, memberWritingClosure: NetworkFirewallClientTypes.ListenerPropertyRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ListenerPropertiesToRemove"].writeList(value.listenerPropertiesToRemove, memberWritingClosure: NetworkFirewallClientTypes.ListenerPropertyRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NatGatewayId"].write(value.natGatewayId)
+        try writer["ProxyArn"].write(value.proxyArn)
+        try writer["ProxyName"].write(value.proxyName)
+        try writer["TlsInterceptProperties"].write(value.tlsInterceptProperties, with: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest.write(value:to:))
+        try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
+extension UpdateProxyConfigurationInput {
+
+    static func write(value: UpdateProxyConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultRulePhaseActions"].write(value.defaultRulePhaseActions, with: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest.write(value:to:))
+        try writer["ProxyConfigurationArn"].write(value.proxyConfigurationArn)
+        try writer["ProxyConfigurationName"].write(value.proxyConfigurationName)
+        try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
+extension UpdateProxyRuleInput {
+
+    static func write(value: UpdateProxyRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["AddConditions"].writeList(value.addConditions, memberWritingClosure: NetworkFirewallClientTypes.ProxyRuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["ProxyRuleGroupArn"].write(value.proxyRuleGroupArn)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+        try writer["ProxyRuleName"].write(value.proxyRuleName)
+        try writer["RemoveConditions"].writeList(value.removeConditions, memberWritingClosure: NetworkFirewallClientTypes.ProxyRuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
+extension UpdateProxyRuleGroupPrioritiesInput {
+
+    static func write(value: UpdateProxyRuleGroupPrioritiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyConfigurationArn"].write(value.proxyConfigurationArn)
+        try writer["ProxyConfigurationName"].write(value.proxyConfigurationName)
+        try writer["RuleGroups"].writeList(value.ruleGroups, memberWritingClosure: NetworkFirewallClientTypes.ProxyRuleGroupPriority.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
+extension UpdateProxyRulePrioritiesInput {
+
+    static func write(value: UpdateProxyRulePrioritiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProxyRuleGroupArn"].write(value.proxyRuleGroupArn)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+        try writer["RuleGroupRequestPhase"].write(value.ruleGroupRequestPhase)
+        try writer["Rules"].writeList(value.rules, memberWritingClosure: NetworkFirewallClientTypes.ProxyRulePriority.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
 extension UpdateRuleGroupInput {
 
     static func write(value: UpdateRuleGroupInput?, to writer: SmithyJSON.Writer) throws {
@@ -6918,6 +9044,19 @@ extension AssociateSubnetsOutput {
     }
 }
 
+extension AttachRuleGroupsToProxyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AttachRuleGroupsToProxyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AttachRuleGroupsToProxyConfigurationOutput()
+        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.ProxyConfiguration.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateFirewallOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFirewallOutput {
@@ -6940,6 +9079,58 @@ extension CreateFirewallPolicyOutput {
         var value = CreateFirewallPolicyOutput()
         value.firewallPolicyResponse = try reader["FirewallPolicyResponse"].readIfPresent(with: NetworkFirewallClientTypes.FirewallPolicyResponse.read(from:))
         value.updateToken = try reader["UpdateToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateProxyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProxyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProxyOutput()
+        value.proxy = try reader["Proxy"].readIfPresent(with: NetworkFirewallClientTypes.Proxy.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateProxyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProxyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProxyConfigurationOutput()
+        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.ProxyConfiguration.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateProxyRuleGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProxyRuleGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProxyRuleGroupOutput()
+        value.proxyRuleGroup = try reader["ProxyRuleGroup"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRuleGroup.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateProxyRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateProxyRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateProxyRulesOutput()
+        value.proxyRuleGroup = try reader["ProxyRuleGroup"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRuleGroup.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
         return value
     }
 }
@@ -7017,6 +9208,58 @@ extension DeleteNetworkFirewallTransitGatewayAttachmentOutput {
         var value = DeleteNetworkFirewallTransitGatewayAttachmentOutput()
         value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent() ?? ""
         value.transitGatewayAttachmentStatus = try reader["TransitGatewayAttachmentStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteProxyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProxyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteProxyOutput()
+        value.natGatewayId = try reader["NatGatewayId"].readIfPresent()
+        value.proxyArn = try reader["ProxyArn"].readIfPresent()
+        value.proxyName = try reader["ProxyName"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteProxyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProxyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteProxyConfigurationOutput()
+        value.proxyConfigurationArn = try reader["ProxyConfigurationArn"].readIfPresent()
+        value.proxyConfigurationName = try reader["ProxyConfigurationName"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteProxyRuleGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProxyRuleGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteProxyRuleGroupOutput()
+        value.proxyRuleGroupArn = try reader["ProxyRuleGroupArn"].readIfPresent()
+        value.proxyRuleGroupName = try reader["ProxyRuleGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteProxyRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProxyRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteProxyRulesOutput()
+        value.proxyRuleGroup = try reader["ProxyRuleGroup"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRuleGroup.read(from:))
         return value
     }
 }
@@ -7145,6 +9388,58 @@ extension DescribeLoggingConfigurationOutput {
     }
 }
 
+extension DescribeProxyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeProxyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeProxyOutput()
+        value.proxy = try reader["Proxy"].readIfPresent(with: NetworkFirewallClientTypes.DescribeProxyResource.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeProxyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeProxyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeProxyConfigurationOutput()
+        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.ProxyConfiguration.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeProxyRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeProxyRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeProxyRuleOutput()
+        value.proxyRule = try reader["ProxyRule"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRule.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeProxyRuleGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeProxyRuleGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeProxyRuleGroupOutput()
+        value.proxyRuleGroup = try reader["ProxyRuleGroup"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRuleGroup.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeResourcePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeResourcePolicyOutput {
@@ -7181,10 +9476,13 @@ extension DescribeRuleGroupMetadataOutput {
         value.capacity = try reader["Capacity"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.listingName = try reader["ListingName"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent()
         value.ruleGroupArn = try reader["RuleGroupArn"].readIfPresent() ?? ""
         value.ruleGroupName = try reader["RuleGroupName"].readIfPresent() ?? ""
         value.statefulRuleOptions = try reader["StatefulRuleOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleOptions.read(from:))
         value.type = try reader["Type"].readIfPresent()
+        value.vendorName = try reader["VendorName"].readIfPresent()
         return value
     }
 }
@@ -7226,6 +9524,19 @@ extension DescribeVpcEndpointAssociationOutput {
         var value = DescribeVpcEndpointAssociationOutput()
         value.vpcEndpointAssociation = try reader["VpcEndpointAssociation"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociation.read(from:))
         value.vpcEndpointAssociationStatus = try reader["VpcEndpointAssociationStatus"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociationStatus.read(from:))
+        return value
+    }
+}
+
+extension DetachRuleGroupsFromProxyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachRuleGroupsFromProxyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DetachRuleGroupsFromProxyConfigurationOutput()
+        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.ProxyConfiguration.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
         return value
     }
 }
@@ -7347,6 +9658,45 @@ extension ListFlowOperationsOutput {
         var value = ListFlowOperationsOutput()
         value.flowOperations = try reader["FlowOperations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.FlowOperationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListProxiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProxiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProxiesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.proxies = try reader["Proxies"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListProxyConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProxyConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProxyConfigurationsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.proxyConfigurations = try reader["ProxyConfigurations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyConfigurationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListProxyRuleGroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProxyRuleGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProxyRuleGroupsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.proxyRuleGroups = try reader["ProxyRuleGroups"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRuleGroupMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7595,6 +9945,75 @@ extension UpdateLoggingConfigurationOutput {
     }
 }
 
+extension UpdateProxyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProxyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProxyOutput()
+        value.proxy = try reader["Proxy"].readIfPresent(with: NetworkFirewallClientTypes.Proxy.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateProxyConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProxyConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProxyConfigurationOutput()
+        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.ProxyConfiguration.read(from:))
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateProxyRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProxyRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProxyRuleOutput()
+        value.proxyRule = try reader["ProxyRule"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRule.read(from:))
+        value.removedConditions = try reader["RemovedConditions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateProxyRuleGroupPrioritiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProxyRuleGroupPrioritiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProxyRuleGroupPrioritiesOutput()
+        value.proxyRuleGroups = try reader["ProxyRuleGroups"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRuleGroupPriorityResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateProxyRulePrioritiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProxyRulePrioritiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProxyRulePrioritiesOutput()
+        value.proxyRuleGroupArn = try reader["ProxyRuleGroupArn"].readIfPresent()
+        value.proxyRuleGroupName = try reader["ProxyRuleGroupName"].readIfPresent()
+        value.ruleGroupRequestPhase = try reader["RuleGroupRequestPhase"].readIfPresent()
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRulePriority.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateRuleGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRuleGroupOutput {
@@ -7712,6 +10131,23 @@ enum AssociateSubnetsOutputError {
     }
 }
 
+enum AttachRuleGroupsToProxyConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateFirewallOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7743,6 +10179,76 @@ enum CreateFirewallPolicyOutputError {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateProxyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateProxyConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateProxyRuleGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateProxyRulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7844,6 +10350,75 @@ enum DeleteFirewallPolicyOutputError {
 }
 
 enum DeleteNetworkFirewallTransitGatewayAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteProxyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteProxyConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteProxyRuleGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteProxyRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8018,6 +10593,74 @@ enum DescribeLoggingConfigurationOutputError {
     }
 }
 
+enum DescribeProxyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeProxyConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeProxyRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeProxyRuleGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeResourcePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8104,6 +10747,23 @@ enum DescribeTLSInspectionConfigurationOutputError {
 }
 
 enum DescribeVpcEndpointAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DetachRuleGroupsFromProxyConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8242,6 +10902,56 @@ enum ListFlowOperationResultsOutputError {
 }
 
 enum ListFlowOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListProxiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListProxyConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListProxyRuleGroupsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -8472,6 +11182,7 @@ enum UpdateFirewallAnalysisSettingsOutputError {
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidTokenException": return try InvalidTokenException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8584,6 +11295,92 @@ enum UpdateLoggingConfigurationOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "InvalidTokenException": return try InvalidTokenException.makeError(baseError: baseError)
             case "LogDestinationPermissionException": return try LogDestinationPermissionException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProxyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProxyConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProxyRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProxyRuleGroupPrioritiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateProxyRulePrioritiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -8834,6 +11631,72 @@ extension NetworkFirewallClientTypes.SubnetMapping {
     }
 }
 
+extension NetworkFirewallClientTypes.ProxyConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyConfiguration()
+        value.proxyConfigurationName = try reader["ProxyConfigurationName"].readIfPresent()
+        value.proxyConfigurationArn = try reader["ProxyConfigurationArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ruleGroups = try reader["RuleGroups"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyConfigRuleGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultRulePhaseActions = try reader["DefaultRulePhaseActions"].readIfPresent(with: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Tag {
+
+    static func write(value: NetworkFirewallClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest {
+
+    static func write(value: NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PostRESPONSE"].write(value.postRESPONSE)
+        try writer["PreDNS"].write(value.preDNS)
+        try writer["PreREQUEST"].write(value.preREQUEST)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyConfigDefaultRulePhaseActionsRequest()
+        value.preDNS = try reader["PreDNS"].readIfPresent()
+        value.preREQUEST = try reader["PreREQUEST"].readIfPresent()
+        value.postRESPONSE = try reader["PostRESPONSE"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyConfigRuleGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyConfigRuleGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyConfigRuleGroup()
+        value.proxyRuleGroupName = try reader["ProxyRuleGroupName"].readIfPresent()
+        value.proxyRuleGroupArn = try reader["ProxyRuleGroupArn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        return value
+    }
+}
+
 extension NetworkFirewallClientTypes.Firewall {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Firewall {
@@ -8874,23 +11737,6 @@ extension NetworkFirewallClientTypes.EncryptionConfiguration {
         var value = NetworkFirewallClientTypes.EncryptionConfiguration()
         value.keyId = try reader["KeyId"].readIfPresent()
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension NetworkFirewallClientTypes.Tag {
-
-    static func write(value: NetworkFirewallClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9004,6 +11850,127 @@ extension NetworkFirewallClientTypes.FirewallPolicyResponse {
         value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Proxy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Proxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Proxy()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.proxyState = try reader["ProxyState"].readIfPresent()
+        value.proxyModifyState = try reader["ProxyModifyState"].readIfPresent()
+        value.natGatewayId = try reader["NatGatewayId"].readIfPresent()
+        value.proxyConfigurationName = try reader["ProxyConfigurationName"].readIfPresent()
+        value.proxyConfigurationArn = try reader["ProxyConfigurationArn"].readIfPresent()
+        value.proxyName = try reader["ProxyName"].readIfPresent()
+        value.proxyArn = try reader["ProxyArn"].readIfPresent()
+        value.listenerProperties = try reader["ListenerProperties"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ListenerProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tlsInterceptProperties = try reader["TlsInterceptProperties"].readIfPresent(with: NetworkFirewallClientTypes.TlsInterceptProperties.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.TlsInterceptProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TlsInterceptProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TlsInterceptProperties()
+        value.pcaArn = try reader["PcaArn"].readIfPresent()
+        value.tlsInterceptMode = try reader["TlsInterceptMode"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ListenerProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ListenerProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ListenerProperty()
+        value.port = try reader["Port"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRuleGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRuleGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyRuleGroup()
+        value.proxyRuleGroupName = try reader["ProxyRuleGroupName"].readIfPresent()
+        value.proxyRuleGroupArn = try reader["ProxyRuleGroupArn"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.rules = try reader["Rules"].readIfPresent(with: NetworkFirewallClientTypes.ProxyRulesByRequestPhase.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRulesByRequestPhase {
+
+    static func write(value: NetworkFirewallClientTypes.ProxyRulesByRequestPhase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PostRESPONSE"].writeList(value.postRESPONSE, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreDNS"].writeList(value.preDNS, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreREQUEST"].writeList(value.preREQUEST, memberWritingClosure: NetworkFirewallClientTypes.ProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRulesByRequestPhase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyRulesByRequestPhase()
+        value.preDNS = try reader["PreDNS"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.preREQUEST = try reader["PreREQUEST"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.postRESPONSE = try reader["PostRESPONSE"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRule {
+
+    static func write(value: NetworkFirewallClientTypes.ProxyRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: NetworkFirewallClientTypes.ProxyRuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["ProxyRuleName"].write(value.proxyRuleName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyRule()
+        value.proxyRuleName = try reader["ProxyRuleName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ProxyRuleCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRuleCondition {
+
+    static func write(value: NetworkFirewallClientTypes.ProxyRuleCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionKey"].write(value.conditionKey)
+        try writer["ConditionOperator"].write(value.conditionOperator)
+        try writer["ConditionValues"].writeList(value.conditionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRuleCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyRuleCondition()
+        value.conditionOperator = try reader["ConditionOperator"].readIfPresent()
+        value.conditionKey = try reader["ConditionKey"].readIfPresent()
+        value.conditionValues = try reader["ConditionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9161,6 +12128,7 @@ extension NetworkFirewallClientTypes.FirewallPolicy {
 
     static func write(value: NetworkFirewallClientTypes.FirewallPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EnableTLSSessionHolding"].write(value.enableTLSSessionHolding)
         try writer["PolicyVariables"].write(value.policyVariables, with: NetworkFirewallClientTypes.PolicyVariables.write(value:to:))
         try writer["StatefulDefaultActions"].writeList(value.statefulDefaultActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StatefulEngineOptions"].write(value.statefulEngineOptions, with: NetworkFirewallClientTypes.StatefulEngineOptions.write(value:to:))
@@ -9184,6 +12152,7 @@ extension NetworkFirewallClientTypes.FirewallPolicy {
         value.statefulEngineOptions = try reader["StatefulEngineOptions"].readIfPresent(with: NetworkFirewallClientTypes.StatefulEngineOptions.read(from:))
         value.tlsInspectionConfigurationArn = try reader["TLSInspectionConfigurationArn"].readIfPresent()
         value.policyVariables = try reader["PolicyVariables"].readIfPresent(with: NetworkFirewallClientTypes.PolicyVariables.read(from:))
+        value.enableTLSSessionHolding = try reader["EnableTLSSessionHolding"].readIfPresent()
         return value
     }
 }
@@ -9446,6 +12415,32 @@ extension NetworkFirewallClientTypes.LogDestinationConfig {
         value.logType = try reader["LogType"].readIfPresent() ?? .sdkUnknown("")
         value.logDestinationType = try reader["LogDestinationType"].readIfPresent() ?? .sdkUnknown("")
         value.logDestination = try reader["LogDestination"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.DescribeProxyResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.DescribeProxyResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.DescribeProxyResource()
+        value.proxyName = try reader["ProxyName"].readIfPresent()
+        value.proxyArn = try reader["ProxyArn"].readIfPresent()
+        value.proxyConfigurationName = try reader["ProxyConfigurationName"].readIfPresent()
+        value.proxyConfigurationArn = try reader["ProxyConfigurationArn"].readIfPresent()
+        value.natGatewayId = try reader["NatGatewayId"].readIfPresent()
+        value.proxyState = try reader["ProxyState"].readIfPresent()
+        value.proxyModifyState = try reader["ProxyModifyState"].readIfPresent()
+        value.listenerProperties = try reader["ListenerProperties"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.ListenerProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tlsInterceptProperties = try reader["TlsInterceptProperties"].readIfPresent(with: NetworkFirewallClientTypes.TlsInterceptProperties.read(from:))
+        value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent()
+        value.privateDNSName = try reader["PrivateDNSName"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteTime = try reader["DeleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9973,6 +12968,39 @@ extension NetworkFirewallClientTypes.FlowOperationMetadata {
     }
 }
 
+extension NetworkFirewallClientTypes.ProxyMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyConfigurationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyConfigurationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyConfigurationMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRuleGroupMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRuleGroupMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyRuleGroupMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
 extension NetworkFirewallClientTypes.RuleGroupMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleGroupMetadata {
@@ -9980,6 +13008,7 @@ extension NetworkFirewallClientTypes.RuleGroupMetadata {
         var value = NetworkFirewallClientTypes.RuleGroupMetadata()
         value.name = try reader["Name"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        value.vendorName = try reader["VendorName"].readIfPresent()
         return value
     }
 }
@@ -10002,6 +13031,92 @@ extension NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
         var value = NetworkFirewallClientTypes.VpcEndpointAssociationMetadata()
         value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
         return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRuleGroupPriorityResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRuleGroupPriorityResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyRuleGroupPriorityResult()
+        value.proxyRuleGroupName = try reader["ProxyRuleGroupName"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRulePriority {
+
+    static func write(value: NetworkFirewallClientTypes.ProxyRulePriority?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NewPosition"].write(value.newPosition)
+        try writer["ProxyRuleName"].write(value.proxyRuleName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.ProxyRulePriority {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.ProxyRulePriority()
+        value.proxyRuleName = try reader["ProxyRuleName"].readIfPresent()
+        value.newPosition = try reader["NewPosition"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRuleGroupAttachment {
+
+    static func write(value: NetworkFirewallClientTypes.ProxyRuleGroupAttachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InsertPosition"].write(value.insertPosition)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
+    }
+}
+
+extension NetworkFirewallClientTypes.ListenerPropertyRequest {
+
+    static func write(value: NetworkFirewallClientTypes.ListenerPropertyRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Port"].write(value.port)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension NetworkFirewallClientTypes.TlsInterceptPropertiesRequest {
+
+    static func write(value: NetworkFirewallClientTypes.TlsInterceptPropertiesRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PcaArn"].write(value.pcaArn)
+        try writer["TlsInterceptMode"].write(value.tlsInterceptMode)
+    }
+}
+
+extension NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase {
+
+    static func write(value: NetworkFirewallClientTypes.CreateProxyRulesByRequestPhase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PostRESPONSE"].writeList(value.postRESPONSE, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreDNS"].writeList(value.preDNS, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PreREQUEST"].writeList(value.preREQUEST, memberWritingClosure: NetworkFirewallClientTypes.CreateProxyRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension NetworkFirewallClientTypes.CreateProxyRule {
+
+    static func write(value: NetworkFirewallClientTypes.CreateProxyRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: NetworkFirewallClientTypes.ProxyRuleCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["InsertPosition"].write(value.insertPosition)
+        try writer["ProxyRuleName"].write(value.proxyRuleName)
+    }
+}
+
+extension NetworkFirewallClientTypes.ProxyRuleGroupPriority {
+
+    static func write(value: NetworkFirewallClientTypes.ProxyRuleGroupPriority?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NewPosition"].write(value.newPosition)
+        try writer["ProxyRuleGroupName"].write(value.proxyRuleGroupName)
     }
 }
 

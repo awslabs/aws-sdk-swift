@@ -202,22 +202,31 @@ extension GameLiftStreamsClientTypes {
 
     /// Configuration settings that define a stream group's stream capacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). To add a new location and specify its capacity, call [AddStreamGroupLocations](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html).
     public struct LocationConfiguration: Swift.Sendable {
-        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 when creating a stream group or adding a location.
+        /// This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
         public var alwaysOnCapacity: Swift.Int?
         /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         /// This member is required.
         public var locationName: Swift.String?
-        /// The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes). Default is 0 when creating a stream group or adding a location.
+        /// This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
+        public var maximumCapacity: Swift.Int?
+        /// This field is deprecated. Use MaximumCapacity instead. This parameter cannot be used with MaximumCapacity or TargetIdleCapacity in the same location configuration. The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes). Default is 0 when creating a stream group or adding a location.
+        @available(*, deprecated, message: "This input field is deprecated in favor of explicit MaximumCapacity values. API deprecated since 2025-12-17")
         public var onDemandCapacity: Swift.Int?
+        /// This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
+        public var targetIdleCapacity: Swift.Int?
 
         public init(
             alwaysOnCapacity: Swift.Int? = nil,
             locationName: Swift.String? = nil,
-            onDemandCapacity: Swift.Int? = nil
+            maximumCapacity: Swift.Int? = nil,
+            onDemandCapacity: Swift.Int? = nil,
+            targetIdleCapacity: Swift.Int? = nil
         ) {
             self.alwaysOnCapacity = alwaysOnCapacity
             self.locationName = locationName
+            self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = onDemandCapacity
+            self.targetIdleCapacity = targetIdleCapacity
         }
     }
 }
@@ -278,17 +287,19 @@ extension GameLiftStreamsClientTypes {
 
     /// Represents a location and its corresponding stream capacity and status.
     public struct LocationState: Swift.Sendable {
-        /// This value is the number of compute resources that a stream group has provisioned and is ready to stream. It includes resources that are currently streaming and resources that are idle and ready to respond to stream requests.
+        /// This value is the stream capacity that Amazon GameLift Streams has provisioned in a stream group that can respond immediately to stream requests. It includes resources that are currently streaming and resources that are idle and ready to respond to stream requests. When target-idle capacity is configured, the idle resources include the capacity buffer maintained beyond ongoing sessions. You pay for this capacity whether it's in use or not. After making changes to capacity, it can take a few minutes for the allocated capacity count to reflect the change while compute resources are allocated or deallocated. Similarly, when allocated on-demand capacity is no longer needed, it can take a few minutes for Amazon GameLift Streams to spin down the allocated capacity.
         public var allocatedCapacity: Swift.Int?
-        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 when creating a stream group or adding a location.
+        /// This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
         public var alwaysOnCapacity: Swift.Int?
-        /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's availability to respond to new stream requests, but not including on-demand capacity.
+        /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's ability to respond immediately to new stream requests with near-instant startup time.
         public var idleCapacity: Swift.Int?
         /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         public var locationName: Swift.String?
+        /// This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
+        public var maximumCapacity: Swift.Int?
         /// The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes). Default is 0 when creating a stream group or adding a location.
         public var onDemandCapacity: Swift.Int?
-        /// This value is the total number of compute resources that you request for a stream group. This includes resources that Amazon GameLift Streams has either already provisioned or is working to provision. You request capacity for each location in a stream group.
+        /// This value is the always-on capacity that you most recently requested for a stream group. You request capacity separately for each location in a stream group. In response to an increase in requested capacity, Amazon GameLift Streams attempts to provision compute resources to make the stream group's allocated capacity meet requested capacity. When always-on capacity is decreased, it can take a few minutes to deprovision allocated capacity to match the requested capacity.
         public var requestedCapacity: Swift.Int?
         /// This value is set of locations, including their name, current status, and capacities. A location can be in one of the following states:
         ///
@@ -300,23 +311,29 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * REMOVING: Amazon GameLift Streams is working to remove this location. This will release all provisioned capacity for this location in this stream group.
         public var status: GameLiftStreamsClientTypes.StreamGroupLocationStatus?
+        /// This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
+        public var targetIdleCapacity: Swift.Int?
 
         public init(
             allocatedCapacity: Swift.Int? = nil,
             alwaysOnCapacity: Swift.Int? = nil,
             idleCapacity: Swift.Int? = nil,
             locationName: Swift.String? = nil,
+            maximumCapacity: Swift.Int? = nil,
             onDemandCapacity: Swift.Int? = nil,
             requestedCapacity: Swift.Int? = nil,
-            status: GameLiftStreamsClientTypes.StreamGroupLocationStatus? = nil
+            status: GameLiftStreamsClientTypes.StreamGroupLocationStatus? = nil,
+            targetIdleCapacity: Swift.Int? = nil
         ) {
             self.allocatedCapacity = allocatedCapacity
             self.alwaysOnCapacity = alwaysOnCapacity
             self.idleCapacity = idleCapacity
             self.locationName = locationName
+            self.maximumCapacity = maximumCapacity
             self.onDemandCapacity = onDemandCapacity
             self.requestedCapacity = requestedCapacity
             self.status = status
+            self.targetIdleCapacity = targetIdleCapacity
         }
     }
 }
@@ -521,7 +538,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// A human-readable label for the application. You can update this value later.
     /// This member is required.
     public var description: Swift.String?
-    /// The path and file name of the executable file that launches the content for streaming. Enter a path value that is relative to the location set in ApplicationSourceUri.
+    /// The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the location set in ApplicationSourceUri. The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an initial interpreter line starting with a shebang ('#!').
     /// This member is required.
     public var executablePath: Swift.String?
     /// Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following:
@@ -632,7 +649,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable label for the application. You can edit this value.
     public var description: Swift.String?
-    /// The path and file name of the executable file that launches the content for streaming.
+    /// The relative path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
     /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
@@ -747,7 +764,7 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable label for the application. You can edit this value.
     public var description: Swift.String?
-    /// The path and file name of the executable file that launches the content for streaming.
+    /// The relative path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
     /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
@@ -879,7 +896,7 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * READY: The application is ready to deploy in a stream group.
         ///
-        /// * ERROR: An error occurred when setting up the application. See StatusReason for more information.
+        /// * ERROR: An error occurred when setting up the application. For more information about the error, call GetApplication and refer to StatusReason.
         ///
         /// * DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public var status: GameLiftStreamsClientTypes.ApplicationStatus?
@@ -959,7 +976,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable label for the application. You can edit this value.
     public var description: Swift.String?
-    /// The path and file name of the executable file that launches the content for streaming.
+    /// The relative path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
     /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
@@ -1075,6 +1092,13 @@ extension GameLiftStreamsClientTypes {
         case gen5nHigh
         case gen5nUltra
         case gen5nWin2022
+        case gen6nHigh
+        case gen6nMedium
+        case gen6nPro
+        case gen6nProWin2022
+        case gen6nSmall
+        case gen6nUltra
+        case gen6nUltraWin2022
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StreamClass] {
@@ -1084,7 +1108,14 @@ extension GameLiftStreamsClientTypes {
                 .gen4nWin2022,
                 .gen5nHigh,
                 .gen5nUltra,
-                .gen5nWin2022
+                .gen5nWin2022,
+                .gen6nHigh,
+                .gen6nMedium,
+                .gen6nPro,
+                .gen6nProWin2022,
+                .gen6nSmall,
+                .gen6nUltra,
+                .gen6nUltraWin2022
             ]
         }
 
@@ -1101,6 +1132,13 @@ extension GameLiftStreamsClientTypes {
             case .gen5nHigh: return "gen5n_high"
             case .gen5nUltra: return "gen5n_ultra"
             case .gen5nWin2022: return "gen5n_win2022"
+            case .gen6nHigh: return "gen6n_high"
+            case .gen6nMedium: return "gen6n_medium"
+            case .gen6nPro: return "gen6n_pro"
+            case .gen6nProWin2022: return "gen6n_pro_win2022"
+            case .gen6nSmall: return "gen6n_small"
+            case .gen6nUltra: return "gen6n_ultra"
+            case .gen6nUltraWin2022: return "gen6n_ultra_win2022"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1119,7 +1157,33 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     public var locationConfigurations: [GameLiftStreamsClientTypes.LocationConfiguration]?
     /// The target stream quality for sessions that are hosted in this stream group. Set a stream class that is appropriate to the type of content that you're streaming. Stream class determines the type of computing resources Amazon GameLift Streams uses and impacts the cost of streaming. The following options are available: A stream class can be one of the following:
     ///
-    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.
+    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1132,7 +1196,20 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.
+    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1145,7 +1222,33 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.
+    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 4 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1158,7 +1261,33 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.
+    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 2 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1171,7 +1300,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.
+    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1184,7 +1313,7 @@ public struct CreateStreamGroupInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.
+    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1242,6 +1371,7 @@ extension GameLiftStreamsClientTypes {
         case activeWithErrors
         case deleting
         case error
+        case expired
         case updatingLocations
         case sdkUnknown(Swift.String)
 
@@ -1252,6 +1382,7 @@ extension GameLiftStreamsClientTypes {
                 .activeWithErrors,
                 .deleting,
                 .error,
+                .expired,
                 .updatingLocations
             ]
         }
@@ -1268,6 +1399,7 @@ extension GameLiftStreamsClientTypes {
             case .activeWithErrors: return "ACTIVE_WITH_ERRORS"
             case .deleting: return "DELETING"
             case .error: return "ERROR"
+            case .expired: return "EXPIRED"
             case .updatingLocations: return "UPDATING_LOCATIONS"
             case let .sdkUnknown(s): return s
             }
@@ -1316,6 +1448,8 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
     /// A descriptive label for the stream group.
     public var description: Swift.String?
+    /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+    public var expiresAt: Foundation.Date?
     /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -1338,9 +1472,11 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
-    /// * ERROR: An error occurred when the stream group deployed. See StatusReason for more information.
-    ///
     /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    ///
+    /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
+    ///
+    /// * EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.
     ///
     /// * UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
@@ -1348,11 +1484,37 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     /// * internalError: The request can't process right now because of an issue with the server. Try again later.
     ///
-    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
+    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
-    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.
+    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1365,7 +1527,20 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.
+    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1378,7 +1553,33 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.
+    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 4 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1391,7 +1592,33 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.
+    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 2 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1404,7 +1631,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.
+    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1417,7 +1644,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.
+    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -1434,6 +1661,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         defaultApplication: GameLiftStreamsClientTypes.DefaultApplication? = nil,
         description: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         locationStates: [GameLiftStreamsClientTypes.LocationState]? = nil,
@@ -1446,6 +1674,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.defaultApplication = defaultApplication
         self.description = description
+        self.expiresAt = expiresAt
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.locationStates = locationStates
@@ -1647,6 +1876,21 @@ public struct GetStreamSessionInput: Swift.Sendable {
 
 extension GameLiftStreamsClientTypes {
 
+    /// Configuration settings for sharing the stream session's performance stats with the client
+    public struct PerformanceStatsConfiguration: Swift.Sendable {
+        /// Performance stats for the session are streamed to the client when set to true. Defaults to false.
+        public var sharedWithClient: Swift.Bool?
+
+        public init(
+            sharedWithClient: Swift.Bool? = nil
+        ) {
+            self.sharedWithClient = sharedWithClient
+        }
+    }
+}
+
+extension GameLiftStreamsClientTypes {
+
     public enum ModelProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case webrtc
         case sdkUnknown(Swift.String)
@@ -1721,18 +1965,30 @@ extension GameLiftStreamsClientTypes {
 extension GameLiftStreamsClientTypes {
 
     public enum StreamSessionStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiTerminated
+        case applicationExit
         case appLogS3DestinationError
+        case connectionTimeout
+        case idleTimeout
         case internalError
         case invalidSignalRequest
+        case maxSessionLengthTimeout
         case placementTimeout
+        case reconnectionTimeout
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StreamSessionStatusReason] {
             return [
+                .apiTerminated,
+                .applicationExit,
                 .appLogS3DestinationError,
+                .connectionTimeout,
+                .idleTimeout,
                 .internalError,
                 .invalidSignalRequest,
-                .placementTimeout
+                .maxSessionLengthTimeout,
+                .placementTimeout,
+                .reconnectionTimeout
             ]
         }
 
@@ -1743,10 +1999,16 @@ extension GameLiftStreamsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .apiTerminated: return "apiTerminated"
+            case .applicationExit: return "applicationExit"
             case .appLogS3DestinationError: return "applicationLogS3DestinationError"
+            case .connectionTimeout: return "connectionTimeout"
+            case .idleTimeout: return "idleTimeout"
             case .internalError: return "internalError"
             case .invalidSignalRequest: return "invalidSignalRequest"
+            case .maxSessionLengthTimeout: return "maxSessionLengthTimeout"
             case .placementTimeout: return "placementTimeout"
+            case .reconnectionTimeout: return "reconnectionTimeout"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1776,6 +2038,8 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     public var location: Swift.String?
     /// Access location for log files that your content generates during a stream session. These log files are uploaded to cloud storage location at the end of a stream session. The Amazon GameLift Streams application resource defines which log files to upload.
     public var logFileLocationUri: Swift.String?
+    /// The performance stats configuration for the stream session
+    public var performanceStatsConfiguration: GameLiftStreamsClientTypes.PerformanceStatsConfiguration?
     /// The data transfer protocol in use with the stream session.
     public var `protocol`: GameLiftStreamsClientTypes.ModelProtocol?
     /// The maximum duration of a session. Amazon GameLift Streams will automatically terminate a session after this amount of time has elapsed, regardless of any existing client connections.
@@ -1792,7 +2056,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     ///
     /// * CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.
     ///
-    /// * ERROR: The stream session failed to activate.
+    /// * ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.
     ///
     /// * PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.
     ///
@@ -1802,7 +2066,30 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     ///
     /// * TERMINATED: The stream session has ended.
     public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
-    /// A short description of the reason the stream session is in ERROR status.
+    /// A short description of the reason the stream session is in ERROR status or TERMINATED status. ERROR status reasons:
+    ///
+    /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
+    ///
+    /// * internalError: An internal service error occurred. Start a new stream session to continue streaming.
+    ///
+    /// * invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.
+    ///
+    /// * placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.
+    ///
+    ///
+    /// TERMINATED status reasons:
+    ///
+    /// * apiTerminated: The stream session was terminated by an API call to [TerminateStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_TerminateStreamSession.html).
+    ///
+    /// * applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.
+    ///
+    /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
+    ///
+    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
+    ///
+    /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
+    ///
+    /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
     /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
@@ -1823,6 +2110,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         location: Swift.String? = nil,
         logFileLocationUri: Swift.String? = nil,
+        performanceStatsConfiguration: GameLiftStreamsClientTypes.PerformanceStatsConfiguration? = nil,
         `protocol`: GameLiftStreamsClientTypes.ModelProtocol? = nil,
         sessionLengthSeconds: Swift.Int? = nil,
         signalRequest: Swift.String? = nil,
@@ -1844,6 +2132,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
         self.lastUpdatedAt = lastUpdatedAt
         self.location = location
         self.logFileLocationUri = logFileLocationUri
+        self.performanceStatsConfiguration = performanceStatsConfiguration
         self.`protocol` = `protocol`
         self.sessionLengthSeconds = sessionLengthSeconds
         self.signalRequest = signalRequest
@@ -1858,7 +2147,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
 
 extension GetStreamSessionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
+        "GetStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListStreamSessionsInput: Swift.Sendable {
@@ -1921,7 +2210,7 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.
         ///
-        /// * ERROR: The stream session failed to activate.
+        /// * ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.
         ///
         /// * PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.
         ///
@@ -1931,6 +2220,31 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * TERMINATED: The stream session has ended.
         public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
+        /// A short description of the reason the stream session is in ERROR status or TERMINATED status. ERROR status reasons:
+        ///
+        /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
+        ///
+        /// * internalError: An internal service error occurred. Start a new stream session to continue streaming.
+        ///
+        /// * invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.
+        ///
+        /// * placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.
+        ///
+        ///
+        /// TERMINATED status reasons:
+        ///
+        /// * apiTerminated: The stream session was terminated by an API call to [TerminateStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_TerminateStreamSession.html).
+        ///
+        /// * applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.
+        ///
+        /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
+        ///
+        /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
+        ///
+        /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
+        ///
+        /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
+        public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
         /// An opaque, unique identifier for an end-user, defined by the developer.
         public var userId: Swift.String?
 
@@ -1943,6 +2257,7 @@ extension GameLiftStreamsClientTypes {
             location: Swift.String? = nil,
             `protocol`: GameLiftStreamsClientTypes.ModelProtocol? = nil,
             status: GameLiftStreamsClientTypes.StreamSessionStatus? = nil,
+            statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason? = nil,
             userId: Swift.String? = nil
         ) {
             self.applicationArn = applicationArn
@@ -1953,6 +2268,7 @@ extension GameLiftStreamsClientTypes {
             self.location = location
             self.`protocol` = `protocol`
             self.status = status
+            self.statusReason = statusReason
             self.userId = userId
         }
     }
@@ -2070,6 +2386,8 @@ public struct StartStreamSessionInput: Swift.Sendable {
     public var identifier: Swift.String?
     /// A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. For example, us-east-1. Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
     public var locations: [Swift.String]?
+    /// Configuration settings for sharing the stream session's performance stats with the client
+    public var performanceStatsConfiguration: GameLiftStreamsClientTypes.PerformanceStatsConfiguration?
     /// The data transport protocol to use for the stream session.
     /// This member is required.
     public var `protocol`: GameLiftStreamsClientTypes.ModelProtocol?
@@ -2090,6 +2408,7 @@ public struct StartStreamSessionInput: Swift.Sendable {
         description: Swift.String? = nil,
         identifier: Swift.String? = nil,
         locations: [Swift.String]? = nil,
+        performanceStatsConfiguration: GameLiftStreamsClientTypes.PerformanceStatsConfiguration? = nil,
         `protocol`: GameLiftStreamsClientTypes.ModelProtocol? = nil,
         sessionLengthSeconds: Swift.Int? = nil,
         signalRequest: Swift.String? = nil,
@@ -2103,6 +2422,7 @@ public struct StartStreamSessionInput: Swift.Sendable {
         self.description = description
         self.identifier = identifier
         self.locations = locations
+        self.performanceStatsConfiguration = performanceStatsConfiguration
         self.`protocol` = `protocol`
         self.sessionLengthSeconds = sessionLengthSeconds
         self.signalRequest = signalRequest
@@ -2112,7 +2432,7 @@ public struct StartStreamSessionInput: Swift.Sendable {
 
 extension StartStreamSessionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartStreamSessionInput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationIdentifier: \(Swift.String(describing: applicationIdentifier)), clientToken: \(Swift.String(describing: clientToken)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), description: \(Swift.String(describing: description)), identifier: \(Swift.String(describing: identifier)), locations: \(Swift.String(describing: locations)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), userId: \(Swift.String(describing: userId)), signalRequest: \"CONTENT_REDACTED\")"}
+        "StartStreamSessionInput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationIdentifier: \(Swift.String(describing: applicationIdentifier)), clientToken: \(Swift.String(describing: clientToken)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), description: \(Swift.String(describing: description)), identifier: \(Swift.String(describing: identifier)), locations: \(Swift.String(describing: locations)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), userId: \(Swift.String(describing: userId)), signalRequest: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartStreamSessionOutput: Swift.Sendable {
@@ -2138,6 +2458,8 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     public var location: Swift.String?
     /// Access location for log files that your content generates during a stream session. These log files are uploaded to cloud storage location at the end of a stream session. The Amazon GameLift Streams application resource defines which log files to upload.
     public var logFileLocationUri: Swift.String?
+    /// The performance stats configuration for the stream session
+    public var performanceStatsConfiguration: GameLiftStreamsClientTypes.PerformanceStatsConfiguration?
     /// The data transfer protocol in use with the stream session.
     public var `protocol`: GameLiftStreamsClientTypes.ModelProtocol?
     /// The maximum duration of a session. Amazon GameLift Streams will automatically terminate a session after this amount of time has elapsed, regardless of any existing client connections.
@@ -2154,7 +2476,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     ///
     /// * CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.
     ///
-    /// * ERROR: The stream session failed to activate.
+    /// * ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.
     ///
     /// * PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.
     ///
@@ -2164,7 +2486,30 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     ///
     /// * TERMINATED: The stream session has ended.
     public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
-    /// A short description of the reason the stream session is in ERROR status.
+    /// A short description of the reason the stream session is in ERROR status or TERMINATED status. ERROR status reasons:
+    ///
+    /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
+    ///
+    /// * internalError: An internal service error occurred. Start a new stream session to continue streaming.
+    ///
+    /// * invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.
+    ///
+    /// * placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.
+    ///
+    ///
+    /// TERMINATED status reasons:
+    ///
+    /// * apiTerminated: The stream session was terminated by an API call to [TerminateStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_TerminateStreamSession.html).
+    ///
+    /// * applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.
+    ///
+    /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
+    ///
+    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
+    ///
+    /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
+    ///
+    /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
     /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
@@ -2185,6 +2530,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         location: Swift.String? = nil,
         logFileLocationUri: Swift.String? = nil,
+        performanceStatsConfiguration: GameLiftStreamsClientTypes.PerformanceStatsConfiguration? = nil,
         `protocol`: GameLiftStreamsClientTypes.ModelProtocol? = nil,
         sessionLengthSeconds: Swift.Int? = nil,
         signalRequest: Swift.String? = nil,
@@ -2206,6 +2552,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
         self.lastUpdatedAt = lastUpdatedAt
         self.location = location
         self.logFileLocationUri = logFileLocationUri
+        self.performanceStatsConfiguration = performanceStatsConfiguration
         self.`protocol` = `protocol`
         self.sessionLengthSeconds = sessionLengthSeconds
         self.signalRequest = signalRequest
@@ -2220,7 +2567,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
 
 extension StartStreamSessionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
+        "StartStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStreamGroupInput: Swift.Sendable {
@@ -2247,6 +2594,8 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
     /// A descriptive label for the stream group.
     public var description: Swift.String?
+    /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+    public var expiresAt: Foundation.Date?
     /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2269,9 +2618,11 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
-    /// * ERROR: An error occurred when the stream group deployed. See StatusReason for more information.
-    ///
     /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    ///
+    /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
+    ///
+    /// * EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.
     ///
     /// * UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
@@ -2279,11 +2630,37 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     /// * internalError: The request can't process right now because of an issue with the server. Try again later.
     ///
-    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
+    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
-    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.
+    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2296,7 +2673,20 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.
+    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2309,7 +2699,33 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.
+    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 4 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2322,7 +2738,33 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.
+    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 2 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2335,7 +2777,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.
+    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2348,7 +2790,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.
+    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2365,6 +2807,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         defaultApplication: GameLiftStreamsClientTypes.DefaultApplication? = nil,
         description: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         locationStates: [GameLiftStreamsClientTypes.LocationState]? = nil,
@@ -2377,6 +2820,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.defaultApplication = defaultApplication
         self.description = description
+        self.expiresAt = expiresAt
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.locationStates = locationStates
@@ -2414,6 +2858,8 @@ extension GameLiftStreamsClientTypes {
         public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
         /// A descriptive label for the stream group.
         public var description: Swift.String?
+        /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+        public var expiresAt: Foundation.Date?
         /// An ID that uniquely identifies the stream group resource. Example ID: sg-1AB2C3De4.
         public var id: Swift.String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2426,15 +2872,43 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
         ///
-        /// * ERROR: An error occurred when the stream group deployed. See StatusReason for more information.
-        ///
         /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+        ///
+        /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
+        ///
+        /// * EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.
         ///
         /// * UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
         public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
         /// The target stream quality for the stream group. A stream class can be one of the following:
         ///
-        /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.
+        /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
+        ///
+        ///
+        ///
+        ///
+        /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
+        ///
+        ///
+        ///
+        ///
+        /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -2447,7 +2921,20 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.
+        /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
+        ///
+        ///
+        ///
+        ///
+        /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -2460,7 +2947,33 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.
+        /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM
+        ///
+        /// * Tenancy: Supports up to 4 concurrent stream sessions
+        ///
+        ///
+        ///
+        ///
+        /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
+        ///
+        /// * Tenancy: Supports up to 12 concurrent stream sessions
+        ///
+        ///
+        ///
+        ///
+        /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -2473,7 +2986,33 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.
+        /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM
+        ///
+        /// * Tenancy: Supports up to 2 concurrent stream sessions
+        ///
+        ///
+        ///
+        ///
+        /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+        ///
+        /// * Reference resolution: 1080p
+        ///
+        /// * Reference frame rate: 60 fps
+        ///
+        /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+        ///
+        /// * Tenancy: Supports 1 concurrent stream session
+        ///
+        ///
+        ///
+        ///
+        /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -2486,7 +3025,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.
+        /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -2499,7 +3038,7 @@ extension GameLiftStreamsClientTypes {
         ///
         ///
         ///
-        /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.
+        /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
         ///
         /// * Reference resolution: 1080p
         ///
@@ -2515,6 +3054,7 @@ extension GameLiftStreamsClientTypes {
             createdAt: Foundation.Date? = nil,
             defaultApplication: GameLiftStreamsClientTypes.DefaultApplication? = nil,
             description: Swift.String? = nil,
+            expiresAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             status: GameLiftStreamsClientTypes.StreamGroupStatus? = nil,
@@ -2524,6 +3064,7 @@ extension GameLiftStreamsClientTypes {
             self.createdAt = createdAt
             self.defaultApplication = defaultApplication
             self.description = description
+            self.expiresAt = expiresAt
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
@@ -2583,6 +3124,8 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
     /// A descriptive label for the stream group.
     public var description: Swift.String?
+    /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+    public var expiresAt: Foundation.Date?
     /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2605,9 +3148,11 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
-    /// * ERROR: An error occurred when the stream group deployed. See StatusReason for more information.
-    ///
     /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    ///
+    /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
+    ///
+    /// * EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.
     ///
     /// * UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
@@ -2615,11 +3160,37 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     /// * internalError: The request can't process right now because of an issue with the server. Try again later.
     ///
-    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
+    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
-    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.
+    /// * gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2632,7 +3203,20 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.
+    /// * gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2645,7 +3229,33 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.
+    /// * gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 4 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 12 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2658,7 +3268,33 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.
+    /// * gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM
+    ///
+    /// * Tenancy: Supports up to 2 concurrent stream sessions
+    ///
+    ///
+    ///
+    ///
+    /// * gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.
+    ///
+    /// * Reference resolution: 1080p
+    ///
+    /// * Reference frame rate: 60 fps
+    ///
+    /// * Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM
+    ///
+    /// * Tenancy: Supports 1 concurrent stream session
+    ///
+    ///
+    ///
+    ///
+    /// * gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2671,7 +3307,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.
+    /// * gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2684,7 +3320,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     ///
     ///
-    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.
+    /// * gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.
     ///
     /// * Reference resolution: 1080p
     ///
@@ -2701,6 +3337,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         defaultApplication: GameLiftStreamsClientTypes.DefaultApplication? = nil,
         description: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         locationStates: [GameLiftStreamsClientTypes.LocationState]? = nil,
@@ -2713,6 +3350,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.defaultApplication = defaultApplication
         self.description = description
+        self.expiresAt = expiresAt
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.locationStates = locationStates
@@ -3212,6 +3850,7 @@ extension StartStreamSessionInput {
         try writer["ConnectionTimeoutSeconds"].write(value.connectionTimeoutSeconds)
         try writer["Description"].write(value.description)
         try writer["Locations"].writeList(value.locations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PerformanceStatsConfiguration"].write(value.performanceStatsConfiguration, with: GameLiftStreamsClientTypes.PerformanceStatsConfiguration.write(value:to:))
         try writer["Protocol"].write(value.`protocol`)
         try writer["SessionLengthSeconds"].write(value.sessionLengthSeconds)
         try writer["SignalRequest"].write(value.signalRequest)
@@ -3310,6 +3949,7 @@ extension CreateStreamGroupOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaultApplication = try reader["DefaultApplication"].readIfPresent(with: GameLiftStreamsClientTypes.DefaultApplication.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.id = try reader["Id"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.locationStates = try reader["LocationStates"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.LocationState.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3403,6 +4043,7 @@ extension GetStreamGroupOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaultApplication = try reader["DefaultApplication"].readIfPresent(with: GameLiftStreamsClientTypes.DefaultApplication.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.id = try reader["Id"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.locationStates = try reader["LocationStates"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.LocationState.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3431,6 +4072,7 @@ extension GetStreamSessionOutput {
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.location = try reader["Location"].readIfPresent()
         value.logFileLocationUri = try reader["LogFileLocationUri"].readIfPresent()
+        value.performanceStatsConfiguration = try reader["PerformanceStatsConfiguration"].readIfPresent(with: GameLiftStreamsClientTypes.PerformanceStatsConfiguration.read(from:))
         value.`protocol` = try reader["Protocol"].readIfPresent()
         value.sessionLengthSeconds = try reader["SessionLengthSeconds"].readIfPresent()
         value.signalRequest = try reader["SignalRequest"].readIfPresent()
@@ -3533,6 +4175,7 @@ extension StartStreamSessionOutput {
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.location = try reader["Location"].readIfPresent()
         value.logFileLocationUri = try reader["LogFileLocationUri"].readIfPresent()
+        value.performanceStatsConfiguration = try reader["PerformanceStatsConfiguration"].readIfPresent(with: GameLiftStreamsClientTypes.PerformanceStatsConfiguration.read(from:))
         value.`protocol` = try reader["Protocol"].readIfPresent()
         value.sessionLengthSeconds = try reader["SessionLengthSeconds"].readIfPresent()
         value.signalRequest = try reader["SignalRequest"].readIfPresent()
@@ -3604,6 +4247,7 @@ extension UpdateStreamGroupOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaultApplication = try reader["DefaultApplication"].readIfPresent(with: GameLiftStreamsClientTypes.DefaultApplication.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.id = try reader["Id"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.locationStates = try reader["LocationStates"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.LocationState.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -4151,6 +4795,8 @@ extension GameLiftStreamsClientTypes.LocationState {
         value.status = try reader["Status"].readIfPresent()
         value.alwaysOnCapacity = try reader["AlwaysOnCapacity"].readIfPresent()
         value.onDemandCapacity = try reader["OnDemandCapacity"].readIfPresent()
+        value.targetIdleCapacity = try reader["TargetIdleCapacity"].readIfPresent()
+        value.maximumCapacity = try reader["MaximumCapacity"].readIfPresent()
         value.requestedCapacity = try reader["RequestedCapacity"].readIfPresent()
         value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent()
         value.idleCapacity = try reader["IdleCapacity"].readIfPresent()
@@ -4197,6 +4843,21 @@ extension GameLiftStreamsClientTypes.DefaultApplication {
     }
 }
 
+extension GameLiftStreamsClientTypes.PerformanceStatsConfiguration {
+
+    static func write(value: GameLiftStreamsClientTypes.PerformanceStatsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SharedWithClient"].write(value.sharedWithClient)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.PerformanceStatsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftStreamsClientTypes.PerformanceStatsConfiguration()
+        value.sharedWithClient = try reader["SharedWithClient"].readIfPresent()
+        return value
+    }
+}
+
 extension GameLiftStreamsClientTypes.ExportFilesMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GameLiftStreamsClientTypes.ExportFilesMetadata {
@@ -4238,6 +4899,7 @@ extension GameLiftStreamsClientTypes.StreamGroupSummary {
         value.status = try reader["Status"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4250,6 +4912,7 @@ extension GameLiftStreamsClientTypes.StreamSessionSummary {
         value.arn = try reader["Arn"].readIfPresent()
         value.userId = try reader["UserId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
         value.`protocol` = try reader["Protocol"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -4266,7 +4929,9 @@ extension GameLiftStreamsClientTypes.LocationConfiguration {
         guard let value else { return }
         try writer["AlwaysOnCapacity"].write(value.alwaysOnCapacity)
         try writer["LocationName"].write(value.locationName)
+        try writer["MaximumCapacity"].write(value.maximumCapacity)
         try writer["OnDemandCapacity"].write(value.onDemandCapacity)
+        try writer["TargetIdleCapacity"].write(value.targetIdleCapacity)
     }
 }
 

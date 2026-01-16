@@ -86,6 +86,7 @@ extension FSxClientTypes {
         case domainNotFound
         case incompatibleDomainMode
         case invalidDomainStage
+        case invalidNetworkType
         case wrongVpc
         case sdkUnknown(Swift.String)
 
@@ -94,6 +95,7 @@ extension FSxClientTypes {
                 .domainNotFound,
                 .incompatibleDomainMode,
                 .invalidDomainStage,
+                .invalidNetworkType,
                 .wrongVpc
             ]
         }
@@ -108,6 +110,7 @@ extension FSxClientTypes {
             case .domainNotFound: return "DOMAIN_NOT_FOUND"
             case .incompatibleDomainMode: return "INCOMPATIBLE_DOMAIN_MODE"
             case .invalidDomainStage: return "INVALID_DOMAIN_STAGE"
+            case .invalidNetworkType: return "INVALID_NETWORK_TYPE"
             case .wrongVpc: return "WRONG_VPC"
             case let .sdkUnknown(s): return s
             }
@@ -1063,15 +1066,19 @@ extension FSxClientTypes {
     public struct FileSystemEndpoint: Swift.Sendable {
         /// The file system's DNS name. You can mount your file system using its DNS name.
         public var dnsName: Swift.String?
-        /// IP addresses of the file system endpoint.
+        /// The IPv4 addresses of the file system endpoint.
         public var ipAddresses: [Swift.String]?
+        /// The IPv6 addresses of the file system endpoint.
+        public var ipv6Addresses: [Swift.String]?
 
         public init(
             dnsName: Swift.String? = nil,
-            ipAddresses: [Swift.String]? = nil
+            ipAddresses: [Swift.String]? = nil,
+            ipv6Addresses: [Swift.String]? = nil
         ) {
             self.dnsName = dnsName
             self.ipAddresses = ipAddresses
+            self.ipv6Addresses = ipv6Addresses
         }
     }
 }
@@ -1118,8 +1125,10 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.OntapDeploymentType?
         /// The SSD IOPS configuration for the ONTAP file system, specifying the number of provisioned IOPS and the provision mode.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the Amazon FSx console, Amazon FSx chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        /// (Multi-AZ only) Specifies the IPv4 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the Amazon FSx console, Amazon FSx chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
         public var endpointIpAddressRange: Swift.String?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// The Management and Intercluster endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror.
         public var endpoints: FSxClientTypes.FileSystemEndpoints?
         /// You can use the fsxadmin user account to access the NetApp ONTAP CLI and REST API. The password value is always redacted in the response.
@@ -1162,6 +1171,7 @@ extension FSxClientTypes {
             deploymentType: FSxClientTypes.OntapDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddressRange: Swift.String? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             endpoints: FSxClientTypes.FileSystemEndpoints? = nil,
             fsxAdminPassword: Swift.String? = nil,
             haPairs: Swift.Int? = nil,
@@ -1176,6 +1186,7 @@ extension FSxClientTypes {
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.endpoints = endpoints
             self.fsxAdminPassword = fsxAdminPassword
             self.haPairs = haPairs
@@ -1190,7 +1201,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.OntapFileSystemConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "OntapFileSystemConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), endpoints: \(Swift.String(describing: endpoints)), haPairs: \(Swift.String(describing: haPairs)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
+        "OntapFileSystemConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), endpointIpv6AddressRange: \(Swift.String(describing: endpointIpv6AddressRange)), endpoints: \(Swift.String(describing: endpoints)), haPairs: \(Swift.String(describing: haPairs)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -1304,13 +1315,13 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// The IP address of the endpoint that is used to access data or to manage the file system.
+        /// The IPv4 address of the endpoint that is used to access data or to manage the file system.
         public var endpointIpAddress: Swift.String?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
+        /// (Multi-AZ only) Specifies the IPv4 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
         public var endpointIpAddressRange: Swift.String?
         /// The IPv6 address of the endpoint that is used to access data or to manage the file system.
         public var endpointIpv6Address: Swift.String?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpv6AddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
@@ -1605,6 +1616,26 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
+    /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. When FSRM is enabled, you can manage and monitor storage quotas, file screening, storage reports, and file classification.
+    public struct WindowsFsrmConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the destination of the FSRM event logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehose delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
+        public var eventLogDestination: Swift.String?
+        /// Specifies whether FSRM is enabled or disabled on the file system. When TRUE, the FSRM service is enabled and monitor file operations according to configured policies. When FALSE or omitted, FSRM is disabled. The default value is FALSE.
+        /// This member is required.
+        public var fsrmServiceEnabled: Swift.Bool?
+
+        public init(
+            eventLogDestination: Swift.String? = nil,
+            fsrmServiceEnabled: Swift.Bool? = nil
+        ) {
+            self.eventLogDestination = eventLogDestination
+            self.fsrmServiceEnabled = fsrmServiceEnabled
+        }
+    }
+}
+
+extension FSxClientTypes {
+
     /// An enumeration specifying the currently ongoing maintenance operation.
     public enum FileSystemMaintenanceOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case backingUp
@@ -1639,6 +1670,8 @@ extension FSxClientTypes {
     public struct SelfManagedActiveDirectoryAttributes: Swift.Sendable {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public var dnsIps: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the service account credentials used to join the file system to your self-managed Active Directory domain.
+        public var domainJoinServiceAccountSecret: Swift.String?
         /// The fully qualified domain name of the self-managed AD directory.
         public var domainName: Swift.String?
         /// The name of the domain group whose members have administrative privileges for the FSx file system.
@@ -1650,12 +1683,14 @@ extension FSxClientTypes {
 
         public init(
             dnsIps: [Swift.String]? = nil,
+            domainJoinServiceAccountSecret: Swift.String? = nil,
             domainName: Swift.String? = nil,
             fileSystemAdministratorsGroup: Swift.String? = nil,
             organizationalUnitDistinguishedName: Swift.String? = nil,
             userName: Swift.String? = nil
         ) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -1670,7 +1705,7 @@ extension FSxClientTypes {
     public struct WindowsFileSystemConfiguration: Swift.Sendable {
         /// The ID for an existing Amazon Web Services Managed Microsoft Active Directory instance that the file system is joined to.
         public var activeDirectoryId: Swift.String?
-        /// An array of one or more DNS aliases that are currently associated with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see [DNS aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html).
+        /// An array of one or more DNS aliases that are currently associated with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see [Managing DNS aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html).
         public var aliases: [FSxClientTypes.Alias]?
         /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system.
         public var auditLogConfiguration: FSxClientTypes.WindowsAuditLogConfiguration?
@@ -1693,10 +1728,14 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.WindowsDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public var fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration?
         /// The list of maintenance operations in progress for this file system.
         public var maintenanceOperationsInProgress: [FSxClientTypes.FileSystemMaintenanceOperation]?
-        /// For MULTI_AZ_1 deployment types, the IP address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that are not joined to a Microsoft Active Directory. Applicable for all Windows file system deployment types. This IP address is temporarily unavailable when the file system is undergoing maintenance. For Linux and Windows SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see [Accessing File Shares](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/accessing-file-shares.html).
+        /// For MULTI_AZ_1 deployment types, the IPv4 address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that are not joined to a Microsoft Active Directory. Applicable for all Windows file system deployment types. This IPv4 address is temporarily unavailable when the file system is undergoing maintenance. For Linux and Windows SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see [Accessing data using file shares](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-file-shares.html).
         public var preferredFileServerIp: Swift.String?
+        /// For MULTI_AZ_1 deployment types, the IPv6 address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that are not joined to a Microsoft Active Directory. Applicable for all Windows file system deployment types. This IPv6 address is temporarily unavailable when the file system is undergoing maintenance. For Linux and Windows SMB clients that are joined to an Active Directory, use the file system's DNSName instead.
+        public var preferredFileServerIpv6: Swift.String?
         /// For MULTI_AZ_1 deployment types, it specifies the ID of the subnet where the preferred file server is located. Must be one of the two subnet IDs specified in SubnetIds property. Amazon FSx serves traffic from this subnet except in the event of a failover to the secondary file server. For SINGLE_AZ_1 and SINGLE_AZ_2 deployment types, this value is the same as that for SubnetIDs. For more information, see [Availability and durability: Single-AZ and Multi-AZ file systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html#single-multi-az-resources).
         public var preferredSubnetId: Swift.String?
         /// For MULTI_AZ_1 deployment types, use this endpoint when performing administrative tasks on the file system using Amazon FSx Remote PowerShell. For SINGLE_AZ_1 and SINGLE_AZ_2 deployment types, this is the DNS name of the file system. This endpoint is temporarily unavailable when the file system is undergoing maintenance.
@@ -1717,8 +1756,10 @@ extension FSxClientTypes {
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             deploymentType: FSxClientTypes.WindowsDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration? = nil,
             maintenanceOperationsInProgress: [FSxClientTypes.FileSystemMaintenanceOperation]? = nil,
             preferredFileServerIp: Swift.String? = nil,
+            preferredFileServerIpv6: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
             remoteAdministrationEndpoint: Swift.String? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryAttributes? = nil,
@@ -1733,8 +1774,10 @@ extension FSxClientTypes {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
             self.preferredFileServerIp = preferredFileServerIp
+            self.preferredFileServerIpv6 = preferredFileServerIpv6
             self.preferredSubnetId = preferredSubnetId
             self.remoteAdministrationEndpoint = remoteAdministrationEndpoint
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
@@ -3251,7 +3294,7 @@ public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension FSxClientTypes {
 
-    /// The types of limits on your service utilization. Limits include file system count, total throughput capacity, total storage, and total user-initiated backups. These limits apply for a specific account in a specific Amazon Web Services Region. You can increase some of them by contacting Amazon Web ServicesSupport.
+    /// The types of limits on your service utilization. Limits include file system count, total throughput capacity, total storage, and total user-initiated backups. These limits apply for a specific account in a specific Amazon Web Services Region. You can increase some of them by contacting Amazon Web Services Support.
     public enum ServiceLimit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fileCacheCount
         case fileSystemCount
@@ -3303,7 +3346,7 @@ extension FSxClientTypes {
     }
 }
 
-/// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web ServicesSupport.
+/// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
 public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3723,6 +3766,112 @@ public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
 extension FSxClientTypes {
 
+    public enum OntapFileSystemUserType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case unix
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OntapFileSystemUserType] {
+            return [
+                .unix,
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .unix: return "UNIX"
+            case .windows: return "WINDOWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The FSx for ONTAP UNIX file system user that is used for authorizing all file access requests that are made using the S3 access point.
+    public struct OntapUnixFileSystemUser: Swift.Sendable {
+        /// The name of the UNIX user. The name can be up to 256 characters long.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// The FSx for ONTAP Windows file system user that is used for authorizing all file access requests that are made using the S3 access point.
+    public struct OntapWindowsFileSystemUser: Swift.Sendable {
+        /// The name of the Windows user. The name can be up to 256 characters long and supports Active Directory users.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the file system user identity that will be used for authorizing all file access requests that are made using the S3 access point. The identity can be either a UNIX user or a Windows user.
+    public struct OntapFileSystemIdentity: Swift.Sendable {
+        /// Specifies the FSx for ONTAP user identity type. Valid values are UNIX and WINDOWS.
+        /// This member is required.
+        public var type: FSxClientTypes.OntapFileSystemUserType?
+        /// Specifies the UNIX user identity for file system operations.
+        public var unixUser: FSxClientTypes.OntapUnixFileSystemUser?
+        /// Specifies the Windows user identity for file system operations.
+        public var windowsUser: FSxClientTypes.OntapWindowsFileSystemUser?
+
+        public init(
+            type: FSxClientTypes.OntapFileSystemUserType? = nil,
+            unixUser: FSxClientTypes.OntapUnixFileSystemUser? = nil,
+            windowsUser: FSxClientTypes.OntapWindowsFileSystemUser? = nil
+        ) {
+            self.type = type
+            self.unixUser = unixUser
+            self.windowsUser = windowsUser
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Specifies the FSx for ONTAP volume that the S3 access point will be attached to, and the file system user identity.
+    public struct CreateAndAttachS3AccessPointOntapConfiguration: Swift.Sendable {
+        /// Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point.
+        /// This member is required.
+        public var fileSystemIdentity: FSxClientTypes.OntapFileSystemIdentity?
+        /// The ID of the FSx for ONTAP volume to which you want the S3 access point attached.
+        /// This member is required.
+        public var volumeId: Swift.String?
+
+        public init(
+            fileSystemIdentity: FSxClientTypes.OntapFileSystemIdentity? = nil,
+            volumeId: Swift.String? = nil
+        ) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
+        }
+    }
+}
+
+extension FSxClientTypes {
+
     /// The FSx for OpenZFS file system user that is used for authorizing all file access requests that are made using the S3 access point.
     public struct OpenZFSPosixFileSystemUser: Swift.Sendable {
         /// The GID of the file system user.
@@ -3850,11 +3999,13 @@ extension FSxClientTypes {
 extension FSxClientTypes {
 
     public enum S3AccessPointAttachmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ontap
         case openzfs
         case sdkUnknown(Swift.String)
 
         public static var allCases: [S3AccessPointAttachmentType] {
             return [
+                .ontap,
                 .openzfs
             ]
         }
@@ -3866,6 +4017,7 @@ extension FSxClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .ontap: return "ONTAP"
             case .openzfs: return "OPENZFS"
             case let .sdkUnknown(s): return s
             }
@@ -3879,6 +4031,8 @@ public struct CreateAndAttachS3AccessPointInput: Swift.Sendable {
     /// The name you want to assign to this S3 access point.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies the FSx for ONTAP volume that the S3 access point will be attached to, and the file system user identity.
+    public var ontapConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration?
     /// Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume.
     public var openZFSConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration?
     /// Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC. For more information, see [Creating access points restricted to a virtual private cloud](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/access-points-vpc.html).
@@ -3890,12 +4044,14 @@ public struct CreateAndAttachS3AccessPointInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        ontapConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration? = nil,
         s3AccessPoint: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration? = nil,
         type: FSxClientTypes.S3AccessPointAttachmentType? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.name = name
+        self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
         self.s3AccessPoint = s3AccessPoint
         self.type = type
@@ -3909,6 +4065,7 @@ extension FSxClientTypes {
         case creating
         case deleting
         case failed
+        case misconfigured
         case updating
         case sdkUnknown(Swift.String)
 
@@ -3918,6 +4075,7 @@ extension FSxClientTypes {
                 .creating,
                 .deleting,
                 .failed,
+                .misconfigured,
                 .updating
             ]
         }
@@ -3933,9 +4091,29 @@ extension FSxClientTypes {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .misconfigured: return "MISCONFIGURED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
+    /// Describes the FSx for ONTAP attachment configuration of an S3 access point attachment.
+    public struct S3AccessPointOntapConfiguration: Swift.Sendable {
+        /// The file system identity used to authorize file access requests made using the S3 access point.
+        public var fileSystemIdentity: FSxClientTypes.OntapFileSystemIdentity?
+        /// The ID of the FSx for ONTAP volume that the S3 access point is attached to.
+        public var volumeId: Swift.String?
+
+        public init(
+            fileSystemIdentity: FSxClientTypes.OntapFileSystemIdentity? = nil,
+            volumeId: Swift.String? = nil
+        ) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
         }
     }
 }
@@ -4004,6 +4182,8 @@ extension FSxClientTypes {
         public var lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason?
         /// The name of the S3 access point attachment; also used for the name of the S3 access point.
         public var name: Swift.String?
+        /// The ONTAP configuration of the S3 access point attachment.
+        public var ontapConfiguration: FSxClientTypes.S3AccessPointOntapConfiguration?
         /// The OpenZFSConfiguration of the S3 access point attachment.
         public var openZFSConfiguration: FSxClientTypes.S3AccessPointOpenZFSConfiguration?
         /// The S3 access point configuration of the S3 access point attachment.
@@ -4016,6 +4196,7 @@ extension FSxClientTypes {
             lifecycle: FSxClientTypes.S3AccessPointAttachmentLifecycle? = nil,
             lifecycleTransitionReason: FSxClientTypes.LifecycleTransitionReason? = nil,
             name: Swift.String? = nil,
+            ontapConfiguration: FSxClientTypes.S3AccessPointOntapConfiguration? = nil,
             openZFSConfiguration: FSxClientTypes.S3AccessPointOpenZFSConfiguration? = nil,
             s3AccessPoint: FSxClientTypes.S3AccessPoint? = nil,
             type: FSxClientTypes.S3AccessPointAttachmentType? = nil
@@ -4024,6 +4205,7 @@ extension FSxClientTypes {
             self.lifecycle = lifecycle
             self.lifecycleTransitionReason = lifecycleTransitionReason
             self.name = name
+            self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.s3AccessPoint = s3AccessPoint
             self.type = type
@@ -5519,8 +5701,10 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.OntapDeploymentType?
         /// The SSD IOPS configuration for the FSx for ONTAP file system.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the Amazon FSx console, Amazon FSx chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        /// (Multi-AZ only) Specifies the IPv4 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API, Amazon FSx selects an unused IP address range for you from the 198.19.* range. By default in the Amazon FSx console, Amazon FSx chooses the last 64 IP addresses from the VPC’s primary CIDR range to use as the endpoint IP address range for the file system. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpAddressRange: Swift.String?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public var fsxAdminPassword: Swift.String?
         /// Specifies how many high-availability (HA) pairs of file servers will power your file system. First-generation file systems are powered by 1 HA pair. Second-generation multi-AZ file systems are powered by 1 HA pair. Second generation single-AZ file systems are powered by up to 12 HA pairs. The default value is 1. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage). Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
@@ -5565,6 +5749,7 @@ extension FSxClientTypes {
             deploymentType: FSxClientTypes.OntapDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddressRange: Swift.String? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             fsxAdminPassword: Swift.String? = nil,
             haPairs: Swift.Int? = nil,
             preferredSubnetId: Swift.String? = nil,
@@ -5578,6 +5763,7 @@ extension FSxClientTypes {
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.fsxAdminPassword = fsxAdminPassword
             self.haPairs = haPairs
             self.preferredSubnetId = preferredSubnetId
@@ -5591,7 +5777,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateFileSystemOntapConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), haPairs: \(Swift.String(describing: haPairs)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
+        "CreateFileSystemOntapConfiguration(automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), deploymentType: \(Swift.String(describing: deploymentType)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpAddressRange: \(Swift.String(describing: endpointIpAddressRange)), endpointIpv6AddressRange: \(Swift.String(describing: endpointIpv6AddressRange)), haPairs: \(Swift.String(describing: haPairs)), preferredSubnetId: \(Swift.String(describing: preferredSubnetId)), routeTableIds: \(Swift.String(describing: routeTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -5665,9 +5851,9 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.OpenZFSDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        /// (Multi-AZ only) Specifies the IPv4 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpAddressRange: Swift.String?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpv6AddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
@@ -5782,6 +5968,15 @@ extension FSxClientTypes {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         /// This member is required.
         public var dnsIps: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials. When provided, Amazon FSx uses the credentials stored in this secret to join the file system to your self-managed Active Directory domain. The secret must contain two key-value pairs:
+        ///
+        /// * CUSTOMER_MANAGED_ACTIVE_DIRECTORY_USERNAME - The username for the service account
+        ///
+        /// * CUSTOMER_MANAGED_ACTIVE_DIRECTORY_PASSWORD - The password for the service account
+        ///
+        ///
+        /// For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-manage-prereqs.html) or [ Using Amazon FSx for ONTAP with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/self-manage-prereqs.html).
+        public var domainJoinServiceAccountSecret: Swift.String?
         /// The fully qualified domain name of the self-managed AD directory, such as corp.example.com.
         /// This member is required.
         public var domainName: Swift.String?
@@ -5790,14 +5985,13 @@ extension FSxClientTypes {
         /// (Optional) The fully qualified distinguished name of the organizational unit within your self-managed AD directory. Amazon FSx only accepts OU as the direct parent of the file system. An example is OU=FSx,DC=yourdomain,DC=corp,DC=com. To learn more, see [RFC 2253](https://tools.ietf.org/html/rfc2253). If none is provided, the FSx file system is created in the default location of your self-managed AD directory. Only Organizational Unit (OU) objects can be the direct parent of the file system that you're creating.
         public var organizationalUnitDistinguishedName: Swift.String?
         /// The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain.
-        /// This member is required.
         public var password: Swift.String?
         /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName, or in the default location of your AD domain.
-        /// This member is required.
         public var userName: Swift.String?
 
         public init(
             dnsIps: [Swift.String]? = nil,
+            domainJoinServiceAccountSecret: Swift.String? = nil,
             domainName: Swift.String? = nil,
             fileSystemAdministratorsGroup: Swift.String? = nil,
             organizationalUnitDistinguishedName: Swift.String? = nil,
@@ -5805,6 +5999,7 @@ extension FSxClientTypes {
             userName: Swift.String? = nil
         ) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -5816,7 +6011,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SelfManagedActiveDirectoryConfiguration(dnsIps: \(Swift.String(describing: dnsIps)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
+        "SelfManagedActiveDirectoryConfiguration(dnsIps: \(Swift.String(describing: dnsIps)), domainJoinServiceAccountSecret: \(Swift.String(describing: domainJoinServiceAccountSecret)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -5825,7 +6020,7 @@ extension FSxClientTypes {
     public struct CreateFileSystemWindowsConfiguration: Swift.Sendable {
         /// The ID for an existing Amazon Web Services Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public var activeDirectoryId: Swift.String?
-        /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see [Working with DNS Aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html) and [Walkthrough 5: Using DNS aliases to access your file system](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/walkthrough05-file-system-custom-CNAME.html), including additional steps you must take to be able to access your file system using a DNS alias. An alias name has to meet the following requirements:
+        /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see [Managing DNS aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html) and [Accessing data using DNS aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/dns-aliases.html). An alias name has to meet the following requirements:
         ///
         /// * Formatted as a fully-qualified domain name (FQDN), hostname.domain, for example, accounting.example.com.
         ///
@@ -5859,6 +6054,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.WindowsDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public var fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located. For in-Amazon Web Services applications, we recommend that you launch your clients in the same Availability Zone (AZ) as your preferred file server to reduce cross-AZ data transfer costs and minimize latency.
         public var preferredSubnetId: Swift.String?
         /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing FSx for ONTAP SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
@@ -5878,6 +6075,7 @@ extension FSxClientTypes {
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             deploymentType: FSxClientTypes.WindowsDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration? = nil,
             preferredSubnetId: Swift.String? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfiguration? = nil,
             throughputCapacity: Swift.Int? = nil,
@@ -5891,6 +6089,7 @@ extension FSxClientTypes {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.preferredSubnetId = preferredSubnetId
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
@@ -5944,7 +6143,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
     ///
     /// * ImportPath
     public var lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration?
-    /// The network type of the Amazon FSx file system that you are creating. Valid values are IPV4 (which supports IPv4 only) and DUAL (for dual-stack mode, which supports both IPv4 and IPv6). The default is IPV4. Supported only for Amazon FSx for OpenZFS file systems.
+    /// The network type of the Amazon FSx file system that you are creating. Valid values are IPV4 (which supports IPv4 only) and DUAL (for dual-stack mode, which supports both IPv4 and IPv6). The default is IPV4. Supported for FSx for OpenZFS, FSx for ONTAP, and FSx for Windows File Server file systems.
     public var networkType: FSxClientTypes.NetworkType?
     /// The ONTAP configuration properties of the FSx for ONTAP file system that you are creating.
     public var ontapConfiguration: FSxClientTypes.CreateFileSystemOntapConfiguration?
@@ -6259,15 +6458,19 @@ extension FSxClientTypes {
     public struct SvmEndpoint: Swift.Sendable {
         /// The file system's DNS name. You can mount your file system using its DNS name.
         public var dnsName: Swift.String?
-        /// The SVM endpoint's IP addresses.
+        /// The SVM endpoint's IPv4 addresses.
         public var ipAddresses: [Swift.String]?
+        /// The SVM endpoint's IPv6 addresses.
+        public var ipv6Addresses: [Swift.String]?
 
         public init(
             dnsName: Swift.String? = nil,
-            ipAddresses: [Swift.String]? = nil
+            ipAddresses: [Swift.String]? = nil,
+            ipv6Addresses: [Swift.String]? = nil
         ) {
             self.dnsName = dnsName
             self.ipAddresses = ipAddresses
+            self.ipv6Addresses = ipv6Addresses
         }
     }
 }
@@ -8793,6 +8996,8 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Application](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
         public var fsxAdminPassword: Swift.String?
         /// Use to update the number of high-availability (HA) pairs for a second-generation single-AZ file system. If you increase the number of HA pairs for your file system, you must specify proportional increases for StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/administering-file-systems.html#HA-pairs) in the FSx for ONTAP user guide. Block storage protocol support (iSCSI and NVMe over TCP) is disabled on file systems with more than 6 HA pairs. For more information, see [Using block storage protocols](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html#using-block-storage).
@@ -8830,6 +9035,7 @@ extension FSxClientTypes {
             automaticBackupRetentionDays: Swift.Int? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             fsxAdminPassword: Swift.String? = nil,
             haPairs: Swift.Int? = nil,
             removeRouteTableIds: [Swift.String]? = nil,
@@ -8841,6 +9047,7 @@ extension FSxClientTypes {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.fsxAdminPassword = fsxAdminPassword
             self.haPairs = haPairs
             self.removeRouteTableIds = removeRouteTableIds
@@ -8853,7 +9060,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.UpdateFileSystemOntapConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFileSystemOntapConfiguration(addRouteTableIds: \(Swift.String(describing: addRouteTableIds)), automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), haPairs: \(Swift.String(describing: haPairs)), removeRouteTableIds: \(Swift.String(describing: removeRouteTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
+        "UpdateFileSystemOntapConfiguration(addRouteTableIds: \(Swift.String(describing: addRouteTableIds)), automaticBackupRetentionDays: \(Swift.String(describing: automaticBackupRetentionDays)), dailyAutomaticBackupStartTime: \(Swift.String(describing: dailyAutomaticBackupStartTime)), diskIopsConfiguration: \(Swift.String(describing: diskIopsConfiguration)), endpointIpv6AddressRange: \(Swift.String(describing: endpointIpv6AddressRange)), haPairs: \(Swift.String(describing: haPairs)), removeRouteTableIds: \(Swift.String(describing: removeRouteTableIds)), throughputCapacity: \(Swift.String(describing: throughputCapacity)), throughputCapacityPerHAPair: \(Swift.String(describing: throughputCapacityPerHAPair)), weeklyMaintenanceStartTime: \(Swift.String(describing: weeklyMaintenanceStartTime)), fsxAdminPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -8872,7 +9079,7 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
-        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        /// (Multi-AZ only) Specifies the IPv6 address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpv6AddressRange: Swift.String?
         /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
         public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
@@ -8921,6 +9128,8 @@ extension FSxClientTypes {
     public struct SelfManagedActiveDirectoryConfigurationUpdates: Swift.Sendable {
         /// A list of up to three DNS server or domain controller IP addresses in your self-managed Active Directory domain.
         public var dnsIps: [Swift.String]?
+        /// Specifies the updated Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials. Amazon FSx uses this account to join to your self-managed Active Directory domain.
+        public var domainJoinServiceAccountSecret: Swift.String?
         /// Specifies an updated fully qualified domain name of your self-managed Active Directory configuration.
         public var domainName: Swift.String?
         /// For FSx for ONTAP file systems only - Specifies the updated name of the self-managed Active Directory domain group whose members are granted administrative privileges for the Amazon FSx resource.
@@ -8934,6 +9143,7 @@ extension FSxClientTypes {
 
         public init(
             dnsIps: [Swift.String]? = nil,
+            domainJoinServiceAccountSecret: Swift.String? = nil,
             domainName: Swift.String? = nil,
             fileSystemAdministratorsGroup: Swift.String? = nil,
             organizationalUnitDistinguishedName: Swift.String? = nil,
@@ -8941,6 +9151,7 @@ extension FSxClientTypes {
             userName: Swift.String? = nil
         ) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -8952,7 +9163,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SelfManagedActiveDirectoryConfigurationUpdates(dnsIps: \(Swift.String(describing: dnsIps)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
+        "SelfManagedActiveDirectoryConfigurationUpdates(dnsIps: \(Swift.String(describing: dnsIps)), domainJoinServiceAccountSecret: \(Swift.String(describing: domainJoinServiceAccountSecret)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -8967,6 +9178,8 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public var fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration?
         /// The configuration Amazon FSx uses to join the Windows File Server instance to the self-managed Microsoft AD directory. You cannot make a self-managed Microsoft AD update request if there is an existing self-managed Microsoft AD update request in progress.
         public var selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates?
         /// Sets the target value for a file system's throughput capacity, in MB/s, that you are updating the file system to. Valid values are 8, 16, 32, 64, 128, 256, 512, 1024, 2048. You cannot make a throughput capacity update request if there is an existing throughput capacity update request in progress. For more information, see [Managing Throughput Capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-throughput-capacity.html).
@@ -8979,6 +9192,7 @@ extension FSxClientTypes {
             automaticBackupRetentionDays: Swift.Int? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
@@ -8987,6 +9201,7 @@ extension FSxClientTypes {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -10396,6 +10611,7 @@ extension CreateAndAttachS3AccessPointInput {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["Name"].write(value.name)
+        try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration.write(value:to:))
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration.write(value:to:))
         try writer["S3AccessPoint"].write(value.s3AccessPoint, with: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration.write(value:to:))
         try writer["Type"].write(value.type)
@@ -13228,6 +13444,7 @@ extension FSxClientTypes.OntapFileSystemConfiguration {
         value.fsxAdminPassword = try reader["FsxAdminPassword"].readIfPresent()
         value.haPairs = try reader["HAPairs"].readIfPresent()
         value.throughputCapacityPerHAPair = try reader["ThroughputCapacityPerHAPair"].readIfPresent()
+        value.endpointIpv6AddressRange = try reader["EndpointIpv6AddressRange"].readIfPresent()
         return value
     }
 }
@@ -13250,6 +13467,7 @@ extension FSxClientTypes.FileSystemEndpoint {
         var value = FSxClientTypes.FileSystemEndpoint()
         value.dnsName = try reader["DNSName"].readIfPresent()
         value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipv6Addresses = try reader["Ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13380,6 +13598,25 @@ extension FSxClientTypes.WindowsFileSystemConfiguration {
         value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: FSxClientTypes.Alias.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.auditLogConfiguration = try reader["AuditLogConfiguration"].readIfPresent(with: FSxClientTypes.WindowsAuditLogConfiguration.read(from:))
         value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
+        value.preferredFileServerIpv6 = try reader["PreferredFileServerIpv6"].readIfPresent()
+        value.fsrmConfiguration = try reader["FsrmConfiguration"].readIfPresent(with: FSxClientTypes.WindowsFsrmConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.WindowsFsrmConfiguration {
+
+    static func write(value: FSxClientTypes.WindowsFsrmConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventLogDestination"].write(value.eventLogDestination)
+        try writer["FsrmServiceEnabled"].write(value.fsrmServiceEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsFsrmConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.WindowsFsrmConfiguration()
+        value.fsrmServiceEnabled = try reader["FsrmServiceEnabled"].readIfPresent() ?? false
+        value.eventLogDestination = try reader["EventLogDestination"].readIfPresent()
         return value
     }
 }
@@ -13406,6 +13643,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryAttributes {
         value.fileSystemAdministratorsGroup = try reader["FileSystemAdministratorsGroup"].readIfPresent()
         value.userName = try reader["UserName"].readIfPresent()
         value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainJoinServiceAccountSecret = try reader["DomainJoinServiceAccountSecret"].readIfPresent()
         return value
     }
 }
@@ -13574,6 +13812,7 @@ extension FSxClientTypes.S3AccessPointAttachment {
         value.name = try reader["Name"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOpenZFSConfiguration.read(from:))
+        value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.S3AccessPointOntapConfiguration.read(from:))
         value.s3AccessPoint = try reader["S3AccessPoint"].readIfPresent(with: FSxClientTypes.S3AccessPoint.read(from:))
         return value
     }
@@ -13602,6 +13841,66 @@ extension FSxClientTypes.S3AccessPointVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = FSxClientTypes.S3AccessPointVpcConfiguration()
         value.vpcId = try reader["VpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension FSxClientTypes.S3AccessPointOntapConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.S3AccessPointOntapConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.S3AccessPointOntapConfiguration()
+        value.volumeId = try reader["VolumeId"].readIfPresent()
+        value.fileSystemIdentity = try reader["FileSystemIdentity"].readIfPresent(with: FSxClientTypes.OntapFileSystemIdentity.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapFileSystemIdentity {
+
+    static func write(value: FSxClientTypes.OntapFileSystemIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["UnixUser"].write(value.unixUser, with: FSxClientTypes.OntapUnixFileSystemUser.write(value:to:))
+        try writer["WindowsUser"].write(value.windowsUser, with: FSxClientTypes.OntapWindowsFileSystemUser.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapFileSystemIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapFileSystemIdentity()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.unixUser = try reader["UnixUser"].readIfPresent(with: FSxClientTypes.OntapUnixFileSystemUser.read(from:))
+        value.windowsUser = try reader["WindowsUser"].readIfPresent(with: FSxClientTypes.OntapWindowsFileSystemUser.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapWindowsFileSystemUser {
+
+    static func write(value: FSxClientTypes.OntapWindowsFileSystemUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapWindowsFileSystemUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapWindowsFileSystemUser()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FSxClientTypes.OntapUnixFileSystemUser {
+
+    static func write(value: FSxClientTypes.OntapUnixFileSystemUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.OntapUnixFileSystemUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.OntapUnixFileSystemUser()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13948,6 +14247,7 @@ extension FSxClientTypes.SvmEndpoint {
         var value = FSxClientTypes.SvmEndpoint()
         value.dnsName = try reader["DNSName"].readIfPresent()
         value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipv6Addresses = try reader["Ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14041,6 +14341,15 @@ extension FSxClientTypes.CreateAndAttachS3AccessPointOpenZFSConfiguration {
     }
 }
 
+extension FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration {
+
+    static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointOntapConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileSystemIdentity"].write(value.fileSystemIdentity, with: FSxClientTypes.OntapFileSystemIdentity.write(value:to:))
+        try writer["VolumeId"].write(value.volumeId)
+    }
+}
+
 extension FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration {
 
     static func write(value: FSxClientTypes.CreateAndAttachS3AccessPointS3Configuration?, to writer: SmithyJSON.Writer) throws {
@@ -14093,6 +14402,7 @@ extension FSxClientTypes.CreateFileSystemWindowsConfiguration {
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["FsrmConfiguration"].write(value.fsrmConfiguration, with: FSxClientTypes.WindowsFsrmConfiguration.write(value:to:))
         try writer["PreferredSubnetId"].write(value.preferredSubnetId)
         try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfiguration.write(value:to:))
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
@@ -14115,6 +14425,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration {
     static func write(value: FSxClientTypes.SelfManagedActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DomainJoinServiceAccountSecret"].write(value.domainJoinServiceAccountSecret)
         try writer["DomainName"].write(value.domainName)
         try writer["FileSystemAdministratorsGroup"].write(value.fileSystemAdministratorsGroup)
         try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
@@ -14175,6 +14486,7 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration {
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
         try writer["EndpointIpAddressRange"].write(value.endpointIpAddressRange)
+        try writer["EndpointIpv6AddressRange"].write(value.endpointIpv6AddressRange)
         try writer["FsxAdminPassword"].write(value.fsxAdminPassword)
         try writer["HAPairs"].write(value.haPairs)
         try writer["PreferredSubnetId"].write(value.preferredSubnetId)
@@ -14412,6 +14724,7 @@ extension FSxClientTypes.UpdateFileSystemWindowsConfiguration {
         try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["FsrmConfiguration"].write(value.fsrmConfiguration, with: FSxClientTypes.WindowsFsrmConfiguration.write(value:to:))
         try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.write(value:to:))
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)
@@ -14423,6 +14736,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates {
     static func write(value: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DomainJoinServiceAccountSecret"].write(value.domainJoinServiceAccountSecret)
         try writer["DomainName"].write(value.domainName)
         try writer["FileSystemAdministratorsGroup"].write(value.fileSystemAdministratorsGroup)
         try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
@@ -14466,6 +14780,7 @@ extension FSxClientTypes.UpdateFileSystemOntapConfiguration {
         try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["EndpointIpv6AddressRange"].write(value.endpointIpv6AddressRange)
         try writer["FsxAdminPassword"].write(value.fsxAdminPassword)
         try writer["HAPairs"].write(value.haPairs)
         try writer["RemoveRouteTableIds"].writeList(value.removeRouteTableIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)

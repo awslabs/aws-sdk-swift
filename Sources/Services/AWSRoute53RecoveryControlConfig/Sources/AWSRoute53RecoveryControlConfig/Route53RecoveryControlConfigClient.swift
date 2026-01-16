@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Route53RecoveryControlConfigClient: ClientRuntime.Client {
+public class Route53RecoveryControlConfigClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Route53RecoveryControlConfigClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfiguration
     let serviceName = "Route53 Recovery Control Config"
@@ -373,9 +373,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
     ///
-    /// - Parameter CreateClusterInput : Creates a cluster.
+    /// - Parameter input: Creates a cluster. (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +416,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -447,9 +448,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region.
     ///
-    /// - Parameter CreateControlPanelInput : The details of the control panel that you're creating.
+    /// - Parameter input: The details of the control panel that you're creating. (Type: `CreateControlPanelInput`)
     ///
-    /// - Returns: `CreateControlPanelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateControlPanelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,6 +491,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateControlPanelInput, CreateControlPanelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateControlPanelOutput>(CreateControlPanelOutput.httpOutput(from:), CreateControlPanelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateControlPanelInput, CreateControlPanelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateControlPanelOutput>())
@@ -521,9 +523,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Creates a new routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control traffic routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
     ///
-    /// - Parameter CreateRoutingControlInput : The details of the routing control that you're creating.
+    /// - Parameter input: The details of the routing control that you're creating. (Type: `CreateRoutingControlInput`)
     ///
-    /// - Returns: `CreateRoutingControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoutingControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -564,6 +566,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRoutingControlInput, CreateRoutingControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoutingControlOutput>(CreateRoutingControlOutput.httpOutput(from:), CreateRoutingControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoutingControlInput, CreateRoutingControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoutingControlOutput>())
@@ -595,9 +598,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Creates a safety rule in a control panel. Safety rules let you add safeguards around changing routing control states, and for enabling and disabling routing controls, to help prevent unexpected outcomes. There are two types of safety rules: assertion rules and gating rules. Assertion rule: An assertion rule enforces that, when you change a routing control state, that a certain criteria is met. For example, the criteria might be that at least one routing control state is On after the transaction so that traffic continues to flow to at least one cell for the application. This ensures that you avoid a fail-open scenario. Gating rule: A gating rule lets you configure a gating routing control as an overall "on/off" switch for a group of routing controls. Or, you can configure more complex gating scenarios, for example by configuring multiple gating routing controls. For more information, see [Safety rules](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.safety-rules.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
     ///
-    /// - Parameter CreateSafetyRuleInput : The request body that you include when you create a safety rule.
+    /// - Parameter input: The request body that you include when you create a safety rule. (Type: `CreateSafetyRuleInput`)
     ///
-    /// - Returns: `CreateSafetyRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSafetyRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +636,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSafetyRuleInput, CreateSafetyRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSafetyRuleOutput>(CreateSafetyRuleOutput.httpOutput(from:), CreateSafetyRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSafetyRuleInput, CreateSafetyRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSafetyRuleOutput>())
@@ -664,9 +668,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Delete a cluster.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -702,6 +706,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -733,9 +738,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Deletes a control panel.
     ///
-    /// - Parameter DeleteControlPanelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteControlPanelInput`)
     ///
-    /// - Returns: `DeleteControlPanelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteControlPanelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,6 +776,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteControlPanelInput, DeleteControlPanelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteControlPanelOutput>(DeleteControlPanelOutput.httpOutput(from:), DeleteControlPanelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteControlPanelInput, DeleteControlPanelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteControlPanelOutput>())
@@ -802,9 +808,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Deletes a routing control.
     ///
-    /// - Parameter DeleteRoutingControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoutingControlInput`)
     ///
-    /// - Returns: `DeleteRoutingControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoutingControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +846,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRoutingControlInput, DeleteRoutingControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoutingControlOutput>(DeleteRoutingControlOutput.httpOutput(from:), DeleteRoutingControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoutingControlInput, DeleteRoutingControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoutingControlOutput>())
@@ -871,9 +878,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Deletes a safety rule./>
     ///
-    /// - Parameter DeleteSafetyRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSafetyRuleInput`)
     ///
-    /// - Returns: `DeleteSafetyRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSafetyRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,6 +913,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSafetyRuleInput, DeleteSafetyRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSafetyRuleOutput>(DeleteSafetyRuleOutput.httpOutput(from:), DeleteSafetyRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSafetyRuleInput, DeleteSafetyRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSafetyRuleOutput>())
@@ -937,9 +945,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
     ///
-    /// - Parameter DescribeClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterInput`)
     ///
-    /// - Returns: `DescribeClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -975,6 +983,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOutput>(DescribeClusterOutput.httpOutput(from:), DescribeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterInput, DescribeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterOutput>())
@@ -1006,9 +1015,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Displays details about a control panel.
     ///
-    /// - Parameter DescribeControlPanelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeControlPanelInput`)
     ///
-    /// - Returns: `DescribeControlPanelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeControlPanelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,6 +1053,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeControlPanelInput, DescribeControlPanelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeControlPanelOutput>(DescribeControlPanelOutput.httpOutput(from:), DescribeControlPanelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeControlPanelInput, DescribeControlPanelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeControlPanelOutput>())
@@ -1075,9 +1085,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Displays details about a routing control. A routing control has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
     ///
-    /// - Parameter DescribeRoutingControlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRoutingControlInput`)
     ///
-    /// - Returns: `DescribeRoutingControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRoutingControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,6 +1123,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRoutingControlInput, DescribeRoutingControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRoutingControlOutput>(DescribeRoutingControlOutput.httpOutput(from:), DescribeRoutingControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRoutingControlInput, DescribeRoutingControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRoutingControlOutput>())
@@ -1144,9 +1155,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Returns information about a safety rule.
     ///
-    /// - Parameter DescribeSafetyRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSafetyRuleInput`)
     ///
-    /// - Returns: `DescribeSafetyRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSafetyRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,6 +1189,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSafetyRuleInput, DescribeSafetyRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSafetyRuleOutput>(DescribeSafetyRuleOutput.httpOutput(from:), DescribeSafetyRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSafetyRuleInput, DescribeSafetyRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSafetyRuleOutput>())
@@ -1209,9 +1221,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Get information about the resource policy for a cluster.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1243,6 +1255,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -1274,9 +1287,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
     ///
-    /// - Parameter ListAssociatedRoute53HealthChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedRoute53HealthChecksInput`)
     ///
-    /// - Returns: `ListAssociatedRoute53HealthChecksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedRoute53HealthChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,6 +1323,7 @@ extension Route53RecoveryControlConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssociatedRoute53HealthChecksInput, ListAssociatedRoute53HealthChecksOutput>(ListAssociatedRoute53HealthChecksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociatedRoute53HealthChecksOutput>(ListAssociatedRoute53HealthChecksOutput.httpOutput(from:), ListAssociatedRoute53HealthChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedRoute53HealthChecksInput, ListAssociatedRoute53HealthChecksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedRoute53HealthChecksOutput>())
@@ -1341,9 +1355,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Returns an array of all the clusters in an account.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,6 +1393,7 @@ extension Route53RecoveryControlConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -1410,9 +1425,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Returns an array of control panels in an account or in a cluster.
     ///
-    /// - Parameter ListControlPanelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListControlPanelsInput`)
     ///
-    /// - Returns: `ListControlPanelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListControlPanelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,6 +1463,7 @@ extension Route53RecoveryControlConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListControlPanelsInput, ListControlPanelsOutput>(ListControlPanelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListControlPanelsOutput>(ListControlPanelsOutput.httpOutput(from:), ListControlPanelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListControlPanelsInput, ListControlPanelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListControlPanelsOutput>())
@@ -1479,9 +1495,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
     ///
-    /// - Parameter ListRoutingControlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoutingControlsInput`)
     ///
-    /// - Returns: `ListRoutingControlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoutingControlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1517,6 +1533,7 @@ extension Route53RecoveryControlConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(ListRoutingControlsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoutingControlsOutput>(ListRoutingControlsOutput.httpOutput(from:), ListRoutingControlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoutingControlsInput, ListRoutingControlsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoutingControlsOutput>())
@@ -1548,9 +1565,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
     ///
-    /// - Parameter ListSafetyRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSafetyRulesInput`)
     ///
-    /// - Returns: `ListSafetyRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSafetyRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,6 +1603,7 @@ extension Route53RecoveryControlConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSafetyRulesInput, ListSafetyRulesOutput>(ListSafetyRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSafetyRulesOutput>(ListSafetyRulesOutput.httpOutput(from:), ListSafetyRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSafetyRulesInput, ListSafetyRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSafetyRulesOutput>())
@@ -1617,9 +1635,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Lists the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1652,6 +1670,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1683,9 +1702,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : Request of adding tag to the resource
+    /// - Parameter input: Request of adding tag to the resource (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,6 +1740,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1752,9 +1772,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,6 +1808,7 @@ extension Route53RecoveryControlConfigClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1819,9 +1840,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Updates an existing cluster. You can only update the network type of a cluster.
     ///
-    /// - Parameter UpdateClusterInput : The details of the cluster that you're updating.
+    /// - Parameter input: The details of the cluster that you're updating. (Type: `UpdateClusterInput`)
     ///
-    /// - Returns: `UpdateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,6 +1881,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterInput, UpdateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterOutput>(UpdateClusterOutput.httpOutput(from:), UpdateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterInput, UpdateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterOutput>())
@@ -1891,9 +1913,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Updates a control panel. The only update you can make to a control panel is to change the name of the control panel.
     ///
-    /// - Parameter UpdateControlPanelInput : The details of the control panel that you're updating.
+    /// - Parameter input: The details of the control panel that you're updating. (Type: `UpdateControlPanelInput`)
     ///
-    /// - Returns: `UpdateControlPanelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateControlPanelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1932,6 +1954,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateControlPanelInput, UpdateControlPanelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateControlPanelOutput>(UpdateControlPanelOutput.httpOutput(from:), UpdateControlPanelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateControlPanelInput, UpdateControlPanelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateControlPanelOutput>())
@@ -1963,9 +1986,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
     ///
-    /// - Parameter UpdateRoutingControlInput : The details of the routing control that you're updating.
+    /// - Parameter input: The details of the routing control that you're updating. (Type: `UpdateRoutingControlInput`)
     ///
-    /// - Returns: `UpdateRoutingControlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoutingControlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2004,6 +2027,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoutingControlInput, UpdateRoutingControlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoutingControlOutput>(UpdateRoutingControlOutput.httpOutput(from:), UpdateRoutingControlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoutingControlInput, UpdateRoutingControlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoutingControlOutput>())
@@ -2035,9 +2059,9 @@ extension Route53RecoveryControlConfigClient {
     ///
     /// Update a safety rule (an assertion rule or gating rule). You can only update the name and the waiting period for a safety rule. To make other updates, delete the safety rule and create a new one.
     ///
-    /// - Parameter UpdateSafetyRuleInput : A rule that you add to Application Recovery Controller to ensure that recovery actions don't accidentally impair your application's availability.
+    /// - Parameter input: A rule that you add to Application Recovery Controller to ensure that recovery actions don't accidentally impair your application's availability. (Type: `UpdateSafetyRuleInput`)
     ///
-    /// - Returns: `UpdateSafetyRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSafetyRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2073,6 +2097,7 @@ extension Route53RecoveryControlConfigClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSafetyRuleInput, UpdateSafetyRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSafetyRuleOutput>(UpdateSafetyRuleOutput.httpOutput(from:), UpdateSafetyRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSafetyRuleInput, UpdateSafetyRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSafetyRuleOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -53,6 +54,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SignerMiddleware
@@ -65,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MediaConnectClient: ClientRuntime.Client {
+public class MediaConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MediaConnectClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConnectClient.MediaConnectClientConfiguration
     let serviceName = "MediaConnect"
@@ -373,9 +374,9 @@ extension MediaConnectClient {
     ///
     /// Adds outputs to an existing bridge.
     ///
-    /// - Parameter AddBridgeOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddBridgeOutputsInput`)
     ///
-    /// - Returns: `AddBridgeOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddBridgeOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddBridgeOutputsInput, AddBridgeOutputsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddBridgeOutputsOutput>(AddBridgeOutputsOutput.httpOutput(from:), AddBridgeOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddBridgeOutputsInput, AddBridgeOutputsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddBridgeOutputsOutput>())
@@ -446,9 +448,9 @@ extension MediaConnectClient {
     ///
     /// Adds sources to an existing bridge.
     ///
-    /// - Parameter AddBridgeSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddBridgeSourcesInput`)
     ///
-    /// - Returns: `AddBridgeSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddBridgeSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +490,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddBridgeSourcesInput, AddBridgeSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddBridgeSourcesOutput>(AddBridgeSourcesOutput.httpOutput(from:), AddBridgeSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddBridgeSourcesInput, AddBridgeSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddBridgeSourcesOutput>())
@@ -519,9 +522,9 @@ extension MediaConnectClient {
     ///
     /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
     ///
-    /// - Parameter AddFlowMediaStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowMediaStreamsInput`)
     ///
-    /// - Returns: `AddFlowMediaStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowMediaStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +563,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFlowMediaStreamsInput, AddFlowMediaStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFlowMediaStreamsOutput>(AddFlowMediaStreamsOutput.httpOutput(from:), AddFlowMediaStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFlowMediaStreamsInput, AddFlowMediaStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFlowMediaStreamsOutput>())
@@ -591,9 +595,9 @@ extension MediaConnectClient {
     ///
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     ///
-    /// - Parameter AddFlowOutputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowOutputsInput`)
     ///
-    /// - Returns: `AddFlowOutputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowOutputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +637,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFlowOutputsInput, AddFlowOutputsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFlowOutputsOutput>(AddFlowOutputsOutput.httpOutput(from:), AddFlowOutputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFlowOutputsInput, AddFlowOutputsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFlowOutputsOutput>())
@@ -664,9 +669,9 @@ extension MediaConnectClient {
     ///
     /// Adds sources to a flow.
     ///
-    /// - Parameter AddFlowSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowSourcesInput`)
     ///
-    /// - Returns: `AddFlowSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -705,6 +710,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFlowSourcesInput, AddFlowSourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFlowSourcesOutput>(AddFlowSourcesOutput.httpOutput(from:), AddFlowSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFlowSourcesInput, AddFlowSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFlowSourcesOutput>())
@@ -736,9 +742,9 @@ extension MediaConnectClient {
     ///
     /// Adds VPC interfaces to a flow.
     ///
-    /// - Parameter AddFlowVpcInterfacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddFlowVpcInterfacesInput`)
     ///
-    /// - Returns: `AddFlowVpcInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddFlowVpcInterfacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,6 +783,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddFlowVpcInterfacesInput, AddFlowVpcInterfacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddFlowVpcInterfacesOutput>(AddFlowVpcInterfacesOutput.httpOutput(from:), AddFlowVpcInterfacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddFlowVpcInterfacesInput, AddFlowVpcInterfacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddFlowVpcInterfacesOutput>())
@@ -804,13 +811,223 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchGetRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func batchGetRouterInput(input: BatchGetRouterInputInput) async throws -> BatchGetRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetRouterInputInput, BatchGetRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetRouterInputInput, BatchGetRouterInputOutput>(BatchGetRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetRouterInputInput, BatchGetRouterInputOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<BatchGetRouterInputInput, BatchGetRouterInputOutput>(BatchGetRouterInputInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetRouterInputOutput>(BatchGetRouterInputOutput.httpOutput(from:), BatchGetRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetRouterInputInput, BatchGetRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetRouterInputInput, BatchGetRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetRouterInputInput, BatchGetRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetRouterInputInput, BatchGetRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetRouterNetworkInterface` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetRouterNetworkInterfaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetRouterNetworkInterfaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func batchGetRouterNetworkInterface(input: BatchGetRouterNetworkInterfaceInput) async throws -> BatchGetRouterNetworkInterfaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetRouterNetworkInterface")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetRouterNetworkInterfaceInput, BatchGetRouterNetworkInterfaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetRouterNetworkInterfaceInput, BatchGetRouterNetworkInterfaceOutput>(BatchGetRouterNetworkInterfaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetRouterNetworkInterfaceInput, BatchGetRouterNetworkInterfaceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<BatchGetRouterNetworkInterfaceInput, BatchGetRouterNetworkInterfaceOutput>(BatchGetRouterNetworkInterfaceInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetRouterNetworkInterfaceOutput>(BatchGetRouterNetworkInterfaceOutput.httpOutput(from:), BatchGetRouterNetworkInterfaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetRouterNetworkInterfaceInput, BatchGetRouterNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetRouterNetworkInterfaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetRouterNetworkInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetRouterNetworkInterfaceInput, BatchGetRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetRouterNetworkInterfaceInput, BatchGetRouterNetworkInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetRouterNetworkInterfaceInput, BatchGetRouterNetworkInterfaceOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetRouterNetworkInterface")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchGetRouterOutput` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves information about multiple router outputs in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchGetRouterOutputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchGetRouterOutputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func batchGetRouterOutput(input: BatchGetRouterOutputInput) async throws -> BatchGetRouterOutputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchGetRouterOutput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchGetRouterOutputInput, BatchGetRouterOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchGetRouterOutputInput, BatchGetRouterOutputOutput>(BatchGetRouterOutputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetRouterOutputInput, BatchGetRouterOutputOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<BatchGetRouterOutputInput, BatchGetRouterOutputOutput>(BatchGetRouterOutputInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetRouterOutputOutput>(BatchGetRouterOutputOutput.httpOutput(from:), BatchGetRouterOutputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetRouterOutputInput, BatchGetRouterOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetRouterOutputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetRouterOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetRouterOutputInput, BatchGetRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetRouterOutputInput, BatchGetRouterOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchGetRouterOutputInput, BatchGetRouterOutputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchGetRouterOutput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateBridge` operation on the `MediaConnect` service.
     ///
     /// Creates a new bridge. The request must include one source.
     ///
-    /// - Parameter CreateBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBridgeInput`)
     ///
-    /// - Returns: `CreateBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,6 +1067,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBridgeInput, CreateBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBridgeOutput>(CreateBridgeOutput.httpOutput(from:), CreateBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBridgeInput, CreateBridgeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBridgeOutput>())
@@ -881,9 +1099,9 @@ extension MediaConnectClient {
     ///
     /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     ///
-    /// - Parameter CreateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlowInput`)
     ///
-    /// - Returns: `CreateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,6 +1140,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFlowInput, CreateFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFlowOutput>(CreateFlowOutput.httpOutput(from:), CreateFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFlowInput, CreateFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFlowOutput>())
@@ -953,9 +1172,9 @@ extension MediaConnectClient {
     ///
     /// Creates a new gateway. The request must include at least one network (up to four).
     ///
-    /// - Parameter CreateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayInput`)
     ///
-    /// - Returns: `CreateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -995,6 +1214,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGatewayOutput>(CreateGatewayOutput.httpOutput(from:), CreateGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayInput, CreateGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayOutput>())
@@ -1022,13 +1242,238 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Creates a new router input in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `RouterInputServiceQuotaExceededException` : The request to create a new router input would exceed the service quotas for the account.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func createRouterInput(input: CreateRouterInputInput) async throws -> CreateRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRouterInputInput, CreateRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRouterInputInput, CreateRouterInputOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRouterInputInput, CreateRouterInputOutput>(CreateRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRouterInputInput, CreateRouterInputOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRouterInputInput, CreateRouterInputOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRouterInputInput, CreateRouterInputOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRouterInputInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRouterInputInput, CreateRouterInputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRouterInputOutput>(CreateRouterInputOutput.httpOutput(from:), CreateRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRouterInputInput, CreateRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRouterInputInput, CreateRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRouterInputInput, CreateRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRouterInputInput, CreateRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateRouterNetworkInterface` operation on the `MediaConnect` service.
+    ///
+    /// Creates a new router network interface in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRouterNetworkInterfaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRouterNetworkInterfaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `RouterNetworkInterfaceServiceQuotaExceededException` : The request to create a new router network interface would exceed the service quotas (limits) set for the account.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func createRouterNetworkInterface(input: CreateRouterNetworkInterfaceInput) async throws -> CreateRouterNetworkInterfaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRouterNetworkInterface")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>(CreateRouterNetworkInterfaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRouterNetworkInterfaceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRouterNetworkInterfaceOutput>(CreateRouterNetworkInterfaceOutput.httpOutput(from:), CreateRouterNetworkInterfaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRouterNetworkInterfaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRouterNetworkInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRouterNetworkInterfaceInput, CreateRouterNetworkInterfaceOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRouterNetworkInterface")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateRouterOutput` operation on the `MediaConnect` service.
+    ///
+    /// Creates a new router output in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRouterOutputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRouterOutputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `RouterOutputServiceQuotaExceededException` : The request to create a new router output would exceed the service quotas (limits) set for the account.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func createRouterOutput(input: CreateRouterOutputInput) async throws -> CreateRouterOutputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRouterOutput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRouterOutputInput, CreateRouterOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>(CreateRouterOutputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRouterOutputInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRouterOutputOutput>(CreateRouterOutputOutput.httpOutput(from:), CreateRouterOutputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRouterOutputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRouterOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRouterOutputInput, CreateRouterOutputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRouterOutput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteBridge` operation on the `MediaConnect` service.
     ///
     /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
     ///
-    /// - Parameter DeleteBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBridgeInput`)
     ///
-    /// - Returns: `DeleteBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,6 +1510,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBridgeInput, DeleteBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBridgeOutput>(DeleteBridgeOutput.httpOutput(from:), DeleteBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBridgeInput, DeleteBridgeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBridgeOutput>())
@@ -1096,9 +1542,9 @@ extension MediaConnectClient {
     ///
     /// Deletes a flow. Before you can delete a flow, you must stop the flow.
     ///
-    /// - Parameter DeleteFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlowInput`)
     ///
-    /// - Returns: `DeleteFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1134,6 +1580,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFlowInput, DeleteFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFlowOutput>(DeleteFlowOutput.httpOutput(from:), DeleteFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFlowInput, DeleteFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFlowOutput>())
@@ -1165,9 +1612,9 @@ extension MediaConnectClient {
     ///
     /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
     ///
-    /// - Parameter DeleteGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayInput`)
     ///
-    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,6 +1651,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayOutput>(DeleteGatewayOutput.httpOutput(from:), DeleteGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayOutput>())
@@ -1231,13 +1679,226 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Deletes a router input from AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func deleteRouterInput(input: DeleteRouterInputInput) async throws -> DeleteRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRouterInputInput, DeleteRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRouterInputInput, DeleteRouterInputOutput>(DeleteRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRouterInputInput, DeleteRouterInputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouterInputOutput>(DeleteRouterInputOutput.httpOutput(from:), DeleteRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouterInputInput, DeleteRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRouterInputInput, DeleteRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRouterInputInput, DeleteRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRouterInputInput, DeleteRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRouterNetworkInterface` operation on the `MediaConnect` service.
+    ///
+    /// Deletes a router network interface from AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouterNetworkInterfaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRouterNetworkInterfaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func deleteRouterNetworkInterface(input: DeleteRouterNetworkInterfaceInput) async throws -> DeleteRouterNetworkInterfaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRouterNetworkInterface")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRouterNetworkInterfaceInput, DeleteRouterNetworkInterfaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRouterNetworkInterfaceInput, DeleteRouterNetworkInterfaceOutput>(DeleteRouterNetworkInterfaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRouterNetworkInterfaceInput, DeleteRouterNetworkInterfaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouterNetworkInterfaceOutput>(DeleteRouterNetworkInterfaceOutput.httpOutput(from:), DeleteRouterNetworkInterfaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouterNetworkInterfaceInput, DeleteRouterNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouterNetworkInterfaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRouterNetworkInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRouterNetworkInterfaceInput, DeleteRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRouterNetworkInterfaceInput, DeleteRouterNetworkInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRouterNetworkInterfaceInput, DeleteRouterNetworkInterfaceOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRouterNetworkInterface")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRouterOutput` operation on the `MediaConnect` service.
+    ///
+    /// Deletes a router output from AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRouterOutputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRouterOutputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func deleteRouterOutput(input: DeleteRouterOutputInput) async throws -> DeleteRouterOutputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRouterOutput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRouterOutputInput, DeleteRouterOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRouterOutputInput, DeleteRouterOutputOutput>(DeleteRouterOutputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRouterOutputInput, DeleteRouterOutputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRouterOutputOutput>(DeleteRouterOutputOutput.httpOutput(from:), DeleteRouterOutputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRouterOutputInput, DeleteRouterOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRouterOutputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRouterOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRouterOutputInput, DeleteRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRouterOutputInput, DeleteRouterOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRouterOutputInput, DeleteRouterOutputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRouterOutput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeregisterGatewayInstance` operation on the `MediaConnect` service.
     ///
     /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
     ///
-    /// - Parameter DeregisterGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterGatewayInstanceInput`)
     ///
-    /// - Returns: `DeregisterGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1275,6 +1936,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeregisterGatewayInstanceInput, DeregisterGatewayInstanceOutput>(DeregisterGatewayInstanceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterGatewayInstanceOutput>(DeregisterGatewayInstanceOutput.httpOutput(from:), DeregisterGatewayInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterGatewayInstanceInput, DeregisterGatewayInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterGatewayInstanceOutput>())
@@ -1306,9 +1968,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a bridge.
     ///
-    /// - Parameter DescribeBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBridgeInput`)
     ///
-    /// - Returns: `DescribeBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1345,6 +2007,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBridgeInput, DescribeBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBridgeOutput>(DescribeBridgeOutput.httpOutput(from:), DescribeBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBridgeInput, DescribeBridgeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBridgeOutput>())
@@ -1376,9 +2039,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
     ///
-    /// - Parameter DescribeFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowInput`)
     ///
-    /// - Returns: `DescribeFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1414,6 +2077,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFlowInput, DescribeFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowOutput>(DescribeFlowOutput.httpOutput(from:), DescribeFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowInput, DescribeFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowOutput>())
@@ -1445,9 +2109,9 @@ extension MediaConnectClient {
     ///
     /// The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
     ///
-    /// - Parameter DescribeFlowSourceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowSourceMetadataInput`)
     ///
-    /// - Returns: `DescribeFlowSourceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowSourceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1483,6 +2147,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFlowSourceMetadataInput, DescribeFlowSourceMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowSourceMetadataOutput>(DescribeFlowSourceMetadataOutput.httpOutput(from:), DescribeFlowSourceMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowSourceMetadataInput, DescribeFlowSourceMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowSourceMetadataOutput>())
@@ -1514,9 +2179,9 @@ extension MediaConnectClient {
     ///
     /// Describes the thumbnail for the flow source.
     ///
-    /// - Parameter DescribeFlowSourceThumbnailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlowSourceThumbnailInput`)
     ///
-    /// - Returns: `DescribeFlowSourceThumbnailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlowSourceThumbnailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1552,6 +2217,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFlowSourceThumbnailInput, DescribeFlowSourceThumbnailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlowSourceThumbnailOutput>(DescribeFlowSourceThumbnailOutput.httpOutput(from:), DescribeFlowSourceThumbnailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowSourceThumbnailInput, DescribeFlowSourceThumbnailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowSourceThumbnailOutput>())
@@ -1583,9 +2249,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
     ///
-    /// - Parameter DescribeGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayInput`)
     ///
-    /// - Returns: `DescribeGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1622,6 +2288,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGatewayInput, DescribeGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGatewayOutput>(DescribeGatewayOutput.httpOutput(from:), DescribeGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGatewayInput, DescribeGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGatewayOutput>())
@@ -1653,9 +2320,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of an instance.
     ///
-    /// - Parameter DescribeGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayInstanceInput`)
     ///
-    /// - Returns: `DescribeGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1692,6 +2359,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGatewayInstanceInput, DescribeGatewayInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGatewayInstanceOutput>(DescribeGatewayInstanceOutput.httpOutput(from:), DescribeGatewayInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGatewayInstanceInput, DescribeGatewayInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGatewayInstanceOutput>())
@@ -1723,9 +2391,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
     ///
-    /// - Parameter DescribeOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOfferingInput`)
     ///
-    /// - Returns: `DescribeOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1760,6 +2428,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeOfferingInput, DescribeOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOfferingOutput>(DescribeOfferingOutput.httpOutput(from:), DescribeOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOfferingInput, DescribeOfferingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOfferingOutput>())
@@ -1791,9 +2460,9 @@ extension MediaConnectClient {
     ///
     /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
     ///
-    /// - Parameter DescribeReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReservationInput`)
     ///
-    /// - Returns: `DescribeReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1828,6 +2497,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReservationInput, DescribeReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReservationOutput>(DescribeReservationOutput.httpOutput(from:), DescribeReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReservationInput, DescribeReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReservationOutput>())
@@ -1855,13 +2525,366 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves information about a specific router input in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func getRouterInput(input: GetRouterInputInput) async throws -> GetRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRouterInputInput, GetRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRouterInputInput, GetRouterInputOutput>(GetRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRouterInputInput, GetRouterInputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouterInputOutput>(GetRouterInputOutput.httpOutput(from:), GetRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouterInputInput, GetRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRouterInputInput, GetRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRouterInputInput, GetRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRouterInputInput, GetRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRouterInputSourceMetadata` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves detailed metadata information about a specific router input source, including stream details and connection state.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRouterInputSourceMetadataInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRouterInputSourceMetadataOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func getRouterInputSourceMetadata(input: GetRouterInputSourceMetadataInput) async throws -> GetRouterInputSourceMetadataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRouterInputSourceMetadata")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRouterInputSourceMetadataInput, GetRouterInputSourceMetadataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRouterInputSourceMetadataInput, GetRouterInputSourceMetadataOutput>(GetRouterInputSourceMetadataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRouterInputSourceMetadataInput, GetRouterInputSourceMetadataOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouterInputSourceMetadataOutput>(GetRouterInputSourceMetadataOutput.httpOutput(from:), GetRouterInputSourceMetadataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouterInputSourceMetadataInput, GetRouterInputSourceMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRouterInputSourceMetadataOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRouterInputSourceMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRouterInputSourceMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRouterInputSourceMetadataInput, GetRouterInputSourceMetadataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRouterInputSourceMetadataInput, GetRouterInputSourceMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRouterInputSourceMetadataInput, GetRouterInputSourceMetadataOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRouterInputSourceMetadata")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRouterInputThumbnail` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRouterInputThumbnailInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRouterInputThumbnailOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func getRouterInputThumbnail(input: GetRouterInputThumbnailInput) async throws -> GetRouterInputThumbnailOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRouterInputThumbnail")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRouterInputThumbnailInput, GetRouterInputThumbnailOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRouterInputThumbnailInput, GetRouterInputThumbnailOutput>(GetRouterInputThumbnailInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRouterInputThumbnailInput, GetRouterInputThumbnailOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouterInputThumbnailOutput>(GetRouterInputThumbnailOutput.httpOutput(from:), GetRouterInputThumbnailOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouterInputThumbnailInput, GetRouterInputThumbnailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRouterInputThumbnailOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRouterInputThumbnailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRouterInputThumbnailOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRouterInputThumbnailInput, GetRouterInputThumbnailOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRouterInputThumbnailInput, GetRouterInputThumbnailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRouterInputThumbnailInput, GetRouterInputThumbnailOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRouterInputThumbnail")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRouterNetworkInterface` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves information about a specific router network interface in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRouterNetworkInterfaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRouterNetworkInterfaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func getRouterNetworkInterface(input: GetRouterNetworkInterfaceInput) async throws -> GetRouterNetworkInterfaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRouterNetworkInterface")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRouterNetworkInterfaceInput, GetRouterNetworkInterfaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRouterNetworkInterfaceInput, GetRouterNetworkInterfaceOutput>(GetRouterNetworkInterfaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRouterNetworkInterfaceInput, GetRouterNetworkInterfaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouterNetworkInterfaceOutput>(GetRouterNetworkInterfaceOutput.httpOutput(from:), GetRouterNetworkInterfaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouterNetworkInterfaceInput, GetRouterNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRouterNetworkInterfaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRouterNetworkInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRouterNetworkInterfaceInput, GetRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRouterNetworkInterfaceInput, GetRouterNetworkInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRouterNetworkInterfaceInput, GetRouterNetworkInterfaceOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRouterNetworkInterface")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRouterOutput` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves information about a specific router output in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRouterOutputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRouterOutputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func getRouterOutput(input: GetRouterOutputInput) async throws -> GetRouterOutputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRouterOutput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRouterOutputInput, GetRouterOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRouterOutputInput, GetRouterOutputOutput>(GetRouterOutputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRouterOutputInput, GetRouterOutputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouterOutputOutput>(GetRouterOutputOutput.httpOutput(from:), GetRouterOutputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouterOutputInput, GetRouterOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRouterOutputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRouterOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRouterOutputInput, GetRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRouterOutputInput, GetRouterOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRouterOutputInput, GetRouterOutputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRouterOutput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GrantFlowEntitlements` operation on the `MediaConnect` service.
     ///
     /// Grants entitlements to an existing flow.
     ///
-    /// - Parameter GrantFlowEntitlementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GrantFlowEntitlementsInput`)
     ///
-    /// - Returns: `GrantFlowEntitlementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GrantFlowEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1901,6 +2924,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GrantFlowEntitlementsInput, GrantFlowEntitlementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GrantFlowEntitlementsOutput>(GrantFlowEntitlementsOutput.httpOutput(from:), GrantFlowEntitlementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GrantFlowEntitlementsInput, GrantFlowEntitlementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GrantFlowEntitlementsOutput>())
@@ -1932,9 +2956,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
     ///
-    /// - Parameter ListBridgesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBridgesInput`)
     ///
-    /// - Returns: `ListBridgesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBridgesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1970,6 +2994,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBridgesInput, ListBridgesOutput>(ListBridgesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBridgesOutput>(ListBridgesOutput.httpOutput(from:), ListBridgesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBridgesInput, ListBridgesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBridgesOutput>())
@@ -2001,9 +3026,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
     ///
-    /// - Parameter ListEntitlementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitlementsInput`)
     ///
-    /// - Returns: `ListEntitlementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitlementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2038,6 +3063,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEntitlementsInput, ListEntitlementsOutput>(ListEntitlementsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitlementsOutput>(ListEntitlementsOutput.httpOutput(from:), ListEntitlementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitlementsInput, ListEntitlementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitlementsOutput>())
@@ -2069,9 +3095,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of flows that are associated with this account. This request returns a paginated result.
     ///
-    /// - Parameter ListFlowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowsInput`)
     ///
-    /// - Returns: `ListFlowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2106,6 +3132,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFlowsInput, ListFlowsOutput>(ListFlowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowsOutput>(ListFlowsOutput.httpOutput(from:), ListFlowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowsInput, ListFlowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowsOutput>())
@@ -2137,9 +3164,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
     ///
-    /// - Parameter ListGatewayInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewayInstancesInput`)
     ///
-    /// - Returns: `ListGatewayInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewayInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2175,6 +3202,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGatewayInstancesInput, ListGatewayInstancesOutput>(ListGatewayInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewayInstancesOutput>(ListGatewayInstancesOutput.httpOutput(from:), ListGatewayInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewayInstancesInput, ListGatewayInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewayInstancesOutput>())
@@ -2206,9 +3234,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of gateways that are associated with this account. This request returns a paginated result.
     ///
-    /// - Parameter ListGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewaysInput`)
     ///
-    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2244,6 +3272,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGatewaysInput, ListGatewaysOutput>(ListGatewaysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewaysOutput>(ListGatewaysOutput.httpOutput(from:), ListGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewaysInput, ListGatewaysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewaysOutput>())
@@ -2275,9 +3304,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
     ///
-    /// - Parameter ListOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOfferingsInput`)
     ///
-    /// - Returns: `ListOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2312,6 +3341,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOfferingsInput, ListOfferingsOutput>(ListOfferingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOfferingsOutput>(ListOfferingsOutput.httpOutput(from:), ListOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOfferingsInput, ListOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOfferingsOutput>())
@@ -2343,9 +3373,9 @@ extension MediaConnectClient {
     ///
     /// Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
     ///
-    /// - Parameter ListReservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReservationsInput`)
     ///
-    /// - Returns: `ListReservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReservationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2380,6 +3410,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReservationsInput, ListReservationsOutput>(ListReservationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReservationsOutput>(ListReservationsOutput.httpOutput(from:), ListReservationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReservationsInput, ListReservationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReservationsOutput>())
@@ -2407,13 +3438,299 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRouterInputs` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves a list of router inputs in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRouterInputsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRouterInputsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func listRouterInputs(input: ListRouterInputsInput) async throws -> ListRouterInputsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRouterInputs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRouterInputsInput, ListRouterInputsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRouterInputsInput, ListRouterInputsOutput>(ListRouterInputsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRouterInputsInput, ListRouterInputsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRouterInputsInput, ListRouterInputsOutput>(ListRouterInputsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRouterInputsInput, ListRouterInputsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRouterInputsInput, ListRouterInputsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRouterInputsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRouterInputsInput, ListRouterInputsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRouterInputsOutput>(ListRouterInputsOutput.httpOutput(from:), ListRouterInputsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRouterInputsInput, ListRouterInputsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRouterInputsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRouterInputsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRouterInputsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRouterInputsInput, ListRouterInputsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRouterInputsInput, ListRouterInputsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRouterInputsInput, ListRouterInputsOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRouterInputs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRouterNetworkInterfaces` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves a list of router network interfaces in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRouterNetworkInterfacesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRouterNetworkInterfacesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func listRouterNetworkInterfaces(input: ListRouterNetworkInterfacesInput) async throws -> ListRouterNetworkInterfacesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRouterNetworkInterfaces")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>(ListRouterNetworkInterfacesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>(ListRouterNetworkInterfacesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRouterNetworkInterfacesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRouterNetworkInterfacesOutput>(ListRouterNetworkInterfacesOutput.httpOutput(from:), ListRouterNetworkInterfacesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRouterNetworkInterfacesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRouterNetworkInterfacesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRouterNetworkInterfacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRouterNetworkInterfacesInput, ListRouterNetworkInterfacesOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRouterNetworkInterfaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRouterOutputs` operation on the `MediaConnect` service.
+    ///
+    /// Retrieves a list of router outputs in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRouterOutputsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRouterOutputsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func listRouterOutputs(input: ListRouterOutputsInput) async throws -> ListRouterOutputsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRouterOutputs")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRouterOutputsInput, ListRouterOutputsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>(ListRouterOutputsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>(ListRouterOutputsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListRouterOutputsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRouterOutputsOutput>(ListRouterOutputsOutput.httpOutput(from:), ListRouterOutputsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRouterOutputsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRouterOutputsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRouterOutputsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRouterOutputsInput, ListRouterOutputsOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRouterOutputs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListTagsForGlobalResource` operation on the `MediaConnect` service.
+    ///
+    /// Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForGlobalResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListTagsForGlobalResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    public func listTagsForGlobalResource(input: ListTagsForGlobalResourceInput) async throws -> ListTagsForGlobalResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTagsForGlobalResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTagsForGlobalResourceInput, ListTagsForGlobalResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTagsForGlobalResourceInput, ListTagsForGlobalResourceOutput>(ListTagsForGlobalResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForGlobalResourceInput, ListTagsForGlobalResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForGlobalResourceOutput>(ListTagsForGlobalResourceOutput.httpOutput(from:), ListTagsForGlobalResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForGlobalResourceInput, ListTagsForGlobalResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForGlobalResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForGlobalResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForGlobalResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForGlobalResourceInput, ListTagsForGlobalResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForGlobalResourceInput, ListTagsForGlobalResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTagsForGlobalResourceInput, ListTagsForGlobalResourceOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForGlobalResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `MediaConnect` service.
     ///
-    /// List all tags on a MediaConnect resource.
+    /// List all tags on a MediaConnect resource in the current region.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2446,6 +3763,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2477,9 +3795,9 @@ extension MediaConnectClient {
     ///
     /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
     ///
-    /// - Parameter PurchaseOfferingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PurchaseOfferingInput`)
     ///
-    /// - Returns: `PurchaseOfferingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PurchaseOfferingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2518,6 +3836,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PurchaseOfferingOutput>(PurchaseOfferingOutput.httpOutput(from:), PurchaseOfferingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PurchaseOfferingInput, PurchaseOfferingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PurchaseOfferingOutput>())
@@ -2549,9 +3868,9 @@ extension MediaConnectClient {
     ///
     /// Removes an output from a bridge.
     ///
-    /// - Parameter RemoveBridgeOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveBridgeOutputInput`)
     ///
-    /// - Returns: `RemoveBridgeOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveBridgeOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2588,6 +3907,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveBridgeOutputInput, RemoveBridgeOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveBridgeOutputOutput>(RemoveBridgeOutputOutput.httpOutput(from:), RemoveBridgeOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveBridgeOutputInput, RemoveBridgeOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveBridgeOutputOutput>())
@@ -2619,9 +3939,9 @@ extension MediaConnectClient {
     ///
     /// Removes a source from a bridge.
     ///
-    /// - Parameter RemoveBridgeSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveBridgeSourceInput`)
     ///
-    /// - Returns: `RemoveBridgeSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveBridgeSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2658,6 +3978,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveBridgeSourceInput, RemoveBridgeSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveBridgeSourceOutput>(RemoveBridgeSourceOutput.httpOutput(from:), RemoveBridgeSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveBridgeSourceInput, RemoveBridgeSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveBridgeSourceOutput>())
@@ -2689,9 +4010,9 @@ extension MediaConnectClient {
     ///
     /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
     ///
-    /// - Parameter RemoveFlowMediaStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowMediaStreamInput`)
     ///
-    /// - Returns: `RemoveFlowMediaStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowMediaStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2727,6 +4048,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveFlowMediaStreamInput, RemoveFlowMediaStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFlowMediaStreamOutput>(RemoveFlowMediaStreamOutput.httpOutput(from:), RemoveFlowMediaStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFlowMediaStreamInput, RemoveFlowMediaStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFlowMediaStreamOutput>())
@@ -2758,9 +4080,9 @@ extension MediaConnectClient {
     ///
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     ///
-    /// - Parameter RemoveFlowOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowOutputInput`)
     ///
-    /// - Returns: `RemoveFlowOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2796,6 +4118,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveFlowOutputInput, RemoveFlowOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFlowOutputOutput>(RemoveFlowOutputOutput.httpOutput(from:), RemoveFlowOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFlowOutputInput, RemoveFlowOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFlowOutputOutput>())
@@ -2827,9 +4150,9 @@ extension MediaConnectClient {
     ///
     /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
     ///
-    /// - Parameter RemoveFlowSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowSourceInput`)
     ///
-    /// - Returns: `RemoveFlowSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2865,6 +4188,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveFlowSourceInput, RemoveFlowSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFlowSourceOutput>(RemoveFlowSourceOutput.httpOutput(from:), RemoveFlowSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFlowSourceInput, RemoveFlowSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFlowSourceOutput>())
@@ -2896,9 +4220,9 @@ extension MediaConnectClient {
     ///
     /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
     ///
-    /// - Parameter RemoveFlowVpcInterfaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFlowVpcInterfaceInput`)
     ///
-    /// - Returns: `RemoveFlowVpcInterfaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFlowVpcInterfaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2934,6 +4258,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveFlowVpcInterfaceInput, RemoveFlowVpcInterfaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFlowVpcInterfaceOutput>(RemoveFlowVpcInterfaceOutput.httpOutput(from:), RemoveFlowVpcInterfaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFlowVpcInterfaceInput, RemoveFlowVpcInterfaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFlowVpcInterfaceOutput>())
@@ -2961,13 +4286,155 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RestartRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Restarts a router input. This operation can be used to recover from errors or refresh the input state.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RestartRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RestartRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func restartRouterInput(input: RestartRouterInputInput) async throws -> RestartRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "restartRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RestartRouterInputInput, RestartRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RestartRouterInputInput, RestartRouterInputOutput>(RestartRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestartRouterInputInput, RestartRouterInputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RestartRouterInputOutput>(RestartRouterInputOutput.httpOutput(from:), RestartRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestartRouterInputInput, RestartRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestartRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestartRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestartRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestartRouterInputInput, RestartRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestartRouterInputInput, RestartRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestartRouterInputInput, RestartRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestartRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RestartRouterOutput` operation on the `MediaConnect` service.
+    ///
+    /// Restarts a router output. This operation can be used to recover from errors or refresh the output state.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RestartRouterOutputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RestartRouterOutputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func restartRouterOutput(input: RestartRouterOutputInput) async throws -> RestartRouterOutputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "restartRouterOutput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RestartRouterOutputInput, RestartRouterOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RestartRouterOutputInput, RestartRouterOutputOutput>(RestartRouterOutputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestartRouterOutputInput, RestartRouterOutputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RestartRouterOutputOutput>(RestartRouterOutputOutput.httpOutput(from:), RestartRouterOutputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestartRouterOutputInput, RestartRouterOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestartRouterOutputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestartRouterOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestartRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestartRouterOutputInput, RestartRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestartRouterOutputInput, RestartRouterOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestartRouterOutputInput, RestartRouterOutputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestartRouterOutput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RevokeFlowEntitlement` operation on the `MediaConnect` service.
     ///
     /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     ///
-    /// - Parameter RevokeFlowEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeFlowEntitlementInput`)
     ///
-    /// - Returns: `RevokeFlowEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeFlowEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3003,6 +4470,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RevokeFlowEntitlementInput, RevokeFlowEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeFlowEntitlementOutput>(RevokeFlowEntitlementOutput.httpOutput(from:), RevokeFlowEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeFlowEntitlementInput, RevokeFlowEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeFlowEntitlementOutput>())
@@ -3034,9 +4502,9 @@ extension MediaConnectClient {
     ///
     /// Starts a flow.
     ///
-    /// - Parameter StartFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFlowInput`)
     ///
-    /// - Returns: `StartFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3072,6 +4540,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFlowInput, StartFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFlowOutput>(StartFlowOutput.httpOutput(from:), StartFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowInput, StartFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowOutput>())
@@ -3099,13 +4568,155 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Starts a router input in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func startRouterInput(input: StartRouterInputInput) async throws -> StartRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartRouterInputInput, StartRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRouterInputInput, StartRouterInputOutput>(StartRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRouterInputInput, StartRouterInputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRouterInputOutput>(StartRouterInputOutput.httpOutput(from:), StartRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRouterInputInput, StartRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRouterInputInput, StartRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartRouterInputInput, StartRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartRouterInputInput, StartRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartRouterOutput` operation on the `MediaConnect` service.
+    ///
+    /// Starts a router output in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartRouterOutputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartRouterOutputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func startRouterOutput(input: StartRouterOutputInput) async throws -> StartRouterOutputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startRouterOutput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartRouterOutputInput, StartRouterOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartRouterOutputInput, StartRouterOutputOutput>(StartRouterOutputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartRouterOutputInput, StartRouterOutputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRouterOutputOutput>(StartRouterOutputOutput.httpOutput(from:), StartRouterOutputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRouterOutputInput, StartRouterOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartRouterOutputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartRouterOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartRouterOutputInput, StartRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartRouterOutputInput, StartRouterOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartRouterOutputInput, StartRouterOutputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartRouterOutput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopFlow` operation on the `MediaConnect` service.
     ///
     /// Stops a flow.
     ///
-    /// - Parameter StopFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopFlowInput`)
     ///
-    /// - Returns: `StopFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3141,6 +4752,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopFlowInput, StopFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopFlowOutput>(StopFlowOutput.httpOutput(from:), StopFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopFlowInput, StopFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopFlowOutput>())
@@ -3168,13 +4780,225 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StopRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Stops a router input in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func stopRouterInput(input: StopRouterInputInput) async throws -> StopRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopRouterInputInput, StopRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopRouterInputInput, StopRouterInputOutput>(StopRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopRouterInputInput, StopRouterInputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRouterInputOutput>(StopRouterInputOutput.httpOutput(from:), StopRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRouterInputInput, StopRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopRouterInputInput, StopRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopRouterInputInput, StopRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopRouterInputInput, StopRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopRouterOutput` operation on the `MediaConnect` service.
+    ///
+    /// Stops a router output in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopRouterOutputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopRouterOutputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func stopRouterOutput(input: StopRouterOutputInput) async throws -> StopRouterOutputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopRouterOutput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopRouterOutputInput, StopRouterOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopRouterOutputInput, StopRouterOutputOutput>(StopRouterOutputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopRouterOutputInput, StopRouterOutputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRouterOutputOutput>(StopRouterOutputOutput.httpOutput(from:), StopRouterOutputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRouterOutputInput, StopRouterOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopRouterOutputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopRouterOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopRouterOutputInput, StopRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopRouterOutputInput, StopRouterOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopRouterOutputInput, StopRouterOutputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopRouterOutput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `TagGlobalResource` operation on the `MediaConnect` service.
+    ///
+    /// Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TagGlobalResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TagGlobalResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    public func tagGlobalResource(input: TagGlobalResourceInput) async throws -> TagGlobalResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "tagGlobalResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TagGlobalResourceInput, TagGlobalResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput>(TagGlobalResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TagGlobalResourceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TagGlobalResourceOutput>(TagGlobalResourceOutput.httpOutput(from:), TagGlobalResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TagGlobalResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagGlobalResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagGlobalResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TagGlobalResourceInput, TagGlobalResourceOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TagGlobalResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `MediaConnect` service.
     ///
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    /// Associates the specified tags to a resource with the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3210,6 +5034,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3237,13 +5062,155 @@ extension MediaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `TakeRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Associates a router input with a router output in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `TakeRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `TakeRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func takeRouterInput(input: TakeRouterInputInput) async throws -> TakeRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "takeRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<TakeRouterInputInput, TakeRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<TakeRouterInputInput, TakeRouterInputOutput>(TakeRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<TakeRouterInputInput, TakeRouterInputOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TakeRouterInputInput, TakeRouterInputOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<TakeRouterInputInput, TakeRouterInputOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: TakeRouterInputInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TakeRouterInputInput, TakeRouterInputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<TakeRouterInputOutput>(TakeRouterInputOutput.httpOutput(from:), TakeRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<TakeRouterInputInput, TakeRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<TakeRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TakeRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TakeRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TakeRouterInputInput, TakeRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TakeRouterInputInput, TakeRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<TakeRouterInputInput, TakeRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "TakeRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UntagGlobalResource` operation on the `MediaConnect` service.
+    ///
+    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UntagGlobalResourceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UntagGlobalResourceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    public func untagGlobalResource(input: UntagGlobalResourceInput) async throws -> UntagGlobalResourceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "untagGlobalResource")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UntagGlobalResourceInput, UntagGlobalResourceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UntagGlobalResourceInput, UntagGlobalResourceOutput>(UntagGlobalResourceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagGlobalResourceInput, UntagGlobalResourceOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UntagGlobalResourceInput, UntagGlobalResourceOutput>(UntagGlobalResourceInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagGlobalResourceOutput>(UntagGlobalResourceOutput.httpOutput(from:), UntagGlobalResourceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagGlobalResourceInput, UntagGlobalResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UntagGlobalResourceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagGlobalResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagGlobalResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagGlobalResourceInput, UntagGlobalResourceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagGlobalResourceInput, UntagGlobalResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UntagGlobalResourceInput, UntagGlobalResourceOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagGlobalResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UntagResource` operation on the `MediaConnect` service.
     ///
-    /// Deletes specified tags from a resource.
+    /// Deletes specified tags from a resource in the current region.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3277,6 +5244,7 @@ extension MediaConnectClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3308,9 +5276,9 @@ extension MediaConnectClient {
     ///
     /// Updates the bridge.
     ///
-    /// - Parameter UpdateBridgeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeInput`)
     ///
-    /// - Returns: `UpdateBridgeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3350,6 +5318,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBridgeInput, UpdateBridgeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBridgeOutput>(UpdateBridgeOutput.httpOutput(from:), UpdateBridgeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBridgeInput, UpdateBridgeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBridgeOutput>())
@@ -3381,9 +5350,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing bridge output.
     ///
-    /// - Parameter UpdateBridgeOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeOutputInput`)
     ///
-    /// - Returns: `UpdateBridgeOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3423,6 +5392,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBridgeOutputInput, UpdateBridgeOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBridgeOutputOutput>(UpdateBridgeOutputOutput.httpOutput(from:), UpdateBridgeOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBridgeOutputInput, UpdateBridgeOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBridgeOutputOutput>())
@@ -3454,9 +5424,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing bridge source.
     ///
-    /// - Parameter UpdateBridgeSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeSourceInput`)
     ///
-    /// - Returns: `UpdateBridgeSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3496,6 +5466,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBridgeSourceInput, UpdateBridgeSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBridgeSourceOutput>(UpdateBridgeSourceOutput.httpOutput(from:), UpdateBridgeSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBridgeSourceInput, UpdateBridgeSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBridgeSourceOutput>())
@@ -3527,9 +5498,9 @@ extension MediaConnectClient {
     ///
     /// Updates the bridge state.
     ///
-    /// - Parameter UpdateBridgeStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBridgeStateInput`)
     ///
-    /// - Returns: `UpdateBridgeStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBridgeStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3569,6 +5540,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBridgeStateInput, UpdateBridgeStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBridgeStateOutput>(UpdateBridgeStateOutput.httpOutput(from:), UpdateBridgeStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBridgeStateInput, UpdateBridgeStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBridgeStateOutput>())
@@ -3600,9 +5572,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing flow.
     ///
-    /// - Parameter UpdateFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowInput`)
     ///
-    /// - Returns: `UpdateFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3641,6 +5613,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowInput, UpdateFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowOutput>(UpdateFlowOutput.httpOutput(from:), UpdateFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowInput, UpdateFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowOutput>())
@@ -3672,9 +5645,9 @@ extension MediaConnectClient {
     ///
     /// Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     ///
-    /// - Parameter UpdateFlowEntitlementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowEntitlementInput`)
     ///
-    /// - Returns: `UpdateFlowEntitlementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowEntitlementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3713,6 +5686,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowEntitlementInput, UpdateFlowEntitlementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowEntitlementOutput>(UpdateFlowEntitlementOutput.httpOutput(from:), UpdateFlowEntitlementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowEntitlementInput, UpdateFlowEntitlementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowEntitlementOutput>())
@@ -3744,9 +5718,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing media stream.
     ///
-    /// - Parameter UpdateFlowMediaStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowMediaStreamInput`)
     ///
-    /// - Returns: `UpdateFlowMediaStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowMediaStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3785,6 +5759,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowMediaStreamInput, UpdateFlowMediaStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowMediaStreamOutput>(UpdateFlowMediaStreamOutput.httpOutput(from:), UpdateFlowMediaStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowMediaStreamInput, UpdateFlowMediaStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowMediaStreamOutput>())
@@ -3816,9 +5791,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing flow output.
     ///
-    /// - Parameter UpdateFlowOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowOutputInput`)
     ///
-    /// - Returns: `UpdateFlowOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3857,6 +5832,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowOutputInput, UpdateFlowOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowOutputOutput>(UpdateFlowOutputOutput.httpOutput(from:), UpdateFlowOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowOutputInput, UpdateFlowOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowOutputOutput>())
@@ -3888,9 +5864,9 @@ extension MediaConnectClient {
     ///
     /// Updates the source of a flow.
     ///
-    /// - Parameter UpdateFlowSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowSourceInput`)
     ///
-    /// - Returns: `UpdateFlowSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3929,6 +5905,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowSourceInput, UpdateFlowSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowSourceOutput>(UpdateFlowSourceOutput.httpOutput(from:), UpdateFlowSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowSourceInput, UpdateFlowSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowSourceOutput>())
@@ -3960,9 +5937,9 @@ extension MediaConnectClient {
     ///
     /// Updates an existing gateway instance.
     ///
-    /// - Parameter UpdateGatewayInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayInstanceInput`)
     ///
-    /// - Returns: `UpdateGatewayInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4002,6 +5979,7 @@ extension MediaConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInstanceInput, UpdateGatewayInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayInstanceOutput>(UpdateGatewayInstanceOutput.httpOutput(from:), UpdateGatewayInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayInstanceInput, UpdateGatewayInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayInstanceOutput>())
@@ -4017,6 +5995,227 @@ extension MediaConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateGatewayInstance")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRouterInput` operation on the `MediaConnect` service.
+    ///
+    /// Updates the configuration of an existing router input in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRouterInputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRouterInputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func updateRouterInput(input: UpdateRouterInputInput) async throws -> UpdateRouterInputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRouterInput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRouterInputInput, UpdateRouterInputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput>(UpdateRouterInputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRouterInputInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRouterInputOutput>(UpdateRouterInputOutput.httpOutput(from:), UpdateRouterInputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRouterInputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRouterInputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRouterInputInput, UpdateRouterInputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRouterInput")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRouterNetworkInterface` operation on the `MediaConnect` service.
+    ///
+    /// Updates the configuration of an existing router network interface in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRouterNetworkInterfaceInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRouterNetworkInterfaceOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func updateRouterNetworkInterface(input: UpdateRouterNetworkInterfaceInput) async throws -> UpdateRouterNetworkInterfaceOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRouterNetworkInterface")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput>(UpdateRouterNetworkInterfaceInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRouterNetworkInterfaceInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRouterNetworkInterfaceOutput>(UpdateRouterNetworkInterfaceOutput.httpOutput(from:), UpdateRouterNetworkInterfaceOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRouterNetworkInterfaceOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRouterNetworkInterfaceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRouterNetworkInterfaceInput, UpdateRouterNetworkInterfaceOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRouterNetworkInterface")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRouterOutput` operation on the `MediaConnect` service.
+    ///
+    /// Updates the configuration of an existing router output in AWS Elemental MediaConnect.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRouterOutputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRouterOutputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    /// - `ForbiddenException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerErrorException` : The server encountered an internal error and is unable to complete the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceUnavailableException` : The service is currently unavailable or busy.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    public func updateRouterOutput(input: UpdateRouterOutputInput) async throws -> UpdateRouterOutputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRouterOutput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRouterOutputInput, UpdateRouterOutputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput>(UpdateRouterOutputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRouterOutputInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRouterOutputOutput>(UpdateRouterOutputOutput.httpOutput(from:), UpdateRouterOutputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRouterOutputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRouterOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRouterOutputInput, UpdateRouterOutputOutput>(serviceID: serviceName, version: MediaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRouterOutput")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class GameLiftStreamsClient: ClientRuntime.Client {
+public class GameLiftStreamsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GameLiftStreamsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: GameLiftStreamsClient.GameLiftStreamsClientConfiguration
     let serviceName = "GameLiftStreams"
@@ -372,11 +372,11 @@ extension GameLiftStreamsClient {
 extension GameLiftStreamsClient {
     /// Performs the `AddStreamGroupLocations` operation on the `GameLiftStreams` service.
     ///
-    /// Add locations that can host stream sessions. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality. This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
+    /// Add locations that can host stream sessions. To add a location, the stream group must be in ACTIVE status. You configure locations and their corresponding capacity for each stream group. Creating a stream group in a location that's nearest to your end users can help minimize latency and improve quality. This operation provisions stream capacity at the specified locations. By default, all locations have 1 or 2 capacity, depending on the stream class option: 2 for 'High' and 1 for 'Ultra' and 'Win2022'. This operation also copies the content files of all associated applications to an internal S3 bucket at each location. This allows Amazon GameLift Streams to host performant stream sessions.
     ///
-    /// - Parameter AddStreamGroupLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddStreamGroupLocationsInput`)
     ///
-    /// - Returns: `AddStreamGroupLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddStreamGroupLocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +415,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddStreamGroupLocationsInput, AddStreamGroupLocationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddStreamGroupLocationsOutput>(AddStreamGroupLocationsOutput.httpOutput(from:), AddStreamGroupLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddStreamGroupLocationsInput, AddStreamGroupLocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddStreamGroupLocationsOutput>())
@@ -446,9 +447,9 @@ extension GameLiftStreamsClient {
     ///
     /// When you associate, or link, an application with a stream group, then Amazon GameLift Streams can launch the application using the stream group's allocated compute resources. The stream group must be in ACTIVE status. You can reverse this action by using [DisassociateApplications](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_DisassociateApplications.html). If a stream group does not already have a linked application, Amazon GameLift Streams will automatically assign the first application provided in ApplicationIdentifiers as the default.
     ///
-    /// - Parameter AssociateApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApplicationsInput`)
     ///
-    /// - Returns: `AssociateApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +488,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationsInput, AssociateApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateApplicationsOutput>(AssociateApplicationsOutput.httpOutput(from:), AssociateApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApplicationsInput, AssociateApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApplicationsOutput>())
@@ -518,9 +520,9 @@ extension GameLiftStreamsClient {
     ///
     /// Creates an application resource in Amazon GameLift Streams, which specifies the application content you want to stream, such as a game build or other software, and configures the settings to run it. Before you create an application, upload your application content files to an Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide. Make sure that your files in the Amazon S3 bucket are the correct version you want to use. If you change the files at a later time, you will need to create a new Amazon GameLift Streams application. If the request is successful, Amazon GameLift Streams begins to create an application and sets the status to INITIALIZED. When an application reaches READY status, you can use the application to set up stream groups and start streams. To track application status, call [GetApplication](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetApplication.html).
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +562,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -589,18 +592,20 @@ extension GameLiftStreamsClient {
 
     /// Performs the `CreateStreamGroup` operation on the `GameLiftStreams` service.
     ///
-    /// Manage how Amazon GameLift Streams streams your applications by using a stream group. A stream group is a collection of resources that Amazon GameLift Streams uses to stream your application to end-users. When you create a stream group, you specify an application to stream by default and the type of hardware to use, such as the graphical processing unit (GPU). You can also link additional applications, which allows you to stream those applications using this stream group. Depending on your expected users, you also scale the number of concurrent streams you want to support at one time, and in what locations. Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity, always-on and on-demand:
+    /// Stream groups manage how Amazon GameLift Streams allocates resources and handles concurrent streams, allowing you to effectively manage capacity and costs. Within a stream group, you specify an application to stream, streaming locations and their capacity, and the stream class you want to use when streaming applications to your end-users. A stream class defines the hardware configuration of the compute resources that Amazon GameLift Streams will use when streaming, such as the CPU, GPU, and memory. Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. The following capacity settings are available:
     ///
-    /// * Always-on: The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 when creating a stream group or adding a location.
+    /// * Always-on capacity: This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
     ///
-    /// * On-demand: The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes). Default is 0 when creating a stream group or adding a location.
+    /// * Maximum capacity: This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
+    ///
+    /// * Target-idle capacity: This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
     ///
     ///
-    /// To adjust the capacity of any ACTIVE stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). If the request is successful, Amazon GameLift Streams begins creating the stream group. Amazon GameLift Streams assigns a unique ID to the stream group resource and sets the status to ACTIVATING. When the stream group reaches ACTIVE status, you can start stream sessions by using [StartStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_StartStreamSession.html). To check the stream group's status, call [GetStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamGroup.html).
+    /// Values for capacity must be whole number multiples of the tenancy value of the stream group's stream class. To adjust the capacity of any ACTIVE stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). If the CreateStreamGroup request is successful, Amazon GameLift Streams assigns a unique ID to the stream group resource and sets the status to ACTIVATING. It can take a few minutes for Amazon GameLift Streams to finish creating the stream group while it searches for unallocated compute resources and provisions them. When complete, the stream group status will be ACTIVE and you can start stream sessions by using [StartStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_StartStreamSession.html). To check the stream group's status, call [GetStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamGroup.html). Stream groups should be recreated every 3-4 weeks to pick up important service updates and fixes. Stream groups that are older than 180 days can no longer be updated with new application associations. Stream groups expire when they are 365 days old, at which point they can no longer stream sessions. The exact expiration date is indicated by the date value in the ExpiresAt field.
     ///
-    /// - Parameter CreateStreamGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamGroupInput`)
     ///
-    /// - Returns: `CreateStreamGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,6 +646,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamGroupInput, CreateStreamGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamGroupOutput>(CreateStreamGroupOutput.httpOutput(from:), CreateStreamGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamGroupInput, CreateStreamGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamGroupOutput>())
@@ -706,9 +712,9 @@ extension GameLiftStreamsClient {
     ///
     /// For more information about the stream session lifecycle, see [Stream sessions](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/stream-sessions.html) in the Amazon GameLift Streams Developer Guide. To begin re-connecting to an existing stream session, specify the stream group ID and stream session ID that you want to reconnect to, and the signal request to use with the stream.
     ///
-    /// - Parameter CreateStreamSessionConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStreamSessionConnectionInput`)
     ///
-    /// - Returns: `CreateStreamSessionConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStreamSessionConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -748,6 +754,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStreamSessionConnectionInput, CreateStreamSessionConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStreamSessionConnectionOutput>(CreateStreamSessionConnectionOutput.httpOutput(from:), CreateStreamSessionConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStreamSessionConnectionInput, CreateStreamSessionConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStreamSessionConnectionOutput>())
@@ -790,9 +797,9 @@ extension GameLiftStreamsClient {
     ///
     /// If any active stream groups exist for this application, this request returns a ValidationException.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -828,6 +835,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -859,9 +867,9 @@ extension GameLiftStreamsClient {
     ///
     /// Permanently deletes all compute resources and information related to a stream group. To delete a stream group, specify the unique stream group identifier. During the deletion process, the stream group's status is DELETING. This operation stops streams in progress and prevents new streams from starting. As a best practice, before deleting the stream group, call [ListStreamSessions](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_ListStreamSessions.html) to check for streams in progress and take action to stop them. When you delete a stream group, any application associations referring to that stream group are automatically removed.
     ///
-    /// - Parameter DeleteStreamGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStreamGroupInput`)
     ///
-    /// - Returns: `DeleteStreamGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStreamGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -897,6 +905,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStreamGroupInput, DeleteStreamGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStreamGroupOutput>(DeleteStreamGroupOutput.httpOutput(from:), DeleteStreamGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStreamGroupInput, DeleteStreamGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStreamGroupOutput>())
@@ -926,11 +935,11 @@ extension GameLiftStreamsClient {
 
     /// Performs the `DisassociateApplications` operation on the `GameLiftStreams` service.
     ///
-    /// When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams in the stream group using the disassociated application. The disassociate action does not affect the stream capacity of a stream group. If you disassociate the default application, Amazon GameLift Streams will automatically choose a new default application from the remaining associated applications. To change which application is the default application, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html) and specify a new DefaultApplicationIdentifier.
+    /// When you disassociate, or unlink, an application from a stream group, you can no longer stream this application by using that stream group's allocated compute resources. Any streams in process will continue until they terminate, which helps avoid interrupting an end-user's stream. Amazon GameLift Streams will not initiate new streams in the stream group using the disassociated application. The disassociate action does not affect the stream capacity of a stream group. To disassociate an application, the stream group must be in ACTIVE status. If you disassociate the default application, Amazon GameLift Streams will automatically choose a new default application from the remaining associated applications. To change which application is the default application, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html) and specify a new DefaultApplicationIdentifier.
     ///
-    /// - Parameter DisassociateApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApplicationsInput`)
     ///
-    /// - Returns: `DisassociateApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,6 +977,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationsInput, DisassociateApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateApplicationsOutput>(DisassociateApplicationsOutput.httpOutput(from:), DisassociateApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApplicationsInput, DisassociateApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApplicationsOutput>())
@@ -1011,9 +1021,9 @@ extension GameLiftStreamsClient {
     ///
     /// To verify the status of the exported files, use GetStreamSession. To delete the files, delete the object in the S3 bucket.
     ///
-    /// - Parameter ExportStreamSessionFilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportStreamSessionFilesInput`)
     ///
-    /// - Returns: `ExportStreamSessionFilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportStreamSessionFilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1051,6 +1061,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportStreamSessionFilesInput, ExportStreamSessionFilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportStreamSessionFilesOutput>(ExportStreamSessionFilesOutput.httpOutput(from:), ExportStreamSessionFilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportStreamSessionFilesInput, ExportStreamSessionFilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportStreamSessionFilesOutput>())
@@ -1082,9 +1093,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves properties for an Amazon GameLift Streams application resource. Specify the ID of the application that you want to retrieve. If the operation is successful, it returns properties for the requested application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1119,6 +1130,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationOutput>(GetApplicationOutput.httpOutput(from:), GetApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
@@ -1150,9 +1162,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves properties for a Amazon GameLift Streams stream group resource. Specify the ID of the stream group that you want to retrieve. If the operation is successful, it returns properties for the requested stream group.
     ///
-    /// - Parameter GetStreamGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamGroupInput`)
     ///
-    /// - Returns: `GetStreamGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1187,6 +1199,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStreamGroupInput, GetStreamGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamGroupOutput>(GetStreamGroupOutput.httpOutput(from:), GetStreamGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamGroupInput, GetStreamGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamGroupOutput>())
@@ -1218,9 +1231,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves properties for a Amazon GameLift Streams stream session resource. Specify the Amazon Resource Name (ARN) of the stream session that you want to retrieve and its stream group ARN. If the operation is successful, it returns properties for the requested resource.
     ///
-    /// - Parameter GetStreamSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStreamSessionInput`)
     ///
-    /// - Returns: `GetStreamSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStreamSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1255,6 +1268,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStreamSessionInput, GetStreamSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStreamSessionOutput>(GetStreamSessionOutput.httpOutput(from:), GetStreamSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStreamSessionInput, GetStreamSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStreamSessionOutput>())
@@ -1286,9 +1300,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves a list of all Amazon GameLift Streams applications that are associated with the Amazon Web Services account in use. This operation returns applications in all statuses, in no particular order. You can paginate the results as needed.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1323,6 +1337,7 @@ extension GameLiftStreamsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationsInput, ListApplicationsOutput>(ListApplicationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -1354,9 +1369,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves a list of all Amazon GameLift Streams stream groups that are associated with the Amazon Web Services account in use. This operation returns stream groups in all statuses, in no particular order. You can paginate the results as needed.
     ///
-    /// - Parameter ListStreamGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamGroupsInput`)
     ///
-    /// - Returns: `ListStreamGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1391,6 +1406,7 @@ extension GameLiftStreamsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStreamGroupsInput, ListStreamGroupsOutput>(ListStreamGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamGroupsOutput>(ListStreamGroupsOutput.httpOutput(from:), ListStreamGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamGroupsInput, ListStreamGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamGroupsOutput>())
@@ -1422,9 +1438,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves a list of Amazon GameLift Streams stream sessions that a stream group is hosting. To retrieve stream sessions, specify the stream group, and optionally filter by stream session status. You can paginate the results as needed. This operation returns the requested stream sessions in no particular order.
     ///
-    /// - Parameter ListStreamSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamSessionsInput`)
     ///
-    /// - Returns: `ListStreamSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1460,6 +1476,7 @@ extension GameLiftStreamsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput>(ListStreamSessionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamSessionsOutput>(ListStreamSessionsOutput.httpOutput(from:), ListStreamSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamSessionsInput, ListStreamSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamSessionsOutput>())
@@ -1491,9 +1508,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves a list of Amazon GameLift Streams stream sessions that this user account has access to. In the returned list of stream sessions, the ExportFilesMetadata property only shows the Status value. To get the OutpurUri and StatusReason values, use [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html). We don't recommend using this operation to regularly check stream session statuses because it's costly. Instead, to check status updates for a specific stream session, use [GetStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_GetStreamSession.html).
     ///
-    /// - Parameter ListStreamSessionsByAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStreamSessionsByAccountInput`)
     ///
-    /// - Returns: `ListStreamSessionsByAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStreamSessionsByAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1528,6 +1545,7 @@ extension GameLiftStreamsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStreamSessionsByAccountInput, ListStreamSessionsByAccountOutput>(ListStreamSessionsByAccountInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStreamSessionsByAccountOutput>(ListStreamSessionsByAccountOutput.httpOutput(from:), ListStreamSessionsByAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStreamSessionsByAccountInput, ListStreamSessionsByAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStreamSessionsByAccountOutput>())
@@ -1559,9 +1577,9 @@ extension GameLiftStreamsClient {
     ///
     /// Retrieves all tags assigned to a Amazon GameLift Streams resource. To list tags for a resource, specify the ARN value for the resource. Learn more [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference [ Amazon Web Services Tagging Strategies](http://aws.amazon.com/answers/account-management/aws-tagging-strategies/)
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1595,6 +1613,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1624,11 +1643,11 @@ extension GameLiftStreamsClient {
 
     /// Performs the `RemoveStreamGroupLocations` operation on the `GameLiftStreams` service.
     ///
-    /// Removes a set of remote locations from this stream group. Amazon GameLift Streams works to release allocated compute resources in these location. Thus, stream sessions can no longer start from these locations by using this stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal S3 bucket at this location. You cannot remove the region where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero.
+    /// Removes a set of remote locations from this stream group. To remove a location, the stream group must be in ACTIVE status. When you remove a location, Amazon GameLift Streams releases allocated compute resources in that location. Stream sessions can no longer start from removed locations in a stream group. Amazon GameLift Streams also deletes the content files of all associated applications that were in Amazon GameLift Streams's internal Amazon S3 bucket at this location. You cannot remove the Amazon Web Services Region location where you initially created this stream group, known as the primary location. However, you can set the stream capacity to zero to avoid incurring costs for allocated compute resources in that location.
     ///
-    /// - Parameter RemoveStreamGroupLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveStreamGroupLocationsInput`)
     ///
-    /// - Returns: `RemoveStreamGroupLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveStreamGroupLocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1664,6 +1683,7 @@ extension GameLiftStreamsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RemoveStreamGroupLocationsInput, RemoveStreamGroupLocationsOutput>(RemoveStreamGroupLocationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveStreamGroupLocationsOutput>(RemoveStreamGroupLocationsOutput.httpOutput(from:), RemoveStreamGroupLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveStreamGroupLocationsInput, RemoveStreamGroupLocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveStreamGroupLocationsOutput>())
@@ -1697,7 +1717,7 @@ extension GameLiftStreamsClient {
     ///
     /// * Prerequisites:
     ///
-    /// * You must have a stream group in ACTIVE state
+    /// * You must have a stream group in ACTIVE status
     ///
     /// * You must have idle or on-demand capacity in a stream group in the location you want to stream from
     ///
@@ -1765,9 +1785,9 @@ extension GameLiftStreamsClient {
     ///
     /// To start a new stream session, specify a stream group ID and application ID, along with the transport protocol and signal request to use with the stream session. For stream groups that have multiple locations, provide a set of locations ordered by priority using a Locations parameter. Amazon GameLift Streams will start a single stream session in the next available location. An application must be finished replicating to a remote location before the remote location can host a stream. To reconnect to a stream session after a client disconnects or loses connection, use [CreateStreamSessionConnection](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_CreateStreamSessionConnection.html).
     ///
-    /// - Parameter StartStreamSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartStreamSessionInput`)
     ///
-    /// - Returns: `StartStreamSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartStreamSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1807,6 +1827,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartStreamSessionInput, StartStreamSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamSessionOutput>(StartStreamSessionOutput.httpOutput(from:), StartStreamSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamSessionInput, StartStreamSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamSessionOutput>())
@@ -1845,9 +1866,9 @@ extension GameLiftStreamsClient {
     ///
     /// Learn more [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference [ Amazon Web Services Tagging Strategies](http://aws.amazon.com/answers/account-management/aws-tagging-strategies/)
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1884,6 +1905,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1915,9 +1937,9 @@ extension GameLiftStreamsClient {
     ///
     /// Permanently terminates an active stream session. When called, the stream session status changes to TERMINATING. You can terminate a stream session in any status except ACTIVATING. If the stream session is in ACTIVATING status, an exception is thrown.
     ///
-    /// - Parameter TerminateStreamSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateStreamSessionInput`)
     ///
-    /// - Returns: `TerminateStreamSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateStreamSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,6 +1974,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TerminateStreamSessionInput, TerminateStreamSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateStreamSessionOutput>(TerminateStreamSessionOutput.httpOutput(from:), TerminateStreamSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateStreamSessionInput, TerminateStreamSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateStreamSessionOutput>())
@@ -1983,9 +2006,9 @@ extension GameLiftStreamsClient {
     ///
     /// Removes one or more tags from a Amazon GameLift Streams resource. To remove tags, specify the Amazon GameLift Streams resource and a list of one or more tags to remove.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,6 +2043,7 @@ extension GameLiftStreamsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2051,9 +2075,9 @@ extension GameLiftStreamsClient {
     ///
     /// Updates the mutable configuration settings for a Amazon GameLift Streams application resource. You can change the Description, ApplicationLogOutputUri, and ApplicationLogPaths. To update application settings, specify the application ID and provide the new values. If the operation is successful, it returns the complete updated set of settings for the application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2091,6 +2115,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -2120,18 +2145,20 @@ extension GameLiftStreamsClient {
 
     /// Performs the `UpdateStreamGroup` operation on the `GameLiftStreams` service.
     ///
-    /// Updates the configuration settings for an Amazon GameLift Streams stream group resource. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group. Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. There are two types of capacity, always-on and on-demand:
+    /// Updates the configuration settings for an Amazon GameLift Streams stream group resource. To update a stream group, it must be in ACTIVE status. You can change the description, the set of locations, and the requested capacity of a stream group per location. If you want to change the stream class, create a new stream group. Stream capacity represents the number of concurrent streams that can be active at a time. You set stream capacity per location, per stream group. The following capacity settings are available:
     ///
-    /// * Always-on: The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 when creating a stream group or adding a location.
+    /// * Always-on capacity: This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
     ///
-    /// * On-demand: The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes). Default is 0 when creating a stream group or adding a location.
+    /// * Maximum capacity: This indicates the maximum capacity that the service can allocate for you. Newly created streams may take a few minutes to start. Capacity is released back to the service when idle. You pay for capacity that is allocated to you until it is released.
+    ///
+    /// * Target-idle capacity: This indicates idle capacity which the service pre-allocates and holds for you in anticipation of future activity. This helps to insulate your users from capacity-allocation delays. You pay for capacity which is held in this intentional idle state.
     ///
     ///
-    /// To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group.
+    /// Values for capacity must be whole number multiples of the tenancy value of the stream group's stream class. To update a stream group, specify the stream group's Amazon Resource Name (ARN) and provide the new values. If the request is successful, Amazon GameLift Streams returns the complete updated metadata for the stream group. Expired stream groups cannot be updated.
     ///
-    /// - Parameter UpdateStreamGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamGroupInput`)
     ///
-    /// - Returns: `UpdateStreamGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStreamGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2171,6 +2198,7 @@ extension GameLiftStreamsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamGroupInput, UpdateStreamGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamGroupOutput>(UpdateStreamGroupOutput.httpOutput(from:), UpdateStreamGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamGroupInput, UpdateStreamGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamGroupOutput>())

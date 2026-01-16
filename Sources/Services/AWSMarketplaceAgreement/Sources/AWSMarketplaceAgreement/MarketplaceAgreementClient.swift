@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MarketplaceAgreementClient: ClientRuntime.Client {
+public class MarketplaceAgreementClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MarketplaceAgreementClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceAgreementClient.MarketplaceAgreementClientConfiguration
     let serviceName = "Marketplace Agreement"
@@ -373,9 +373,9 @@ extension MarketplaceAgreementClient {
     ///
     /// Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
     ///
-    /// - Parameter DescribeAgreementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAgreementInput`)
     ///
-    /// - Returns: `DescribeAgreementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAgreementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAgreementOutput>(DescribeAgreementOutput.httpOutput(from:), DescribeAgreementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAgreementOutput>())
@@ -456,9 +457,9 @@ extension MarketplaceAgreementClient {
     ///
     /// * Configuration – The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the EnableAutoRenew flag.
     ///
-    /// - Parameter GetAgreementTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgreementTermsInput`)
     ///
-    /// - Returns: `GetAgreementTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgreementTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -494,6 +495,7 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgreementTermsOutput>(GetAgreementTermsOutput.httpOutput(from:), GetAgreementTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementTermsOutput>())
@@ -526,39 +528,86 @@ extension MarketplaceAgreementClient {
 
     /// Performs the `SearchAgreements` operation on the `MarketplaceAgreement` service.
     ///
-    /// Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported:
+    /// Searches across all agreements that a proposer has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported when the PartyType is Proposer:
     ///
-    /// * PartyType as Proposer + AgreementType + ResourceIdentifier
+    /// * AgreementType
     ///
-    /// * PartyType as Proposer + AgreementType + OfferId
+    /// * AgreementType + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId
+    /// * AgreementType + ResourceType
     ///
-    /// * PartyType as Proposer + AgreementType + Status
+    /// * AgreementType + ResourceType + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + ResourceIdentifier + Status
+    /// * AgreementType + ResourceType + Status
     ///
-    /// * PartyType as Proposer + AgreementType + OfferId + Status
+    /// * AgreementType + ResourceType + Status + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + Status
+    /// * AgreementType + ResourceId
     ///
-    /// * PartyType as Proposer + AgreementType + ResourceType + Status
+    /// * AgreementType + ResourceId + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceType + Status
+    /// * AgreementType + ResourceId + Status
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + OfferId
+    /// * AgreementType + ResourceId + Status + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + OfferId + Status
+    /// * AgreementType + AcceptorAccountId
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceIdentifier
+    /// * AgreementType + AcceptorAccountId + EndTime
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceIdentifier + Status
+    /// * AgreementType + AcceptorAccountId + Status
     ///
-    /// * PartyType as Proposer + AgreementType + AcceptorAccountId + ResourceType
+    /// * AgreementType + AcceptorAccountId + Status + EndTime
     ///
-    /// - Parameter SearchAgreementsInput : [no documentation found]
+    /// * AgreementType + AcceptorAccountId + OfferId
     ///
-    /// - Returns: `SearchAgreementsOutput` : [no documentation found]
+    /// * AgreementType + AcceptorAccountId + OfferId + Status
+    ///
+    /// * AgreementType + AcceptorAccountId + OfferId + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + OfferId + Status + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceId
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceId + Status
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceId + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceId + Status + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceType
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceType + EndTime
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceType + Status
+    ///
+    /// * AgreementType + AcceptorAccountId + ResourceType + Status + EndTime
+    ///
+    /// * AgreementType + Status
+    ///
+    /// * AgreementType + Status + EndTime
+    ///
+    /// * AgreementType + OfferId
+    ///
+    /// * AgreementType + OfferId + EndTime
+    ///
+    /// * AgreementType + OfferId + Status
+    ///
+    /// * AgreementType + OfferId + Status + EndTime
+    ///
+    /// * AgreementType + OfferSetId
+    ///
+    /// * AgreementType + OfferSetId + EndTime
+    ///
+    /// * AgreementType + OfferSetId + Status
+    ///
+    /// * AgreementType + OfferSetId + Status + EndTime
+    ///
+    ///
+    /// To filter by EndTime, you can use either BeforeEndTime or AfterEndTime. Only EndTime is supported for sorting.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchAgreementsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchAgreementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -593,6 +642,7 @@ extension MarketplaceAgreementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAgreementsOutput>(SearchAgreementsOutput.httpOutput(from:), SearchAgreementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAgreementsOutput>())

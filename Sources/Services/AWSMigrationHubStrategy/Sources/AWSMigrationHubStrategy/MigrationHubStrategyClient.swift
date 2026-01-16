@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MigrationHubStrategyClient: ClientRuntime.Client {
+public class MigrationHubStrategyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MigrationHubStrategyClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubStrategyClient.MigrationHubStrategyClientConfiguration
     let serviceName = "MigrationHubStrategy"
@@ -373,9 +373,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves details about an application component.
     ///
-    /// - Parameter GetApplicationComponentDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationComponentDetailsInput`)
     ///
-    /// - Returns: `GetApplicationComponentDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationComponentDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +408,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationComponentDetailsOutput>(GetApplicationComponentDetailsOutput.httpOutput(from:), GetApplicationComponentDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationComponentDetailsInput, GetApplicationComponentDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationComponentDetailsOutput>())
@@ -439,9 +440,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the recommended strategies and tools for an application component running on a server.
     ///
-    /// - Parameter GetApplicationComponentStrategiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationComponentStrategiesInput`)
     ///
-    /// - Returns: `GetApplicationComponentStrategiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationComponentStrategiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -474,6 +475,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationComponentStrategiesOutput>(GetApplicationComponentStrategiesOutput.httpOutput(from:), GetApplicationComponentStrategiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationComponentStrategiesInput, GetApplicationComponentStrategiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationComponentStrategiesOutput>())
@@ -505,9 +507,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves the status of an on-going assessment.
     ///
-    /// - Parameter GetAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssessmentInput`)
     ///
-    /// - Returns: `GetAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -541,6 +543,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssessmentInput, GetAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssessmentOutput>(GetAssessmentOutput.httpOutput(from:), GetAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssessmentInput, GetAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssessmentOutput>())
@@ -572,9 +575,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves the details about a specific import task.
     ///
-    /// - Parameter GetImportFileTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImportFileTaskInput`)
     ///
-    /// - Returns: `GetImportFileTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImportFileTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -609,6 +612,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImportFileTaskInput, GetImportFileTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImportFileTaskOutput>(GetImportFileTaskOutput.httpOutput(from:), GetImportFileTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImportFileTaskInput, GetImportFileTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImportFileTaskOutput>())
@@ -640,9 +644,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieve the latest ID of a specific assessment task.
     ///
-    /// - Parameter GetLatestAssessmentIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLatestAssessmentIdInput`)
     ///
-    /// - Returns: `GetLatestAssessmentIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLatestAssessmentIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -676,6 +680,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLatestAssessmentIdOutput>(GetLatestAssessmentIdOutput.httpOutput(from:), GetLatestAssessmentIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLatestAssessmentIdInput, GetLatestAssessmentIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLatestAssessmentIdOutput>())
@@ -707,9 +712,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves your migration and modernization preferences.
     ///
-    /// - Parameter GetPortfolioPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPortfolioPreferencesInput`)
     ///
-    /// - Returns: `GetPortfolioPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPortfolioPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,6 +748,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortfolioPreferencesOutput>(GetPortfolioPreferencesOutput.httpOutput(from:), GetPortfolioPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortfolioPreferencesInput, GetPortfolioPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPortfolioPreferencesOutput>())
@@ -774,9 +780,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
     ///
-    /// - Parameter GetPortfolioSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPortfolioSummaryInput`)
     ///
-    /// - Returns: `GetPortfolioSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPortfolioSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,6 +815,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPortfolioSummaryInput, GetPortfolioSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPortfolioSummaryOutput>(GetPortfolioSummaryOutput.httpOutput(from:), GetPortfolioSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPortfolioSummaryInput, GetPortfolioSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPortfolioSummaryOutput>())
@@ -840,9 +847,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves detailed information about the specified recommendation report.
     ///
-    /// - Parameter GetRecommendationReportDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecommendationReportDetailsInput`)
     ///
-    /// - Returns: `GetRecommendationReportDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecommendationReportDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -877,6 +884,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationReportDetailsOutput>(GetRecommendationReportDetailsOutput.httpOutput(from:), GetRecommendationReportDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationReportDetailsInput, GetRecommendationReportDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecommendationReportDetailsOutput>())
@@ -908,9 +916,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves detailed information about a specified server.
     ///
-    /// - Parameter GetServerDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServerDetailsInput`)
     ///
-    /// - Returns: `GetServerDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServerDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -946,6 +954,7 @@ extension MigrationHubStrategyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetServerDetailsInput, GetServerDetailsOutput>(GetServerDetailsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServerDetailsOutput>(GetServerDetailsOutput.httpOutput(from:), GetServerDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServerDetailsInput, GetServerDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServerDetailsOutput>())
@@ -977,9 +986,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves recommended strategies and tools for the specified server.
     ///
-    /// - Parameter GetServerStrategiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServerStrategiesInput`)
     ///
-    /// - Returns: `GetServerStrategiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServerStrategiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1014,6 +1023,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServerStrategiesInput, GetServerStrategiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServerStrategiesOutput>(GetServerStrategiesOutput.httpOutput(from:), GetServerStrategiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServerStrategiesInput, GetServerStrategiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServerStrategiesOutput>())
@@ -1045,9 +1055,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
     ///
-    /// - Parameter ListAnalyzableServersInput : Represents input for ListAnalyzableServers operation.
+    /// - Parameter input: Represents input for ListAnalyzableServers operation. (Type: `ListAnalyzableServersInput`)
     ///
-    /// - Returns: `ListAnalyzableServersOutput` : Represents output for ListAnalyzableServers operation.
+    /// - Returns: Represents output for ListAnalyzableServers operation. (Type: `ListAnalyzableServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1084,6 +1094,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnalyzableServersInput, ListAnalyzableServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnalyzableServersOutput>(ListAnalyzableServersOutput.httpOutput(from:), ListAnalyzableServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalyzableServersInput, ListAnalyzableServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalyzableServersOutput>())
@@ -1115,9 +1126,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the application components (processes).
     ///
-    /// - Parameter ListApplicationComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationComponentsInput`)
     ///
-    /// - Returns: `ListApplicationComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1154,6 +1165,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationComponentsOutput>(ListApplicationComponentsOutput.httpOutput(from:), ListApplicationComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationComponentsInput, ListApplicationComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationComponentsOutput>())
@@ -1185,9 +1197,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the installed collectors.
     ///
-    /// - Parameter ListCollectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollectorsInput`)
     ///
-    /// - Returns: `ListCollectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1222,6 +1234,7 @@ extension MigrationHubStrategyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollectorsInput, ListCollectorsOutput>(ListCollectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollectorsOutput>(ListCollectorsOutput.httpOutput(from:), ListCollectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollectorsInput, ListCollectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollectorsOutput>())
@@ -1253,9 +1266,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Retrieves a list of all the imports performed.
     ///
-    /// - Parameter ListImportFileTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportFileTaskInput`)
     ///
-    /// - Returns: `ListImportFileTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportFileTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1290,6 +1303,7 @@ extension MigrationHubStrategyClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListImportFileTaskInput, ListImportFileTaskOutput>(ListImportFileTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportFileTaskOutput>(ListImportFileTaskOutput.httpOutput(from:), ListImportFileTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportFileTaskInput, ListImportFileTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportFileTaskOutput>())
@@ -1321,9 +1335,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Returns a list of all the servers.
     ///
-    /// - Parameter ListServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServersInput`)
     ///
-    /// - Returns: `ListServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,6 +1374,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServersInput, ListServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServersOutput>(ListServersOutput.httpOutput(from:), ListServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServersInput, ListServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServersOutput>())
@@ -1391,9 +1406,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Saves the specified migration and modernization preferences.
     ///
-    /// - Parameter PutPortfolioPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPortfolioPreferencesInput`)
     ///
-    /// - Returns: `PutPortfolioPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPortfolioPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1431,6 +1446,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPortfolioPreferencesOutput>(PutPortfolioPreferencesOutput.httpOutput(from:), PutPortfolioPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPortfolioPreferencesInput, PutPortfolioPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPortfolioPreferencesOutput>())
@@ -1462,9 +1478,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Starts the assessment of an on-premises environment.
     ///
-    /// - Parameter StartAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAssessmentInput`)
     ///
-    /// - Returns: `StartAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1501,6 +1517,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAssessmentInput, StartAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAssessmentOutput>(StartAssessmentOutput.httpOutput(from:), StartAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAssessmentInput, StartAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAssessmentOutput>())
@@ -1532,9 +1549,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Starts a file import.
     ///
-    /// - Parameter StartImportFileTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportFileTaskInput`)
     ///
-    /// - Returns: `StartImportFileTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportFileTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1572,6 +1589,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportFileTaskInput, StartImportFileTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportFileTaskOutput>(StartImportFileTaskOutput.httpOutput(from:), StartImportFileTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportFileTaskInput, StartImportFileTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportFileTaskOutput>())
@@ -1603,9 +1621,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Starts generating a recommendation report.
     ///
-    /// - Parameter StartRecommendationReportGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRecommendationReportGenerationInput`)
     ///
-    /// - Returns: `StartRecommendationReportGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRecommendationReportGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1643,6 +1661,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRecommendationReportGenerationOutput>(StartRecommendationReportGenerationOutput.httpOutput(from:), StartRecommendationReportGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRecommendationReportGenerationInput, StartRecommendationReportGenerationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRecommendationReportGenerationOutput>())
@@ -1674,9 +1693,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Stops the assessment of an on-premises environment.
     ///
-    /// - Parameter StopAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAssessmentInput`)
     ///
-    /// - Returns: `StopAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,6 +1732,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAssessmentInput, StopAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAssessmentOutput>(StopAssessmentOutput.httpOutput(from:), StopAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAssessmentInput, StopAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAssessmentOutput>())
@@ -1744,9 +1764,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Updates the configuration of an application component.
     ///
-    /// - Parameter UpdateApplicationComponentConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationComponentConfigInput`)
     ///
-    /// - Returns: `UpdateApplicationComponentConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationComponentConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1783,6 +1803,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationComponentConfigOutput>(UpdateApplicationComponentConfigOutput.httpOutput(from:), UpdateApplicationComponentConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationComponentConfigInput, UpdateApplicationComponentConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationComponentConfigOutput>())
@@ -1814,9 +1835,9 @@ extension MigrationHubStrategyClient {
     ///
     /// Updates the configuration of the specified server.
     ///
-    /// - Parameter UpdateServerConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServerConfigInput`)
     ///
-    /// - Returns: `UpdateServerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1853,6 +1874,7 @@ extension MigrationHubStrategyClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServerConfigInput, UpdateServerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServerConfigOutput>(UpdateServerConfigOutput.httpOutput(from:), UpdateServerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServerConfigInput, UpdateServerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServerConfigOutput>())

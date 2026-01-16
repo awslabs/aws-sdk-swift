@@ -106,6 +106,135 @@ public struct StartTrainedModelExportJobOutput: Swift.Sendable {
     public init() { }
 }
 
+extension CleanRoomsMLClientTypes {
+
+    public enum AutoRefreshMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoRefreshMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum AccessBudgetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case calendarDay
+        case calendarMonth
+        case calendarWeek
+        case lifetime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessBudgetType] {
+            return [
+                .calendarDay,
+                .calendarMonth,
+                .calendarWeek,
+                .lifetime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .calendarDay: return "CALENDAR_DAY"
+            case .calendarMonth: return "CALENDAR_MONTH"
+            case .calendarWeek: return "CALENDAR_WEEK"
+            case .lifetime: return "LIFETIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// The detailed information for a specific budget period, including time boundaries and budget amounts.
+    public struct AccessBudgetDetails: Swift.Sendable {
+        /// Specifies whether this budget automatically refreshes when the current period ends.
+        public var autoRefresh: CleanRoomsMLClientTypes.AutoRefreshMode?
+        /// The total budget amount allocated for this period.
+        /// This member is required.
+        public var budget: Swift.Int?
+        /// The type of budget period. Calendar-based types reset automatically at regular intervals, while LIFETIME budgets never reset.
+        /// This member is required.
+        public var budgetType: CleanRoomsMLClientTypes.AccessBudgetType?
+        /// The end time of this budget period. If not specified, the budget period continues indefinitely.
+        public var endTime: Foundation.Date?
+        /// The amount of budget remaining in this period.
+        /// This member is required.
+        public var remainingBudget: Swift.Int?
+        /// The start time of this budget period.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            autoRefresh: CleanRoomsMLClientTypes.AutoRefreshMode? = nil,
+            budget: Swift.Int? = nil,
+            budgetType: CleanRoomsMLClientTypes.AccessBudgetType? = nil,
+            endTime: Foundation.Date? = nil,
+            remainingBudget: Swift.Int? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.autoRefresh = autoRefresh
+            self.budget = budget
+            self.budgetType = budgetType
+            self.endTime = endTime
+            self.remainingBudget = remainingBudget
+            self.startTime = startTime
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// An access budget that defines consumption limits for a specific resource within defined time periods.
+    public struct AccessBudget: Swift.Sendable {
+        /// The total remaining budget across all active budget periods for this resource.
+        /// This member is required.
+        public var aggregateRemainingBudget: Swift.Int?
+        /// A list of budget details for this resource. Contains active budget periods that apply to the resource.
+        /// This member is required.
+        public var details: [CleanRoomsMLClientTypes.AccessBudgetDetails]?
+        /// The Amazon Resource Name (ARN) of the resource that this access budget applies to.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+
+        public init(
+            aggregateRemainingBudget: Swift.Int? = nil,
+            details: [CleanRoomsMLClientTypes.AccessBudgetDetails]? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.aggregateRemainingBudget = aggregateRemainingBudget
+            self.details = details
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -550,6 +679,16 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes {
 
+    /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+    public enum WorkerComputeConfigurationProperties: Swift.Sendable {
+        /// The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
+        case spark([Swift.String: Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cr1x
         case cr4x
@@ -583,14 +722,18 @@ extension CleanRoomsMLClientTypes {
     public struct WorkerComputeConfiguration: Swift.Sendable {
         /// The number of compute workers that are used.
         public var number: Swift.Int?
+        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+        public var properties: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties?
         /// The instance type of the compute workers that are used.
         public var type: CleanRoomsMLClientTypes.WorkerComputeType?
 
         public init(
             number: Swift.Int? = 16,
+            properties: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties? = nil,
             type: CleanRoomsMLClientTypes.WorkerComputeType? = .cr1x
         ) {
             self.number = number
+            self.properties = properties
             self.type = type
         }
     }
@@ -2156,6 +2299,103 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes {
 
+    /// The configuration for defining custom patterns to be redacted from logs and error messages. This is for the CUSTOM config under entitiesToRedact. Both CustomEntityConfig and entitiesToRedact need to be present or not present.
+    public struct CustomEntityConfig: Swift.Sendable {
+        /// Defines data identifiers for the custom entity configuration. Provide this only if CUSTOM redaction is configured.
+        /// This member is required.
+        public var customDataIdentifiers: [Swift.String]?
+
+        public init(
+            customDataIdentifiers: [Swift.String]? = nil
+        ) {
+            self.customDataIdentifiers = customDataIdentifiers
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum EntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allPersonallyIdentifiableInformation
+        case custom
+        case numbers
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntityType] {
+            return [
+                .allPersonallyIdentifiableInformation,
+                .custom,
+                .numbers
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allPersonallyIdentifiableInformation: return "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION"
+            case .custom: return "CUSTOM"
+            case .numbers: return "NUMBERS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// The configuration for log redaction.
+    public struct LogRedactionConfiguration: Swift.Sendable {
+        /// Specifies the configuration for custom entities in the context of log redaction.
+        public var customEntityConfig: CleanRoomsMLClientTypes.CustomEntityConfig?
+        /// Specifies the entities to be redacted from logs. Entities to redact are "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION", "NUMBERS","CUSTOM". If CUSTOM is supplied or configured, custom patterns (customDataIdentifiers) should be provided, and the patterns will be redacted in logs or error messages.
+        /// This member is required.
+        public var entitiesToRedact: [CleanRoomsMLClientTypes.EntityType]?
+
+        public init(
+            customEntityConfig: CleanRoomsMLClientTypes.CustomEntityConfig? = nil,
+            entitiesToRedact: [CleanRoomsMLClientTypes.EntityType]? = nil
+        ) {
+            self.customEntityConfig = customEntityConfig
+            self.entitiesToRedact = entitiesToRedact
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case errorSummary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogType] {
+            return [
+                .all,
+                .errorSummary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .errorSummary: return "ERROR_SUMMARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     /// Provides the information necessary for a user to access the logs.
     public struct LogsConfigurationPolicy: Swift.Sendable {
         /// A list of account IDs that are allowed to access the logs.
@@ -2163,13 +2403,21 @@ extension CleanRoomsMLClientTypes {
         public var allowedAccountIds: [Swift.String]?
         /// A regular expression pattern that is used to parse the logs and return information that matches the pattern.
         public var filterPattern: Swift.String?
+        /// Specifies the log redaction configuration for this policy.
+        public var logRedactionConfiguration: CleanRoomsMLClientTypes.LogRedactionConfiguration?
+        /// Specifies the type of log this policy applies to. The currently supported policies are ALL or ERROR_SUMMARY.
+        public var logType: CleanRoomsMLClientTypes.LogType?
 
         public init(
             allowedAccountIds: [Swift.String]? = nil,
-            filterPattern: Swift.String? = nil
+            filterPattern: Swift.String? = nil,
+            logRedactionConfiguration: CleanRoomsMLClientTypes.LogRedactionConfiguration? = nil,
+            logType: CleanRoomsMLClientTypes.LogType? = .all
         ) {
             self.allowedAccountIds = allowedAccountIds
             self.filterPattern = filterPattern
+            self.logRedactionConfiguration = logRedactionConfiguration
+            self.logType = logType
         }
     }
 }
@@ -3915,6 +4163,211 @@ public struct GetCollaborationMLInputChannelInput: Swift.Sendable {
     }
 }
 
+extension CleanRoomsMLClientTypes {
+
+    /// The privacy budget information that controls access to Clean Rooms ML input channels.
+    public enum PrivacyBudgets: Swift.Sendable {
+        /// A list of access budgets that apply to resources associated with this Clean Rooms ML input channel.
+        case accessbudgets([CleanRoomsMLClientTypes.AccessBudget])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum MembershipInferenceAttackVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case distanceToClosestRecordV1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MembershipInferenceAttackVersion] {
+            return [
+                .distanceToClosestRecordV1
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .distanceToClosestRecordV1: return "DISTANCE_TO_CLOSEST_RECORD_V1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// A score that measures the vulnerability of synthetic data to membership inference attacks and provides both the numerical score and the version of the attack methodology used for evaluation.
+    public struct MembershipInferenceAttackScore: Swift.Sendable {
+        /// The version of the membership inference attack, which consists of the attack type and its version number, used to generate this privacy score.
+        /// This member is required.
+        public var attackVersion: CleanRoomsMLClientTypes.MembershipInferenceAttackVersion?
+        /// The numerical score representing the vulnerability to membership inference attacks.
+        /// This member is required.
+        public var score: Swift.Double?
+
+        public init(
+            attackVersion: CleanRoomsMLClientTypes.MembershipInferenceAttackVersion? = nil,
+            score: Swift.Double? = nil
+        ) {
+            self.attackVersion = attackVersion
+            self.score = score
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Privacy evaluation scores that measure the privacy characteristics of the generated synthetic data, including assessments of potential privacy risks such as membership inference attacks.
+    public struct DataPrivacyScores: Swift.Sendable {
+        /// Scores that evaluate the vulnerability of the synthetic data to membership inference attacks, which attempt to determine whether a specific individual was a member of the original dataset.
+        /// This member is required.
+        public var membershipInferenceAttackScores: [CleanRoomsMLClientTypes.MembershipInferenceAttackScore]?
+
+        public init(
+            membershipInferenceAttackScores: [CleanRoomsMLClientTypes.MembershipInferenceAttackScore]? = nil
+        ) {
+            self.membershipInferenceAttackScores = membershipInferenceAttackScores
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Comprehensive evaluation metrics for synthetic data that assess both the utility of the generated data for machine learning tasks and its privacy preservation characteristics.
+    public struct SyntheticDataEvaluationScores: Swift.Sendable {
+        /// Privacy-specific evaluation scores that measure how well the synthetic data protects individual privacy, including assessments of potential privacy risks such as membership inference attacks.
+        /// This member is required.
+        public var dataPrivacyScores: CleanRoomsMLClientTypes.DataPrivacyScores?
+
+        public init(
+            dataPrivacyScores: CleanRoomsMLClientTypes.DataPrivacyScores? = nil
+        ) {
+            self.dataPrivacyScores = dataPrivacyScores
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum SyntheticDataColumnType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case categorical
+        case numerical
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SyntheticDataColumnType] {
+            return [
+                .categorical,
+                .numerical
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .categorical: return "CATEGORICAL"
+            case .numerical: return "NUMERICAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Properties that define how a specific data column should be handled during synthetic data generation, including its name, type, and role in predictive modeling.
+    public struct SyntheticDataColumnProperties: Swift.Sendable {
+        /// The name of the data column as it appears in the dataset.
+        /// This member is required.
+        public var columnName: Swift.String?
+        /// The data type of the column, which determines how the synthetic data generation algorithm processes and synthesizes values for this column.
+        /// This member is required.
+        public var columnType: CleanRoomsMLClientTypes.SyntheticDataColumnType?
+        /// Indicates if this column contains predictive values that should be treated as target variables in machine learning models. This affects how the synthetic data generation preserves statistical relationships.
+        /// This member is required.
+        public var isPredictiveValue: Swift.Bool?
+
+        public init(
+            columnName: Swift.String? = nil,
+            columnType: CleanRoomsMLClientTypes.SyntheticDataColumnType? = nil,
+            isPredictiveValue: Swift.Bool? = nil
+        ) {
+            self.columnName = columnName
+            self.columnType = columnType
+            self.isPredictiveValue = isPredictiveValue
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Contains classification information for data columns, including mappings that specify how columns should be handled during synthetic data generation and privacy analysis.
+    public struct ColumnClassificationDetails: Swift.Sendable {
+        /// A mapping that defines the classification of data columns for synthetic data generation and specifies how each column should be handled during the privacy-preserving data synthesis process.
+        /// This member is required.
+        public var columnMapping: [CleanRoomsMLClientTypes.SyntheticDataColumnProperties]?
+
+        public init(
+            columnMapping: [CleanRoomsMLClientTypes.SyntheticDataColumnProperties]? = nil
+        ) {
+            self.columnMapping = columnMapping
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Parameters that control the generation of synthetic data for custom model training, including privacy settings and column classification details.
+    public struct MLSyntheticDataParameters: Swift.Sendable {
+        /// Classification details for data columns that specify how each column should be treated during synthetic data generation.
+        public var columnClassification: CleanRoomsMLClientTypes.ColumnClassificationDetails?
+        /// The epsilon value for differential privacy, which controls the privacy-utility tradeoff in synthetic data generation. Lower values provide stronger privacy guarantees but may reduce data utility.
+        /// This member is required.
+        public var epsilon: Swift.Double?
+        /// The maximum acceptable score for membership inference attack vulnerability. Synthetic data generation fails if the score for the resulting data exceeds this threshold.
+        /// This member is required.
+        public var maxMembershipInferenceAttackScore: Swift.Double?
+
+        public init(
+            columnClassification: CleanRoomsMLClientTypes.ColumnClassificationDetails? = nil,
+            epsilon: Swift.Double? = nil,
+            maxMembershipInferenceAttackScore: Swift.Double? = nil
+        ) {
+            self.columnClassification = columnClassification
+            self.epsilon = epsilon
+            self.maxMembershipInferenceAttackScore = maxMembershipInferenceAttackScore
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Configuration settings for synthetic data generation, including the parameters that control data synthesis and the evaluation scores that measure the quality and privacy characteristics of the generated synthetic data.
+    public struct SyntheticDataConfiguration: Swift.Sendable {
+        /// Evaluation scores that assess the quality and privacy characteristics of the generated synthetic data, providing metrics on data utility and privacy preservation.
+        public var syntheticDataEvaluationScores: CleanRoomsMLClientTypes.SyntheticDataEvaluationScores?
+        /// The parameters that control how synthetic data is generated, including privacy settings, column classifications, and other configuration options that affect the data synthesis process.
+        /// This member is required.
+        public var syntheticDataParameters: CleanRoomsMLClientTypes.MLSyntheticDataParameters?
+
+        public init(
+            syntheticDataEvaluationScores: CleanRoomsMLClientTypes.SyntheticDataEvaluationScores? = nil,
+            syntheticDataParameters: CleanRoomsMLClientTypes.MLSyntheticDataParameters? = nil
+        ) {
+            self.syntheticDataEvaluationScores = syntheticDataEvaluationScores
+            self.syntheticDataParameters = syntheticDataParameters
+        }
+    }
+}
+
 public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
     /// The collaboration ID of the collaboration that contains the ML input channel.
     /// This member is required.
@@ -3941,6 +4394,8 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The number of records in the ML input channel.
     public var numberOfRecords: Swift.Int?
+    /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
+    public var privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets?
     /// The number of days to retain the data for the ML input channel.
     /// This member is required.
     public var retentionInDays: Swift.Int?
@@ -3949,6 +4404,8 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
     public var status: CleanRoomsMLClientTypes.MLInputChannelStatus?
     /// Details about the status of a resource.
     public var statusDetails: CleanRoomsMLClientTypes.StatusDetails?
+    /// The synthetic data configuration for this ML input channel, including parameters for generating privacy-preserving synthetic data and evaluation scores for measuring the privacy of the generated data.
+    public var syntheticDataConfiguration: CleanRoomsMLClientTypes.SyntheticDataConfiguration?
     /// The most recent time at which the ML input channel was updated.
     /// This member is required.
     public var updateTime: Foundation.Date?
@@ -3963,9 +4420,11 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         mlInputChannelArn: Swift.String? = nil,
         name: Swift.String? = nil,
         numberOfRecords: Swift.Int? = nil,
+        privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets? = nil,
         retentionInDays: Swift.Int? = nil,
         status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
+        syntheticDataConfiguration: CleanRoomsMLClientTypes.SyntheticDataConfiguration? = nil,
         updateTime: Foundation.Date? = nil
     ) {
         self.collaborationIdentifier = collaborationIdentifier
@@ -3977,9 +4436,11 @@ public struct GetCollaborationMLInputChannelOutput: Swift.Sendable {
         self.mlInputChannelArn = mlInputChannelArn
         self.name = name
         self.numberOfRecords = numberOfRecords
+        self.privacyBudgets = privacyBudgets
         self.retentionInDays = retentionInDays
         self.status = status
         self.statusDetails = statusDetails
+        self.syntheticDataConfiguration = syntheticDataConfiguration
         self.updateTime = updateTime
     }
 }
@@ -4031,6 +4492,8 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
     public var numberOfFiles: Swift.Double?
     /// The number of records in the ML input channel.
     public var numberOfRecords: Swift.Int?
+    /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
+    public var privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets?
     /// The ID of the protected query that was used to create the ML input channel.
     public var protectedQueryIdentifier: Swift.String?
     /// The number of days to keep the data in the ML input channel.
@@ -4043,6 +4506,8 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
     public var status: CleanRoomsMLClientTypes.MLInputChannelStatus?
     /// Details about the status of a resource.
     public var statusDetails: CleanRoomsMLClientTypes.StatusDetails?
+    /// The synthetic data configuration for this ML input channel, including parameters for generating privacy-preserving synthetic data and evaluation scores for measuring the privacy of the generated data.
+    public var syntheticDataConfiguration: CleanRoomsMLClientTypes.SyntheticDataConfiguration?
     /// The optional metadata that you applied to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:
     ///
     /// * Maximum number of tags per resource - 50.
@@ -4075,11 +4540,13 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         name: Swift.String? = nil,
         numberOfFiles: Swift.Double? = nil,
         numberOfRecords: Swift.Int? = nil,
+        privacyBudgets: CleanRoomsMLClientTypes.PrivacyBudgets? = nil,
         protectedQueryIdentifier: Swift.String? = nil,
         retentionInDays: Swift.Int? = nil,
         sizeInGb: Swift.Double? = nil,
         status: CleanRoomsMLClientTypes.MLInputChannelStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
+        syntheticDataConfiguration: CleanRoomsMLClientTypes.SyntheticDataConfiguration? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         updateTime: Foundation.Date? = nil
     ) {
@@ -4094,11 +4561,13 @@ public struct GetMLInputChannelOutput: Swift.Sendable {
         self.name = name
         self.numberOfFiles = numberOfFiles
         self.numberOfRecords = numberOfRecords
+        self.privacyBudgets = privacyBudgets
         self.protectedQueryIdentifier = protectedQueryIdentifier
         self.retentionInDays = retentionInDays
         self.sizeInGb = sizeInGb
         self.status = status
         self.statusDetails = statusDetails
+        self.syntheticDataConfiguration = syntheticDataConfiguration
         self.tags = tags
         self.updateTime = updateTime
     }
@@ -4388,6 +4857,15 @@ extension CleanRoomsMLClientTypes {
         case mlC6i4xlarge
         case mlC6i8xlarge
         case mlC6iXlarge
+        case mlC7i12xlarge
+        case mlC7i16xlarge
+        case mlC7i24xlarge
+        case mlC7i2xlarge
+        case mlC7i48xlarge
+        case mlC7i4xlarge
+        case mlC7i8xlarge
+        case mlC7iLarge
+        case mlC7iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -4402,6 +4880,22 @@ extension CleanRoomsMLClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -4422,6 +4916,15 @@ extension CleanRoomsMLClientTypes {
         case mlM6i8xlarge
         case mlM6iLarge
         case mlM6iXlarge
+        case mlM7i12xlarge
+        case mlM7i16xlarge
+        case mlM7i24xlarge
+        case mlM7i2xlarge
+        case mlM7i48xlarge
+        case mlM7i4xlarge
+        case mlM7i8xlarge
+        case mlM7iLarge
+        case mlM7iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -4431,6 +4934,7 @@ extension CleanRoomsMLClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
@@ -4448,6 +4952,15 @@ extension CleanRoomsMLClientTypes {
         case mlR58xlarge
         case mlR5Large
         case mlR5Xlarge
+        case mlR7i12xlarge
+        case mlR7i16xlarge
+        case mlR7i24xlarge
+        case mlR7i2xlarge
+        case mlR7i48xlarge
+        case mlR7i4xlarge
+        case mlR7i8xlarge
+        case mlR7iLarge
+        case mlR7iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -4481,6 +4994,15 @@ extension CleanRoomsMLClientTypes {
                 .mlC6i4xlarge,
                 .mlC6i8xlarge,
                 .mlC6iXlarge,
+                .mlC7i12xlarge,
+                .mlC7i16xlarge,
+                .mlC7i24xlarge,
+                .mlC7i2xlarge,
+                .mlC7i48xlarge,
+                .mlC7i4xlarge,
+                .mlC7i8xlarge,
+                .mlC7iLarge,
+                .mlC7iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -4495,6 +5017,22 @@ extension CleanRoomsMLClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -4515,6 +5053,15 @@ extension CleanRoomsMLClientTypes {
                 .mlM6i8xlarge,
                 .mlM6iLarge,
                 .mlM6iXlarge,
+                .mlM7i12xlarge,
+                .mlM7i16xlarge,
+                .mlM7i24xlarge,
+                .mlM7i2xlarge,
+                .mlM7i48xlarge,
+                .mlM7i4xlarge,
+                .mlM7i8xlarge,
+                .mlM7iLarge,
+                .mlM7iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -4524,6 +5071,7 @@ extension CleanRoomsMLClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
@@ -4541,6 +5089,15 @@ extension CleanRoomsMLClientTypes {
                 .mlR58xlarge,
                 .mlR5Large,
                 .mlR5Xlarge,
+                .mlR7i12xlarge,
+                .mlR7i16xlarge,
+                .mlR7i24xlarge,
+                .mlR7i2xlarge,
+                .mlR7i48xlarge,
+                .mlR7i4xlarge,
+                .mlR7i8xlarge,
+                .mlR7iLarge,
+                .mlR7iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -4580,6 +5137,15 @@ extension CleanRoomsMLClientTypes {
             case .mlC6i4xlarge: return "ml.c6i.4xlarge"
             case .mlC6i8xlarge: return "ml.c6i.8xlarge"
             case .mlC6iXlarge: return "ml.c6i.xlarge"
+            case .mlC7i12xlarge: return "ml.c7i.12xlarge"
+            case .mlC7i16xlarge: return "ml.c7i.16xlarge"
+            case .mlC7i24xlarge: return "ml.c7i.24xlarge"
+            case .mlC7i2xlarge: return "ml.c7i.2xlarge"
+            case .mlC7i48xlarge: return "ml.c7i.48xlarge"
+            case .mlC7i4xlarge: return "ml.c7i.4xlarge"
+            case .mlC7i8xlarge: return "ml.c7i.8xlarge"
+            case .mlC7iLarge: return "ml.c7i.large"
+            case .mlC7iXlarge: return "ml.c7i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -4594,6 +5160,22 @@ extension CleanRoomsMLClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -4614,6 +5196,15 @@ extension CleanRoomsMLClientTypes {
             case .mlM6i8xlarge: return "ml.m6i.8xlarge"
             case .mlM6iLarge: return "ml.m6i.large"
             case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7i12xlarge: return "ml.m7i.12xlarge"
+            case .mlM7i16xlarge: return "ml.m7i.16xlarge"
+            case .mlM7i24xlarge: return "ml.m7i.24xlarge"
+            case .mlM7i2xlarge: return "ml.m7i.2xlarge"
+            case .mlM7i48xlarge: return "ml.m7i.48xlarge"
+            case .mlM7i4xlarge: return "ml.m7i.4xlarge"
+            case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iLarge: return "ml.m7i.large"
+            case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -4623,6 +5214,7 @@ extension CleanRoomsMLClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
@@ -4640,6 +5232,15 @@ extension CleanRoomsMLClientTypes {
             case .mlR58xlarge: return "ml.r5.8xlarge"
             case .mlR5Large: return "ml.r5.large"
             case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlR7i12xlarge: return "ml.r7i.12xlarge"
+            case .mlR7i16xlarge: return "ml.r7i.16xlarge"
+            case .mlR7i24xlarge: return "ml.r7i.24xlarge"
+            case .mlR7i2xlarge: return "ml.r7i.2xlarge"
+            case .mlR7i48xlarge: return "ml.r7i.48xlarge"
+            case .mlR7i4xlarge: return "ml.r7i.4xlarge"
+            case .mlR7i8xlarge: return "ml.r7i.8xlarge"
+            case .mlR7iLarge: return "ml.r7i.large"
+            case .mlR7iXlarge: return "ml.r7i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -4662,7 +5263,7 @@ extension CleanRoomsMLClientTypes {
         /// The instance type that is used to train the model.
         /// This member is required.
         public var instanceType: CleanRoomsMLClientTypes.InstanceType?
-        /// The maximum size of the instance that is used to train the model.
+        /// The volume size of the instance that is used to train the model. Please see [EC2 volume limit](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-store-volumes.html) for volume size limitations on different instance types.
         /// This member is required.
         public var volumeSizeInGB: Swift.Int?
 
@@ -7851,9 +8452,11 @@ extension GetCollaborationMLInputChannelOutput {
         value.mlInputChannelArn = try reader["mlInputChannelArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.numberOfRecords = try reader["numberOfRecords"].readIfPresent()
+        value.privacyBudgets = try reader["privacyBudgets"].readIfPresent(with: CleanRoomsMLClientTypes.PrivacyBudgets.read(from:))
         value.retentionInDays = try reader["retentionInDays"].readIfPresent() ?? 0
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusDetails = try reader["statusDetails"].readIfPresent(with: CleanRoomsMLClientTypes.StatusDetails.read(from:))
+        value.syntheticDataConfiguration = try reader["syntheticDataConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.SyntheticDataConfiguration.read(from:))
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -8004,11 +8607,13 @@ extension GetMLInputChannelOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.numberOfFiles = try reader["numberOfFiles"].readIfPresent()
         value.numberOfRecords = try reader["numberOfRecords"].readIfPresent()
+        value.privacyBudgets = try reader["privacyBudgets"].readIfPresent(with: CleanRoomsMLClientTypes.PrivacyBudgets.read(from:))
         value.protectedQueryIdentifier = try reader["protectedQueryIdentifier"].readIfPresent()
         value.retentionInDays = try reader["retentionInDays"].readIfPresent() ?? 0
         value.sizeInGb = try reader["sizeInGb"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusDetails = try reader["statusDetails"].readIfPresent(with: CleanRoomsMLClientTypes.StatusDetails.read(from:))
+        value.syntheticDataConfiguration = try reader["syntheticDataConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.SyntheticDataConfiguration.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
@@ -9552,6 +10157,7 @@ extension CleanRoomsMLClientTypes.WorkerComputeConfiguration {
     static func write(value: CleanRoomsMLClientTypes.WorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["number"].write(value.number)
+        try writer["properties"].write(value.properties, with: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties.write(value:to:))
         try writer["type"].write(value.type)
     }
 
@@ -9560,7 +10166,32 @@ extension CleanRoomsMLClientTypes.WorkerComputeConfiguration {
         var value = CleanRoomsMLClientTypes.WorkerComputeConfiguration()
         value.type = try reader["type"].readIfPresent() ?? CleanRoomsMLClientTypes.WorkerComputeType.cr1x
         value.number = try reader["number"].readIfPresent() ?? 16
+        value.properties = try reader["properties"].readIfPresent(with: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties.read(from:))
         return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties {
+
+    static func write(value: CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .spark(spark):
+                try writer["spark"].writeMap(spark, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.WorkerComputeConfigurationProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "spark":
+                return .spark(try reader["spark"].readMap(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -9711,6 +10342,8 @@ extension CleanRoomsMLClientTypes.LogsConfigurationPolicy {
         guard let value else { return }
         try writer["allowedAccountIds"].writeList(value.allowedAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filterPattern"].write(value.filterPattern)
+        try writer["logRedactionConfiguration"].write(value.logRedactionConfiguration, with: CleanRoomsMLClientTypes.LogRedactionConfiguration.write(value:to:))
+        try writer["logType"].write(value.logType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.LogsConfigurationPolicy {
@@ -9718,6 +10351,40 @@ extension CleanRoomsMLClientTypes.LogsConfigurationPolicy {
         var value = CleanRoomsMLClientTypes.LogsConfigurationPolicy()
         value.allowedAccountIds = try reader["allowedAccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.filterPattern = try reader["filterPattern"].readIfPresent()
+        value.logType = try reader["logType"].readIfPresent() ?? CleanRoomsMLClientTypes.LogType.all
+        value.logRedactionConfiguration = try reader["logRedactionConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.LogRedactionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.LogRedactionConfiguration {
+
+    static func write(value: CleanRoomsMLClientTypes.LogRedactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customEntityConfig"].write(value.customEntityConfig, with: CleanRoomsMLClientTypes.CustomEntityConfig.write(value:to:))
+        try writer["entitiesToRedact"].writeList(value.entitiesToRedact, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsMLClientTypes.EntityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.LogRedactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.LogRedactionConfiguration()
+        value.entitiesToRedact = try reader["entitiesToRedact"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsMLClientTypes.EntityType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.customEntityConfig = try reader["customEntityConfig"].readIfPresent(with: CleanRoomsMLClientTypes.CustomEntityConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.CustomEntityConfig {
+
+    static func write(value: CleanRoomsMLClientTypes.CustomEntityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customDataIdentifiers"].writeList(value.customDataIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.CustomEntityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.CustomEntityConfig()
+        value.customDataIdentifiers = try reader["customDataIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9803,6 +10470,123 @@ extension CleanRoomsMLClientTypes.MetricsConfigurationPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.MetricsConfigurationPolicy()
         value.noiseLevel = try reader["noiseLevel"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.PrivacyBudgets {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.PrivacyBudgets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "accessBudgets":
+                return .accessbudgets(try reader["accessBudgets"].readList(memberReadingClosure: CleanRoomsMLClientTypes.AccessBudget.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes.AccessBudget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AccessBudget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.AccessBudget()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.details = try reader["details"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.AccessBudgetDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.aggregateRemainingBudget = try reader["aggregateRemainingBudget"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.AccessBudgetDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.AccessBudgetDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.AccessBudgetDetails()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.remainingBudget = try reader["remainingBudget"].readIfPresent() ?? 0
+        value.budget = try reader["budget"].readIfPresent() ?? 0
+        value.budgetType = try reader["budgetType"].readIfPresent() ?? .sdkUnknown("")
+        value.autoRefresh = try reader["autoRefresh"].readIfPresent()
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.SyntheticDataConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.SyntheticDataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.SyntheticDataConfiguration()
+        value.syntheticDataParameters = try reader["syntheticDataParameters"].readIfPresent(with: CleanRoomsMLClientTypes.MLSyntheticDataParameters.read(from:))
+        value.syntheticDataEvaluationScores = try reader["syntheticDataEvaluationScores"].readIfPresent(with: CleanRoomsMLClientTypes.SyntheticDataEvaluationScores.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.SyntheticDataEvaluationScores {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.SyntheticDataEvaluationScores {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.SyntheticDataEvaluationScores()
+        value.dataPrivacyScores = try reader["dataPrivacyScores"].readIfPresent(with: CleanRoomsMLClientTypes.DataPrivacyScores.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.DataPrivacyScores {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.DataPrivacyScores {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.DataPrivacyScores()
+        value.membershipInferenceAttackScores = try reader["membershipInferenceAttackScores"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.MembershipInferenceAttackScore.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.MembershipInferenceAttackScore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.MembershipInferenceAttackScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.MembershipInferenceAttackScore()
+        value.attackVersion = try reader["attackVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.score = try reader["score"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.MLSyntheticDataParameters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.MLSyntheticDataParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.MLSyntheticDataParameters()
+        value.epsilon = try reader["epsilon"].readIfPresent() ?? 0.0
+        value.maxMembershipInferenceAttackScore = try reader["maxMembershipInferenceAttackScore"].readIfPresent() ?? 0.0
+        value.columnClassification = try reader["columnClassification"].readIfPresent(with: CleanRoomsMLClientTypes.ColumnClassificationDetails.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.ColumnClassificationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.ColumnClassificationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.ColumnClassificationDetails()
+        value.columnMapping = try reader["columnMapping"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.SyntheticDataColumnProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.SyntheticDataColumnProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.SyntheticDataColumnProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.SyntheticDataColumnProperties()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.columnType = try reader["columnType"].readIfPresent() ?? .sdkUnknown("")
+        value.isPredictiveValue = try reader["isPredictiveValue"].readIfPresent() ?? false
         return value
     }
 }

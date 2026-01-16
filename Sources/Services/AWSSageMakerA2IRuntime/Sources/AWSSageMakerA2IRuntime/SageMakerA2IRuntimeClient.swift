@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class SageMakerA2IRuntimeClient: ClientRuntime.Client {
+public class SageMakerA2IRuntimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerA2IRuntimeClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerA2IRuntimeClient.SageMakerA2IRuntimeClientConfiguration
     let serviceName = "SageMaker A2I Runtime"
@@ -373,9 +373,9 @@ extension SageMakerA2IRuntimeClient {
     ///
     /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException.
     ///
-    /// - Parameter DeleteHumanLoopInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteHumanLoopInput`)
     ///
-    /// - Returns: `DeleteHumanLoopOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteHumanLoopOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +409,7 @@ extension SageMakerA2IRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHumanLoopInput, DeleteHumanLoopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteHumanLoopOutput>(DeleteHumanLoopOutput.httpOutput(from:), DeleteHumanLoopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHumanLoopInput, DeleteHumanLoopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHumanLoopOutput>())
@@ -440,9 +441,9 @@ extension SageMakerA2IRuntimeClient {
     ///
     /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException error.
     ///
-    /// - Parameter DescribeHumanLoopInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHumanLoopInput`)
     ///
-    /// - Returns: `DescribeHumanLoopOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHumanLoopOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,6 +477,7 @@ extension SageMakerA2IRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeHumanLoopInput, DescribeHumanLoopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHumanLoopOutput>(DescribeHumanLoopOutput.httpOutput(from:), DescribeHumanLoopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHumanLoopInput, DescribeHumanLoopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHumanLoopOutput>())
@@ -507,9 +509,9 @@ extension SageMakerA2IRuntimeClient {
     ///
     /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     ///
-    /// - Parameter ListHumanLoopsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHumanLoopsInput`)
     ///
-    /// - Returns: `ListHumanLoopsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHumanLoopsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -544,6 +546,7 @@ extension SageMakerA2IRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHumanLoopsInput, ListHumanLoopsOutput>(ListHumanLoopsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHumanLoopsOutput>(ListHumanLoopsOutput.httpOutput(from:), ListHumanLoopsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHumanLoopsInput, ListHumanLoopsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHumanLoopsOutput>())
@@ -575,9 +578,9 @@ extension SageMakerA2IRuntimeClient {
     ///
     /// Starts a human loop, provided that at least one activation condition is met.
     ///
-    /// - Parameter StartHumanLoopInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartHumanLoopInput`)
     ///
-    /// - Returns: `StartHumanLoopOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartHumanLoopOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -615,6 +618,7 @@ extension SageMakerA2IRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartHumanLoopInput, StartHumanLoopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartHumanLoopOutput>(StartHumanLoopOutput.httpOutput(from:), StartHumanLoopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartHumanLoopInput, StartHumanLoopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartHumanLoopOutput>())
@@ -646,9 +650,9 @@ extension SageMakerA2IRuntimeClient {
     ///
     /// Stops the specified human loop.
     ///
-    /// - Parameter StopHumanLoopInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopHumanLoopInput`)
     ///
-    /// - Returns: `StopHumanLoopOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopHumanLoopOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,6 +689,7 @@ extension SageMakerA2IRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopHumanLoopInput, StopHumanLoopOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopHumanLoopOutput>(StopHumanLoopOutput.httpOutput(from:), StopHumanLoopOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopHumanLoopInput, StopHumanLoopOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopHumanLoopOutput>())

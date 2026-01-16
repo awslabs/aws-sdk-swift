@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LaunchWizardClient: ClientRuntime.Client {
+public class LaunchWizardClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LaunchWizardClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: LaunchWizardClient.LaunchWizardClientConfiguration
     let serviceName = "Launch Wizard"
@@ -372,9 +372,9 @@ extension LaunchWizardClient {
     ///
     /// Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the Clone deployment action on.
     ///
-    /// - Parameter CreateDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeploymentOutput>(CreateDeploymentOutput.httpOutput(from:), CreateDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentOutput>())
@@ -442,9 +443,9 @@ extension LaunchWizardClient {
     ///
     /// Deletes a deployment.
     ///
-    /// - Parameter DeleteDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeploymentInput`)
     ///
-    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +482,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeploymentOutput>(DeleteDeploymentOutput.httpOutput(from:), DeleteDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeploymentOutput>())
@@ -512,9 +514,9 @@ extension LaunchWizardClient {
     ///
     /// Returns information about the deployment.
     ///
-    /// - Parameter GetDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,6 +552,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentOutput>(GetDeploymentOutput.httpOutput(from:), GetDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInput, GetDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentOutput>())
@@ -581,9 +584,9 @@ extension LaunchWizardClient {
     ///
     /// Returns information about a workload.
     ///
-    /// - Parameter GetWorkloadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadInput`)
     ///
-    /// - Returns: `GetWorkloadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -619,6 +622,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkloadInput, GetWorkloadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkloadOutput>(GetWorkloadOutput.httpOutput(from:), GetWorkloadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkloadInput, GetWorkloadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkloadOutput>())
@@ -650,9 +654,9 @@ extension LaunchWizardClient {
     ///
     /// Returns details for a given workload and deployment pattern, including the available specifications. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html) operation to discover the available workload names and the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html) operation to discover the available deployment pattern names of a given workload.
     ///
-    /// - Parameter GetWorkloadDeploymentPatternInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkloadDeploymentPatternInput`)
     ///
-    /// - Returns: `GetWorkloadDeploymentPatternOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkloadDeploymentPatternOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -688,6 +692,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkloadDeploymentPatternInput, GetWorkloadDeploymentPatternOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkloadDeploymentPatternOutput>(GetWorkloadDeploymentPatternOutput.httpOutput(from:), GetWorkloadDeploymentPatternOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkloadDeploymentPatternInput, GetWorkloadDeploymentPatternOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkloadDeploymentPatternOutput>())
@@ -719,9 +724,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the events of a deployment.
     ///
-    /// - Parameter ListDeploymentEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentEventsInput`)
     ///
-    /// - Returns: `ListDeploymentEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -757,6 +762,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentEventsInput, ListDeploymentEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentEventsOutput>(ListDeploymentEventsOutput.httpOutput(from:), ListDeploymentEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentEventsInput, ListDeploymentEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentEventsOutput>())
@@ -788,9 +794,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the deployments that have been created.
     ///
-    /// - Parameter ListDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentsInput`)
     ///
-    /// - Returns: `ListDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -825,6 +831,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentsOutput>(ListDeploymentsOutput.httpOutput(from:), ListDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentsOutput>())
@@ -856,9 +863,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the tags associated with a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -891,6 +898,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -922,9 +930,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the workload deployment patterns for a given workload name. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html) operation to discover the available workload names.
     ///
-    /// - Parameter ListWorkloadDeploymentPatternsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadDeploymentPatternsInput`)
     ///
-    /// - Returns: `ListWorkloadDeploymentPatternsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadDeploymentPatternsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,6 +968,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkloadDeploymentPatternsInput, ListWorkloadDeploymentPatternsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkloadDeploymentPatternsOutput>(ListWorkloadDeploymentPatternsOutput.httpOutput(from:), ListWorkloadDeploymentPatternsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkloadDeploymentPatternsInput, ListWorkloadDeploymentPatternsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkloadDeploymentPatternsOutput>())
@@ -991,9 +1000,9 @@ extension LaunchWizardClient {
     ///
     /// Lists the available workload names. You can use the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html) operation to discover the available deployment patterns for a given workload.
     ///
-    /// - Parameter ListWorkloadsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkloadsInput`)
     ///
-    /// - Returns: `ListWorkloadsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkloadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1028,6 +1037,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkloadsInput, ListWorkloadsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkloadsOutput>(ListWorkloadsOutput.httpOutput(from:), ListWorkloadsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkloadsInput, ListWorkloadsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkloadsOutput>())
@@ -1059,9 +1069,9 @@ extension LaunchWizardClient {
     ///
     /// Adds the specified tags to the given resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1097,6 +1107,7 @@ extension LaunchWizardClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1128,9 +1139,9 @@ extension LaunchWizardClient {
     ///
     /// Removes the specified tags from the given resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1164,6 +1175,7 @@ extension LaunchWizardClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

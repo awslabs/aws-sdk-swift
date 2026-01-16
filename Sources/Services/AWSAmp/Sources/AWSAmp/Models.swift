@@ -34,6 +34,11 @@ public struct DeleteAlertManagerDefinitionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteAnomalyDetectorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteLoggingConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -50,6 +55,11 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
 }
 
 public struct DeleteRuleGroupsNamespaceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteScraperLoggingConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -697,10 +707,33 @@ extension AmpClientTypes {
 
 extension AmpClientTypes {
 
+    /// The Amazon VPC configuration that specifies the network settings for a Prometheus collector to securely connect to Amazon MSK clusters. This configuration includes the security groups and subnets that control network access and placement for the collector.
+    public struct VpcConfiguration: Swift.Sendable {
+        /// The security group IDs that control network access for the Prometheus collector. These security groups must allow the collector to communicate with your Amazon MSK cluster on the required ports.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// The subnet IDs where the Prometheus collector will be deployed. The subnets must be in the same Amazon VPC as your Amazon MSK cluster and have network connectivity to the cluster.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+extension AmpClientTypes {
+
     /// The source of collected metrics for a scraper.
     public enum Source: Swift.Sendable {
         /// The Amazon EKS cluster from which a scraper collects metrics.
         case eksconfiguration(AmpClientTypes.EksConfiguration)
+        /// The Amazon VPC configuration for the Prometheus collector when connecting to Amazon MSK clusters. This configuration enables secure, private network connectivity between the collector and your Amazon MSK cluster within your Amazon VPC.
+        case vpcconfiguration(AmpClientTypes.VpcConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -719,7 +752,7 @@ public struct CreateScraperInput: Swift.Sendable {
     /// The configuration file to use in the new scraper. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
     /// This member is required.
     public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
-    /// The Amazon EKS cluster from which the scraper will collect metrics.
+    /// The Amazon EKS or Amazon Web Services cluster from which the scraper will collect metrics.
     /// This member is required.
     public var source: AmpClientTypes.Source?
     /// (Optional) The list of tag keys and values to associate with the scraper.
@@ -1076,6 +1109,262 @@ public struct ListScrapersOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteScraperLoggingConfigurationInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the request is processed exactly once.
+    public var clientToken: Swift.String?
+    /// The ID of the scraper whose logging configuration will be deleted.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        scraperId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.scraperId = scraperId
+    }
+}
+
+public struct DescribeScraperLoggingConfigurationInput: Swift.Sendable {
+    /// The ID of the scraper whose logging configuration will be described.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        scraperId: Swift.String? = nil
+    ) {
+        self.scraperId = scraperId
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Configuration details for logging to CloudWatch Logs.
+    public struct CloudWatchLogDestination: Swift.Sendable {
+        /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
+        /// This member is required.
+        public var logGroupArn: Swift.String?
+
+        public init(
+            logGroupArn: Swift.String? = nil
+        ) {
+            self.logGroupArn = logGroupArn
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// The destination where scraper logs are sent.
+    public enum ScraperLoggingDestination: Swift.Sendable {
+        /// The CloudWatch Logs configuration for the scraper logging destination.
+        case cloudwatchlogs(AmpClientTypes.CloudWatchLogDestination)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Configuration settings for a scraper component.
+    public struct ComponentConfig: Swift.Sendable {
+        /// Configuration options for the scraper component.
+        public var options: [Swift.String: Swift.String]?
+
+        public init(
+            options: [Swift.String: Swift.String]? = nil
+        ) {
+            self.options = options
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    public enum ScraperComponentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Scraper collector component
+        case collector
+        /// Scraper exporter component
+        case exporter
+        /// Scraper service discoverer component
+        case serviceDiscovery
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScraperComponentType] {
+            return [
+                .collector,
+                .exporter,
+                .serviceDiscovery
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .collector: return "COLLECTOR"
+            case .exporter: return "EXPORTER"
+            case .serviceDiscovery: return "SERVICE_DISCOVERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// A component of a Amazon Managed Service for Prometheus scraper that can be configured for logging.
+    public struct ScraperComponent: Swift.Sendable {
+        /// The configuration settings for the scraper component.
+        public var config: AmpClientTypes.ComponentConfig?
+        /// The type of the scraper component.
+        /// This member is required.
+        public var type: AmpClientTypes.ScraperComponentType?
+
+        public init(
+            config: AmpClientTypes.ComponentConfig? = nil,
+            type: AmpClientTypes.ScraperComponentType? = nil
+        ) {
+            self.config = config
+            self.type = type
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    public enum ScraperLoggingConfigurationStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Scraper logging configuration is active.
+        case active
+        /// Scraper logging configuration is being created.
+        case creating
+        /// Scraper logging configuration creation failed.
+        case creationFailed
+        /// Scraper logging configuration is being deleted.
+        case deleting
+        /// Scraper logging configuration update failed.
+        case updateFailed
+        /// Scraper logging configuration is being updated.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScraperLoggingConfigurationStatusCode] {
+            return [
+                .active,
+                .creating,
+                .creationFailed,
+                .deleting,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .creationFailed: return "CREATION_FAILED"
+            case .deleting: return "DELETING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// The status of a scraper logging configuration.
+    public struct ScraperLoggingConfigurationStatus: Swift.Sendable {
+        /// The status code of the scraper logging configuration.
+        /// This member is required.
+        public var statusCode: AmpClientTypes.ScraperLoggingConfigurationStatusCode?
+        /// The reason for the current status of the scraper logging configuration.
+        public var statusReason: Swift.String?
+
+        public init(
+            statusCode: AmpClientTypes.ScraperLoggingConfigurationStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct DescribeScraperLoggingConfigurationOutput: Swift.Sendable {
+    /// The destination where scraper logs are sent.
+    /// This member is required.
+    public var loggingDestination: AmpClientTypes.ScraperLoggingDestination?
+    /// The date and time when the logging configuration was last modified.
+    /// This member is required.
+    public var modifiedAt: Foundation.Date?
+    /// The list of scraper components configured for logging.
+    /// This member is required.
+    public var scraperComponents: [AmpClientTypes.ScraperComponent]?
+    /// The ID of the scraper.
+    /// This member is required.
+    public var scraperId: Swift.String?
+    /// The status of the scraper logging configuration.
+    /// This member is required.
+    public var status: AmpClientTypes.ScraperLoggingConfigurationStatus?
+
+    public init(
+        loggingDestination: AmpClientTypes.ScraperLoggingDestination? = nil,
+        modifiedAt: Foundation.Date? = nil,
+        scraperComponents: [AmpClientTypes.ScraperComponent]? = nil,
+        scraperId: Swift.String? = nil,
+        status: AmpClientTypes.ScraperLoggingConfigurationStatus? = nil
+    ) {
+        self.loggingDestination = loggingDestination
+        self.modifiedAt = modifiedAt
+        self.scraperComponents = scraperComponents
+        self.scraperId = scraperId
+        self.status = status
+    }
+}
+
+public struct UpdateScraperLoggingConfigurationInput: Swift.Sendable {
+    /// The destination where scraper logs will be sent.
+    /// This member is required.
+    public var loggingDestination: AmpClientTypes.ScraperLoggingDestination?
+    /// The list of scraper components to configure for logging.
+    public var scraperComponents: [AmpClientTypes.ScraperComponent]?
+    /// The ID of the scraper whose logging configuration will be updated.
+    /// This member is required.
+    public var scraperId: Swift.String?
+
+    public init(
+        loggingDestination: AmpClientTypes.ScraperLoggingDestination? = nil,
+        scraperComponents: [AmpClientTypes.ScraperComponent]? = nil,
+        scraperId: Swift.String? = nil
+    ) {
+        self.loggingDestination = loggingDestination
+        self.scraperComponents = scraperComponents
+        self.scraperId = scraperId
+    }
+}
+
+public struct UpdateScraperLoggingConfigurationOutput: Swift.Sendable {
+    /// The status of the updated scraper logging configuration.
+    /// This member is required.
+    public var status: AmpClientTypes.ScraperLoggingConfigurationStatus?
+
+    public init(
+        status: AmpClientTypes.ScraperLoggingConfigurationStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct UpdateScraperInput: Swift.Sendable {
     /// The new alias of the scraper.
     public var alias: Swift.String?
@@ -1176,6 +1465,464 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension AmpClientTypes {
+
+    /// Configuration for threshold settings that determine when values near expected values should be ignored during anomaly detection.
+    public enum IgnoreNearExpected: Swift.Sendable {
+        /// The absolute amount by which values can differ from expected values before being considered anomalous.
+        case amount(Swift.Double)
+        /// The ratio by which values can differ from expected values before being considered anomalous.
+        case ratio(Swift.Double)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Configuration for the Random Cut Forest algorithm used for anomaly detection in time-series data.
+    public struct RandomCutForestConfiguration: Swift.Sendable {
+        /// Configuration for ignoring values that are near expected values from above during anomaly detection.
+        public var ignoreNearExpectedFromAbove: AmpClientTypes.IgnoreNearExpected?
+        /// Configuration for ignoring values that are near expected values from below during anomaly detection.
+        public var ignoreNearExpectedFromBelow: AmpClientTypes.IgnoreNearExpected?
+        /// The Prometheus query used to retrieve the time-series data for anomaly detection. Random Cut Forest queries must be wrapped by a supported PromQL aggregation operator. For more information, see [Aggregation operators](https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators) on the Prometheus docs website. Supported PromQL aggregation operators: avg, count, group, max, min, quantile, stddev, stdvar, and sum.
+        /// This member is required.
+        public var query: Swift.String?
+        /// The number of data points sampled from the input stream for the Random Cut Forest algorithm. The default number is 256 consecutive data points.
+        public var sampleSize: Swift.Int?
+        /// The number of consecutive data points used to create a shingle for the Random Cut Forest algorithm. The default number is 8 consecutive data points.
+        public var shingleSize: Swift.Int?
+
+        public init(
+            ignoreNearExpectedFromAbove: AmpClientTypes.IgnoreNearExpected? = nil,
+            ignoreNearExpectedFromBelow: AmpClientTypes.IgnoreNearExpected? = nil,
+            query: Swift.String? = nil,
+            sampleSize: Swift.Int? = 256,
+            shingleSize: Swift.Int? = 8
+        ) {
+            self.ignoreNearExpectedFromAbove = ignoreNearExpectedFromAbove
+            self.ignoreNearExpectedFromBelow = ignoreNearExpectedFromBelow
+            self.query = query
+            self.sampleSize = sampleSize
+            self.shingleSize = shingleSize
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// The configuration for the anomaly detection algorithm.
+    public enum AnomalyDetectorConfiguration: Swift.Sendable {
+        /// The Random Cut Forest algorithm configuration for anomaly detection.
+        case randomcutforest(AmpClientTypes.RandomCutForestConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Specifies the action to take when data is missing during anomaly detection evaluation.
+    public enum AnomalyDetectorMissingDataAction: Swift.Sendable {
+        /// Marks missing data points as anomalies.
+        case markasanomaly(Swift.Bool)
+        /// Skips evaluation when data is missing.
+        case skip(Swift.Bool)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateAnomalyDetectorInput: Swift.Sendable {
+    /// A user-friendly name for the anomaly detector.
+    /// This member is required.
+    public var alias: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The algorithm configuration for the anomaly detector.
+    /// This member is required.
+    public var configuration: AmpClientTypes.AnomalyDetectorConfiguration?
+    /// The frequency, in seconds, at which the anomaly detector evaluates metrics. The default value is 60 seconds.
+    public var evaluationIntervalInSeconds: Swift.Int?
+    /// The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector.
+    public var labels: [Swift.String: Swift.String]?
+    /// Specifies the action to take when data is missing during evaluation.
+    public var missingDataAction: AmpClientTypes.AnomalyDetectorMissingDataAction?
+    /// The metadata to apply to the anomaly detector to assist with categorization and organization.
+    public var tags: [Swift.String: Swift.String]?
+    /// The identifier of the workspace where the anomaly detector will be created.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        alias: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configuration: AmpClientTypes.AnomalyDetectorConfiguration? = nil,
+        evaluationIntervalInSeconds: Swift.Int? = nil,
+        labels: [Swift.String: Swift.String]? = nil,
+        missingDataAction: AmpClientTypes.AnomalyDetectorMissingDataAction? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.alias = alias
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.evaluationIntervalInSeconds = evaluationIntervalInSeconds
+        self.labels = labels
+        self.missingDataAction = missingDataAction
+        self.tags = tags
+        self.workspaceId = workspaceId
+    }
+}
+
+extension AmpClientTypes {
+
+    public enum AnomalyDetectorStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case creationFailed
+        case deleting
+        case deletionFailed
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnomalyDetectorStatusCode] {
+            return [
+                .active,
+                .creating,
+                .creationFailed,
+                .deleting,
+                .deletionFailed,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .creationFailed: return "CREATION_FAILED"
+            case .deleting: return "DELETING"
+            case .deletionFailed: return "DELETION_FAILED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// The status information of an anomaly detector.
+    public struct AnomalyDetectorStatus: Swift.Sendable {
+        /// The status code of the anomaly detector.
+        /// This member is required.
+        public var statusCode: AmpClientTypes.AnomalyDetectorStatusCode?
+        /// A description of the current status of the anomaly detector.
+        public var statusReason: Swift.String?
+
+        public init(
+            statusCode: AmpClientTypes.AnomalyDetectorStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct CreateAnomalyDetectorOutput: Swift.Sendable {
+    /// The unique identifier of the created anomaly detector.
+    /// This member is required.
+    public var anomalyDetectorId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the created anomaly detector.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The status information of the created anomaly detector.
+    /// This member is required.
+    public var status: AmpClientTypes.AnomalyDetectorStatus?
+    /// The tags applied to the created anomaly detector.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        anomalyDetectorId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        status: AmpClientTypes.AnomalyDetectorStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.anomalyDetectorId = anomalyDetectorId
+        self.arn = arn
+        self.status = status
+        self.tags = tags
+    }
+}
+
+public struct DeleteAnomalyDetectorInput: Swift.Sendable {
+    /// The identifier of the anomaly detector to delete.
+    /// This member is required.
+    public var anomalyDetectorId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The identifier of the workspace containing the anomaly detector to delete.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        anomalyDetectorId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.anomalyDetectorId = anomalyDetectorId
+        self.clientToken = clientToken
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct DescribeAnomalyDetectorInput: Swift.Sendable {
+    /// The identifier of the anomaly detector to describe.
+    /// This member is required.
+    public var anomalyDetectorId: Swift.String?
+    /// The identifier of the workspace containing the anomaly detector.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        anomalyDetectorId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.anomalyDetectorId = anomalyDetectorId
+        self.workspaceId = workspaceId
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Detailed information about an anomaly detector.
+    public struct AnomalyDetectorDescription: Swift.Sendable {
+        /// The user-friendly name of the anomaly detector.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The unique identifier of the anomaly detector.
+        /// This member is required.
+        public var anomalyDetectorId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the anomaly detector.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The algorithm configuration of the anomaly detector.
+        public var configuration: AmpClientTypes.AnomalyDetectorConfiguration?
+        /// The timestamp when the anomaly detector was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The frequency, in seconds, at which the anomaly detector evaluates metrics.
+        public var evaluationIntervalInSeconds: Swift.Int?
+        /// The Amazon Managed Service for Prometheus metric labels associated with the anomaly detector.
+        public var labels: [Swift.String: Swift.String]?
+        /// The action taken when data is missing during evaluation.
+        public var missingDataAction: AmpClientTypes.AnomalyDetectorMissingDataAction?
+        /// The timestamp when the anomaly detector was last modified.
+        /// This member is required.
+        public var modifiedAt: Foundation.Date?
+        /// The current status of the anomaly detector.
+        /// This member is required.
+        public var status: AmpClientTypes.AnomalyDetectorStatus?
+        /// The tags applied to the anomaly detector.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            alias: Swift.String? = nil,
+            anomalyDetectorId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            configuration: AmpClientTypes.AnomalyDetectorConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            evaluationIntervalInSeconds: Swift.Int? = nil,
+            labels: [Swift.String: Swift.String]? = nil,
+            missingDataAction: AmpClientTypes.AnomalyDetectorMissingDataAction? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            status: AmpClientTypes.AnomalyDetectorStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.alias = alias
+            self.anomalyDetectorId = anomalyDetectorId
+            self.arn = arn
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.evaluationIntervalInSeconds = evaluationIntervalInSeconds
+            self.labels = labels
+            self.missingDataAction = missingDataAction
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.tags = tags
+        }
+    }
+}
+
+public struct DescribeAnomalyDetectorOutput: Swift.Sendable {
+    /// The detailed information about the anomaly detector.
+    /// This member is required.
+    public var anomalyDetector: AmpClientTypes.AnomalyDetectorDescription?
+
+    public init(
+        anomalyDetector: AmpClientTypes.AnomalyDetectorDescription? = nil
+    ) {
+        self.anomalyDetector = anomalyDetector
+    }
+}
+
+public struct ListAnomalyDetectorsInput: Swift.Sendable {
+    /// Filters the results to anomaly detectors with the specified alias.
+    public var alias: Swift.String?
+    /// The maximum number of results to return in a single call. Valid range is 1 to 1000.
+    public var maxResults: Swift.Int?
+    /// The pagination token to continue retrieving results.
+    public var nextToken: Swift.String?
+    /// The identifier of the workspace containing the anomaly detectors to list.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        alias: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.alias = alias
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workspaceId = workspaceId
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Summary information about an anomaly detector for list operations.
+    public struct AnomalyDetectorSummary: Swift.Sendable {
+        /// The user-friendly name of the anomaly detector.
+        /// This member is required.
+        public var alias: Swift.String?
+        /// The unique identifier of the anomaly detector.
+        /// This member is required.
+        public var anomalyDetectorId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the anomaly detector.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The timestamp when the anomaly detector was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The timestamp when the anomaly detector was last modified.
+        /// This member is required.
+        public var modifiedAt: Foundation.Date?
+        /// The current status of the anomaly detector.
+        /// This member is required.
+        public var status: AmpClientTypes.AnomalyDetectorStatus?
+        /// The tags applied to the anomaly detector.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            alias: Swift.String? = nil,
+            anomalyDetectorId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            status: AmpClientTypes.AnomalyDetectorStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.alias = alias
+            self.anomalyDetectorId = anomalyDetectorId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.tags = tags
+        }
+    }
+}
+
+public struct ListAnomalyDetectorsOutput: Swift.Sendable {
+    /// The list of anomaly detectors in the workspace.
+    /// This member is required.
+    public var anomalyDetectors: [AmpClientTypes.AnomalyDetectorSummary]?
+    /// The pagination token to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        anomalyDetectors: [AmpClientTypes.AnomalyDetectorSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.anomalyDetectors = anomalyDetectors
+        self.nextToken = nextToken
+    }
+}
+
+public struct PutAnomalyDetectorInput: Swift.Sendable {
+    /// The identifier of the anomaly detector to update.
+    /// This member is required.
+    public var anomalyDetectorId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The algorithm configuration for the anomaly detector.
+    /// This member is required.
+    public var configuration: AmpClientTypes.AnomalyDetectorConfiguration?
+    /// The frequency, in seconds, at which the anomaly detector evaluates metrics.
+    public var evaluationIntervalInSeconds: Swift.Int?
+    /// The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector.
+    public var labels: [Swift.String: Swift.String]?
+    /// Specifies the action to take when data is missing during evaluation.
+    public var missingDataAction: AmpClientTypes.AnomalyDetectorMissingDataAction?
+    /// The identifier of the workspace containing the anomaly detector to update.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        anomalyDetectorId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        configuration: AmpClientTypes.AnomalyDetectorConfiguration? = nil,
+        evaluationIntervalInSeconds: Swift.Int? = nil,
+        labels: [Swift.String: Swift.String]? = nil,
+        missingDataAction: AmpClientTypes.AnomalyDetectorMissingDataAction? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.anomalyDetectorId = anomalyDetectorId
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.evaluationIntervalInSeconds = evaluationIntervalInSeconds
+        self.labels = labels
+        self.missingDataAction = missingDataAction
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct PutAnomalyDetectorOutput: Swift.Sendable {
+    /// The unique identifier of the updated anomaly detector.
+    /// This member is required.
+    public var anomalyDetectorId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the updated anomaly detector.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The status information of the updated anomaly detector.
+    /// This member is required.
+    public var status: AmpClientTypes.AnomalyDetectorStatus?
+    /// The tags applied to the updated anomaly detector.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        anomalyDetectorId: Swift.String? = nil,
+        arn: Swift.String? = nil,
+        status: AmpClientTypes.AnomalyDetectorStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.anomalyDetectorId = anomalyDetectorId
+        self.arn = arn
+        self.status = status
+        self.tags = tags
+    }
 }
 
 /// Represents the input of a CreateWorkspace operation.
@@ -1677,22 +2424,6 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
         status: AmpClientTypes.LoggingConfigurationStatus? = nil
     ) {
         self.status = status
-    }
-}
-
-extension AmpClientTypes {
-
-    /// Configuration details for logging to CloudWatch Logs.
-    public struct CloudWatchLogDestination: Swift.Sendable {
-        /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
-        /// This member is required.
-        public var logGroupArn: Swift.String?
-
-        public init(
-            logGroupArn: Swift.String? = nil
-        ) {
-            self.logGroupArn = logGroupArn
-        }
     }
 }
 
@@ -2643,6 +3374,16 @@ extension CreateAlertManagerDefinitionInput {
     }
 }
 
+extension CreateAnomalyDetectorInput {
+
+    static func urlPathProvider(_ value: CreateAnomalyDetectorInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/anomalydetectors"
+    }
+}
+
 extension CreateLoggingConfigurationInput {
 
     static func urlPathProvider(_ value: CreateLoggingConfigurationInput) -> Swift.String? {
@@ -2700,6 +3441,31 @@ extension DeleteAlertManagerDefinitionInput {
 extension DeleteAlertManagerDefinitionInput {
 
     static func queryItemProvider(_ value: DeleteAlertManagerDefinitionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteAnomalyDetectorInput {
+
+    static func urlPathProvider(_ value: DeleteAnomalyDetectorInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let anomalyDetectorId = value.anomalyDetectorId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/anomalydetectors/\(anomalyDetectorId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteAnomalyDetectorInput {
+
+    static func queryItemProvider(_ value: DeleteAnomalyDetectorInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
@@ -2826,6 +3592,28 @@ extension DeleteScraperInput {
     }
 }
 
+extension DeleteScraperLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteScraperLoggingConfigurationInput) -> Swift.String? {
+        guard let scraperId = value.scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())/logging-configuration"
+    }
+}
+
+extension DeleteScraperLoggingConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteScraperLoggingConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteWorkspaceInput {
 
     static func urlPathProvider(_ value: DeleteWorkspaceInput) -> Swift.String? {
@@ -2855,6 +3643,19 @@ extension DescribeAlertManagerDefinitionInput {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/alertmanager/definition"
+    }
+}
+
+extension DescribeAnomalyDetectorInput {
+
+    static func urlPathProvider(_ value: DescribeAnomalyDetectorInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let anomalyDetectorId = value.anomalyDetectorId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/anomalydetectors/\(anomalyDetectorId.urlPercentEncoding())"
     }
 }
 
@@ -2911,6 +3712,16 @@ extension DescribeScraperInput {
     }
 }
 
+extension DescribeScraperLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeScraperLoggingConfigurationInput) -> Swift.String? {
+        guard let scraperId = value.scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())/logging-configuration"
+    }
+}
+
 extension DescribeWorkspaceInput {
 
     static func urlPathProvider(_ value: DescribeWorkspaceInput) -> Swift.String? {
@@ -2935,6 +3746,36 @@ extension GetDefaultScraperConfigurationInput {
 
     static func urlPathProvider(_ value: GetDefaultScraperConfigurationInput) -> Swift.String? {
         return "/scraperconfiguration"
+    }
+}
+
+extension ListAnomalyDetectorsInput {
+
+    static func urlPathProvider(_ value: ListAnomalyDetectorsInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/anomalydetectors"
+    }
+}
+
+extension ListAnomalyDetectorsInput {
+
+    static func queryItemProvider(_ value: ListAnomalyDetectorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let alias = value.alias {
+            let aliasQueryItem = Smithy.URIQueryItem(name: "alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
+            items.append(aliasQueryItem)
+        }
+        return items
     }
 }
 
@@ -3049,6 +3890,19 @@ extension PutAlertManagerDefinitionInput {
     }
 }
 
+extension PutAnomalyDetectorInput {
+
+    static func urlPathProvider(_ value: PutAnomalyDetectorInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        guard let anomalyDetectorId = value.anomalyDetectorId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/anomalydetectors/\(anomalyDetectorId.urlPercentEncoding())"
+    }
+}
+
 extension PutResourcePolicyInput {
 
     static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
@@ -3138,6 +3992,16 @@ extension UpdateScraperInput {
     }
 }
 
+extension UpdateScraperLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateScraperLoggingConfigurationInput) -> Swift.String? {
+        guard let scraperId = value.scraperId else {
+            return nil
+        }
+        return "/scrapers/\(scraperId.urlPercentEncoding())/logging-configuration"
+    }
+}
+
 extension UpdateWorkspaceAliasInput {
 
     static func urlPathProvider(_ value: UpdateWorkspaceAliasInput) -> Swift.String? {
@@ -3164,6 +4028,20 @@ extension CreateAlertManagerDefinitionInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["data"].write(value.data)
+    }
+}
+
+extension CreateAnomalyDetectorInput {
+
+    static func write(value: CreateAnomalyDetectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alias"].write(value.alias)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: AmpClientTypes.AnomalyDetectorConfiguration.write(value:to:))
+        try writer["evaluationIntervalInSeconds"].write(value.evaluationIntervalInSeconds)
+        try writer["labels"].writeMap(value.labels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["missingDataAction"].write(value.missingDataAction, with: AmpClientTypes.AnomalyDetectorMissingDataAction.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -3230,6 +4108,18 @@ extension PutAlertManagerDefinitionInput {
     }
 }
 
+extension PutAnomalyDetectorInput {
+
+    static func write(value: PutAnomalyDetectorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: AmpClientTypes.AnomalyDetectorConfiguration.write(value:to:))
+        try writer["evaluationIntervalInSeconds"].write(value.evaluationIntervalInSeconds)
+        try writer["labels"].writeMap(value.labels, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["missingDataAction"].write(value.missingDataAction, with: AmpClientTypes.AnomalyDetectorMissingDataAction.write(value:to:))
+    }
+}
+
 extension PutResourcePolicyInput {
 
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -3287,6 +4177,15 @@ extension UpdateScraperInput {
     }
 }
 
+extension UpdateScraperLoggingConfigurationInput {
+
+    static func write(value: UpdateScraperLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["loggingDestination"].write(value.loggingDestination, with: AmpClientTypes.ScraperLoggingDestination.write(value:to:))
+        try writer["scraperComponents"].writeList(value.scraperComponents, memberWritingClosure: AmpClientTypes.ScraperComponent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateWorkspaceAliasInput {
 
     static func write(value: UpdateWorkspaceAliasInput?, to writer: SmithyJSON.Writer) throws {
@@ -3314,6 +4213,21 @@ extension CreateAlertManagerDefinitionOutput {
         let reader = responseReader
         var value = CreateAlertManagerDefinitionOutput()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AlertManagerDefinitionStatus.read(from:))
+        return value
+    }
+}
+
+extension CreateAnomalyDetectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAnomalyDetectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAnomalyDetectorOutput()
+        value.anomalyDetectorId = try reader["anomalyDetectorId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AnomalyDetectorStatus.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3395,6 +4309,13 @@ extension DeleteAlertManagerDefinitionOutput {
     }
 }
 
+extension DeleteAnomalyDetectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAnomalyDetectorOutput {
+        return DeleteAnomalyDetectorOutput()
+    }
+}
+
 extension DeleteLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLoggingConfigurationOutput {
@@ -3436,6 +4357,13 @@ extension DeleteScraperOutput {
     }
 }
 
+extension DeleteScraperLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteScraperLoggingConfigurationOutput {
+        return DeleteScraperLoggingConfigurationOutput()
+    }
+}
+
 extension DeleteWorkspaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteWorkspaceOutput {
@@ -3451,6 +4379,18 @@ extension DescribeAlertManagerDefinitionOutput {
         let reader = responseReader
         var value = DescribeAlertManagerDefinitionOutput()
         value.alertManagerDefinition = try reader["alertManagerDefinition"].readIfPresent(with: AmpClientTypes.AlertManagerDefinitionDescription.read(from:))
+        return value
+    }
+}
+
+extension DescribeAnomalyDetectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAnomalyDetectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAnomalyDetectorOutput()
+        value.anomalyDetector = try reader["anomalyDetector"].readIfPresent(with: AmpClientTypes.AnomalyDetectorDescription.read(from:))
         return value
     }
 }
@@ -3517,6 +4457,22 @@ extension DescribeScraperOutput {
     }
 }
 
+extension DescribeScraperLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeScraperLoggingConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeScraperLoggingConfigurationOutput()
+        value.loggingDestination = try reader["loggingDestination"].readIfPresent(with: AmpClientTypes.ScraperLoggingDestination.read(from:))
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.scraperComponents = try reader["scraperComponents"].readListIfPresent(memberReadingClosure: AmpClientTypes.ScraperComponent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperLoggingConfigurationStatus.read(from:))
+        return value
+    }
+}
+
 extension DescribeWorkspaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeWorkspaceOutput {
@@ -3549,6 +4505,19 @@ extension GetDefaultScraperConfigurationOutput {
         let reader = responseReader
         var value = GetDefaultScraperConfigurationOutput()
         value.configuration = try reader["configuration"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        return value
+    }
+}
+
+extension ListAnomalyDetectorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAnomalyDetectorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAnomalyDetectorsOutput()
+        value.anomalyDetectors = try reader["anomalyDetectors"].readListIfPresent(memberReadingClosure: AmpClientTypes.AnomalyDetectorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -3612,6 +4581,21 @@ extension PutAlertManagerDefinitionOutput {
         let reader = responseReader
         var value = PutAlertManagerDefinitionOutput()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AlertManagerDefinitionStatus.read(from:))
+        return value
+    }
+}
+
+extension PutAnomalyDetectorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAnomalyDetectorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutAnomalyDetectorOutput()
+        value.anomalyDetectorId = try reader["anomalyDetectorId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AnomalyDetectorStatus.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -3697,6 +4681,18 @@ extension UpdateScraperOutput {
     }
 }
 
+extension UpdateScraperLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateScraperLoggingConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateScraperLoggingConfigurationOutput()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperLoggingConfigurationStatus.read(from:))
+        return value
+    }
+}
+
 extension UpdateWorkspaceAliasOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkspaceAliasOutput {
@@ -3728,6 +4724,25 @@ enum CreateAlertManagerDefinitionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAnomalyDetectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3848,6 +4863,25 @@ enum DeleteAlertManagerDefinitionOutputError {
     }
 }
 
+enum DeleteAnomalyDetectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteLoggingConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3941,6 +4975,24 @@ enum DeleteScraperOutputError {
     }
 }
 
+enum DeleteScraperLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteWorkspaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3961,6 +5013,24 @@ enum DeleteWorkspaceOutputError {
 }
 
 enum DescribeAlertManagerDefinitionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAnomalyDetectorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4066,6 +5136,23 @@ enum DescribeScraperOutputError {
     }
 }
 
+enum DescribeScraperLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeWorkspaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4113,6 +5200,24 @@ enum GetDefaultScraperConfigurationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAnomalyDetectorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -4200,6 +5305,25 @@ enum PutAlertManagerDefinitionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAnomalyDetectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -4333,6 +5457,24 @@ enum UpdateScraperOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateScraperLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4501,6 +5643,17 @@ extension AmpClientTypes.AlertManagerDefinitionStatus {
     }
 }
 
+extension AmpClientTypes.AnomalyDetectorStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.AnomalyDetectorStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
 extension AmpClientTypes.LoggingConfigurationStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingConfigurationStatus {
@@ -4564,6 +5717,129 @@ extension AmpClientTypes.AlertManagerDefinitionDescription {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension AmpClientTypes.AnomalyDetectorDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.AnomalyDetectorDescription()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.anomalyDetectorId = try reader["anomalyDetectorId"].readIfPresent() ?? ""
+        value.alias = try reader["alias"].readIfPresent() ?? ""
+        value.evaluationIntervalInSeconds = try reader["evaluationIntervalInSeconds"].readIfPresent()
+        value.missingDataAction = try reader["missingDataAction"].readIfPresent(with: AmpClientTypes.AnomalyDetectorMissingDataAction.read(from:))
+        value.configuration = try reader["configuration"].readIfPresent(with: AmpClientTypes.AnomalyDetectorConfiguration.read(from:))
+        value.labels = try reader["labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AnomalyDetectorStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AmpClientTypes.AnomalyDetectorConfiguration {
+
+    static func write(value: AmpClientTypes.AnomalyDetectorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .randomcutforest(randomcutforest):
+                try writer["randomCutForest"].write(randomcutforest, with: AmpClientTypes.RandomCutForestConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "randomCutForest":
+                return .randomcutforest(try reader["randomCutForest"].read(with: AmpClientTypes.RandomCutForestConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AmpClientTypes.RandomCutForestConfiguration {
+
+    static func write(value: AmpClientTypes.RandomCutForestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ignoreNearExpectedFromAbove"].write(value.ignoreNearExpectedFromAbove, with: AmpClientTypes.IgnoreNearExpected.write(value:to:))
+        try writer["ignoreNearExpectedFromBelow"].write(value.ignoreNearExpectedFromBelow, with: AmpClientTypes.IgnoreNearExpected.write(value:to:))
+        try writer["query"].write(value.query)
+        try writer["sampleSize"].write(value.sampleSize)
+        try writer["shingleSize"].write(value.shingleSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RandomCutForestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.RandomCutForestConfiguration()
+        value.query = try reader["query"].readIfPresent() ?? ""
+        value.shingleSize = try reader["shingleSize"].readIfPresent() ?? 8
+        value.sampleSize = try reader["sampleSize"].readIfPresent() ?? 256
+        value.ignoreNearExpectedFromAbove = try reader["ignoreNearExpectedFromAbove"].readIfPresent(with: AmpClientTypes.IgnoreNearExpected.read(from:))
+        value.ignoreNearExpectedFromBelow = try reader["ignoreNearExpectedFromBelow"].readIfPresent(with: AmpClientTypes.IgnoreNearExpected.read(from:))
+        return value
+    }
+}
+
+extension AmpClientTypes.IgnoreNearExpected {
+
+    static func write(value: AmpClientTypes.IgnoreNearExpected?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .amount(amount):
+                try writer["amount"].write(amount)
+            case let .ratio(ratio):
+                try writer["ratio"].write(ratio)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.IgnoreNearExpected {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "amount":
+                return .amount(try reader["amount"].read())
+            case "ratio":
+                return .ratio(try reader["ratio"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AmpClientTypes.AnomalyDetectorMissingDataAction {
+
+    static func write(value: AmpClientTypes.AnomalyDetectorMissingDataAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .markasanomaly(markasanomaly):
+                try writer["markAsAnomaly"].write(markasanomaly)
+            case let .skip(skip):
+                try writer["skip"].write(skip)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorMissingDataAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "markAsAnomaly":
+                return .markasanomaly(try reader["markAsAnomaly"].read())
+            case "skip":
+                return .skip(try reader["skip"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -4743,6 +6019,8 @@ extension AmpClientTypes.Source {
         switch value {
             case let .eksconfiguration(eksconfiguration):
                 try writer["eksConfiguration"].write(eksconfiguration, with: AmpClientTypes.EksConfiguration.write(value:to:))
+            case let .vpcconfiguration(vpcconfiguration):
+                try writer["vpcConfiguration"].write(vpcconfiguration, with: AmpClientTypes.VpcConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -4754,9 +6032,28 @@ extension AmpClientTypes.Source {
         switch name {
             case "eksConfiguration":
                 return .eksconfiguration(try reader["eksConfiguration"].read(with: AmpClientTypes.EksConfiguration.read(from:)))
+            case "vpcConfiguration":
+                return .vpcconfiguration(try reader["vpcConfiguration"].read(with: AmpClientTypes.VpcConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension AmpClientTypes.VpcConfiguration {
+
+    static func write(value: AmpClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.VpcConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -4800,6 +6097,73 @@ extension AmpClientTypes.ScrapeConfiguration {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension AmpClientTypes.ScraperLoggingConfigurationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperLoggingConfigurationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ScraperLoggingConfigurationStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.ScraperLoggingDestination {
+
+    static func write(value: AmpClientTypes.ScraperLoggingDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cloudwatchlogs(cloudwatchlogs):
+                try writer["cloudWatchLogs"].write(cloudwatchlogs, with: AmpClientTypes.CloudWatchLogDestination.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperLoggingDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "cloudWatchLogs":
+                return .cloudwatchlogs(try reader["cloudWatchLogs"].read(with: AmpClientTypes.CloudWatchLogDestination.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AmpClientTypes.ScraperComponent {
+
+    static func write(value: AmpClientTypes.ScraperComponent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["config"].write(value.config, with: AmpClientTypes.ComponentConfig.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ScraperComponent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.config = try reader["config"].readIfPresent(with: AmpClientTypes.ComponentConfig.read(from:))
+        return value
+    }
+}
+
+extension AmpClientTypes.ComponentConfig {
+
+    static func write(value: AmpClientTypes.ComponentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ComponentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ComponentConfig()
+        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 
@@ -4871,6 +6235,22 @@ extension AmpClientTypes.WorkspaceConfigurationStatus {
         var value = AmpClientTypes.WorkspaceConfigurationStatus()
         value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.AnomalyDetectorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.AnomalyDetectorSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.anomalyDetectorId = try reader["anomalyDetectorId"].readIfPresent() ?? ""
+        value.alias = try reader["alias"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AnomalyDetectorStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

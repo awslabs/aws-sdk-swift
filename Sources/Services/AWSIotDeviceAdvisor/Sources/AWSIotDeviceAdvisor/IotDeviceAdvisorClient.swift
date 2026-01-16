@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IotDeviceAdvisorClient: ClientRuntime.Client {
+public class IotDeviceAdvisorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IotDeviceAdvisorClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: IotDeviceAdvisorClient.IotDeviceAdvisorClientConfiguration
     let serviceName = "IotDeviceAdvisor"
@@ -374,9 +374,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Creates a Device Advisor test suite. Requires permission to access the [CreateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter CreateSuiteDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSuiteDefinitionInput`)
     ///
-    /// - Returns: `CreateSuiteDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSuiteDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSuiteDefinitionOutput>(CreateSuiteDefinitionOutput.httpOutput(from:), CreateSuiteDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSuiteDefinitionInput, CreateSuiteDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSuiteDefinitionOutput>())
@@ -443,9 +444,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Deletes a Device Advisor test suite. Requires permission to access the [DeleteSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DeleteSuiteDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSuiteDefinitionInput`)
     ///
-    /// - Returns: `DeleteSuiteDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSuiteDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -477,6 +478,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSuiteDefinitionOutput>(DeleteSuiteDefinitionOutput.httpOutput(from:), DeleteSuiteDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSuiteDefinitionInput, DeleteSuiteDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSuiteDefinitionOutput>())
@@ -508,9 +510,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Gets information about an Device Advisor endpoint.
     ///
-    /// - Parameter GetEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEndpointInput`)
     ///
-    /// - Returns: `GetEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -544,6 +546,7 @@ extension IotDeviceAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetEndpointInput, GetEndpointOutput>(GetEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEndpointOutput>(GetEndpointOutput.httpOutput(from:), GetEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEndpointInput, GetEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEndpointOutput>())
@@ -575,9 +578,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Gets information about a Device Advisor test suite. Requires permission to access the [GetSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetSuiteDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSuiteDefinitionInput`)
     ///
-    /// - Returns: `GetSuiteDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSuiteDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -611,6 +614,7 @@ extension IotDeviceAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSuiteDefinitionInput, GetSuiteDefinitionOutput>(GetSuiteDefinitionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSuiteDefinitionOutput>(GetSuiteDefinitionOutput.httpOutput(from:), GetSuiteDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSuiteDefinitionInput, GetSuiteDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSuiteDefinitionOutput>())
@@ -642,9 +646,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Gets information about a Device Advisor test suite run. Requires permission to access the [GetSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetSuiteRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSuiteRunInput`)
     ///
-    /// - Returns: `GetSuiteRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSuiteRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -677,6 +681,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSuiteRunInput, GetSuiteRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSuiteRunOutput>(GetSuiteRunOutput.httpOutput(from:), GetSuiteRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSuiteRunInput, GetSuiteRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSuiteRunOutput>())
@@ -708,9 +713,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Gets a report download link for a successful Device Advisor qualifying test suite run. Requires permission to access the [GetSuiteRunReport](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetSuiteRunReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSuiteRunReportInput`)
     ///
-    /// - Returns: `GetSuiteRunReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSuiteRunReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,6 +748,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSuiteRunReportInput, GetSuiteRunReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSuiteRunReportOutput>(GetSuiteRunReportOutput.httpOutput(from:), GetSuiteRunReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSuiteRunReportInput, GetSuiteRunReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSuiteRunReportOutput>())
@@ -774,9 +780,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Lists the Device Advisor test suites you have created. Requires permission to access the [ListSuiteDefinitions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListSuiteDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSuiteDefinitionsInput`)
     ///
-    /// - Returns: `ListSuiteDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSuiteDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,6 +815,7 @@ extension IotDeviceAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutput>(ListSuiteDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSuiteDefinitionsOutput>(ListSuiteDefinitionsOutput.httpOutput(from:), ListSuiteDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSuiteDefinitionsInput, ListSuiteDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSuiteDefinitionsOutput>())
@@ -840,9 +847,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the [ListSuiteRuns](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListSuiteRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSuiteRunsInput`)
     ///
-    /// - Returns: `ListSuiteRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSuiteRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -875,6 +882,7 @@ extension IotDeviceAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSuiteRunsInput, ListSuiteRunsOutput>(ListSuiteRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSuiteRunsOutput>(ListSuiteRunsOutput.httpOutput(from:), ListSuiteRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSuiteRunsInput, ListSuiteRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSuiteRunsOutput>())
@@ -906,9 +914,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Lists the tags attached to an IoT Device Advisor resource. Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -941,6 +949,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -972,9 +981,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Starts a Device Advisor test suite run. Requires permission to access the [StartSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StartSuiteRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSuiteRunInput`)
     ///
-    /// - Returns: `StartSuiteRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSuiteRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,6 +1019,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSuiteRunInput, StartSuiteRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSuiteRunOutput>(StartSuiteRunOutput.httpOutput(from:), StartSuiteRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSuiteRunInput, StartSuiteRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSuiteRunOutput>())
@@ -1041,9 +1051,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Stops a Device Advisor test suite run that is currently running. Requires permission to access the [StopSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StopSuiteRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSuiteRunInput`)
     ///
-    /// - Returns: `StopSuiteRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSuiteRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1076,6 +1086,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopSuiteRunInput, StopSuiteRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSuiteRunOutput>(StopSuiteRunOutput.httpOutput(from:), StopSuiteRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSuiteRunInput, StopSuiteRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSuiteRunOutput>())
@@ -1107,9 +1118,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Adds to and modifies existing tags of an IoT Device Advisor resource. Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,6 +1156,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1176,9 +1188,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Removes tags from an IoT Device Advisor resource. Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,6 +1224,7 @@ extension IotDeviceAdvisorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1243,9 +1256,9 @@ extension IotDeviceAdvisorClient {
     ///
     /// Updates a Device Advisor test suite. Requires permission to access the [UpdateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter UpdateSuiteDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSuiteDefinitionInput`)
     ///
-    /// - Returns: `UpdateSuiteDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSuiteDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1280,6 +1293,7 @@ extension IotDeviceAdvisorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSuiteDefinitionOutput>(UpdateSuiteDefinitionOutput.httpOutput(from:), UpdateSuiteDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSuiteDefinitionInput, UpdateSuiteDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSuiteDefinitionOutput>())

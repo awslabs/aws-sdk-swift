@@ -735,9 +735,9 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// The Amazon QuickSight configuration for an Amazon Q Business application that uses QuickSight as the identity provider. For more information, see [Creating an Amazon QuickSight integrated application](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/create-quicksight-integrated-application.html).
+    /// The Amazon Quick Suite configuration for an Amazon Q Business application that uses Quick Suite as the identity provider. For more information, see [Creating an Amazon Quick Suite integrated application](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/create-quicksight-integrated-application.html).
     public struct QuickSightConfiguration: Swift.Sendable {
-        /// The Amazon QuickSight namespace that is used as the identity provider. For more information about QuickSight namespaces, see [Namespace operations](https://docs.aws.amazon.com/quicksight/latest/developerguide/namespace-operations.html).
+        /// The Amazon Quick Suite namespace that is used as the identity provider. For more information about Quick Suite namespaces, see [Namespace operations](https://docs.aws.amazon.com/quicksight/latest/developerguide/namespace-operations.html).
         /// This member is required.
         public var clientNamespace: Swift.String?
 
@@ -799,7 +799,7 @@ extension QBusinessClientTypes {
         public var displayName: Swift.String?
         /// The authentication type being used by a Amazon Q Business application.
         public var identityType: QBusinessClientTypes.IdentityType?
-        /// The Amazon QuickSight configuration for an Amazon Q Business application that uses QuickSight as the identity provider.
+        /// The Amazon Quick Suite configuration for an Amazon Q Business application that uses Quick Suite as the identity provider.
         public var quickSightConfiguration: QBusinessClientTypes.QuickSightConfiguration?
         /// The status of the Amazon Q Business application. The application is ready to use when the status is ACTIVE.
         public var status: QBusinessClientTypes.ApplicationStatus?
@@ -1266,7 +1266,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
     /// An option to allow end users to create and use Amazon Q Apps in the web experience.
     public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
-    /// The Amazon QuickSight configuration for an Amazon Q Business application that uses QuickSight for authentication. This configuration is required if your application uses QuickSight as the identity provider. For more information, see [Creating an Amazon QuickSight integrated application](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/create-quicksight-integrated-application.html).
+    /// The Amazon Quick Suite configuration for an Amazon Q Business application that uses Quick Suite for authentication. This configuration is required if your application uses Quick Suite as the identity provider. For more information, see [Creating an Amazon Quick Suite integrated application](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/create-quicksight-integrated-application.html).
     public var quickSightConfiguration: QBusinessClientTypes.QuickSightConfiguration?
     /// The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics. If this property is not specified, Amazon Q Business will create a [service linked role (SLR)](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles.html#slr-permissions) and use it as the application's role.
     public var roleArn: Swift.String?
@@ -1761,7 +1761,7 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var personalizationConfiguration: QBusinessClientTypes.PersonalizationConfiguration?
     /// Settings for whether end users can create and use Amazon Q Apps in the web experience.
     public var qAppsConfiguration: QBusinessClientTypes.QAppsConfiguration?
-    /// The Amazon QuickSight authentication configuration for the Amazon Q Business application.
+    /// The Amazon Quick Suite authentication configuration for the Amazon Q Business application.
     public var quickSightConfiguration: QBusinessClientTypes.QuickSightConfiguration?
     /// The Amazon Resource Name (ARN) of the IAM with permissions to access your CloudWatch logs and metrics.
     public var roleArn: Swift.String?
@@ -2350,7 +2350,7 @@ public struct CreateDataSourceInput: Swift.Sendable {
     public var indexId: Swift.String?
     /// The configuration for extracting information from media in documents during ingestion.
     public var mediaExtractionConfiguration: QBusinessClientTypes.MediaExtractionConfiguration?
-    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources.
+    /// The Amazon Resource Name (ARN) of an IAM role with permission to access the data source and required resources. This field is required for all connector types except custom connectors, where it is optional.
     public var roleArn: Swift.String?
     /// Sets the frequency for Amazon Q Business to check the documents in your data source repository and update your index. If you don't set a schedule, Amazon Q Business won't periodically update the index. Specify a cron- format schedule string or an empty string to indicate that the index is updated on demand. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
     public var syncSchedule: Swift.String?
@@ -4360,7 +4360,7 @@ public struct CreateWebExperienceInput: Swift.Sendable {
     public var identityProviderConfiguration: QBusinessClientTypes.IdentityProviderConfiguration?
     /// Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified). You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com.
     public var origins: [Swift.String]?
-    /// The Amazon Resource Name (ARN) of the service role attached to your web experience. You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
+    /// The Amazon Resource Name (ARN) of the service role attached to your web experience. The roleArn parameter is required when your Amazon Q Business application is created with IAM Identity Center. It is not required for SAML-based applications.
     public var roleArn: Swift.String?
     /// Determines whether sample prompts are enabled in the web experience for an end user.
     public var samplePromptsControlMode: QBusinessClientTypes.WebExperienceSamplePromptsControlMode?
@@ -5470,7 +5470,7 @@ public struct BatchPutDocumentInput: Swift.Sendable {
     public var applicationId: Swift.String?
     /// The identifier of the data source sync during which the documents were added.
     public var dataSourceSyncId: Swift.String?
-    /// One or more documents to add to the index.
+    /// One or more documents to add to the index. Ensure that the name of your document doesn't contain any confidential information. Amazon Q Business returns document names in chat responses and citations when relevant.
     /// This member is required.
     public var documents: [QBusinessClientTypes.Document]?
     /// The identifier of the Amazon Q Business index to add the documents to.
@@ -5509,7 +5509,7 @@ extension QBusinessClientTypes {
 
     /// Provides information about the phrases blocked from chat by your chat control configuration.
     public struct BlockedPhrasesConfiguration: Swift.Sendable {
-        /// A list of phrases blocked from a Amazon Q Business web experience chat.
+        /// A list of phrases blocked from a Amazon Q Business web experience chat. Each phrase can contain a maximum of 36 characters. The list can contain a maximum of 20 phrases.
         public var blockedPhrases: [Swift.String]?
         /// The configured custom message displayed to an end user informing them that they've used a blocked phrase during chat.
         public var systemMessageOverride: Swift.String?
@@ -7424,11 +7424,13 @@ public struct GetChatResponseConfigurationOutput: Swift.Sendable {
 extension QBusinessClientTypes {
 
     public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case extracted
         case raw
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OutputFormat] {
             return [
+                .extracted,
                 .raw
             ]
         }
@@ -7440,6 +7442,7 @@ extension QBusinessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .extracted: return "EXTRACTED"
             case .raw: return "RAW"
             case let .sdkUnknown(s): return s
             }
@@ -7459,7 +7462,7 @@ public struct GetDocumentContentInput: Swift.Sendable {
     /// The identifier of the index where documents are indexed.
     /// This member is required.
     public var indexId: Swift.String?
-    /// Raw document outputFormat.
+    /// Document outputFormat. Defaults to RAW if not selected.
     public var outputFormat: QBusinessClientTypes.OutputFormat?
 
     public init(
@@ -7478,7 +7481,7 @@ public struct GetDocumentContentInput: Swift.Sendable {
 }
 
 public struct GetDocumentContentOutput: Swift.Sendable {
-    /// The MIME type of the document content (e.g., application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document).
+    /// The MIME type of the document content. When outputFormat is RAW, this corresponds to the original document's MIME type (e.g., application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document). When outputFormat is EXTRACTED, the MIME type is always application/json.
     /// This member is required.
     public var mimeType: Swift.String?
     /// A pre-signed URL that provides temporary access to download the document content directly from Amazon Q Business. The URL expires after 5 minutes for security purposes. This URL is generated only after successful ACL validation.
@@ -12750,6 +12753,7 @@ enum DeleteConversationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "LicenseNotFoundException": return try LicenseNotFoundException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)

@@ -31,8 +31,8 @@ class PrepareReleaseTests: CLITestCase {
 
     // MARK: - Tests
     
-    // MARK: Golden Path
-    
+    // MARK: Golden Path; release build
+
     func testGoldenPath() throws {
         var commands: [String] = []
         let runner = ProcessRunner {
@@ -45,7 +45,7 @@ class PrepareReleaseTests: CLITestCase {
         createPackageVersion(previousVersion)
         createNextPackageVersion(newVersion)
 
-        createBuildRequestAndMapping()
+        createBuildRequestAndMapping(type: .release)
 
         let subject = PrepareRelease.mock(repoType: .awsSdkSwift, diffChecker: { _,_ in true })
         try! subject.run()
@@ -63,11 +63,49 @@ class PrepareReleaseTests: CLITestCase {
         XCTAssertEqual(commands.count, 5)
         XCTAssertTrue(commands[0].contains("git add"))
         XCTAssertTrue(commands[1].contains("git commit"))
-        XCTAssertTrue(commands[2].contains("git tag"))
+        XCTAssertTrue(commands[2].contains("git tag -a 1.2.4 -m"))
         XCTAssertTrue(commands[3].contains("git log"))
         XCTAssertTrue(commands[4].contains("git status"))
     }
-    
+
+    // MARK: non-release build with tag modifier
+
+    func test_prepareRelease_releaseTagIsModifiedForNonReleaseTypeBuild() throws {
+        var commands: [String] = []
+        let runner = ProcessRunner {
+            commands.append($0.commandString)
+        }
+        ProcessRunner.testRunner = runner
+        let previousVersion = try Version("1.2.3")
+        let newVersion = try Version("1.2.4")
+        let futureVersion = try Version("1.2.5")
+        createPackageVersion(previousVersion)
+        createNextPackageVersion(newVersion)
+
+        createBuildRequestAndMapping(type: .preview)
+
+        let subject = PrepareRelease.mock(repoType: .awsSdkSwift, diffChecker: { _,_ in true })
+        try! subject.run()
+
+        let versionFromFile = try! Version.fromFile("Package.version")
+        XCTAssertEqual(versionFromFile, newVersion)
+
+        let futureVersionFromFile = try! Version.fromFile("Package.version.next")
+        XCTAssertEqual(futureVersionFromFile, futureVersion)
+
+        let releaseManifest = try! ReleaseManifest.fromFile("release-manifest.json")
+        XCTAssertEqual(releaseManifest.name, "\(newVersion)")
+        XCTAssertEqual(releaseManifest.tagName, "\(newVersion)")
+
+        // Check that expected Git commands were issued
+        XCTAssertEqual(commands.count, 5)
+        XCTAssertTrue(commands[0].contains("git add"))
+        XCTAssertTrue(commands[1].contains("git commit"))
+        XCTAssertTrue(commands[2].contains("git tag -a 1.2.4-nonrelease -m"))
+        XCTAssertTrue(commands[3].contains("git log"))
+        XCTAssertTrue(commands[4].contains("git status"))
+    }
+
     func testRunBailsEarlyIfThereAreNoChanges() throws {
         var commands: [String] = []
         let runner = ProcessRunner {
@@ -79,7 +117,7 @@ class PrepareReleaseTests: CLITestCase {
         createPackageVersion(previousVersion)
         createNextPackageVersion(newVersion)
 
-        createBuildRequestAndMapping()
+        createBuildRequestAndMapping(type: .release)
 
         let subject = PrepareRelease.mock(diffChecker: { _,_ in false })
         try! subject.run()
@@ -184,7 +222,20 @@ class PrepareReleaseTests: CLITestCase {
         ProcessRunner.testRunner = runner
         let subject = PrepareRelease.mock(repoType: .awsSdkSwift)
         try! subject.stageFiles()
-        XCTAssertTrue(command.hasSuffix("git add Package.swift Package.version Package.version.next packageDependencies.plist Sources/Services Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md Sources/Core/AWSSDKPartitions/Sources/AWSSDKPartitions/Partitions.swift Sources/Core/AWSSDKIdentity/"))
+        let expectedCommand = [
+            "git add",
+            "Package.swift",
+            "Package.version",
+            "Package.version.next",
+            "packageDependencies.plist",
+            "Sources/Services",
+            "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md",
+            "Sources/Core/SDKForSwift/Documentation.docc/SDKForSwift.md",
+            "Sources/Core/AWSSDKIdentity/",
+            "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/PackageVersion.swift",
+            "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/Partitions.swift",
+        ].joined(separator: " ")
+        XCTAssertTrue(command.hasSuffix(expectedCommand))
     }
     
     func testStageFilesForSmithySwift() {
@@ -200,8 +251,8 @@ class PrepareReleaseTests: CLITestCase {
 
     // MARK: - Private methods
 
-    private func createBuildRequestAndMapping() {
-        let buildRequest = "{\"features\":[]}"
+    private func createBuildRequestAndMapping(type: BuildType) {
+        let buildRequest = "{\"buildType\":\"\(type.rawValue)\",\"features\":[]}"
         FileManager.default.createFile(atPath: "../build-request.json", contents: Data(buildRequest.utf8))
 
         let mapping = "{}"

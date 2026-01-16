@@ -1116,6 +1116,8 @@ public struct CreateCustomKeyStoreInput: Swift.Sendable {
     ///
     /// * External key stores with VPC_ENDPOINT_SERVICE connectivity can share an Amazon VPC, but each external key store must have its own VPC endpoint service and private DNS name.
     public var xksProxyVpcEndpointServiceName: Swift.String?
+    /// Specifies the Amazon Web Services account ID that owns the Amazon VPC service endpoint for the interface that is used to communicate with your external key store proxy (XKS proxy). This parameter is optional. If not provided, the Amazon Web Services account ID calling the action will be used.
+    public var xksProxyVpcEndpointServiceOwner: Swift.String?
 
     public init(
         cloudHsmClusterId: Swift.String? = nil,
@@ -1127,7 +1129,8 @@ public struct CreateCustomKeyStoreInput: Swift.Sendable {
         xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
         xksProxyUriEndpoint: Swift.String? = nil,
         xksProxyUriPath: Swift.String? = nil,
-        xksProxyVpcEndpointServiceName: Swift.String? = nil
+        xksProxyVpcEndpointServiceName: Swift.String? = nil,
+        xksProxyVpcEndpointServiceOwner: Swift.String? = nil
     ) {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreName = customKeyStoreName
@@ -1139,12 +1142,13 @@ public struct CreateCustomKeyStoreInput: Swift.Sendable {
         self.xksProxyUriEndpoint = xksProxyUriEndpoint
         self.xksProxyUriPath = xksProxyUriPath
         self.xksProxyVpcEndpointServiceName = xksProxyVpcEndpointServiceName
+        self.xksProxyVpcEndpointServiceOwner = xksProxyVpcEndpointServiceOwner
     }
 }
 
 extension CreateCustomKeyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreName: \(Swift.String(describing: customKeyStoreName)), customKeyStoreType: \(Swift.String(describing: customKeyStoreType)), trustAnchorCertificate: \(Swift.String(describing: trustAnchorCertificate)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), keyStorePassword: \"CONTENT_REDACTED\")"}
+        "CreateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreName: \(Swift.String(describing: customKeyStoreName)), customKeyStoreType: \(Swift.String(describing: customKeyStoreType)), trustAnchorCertificate: \(Swift.String(describing: trustAnchorCertificate)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), xksProxyVpcEndpointServiceOwner: \(Swift.String(describing: xksProxyVpcEndpointServiceOwner)), keyStorePassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCustomKeyStoreOutput: Swift.Sendable {
@@ -1588,6 +1592,7 @@ extension KMSClientTypes {
 extension KMSClientTypes {
 
     public enum KeySpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eccNistEdwards25519
         case eccNistP256
         case eccNistP384
         case eccNistP521
@@ -1608,6 +1613,7 @@ extension KMSClientTypes {
 
         public static var allCases: [KeySpec] {
             return [
+                .eccNistEdwards25519,
                 .eccNistP256,
                 .eccNistP384,
                 .eccNistP521,
@@ -1634,6 +1640,7 @@ extension KMSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .eccNistEdwards25519: return "ECC_NIST_EDWARDS25519"
             case .eccNistP256: return "ECC_NIST_P256"
             case .eccNistP384: return "ECC_NIST_P384"
             case .eccNistP521: return "ECC_NIST_P521"
@@ -1790,13 +1797,20 @@ public struct CreateKeyInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * Asymmetric NIST-recommended elliptic curve key pairs (signing and verification -or- deriving shared secrets)
+    /// * Asymmetric NIST-standard elliptic curve key pairs (signing and verification -or- deriving shared secrets)
     ///
     /// * ECC_NIST_P256 (secp256r1)
     ///
     /// * ECC_NIST_P384 (secp384r1)
     ///
     /// * ECC_NIST_P521 (secp521r1)
+    ///
+    /// * ECC_NIST_EDWARDS25519 (ed25519) - signing and verification only
+    ///
+    /// * Note: For ECC_NIST_EDWARDS25519 KMS keys, the ED25519_SHA_512 signing algorithm requires [MessageType:RAW], while ED25519_PH_SHA_512 requires [MessageType:DIGEST]. These message types cannot be used interchangeably.
+    ///
+    ///
+    ///
     ///
     ///
     ///
@@ -1823,7 +1837,7 @@ public struct CreateKeyInput: Swift.Sendable {
     ///
     /// * SM2 (China Regions only)
     public var keySpec: KMSClientTypes.KeySpec?
-    /// Determines the [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) for which you can use the KMS key. The default value is ENCRYPT_DECRYPT. This parameter is optional when you are creating a symmetric encryption KMS key; otherwise, it is required. You can't change the KeyUsage value after the KMS key is created. Select only one valid value.
+    /// Determines the [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) for which you can use the KMS key. The default value is ENCRYPT_DECRYPT. This parameter is optional when you are creating a symmetric encryption KMS key; otherwise, it is required. You can't change the [KeyUsage](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html#key-usage) value after the KMS key is created. Each KMS key can have only one key usage. This follows key usage best practices according to [NIST SP 800-57 Recommendations for Key Management](https://csrc.nist.gov/pubs/sp/800/57/pt1/r5/final), section 5.2, Key usage. Select only one valid value.
     ///
     /// * For symmetric encryption KMS keys, omit the parameter or specify ENCRYPT_DECRYPT.
     ///
@@ -1831,7 +1845,7 @@ public struct CreateKeyInput: Swift.Sendable {
     ///
     /// * For asymmetric KMS keys with RSA key pairs, specify ENCRYPT_DECRYPT or SIGN_VERIFY.
     ///
-    /// * For asymmetric KMS keys with NIST-recommended elliptic curve key pairs, specify SIGN_VERIFY or KEY_AGREEMENT.
+    /// * For asymmetric KMS keys with NIST-standard elliptic curve key pairs, specify SIGN_VERIFY or KEY_AGREEMENT.
     ///
     /// * For asymmetric KMS keys with ECC_SECG_P256K1 key pairs, specify SIGN_VERIFY.
     ///
@@ -2162,6 +2176,8 @@ extension KMSClientTypes {
         case ecdsaSha256
         case ecdsaSha384
         case ecdsaSha512
+        case ed25519PhSha512
+        case ed25519Sha512
         case mlDsaShake256
         case rsassaPkcs1V15Sha256
         case rsassaPkcs1V15Sha384
@@ -2177,6 +2193,8 @@ extension KMSClientTypes {
                 .ecdsaSha256,
                 .ecdsaSha384,
                 .ecdsaSha512,
+                .ed25519PhSha512,
+                .ed25519Sha512,
                 .mlDsaShake256,
                 .rsassaPkcs1V15Sha256,
                 .rsassaPkcs1V15Sha384,
@@ -2198,6 +2216,8 @@ extension KMSClientTypes {
             case .ecdsaSha256: return "ECDSA_SHA_256"
             case .ecdsaSha384: return "ECDSA_SHA_384"
             case .ecdsaSha512: return "ECDSA_SHA_512"
+            case .ed25519PhSha512: return "ED25519_PH_SHA_512"
+            case .ed25519Sha512: return "ED25519_SHA_512"
             case .mlDsaShake256: return "ML_DSA_SHAKE_256"
             case .rsassaPkcs1V15Sha256: return "RSASSA_PKCS1_V1_5_SHA_256"
             case .rsassaPkcs1V15Sha384: return "RSASSA_PKCS1_V1_5_SHA_384"
@@ -2239,7 +2259,7 @@ extension KMSClientTypes {
         public var cloudHsmClusterId: Swift.String?
         /// The date and time when the KMS key was created.
         public var creationDate: Foundation.Date?
-        /// Identifies the current key material. This value is present for symmetric encryption keys with AWS_KMS origin and single-Region, symmetric encryption keys with EXTERNAL origin. These KMS keys support automatic or on-demand key rotation and can have multiple key materials associated with them. KMS uses the current key material for both encryption and decryption, and the non-current key material for decryption operations only.
+        /// Identifies the current key material. This value is present for symmetric encryption keys with AWS_KMS or EXTERNAL origin. These KMS keys support automatic or on-demand key rotation and can have multiple key materials associated with them. KMS uses the current key material for both encryption and decryption, and the non-current key material for decryption operations only.
         public var currentKeyMaterialId: Swift.String?
         /// A unique identifier for the [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/key-store-overview.html) that contains the KMS key. This field is present only when the KMS key is created in a custom key store.
         public var customKeyStoreId: Swift.String?
@@ -2398,26 +2418,30 @@ extension KMSClientTypes {
         public var uriPath: Swift.String?
         /// The Amazon VPC endpoint service used to communicate with the external key store proxy. This field appears only when the external key store proxy uses an Amazon VPC endpoint service to communicate with KMS.
         public var vpcEndpointServiceName: Swift.String?
+        /// The Amazon Web Services account ID that owns the Amazon VPC endpoint service used to communicate with the external key store proxy (XKS). This field appears only when the XKS uses an VPC endpoint service to communicate with KMS.
+        public var vpcEndpointServiceOwner: Swift.String?
 
         public init(
             accessKeyId: Swift.String? = nil,
             connectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
             uriEndpoint: Swift.String? = nil,
             uriPath: Swift.String? = nil,
-            vpcEndpointServiceName: Swift.String? = nil
+            vpcEndpointServiceName: Swift.String? = nil,
+            vpcEndpointServiceOwner: Swift.String? = nil
         ) {
             self.accessKeyId = accessKeyId
             self.connectivity = connectivity
             self.uriEndpoint = uriEndpoint
             self.uriPath = uriPath
             self.vpcEndpointServiceName = vpcEndpointServiceName
+            self.vpcEndpointServiceOwner = vpcEndpointServiceOwner
         }
     }
 }
 
 extension KMSClientTypes.XksProxyConfigurationType: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "XksProxyConfigurationType(connectivity: \(Swift.String(describing: connectivity)), uriEndpoint: \(Swift.String(describing: uriEndpoint)), uriPath: \(Swift.String(describing: uriPath)), vpcEndpointServiceName: \(Swift.String(describing: vpcEndpointServiceName)), accessKeyId: \"CONTENT_REDACTED\")"}
+        "XksProxyConfigurationType(connectivity: \(Swift.String(describing: connectivity)), uriEndpoint: \(Swift.String(describing: uriEndpoint)), uriPath: \(Swift.String(describing: uriPath)), vpcEndpointServiceName: \(Swift.String(describing: vpcEndpointServiceName)), vpcEndpointServiceOwner: \(Swift.String(describing: vpcEndpointServiceOwner)), accessKeyId: \"CONTENT_REDACTED\")"}
 }
 
 extension KMSClientTypes {
@@ -2531,6 +2555,7 @@ extension KMSClientTypes {
 extension KMSClientTypes {
 
     public enum DataKeyPairSpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eccNistEdwards25519
         case eccNistP256
         case eccNistP384
         case eccNistP521
@@ -2543,6 +2568,7 @@ extension KMSClientTypes {
 
         public static var allCases: [DataKeyPairSpec] {
             return [
+                .eccNistEdwards25519,
                 .eccNistP256,
                 .eccNistP384,
                 .eccNistP521,
@@ -2561,6 +2587,7 @@ extension KMSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .eccNistEdwards25519: return "ECC_NIST_EDWARDS25519"
             case .eccNistP256: return "ECC_NIST_P256"
             case .eccNistP384: return "ECC_NIST_P384"
             case .eccNistP521: return "ECC_NIST_P521"
@@ -2731,11 +2758,11 @@ extension KMSClientTypes {
 
 extension KMSClientTypes {
 
-    /// Contains information about the party that receives the response from the API operation. This data type is designed to support Amazon Web Services Nitro Enclaves, which lets you create an isolated compute environment in Amazon EC2. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// Contains information about the party that receives the response from the API operation. This data type is designed to support Amazon Web Services Nitro Enclaves and Amazon Web Services NitroTPM, which lets you create an attested environment in Amazon EC2. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public struct RecipientInfo: Swift.Sendable {
-        /// The attestation document for an Amazon Web Services Nitro Enclave. This document includes the enclave's public key.
+        /// The attestation document for an Amazon Web Services Nitro Enclave or a NitroTPM. This document includes the enclave's public key.
         public var attestationDocument: Foundation.Data?
-        /// The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256.
+        /// The encryption algorithm that KMS should use with the public key for an Amazon Web Services Nitro Enclave or NitroTPM to encrypt plaintext values for the response. The only valid value is RSAES_OAEP_SHA_256.
         public var keyEncryptionAlgorithm: KMSClientTypes.KeyEncryptionMechanism?
 
         public init(
@@ -2773,7 +2800,7 @@ public struct DecryptInput: Swift.Sendable {
     ///
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     public var keyId: Swift.String?
-    /// A signed [attestation document](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-concepts.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// A signed [attestation document](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-concepts.html#term-attestdoc) from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter supports the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK for Amazon Web Services Nitro Enclaves. It supports any Amazon Web Services SDK for Amazon Web Services NitroTPM. When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
@@ -2796,7 +2823,7 @@ public struct DecryptInput: Swift.Sendable {
 }
 
 public struct DecryptOutput: Swift.Sendable {
-    /// The plaintext data encrypted with the public key in the attestation document. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// The plaintext data encrypted with the public key from the attestation document. This ciphertext can be decrypted only by using a private key from the attested environment. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave or NitroTPM. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var ciphertextForRecipient: Foundation.Data?
     /// The encryption algorithm that was used to decrypt the ciphertext.
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
@@ -2902,7 +2929,7 @@ public struct DeriveSharedSecretInput: Swift.Sendable {
     /// Specifies the key agreement algorithm used to derive the shared secret. The only valid value is ECDH.
     /// This member is required.
     public var keyAgreementAlgorithm: KMSClientTypes.KeyAgreementAlgorithmSpec?
-    /// Identifies an asymmetric NIST-recommended ECC or SM2 (China Regions only) KMS key. KMS uses the private key in the specified key pair to derive the shared secret. The key usage of the KMS key must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+    /// Identifies an asymmetric NIST-standard ECC or SM2 (China Regions only) KMS key. KMS uses the private key in the specified key pair to derive the shared secret. The key usage of the KMS key must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -2916,10 +2943,10 @@ public struct DeriveSharedSecretInput: Swift.Sendable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Specifies the public key in your peer's NIST-recommended elliptic curve (ECC) or SM2 (China Regions only) key pair. The public key must be a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in [RFC 5280](https://tools.ietf.org/html/rfc5280). [GetPublicKey] returns the public key of an asymmetric KMS key pair in the required DER-encoded format. If you use [Amazon Web Services CLI version 1](https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-welcome.html), you must provide the DER-encoded X.509 public key in a file. Otherwise, the Amazon Web Services CLI Base64-encodes the public key a second time, resulting in a ValidationException. You can specify the public key as binary data in a file using fileb (fileb://) or in-line using a Base64 encoded string.
+    /// Specifies the public key in your peer's NIST-standard elliptic curve (ECC) or SM2 (China Regions only) key pair. The public key must be a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in [RFC 5280](https://tools.ietf.org/html/rfc5280). [GetPublicKey] returns the public key of an asymmetric KMS key pair in the required DER-encoded format. If you use [Amazon Web Services CLI version 1](https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-welcome.html), you must provide the DER-encoded X.509 public key in a file. Otherwise, the Amazon Web Services CLI Base64-encodes the public key a second time, resulting in a ValidationException. You can specify the public key as binary data in a file using fileb (fileb://) or in-line using a Base64 encoded string.
     /// This member is required.
     public var publicKey: Foundation.Data?
-    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To call DeriveSharedSecret for an Amazon Web Services Nitro Enclaves, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) to generate the attestation document and then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation document for the enclave. When you use this parameter, instead of returning a plaintext copy of the shared secret, KMS encrypts the plaintext shared secret under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains the encrypted shared secret derived from the KMS key specified by the KeyId parameter and public key specified by the PublicKey parameter. The SharedSecret field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM. To call DeriveSharedSecret generate an attestation document use either [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) for an Amazon Web Services Nitro Enclaves or [Amazon Web Services NitroTPM tools](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/attestation-get-doc.html) for Amazon Web Services NitroTPM. Then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation document for the attested environment. When you use this parameter, instead of returning a plaintext copy of the shared secret, KMS encrypts the plaintext shared secret under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The CiphertextBlob field in the response contains the encrypted shared secret derived from the KMS key specified by the KeyId parameter and public key specified by the PublicKey parameter. The SharedSecret field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
@@ -2940,7 +2967,7 @@ public struct DeriveSharedSecretInput: Swift.Sendable {
 }
 
 public struct DeriveSharedSecretOutput: Swift.Sendable {
-    /// The plaintext shared secret encrypted with the public key in the attestation document. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// The plaintext shared secret encrypted with the public key from the attestation document. This ciphertext can be decrypted only by using a private key from the attested environment. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave or NitroTPM. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var ciphertextForRecipient: Foundation.Data?
     /// Identifies the key agreement algorithm used to derive the shared secret.
     public var keyAgreementAlgorithm: KMSClientTypes.KeyAgreementAlgorithmSpec?
@@ -3287,7 +3314,7 @@ public struct GenerateDataKeyInput: Swift.Sendable {
     public var keySpec: KMSClientTypes.DataKeySpec?
     /// Specifies the length of the data key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For 128-bit (16-byte) and 256-bit (32-byte) data keys, use the KeySpec parameter. You must specify either the KeySpec or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
     public var numberOfBytes: Swift.Int?
-    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. When you use this parameter, instead of returning the plaintext data key, KMS encrypts the plaintext data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains a copy of the data key encrypted under the KMS key specified by the KeyId parameter. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter supports the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK for Amazon Web Services Nitro Enclaves. It supports any Amazon Web Services SDK for Amazon Web Services NitroTPM. When you use this parameter, instead of returning the plaintext data key, KMS encrypts the plaintext data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains a copy of the data key encrypted under the KMS key specified by the KeyId parameter. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
@@ -3312,7 +3339,7 @@ public struct GenerateDataKeyInput: Swift.Sendable {
 public struct GenerateDataKeyOutput: Swift.Sendable {
     /// The encrypted copy of the data key. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
     public var ciphertextBlob: Foundation.Data?
-    /// The plaintext data key encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// The plaintext data key encrypted with the public key from the attestation document. This ciphertext can be decrypted only by using a private key from the attested environment. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave or NitroTPM. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var ciphertextForRecipient: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the data key.
     public var keyId: Swift.String?
@@ -3365,7 +3392,7 @@ public struct GenerateDataKeyPairInput: Swift.Sendable {
     /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
     /// This member is required.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
-    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To call DeriveSharedSecret for an Amazon Web Services Nitro Enclaves, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) to generate the attestation document and then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation document for the enclave. When you use this parameter, instead of returning a plaintext copy of the private data key, KMS encrypts the plaintext private data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob field in the response contains a copy of the private data key encrypted under the KMS key specified by the KeyId parameter. The PrivateKeyPlaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM. To call GenerateDataKeyPair generate an attestation document use either [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) for an Amazon Web Services Nitro Enclaves or [Amazon Web Services NitroTPM tools](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/attestation-get-doc.html) for Amazon Web Services NitroTPM. Then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation document for the attested environment. When you use this parameter, instead of returning a plaintext copy of the private data key, KMS encrypts the plaintext private data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The CiphertextBlob field in the response contains a copy of the private data key encrypted under the KMS key specified by the KeyId parameter. The PrivateKeyPlaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
@@ -3386,7 +3413,7 @@ public struct GenerateDataKeyPairInput: Swift.Sendable {
 }
 
 public struct GenerateDataKeyPairOutput: Swift.Sendable {
-    /// The plaintext private data key encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// The plaintext private data key encrypted with the public key from the attestation document. This ciphertext can be decrypted only by using a private key from the attested environment. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave or NitroTPM. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var ciphertextForRecipient: Foundation.Data?
     /// The Amazon Resource Name ([key ARN](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN)) of the KMS key that encrypted the private key.
     public var keyId: Swift.String?
@@ -3613,7 +3640,7 @@ public struct GenerateRandomInput: Swift.Sendable {
     public var customKeyStoreId: Swift.String?
     /// The length of the random byte string. This parameter is required.
     public var numberOfBytes: Swift.Int?
-    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave and the encryption algorithm to use with the enclave's public key. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. When you use this parameter, instead of returning plaintext bytes, KMS encrypts the plaintext bytes under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the enclave. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter supports the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK for Amazon Web Services Nitro Enclaves. It supports any Amazon Web Services SDK for Amazon Web Services NitroTPM. When you use this parameter, instead of returning plaintext bytes, KMS encrypts the plaintext bytes under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var recipient: KMSClientTypes.RecipientInfo?
 
     public init(
@@ -3628,7 +3655,7 @@ public struct GenerateRandomInput: Swift.Sendable {
 }
 
 public struct GenerateRandomOutput: Swift.Sendable {
-    /// The plaintext random bytes encrypted with the public key from the Nitro enclave. This ciphertext can be decrypted only by using a private key in the Nitro enclave. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see [How Amazon Web Services Nitro Enclaves uses KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-nitro-enclaves.html) in the Key Management Service Developer Guide.
+    /// The plaintext random bytes encrypted with the public key from the attestation document. This ciphertext can be decrypted only by using a private key from the attested environment. This field is included in the response only when the Recipient parameter in the request includes a valid attestation document from an Amazon Web Services Nitro enclave or NitroTPM. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
     public var ciphertextForRecipient: Foundation.Data?
     /// The random byte string. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. If the response includes the CiphertextForRecipient field, the Plaintext field is null or empty.
     public var plaintext: Foundation.Data?
@@ -4031,7 +4058,7 @@ public struct ImportKeyMaterialInput: Swift.Sendable {
     /// The import token that you received in the response to a previous [GetParametersForImport] request. It must be from the same response that contained the public key that you used to encrypt the key material.
     /// This member is required.
     public var importToken: Foundation.Data?
-    /// Indicates whether the key material being imported is previously associated with this KMS key or not. This parameter is optional and only usable with symmetric encryption keys. If no key material has ever been imported into the KMS key, and this parameter is omitted, the parameter defaults to NEW_KEY_MATERIAL. After the first key material is imported, if this parameter is omitted then the parameter defaults to EXISTING_KEY_MATERIAL.
+    /// Indicates whether the key material being imported is previously associated with this KMS key or not. This parameter is optional and only usable with symmetric encryption keys. If no key material has ever been imported into the KMS key, and this parameter is omitted, the parameter defaults to NEW_KEY_MATERIAL. After the first key material is imported, if this parameter is omitted then the parameter defaults to EXISTING_KEY_MATERIAL. For multi-Region keys, you must first import new key material into the primary Region key. You should use the NEW_KEY_MATERIAL import type when importing key material into the primary Region key. Then, you can import the same key material into the replica Region key. The import type for the replica Region key should be EXISTING_KEY_MATERIAL.
     public var importType: KMSClientTypes.ImportType?
     /// The identifier of the KMS key that will be associated with the imported key material. This must be the same KMS key specified in the KeyID parameter of the corresponding [GetParametersForImport] request. The Origin of the KMS key must be EXTERNAL and its KeyState must be PendingImport. The KMS key can be a symmetric encryption KMS key, HMAC KMS key, asymmetric encryption KMS key, or asymmetric signing KMS key, including a [multi-Region key](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) of any supported type. You cannot perform this operation on a KMS key in a custom key store, or on a KMS key in a different Amazon Web Services account. Specify the key ID or key ARN of the KMS key. For example:
     ///
@@ -4200,6 +4227,7 @@ extension KMSClientTypes {
     public enum KeyMaterialState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case current
         case nonCurrent
+        case pendingMultiRegionImportAndRotation
         case pendingRotation
         case sdkUnknown(Swift.String)
 
@@ -4207,6 +4235,7 @@ extension KMSClientTypes {
             return [
                 .current,
                 .nonCurrent,
+                .pendingMultiRegionImportAndRotation,
                 .pendingRotation
             ]
         }
@@ -4220,6 +4249,7 @@ extension KMSClientTypes {
             switch self {
             case .current: return "CURRENT"
             case .nonCurrent: return "NON_CURRENT"
+            case .pendingMultiRegionImportAndRotation: return "PENDING_MULTI_REGION_IMPORT_AND_ROTATION"
             case .pendingRotation: return "PENDING_ROTATION"
             case let .sdkUnknown(s): return s
             }
@@ -4492,7 +4522,7 @@ extension KMSClientTypes {
         public var keyMaterialDescription: Swift.String?
         /// Unique identifier of the key material.
         public var keyMaterialId: Swift.String?
-        /// There are three possible values for this field: CURRENT, NON_CURRENT and PENDING_ROTATION. KMS uses CURRENT key material for both encryption and decryption and NON_CURRENT key material only for decryption. PENDING_ROTATION identifies key material that has been imported for on-demand key rotation but the rotation hasn't completed. Key material in PENDING_ROTATION is not permanently associated with the KMS key. You can delete this key material and import different key material in its place. The PENDING_ROTATION value is only used in symmetric encryption keys with imported key material. The other values, CURRENT and NON_CURRENT, are used for all KMS keys that support automatic or on-demand key rotation.
+        /// There are four possible values for this field: CURRENT, NON_CURRENT, PENDING_MULTI_REGION_IMPORT_AND_ROTATION and PENDING_ROTATION. KMS uses CURRENT key material for both encryption and decryption and NON_CURRENT key material only for decryption. PENDING_ROTATION identifies key material that has been imported for on-demand key rotation but the rotation hasn't completed. The key material state PENDING_MULTI_REGION_IMPORT_AND_ROTATION is unique to multi-region, symmetric encryption keys with imported key material. It indicates key material that has been imported into the primary Region key but not all of the replica Region keys. When this key material is imported in to all of the replica Region keys, the key material state will change to PENDING_ROTATION. Key material in PENDING_MULTI_REGION_IMPORT_AND_ROTATION or PENDING_ROTATION state is not permanently associated with the KMS key. You can delete this key material and import different key material in its place. The PENDING_MULTI_REGION_IMPORT_AND_ROTATION and PENDING_ROTATION values are only used in symmetric encryption keys with imported key material. The other values, CURRENT and NON_CURRENT, are used for all KMS keys that support automatic or on-demand key rotation.
         public var keyMaterialState: KMSClientTypes.KeyMaterialState?
         /// Date and time that the key material rotation completed. Formatted as Unix time. This field is not present for the first key material or an imported key material in PENDING_ROTATION state.
         public var rotationDate: Foundation.Date?
@@ -5071,7 +5101,14 @@ public struct SignInput: Swift.Sendable {
     /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing.
     /// This member is required.
     public var message: Foundation.Data?
-    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When using ECC_NIST_EDWARDS25519 KMS keys:
+    ///
+    /// * ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW
+    ///
+    /// * ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST
+    ///
+    ///
+    /// When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
     ///
@@ -5227,6 +5264,8 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
     public var xksProxyUriPath: Swift.String?
     /// Changes the name that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is valid when the CustomKeyStoreType is EXTERNAL_KEY_STORE and the XksProxyConnectivity is VPC_ENDPOINT_SERVICE. To change this value, the external key store must be disconnected.
     public var xksProxyVpcEndpointServiceName: Swift.String?
+    /// Changes the Amazon Web Services account ID that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is optional. If not specified, the current Amazon Web Services account ID for the VPC endpoint service will not be updated. To change this value, the external key store must be disconnected.
+    public var xksProxyVpcEndpointServiceOwner: Swift.String?
 
     public init(
         cloudHsmClusterId: Swift.String? = nil,
@@ -5237,7 +5276,8 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
         xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
         xksProxyUriEndpoint: Swift.String? = nil,
         xksProxyUriPath: Swift.String? = nil,
-        xksProxyVpcEndpointServiceName: Swift.String? = nil
+        xksProxyVpcEndpointServiceName: Swift.String? = nil,
+        xksProxyVpcEndpointServiceOwner: Swift.String? = nil
     ) {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreId = customKeyStoreId
@@ -5248,12 +5288,13 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
         self.xksProxyUriEndpoint = xksProxyUriEndpoint
         self.xksProxyUriPath = xksProxyUriPath
         self.xksProxyVpcEndpointServiceName = xksProxyVpcEndpointServiceName
+        self.xksProxyVpcEndpointServiceOwner = xksProxyVpcEndpointServiceOwner
     }
 }
 
 extension UpdateCustomKeyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreId: \(Swift.String(describing: customKeyStoreId)), newCustomKeyStoreName: \(Swift.String(describing: newCustomKeyStoreName)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), keyStorePassword: \"CONTENT_REDACTED\")"}
+        "UpdateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreId: \(Swift.String(describing: customKeyStoreId)), newCustomKeyStoreName: \(Swift.String(describing: newCustomKeyStoreName)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), xksProxyVpcEndpointServiceOwner: \(Swift.String(describing: xksProxyVpcEndpointServiceOwner)), keyStorePassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateCustomKeyStoreOutput: Swift.Sendable {
@@ -5331,7 +5372,14 @@ public struct VerifyInput: Swift.Sendable {
     /// Specifies the message that was signed. You can submit a raw message of up to 4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType parameter with a value of DIGEST. If the message specified here is different from the message that was signed, the signature verification fails. A message and its hash digest are considered to be the same message.
     /// This member is required.
     public var message: Foundation.Data?
-    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When using ECC_NIST_EDWARDS25519 KMS keys:
+    ///
+    /// * ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW
+    ///
+    /// * ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST
+    ///
+    ///
+    /// When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
     ///
@@ -5862,6 +5910,7 @@ extension CreateCustomKeyStoreInput {
         try writer["XksProxyUriEndpoint"].write(value.xksProxyUriEndpoint)
         try writer["XksProxyUriPath"].write(value.xksProxyUriPath)
         try writer["XksProxyVpcEndpointServiceName"].write(value.xksProxyVpcEndpointServiceName)
+        try writer["XksProxyVpcEndpointServiceOwner"].write(value.xksProxyVpcEndpointServiceOwner)
     }
 }
 
@@ -6352,6 +6401,7 @@ extension UpdateCustomKeyStoreInput {
         try writer["XksProxyUriEndpoint"].write(value.xksProxyUriEndpoint)
         try writer["XksProxyUriPath"].write(value.xksProxyUriPath)
         try writer["XksProxyVpcEndpointServiceName"].write(value.xksProxyVpcEndpointServiceName)
+        try writer["XksProxyVpcEndpointServiceOwner"].write(value.xksProxyVpcEndpointServiceOwner)
     }
 }
 
@@ -8822,6 +8872,7 @@ extension KMSClientTypes.XksProxyConfigurationType {
         value.uriEndpoint = try reader["UriEndpoint"].readIfPresent()
         value.uriPath = try reader["UriPath"].readIfPresent()
         value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent()
+        value.vpcEndpointServiceOwner = try reader["VpcEndpointServiceOwner"].readIfPresent()
         return value
     }
 }

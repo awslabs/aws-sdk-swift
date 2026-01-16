@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class IoTJobsDataPlaneClient: ClientRuntime.Client {
+public class IoTJobsDataPlaneClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTJobsDataPlaneClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTJobsDataPlaneClient.IoTJobsDataPlaneClientConfiguration
     let serviceName = "IoT Jobs Data Plane"
@@ -373,9 +373,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Gets details of a job execution. Requires permission to access the [DescribeJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter DescribeJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobExecutionInput`)
     ///
-    /// - Returns: `DescribeJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension IoTJobsDataPlaneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeJobExecutionInput, DescribeJobExecutionOutput>(DescribeJobExecutionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobExecutionOutput>(DescribeJobExecutionOutput.httpOutput(from:), DescribeJobExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobExecutionInput, DescribeJobExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobExecutionOutput>())
@@ -443,9 +444,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Gets the list of all jobs for a thing that are not in a terminal status. Requires permission to access the [GetPendingJobExecutions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter GetPendingJobExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPendingJobExecutionsInput`)
     ///
-    /// - Returns: `GetPendingJobExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPendingJobExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,6 +481,7 @@ extension IoTJobsDataPlaneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPendingJobExecutionsInput, GetPendingJobExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPendingJobExecutionsOutput>(GetPendingJobExecutionsOutput.httpOutput(from:), GetPendingJobExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPendingJobExecutionsInput, GetPendingJobExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPendingJobExecutionsOutput>())
@@ -511,9 +513,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Using the command created with the CreateCommand API, start a command execution on a specific device.
     ///
-    /// - Parameter StartCommandExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCommandExecutionInput`)
     ///
-    /// - Returns: `StartCommandExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCommandExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,6 +555,7 @@ extension IoTJobsDataPlaneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCommandExecutionOutput>(StartCommandExecutionOutput.httpOutput(from:), StartCommandExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCommandExecutionOutput>())
@@ -584,9 +587,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing. Requires permission to access the [StartNextPendingJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
     ///
-    /// - Parameter StartNextPendingJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartNextPendingJobExecutionInput`)
     ///
-    /// - Returns: `StartNextPendingJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartNextPendingJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,6 +627,7 @@ extension IoTJobsDataPlaneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartNextPendingJobExecutionInput, StartNextPendingJobExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartNextPendingJobExecutionOutput>(StartNextPendingJobExecutionOutput.httpOutput(from:), StartNextPendingJobExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartNextPendingJobExecutionInput, StartNextPendingJobExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartNextPendingJobExecutionOutput>())
@@ -655,9 +659,9 @@ extension IoTJobsDataPlaneClient {
     ///
     /// Updates the status of a job execution. Requires permission to access the [UpdateJobExecution](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiotjobsdataplane.html) action.
     ///
-    /// - Parameter UpdateJobExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobExecutionInput`)
     ///
-    /// - Returns: `UpdateJobExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,6 +700,7 @@ extension IoTJobsDataPlaneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobExecutionInput, UpdateJobExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobExecutionOutput>(UpdateJobExecutionOutput.httpOutput(from:), UpdateJobExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobExecutionInput, UpdateJobExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobExecutionOutput>())

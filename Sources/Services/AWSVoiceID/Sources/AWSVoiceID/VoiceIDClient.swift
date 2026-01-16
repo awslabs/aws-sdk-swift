@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class VoiceIDClient: ClientRuntime.Client {
+public class VoiceIDClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "VoiceIDClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: VoiceIDClient.VoiceIDClientConfiguration
     let serviceName = "Voice ID"
@@ -373,9 +373,9 @@ extension VoiceIDClient {
     ///
     /// Associates the fraudsters with the watchlist specified in the same domain.
     ///
-    /// - Parameter AssociateFraudsterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateFraudsterInput`)
     ///
-    /// - Returns: `AssociateFraudsterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateFraudsterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateFraudsterOutput>(AssociateFraudsterOutput.httpOutput(from:), AssociateFraudsterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFraudsterInput, AssociateFraudsterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFraudsterOutput>())
@@ -447,9 +448,9 @@ extension VoiceIDClient {
     ///
     /// Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +489,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -522,9 +524,9 @@ extension VoiceIDClient {
     ///
     /// Creates a watchlist that fraudsters can be a part of.
     ///
-    /// - Parameter CreateWatchlistInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWatchlistInput`)
     ///
-    /// - Returns: `CreateWatchlistOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWatchlistOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,6 +565,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWatchlistInput, CreateWatchlistOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWatchlistOutput>(CreateWatchlistOutput.httpOutput(from:), CreateWatchlistOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWatchlistInput, CreateWatchlistOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWatchlistOutput>())
@@ -597,9 +600,9 @@ extension VoiceIDClient {
     ///
     /// Deletes the specified domain from Voice ID.
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,6 +639,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -670,9 +674,9 @@ extension VoiceIDClient {
     ///
     /// Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
     ///
-    /// - Parameter DeleteFraudsterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFraudsterInput`)
     ///
-    /// - Returns: `DeleteFraudsterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFraudsterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -709,6 +713,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFraudsterOutput>(DeleteFraudsterOutput.httpOutput(from:), DeleteFraudsterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFraudsterInput, DeleteFraudsterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFraudsterOutput>())
@@ -743,9 +748,9 @@ extension VoiceIDClient {
     ///
     /// Deletes the specified speaker from Voice ID.
     ///
-    /// - Parameter DeleteSpeakerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSpeakerInput`)
     ///
-    /// - Returns: `DeleteSpeakerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSpeakerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,6 +787,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSpeakerOutput>(DeleteSpeakerOutput.httpOutput(from:), DeleteSpeakerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSpeakerInput, DeleteSpeakerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSpeakerOutput>())
@@ -816,9 +822,9 @@ extension VoiceIDClient {
     ///
     /// Deletes the specified watchlist from Voice ID. This API throws an exception when there are fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
     ///
-    /// - Parameter DeleteWatchlistInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWatchlistInput`)
     ///
-    /// - Returns: `DeleteWatchlistOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWatchlistOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,6 +861,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWatchlistOutput>(DeleteWatchlistOutput.httpOutput(from:), DeleteWatchlistOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWatchlistInput, DeleteWatchlistOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWatchlistOutput>())
@@ -889,9 +896,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified domain.
     ///
-    /// - Parameter DescribeDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainInput`)
     ///
-    /// - Returns: `DescribeDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,6 +934,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainInput, DescribeDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainOutput>(DescribeDomainOutput.httpOutput(from:), DescribeDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainInput, DescribeDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainOutput>())
@@ -961,9 +969,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified fraudster.
     ///
-    /// - Parameter DescribeFraudsterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFraudsterInput`)
     ///
-    /// - Returns: `DescribeFraudsterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFraudsterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -999,6 +1007,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFraudsterOutput>(DescribeFraudsterOutput.httpOutput(from:), DescribeFraudsterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFraudsterInput, DescribeFraudsterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFraudsterOutput>())
@@ -1033,9 +1042,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified fraudster registration job.
     ///
-    /// - Parameter DescribeFraudsterRegistrationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFraudsterRegistrationJobInput`)
     ///
-    /// - Returns: `DescribeFraudsterRegistrationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFraudsterRegistrationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1071,6 +1080,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFraudsterRegistrationJobOutput>(DescribeFraudsterRegistrationJobOutput.httpOutput(from:), DescribeFraudsterRegistrationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFraudsterRegistrationJobInput, DescribeFraudsterRegistrationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFraudsterRegistrationJobOutput>())
@@ -1105,9 +1115,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified speaker.
     ///
-    /// - Parameter DescribeSpeakerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSpeakerInput`)
     ///
-    /// - Returns: `DescribeSpeakerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSpeakerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1143,6 +1153,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpeakerOutput>(DescribeSpeakerOutput.httpOutput(from:), DescribeSpeakerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpeakerInput, DescribeSpeakerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpeakerOutput>())
@@ -1177,9 +1188,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified speaker enrollment job.
     ///
-    /// - Parameter DescribeSpeakerEnrollmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSpeakerEnrollmentJobInput`)
     ///
-    /// - Returns: `DescribeSpeakerEnrollmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSpeakerEnrollmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,6 +1226,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSpeakerEnrollmentJobOutput>(DescribeSpeakerEnrollmentJobOutput.httpOutput(from:), DescribeSpeakerEnrollmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSpeakerEnrollmentJobInput, DescribeSpeakerEnrollmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSpeakerEnrollmentJobOutput>())
@@ -1249,9 +1261,9 @@ extension VoiceIDClient {
     ///
     /// Describes the specified watchlist.
     ///
-    /// - Parameter DescribeWatchlistInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWatchlistInput`)
     ///
-    /// - Returns: `DescribeWatchlistOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWatchlistOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,6 +1299,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWatchlistOutput>(DescribeWatchlistOutput.httpOutput(from:), DescribeWatchlistOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWatchlistInput, DescribeWatchlistOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWatchlistOutput>())
@@ -1321,9 +1334,9 @@ extension VoiceIDClient {
     ///
     /// Disassociates the fraudsters from the watchlist specified. Voice ID always expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a ValidationException is thrown.
     ///
-    /// - Parameter DisassociateFraudsterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateFraudsterInput`)
     ///
-    /// - Returns: `DisassociateFraudsterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateFraudsterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,6 +1373,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateFraudsterOutput>(DisassociateFraudsterOutput.httpOutput(from:), DisassociateFraudsterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateFraudsterInput, DisassociateFraudsterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateFraudsterOutput>())
@@ -1394,9 +1408,9 @@ extension VoiceIDClient {
     ///
     /// Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice ID call.
     ///
-    /// - Parameter EvaluateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EvaluateSessionInput`)
     ///
-    /// - Returns: `EvaluateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EvaluateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,6 +1447,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EvaluateSessionInput, EvaluateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EvaluateSessionOutput>(EvaluateSessionOutput.httpOutput(from:), EvaluateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EvaluateSessionInput, EvaluateSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EvaluateSessionOutput>())
@@ -1467,9 +1482,9 @@ extension VoiceIDClient {
     ///
     /// Lists all the domains in the Amazon Web Services account.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,6 +1519,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -1538,9 +1554,9 @@ extension VoiceIDClient {
     ///
     /// Lists all the fraudster registration jobs in the domain with the given JobStatus. If JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
     ///
-    /// - Parameter ListFraudsterRegistrationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFraudsterRegistrationJobsInput`)
     ///
-    /// - Returns: `ListFraudsterRegistrationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFraudsterRegistrationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1576,6 +1592,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFraudsterRegistrationJobsOutput>(ListFraudsterRegistrationJobsOutput.httpOutput(from:), ListFraudsterRegistrationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFraudsterRegistrationJobsInput, ListFraudsterRegistrationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFraudsterRegistrationJobsOutput>())
@@ -1610,9 +1627,9 @@ extension VoiceIDClient {
     ///
     /// Lists all fraudsters in a specified watchlist or domain.
     ///
-    /// - Parameter ListFraudstersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFraudstersInput`)
     ///
-    /// - Returns: `ListFraudstersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFraudstersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1648,6 +1665,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFraudstersInput, ListFraudstersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFraudstersOutput>(ListFraudstersOutput.httpOutput(from:), ListFraudstersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFraudstersInput, ListFraudstersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFraudstersOutput>())
@@ -1682,9 +1700,9 @@ extension VoiceIDClient {
     ///
     /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses.
     ///
-    /// - Parameter ListSpeakerEnrollmentJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpeakerEnrollmentJobsInput`)
     ///
-    /// - Returns: `ListSpeakerEnrollmentJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpeakerEnrollmentJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1720,6 +1738,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpeakerEnrollmentJobsOutput>(ListSpeakerEnrollmentJobsOutput.httpOutput(from:), ListSpeakerEnrollmentJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpeakerEnrollmentJobsInput, ListSpeakerEnrollmentJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSpeakerEnrollmentJobsOutput>())
@@ -1754,9 +1773,9 @@ extension VoiceIDClient {
     ///
     /// Lists all speakers in a specified domain.
     ///
-    /// - Parameter ListSpeakersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpeakersInput`)
     ///
-    /// - Returns: `ListSpeakersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpeakersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1792,6 +1811,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSpeakersInput, ListSpeakersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpeakersOutput>(ListSpeakersOutput.httpOutput(from:), ListSpeakersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpeakersInput, ListSpeakersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSpeakersOutput>())
@@ -1826,9 +1846,9 @@ extension VoiceIDClient {
     ///
     /// Lists all tags associated with a specified Voice ID resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1864,6 +1884,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1898,9 +1919,9 @@ extension VoiceIDClient {
     ///
     /// Lists all watchlists in a specified domain.
     ///
-    /// - Parameter ListWatchlistsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWatchlistsInput`)
     ///
-    /// - Returns: `ListWatchlistsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWatchlistsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1936,6 +1957,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWatchlistsInput, ListWatchlistsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWatchlistsOutput>(ListWatchlistsOutput.httpOutput(from:), ListWatchlistsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWatchlistsInput, ListWatchlistsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWatchlistsOutput>())
@@ -1970,9 +1992,9 @@ extension VoiceIDClient {
     ///
     /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID.
     ///
-    /// - Parameter OptOutSpeakerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `OptOutSpeakerInput`)
     ///
-    /// - Returns: `OptOutSpeakerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `OptOutSpeakerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2010,6 +2032,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<OptOutSpeakerOutput>(OptOutSpeakerOutput.httpOutput(from:), OptOutSpeakerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<OptOutSpeakerInput, OptOutSpeakerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<OptOutSpeakerOutput>())
@@ -2044,9 +2067,9 @@ extension VoiceIDClient {
     ///
     /// Starts a new batch fraudster registration job using provided details.
     ///
-    /// - Parameter StartFraudsterRegistrationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFraudsterRegistrationJobInput`)
     ///
-    /// - Returns: `StartFraudsterRegistrationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFraudsterRegistrationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2085,6 +2108,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFraudsterRegistrationJobOutput>(StartFraudsterRegistrationJobOutput.httpOutput(from:), StartFraudsterRegistrationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFraudsterRegistrationJobInput, StartFraudsterRegistrationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFraudsterRegistrationJobOutput>())
@@ -2119,9 +2143,9 @@ extension VoiceIDClient {
     ///
     /// Starts a new batch speaker enrollment job using specified details.
     ///
-    /// - Parameter StartSpeakerEnrollmentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSpeakerEnrollmentJobInput`)
     ///
-    /// - Returns: `StartSpeakerEnrollmentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSpeakerEnrollmentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2160,6 +2184,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSpeakerEnrollmentJobOutput>(StartSpeakerEnrollmentJobOutput.httpOutput(from:), StartSpeakerEnrollmentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSpeakerEnrollmentJobInput, StartSpeakerEnrollmentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSpeakerEnrollmentJobOutput>())
@@ -2194,9 +2219,9 @@ extension VoiceIDClient {
     ///
     /// Tags a Voice ID resource with the provided list of tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2233,6 +2258,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2267,9 +2293,9 @@ extension VoiceIDClient {
     ///
     /// Removes specified tags from a specified Amazon Connect Voice ID resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,6 +2332,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2340,9 +2367,9 @@ extension VoiceIDClient {
     ///
     /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain.
     ///
-    /// - Parameter UpdateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainInput`)
     ///
-    /// - Returns: `UpdateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2379,6 +2406,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainInput, UpdateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainOutput>(UpdateDomainOutput.httpOutput(from:), UpdateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainInput, UpdateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainOutput>())
@@ -2413,9 +2441,9 @@ extension VoiceIDClient {
     ///
     /// Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
     ///
-    /// - Parameter UpdateWatchlistInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWatchlistInput`)
     ///
-    /// - Returns: `UpdateWatchlistOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWatchlistOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2452,6 +2480,7 @@ extension VoiceIDClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWatchlistOutput>(UpdateWatchlistOutput.httpOutput(from:), UpdateWatchlistOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWatchlistInput, UpdateWatchlistOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWatchlistOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CodeCatalystClient: ClientRuntime.Client {
+public class CodeCatalystClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CodeCatalystClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCatalystClient.CodeCatalystClientConfiguration
     let serviceName = "CodeCatalyst"
@@ -223,7 +223,7 @@ extension CodeCatalystClient {
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultCodeCatalystAuthSchemeResolver(),
-                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -279,7 +279,7 @@ extension CodeCatalystClient {
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultCodeCatalystAuthSchemeResolver(),
-                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -339,7 +339,7 @@ extension CodeCatalystClient {
                 [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 nil,
                 DefaultCodeCatalystAuthSchemeResolver(),
-                try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 [],
                 []
             )
@@ -373,9 +373,9 @@ extension CodeCatalystClient {
     ///
     /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
     ///
-    /// - Parameter CreateAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessTokenInput`)
     ///
-    /// - Returns: `CreateAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +412,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessTokenOutput>(CreateAccessTokenOutput.httpOutput(from:), CreateAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessTokenInput, CreateAccessTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessTokenOutput>())
@@ -443,9 +444,9 @@ extension CodeCatalystClient {
     ///
     /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored in the source repositories of your project. When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
     ///
-    /// - Parameter CreateDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDevEnvironmentInput`)
     ///
-    /// - Returns: `CreateDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +483,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDevEnvironmentOutput>(CreateDevEnvironmentOutput.httpOutput(from:), CreateDevEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDevEnvironmentInput, CreateDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDevEnvironmentOutput>())
@@ -513,9 +515,9 @@ extension CodeCatalystClient {
     ///
     /// Creates a project in a specified space.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,6 +554,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -583,9 +586,9 @@ extension CodeCatalystClient {
     ///
     /// Creates an empty Git-based source repository in a specified project. The repository is created with an initial empty commit with a default branch named main.
     ///
-    /// - Parameter CreateSourceRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSourceRepositoryInput`)
     ///
-    /// - Returns: `CreateSourceRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSourceRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,6 +625,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryOutput>(CreateSourceRepositoryOutput.httpOutput(from:), CreateSourceRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSourceRepositoryInput, CreateSourceRepositoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSourceRepositoryOutput>())
@@ -653,9 +657,9 @@ extension CodeCatalystClient {
     ///
     /// Creates a branch in a specified source repository in Amazon CodeCatalyst. This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
     ///
-    /// - Parameter CreateSourceRepositoryBranchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSourceRepositoryBranchInput`)
     ///
-    /// - Returns: `CreateSourceRepositoryBranchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSourceRepositoryBranchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -692,6 +696,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSourceRepositoryBranchOutput>(CreateSourceRepositoryBranchOutput.httpOutput(from:), CreateSourceRepositoryBranchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSourceRepositoryBranchInput, CreateSourceRepositoryBranchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSourceRepositoryBranchOutput>())
@@ -723,9 +728,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
     ///
-    /// - Parameter DeleteAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessTokenInput`)
     ///
-    /// - Returns: `DeleteAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,6 +764,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessTokenOutput>(DeleteAccessTokenOutput.httpOutput(from:), DeleteAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessTokenInput, DeleteAccessTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessTokenOutput>())
@@ -790,9 +796,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a Dev Environment.
     ///
-    /// - Parameter DeleteDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDevEnvironmentInput`)
     ///
-    /// - Returns: `DeleteDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -826,6 +832,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDevEnvironmentOutput>(DeleteDevEnvironmentOutput.httpOutput(from:), DeleteDevEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDevEnvironmentInput, DeleteDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDevEnvironmentOutput>())
@@ -857,9 +864,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a project in a space.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -893,6 +900,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -924,9 +932,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
     ///
-    /// - Parameter DeleteSourceRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceRepositoryInput`)
     ///
-    /// - Returns: `DeleteSourceRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -960,6 +968,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSourceRepositoryOutput>(DeleteSourceRepositoryOutput.httpOutput(from:), DeleteSourceRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSourceRepositoryInput, DeleteSourceRepositoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSourceRepositoryOutput>())
@@ -991,9 +1000,9 @@ extension CodeCatalystClient {
     ///
     /// Deletes a space. Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
     ///
-    /// - Parameter DeleteSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSpaceInput`)
     ///
-    /// - Returns: `DeleteSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1027,6 +1036,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSpaceInput, DeleteSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSpaceOutput>(DeleteSpaceOutput.httpOutput(from:), DeleteSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSpaceInput, DeleteSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSpaceOutput>())
@@ -1058,9 +1068,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
     ///
-    /// - Parameter GetDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDevEnvironmentInput`)
     ///
-    /// - Returns: `GetDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1094,6 +1104,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDevEnvironmentOutput>(GetDevEnvironmentOutput.httpOutput(from:), GetDevEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDevEnvironmentInput, GetDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDevEnvironmentOutput>())
@@ -1125,9 +1136,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a project.
     ///
-    /// - Parameter GetProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProjectInput`)
     ///
-    /// - Returns: `GetProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1161,6 +1172,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProjectOutput>(GetProjectOutput.httpOutput(from:), GetProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProjectInput, GetProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProjectOutput>())
@@ -1192,9 +1204,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a source repository.
     ///
-    /// - Parameter GetSourceRepositoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSourceRepositoryInput`)
     ///
-    /// - Returns: `GetSourceRepositoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSourceRepositoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,6 +1240,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSourceRepositoryOutput>(GetSourceRepositoryOutput.httpOutput(from:), GetSourceRepositoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSourceRepositoryInput, GetSourceRepositoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSourceRepositoryOutput>())
@@ -1259,9 +1272,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about the URLs that can be used with a Git client to clone a source repository.
     ///
-    /// - Parameter GetSourceRepositoryCloneUrlsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSourceRepositoryCloneUrlsInput`)
     ///
-    /// - Returns: `GetSourceRepositoryCloneUrlsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSourceRepositoryCloneUrlsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1295,6 +1308,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSourceRepositoryCloneUrlsOutput>(GetSourceRepositoryCloneUrlsOutput.httpOutput(from:), GetSourceRepositoryCloneUrlsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSourceRepositoryCloneUrlsInput, GetSourceRepositoryCloneUrlsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSourceRepositoryCloneUrlsOutput>())
@@ -1326,9 +1340,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about an space.
     ///
-    /// - Parameter GetSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpaceInput`)
     ///
-    /// - Returns: `GetSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1362,6 +1376,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSpaceInput, GetSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSpaceOutput>(GetSpaceOutput.httpOutput(from:), GetSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSpaceInput, GetSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSpaceOutput>())
@@ -1393,9 +1408,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about the Amazon Web Services account used for billing purposes and the billing plan for the space.
     ///
-    /// - Parameter GetSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionInput`)
     ///
-    /// - Returns: `GetSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1429,6 +1444,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSubscriptionInput, GetSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubscriptionOutput>(GetSubscriptionOutput.httpOutput(from:), GetSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubscriptionInput, GetSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubscriptionOutput>())
@@ -1460,9 +1476,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a user.
     ///
-    /// - Parameter GetUserDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserDetailsInput`)
     ///
-    /// - Returns: `GetUserDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1497,6 +1513,7 @@ extension CodeCatalystClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUserDetailsInput, GetUserDetailsOutput>(GetUserDetailsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserDetailsOutput>(GetUserDetailsOutput.httpOutput(from:), GetUserDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserDetailsInput, GetUserDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserDetailsOutput>())
@@ -1528,9 +1545,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a workflow.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1564,6 +1581,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWorkflowInput, GetWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowOutput>(GetWorkflowOutput.httpOutput(from:), GetWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowInput, GetWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowOutput>())
@@ -1595,9 +1613,9 @@ extension CodeCatalystClient {
     ///
     /// Returns information about a specified run of a workflow.
     ///
-    /// - Parameter GetWorkflowRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowRunInput`)
     ///
-    /// - Returns: `GetWorkflowRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1631,6 +1649,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowRunOutput>(GetWorkflowRunOutput.httpOutput(from:), GetWorkflowRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowRunInput, GetWorkflowRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowRunOutput>())
@@ -1662,9 +1681,9 @@ extension CodeCatalystClient {
     ///
     /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
     ///
-    /// - Parameter ListAccessTokensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessTokensInput`)
     ///
-    /// - Returns: `ListAccessTokensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessTokensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1701,6 +1720,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccessTokensInput, ListAccessTokensOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessTokensOutput>(ListAccessTokensOutput.httpOutput(from:), ListAccessTokensOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessTokensInput, ListAccessTokensOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessTokensOutput>())
@@ -1732,9 +1752,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of active sessions for a Dev Environment in a project.
     ///
-    /// - Parameter ListDevEnvironmentSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevEnvironmentSessionsInput`)
     ///
-    /// - Returns: `ListDevEnvironmentSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevEnvironmentSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1771,6 +1791,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevEnvironmentSessionsOutput>(ListDevEnvironmentSessionsOutput.httpOutput(from:), ListDevEnvironmentSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevEnvironmentSessionsInput, ListDevEnvironmentSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevEnvironmentSessionsOutput>())
@@ -1802,9 +1823,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of Dev Environments in a project.
     ///
-    /// - Parameter ListDevEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevEnvironmentsInput`)
     ///
-    /// - Returns: `ListDevEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1841,6 +1862,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevEnvironmentsOutput>(ListDevEnvironmentsOutput.httpOutput(from:), ListDevEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevEnvironmentsInput, ListDevEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevEnvironmentsOutput>())
@@ -1872,9 +1894,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of events that occurred during a specific time in a space. You can use these events to audit user and system activity in a space. For more information, see [Monitoring](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-monitoring.html) in the Amazon CodeCatalyst User Guide. ListEventLogs guarantees events for the last 30 days in a given space. You can also view and retrieve a list of management events over the last 90 days for Amazon CodeCatalyst in the CloudTrail console by viewing Event history, or by creating a trail to create and maintain a record of events that extends past 90 days. For more information, see [Working with CloudTrail Event History](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html) and [Working with CloudTrail trails](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-getting-started.html).
     ///
-    /// - Parameter ListEventLogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventLogsInput`)
     ///
-    /// - Returns: `ListEventLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1911,6 +1933,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventLogsInput, ListEventLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventLogsOutput>(ListEventLogsOutput.httpOutput(from:), ListEventLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventLogsInput, ListEventLogsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventLogsOutput>())
@@ -1942,9 +1965,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of projects.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1981,6 +2004,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectsInput, ListProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
@@ -2012,9 +2036,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of source repositories in a project.
     ///
-    /// - Parameter ListSourceRepositoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceRepositoriesInput`)
     ///
-    /// - Returns: `ListSourceRepositoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceRepositoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2051,6 +2075,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceRepositoriesOutput>(ListSourceRepositoriesOutput.httpOutput(from:), ListSourceRepositoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceRepositoriesInput, ListSourceRepositoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceRepositoriesOutput>())
@@ -2082,9 +2107,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of branches in a specified source repository.
     ///
-    /// - Parameter ListSourceRepositoryBranchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceRepositoryBranchesInput`)
     ///
-    /// - Returns: `ListSourceRepositoryBranchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceRepositoryBranchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2121,6 +2146,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceRepositoryBranchesOutput>(ListSourceRepositoryBranchesOutput.httpOutput(from:), ListSourceRepositoryBranchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceRepositoryBranchesInput, ListSourceRepositoryBranchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceRepositoryBranchesOutput>())
@@ -2152,9 +2178,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of spaces.
     ///
-    /// - Parameter ListSpacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpacesInput`)
     ///
-    /// - Returns: `ListSpacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2191,6 +2217,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSpacesInput, ListSpacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpacesOutput>(ListSpacesOutput.httpOutput(from:), ListSpacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpacesInput, ListSpacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSpacesOutput>())
@@ -2222,9 +2249,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of workflow runs of a specified workflow.
     ///
-    /// - Parameter ListWorkflowRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowRunsInput`)
     ///
-    /// - Returns: `ListWorkflowRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,6 +2289,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowRunsInput, ListWorkflowRunsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowRunsOutput>(ListWorkflowRunsOutput.httpOutput(from:), ListWorkflowRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowRunsInput, ListWorkflowRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowRunsOutput>())
@@ -2293,9 +2321,9 @@ extension CodeCatalystClient {
     ///
     /// Retrieves a list of workflows in a specified project.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2333,6 +2361,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkflowsInput, ListWorkflowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowsOutput>(ListWorkflowsOutput.httpOutput(from:), ListWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowsOutput>())
@@ -2364,9 +2393,9 @@ extension CodeCatalystClient {
     ///
     /// Starts a specified Dev Environment and puts it into an active state.
     ///
-    /// - Parameter StartDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDevEnvironmentInput`)
     ///
-    /// - Returns: `StartDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2403,6 +2432,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDevEnvironmentOutput>(StartDevEnvironmentOutput.httpOutput(from:), StartDevEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDevEnvironmentInput, StartDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDevEnvironmentOutput>())
@@ -2434,9 +2464,9 @@ extension CodeCatalystClient {
     ///
     /// Starts a session for a specified Dev Environment.
     ///
-    /// - Parameter StartDevEnvironmentSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDevEnvironmentSessionInput`)
     ///
-    /// - Returns: `StartDevEnvironmentSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDevEnvironmentSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2473,6 +2503,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDevEnvironmentSessionOutput>(StartDevEnvironmentSessionOutput.httpOutput(from:), StartDevEnvironmentSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDevEnvironmentSessionInput, StartDevEnvironmentSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDevEnvironmentSessionOutput>())
@@ -2504,9 +2535,9 @@ extension CodeCatalystClient {
     ///
     /// Begins a run of a specified workflow.
     ///
-    /// - Parameter StartWorkflowRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkflowRunInput`)
     ///
-    /// - Returns: `StartWorkflowRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWorkflowRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2545,6 +2576,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWorkflowRunOutput>(StartWorkflowRunOutput.httpOutput(from:), StartWorkflowRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWorkflowRunInput, StartWorkflowRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWorkflowRunOutput>())
@@ -2576,9 +2608,9 @@ extension CodeCatalystClient {
     ///
     /// Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
     ///
-    /// - Parameter StopDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDevEnvironmentInput`)
     ///
-    /// - Returns: `StopDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2612,6 +2644,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDevEnvironmentOutput>(StopDevEnvironmentOutput.httpOutput(from:), StopDevEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDevEnvironmentInput, StopDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDevEnvironmentOutput>())
@@ -2643,9 +2676,9 @@ extension CodeCatalystClient {
     ///
     /// Stops a session for a specified Dev Environment.
     ///
-    /// - Parameter StopDevEnvironmentSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDevEnvironmentSessionInput`)
     ///
-    /// - Returns: `StopDevEnvironmentSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDevEnvironmentSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2679,6 +2712,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDevEnvironmentSessionOutput>(StopDevEnvironmentSessionOutput.httpOutput(from:), StopDevEnvironmentSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDevEnvironmentSessionInput, StopDevEnvironmentSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDevEnvironmentSessionOutput>())
@@ -2710,9 +2744,9 @@ extension CodeCatalystClient {
     ///
     /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
     ///
-    /// - Parameter UpdateDevEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDevEnvironmentInput`)
     ///
-    /// - Returns: `UpdateDevEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDevEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2749,6 +2783,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDevEnvironmentOutput>(UpdateDevEnvironmentOutput.httpOutput(from:), UpdateDevEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDevEnvironmentInput, UpdateDevEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDevEnvironmentOutput>())
@@ -2780,9 +2815,9 @@ extension CodeCatalystClient {
     ///
     /// Changes one or more values for a project.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2819,6 +2854,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())
@@ -2850,9 +2886,9 @@ extension CodeCatalystClient {
     ///
     /// Changes one or more values for a space.
     ///
-    /// - Parameter UpdateSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSpaceInput`)
     ///
-    /// - Returns: `UpdateSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2889,6 +2925,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSpaceInput, UpdateSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSpaceOutput>(UpdateSpaceOutput.httpOutput(from:), UpdateSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSpaceOutput>())
@@ -2920,9 +2957,9 @@ extension CodeCatalystClient {
     ///
     /// Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
     ///
-    /// - Parameter VerifySessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifySessionInput`)
     ///
-    /// - Returns: `VerifySessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifySessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2956,6 +2993,7 @@ extension CodeCatalystClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<VerifySessionInput, VerifySessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifySessionOutput>(VerifySessionOutput.httpOutput(from:), VerifySessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifySessionInput, VerifySessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifySessionOutput>())

@@ -955,9 +955,45 @@ public struct CreateBillEstimateInput: Swift.Sendable {
     }
 }
 
+extension BCMPricingCalculatorClientTypes {
+
+    public enum GroupSharingPreferenceEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `open`
+        case prioritized
+        case restricted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupSharingPreferenceEnum] {
+            return [
+                .open,
+                .prioritized,
+                .restricted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .open: return "OPEN"
+            case .prioritized: return "PRIORITIZED"
+            case .restricted: return "RESTRICTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateBillEstimateOutput: Swift.Sendable {
     /// The bill month start and end timestamp that was used to create the Bill estimate. This is set to the last complete anniversary bill month start and end timestamp.
     public var billInterval: BCMPricingCalculatorClientTypes.BillInterval?
+    /// The arn of the cost category used in the reserved and prioritized group sharing.
+    public var costCategoryGroupSharingPreferenceArn: Swift.String?
+    /// Timestamp of the effective date of the cost category used in the group sharing settings.
+    public var costCategoryGroupSharingPreferenceEffectiveDate: Foundation.Date?
     /// Returns summary-level cost information once a Bill estimate is successfully generated. This summary includes: 1) the total cost difference, showing the pre-tax cost change for the consolidated billing family between the completed anniversary bill and the estimated bill, and 2) total cost differences per service, detailing the pre-tax cost of each service, comparing the completed anniversary bill to the estimated bill on a per-service basis.
     public var costSummary: BCMPricingCalculatorClientTypes.BillEstimateCostSummary?
     /// The timestamp of when the Bill estimate create process was started (not when it successfully completed or failed).
@@ -966,6 +1002,8 @@ public struct CreateBillEstimateOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// This attribute provides the reason if a Bill estimate result generation fails.
     public var failureMessage: Swift.String?
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of your newly created Bill estimate.
     /// This member is required.
     public var id: Swift.String?
@@ -976,19 +1014,25 @@ public struct CreateBillEstimateOutput: Swift.Sendable {
 
     public init(
         billInterval: BCMPricingCalculatorClientTypes.BillInterval? = nil,
+        costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
+        costCategoryGroupSharingPreferenceEffectiveDate: Foundation.Date? = nil,
         costSummary: BCMPricingCalculatorClientTypes.BillEstimateCostSummary? = nil,
         createdAt: Foundation.Date? = nil,
         expiresAt: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
+        groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillEstimateStatus? = nil
     ) {
         self.billInterval = billInterval
+        self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
+        self.costCategoryGroupSharingPreferenceEffectiveDate = costCategoryGroupSharingPreferenceEffectiveDate
         self.costSummary = costSummary
         self.createdAt = createdAt
         self.expiresAt = expiresAt
         self.failureMessage = failureMessage
+        self.groupSharingPreference = groupSharingPreference
         self.id = id
         self.name = name
         self.status = status
@@ -1027,6 +1071,10 @@ public struct GetBillEstimateInput: Swift.Sendable {
 public struct GetBillEstimateOutput: Swift.Sendable {
     /// The time period covered by the bill estimate.
     public var billInterval: BCMPricingCalculatorClientTypes.BillInterval?
+    /// The arn of the cost category used in the reserved and prioritized group sharing.
+    public var costCategoryGroupSharingPreferenceArn: Swift.String?
+    /// Timestamp of the effective date of the cost category used in the group sharing settings.
+    public var costCategoryGroupSharingPreferenceEffectiveDate: Foundation.Date?
     /// A summary of the estimated costs.
     public var costSummary: BCMPricingCalculatorClientTypes.BillEstimateCostSummary?
     /// The timestamp when the bill estimate was created.
@@ -1035,6 +1083,8 @@ public struct GetBillEstimateOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// An error message if the bill estimate retrieval failed.
     public var failureMessage: Swift.String?
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the retrieved bill estimate.
     /// This member is required.
     public var id: Swift.String?
@@ -1045,19 +1095,25 @@ public struct GetBillEstimateOutput: Swift.Sendable {
 
     public init(
         billInterval: BCMPricingCalculatorClientTypes.BillInterval? = nil,
+        costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
+        costCategoryGroupSharingPreferenceEffectiveDate: Foundation.Date? = nil,
         costSummary: BCMPricingCalculatorClientTypes.BillEstimateCostSummary? = nil,
         createdAt: Foundation.Date? = nil,
         expiresAt: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
+        groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillEstimateStatus? = nil
     ) {
         self.billInterval = billInterval
+        self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
+        self.costCategoryGroupSharingPreferenceEffectiveDate = costCategoryGroupSharingPreferenceEffectiveDate
         self.costSummary = costSummary
         self.createdAt = createdAt
         self.expiresAt = expiresAt
         self.failureMessage = failureMessage
+        self.groupSharingPreference = groupSharingPreference
         self.id = id
         self.name = name
         self.status = status
@@ -1238,6 +1294,10 @@ public struct UpdateBillEstimateInput: Swift.Sendable {
 public struct UpdateBillEstimateOutput: Swift.Sendable {
     /// The time period covered by the updated bill estimate.
     public var billInterval: BCMPricingCalculatorClientTypes.BillInterval?
+    /// The arn of the cost category used in the reserved and prioritized group sharing.
+    public var costCategoryGroupSharingPreferenceArn: Swift.String?
+    /// Timestamp of the effective date of the cost category used in the group sharing settings.
+    public var costCategoryGroupSharingPreferenceEffectiveDate: Foundation.Date?
     /// A summary of the updated estimated costs.
     public var costSummary: BCMPricingCalculatorClientTypes.BillEstimateCostSummary?
     /// The timestamp when the bill estimate was originally created.
@@ -1246,6 +1306,8 @@ public struct UpdateBillEstimateOutput: Swift.Sendable {
     public var expiresAt: Foundation.Date?
     /// An error message if the bill estimate update failed.
     public var failureMessage: Swift.String?
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the updated bill estimate.
     /// This member is required.
     public var id: Swift.String?
@@ -1256,19 +1318,25 @@ public struct UpdateBillEstimateOutput: Swift.Sendable {
 
     public init(
         billInterval: BCMPricingCalculatorClientTypes.BillInterval? = nil,
+        costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
+        costCategoryGroupSharingPreferenceEffectiveDate: Foundation.Date? = nil,
         costSummary: BCMPricingCalculatorClientTypes.BillEstimateCostSummary? = nil,
         createdAt: Foundation.Date? = nil,
         expiresAt: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
+        groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillEstimateStatus? = nil
     ) {
         self.billInterval = billInterval
+        self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
+        self.costCategoryGroupSharingPreferenceEffectiveDate = costCategoryGroupSharingPreferenceEffectiveDate
         self.costSummary = costSummary
         self.createdAt = createdAt
         self.expiresAt = expiresAt
         self.failureMessage = failureMessage
+        self.groupSharingPreference = groupSharingPreference
         self.id = id
         self.name = name
         self.status = status
@@ -2047,6 +2115,10 @@ public struct ListBillScenarioUsageModificationsInput: Swift.Sendable {
 public struct CreateBillScenarioInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
+    /// The arn of the cost category used in the reserved and prioritized group sharing.
+    public var costCategoryGroupSharingPreferenceArn: Swift.String?
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// A descriptive name for the bill scenario.
     /// This member is required.
     public var name: Swift.String?
@@ -2055,10 +2127,14 @@ public struct CreateBillScenarioInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
+        groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
+        self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
+        self.groupSharingPreference = groupSharingPreference
         self.name = name
         self.tags = tags
     }
@@ -2067,12 +2143,16 @@ public struct CreateBillScenarioInput: Swift.Sendable {
 public struct CreateBillScenarioOutput: Swift.Sendable {
     /// The time period covered by the bill scenario.
     public var billInterval: BCMPricingCalculatorClientTypes.BillInterval?
+    /// The arn of the cost category used in the reserved and prioritized group sharing.
+    public var costCategoryGroupSharingPreferenceArn: Swift.String?
     /// The timestamp when the bill scenario was created.
     public var createdAt: Foundation.Date?
     /// The timestamp when the bill scenario will expire.
     public var expiresAt: Foundation.Date?
     /// An error message if the bill scenario creation failed.
     public var failureMessage: Swift.String?
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier for the created bill scenario.
     /// This member is required.
     public var id: Swift.String?
@@ -2083,17 +2163,21 @@ public struct CreateBillScenarioOutput: Swift.Sendable {
 
     public init(
         billInterval: BCMPricingCalculatorClientTypes.BillInterval? = nil,
+        costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         expiresAt: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
+        groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillScenarioStatus? = nil
     ) {
         self.billInterval = billInterval
+        self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
         self.createdAt = createdAt
         self.expiresAt = expiresAt
         self.failureMessage = failureMessage
+        self.groupSharingPreference = groupSharingPreference
         self.id = id
         self.name = name
         self.status = status
@@ -2132,12 +2216,16 @@ public struct GetBillScenarioInput: Swift.Sendable {
 public struct GetBillScenarioOutput: Swift.Sendable {
     /// The time period covered by the bill scenario.
     public var billInterval: BCMPricingCalculatorClientTypes.BillInterval?
+    /// The arn of the cost category used in the reserved and prioritized group sharing.
+    public var costCategoryGroupSharingPreferenceArn: Swift.String?
     /// The timestamp when the bill scenario was created.
     public var createdAt: Foundation.Date?
     /// The timestamp when the bill scenario will expire.
     public var expiresAt: Foundation.Date?
     /// An error message if the bill scenario retrieval failed.
     public var failureMessage: Swift.String?
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the retrieved bill scenario.
     /// This member is required.
     public var id: Swift.String?
@@ -2148,17 +2236,21 @@ public struct GetBillScenarioOutput: Swift.Sendable {
 
     public init(
         billInterval: BCMPricingCalculatorClientTypes.BillInterval? = nil,
+        costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         expiresAt: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
+        groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillScenarioStatus? = nil
     ) {
         self.billInterval = billInterval
+        self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
         self.createdAt = createdAt
         self.expiresAt = expiresAt
         self.failureMessage = failureMessage
+        self.groupSharingPreference = groupSharingPreference
         self.id = id
         self.name = name
         self.status = status
@@ -2168,12 +2260,16 @@ public struct GetBillScenarioOutput: Swift.Sendable {
 extension BCMPricingCalculatorClientTypes {
 
     public enum ListBillScenariosFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case costCategoryArn
+        case groupSharingPreference
         case name
         case status
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ListBillScenariosFilterName] {
             return [
+                .costCategoryArn,
+                .groupSharingPreference,
                 .name,
                 .status
             ]
@@ -2186,6 +2282,8 @@ extension BCMPricingCalculatorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .costCategoryArn: return "COST_CATEGORY_ARN"
+            case .groupSharingPreference: return "GROUP_SHARING_PREFERENCE"
             case .name: return "NAME"
             case .status: return "STATUS"
             case let .sdkUnknown(s): return s
@@ -2252,12 +2350,16 @@ extension BCMPricingCalculatorClientTypes {
     public struct BillScenarioSummary: Swift.Sendable {
         /// The time period covered by the bill scenario.
         public var billInterval: BCMPricingCalculatorClientTypes.BillInterval?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public var costCategoryGroupSharingPreferenceArn: Swift.String?
         /// The timestamp when the bill scenario was created.
         public var createdAt: Foundation.Date?
         /// The timestamp when the bill scenario will expire.
         public var expiresAt: Foundation.Date?
         /// An error message if the bill scenario creation or processing failed.
         public var failureMessage: Swift.String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
         /// The unique identifier of the bill scenario.
         /// This member is required.
         public var id: Swift.String?
@@ -2268,17 +2370,21 @@ extension BCMPricingCalculatorClientTypes {
 
         public init(
             billInterval: BCMPricingCalculatorClientTypes.BillInterval? = nil,
+            costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             expiresAt: Foundation.Date? = nil,
             failureMessage: Swift.String? = nil,
+            groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             status: BCMPricingCalculatorClientTypes.BillScenarioStatus? = nil
         ) {
             self.billInterval = billInterval
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.failureMessage = failureMessage
+            self.groupSharingPreference = groupSharingPreference
             self.id = id
             self.name = name
             self.status = status
@@ -2302,8 +2408,12 @@ public struct ListBillScenariosOutput: Swift.Sendable {
 }
 
 public struct UpdateBillScenarioInput: Swift.Sendable {
+    /// The arn of the cost category used in the reserved and prioritized group sharing.
+    public var costCategoryGroupSharingPreferenceArn: Swift.String?
     /// The new expiration date for the bill scenario.
     public var expiresAt: Foundation.Date?
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the bill scenario to update.
     /// This member is required.
     public var identifier: Swift.String?
@@ -2311,11 +2421,15 @@ public struct UpdateBillScenarioInput: Swift.Sendable {
     public var name: Swift.String?
 
     public init(
+        costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
         expiresAt: Foundation.Date? = nil,
+        groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
+        self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
         self.expiresAt = expiresAt
+        self.groupSharingPreference = groupSharingPreference
         self.identifier = identifier
         self.name = name
     }
@@ -2324,12 +2438,16 @@ public struct UpdateBillScenarioInput: Swift.Sendable {
 public struct UpdateBillScenarioOutput: Swift.Sendable {
     /// The time period covered by the updated bill scenario.
     public var billInterval: BCMPricingCalculatorClientTypes.BillInterval?
+    /// The arn of the cost category used in the reserved and prioritized group sharing.
+    public var costCategoryGroupSharingPreferenceArn: Swift.String?
     /// The timestamp when the bill scenario was originally created.
     public var createdAt: Foundation.Date?
     /// The updated expiration timestamp for the bill scenario.
     public var expiresAt: Foundation.Date?
     /// An error message if the bill scenario update failed.
     public var failureMessage: Swift.String?
+    /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+    public var groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum?
     /// The unique identifier of the updated bill scenario.
     /// This member is required.
     public var id: Swift.String?
@@ -2340,17 +2458,21 @@ public struct UpdateBillScenarioOutput: Swift.Sendable {
 
     public init(
         billInterval: BCMPricingCalculatorClientTypes.BillInterval? = nil,
+        costCategoryGroupSharingPreferenceArn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         expiresAt: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
+        groupSharingPreference: BCMPricingCalculatorClientTypes.GroupSharingPreferenceEnum? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         status: BCMPricingCalculatorClientTypes.BillScenarioStatus? = nil
     ) {
         self.billInterval = billInterval
+        self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
         self.createdAt = createdAt
         self.expiresAt = expiresAt
         self.failureMessage = failureMessage
+        self.groupSharingPreference = groupSharingPreference
         self.id = id
         self.name = name
         self.status = status
@@ -4368,6 +4490,8 @@ extension CreateBillScenarioInput {
     static func write(value: CreateBillScenarioInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["costCategoryGroupSharingPreferenceArn"].write(value.costCategoryGroupSharingPreferenceArn)
+        try writer["groupSharingPreference"].write(value.groupSharingPreference)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -4590,7 +4714,9 @@ extension UpdateBillScenarioInput {
 
     static func write(value: UpdateBillScenarioInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["costCategoryGroupSharingPreferenceArn"].write(value.costCategoryGroupSharingPreferenceArn)
         try writer["expiresAt"].writeTimestamp(value.expiresAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["groupSharingPreference"].write(value.groupSharingPreference)
         try writer["identifier"].write(value.identifier)
         try writer["name"].write(value.name)
     }
@@ -4738,10 +4864,13 @@ extension CreateBillEstimateOutput {
         let reader = responseReader
         var value = CreateBillEstimateOutput()
         value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
+        value.costCategoryGroupSharingPreferenceArn = try reader["costCategoryGroupSharingPreferenceArn"].readIfPresent()
+        value.costCategoryGroupSharingPreferenceEffectiveDate = try reader["costCategoryGroupSharingPreferenceEffectiveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.costSummary = try reader["costSummary"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillEstimateCostSummary.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.groupSharingPreference = try reader["groupSharingPreference"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -4757,9 +4886,11 @@ extension CreateBillScenarioOutput {
         let reader = responseReader
         var value = CreateBillScenarioOutput()
         value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
+        value.costCategoryGroupSharingPreferenceArn = try reader["costCategoryGroupSharingPreferenceArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.groupSharingPreference = try reader["groupSharingPreference"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -4817,10 +4948,13 @@ extension GetBillEstimateOutput {
         let reader = responseReader
         var value = GetBillEstimateOutput()
         value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
+        value.costCategoryGroupSharingPreferenceArn = try reader["costCategoryGroupSharingPreferenceArn"].readIfPresent()
+        value.costCategoryGroupSharingPreferenceEffectiveDate = try reader["costCategoryGroupSharingPreferenceEffectiveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.costSummary = try reader["costSummary"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillEstimateCostSummary.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.groupSharingPreference = try reader["groupSharingPreference"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -4836,9 +4970,11 @@ extension GetBillScenarioOutput {
         let reader = responseReader
         var value = GetBillScenarioOutput()
         value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
+        value.costCategoryGroupSharingPreferenceArn = try reader["costCategoryGroupSharingPreferenceArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.groupSharingPreference = try reader["groupSharingPreference"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -5045,10 +5181,13 @@ extension UpdateBillEstimateOutput {
         let reader = responseReader
         var value = UpdateBillEstimateOutput()
         value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
+        value.costCategoryGroupSharingPreferenceArn = try reader["costCategoryGroupSharingPreferenceArn"].readIfPresent()
+        value.costCategoryGroupSharingPreferenceEffectiveDate = try reader["costCategoryGroupSharingPreferenceEffectiveDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.costSummary = try reader["costSummary"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillEstimateCostSummary.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.groupSharingPreference = try reader["groupSharingPreference"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -5064,9 +5203,11 @@ extension UpdateBillScenarioOutput {
         let reader = responseReader
         var value = UpdateBillScenarioOutput()
         value.billInterval = try reader["billInterval"].readIfPresent(with: BCMPricingCalculatorClientTypes.BillInterval.read(from:))
+        value.costCategoryGroupSharingPreferenceArn = try reader["costCategoryGroupSharingPreferenceArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.groupSharingPreference = try reader["groupSharingPreference"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -6404,6 +6545,8 @@ extension BCMPricingCalculatorClientTypes.BillScenarioSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.groupSharingPreference = try reader["groupSharingPreference"].readIfPresent()
+        value.costCategoryGroupSharingPreferenceArn = try reader["costCategoryGroupSharingPreferenceArn"].readIfPresent()
         return value
     }
 }

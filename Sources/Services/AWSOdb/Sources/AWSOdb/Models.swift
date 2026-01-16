@@ -274,6 +274,93 @@ extension OdbClientTypes {
     }
 }
 
+/// The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The identifier of the resource that was not found.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of resource that was not found.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum SupportedAwsIntegration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmstde
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportedAwsIntegration] {
+            return [
+                .kmstde
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmstde: return "KmsTde"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateIamRoleToResourceInput: Swift.Sendable {
+    /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role association.
+    /// This member is required.
+    public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to associate with the resource.
+    /// This member is required.
+    public var iamRoleArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        awsIntegration: OdbClientTypes.SupportedAwsIntegration? = nil,
+        iamRoleArn: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.awsIntegration = awsIntegration
+        self.iamRoleArn = iamRoleArn
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct AssociateIamRoleToResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension OdbClientTypes {
 
     public enum ResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -700,6 +787,8 @@ extension OdbClientTypes {
         /// The unique identifier of the Autonomous VM cluster.
         /// This member is required.
         public var cloudAutonomousVmClusterId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Cloud Exadata Infrastructure containing this Autonomous VM cluster.
+        public var cloudExadataInfrastructureArn: Swift.String?
         /// The unique identifier of the Cloud Exadata Infrastructure containing this Autonomous VM cluster.
         public var cloudExadataInfrastructureId: Swift.String?
         /// The compute model of the Autonomous VM cluster: ECPU or OCPU.
@@ -732,7 +821,7 @@ extension OdbClientTypes {
         public var hostname: Swift.String?
         /// Indicates whether mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public var isMtlsEnabledVmCluster: Swift.Bool?
-        /// The Oracle license model that applies to the Autonomous VM cluster. Valid values are LICENSE_INCLUDED or BRING_YOUR_OWN_LICENSE.
+        /// The Oracle license model that applies to the Autonomous VM cluster.
         public var licenseModel: OdbClientTypes.LicenseModel?
         /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.
         public var maintenanceWindow: OdbClientTypes.MaintenanceWindow?
@@ -752,6 +841,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The Oracle Cloud Identifier (OCID) of the Autonomous VM cluster.
         public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Autonomous VM cluster.
+        public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network associated with this Autonomous VM cluster.
         public var odbNetworkId: Swift.String?
         /// The progress of the current operation on the Autonomous VM cluster, as a percentage.
@@ -793,6 +884,7 @@ extension OdbClientTypes {
             availableCpus: Swift.Float? = nil,
             cloudAutonomousVmClusterArn: Swift.String? = nil,
             cloudAutonomousVmClusterId: Swift.String? = nil,
+            cloudExadataInfrastructureArn: Swift.String? = nil,
             cloudExadataInfrastructureId: Swift.String? = nil,
             computeModel: OdbClientTypes.ComputeModel? = nil,
             cpuCoreCount: Swift.Int? = nil,
@@ -819,6 +911,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
             provisionableAutonomousContainerDatabases: Swift.Int? = nil,
@@ -843,6 +936,7 @@ extension OdbClientTypes {
             self.availableCpus = availableCpus
             self.cloudAutonomousVmClusterArn = cloudAutonomousVmClusterArn
             self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.computeModel = computeModel
             self.cpuCoreCount = cpuCoreCount
@@ -869,6 +963,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.provisionableAutonomousContainerDatabases = provisionableAutonomousContainerDatabases
@@ -908,6 +1003,8 @@ extension OdbClientTypes {
         /// The unique identifier of the Autonomous VM cluster.
         /// This member is required.
         public var cloudAutonomousVmClusterId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure containing this Autonomous VM cluster.
+        public var cloudExadataInfrastructureArn: Swift.String?
         /// The unique identifier of the Exadata infrastructure containing this Autonomous VM cluster.
         public var cloudExadataInfrastructureId: Swift.String?
         /// The compute model of the Autonomous VM cluster: ECPU or OCPU.
@@ -960,6 +1057,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The Oracle Cloud Identifier (OCID) of the Autonomous VM cluster.
         public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Autonomous VM cluster.
+        public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network associated with this Autonomous VM cluster.
         public var odbNetworkId: Swift.String?
         /// The progress of the current operation on the Autonomous VM cluster, as a percentage.
@@ -1001,6 +1100,7 @@ extension OdbClientTypes {
             availableCpus: Swift.Float? = nil,
             cloudAutonomousVmClusterArn: Swift.String? = nil,
             cloudAutonomousVmClusterId: Swift.String? = nil,
+            cloudExadataInfrastructureArn: Swift.String? = nil,
             cloudExadataInfrastructureId: Swift.String? = nil,
             computeModel: OdbClientTypes.ComputeModel? = nil,
             cpuCoreCount: Swift.Int? = nil,
@@ -1027,6 +1127,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
             provisionableAutonomousContainerDatabases: Swift.Int? = nil,
@@ -1051,6 +1152,7 @@ extension OdbClientTypes {
             self.availableCpus = availableCpus
             self.cloudAutonomousVmClusterArn = cloudAutonomousVmClusterArn
             self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.computeModel = computeModel
             self.cpuCoreCount = cpuCoreCount
@@ -1077,6 +1179,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.provisionableAutonomousContainerDatabases = provisionableAutonomousContainerDatabases
@@ -1094,40 +1197,6 @@ extension OdbClientTypes {
             self.timeZone = timeZone
             self.totalContainerDatabases = totalContainerDatabases
         }
-    }
-}
-
-/// The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The identifier of the resource that was not found.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of resource that was not found.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -2376,6 +2445,77 @@ extension OdbClientTypes {
 
 extension OdbClientTypes {
 
+    public enum IamRoleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associating
+        case connected
+        case disassociating
+        case disconnected
+        case failed
+        case partiallyConnected
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IamRoleStatus] {
+            return [
+                .associating,
+                .connected,
+                .disassociating,
+                .disconnected,
+                .failed,
+                .partiallyConnected,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associating: return "ASSOCIATING"
+            case .connected: return "CONNECTED"
+            case .disassociating: return "DISASSOCIATING"
+            case .disconnected: return "DISCONNECTED"
+            case .failed: return "FAILED"
+            case .partiallyConnected: return "PARTIALLY_CONNECTED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Amazon Web Services Identity and Access Management (IAM) service role associated with a resource.
+    public struct IamRole: Swift.Sendable {
+        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var iamRoleArn: Swift.String?
+        /// The current status of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var status: OdbClientTypes.IamRoleStatus?
+        /// Additional information about the current status of the Amazon Web Services Identity and Access Management (IAM) service role, if applicable.
+        public var statusReason: Swift.String?
+
+        public init(
+            awsIntegration: OdbClientTypes.SupportedAwsIntegration? = nil,
+            iamRoleArn: Swift.String? = nil,
+            status: OdbClientTypes.IamRoleStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.awsIntegration = awsIntegration
+            self.iamRoleArn = iamRoleArn
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension OdbClientTypes {
+
     /// The IORM configuration settings for the database.
     public struct DbIormConfig: Swift.Sendable {
         /// The database name. For the default DbPlan, the dbName is default.
@@ -2504,6 +2644,8 @@ extension OdbClientTypes {
 
     /// Information about a VM cluster.
     public struct CloudVmCluster: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure that this VM cluster belongs to.
+        public var cloudExadataInfrastructureArn: Swift.String?
         /// The unique identifier of the Exadata infrastructure that this VM cluster belongs to.
         public var cloudExadataInfrastructureId: Swift.String?
         /// The Amazon Resource Name (ARN) of the VM cluster.
@@ -2537,6 +2679,8 @@ extension OdbClientTypes {
         public var giVersion: Swift.String?
         /// The host name for the VM cluster.
         public var hostname: Swift.String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the VM cluster.
+        public var iamRoles: [OdbClientTypes.IamRole]?
         /// The ExadataIormConfig cache details for the VM cluster.
         public var iormConfigCache: OdbClientTypes.ExadataIormConfig?
         /// Indicates whether database backups to local Exadata storage is enabled for the VM cluster.
@@ -2559,6 +2703,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The OCID of the VM cluster.
         public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this VM cluster.
+        public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network for the VM cluster.
         public var odbNetworkId: Swift.String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
@@ -2587,6 +2733,7 @@ extension OdbClientTypes {
         public var vipIds: [Swift.String]?
 
         public init(
+            cloudExadataInfrastructureArn: Swift.String? = nil,
             cloudExadataInfrastructureId: Swift.String? = nil,
             cloudVmClusterArn: Swift.String? = nil,
             cloudVmClusterId: Swift.String? = nil,
@@ -2603,6 +2750,7 @@ extension OdbClientTypes {
             domain: Swift.String? = nil,
             giVersion: Swift.String? = nil,
             hostname: Swift.String? = nil,
+            iamRoles: [OdbClientTypes.IamRole]? = nil,
             iormConfigCache: OdbClientTypes.ExadataIormConfig? = nil,
             isLocalBackupEnabled: Swift.Bool? = nil,
             isSparseDiskgroupEnabled: Swift.Bool? = nil,
@@ -2614,6 +2762,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
             scanDnsName: Swift.String? = nil,
@@ -2628,6 +2777,7 @@ extension OdbClientTypes {
             timeZone: Swift.String? = nil,
             vipIds: [Swift.String]? = nil
         ) {
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.cloudVmClusterArn = cloudVmClusterArn
             self.cloudVmClusterId = cloudVmClusterId
@@ -2644,6 +2794,7 @@ extension OdbClientTypes {
             self.domain = domain
             self.giVersion = giVersion
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.iormConfigCache = iormConfigCache
             self.isLocalBackupEnabled = isLocalBackupEnabled
             self.isSparseDiskgroupEnabled = isSparseDiskgroupEnabled
@@ -2655,6 +2806,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.scanDnsName = scanDnsName
@@ -2674,13 +2826,15 @@ extension OdbClientTypes {
 
 extension OdbClientTypes.CloudVmCluster: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CloudVmCluster(cloudExadataInfrastructureId: \(Swift.String(describing: cloudExadataInfrastructureId)), cloudVmClusterArn: \(Swift.String(describing: cloudVmClusterArn)), cloudVmClusterId: \(Swift.String(describing: cloudVmClusterId)), clusterName: \(Swift.String(describing: clusterName)), computeModel: \(Swift.String(describing: computeModel)), cpuCoreCount: \(Swift.String(describing: cpuCoreCount)), createdAt: \(Swift.String(describing: createdAt)), dataCollectionOptions: \(Swift.String(describing: dataCollectionOptions)), dataStorageSizeInTBs: \(Swift.String(describing: dataStorageSizeInTBs)), dbNodeStorageSizeInGBs: \(Swift.String(describing: dbNodeStorageSizeInGBs)), dbServers: \(Swift.String(describing: dbServers)), diskRedundancy: \(Swift.String(describing: diskRedundancy)), displayName: \(Swift.String(describing: displayName)), domain: \(Swift.String(describing: domain)), giVersion: \(Swift.String(describing: giVersion)), hostname: \(Swift.String(describing: hostname)), iormConfigCache: \(Swift.String(describing: iormConfigCache)), isLocalBackupEnabled: \(Swift.String(describing: isLocalBackupEnabled)), isSparseDiskgroupEnabled: \(Swift.String(describing: isSparseDiskgroupEnabled)), lastUpdateHistoryEntryId: \(Swift.String(describing: lastUpdateHistoryEntryId)), licenseModel: \(Swift.String(describing: licenseModel)), listenerPort: \(Swift.String(describing: listenerPort)), memorySizeInGBs: \(Swift.String(describing: memorySizeInGBs)), nodeCount: \(Swift.String(describing: nodeCount)), ociResourceAnchorName: \(Swift.String(describing: ociResourceAnchorName)), ociUrl: \(Swift.String(describing: ociUrl)), ocid: \(Swift.String(describing: ocid)), odbNetworkId: \(Swift.String(describing: odbNetworkId)), percentProgress: \(Swift.String(describing: percentProgress)), scanDnsName: \(Swift.String(describing: scanDnsName)), scanDnsRecordId: \(Swift.String(describing: scanDnsRecordId)), scanIpIds: \(Swift.String(describing: scanIpIds)), shape: \(Swift.String(describing: shape)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), storageSizeInGBs: \(Swift.String(describing: storageSizeInGBs)), systemVersion: \(Swift.String(describing: systemVersion)), timeZone: \(Swift.String(describing: timeZone)), vipIds: \(Swift.String(describing: vipIds)), sshPublicKeys: \"CONTENT_REDACTED\")"}
+        "CloudVmCluster(cloudExadataInfrastructureArn: \(Swift.String(describing: cloudExadataInfrastructureArn)), cloudExadataInfrastructureId: \(Swift.String(describing: cloudExadataInfrastructureId)), cloudVmClusterArn: \(Swift.String(describing: cloudVmClusterArn)), cloudVmClusterId: \(Swift.String(describing: cloudVmClusterId)), clusterName: \(Swift.String(describing: clusterName)), computeModel: \(Swift.String(describing: computeModel)), cpuCoreCount: \(Swift.String(describing: cpuCoreCount)), createdAt: \(Swift.String(describing: createdAt)), dataCollectionOptions: \(Swift.String(describing: dataCollectionOptions)), dataStorageSizeInTBs: \(Swift.String(describing: dataStorageSizeInTBs)), dbNodeStorageSizeInGBs: \(Swift.String(describing: dbNodeStorageSizeInGBs)), dbServers: \(Swift.String(describing: dbServers)), diskRedundancy: \(Swift.String(describing: diskRedundancy)), displayName: \(Swift.String(describing: displayName)), domain: \(Swift.String(describing: domain)), giVersion: \(Swift.String(describing: giVersion)), hostname: \(Swift.String(describing: hostname)), iamRoles: \(Swift.String(describing: iamRoles)), iormConfigCache: \(Swift.String(describing: iormConfigCache)), isLocalBackupEnabled: \(Swift.String(describing: isLocalBackupEnabled)), isSparseDiskgroupEnabled: \(Swift.String(describing: isSparseDiskgroupEnabled)), lastUpdateHistoryEntryId: \(Swift.String(describing: lastUpdateHistoryEntryId)), licenseModel: \(Swift.String(describing: licenseModel)), listenerPort: \(Swift.String(describing: listenerPort)), memorySizeInGBs: \(Swift.String(describing: memorySizeInGBs)), nodeCount: \(Swift.String(describing: nodeCount)), ociResourceAnchorName: \(Swift.String(describing: ociResourceAnchorName)), ociUrl: \(Swift.String(describing: ociUrl)), ocid: \(Swift.String(describing: ocid)), odbNetworkArn: \(Swift.String(describing: odbNetworkArn)), odbNetworkId: \(Swift.String(describing: odbNetworkId)), percentProgress: \(Swift.String(describing: percentProgress)), scanDnsName: \(Swift.String(describing: scanDnsName)), scanDnsRecordId: \(Swift.String(describing: scanDnsRecordId)), scanIpIds: \(Swift.String(describing: scanIpIds)), shape: \(Swift.String(describing: shape)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), storageSizeInGBs: \(Swift.String(describing: storageSizeInGBs)), systemVersion: \(Swift.String(describing: systemVersion)), timeZone: \(Swift.String(describing: timeZone)), vipIds: \(Swift.String(describing: vipIds)), sshPublicKeys: \"CONTENT_REDACTED\")"}
 }
 
 extension OdbClientTypes {
 
     /// Information about a VM cluster.
     public struct CloudVmClusterSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure that this VM cluster belongs to.
+        public var cloudExadataInfrastructureArn: Swift.String?
         /// The unique identifier of the Exadata infrastructure that this VM cluster belongs to.
         public var cloudExadataInfrastructureId: Swift.String?
         /// The Amazon Resource Name (ARN) of the VM cluster.
@@ -2714,6 +2868,8 @@ extension OdbClientTypes {
         public var giVersion: Swift.String?
         /// The host name for the VM cluster.
         public var hostname: Swift.String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the VM cluster in the summary information.
+        public var iamRoles: [OdbClientTypes.IamRole]?
         /// The IORM settings of the Exadata DB system.
         public var iormConfigCache: OdbClientTypes.ExadataIormConfig?
         /// Indicates whether database backups to local Exadata storage is enabled for the VM cluster.
@@ -2736,6 +2892,8 @@ extension OdbClientTypes {
         public var ociUrl: Swift.String?
         /// The OCID of the VM cluster.
         public var ocid: Swift.String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this VM cluster.
+        public var odbNetworkArn: Swift.String?
         /// The unique identifier of the ODB network for the VM cluster.
         public var odbNetworkId: Swift.String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
@@ -2764,6 +2922,7 @@ extension OdbClientTypes {
         public var vipIds: [Swift.String]?
 
         public init(
+            cloudExadataInfrastructureArn: Swift.String? = nil,
             cloudExadataInfrastructureId: Swift.String? = nil,
             cloudVmClusterArn: Swift.String? = nil,
             cloudVmClusterId: Swift.String? = nil,
@@ -2780,6 +2939,7 @@ extension OdbClientTypes {
             domain: Swift.String? = nil,
             giVersion: Swift.String? = nil,
             hostname: Swift.String? = nil,
+            iamRoles: [OdbClientTypes.IamRole]? = nil,
             iormConfigCache: OdbClientTypes.ExadataIormConfig? = nil,
             isLocalBackupEnabled: Swift.Bool? = nil,
             isSparseDiskgroupEnabled: Swift.Bool? = nil,
@@ -2791,6 +2951,7 @@ extension OdbClientTypes {
             ociResourceAnchorName: Swift.String? = nil,
             ociUrl: Swift.String? = nil,
             ocid: Swift.String? = nil,
+            odbNetworkArn: Swift.String? = nil,
             odbNetworkId: Swift.String? = nil,
             percentProgress: Swift.Float? = nil,
             scanDnsName: Swift.String? = nil,
@@ -2805,6 +2966,7 @@ extension OdbClientTypes {
             timeZone: Swift.String? = nil,
             vipIds: [Swift.String]? = nil
         ) {
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.cloudVmClusterArn = cloudVmClusterArn
             self.cloudVmClusterId = cloudVmClusterId
@@ -2821,6 +2983,7 @@ extension OdbClientTypes {
             self.domain = domain
             self.giVersion = giVersion
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.iormConfigCache = iormConfigCache
             self.isLocalBackupEnabled = isLocalBackupEnabled
             self.isSparseDiskgroupEnabled = isSparseDiskgroupEnabled
@@ -2832,6 +2995,7 @@ extension OdbClientTypes {
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
             self.ocid = ocid
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.scanDnsName = scanDnsName
@@ -2851,7 +3015,7 @@ extension OdbClientTypes {
 
 extension OdbClientTypes.CloudVmClusterSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CloudVmClusterSummary(cloudExadataInfrastructureId: \(Swift.String(describing: cloudExadataInfrastructureId)), cloudVmClusterArn: \(Swift.String(describing: cloudVmClusterArn)), cloudVmClusterId: \(Swift.String(describing: cloudVmClusterId)), clusterName: \(Swift.String(describing: clusterName)), computeModel: \(Swift.String(describing: computeModel)), cpuCoreCount: \(Swift.String(describing: cpuCoreCount)), createdAt: \(Swift.String(describing: createdAt)), dataCollectionOptions: \(Swift.String(describing: dataCollectionOptions)), dataStorageSizeInTBs: \(Swift.String(describing: dataStorageSizeInTBs)), dbNodeStorageSizeInGBs: \(Swift.String(describing: dbNodeStorageSizeInGBs)), dbServers: \(Swift.String(describing: dbServers)), diskRedundancy: \(Swift.String(describing: diskRedundancy)), displayName: \(Swift.String(describing: displayName)), domain: \(Swift.String(describing: domain)), giVersion: \(Swift.String(describing: giVersion)), hostname: \(Swift.String(describing: hostname)), iormConfigCache: \(Swift.String(describing: iormConfigCache)), isLocalBackupEnabled: \(Swift.String(describing: isLocalBackupEnabled)), isSparseDiskgroupEnabled: \(Swift.String(describing: isSparseDiskgroupEnabled)), lastUpdateHistoryEntryId: \(Swift.String(describing: lastUpdateHistoryEntryId)), licenseModel: \(Swift.String(describing: licenseModel)), listenerPort: \(Swift.String(describing: listenerPort)), memorySizeInGBs: \(Swift.String(describing: memorySizeInGBs)), nodeCount: \(Swift.String(describing: nodeCount)), ociResourceAnchorName: \(Swift.String(describing: ociResourceAnchorName)), ociUrl: \(Swift.String(describing: ociUrl)), ocid: \(Swift.String(describing: ocid)), odbNetworkId: \(Swift.String(describing: odbNetworkId)), percentProgress: \(Swift.String(describing: percentProgress)), scanDnsName: \(Swift.String(describing: scanDnsName)), scanDnsRecordId: \(Swift.String(describing: scanDnsRecordId)), scanIpIds: \(Swift.String(describing: scanIpIds)), shape: \(Swift.String(describing: shape)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), storageSizeInGBs: \(Swift.String(describing: storageSizeInGBs)), systemVersion: \(Swift.String(describing: systemVersion)), timeZone: \(Swift.String(describing: timeZone)), vipIds: \(Swift.String(describing: vipIds)), sshPublicKeys: \"CONTENT_REDACTED\")"}
+        "CloudVmClusterSummary(cloudExadataInfrastructureArn: \(Swift.String(describing: cloudExadataInfrastructureArn)), cloudExadataInfrastructureId: \(Swift.String(describing: cloudExadataInfrastructureId)), cloudVmClusterArn: \(Swift.String(describing: cloudVmClusterArn)), cloudVmClusterId: \(Swift.String(describing: cloudVmClusterId)), clusterName: \(Swift.String(describing: clusterName)), computeModel: \(Swift.String(describing: computeModel)), cpuCoreCount: \(Swift.String(describing: cpuCoreCount)), createdAt: \(Swift.String(describing: createdAt)), dataCollectionOptions: \(Swift.String(describing: dataCollectionOptions)), dataStorageSizeInTBs: \(Swift.String(describing: dataStorageSizeInTBs)), dbNodeStorageSizeInGBs: \(Swift.String(describing: dbNodeStorageSizeInGBs)), dbServers: \(Swift.String(describing: dbServers)), diskRedundancy: \(Swift.String(describing: diskRedundancy)), displayName: \(Swift.String(describing: displayName)), domain: \(Swift.String(describing: domain)), giVersion: \(Swift.String(describing: giVersion)), hostname: \(Swift.String(describing: hostname)), iamRoles: \(Swift.String(describing: iamRoles)), iormConfigCache: \(Swift.String(describing: iormConfigCache)), isLocalBackupEnabled: \(Swift.String(describing: isLocalBackupEnabled)), isSparseDiskgroupEnabled: \(Swift.String(describing: isSparseDiskgroupEnabled)), lastUpdateHistoryEntryId: \(Swift.String(describing: lastUpdateHistoryEntryId)), licenseModel: \(Swift.String(describing: licenseModel)), listenerPort: \(Swift.String(describing: listenerPort)), memorySizeInGBs: \(Swift.String(describing: memorySizeInGBs)), nodeCount: \(Swift.String(describing: nodeCount)), ociResourceAnchorName: \(Swift.String(describing: ociResourceAnchorName)), ociUrl: \(Swift.String(describing: ociUrl)), ocid: \(Swift.String(describing: ocid)), odbNetworkArn: \(Swift.String(describing: odbNetworkArn)), odbNetworkId: \(Swift.String(describing: odbNetworkId)), percentProgress: \(Swift.String(describing: percentProgress)), scanDnsName: \(Swift.String(describing: scanDnsName)), scanDnsRecordId: \(Swift.String(describing: scanDnsRecordId)), scanIpIds: \(Swift.String(describing: scanIpIds)), shape: \(Swift.String(describing: shape)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), storageSizeInGBs: \(Swift.String(describing: storageSizeInGBs)), systemVersion: \(Swift.String(describing: systemVersion)), timeZone: \(Swift.String(describing: timeZone)), vipIds: \(Swift.String(describing: vipIds)), sshPublicKeys: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCloudVmClusterInput: Swift.Sendable {
@@ -3099,6 +3263,8 @@ public struct CreateOdbNetworkInput: Swift.Sendable {
     public var clientSubnetCidr: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.
     public var clientToken: Swift.String?
+    /// The cross-Region Amazon S3 restore sources to enable for the ODB network.
+    public var crossRegionS3RestoreSourcesToEnable: [Swift.String]?
     /// The domain name to use for the resources in the ODB network.
     public var customDomainName: Swift.String?
     /// The DNS prefix to the default DNS domain name. The default DNS domain name is oraclevcn.com.
@@ -3106,10 +3272,18 @@ public struct CreateOdbNetworkInput: Swift.Sendable {
     /// A user-friendly name for the ODB network.
     /// This member is required.
     public var displayName: Swift.String?
+    /// The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network.
+    public var kmsAccess: OdbClientTypes.Access?
+    /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network.
+    public var kmsPolicyDocument: Swift.String?
     /// Specifies the configuration for Amazon S3 access from the ODB network.
     public var s3Access: OdbClientTypes.Access?
     /// Specifies the endpoint policy for Amazon S3 access from the ODB network.
     public var s3PolicyDocument: Swift.String?
+    /// The Amazon Web Services Security Token Service (STS) access configuration for the ODB network.
+    public var stsAccess: OdbClientTypes.Access?
+    /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network.
+    public var stsPolicyDocument: Swift.String?
     /// The list of resource tags to apply to the ODB network.
     public var tags: [Swift.String: Swift.String]?
     /// Specifies the configuration for Zero-ETL access from the ODB network.
@@ -3121,11 +3295,16 @@ public struct CreateOdbNetworkInput: Swift.Sendable {
         backupSubnetCidr: Swift.String? = nil,
         clientSubnetCidr: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        crossRegionS3RestoreSourcesToEnable: [Swift.String]? = nil,
         customDomainName: Swift.String? = nil,
         defaultDnsPrefix: Swift.String? = nil,
         displayName: Swift.String? = nil,
+        kmsAccess: OdbClientTypes.Access? = nil,
+        kmsPolicyDocument: Swift.String? = nil,
         s3Access: OdbClientTypes.Access? = nil,
         s3PolicyDocument: Swift.String? = nil,
+        stsAccess: OdbClientTypes.Access? = nil,
+        stsPolicyDocument: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         zeroEtlAccess: OdbClientTypes.Access? = nil
     ) {
@@ -3134,11 +3313,16 @@ public struct CreateOdbNetworkInput: Swift.Sendable {
         self.backupSubnetCidr = backupSubnetCidr
         self.clientSubnetCidr = clientSubnetCidr
         self.clientToken = clientToken
+        self.crossRegionS3RestoreSourcesToEnable = crossRegionS3RestoreSourcesToEnable
         self.customDomainName = customDomainName
         self.defaultDnsPrefix = defaultDnsPrefix
         self.displayName = displayName
+        self.kmsAccess = kmsAccess
+        self.kmsPolicyDocument = kmsPolicyDocument
         self.s3Access = s3Access
         self.s3PolicyDocument = s3PolicyDocument
+        self.stsAccess = stsAccess
+        self.stsPolicyDocument = stsPolicyDocument
         self.tags = tags
         self.zeroEtlAccess = zeroEtlAccess
     }
@@ -3178,6 +3362,8 @@ public struct CreateOdbPeeringConnectionInput: Swift.Sendable {
     /// The unique identifier of the ODB network that initiates the peering connection.
     /// This member is required.
     public var odbNetworkId: Swift.String?
+    /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+    public var peerNetworkCidrsToBeAdded: [Swift.String]?
     /// The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID.
     /// This member is required.
     public var peerNetworkId: Swift.String?
@@ -3188,12 +3374,14 @@ public struct CreateOdbPeeringConnectionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         displayName: Swift.String? = nil,
         odbNetworkId: Swift.String? = nil,
+        peerNetworkCidrsToBeAdded: [Swift.String]? = nil,
         peerNetworkId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.displayName = displayName
         self.odbNetworkId = odbNetworkId
+        self.peerNetworkCidrsToBeAdded = peerNetworkCidrsToBeAdded
         self.peerNetworkId = peerNetworkId
         self.tags = tags
     }
@@ -3205,7 +3393,7 @@ public struct CreateOdbPeeringConnectionOutput: Swift.Sendable {
     /// The unique identifier of the ODB peering connection.
     /// This member is required.
     public var odbPeeringConnectionId: Swift.String?
-    /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+    /// The status of the ODB peering connection.
     public var status: OdbClientTypes.ResourceStatus?
     /// The reason for the current status of the ODB peering connection.
     public var statusReason: Swift.String?
@@ -3220,6 +3408,64 @@ public struct CreateOdbPeeringConnectionOutput: Swift.Sendable {
         self.odbPeeringConnectionId = odbPeeringConnectionId
         self.status = status
         self.statusReason = statusReason
+    }
+}
+
+extension OdbClientTypes {
+
+    public enum ManagedResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedResourceStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// The configuration access for the cross-Region Amazon S3 database restore source for the ODB network.
+    public struct CrossRegionS3RestoreSourcesAccess: Swift.Sendable {
+        /// The IPv4 addresses allowed for cross-Region Amazon S3 restore access.
+        public var ipv4Addresses: [Swift.String]?
+        /// The Amazon Web Services Region for cross-Region Amazon S3 restore access.
+        public var region: Swift.String?
+        /// The current status of the cross-Region Amazon S3 restore access configuration.
+        public var status: OdbClientTypes.ManagedResourceStatus?
+
+        public init(
+            ipv4Addresses: [Swift.String]? = nil,
+            region: Swift.String? = nil,
+            status: OdbClientTypes.ManagedResourceStatus? = nil
+        ) {
+            self.ipv4Addresses = ipv4Addresses
+            self.region = region
+            self.status = status
+        }
     }
 }
 
@@ -3893,9 +4139,71 @@ public struct DeleteOdbPeeringConnectionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateIamRoleFromResourceInput: Swift.Sendable {
+    /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role disassociation.
+    /// This member is required.
+    public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to disassociate from the resource.
+    /// This member is required.
+    public var iamRoleArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the target resource to disassociate from the Amazon Web Services Identity and Access Management (IAM) service role.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        awsIntegration: OdbClientTypes.SupportedAwsIntegration? = nil,
+        iamRoleArn: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.awsIntegration = awsIntegration
+        self.iamRoleArn = iamRoleArn
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct DisassociateIamRoleFromResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GetOciOnboardingStatusInput: Swift.Sendable {
 
     public init() { }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Oracle Cloud Infrastructure (OCI) identity domain configuration.
+    public struct OciIdentityDomain: Swift.Sendable {
+        /// The Amazon Web Services CloudFormation URL for setting up the account integration with the OCI identity domain.
+        public var accountSetupCloudFormationUrl: Swift.String?
+        /// The unique identifier of the OCI identity domain.
+        public var ociIdentityDomainId: Swift.String?
+        /// The resource URL for accessing the OCI identity domain.
+        public var ociIdentityDomainResourceUrl: Swift.String?
+        /// The URL of the OCI identity domain.
+        public var ociIdentityDomainUrl: Swift.String?
+        /// The current status of the OCI identity domain.
+        public var status: OdbClientTypes.ResourceStatus?
+        /// Additional information about the current status of the OCI identity domain, if applicable.
+        public var statusReason: Swift.String?
+
+        public init(
+            accountSetupCloudFormationUrl: Swift.String? = nil,
+            ociIdentityDomainId: Swift.String? = nil,
+            ociIdentityDomainResourceUrl: Swift.String? = nil,
+            ociIdentityDomainUrl: Swift.String? = nil,
+            status: OdbClientTypes.ResourceStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.accountSetupCloudFormationUrl = accountSetupCloudFormationUrl
+            self.ociIdentityDomainId = ociIdentityDomainId
+            self.ociIdentityDomainResourceUrl = ociIdentityDomainResourceUrl
+            self.ociIdentityDomainUrl = ociIdentityDomainUrl
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
 }
 
 extension OdbClientTypes {
@@ -3963,16 +4271,20 @@ public struct GetOciOnboardingStatusOutput: Swift.Sendable {
     public var existingTenancyActivationLink: Swift.String?
     /// A new OCI tenancy activation link for your Amazon Web Services account.
     public var newTenancyActivationLink: Swift.String?
+    /// The Oracle Cloud Infrastructure (OCI) identity domain information in the onboarding status response.
+    public var ociIdentityDomain: OdbClientTypes.OciIdentityDomain?
     ///
     public var status: OdbClientTypes.OciOnboardingStatus?
 
     public init(
         existingTenancyActivationLink: Swift.String? = nil,
         newTenancyActivationLink: Swift.String? = nil,
+        ociIdentityDomain: OdbClientTypes.OciIdentityDomain? = nil,
         status: OdbClientTypes.OciOnboardingStatus? = nil
     ) {
         self.existingTenancyActivationLink = existingTenancyActivationLink
         self.newTenancyActivationLink = newTenancyActivationLink
+        self.ociIdentityDomain = ociIdentityDomain
         self.status = status
     }
 }
@@ -3991,35 +4303,27 @@ public struct GetOdbNetworkInput: Swift.Sendable {
 
 extension OdbClientTypes {
 
-    public enum ManagedResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case disabling
-        case enabled
-        case enabling
-        case sdkUnknown(Swift.String)
+    /// Configuration for Amazon Web Services Key Management Service (KMS) access from the ODB network.
+    public struct KmsAccess: Swift.Sendable {
+        /// The domain name for Amazon Web Services Key Management Service (KMS) access configuration.
+        public var domainName: Swift.String?
+        /// The IPv4 addresses allowed for Amazon Web Services Key Management Service (KMS) access.
+        public var ipv4Addresses: [Swift.String]?
+        /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage.
+        public var kmsPolicyDocument: Swift.String?
+        /// The current status of the Amazon Web Services Key Management Service (KMS) access configuration.
+        public var status: OdbClientTypes.ManagedResourceStatus?
 
-        public static var allCases: [ManagedResourceStatus] {
-            return [
-                .disabled,
-                .disabling,
-                .enabled,
-                .enabling
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .disabling: return "DISABLING"
-            case .enabled: return "ENABLED"
-            case .enabling: return "ENABLING"
-            case let .sdkUnknown(s): return s
-            }
+        public init(
+            domainName: Swift.String? = nil,
+            ipv4Addresses: [Swift.String]? = nil,
+            kmsPolicyDocument: Swift.String? = nil,
+            status: OdbClientTypes.ManagedResourceStatus? = nil
+        ) {
+            self.domainName = domainName
+            self.ipv4Addresses = ipv4Addresses
+            self.kmsPolicyDocument = kmsPolicyDocument
+            self.status = status
         }
     }
 }
@@ -4030,7 +4334,7 @@ extension OdbClientTypes {
     public struct ManagedS3BackupAccess: Swift.Sendable {
         /// The IPv4 addresses for the managed Amazon S3 backup access.
         public var ipv4Addresses: [Swift.String]?
-        /// The status of the managed Amazon S3 backup access. Valid Values: enabled | disabled
+        /// The status of the managed Amazon S3 backup access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4053,7 +4357,7 @@ extension OdbClientTypes {
         public var ipv4Addresses: [Swift.String]?
         /// The endpoint policy for the Amazon S3 access.
         public var s3PolicyDocument: Swift.String?
-        /// The status of the Amazon S3 access. Valid Values: enabled | disabled
+        /// The status of the Amazon S3 access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4102,7 +4406,7 @@ extension OdbClientTypes {
     public struct ServiceNetworkEndpoint: Swift.Sendable {
         /// The identifier of the VPC endpoint.
         public var vpcEndpointId: Swift.String?
-        /// The type of the VPC endpoint. Valid Values: Interface | Gateway
+        /// The type of the VPC endpoint.
         public var vpcEndpointType: OdbClientTypes.VpcEndpointType?
 
         public init(
@@ -4117,11 +4421,38 @@ extension OdbClientTypes {
 
 extension OdbClientTypes {
 
+    /// Configuration for Amazon Web Services Security Token Service (STS) access from the ODB network.
+    public struct StsAccess: Swift.Sendable {
+        /// The domain name for Amazon Web Services Security Token Service (STS) access configuration.
+        public var domainName: Swift.String?
+        /// The IPv4 addresses allowed for Amazon Web Services Security Token Service (STS) access.
+        public var ipv4Addresses: [Swift.String]?
+        /// The current status of the Amazon Web Services Security Token Service (STS) access configuration.
+        public var status: OdbClientTypes.ManagedResourceStatus?
+        /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage.
+        public var stsPolicyDocument: Swift.String?
+
+        public init(
+            domainName: Swift.String? = nil,
+            ipv4Addresses: [Swift.String]? = nil,
+            status: OdbClientTypes.ManagedResourceStatus? = nil,
+            stsPolicyDocument: Swift.String? = nil
+        ) {
+            self.domainName = domainName
+            self.ipv4Addresses = ipv4Addresses
+            self.status = status
+            self.stsPolicyDocument = stsPolicyDocument
+        }
+    }
+}
+
+extension OdbClientTypes {
+
     /// The configuration for Zero-ETL access from the ODB network.
     public struct ZeroEtlAccess: Swift.Sendable {
         /// The CIDR block for the Zero-ETL access.
         public var cidr: Swift.String?
-        /// The status of the Zero-ETL access. Valid Values: enabled | disabled
+        /// The status of the Zero-ETL access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4138,6 +4469,10 @@ extension OdbClientTypes {
 
     /// The managed services configuration for the ODB network.
     public struct ManagedServices: Swift.Sendable {
+        /// The access configuration for the cross-Region Amazon S3 database restore source.
+        public var crossRegionS3RestoreSourcesAccess: [OdbClientTypes.CrossRegionS3RestoreSourcesAccess]?
+        /// The Amazon Web Services Key Management Service (KMS) access configuration.
+        public var kmsAccess: OdbClientTypes.KmsAccess?
         /// The managed Amazon S3 backup access configuration.
         public var managedS3BackupAccess: OdbClientTypes.ManagedS3BackupAccess?
         /// The IPv4 CIDR blocks for the managed services.
@@ -4150,24 +4485,32 @@ extension OdbClientTypes {
         public var serviceNetworkArn: Swift.String?
         /// The service network endpoint configuration.
         public var serviceNetworkEndpoint: OdbClientTypes.ServiceNetworkEndpoint?
+        /// The Amazon Web Services Security Token Service (STS) access configuration.
+        public var stsAccess: OdbClientTypes.StsAccess?
         /// The Zero-ETL access configuration.
         public var zeroEtlAccess: OdbClientTypes.ZeroEtlAccess?
 
         public init(
+            crossRegionS3RestoreSourcesAccess: [OdbClientTypes.CrossRegionS3RestoreSourcesAccess]? = nil,
+            kmsAccess: OdbClientTypes.KmsAccess? = nil,
             managedS3BackupAccess: OdbClientTypes.ManagedS3BackupAccess? = nil,
             managedServicesIpv4Cidrs: [Swift.String]? = nil,
             resourceGatewayArn: Swift.String? = nil,
             s3Access: OdbClientTypes.S3Access? = nil,
             serviceNetworkArn: Swift.String? = nil,
             serviceNetworkEndpoint: OdbClientTypes.ServiceNetworkEndpoint? = nil,
+            stsAccess: OdbClientTypes.StsAccess? = nil,
             zeroEtlAccess: OdbClientTypes.ZeroEtlAccess? = nil
         ) {
+            self.crossRegionS3RestoreSourcesAccess = crossRegionS3RestoreSourcesAccess
+            self.kmsAccess = kmsAccess
             self.managedS3BackupAccess = managedS3BackupAccess
             self.managedServicesIpv4Cidrs = managedServicesIpv4Cidrs
             self.resourceGatewayArn = resourceGatewayArn
             self.s3Access = s3Access
             self.serviceNetworkArn = serviceNetworkArn
             self.serviceNetworkEndpoint = serviceNetworkEndpoint
+            self.stsAccess = stsAccess
             self.zeroEtlAccess = zeroEtlAccess
         }
     }
@@ -4330,9 +4673,11 @@ extension OdbClientTypes {
         public var odbPeeringConnectionType: Swift.String?
         /// The Amazon Resource Name (ARN) of the peer network.
         public var peerNetworkArn: Swift.String?
+        /// The CIDR blocks associated with the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+        public var peerNetworkCidrs: [Swift.String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public var percentProgress: Swift.Float?
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public var status: OdbClientTypes.ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public var statusReason: Swift.String?
@@ -4345,6 +4690,7 @@ extension OdbClientTypes {
             odbPeeringConnectionId: Swift.String? = nil,
             odbPeeringConnectionType: Swift.String? = nil,
             peerNetworkArn: Swift.String? = nil,
+            peerNetworkCidrs: [Swift.String]? = nil,
             percentProgress: Swift.Float? = nil,
             status: OdbClientTypes.ResourceStatus? = nil,
             statusReason: Swift.String? = nil
@@ -4356,6 +4702,7 @@ extension OdbClientTypes {
             self.odbPeeringConnectionId = odbPeeringConnectionId
             self.odbPeeringConnectionType = odbPeeringConnectionType
             self.peerNetworkArn = peerNetworkArn
+            self.peerNetworkCidrs = peerNetworkCidrs
             self.percentProgress = percentProgress
             self.status = status
             self.statusReason = statusReason
@@ -4390,8 +4737,14 @@ extension OdbClientTypes {
 }
 
 public struct InitializeServiceInput: Swift.Sendable {
+    /// The Oracle Cloud Infrastructure (OCI) identity domain configuration for service initialization.
+    public var ociIdentityDomain: Swift.Bool?
 
-    public init() { }
+    public init(
+        ociIdentityDomain: Swift.Bool? = nil
+    ) {
+        self.ociIdentityDomain = ociIdentityDomain
+    }
 }
 
 public struct InitializeServiceOutput: Swift.Sendable {
@@ -4640,9 +4993,11 @@ extension OdbClientTypes {
         public var odbPeeringConnectionType: Swift.String?
         /// The Amazon Resource Name (ARN) of the peer network.
         public var peerNetworkArn: Swift.String?
+        /// The CIDR blocks associated with the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+        public var peerNetworkCidrs: [Swift.String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public var percentProgress: Swift.Float?
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public var status: OdbClientTypes.ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public var statusReason: Swift.String?
@@ -4655,6 +5010,7 @@ extension OdbClientTypes {
             odbPeeringConnectionId: Swift.String? = nil,
             odbPeeringConnectionType: Swift.String? = nil,
             peerNetworkArn: Swift.String? = nil,
+            peerNetworkCidrs: [Swift.String]? = nil,
             percentProgress: Swift.Float? = nil,
             status: OdbClientTypes.ResourceStatus? = nil,
             statusReason: Swift.String? = nil
@@ -4666,6 +5022,7 @@ extension OdbClientTypes {
             self.odbPeeringConnectionId = odbPeeringConnectionId
             self.odbPeeringConnectionType = odbPeeringConnectionType
             self.peerNetworkArn = peerNetworkArn
+            self.peerNetworkCidrs = peerNetworkCidrs
             self.percentProgress = percentProgress
             self.status = status
             self.statusReason = statusReason
@@ -4777,8 +5134,16 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateOdbNetworkInput: Swift.Sendable {
+    /// The cross-Region Amazon S3 restore sources to disable for the ODB network.
+    public var crossRegionS3RestoreSourcesToDisable: [Swift.String]?
+    /// The cross-Region Amazon S3 restore sources to enable for the ODB network.
+    public var crossRegionS3RestoreSourcesToEnable: [Swift.String]?
     /// The new user-friendly name of the ODB network.
     public var displayName: Swift.String?
+    /// The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network.
+    public var kmsAccess: OdbClientTypes.Access?
+    /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network.
+    public var kmsPolicyDocument: Swift.String?
     /// The unique identifier of the ODB network to update.
     /// This member is required.
     public var odbNetworkId: Swift.String?
@@ -4790,24 +5155,40 @@ public struct UpdateOdbNetworkInput: Swift.Sendable {
     public var s3Access: OdbClientTypes.Access?
     /// Specifies the updated endpoint policy for Amazon S3 access from the ODB network.
     public var s3PolicyDocument: Swift.String?
+    /// The Amazon Web Services Security Token Service (STS) access configuration for the ODB network.
+    public var stsAccess: OdbClientTypes.Access?
+    /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network.
+    public var stsPolicyDocument: Swift.String?
     /// Specifies the updated configuration for Zero-ETL access from the ODB network.
     public var zeroEtlAccess: OdbClientTypes.Access?
 
     public init(
+        crossRegionS3RestoreSourcesToDisable: [Swift.String]? = nil,
+        crossRegionS3RestoreSourcesToEnable: [Swift.String]? = nil,
         displayName: Swift.String? = nil,
+        kmsAccess: OdbClientTypes.Access? = nil,
+        kmsPolicyDocument: Swift.String? = nil,
         odbNetworkId: Swift.String? = nil,
         peeredCidrsToBeAdded: [Swift.String]? = nil,
         peeredCidrsToBeRemoved: [Swift.String]? = nil,
         s3Access: OdbClientTypes.Access? = nil,
         s3PolicyDocument: Swift.String? = nil,
+        stsAccess: OdbClientTypes.Access? = nil,
+        stsPolicyDocument: Swift.String? = nil,
         zeroEtlAccess: OdbClientTypes.Access? = nil
     ) {
+        self.crossRegionS3RestoreSourcesToDisable = crossRegionS3RestoreSourcesToDisable
+        self.crossRegionS3RestoreSourcesToEnable = crossRegionS3RestoreSourcesToEnable
         self.displayName = displayName
+        self.kmsAccess = kmsAccess
+        self.kmsPolicyDocument = kmsPolicyDocument
         self.odbNetworkId = odbNetworkId
         self.peeredCidrsToBeAdded = peeredCidrsToBeAdded
         self.peeredCidrsToBeRemoved = peeredCidrsToBeRemoved
         self.s3Access = s3Access
         self.s3PolicyDocument = s3PolicyDocument
+        self.stsAccess = stsAccess
+        self.stsPolicyDocument = stsPolicyDocument
         self.zeroEtlAccess = zeroEtlAccess
     }
 }
@@ -4831,6 +5212,54 @@ public struct UpdateOdbNetworkOutput: Swift.Sendable {
     ) {
         self.displayName = displayName
         self.odbNetworkId = odbNetworkId
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct UpdateOdbPeeringConnectionInput: Swift.Sendable {
+    /// A new display name for the peering connection.
+    public var displayName: Swift.String?
+    /// The identifier of the Oracle Database@Amazon Web Services peering connection to update.
+    /// This member is required.
+    public var odbPeeringConnectionId: Swift.String?
+    /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. The CIDR blocks must not overlap with existing CIDR blocks in the Oracle Database@Amazon Web Services network.
+    public var peerNetworkCidrsToBeAdded: [Swift.String]?
+    /// A list of CIDR blocks to remove from the peering connection. The CIDR blocks must currently exist in the peering connection.
+    public var peerNetworkCidrsToBeRemoved: [Swift.String]?
+
+    public init(
+        displayName: Swift.String? = nil,
+        odbPeeringConnectionId: Swift.String? = nil,
+        peerNetworkCidrsToBeAdded: [Swift.String]? = nil,
+        peerNetworkCidrsToBeRemoved: [Swift.String]? = nil
+    ) {
+        self.displayName = displayName
+        self.odbPeeringConnectionId = odbPeeringConnectionId
+        self.peerNetworkCidrsToBeAdded = peerNetworkCidrsToBeAdded
+        self.peerNetworkCidrsToBeRemoved = peerNetworkCidrsToBeRemoved
+    }
+}
+
+public struct UpdateOdbPeeringConnectionOutput: Swift.Sendable {
+    /// The display name of the peering connection.
+    public var displayName: Swift.String?
+    /// The identifier of the Oracle Database@Amazon Web Services peering connection that was updated.
+    /// This member is required.
+    public var odbPeeringConnectionId: Swift.String?
+    /// The status of the peering connection update operation.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the status of the peering connection update operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        odbPeeringConnectionId: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.odbPeeringConnectionId = odbPeeringConnectionId
         self.status = status
         self.statusReason = statusReason
     }
@@ -4883,6 +5312,13 @@ public struct UntagResourceOutput: Swift.Sendable {
 extension AcceptMarketplaceRegistrationInput {
 
     static func urlPathProvider(_ value: AcceptMarketplaceRegistrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension AssociateIamRoleToResourceInput {
+
+    static func urlPathProvider(_ value: AssociateIamRoleToResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4953,6 +5389,13 @@ extension DeleteOdbNetworkInput {
 extension DeleteOdbPeeringConnectionInput {
 
     static func urlPathProvider(_ value: DeleteOdbPeeringConnectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DisassociateIamRoleFromResourceInput {
+
+    static func urlPathProvider(_ value: DisassociateIamRoleFromResourceInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5160,11 +5603,28 @@ extension UpdateOdbNetworkInput {
     }
 }
 
+extension UpdateOdbPeeringConnectionInput {
+
+    static func urlPathProvider(_ value: UpdateOdbPeeringConnectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AcceptMarketplaceRegistrationInput {
 
     static func write(value: AcceptMarketplaceRegistrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["marketplaceRegistrationToken"].write(value.marketplaceRegistrationToken)
+    }
+}
+
+extension AssociateIamRoleToResourceInput {
+
+    static func write(value: AssociateIamRoleToResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsIntegration"].write(value.awsIntegration)
+        try writer["iamRoleArn"].write(value.iamRoleArn)
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
@@ -5248,11 +5708,16 @@ extension CreateOdbNetworkInput {
         try writer["backupSubnetCidr"].write(value.backupSubnetCidr)
         try writer["clientSubnetCidr"].write(value.clientSubnetCidr)
         try writer["clientToken"].write(value.clientToken)
+        try writer["crossRegionS3RestoreSourcesToEnable"].writeList(value.crossRegionS3RestoreSourcesToEnable, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["customDomainName"].write(value.customDomainName)
         try writer["defaultDnsPrefix"].write(value.defaultDnsPrefix)
         try writer["displayName"].write(value.displayName)
+        try writer["kmsAccess"].write(value.kmsAccess)
+        try writer["kmsPolicyDocument"].write(value.kmsPolicyDocument)
         try writer["s3Access"].write(value.s3Access)
         try writer["s3PolicyDocument"].write(value.s3PolicyDocument)
+        try writer["stsAccess"].write(value.stsAccess)
+        try writer["stsPolicyDocument"].write(value.stsPolicyDocument)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["zeroEtlAccess"].write(value.zeroEtlAccess)
     }
@@ -5265,6 +5730,7 @@ extension CreateOdbPeeringConnectionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["displayName"].write(value.displayName)
         try writer["odbNetworkId"].write(value.odbNetworkId)
+        try writer["peerNetworkCidrsToBeAdded"].writeList(value.peerNetworkCidrsToBeAdded, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["peerNetworkId"].write(value.peerNetworkId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -5308,6 +5774,16 @@ extension DeleteOdbPeeringConnectionInput {
     static func write(value: DeleteOdbPeeringConnectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["odbPeeringConnectionId"].write(value.odbPeeringConnectionId)
+    }
+}
+
+extension DisassociateIamRoleFromResourceInput {
+
+    static func write(value: DisassociateIamRoleFromResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsIntegration"].write(value.awsIntegration)
+        try writer["iamRoleArn"].write(value.iamRoleArn)
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
@@ -5389,8 +5865,8 @@ extension GetOdbPeeringConnectionInput {
 extension InitializeServiceInput {
 
     static func write(value: InitializeServiceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ociIdentityDomain"].write(value.ociIdentityDomain)
     }
 }
 
@@ -5570,13 +6046,30 @@ extension UpdateOdbNetworkInput {
 
     static func write(value: UpdateOdbNetworkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["crossRegionS3RestoreSourcesToDisable"].writeList(value.crossRegionS3RestoreSourcesToDisable, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["crossRegionS3RestoreSourcesToEnable"].writeList(value.crossRegionS3RestoreSourcesToEnable, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["displayName"].write(value.displayName)
+        try writer["kmsAccess"].write(value.kmsAccess)
+        try writer["kmsPolicyDocument"].write(value.kmsPolicyDocument)
         try writer["odbNetworkId"].write(value.odbNetworkId)
         try writer["peeredCidrsToBeAdded"].writeList(value.peeredCidrsToBeAdded, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["peeredCidrsToBeRemoved"].writeList(value.peeredCidrsToBeRemoved, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["s3Access"].write(value.s3Access)
         try writer["s3PolicyDocument"].write(value.s3PolicyDocument)
+        try writer["stsAccess"].write(value.stsAccess)
+        try writer["stsPolicyDocument"].write(value.stsPolicyDocument)
         try writer["zeroEtlAccess"].write(value.zeroEtlAccess)
+    }
+}
+
+extension UpdateOdbPeeringConnectionInput {
+
+    static func write(value: UpdateOdbPeeringConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayName"].write(value.displayName)
+        try writer["odbPeeringConnectionId"].write(value.odbPeeringConnectionId)
+        try writer["peerNetworkCidrsToBeAdded"].writeList(value.peerNetworkCidrsToBeAdded, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["peerNetworkCidrsToBeRemoved"].writeList(value.peerNetworkCidrsToBeRemoved, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5584,6 +6077,13 @@ extension AcceptMarketplaceRegistrationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AcceptMarketplaceRegistrationOutput {
         return AcceptMarketplaceRegistrationOutput()
+    }
+}
+
+extension AssociateIamRoleToResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateIamRoleToResourceOutput {
+        return AssociateIamRoleToResourceOutput()
     }
 }
 
@@ -5697,6 +6197,13 @@ extension DeleteOdbPeeringConnectionOutput {
     }
 }
 
+extension DisassociateIamRoleFromResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateIamRoleFromResourceOutput {
+        return DisassociateIamRoleFromResourceOutput()
+    }
+}
+
 extension GetCloudAutonomousVmClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCloudAutonomousVmClusterOutput {
@@ -5778,6 +6285,7 @@ extension GetOciOnboardingStatusOutput {
         var value = GetOciOnboardingStatusOutput()
         value.existingTenancyActivationLink = try reader["existingTenancyActivationLink"].readIfPresent()
         value.newTenancyActivationLink = try reader["newTenancyActivationLink"].readIfPresent()
+        value.ociIdentityDomain = try reader["ociIdentityDomain"].readIfPresent(with: OdbClientTypes.OciIdentityDomain.read(from:))
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -6055,6 +6563,21 @@ extension UpdateOdbNetworkOutput {
     }
 }
 
+extension UpdateOdbPeeringConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateOdbPeeringConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateOdbPeeringConnectionOutput()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.odbPeeringConnectionId = try reader["odbPeeringConnectionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
 enum AcceptMarketplaceRegistrationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6066,6 +6589,25 @@ enum AcceptMarketplaceRegistrationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateIamRoleToResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6252,6 +6794,25 @@ enum DeleteOdbPeeringConnectionOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateIamRoleFromResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -6768,6 +7329,25 @@ enum UpdateOdbNetworkOutputError {
     }
 }
 
+enum UpdateOdbPeeringConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -6884,12 +7464,14 @@ extension OdbClientTypes.CloudAutonomousVmCluster {
         value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent() ?? ""
         value.cloudAutonomousVmClusterArn = try reader["cloudAutonomousVmClusterArn"].readIfPresent()
         value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
         value.autonomousDataStoragePercentage = try reader["autonomousDataStoragePercentage"].readIfPresent()
         value.autonomousDataStorageSizeInTBs = try reader["autonomousDataStorageSizeInTBs"].readIfPresent()
         value.availableAutonomousDataStorageSizeInTBs = try reader["availableAutonomousDataStorageSizeInTBs"].readIfPresent()
@@ -7097,6 +7679,7 @@ extension OdbClientTypes.CloudVmCluster {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.cloudVmClusterArn = try reader["cloudVmClusterArn"].readIfPresent()
         value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
         value.clusterName = try reader["clusterName"].readIfPresent()
         value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
         value.dataCollectionOptions = try reader["dataCollectionOptions"].readIfPresent(with: OdbClientTypes.DataCollectionOptions.read(from:))
@@ -7129,8 +7712,23 @@ extension OdbClientTypes.CloudVmCluster {
         value.timeZone = try reader["timeZone"].readIfPresent()
         value.vipIds = try reader["vipIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.computeModel = try reader["computeModel"].readIfPresent()
+        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.IamRole {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.IamRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.IamRole()
+        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.awsIntegration = try reader["awsIntegration"].readIfPresent()
         return value
     }
 }
@@ -7258,6 +7856,21 @@ extension OdbClientTypes.DbServerPatchingDetails {
     }
 }
 
+extension OdbClientTypes.OciIdentityDomain {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OciIdentityDomain {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.OciIdentityDomain()
+        value.ociIdentityDomainId = try reader["ociIdentityDomainId"].readIfPresent()
+        value.ociIdentityDomainResourceUrl = try reader["ociIdentityDomainResourceUrl"].readIfPresent()
+        value.ociIdentityDomainUrl = try reader["ociIdentityDomainUrl"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.accountSetupCloudFormationUrl = try reader["accountSetupCloudFormationUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension OdbClientTypes.OdbNetwork {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.OdbNetwork {
@@ -7300,6 +7913,47 @@ extension OdbClientTypes.ManagedServices {
         value.managedS3BackupAccess = try reader["managedS3BackupAccess"].readIfPresent(with: OdbClientTypes.ManagedS3BackupAccess.read(from:))
         value.zeroEtlAccess = try reader["zeroEtlAccess"].readIfPresent(with: OdbClientTypes.ZeroEtlAccess.read(from:))
         value.s3Access = try reader["s3Access"].readIfPresent(with: OdbClientTypes.S3Access.read(from:))
+        value.stsAccess = try reader["stsAccess"].readIfPresent(with: OdbClientTypes.StsAccess.read(from:))
+        value.kmsAccess = try reader["kmsAccess"].readIfPresent(with: OdbClientTypes.KmsAccess.read(from:))
+        value.crossRegionS3RestoreSourcesAccess = try reader["crossRegionS3RestoreSourcesAccess"].readListIfPresent(memberReadingClosure: OdbClientTypes.CrossRegionS3RestoreSourcesAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.CrossRegionS3RestoreSourcesAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.CrossRegionS3RestoreSourcesAccess()
+        value.region = try reader["region"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.KmsAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.KmsAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.KmsAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.kmsPolicyDocument = try reader["kmsPolicyDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension OdbClientTypes.StsAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.StsAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.StsAccess()
+        value.status = try reader["status"].readIfPresent()
+        value.ipv4Addresses = try reader["ipv4Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainName = try reader["domainName"].readIfPresent()
+        value.stsPolicyDocument = try reader["stsPolicyDocument"].readIfPresent()
         return value
     }
 }
@@ -7374,6 +8028,7 @@ extension OdbClientTypes.OdbPeeringConnection {
         value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.peerNetworkArn = try reader["peerNetworkArn"].readIfPresent()
         value.odbPeeringConnectionType = try reader["odbPeeringConnectionType"].readIfPresent()
+        value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         return value
@@ -7410,12 +8065,14 @@ extension OdbClientTypes.CloudAutonomousVmClusterSummary {
         value.cloudAutonomousVmClusterId = try reader["cloudAutonomousVmClusterId"].readIfPresent() ?? ""
         value.cloudAutonomousVmClusterArn = try reader["cloudAutonomousVmClusterArn"].readIfPresent()
         value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.ociResourceAnchorName = try reader["ociResourceAnchorName"].readIfPresent()
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
         value.autonomousDataStoragePercentage = try reader["autonomousDataStoragePercentage"].readIfPresent()
         value.autonomousDataStorageSizeInTBs = try reader["autonomousDataStorageSizeInTBs"].readIfPresent()
         value.availableAutonomousDataStorageSizeInTBs = try reader["availableAutonomousDataStorageSizeInTBs"].readIfPresent()
@@ -7518,6 +8175,7 @@ extension OdbClientTypes.CloudVmClusterSummary {
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.cloudVmClusterArn = try reader["cloudVmClusterArn"].readIfPresent()
         value.cloudExadataInfrastructureId = try reader["cloudExadataInfrastructureId"].readIfPresent()
+        value.cloudExadataInfrastructureArn = try reader["cloudExadataInfrastructureArn"].readIfPresent()
         value.clusterName = try reader["clusterName"].readIfPresent()
         value.cpuCoreCount = try reader["cpuCoreCount"].readIfPresent()
         value.dataCollectionOptions = try reader["dataCollectionOptions"].readIfPresent(with: OdbClientTypes.DataCollectionOptions.read(from:))
@@ -7550,8 +8208,10 @@ extension OdbClientTypes.CloudVmClusterSummary {
         value.timeZone = try reader["timeZone"].readIfPresent()
         value.vipIds = try reader["vipIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.odbNetworkId = try reader["odbNetworkId"].readIfPresent()
+        value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.computeModel = try reader["computeModel"].readIfPresent()
+        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7706,6 +8366,7 @@ extension OdbClientTypes.OdbPeeringConnectionSummary {
         value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.peerNetworkArn = try reader["peerNetworkArn"].readIfPresent()
         value.odbPeeringConnectionType = try reader["odbPeeringConnectionType"].readIfPresent()
+        value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         return value

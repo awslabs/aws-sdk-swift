@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ElasticBeanstalkClient: ClientRuntime.Client {
+public class ElasticBeanstalkClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ElasticBeanstalkClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticBeanstalkClient.ElasticBeanstalkClientConfiguration
     let serviceName = "Elastic Beanstalk"
@@ -372,9 +372,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Cancels in-progress environment configuration update or application version deployment.
     ///
-    /// - Parameter AbortEnvironmentUpdateInput :
+    /// - Parameter input: (Type: `AbortEnvironmentUpdateInput`)
     ///
-    /// - Returns: `AbortEnvironmentUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortEnvironmentUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -406,6 +406,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AbortEnvironmentUpdateOutput>(AbortEnvironmentUpdateOutput.httpOutput(from:), AbortEnvironmentUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AbortEnvironmentUpdateInput, AbortEnvironmentUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AbortEnvironmentUpdateOutput>())
@@ -439,9 +440,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Applies a scheduled managed action immediately. A managed action can be applied only if its status is Scheduled. Get the status and action ID of a managed action with [DescribeEnvironmentManagedActions].
     ///
-    /// - Parameter ApplyEnvironmentManagedActionInput : Request to execute a scheduled managed action immediately.
+    /// - Parameter input: Request to execute a scheduled managed action immediately. (Type: `ApplyEnvironmentManagedActionInput`)
     ///
-    /// - Returns: `ApplyEnvironmentManagedActionOutput` : The result message containing information about the managed action.
+    /// - Returns: The result message containing information about the managed action. (Type: `ApplyEnvironmentManagedActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -474,6 +475,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyEnvironmentManagedActionOutput>(ApplyEnvironmentManagedActionOutput.httpOutput(from:), ApplyEnvironmentManagedActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyEnvironmentManagedActionInput, ApplyEnvironmentManagedActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyEnvironmentManagedActionOutput>())
@@ -507,9 +509,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
     ///
-    /// - Parameter AssociateEnvironmentOperationsRoleInput : Request to add or change the operations role used by an environment.
+    /// - Parameter input: Request to add or change the operations role used by an environment. (Type: `AssociateEnvironmentOperationsRoleInput`)
     ///
-    /// - Returns: `AssociateEnvironmentOperationsRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEnvironmentOperationsRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -541,6 +543,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEnvironmentOperationsRoleOutput>(AssociateEnvironmentOperationsRoleOutput.httpOutput(from:), AssociateEnvironmentOperationsRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEnvironmentOperationsRoleInput, AssociateEnvironmentOperationsRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEnvironmentOperationsRoleOutput>())
@@ -574,9 +577,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Checks if the specified CNAME is available.
     ///
-    /// - Parameter CheckDNSAvailabilityInput : Results message indicating whether a CNAME is available.
+    /// - Parameter input: Results message indicating whether a CNAME is available. (Type: `CheckDNSAvailabilityInput`)
     ///
-    /// - Returns: `CheckDNSAvailabilityOutput` : Indicates if the specified CNAME is available.
+    /// - Returns: Indicates if the specified CNAME is available. (Type: `CheckDNSAvailabilityOutput`)
     public func checkDNSAvailability(input: CheckDNSAvailabilityInput) async throws -> CheckDNSAvailabilityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -603,6 +606,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckDNSAvailabilityOutput>(CheckDNSAvailabilityOutput.httpOutput(from:), CheckDNSAvailabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckDNSAvailabilityInput, CheckDNSAvailabilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckDNSAvailabilityOutput>())
@@ -636,9 +640,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Create or update a group of environments that each run a separate component of a single application. Takes a list of version labels that specify application source bundles for each of the environments to create or update. The name of each environment and other required information must be included in the source bundles in an environment manifest named env.yaml. See [Compose Environments](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/environment-mgmt-compose.html) for details.
     ///
-    /// - Parameter ComposeEnvironmentsInput : Request to create or update a group of environments.
+    /// - Parameter input: Request to create or update a group of environments. (Type: `ComposeEnvironmentsInput`)
     ///
-    /// - Returns: `ComposeEnvironmentsOutput` : Result message containing a list of environment descriptions.
+    /// - Returns: Result message containing a list of environment descriptions. (Type: `ComposeEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -671,6 +675,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ComposeEnvironmentsOutput>(ComposeEnvironmentsOutput.httpOutput(from:), ComposeEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ComposeEnvironmentsInput, ComposeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ComposeEnvironmentsOutput>())
@@ -704,9 +709,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Creates an application that has one configuration template named default and no application versions.
     ///
-    /// - Parameter CreateApplicationInput : Request to create an application.
+    /// - Parameter input: Request to create an application. (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : Result message containing a single description of an application.
+    /// - Returns: Result message containing a single description of an application. (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -738,6 +743,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -771,9 +777,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows: Specify a commit in an AWS CodeCommit repository with SourceBuildInformation. Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration. Specify a source bundle in S3 with SourceBundle Omit both SourceBuildInformation and SourceBundle to use the default sample application. After you create an application version with a specified Amazon S3 bucket and key location, you can't change that Amazon S3 location. If you change the Amazon S3 location, you receive an exception when you attempt to launch an environment from the application version.
     ///
-    /// - Parameter CreateApplicationVersionInput :
+    /// - Parameter input: (Type: `CreateApplicationVersionInput`)
     ///
-    /// - Returns: `CreateApplicationVersionOutput` : Result message wrapping a single description of an application version.
+    /// - Returns: Result message wrapping a single description of an application version. (Type: `CreateApplicationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -815,6 +821,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationVersionOutput>(CreateApplicationVersionOutput.httpOutput(from:), CreateApplicationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationVersionInput, CreateApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationVersionOutput>())
@@ -854,9 +861,9 @@ extension ElasticBeanstalkClient {
     ///
     /// * [ListAvailableSolutionStacks]
     ///
-    /// - Parameter CreateConfigurationTemplateInput : Request to create a configuration template.
+    /// - Parameter input: Request to create a configuration template. (Type: `CreateConfigurationTemplateInput`)
     ///
-    /// - Returns: `CreateConfigurationTemplateOutput` : Describes the settings for a configuration set.
+    /// - Returns: Describes the settings for a configuration set. (Type: `CreateConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,6 +897,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationTemplateOutput>(CreateConfigurationTemplateOutput.httpOutput(from:), CreateConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationTemplateInput, CreateConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationTemplateOutput>())
@@ -923,9 +931,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Launches an AWS Elastic Beanstalk environment for the specified application using the specified configuration.
     ///
-    /// - Parameter CreateEnvironmentInput :
+    /// - Parameter input: (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : Describes the properties of an environment.
+    /// - Returns: Describes the properties of an environment. (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -958,6 +966,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
@@ -991,9 +1000,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Create a new version of your custom platform.
     ///
-    /// - Parameter CreatePlatformVersionInput : Request to create a new platform version.
+    /// - Parameter input: Request to create a new platform version. (Type: `CreatePlatformVersionInput`)
     ///
-    /// - Returns: `CreatePlatformVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePlatformVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1027,6 +1036,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePlatformVersionOutput>(CreatePlatformVersionOutput.httpOutput(from:), CreatePlatformVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePlatformVersionInput, CreatePlatformVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePlatformVersionOutput>())
@@ -1060,9 +1070,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Creates a bucket in Amazon S3 to store application versions, logs, and other files used by Elastic Beanstalk environments. The Elastic Beanstalk console and EB CLI call this API the first time you create an environment in a region. If the storage location already exists, CreateStorageLocation still returns the bucket name but does not create a new bucket.
     ///
-    /// - Parameter CreateStorageLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStorageLocationInput`)
     ///
-    /// - Returns: `CreateStorageLocationOutput` : Results of a [CreateStorageLocationResult] call.
+    /// - Returns: Results of a [CreateStorageLocationResult] call. (Type: `CreateStorageLocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1096,6 +1106,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStorageLocationOutput>(CreateStorageLocationOutput.httpOutput(from:), CreateStorageLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorageLocationInput, CreateStorageLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStorageLocationOutput>())
@@ -1129,9 +1140,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Deletes the specified application along with all associated versions and configurations. The application versions will not be deleted from your Amazon S3 bucket. You cannot delete an application that has a running environment.
     ///
-    /// - Parameter DeleteApplicationInput : Request to delete an application.
+    /// - Parameter input: Request to delete an application. (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1163,6 +1174,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -1196,9 +1208,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Deletes the specified version from the specified application. You cannot delete an application version that is associated with a running environment.
     ///
-    /// - Parameter DeleteApplicationVersionInput : Request to delete an application version.
+    /// - Parameter input: Request to delete an application version. (Type: `DeleteApplicationVersionInput`)
     ///
-    /// - Returns: `DeleteApplicationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,6 +1251,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationVersionOutput>(DeleteApplicationVersionOutput.httpOutput(from:), DeleteApplicationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationVersionInput, DeleteApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationVersionOutput>())
@@ -1272,9 +1285,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Deletes the specified configuration template. When you launch an environment using a configuration template, the environment gets a copy of the template. You can delete or modify the environment's copy of the template without affecting the running environment.
     ///
-    /// - Parameter DeleteConfigurationTemplateInput : Request to delete a configuration template.
+    /// - Parameter input: Request to delete a configuration template. (Type: `DeleteConfigurationTemplateInput`)
     ///
-    /// - Returns: `DeleteConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1306,6 +1319,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationTemplateOutput>(DeleteConfigurationTemplateOutput.httpOutput(from:), DeleteConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationTemplateInput, DeleteConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationTemplateOutput>())
@@ -1339,9 +1353,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Deletes the draft configuration associated with the running environment. Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using [DescribeConfigurationSettings] while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action.
     ///
-    /// - Parameter DeleteEnvironmentConfigurationInput : Request to delete a draft environment configuration.
+    /// - Parameter input: Request to delete a draft environment configuration. (Type: `DeleteEnvironmentConfigurationInput`)
     ///
-    /// - Returns: `DeleteEnvironmentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentConfigurationOutput`)
     public func deleteEnvironmentConfiguration(input: DeleteEnvironmentConfigurationInput) async throws -> DeleteEnvironmentConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1368,6 +1382,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentConfigurationOutput>(DeleteEnvironmentConfigurationOutput.httpOutput(from:), DeleteEnvironmentConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentConfigurationInput, DeleteEnvironmentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentConfigurationOutput>())
@@ -1401,9 +1416,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Deletes the specified version of a custom platform.
     ///
-    /// - Parameter DeletePlatformVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlatformVersionInput`)
     ///
-    /// - Returns: `DeletePlatformVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlatformVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1438,6 +1453,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlatformVersionOutput>(DeletePlatformVersionOutput.httpOutput(from:), DeletePlatformVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlatformVersionInput, DeletePlatformVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePlatformVersionOutput>())
@@ -1471,9 +1487,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Returns attributes related to AWS Elastic Beanstalk that are associated with the calling AWS account. The result currently has one set of attributes—resource quotas.
     ///
-    /// - Parameter DescribeAccountAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountAttributesInput`)
     ///
-    /// - Returns: `DescribeAccountAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1505,6 +1521,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountAttributesOutput>(DescribeAccountAttributesOutput.httpOutput(from:), DescribeAccountAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountAttributesInput, DescribeAccountAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountAttributesOutput>())
@@ -1538,9 +1555,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Retrieve a list of application versions.
     ///
-    /// - Parameter DescribeApplicationVersionsInput : Request to describe application versions.
+    /// - Parameter input: Request to describe application versions. (Type: `DescribeApplicationVersionsInput`)
     ///
-    /// - Returns: `DescribeApplicationVersionsOutput` : Result message wrapping a list of application version descriptions.
+    /// - Returns: Result message wrapping a list of application version descriptions. (Type: `DescribeApplicationVersionsOutput`)
     public func describeApplicationVersions(input: DescribeApplicationVersionsInput) async throws -> DescribeApplicationVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1567,6 +1584,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationVersionsOutput>(DescribeApplicationVersionsOutput.httpOutput(from:), DescribeApplicationVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationVersionsInput, DescribeApplicationVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationVersionsOutput>())
@@ -1600,9 +1618,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Returns the descriptions of existing applications.
     ///
-    /// - Parameter DescribeApplicationsInput : Request to describe one or more applications.
+    /// - Parameter input: Request to describe one or more applications. (Type: `DescribeApplicationsInput`)
     ///
-    /// - Returns: `DescribeApplicationsOutput` : Result message containing a list of application descriptions.
+    /// - Returns: Result message containing a list of application descriptions. (Type: `DescribeApplicationsOutput`)
     public func describeApplications(input: DescribeApplicationsInput) async throws -> DescribeApplicationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1629,6 +1647,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationsOutput>(DescribeApplicationsOutput.httpOutput(from:), DescribeApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationsOutput>())
@@ -1662,9 +1681,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
     ///
-    /// - Parameter DescribeConfigurationOptionsInput : Result message containing a list of application version descriptions.
+    /// - Parameter input: Result message containing a list of application version descriptions. (Type: `DescribeConfigurationOptionsInput`)
     ///
-    /// - Returns: `DescribeConfigurationOptionsOutput` : Describes the settings for a specified configuration set.
+    /// - Returns: Describes the settings for a specified configuration set. (Type: `DescribeConfigurationOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1696,6 +1715,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationOptionsOutput>(DescribeConfigurationOptionsOutput.httpOutput(from:), DescribeConfigurationOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationOptionsInput, DescribeConfigurationOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationOptionsOutput>())
@@ -1731,9 +1751,9 @@ extension ElasticBeanstalkClient {
     ///
     /// * [DeleteEnvironmentConfiguration]
     ///
-    /// - Parameter DescribeConfigurationSettingsInput : Result message containing all of the configuration settings for a specified solution stack or configuration template.
+    /// - Parameter input: Result message containing all of the configuration settings for a specified solution stack or configuration template. (Type: `DescribeConfigurationSettingsInput`)
     ///
-    /// - Returns: `DescribeConfigurationSettingsOutput` : The results from a request to change the configuration settings of an environment.
+    /// - Returns: The results from a request to change the configuration settings of an environment. (Type: `DescribeConfigurationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1765,6 +1785,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationSettingsOutput>(DescribeConfigurationSettingsOutput.httpOutput(from:), DescribeConfigurationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationSettingsInput, DescribeConfigurationSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationSettingsOutput>())
@@ -1798,9 +1819,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
     ///
-    /// - Parameter DescribeEnvironmentHealthInput : See the example below to learn how to create a request body.
+    /// - Parameter input: See the example below to learn how to create a request body. (Type: `DescribeEnvironmentHealthInput`)
     ///
-    /// - Returns: `DescribeEnvironmentHealthOutput` : Health details for an AWS Elastic Beanstalk environment.
+    /// - Returns: Health details for an AWS Elastic Beanstalk environment. (Type: `DescribeEnvironmentHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1833,6 +1854,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentHealthOutput>(DescribeEnvironmentHealthOutput.httpOutput(from:), DescribeEnvironmentHealthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentHealthInput, DescribeEnvironmentHealthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentHealthOutput>())
@@ -1866,9 +1888,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Lists an environment's completed and failed managed actions.
     ///
-    /// - Parameter DescribeEnvironmentManagedActionHistoryInput : Request to list completed and failed managed actions.
+    /// - Parameter input: Request to list completed and failed managed actions. (Type: `DescribeEnvironmentManagedActionHistoryInput`)
     ///
-    /// - Returns: `DescribeEnvironmentManagedActionHistoryOutput` : A result message containing a list of completed and failed managed actions.
+    /// - Returns: A result message containing a list of completed and failed managed actions. (Type: `DescribeEnvironmentManagedActionHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1900,6 +1922,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentManagedActionHistoryOutput>(DescribeEnvironmentManagedActionHistoryOutput.httpOutput(from:), DescribeEnvironmentManagedActionHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentManagedActionHistoryInput, DescribeEnvironmentManagedActionHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentManagedActionHistoryOutput>())
@@ -1933,9 +1956,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Lists an environment's upcoming and in-progress managed actions.
     ///
-    /// - Parameter DescribeEnvironmentManagedActionsInput : Request to list an environment's upcoming and in-progress managed actions.
+    /// - Parameter input: Request to list an environment's upcoming and in-progress managed actions. (Type: `DescribeEnvironmentManagedActionsInput`)
     ///
-    /// - Returns: `DescribeEnvironmentManagedActionsOutput` : The result message containing a list of managed actions.
+    /// - Returns: The result message containing a list of managed actions. (Type: `DescribeEnvironmentManagedActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1967,6 +1990,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentManagedActionsOutput>(DescribeEnvironmentManagedActionsOutput.httpOutput(from:), DescribeEnvironmentManagedActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentManagedActionsInput, DescribeEnvironmentManagedActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentManagedActionsOutput>())
@@ -2000,9 +2024,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Returns AWS resources for this environment.
     ///
-    /// - Parameter DescribeEnvironmentResourcesInput : Request to describe the resources in an environment.
+    /// - Parameter input: Request to describe the resources in an environment. (Type: `DescribeEnvironmentResourcesInput`)
     ///
-    /// - Returns: `DescribeEnvironmentResourcesOutput` : Result message containing a list of environment resource descriptions.
+    /// - Returns: Result message containing a list of environment resource descriptions. (Type: `DescribeEnvironmentResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2034,6 +2058,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentResourcesOutput>(DescribeEnvironmentResourcesOutput.httpOutput(from:), DescribeEnvironmentResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentResourcesInput, DescribeEnvironmentResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentResourcesOutput>())
@@ -2067,9 +2092,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Returns descriptions for existing environments.
     ///
-    /// - Parameter DescribeEnvironmentsInput : Request to describe one or more environments.
+    /// - Parameter input: Request to describe one or more environments. (Type: `DescribeEnvironmentsInput`)
     ///
-    /// - Returns: `DescribeEnvironmentsOutput` : Result message containing a list of environment descriptions.
+    /// - Returns: Result message containing a list of environment descriptions. (Type: `DescribeEnvironmentsOutput`)
     public func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2096,6 +2121,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentsOutput>(DescribeEnvironmentsOutput.httpOutput(from:), DescribeEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentsOutput>())
@@ -2129,9 +2155,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Returns list of event descriptions matching criteria up to the last 6 weeks. This action returns the most recent 1,000 events from the specified NextToken.
     ///
-    /// - Parameter DescribeEventsInput : Request to retrieve a list of events for an environment.
+    /// - Parameter input: Request to retrieve a list of events for an environment. (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : Result message wrapping a list of event descriptions.
+    /// - Returns: Result message wrapping a list of event descriptions. (Type: `DescribeEventsOutput`)
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2158,6 +2184,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
@@ -2191,9 +2218,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Retrieves detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires [enhanced health reporting](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced.html).
     ///
-    /// - Parameter DescribeInstancesHealthInput : Parameters for a call to DescribeInstancesHealth.
+    /// - Parameter input: Parameters for a call to DescribeInstancesHealth. (Type: `DescribeInstancesHealthInput`)
     ///
-    /// - Returns: `DescribeInstancesHealthOutput` : Detailed health information about the Amazon EC2 instances in an AWS Elastic Beanstalk environment.
+    /// - Returns: Detailed health information about the Amazon EC2 instances in an AWS Elastic Beanstalk environment. (Type: `DescribeInstancesHealthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2226,6 +2253,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstancesHealthOutput>(DescribeInstancesHealthOutput.httpOutput(from:), DescribeInstancesHealthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancesHealthInput, DescribeInstancesHealthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancesHealthOutput>())
@@ -2259,9 +2287,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Describes a platform version. Provides full details. Compare to [ListPlatformVersions], which provides summary information about a list of platform versions. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
-    /// - Parameter DescribePlatformVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePlatformVersionInput`)
     ///
-    /// - Returns: `DescribePlatformVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePlatformVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2294,6 +2322,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePlatformVersionOutput>(DescribePlatformVersionOutput.httpOutput(from:), DescribePlatformVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePlatformVersionInput, DescribePlatformVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePlatformVersionOutput>())
@@ -2327,9 +2356,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see [Operations roles](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html) in the AWS Elastic Beanstalk Developer Guide.
     ///
-    /// - Parameter DisassociateEnvironmentOperationsRoleInput : Request to disassociate the operations role from an environment.
+    /// - Parameter input: Request to disassociate the operations role from an environment. (Type: `DisassociateEnvironmentOperationsRoleInput`)
     ///
-    /// - Returns: `DisassociateEnvironmentOperationsRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateEnvironmentOperationsRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2361,6 +2390,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEnvironmentOperationsRoleOutput>(DisassociateEnvironmentOperationsRoleOutput.httpOutput(from:), DisassociateEnvironmentOperationsRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEnvironmentOperationsRoleInput, DisassociateEnvironmentOperationsRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEnvironmentOperationsRoleOutput>())
@@ -2394,9 +2424,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
     ///
-    /// - Parameter ListAvailableSolutionStacksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableSolutionStacksInput`)
     ///
-    /// - Returns: `ListAvailableSolutionStacksOutput` : A list of available AWS Elastic Beanstalk solution stacks.
+    /// - Returns: A list of available AWS Elastic Beanstalk solution stacks. (Type: `ListAvailableSolutionStacksOutput`)
     public func listAvailableSolutionStacks(input: ListAvailableSolutionStacksInput) async throws -> ListAvailableSolutionStacksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2423,6 +2453,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableSolutionStacksOutput>(ListAvailableSolutionStacksOutput.httpOutput(from:), ListAvailableSolutionStacksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableSolutionStacksInput, ListAvailableSolutionStacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableSolutionStacksOutput>())
@@ -2456,9 +2487,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Lists the platform branches available for your account in an AWS Region. Provides summary information about each platform branch. For definitions of platform branch and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
-    /// - Parameter ListPlatformBranchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlatformBranchesInput`)
     ///
-    /// - Returns: `ListPlatformBranchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlatformBranchesOutput`)
     public func listPlatformBranches(input: ListPlatformBranchesInput) async throws -> ListPlatformBranchesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2485,6 +2516,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlatformBranchesOutput>(ListPlatformBranchesOutput.httpOutput(from:), ListPlatformBranchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlatformBranchesInput, ListPlatformBranchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlatformBranchesOutput>())
@@ -2518,9 +2550,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Lists the platform versions available for your account in an AWS Region. Provides summary information about each platform version. Compare to [DescribePlatformVersion], which provides full details about a single platform version. For definitions of platform version and other platform-related terms, see [AWS Elastic Beanstalk Platforms Glossary](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/platforms-glossary.html).
     ///
-    /// - Parameter ListPlatformVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlatformVersionsInput`)
     ///
-    /// - Returns: `ListPlatformVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlatformVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2553,6 +2585,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlatformVersionsOutput>(ListPlatformVersionsOutput.httpOutput(from:), ListPlatformVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlatformVersionsInput, ListPlatformVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlatformVersionsOutput>())
@@ -2586,9 +2619,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Return the tags applied to an AWS Elastic Beanstalk resource. The response contains a list of tag key-value pairs. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2622,6 +2655,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2655,9 +2689,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
     ///
-    /// - Parameter RebuildEnvironmentInput :
+    /// - Parameter input: (Type: `RebuildEnvironmentInput`)
     ///
-    /// - Returns: `RebuildEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebuildEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2689,6 +2723,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebuildEnvironmentOutput>(RebuildEnvironmentOutput.httpOutput(from:), RebuildEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebuildEnvironmentInput, RebuildEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebuildEnvironmentOutput>())
@@ -2724,9 +2759,9 @@ extension ElasticBeanstalkClient {
     ///
     /// * [RetrieveEnvironmentInfo]
     ///
-    /// - Parameter RequestEnvironmentInfoInput : Request to retrieve logs from an environment and store them in your Elastic Beanstalk storage bucket.
+    /// - Parameter input: Request to retrieve logs from an environment and store them in your Elastic Beanstalk storage bucket. (Type: `RequestEnvironmentInfoInput`)
     ///
-    /// - Returns: `RequestEnvironmentInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RequestEnvironmentInfoOutput`)
     public func requestEnvironmentInfo(input: RequestEnvironmentInfoInput) async throws -> RequestEnvironmentInfoOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2753,6 +2788,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestEnvironmentInfoOutput>(RequestEnvironmentInfoOutput.httpOutput(from:), RequestEnvironmentInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestEnvironmentInfoInput, RequestEnvironmentInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestEnvironmentInfoOutput>())
@@ -2786,9 +2822,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Causes the environment to restart the application container server running on each Amazon EC2 instance.
     ///
-    /// - Parameter RestartAppServerInput :
+    /// - Parameter input: (Type: `RestartAppServerInput`)
     ///
-    /// - Returns: `RestartAppServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestartAppServerOutput`)
     public func restartAppServer(input: RestartAppServerInput) async throws -> RestartAppServerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2815,6 +2851,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestartAppServerInput, RestartAppServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestartAppServerOutput>(RestartAppServerOutput.httpOutput(from:), RestartAppServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestartAppServerInput, RestartAppServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestartAppServerOutput>())
@@ -2850,9 +2887,9 @@ extension ElasticBeanstalkClient {
     ///
     /// * [RequestEnvironmentInfo]
     ///
-    /// - Parameter RetrieveEnvironmentInfoInput : Request to download logs retrieved with [RequestEnvironmentInfo].
+    /// - Parameter input: Request to download logs retrieved with [RequestEnvironmentInfo]. (Type: `RetrieveEnvironmentInfoInput`)
     ///
-    /// - Returns: `RetrieveEnvironmentInfoOutput` : Result message containing a description of the requested environment info.
+    /// - Returns: Result message containing a description of the requested environment info. (Type: `RetrieveEnvironmentInfoOutput`)
     public func retrieveEnvironmentInfo(input: RetrieveEnvironmentInfoInput) async throws -> RetrieveEnvironmentInfoOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2879,6 +2916,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveEnvironmentInfoOutput>(RetrieveEnvironmentInfoOutput.httpOutput(from:), RetrieveEnvironmentInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveEnvironmentInfoInput, RetrieveEnvironmentInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveEnvironmentInfoOutput>())
@@ -2912,9 +2950,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Swaps the CNAMEs of two environments.
     ///
-    /// - Parameter SwapEnvironmentCNAMEsInput : Swaps the CNAMEs of two environments.
+    /// - Parameter input: Swaps the CNAMEs of two environments. (Type: `SwapEnvironmentCNAMEsInput`)
     ///
-    /// - Returns: `SwapEnvironmentCNAMEsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SwapEnvironmentCNAMEsOutput`)
     public func swapEnvironmentCNAMEs(input: SwapEnvironmentCNAMEsInput) async throws -> SwapEnvironmentCNAMEsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2941,6 +2979,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SwapEnvironmentCNAMEsOutput>(SwapEnvironmentCNAMEsOutput.httpOutput(from:), SwapEnvironmentCNAMEsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SwapEnvironmentCNAMEsInput, SwapEnvironmentCNAMEsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SwapEnvironmentCNAMEsOutput>())
@@ -2974,9 +3013,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Terminates the specified environment.
     ///
-    /// - Parameter TerminateEnvironmentInput : Request to terminate an environment.
+    /// - Parameter input: Request to terminate an environment. (Type: `TerminateEnvironmentInput`)
     ///
-    /// - Returns: `TerminateEnvironmentOutput` : Describes the properties of an environment.
+    /// - Returns: Describes the properties of an environment. (Type: `TerminateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3008,6 +3047,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateEnvironmentOutput>(TerminateEnvironmentOutput.httpOutput(from:), TerminateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateEnvironmentInput, TerminateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateEnvironmentOutput>())
@@ -3041,9 +3081,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Updates the specified application to have the specified properties. If a property (for example, description) is not provided, the value remains unchanged. To clear these properties, specify an empty string.
     ///
-    /// - Parameter UpdateApplicationInput : Request to update an application.
+    /// - Parameter input: Request to update an application. (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : Result message containing a single description of an application.
+    /// - Returns: Result message containing a single description of an application. (Type: `UpdateApplicationOutput`)
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3070,6 +3110,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -3103,9 +3144,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Modifies lifecycle settings for an application.
     ///
-    /// - Parameter UpdateApplicationResourceLifecycleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationResourceLifecycleInput`)
     ///
-    /// - Returns: `UpdateApplicationResourceLifecycleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationResourceLifecycleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3137,6 +3178,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationResourceLifecycleOutput>(UpdateApplicationResourceLifecycleOutput.httpOutput(from:), UpdateApplicationResourceLifecycleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationResourceLifecycleInput, UpdateApplicationResourceLifecycleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationResourceLifecycleOutput>())
@@ -3170,9 +3212,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Updates the specified application version to have the specified properties. If a property (for example, description) is not provided, the value remains unchanged. To clear properties, specify an empty string.
     ///
-    /// - Parameter UpdateApplicationVersionInput :
+    /// - Parameter input: (Type: `UpdateApplicationVersionInput`)
     ///
-    /// - Returns: `UpdateApplicationVersionOutput` : Result message wrapping a single description of an application version.
+    /// - Returns: Result message wrapping a single description of an application version. (Type: `UpdateApplicationVersionOutput`)
     public func updateApplicationVersion(input: UpdateApplicationVersionInput) async throws -> UpdateApplicationVersionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3199,6 +3241,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationVersionOutput>(UpdateApplicationVersionOutput.httpOutput(from:), UpdateApplicationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationVersionInput, UpdateApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationVersionOutput>())
@@ -3234,9 +3277,9 @@ extension ElasticBeanstalkClient {
     ///
     /// * [DescribeConfigurationOptions]
     ///
-    /// - Parameter UpdateConfigurationTemplateInput : The result message containing the options for the specified solution stack.
+    /// - Parameter input: The result message containing the options for the specified solution stack. (Type: `UpdateConfigurationTemplateInput`)
     ///
-    /// - Returns: `UpdateConfigurationTemplateOutput` : Describes the settings for a configuration set.
+    /// - Returns: Describes the settings for a configuration set. (Type: `UpdateConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3269,6 +3312,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationTemplateOutput>(UpdateConfigurationTemplateOutput.httpOutput(from:), UpdateConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationTemplateInput, UpdateConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationTemplateOutput>())
@@ -3302,9 +3346,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment. Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error. When updating the configuration settings to a new template or individual settings, a draft configuration is created and [DescribeConfigurationSettings] for this environment returns two setting descriptions with different DeploymentStatus values.
     ///
-    /// - Parameter UpdateEnvironmentInput : Request to update an environment.
+    /// - Parameter input: Request to update an environment. (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : Describes the properties of an environment.
+    /// - Returns: Describes the properties of an environment. (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3337,6 +3381,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
@@ -3370,9 +3415,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Update the list of tags applied to an AWS Elastic Beanstalk resource. Two lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove. Elastic Beanstalk supports tagging of all of its resources. For details about resource tagging, see [Tagging Application Resources](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-tagging-resources.html). If you create a custom IAM user policy to control permission to this operation, specify one of the following two virtual actions (or both) instead of the API operation name: elasticbeanstalk:AddTags Controls permission to call UpdateTagsForResource and pass a list of tags to add in the TagsToAdd parameter. elasticbeanstalk:RemoveTags Controls permission to call UpdateTagsForResource and pass a list of tag keys to remove in the TagsToRemove parameter. For details about creating a custom user policy, see [Creating a Custom User Policy](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
     ///
-    /// - Parameter UpdateTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTagsForResourceInput`)
     ///
-    /// - Returns: `UpdateTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3408,6 +3453,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTagsForResourceOutput>(UpdateTagsForResourceOutput.httpOutput(from:), UpdateTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTagsForResourceInput, UpdateTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTagsForResourceOutput>())
@@ -3441,9 +3487,9 @@ extension ElasticBeanstalkClient {
     ///
     /// Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid. This action returns a list of messages indicating any errors or warnings associated with the selection of option values.
     ///
-    /// - Parameter ValidateConfigurationSettingsInput : A list of validation messages for a specified configuration template.
+    /// - Parameter input: A list of validation messages for a specified configuration template. (Type: `ValidateConfigurationSettingsInput`)
     ///
-    /// - Returns: `ValidateConfigurationSettingsOutput` : Provides a list of validation messages.
+    /// - Returns: Provides a list of validation messages. (Type: `ValidateConfigurationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3476,6 +3522,7 @@ extension ElasticBeanstalkClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateConfigurationSettingsOutput>(ValidateConfigurationSettingsOutput.httpOutput(from:), ValidateConfigurationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateConfigurationSettingsInput, ValidateConfigurationSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateConfigurationSettingsOutput>())

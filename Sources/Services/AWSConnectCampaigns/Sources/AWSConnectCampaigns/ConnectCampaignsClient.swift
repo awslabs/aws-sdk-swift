@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ConnectCampaignsClient: ClientRuntime.Client {
+public class ConnectCampaignsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ConnectCampaignsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCampaignsClient.ConnectCampaignsClientConfiguration
     let serviceName = "ConnectCampaigns"
@@ -372,9 +372,9 @@ extension ConnectCampaignsClient {
     ///
     /// Creates a campaign for the specified Amazon Connect account. This API is idempotent.
     ///
-    /// - Parameter CreateCampaignInput : The request for Create Campaign API.
+    /// - Parameter input: The request for Create Campaign API. (Type: `CreateCampaignInput`)
     ///
-    /// - Returns: `CreateCampaignOutput` : The response for Create Campaign API
+    /// - Returns: The response for Create Campaign API (Type: `CreateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +414,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCampaignInput, CreateCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCampaignOutput>(CreateCampaignOutput.httpOutput(from:), CreateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCampaignInput, CreateCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCampaignOutput>())
@@ -445,9 +446,9 @@ extension ConnectCampaignsClient {
     ///
     /// Deletes a campaign from the specified Amazon Connect account.
     ///
-    /// - Parameter DeleteCampaignInput : DeleteCampaignRequest
+    /// - Parameter input: DeleteCampaignRequest (Type: `DeleteCampaignInput`)
     ///
-    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +482,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCampaignInput, DeleteCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCampaignOutput>(DeleteCampaignOutput.httpOutput(from:), DeleteCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCampaignOutput>())
@@ -512,9 +514,9 @@ extension ConnectCampaignsClient {
     ///
     /// Deletes a connect instance config from the specified AWS account.
     ///
-    /// - Parameter DeleteConnectInstanceConfigInput : DeleteCampaignRequest
+    /// - Parameter input: DeleteCampaignRequest (Type: `DeleteConnectInstanceConfigInput`)
     ///
-    /// - Returns: `DeleteConnectInstanceConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectInstanceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,6 +552,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectInstanceConfigInput, DeleteConnectInstanceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectInstanceConfigOutput>(DeleteConnectInstanceConfigOutput.httpOutput(from:), DeleteConnectInstanceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectInstanceConfigInput, DeleteConnectInstanceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectInstanceConfigOutput>())
@@ -581,9 +584,9 @@ extension ConnectCampaignsClient {
     ///
     /// Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
     ///
-    /// - Parameter DeleteInstanceOnboardingJobInput : The request for DeleteInstanceOnboardingJob API.
+    /// - Parameter input: The request for DeleteInstanceOnboardingJob API. (Type: `DeleteInstanceOnboardingJobInput`)
     ///
-    /// - Returns: `DeleteInstanceOnboardingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceOnboardingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -618,6 +621,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInstanceOnboardingJobInput, DeleteInstanceOnboardingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceOnboardingJobOutput>(DeleteInstanceOnboardingJobOutput.httpOutput(from:), DeleteInstanceOnboardingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceOnboardingJobInput, DeleteInstanceOnboardingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceOnboardingJobOutput>())
@@ -649,9 +653,9 @@ extension ConnectCampaignsClient {
     ///
     /// Describes the specific campaign.
     ///
-    /// - Parameter DescribeCampaignInput : DescribeCampaignRequests
+    /// - Parameter input: DescribeCampaignRequests (Type: `DescribeCampaignInput`)
     ///
-    /// - Returns: `DescribeCampaignOutput` : DescribeCampaignResponse
+    /// - Returns: DescribeCampaignResponse (Type: `DescribeCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,6 +689,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCampaignInput, DescribeCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCampaignOutput>(DescribeCampaignOutput.httpOutput(from:), DescribeCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCampaignInput, DescribeCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCampaignOutput>())
@@ -716,9 +721,9 @@ extension ConnectCampaignsClient {
     ///
     /// Get state of a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter GetCampaignStateInput : GetCampaignStateRequest
+    /// - Parameter input: GetCampaignStateRequest (Type: `GetCampaignStateInput`)
     ///
-    /// - Returns: `GetCampaignStateOutput` : GetCampaignStateResponse
+    /// - Returns: GetCampaignStateResponse (Type: `GetCampaignStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -753,6 +758,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCampaignStateInput, GetCampaignStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignStateOutput>(GetCampaignStateOutput.httpOutput(from:), GetCampaignStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignStateInput, GetCampaignStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignStateOutput>())
@@ -784,9 +790,9 @@ extension ConnectCampaignsClient {
     ///
     /// Get state of campaigns for the specified Amazon Connect account.
     ///
-    /// - Parameter GetCampaignStateBatchInput : GetCampaignStateBatchRequest
+    /// - Parameter input: GetCampaignStateBatchRequest (Type: `GetCampaignStateBatchInput`)
     ///
-    /// - Returns: `GetCampaignStateBatchOutput` : GetCampaignStateBatchResponse
+    /// - Returns: GetCampaignStateBatchResponse (Type: `GetCampaignStateBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -823,6 +829,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCampaignStateBatchInput, GetCampaignStateBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignStateBatchOutput>(GetCampaignStateBatchOutput.httpOutput(from:), GetCampaignStateBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignStateBatchInput, GetCampaignStateBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignStateBatchOutput>())
@@ -854,9 +861,9 @@ extension ConnectCampaignsClient {
     ///
     /// Get the specific Connect instance config.
     ///
-    /// - Parameter GetConnectInstanceConfigInput : GetConnectInstanceConfigRequest
+    /// - Parameter input: GetConnectInstanceConfigRequest (Type: `GetConnectInstanceConfigInput`)
     ///
-    /// - Returns: `GetConnectInstanceConfigOutput` : GetConnectInstanceConfigResponse
+    /// - Returns: GetConnectInstanceConfigResponse (Type: `GetConnectInstanceConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -890,6 +897,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectInstanceConfigInput, GetConnectInstanceConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectInstanceConfigOutput>(GetConnectInstanceConfigOutput.httpOutput(from:), GetConnectInstanceConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectInstanceConfigInput, GetConnectInstanceConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectInstanceConfigOutput>())
@@ -921,9 +929,9 @@ extension ConnectCampaignsClient {
     ///
     /// Get the specific instance onboarding job status.
     ///
-    /// - Parameter GetInstanceOnboardingJobStatusInput : GetInstanceOnboardingJobStatusRequest
+    /// - Parameter input: GetInstanceOnboardingJobStatusRequest (Type: `GetInstanceOnboardingJobStatusInput`)
     ///
-    /// - Returns: `GetInstanceOnboardingJobStatusOutput` : GetInstanceOnboardingJobStatusResponse
+    /// - Returns: GetInstanceOnboardingJobStatusResponse (Type: `GetInstanceOnboardingJobStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -957,6 +965,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInstanceOnboardingJobStatusInput, GetInstanceOnboardingJobStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceOnboardingJobStatusOutput>(GetInstanceOnboardingJobStatusOutput.httpOutput(from:), GetInstanceOnboardingJobStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceOnboardingJobStatusInput, GetInstanceOnboardingJobStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceOnboardingJobStatusOutput>())
@@ -988,9 +997,9 @@ extension ConnectCampaignsClient {
     ///
     /// Provides summary information about the campaigns under the specified Amazon Connect account.
     ///
-    /// - Parameter ListCampaignsInput : ListCampaignsRequest
+    /// - Parameter input: ListCampaignsRequest (Type: `ListCampaignsInput`)
     ///
-    /// - Returns: `ListCampaignsOutput` : ListCampaignsResponse
+    /// - Returns: ListCampaignsResponse (Type: `ListCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1026,6 +1035,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCampaignsInput, ListCampaignsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCampaignsOutput>(ListCampaignsOutput.httpOutput(from:), ListCampaignsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCampaignsInput, ListCampaignsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCampaignsOutput>())
@@ -1057,9 +1067,9 @@ extension ConnectCampaignsClient {
     ///
     /// List tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : ListTagsForResource
+    /// - Parameter input: ListTagsForResource (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : ListTagsForResponse
+    /// - Returns: ListTagsForResponse (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1094,6 +1104,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1125,9 +1136,9 @@ extension ConnectCampaignsClient {
     ///
     /// Pauses a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter PauseCampaignInput : PauseCampaignRequest
+    /// - Parameter input: PauseCampaignRequest (Type: `PauseCampaignInput`)
     ///
-    /// - Returns: `PauseCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PauseCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1164,6 +1175,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PauseCampaignInput, PauseCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PauseCampaignOutput>(PauseCampaignOutput.httpOutput(from:), PauseCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PauseCampaignInput, PauseCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PauseCampaignOutput>())
@@ -1195,9 +1207,9 @@ extension ConnectCampaignsClient {
     ///
     /// Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
     ///
-    /// - Parameter PutDialRequestBatchInput : PutDialRequestBatchRequest
+    /// - Parameter input: PutDialRequestBatchRequest (Type: `PutDialRequestBatchInput`)
     ///
-    /// - Returns: `PutDialRequestBatchOutput` : PutDialRequestBatchResponse
+    /// - Returns: PutDialRequestBatchResponse (Type: `PutDialRequestBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1237,6 +1249,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDialRequestBatchInput, PutDialRequestBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDialRequestBatchOutput>(PutDialRequestBatchOutput.httpOutput(from:), PutDialRequestBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDialRequestBatchInput, PutDialRequestBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDialRequestBatchOutput>())
@@ -1268,9 +1281,9 @@ extension ConnectCampaignsClient {
     ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter ResumeCampaignInput : ResumeCampaignRequest
+    /// - Parameter input: ResumeCampaignRequest (Type: `ResumeCampaignInput`)
     ///
-    /// - Returns: `ResumeCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1307,6 +1320,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResumeCampaignInput, ResumeCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeCampaignOutput>(ResumeCampaignOutput.httpOutput(from:), ResumeCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeCampaignInput, ResumeCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeCampaignOutput>())
@@ -1338,9 +1352,9 @@ extension ConnectCampaignsClient {
     ///
     /// Starts a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter StartCampaignInput : StartCampaignRequest
+    /// - Parameter input: StartCampaignRequest (Type: `StartCampaignInput`)
     ///
-    /// - Returns: `StartCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1377,6 +1391,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCampaignInput, StartCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCampaignOutput>(StartCampaignOutput.httpOutput(from:), StartCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCampaignInput, StartCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCampaignOutput>())
@@ -1408,9 +1423,9 @@ extension ConnectCampaignsClient {
     ///
     /// Onboard the specific Amazon Connect instance to Connect Campaigns.
     ///
-    /// - Parameter StartInstanceOnboardingJobInput : The request for StartInstanceOnboardingJob API.
+    /// - Parameter input: The request for StartInstanceOnboardingJob API. (Type: `StartInstanceOnboardingJobInput`)
     ///
-    /// - Returns: `StartInstanceOnboardingJobOutput` : The response for StartInstanceOnboardingJob API.
+    /// - Returns: The response for StartInstanceOnboardingJob API. (Type: `StartInstanceOnboardingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1449,6 +1464,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartInstanceOnboardingJobInput, StartInstanceOnboardingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartInstanceOnboardingJobOutput>(StartInstanceOnboardingJobOutput.httpOutput(from:), StartInstanceOnboardingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartInstanceOnboardingJobInput, StartInstanceOnboardingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartInstanceOnboardingJobOutput>())
@@ -1480,9 +1496,9 @@ extension ConnectCampaignsClient {
     ///
     /// Stops a campaign for the specified Amazon Connect account.
     ///
-    /// - Parameter StopCampaignInput : StopCampaignRequest
+    /// - Parameter input: StopCampaignRequest (Type: `StopCampaignInput`)
     ///
-    /// - Returns: `StopCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,6 +1535,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopCampaignInput, StopCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCampaignOutput>(StopCampaignOutput.httpOutput(from:), StopCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCampaignInput, StopCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCampaignOutput>())
@@ -1550,9 +1567,9 @@ extension ConnectCampaignsClient {
     ///
     /// Tag a resource.
     ///
-    /// - Parameter TagResourceInput : TagResourceRequest
+    /// - Parameter input: TagResourceRequest (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1590,6 +1607,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1621,9 +1639,9 @@ extension ConnectCampaignsClient {
     ///
     /// Untag a resource.
     ///
-    /// - Parameter UntagResourceInput : UntagResourceRequest
+    /// - Parameter input: UntagResourceRequest (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1659,6 +1677,7 @@ extension ConnectCampaignsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1690,9 +1709,9 @@ extension ConnectCampaignsClient {
     ///
     /// Updates the dialer config of a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignDialerConfigInput : UpdateCampaignDialerConfigRequest
+    /// - Parameter input: UpdateCampaignDialerConfigRequest (Type: `UpdateCampaignDialerConfigInput`)
     ///
-    /// - Returns: `UpdateCampaignDialerConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignDialerConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,6 +1749,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCampaignDialerConfigInput, UpdateCampaignDialerConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCampaignDialerConfigOutput>(UpdateCampaignDialerConfigOutput.httpOutput(from:), UpdateCampaignDialerConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCampaignDialerConfigInput, UpdateCampaignDialerConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCampaignDialerConfigOutput>())
@@ -1761,9 +1781,9 @@ extension ConnectCampaignsClient {
     ///
     /// Updates the name of a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignNameInput : UpdateCampaignNameRequest
+    /// - Parameter input: UpdateCampaignNameRequest (Type: `UpdateCampaignNameInput`)
     ///
-    /// - Returns: `UpdateCampaignNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1801,6 +1821,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCampaignNameInput, UpdateCampaignNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCampaignNameOutput>(UpdateCampaignNameOutput.httpOutput(from:), UpdateCampaignNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCampaignNameInput, UpdateCampaignNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCampaignNameOutput>())
@@ -1832,9 +1853,9 @@ extension ConnectCampaignsClient {
     ///
     /// Updates the outbound call config of a campaign. This API is idempotent.
     ///
-    /// - Parameter UpdateCampaignOutboundCallConfigInput : UpdateCampaignOutboundCallConfigRequest
+    /// - Parameter input: UpdateCampaignOutboundCallConfigRequest (Type: `UpdateCampaignOutboundCallConfigInput`)
     ///
-    /// - Returns: `UpdateCampaignOutboundCallConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignOutboundCallConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1873,6 +1894,7 @@ extension ConnectCampaignsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCampaignOutboundCallConfigInput, UpdateCampaignOutboundCallConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCampaignOutboundCallConfigOutput>(UpdateCampaignOutboundCallConfigOutput.httpOutput(from:), UpdateCampaignOutboundCallConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCampaignOutboundCallConfigInput, UpdateCampaignOutboundCallConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCampaignOutboundCallConfigOutput>())

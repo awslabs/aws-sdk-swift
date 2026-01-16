@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ComprehendClient: ClientRuntime.Client {
+public class ComprehendClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ComprehendClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ComprehendClient.ComprehendClientConfiguration
     let serviceName = "Comprehend"
@@ -374,9 +374,9 @@ extension ComprehendClient {
     ///
     /// Determines the dominant language of the input text for a batch of documents. For a list of languages that Amazon Comprehend can detect, see [Amazon Comprehend Supported Languages](https://docs.aws.amazon.com/comprehend/latest/dg/how-languages.html).
     ///
-    /// - Parameter BatchDetectDominantLanguageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDetectDominantLanguageInput`)
     ///
-    /// - Returns: `BatchDetectDominantLanguageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDetectDominantLanguageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +411,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDetectDominantLanguageInput, BatchDetectDominantLanguageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDetectDominantLanguageOutput>(BatchDetectDominantLanguageOutput.httpOutput(from:), BatchDetectDominantLanguageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDetectDominantLanguageInput, BatchDetectDominantLanguageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDetectDominantLanguageOutput>())
@@ -445,9 +446,9 @@ extension ComprehendClient {
     ///
     /// Inspects the text of a batch of documents for named entities and returns information about them. For more information about named entities, see [Entities](https://docs.aws.amazon.com/comprehend/latest/dg/how-entities.html) in the Comprehend Developer Guide.
     ///
-    /// - Parameter BatchDetectEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDetectEntitiesInput`)
     ///
-    /// - Returns: `BatchDetectEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDetectEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +484,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDetectEntitiesInput, BatchDetectEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDetectEntitiesOutput>(BatchDetectEntitiesOutput.httpOutput(from:), BatchDetectEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDetectEntitiesInput, BatchDetectEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDetectEntitiesOutput>())
@@ -517,9 +519,9 @@ extension ComprehendClient {
     ///
     /// Detects the key noun phrases found in a batch of documents.
     ///
-    /// - Parameter BatchDetectKeyPhrasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDetectKeyPhrasesInput`)
     ///
-    /// - Returns: `BatchDetectKeyPhrasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDetectKeyPhrasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +557,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDetectKeyPhrasesInput, BatchDetectKeyPhrasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDetectKeyPhrasesOutput>(BatchDetectKeyPhrasesOutput.httpOutput(from:), BatchDetectKeyPhrasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDetectKeyPhrasesInput, BatchDetectKeyPhrasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDetectKeyPhrasesOutput>())
@@ -589,9 +592,9 @@ extension ComprehendClient {
     ///
     /// Inspects a batch of documents and returns an inference of the prevailing sentiment, POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
     ///
-    /// - Parameter BatchDetectSentimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDetectSentimentInput`)
     ///
-    /// - Returns: `BatchDetectSentimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDetectSentimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +630,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDetectSentimentInput, BatchDetectSentimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDetectSentimentOutput>(BatchDetectSentimentOutput.httpOutput(from:), BatchDetectSentimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDetectSentimentInput, BatchDetectSentimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDetectSentimentOutput>())
@@ -661,9 +665,9 @@ extension ComprehendClient {
     ///
     /// Inspects the text of a batch of documents for the syntax and part of speech of the words in the document and returns information about them. For more information, see [Syntax](https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html) in the Comprehend Developer Guide.
     ///
-    /// - Parameter BatchDetectSyntaxInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDetectSyntaxInput`)
     ///
-    /// - Returns: `BatchDetectSyntaxOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDetectSyntaxOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -699,6 +703,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDetectSyntaxInput, BatchDetectSyntaxOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDetectSyntaxOutput>(BatchDetectSyntaxOutput.httpOutput(from:), BatchDetectSyntaxOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDetectSyntaxInput, BatchDetectSyntaxOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDetectSyntaxOutput>())
@@ -733,9 +738,9 @@ extension ComprehendClient {
     ///
     /// Inspects a batch of documents and returns a sentiment analysis for each entity identified in the documents. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter BatchDetectTargetedSentimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDetectTargetedSentimentInput`)
     ///
-    /// - Returns: `BatchDetectTargetedSentimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDetectTargetedSentimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,6 +776,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDetectTargetedSentimentInput, BatchDetectTargetedSentimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDetectTargetedSentimentOutput>(BatchDetectTargetedSentimentOutput.httpOutput(from:), BatchDetectTargetedSentimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDetectTargetedSentimentInput, BatchDetectTargetedSentimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDetectTargetedSentimentOutput>())
@@ -812,9 +818,9 @@ extension ComprehendClient {
     ///
     /// If the system detects errors while processing a page in the input document, the API response includes an Errors field that describes the errors. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see [ Errors in semi-structured documents](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync-err.html) in the Comprehend Developer Guide.
     ///
-    /// - Parameter ClassifyDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ClassifyDocumentInput`)
     ///
-    /// - Returns: `ClassifyDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ClassifyDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -849,6 +855,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ClassifyDocumentInput, ClassifyDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ClassifyDocumentOutput>(ClassifyDocumentOutput.httpOutput(from:), ClassifyDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ClassifyDocumentInput, ClassifyDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ClassifyDocumentOutput>())
@@ -883,9 +890,9 @@ extension ComprehendClient {
     ///
     /// Analyzes input text for the presence of personally identifiable information (PII) and returns the labels of identified PII entity types such as name, address, bank account number, or phone number.
     ///
-    /// - Parameter ContainsPiiEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ContainsPiiEntitiesInput`)
     ///
-    /// - Returns: `ContainsPiiEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ContainsPiiEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -920,6 +927,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ContainsPiiEntitiesInput, ContainsPiiEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ContainsPiiEntitiesOutput>(ContainsPiiEntitiesOutput.httpOutput(from:), ContainsPiiEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ContainsPiiEntitiesInput, ContainsPiiEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ContainsPiiEntitiesOutput>())
@@ -954,9 +962,9 @@ extension ComprehendClient {
     ///
     /// Creates a dataset to upload training or test data for a model associated with a flywheel. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -995,6 +1003,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -1029,9 +1038,9 @@ extension ComprehendClient {
     ///
     /// Creates a new document classifier that you can use to categorize documents. To create a classifier, you provide a set of training documents that are labeled with the categories that you want to use. For more information, see [Training classifier models](https://docs.aws.amazon.com/comprehend/latest/dg/training-classifier-model.html) in the Comprehend Developer Guide.
     ///
-    /// - Parameter CreateDocumentClassifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDocumentClassifierInput`)
     ///
-    /// - Returns: `CreateDocumentClassifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDocumentClassifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1071,6 +1080,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDocumentClassifierInput, CreateDocumentClassifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDocumentClassifierOutput>(CreateDocumentClassifierOutput.httpOutput(from:), CreateDocumentClassifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDocumentClassifierInput, CreateDocumentClassifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDocumentClassifierOutput>())
@@ -1105,9 +1115,9 @@ extension ComprehendClient {
     ///
     /// Creates a model-specific endpoint for synchronous inference for a previously trained custom model For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
-    /// - Parameter CreateEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEndpointInput`)
     ///
-    /// - Returns: `CreateEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,6 +1157,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointInput, CreateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointOutput>(CreateEndpointOutput.httpOutput(from:), CreateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointInput, CreateEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointOutput>())
@@ -1181,9 +1192,9 @@ extension ComprehendClient {
     ///
     /// Creates an entity recognizer using submitted files. After your CreateEntityRecognizer request is submitted, you can check job status using the DescribeEntityRecognizer API.
     ///
-    /// - Parameter CreateEntityRecognizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEntityRecognizerInput`)
     ///
-    /// - Returns: `CreateEntityRecognizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEntityRecognizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1223,6 +1234,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEntityRecognizerInput, CreateEntityRecognizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEntityRecognizerOutput>(CreateEntityRecognizerOutput.httpOutput(from:), CreateEntityRecognizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEntityRecognizerInput, CreateEntityRecognizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEntityRecognizerOutput>())
@@ -1257,9 +1269,9 @@ extension ComprehendClient {
     ///
     /// A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a model for custom classification or custom entity recognition. You can create a flywheel to start with an existing trained model, or Comprehend can create and train a new model. When you create the flywheel, Comprehend creates a data lake in your account. The data lake holds the training data and test data for all versions of the model. To use a flywheel with an existing trained model, you specify the active model version. Comprehend copies the model's training data and test data into the flywheel's data lake. To use the flywheel with a new model, you need to provide a dataset for training data (and optional test data) when you create the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter CreateFlywheelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlywheelInput`)
     ///
-    /// - Returns: `CreateFlywheelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlywheelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,6 +1313,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFlywheelInput, CreateFlywheelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFlywheelOutput>(CreateFlywheelOutput.httpOutput(from:), CreateFlywheelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFlywheelInput, CreateFlywheelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFlywheelOutput>())
@@ -1335,9 +1348,9 @@ extension ComprehendClient {
     ///
     /// Deletes a previously created document classifier Only those classifiers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the classifier into a DELETING state, and it is then removed by a background job. Once removed, the classifier disappears from your account and is no longer available for use.
     ///
-    /// - Parameter DeleteDocumentClassifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDocumentClassifierInput`)
     ///
-    /// - Returns: `DeleteDocumentClassifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDocumentClassifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1374,6 +1387,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDocumentClassifierInput, DeleteDocumentClassifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDocumentClassifierOutput>(DeleteDocumentClassifierOutput.httpOutput(from:), DeleteDocumentClassifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDocumentClassifierInput, DeleteDocumentClassifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDocumentClassifierOutput>())
@@ -1408,9 +1422,9 @@ extension ComprehendClient {
     ///
     /// Deletes a model-specific endpoint for a previously-trained custom model. All endpoints must be deleted in order for the model to be deleted. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
-    /// - Parameter DeleteEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointInput`)
     ///
-    /// - Returns: `DeleteEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1446,6 +1460,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEndpointInput, DeleteEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointOutput>(DeleteEndpointOutput.httpOutput(from:), DeleteEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointInput, DeleteEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointOutput>())
@@ -1480,9 +1495,9 @@ extension ComprehendClient {
     ///
     /// Deletes an entity recognizer. Only those recognizers that are in terminated states (IN_ERROR, TRAINED) will be deleted. If an active inference job is using the model, a ResourceInUseException will be returned. This is an asynchronous action that puts the recognizer into a DELETING state, and it is then removed by a background job. Once removed, the recognizer disappears from your account and is no longer available for use.
     ///
-    /// - Parameter DeleteEntityRecognizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEntityRecognizerInput`)
     ///
-    /// - Returns: `DeleteEntityRecognizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEntityRecognizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,6 +1534,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEntityRecognizerInput, DeleteEntityRecognizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEntityRecognizerOutput>(DeleteEntityRecognizerOutput.httpOutput(from:), DeleteEntityRecognizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEntityRecognizerInput, DeleteEntityRecognizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEntityRecognizerOutput>())
@@ -1553,9 +1569,9 @@ extension ComprehendClient {
     ///
     /// Deletes a flywheel. When you delete the flywheel, Amazon Comprehend does not delete the data lake or the model associated with the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter DeleteFlywheelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlywheelInput`)
     ///
-    /// - Returns: `DeleteFlywheelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlywheelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1592,6 +1608,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFlywheelInput, DeleteFlywheelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFlywheelOutput>(DeleteFlywheelOutput.httpOutput(from:), DeleteFlywheelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFlywheelInput, DeleteFlywheelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFlywheelOutput>())
@@ -1626,9 +1643,9 @@ extension ComprehendClient {
     ///
     /// Deletes a resource-based policy that is attached to a custom model.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1662,6 +1679,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1696,9 +1714,9 @@ extension ComprehendClient {
     ///
     /// Returns information about the dataset that you specify. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1733,6 +1751,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -1767,9 +1786,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a document classification job. Use this operation to get the status of a classification job.
     ///
-    /// - Parameter DescribeDocumentClassificationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDocumentClassificationJobInput`)
     ///
-    /// - Returns: `DescribeDocumentClassificationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDocumentClassificationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,6 +1823,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDocumentClassificationJobInput, DescribeDocumentClassificationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDocumentClassificationJobOutput>(DescribeDocumentClassificationJobOutput.httpOutput(from:), DescribeDocumentClassificationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDocumentClassificationJobInput, DescribeDocumentClassificationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDocumentClassificationJobOutput>())
@@ -1838,9 +1858,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a document classifier.
     ///
-    /// - Parameter DescribeDocumentClassifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDocumentClassifierInput`)
     ///
-    /// - Returns: `DescribeDocumentClassifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDocumentClassifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1875,6 +1895,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDocumentClassifierInput, DescribeDocumentClassifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDocumentClassifierOutput>(DescribeDocumentClassifierOutput.httpOutput(from:), DescribeDocumentClassifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDocumentClassifierInput, DescribeDocumentClassifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDocumentClassifierOutput>())
@@ -1909,9 +1930,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a dominant language detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribeDominantLanguageDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDominantLanguageDetectionJobInput`)
     ///
-    /// - Returns: `DescribeDominantLanguageDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDominantLanguageDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1946,6 +1967,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDominantLanguageDetectionJobInput, DescribeDominantLanguageDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDominantLanguageDetectionJobOutput>(DescribeDominantLanguageDetectionJobOutput.httpOutput(from:), DescribeDominantLanguageDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDominantLanguageDetectionJobInput, DescribeDominantLanguageDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDominantLanguageDetectionJobOutput>())
@@ -1980,9 +2002,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a specific endpoint. Use this operation to get the status of an endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
-    /// - Parameter DescribeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointInput`)
     ///
-    /// - Returns: `DescribeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2017,6 +2039,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointInput, DescribeEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointOutput>(DescribeEndpointOutput.httpOutput(from:), DescribeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointInput, DescribeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointOutput>())
@@ -2051,9 +2074,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with an entities detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribeEntitiesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntitiesDetectionJobInput`)
     ///
-    /// - Returns: `DescribeEntitiesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntitiesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2088,6 +2111,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntitiesDetectionJobInput, DescribeEntitiesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntitiesDetectionJobOutput>(DescribeEntitiesDetectionJobOutput.httpOutput(from:), DescribeEntitiesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntitiesDetectionJobInput, DescribeEntitiesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntitiesDetectionJobOutput>())
@@ -2122,9 +2146,9 @@ extension ComprehendClient {
     ///
     /// Provides details about an entity recognizer including status, S3 buckets containing training data, recognizer metadata, metrics, and so on.
     ///
-    /// - Parameter DescribeEntityRecognizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntityRecognizerInput`)
     ///
-    /// - Returns: `DescribeEntityRecognizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntityRecognizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2159,6 +2183,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntityRecognizerInput, DescribeEntityRecognizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntityRecognizerOutput>(DescribeEntityRecognizerOutput.httpOutput(from:), DescribeEntityRecognizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntityRecognizerInput, DescribeEntityRecognizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntityRecognizerOutput>())
@@ -2193,9 +2218,9 @@ extension ComprehendClient {
     ///
     /// Gets the status and details of an events detection job.
     ///
-    /// - Parameter DescribeEventsDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventsDetectionJobInput`)
     ///
-    /// - Returns: `DescribeEventsDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventsDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2230,6 +2255,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsDetectionJobInput, DescribeEventsDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsDetectionJobOutput>(DescribeEventsDetectionJobOutput.httpOutput(from:), DescribeEventsDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsDetectionJobInput, DescribeEventsDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsDetectionJobOutput>())
@@ -2264,9 +2290,9 @@ extension ComprehendClient {
     ///
     /// Provides configuration information about the flywheel. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter DescribeFlywheelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlywheelInput`)
     ///
-    /// - Returns: `DescribeFlywheelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlywheelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2301,6 +2327,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFlywheelInput, DescribeFlywheelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlywheelOutput>(DescribeFlywheelOutput.httpOutput(from:), DescribeFlywheelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlywheelInput, DescribeFlywheelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlywheelOutput>())
@@ -2335,9 +2362,9 @@ extension ComprehendClient {
     ///
     /// Retrieve the configuration properties of a flywheel iteration. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter DescribeFlywheelIterationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFlywheelIterationInput`)
     ///
-    /// - Returns: `DescribeFlywheelIterationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFlywheelIterationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2372,6 +2399,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFlywheelIterationInput, DescribeFlywheelIterationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFlywheelIterationOutput>(DescribeFlywheelIterationOutput.httpOutput(from:), DescribeFlywheelIterationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlywheelIterationInput, DescribeFlywheelIterationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlywheelIterationOutput>())
@@ -2406,9 +2434,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a key phrases detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribeKeyPhrasesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeKeyPhrasesDetectionJobInput`)
     ///
-    /// - Returns: `DescribeKeyPhrasesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeKeyPhrasesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2443,6 +2471,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeKeyPhrasesDetectionJobInput, DescribeKeyPhrasesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeKeyPhrasesDetectionJobOutput>(DescribeKeyPhrasesDetectionJobOutput.httpOutput(from:), DescribeKeyPhrasesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeKeyPhrasesDetectionJobInput, DescribeKeyPhrasesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeKeyPhrasesDetectionJobOutput>())
@@ -2477,9 +2506,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a PII entities detection job. For example, you can use this operation to get the job status.
     ///
-    /// - Parameter DescribePiiEntitiesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePiiEntitiesDetectionJobInput`)
     ///
-    /// - Returns: `DescribePiiEntitiesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePiiEntitiesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2514,6 +2543,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePiiEntitiesDetectionJobInput, DescribePiiEntitiesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePiiEntitiesDetectionJobOutput>(DescribePiiEntitiesDetectionJobOutput.httpOutput(from:), DescribePiiEntitiesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePiiEntitiesDetectionJobInput, DescribePiiEntitiesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePiiEntitiesDetectionJobOutput>())
@@ -2548,9 +2578,9 @@ extension ComprehendClient {
     ///
     /// Gets the details of a resource-based policy that is attached to a custom model, including the JSON body of the policy.
     ///
-    /// - Parameter DescribeResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
-    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2584,6 +2614,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutput>(DescribeResourcePolicyOutput.httpOutput(from:), DescribeResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
@@ -2618,9 +2649,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribeSentimentDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSentimentDetectionJobInput`)
     ///
-    /// - Returns: `DescribeSentimentDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSentimentDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2655,6 +2686,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSentimentDetectionJobInput, DescribeSentimentDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSentimentDetectionJobOutput>(DescribeSentimentDetectionJobOutput.httpOutput(from:), DescribeSentimentDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSentimentDetectionJobInput, DescribeSentimentDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSentimentDetectionJobOutput>())
@@ -2689,9 +2721,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a targeted sentiment detection job. Use this operation to get the status of the job.
     ///
-    /// - Parameter DescribeTargetedSentimentDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTargetedSentimentDetectionJobInput`)
     ///
-    /// - Returns: `DescribeTargetedSentimentDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTargetedSentimentDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2726,6 +2758,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTargetedSentimentDetectionJobInput, DescribeTargetedSentimentDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTargetedSentimentDetectionJobOutput>(DescribeTargetedSentimentDetectionJobOutput.httpOutput(from:), DescribeTargetedSentimentDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTargetedSentimentDetectionJobInput, DescribeTargetedSentimentDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTargetedSentimentDetectionJobOutput>())
@@ -2760,9 +2793,9 @@ extension ComprehendClient {
     ///
     /// Gets the properties associated with a topic detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribeTopicsDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTopicsDetectionJobInput`)
     ///
-    /// - Returns: `DescribeTopicsDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTopicsDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2797,6 +2830,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTopicsDetectionJobInput, DescribeTopicsDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTopicsDetectionJobOutput>(DescribeTopicsDetectionJobOutput.httpOutput(from:), DescribeTopicsDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTopicsDetectionJobInput, DescribeTopicsDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTopicsDetectionJobOutput>())
@@ -2831,9 +2865,9 @@ extension ComprehendClient {
     ///
     /// Determines the dominant language of the input text. For a list of languages that Amazon Comprehend can detect, see [Amazon Comprehend Supported Languages](https://docs.aws.amazon.com/comprehend/latest/dg/how-languages.html).
     ///
-    /// - Parameter DetectDominantLanguageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectDominantLanguageInput`)
     ///
-    /// - Returns: `DetectDominantLanguageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectDominantLanguageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2867,6 +2901,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectDominantLanguageInput, DetectDominantLanguageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectDominantLanguageOutput>(DetectDominantLanguageOutput.httpOutput(from:), DetectDominantLanguageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectDominantLanguageInput, DetectDominantLanguageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectDominantLanguageOutput>())
@@ -2901,9 +2936,9 @@ extension ComprehendClient {
     ///
     /// Detects named entities in input text when you use the pre-trained model. Detects custom entities if you have a custom entity recognition model. When detecting named entities using the pre-trained model, use plain text as the input. For more information about named entities, see [Entities](https://docs.aws.amazon.com/comprehend/latest/dg/how-entities.html) in the Comprehend Developer Guide. When you use a custom entity recognition model, you can input plain text or you can upload a single-page input document (text, PDF, Word, or image). If the system detects errors while processing a page in the input document, the API response includes an entry in Errors for each error. If the system detects a document-level error in your input document, the API returns an InvalidRequestException error response. For details about this exception, see [ Errors in semi-structured documents](https://docs.aws.amazon.com/comprehend/latest/dg/idp-inputs-sync-err.html) in the Comprehend Developer Guide.
     ///
-    /// - Parameter DetectEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectEntitiesInput`)
     ///
-    /// - Returns: `DetectEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2939,6 +2974,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectEntitiesOutput>(DetectEntitiesOutput.httpOutput(from:), DetectEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectEntitiesOutput>())
@@ -2973,9 +3009,9 @@ extension ComprehendClient {
     ///
     /// Detects the key noun phrases found in the text.
     ///
-    /// - Parameter DetectKeyPhrasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectKeyPhrasesInput`)
     ///
-    /// - Returns: `DetectKeyPhrasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectKeyPhrasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3010,6 +3046,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectKeyPhrasesInput, DetectKeyPhrasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectKeyPhrasesOutput>(DetectKeyPhrasesOutput.httpOutput(from:), DetectKeyPhrasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectKeyPhrasesInput, DetectKeyPhrasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectKeyPhrasesOutput>())
@@ -3044,9 +3081,9 @@ extension ComprehendClient {
     ///
     /// Inspects the input text for entities that contain personally identifiable information (PII) and returns information about them.
     ///
-    /// - Parameter DetectPiiEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectPiiEntitiesInput`)
     ///
-    /// - Returns: `DetectPiiEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectPiiEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3081,6 +3118,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectPiiEntitiesInput, DetectPiiEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectPiiEntitiesOutput>(DetectPiiEntitiesOutput.httpOutput(from:), DetectPiiEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectPiiEntitiesInput, DetectPiiEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectPiiEntitiesOutput>())
@@ -3115,9 +3153,9 @@ extension ComprehendClient {
     ///
     /// Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE).
     ///
-    /// - Parameter DetectSentimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectSentimentInput`)
     ///
-    /// - Returns: `DetectSentimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectSentimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3152,6 +3190,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectSentimentInput, DetectSentimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectSentimentOutput>(DetectSentimentOutput.httpOutput(from:), DetectSentimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectSentimentInput, DetectSentimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectSentimentOutput>())
@@ -3186,9 +3225,9 @@ extension ComprehendClient {
     ///
     /// Inspects text for syntax and the part of speech of words in the document. For more information, see [Syntax](https://docs.aws.amazon.com/comprehend/latest/dg/how-syntax.html) in the Comprehend Developer Guide.
     ///
-    /// - Parameter DetectSyntaxInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectSyntaxInput`)
     ///
-    /// - Returns: `DetectSyntaxOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectSyntaxOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3223,6 +3262,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectSyntaxInput, DetectSyntaxOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectSyntaxOutput>(DetectSyntaxOutput.httpOutput(from:), DetectSyntaxOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectSyntaxInput, DetectSyntaxOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectSyntaxOutput>())
@@ -3257,9 +3297,9 @@ extension ComprehendClient {
     ///
     /// Inspects the input text and returns a sentiment analysis for each entity identified in the text. For more information about targeted sentiment, see [Targeted sentiment](https://docs.aws.amazon.com/comprehend/latest/dg/how-targeted-sentiment.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter DetectTargetedSentimentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectTargetedSentimentInput`)
     ///
-    /// - Returns: `DetectTargetedSentimentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectTargetedSentimentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3294,6 +3334,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectTargetedSentimentInput, DetectTargetedSentimentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectTargetedSentimentOutput>(DetectTargetedSentimentOutput.httpOutput(from:), DetectTargetedSentimentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectTargetedSentimentInput, DetectTargetedSentimentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectTargetedSentimentOutput>())
@@ -3328,9 +3369,9 @@ extension ComprehendClient {
     ///
     /// Performs toxicity analysis on the list of text strings that you provide as input. The API response contains a results list that matches the size of the input list. For more information about toxicity detection, see [Toxicity detection](https://docs.aws.amazon.com/comprehend/latest/dg/toxicity-detection.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter DetectToxicContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectToxicContentInput`)
     ///
-    /// - Returns: `DetectToxicContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectToxicContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3365,6 +3406,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectToxicContentInput, DetectToxicContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectToxicContentOutput>(DetectToxicContentOutput.httpOutput(from:), DetectToxicContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectToxicContentInput, DetectToxicContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectToxicContentOutput>())
@@ -3399,9 +3441,9 @@ extension ComprehendClient {
     ///
     /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your Amazon Web Services account or another one. If the source model is in another Amazon Web Services account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same Amazon Web Services Region that you're using when you import. You can't import a model that's in a different Region.
     ///
-    /// - Parameter ImportModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportModelInput`)
     ///
-    /// - Returns: `ImportModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3441,6 +3483,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportModelInput, ImportModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportModelOutput>(ImportModelOutput.httpOutput(from:), ImportModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportModelInput, ImportModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportModelOutput>())
@@ -3475,9 +3518,9 @@ extension ComprehendClient {
     ///
     /// List the datasets that you have configured in this Region. For more information about datasets, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3513,6 +3556,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetsInput, ListDatasetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -3547,9 +3591,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the documentation classification jobs that you have submitted.
     ///
-    /// - Parameter ListDocumentClassificationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDocumentClassificationJobsInput`)
     ///
-    /// - Returns: `ListDocumentClassificationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDocumentClassificationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3584,6 +3628,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDocumentClassificationJobsOutput>(ListDocumentClassificationJobsOutput.httpOutput(from:), ListDocumentClassificationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentClassificationJobsInput, ListDocumentClassificationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentClassificationJobsOutput>())
@@ -3618,9 +3663,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of summaries of the document classifiers that you have created
     ///
-    /// - Parameter ListDocumentClassifierSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDocumentClassifierSummariesInput`)
     ///
-    /// - Returns: `ListDocumentClassifierSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDocumentClassifierSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3654,6 +3699,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDocumentClassifierSummariesOutput>(ListDocumentClassifierSummariesOutput.httpOutput(from:), ListDocumentClassifierSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentClassifierSummariesInput, ListDocumentClassifierSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentClassifierSummariesOutput>())
@@ -3688,9 +3734,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the document classifiers that you have created.
     ///
-    /// - Parameter ListDocumentClassifiersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDocumentClassifiersInput`)
     ///
-    /// - Returns: `ListDocumentClassifiersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDocumentClassifiersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3725,6 +3771,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentClassifiersInput, ListDocumentClassifiersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDocumentClassifiersOutput>(ListDocumentClassifiersOutput.httpOutput(from:), ListDocumentClassifiersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentClassifiersInput, ListDocumentClassifiersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentClassifiersOutput>())
@@ -3759,9 +3806,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the dominant language detection jobs that you have submitted.
     ///
-    /// - Parameter ListDominantLanguageDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDominantLanguageDetectionJobsInput`)
     ///
-    /// - Returns: `ListDominantLanguageDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDominantLanguageDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3796,6 +3843,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDominantLanguageDetectionJobsOutput>(ListDominantLanguageDetectionJobsOutput.httpOutput(from:), ListDominantLanguageDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDominantLanguageDetectionJobsInput, ListDominantLanguageDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDominantLanguageDetectionJobsOutput>())
@@ -3830,9 +3878,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of all existing endpoints that you've created. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
-    /// - Parameter ListEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEndpointsInput`)
     ///
-    /// - Returns: `ListEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3866,6 +3914,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEndpointsInput, ListEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEndpointsOutput>(ListEndpointsOutput.httpOutput(from:), ListEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEndpointsInput, ListEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEndpointsOutput>())
@@ -3900,9 +3949,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the entity detection jobs that you have submitted.
     ///
-    /// - Parameter ListEntitiesDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitiesDetectionJobsInput`)
     ///
-    /// - Returns: `ListEntitiesDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitiesDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3937,6 +3986,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitiesDetectionJobsOutput>(ListEntitiesDetectionJobsOutput.httpOutput(from:), ListEntitiesDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitiesDetectionJobsInput, ListEntitiesDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitiesDetectionJobsOutput>())
@@ -3971,9 +4021,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of summaries for the entity recognizers that you have created.
     ///
-    /// - Parameter ListEntityRecognizerSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntityRecognizerSummariesInput`)
     ///
-    /// - Returns: `ListEntityRecognizerSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntityRecognizerSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4007,6 +4057,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntityRecognizerSummariesOutput>(ListEntityRecognizerSummariesOutput.httpOutput(from:), ListEntityRecognizerSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntityRecognizerSummariesInput, ListEntityRecognizerSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntityRecognizerSummariesOutput>())
@@ -4041,9 +4092,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
     ///
-    /// - Parameter ListEntityRecognizersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntityRecognizersInput`)
     ///
-    /// - Returns: `ListEntityRecognizersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntityRecognizersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4078,6 +4129,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntityRecognizersInput, ListEntityRecognizersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntityRecognizersOutput>(ListEntityRecognizersOutput.httpOutput(from:), ListEntityRecognizersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntityRecognizersInput, ListEntityRecognizersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntityRecognizersOutput>())
@@ -4112,9 +4164,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the events detection jobs that you have submitted.
     ///
-    /// - Parameter ListEventsDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventsDetectionJobsInput`)
     ///
-    /// - Returns: `ListEventsDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventsDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4149,6 +4201,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventsDetectionJobsOutput>(ListEventsDetectionJobsOutput.httpOutput(from:), ListEventsDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventsDetectionJobsInput, ListEventsDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventsDetectionJobsOutput>())
@@ -4183,9 +4236,9 @@ extension ComprehendClient {
     ///
     /// Information about the history of a flywheel iteration. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter ListFlywheelIterationHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlywheelIterationHistoryInput`)
     ///
-    /// - Returns: `ListFlywheelIterationHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlywheelIterationHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4221,6 +4274,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlywheelIterationHistoryOutput>(ListFlywheelIterationHistoryOutput.httpOutput(from:), ListFlywheelIterationHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlywheelIterationHistoryInput, ListFlywheelIterationHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlywheelIterationHistoryOutput>())
@@ -4255,9 +4309,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the flywheels that you have created.
     ///
-    /// - Parameter ListFlywheelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlywheelsInput`)
     ///
-    /// - Returns: `ListFlywheelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlywheelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4292,6 +4346,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlywheelsInput, ListFlywheelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlywheelsOutput>(ListFlywheelsOutput.httpOutput(from:), ListFlywheelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlywheelsInput, ListFlywheelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlywheelsOutput>())
@@ -4326,9 +4381,9 @@ extension ComprehendClient {
     ///
     /// Get a list of key phrase detection jobs that you have submitted.
     ///
-    /// - Parameter ListKeyPhrasesDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKeyPhrasesDetectionJobsInput`)
     ///
-    /// - Returns: `ListKeyPhrasesDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKeyPhrasesDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4363,6 +4418,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKeyPhrasesDetectionJobsOutput>(ListKeyPhrasesDetectionJobsOutput.httpOutput(from:), ListKeyPhrasesDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKeyPhrasesDetectionJobsInput, ListKeyPhrasesDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKeyPhrasesDetectionJobsOutput>())
@@ -4397,9 +4453,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the PII entity detection jobs that you have submitted.
     ///
-    /// - Parameter ListPiiEntitiesDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPiiEntitiesDetectionJobsInput`)
     ///
-    /// - Returns: `ListPiiEntitiesDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPiiEntitiesDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4434,6 +4490,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPiiEntitiesDetectionJobsOutput>(ListPiiEntitiesDetectionJobsOutput.httpOutput(from:), ListPiiEntitiesDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPiiEntitiesDetectionJobsInput, ListPiiEntitiesDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPiiEntitiesDetectionJobsOutput>())
@@ -4468,9 +4525,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of sentiment detection jobs that you have submitted.
     ///
-    /// - Parameter ListSentimentDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSentimentDetectionJobsInput`)
     ///
-    /// - Returns: `ListSentimentDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSentimentDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4505,6 +4562,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSentimentDetectionJobsOutput>(ListSentimentDetectionJobsOutput.httpOutput(from:), ListSentimentDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSentimentDetectionJobsInput, ListSentimentDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSentimentDetectionJobsOutput>())
@@ -4539,9 +4597,9 @@ extension ComprehendClient {
     ///
     /// Lists all tags associated with a given Amazon Comprehend resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4575,6 +4633,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4609,9 +4668,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of targeted sentiment detection jobs that you have submitted.
     ///
-    /// - Parameter ListTargetedSentimentDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetedSentimentDetectionJobsInput`)
     ///
-    /// - Returns: `ListTargetedSentimentDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetedSentimentDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4646,6 +4705,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetedSentimentDetectionJobsOutput>(ListTargetedSentimentDetectionJobsOutput.httpOutput(from:), ListTargetedSentimentDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetedSentimentDetectionJobsInput, ListTargetedSentimentDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetedSentimentDetectionJobsOutput>())
@@ -4680,9 +4740,9 @@ extension ComprehendClient {
     ///
     /// Gets a list of the topic detection jobs that you have submitted.
     ///
-    /// - Parameter ListTopicsDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTopicsDetectionJobsInput`)
     ///
-    /// - Returns: `ListTopicsDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTopicsDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4717,6 +4777,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTopicsDetectionJobsOutput>(ListTopicsDetectionJobsOutput.httpOutput(from:), ListTopicsDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTopicsDetectionJobsInput, ListTopicsDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTopicsDetectionJobsOutput>())
@@ -4751,9 +4812,9 @@ extension ComprehendClient {
     ///
     /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another Amazon Web Services account to import the custom model, which replicates it in Amazon Comprehend in their account.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4787,6 +4848,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -4821,9 +4883,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous document classification job using a custom classification model. Use the DescribeDocumentClassificationJob operation to track the progress of the job.
     ///
-    /// - Parameter StartDocumentClassificationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDocumentClassificationJobInput`)
     ///
-    /// - Returns: `StartDocumentClassificationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDocumentClassificationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4863,6 +4925,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDocumentClassificationJobInput, StartDocumentClassificationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDocumentClassificationJobOutput>(StartDocumentClassificationJobOutput.httpOutput(from:), StartDocumentClassificationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDocumentClassificationJobInput, StartDocumentClassificationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDocumentClassificationJobOutput>())
@@ -4897,9 +4960,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous dominant language detection job for a collection of documents. Use the operation to track the status of a job.
     ///
-    /// - Parameter StartDominantLanguageDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDominantLanguageDetectionJobInput`)
     ///
-    /// - Returns: `StartDominantLanguageDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDominantLanguageDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4937,6 +5000,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDominantLanguageDetectionJobInput, StartDominantLanguageDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDominantLanguageDetectionJobOutput>(StartDominantLanguageDetectionJobOutput.httpOutput(from:), StartDominantLanguageDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDominantLanguageDetectionJobInput, StartDominantLanguageDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDominantLanguageDetectionJobOutput>())
@@ -4971,9 +5035,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous entity detection job for a collection of documents. Use the operation to track the status of a job. This API can be used for either standard entity detection or custom entity recognition. In order to be used for custom entity recognition, the optional EntityRecognizerArn must be used in order to provide access to the recognizer being used to detect the custom entity.
     ///
-    /// - Parameter StartEntitiesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEntitiesDetectionJobInput`)
     ///
-    /// - Returns: `StartEntitiesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEntitiesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5013,6 +5077,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEntitiesDetectionJobInput, StartEntitiesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEntitiesDetectionJobOutput>(StartEntitiesDetectionJobOutput.httpOutput(from:), StartEntitiesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEntitiesDetectionJobInput, StartEntitiesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEntitiesDetectionJobOutput>())
@@ -5047,9 +5112,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous event detection job for a collection of documents.
     ///
-    /// - Parameter StartEventsDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEventsDetectionJobInput`)
     ///
-    /// - Returns: `StartEventsDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEventsDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5087,6 +5152,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEventsDetectionJobInput, StartEventsDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEventsDetectionJobOutput>(StartEventsDetectionJobOutput.httpOutput(from:), StartEventsDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEventsDetectionJobInput, StartEventsDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEventsDetectionJobOutput>())
@@ -5121,9 +5187,9 @@ extension ComprehendClient {
     ///
     /// Start the flywheel iteration.This operation uses any new datasets to train a new model version. For more information about flywheels, see [ Flywheel overview](https://docs.aws.amazon.com/comprehend/latest/dg/flywheels-about.html) in the Amazon Comprehend Developer Guide.
     ///
-    /// - Parameter StartFlywheelIterationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFlywheelIterationInput`)
     ///
-    /// - Returns: `StartFlywheelIterationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFlywheelIterationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5159,6 +5225,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlywheelIterationInput, StartFlywheelIterationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFlywheelIterationOutput>(StartFlywheelIterationOutput.httpOutput(from:), StartFlywheelIterationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlywheelIterationInput, StartFlywheelIterationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlywheelIterationOutput>())
@@ -5193,9 +5260,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous key phrase detection job for a collection of documents. Use the operation to track the status of a job.
     ///
-    /// - Parameter StartKeyPhrasesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartKeyPhrasesDetectionJobInput`)
     ///
-    /// - Returns: `StartKeyPhrasesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartKeyPhrasesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5233,6 +5300,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartKeyPhrasesDetectionJobInput, StartKeyPhrasesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartKeyPhrasesDetectionJobOutput>(StartKeyPhrasesDetectionJobOutput.httpOutput(from:), StartKeyPhrasesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartKeyPhrasesDetectionJobInput, StartKeyPhrasesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartKeyPhrasesDetectionJobOutput>())
@@ -5267,9 +5335,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous PII entity detection job for a collection of documents.
     ///
-    /// - Parameter StartPiiEntitiesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPiiEntitiesDetectionJobInput`)
     ///
-    /// - Returns: `StartPiiEntitiesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPiiEntitiesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5307,6 +5375,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPiiEntitiesDetectionJobInput, StartPiiEntitiesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPiiEntitiesDetectionJobOutput>(StartPiiEntitiesDetectionJobOutput.httpOutput(from:), StartPiiEntitiesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPiiEntitiesDetectionJobInput, StartPiiEntitiesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPiiEntitiesDetectionJobOutput>())
@@ -5341,9 +5410,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous sentiment detection job for a collection of documents. Use the operation to track the status of a job.
     ///
-    /// - Parameter StartSentimentDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSentimentDetectionJobInput`)
     ///
-    /// - Returns: `StartSentimentDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSentimentDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5381,6 +5450,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSentimentDetectionJobInput, StartSentimentDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSentimentDetectionJobOutput>(StartSentimentDetectionJobOutput.httpOutput(from:), StartSentimentDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSentimentDetectionJobInput, StartSentimentDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSentimentDetectionJobOutput>())
@@ -5415,9 +5485,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the DescribeTargetedSentimentDetectionJob operation to track the status of a job.
     ///
-    /// - Parameter StartTargetedSentimentDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTargetedSentimentDetectionJobInput`)
     ///
-    /// - Returns: `StartTargetedSentimentDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTargetedSentimentDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5455,6 +5525,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTargetedSentimentDetectionJobInput, StartTargetedSentimentDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTargetedSentimentDetectionJobOutput>(StartTargetedSentimentDetectionJobOutput.httpOutput(from:), StartTargetedSentimentDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTargetedSentimentDetectionJobInput, StartTargetedSentimentDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTargetedSentimentDetectionJobOutput>())
@@ -5489,9 +5560,9 @@ extension ComprehendClient {
     ///
     /// Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob operation to track the status of a job.
     ///
-    /// - Parameter StartTopicsDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTopicsDetectionJobInput`)
     ///
-    /// - Returns: `StartTopicsDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTopicsDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5529,6 +5600,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTopicsDetectionJobInput, StartTopicsDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTopicsDetectionJobOutput>(StartTopicsDetectionJobOutput.httpOutput(from:), StartTopicsDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTopicsDetectionJobInput, StartTopicsDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTopicsDetectionJobOutput>())
@@ -5563,9 +5635,9 @@ extension ComprehendClient {
     ///
     /// Stops a dominant language detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
-    /// - Parameter StopDominantLanguageDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDominantLanguageDetectionJobInput`)
     ///
-    /// - Returns: `StopDominantLanguageDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDominantLanguageDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5599,6 +5671,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDominantLanguageDetectionJobInput, StopDominantLanguageDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDominantLanguageDetectionJobOutput>(StopDominantLanguageDetectionJobOutput.httpOutput(from:), StopDominantLanguageDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDominantLanguageDetectionJobInput, StopDominantLanguageDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDominantLanguageDetectionJobOutput>())
@@ -5633,9 +5706,9 @@ extension ComprehendClient {
     ///
     /// Stops an entities detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
-    /// - Parameter StopEntitiesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEntitiesDetectionJobInput`)
     ///
-    /// - Returns: `StopEntitiesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEntitiesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5669,6 +5742,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEntitiesDetectionJobInput, StopEntitiesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEntitiesDetectionJobOutput>(StopEntitiesDetectionJobOutput.httpOutput(from:), StopEntitiesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEntitiesDetectionJobInput, StopEntitiesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEntitiesDetectionJobOutput>())
@@ -5703,9 +5777,9 @@ extension ComprehendClient {
     ///
     /// Stops an events detection job in progress.
     ///
-    /// - Parameter StopEventsDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEventsDetectionJobInput`)
     ///
-    /// - Returns: `StopEventsDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEventsDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5739,6 +5813,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEventsDetectionJobInput, StopEventsDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEventsDetectionJobOutput>(StopEventsDetectionJobOutput.httpOutput(from:), StopEventsDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEventsDetectionJobInput, StopEventsDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEventsDetectionJobOutput>())
@@ -5773,9 +5848,9 @@ extension ComprehendClient {
     ///
     /// Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
-    /// - Parameter StopKeyPhrasesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopKeyPhrasesDetectionJobInput`)
     ///
-    /// - Returns: `StopKeyPhrasesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopKeyPhrasesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5809,6 +5884,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopKeyPhrasesDetectionJobInput, StopKeyPhrasesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopKeyPhrasesDetectionJobOutput>(StopKeyPhrasesDetectionJobOutput.httpOutput(from:), StopKeyPhrasesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopKeyPhrasesDetectionJobInput, StopKeyPhrasesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopKeyPhrasesDetectionJobOutput>())
@@ -5843,9 +5919,9 @@ extension ComprehendClient {
     ///
     /// Stops a PII entities detection job in progress.
     ///
-    /// - Parameter StopPiiEntitiesDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopPiiEntitiesDetectionJobInput`)
     ///
-    /// - Returns: `StopPiiEntitiesDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopPiiEntitiesDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5879,6 +5955,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopPiiEntitiesDetectionJobInput, StopPiiEntitiesDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopPiiEntitiesDetectionJobOutput>(StopPiiEntitiesDetectionJobOutput.httpOutput(from:), StopPiiEntitiesDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopPiiEntitiesDetectionJobInput, StopPiiEntitiesDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopPiiEntitiesDetectionJobOutput>())
@@ -5913,9 +5990,9 @@ extension ComprehendClient {
     ///
     /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS, the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
-    /// - Parameter StopSentimentDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSentimentDetectionJobInput`)
     ///
-    /// - Returns: `StopSentimentDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSentimentDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5949,6 +6026,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSentimentDetectionJobInput, StopSentimentDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSentimentDetectionJobOutput>(StopSentimentDetectionJobOutput.httpOutput(from:), StopSentimentDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSentimentDetectionJobInput, StopSentimentDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSentimentDetectionJobOutput>())
@@ -5983,9 +6061,9 @@ extension ComprehendClient {
     ///
     /// Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS, the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception. When a job is stopped, any documents already processed are written to the output location.
     ///
-    /// - Parameter StopTargetedSentimentDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTargetedSentimentDetectionJobInput`)
     ///
-    /// - Returns: `StopTargetedSentimentDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTargetedSentimentDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6019,6 +6097,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTargetedSentimentDetectionJobInput, StopTargetedSentimentDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTargetedSentimentDetectionJobOutput>(StopTargetedSentimentDetectionJobOutput.httpOutput(from:), StopTargetedSentimentDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTargetedSentimentDetectionJobInput, StopTargetedSentimentDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTargetedSentimentDetectionJobOutput>())
@@ -6053,9 +6132,9 @@ extension ComprehendClient {
     ///
     /// Stops a document classifier training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.
     ///
-    /// - Parameter StopTrainingDocumentClassifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTrainingDocumentClassifierInput`)
     ///
-    /// - Returns: `StopTrainingDocumentClassifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTrainingDocumentClassifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6090,6 +6169,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTrainingDocumentClassifierInput, StopTrainingDocumentClassifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTrainingDocumentClassifierOutput>(StopTrainingDocumentClassifierOutput.httpOutput(from:), StopTrainingDocumentClassifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTrainingDocumentClassifierInput, StopTrainingDocumentClassifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTrainingDocumentClassifierOutput>())
@@ -6124,9 +6204,9 @@ extension ComprehendClient {
     ///
     /// Stops an entity recognizer training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and putted into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.
     ///
-    /// - Parameter StopTrainingEntityRecognizerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopTrainingEntityRecognizerInput`)
     ///
-    /// - Returns: `StopTrainingEntityRecognizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopTrainingEntityRecognizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6161,6 +6241,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopTrainingEntityRecognizerInput, StopTrainingEntityRecognizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopTrainingEntityRecognizerOutput>(StopTrainingEntityRecognizerOutput.httpOutput(from:), StopTrainingEntityRecognizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopTrainingEntityRecognizerInput, StopTrainingEntityRecognizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopTrainingEntityRecognizerOutput>())
@@ -6195,9 +6276,9 @@ extension ComprehendClient {
     ///
     /// Associates a specific tag with an Amazon Comprehend resource. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6233,6 +6314,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6267,9 +6349,9 @@ extension ComprehendClient {
     ///
     /// Removes a specific tag associated with an Amazon Comprehend resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6305,6 +6387,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6339,9 +6422,9 @@ extension ComprehendClient {
     ///
     /// Updates information about the specified endpoint. For information about endpoints, see [Managing endpoints](https://docs.aws.amazon.com/comprehend/latest/dg/manage-endpoints.html).
     ///
-    /// - Parameter UpdateEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointInput`)
     ///
-    /// - Returns: `UpdateEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6379,6 +6462,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEndpointInput, UpdateEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointOutput>(UpdateEndpointOutput.httpOutput(from:), UpdateEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointInput, UpdateEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointOutput>())
@@ -6413,9 +6497,9 @@ extension ComprehendClient {
     ///
     /// Update the configuration information for an existing flywheel.
     ///
-    /// - Parameter UpdateFlywheelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlywheelInput`)
     ///
-    /// - Returns: `UpdateFlywheelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlywheelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6451,6 +6535,7 @@ extension ComprehendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlywheelInput, UpdateFlywheelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlywheelOutput>(UpdateFlywheelOutput.httpOutput(from:), UpdateFlywheelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlywheelInput, UpdateFlywheelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlywheelOutput>())

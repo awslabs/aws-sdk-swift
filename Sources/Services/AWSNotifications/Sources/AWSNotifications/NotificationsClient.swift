@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class NotificationsClient: ClientRuntime.Client {
+public class NotificationsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NotificationsClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: NotificationsClient.NotificationsClientConfiguration
     let serviceName = "Notifications"
@@ -371,11 +371,11 @@ extension NotificationsClient {
 extension NotificationsClient {
     /// Performs the `AssociateChannel` operation on the `Notifications` service.
     ///
-    /// Associates a delivery [Channel](https://docs.aws.amazon.com/notifications/latest/userguide/managing-delivery-channels.html) with a particular NotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Associates a delivery [Channel](https://docs.aws.amazon.com/notifications/latest/userguide/managing-delivery-channels.html) with a particular NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
-    /// - Parameter AssociateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateChannelInput`)
     ///
-    /// - Returns: `AssociateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +415,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateChannelInput, AssociateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateChannelOutput>(AssociateChannelOutput.httpOutput(from:), AssociateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateChannelInput, AssociateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateChannelOutput>())
@@ -446,9 +447,9 @@ extension NotificationsClient {
     ///
     /// Associates an Account Contact with a particular ManagedNotificationConfiguration.
     ///
-    /// - Parameter AssociateManagedNotificationAccountContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateManagedNotificationAccountContactInput`)
     ///
-    /// - Returns: `AssociateManagedNotificationAccountContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateManagedNotificationAccountContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +489,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateManagedNotificationAccountContactInput, AssociateManagedNotificationAccountContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateManagedNotificationAccountContactOutput>(AssociateManagedNotificationAccountContactOutput.httpOutput(from:), AssociateManagedNotificationAccountContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateManagedNotificationAccountContactInput, AssociateManagedNotificationAccountContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateManagedNotificationAccountContactOutput>())
@@ -517,11 +519,11 @@ extension NotificationsClient {
 
     /// Performs the `AssociateManagedNotificationAdditionalChannel` operation on the `Notifications` service.
     ///
-    /// Associates an additional Channel with a particular ManagedNotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Associates an additional Channel with a particular ManagedNotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
-    /// - Parameter AssociateManagedNotificationAdditionalChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateManagedNotificationAdditionalChannelInput`)
     ///
-    /// - Returns: `AssociateManagedNotificationAdditionalChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateManagedNotificationAdditionalChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +563,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateManagedNotificationAdditionalChannelInput, AssociateManagedNotificationAdditionalChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateManagedNotificationAdditionalChannelOutput>(AssociateManagedNotificationAdditionalChannelOutput.httpOutput(from:), AssociateManagedNotificationAdditionalChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateManagedNotificationAdditionalChannelInput, AssociateManagedNotificationAdditionalChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateManagedNotificationAdditionalChannelOutput>())
@@ -588,13 +591,87 @@ extension NotificationsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateOrganizationalUnit` operation on the `Notifications` service.
+    ///
+    /// Associates an organizational unit with a notification configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateOrganizationalUnitInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateOrganizationalUnitOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : This exception is thrown when the notification event fails validation.
+    public func associateOrganizationalUnit(input: AssociateOrganizationalUnitInput) async throws -> AssociateOrganizationalUnitOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateOrganizationalUnit")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "notifications")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput>(AssociateOrganizationalUnitInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateOrganizationalUnitInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateOrganizationalUnitOutput>(AssociateOrganizationalUnitOutput.httpOutput(from:), AssociateOrganizationalUnitOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateOrganizationalUnitOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Notifications", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateOrganizationalUnitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateOrganizationalUnitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateOrganizationalUnitInput, AssociateOrganizationalUnitOutput>(serviceID: serviceName, version: NotificationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Notifications")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateOrganizationalUnit")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEventRule` operation on the `Notifications` service.
     ///
     /// Creates an [EventRule](https://docs.aws.amazon.com/notifications/latest/userguide/glossary.html) that is associated with a specified NotificationConfiguration.
     ///
-    /// - Parameter CreateEventRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventRuleInput`)
     ///
-    /// - Returns: `CreateEventRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +711,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventRuleInput, CreateEventRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventRuleOutput>(CreateEventRuleOutput.httpOutput(from:), CreateEventRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventRuleInput, CreateEventRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventRuleOutput>())
@@ -665,9 +743,9 @@ extension NotificationsClient {
     ///
     /// Creates a new NotificationConfiguration.
     ///
-    /// - Parameter CreateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotificationConfigurationInput`)
     ///
-    /// - Returns: `CreateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,6 +784,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotificationConfigurationInput, CreateNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotificationConfigurationOutput>(CreateNotificationConfigurationOutput.httpOutput(from:), CreateNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotificationConfigurationInput, CreateNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotificationConfigurationOutput>())
@@ -737,9 +816,9 @@ extension NotificationsClient {
     ///
     /// Deletes an EventRule.
     ///
-    /// - Parameter DeleteEventRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventRuleInput`)
     ///
-    /// - Returns: `DeleteEventRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -775,6 +854,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventRuleInput, DeleteEventRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventRuleOutput>(DeleteEventRuleOutput.httpOutput(from:), DeleteEventRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventRuleInput, DeleteEventRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventRuleOutput>())
@@ -806,9 +886,9 @@ extension NotificationsClient {
     ///
     /// Deletes a NotificationConfiguration.
     ///
-    /// - Parameter DeleteNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotificationConfigurationInput`)
     ///
-    /// - Returns: `DeleteNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,6 +924,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNotificationConfigurationInput, DeleteNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotificationConfigurationOutput>(DeleteNotificationConfigurationOutput.httpOutput(from:), DeleteNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotificationConfigurationInput, DeleteNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotificationConfigurationOutput>())
@@ -875,9 +956,9 @@ extension NotificationsClient {
     ///
     /// Deregisters a NotificationConfiguration in the specified Region. You can't deregister the last NotificationHub in the account. NotificationEvents stored in the deregistered NotificationConfiguration are no longer be visible. Recreating a new NotificationConfiguration in the same Region restores access to those NotificationEvents.
     ///
-    /// - Parameter DeregisterNotificationHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterNotificationHubInput`)
     ///
-    /// - Returns: `DeregisterNotificationHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterNotificationHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -913,6 +994,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterNotificationHubInput, DeregisterNotificationHubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterNotificationHubOutput>(DeregisterNotificationHubOutput.httpOutput(from:), DeregisterNotificationHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterNotificationHubInput, DeregisterNotificationHubOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterNotificationHubOutput>())
@@ -944,9 +1026,9 @@ extension NotificationsClient {
     ///
     /// Disables service trust between User Notifications and Amazon Web Services Organizations.
     ///
-    /// - Parameter DisableNotificationsAccessForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableNotificationsAccessForOrganizationInput`)
     ///
-    /// - Returns: `DisableNotificationsAccessForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableNotificationsAccessForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,6 +1065,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableNotificationsAccessForOrganizationInput, DisableNotificationsAccessForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableNotificationsAccessForOrganizationOutput>(DisableNotificationsAccessForOrganizationOutput.httpOutput(from:), DisableNotificationsAccessForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableNotificationsAccessForOrganizationInput, DisableNotificationsAccessForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableNotificationsAccessForOrganizationOutput>())
@@ -1012,11 +1095,11 @@ extension NotificationsClient {
 
     /// Performs the `DisassociateChannel` operation on the `Notifications` service.
     ///
-    /// Disassociates a Channel from a specified NotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Disassociates a Channel from a specified NotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
-    /// - Parameter DisassociateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateChannelInput`)
     ///
-    /// - Returns: `DisassociateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,6 +1137,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateChannelInput, DisassociateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateChannelOutput>(DisassociateChannelOutput.httpOutput(from:), DisassociateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateChannelInput, DisassociateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateChannelOutput>())
@@ -1085,9 +1169,9 @@ extension NotificationsClient {
     ///
     /// Disassociates an Account Contact with a particular ManagedNotificationConfiguration.
     ///
-    /// - Parameter DisassociateManagedNotificationAccountContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateManagedNotificationAccountContactInput`)
     ///
-    /// - Returns: `DisassociateManagedNotificationAccountContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateManagedNotificationAccountContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1126,6 +1210,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateManagedNotificationAccountContactInput, DisassociateManagedNotificationAccountContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateManagedNotificationAccountContactOutput>(DisassociateManagedNotificationAccountContactOutput.httpOutput(from:), DisassociateManagedNotificationAccountContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateManagedNotificationAccountContactInput, DisassociateManagedNotificationAccountContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateManagedNotificationAccountContactOutput>())
@@ -1155,11 +1240,11 @@ extension NotificationsClient {
 
     /// Performs the `DisassociateManagedNotificationAdditionalChannel` operation on the `Notifications` service.
     ///
-    /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration. Supported Channels include Chatbot, the Console Mobile Application, and emails (notifications-contacts).
+    /// Disassociates an additional Channel from a particular ManagedNotificationConfiguration. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
     ///
-    /// - Parameter DisassociateManagedNotificationAdditionalChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateManagedNotificationAdditionalChannelInput`)
     ///
-    /// - Returns: `DisassociateManagedNotificationAdditionalChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateManagedNotificationAdditionalChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,6 +1282,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateManagedNotificationAdditionalChannelInput, DisassociateManagedNotificationAdditionalChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateManagedNotificationAdditionalChannelOutput>(DisassociateManagedNotificationAdditionalChannelOutput.httpOutput(from:), DisassociateManagedNotificationAdditionalChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateManagedNotificationAdditionalChannelInput, DisassociateManagedNotificationAdditionalChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateManagedNotificationAdditionalChannelOutput>())
@@ -1224,13 +1310,85 @@ extension NotificationsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateOrganizationalUnit` operation on the `Notifications` service.
+    ///
+    /// Removes the association between an organizational unit and a notification configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateOrganizationalUnitInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateOrganizationalUnitOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : This exception is thrown when the notification event fails validation.
+    public func disassociateOrganizationalUnit(input: DisassociateOrganizationalUnitInput) async throws -> DisassociateOrganizationalUnitOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateOrganizationalUnit")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "notifications")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput>(DisassociateOrganizationalUnitInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateOrganizationalUnitInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateOrganizationalUnitOutput>(DisassociateOrganizationalUnitOutput.httpOutput(from:), DisassociateOrganizationalUnitOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateOrganizationalUnitOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Notifications", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateOrganizationalUnitOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateOrganizationalUnitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateOrganizationalUnitInput, DisassociateOrganizationalUnitOutput>(serviceID: serviceName, version: NotificationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Notifications")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateOrganizationalUnit")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableNotificationsAccessForOrganization` operation on the `Notifications` service.
     ///
     /// Enables service trust between User Notifications and Amazon Web Services Organizations.
     ///
-    /// - Parameter EnableNotificationsAccessForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableNotificationsAccessForOrganizationInput`)
     ///
-    /// - Returns: `EnableNotificationsAccessForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableNotificationsAccessForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1267,6 +1425,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableNotificationsAccessForOrganizationInput, EnableNotificationsAccessForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableNotificationsAccessForOrganizationOutput>(EnableNotificationsAccessForOrganizationOutput.httpOutput(from:), EnableNotificationsAccessForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableNotificationsAccessForOrganizationInput, EnableNotificationsAccessForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableNotificationsAccessForOrganizationOutput>())
@@ -1298,9 +1457,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified EventRule.
     ///
-    /// - Parameter GetEventRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventRuleInput`)
     ///
-    /// - Returns: `GetEventRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1335,6 +1494,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventRuleInput, GetEventRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventRuleOutput>(GetEventRuleOutput.httpOutput(from:), GetEventRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventRuleInput, GetEventRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventRuleOutput>())
@@ -1366,9 +1526,9 @@ extension NotificationsClient {
     ///
     /// Returns the child event of a specific given ManagedNotificationEvent.
     ///
-    /// - Parameter GetManagedNotificationChildEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedNotificationChildEventInput`)
     ///
-    /// - Returns: `GetManagedNotificationChildEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedNotificationChildEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,6 +1564,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetManagedNotificationChildEventInput, GetManagedNotificationChildEventOutput>(GetManagedNotificationChildEventInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedNotificationChildEventOutput>(GetManagedNotificationChildEventOutput.httpOutput(from:), GetManagedNotificationChildEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedNotificationChildEventInput, GetManagedNotificationChildEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedNotificationChildEventOutput>())
@@ -1435,9 +1596,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified ManagedNotificationConfiguration.
     ///
-    /// - Parameter GetManagedNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetManagedNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,6 +1633,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedNotificationConfigurationInput, GetManagedNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedNotificationConfigurationOutput>(GetManagedNotificationConfigurationOutput.httpOutput(from:), GetManagedNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedNotificationConfigurationInput, GetManagedNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedNotificationConfigurationOutput>())
@@ -1503,9 +1665,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified ManagedNotificationEvent.
     ///
-    /// - Parameter GetManagedNotificationEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedNotificationEventInput`)
     ///
-    /// - Returns: `GetManagedNotificationEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedNotificationEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1541,6 +1703,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetManagedNotificationEventInput, GetManagedNotificationEventOutput>(GetManagedNotificationEventInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedNotificationEventOutput>(GetManagedNotificationEventOutput.httpOutput(from:), GetManagedNotificationEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedNotificationEventInput, GetManagedNotificationEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedNotificationEventOutput>())
@@ -1572,9 +1735,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified NotificationConfiguration.
     ///
-    /// - Parameter GetNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1609,6 +1772,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetNotificationConfigurationInput, GetNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNotificationConfigurationOutput>(GetNotificationConfigurationOutput.httpOutput(from:), GetNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNotificationConfigurationInput, GetNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNotificationConfigurationOutput>())
@@ -1640,9 +1804,9 @@ extension NotificationsClient {
     ///
     /// Returns a specified NotificationEvent. User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. GetNotificationEvent only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see [Notification hubs](https://docs.aws.amazon.com/notifications/latest/userguide/notification-hubs.html) in the Amazon Web Services User Notifications User Guide.
     ///
-    /// - Parameter GetNotificationEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationEventInput`)
     ///
-    /// - Returns: `GetNotificationEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1678,6 +1842,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetNotificationEventInput, GetNotificationEventOutput>(GetNotificationEventInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNotificationEventOutput>(GetNotificationEventOutput.httpOutput(from:), GetNotificationEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNotificationEventInput, GetNotificationEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNotificationEventOutput>())
@@ -1709,9 +1874,9 @@ extension NotificationsClient {
     ///
     /// Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
     ///
-    /// - Parameter GetNotificationsAccessForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationsAccessForOrganizationInput`)
     ///
-    /// - Returns: `GetNotificationsAccessForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationsAccessForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1745,6 +1910,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetNotificationsAccessForOrganizationInput, GetNotificationsAccessForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNotificationsAccessForOrganizationOutput>(GetNotificationsAccessForOrganizationOutput.httpOutput(from:), GetNotificationsAccessForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNotificationsAccessForOrganizationInput, GetNotificationsAccessForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNotificationsAccessForOrganizationOutput>())
@@ -1776,9 +1942,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of Channels for a NotificationConfiguration.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1814,6 +1980,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1845,9 +2012,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of EventRules according to specified filters, in reverse chronological order (newest first).
     ///
-    /// - Parameter ListEventRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventRulesInput`)
     ///
-    /// - Returns: `ListEventRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1883,6 +2050,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventRulesInput, ListEventRulesOutput>(ListEventRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventRulesOutput>(ListEventRulesOutput.httpOutput(from:), ListEventRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventRulesInput, ListEventRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventRulesOutput>())
@@ -1914,9 +2082,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of Account contacts and Channels associated with a ManagedNotificationConfiguration, in paginated format.
     ///
-    /// - Parameter ListManagedNotificationChannelAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedNotificationChannelAssociationsInput`)
     ///
-    /// - Returns: `ListManagedNotificationChannelAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedNotificationChannelAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1952,6 +2120,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedNotificationChannelAssociationsInput, ListManagedNotificationChannelAssociationsOutput>(ListManagedNotificationChannelAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedNotificationChannelAssociationsOutput>(ListManagedNotificationChannelAssociationsOutput.httpOutput(from:), ListManagedNotificationChannelAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedNotificationChannelAssociationsInput, ListManagedNotificationChannelAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedNotificationChannelAssociationsOutput>())
@@ -1983,9 +2152,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of ManagedNotificationChildEvents for a specified aggregate ManagedNotificationEvent, ordered by creation time in reverse chronological order (newest first).
     ///
-    /// - Parameter ListManagedNotificationChildEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedNotificationChildEventsInput`)
     ///
-    /// - Returns: `ListManagedNotificationChildEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedNotificationChildEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2020,6 +2189,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedNotificationChildEventsInput, ListManagedNotificationChildEventsOutput>(ListManagedNotificationChildEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedNotificationChildEventsOutput>(ListManagedNotificationChildEventsOutput.httpOutput(from:), ListManagedNotificationChildEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedNotificationChildEventsInput, ListManagedNotificationChildEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedNotificationChildEventsOutput>())
@@ -2051,9 +2221,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first).
     ///
-    /// - Parameter ListManagedNotificationConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedNotificationConfigurationsInput`)
     ///
-    /// - Returns: `ListManagedNotificationConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedNotificationConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2088,6 +2258,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedNotificationConfigurationsInput, ListManagedNotificationConfigurationsOutput>(ListManagedNotificationConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedNotificationConfigurationsOutput>(ListManagedNotificationConfigurationsOutput.httpOutput(from:), ListManagedNotificationConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedNotificationConfigurationsInput, ListManagedNotificationConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedNotificationConfigurationsOutput>())
@@ -2119,9 +2290,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first).
     ///
-    /// - Parameter ListManagedNotificationEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedNotificationEventsInput`)
     ///
-    /// - Returns: `ListManagedNotificationEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedNotificationEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2156,6 +2327,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedNotificationEventsInput, ListManagedNotificationEventsOutput>(ListManagedNotificationEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedNotificationEventsOutput>(ListManagedNotificationEventsOutput.httpOutput(from:), ListManagedNotificationEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedNotificationEventsInput, ListManagedNotificationEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedNotificationEventsOutput>())
@@ -2183,13 +2355,83 @@ extension NotificationsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListMemberAccounts` operation on the `Notifications` service.
+    ///
+    /// Returns a list of member accounts associated with a notification configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListMemberAccountsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListMemberAccountsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : This exception is thrown when the notification event fails validation.
+    public func listMemberAccounts(input: ListMemberAccountsInput) async throws -> ListMemberAccountsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMemberAccounts")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "notifications")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListMemberAccountsInput, ListMemberAccountsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>(ListMemberAccountsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>(ListMemberAccountsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMemberAccountsOutput>(ListMemberAccountsOutput.httpOutput(from:), ListMemberAccountsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMemberAccountsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Notifications", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMemberAccountsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMemberAccountsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMemberAccountsInput, ListMemberAccountsOutput>(serviceID: serviceName, version: NotificationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Notifications")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMemberAccounts")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListNotificationConfigurations` operation on the `Notifications` service.
     ///
     /// Returns a list of abbreviated NotificationConfigurations according to specified filters, in reverse chronological order (newest first).
     ///
-    /// - Parameter ListNotificationConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationConfigurationsInput`)
     ///
-    /// - Returns: `ListNotificationConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2224,6 +2466,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNotificationConfigurationsInput, ListNotificationConfigurationsOutput>(ListNotificationConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotificationConfigurationsOutput>(ListNotificationConfigurationsOutput.httpOutput(from:), ListNotificationConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotificationConfigurationsInput, ListNotificationConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotificationConfigurationsOutput>())
@@ -2255,9 +2498,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of NotificationEvents according to specified filters, in reverse chronological order (newest first). User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see [Notification hubs](https://docs.aws.amazon.com/notifications/latest/userguide/notification-hubs.html) in the Amazon Web Services User Notifications User Guide.
     ///
-    /// - Parameter ListNotificationEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationEventsInput`)
     ///
-    /// - Returns: `ListNotificationEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2292,6 +2535,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNotificationEventsInput, ListNotificationEventsOutput>(ListNotificationEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotificationEventsOutput>(ListNotificationEventsOutput.httpOutput(from:), ListNotificationEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotificationEventsInput, ListNotificationEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotificationEventsOutput>())
@@ -2323,9 +2567,9 @@ extension NotificationsClient {
     ///
     /// Returns a list of NotificationHubs.
     ///
-    /// - Parameter ListNotificationHubsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationHubsInput`)
     ///
-    /// - Returns: `ListNotificationHubsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationHubsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,6 +2604,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNotificationHubsInput, ListNotificationHubsOutput>(ListNotificationHubsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotificationHubsOutput>(ListNotificationHubsOutput.httpOutput(from:), ListNotificationHubsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotificationHubsInput, ListNotificationHubsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotificationHubsOutput>())
@@ -2387,13 +2632,83 @@ extension NotificationsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListOrganizationalUnits` operation on the `Notifications` service.
+    ///
+    /// Returns a list of organizational units associated with a notification configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationalUnitsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListOrganizationalUnitsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : This exception is thrown when the notification event fails validation.
+    public func listOrganizationalUnits(input: ListOrganizationalUnitsInput) async throws -> ListOrganizationalUnitsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOrganizationalUnits")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "notifications")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(ListOrganizationalUnitsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(ListOrganizationalUnitsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationalUnitsOutput>(ListOrganizationalUnitsOutput.httpOutput(from:), ListOrganizationalUnitsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationalUnitsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Notifications", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOrganizationalUnitsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOrganizationalUnitsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOrganizationalUnitsInput, ListOrganizationalUnitsOutput>(serviceID: serviceName, version: NotificationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Notifications")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOrganizationalUnits")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `Notifications` service.
     ///
     /// Returns a list of tags for a specified Amazon Resource Name (ARN). For more information, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html) in the Tagging Amazon Web Services Resources User Guide. This is only supported for NotificationConfigurations.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2428,6 +2743,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2459,9 +2775,9 @@ extension NotificationsClient {
     ///
     /// Registers a NotificationConfiguration in the specified Region. There is a maximum of one NotificationConfiguration per Region. You can have a maximum of 3 NotificationHub resources at a time.
     ///
-    /// - Parameter RegisterNotificationHubInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterNotificationHubInput`)
     ///
-    /// - Returns: `RegisterNotificationHubOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterNotificationHubOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,6 +2816,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterNotificationHubInput, RegisterNotificationHubOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterNotificationHubOutput>(RegisterNotificationHubOutput.httpOutput(from:), RegisterNotificationHubOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterNotificationHubInput, RegisterNotificationHubOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterNotificationHubOutput>())
@@ -2531,9 +2848,9 @@ extension NotificationsClient {
     ///
     /// Tags the resource with a tag key and value. For more information, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html) in the Tagging Amazon Web Services Resources User Guide. This is only supported for NotificationConfigurations.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2571,6 +2888,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2602,9 +2920,9 @@ extension NotificationsClient {
     ///
     /// Untags a resource with a specified Amazon Resource Name (ARN). For more information, see [Tagging your Amazon Web Services resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html) in the Tagging Amazon Web Services Resources User Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2640,6 +2958,7 @@ extension NotificationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2671,9 +2990,9 @@ extension NotificationsClient {
     ///
     /// Updates an existing EventRule.
     ///
-    /// - Parameter UpdateEventRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventRuleInput`)
     ///
-    /// - Returns: `UpdateEventRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2712,6 +3031,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventRuleInput, UpdateEventRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventRuleOutput>(UpdateEventRuleOutput.httpOutput(from:), UpdateEventRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventRuleInput, UpdateEventRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventRuleOutput>())
@@ -2743,9 +3063,9 @@ extension NotificationsClient {
     ///
     /// Updates a NotificationConfiguration.
     ///
-    /// - Parameter UpdateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotificationConfigurationInput`)
     ///
-    /// - Returns: `UpdateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2784,6 +3104,7 @@ extension NotificationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotificationConfigurationInput, UpdateNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotificationConfigurationOutput>(UpdateNotificationConfigurationOutput.httpOutput(from:), UpdateNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotificationConfigurationInput, UpdateNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotificationConfigurationOutput>())

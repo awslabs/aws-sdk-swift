@@ -669,6 +669,30 @@ extension BudgetsClientTypes {
     }
 }
 
+/// The billing view status must be HEALTHY to perform this action. Try again when the status is HEALTHY.
+public struct BillingViewHealthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message the exception carries.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BillingViewHealthStatusException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// You've exceeded the notification or subscriber limit.
 public struct CreationLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -789,7 +813,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// You've reached the limit on the number of tags you can associate with a resource.
+/// You've reached a Service Quota limit on this resource.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1261,13 +1285,15 @@ extension BudgetsClientTypes {
         case billingViewNoAccess
         case billingViewUnhealthy
         case filterInvalid
+        case multiYearHistoricalDataDisabled
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HealthStatusReason] {
             return [
                 .billingViewNoAccess,
                 .billingViewUnhealthy,
-                .filterInvalid
+                .filterInvalid,
+                .multiYearHistoricalDataDisabled
             ]
         }
 
@@ -1281,6 +1307,7 @@ extension BudgetsClientTypes {
             case .billingViewNoAccess: return "BILLING_VIEW_NO_ACCESS"
             case .billingViewUnhealthy: return "BILLING_VIEW_UNHEALTHY"
             case .filterInvalid: return "FILTER_INVALID"
+            case .multiYearHistoricalDataDisabled: return "MULTI_YEAR_HISTORICAL_DATA_DISABLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1302,6 +1329,8 @@ extension BudgetsClientTypes {
         /// * BILLING_VIEW_UNHEALTHY: The billing view associated with the budget is unhealthy.
         ///
         /// * FILTER_INVALID: The filter contains reference to an account you do not have access to.
+        ///
+        /// * MULTI_YEAR_HISTORICAL_DATA_DISABLED: The budget is not being updated. Enable multi-year historical data in your Cost Management preferences.
         public var statusReason: BudgetsClientTypes.HealthStatusReason?
 
         public init(
@@ -1369,7 +1398,7 @@ extension BudgetsClientTypes {
     public struct TimePeriod: Swift.Sendable {
         /// The end date for a budget. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. After the end date, Amazon Web Services deletes the budget and all the associated notifications and subscribers. You can change your end date with the UpdateBudget operation.
         public var end: Foundation.Date?
-        /// The start date for a budget. If you created your budget and didn't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
+        /// The start date for a budget. If you created your budget and didn't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, ANNUALLY, or CUSTOM). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
         public var start: Foundation.Date?
 
         public init(
@@ -1387,6 +1416,7 @@ extension BudgetsClientTypes {
     /// The time unit of the budget, such as MONTHLY or QUARTERLY.
     public enum TimeUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case annually
+        case custom
         case daily
         case monthly
         case quarterly
@@ -1395,6 +1425,7 @@ extension BudgetsClientTypes {
         public static var allCases: [TimeUnit] {
             return [
                 .annually,
+                .custom,
                 .daily,
                 .monthly,
                 .quarterly
@@ -1409,6 +1440,7 @@ extension BudgetsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .annually: return "ANNUALLY"
+            case .custom: return "CUSTOM"
             case .daily: return "DAILY"
             case .monthly: return "MONTHLY"
             case .quarterly: return "QUARTERLY"
@@ -2773,7 +2805,7 @@ extension BudgetsClientTypes {
         public var metrics: [BudgetsClientTypes.Metric]?
         /// A map containing multiple BudgetLimit, including current or future limits. PlannedBudgetLimits is available for cost or usage budget and supports both monthly and quarterly TimeUnit. For monthly budgets, provide 12 months of PlannedBudgetLimits values. This must start from the current month and include the next 11 months. The key is the start of the month, UTC in epoch seconds. For quarterly budgets, provide four quarters of PlannedBudgetLimits value entries in standard calendar quarter increments. This must start from the current quarter and include the next three quarters. The key is the start of the quarter, UTC in epoch seconds. If the planned budget expires before 12 months for monthly or four quarters for quarterly, provide the PlannedBudgetLimits values only for the remaining periods. If the budget begins at a date in the future, provide PlannedBudgetLimits values from the start date of the budget. After all of the BudgetLimit values in PlannedBudgetLimits are used, the budget continues to use the last limit as the BudgetLimit. At that point, the planned budget provides the same experience as a fixed budget. DescribeBudget and DescribeBudgets response along with PlannedBudgetLimits also contain BudgetLimit representing the current month or quarter limit present in PlannedBudgetLimits. This only applies to budgets that are created with PlannedBudgetLimits. Budgets that are created without PlannedBudgetLimits only contain BudgetLimit. They don't contain PlannedBudgetLimits.
         public var plannedBudgetLimits: [Swift.String: BudgetsClientTypes.Spend]?
-        /// The period of time that's covered by a budget. You set the start date and end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC. If you create your budget and don't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change either date with the UpdateBudget operation. After the end date, Amazon Web Services deletes the budget and all the associated notifications and subscribers.
+        /// The period of time that's covered by a budget. You set the start date and end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC. If you create your budget and don't specify a start date, Amazon Web Services defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, ANNUALLY, or CUSTOM). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, Amazon Web Services set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, Amazon Web Services set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, Amazon Web Services set your end date to 06/15/87 00:00 UTC. The defaults are the same for the Billing and Cost Management console and the API. You can change either date with the UpdateBudget operation. After the end date, Amazon Web Services deletes the budget and all the associated notifications and subscribers.
         public var timePeriod: BudgetsClientTypes.TimePeriod?
         /// The length of time until a budget resets the actual and forecasted spend.
         /// This member is required.
@@ -3640,6 +3672,7 @@ enum CreateBudgetOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "CreationLimitExceededException": return try CreationLimitExceededException.makeError(baseError: baseError)
             case "DuplicateRecordException": return try DuplicateRecordException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
@@ -3907,6 +3940,7 @@ enum DescribeBudgetPerformanceHistoryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "ExpiredNextTokenException": return try ExpiredNextTokenException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
@@ -4061,9 +4095,11 @@ enum UpdateBudgetOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BillingViewHealthStatusException": return try BillingViewHealthStatusException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4132,6 +4168,19 @@ extension AccessDeniedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BillingViewHealthStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BillingViewHealthStatusException {
+        let reader = baseError.errorBodyReader
+        var value = BillingViewHealthStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -258,7 +258,7 @@ extension MediaLiveClientTypes {
         public var algorithm: MediaLiveClientTypes.AudioNormalizationAlgorithm?
         /// When set to correctAudio the output audio is corrected using the chosen algorithm. If set to measureOnly, the audio will be measured but not adjusted.
         public var algorithmControl: MediaLiveClientTypes.AudioNormalizationAlgorithmControl?
-        /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm. The CALM Act (1770-1) recommends a target of -24 LKFS. The EBU R-128 specification (1770-2) recommends a target of -23 LKFS.
+        /// Target LKFS(loudness) to adjust volume to. If no value is entered, a default value will be used according to the chosen algorithm. The CALM Act recommends a target of -24 LKFS. The EBU R-128 specification recommends a target of -23 LKFS.
         public var targetLkfs: Swift.Double?
 
         public init(
@@ -3965,6 +3965,75 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// The possible states of a channel alert. SET - The alert is actively happening. CLEARED - The alert is no longer happening.
+    public enum ChannelAlertState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cleared
+        case `set`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelAlertState] {
+            return [
+                .cleared,
+                .set
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cleared: return "CLEARED"
+            case .set: return "SET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// An alert on a channel
+    public struct ChannelAlert: Swift.Sendable {
+        /// The type of the alert
+        public var alertType: Swift.String?
+        /// The time when the alert was cleared
+        public var clearedTimestamp: Foundation.Date?
+        /// The unique ID for this alert instance
+        public var id: Swift.String?
+        /// The user facing alert message which can have more context
+        public var message: Swift.String?
+        /// The ID of the pipeline this alert is associated with
+        public var pipelineId: Swift.String?
+        /// The time when the alert was set
+        public var setTimestamp: Foundation.Date?
+        /// The state of the alert
+        public var state: MediaLiveClientTypes.ChannelAlertState?
+
+        public init(
+            alertType: Swift.String? = nil,
+            clearedTimestamp: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil,
+            pipelineId: Swift.String? = nil,
+            setTimestamp: Foundation.Date? = nil,
+            state: MediaLiveClientTypes.ChannelAlertState? = nil
+        ) {
+            self.alertType = alertType
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.pipelineId = pipelineId
+            self.setTimestamp = setTimestamp
+            self.state = state
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Placeholder documentation for ChannelEgressEndpoint
     public struct ChannelEgressEndpoint: Swift.Sendable {
         /// Public IP of where a channel's output comes from
@@ -4131,21 +4200,29 @@ extension MediaLiveClientTypes {
 
     /// MediaPackage Output Destination Settings
     public struct MediaPackageOutputDestinationSettings: Swift.Sendable {
+        /// Endpoint 1 or 2 of the channel in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
+        public var channelEndpointId: Swift.String?
         /// Name of the channel group in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
         public var channelGroup: Swift.String?
         /// ID of the channel in MediaPackage that is the destination for this output group. You do not need to specify the individual inputs in MediaPackage; MediaLive will handle the connection of the two MediaLive pipelines to the two MediaPackage inputs. The MediaPackage channel and MediaLive channel must be in the same region.
         public var channelId: Swift.String?
         /// Name of the channel in MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
         public var channelName: Swift.String?
+        /// Region the channel group and channel are located in for MediaPackageV2. Only use if you are sending CMAF Ingest output to a CMAF ingest endpoint on a MediaPackage channel that uses MediaPackage v2.
+        public var mediaPackageRegionName: Swift.String?
 
         public init(
+            channelEndpointId: Swift.String? = nil,
             channelGroup: Swift.String? = nil,
             channelId: Swift.String? = nil,
-            channelName: Swift.String? = nil
+            channelName: Swift.String? = nil,
+            mediaPackageRegionName: Swift.String? = nil
         ) {
+            self.channelEndpointId = channelEndpointId
             self.channelGroup = channelGroup
             self.channelId = channelId
             self.channelName = channelName
+            self.mediaPackageRegionName = mediaPackageRegionName
         }
     }
 }
@@ -4842,9 +4919,9 @@ extension MediaLiveClientTypes {
 
     /// Specifies a particular video stream within an input source. An input may have only a single video selector.
     public struct VideoSelector: Swift.Sendable {
-        /// Specifies the color space of an input. This setting works in tandem with colorSpaceUsage and a video description's colorSpaceSettingsChoice to determine if any conversion will be performed.
+        /// Controls how MediaLive will use the color space metadata from the source. Typically, choose FOLLOW, which means to use the color space metadata without changing it. Or choose another value (a standard). In this case, the handling is controlled by the colorspaceUsage property.
         public var colorSpace: MediaLiveClientTypes.VideoSelectorColorSpace?
-        /// Color space settings
+        /// Choose HDR10 only if the following situation applies. Firstly, you specified HDR10 in ColorSpace. Secondly, the attached input is for AWS Elemental Link. Thirdly, you plan to convert the content to another color space. You need to specify the color space metadata that is missing from the source sent from AWS Elemental Link.
         public var colorSpaceSettings: MediaLiveClientTypes.VideoSelectorColorSpaceSettings?
         /// Applies only if colorSpace is a value other than follow. This field controls how the value in the colorSpace field will be used. fallback means that when the input does include color space data, that data will be used, but when the input has no color space data, the value in colorSpace will be used. Choose fallback if your input is sometimes missing color space data, but when it does have color space data, that data is correct. force means to always use the value in colorSpace. Choose force if your input usually has no color space data or might have unreliable color space data.
         public var colorSpaceUsage: MediaLiveClientTypes.VideoSelectorColorSpaceUsage?
@@ -5085,6 +5162,93 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// The values for the role for a linked channel.
+    public enum LinkedChannelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case followingChannel
+        case primaryChannel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LinkedChannelType] {
+            return [
+                .followingChannel,
+                .primaryChannel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .followingChannel: return "FOLLOWING_CHANNEL"
+            case .primaryChannel: return "PRIMARY_CHANNEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Details of a follower channel in a linked pair
+    public struct DescribeFollowerChannelSettings: Swift.Sendable {
+        /// Specifies this as a follower channel
+        public var linkedChannelType: MediaLiveClientTypes.LinkedChannelType?
+        /// The ARN of the primary channel this channel follows
+        public var primaryChannelArn: Swift.String?
+
+        public init(
+            linkedChannelType: MediaLiveClientTypes.LinkedChannelType? = nil,
+            primaryChannelArn: Swift.String? = nil
+        ) {
+            self.linkedChannelType = linkedChannelType
+            self.primaryChannelArn = primaryChannelArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Details of a primary (leader) channel in a linked pair
+    public struct DescribePrimaryChannelSettings: Swift.Sendable {
+        /// The ARNs of the following channels for this primary channel
+        public var followingChannelArns: [Swift.String]?
+        /// Specifies this as a primary channel
+        public var linkedChannelType: MediaLiveClientTypes.LinkedChannelType?
+
+        public init(
+            followingChannelArns: [Swift.String]? = nil,
+            linkedChannelType: MediaLiveClientTypes.LinkedChannelType? = nil
+        ) {
+            self.followingChannelArns = followingChannelArns
+            self.linkedChannelType = linkedChannelType
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Linked channel configuration details
+    public struct DescribeLinkedChannelSettings: Swift.Sendable {
+        /// Details of a follower channel in a linked pair
+        public var followerChannelSettings: MediaLiveClientTypes.DescribeFollowerChannelSettings?
+        /// Details of a primary (leader) channel in a linked pair
+        public var primaryChannelSettings: MediaLiveClientTypes.DescribePrimaryChannelSettings?
+
+        public init(
+            followerChannelSettings: MediaLiveClientTypes.DescribeFollowerChannelSettings? = nil,
+            primaryChannelSettings: MediaLiveClientTypes.DescribePrimaryChannelSettings? = nil
+        ) {
+            self.followerChannelSettings = followerChannelSettings
+            self.primaryChannelSettings = primaryChannelSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// The log level the user wants for their channel.
     public enum LogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case debug
@@ -5302,6 +5466,8 @@ extension MediaLiveClientTypes {
         public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
         /// Specification of network and file inputs for this channel
         public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public var logLevel: MediaLiveClientTypes.LogLevel?
         /// Maintenance settings for this channel.
@@ -5332,6 +5498,7 @@ extension MediaLiveClientTypes {
             id: Swift.String? = nil,
             inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
             inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+            linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
             logLevel: MediaLiveClientTypes.LogLevel? = nil,
             maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
             name: Swift.String? = nil,
@@ -5352,6 +5519,7 @@ extension MediaLiveClientTypes {
             self.id = id
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -5663,6 +5831,79 @@ extension MediaLiveClientTypes {
             self.targetResourceType = targetResourceType
             self.threshold = threshold
             self.treatMissingData = treatMissingData
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// The possible states of a cluster alert. SET - The alert is actively happening. CLEARED - The alert is no longer happening.
+    public enum ClusterAlertState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cleared
+        case `set`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterAlertState] {
+            return [
+                .cleared,
+                .set
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cleared: return "CLEARED"
+            case .set: return "SET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// An alert on a cluster
+    public struct ClusterAlert: Swift.Sendable {
+        /// The type of the alert
+        public var alertType: Swift.String?
+        /// The ID of the channel this alert is associated with
+        public var channelId: Swift.String?
+        /// The time when the alert was cleared
+        public var clearedTimestamp: Foundation.Date?
+        /// The further subtype of this alert
+        public var id: Swift.String?
+        /// The user facing alert message which can have more context
+        public var message: Swift.String?
+        /// The ID of the node this alert is associated with
+        public var nodeId: Swift.String?
+        /// The time when the alert was set
+        public var setTimestamp: Foundation.Date?
+        /// The state of the alert
+        public var state: MediaLiveClientTypes.ClusterAlertState?
+
+        public init(
+            alertType: Swift.String? = nil,
+            channelId: Swift.String? = nil,
+            clearedTimestamp: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil,
+            nodeId: Swift.String? = nil,
+            setTimestamp: Foundation.Date? = nil,
+            state: MediaLiveClientTypes.ClusterAlertState? = nil
+        ) {
+            self.alertType = alertType
+            self.channelId = channelId
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.nodeId = nodeId
+            self.setTimestamp = setTimestamp
+            self.state = state
         }
     }
 }
@@ -6811,6 +7052,78 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Placeholder documentation for RouterDestination
+    public struct RouterDestination: Swift.Sendable {
+        /// The Availability Zone (AZ) names of the AZs this destination is created in.
+        public var availabilityZoneName: Swift.String?
+        /// ARN of the output from MediaConnect Router currently connected to this input.
+        public var routerOutputArn: Swift.String?
+
+        public init(
+            availabilityZoneName: Swift.String? = nil,
+            routerOutputArn: Swift.String? = nil
+        ) {
+            self.availabilityZoneName = availabilityZoneName
+            self.routerOutputArn = routerOutputArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Encryption configuration for MediaConnect router. When using SECRETS_MANAGER encryption, you must provide the ARN of the secret used to encrypt data in transit. When using AUTOMATIC encryption, a service-managed secret will be used instead.
+    public enum RouterEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterEncryptionType] {
+            return [
+                .automatic,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// The settings for a MediaConnect Router Input.
+    public struct RouterInputSettings: Swift.Sendable {
+        /// MediaConnect Router destinations associated with the MediaLive Input.
+        public var destinations: [MediaLiveClientTypes.RouterDestination]?
+        /// Encryption configuration for MediaConnect router. When using SECRETS_MANAGER encryption, you must provide the ARN of the secret used to encrypt data in transit. When using AUTOMATIC encryption, a service-managed secret will be used instead.
+        public var encryptionType: MediaLiveClientTypes.RouterEncryptionType?
+        /// ARN of the secret used to encrypt this input.
+        public var secretArn: Swift.String?
+
+        public init(
+            destinations: [MediaLiveClientTypes.RouterDestination]? = nil,
+            encryptionType: MediaLiveClientTypes.RouterEncryptionType? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.destinations = destinations
+            self.encryptionType = encryptionType
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// The location of the SDP file for one of the SMPTE 2110 streams in a receiver group.
     public struct InputSdpLocation: Swift.Sendable {
         /// The index of the media stream in the SDP file for one SMPTE 2110 stream.
@@ -7048,6 +7361,7 @@ extension MediaLiveClientTypes {
         case awsCdi
         case inputDevice
         case mediaconnect
+        case mediaconnectRouter
         case mp4File
         case multicast
         case rtmpPull
@@ -7066,6 +7380,7 @@ extension MediaLiveClientTypes {
                 .awsCdi,
                 .inputDevice,
                 .mediaconnect,
+                .mediaconnectRouter,
                 .mp4File,
                 .multicast,
                 .rtmpPull,
@@ -7090,6 +7405,7 @@ extension MediaLiveClientTypes {
             case .awsCdi: return "AWS_CDI"
             case .inputDevice: return "INPUT_DEVICE"
             case .mediaconnect: return "MEDIACONNECT"
+            case .mediaconnectRouter: return "MEDIACONNECT_ROUTER"
             case .mp4File: return "MP4_FILE"
             case .multicast: return "MULTICAST"
             case .rtmpPull: return "RTMP_PULL"
@@ -7137,6 +7453,8 @@ extension MediaLiveClientTypes {
         public var name: Swift.String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public var roleArn: Swift.String?
+        /// Information about any MediaConnect router association with this input.
+        public var routerSettings: MediaLiveClientTypes.RouterInputSettings?
         /// SDI Sources for this Input.
         public var sdiSources: [Swift.String]?
         /// A list of IDs for all the Input Security Groups attached to the input.
@@ -7168,6 +7486,7 @@ extension MediaLiveClientTypes {
             multicastSettings: MediaLiveClientTypes.MulticastSettings? = nil,
             name: Swift.String? = nil,
             roleArn: Swift.String? = nil,
+            routerSettings: MediaLiveClientTypes.RouterInputSettings? = nil,
             sdiSources: [Swift.String]? = nil,
             securityGroups: [Swift.String]? = nil,
             smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
@@ -7190,6 +7509,7 @@ extension MediaLiveClientTypes {
             self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
+            self.routerSettings = routerSettings
             self.sdiSources = sdiSources
             self.securityGroups = securityGroups
             self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
@@ -8188,6 +8508,22 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Additional output destinations for a CMAF Ingest output group
+    public struct MediaPackageAdditionalDestinations: Swift.Sendable {
+        /// The destination location
+        /// This member is required.
+        public var destination: MediaLiveClientTypes.OutputLocationRef?
+
+        public init(
+            destination: MediaLiveClientTypes.OutputLocationRef? = nil
+        ) {
+            self.destination = destination
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// A direct source or destination neighbor to an AWS media resource.
     public struct MediaResourceNeighbor: Swift.Sendable {
         /// The ARN of a resource used in AWS media workflows.
@@ -8242,6 +8578,75 @@ extension MediaLiveClientTypes {
         ) {
             self.sourceIp = sourceIp
             self.url = url
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// The possible states of a multiplex alert. SET - The alert is actively happening. CLEARED - The alert is no longer happening.
+    public enum MultiplexAlertState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cleared
+        case `set`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultiplexAlertState] {
+            return [
+                .cleared,
+                .set
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cleared: return "CLEARED"
+            case .set: return "SET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// An alert on a multiplex
+    public struct MultiplexAlert: Swift.Sendable {
+        /// The type of the alert
+        public var alertType: Swift.String?
+        /// The time when the alert was cleared
+        public var clearedTimestamp: Foundation.Date?
+        /// The unique ID for this alert instance
+        public var id: Swift.String?
+        /// The user facing alert message which can have more context
+        public var message: Swift.String?
+        /// The ID of the pipeline this alert is associated with
+        public var pipelineId: Swift.String?
+        /// The time when the alert was set
+        public var setTimestamp: Foundation.Date?
+        /// The state of the alert
+        public var state: MediaLiveClientTypes.MultiplexAlertState?
+
+        public init(
+            alertType: Swift.String? = nil,
+            clearedTimestamp: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil,
+            pipelineId: Swift.String? = nil,
+            setTimestamp: Foundation.Date? = nil,
+            state: MediaLiveClientTypes.MultiplexAlertState? = nil
+        ) {
+            self.alertType = alertType
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.pipelineId = pipelineId
+            self.setTimestamp = setTimestamp
+            self.state = state
         }
     }
 }
@@ -9768,7 +10173,7 @@ extension MediaLiveClientTypes {
 
     /// Archive Output Settings
     public struct ArchiveOutputSettings: Swift.Sendable {
-        /// Settings specific to the container type of the file.
+        /// Container for this output. Can be auto-detected from extension field.
         /// This member is required.
         public var containerSettings: MediaLiveClientTypes.ArchiveContainerSettings?
         /// Output file extension. If excluded, this will be auto-selected from the container type.
@@ -10347,10 +10752,109 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Hls Auto Select
+    public enum HlsAutoSelect: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case no
+        case omit
+        case yes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HlsAutoSelect] {
+            return [
+                .no,
+                .omit,
+                .yes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .no: return "NO"
+            case .omit: return "OMIT"
+            case .yes: return "YES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Hls Default
+    public enum HlsDefault: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case no
+        case omit
+        case yes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HlsDefault] {
+            return [
+                .no,
+                .omit,
+                .yes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .no: return "NO"
+            case .omit: return "OMIT"
+            case .yes: return "YES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Media Package V2 Destination Settings
+    public struct MediaPackageV2DestinationSettings: Swift.Sendable {
+        /// Applies only to an output that contains audio. If you want to put several audio encodes into one audio rendition group, decide on a name (ID) for the group. Then in every audio output that you want to belong to that group, enter that ID in this field. Note that this information is part of the HLS specification (not the CMAF specification), but if you include it then MediaPackage will include it in the manifest it creates for the video player.
+        public var audioGroupId: Swift.String?
+        /// Applies only to an output that contains video, and only if you want to associate one or more audio groups to this video. In this field you assign the groups that you create (in the Group ID fields in the various audio outputs). Enter one group ID, or enter a comma-separated list of group IDs. Note that this information is part of the HLS specification (not the CMAF specification), but if you include it then MediaPackage will include it in the manifest it creates for the video player.
+        public var audioRenditionSets: Swift.String?
+        /// Specifies whether MediaPackage should set this output as the auto-select rendition in the HLS manifest. YES means this must be the auto-select. NO means this should never be the auto-select. OMIT means MediaPackage decides what to set on this rendition. When you consider all the renditions, follow these guidelines. You can set zero or one renditions to YES. You can set zero or more renditions to NO, but you can't set all renditions to NO. You can set zero, some, or all to OMIT.
+        public var hlsAutoSelect: MediaLiveClientTypes.HlsAutoSelect?
+        /// Specifies whether MediaPackage should set this output as the default rendition in the HLS manifest. YES means this must be the default. NO means this should never be the default. OMIT means MediaPackage decides what to set on this rendition. When you consider all the renditions, follow these guidelines. You can set zero or one renditions to YES. You can set zero or more renditions to NO, but you can't set all renditions to NO. You can set zero, some, or all to OMIT.
+        public var hlsDefault: MediaLiveClientTypes.HlsDefault?
+
+        public init(
+            audioGroupId: Swift.String? = nil,
+            audioRenditionSets: Swift.String? = nil,
+            hlsAutoSelect: MediaLiveClientTypes.HlsAutoSelect? = nil,
+            hlsDefault: MediaLiveClientTypes.HlsDefault? = nil
+        ) {
+            self.audioGroupId = audioGroupId
+            self.audioRenditionSets = audioRenditionSets
+            self.hlsAutoSelect = hlsAutoSelect
+            self.hlsDefault = hlsDefault
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Media Package Output Settings
     public struct MediaPackageOutputSettings: Swift.Sendable {
+        /// Optional settings for MediaPackage V2 destinations
+        public var mediaPackageV2DestinationSettings: MediaLiveClientTypes.MediaPackageV2DestinationSettings?
 
-        public init() { }
+        public init(
+            mediaPackageV2DestinationSettings: MediaLiveClientTypes.MediaPackageV2DestinationSettings? = nil
+        ) {
+            self.mediaPackageV2DestinationSettings = mediaPackageV2DestinationSettings
+        }
     }
 }
 
@@ -12423,16 +12927,75 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Media Package V2 Group Settings
+    public struct MediaPackageV2GroupSettings: Swift.Sendable {
+        /// Optional an array of additional destinational HTTP destinations for the OutputGroup outputs
+        public var additionalDestinations: [MediaLiveClientTypes.MediaPackageAdditionalDestinations]?
+        /// Mapping of up to 4 caption channels to caption languages.
+        public var captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]?
+        /// Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.
+        public var id3Behavior: MediaLiveClientTypes.CmafId3Behavior?
+        /// If set to passthrough, passes any KLV data from the input source to this output.
+        public var klvBehavior: MediaLiveClientTypes.CmafKLVBehavior?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public var nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior?
+        /// Type of scte35 track to add. none or scte35WithoutSegmentation
+        public var scte35Type: MediaLiveClientTypes.Scte35Type?
+        /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
+        public var segmentLength: Swift.Int?
+        /// Time unit for segment length parameter.
+        public var segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits?
+        /// Set to none if you don't want to insert a timecode in the output. Otherwise choose the frame type for the timecode.
+        public var timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame?
+        /// If you set up to insert a timecode in the output, specify the frequency for the frame, in seconds.
+        public var timedMetadataId3Period: Swift.Int?
+        /// Set to enabled to pass through ID3 metadata from the input sources.
+        public var timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough?
+
+        public init(
+            additionalDestinations: [MediaLiveClientTypes.MediaPackageAdditionalDestinations]? = nil,
+            captionLanguageMappings: [MediaLiveClientTypes.CaptionLanguageMapping]? = nil,
+            id3Behavior: MediaLiveClientTypes.CmafId3Behavior? = nil,
+            klvBehavior: MediaLiveClientTypes.CmafKLVBehavior? = nil,
+            nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior? = nil,
+            scte35Type: MediaLiveClientTypes.Scte35Type? = nil,
+            segmentLength: Swift.Int? = nil,
+            segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits? = nil,
+            timedMetadataId3Frame: MediaLiveClientTypes.CmafTimedMetadataId3Frame? = nil,
+            timedMetadataId3Period: Swift.Int? = nil,
+            timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil
+        ) {
+            self.additionalDestinations = additionalDestinations
+            self.captionLanguageMappings = captionLanguageMappings
+            self.id3Behavior = id3Behavior
+            self.klvBehavior = klvBehavior
+            self.nielsenId3Behavior = nielsenId3Behavior
+            self.scte35Type = scte35Type
+            self.segmentLength = segmentLength
+            self.segmentLengthUnits = segmentLengthUnits
+            self.timedMetadataId3Frame = timedMetadataId3Frame
+            self.timedMetadataId3Period = timedMetadataId3Period
+            self.timedMetadataPassthrough = timedMetadataPassthrough
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Media Package Group Settings
     public struct MediaPackageGroupSettings: Swift.Sendable {
         /// MediaPackage channel destination.
         /// This member is required.
         public var destination: MediaLiveClientTypes.OutputLocationRef?
+        /// Parameters that apply only if the destination parameter (for the output group) specifies a channelGroup and channelName. Use of these two paramters indicates that the output group is for MediaPackage V2 (CMAF Ingest).
+        public var mediapackageV2GroupSettings: MediaLiveClientTypes.MediaPackageV2GroupSettings?
 
         public init(
-            destination: MediaLiveClientTypes.OutputLocationRef? = nil
+            destination: MediaLiveClientTypes.OutputLocationRef? = nil,
+            mediapackageV2GroupSettings: MediaLiveClientTypes.MediaPackageV2GroupSettings? = nil
         ) {
             self.destination = destination
+            self.mediapackageV2GroupSettings = mediapackageV2GroupSettings
         }
     }
 }
@@ -13507,6 +14070,22 @@ extension MediaLiveClientTypes {
         ) {
             self.cidr = cidr
             self.gateway = gateway
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Placeholder documentation for RouterDestinationSettings
+    public struct RouterDestinationSettings: Swift.Sendable {
+        /// Availability Zone for this MediaConnect Router destination.
+        /// This member is required.
+        public var availabilityZoneName: Swift.String?
+
+        public init(
+            availabilityZoneName: Swift.String? = nil
+        ) {
+            self.availabilityZoneName = availabilityZoneName
         }
     }
 }
@@ -15380,6 +15959,66 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Av1 Spatial Aq
+    public enum Av1SpatialAq: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1SpatialAq] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Av1 Temporal Aq
+    public enum Av1TemporalAq: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1TemporalAq] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Timecode Burnin Font Size
     public enum TimecodeBurninFontSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case extraSmall10
@@ -15500,7 +16139,7 @@ extension MediaLiveClientTypes {
         public var bitrate: Swift.Int?
         /// The size of the buffer (HRD buffer model) in bits.
         public var bufSize: Swift.Int?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public var colorSpaceSettings: MediaLiveClientTypes.Av1ColorSpaceSettings?
         /// Complete this property only if you set the afdSignaling property to FIXED. Choose the AFD value (4 bits) to write on all frames of the video encode.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
@@ -15520,6 +16159,8 @@ extension MediaLiveClientTypes {
         public var lookAheadRateControl: MediaLiveClientTypes.Av1LookAheadRateControl?
         /// The maximum bitrate to assign. For recommendations, see the description for qvbrQualityLevel.
         public var maxBitrate: Swift.Int?
+        /// Used for QVBR rate control mode only. Optional. Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public var minBitrate: Swift.Int?
         /// Applies only if you enable SceneChangeDetect. Sets the interval between frames. This property ensures a minimum separation between repeated (cadence) I-frames and any I-frames inserted by scene change detection (SCD frames). Enter a number for the interval, measured in number of frames. If an SCD frame and a cadence frame are closer than the specified number of frames, MediaLive shrinks or stretches the GOP to include the SCD frame. Then normal cadence resumes in the next GOP. For GOP stretch to succeed, you must enable LookAheadRateControl. Note that the maximum GOP stretch = (GOP size) + (Minimum I-interval) - 1
         public var minIInterval: Swift.Int?
         /// The denominator for the output pixel aspect ratio (PAR).
@@ -15532,6 +16173,10 @@ extension MediaLiveClientTypes {
         public var rateControlMode: MediaLiveClientTypes.Av1RateControlMode?
         /// Controls whether MediaLive inserts I-frames when it detects a scene change. ENABLED or DISABLED.
         public var sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect?
+        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. Enabled: MediaLive will determine the appropriate level of spatial AQ to apply. Disabled: No spatial AQ. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
+        public var spatialAq: MediaLiveClientTypes.Av1SpatialAq?
+        /// Temporal AQ makes adjustments within each frame based on variations in content complexity over time. Enabled: MediaLive will determine the appropriate level of temporal AQ to apply. Disabled: No temporal AQ. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
+        public var temporalAq: MediaLiveClientTypes.Av1TemporalAq?
         /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
 
@@ -15548,12 +16193,15 @@ extension MediaLiveClientTypes {
             level: MediaLiveClientTypes.Av1Level? = nil,
             lookAheadRateControl: MediaLiveClientTypes.Av1LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
+            minBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
             qvbrQualityLevel: Swift.Int? = nil,
             rateControlMode: MediaLiveClientTypes.Av1RateControlMode? = nil,
             sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect? = nil,
+            spatialAq: MediaLiveClientTypes.Av1SpatialAq? = nil,
+            temporalAq: MediaLiveClientTypes.Av1TemporalAq? = nil,
             timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil
         ) {
             self.afdSignaling = afdSignaling
@@ -15568,12 +16216,15 @@ extension MediaLiveClientTypes {
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
             self.qvbrQualityLevel = qvbrQualityLevel
             self.rateControlMode = rateControlMode
             self.sceneChangeDetect = sceneChangeDetect
+            self.spatialAq = spatialAq
+            self.temporalAq = temporalAq
             self.timecodeBurninSettings = timecodeBurninSettings
         }
     }
@@ -16614,7 +17265,7 @@ extension MediaLiveClientTypes {
 
     /// H264 Settings
     public struct H264Settings: Swift.Sendable {
-        /// Enables or disables adaptive quantization, which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: flicker, spatial, and temporal. Set the field in one of these ways: Set to Auto. Recommended. For each type of AQ, MediaLive will determine if AQ is needed, and if so, the appropriate strength. Set a strength (a value other than Auto or Disable). This strength will apply to any of the AQ fields that you choose to enable. Set to Disabled to disable all types of adaptive quantization.
+        /// Enables or disables adaptive quantization (AQ), which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: spatial, temporal, and flicker. We recommend that you set the field to Auto. For more information about all the options, see the topic about video adaptive quantization in the MediaLive user guide.
         public var adaptiveQuantization: MediaLiveClientTypes.H264AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream. If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public var afdSignaling: MediaLiveClientTypes.AfdSignaling?
@@ -16626,7 +17277,7 @@ extension MediaLiveClientTypes {
         public var bufSize: Swift.Int?
         /// Includes colorspace metadata in the output.
         public var colorMetadata: MediaLiveClientTypes.H264ColorMetadata?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public var colorSpaceSettings: MediaLiveClientTypes.H264ColorSpaceSettings?
         /// Entropy encoding mode. Use cabac (must be in Main or High profile) or cavlc.
         public var entropyEncoding: MediaLiveClientTypes.H264EntropyEncoding?
@@ -16634,7 +17285,7 @@ extension MediaLiveClientTypes {
         public var filterSettings: MediaLiveClientTypes.H264FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
-        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if flicker AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply flicker AQ using the specified strength. Disabled: MediaLive won't apply flicker AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply flicker AQ.
+        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public var flickerAq: MediaLiveClientTypes.H264FlickerAq?
         /// This setting applies only when scan type is "interlaced." It controls whether coding is performed on a field basis or on a frame basis. (When the video is progressive, the coding is always performed on a frame basis.) enabled: Force MediaLive to code on a field basis, so that odd and even sets of fields are coded separately. disabled: Code the two sets of fields separately (on a field basis) or together (on a frame basis using PAFF), depending on what is most appropriate for the content.
         public var forceFieldPictures: MediaLiveClientTypes.H264ForceFieldPictures?
@@ -16660,6 +17311,8 @@ extension MediaLiveClientTypes {
         public var lookAheadRateControl: MediaLiveClientTypes.H264LookAheadRateControl?
         /// For QVBR: See the tooltip for Quality level For VBR: Set the maximum bitrate in order to accommodate expected spikes in the complexity of the video.
         public var maxBitrate: Swift.Int?
+        /// Used for QVBR rate control mode only. Optional. Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public var minBitrate: Swift.Int?
         /// Only meaningful if sceneChangeDetect is set to enabled. Defaults to 5 if multiplex rate control is used. Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public var minIInterval: Swift.Int?
         /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will apply an appropriate value.
@@ -16702,13 +17355,13 @@ extension MediaLiveClientTypes {
         public var slices: Swift.Int?
         /// Softness. Selects quantizer matrix, larger values reduce high-frequency content in the encoded image. If not set to zero, must be greater than 15.
         public var softness: Swift.Int?
-        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if spatial AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply spatial AQ using the specified strength. Disabled: MediaLive won't apply spatial AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply spatial AQ.
+        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public var spatialAq: MediaLiveClientTypes.H264SpatialAq?
         /// If set to fixed, use gopNumBFrames B-frames per sub-GOP. If set to dynamic, optimize the number of B-frames used for each sub-GOP to improve visual quality.
         public var subgopLength: MediaLiveClientTypes.H264SubGopLength?
         /// Produces a bitstream compliant with SMPTE RP-2027.
         public var syntax: MediaLiveClientTypes.H264Syntax?
-        /// Temporal makes adjustments within each frame based on temporal variation of content complexity. The value to enter in this field depends on the value in the Adaptive quantization field: If you have set the Adaptive quantization field to Auto, MediaLive ignores any value in this field. MediaLive will determine if temporal AQ is appropriate and will apply the appropriate strength. If you have set the Adaptive quantization field to a strength, you can set this field to Enabled or Disabled. Enabled: MediaLive will apply temporal AQ using the specified strength. Disabled: MediaLive won't apply temporal AQ. If you have set the Adaptive quantization to Disabled, MediaLive ignores any value in this field and doesn't apply temporal AQ.
+        /// Temporal makes adjustments within each frame based on variations in content complexity over time. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public var temporalAq: MediaLiveClientTypes.H264TemporalAq?
         /// Timecode burn-in settings
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
@@ -16743,6 +17396,7 @@ extension MediaLiveClientTypes {
             level: MediaLiveClientTypes.H264Level? = nil,
             lookAheadRateControl: MediaLiveClientTypes.H264LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
+            minBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
             minQp: Swift.Int? = nil,
             numRefFrames: Swift.Int? = nil,
@@ -16787,6 +17441,7 @@ extension MediaLiveClientTypes {
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.minQp = minQp
             self.numRefFrames = numRefFrames
@@ -16927,6 +17582,15 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Hlg2020 Settings
+    public struct Hlg2020Settings: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// H265 Color Space Settings
     public struct H265ColorSpaceSettings: Swift.Sendable {
         /// Passthrough applies no color space conversion to the output
@@ -16935,6 +17599,8 @@ extension MediaLiveClientTypes {
         public var dolbyVision81Settings: MediaLiveClientTypes.DolbyVision81Settings?
         /// Hdr10 Settings
         public var hdr10Settings: MediaLiveClientTypes.Hdr10Settings?
+        /// Hlg2020 Settings
+        public var hlg2020Settings: MediaLiveClientTypes.Hlg2020Settings?
         /// Rec601 Settings
         public var rec601Settings: MediaLiveClientTypes.Rec601Settings?
         /// Rec709 Settings
@@ -16944,12 +17610,14 @@ extension MediaLiveClientTypes {
             colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings? = nil,
             dolbyVision81Settings: MediaLiveClientTypes.DolbyVision81Settings? = nil,
             hdr10Settings: MediaLiveClientTypes.Hdr10Settings? = nil,
+            hlg2020Settings: MediaLiveClientTypes.Hlg2020Settings? = nil,
             rec601Settings: MediaLiveClientTypes.Rec601Settings? = nil,
             rec709Settings: MediaLiveClientTypes.Rec709Settings? = nil
         ) {
             self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
             self.dolbyVision81Settings = dolbyVision81Settings
             self.hdr10Settings = hdr10Settings
+            self.hlg2020Settings = hlg2020Settings
             self.rec601Settings = rec601Settings
             self.rec709Settings = rec709Settings
         }
@@ -17014,6 +17682,36 @@ extension MediaLiveClientTypes {
         case sdkUnknown(Swift.String)
 
         public static var allCases: [H265FlickerAq] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// H265 Gop BReference
+    public enum H265GopBReference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265GopBReference] {
             return [
                 .disabled,
                 .enabled
@@ -17349,6 +18047,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// H265 Sub Gop Length
+    public enum H265SubGopLength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `dynamic`
+        case fixed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265SubGopLength] {
+            return [
+                .dynamic,
+                .fixed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamic: return "DYNAMIC"
+            case .fixed: return "FIXED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// H265 Tier
     public enum H265Tier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case high
@@ -17471,7 +18199,7 @@ extension MediaLiveClientTypes {
 
     /// H265 Settings
     public struct H265Settings: Swift.Sendable {
-        /// Adaptive quantization. Allows intra-frame quantizers to vary to improve visual quality.
+        /// Enables or disables adaptive quantization (AQ), which is a technique MediaLive can apply to video on a frame-by-frame basis to produce more compression without losing quality. There are three types of adaptive quantization: spatial, temporal, and flicker. Flicker is the only type that you can customize. We recommend that you set the field to Auto. For more information about all the options, see the topic about video adaptive quantization in the MediaLive user guide.
         public var adaptiveQuantization: MediaLiveClientTypes.H265AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream. If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public var afdSignaling: MediaLiveClientTypes.AfdSignaling?
@@ -17483,7 +18211,7 @@ extension MediaLiveClientTypes {
         public var bufSize: Swift.Int?
         /// Includes colorspace metadata in the output.
         public var colorMetadata: MediaLiveClientTypes.H265ColorMetadata?
-        /// Color Space settings
+        /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public var colorSpaceSettings: MediaLiveClientTypes.H265ColorSpaceSettings?
         /// Enable or disable the deblocking filter for this codec. The filter reduces blocking artifacts at block boundaries, which improves overall video quality. If the filter is disabled, visible block edges might appear in the output, especially at lower bitrates.
         public var deblocking: MediaLiveClientTypes.H265Deblocking?
@@ -17491,7 +18219,7 @@ extension MediaLiveClientTypes {
         public var filterSettings: MediaLiveClientTypes.H265FilterSettings?
         /// Four bit AFD value to write on all frames of video in the output stream. Only valid when afdSignaling is set to 'Fixed'.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
-        /// If set to enabled, adjust quantization within each frame to reduce flicker or 'pop' on I-frames.
+        /// Flicker AQ makes adjustments within each frame to reduce flicker or 'pop' on I-frames. The value to enter in this field depends on the value in the Adaptive quantization field. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
         public var flickerAq: MediaLiveClientTypes.H265FlickerAq?
         /// Framerate denominator.
         /// This member is required.
@@ -17499,8 +18227,12 @@ extension MediaLiveClientTypes {
         /// Framerate numerator - framerate is a fraction, e.g. 24000 / 1001 = 23.976 fps.
         /// This member is required.
         public var framerateNumerator: Swift.Int?
+        /// Allows the encoder to use a B-Frame as a reference frame as well. ENABLED: B-frames will also serve as reference frames. DISABLED: B-frames won't be reference frames. Must be DISABLED if resolution is greater than 1080p or when using tiled hevc encoding.
+        public var gopBReference: MediaLiveClientTypes.H265GopBReference?
         /// Frequency of closed GOPs. In streaming applications, it is recommended that this be set to 1 so a decoder joining mid-stream will receive an IDR frame as quickly as possible. Setting this value to 0 will break output segmenting.
         public var gopClosedCadence: Swift.Int?
+        /// Sets the number of B-frames between reference frames. Set to 2 if resolution is greater than 1080p or when using tiled hevc encoding.
+        public var gopNumBFrames: Swift.Int?
         /// GOP size (keyframe interval) in units of either frames or seconds per gopSizeUnits. If gopSizeUnits is frames, gopSize must be an integer and must be greater than or equal to 1. If gopSizeUnits is seconds, gopSize must be greater than 0, but need not be an integer.
         public var gopSize: Swift.Double?
         /// Indicates if the gopSize is specified in frames or seconds. If seconds the system will convert the gopSize into a frame count at run time.
@@ -17511,6 +18243,8 @@ extension MediaLiveClientTypes {
         public var lookAheadRateControl: MediaLiveClientTypes.H265LookAheadRateControl?
         /// For QVBR: See the tooltip for Quality level
         public var maxBitrate: Swift.Int?
+        /// Used for QVBR rate control mode only. Optional. Enter a minimum bitrate if you want to keep the output bitrate about a threshold, in order to prevent the downstream system from de-allocating network bandwidth for this output.
+        public var minBitrate: Swift.Int?
         /// Only meaningful if sceneChangeDetect is set to enabled. Defaults to 5 if multiplex rate control is used. Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public var minIInterval: Swift.Int?
         /// Sets the minimum QP. If you aren't familiar with quantization adjustment, leave the field empty. MediaLive will apply an appropriate value.
@@ -17541,6 +18275,8 @@ extension MediaLiveClientTypes {
         public var sceneChangeDetect: MediaLiveClientTypes.H265SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures. This field is optional; when no value is specified the encoder will choose the number of slices based on encode resolution.
         public var slices: Swift.Int?
+        /// Sets the number of B-frames in each sub-GOP. FIXED: Use the value in Num B-frames. DYNAMIC: Optimizes the number of B-frames in each sub-GOP to improve visual quality. Must be FIXED if resolution is greater than 1080p or when using tiled hevc encoding.
+        public var subgopLength: MediaLiveClientTypes.H265SubGopLength?
         /// H.265 Tier.
         public var tier: MediaLiveClientTypes.H265Tier?
         /// Set this field to set up the picture as a tile. You must also set tileWidth. The tile height must result in 22 or fewer rows in the frame. The tile width must result in 20 or fewer columns in the frame. And finally, the product of the column count and row count must be 64 of less. If the tile width and height are specified, MediaLive will override the video codec slices field with a value that MediaLive calculates
@@ -17574,12 +18310,15 @@ extension MediaLiveClientTypes {
             flickerAq: MediaLiveClientTypes.H265FlickerAq? = nil,
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
+            gopBReference: MediaLiveClientTypes.H265GopBReference? = nil,
             gopClosedCadence: Swift.Int? = nil,
+            gopNumBFrames: Swift.Int? = nil,
             gopSize: Swift.Double? = nil,
             gopSizeUnits: MediaLiveClientTypes.H265GopSizeUnits? = nil,
             level: MediaLiveClientTypes.H265Level? = nil,
             lookAheadRateControl: MediaLiveClientTypes.H265LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
+            minBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
             minQp: Swift.Int? = nil,
             mvOverPictureBoundaries: MediaLiveClientTypes.H265MvOverPictureBoundaries? = nil,
@@ -17592,6 +18331,7 @@ extension MediaLiveClientTypes {
             scanType: MediaLiveClientTypes.H265ScanType? = nil,
             sceneChangeDetect: MediaLiveClientTypes.H265SceneChangeDetect? = nil,
             slices: Swift.Int? = nil,
+            subgopLength: MediaLiveClientTypes.H265SubGopLength? = nil,
             tier: MediaLiveClientTypes.H265Tier? = nil,
             tileHeight: Swift.Int? = nil,
             tilePadding: MediaLiveClientTypes.H265TilePadding? = nil,
@@ -17613,12 +18353,15 @@ extension MediaLiveClientTypes {
             self.flickerAq = flickerAq
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+            self.gopBReference = gopBReference
             self.gopClosedCadence = gopClosedCadence
+            self.gopNumBFrames = gopNumBFrames
             self.gopSize = gopSize
             self.gopSizeUnits = gopSizeUnits
             self.level = level
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
+            self.minBitrate = minBitrate
             self.minIInterval = minIInterval
             self.minQp = minQp
             self.mvOverPictureBoundaries = mvOverPictureBoundaries
@@ -17631,6 +18374,7 @@ extension MediaLiveClientTypes {
             self.scanType = scanType
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.subgopLength = subgopLength
             self.tier = tier
             self.tileHeight = tileHeight
             self.tilePadding = tilePadding
@@ -19300,10 +20044,46 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Pipeline Locking Method
+    public enum PipelineLockingMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sourceTimecode
+        case videoAlignment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipelineLockingMethod] {
+            return [
+                .sourceTimecode,
+                .videoAlignment
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sourceTimecode: return "SOURCE_TIMECODE"
+            case .videoAlignment: return "VIDEO_ALIGNMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Pipeline Locking Settings
     public struct PipelineLockingSettings: Swift.Sendable {
+        /// The method to use to lock the video frames in the pipelines. sourceTimecode (default): Use the timecode in the source. videoAlignment: Lock frames that the encoder identifies as having matching content. If videoAlignment is selected, existing timecodes will not be used for any locking decisions.
+        public var pipelineLockingMethod: MediaLiveClientTypes.PipelineLockingMethod?
 
-        public init() { }
+        public init(
+            pipelineLockingMethod: MediaLiveClientTypes.PipelineLockingMethod? = nil
+        ) {
+            self.pipelineLockingMethod = pipelineLockingMethod
+        }
     }
 }
 
@@ -19744,6 +20524,8 @@ extension MediaLiveClientTypes {
         public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
         /// Specification of network and file inputs for this channel
         public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+        /// Linked Channel Settings for this channel.
+        public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
         /// The log level being written to CloudWatch Logs.
         public var logLevel: MediaLiveClientTypes.LogLevel?
         /// Maintenance settings for this channel.
@@ -19775,6 +20557,7 @@ extension MediaLiveClientTypes {
             id: Swift.String? = nil,
             inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
             inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+            linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
             logLevel: MediaLiveClientTypes.LogLevel? = nil,
             maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
             name: Swift.String? = nil,
@@ -19796,6 +20579,7 @@ extension MediaLiveClientTypes {
             self.id = id
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
+            self.linkedChannelSettings = linkedChannelSettings
             self.logLevel = logLevel
             self.maintenance = maintenance
             self.name = name
@@ -19909,6 +20693,59 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Settings for a follower channel in a linked pair
+    public struct FollowerChannelSettings: Swift.Sendable {
+        /// Specifies this as a follower channel
+        public var linkedChannelType: MediaLiveClientTypes.LinkedChannelType?
+        /// The ARN of the primary channel to follow
+        public var primaryChannelArn: Swift.String?
+
+        public init(
+            linkedChannelType: MediaLiveClientTypes.LinkedChannelType? = nil,
+            primaryChannelArn: Swift.String? = nil
+        ) {
+            self.linkedChannelType = linkedChannelType
+            self.primaryChannelArn = primaryChannelArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Settings for a primary (leader) channel in a linked pair
+    public struct PrimaryChannelSettings: Swift.Sendable {
+        /// Specifies this as a primary channel
+        public var linkedChannelType: MediaLiveClientTypes.LinkedChannelType?
+
+        public init(
+            linkedChannelType: MediaLiveClientTypes.LinkedChannelType? = nil
+        ) {
+            self.linkedChannelType = linkedChannelType
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Configuration for linked channel relationships
+    public struct LinkedChannelSettings: Swift.Sendable {
+        /// Settings for a follower channel in a linked pair
+        public var followerChannelSettings: MediaLiveClientTypes.FollowerChannelSettings?
+        /// Settings for a primary (leader) channel in a linked pair
+        public var primaryChannelSettings: MediaLiveClientTypes.PrimaryChannelSettings?
+
+        public init(
+            followerChannelSettings: MediaLiveClientTypes.FollowerChannelSettings? = nil,
+            primaryChannelSettings: MediaLiveClientTypes.PrimaryChannelSettings? = nil
+        ) {
+            self.followerChannelSettings = followerChannelSettings
+            self.primaryChannelSettings = primaryChannelSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Placeholder documentation for MaintenanceCreateSettings
     public struct MaintenanceCreateSettings: Swift.Sendable {
         /// Choose one day of the week for maintenance. The chosen day is used for all future maintenance windows.
@@ -19970,6 +20807,8 @@ public struct CreateChannelInput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// The linked channel settings for the channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings?
     /// The log level to write to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -19998,6 +20837,7 @@ public struct CreateChannelInput: Swift.Sendable {
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceCreateSettings? = nil,
         name: Swift.String? = nil,
@@ -20016,6 +20856,7 @@ public struct CreateChannelInput: Swift.Sendable {
         self.encoderSettings = encoderSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -20552,6 +21393,29 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// This is the collection of settings that are used during the creation of a MediaConnect router input.
+    public struct RouterSettings: Swift.Sendable {
+        /// Destinations for the input from MediaConnect Router. Provide one for a single-pipeline input and two for a standard input.
+        public var destinations: [MediaLiveClientTypes.RouterDestinationSettings]?
+        /// Encryption configuration for MediaConnect router. When using SECRETS_MANAGER encryption, you must provide the ARN of the secret used to encrypt data in transit. When using AUTOMATIC encryption, a service-managed secret will be used instead.
+        public var encryptionType: MediaLiveClientTypes.RouterEncryptionType?
+        /// ARN of the secret used to encrypt this input.
+        public var secretArn: Swift.String?
+
+        public init(
+            destinations: [MediaLiveClientTypes.RouterDestinationSettings]? = nil,
+            encryptionType: MediaLiveClientTypes.RouterEncryptionType? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.destinations = destinations
+            self.encryptionType = encryptionType
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Configures the sources for this SRT input. For a single-pipeline input, include one srtCallerSource in the array. For a standard-pipeline input, include two srtCallerSource.
     public struct SrtSettingsRequest: Swift.Sendable {
         /// Placeholder documentation for __listOfSrtCallerSourceRequest
@@ -20605,6 +21469,8 @@ public struct CreateInputInput: Swift.Sendable {
     public var requestId: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// This is the collection of settings that are used during the creation of a MediaConnect router input.
+    public var routerSettings: MediaLiveClientTypes.RouterSettings?
     /// SDI Sources for this Input.
     public var sdiSources: [Swift.String]?
     /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
@@ -20630,6 +21496,7 @@ public struct CreateInputInput: Swift.Sendable {
         name: Swift.String? = nil,
         requestId: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        routerSettings: MediaLiveClientTypes.RouterSettings? = nil,
         sdiSources: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
@@ -20647,6 +21514,7 @@ public struct CreateInputInput: Swift.Sendable {
         self.name = name
         self.requestId = requestId
         self.roleArn = roleArn
+        self.routerSettings = routerSettings
         self.sdiSources = sdiSources
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
@@ -21641,6 +22509,8 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -21672,6 +22542,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         name: Swift.String? = nil,
@@ -21693,6 +22564,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -22355,6 +23227,8 @@ public struct DescribeChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -22386,6 +23260,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         name: Swift.String? = nil,
@@ -22407,6 +23282,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -22567,6 +23443,8 @@ public struct DescribeInputOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
     public var roleArn: Swift.String?
+    /// Information about any MediaConnect router association with this input.
+    public var routerSettings: MediaLiveClientTypes.RouterInputSettings?
     /// SDI Sources for this Input.
     public var sdiSources: [Swift.String]?
     /// A list of IDs for all the Input Security Groups attached to the input.
@@ -22598,6 +23476,7 @@ public struct DescribeInputOutput: Swift.Sendable {
         multicastSettings: MediaLiveClientTypes.MulticastSettings? = nil,
         name: Swift.String? = nil,
         roleArn: Swift.String? = nil,
+        routerSettings: MediaLiveClientTypes.RouterInputSettings? = nil,
         sdiSources: [Swift.String]? = nil,
         securityGroups: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
@@ -22620,6 +23499,7 @@ public struct DescribeInputOutput: Swift.Sendable {
         self.multicastSettings = multicastSettings
         self.name = name
         self.roleArn = roleArn
+        self.routerSettings = routerSettings
         self.sdiSources = sdiSources
         self.securityGroups = securityGroups
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
@@ -23699,6 +24579,47 @@ extension MediaLiveClientTypes {
     }
 }
 
+/// Placeholder documentation for ListAlertsRequest
+public struct ListAlertsInput: Swift.Sendable {
+    /// The unique ID of the channel
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// The maximum number of items to return
+    public var maxResults: Swift.Int?
+    /// The next pagination token
+    public var nextToken: Swift.String?
+    /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    public var stateFilter: Swift.String?
+
+    public init(
+        channelId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stateFilter: Swift.String? = nil
+    ) {
+        self.channelId = channelId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stateFilter = stateFilter
+    }
+}
+
+/// Placeholder documentation for ListAlertsResponse
+public struct ListAlertsOutput: Swift.Sendable {
+    /// The alerts found for this channel
+    public var alerts: [MediaLiveClientTypes.ChannelAlert]?
+    /// The token to use to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        alerts: [MediaLiveClientTypes.ChannelAlert]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alerts = alerts
+        self.nextToken = nextToken
+    }
+}
+
 /// Placeholder documentation for ListChannelPlacementGroupsRequest
 public struct ListChannelPlacementGroupsInput: Swift.Sendable {
     /// The ID of the cluster
@@ -23848,6 +24769,47 @@ public struct ListCloudWatchAlarmTemplatesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.cloudWatchAlarmTemplates = cloudWatchAlarmTemplates
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListClusterAlertsRequest
+public struct ListClusterAlertsInput: Swift.Sendable {
+    /// The unique ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The maximum number of items to return
+    public var maxResults: Swift.Int?
+    /// The next pagination token
+    public var nextToken: Swift.String?
+    /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    public var stateFilter: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stateFilter: Swift.String? = nil
+    ) {
+        self.clusterId = clusterId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stateFilter = stateFilter
+    }
+}
+
+/// Placeholder documentation for ListClusterAlertsResponse
+public struct ListClusterAlertsOutput: Swift.Sendable {
+    /// The alerts found for this cluster
+    public var alerts: [MediaLiveClientTypes.ClusterAlert]?
+    /// The token to use to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        alerts: [MediaLiveClientTypes.ClusterAlert]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alerts = alerts
         self.nextToken = nextToken
     }
 }
@@ -24089,6 +25051,47 @@ public struct ListInputSecurityGroupsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.inputSecurityGroups = inputSecurityGroups
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListMultiplexAlertsRequest
+public struct ListMultiplexAlertsInput: Swift.Sendable {
+    /// The maximum number of items to return
+    public var maxResults: Swift.Int?
+    /// The unique ID of the multiplex
+    /// This member is required.
+    public var multiplexId: Swift.String?
+    /// The next pagination token
+    public var nextToken: Swift.String?
+    /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    public var stateFilter: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        multiplexId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        stateFilter: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.multiplexId = multiplexId
+        self.nextToken = nextToken
+        self.stateFilter = stateFilter
+    }
+}
+
+/// Placeholder documentation for ListMultiplexAlertsResponse
+public struct ListMultiplexAlertsOutput: Swift.Sendable {
+    /// The alerts found for this multiplex
+    public var alerts: [MediaLiveClientTypes.MultiplexAlert]?
+    /// The token to use to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        alerts: [MediaLiveClientTypes.MultiplexAlert]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alerts = alerts
         self.nextToken = nextToken
     }
 }
@@ -24668,6 +25671,8 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -24701,6 +25706,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         maintenanceStatus: Swift.String? = nil,
@@ -24723,6 +25729,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.maintenanceStatus = maintenanceStatus
@@ -24773,6 +25780,8 @@ public struct StartChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -24804,6 +25813,7 @@ public struct StartChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         name: Swift.String? = nil,
@@ -24825,6 +25835,7 @@ public struct StartChannelOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -25280,6 +26291,8 @@ public struct StopChannelOutput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// Linked Channel Settings for this channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings?
     /// The log level being written to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -25311,6 +26324,7 @@ public struct StopChannelOutput: Swift.Sendable {
         id: Swift.String? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.DescribeLinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
         name: Swift.String? = nil,
@@ -25332,6 +26346,7 @@ public struct StopChannelOutput: Swift.Sendable {
         self.id = id
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -25500,6 +26515,8 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
     /// Specification of network and file inputs for this channel
     public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// The linked channel settings for the channel.
+    public var linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings?
     /// The log level to write to CloudWatch Logs.
     public var logLevel: MediaLiveClientTypes.LogLevel?
     /// Maintenance settings for this channel.
@@ -25519,6 +26536,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
         inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
         inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        linkedChannelSettings: MediaLiveClientTypes.LinkedChannelSettings? = nil,
         logLevel: MediaLiveClientTypes.LogLevel? = nil,
         maintenance: MediaLiveClientTypes.MaintenanceUpdateSettings? = nil,
         name: Swift.String? = nil,
@@ -25533,6 +26551,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         self.encoderSettings = encoderSettings
         self.inputAttachments = inputAttachments
         self.inputSpecification = inputSpecification
+        self.linkedChannelSettings = linkedChannelSettings
         self.logLevel = logLevel
         self.maintenance = maintenance
         self.name = name
@@ -26044,6 +27063,21 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes {
+
+    /// When using MediaConnect Router as the source of a MediaLive input there's a special handoff that occurs when a router output is created. This group of settings is set on your behalf by the MediaConnect Router service using this set of settings. This setting object can only by used by that service.
+    public struct SpecialRouterSettings: Swift.Sendable {
+        /// This is the arn of the MediaConnect Router resource being associated with the MediaLive Input.
+        public var routerArn: Swift.String?
+
+        public init(
+            routerArn: Swift.String? = nil
+        ) {
+            self.routerArn = routerArn
+        }
+    }
+}
+
 /// A request to update an input.
 public struct UpdateInputInput: Swift.Sendable {
     /// Destination settings for PUSH type inputs.
@@ -26069,6 +27103,8 @@ public struct UpdateInputInput: Swift.Sendable {
     public var smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings?
     /// The source URLs for a PULL-type input. Every PULL type input needs exactly two source URLs for redundancy. Only specify sources for PULL type Inputs. Leave Destinations empty.
     public var sources: [MediaLiveClientTypes.InputSourceRequest]?
+    /// When using MediaConnect Router as the source of a MediaLive input there's a special handoff that occurs when a router output is created. This group of settings is set on your behalf by the MediaConnect Router service using this set of settings. This setting object can only by used by that service.
+    public var specialRouterSettings: MediaLiveClientTypes.SpecialRouterSettings?
     /// The settings associated with an SRT input.
     public var srtSettings: MediaLiveClientTypes.SrtSettingsRequest?
 
@@ -26084,6 +27120,7 @@ public struct UpdateInputInput: Swift.Sendable {
         sdiSources: [Swift.String]? = nil,
         smpte2110ReceiverGroupSettings: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings? = nil,
         sources: [MediaLiveClientTypes.InputSourceRequest]? = nil,
+        specialRouterSettings: MediaLiveClientTypes.SpecialRouterSettings? = nil,
         srtSettings: MediaLiveClientTypes.SrtSettingsRequest? = nil
     ) {
         self.destinations = destinations
@@ -26097,6 +27134,7 @@ public struct UpdateInputInput: Swift.Sendable {
         self.sdiSources = sdiSources
         self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
         self.sources = sources
+        self.specialRouterSettings = specialRouterSettings
         self.srtSettings = srtSettings
     }
 }
@@ -27339,6 +28377,36 @@ extension GetSignalMapInput {
     }
 }
 
+extension ListAlertsInput {
+
+    static func urlPathProvider(_ value: ListAlertsInput) -> Swift.String? {
+        guard let channelId = value.channelId else {
+            return nil
+        }
+        return "/prod/channels/\(channelId.urlPercentEncoding())/alerts"
+    }
+}
+
+extension ListAlertsInput {
+
+    static func queryItemProvider(_ value: ListAlertsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let stateFilter = value.stateFilter {
+            let stateFilterQueryItem = Smithy.URIQueryItem(name: "stateFilter".urlPercentEncoding(), value: Swift.String(stateFilter).urlPercentEncoding())
+            items.append(stateFilterQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListChannelPlacementGroupsInput {
 
     static func urlPathProvider(_ value: ListChannelPlacementGroupsInput) -> Swift.String? {
@@ -27449,6 +28517,36 @@ extension ListCloudWatchAlarmTemplatesInput {
         if let groupIdentifier = value.groupIdentifier {
             let groupIdentifierQueryItem = Smithy.URIQueryItem(name: "groupIdentifier".urlPercentEncoding(), value: Swift.String(groupIdentifier).urlPercentEncoding())
             items.append(groupIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListClusterAlertsInput {
+
+    static func urlPathProvider(_ value: ListClusterAlertsInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/alerts"
+    }
+}
+
+extension ListClusterAlertsInput {
+
+    static func queryItemProvider(_ value: ListClusterAlertsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let stateFilter = value.stateFilter {
+            let stateFilterQueryItem = Smithy.URIQueryItem(name: "stateFilter".urlPercentEncoding(), value: Swift.String(stateFilter).urlPercentEncoding())
+            items.append(stateFilterQueryItem)
         }
         return items
     }
@@ -27628,6 +28726,36 @@ extension ListInputSecurityGroupsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListMultiplexAlertsInput {
+
+    static func urlPathProvider(_ value: ListMultiplexAlertsInput) -> Swift.String? {
+        guard let multiplexId = value.multiplexId else {
+            return nil
+        }
+        return "/prod/multiplexes/\(multiplexId.urlPercentEncoding())/alerts"
+    }
+}
+
+extension ListMultiplexAlertsInput {
+
+    static func queryItemProvider(_ value: ListMultiplexAlertsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let stateFilter = value.stateFilter {
+            let stateFilterQueryItem = Smithy.URIQueryItem(name: "stateFilter".urlPercentEncoding(), value: Swift.String(stateFilter).urlPercentEncoding())
+            items.append(stateFilterQueryItem)
         }
         return items
     }
@@ -28328,6 +29456,7 @@ extension CreateChannelInput {
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
+        try writer["linkedChannelSettings"].write(value.linkedChannelSettings, with: MediaLiveClientTypes.LinkedChannelSettings.write(value:to:))
         try writer["logLevel"].write(value.logLevel)
         try writer["maintenance"].write(value.maintenance, with: MediaLiveClientTypes.MaintenanceCreateSettings.write(value:to:))
         try writer["name"].write(value.name)
@@ -28433,6 +29562,7 @@ extension CreateInputInput {
         try writer["name"].write(value.name)
         try writer["requestId"].write(value.requestId)
         try writer["roleArn"].write(value.roleArn)
+        try writer["routerSettings"].write(value.routerSettings, with: MediaLiveClientTypes.RouterSettings.write(value:to:))
         try writer["sdiSources"].writeList(value.sdiSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["smpte2110ReceiverGroupSettings"].write(value.smpte2110ReceiverGroupSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -28633,6 +29763,7 @@ extension UpdateChannelInput {
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
         try writer["inputAttachments"].writeList(value.inputAttachments, memberWritingClosure: MediaLiveClientTypes.InputAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["inputSpecification"].write(value.inputSpecification, with: MediaLiveClientTypes.InputSpecification.write(value:to:))
+        try writer["linkedChannelSettings"].write(value.linkedChannelSettings, with: MediaLiveClientTypes.LinkedChannelSettings.write(value:to:))
         try writer["logLevel"].write(value.logLevel)
         try writer["maintenance"].write(value.maintenance, with: MediaLiveClientTypes.MaintenanceUpdateSettings.write(value:to:))
         try writer["name"].write(value.name)
@@ -28728,6 +29859,7 @@ extension UpdateInputInput {
         try writer["sdiSources"].writeList(value.sdiSources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["smpte2110ReceiverGroupSettings"].write(value.smpte2110ReceiverGroupSettings, with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.write(value:to:))
         try writer["sources"].writeList(value.sources, memberWritingClosure: MediaLiveClientTypes.InputSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["specialRouterSettings"].write(value.specialRouterSettings, with: MediaLiveClientTypes.SpecialRouterSettings.write(value:to:))
         try writer["srtSettings"].write(value.srtSettings, with: MediaLiveClientTypes.SrtSettingsRequest.write(value:to:))
     }
 }
@@ -29202,6 +30334,7 @@ extension DeleteChannelOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -29464,6 +30597,7 @@ extension DescribeChannelOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -29534,6 +30668,7 @@ extension DescribeInputOutput {
         value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
         value.name = try reader["name"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
+        value.routerSettings = try reader["routerSettings"].readIfPresent(with: MediaLiveClientTypes.RouterInputSettings.read(from:))
         value.sdiSources = try reader["sdiSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.smpte2110ReceiverGroupSettings = try reader["smpte2110ReceiverGroupSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.read(from:))
@@ -29898,6 +31033,19 @@ extension GetSignalMapOutput {
     }
 }
 
+extension ListAlertsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAlertsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAlertsOutput()
+        value.alerts = try reader["alerts"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelAlert.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListChannelPlacementGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChannelPlacementGroupsOutput {
@@ -29945,6 +31093,19 @@ extension ListCloudWatchAlarmTemplatesOutput {
         let reader = responseReader
         var value = ListCloudWatchAlarmTemplatesOutput()
         value.cloudWatchAlarmTemplates = try reader["cloudWatchAlarmTemplates"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.CloudWatchAlarmTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListClusterAlertsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClusterAlertsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListClusterAlertsOutput()
+        value.alerts = try reader["alerts"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ClusterAlert.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -30036,6 +31197,19 @@ extension ListInputSecurityGroupsOutput {
         let reader = responseReader
         var value = ListInputSecurityGroupsOutput()
         value.inputSecurityGroups = try reader["inputSecurityGroups"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputSecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListMultiplexAlertsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMultiplexAlertsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMultiplexAlertsOutput()
+        value.alerts = try reader["alerts"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MultiplexAlert.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -30213,6 +31387,7 @@ extension RestartChannelPipelinesOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.maintenanceStatus = try reader["maintenanceStatus"].readIfPresent()
@@ -30245,6 +31420,7 @@ extension StartChannelOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -30398,6 +31574,7 @@ extension StopChannelOutput {
         value.id = try reader["id"].readIfPresent()
         value.inputAttachments = try reader["inputAttachments"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.inputSpecification = try reader["inputSpecification"].readIfPresent(with: MediaLiveClientTypes.InputSpecification.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         value.logLevel = try reader["logLevel"].readIfPresent()
         value.maintenance = try reader["maintenance"].readIfPresent(with: MediaLiveClientTypes.MaintenanceStatus.read(from:))
         value.name = try reader["name"].readIfPresent()
@@ -32057,6 +33234,26 @@ enum GetSignalMapOutputError {
     }
 }
 
+enum ListAlertsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListChannelPlacementGroupsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32123,6 +33320,26 @@ enum ListCloudWatchAlarmTemplatesOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListClusterAlertsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -32257,6 +33474,26 @@ enum ListInputSecurityGroupsOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListMultiplexAlertsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -33956,6 +35193,40 @@ extension MediaLiveClientTypes.Channel {
         value.vpc = try reader["vpc"].readIfPresent(with: MediaLiveClientTypes.VpcOutputSettingsDescription.read(from:))
         value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribeLinkedChannelSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeLinkedChannelSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeLinkedChannelSettings()
+        value.followerChannelSettings = try reader["followerChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeFollowerChannelSettings.read(from:))
+        value.primaryChannelSettings = try reader["primaryChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribePrimaryChannelSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribePrimaryChannelSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribePrimaryChannelSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribePrimaryChannelSettings()
+        value.followingChannelArns = try reader["followingChannelArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linkedChannelType = try reader["linkedChannelType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DescribeFollowerChannelSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeFollowerChannelSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DescribeFollowerChannelSettings()
+        value.linkedChannelType = try reader["linkedChannelType"].readIfPresent()
+        value.primaryChannelArn = try reader["primaryChannelArn"].readIfPresent()
         return value
     }
 }
@@ -34835,12 +36106,15 @@ extension MediaLiveClientTypes.Av1Settings {
         try writer["level"].write(value.level)
         try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
         try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["minBitrate"].write(value.minBitrate)
         try writer["minIInterval"].write(value.minIInterval)
         try writer["parDenominator"].write(value.parDenominator)
         try writer["parNumerator"].write(value.parNumerator)
         try writer["qvbrQualityLevel"].write(value.qvbrQualityLevel)
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
+        try writer["spatialAq"].write(value.spatialAq)
+        try writer["temporalAq"].write(value.temporalAq)
         try writer["timecodeBurninSettings"].write(value.timecodeBurninSettings, with: MediaLiveClientTypes.TimecodeBurninSettings.write(value:to:))
     }
 
@@ -34866,6 +36140,9 @@ extension MediaLiveClientTypes.Av1Settings {
         value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
+        value.minBitrate = try reader["minBitrate"].readIfPresent()
+        value.spatialAq = try reader["spatialAq"].readIfPresent()
+        value.temporalAq = try reader["temporalAq"].readIfPresent()
         return value
     }
 }
@@ -35045,12 +36322,15 @@ extension MediaLiveClientTypes.H265Settings {
         try writer["flickerAq"].write(value.flickerAq)
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
+        try writer["gopBReference"].write(value.gopBReference)
         try writer["gopClosedCadence"].write(value.gopClosedCadence)
+        try writer["gopNumBFrames"].write(value.gopNumBFrames)
         try writer["gopSize"].write(value.gopSize)
         try writer["gopSizeUnits"].write(value.gopSizeUnits)
         try writer["level"].write(value.level)
         try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
         try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["minBitrate"].write(value.minBitrate)
         try writer["minIInterval"].write(value.minIInterval)
         try writer["minQp"].write(value.minQp)
         try writer["mvOverPictureBoundaries"].write(value.mvOverPictureBoundaries)
@@ -35063,6 +36343,7 @@ extension MediaLiveClientTypes.H265Settings {
         try writer["scanType"].write(value.scanType)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
         try writer["slices"].write(value.slices)
+        try writer["subgopLength"].write(value.subgopLength)
         try writer["tier"].write(value.tier)
         try writer["tileHeight"].write(value.tileHeight)
         try writer["tilePadding"].write(value.tilePadding)
@@ -35113,6 +36394,10 @@ extension MediaLiveClientTypes.H265Settings {
         value.treeblockSize = try reader["treeblockSize"].readIfPresent()
         value.minQp = try reader["minQp"].readIfPresent()
         value.deblocking = try reader["deblocking"].readIfPresent()
+        value.gopBReference = try reader["gopBReference"].readIfPresent()
+        value.gopNumBFrames = try reader["gopNumBFrames"].readIfPresent()
+        value.minBitrate = try reader["minBitrate"].readIfPresent()
+        value.subgopLength = try reader["subgopLength"].readIfPresent()
         return value
     }
 }
@@ -35158,6 +36443,7 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings {
         try writer["colorSpacePassthroughSettings"].write(value.colorSpacePassthroughSettings, with: MediaLiveClientTypes.ColorSpacePassthroughSettings.write(value:to:))
         try writer["dolbyVision81Settings"].write(value.dolbyVision81Settings, with: MediaLiveClientTypes.DolbyVision81Settings.write(value:to:))
         try writer["hdr10Settings"].write(value.hdr10Settings, with: MediaLiveClientTypes.Hdr10Settings.write(value:to:))
+        try writer["hlg2020Settings"].write(value.hlg2020Settings, with: MediaLiveClientTypes.Hlg2020Settings.write(value:to:))
         try writer["rec601Settings"].write(value.rec601Settings, with: MediaLiveClientTypes.Rec601Settings.write(value:to:))
         try writer["rec709Settings"].write(value.rec709Settings, with: MediaLiveClientTypes.Rec709Settings.write(value:to:))
     }
@@ -35170,7 +36456,21 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings {
         value.hdr10Settings = try reader["hdr10Settings"].readIfPresent(with: MediaLiveClientTypes.Hdr10Settings.read(from:))
         value.rec601Settings = try reader["rec601Settings"].readIfPresent(with: MediaLiveClientTypes.Rec601Settings.read(from:))
         value.rec709Settings = try reader["rec709Settings"].readIfPresent(with: MediaLiveClientTypes.Rec709Settings.read(from:))
+        value.hlg2020Settings = try reader["hlg2020Settings"].readIfPresent(with: MediaLiveClientTypes.Hlg2020Settings.read(from:))
         return value
+    }
+}
+
+extension MediaLiveClientTypes.Hlg2020Settings {
+
+    static func write(value: MediaLiveClientTypes.Hlg2020Settings?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Hlg2020Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaLiveClientTypes.Hlg2020Settings()
     }
 }
 
@@ -35214,6 +36514,7 @@ extension MediaLiveClientTypes.H264Settings {
         try writer["level"].write(value.level)
         try writer["lookAheadRateControl"].write(value.lookAheadRateControl)
         try writer["maxBitrate"].write(value.maxBitrate)
+        try writer["minBitrate"].write(value.minBitrate)
         try writer["minIInterval"].write(value.minIInterval)
         try writer["minQp"].write(value.minQp)
         try writer["numRefFrames"].write(value.numRefFrames)
@@ -35282,6 +36583,7 @@ extension MediaLiveClientTypes.H264Settings {
         value.timecodeInsertion = try reader["timecodeInsertion"].readIfPresent()
         value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
         value.minQp = try reader["minQp"].readIfPresent()
+        value.minBitrate = try reader["minBitrate"].readIfPresent()
         return value
     }
 }
@@ -35819,13 +37121,36 @@ extension MediaLiveClientTypes.MsSmoothOutputSettings {
 extension MediaLiveClientTypes.MediaPackageOutputSettings {
 
     static func write(value: MediaLiveClientTypes.MediaPackageOutputSettings?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["mediaPackageV2DestinationSettings"].write(value.mediaPackageV2DestinationSettings, with: MediaLiveClientTypes.MediaPackageV2DestinationSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageOutputSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaLiveClientTypes.MediaPackageOutputSettings()
+        var value = MediaLiveClientTypes.MediaPackageOutputSettings()
+        value.mediaPackageV2DestinationSettings = try reader["mediaPackageV2DestinationSettings"].readIfPresent(with: MediaLiveClientTypes.MediaPackageV2DestinationSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MediaPackageV2DestinationSettings {
+
+    static func write(value: MediaLiveClientTypes.MediaPackageV2DestinationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["audioGroupId"].write(value.audioGroupId)
+        try writer["audioRenditionSets"].write(value.audioRenditionSets)
+        try writer["hlsAutoSelect"].write(value.hlsAutoSelect)
+        try writer["hlsDefault"].write(value.hlsDefault)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2DestinationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaPackageV2DestinationSettings()
+        value.audioGroupId = try reader["audioGroupId"].readIfPresent()
+        value.audioRenditionSets = try reader["audioRenditionSets"].readIfPresent()
+        value.hlsAutoSelect = try reader["hlsAutoSelect"].readIfPresent()
+        value.hlsDefault = try reader["hlsDefault"].readIfPresent()
+        return value
     }
 }
 
@@ -36300,12 +37625,83 @@ extension MediaLiveClientTypes.MediaPackageGroupSettings {
     static func write(value: MediaLiveClientTypes.MediaPackageGroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+        try writer["mediapackageV2GroupSettings"].write(value.mediapackageV2GroupSettings, with: MediaLiveClientTypes.MediaPackageV2GroupSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageGroupSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.MediaPackageGroupSettings()
         value.destination = try reader["destination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
+        value.mediapackageV2GroupSettings = try reader["mediapackageV2GroupSettings"].readIfPresent(with: MediaLiveClientTypes.MediaPackageV2GroupSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MediaPackageV2GroupSettings {
+
+    static func write(value: MediaLiveClientTypes.MediaPackageV2GroupSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalDestinations"].writeList(value.additionalDestinations, memberWritingClosure: MediaLiveClientTypes.MediaPackageAdditionalDestinations.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["captionLanguageMappings"].writeList(value.captionLanguageMappings, memberWritingClosure: MediaLiveClientTypes.CaptionLanguageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id3Behavior"].write(value.id3Behavior)
+        try writer["klvBehavior"].write(value.klvBehavior)
+        try writer["nielsenId3Behavior"].write(value.nielsenId3Behavior)
+        try writer["scte35Type"].write(value.scte35Type)
+        try writer["segmentLength"].write(value.segmentLength)
+        try writer["segmentLengthUnits"].write(value.segmentLengthUnits)
+        try writer["timedMetadataId3Frame"].write(value.timedMetadataId3Frame)
+        try writer["timedMetadataId3Period"].write(value.timedMetadataId3Period)
+        try writer["timedMetadataPassthrough"].write(value.timedMetadataPassthrough)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageV2GroupSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaPackageV2GroupSettings()
+        value.captionLanguageMappings = try reader["captionLanguageMappings"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.CaptionLanguageMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id3Behavior = try reader["id3Behavior"].readIfPresent()
+        value.klvBehavior = try reader["klvBehavior"].readIfPresent()
+        value.nielsenId3Behavior = try reader["nielsenId3Behavior"].readIfPresent()
+        value.scte35Type = try reader["scte35Type"].readIfPresent()
+        value.segmentLength = try reader["segmentLength"].readIfPresent()
+        value.segmentLengthUnits = try reader["segmentLengthUnits"].readIfPresent()
+        value.timedMetadataId3Frame = try reader["timedMetadataId3Frame"].readIfPresent()
+        value.timedMetadataId3Period = try reader["timedMetadataId3Period"].readIfPresent()
+        value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
+        value.additionalDestinations = try reader["additionalDestinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MediaPackageAdditionalDestinations.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MediaPackageAdditionalDestinations {
+
+    static func write(value: MediaLiveClientTypes.MediaPackageAdditionalDestinations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageAdditionalDestinations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MediaPackageAdditionalDestinations()
+        value.destination = try reader["destination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.CaptionLanguageMapping {
+
+    static func write(value: MediaLiveClientTypes.CaptionLanguageMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["captionChannel"].write(value.captionChannel)
+        try writer["languageCode"].write(value.languageCode)
+        try writer["languageDescription"].write(value.languageDescription)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CaptionLanguageMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.CaptionLanguageMapping()
+        value.captionChannel = try reader["captionChannel"].readIfPresent() ?? 0
+        value.languageCode = try reader["languageCode"].readIfPresent() ?? ""
+        value.languageDescription = try reader["languageDescription"].readIfPresent() ?? ""
         return value
     }
 }
@@ -36573,25 +37969,6 @@ extension MediaLiveClientTypes.HlsAkamaiSettings {
     }
 }
 
-extension MediaLiveClientTypes.CaptionLanguageMapping {
-
-    static func write(value: MediaLiveClientTypes.CaptionLanguageMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["captionChannel"].write(value.captionChannel)
-        try writer["languageCode"].write(value.languageCode)
-        try writer["languageDescription"].write(value.languageDescription)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.CaptionLanguageMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaLiveClientTypes.CaptionLanguageMapping()
-        value.captionChannel = try reader["captionChannel"].readIfPresent() ?? 0
-        value.languageCode = try reader["languageCode"].readIfPresent() ?? ""
-        value.languageDescription = try reader["languageDescription"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension MediaLiveClientTypes.FrameCaptureGroupSettings {
 
     static func write(value: MediaLiveClientTypes.FrameCaptureGroupSettings?, to writer: SmithyJSON.Writer) throws {
@@ -36797,13 +38174,15 @@ extension MediaLiveClientTypes.OutputLockingSettings {
 extension MediaLiveClientTypes.PipelineLockingSettings {
 
     static func write(value: MediaLiveClientTypes.PipelineLockingSettings?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["pipelineLockingMethod"].write(value.pipelineLockingMethod)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.PipelineLockingSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MediaLiveClientTypes.PipelineLockingSettings()
+        var value = MediaLiveClientTypes.PipelineLockingSettings()
+        value.pipelineLockingMethod = try reader["pipelineLockingMethod"].readIfPresent()
+        return value
     }
 }
 
@@ -37825,9 +39204,11 @@ extension MediaLiveClientTypes.MediaPackageOutputDestinationSettings {
 
     static func write(value: MediaLiveClientTypes.MediaPackageOutputDestinationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["channelEndpointId"].write(value.channelEndpointId)
         try writer["channelGroup"].write(value.channelGroup)
         try writer["channelId"].write(value.channelId)
         try writer["channelName"].write(value.channelName)
+        try writer["mediaPackageRegionName"].write(value.mediaPackageRegionName)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MediaPackageOutputDestinationSettings {
@@ -37836,6 +39217,8 @@ extension MediaLiveClientTypes.MediaPackageOutputDestinationSettings {
         value.channelId = try reader["channelId"].readIfPresent()
         value.channelGroup = try reader["channelGroup"].readIfPresent()
         value.channelName = try reader["channelName"].readIfPresent()
+        value.channelEndpointId = try reader["channelEndpointId"].readIfPresent()
+        value.mediaPackageRegionName = try reader["mediaPackageRegionName"].readIfPresent()
         return value
     }
 }
@@ -37918,6 +39301,30 @@ extension MediaLiveClientTypes.Input {
         value.multicastSettings = try reader["multicastSettings"].readIfPresent(with: MediaLiveClientTypes.MulticastSettings.read(from:))
         value.smpte2110ReceiverGroupSettings = try reader["smpte2110ReceiverGroupSettings"].readIfPresent(with: MediaLiveClientTypes.Smpte2110ReceiverGroupSettings.read(from:))
         value.sdiSources = try reader["sdiSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.routerSettings = try reader["routerSettings"].readIfPresent(with: MediaLiveClientTypes.RouterInputSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.RouterInputSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.RouterInputSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.RouterInputSettings()
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.RouterDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.RouterDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.RouterDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.RouterDestination()
+        value.availabilityZoneName = try reader["availabilityZoneName"].readIfPresent()
+        value.routerOutputArn = try reader["routerOutputArn"].readIfPresent()
         return value
     }
 }
@@ -38614,6 +40021,22 @@ extension MediaLiveClientTypes.Thumbnail {
     }
 }
 
+extension MediaLiveClientTypes.ChannelAlert {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ChannelAlert {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.ChannelAlert()
+        value.alertType = try reader["alertType"].readIfPresent()
+        value.clearedTimestamp = try reader["clearedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.pipelineId = try reader["pipelineId"].readIfPresent()
+        value.setTimestamp = try reader["setTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.DescribeChannelPlacementGroupSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeChannelPlacementGroupSummary {
@@ -38654,6 +40077,7 @@ extension MediaLiveClientTypes.ChannelSummary {
         value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.usedChannelEngineVersions = try reader["usedChannelEngineVersions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
         return value
     }
 }
@@ -38697,6 +40121,23 @@ extension MediaLiveClientTypes.CloudWatchAlarmTemplateSummary {
         value.targetResourceType = try reader["targetResourceType"].readIfPresent() ?? .sdkUnknown("")
         value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
         value.treatMissingData = try reader["treatMissingData"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.ClusterAlert {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ClusterAlert {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.ClusterAlert()
+        value.alertType = try reader["alertType"].readIfPresent()
+        value.channelId = try reader["channelId"].readIfPresent()
+        value.clearedTimestamp = try reader["clearedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.nodeId = try reader["nodeId"].readIfPresent()
+        value.setTimestamp = try reader["setTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -38788,6 +40229,22 @@ extension MediaLiveClientTypes.TransferringInputDeviceSummary {
         value.message = try reader["message"].readIfPresent()
         value.targetCustomerId = try reader["targetCustomerId"].readIfPresent()
         value.transferType = try reader["transferType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MultiplexAlert {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MultiplexAlert {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MultiplexAlert()
+        value.alertType = try reader["alertType"].readIfPresent()
+        value.clearedTimestamp = try reader["clearedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.pipelineId = try reader["pipelineId"].readIfPresent()
+        value.setTimestamp = try reader["setTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -39013,6 +40470,32 @@ extension MediaLiveClientTypes.ChannelEngineVersionRequest {
     }
 }
 
+extension MediaLiveClientTypes.LinkedChannelSettings {
+
+    static func write(value: MediaLiveClientTypes.LinkedChannelSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["followerChannelSettings"].write(value.followerChannelSettings, with: MediaLiveClientTypes.FollowerChannelSettings.write(value:to:))
+        try writer["primaryChannelSettings"].write(value.primaryChannelSettings, with: MediaLiveClientTypes.PrimaryChannelSettings.write(value:to:))
+    }
+}
+
+extension MediaLiveClientTypes.PrimaryChannelSettings {
+
+    static func write(value: MediaLiveClientTypes.PrimaryChannelSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["linkedChannelType"].write(value.linkedChannelType)
+    }
+}
+
+extension MediaLiveClientTypes.FollowerChannelSettings {
+
+    static func write(value: MediaLiveClientTypes.FollowerChannelSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["linkedChannelType"].write(value.linkedChannelType)
+        try writer["primaryChannelArn"].write(value.primaryChannelArn)
+    }
+}
+
 extension MediaLiveClientTypes.ClusterNetworkSettingsCreateRequest {
 
     static func write(value: MediaLiveClientTypes.ClusterNetworkSettingsCreateRequest?, to writer: SmithyJSON.Writer) throws {
@@ -39124,6 +40607,24 @@ extension MediaLiveClientTypes.MulticastSourceCreateRequest {
     }
 }
 
+extension MediaLiveClientTypes.RouterSettings {
+
+    static func write(value: MediaLiveClientTypes.RouterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.RouterDestinationSettings.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["encryptionType"].write(value.encryptionType)
+        try writer["secretArn"].write(value.secretArn)
+    }
+}
+
+extension MediaLiveClientTypes.RouterDestinationSettings {
+
+    static func write(value: MediaLiveClientTypes.RouterDestinationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["availabilityZoneName"].write(value.availabilityZoneName)
+    }
+}
+
 extension MediaLiveClientTypes.InputWhitelistRuleCidr {
 
     static func write(value: MediaLiveClientTypes.InputWhitelistRuleCidr?, to writer: SmithyJSON.Writer) throws {
@@ -39209,6 +40710,14 @@ extension MediaLiveClientTypes.MulticastSourceUpdateRequest {
         guard let value else { return }
         try writer["sourceIp"].write(value.sourceIp)
         try writer["url"].write(value.url)
+    }
+}
+
+extension MediaLiveClientTypes.SpecialRouterSettings {
+
+    static func write(value: MediaLiveClientTypes.SpecialRouterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["routerArn"].write(value.routerArn)
     }
 }
 

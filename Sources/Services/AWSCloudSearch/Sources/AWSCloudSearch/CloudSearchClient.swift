@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -30,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -63,9 +64,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class CloudSearchClient: ClientRuntime.Client {
+public class CloudSearchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudSearchClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudSearchClient.CloudSearchClientConfiguration
     let serviceName = "CloudSearch"
@@ -371,9 +371,9 @@ extension CloudSearchClient {
     ///
     /// Indexes the search suggestions. For more information, see [Configuring Suggesters](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html#configuring-suggesters) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter BuildSuggestersInput : Container for the parameters to the [BuildSuggester] operation. Specifies the name of the domain you want to update.
+    /// - Parameter input: Container for the parameters to the [BuildSuggester] operation. Specifies the name of the domain you want to update. (Type: `BuildSuggestersInput`)
     ///
-    /// - Returns: `BuildSuggestersOutput` : The result of a BuildSuggester request. Contains a list of the fields used for suggestions.
+    /// - Returns: The result of a BuildSuggester request. Contains a list of the fields used for suggestions. (Type: `BuildSuggestersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +408,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BuildSuggestersInput, BuildSuggestersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BuildSuggestersOutput>(BuildSuggestersOutput.httpOutput(from:), BuildSuggestersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BuildSuggestersInput, BuildSuggestersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BuildSuggestersOutput>())
@@ -441,9 +442,9 @@ extension CloudSearchClient {
     ///
     /// Creates a new search domain. For more information, see [Creating a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/creating-domains.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter CreateDomainInput : Container for the parameters to the [CreateDomain] operation. Specifies a name for the new search domain.
+    /// - Parameter input: Container for the parameters to the [CreateDomain] operation. Specifies a name for the new search domain. (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : The result of a CreateDomainRequest. Contains the status of a newly created domain.
+    /// - Returns: The result of a CreateDomainRequest. Contains the status of a newly created domain. (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,6 +480,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -512,9 +514,9 @@ extension CloudSearchClient {
     ///
     /// Configures an analysis scheme that can be applied to a text or text-array field to define language-specific text processing options. For more information, see [Configuring Analysis Schemes](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-analysis-schemes.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DefineAnalysisSchemeInput : Container for the parameters to the [DefineAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme configuration.
+    /// - Parameter input: Container for the parameters to the [DefineAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme configuration. (Type: `DefineAnalysisSchemeInput`)
     ///
-    /// - Returns: `DefineAnalysisSchemeOutput` : The result of a [DefineAnalysisScheme] request. Contains the status of the newly-configured analysis scheme.
+    /// - Returns: The result of a [DefineAnalysisScheme] request. Contains the status of the newly-configured analysis scheme. (Type: `DefineAnalysisSchemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -551,6 +553,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DefineAnalysisSchemeOutput>(DefineAnalysisSchemeOutput.httpOutput(from:), DefineAnalysisSchemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DefineAnalysisSchemeInput, DefineAnalysisSchemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DefineAnalysisSchemeOutput>())
@@ -584,9 +587,9 @@ extension CloudSearchClient {
     ///
     /// Configures an [Expression] for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see [Configuring Expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-expressions.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DefineExpressionInput : Container for the parameters to the [DefineExpression] operation. Specifies the name of the domain you want to update and the expression you want to configure.
+    /// - Parameter input: Container for the parameters to the [DefineExpression] operation. Specifies the name of the domain you want to update and the expression you want to configure. (Type: `DefineExpressionInput`)
     ///
-    /// - Returns: `DefineExpressionOutput` : The result of a DefineExpression request. Contains the status of the newly-configured expression.
+    /// - Returns: The result of a DefineExpression request. Contains the status of the newly-configured expression. (Type: `DefineExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +626,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DefineExpressionInput, DefineExpressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DefineExpressionOutput>(DefineExpressionOutput.httpOutput(from:), DefineExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DefineExpressionInput, DefineExpressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DefineExpressionOutput>())
@@ -656,9 +660,9 @@ extension CloudSearchClient {
     ///
     /// Configures an [IndexField] for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the [IndexFieldType]. If the field exists, the new configuration replaces the old one. For more information, see [Configuring Index Fields](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-fields.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DefineIndexFieldInput : Container for the parameters to the [DefineIndexField] operation. Specifies the name of the domain you want to update and the index field configuration.
+    /// - Parameter input: Container for the parameters to the [DefineIndexField] operation. Specifies the name of the domain you want to update and the index field configuration. (Type: `DefineIndexFieldInput`)
     ///
-    /// - Returns: `DefineIndexFieldOutput` : The result of a [DefineIndexField] request. Contains the status of the newly-configured index field.
+    /// - Returns: The result of a [DefineIndexField] request. Contains the status of the newly-configured index field. (Type: `DefineIndexFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -695,6 +699,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DefineIndexFieldInput, DefineIndexFieldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DefineIndexFieldOutput>(DefineIndexFieldOutput.httpOutput(from:), DefineIndexFieldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DefineIndexFieldInput, DefineIndexFieldOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DefineIndexFieldOutput>())
@@ -728,9 +733,9 @@ extension CloudSearchClient {
     ///
     /// Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see [Getting Search Suggestions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DefineSuggesterInput : Container for the parameters to the [DefineSuggester] operation. Specifies the name of the domain you want to update and the suggester configuration.
+    /// - Parameter input: Container for the parameters to the [DefineSuggester] operation. Specifies the name of the domain you want to update and the suggester configuration. (Type: `DefineSuggesterInput`)
     ///
-    /// - Returns: `DefineSuggesterOutput` : The result of a DefineSuggester request. Contains the status of the newly-configured suggester.
+    /// - Returns: The result of a DefineSuggester request. Contains the status of the newly-configured suggester. (Type: `DefineSuggesterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,6 +772,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DefineSuggesterInput, DefineSuggesterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DefineSuggesterOutput>(DefineSuggesterOutput.httpOutput(from:), DefineSuggesterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DefineSuggesterInput, DefineSuggesterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DefineSuggesterOutput>())
@@ -800,9 +806,9 @@ extension CloudSearchClient {
     ///
     /// Deletes an analysis scheme. For more information, see [Configuring Analysis Schemes](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-analysis-schemes.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DeleteAnalysisSchemeInput : Container for the parameters to the [DeleteAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme you want to delete.
+    /// - Parameter input: Container for the parameters to the [DeleteAnalysisScheme] operation. Specifies the name of the domain you want to update and the analysis scheme you want to delete. (Type: `DeleteAnalysisSchemeInput`)
     ///
-    /// - Returns: `DeleteAnalysisSchemeOutput` : The result of a DeleteAnalysisScheme request. Contains the status of the deleted analysis scheme.
+    /// - Returns: The result of a DeleteAnalysisScheme request. Contains the status of the deleted analysis scheme. (Type: `DeleteAnalysisSchemeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,6 +844,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnalysisSchemeOutput>(DeleteAnalysisSchemeOutput.httpOutput(from:), DeleteAnalysisSchemeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnalysisSchemeInput, DeleteAnalysisSchemeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnalysisSchemeOutput>())
@@ -871,9 +878,9 @@ extension CloudSearchClient {
     ///
     /// Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information, see [Deleting a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/deleting-domains.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DeleteDomainInput : Container for the parameters to the [DeleteDomain] operation. Specifies the name of the domain you want to delete.
+    /// - Parameter input: Container for the parameters to the [DeleteDomain] operation. Specifies the name of the domain you want to delete. (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : The result of a DeleteDomain request. Contains the status of a newly deleted domain, or no status if the domain has already been completely deleted.
+    /// - Returns: The result of a DeleteDomain request. Contains the status of a newly deleted domain, or no status if the domain has already been completely deleted. (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,6 +913,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -939,9 +947,9 @@ extension CloudSearchClient {
     ///
     /// Removes an [Expression] from the search domain. For more information, see [Configuring Expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-expressions.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DeleteExpressionInput : Container for the parameters to the [DeleteExpression] operation. Specifies the name of the domain you want to update and the name of the expression you want to delete.
+    /// - Parameter input: Container for the parameters to the [DeleteExpression] operation. Specifies the name of the domain you want to update and the name of the expression you want to delete. (Type: `DeleteExpressionInput`)
     ///
-    /// - Returns: `DeleteExpressionOutput` : The result of a [DeleteExpression] request. Specifies the expression being deleted.
+    /// - Returns: The result of a [DeleteExpression] request. Specifies the expression being deleted. (Type: `DeleteExpressionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,6 +985,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExpressionInput, DeleteExpressionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExpressionOutput>(DeleteExpressionOutput.httpOutput(from:), DeleteExpressionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExpressionInput, DeleteExpressionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExpressionOutput>())
@@ -1010,9 +1019,9 @@ extension CloudSearchClient {
     ///
     /// Removes an [IndexField] from the search domain. For more information, see [Configuring Index Fields](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-fields.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DeleteIndexFieldInput : Container for the parameters to the [DeleteIndexField] operation. Specifies the name of the domain you want to update and the name of the index field you want to delete.
+    /// - Parameter input: Container for the parameters to the [DeleteIndexField] operation. Specifies the name of the domain you want to update and the name of the index field you want to delete. (Type: `DeleteIndexFieldInput`)
     ///
-    /// - Returns: `DeleteIndexFieldOutput` : The result of a [DeleteIndexField] request.
+    /// - Returns: The result of a [DeleteIndexField] request. (Type: `DeleteIndexFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1048,6 +1057,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexFieldOutput>(DeleteIndexFieldOutput.httpOutput(from:), DeleteIndexFieldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexFieldInput, DeleteIndexFieldOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexFieldOutput>())
@@ -1081,9 +1091,9 @@ extension CloudSearchClient {
     ///
     /// Deletes a suggester. For more information, see [Getting Search Suggestions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DeleteSuggesterInput : Container for the parameters to the [DeleteSuggester] operation. Specifies the name of the domain you want to update and name of the suggester you want to delete.
+    /// - Parameter input: Container for the parameters to the [DeleteSuggester] operation. Specifies the name of the domain you want to update and name of the suggester you want to delete. (Type: `DeleteSuggesterInput`)
     ///
-    /// - Returns: `DeleteSuggesterOutput` : The result of a DeleteSuggester request. Contains the status of the deleted suggester.
+    /// - Returns: The result of a DeleteSuggester request. Contains the status of the deleted suggester. (Type: `DeleteSuggesterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1119,6 +1129,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSuggesterInput, DeleteSuggesterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSuggesterOutput>(DeleteSuggesterOutput.httpOutput(from:), DeleteSuggesterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSuggesterInput, DeleteSuggesterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSuggesterOutput>())
@@ -1152,9 +1163,9 @@ extension CloudSearchClient {
     ///
     /// Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a text field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Configuring Analysis Schemes](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-analysis-schemes.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeAnalysisSchemesInput : Container for the parameters to the [DescribeAnalysisSchemes] operation. Specifies the name of the domain you want to describe. To limit the response to particular analysis schemes, specify the names of the analysis schemes you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
+    /// - Parameter input: Container for the parameters to the [DescribeAnalysisSchemes] operation. Specifies the name of the domain you want to describe. To limit the response to particular analysis schemes, specify the names of the analysis schemes you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true. (Type: `DescribeAnalysisSchemesInput`)
     ///
-    /// - Returns: `DescribeAnalysisSchemesOutput` : The result of a DescribeAnalysisSchemes request. Contains the analysis schemes configured for the domain specified in the request.
+    /// - Returns: The result of a DescribeAnalysisSchemes request. Contains the analysis schemes configured for the domain specified in the request. (Type: `DescribeAnalysisSchemesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,6 +1199,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnalysisSchemesOutput>(DescribeAnalysisSchemesOutput.httpOutput(from:), DescribeAnalysisSchemesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnalysisSchemesInput, DescribeAnalysisSchemesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnalysisSchemesOutput>())
@@ -1221,9 +1233,9 @@ extension CloudSearchClient {
     ///
     /// Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Configuring Availability Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-availability-options.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeAvailabilityOptionsInput : Container for the parameters to the [DescribeAvailabilityOptions] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
+    /// - Parameter input: Container for the parameters to the [DescribeAvailabilityOptions] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true. (Type: `DescribeAvailabilityOptionsInput`)
     ///
-    /// - Returns: `DescribeAvailabilityOptionsOutput` : The result of a DescribeAvailabilityOptions request. Indicates whether or not the Multi-AZ option is enabled for the domain specified in the request.
+    /// - Returns: The result of a DescribeAvailabilityOptions request. Indicates whether or not the Multi-AZ option is enabled for the domain specified in the request. (Type: `DescribeAvailabilityOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1260,6 +1272,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAvailabilityOptionsOutput>(DescribeAvailabilityOptionsOutput.httpOutput(from:), DescribeAvailabilityOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAvailabilityOptionsInput, DescribeAvailabilityOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAvailabilityOptionsOutput>())
@@ -1293,9 +1306,9 @@ extension CloudSearchClient {
     ///
     /// Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see [Configuring Domain Endpoint Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-domain-endpoint-options.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeDomainEndpointOptionsInput : Container for the parameters to the [DescribeDomainEndpointOptions] operation. Specify the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
+    /// - Parameter input: Container for the parameters to the [DescribeDomainEndpointOptions] operation. Specify the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true. (Type: `DescribeDomainEndpointOptionsInput`)
     ///
-    /// - Returns: `DescribeDomainEndpointOptionsOutput` : The result of a DescribeDomainEndpointOptions request. Contains the status and configuration of a search domain's endpoint options.
+    /// - Returns: The result of a DescribeDomainEndpointOptions request. Contains the status and configuration of a search domain's endpoint options. (Type: `DescribeDomainEndpointOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1331,6 +1344,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainEndpointOptionsOutput>(DescribeDomainEndpointOptionsOutput.httpOutput(from:), DescribeDomainEndpointOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainEndpointOptionsInput, DescribeDomainEndpointOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainEndpointOptionsOutput>())
@@ -1364,9 +1378,9 @@ extension CloudSearchClient {
     ///
     /// Gets information about the search domains owned by this account. Can be limited to specific domains. Shows all domains by default. To get the number of searchable documents in a domain, use the console or submit a matchall request to your domain's search endpoint: q=matchall&q.parser=structured&size=0. For more information, see [Getting Information about a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-info.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeDomainsInput : Container for the parameters to the [DescribeDomains] operation. By default shows the status of all domains. To restrict the response to particular domains, specify the names of the domains you want to describe.
+    /// - Parameter input: Container for the parameters to the [DescribeDomains] operation. By default shows the status of all domains. To restrict the response to particular domains, specify the names of the domains you want to describe. (Type: `DescribeDomainsInput`)
     ///
-    /// - Returns: `DescribeDomainsOutput` : The result of a DescribeDomains request. Contains the status of the domains specified in the request or all domains owned by the account.
+    /// - Returns: The result of a DescribeDomains request. Contains the status of the domains specified in the request or all domains owned by the account. (Type: `DescribeDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1399,6 +1413,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainsInput, DescribeDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainsOutput>(DescribeDomainsOutput.httpOutput(from:), DescribeDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainsInput, DescribeDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainsOutput>())
@@ -1432,9 +1447,9 @@ extension CloudSearchClient {
     ///
     /// Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Configuring Expressions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-expressions.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeExpressionsInput : Container for the parameters to the [DescribeDomains] operation. Specifies the name of the domain you want to describe. To restrict the response to particular expressions, specify the names of the expressions you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
+    /// - Parameter input: Container for the parameters to the [DescribeDomains] operation. Specifies the name of the domain you want to describe. To restrict the response to particular expressions, specify the names of the expressions you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true. (Type: `DescribeExpressionsInput`)
     ///
-    /// - Returns: `DescribeExpressionsOutput` : The result of a DescribeExpressions request. Contains the expressions configured for the domain specified in the request.
+    /// - Returns: The result of a DescribeExpressions request. Contains the expressions configured for the domain specified in the request. (Type: `DescribeExpressionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1468,6 +1483,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExpressionsInput, DescribeExpressionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExpressionsOutput>(DescribeExpressionsOutput.httpOutput(from:), DescribeExpressionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExpressionsInput, DescribeExpressionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExpressionsOutput>())
@@ -1501,9 +1517,9 @@ extension CloudSearchClient {
     ///
     /// Gets information about the index fields configured for the search domain. Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Getting Domain Information](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-domain-info.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeIndexFieldsInput : Container for the parameters to the [DescribeIndexFields] operation. Specifies the name of the domain you want to describe. To restrict the response to particular index fields, specify the names of the index fields you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
+    /// - Parameter input: Container for the parameters to the [DescribeIndexFields] operation. Specifies the name of the domain you want to describe. To restrict the response to particular index fields, specify the names of the index fields you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true. (Type: `DescribeIndexFieldsInput`)
     ///
-    /// - Returns: `DescribeIndexFieldsOutput` : The result of a DescribeIndexFields request. Contains the index fields configured for the domain specified in the request.
+    /// - Returns: The result of a DescribeIndexFields request. Contains the index fields configured for the domain specified in the request. (Type: `DescribeIndexFieldsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1537,6 +1553,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIndexFieldsOutput>(DescribeIndexFieldsOutput.httpOutput(from:), DescribeIndexFieldsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIndexFieldsInput, DescribeIndexFieldsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIndexFieldsOutput>())
@@ -1570,9 +1587,9 @@ extension CloudSearchClient {
     ///
     /// Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see [Configuring Scaling Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-scaling-options.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeScalingParametersInput : Container for the parameters to the [DescribeScalingParameters] operation. Specifies the name of the domain you want to describe.
+    /// - Parameter input: Container for the parameters to the [DescribeScalingParameters] operation. Specifies the name of the domain you want to describe. (Type: `DescribeScalingParametersInput`)
     ///
-    /// - Returns: `DescribeScalingParametersOutput` : The result of a DescribeScalingParameters request. Contains the scaling parameters configured for the domain specified in the request.
+    /// - Returns: The result of a DescribeScalingParameters request. Contains the scaling parameters configured for the domain specified in the request. (Type: `DescribeScalingParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1606,6 +1623,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScalingParametersOutput>(DescribeScalingParametersOutput.httpOutput(from:), DescribeScalingParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScalingParametersInput, DescribeScalingParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScalingParametersOutput>())
@@ -1639,9 +1657,9 @@ extension CloudSearchClient {
     ///
     /// Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Configuring Access for a Search Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-access.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeServiceAccessPoliciesInput : Container for the parameters to the [DescribeServiceAccessPolicies] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
+    /// - Parameter input: Container for the parameters to the [DescribeServiceAccessPolicies] operation. Specifies the name of the domain you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true. (Type: `DescribeServiceAccessPoliciesInput`)
     ///
-    /// - Returns: `DescribeServiceAccessPoliciesOutput` : The result of a DescribeServiceAccessPolicies request.
+    /// - Returns: The result of a DescribeServiceAccessPolicies request. (Type: `DescribeServiceAccessPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1675,6 +1693,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeServiceAccessPoliciesOutput>(DescribeServiceAccessPoliciesOutput.httpOutput(from:), DescribeServiceAccessPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeServiceAccessPoliciesInput, DescribeServiceAccessPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeServiceAccessPoliciesOutput>())
@@ -1708,9 +1727,9 @@ extension CloudSearchClient {
     ///
     /// Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the Deployed option to true to show the active configuration and exclude pending changes. For more information, see [Getting Search Suggestions](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/getting-suggestions.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter DescribeSuggestersInput : Container for the parameters to the [DescribeSuggester] operation. Specifies the name of the domain you want to describe. To restrict the response to particular suggesters, specify the names of the suggesters you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true.
+    /// - Parameter input: Container for the parameters to the [DescribeSuggester] operation. Specifies the name of the domain you want to describe. To restrict the response to particular suggesters, specify the names of the suggesters you want to describe. To show the active configuration and exclude any pending changes, set the Deployed option to true. (Type: `DescribeSuggestersInput`)
     ///
-    /// - Returns: `DescribeSuggestersOutput` : The result of a DescribeSuggesters request.
+    /// - Returns: The result of a DescribeSuggesters request. (Type: `DescribeSuggestersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,6 +1763,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSuggestersInput, DescribeSuggestersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSuggestersOutput>(DescribeSuggestersOutput.httpOutput(from:), DescribeSuggestersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSuggestersInput, DescribeSuggestersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSuggestersOutput>())
@@ -1777,9 +1797,9 @@ extension CloudSearchClient {
     ///
     /// Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose [OptionStatus] is RequiresIndexDocuments.
     ///
-    /// - Parameter IndexDocumentsInput : Container for the parameters to the [IndexDocuments] operation. Specifies the name of the domain you want to re-index.
+    /// - Parameter input: Container for the parameters to the [IndexDocuments] operation. Specifies the name of the domain you want to re-index. (Type: `IndexDocumentsInput`)
     ///
-    /// - Returns: `IndexDocumentsOutput` : The result of an IndexDocuments request. Contains the status of the indexing operation, including the fields being indexed.
+    /// - Returns: The result of an IndexDocuments request. Contains the status of the indexing operation, including the fields being indexed. (Type: `IndexDocumentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1814,6 +1834,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IndexDocumentsInput, IndexDocumentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<IndexDocumentsOutput>(IndexDocumentsOutput.httpOutput(from:), IndexDocumentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IndexDocumentsInput, IndexDocumentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<IndexDocumentsOutput>())
@@ -1847,9 +1868,9 @@ extension CloudSearchClient {
     ///
     /// Lists all search domains owned by an account.
     ///
-    /// - Parameter ListDomainNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainNamesInput`)
     ///
-    /// - Returns: `ListDomainNamesOutput` : The result of a ListDomainNames request. Contains a list of the domains owned by an account.
+    /// - Returns: The result of a ListDomainNames request. Contains a list of the domains owned by an account. (Type: `ListDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1881,6 +1902,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainNamesInput, ListDomainNamesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainNamesOutput>(ListDomainNamesOutput.httpOutput(from:), ListDomainNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainNamesInput, ListDomainNamesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainNamesOutput>())
@@ -1914,9 +1936,9 @@ extension CloudSearchClient {
     ///
     /// Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see [Configuring Availability Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-availability-options.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter UpdateAvailabilityOptionsInput : Container for the parameters to the [UpdateAvailabilityOptions] operation. Specifies the name of the domain you want to update and the Multi-AZ availability option.
+    /// - Parameter input: Container for the parameters to the [UpdateAvailabilityOptions] operation. Specifies the name of the domain you want to update and the Multi-AZ availability option. (Type: `UpdateAvailabilityOptionsInput`)
     ///
-    /// - Returns: `UpdateAvailabilityOptionsOutput` : The result of a UpdateAvailabilityOptions request. Contains the status of the domain's availability options.
+    /// - Returns: The result of a UpdateAvailabilityOptions request. Contains the status of the domain's availability options. (Type: `UpdateAvailabilityOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1954,6 +1976,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAvailabilityOptionsOutput>(UpdateAvailabilityOptionsOutput.httpOutput(from:), UpdateAvailabilityOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAvailabilityOptionsInput, UpdateAvailabilityOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAvailabilityOptionsOutput>())
@@ -1987,9 +2010,9 @@ extension CloudSearchClient {
     ///
     /// Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see [Configuring Domain Endpoint Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-domain-endpoint-options.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter UpdateDomainEndpointOptionsInput : Container for the parameters to the [UpdateDomainEndpointOptions] operation. Specifies the name of the domain you want to update and the domain endpoint options.
+    /// - Parameter input: Container for the parameters to the [UpdateDomainEndpointOptions] operation. Specifies the name of the domain you want to update and the domain endpoint options. (Type: `UpdateDomainEndpointOptionsInput`)
     ///
-    /// - Returns: `UpdateDomainEndpointOptionsOutput` : The result of a UpdateDomainEndpointOptions request. Contains the configuration and status of the domain's endpoint options.
+    /// - Returns: The result of a UpdateDomainEndpointOptions request. Contains the configuration and status of the domain's endpoint options. (Type: `UpdateDomainEndpointOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2027,6 +2050,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainEndpointOptionsOutput>(UpdateDomainEndpointOptionsOutput.httpOutput(from:), UpdateDomainEndpointOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainEndpointOptionsInput, UpdateDomainEndpointOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainEndpointOptionsOutput>())
@@ -2060,9 +2084,9 @@ extension CloudSearchClient {
     ///
     /// Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see [Configuring Scaling Options](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-scaling-options.html) in the Amazon CloudSearch Developer Guide.
     ///
-    /// - Parameter UpdateScalingParametersInput : Container for the parameters to the [UpdateScalingParameters] operation. Specifies the name of the domain you want to update and the scaling parameters you want to configure.
+    /// - Parameter input: Container for the parameters to the [UpdateScalingParameters] operation. Specifies the name of the domain you want to update and the scaling parameters you want to configure. (Type: `UpdateScalingParametersInput`)
     ///
-    /// - Returns: `UpdateScalingParametersOutput` : The result of a UpdateScalingParameters request. Contains the status of the newly-configured scaling parameters.
+    /// - Returns: The result of a UpdateScalingParameters request. Contains the status of the newly-configured scaling parameters. (Type: `UpdateScalingParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2099,6 +2123,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScalingParametersOutput>(UpdateScalingParametersOutput.httpOutput(from:), UpdateScalingParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScalingParametersInput, UpdateScalingParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScalingParametersOutput>())
@@ -2132,9 +2157,9 @@ extension CloudSearchClient {
     ///
     /// Configures the access rules that control access to the domain's document and search endpoints. For more information, see [ Configuring Access for an Amazon CloudSearch Domain](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-access.html).
     ///
-    /// - Parameter UpdateServiceAccessPoliciesInput : Container for the parameters to the [UpdateServiceAccessPolicies] operation. Specifies the name of the domain you want to update and the access rules you want to configure.
+    /// - Parameter input: Container for the parameters to the [UpdateServiceAccessPolicies] operation. Specifies the name of the domain you want to update and the access rules you want to configure. (Type: `UpdateServiceAccessPoliciesInput`)
     ///
-    /// - Returns: `UpdateServiceAccessPoliciesOutput` : The result of an UpdateServiceAccessPolicies request. Contains the new access policies.
+    /// - Returns: The result of an UpdateServiceAccessPolicies request. Contains the new access policies. (Type: `UpdateServiceAccessPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2171,6 +2196,7 @@ extension CloudSearchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceAccessPoliciesOutput>(UpdateServiceAccessPoliciesOutput.httpOutput(from:), UpdateServiceAccessPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceAccessPoliciesInput, UpdateServiceAccessPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceAccessPoliciesOutput>())

@@ -26,6 +26,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 ///
@@ -55,6 +57,38 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension SecurityIRClientTypes {
 
+    public enum ActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case evidenceCollection
+        case investigationAnalysis
+        case summarization
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionType] {
+            return [
+                .evidenceCollection,
+                .investigationAnalysis,
+                .summarization
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .evidenceCollection: return "Evidence"
+            case .investigationAnalysis: return "Investigation"
+            case .summarization: return "Summarization"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityIRClientTypes {
+
     public enum AwsRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
@@ -67,6 +101,7 @@ extension SecurityIRClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
         case apSoutheast7
         case apSouth1
         case apSouth2
@@ -106,6 +141,7 @@ extension SecurityIRClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
                 .apSoutheast7,
                 .apSouth1,
                 .apSouth2,
@@ -151,6 +187,7 @@ extension SecurityIRClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
             case .apSoutheast7: return "ap-southeast-7"
             case .apSouth1: return "ap-south-1"
             case .apSouth2: return "ap-south-2"
@@ -750,6 +787,27 @@ extension SecurityIRClientTypes.CaseAttachmentAttributes: Swift.CustomDebugStrin
 
 extension SecurityIRClientTypes {
 
+    /// Represents a single metadata entry associated with a case. Each entry consists of a key-value pair that provides additional contextual information about the case, such as classification tags, custom attributes, or system-generated properties.
+    public struct CaseMetadataEntry: Swift.Sendable {
+        /// The identifier for the metadata field. This key uniquely identifies the type of metadata being stored, such as "severity", "category", or "assignee".
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value associated with the metadata key. This contains the actual data for the metadata field identified by the key.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SecurityIRClientTypes {
+
     public enum ClosureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case duplicate
         case falsePositive
@@ -819,6 +877,8 @@ public struct GetCaseOutput: Swift.Sendable {
     public var caseArn: Swift.String?
     /// Response element for GetCase that provides a list of current case attachments.
     public var caseAttachments: [SecurityIRClientTypes.CaseAttachmentAttributes]?
+    /// Case response metadata
+    public var caseMetadata: [SecurityIRClientTypes.CaseMetadataEntry]?
     /// Response element for GetCase that provides the case status. Options for statuses include Submitted | Detection and Analysis | Eradication, Containment and Recovery | Post-Incident Activities | Closed
     public var caseStatus: SecurityIRClientTypes.CaseStatus?
     /// Response element for GetCase that provides the date a specified case was closed.
@@ -856,6 +916,7 @@ public struct GetCaseOutput: Swift.Sendable {
         actualIncidentStartDate: Foundation.Date? = nil,
         caseArn: Swift.String? = nil,
         caseAttachments: [SecurityIRClientTypes.CaseAttachmentAttributes]? = nil,
+        caseMetadata: [SecurityIRClientTypes.CaseMetadataEntry]? = nil,
         caseStatus: SecurityIRClientTypes.CaseStatus? = nil,
         closedDate: Foundation.Date? = nil,
         closureCode: SecurityIRClientTypes.ClosureCode? = nil,
@@ -876,6 +937,7 @@ public struct GetCaseOutput: Swift.Sendable {
         self.actualIncidentStartDate = actualIncidentStartDate
         self.caseArn = caseArn
         self.caseAttachments = caseAttachments
+        self.caseMetadata = caseMetadata
         self.caseStatus = caseStatus
         self.closedDate = closedDate
         self.closureCode = closureCode
@@ -897,7 +959,7 @@ public struct GetCaseOutput: Swift.Sendable {
 
 extension GetCaseOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetCaseOutput(actualIncidentStartDate: \(Swift.String(describing: actualIncidentStartDate)), caseArn: \(Swift.String(describing: caseArn)), caseAttachments: \(Swift.String(describing: caseAttachments)), caseStatus: \(Swift.String(describing: caseStatus)), closedDate: \(Swift.String(describing: closedDate)), closureCode: \(Swift.String(describing: closureCode)), createdDate: \(Swift.String(describing: createdDate)), engagementType: \(Swift.String(describing: engagementType)), impactedAccounts: \(Swift.String(describing: impactedAccounts)), impactedAwsRegions: \(Swift.String(describing: impactedAwsRegions)), impactedServices: \(Swift.String(describing: impactedServices)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), pendingAction: \(Swift.String(describing: pendingAction)), reportedIncidentStartDate: \(Swift.String(describing: reportedIncidentStartDate)), resolverType: \(Swift.String(describing: resolverType)), threatActorIpAddresses: \(Swift.String(describing: threatActorIpAddresses)), watchers: \(Swift.String(describing: watchers)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "GetCaseOutput(actualIncidentStartDate: \(Swift.String(describing: actualIncidentStartDate)), caseArn: \(Swift.String(describing: caseArn)), caseAttachments: \(Swift.String(describing: caseAttachments)), caseMetadata: \(Swift.String(describing: caseMetadata)), caseStatus: \(Swift.String(describing: caseStatus)), closedDate: \(Swift.String(describing: closedDate)), closureCode: \(Swift.String(describing: closureCode)), createdDate: \(Swift.String(describing: createdDate)), engagementType: \(Swift.String(describing: engagementType)), impactedAccounts: \(Swift.String(describing: impactedAccounts)), impactedAwsRegions: \(Swift.String(describing: impactedAwsRegions)), impactedServices: \(Swift.String(describing: impactedServices)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), pendingAction: \(Swift.String(describing: pendingAction)), reportedIncidentStartDate: \(Swift.String(describing: reportedIncidentStartDate)), resolverType: \(Swift.String(describing: resolverType)), threatActorIpAddresses: \(Swift.String(describing: threatActorIpAddresses)), watchers: \(Swift.String(describing: watchers)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetCaseAttachmentDownloadUrlInput: Swift.Sendable {
@@ -1219,12 +1281,219 @@ public struct ListCommentsOutput: Swift.Sendable {
     }
 }
 
+public struct ListInvestigationsInput: Swift.Sendable {
+    /// Investigation performed by an agent for a security incident per caseID
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// Investigation performed by an agent for a security incident request, returning max results
+    public var maxResults: Swift.Int?
+    /// Investigation performed by an agent for a security incident request
+    public var nextToken: Swift.String?
+
+    public init(
+        caseId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.caseId = caseId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SecurityIRClientTypes {
+
+    public enum UsefulnessRating: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notUseful
+        case useful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UsefulnessRating] {
+            return [
+                .notUseful,
+                .useful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notUseful: return "NOT_USEFUL"
+            case .useful: return "USEFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityIRClientTypes {
+
+    /// Represents user feedback for an investigation result. This structure captures the user's evaluation of the investigation's quality, usefulness, and any additional comments.
+    public struct InvestigationFeedback: Swift.Sendable {
+        /// Optional user comments providing additional context about the investigation feedback. This allows users to explain their rating or provide suggestions for improvement.
+        public var comment: Swift.String?
+        /// ISO 8601 timestamp when the feedback was submitted. This records when the user provided their assessment of the investigation results.
+        public var submittedAt: Foundation.Date?
+        /// User assessment of the investigation result's quality and helpfulness. This rating indicates how valuable the investigation findings were in addressing the case.
+        public var usefulness: SecurityIRClientTypes.UsefulnessRating?
+
+        public init(
+            comment: Swift.String? = nil,
+            submittedAt: Foundation.Date? = nil,
+            usefulness: SecurityIRClientTypes.UsefulnessRating? = nil
+        ) {
+            self.comment = comment
+            self.submittedAt = submittedAt
+            self.usefulness = usefulness
+        }
+    }
+}
+
+extension SecurityIRClientTypes {
+
+    public enum ExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case completed
+        case failed
+        case inProgress
+        case pending
+        case waiting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionStatus] {
+            return [
+                .cancelled,
+                .completed,
+                .failed,
+                .inProgress,
+                .pending,
+                .waiting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "Cancelled"
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .pending: return "Pending"
+            case .waiting: return "Waiting"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityIRClientTypes {
+
+    /// Represents an investigation action performed within a case. This structure captures the details of an automated or manual investigation, including its status, results, and user feedback.
+    public struct InvestigationAction: Swift.Sendable {
+        /// The type of investigation action being performed. This categorizes the investigation method or approach used in the case.
+        /// This member is required.
+        public var actionType: SecurityIRClientTypes.ActionType?
+        /// Detailed investigation results in rich markdown format. This field contains the comprehensive findings, analysis, and conclusions from the investigation.
+        /// This member is required.
+        public var content: Swift.String?
+        /// User feedback for this investigation result. This contains the user's assessment and comments about the quality and usefulness of the investigation findings.
+        public var feedback: SecurityIRClientTypes.InvestigationFeedback?
+        /// The unique identifier for this investigation action. This ID is used to track and reference the specific investigation throughout its lifecycle.
+        /// This member is required.
+        public var investigationId: Swift.String?
+        /// ISO 8601 timestamp of the most recent status update. This indicates when the investigation was last modified or when its status last changed.
+        /// This member is required.
+        public var lastUpdated: Foundation.Date?
+        /// The current execution status of the investigation. This indicates whether the investigation is pending, in progress, completed, or failed.
+        /// This member is required.
+        public var status: SecurityIRClientTypes.ExecutionStatus?
+        /// Human-readable summary of the investigation focus. This provides a brief description of what the investigation is examining or analyzing.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            actionType: SecurityIRClientTypes.ActionType? = nil,
+            content: Swift.String? = nil,
+            feedback: SecurityIRClientTypes.InvestigationFeedback? = nil,
+            investigationId: Swift.String? = nil,
+            lastUpdated: Foundation.Date? = nil,
+            status: SecurityIRClientTypes.ExecutionStatus? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.actionType = actionType
+            self.content = content
+            self.feedback = feedback
+            self.investigationId = investigationId
+            self.lastUpdated = lastUpdated
+            self.status = status
+            self.title = title
+        }
+    }
+}
+
+public struct ListInvestigationsOutput: Swift.Sendable {
+    /// Investigation performed by an agent for a security incid…Unique identifier for the specific investigation>
+    /// This member is required.
+    public var investigationActions: [SecurityIRClientTypes.InvestigationAction]?
+    /// Investigation performed by an agent for a security incident for next Token
+    public var nextToken: Swift.String?
+
+    public init(
+        investigationActions: [SecurityIRClientTypes.InvestigationAction]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.investigationActions = investigationActions
+        self.nextToken = nextToken
+    }
+}
+
+public struct SendFeedbackInput: Swift.Sendable {
+    /// Send feedback based on request caseID
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// Send feedback based on request comments
+    public var comment: Swift.String?
+    /// Send feedback based on request result ID
+    /// This member is required.
+    public var resultId: Swift.String?
+    /// Required enum value indicating user assessment of result q.....
+    /// This member is required.
+    public var usefulness: SecurityIRClientTypes.UsefulnessRating?
+
+    public init(
+        caseId: Swift.String? = nil,
+        comment: Swift.String? = nil,
+        resultId: Swift.String? = nil,
+        usefulness: SecurityIRClientTypes.UsefulnessRating? = nil
+    ) {
+        self.caseId = caseId
+        self.comment = comment
+        self.resultId = resultId
+        self.usefulness = usefulness
+    }
+}
+
+public struct SendFeedbackOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateCaseInput: Swift.Sendable {
     /// Optional element for UpdateCase to provide content for the incident start date field.
     public var actualIncidentStartDate: Foundation.Date?
     /// Required element for UpdateCase to identify the case ID for updates.
     /// This member is required.
     public var caseId: Swift.String?
+    /// Update the case request with case metadata
+    public var caseMetadata: [SecurityIRClientTypes.CaseMetadataEntry]?
     /// Optional element for UpdateCase to provide content for the description field.
     public var description: Swift.String?
     /// Optional element for UpdateCase to provide content for the engagement type field. Available engagement types include Security Incident | Investigation.
@@ -1257,6 +1526,7 @@ public struct UpdateCaseInput: Swift.Sendable {
     public init(
         actualIncidentStartDate: Foundation.Date? = nil,
         caseId: Swift.String? = nil,
+        caseMetadata: [SecurityIRClientTypes.CaseMetadataEntry]? = nil,
         description: Swift.String? = nil,
         engagementType: SecurityIRClientTypes.EngagementType? = nil,
         impactedAccountsToAdd: [Swift.String]? = nil,
@@ -1274,6 +1544,7 @@ public struct UpdateCaseInput: Swift.Sendable {
     ) {
         self.actualIncidentStartDate = actualIncidentStartDate
         self.caseId = caseId
+        self.caseMetadata = caseMetadata
         self.description = description
         self.engagementType = engagementType
         self.impactedAccountsToAdd = impactedAccountsToAdd
@@ -1293,7 +1564,7 @@ public struct UpdateCaseInput: Swift.Sendable {
 
 extension UpdateCaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateCaseInput(actualIncidentStartDate: \(Swift.String(describing: actualIncidentStartDate)), caseId: \(Swift.String(describing: caseId)), engagementType: \(Swift.String(describing: engagementType)), impactedAccountsToAdd: \(Swift.String(describing: impactedAccountsToAdd)), impactedAccountsToDelete: \(Swift.String(describing: impactedAccountsToDelete)), impactedAwsRegionsToAdd: \(Swift.String(describing: impactedAwsRegionsToAdd)), impactedAwsRegionsToDelete: \(Swift.String(describing: impactedAwsRegionsToDelete)), impactedServicesToAdd: \(Swift.String(describing: impactedServicesToAdd)), impactedServicesToDelete: \(Swift.String(describing: impactedServicesToDelete)), reportedIncidentStartDate: \(Swift.String(describing: reportedIncidentStartDate)), threatActorIpAddressesToAdd: \(Swift.String(describing: threatActorIpAddressesToAdd)), threatActorIpAddressesToDelete: \(Swift.String(describing: threatActorIpAddressesToDelete)), watchersToAdd: \(Swift.String(describing: watchersToAdd)), watchersToDelete: \(Swift.String(describing: watchersToDelete)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
+        "UpdateCaseInput(actualIncidentStartDate: \(Swift.String(describing: actualIncidentStartDate)), caseId: \(Swift.String(describing: caseId)), caseMetadata: \(Swift.String(describing: caseMetadata)), engagementType: \(Swift.String(describing: engagementType)), impactedAccountsToAdd: \(Swift.String(describing: impactedAccountsToAdd)), impactedAccountsToDelete: \(Swift.String(describing: impactedAccountsToDelete)), impactedAwsRegionsToAdd: \(Swift.String(describing: impactedAwsRegionsToAdd)), impactedAwsRegionsToDelete: \(Swift.String(describing: impactedAwsRegionsToDelete)), impactedServicesToAdd: \(Swift.String(describing: impactedServicesToAdd)), impactedServicesToDelete: \(Swift.String(describing: impactedServicesToDelete)), reportedIncidentStartDate: \(Swift.String(describing: reportedIncidentStartDate)), threatActorIpAddressesToAdd: \(Swift.String(describing: threatActorIpAddressesToAdd)), threatActorIpAddressesToDelete: \(Swift.String(describing: threatActorIpAddressesToDelete)), watchersToAdd: \(Swift.String(describing: watchersToAdd)), watchersToDelete: \(Swift.String(describing: watchersToDelete)), description: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateCaseOutput: Swift.Sendable {
@@ -1449,6 +1720,77 @@ public struct UpdateResolverTypeOutput: Swift.Sendable {
     }
 }
 
+extension SecurityIRClientTypes {
+
+    public enum CommunicationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case caseAcknowledged
+        case caseAttachmentUrlUploaded
+        case caseClosed
+        case caseCommentAdded
+        case caseCommentUpdated
+        case caseCreated
+        case casePendingCustomerActionReminder
+        case caseUpdated
+        case caseUpdatedToServiceManaged
+        case caseUpdateCaseStatus
+        case deregisterDelegatedAdministrator
+        case disableAwsServiceAccess
+        case membershipCancelled
+        case membershipCreated
+        case membershipUpdated
+        case registerDelegatedAdministrator
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommunicationType] {
+            return [
+                .caseAcknowledged,
+                .caseAttachmentUrlUploaded,
+                .caseClosed,
+                .caseCommentAdded,
+                .caseCommentUpdated,
+                .caseCreated,
+                .casePendingCustomerActionReminder,
+                .caseUpdated,
+                .caseUpdatedToServiceManaged,
+                .caseUpdateCaseStatus,
+                .deregisterDelegatedAdministrator,
+                .disableAwsServiceAccess,
+                .membershipCancelled,
+                .membershipCreated,
+                .membershipUpdated,
+                .registerDelegatedAdministrator
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .caseAcknowledged: return "Case Acknowledged"
+            case .caseAttachmentUrlUploaded: return "Case Attachment Url Uploaded"
+            case .caseClosed: return "Case Closed"
+            case .caseCommentAdded: return "Case Comment Added"
+            case .caseCommentUpdated: return "Case Comment Updated"
+            case .caseCreated: return "Case Created"
+            case .casePendingCustomerActionReminder: return "Case Pending Customer Action Reminder"
+            case .caseUpdated: return "Case Updated"
+            case .caseUpdatedToServiceManaged: return "Case Updated To Service Managed"
+            case .caseUpdateCaseStatus: return "Case Status Updated"
+            case .deregisterDelegatedAdministrator: return "Deregister Delegated Administrator"
+            case .disableAwsServiceAccess: return "Disable AWS Service Access"
+            case .membershipCancelled: return "Membership Cancelled"
+            case .membershipCreated: return "Membership Created"
+            case .membershipUpdated: return "Membership Updated"
+            case .registerDelegatedAdministrator: return "Register Delegated Administrator"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 ///
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1489,6 +1831,8 @@ extension SecurityIRClientTypes {
     ///
     public struct IncidentResponder: Swift.Sendable {
         ///
+        public var communicationPreferences: [SecurityIRClientTypes.CommunicationType]?
+        ///
         /// This member is required.
         public var email: Swift.String?
         ///
@@ -1499,10 +1843,12 @@ extension SecurityIRClientTypes {
         public var name: Swift.String?
 
         public init(
+            communicationPreferences: [SecurityIRClientTypes.CommunicationType]? = nil,
             email: Swift.String? = nil,
             jobTitle: Swift.String? = nil,
             name: Swift.String? = nil
         ) {
+            self.communicationPreferences = communicationPreferences
             self.email = email
             self.jobTitle = jobTitle
             self.name = name
@@ -1512,7 +1858,7 @@ extension SecurityIRClientTypes {
 
 extension SecurityIRClientTypes.IncidentResponder: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "IncidentResponder(email: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "IncidentResponder(communicationPreferences: \(Swift.String(describing: communicationPreferences)), email: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension SecurityIRClientTypes {
@@ -2399,6 +2745,32 @@ extension ListCommentsInput {
     }
 }
 
+extension ListInvestigationsInput {
+
+    static func urlPathProvider(_ value: ListInvestigationsInput) -> Swift.String? {
+        guard let caseId = value.caseId else {
+            return nil
+        }
+        return "/v1/cases/\(caseId.urlPercentEncoding())/list-investigations"
+    }
+}
+
+extension ListInvestigationsInput {
+
+    static func queryItemProvider(_ value: ListInvestigationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListMembershipsInput {
 
     static func urlPathProvider(_ value: ListMembershipsInput) -> Swift.String? {
@@ -2413,6 +2785,19 @@ extension ListTagsForResourceInput {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension SendFeedbackInput {
+
+    static func urlPathProvider(_ value: SendFeedbackInput) -> Swift.String? {
+        guard let caseId = value.caseId else {
+            return nil
+        }
+        guard let resultId = value.resultId else {
+            return nil
+        }
+        return "/v1/cases/\(caseId.urlPercentEncoding())/feedback/\(resultId.urlPercentEncoding())/send-feedback"
     }
 }
 
@@ -2600,6 +2985,15 @@ extension ListMembershipsInput {
     }
 }
 
+extension SendFeedbackInput {
+
+    static func write(value: SendFeedbackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comment"].write(value.comment)
+        try writer["usefulness"].write(value.usefulness)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -2613,6 +3007,7 @@ extension UpdateCaseInput {
     static func write(value: UpdateCaseInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actualIncidentStartDate"].writeTimestamp(value.actualIncidentStartDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["caseMetadata"].writeList(value.caseMetadata, memberWritingClosure: SecurityIRClientTypes.CaseMetadataEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
         try writer["engagementType"].write(value.engagementType)
         try writer["impactedAccountsToAdd"].writeList(value.impactedAccountsToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2750,6 +3145,7 @@ extension GetCaseOutput {
         value.actualIncidentStartDate = try reader["actualIncidentStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.caseArn = try reader["caseArn"].readIfPresent()
         value.caseAttachments = try reader["caseAttachments"].readListIfPresent(memberReadingClosure: SecurityIRClientTypes.CaseAttachmentAttributes.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.caseMetadata = try reader["caseMetadata"].readListIfPresent(memberReadingClosure: SecurityIRClientTypes.CaseMetadataEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.caseStatus = try reader["caseStatus"].readIfPresent()
         value.closedDate = try reader["closedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.closureCode = try reader["closureCode"].readIfPresent()
@@ -2860,6 +3256,19 @@ extension ListCommentsOutput {
     }
 }
 
+extension ListInvestigationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInvestigationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInvestigationsOutput()
+        value.investigationActions = try reader["investigationActions"].readListIfPresent(memberReadingClosure: SecurityIRClientTypes.InvestigationAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListMembershipsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMembershipsOutput {
@@ -2882,6 +3291,13 @@ extension ListTagsForResourceOutput {
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
+    }
+}
+
+extension SendFeedbackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendFeedbackOutput {
+        return SendFeedbackOutput()
     }
 }
 
@@ -3149,6 +3565,20 @@ enum ListCommentsOutputError {
     }
 }
 
+enum ListInvestigationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListMembershipsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3175,6 +3605,20 @@ enum ListTagsForResourceOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendFeedbackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -3508,10 +3952,28 @@ extension SecurityIRClientTypes.CaseAttachmentAttributes {
     }
 }
 
+extension SecurityIRClientTypes.CaseMetadataEntry {
+
+    static func write(value: SecurityIRClientTypes.CaseMetadataEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.CaseMetadataEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.CaseMetadataEntry()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension SecurityIRClientTypes.IncidentResponder {
 
     static func write(value: SecurityIRClientTypes.IncidentResponder?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["communicationPreferences"].writeList(value.communicationPreferences, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityIRClientTypes.CommunicationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["email"].write(value.email)
         try writer["jobTitle"].write(value.jobTitle)
         try writer["name"].write(value.name)
@@ -3523,6 +3985,7 @@ extension SecurityIRClientTypes.IncidentResponder {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.jobTitle = try reader["jobTitle"].readIfPresent() ?? ""
         value.email = try reader["email"].readIfPresent() ?? ""
+        value.communicationPreferences = try reader["communicationPreferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityIRClientTypes.CommunicationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3598,6 +4061,34 @@ extension SecurityIRClientTypes.ListCommentsItem {
         value.creator = try reader["creator"].readIfPresent()
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
         value.body = try reader["body"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.InvestigationAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.InvestigationAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.InvestigationAction()
+        value.investigationId = try reader["investigationId"].readIfPresent() ?? ""
+        value.actionType = try reader["actionType"].readIfPresent() ?? .sdkUnknown("")
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.content = try reader["content"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.feedback = try reader["feedback"].readIfPresent(with: SecurityIRClientTypes.InvestigationFeedback.read(from:))
+        return value
+    }
+}
+
+extension SecurityIRClientTypes.InvestigationFeedback {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityIRClientTypes.InvestigationFeedback {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityIRClientTypes.InvestigationFeedback()
+        value.usefulness = try reader["usefulness"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
+        value.submittedAt = try reader["submittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

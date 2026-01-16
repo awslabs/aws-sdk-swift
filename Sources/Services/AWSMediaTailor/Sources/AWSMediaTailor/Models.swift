@@ -991,6 +991,106 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    public enum CompressionMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gzip
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CompressionMethod] {
+            return [
+                .gzip,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "GZIP"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    public enum Method: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `get`
+        case post
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Method] {
+            return [
+                .get,
+                .post
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .get: return "GET"
+            case .post: return "POST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// HTTP request configuration parameters that define how MediaTailor communicates with the ad decision server.
+    public struct HttpRequest: Swift.Sendable {
+        /// The request body content to send with HTTP requests to the ad decision server. This value is only eligible for POST requests.
+        public var body: Swift.String?
+        /// The compression method to apply to requests sent to the ad decision server. Supported values are NONE and GZIP. This value is only eligible for POST requests.
+        public var compressRequest: MediaTailorClientTypes.CompressionMethod?
+        /// Custom HTTP headers to include in requests to the ad decision server. Specify headers as key-value pairs. This value is only eligible for POST requests.
+        public var headers: [Swift.String: Swift.String]?
+        /// The HTTP method to use when making requests to the ad decision server. Supported values are GET and POST.
+        public var method: MediaTailorClientTypes.Method?
+
+        public init(
+            body: Swift.String? = nil,
+            compressRequest: MediaTailorClientTypes.CompressionMethod? = nil,
+            headers: [Swift.String: Swift.String]? = nil,
+            method: MediaTailorClientTypes.Method? = nil
+        ) {
+            self.body = body
+            self.compressRequest = compressRequest
+            self.headers = headers
+            self.method = method
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
+    /// Configuration parameters for customizing HTTP requests sent to the ad decision server (ADS). This allows you to specify the HTTP method, headers, request body, and compression settings for ADS requests.
+    public struct AdDecisionServerConfiguration: Swift.Sendable {
+        /// The HTTP request configuration parameters for the ad decision server.
+        public var httpRequest: MediaTailorClientTypes.HttpRequest?
+
+        public init(
+            httpRequest: MediaTailorClientTypes.HttpRequest? = nil
+        ) {
+            self.httpRequest = httpRequest
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     public enum FillPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullAvailOnly
         case partialAvail
@@ -1445,6 +1545,8 @@ extension MediaTailorClientTypes {
     public struct PlaybackConfiguration: Swift.Sendable {
         /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
         public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
+        /// Configuration parameters for customizing HTTP requests sent to the ad decision server (ADS). This allows you to specify the HTTP method, headers, request body, and compression settings for ADS requests.
+        public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public var adDecisionServerUrl: Swift.String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -1488,6 +1590,7 @@ extension MediaTailorClientTypes {
 
         public init(
             adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
+            adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
             adDecisionServerUrl: Swift.String? = nil,
             availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
             bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -1510,6 +1613,7 @@ extension MediaTailorClientTypes {
             videoContentSourceUrl: Swift.String? = nil
         ) {
             self.adConditioningConfiguration = adConditioningConfiguration
+            self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1579,7 +1683,7 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
-    /// The configuration that tells Elemental MediaTailor how to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
+    /// The configuration that tells Elemental MediaTailor how many seconds to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
     public struct TrafficShapingRetrievalWindow: Swift.Sendable {
         /// The amount of time, in seconds, that MediaTailor spreads prefetch requests to the ADS.
         public var retrievalWindowDurationSeconds: Swift.Int?
@@ -1594,13 +1698,34 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users.
+    public struct TrafficShapingTpsConfiguration: Swift.Sendable {
+        /// The expected peak number of concurrent viewers for your content. MediaTailor uses this value along with peak TPS to determine how to distribute prefetch requests across the available capacity without exceeding your ADS limits.
+        public var peakConcurrentUsers: Swift.Int?
+        /// The maximum number of transactions per second (TPS) that your ad decision server (ADS) can handle. MediaTailor uses this value along with concurrent users and headroom multiplier to calculate optimal traffic distribution and prevent ADS overload.
+        public var peakTps: Swift.Int?
+
+        public init(
+            peakConcurrentUsers: Swift.Int? = nil,
+            peakTps: Swift.Int? = nil
+        ) {
+            self.peakConcurrentUsers = peakConcurrentUsers
+            self.peakTps = peakTps
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     public enum TrafficShapingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case retrievalWindow
+        case tps
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TrafficShapingType] {
             return [
-                .retrievalWindow
+                .retrievalWindow,
+                .tps
             ]
         }
 
@@ -1612,6 +1737,7 @@ extension MediaTailorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .retrievalWindow: return "RETRIEVAL_WINDOW"
+            case .tps: return "TPS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1626,20 +1752,24 @@ extension MediaTailorClientTypes {
         public var delayAfterAvailEndSeconds: Swift.Int?
         /// The dynamic variables to use for substitution during prefetch requests to the ADS.
         public var dynamicVariables: [Swift.String: Swift.String]?
-        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        /// The configuration that tells Elemental MediaTailor how many seconds to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
         public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
-        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users.
+        public var trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration?
+        /// Indicates the type of traffic shaping used to limit the number of requests to the ADS at one time.
         public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
 
         public init(
             delayAfterAvailEndSeconds: Swift.Int? = nil,
             dynamicVariables: [Swift.String: Swift.String]? = nil,
             trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow? = nil,
+            trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration? = nil,
             trafficShapingType: MediaTailorClientTypes.TrafficShapingType? = nil
         ) {
             self.delayAfterAvailEndSeconds = delayAfterAvailEndSeconds
             self.dynamicVariables = dynamicVariables
             self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingTpsConfiguration = trafficShapingTpsConfiguration
             self.trafficShapingType = trafficShapingType
         }
     }
@@ -1686,9 +1816,11 @@ extension MediaTailorClientTypes {
         public var endTime: Foundation.Date?
         /// The time when prefetch retrievals can start for this break. Ad prefetching will be attempted for manifest requests that occur at or after this time. Defaults to the current time. If not specified, the prefetch retrieval starts as soon as possible.
         public var startTime: Foundation.Date?
-        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        /// The configuration that tells Elemental MediaTailor how many seconds to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
         public var trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow?
-        /// Indicates if this configuration uses a retrieval window for traffic shaping and limiting the number of requests to the ADS at one time.
+        /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users.
+        public var trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration?
+        /// Indicates the type of traffic shaping used to limit the number of requests to the ADS at one time.
         public var trafficShapingType: MediaTailorClientTypes.TrafficShapingType?
 
         public init(
@@ -1696,12 +1828,14 @@ extension MediaTailorClientTypes {
             endTime: Foundation.Date? = nil,
             startTime: Foundation.Date? = nil,
             trafficShapingRetrievalWindow: MediaTailorClientTypes.TrafficShapingRetrievalWindow? = nil,
+            trafficShapingTpsConfiguration: MediaTailorClientTypes.TrafficShapingTpsConfiguration? = nil,
             trafficShapingType: MediaTailorClientTypes.TrafficShapingType? = nil
         ) {
             self.dynamicVariables = dynamicVariables
             self.endTime = endTime
             self.startTime = startTime
             self.trafficShapingRetrievalWindow = trafficShapingRetrievalWindow
+            self.trafficShapingTpsConfiguration = trafficShapingTpsConfiguration
             self.trafficShapingType = trafficShapingType
         }
     }
@@ -2612,9 +2746,9 @@ public struct GetChannelScheduleOutput: Swift.Sendable {
 }
 
 public struct ListChannelsInput: Swift.Sendable {
-    /// The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of channels that you want MediaTailor to return in response to the current request. If there are more than MaxResults channels, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListChannels request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
 
     public init(
@@ -3785,6 +3919,8 @@ public struct GetPlaybackConfigurationInput: Swift.Sendable {
 public struct GetPlaybackConfigurationOutput: Swift.Sendable {
     /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
     public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
+    /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+    public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -3828,6 +3964,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
+        adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -3850,6 +3987,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Sendable {
         videoContentSourceUrl: Swift.String? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
+        self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -3930,9 +4068,9 @@ public struct GetPrefetchScheduleOutput: Swift.Sendable {
 }
 
 public struct ListAlertsInput: Swift.Sendable {
-    /// The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of alerts that you want MediaTailor to return in response to the current request. If there are more than MaxResults alerts, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListAlerts request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -3965,9 +4103,9 @@ public struct ListAlertsOutput: Swift.Sendable {
 }
 
 public struct ListLiveSourcesInput: Swift.Sendable {
-    /// The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of live sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults live sources, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListLiveSources request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
     /// The name of the source location associated with this Live Sources list.
     /// This member is required.
@@ -4000,9 +4138,9 @@ public struct ListLiveSourcesOutput: Swift.Sendable {
 }
 
 public struct ListPlaybackConfigurationsInput: Swift.Sendable {
-    /// The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of playback configurations that you want MediaTailor to return in response to the current request. If there are more than MaxResults playback configurations, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListPlaybackConfigurations request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
 
     public init(
@@ -4062,9 +4200,9 @@ extension MediaTailorClientTypes {
 }
 
 public struct ListPrefetchSchedulesInput: Swift.Sendable {
-    /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of prefetch schedules that you want MediaTailor to return in response to the current request. If there are more than MaxResults prefetch schedules, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// (Optional) If the playback configuration has more than MaxResults prefetch schedules, use NextToken to get the second and subsequent pages of results. For the first ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. If the previous response didn't include a NextToken element, there are no more prefetch schedules to get.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListPrefetchSchedules request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
     /// Retrieves the prefetch schedule(s) for a specific playback configuration.
     /// This member is required.
@@ -4105,9 +4243,9 @@ public struct ListPrefetchSchedulesOutput: Swift.Sendable {
 }
 
 public struct ListSourceLocationsInput: Swift.Sendable {
-    /// The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of source locations that you want MediaTailor to return in response to the current request. If there are more than MaxResults source locations, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListSourceLocations request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
 
     public init(
@@ -4158,9 +4296,9 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct ListVodSourcesInput: Swift.Sendable {
-    /// The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results.
+    /// The maximum number of VOD sources that you want MediaTailor to return in response to the current request. If there are more than MaxResults VOD sources, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses DynamoDB-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
     public var maxResults: Swift.Int?
-    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
+    /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListVodSources request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
     public var nextToken: Swift.String?
     /// The name of the source location associated with this VOD Source list.
     /// This member is required.
@@ -4252,6 +4390,8 @@ public struct UpdateLiveSourceOutput: Swift.Sendable {
 public struct PutPlaybackConfigurationInput: Swift.Sendable {
     /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
     public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
+    /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+    public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -4286,6 +4426,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
+        adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -4303,6 +4444,7 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
         videoContentSourceUrl: Swift.String? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
+        self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -4324,6 +4466,8 @@ public struct PutPlaybackConfigurationInput: Swift.Sendable {
 public struct PutPlaybackConfigurationOutput: Swift.Sendable {
     /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
     public var adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration?
+    /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+    public var adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration?
     /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     public var adDecisionServerUrl: Swift.String?
     /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see [Ad Suppression](https://docs.aws.amazon.com/mediatailor/latest/ug/ad-behavior.html).
@@ -4367,6 +4511,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
 
     public init(
         adConditioningConfiguration: MediaTailorClientTypes.AdConditioningConfiguration? = nil,
+        adDecisionServerConfiguration: MediaTailorClientTypes.AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: Swift.String? = nil,
         availSuppression: MediaTailorClientTypes.AvailSuppression? = nil,
         bumper: MediaTailorClientTypes.Bumper? = nil,
@@ -4389,6 +4534,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Sendable {
         videoContentSourceUrl: Swift.String? = nil
     ) {
         self.adConditioningConfiguration = adConditioningConfiguration
+        self.adDecisionServerConfiguration = adDecisionServerConfiguration
         self.adDecisionServerUrl = adDecisionServerUrl
         self.availSuppression = availSuppression
         self.bumper = bumper
@@ -5295,6 +5441,7 @@ extension PutPlaybackConfigurationInput {
     static func write(value: PutPlaybackConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdConditioningConfiguration"].write(value.adConditioningConfiguration, with: MediaTailorClientTypes.AdConditioningConfiguration.write(value:to:))
+        try writer["AdDecisionServerConfiguration"].write(value.adDecisionServerConfiguration, with: MediaTailorClientTypes.AdDecisionServerConfiguration.write(value:to:))
         try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
         try writer["AvailSuppression"].write(value.availSuppression, with: MediaTailorClientTypes.AvailSuppression.write(value:to:))
         try writer["Bumper"].write(value.bumper, with: MediaTailorClientTypes.Bumper.write(value:to:))
@@ -5712,6 +5859,7 @@ extension GetPlaybackConfigurationOutput {
         let reader = responseReader
         var value = GetPlaybackConfigurationOutput()
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
+        value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
@@ -5873,6 +6021,7 @@ extension PutPlaybackConfigurationOutput {
         let reader = responseReader
         var value = PutPlaybackConfigurationOutput()
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
+        value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
         value.availSuppression = try reader["AvailSuppression"].readIfPresent(with: MediaTailorClientTypes.AvailSuppression.read(from:))
         value.bumper = try reader["Bumper"].readIfPresent(with: MediaTailorClientTypes.Bumper.read(from:))
@@ -6794,6 +6943,7 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingTpsConfiguration"].write(value.trafficShapingTpsConfiguration, with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.write(value:to:))
         try writer["TrafficShapingType"].write(value.trafficShapingType)
     }
 
@@ -6805,6 +6955,24 @@ extension MediaTailorClientTypes.PrefetchRetrieval {
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
         value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        value.trafficShapingTpsConfiguration = try reader["TrafficShapingTpsConfiguration"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.TrafficShapingTpsConfiguration {
+
+    static func write(value: MediaTailorClientTypes.TrafficShapingTpsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PeakConcurrentUsers"].write(value.peakConcurrentUsers)
+        try writer["PeakTps"].write(value.peakTps)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TrafficShapingTpsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.TrafficShapingTpsConfiguration()
+        value.peakTps = try reader["PeakTps"].readIfPresent()
+        value.peakConcurrentUsers = try reader["PeakConcurrentUsers"].readIfPresent()
         return value
     }
 }
@@ -6852,6 +7020,7 @@ extension MediaTailorClientTypes.RecurringRetrieval {
         try writer["DelayAfterAvailEndSeconds"].write(value.delayAfterAvailEndSeconds)
         try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingTpsConfiguration"].write(value.trafficShapingTpsConfiguration, with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.write(value:to:))
         try writer["TrafficShapingType"].write(value.trafficShapingType)
     }
 
@@ -6862,6 +7031,7 @@ extension MediaTailorClientTypes.RecurringRetrieval {
         value.delayAfterAvailEndSeconds = try reader["DelayAfterAvailEndSeconds"].readIfPresent()
         value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
         value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        value.trafficShapingTpsConfiguration = try reader["TrafficShapingTpsConfiguration"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.read(from:))
         return value
     }
 }
@@ -7337,6 +7507,42 @@ extension MediaTailorClientTypes.AdConditioningConfiguration {
     }
 }
 
+extension MediaTailorClientTypes.AdDecisionServerConfiguration {
+
+    static func write(value: MediaTailorClientTypes.AdDecisionServerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HttpRequest"].write(value.httpRequest, with: MediaTailorClientTypes.HttpRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdDecisionServerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.AdDecisionServerConfiguration()
+        value.httpRequest = try reader["HttpRequest"].readIfPresent(with: MediaTailorClientTypes.HttpRequest.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.HttpRequest {
+
+    static func write(value: MediaTailorClientTypes.HttpRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body)
+        try writer["CompressRequest"].write(value.compressRequest)
+        try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Method"].write(value.method)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.HttpRequest()
+        value.method = try reader["Method"].readIfPresent()
+        value.body = try reader["Body"].readIfPresent()
+        value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.compressRequest = try reader["CompressRequest"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.Alert {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Alert {
@@ -7415,6 +7621,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
         value.transcodeProfileName = try reader["TranscodeProfileName"].readIfPresent()
         value.videoContentSourceUrl = try reader["VideoContentSourceUrl"].readIfPresent()
         value.adConditioningConfiguration = try reader["AdConditioningConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdConditioningConfiguration.read(from:))
+        value.adDecisionServerConfiguration = try reader["AdDecisionServerConfiguration"].readIfPresent(with: MediaTailorClientTypes.AdDecisionServerConfiguration.read(from:))
         return value
     }
 }

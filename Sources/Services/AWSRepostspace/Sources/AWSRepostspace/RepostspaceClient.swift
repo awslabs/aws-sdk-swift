@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class RepostspaceClient: ClientRuntime.Client {
+public class RepostspaceClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RepostspaceClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: RepostspaceClient.RepostspaceClientConfiguration
     let serviceName = "repostspace"
@@ -373,9 +373,9 @@ extension RepostspaceClient {
     ///
     /// Add role to multiple users or groups in a private re:Post channel.
     ///
-    /// - Parameter BatchAddChannelRoleToAccessorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAddChannelRoleToAccessorsInput`)
     ///
-    /// - Returns: `BatchAddChannelRoleToAccessorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAddChannelRoleToAccessorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAddChannelRoleToAccessorsInput, BatchAddChannelRoleToAccessorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAddChannelRoleToAccessorsOutput>(BatchAddChannelRoleToAccessorsOutput.httpOutput(from:), BatchAddChannelRoleToAccessorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAddChannelRoleToAccessorsInput, BatchAddChannelRoleToAccessorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAddChannelRoleToAccessorsOutput>())
@@ -444,9 +445,9 @@ extension RepostspaceClient {
     ///
     /// Add a role to multiple users or groups in a private re:Post.
     ///
-    /// - Parameter BatchAddRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAddRoleInput`)
     ///
-    /// - Returns: `BatchAddRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAddRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +485,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAddRoleInput, BatchAddRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAddRoleOutput>(BatchAddRoleOutput.httpOutput(from:), BatchAddRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAddRoleInput, BatchAddRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAddRoleOutput>())
@@ -515,9 +517,9 @@ extension RepostspaceClient {
     ///
     /// Remove a role from multiple users or groups in a private re:Post channel.
     ///
-    /// - Parameter BatchRemoveChannelRoleFromAccessorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchRemoveChannelRoleFromAccessorsInput`)
     ///
-    /// - Returns: `BatchRemoveChannelRoleFromAccessorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchRemoveChannelRoleFromAccessorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +557,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchRemoveChannelRoleFromAccessorsInput, BatchRemoveChannelRoleFromAccessorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchRemoveChannelRoleFromAccessorsOutput>(BatchRemoveChannelRoleFromAccessorsOutput.httpOutput(from:), BatchRemoveChannelRoleFromAccessorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchRemoveChannelRoleFromAccessorsInput, BatchRemoveChannelRoleFromAccessorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchRemoveChannelRoleFromAccessorsOutput>())
@@ -586,9 +589,9 @@ extension RepostspaceClient {
     ///
     /// Remove a role from multiple users or groups in a private re:Post.
     ///
-    /// - Parameter BatchRemoveRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchRemoveRoleInput`)
     ///
-    /// - Returns: `BatchRemoveRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchRemoveRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,6 +629,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchRemoveRoleInput, BatchRemoveRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchRemoveRoleOutput>(BatchRemoveRoleOutput.httpOutput(from:), BatchRemoveRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchRemoveRoleInput, BatchRemoveRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchRemoveRoleOutput>())
@@ -657,9 +661,9 @@ extension RepostspaceClient {
     ///
     /// Creates a channel in an AWS re:Post Private private re:Post.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -699,6 +703,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -730,9 +735,9 @@ extension RepostspaceClient {
     ///
     /// Creates an AWS re:Post Private private re:Post.
     ///
-    /// - Parameter CreateSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSpaceInput`)
     ///
-    /// - Returns: `CreateSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,6 +777,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSpaceInput, CreateSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSpaceOutput>(CreateSpaceOutput.httpOutput(from:), CreateSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSpaceInput, CreateSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSpaceOutput>())
@@ -803,9 +809,9 @@ extension RepostspaceClient {
     ///
     /// Deletes an AWS re:Post Private private re:Post.
     ///
-    /// - Parameter DeleteSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSpaceInput`)
     ///
-    /// - Returns: `DeleteSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +846,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSpaceInput, DeleteSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSpaceOutput>(DeleteSpaceOutput.httpOutput(from:), DeleteSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSpaceInput, DeleteSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSpaceOutput>())
@@ -871,9 +878,9 @@ extension RepostspaceClient {
     ///
     /// Removes the user or group from the list of administrators of the private re:Post.
     ///
-    /// - Parameter DeregisterAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterAdminInput`)
     ///
-    /// - Returns: `DeregisterAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,6 +915,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterAdminInput, DeregisterAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterAdminOutput>(DeregisterAdminOutput.httpOutput(from:), DeregisterAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterAdminInput, DeregisterAdminOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterAdminOutput>())
@@ -939,9 +947,9 @@ extension RepostspaceClient {
     ///
     /// Displays information about a channel in a private re:Post.
     ///
-    /// - Parameter GetChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelInput`)
     ///
-    /// - Returns: `GetChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -976,6 +984,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChannelInput, GetChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelOutput>(GetChannelOutput.httpOutput(from:), GetChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelInput, GetChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelOutput>())
@@ -1007,9 +1016,9 @@ extension RepostspaceClient {
     ///
     /// Displays information about the AWS re:Post Private private re:Post.
     ///
-    /// - Parameter GetSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSpaceInput`)
     ///
-    /// - Returns: `GetSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,6 +1053,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSpaceInput, GetSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSpaceOutput>(GetSpaceOutput.httpOutput(from:), GetSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSpaceInput, GetSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSpaceOutput>())
@@ -1075,9 +1085,9 @@ extension RepostspaceClient {
     ///
     /// Returns the list of channel within a private re:Post with some information about each channel.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1112,6 +1122,7 @@ extension RepostspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1143,9 +1154,9 @@ extension RepostspaceClient {
     ///
     /// Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
     ///
-    /// - Parameter ListSpacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSpacesInput`)
     ///
-    /// - Returns: `ListSpacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSpacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1180,6 +1191,7 @@ extension RepostspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSpacesInput, ListSpacesOutput>(ListSpacesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSpacesOutput>(ListSpacesOutput.httpOutput(from:), ListSpacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSpacesInput, ListSpacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSpacesOutput>())
@@ -1211,9 +1223,9 @@ extension RepostspaceClient {
     ///
     /// Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,6 +1260,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1279,9 +1292,9 @@ extension RepostspaceClient {
     ///
     /// Adds a user or group to the list of administrators of the private re:Post.
     ///
-    /// - Parameter RegisterAdminInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAdminInput`)
     ///
-    /// - Returns: `RegisterAdminOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAdminOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1316,6 +1329,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterAdminInput, RegisterAdminOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterAdminOutput>(RegisterAdminOutput.httpOutput(from:), RegisterAdminOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterAdminInput, RegisterAdminOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterAdminOutput>())
@@ -1347,9 +1361,9 @@ extension RepostspaceClient {
     ///
     /// Sends an invitation email to selected users and groups.
     ///
-    /// - Parameter SendInvitesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendInvitesInput`)
     ///
-    /// - Returns: `SendInvitesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendInvitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1387,6 +1401,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendInvitesInput, SendInvitesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendInvitesOutput>(SendInvitesOutput.httpOutput(from:), SendInvitesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendInvitesInput, SendInvitesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendInvitesOutput>())
@@ -1418,9 +1433,9 @@ extension RepostspaceClient {
     ///
     /// Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1458,6 +1473,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1489,9 +1505,9 @@ extension RepostspaceClient {
     ///
     /// Removes the association of the tag with the AWS re:Post Private resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1527,6 +1543,7 @@ extension RepostspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1558,9 +1575,9 @@ extension RepostspaceClient {
     ///
     /// Modifies an existing channel.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1599,6 +1616,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -1630,9 +1648,9 @@ extension RepostspaceClient {
     ///
     /// Modifies an existing AWS re:Post Private private re:Post.
     ///
-    /// - Parameter UpdateSpaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSpaceInput`)
     ///
-    /// - Returns: `UpdateSpaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSpaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1671,6 +1689,7 @@ extension RepostspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSpaceInput, UpdateSpaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSpaceOutput>(UpdateSpaceOutput.httpOutput(from:), UpdateSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSpaceInput, UpdateSpaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSpaceOutput>())

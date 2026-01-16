@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ACMClient: ClientRuntime.Client {
+public class ACMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ACMClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: ACMClient.ACMClientConfiguration
     let serviceName = "ACM"
@@ -373,9 +373,9 @@ extension ACMClient {
     ///
     /// Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify and organize your Amazon Web Services resources. Each tag consists of a key and an optional value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify the tag by using a key-value pair. You can apply a tag to just one certificate if you want to identify a specific characteristic of that certificate, or you can apply the same tag to multiple certificates if you want to filter for a common relationship among those certificates. Similarly, you can apply the same tag to multiple resources if you want to specify a relationship among those resources. For example, you can add the same tag to an ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both used by the same website. For more information, see [Tagging ACM certificates](https://docs.aws.amazon.com/acm/latest/userguide/tags.html). To remove one or more tags, use the [RemoveTagsFromCertificate] action. To view all of the tags that have been applied to the certificate, use the [ListTagsForCertificate] action.
     ///
-    /// - Parameter AddTagsToCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddTagsToCertificateInput`)
     ///
-    /// - Returns: `AddTagsToCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToCertificateOutput>(AddTagsToCertificateOutput.httpOutput(from:), AddTagsToCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToCertificateInput, AddTagsToCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToCertificateOutput>())
@@ -447,9 +448,9 @@ extension ACMClient {
     ///
     /// Deletes a certificate and its associated private key. If this action succeeds, the certificate no longer appears in the list that can be displayed by calling the [ListCertificates] action or be retrieved by calling the [GetCertificate] action. The certificate will not be available for use by Amazon Web Services services integrated with ACM. You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, the certificate association must first be removed.
     ///
-    /// - Parameter DeleteCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCertificateInput`)
     ///
-    /// - Returns: `DeleteCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,6 +487,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateOutput>(DeleteCertificateOutput.httpOutput(from:), DeleteCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateOutput>())
@@ -520,9 +522,9 @@ extension ACMClient {
     ///
     /// Returns detailed metadata about the specified ACM certificate. If you have just created a certificate using the RequestCertificate action, there is a delay of several seconds before you can retrieve information about it.
     ///
-    /// - Parameter DescribeCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificateInput`)
     ///
-    /// - Returns: `DescribeCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +557,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateOutput>(DescribeCertificateOutput.httpOutput(from:), DescribeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateOutput>())
@@ -589,9 +592,9 @@ extension ACMClient {
     ///
     /// Exports a private certificate issued by a private certificate authority (CA) or public certificate for use anywhere. The exported file contains the certificate, the certificate chain, and the encrypted private key associated with the public key that is embedded in the certificate. For security, you must assign a passphrase for the private key when exporting it. For information about exporting and formatting a certificate using the ACM console or CLI, see [Export a private certificate](https://docs.aws.amazon.com/acm/latest/userguide/export-private.html) and [Export a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/export-public-certificate).
     ///
-    /// - Parameter ExportCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportCertificateInput`)
     ///
-    /// - Returns: `ExportCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,6 +628,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportCertificateInput, ExportCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportCertificateOutput>(ExportCertificateOutput.httpOutput(from:), ExportCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportCertificateInput, ExportCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportCertificateOutput>())
@@ -659,9 +663,9 @@ extension ACMClient {
     ///
     /// Returns the account configuration options associated with an Amazon Web Services account.
     ///
-    /// - Parameter GetAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountConfigurationInput`)
     ///
-    /// - Returns: `GetAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,6 +698,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountConfigurationOutput>(GetAccountConfigurationOutput.httpOutput(from:), GetAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountConfigurationInput, GetAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountConfigurationOutput>())
@@ -728,9 +733,9 @@ extension ACMClient {
     ///
     /// Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM RequestCertificate action, or a certificate imported into ACM using the ImportCertificate action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use [OpenSSL](https://wiki.openssl.org/index.php/Command_Line_Utilities) to decode the certificates and inspect individual fields.
     ///
-    /// - Parameter GetCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCertificateInput`)
     ///
-    /// - Returns: `GetCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -764,6 +769,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificateInput, GetCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCertificateOutput>(GetCertificateOutput.httpOutput(from:), GetCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificateInput, GetCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificateOutput>())
@@ -823,9 +829,9 @@ extension ACMClient {
     ///
     /// This operation returns the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the imported certificate.
     ///
-    /// - Parameter ImportCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportCertificateInput`)
     ///
-    /// - Returns: `ImportCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,6 +869,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCertificateInput, ImportCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCertificateOutput>(ImportCertificateOutput.httpOutput(from:), ImportCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCertificateInput, ImportCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCertificateOutput>())
@@ -897,9 +904,9 @@ extension ACMClient {
     ///
     /// Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only RSA_2048 certificates. For more information, see [Filters].
     ///
-    /// - Parameter ListCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCertificatesInput`)
     ///
-    /// - Returns: `ListCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,6 +939,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCertificatesInput, ListCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificatesOutput>(ListCertificatesOutput.httpOutput(from:), ListCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificatesInput, ListCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificatesOutput>())
@@ -966,9 +974,9 @@ extension ACMClient {
     ///
     /// Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the [AddTagsToCertificate] action. To delete a tag, use the [RemoveTagsFromCertificate] action.
     ///
-    /// - Parameter ListTagsForCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForCertificateInput`)
     ///
-    /// - Returns: `ListTagsForCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1001,6 +1009,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForCertificateOutput>(ListTagsForCertificateOutput.httpOutput(from:), ListTagsForCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForCertificateInput, ListTagsForCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForCertificateOutput>())
@@ -1035,9 +1044,9 @@ extension ACMClient {
     ///
     /// Adds or modifies account-level configurations in ACM. The supported configuration option is DaysBeforeExpiry. This option specifies the number of days prior to certificate expiration when ACM starts generating EventBridge events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
     ///
-    /// - Parameter PutAccountConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountConfigurationInput`)
     ///
-    /// - Returns: `PutAccountConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1072,6 +1081,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountConfigurationOutput>(PutAccountConfigurationOutput.httpOutput(from:), PutAccountConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountConfigurationInput, PutAccountConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountConfigurationOutput>())
@@ -1106,9 +1116,9 @@ extension ACMClient {
     ///
     /// Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you do not specify the value portion of the tag when calling this function, the tag will be removed regardless of value. If you specify a value, the tag is removed only if it is associated with the specified value. To add tags to a certificate, use the [AddTagsToCertificate] action. To view all of the tags that have been applied to a specific ACM certificate, use the [ListTagsForCertificate] action.
     ///
-    /// - Parameter RemoveTagsFromCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveTagsFromCertificateInput`)
     ///
-    /// - Returns: `RemoveTagsFromCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1145,6 +1155,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromCertificateOutput>(RemoveTagsFromCertificateOutput.httpOutput(from:), RemoveTagsFromCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromCertificateInput, RemoveTagsFromCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromCertificateOutput>())
@@ -1179,9 +1190,9 @@ extension ACMClient {
     ///
     /// Renews an [eligible ACM certificate](https://docs.aws.amazon.com/acm/latest/userguide/managed-renewal.html). In order to renew your Amazon Web Services Private CA certificates with ACM, you must first [grant the ACM service principal permission to do so](https://docs.aws.amazon.com/privateca/latest/userguide/PcaPermissions.html). For more information, see [Testing Managed Renewal](https://docs.aws.amazon.com/acm/latest/userguide/manual-renewal.html) in the ACM User Guide.
     ///
-    /// - Parameter RenewCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RenewCertificateInput`)
     ///
-    /// - Returns: `RenewCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RenewCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,6 +1226,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenewCertificateInput, RenewCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RenewCertificateOutput>(RenewCertificateOutput.httpOutput(from:), RenewCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenewCertificateInput, RenewCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RenewCertificateOutput>())
@@ -1249,9 +1261,9 @@ extension ACMClient {
     ///
     /// Requests an ACM certificate for use with other Amazon Web Services services. To request an ACM certificate, you must specify a fully qualified domain name (FQDN) in the DomainName parameter. You can also specify additional FQDNs in the SubjectAlternativeNames parameter. If you are requesting a private certificate, domain validation is not required. If you are requesting a public certificate, each domain name that you specify must be validated to verify that you own or control the domain. You can use [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html) or [email validation](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-email.html). We recommend that you use DNS validation. ACM behavior differs from the [RFC 6125](https://datatracker.ietf.org/doc/html/rfc6125#appendix-B.2) specification of the certificate validation process. ACM first checks for a Subject Alternative Name, and, if it finds one, ignores the common name (CN). After successful completion of the RequestCertificate action, there is a delay of several seconds before you can retrieve information about the new certificate.
     ///
-    /// - Parameter RequestCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RequestCertificateInput`)
     ///
-    /// - Returns: `RequestCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RequestCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1289,6 +1301,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestCertificateInput, RequestCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestCertificateOutput>(RequestCertificateOutput.httpOutput(from:), RequestCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestCertificateInput, RequestCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestCertificateOutput>())
@@ -1323,9 +1336,9 @@ extension ACMClient {
     ///
     /// Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking I Approve. However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of requesting the ACM certificate. If more than 72 hours have elapsed since your original request or since your last attempt to resend validation mail, you must request a new certificate. For more information about setting up your contact email addresses, see [Configure Email for your Domain](https://docs.aws.amazon.com/acm/latest/userguide/setup-email.html).
     ///
-    /// - Parameter ResendValidationEmailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResendValidationEmailInput`)
     ///
-    /// - Returns: `ResendValidationEmailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResendValidationEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,6 +1373,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResendValidationEmailOutput>(ResendValidationEmailOutput.httpOutput(from:), ResendValidationEmailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResendValidationEmailInput, ResendValidationEmailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResendValidationEmailOutput>())
@@ -1394,9 +1408,9 @@ extension ACMClient {
     ///
     /// Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.
     ///
-    /// - Parameter RevokeCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeCertificateInput`)
     ///
-    /// - Returns: `RevokeCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,6 +1447,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeCertificateInput, RevokeCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeCertificateOutput>(RevokeCertificateOutput.httpOutput(from:), RevokeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeCertificateInput, RevokeCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeCertificateOutput>())
@@ -1467,9 +1482,9 @@ extension ACMClient {
     ///
     /// Updates a certificate. You can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log and exporting. For more information, see [ Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency) and [Certificate Manager Exportable Managed Certificates](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     ///
-    /// - Parameter UpdateCertificateOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCertificateOptionsInput`)
     ///
-    /// - Returns: `UpdateCertificateOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCertificateOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,6 +1519,7 @@ extension ACMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCertificateOptionsOutput>(UpdateCertificateOptionsOutput.httpOutput(from:), UpdateCertificateOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCertificateOptionsInput, UpdateCertificateOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCertificateOptionsOutput>())

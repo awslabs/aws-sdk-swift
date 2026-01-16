@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -64,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DocDBClient: ClientRuntime.Client {
+public class DocDBClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DocDBClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBClient.DocDBClientConfiguration
     let serviceName = "DocDB"
@@ -372,9 +372,9 @@ extension DocDBClient {
     ///
     /// Adds a source identifier to an existing event notification subscription.
     ///
-    /// - Parameter AddSourceIdentifierToSubscriptionInput : Represents the input to [AddSourceIdentifierToSubscription].
+    /// - Parameter input: Represents the input to [AddSourceIdentifierToSubscription]. (Type: `AddSourceIdentifierToSubscriptionInput`)
     ///
-    /// - Returns: `AddSourceIdentifierToSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddSourceIdentifierToSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,6 +407,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddSourceIdentifierToSubscriptionOutput>(AddSourceIdentifierToSubscriptionOutput.httpOutput(from:), AddSourceIdentifierToSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddSourceIdentifierToSubscriptionOutput>())
@@ -440,9 +441,9 @@ extension DocDBClient {
     ///
     /// Adds metadata tags to an Amazon DocumentDB resource. You can use these tags with cost allocation reporting to track costs that are associated with Amazon DocumentDB resources or in a Condition statement in an Identity and Access Management (IAM) policy for Amazon DocumentDB.
     ///
-    /// - Parameter AddTagsToResourceInput : Represents the input to [AddTagsToResource].
+    /// - Parameter input: Represents the input to [AddTagsToResource]. (Type: `AddTagsToResourceInput`)
     ///
-    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,6 +477,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput>(AddTagsToResourceOutput.httpOutput(from:), AddTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToResourceOutput>())
@@ -509,9 +511,9 @@ extension DocDBClient {
     ///
     /// Applies a pending maintenance action to a resource (for example, to an Amazon DocumentDB instance).
     ///
-    /// - Parameter ApplyPendingMaintenanceActionInput : Represents the input to [ApplyPendingMaintenanceAction].
+    /// - Parameter input: Represents the input to [ApplyPendingMaintenanceAction]. (Type: `ApplyPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `ApplyPendingMaintenanceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplyPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -545,6 +547,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutput>(ApplyPendingMaintenanceActionOutput.httpOutput(from:), ApplyPendingMaintenanceActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyPendingMaintenanceActionOutput>())
@@ -578,9 +581,9 @@ extension DocDBClient {
     ///
     /// Copies the specified cluster parameter group.
     ///
-    /// - Parameter CopyDBClusterParameterGroupInput : Represents the input to [CopyDBClusterParameterGroup].
+    /// - Parameter input: Represents the input to [CopyDBClusterParameterGroup]. (Type: `CopyDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `CopyDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -614,6 +617,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBClusterParameterGroupOutput>(CopyDBClusterParameterGroupOutput.httpOutput(from:), CopyDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBClusterParameterGroupOutput>())
@@ -647,9 +651,9 @@ extension DocDBClient {
     ///
     /// Copies a snapshot of a cluster. To copy a cluster snapshot from a shared manual cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared cluster snapshot. You can only copy a shared DB cluster snapshot, whether encrypted or not, in the same Amazon Web Services Region. To cancel the copy operation after it is in progress, delete the target cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that cluster snapshot is in the copying status.
     ///
-    /// - Parameter CopyDBClusterSnapshotInput : Represents the input to [CopyDBClusterSnapshot].
+    /// - Parameter input: Represents the input to [CopyDBClusterSnapshot]. (Type: `CopyDBClusterSnapshotInput`)
     ///
-    /// - Returns: `CopyDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,6 +690,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBClusterSnapshotOutput>(CopyDBClusterSnapshotOutput.httpOutput(from:), CopyDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBClusterSnapshotOutput>())
@@ -719,9 +724,9 @@ extension DocDBClient {
     ///
     /// Creates a new Amazon DocumentDB cluster.
     ///
-    /// - Parameter CreateDBClusterInput : Represents the input to [CreateDBCluster].
+    /// - Parameter input: Represents the input to [CreateDBCluster]. (Type: `CreateDBClusterInput`)
     ///
-    /// - Returns: `CreateDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -742,6 +747,7 @@ extension DocDBClient {
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is not supported by either DBSubnetGroup or the DB engine version.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -769,6 +775,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterInput, CreateDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterOutput>(CreateDBClusterOutput.httpOutput(from:), CreateDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterInput, CreateDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterOutput>())
@@ -802,9 +809,9 @@ extension DocDBClient {
     ///
     /// Creates a new cluster parameter group. Parameters in a cluster parameter group apply to all of the instances in a cluster. A cluster parameter group is initially created with the default parameters for the database engine used by instances in the cluster. In Amazon DocumentDB, you cannot make modifications directly to the default.docdb3.6 cluster parameter group. If your Amazon DocumentDB cluster is using the default cluster parameter group and you want to modify a value in it, you must first [ create a new parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-create.html) or [ copy an existing parameter group](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-copy.html), modify it, and then apply the modified parameter group to your cluster. For the new cluster parameter group and associated settings to take effect, you must then reboot the instances in the cluster without failover. For more information, see [ Modifying Amazon DocumentDB Cluster Parameter Groups](https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-modify.html).
     ///
-    /// - Parameter CreateDBClusterParameterGroupInput : Represents the input of [CreateDBClusterParameterGroup].
+    /// - Parameter input: Represents the input of [CreateDBClusterParameterGroup]. (Type: `CreateDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `CreateDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -837,6 +844,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterParameterGroupOutput>(CreateDBClusterParameterGroupOutput.httpOutput(from:), CreateDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterParameterGroupOutput>())
@@ -870,9 +878,9 @@ extension DocDBClient {
     ///
     /// Creates a snapshot of a cluster.
     ///
-    /// - Parameter CreateDBClusterSnapshotInput : Represents the input of [CreateDBClusterSnapshot].
+    /// - Parameter input: Represents the input of [CreateDBClusterSnapshot]. (Type: `CreateDBClusterSnapshotInput`)
     ///
-    /// - Returns: `CreateDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,6 +916,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterSnapshotOutput>(CreateDBClusterSnapshotOutput.httpOutput(from:), CreateDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterSnapshotOutput>())
@@ -941,9 +950,9 @@ extension DocDBClient {
     ///
     /// Creates a new instance.
     ///
-    /// - Parameter CreateDBInstanceInput : Represents the input to [CreateDBInstance].
+    /// - Parameter input: Represents the input to [CreateDBInstance]. (Type: `CreateDBInstanceInput`)
     ///
-    /// - Returns: `CreateDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -989,6 +998,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBInstanceInput, CreateDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBInstanceOutput>(CreateDBInstanceOutput.httpOutput(from:), CreateDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBInstanceInput, CreateDBInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBInstanceOutput>())
@@ -1022,9 +1032,9 @@ extension DocDBClient {
     ///
     /// Creates a new subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
     ///
-    /// - Parameter CreateDBSubnetGroupInput : Represents the input to [CreateDBSubnetGroup].
+    /// - Parameter input: Represents the input to [CreateDBSubnetGroup]. (Type: `CreateDBSubnetGroupInput`)
     ///
-    /// - Returns: `CreateDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1060,6 +1070,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBSubnetGroupOutput>(CreateDBSubnetGroupOutput.httpOutput(from:), CreateDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBSubnetGroupOutput>())
@@ -1093,9 +1104,9 @@ extension DocDBClient {
     ///
     /// Creates an Amazon DocumentDB event notification subscription. This action requires a topic Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console. You can specify the type of source (SourceType) that you want to be notified of. You can also provide a list of Amazon DocumentDB sources (SourceIds) that trigger the events, and you can provide a list of event categories (EventCategories) for events that you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds (such as SourceType = db-instance and SourceIdentifier = myDBInstance1), you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your Amazon DocumentDB sources. If you do not specify either the SourceType or the SourceIdentifier, you are notified of events generated from all Amazon DocumentDB sources belonging to your customer account.
     ///
-    /// - Parameter CreateEventSubscriptionInput : Represents the input to [CreateEventSubscription].
+    /// - Parameter input: Represents the input to [CreateEventSubscription]. (Type: `CreateEventSubscriptionInput`)
     ///
-    /// - Returns: `CreateEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1133,6 +1144,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutput>(CreateEventSubscriptionOutput.httpOutput(from:), CreateEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventSubscriptionOutput>())
@@ -1164,11 +1176,11 @@ extension DocDBClient {
 
     /// Performs the `CreateGlobalCluster` operation on the `DocDB` service.
     ///
-    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to give read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance. You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster. This action only applies to Amazon DocumentDB clusters.
+    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to 10 read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance. You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter CreateGlobalClusterInput : Represents the input to [CreateGlobalCluster].
+    /// - Parameter input: Represents the input to [CreateGlobalCluster]. (Type: `CreateGlobalClusterInput`)
     ///
-    /// - Returns: `CreateGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1203,6 +1215,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlobalClusterOutput>(CreateGlobalClusterOutput.httpOutput(from:), CreateGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlobalClusterOutput>())
@@ -1236,9 +1249,9 @@ extension DocDBClient {
     ///
     /// Deletes a previously provisioned cluster. When you delete a cluster, all automated backups for that cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified cluster are not deleted.
     ///
-    /// - Parameter DeleteDBClusterInput : Represents the input to [DeleteDBCluster].
+    /// - Parameter input: Represents the input to [DeleteDBCluster]. (Type: `DeleteDBClusterInput`)
     ///
-    /// - Returns: `DeleteDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1274,6 +1287,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterInput, DeleteDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterOutput>(DeleteDBClusterOutput.httpOutput(from:), DeleteDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterInput, DeleteDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterOutput>())
@@ -1307,9 +1321,9 @@ extension DocDBClient {
     ///
     /// Deletes a specified cluster parameter group. The cluster parameter group to be deleted can't be associated with any clusters.
     ///
-    /// - Parameter DeleteDBClusterParameterGroupInput : Represents the input to [DeleteDBClusterParameterGroup].
+    /// - Parameter input: Represents the input to [DeleteDBClusterParameterGroup]. (Type: `DeleteDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `DeleteDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1342,6 +1356,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterParameterGroupOutput>(DeleteDBClusterParameterGroupOutput.httpOutput(from:), DeleteDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterParameterGroupOutput>())
@@ -1375,9 +1390,9 @@ extension DocDBClient {
     ///
     /// Deletes a cluster snapshot. If the snapshot is being copied, the copy operation is terminated. The cluster snapshot must be in the available state to be deleted.
     ///
-    /// - Parameter DeleteDBClusterSnapshotInput : Represents the input to [DeleteDBClusterSnapshot].
+    /// - Parameter input: Represents the input to [DeleteDBClusterSnapshot]. (Type: `DeleteDBClusterSnapshotInput`)
     ///
-    /// - Returns: `DeleteDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1410,6 +1425,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterSnapshotOutput>(DeleteDBClusterSnapshotOutput.httpOutput(from:), DeleteDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterSnapshotOutput>())
@@ -1443,9 +1459,9 @@ extension DocDBClient {
     ///
     /// Deletes a previously provisioned instance.
     ///
-    /// - Parameter DeleteDBInstanceInput : Represents the input to [DeleteDBInstance].
+    /// - Parameter input: Represents the input to [DeleteDBInstance]. (Type: `DeleteDBInstanceInput`)
     ///
-    /// - Returns: `DeleteDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1481,6 +1497,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBInstanceOutput>(DeleteDBInstanceOutput.httpOutput(from:), DeleteDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBInstanceOutput>())
@@ -1514,9 +1531,9 @@ extension DocDBClient {
     ///
     /// Deletes a subnet group. The specified database subnet group must not be associated with any DB instances.
     ///
-    /// - Parameter DeleteDBSubnetGroupInput : Represents the input to [DeleteDBSubnetGroup].
+    /// - Parameter input: Represents the input to [DeleteDBSubnetGroup]. (Type: `DeleteDBSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1550,6 +1567,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBSubnetGroupOutput>(DeleteDBSubnetGroupOutput.httpOutput(from:), DeleteDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBSubnetGroupOutput>())
@@ -1583,9 +1601,9 @@ extension DocDBClient {
     ///
     /// Deletes an Amazon DocumentDB event notification subscription.
     ///
-    /// - Parameter DeleteEventSubscriptionInput : Represents the input to [DeleteEventSubscription].
+    /// - Parameter input: Represents the input to [DeleteEventSubscription]. (Type: `DeleteEventSubscriptionInput`)
     ///
-    /// - Returns: `DeleteEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1618,6 +1636,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutput>(DeleteEventSubscriptionOutput.httpOutput(from:), DeleteEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventSubscriptionOutput>())
@@ -1651,9 +1670,9 @@ extension DocDBClient {
     ///
     /// Deletes a global cluster. The primary and secondary clusters must already be detached or deleted before attempting to delete a global cluster. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter DeleteGlobalClusterInput : Represents the input to [DeleteGlobalCluster].
+    /// - Parameter input: Represents the input to [DeleteGlobalCluster]. (Type: `DeleteGlobalClusterInput`)
     ///
-    /// - Returns: `DeleteGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1686,6 +1705,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGlobalClusterOutput>(DeleteGlobalClusterOutput.httpOutput(from:), DeleteGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlobalClusterOutput>())
@@ -1719,9 +1739,9 @@ extension DocDBClient {
     ///
     /// Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
     ///
-    /// - Parameter DescribeCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificatesInput`)
     ///
-    /// - Returns: `DescribeCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1753,6 +1773,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificatesInput, DescribeCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificatesOutput>(DescribeCertificatesOutput.httpOutput(from:), DescribeCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificatesInput, DescribeCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificatesOutput>())
@@ -1786,9 +1807,9 @@ extension DocDBClient {
     ///
     /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list contains only the description of the specified cluster parameter group.
     ///
-    /// - Parameter DescribeDBClusterParameterGroupsInput : Represents the input to [DescribeDBClusterParameterGroups].
+    /// - Parameter input: Represents the input to [DescribeDBClusterParameterGroups]. (Type: `DescribeDBClusterParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeDBClusterParameterGroupsOutput` : Represents the output of [DBClusterParameterGroups].
+    /// - Returns: Represents the output of [DBClusterParameterGroups]. (Type: `DescribeDBClusterParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,6 +1841,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterParameterGroupsOutput>(DescribeDBClusterParameterGroupsOutput.httpOutput(from:), DescribeDBClusterParameterGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterParameterGroupsOutput>())
@@ -1853,9 +1875,9 @@ extension DocDBClient {
     ///
     /// Returns the detailed parameter list for a particular cluster parameter group.
     ///
-    /// - Parameter DescribeDBClusterParametersInput : Represents the input to [DescribeDBClusterParameters].
+    /// - Parameter input: Represents the input to [DescribeDBClusterParameters]. (Type: `DescribeDBClusterParametersInput`)
     ///
-    /// - Returns: `DescribeDBClusterParametersOutput` : Represents the output of [DBClusterParameterGroup].
+    /// - Returns: Represents the output of [DBClusterParameterGroup]. (Type: `DescribeDBClusterParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1887,6 +1909,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterParametersOutput>(DescribeDBClusterParametersOutput.httpOutput(from:), DescribeDBClusterParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterParametersOutput>())
@@ -1920,9 +1943,9 @@ extension DocDBClient {
     ///
     /// Returns a list of cluster snapshot attribute names and values for a manual DB cluster snapshot. When you share snapshots with other Amazon Web Services accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If all is included in the list of values for the restore attribute, then the manual cluster snapshot is public and can be copied or restored by all Amazon Web Services accounts.
     ///
-    /// - Parameter DescribeDBClusterSnapshotAttributesInput : Represents the input to [DescribeDBClusterSnapshotAttributes].
+    /// - Parameter input: Represents the input to [DescribeDBClusterSnapshotAttributes]. (Type: `DescribeDBClusterSnapshotAttributesInput`)
     ///
-    /// - Returns: `DescribeDBClusterSnapshotAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterSnapshotAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1954,6 +1977,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotAttributesOutput>(DescribeDBClusterSnapshotAttributesOutput.httpOutput(from:), DescribeDBClusterSnapshotAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterSnapshotAttributesOutput>())
@@ -1987,9 +2011,9 @@ extension DocDBClient {
     ///
     /// Returns information about cluster snapshots. This API operation supports pagination.
     ///
-    /// - Parameter DescribeDBClusterSnapshotsInput : Represents the input to [DescribeDBClusterSnapshots].
+    /// - Parameter input: Represents the input to [DescribeDBClusterSnapshots]. (Type: `DescribeDBClusterSnapshotsInput`)
     ///
-    /// - Returns: `DescribeDBClusterSnapshotsOutput` : Represents the output of [DescribeDBClusterSnapshots].
+    /// - Returns: Represents the output of [DescribeDBClusterSnapshots]. (Type: `DescribeDBClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,6 +2045,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotsOutput>(DescribeDBClusterSnapshotsOutput.httpOutput(from:), DescribeDBClusterSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterSnapshotsOutput>())
@@ -2054,9 +2079,9 @@ extension DocDBClient {
     ///
     /// Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
     ///
-    /// - Parameter DescribeDBClustersInput : Represents the input to [DescribeDBClusters].
+    /// - Parameter input: Represents the input to [DescribeDBClusters]. (Type: `DescribeDBClustersInput`)
     ///
-    /// - Returns: `DescribeDBClustersOutput` : Represents the output of [DescribeDBClusters].
+    /// - Returns: Represents the output of [DescribeDBClusters]. (Type: `DescribeDBClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2088,6 +2113,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClustersInput, DescribeDBClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClustersOutput>(DescribeDBClustersOutput.httpOutput(from:), DescribeDBClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClustersInput, DescribeDBClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClustersOutput>())
@@ -2121,9 +2147,9 @@ extension DocDBClient {
     ///
     /// Returns a list of the available engines.
     ///
-    /// - Parameter DescribeDBEngineVersionsInput : Represents the input to [DescribeDBEngineVersions].
+    /// - Parameter input: Represents the input to [DescribeDBEngineVersions]. (Type: `DescribeDBEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeDBEngineVersionsOutput` : Represents the output of [DescribeDBEngineVersions].
+    /// - Returns: Represents the output of [DescribeDBEngineVersions]. (Type: `DescribeDBEngineVersionsOutput`)
     public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2150,6 +2176,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBEngineVersionsOutput>(DescribeDBEngineVersionsOutput.httpOutput(from:), DescribeDBEngineVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBEngineVersionsOutput>())
@@ -2183,9 +2210,9 @@ extension DocDBClient {
     ///
     /// Returns information about provisioned Amazon DocumentDB instances. This API supports pagination.
     ///
-    /// - Parameter DescribeDBInstancesInput : Represents the input to [DescribeDBInstances].
+    /// - Parameter input: Represents the input to [DescribeDBInstances]. (Type: `DescribeDBInstancesInput`)
     ///
-    /// - Returns: `DescribeDBInstancesOutput` : Represents the output of [DescribeDBInstances].
+    /// - Returns: Represents the output of [DescribeDBInstances]. (Type: `DescribeDBInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2217,6 +2244,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBInstancesOutput>(DescribeDBInstancesOutput.httpOutput(from:), DescribeDBInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBInstancesOutput>())
@@ -2250,9 +2278,9 @@ extension DocDBClient {
     ///
     /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup.
     ///
-    /// - Parameter DescribeDBSubnetGroupsInput : Represents the input to [DescribeDBSubnetGroups].
+    /// - Parameter input: Represents the input to [DescribeDBSubnetGroups]. (Type: `DescribeDBSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeDBSubnetGroupsOutput` : Represents the output of [DescribeDBSubnetGroups].
+    /// - Returns: Represents the output of [DescribeDBSubnetGroups]. (Type: `DescribeDBSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2284,6 +2312,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBSubnetGroupsOutput>(DescribeDBSubnetGroupsOutput.httpOutput(from:), DescribeDBSubnetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBSubnetGroupsOutput>())
@@ -2317,9 +2346,9 @@ extension DocDBClient {
     ///
     /// Returns the default engine and system parameter information for the cluster database engine.
     ///
-    /// - Parameter DescribeEngineDefaultClusterParametersInput : Represents the input to [DescribeEngineDefaultClusterParameters].
+    /// - Parameter input: Represents the input to [DescribeEngineDefaultClusterParameters]. (Type: `DescribeEngineDefaultClusterParametersInput`)
     ///
-    /// - Returns: `DescribeEngineDefaultClusterParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineDefaultClusterParametersOutput`)
     public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2346,6 +2375,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultClusterParametersOutput>(DescribeEngineDefaultClusterParametersOutput.httpOutput(from:), DescribeEngineDefaultClusterParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEngineDefaultClusterParametersOutput>())
@@ -2379,9 +2409,9 @@ extension DocDBClient {
     ///
     /// Displays a list of categories for all event source types, or, if specified, for a specified source type.
     ///
-    /// - Parameter DescribeEventCategoriesInput : Represents the input to [DescribeEventCategories].
+    /// - Parameter input: Represents the input to [DescribeEventCategories]. (Type: `DescribeEventCategoriesInput`)
     ///
-    /// - Returns: `DescribeEventCategoriesOutput` : Represents the output of [DescribeEventCategories].
+    /// - Returns: Represents the output of [DescribeEventCategories]. (Type: `DescribeEventCategoriesOutput`)
     public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2408,6 +2438,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutput>(DescribeEventCategoriesOutput.httpOutput(from:), DescribeEventCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventCategoriesOutput>())
@@ -2441,9 +2472,9 @@ extension DocDBClient {
     ///
     /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     ///
-    /// - Parameter DescribeEventSubscriptionsInput : Represents the input to [DescribeEventSubscriptions].
+    /// - Parameter input: Represents the input to [DescribeEventSubscriptions]. (Type: `DescribeEventSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeEventSubscriptionsOutput` : Represents the output of [DescribeEventSubscriptions].
+    /// - Returns: Represents the output of [DescribeEventSubscriptions]. (Type: `DescribeEventSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2475,6 +2506,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutput>(DescribeEventSubscriptionsOutput.httpOutput(from:), DescribeEventSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventSubscriptionsOutput>())
@@ -2508,9 +2540,9 @@ extension DocDBClient {
     ///
     /// Returns events related to instances, security groups, snapshots, and DB parameter groups for the past 14 days. You can obtain events specific to a particular DB instance, security group, snapshot, or parameter group by providing the name as a parameter. By default, the events of the past hour are returned.
     ///
-    /// - Parameter DescribeEventsInput : Represents the input to [DescribeEvents].
+    /// - Parameter input: Represents the input to [DescribeEvents]. (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : Represents the output of [DescribeEvents].
+    /// - Returns: Represents the output of [DescribeEvents]. (Type: `DescribeEventsOutput`)
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2537,6 +2569,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
@@ -2570,9 +2603,9 @@ extension DocDBClient {
     ///
     /// Returns information about Amazon DocumentDB global clusters. This API supports pagination. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter DescribeGlobalClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalClustersInput`)
     ///
-    /// - Returns: `DescribeGlobalClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2604,6 +2637,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGlobalClustersOutput>(DescribeGlobalClustersOutput.httpOutput(from:), DescribeGlobalClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalClustersOutput>())
@@ -2637,9 +2671,9 @@ extension DocDBClient {
     ///
     /// Returns a list of orderable instance options for the specified engine.
     ///
-    /// - Parameter DescribeOrderableDBInstanceOptionsInput : Represents the input to [DescribeOrderableDBInstanceOptions].
+    /// - Parameter input: Represents the input to [DescribeOrderableDBInstanceOptions]. (Type: `DescribeOrderableDBInstanceOptionsInput`)
     ///
-    /// - Returns: `DescribeOrderableDBInstanceOptionsOutput` : Represents the output of [DescribeOrderableDBInstanceOptions].
+    /// - Returns: Represents the output of [DescribeOrderableDBInstanceOptions]. (Type: `DescribeOrderableDBInstanceOptionsOutput`)
     public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2666,6 +2700,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrderableDBInstanceOptionsOutput>(DescribeOrderableDBInstanceOptionsOutput.httpOutput(from:), DescribeOrderableDBInstanceOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrderableDBInstanceOptionsOutput>())
@@ -2699,9 +2734,9 @@ extension DocDBClient {
     ///
     /// Returns a list of resources (for example, instances) that have at least one pending maintenance action.
     ///
-    /// - Parameter DescribePendingMaintenanceActionsInput : Represents the input to [DescribePendingMaintenanceActions].
+    /// - Parameter input: Represents the input to [DescribePendingMaintenanceActions]. (Type: `DescribePendingMaintenanceActionsInput`)
     ///
-    /// - Returns: `DescribePendingMaintenanceActionsOutput` : Represents the output of [DescribePendingMaintenanceActions].
+    /// - Returns: Represents the output of [DescribePendingMaintenanceActions]. (Type: `DescribePendingMaintenanceActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2733,6 +2768,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePendingMaintenanceActionsOutput>(DescribePendingMaintenanceActionsOutput.httpOutput(from:), DescribePendingMaintenanceActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePendingMaintenanceActionsOutput>())
@@ -2766,9 +2802,9 @@ extension DocDBClient {
     ///
     /// Forces a failover for a cluster. A failover for a cluster promotes one of the Amazon DocumentDB replicas (read-only instances) in the cluster to be the primary instance (the cluster writer). If the primary instance fails, Amazon DocumentDB automatically fails over to an Amazon DocumentDB replica, if one exists. You can force a failover when you want to simulate a failure of a primary instance for testing.
     ///
-    /// - Parameter FailoverDBClusterInput : Represents the input to [FailoverDBCluster].
+    /// - Parameter input: Represents the input to [FailoverDBCluster]. (Type: `FailoverDBClusterInput`)
     ///
-    /// - Returns: `FailoverDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2802,6 +2838,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverDBClusterInput, FailoverDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverDBClusterOutput>(FailoverDBClusterOutput.httpOutput(from:), FailoverDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverDBClusterInput, FailoverDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FailoverDBClusterOutput>())
@@ -2835,9 +2872,9 @@ extension DocDBClient {
     ///
     /// Promotes the specified secondary DB cluster to be the primary DB cluster in the global cluster when failing over a global cluster occurs. Use this operation to respond to an unplanned event, such as a regional disaster in the primary region. Failing over can result in a loss of write transaction data that wasn't replicated to the chosen secondary before the failover event occurred. However, the recovery process that promotes a DB instance on the chosen seconday DB cluster to be the primary writer DB instance guarantees that the data is in a transactionally consistent state.
     ///
-    /// - Parameter FailoverGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverGlobalClusterInput`)
     ///
-    /// - Returns: `FailoverGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2872,6 +2909,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverGlobalClusterOutput>(FailoverGlobalClusterOutput.httpOutput(from:), FailoverGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FailoverGlobalClusterOutput>())
@@ -2905,9 +2943,9 @@ extension DocDBClient {
     ///
     /// Lists all tags on an Amazon DocumentDB resource.
     ///
-    /// - Parameter ListTagsForResourceInput : Represents the input to [ListTagsForResource].
+    /// - Parameter input: Represents the input to [ListTagsForResource]. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : Represents the output of [ListTagsForResource].
+    /// - Returns: Represents the output of [ListTagsForResource]. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2941,6 +2979,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2974,9 +3013,9 @@ extension DocDBClient {
     ///
     /// Modifies a setting for an Amazon DocumentDB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     ///
-    /// - Parameter ModifyDBClusterInput : Represents the input to [ModifyDBCluster].
+    /// - Parameter input: Represents the input to [ModifyDBCluster]. (Type: `ModifyDBClusterInput`)
     ///
-    /// - Returns: `ModifyDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2991,6 +3030,7 @@ extension DocDBClient {
     /// - `InvalidDBSubnetGroupStateFault` : The subnet group can't be deleted because it's in use.
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
+    /// - `NetworkTypeNotSupported` : The network type is not supported by either DBSubnetGroup or the DB engine version.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -3018,6 +3058,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterInput, ModifyDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterOutput>(ModifyDBClusterOutput.httpOutput(from:), ModifyDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterInput, ModifyDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterOutput>())
@@ -3051,9 +3092,9 @@ extension DocDBClient {
     ///
     /// Modifies the parameters of a cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot or maintenance window before the change can take effect. After you create a cluster parameter group, you should wait at least 5 minutes before creating your first cluster that uses that cluster parameter group as the default parameter group. This allows Amazon DocumentDB to fully complete the create action before the parameter group is used as the default for a new cluster. This step is especially important for parameters that are critical when creating the default database for a cluster, such as the character set for the default database defined by the character_set_database parameter.
     ///
-    /// - Parameter ModifyDBClusterParameterGroupInput : Represents the input to [ModifyDBClusterParameterGroup].
+    /// - Parameter input: Represents the input to [ModifyDBClusterParameterGroup]. (Type: `ModifyDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `ModifyDBClusterParameterGroupOutput` : Contains the name of a cluster parameter group.
+    /// - Returns: Contains the name of a cluster parameter group. (Type: `ModifyDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3086,6 +3127,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterParameterGroupOutput>(ModifyDBClusterParameterGroupOutput.httpOutput(from:), ModifyDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterParameterGroupOutput>())
@@ -3119,9 +3161,9 @@ extension DocDBClient {
     ///
     /// Adds an attribute and values to, or removes an attribute and values from, a manual cluster snapshot. To share a manual cluster snapshot with other Amazon Web Services accounts, specify restore as the AttributeName, and use the ValuesToAdd parameter to add a list of IDs of the Amazon Web Services accounts that are authorized to restore the manual cluster snapshot. Use the value all to make the manual cluster snapshot public, which means that it can be copied or restored by all Amazon Web Services accounts. Do not add the all value for any manual cluster snapshots that contain private information that you don't want available to all Amazon Web Services accounts. If a manual cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon Web Services account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case.
     ///
-    /// - Parameter ModifyDBClusterSnapshotAttributeInput : Represents the input to [ModifyDBClusterSnapshotAttribute].
+    /// - Parameter input: Represents the input to [ModifyDBClusterSnapshotAttribute]. (Type: `ModifyDBClusterSnapshotAttributeInput`)
     ///
-    /// - Returns: `ModifyDBClusterSnapshotAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterSnapshotAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3155,6 +3197,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterSnapshotAttributeOutput>(ModifyDBClusterSnapshotAttributeOutput.httpOutput(from:), ModifyDBClusterSnapshotAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterSnapshotAttributeOutput>())
@@ -3188,9 +3231,9 @@ extension DocDBClient {
     ///
     /// Modifies settings for an instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     ///
-    /// - Parameter ModifyDBInstanceInput : Represents the input to [ModifyDBInstance].
+    /// - Parameter input: Represents the input to [ModifyDBInstance]. (Type: `ModifyDBInstanceInput`)
     ///
-    /// - Returns: `ModifyDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3234,6 +3277,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBInstanceOutput>(ModifyDBInstanceOutput.httpOutput(from:), ModifyDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBInstanceOutput>())
@@ -3267,9 +3311,9 @@ extension DocDBClient {
     ///
     /// Modifies an existing subnet group. subnet groups must contain at least one subnet in at least two Availability Zones in the Amazon Web Services Region.
     ///
-    /// - Parameter ModifyDBSubnetGroupInput : Represents the input to [ModifyDBSubnetGroup].
+    /// - Parameter input: Represents the input to [ModifyDBSubnetGroup]. (Type: `ModifyDBSubnetGroupInput`)
     ///
-    /// - Returns: `ModifyDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3305,6 +3349,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBSubnetGroupOutput>(ModifyDBSubnetGroupOutput.httpOutput(from:), ModifyDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBSubnetGroupOutput>())
@@ -3338,9 +3383,9 @@ extension DocDBClient {
     ///
     /// Modifies an existing Amazon DocumentDB event notification subscription.
     ///
-    /// - Parameter ModifyEventSubscriptionInput : Represents the input to [ModifyEventSubscription].
+    /// - Parameter input: Represents the input to [ModifyEventSubscription]. (Type: `ModifyEventSubscriptionInput`)
     ///
-    /// - Returns: `ModifyEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3377,6 +3422,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutput>(ModifyEventSubscriptionOutput.httpOutput(from:), ModifyEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEventSubscriptionOutput>())
@@ -3410,9 +3456,9 @@ extension DocDBClient {
     ///
     /// Modify a setting for an Amazon DocumentDB global cluster. You can change one or more configuration parameters (for example: deletion protection), or the global cluster identifier by specifying these parameters and the new values in the request. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter ModifyGlobalClusterInput : Represents the input to [ModifyGlobalCluster].
+    /// - Parameter input: Represents the input to [ModifyGlobalCluster]. (Type: `ModifyGlobalClusterInput`)
     ///
-    /// - Returns: `ModifyGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3445,6 +3491,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyGlobalClusterOutput>(ModifyGlobalClusterOutput.httpOutput(from:), ModifyGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyGlobalClusterOutput>())
@@ -3478,9 +3525,9 @@ extension DocDBClient {
     ///
     /// You might need to reboot your instance, usually for maintenance reasons. For example, if you make certain changes, or if you change the cluster parameter group that is associated with the instance, you must reboot the instance for the changes to take effect. Rebooting an instance restarts the database engine service. Rebooting an instance results in a momentary outage, during which the instance status is set to rebooting.
     ///
-    /// - Parameter RebootDBInstanceInput : Represents the input to [RebootDBInstance].
+    /// - Parameter input: Represents the input to [RebootDBInstance]. (Type: `RebootDBInstanceInput`)
     ///
-    /// - Returns: `RebootDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3513,6 +3560,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootDBInstanceInput, RebootDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootDBInstanceOutput>(RebootDBInstanceOutput.httpOutput(from:), RebootDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootDBInstanceInput, RebootDBInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootDBInstanceOutput>())
@@ -3546,9 +3594,9 @@ extension DocDBClient {
     ///
     /// Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes a standalone cluster with read-write capability instead of being read-only and receiving data from a primary in a different region. This action only applies to Amazon DocumentDB clusters.
     ///
-    /// - Parameter RemoveFromGlobalClusterInput : Represents the input to [RemoveFromGlobalCluster].
+    /// - Parameter input: Represents the input to [RemoveFromGlobalCluster]. (Type: `RemoveFromGlobalClusterInput`)
     ///
-    /// - Returns: `RemoveFromGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFromGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3582,6 +3630,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFromGlobalClusterOutput>(RemoveFromGlobalClusterOutput.httpOutput(from:), RemoveFromGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFromGlobalClusterOutput>())
@@ -3615,9 +3664,9 @@ extension DocDBClient {
     ///
     /// Removes a source identifier from an existing Amazon DocumentDB event notification subscription.
     ///
-    /// - Parameter RemoveSourceIdentifierFromSubscriptionInput : Represents the input to [RemoveSourceIdentifierFromSubscription].
+    /// - Parameter input: Represents the input to [RemoveSourceIdentifierFromSubscription]. (Type: `RemoveSourceIdentifierFromSubscriptionInput`)
     ///
-    /// - Returns: `RemoveSourceIdentifierFromSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveSourceIdentifierFromSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3650,6 +3699,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveSourceIdentifierFromSubscriptionOutput>(RemoveSourceIdentifierFromSubscriptionOutput.httpOutput(from:), RemoveSourceIdentifierFromSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveSourceIdentifierFromSubscriptionOutput>())
@@ -3683,9 +3733,9 @@ extension DocDBClient {
     ///
     /// Removes metadata tags from an Amazon DocumentDB resource.
     ///
-    /// - Parameter RemoveTagsFromResourceInput : Represents the input to [RemoveTagsFromResource].
+    /// - Parameter input: Represents the input to [RemoveTagsFromResource]. (Type: `RemoveTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3719,6 +3769,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput>(RemoveTagsFromResourceOutput.httpOutput(from:), RemoveTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromResourceOutput>())
@@ -3752,9 +3803,9 @@ extension DocDBClient {
     ///
     /// Modifies the parameters of a cluster parameter group to the default value. To reset specific parameters, submit a list of the following: ParameterName and ApplyMethod. To reset the entire cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When you reset the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance reboot.
     ///
-    /// - Parameter ResetDBClusterParameterGroupInput : Represents the input to [ResetDBClusterParameterGroup].
+    /// - Parameter input: Represents the input to [ResetDBClusterParameterGroup]. (Type: `ResetDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `ResetDBClusterParameterGroupOutput` : Contains the name of a cluster parameter group.
+    /// - Returns: Contains the name of a cluster parameter group. (Type: `ResetDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3787,6 +3838,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetDBClusterParameterGroupOutput>(ResetDBClusterParameterGroupOutput.httpOutput(from:), ResetDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetDBClusterParameterGroupOutput>())
@@ -3820,9 +3872,9 @@ extension DocDBClient {
     ///
     /// Creates a new cluster from a snapshot or cluster snapshot. If a snapshot is specified, the target cluster is created from the source DB snapshot with a default configuration and default security group. If a cluster snapshot is specified, the target cluster is created from the source cluster restore point with the same configuration as the original source DB cluster, except that the new cluster is created with the default security group.
     ///
-    /// - Parameter RestoreDBClusterFromSnapshotInput : Represents the input to [RestoreDBClusterFromSnapshot].
+    /// - Parameter input: Represents the input to [RestoreDBClusterFromSnapshot]. (Type: `RestoreDBClusterFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreDBClusterFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3840,6 +3892,7 @@ extension DocDBClient {
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is not supported by either DBSubnetGroup or the DB engine version.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput {
         let context = Smithy.ContextBuilder()
@@ -3867,6 +3920,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBClusterFromSnapshotOutput>(RestoreDBClusterFromSnapshotOutput.httpOutput(from:), RestoreDBClusterFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBClusterFromSnapshotOutput>())
@@ -3900,9 +3954,9 @@ extension DocDBClient {
     ///
     /// Restores a cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target cluster is created from the source cluster with the same configuration as the original cluster, except that the new cluster is created with the default security group.
     ///
-    /// - Parameter RestoreDBClusterToPointInTimeInput : Represents the input to [RestoreDBClusterToPointInTime].
+    /// - Parameter input: Represents the input to [RestoreDBClusterToPointInTime]. (Type: `RestoreDBClusterToPointInTimeInput`)
     ///
-    /// - Returns: `RestoreDBClusterToPointInTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterToPointInTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3921,6 +3975,7 @@ extension DocDBClient {
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is not supported by either DBSubnetGroup or the DB engine version.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput {
         let context = Smithy.ContextBuilder()
@@ -3948,6 +4003,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBClusterToPointInTimeOutput>(RestoreDBClusterToPointInTimeOutput.httpOutput(from:), RestoreDBClusterToPointInTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBClusterToPointInTimeOutput>())
@@ -3981,9 +4037,9 @@ extension DocDBClient {
     ///
     /// Restarts the stopped cluster that is specified by DBClusterIdentifier. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
     ///
-    /// - Parameter StartDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDBClusterInput`)
     ///
-    /// - Returns: `StartDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4017,6 +4073,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDBClusterInput, StartDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDBClusterOutput>(StartDBClusterOutput.httpOutput(from:), StartDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDBClusterInput, StartDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDBClusterOutput>())
@@ -4050,9 +4107,9 @@ extension DocDBClient {
     ///
     /// Stops the running cluster that is specified by DBClusterIdentifier. The cluster must be in the available state. For more information, see [Stopping and Starting an Amazon DocumentDB Cluster](https://docs.aws.amazon.com/documentdb/latest/developerguide/db-cluster-stop-start.html).
     ///
-    /// - Parameter StopDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDBClusterInput`)
     ///
-    /// - Returns: `StopDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4086,6 +4143,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDBClusterInput, StopDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDBClusterOutput>(StopDBClusterOutput.httpOutput(from:), StopDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDBClusterInput, StopDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDBClusterOutput>())
@@ -4119,9 +4177,9 @@ extension DocDBClient {
     ///
     /// Switches over the specified secondary Amazon DocumentDB cluster to be the new primary Amazon DocumentDB cluster in the global database cluster.
     ///
-    /// - Parameter SwitchoverGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SwitchoverGlobalClusterInput`)
     ///
-    /// - Returns: `SwitchoverGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SwitchoverGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4156,6 +4214,7 @@ extension DocDBClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SwitchoverGlobalClusterInput, SwitchoverGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SwitchoverGlobalClusterOutput>(SwitchoverGlobalClusterOutput.httpOutput(from:), SwitchoverGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SwitchoverGlobalClusterInput, SwitchoverGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SwitchoverGlobalClusterOutput>())

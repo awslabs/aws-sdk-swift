@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
+
 jobs:
   ktlint:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
@@ -21,16 +24,26 @@ jobs:
     runs-on: macos-15
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          path: aws-sdk-swift
+      - name: Checkout smithy-swift with composite action
+        uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
+        with:
+          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Install Swiftlint
         run: |
           HOMEBREW_NO_AUTO_UPDATE=1 brew install swiftlint
           which swiftlint
           swiftlint --version
       - name: Run swiftlint
-        run: swiftlint --strict --reporter github-actions-logging
+        run: |
+          cd aws-sdk-swift
+          swiftlint --strict --reporter github-actions-logging
       - name: Eliminate AWS service clients
         run: |
+          cd aws-sdk-swift
           rm -rf Sources/Services/*
           cd AWSSDKSwiftCLI
           swift run AWSSDKSwiftCLI generate-package-manifest ..
@@ -38,6 +51,10 @@ jobs:
           echo
           cat Package.swift
       - name: Compile project with Xcode
-        run: xcodebuild -scheme aws-sdk-swift-Package -destination platform=macOS > xcodebuild.log
+        run: |
+          cd aws-sdk-swift
+          xcodebuild -scheme aws-sdk-swift-Package -destination platform=macOS > xcodebuild.log
       - name: Run swiftlint analyzer
-        run: swiftlint analyze --strict --reporter github-actions-logging --compiler-log-path xcodebuild.log
+        run: |
+          cd aws-sdk-swift
+          swiftlint analyze --strict --reporter github-actions-logging --compiler-log-path xcodebuild.log

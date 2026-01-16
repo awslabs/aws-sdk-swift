@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -31,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class Route53RecoveryReadinessClient: ClientRuntime.Client {
+public class Route53RecoveryReadinessClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Route53RecoveryReadinessClient"
-    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration
     let serviceName = "Route53 Recovery Readiness"
@@ -373,9 +373,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a cell in an account.
     ///
-    /// - Parameter CreateCellInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCellInput`)
     ///
-    /// - Returns: `CreateCellOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCellOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +413,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCellInput, CreateCellOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCellOutput>(CreateCellOutput.httpOutput(from:), CreateCellOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCellInput, CreateCellOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCellOutput>())
@@ -444,9 +445,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
     ///
-    /// - Parameter CreateCrossAccountAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCrossAccountAuthorizationInput`)
     ///
-    /// - Returns: `CreateCrossAccountAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCrossAccountAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +485,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCrossAccountAuthorizationInput, CreateCrossAccountAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCrossAccountAuthorizationOutput>(CreateCrossAccountAuthorizationOutput.httpOutput(from:), CreateCrossAccountAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCrossAccountAuthorizationInput, CreateCrossAccountAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCrossAccountAuthorizationOutput>())
@@ -515,9 +517,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
     ///
-    /// - Parameter CreateReadinessCheckInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReadinessCheckInput`)
     ///
-    /// - Returns: `CreateReadinessCheckOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReadinessCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +557,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReadinessCheckInput, CreateReadinessCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReadinessCheckOutput>(CreateReadinessCheckOutput.httpOutput(from:), CreateReadinessCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReadinessCheckInput, CreateReadinessCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReadinessCheckOutput>())
@@ -586,9 +589,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
     ///
-    /// - Parameter CreateRecoveryGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecoveryGroupInput`)
     ///
-    /// - Returns: `CreateRecoveryGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecoveryGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,6 +629,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecoveryGroupInput, CreateRecoveryGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecoveryGroupOutput>(CreateRecoveryGroupOutput.httpOutput(from:), CreateRecoveryGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecoveryGroupInput, CreateRecoveryGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecoveryGroupOutput>())
@@ -657,9 +661,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
     ///
-    /// - Parameter CreateResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceSetInput`)
     ///
-    /// - Returns: `CreateResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -697,6 +701,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceSetInput, CreateResourceSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceSetOutput>(CreateResourceSetOutput.httpOutput(from:), CreateResourceSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceSetInput, CreateResourceSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceSetOutput>())
@@ -728,9 +733,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Delete a cell. When successful, the response code is 204, with no response body.
     ///
-    /// - Parameter DeleteCellInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCellInput`)
     ///
-    /// - Returns: `DeleteCellOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCellOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -765,6 +770,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCellInput, DeleteCellOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCellOutput>(DeleteCellOutput.httpOutput(from:), DeleteCellOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCellInput, DeleteCellOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCellOutput>())
@@ -796,9 +802,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Deletes cross account readiness authorization.
     ///
-    /// - Parameter DeleteCrossAccountAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCrossAccountAuthorizationInput`)
     ///
-    /// - Returns: `DeleteCrossAccountAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCrossAccountAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -832,6 +838,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCrossAccountAuthorizationInput, DeleteCrossAccountAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCrossAccountAuthorizationOutput>(DeleteCrossAccountAuthorizationOutput.httpOutput(from:), DeleteCrossAccountAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCrossAccountAuthorizationInput, DeleteCrossAccountAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCrossAccountAuthorizationOutput>())
@@ -863,9 +870,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Deletes a readiness check.
     ///
-    /// - Parameter DeleteReadinessCheckInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReadinessCheckInput`)
     ///
-    /// - Returns: `DeleteReadinessCheckOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReadinessCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -900,6 +907,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReadinessCheckInput, DeleteReadinessCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReadinessCheckOutput>(DeleteReadinessCheckOutput.httpOutput(from:), DeleteReadinessCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReadinessCheckInput, DeleteReadinessCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReadinessCheckOutput>())
@@ -931,9 +939,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Deletes a recovery group.
     ///
-    /// - Parameter DeleteRecoveryGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecoveryGroupInput`)
     ///
-    /// - Returns: `DeleteRecoveryGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecoveryGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,6 +976,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecoveryGroupInput, DeleteRecoveryGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecoveryGroupOutput>(DeleteRecoveryGroupOutput.httpOutput(from:), DeleteRecoveryGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecoveryGroupInput, DeleteRecoveryGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecoveryGroupOutput>())
@@ -999,9 +1008,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Deletes a resource set.
     ///
-    /// - Parameter DeleteResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceSetInput`)
     ///
-    /// - Returns: `DeleteResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1036,6 +1045,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourceSetInput, DeleteResourceSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceSetOutput>(DeleteResourceSetOutput.httpOutput(from:), DeleteResourceSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceSetInput, DeleteResourceSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceSetOutput>())
@@ -1067,9 +1077,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
     ///
-    /// - Parameter GetArchitectureRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetArchitectureRecommendationsInput`)
     ///
-    /// - Returns: `GetArchitectureRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetArchitectureRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1105,6 +1115,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetArchitectureRecommendationsInput, GetArchitectureRecommendationsOutput>(GetArchitectureRecommendationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArchitectureRecommendationsOutput>(GetArchitectureRecommendationsOutput.httpOutput(from:), GetArchitectureRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchitectureRecommendationsInput, GetArchitectureRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchitectureRecommendationsOutput>())
@@ -1136,9 +1147,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
     ///
-    /// - Parameter GetCellInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCellInput`)
     ///
-    /// - Returns: `GetCellOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCellOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1173,6 +1184,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCellInput, GetCellOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCellOutput>(GetCellOutput.httpOutput(from:), GetCellOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCellInput, GetCellOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCellOutput>())
@@ -1204,9 +1216,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
     ///
-    /// - Parameter GetCellReadinessSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCellReadinessSummaryInput`)
     ///
-    /// - Returns: `GetCellReadinessSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCellReadinessSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1242,6 +1254,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCellReadinessSummaryInput, GetCellReadinessSummaryOutput>(GetCellReadinessSummaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCellReadinessSummaryOutput>(GetCellReadinessSummaryOutput.httpOutput(from:), GetCellReadinessSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCellReadinessSummaryInput, GetCellReadinessSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCellReadinessSummaryOutput>())
@@ -1273,9 +1286,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets details about a readiness check.
     ///
-    /// - Parameter GetReadinessCheckInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadinessCheckInput`)
     ///
-    /// - Returns: `GetReadinessCheckOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadinessCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,6 +1323,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReadinessCheckInput, GetReadinessCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReadinessCheckOutput>(GetReadinessCheckOutput.httpOutput(from:), GetReadinessCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReadinessCheckInput, GetReadinessCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReadinessCheckOutput>())
@@ -1341,9 +1355,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
     ///
-    /// - Parameter GetReadinessCheckResourceStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadinessCheckResourceStatusInput`)
     ///
-    /// - Returns: `GetReadinessCheckResourceStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadinessCheckResourceStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,6 +1393,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetReadinessCheckResourceStatusInput, GetReadinessCheckResourceStatusOutput>(GetReadinessCheckResourceStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReadinessCheckResourceStatusOutput>(GetReadinessCheckResourceStatusOutput.httpOutput(from:), GetReadinessCheckResourceStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReadinessCheckResourceStatusInput, GetReadinessCheckResourceStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReadinessCheckResourceStatusOutput>())
@@ -1410,9 +1425,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
     ///
-    /// - Parameter GetReadinessCheckStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadinessCheckStatusInput`)
     ///
-    /// - Returns: `GetReadinessCheckStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadinessCheckStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1448,6 +1463,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetReadinessCheckStatusInput, GetReadinessCheckStatusOutput>(GetReadinessCheckStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReadinessCheckStatusOutput>(GetReadinessCheckStatusOutput.httpOutput(from:), GetReadinessCheckStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReadinessCheckStatusInput, GetReadinessCheckStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReadinessCheckStatusOutput>())
@@ -1479,9 +1495,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Gets details about a recovery group, including a list of the cells that are included in it.
     ///
-    /// - Parameter GetRecoveryGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryGroupInput`)
     ///
-    /// - Returns: `GetRecoveryGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecoveryGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1516,6 +1532,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecoveryGroupInput, GetRecoveryGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryGroupOutput>(GetRecoveryGroupOutput.httpOutput(from:), GetRecoveryGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryGroupInput, GetRecoveryGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryGroupOutput>())
@@ -1547,9 +1564,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
     ///
-    /// - Parameter GetRecoveryGroupReadinessSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRecoveryGroupReadinessSummaryInput`)
     ///
-    /// - Returns: `GetRecoveryGroupReadinessSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRecoveryGroupReadinessSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1585,6 +1602,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRecoveryGroupReadinessSummaryInput, GetRecoveryGroupReadinessSummaryOutput>(GetRecoveryGroupReadinessSummaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecoveryGroupReadinessSummaryOutput>(GetRecoveryGroupReadinessSummaryOutput.httpOutput(from:), GetRecoveryGroupReadinessSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecoveryGroupReadinessSummaryInput, GetRecoveryGroupReadinessSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRecoveryGroupReadinessSummaryOutput>())
@@ -1616,9 +1634,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Displays the details about a resource set, including a list of the resources in the set.
     ///
-    /// - Parameter GetResourceSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSetInput`)
     ///
-    /// - Returns: `GetResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1653,6 +1671,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourceSetInput, GetResourceSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceSetOutput>(GetResourceSetOutput.httpOutput(from:), GetResourceSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceSetInput, GetResourceSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceSetOutput>())
@@ -1684,9 +1703,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the cells for an account.
     ///
-    /// - Parameter ListCellsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCellsInput`)
     ///
-    /// - Returns: `ListCellsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCellsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,6 +1740,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCellsInput, ListCellsOutput>(ListCellsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCellsOutput>(ListCellsOutput.httpOutput(from:), ListCellsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCellsInput, ListCellsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCellsOutput>())
@@ -1752,9 +1772,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the cross-account readiness authorizations that are in place for an account.
     ///
-    /// - Parameter ListCrossAccountAuthorizationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrossAccountAuthorizationsInput`)
     ///
-    /// - Returns: `ListCrossAccountAuthorizationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrossAccountAuthorizationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1789,6 +1809,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCrossAccountAuthorizationsInput, ListCrossAccountAuthorizationsOutput>(ListCrossAccountAuthorizationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCrossAccountAuthorizationsOutput>(ListCrossAccountAuthorizationsOutput.httpOutput(from:), ListCrossAccountAuthorizationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrossAccountAuthorizationsInput, ListCrossAccountAuthorizationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrossAccountAuthorizationsOutput>())
@@ -1820,9 +1841,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the readiness checks for an account.
     ///
-    /// - Parameter ListReadinessChecksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadinessChecksInput`)
     ///
-    /// - Returns: `ListReadinessChecksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadinessChecksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1857,6 +1878,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReadinessChecksInput, ListReadinessChecksOutput>(ListReadinessChecksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReadinessChecksOutput>(ListReadinessChecksOutput.httpOutput(from:), ListReadinessChecksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReadinessChecksInput, ListReadinessChecksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReadinessChecksOutput>())
@@ -1888,9 +1910,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the recovery groups in an account.
     ///
-    /// - Parameter ListRecoveryGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecoveryGroupsInput`)
     ///
-    /// - Returns: `ListRecoveryGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecoveryGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1925,6 +1947,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecoveryGroupsInput, ListRecoveryGroupsOutput>(ListRecoveryGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecoveryGroupsOutput>(ListRecoveryGroupsOutput.httpOutput(from:), ListRecoveryGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecoveryGroupsInput, ListRecoveryGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecoveryGroupsOutput>())
@@ -1956,9 +1979,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the resource sets in an account.
     ///
-    /// - Parameter ListResourceSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSetsInput`)
     ///
-    /// - Returns: `ListResourceSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1993,6 +2016,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceSetsInput, ListResourceSetsOutput>(ListResourceSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceSetsOutput>(ListResourceSetsOutput.httpOutput(from:), ListResourceSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceSetsInput, ListResourceSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceSetsOutput>())
@@ -2024,9 +2048,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists all readiness rules, or lists the readiness rules for a specific resource type.
     ///
-    /// - Parameter ListRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesInput`)
     ///
-    /// - Returns: `ListRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2061,6 +2085,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRulesInput, ListRulesOutput>(ListRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesOutput>(ListRulesOutput.httpOutput(from:), ListRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesInput, ListRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRulesOutput>())
@@ -2092,9 +2117,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Lists the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourcesInput`)
     ///
-    /// - Returns: `ListTagsForResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2127,6 +2152,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourcesOutput>(ListTagsForResourcesOutput.httpOutput(from:), ListTagsForResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourcesInput, ListTagsForResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourcesOutput>())
@@ -2158,9 +2184,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2196,6 +2222,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2227,9 +2254,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2263,6 +2290,7 @@ extension Route53RecoveryReadinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2294,9 +2322,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Updates a cell to replace the list of nested cells with a new list of nested cells.
     ///
-    /// - Parameter UpdateCellInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCellInput`)
     ///
-    /// - Returns: `UpdateCellOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCellOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2334,6 +2362,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCellInput, UpdateCellOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCellOutput>(UpdateCellOutput.httpOutput(from:), UpdateCellOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCellInput, UpdateCellOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCellOutput>())
@@ -2365,9 +2394,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Updates a readiness check.
     ///
-    /// - Parameter UpdateReadinessCheckInput : Name of a readiness check to describe.
+    /// - Parameter input: Name of a readiness check to describe. (Type: `UpdateReadinessCheckInput`)
     ///
-    /// - Returns: `UpdateReadinessCheckOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReadinessCheckOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2405,6 +2434,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReadinessCheckInput, UpdateReadinessCheckOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReadinessCheckOutput>(UpdateReadinessCheckOutput.httpOutput(from:), UpdateReadinessCheckOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReadinessCheckInput, UpdateReadinessCheckOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReadinessCheckOutput>())
@@ -2436,9 +2466,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Updates a recovery group.
     ///
-    /// - Parameter UpdateRecoveryGroupInput : Name of a recovery group.
+    /// - Parameter input: Name of a recovery group. (Type: `UpdateRecoveryGroupInput`)
     ///
-    /// - Returns: `UpdateRecoveryGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecoveryGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2476,6 +2506,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecoveryGroupInput, UpdateRecoveryGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecoveryGroupOutput>(UpdateRecoveryGroupOutput.httpOutput(from:), UpdateRecoveryGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecoveryGroupInput, UpdateRecoveryGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecoveryGroupOutput>())
@@ -2507,9 +2538,9 @@ extension Route53RecoveryReadinessClient {
     ///
     /// Updates a resource set.
     ///
-    /// - Parameter UpdateResourceSetInput : Name of a resource set.
+    /// - Parameter input: Name of a resource set. (Type: `UpdateResourceSetInput`)
     ///
-    /// - Returns: `UpdateResourceSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2547,6 +2578,7 @@ extension Route53RecoveryReadinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceSetInput, UpdateResourceSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceSetOutput>(UpdateResourceSetOutput.httpOutput(from:), UpdateResourceSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceSetInput, UpdateResourceSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceSetOutput>())
